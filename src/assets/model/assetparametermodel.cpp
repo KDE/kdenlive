@@ -28,6 +28,8 @@
 #include <QDebug>
 #include <QLocale>
 #include <QString>
+#include <QJsonObject>
+#include <QJsonArray>
 
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent)
     : QAbstractListModel(parent)
@@ -510,16 +512,215 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
     return res;
 }
 
+QJsonDocument AssetParameterModel::toJson() const
+{
+    QJsonArray list;
+    QLocale locale;
+    for (const auto &fixed : m_fixedParams) {
+        QJsonObject currentParam;
+        QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
+        currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
+        currentParam.insert(QLatin1String("value"), fixed.second.toString());
+        int type = data(ix, AssetParameterModel::TypeRole).toInt();
+        double min = data(ix, AssetParameterModel::MinRole).toDouble();
+        double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+        double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+        if (factor > 0) {
+            min /= factor;
+            max /= factor;
+        }
+        currentParam.insert(QLatin1String("type"), QJsonValue(type));
+        currentParam.insert(QLatin1String("min"), QJsonValue(min));
+        currentParam.insert(QLatin1String("max"), QJsonValue(max));
+        list.push_back(currentParam);
+    }
+
+    for (const auto &param : m_params) {
+        QJsonObject currentParam;
+        QModelIndex ix = index(m_rows.indexOf(param.first), 0);
+        currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
+        currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toString()));
+        int type = data(ix, AssetParameterModel::TypeRole).toInt();
+        double min = data(ix, AssetParameterModel::MinRole).toDouble();
+        double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+        double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+        if (factor > 0) {
+            min /= factor;
+            max /= factor;
+        }
+        currentParam.insert(QLatin1String("type"), QJsonValue(type));
+        currentParam.insert(QLatin1String("min"), QJsonValue(min));
+        currentParam.insert(QLatin1String("max"), QJsonValue(max));
+        list.push_back(currentParam);
+    }
+    return QJsonDocument(list);
+}
+
+void AssetParameterModel::deletePreset(const QString &presetFile, const QString &presetName)
+{
+    QJsonObject object;
+    QJsonArray array;
+    QFile loadFile(presetFile);
+    if (loadFile.exists()) {
+        if (loadFile.open(QIODevice::ReadOnly)) {
+            QByteArray saveData = loadFile.readAll();
+            QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+            if (loadDoc.isArray()) {
+                qDebug()<<" * * ** JSON IS AN ARRAY, DELETING: "<<presetName;
+                array = loadDoc.array();
+                QList <int> toDelete;
+                for (int i = 0; i < array.size(); i++) {
+                    QJsonValue val = array.at(i);
+                    if (val.isObject() && val.toObject().keys().contains(presetName)) {
+                        toDelete << i;
+                    }
+                }
+                for (int i : toDelete) {
+                    array.removeAt(i);
+                }
+            } else if (loadDoc.isObject()) {
+                QJsonObject obj = loadDoc.object();
+                qDebug()<<" * * ** JSON IS AN OBJECT, DELETING: "<<presetName;
+                if (obj.keys().contains(presetName)) {
+                    obj.remove(presetName);
+                } else {
+                    qDebug()<<" * * ** JSON DOES NOT CONTAIN: "<<obj.keys();
+                }
+                array.append(obj);
+            }
+            loadFile.close();
+        } else if (!loadFile.open(QIODevice::ReadWrite)) {
+            //TODO: error message
+        }
+    }
+    if (!loadFile.open(QIODevice::WriteOnly)) {
+            //TODO: error message
+    }
+    loadFile.write(QJsonDocument(array).toJson());
+}
+
+void AssetParameterModel::savePreset(const QString &presetFile, const QString &presetName)
+{
+    QJsonObject object;
+    QJsonArray array;
+    QJsonDocument doc = toJson();
+    QFile loadFile(presetFile);
+    if (loadFile.exists()) {
+        if (loadFile.open(QIODevice::ReadOnly)) {
+            QByteArray saveData = loadFile.readAll();
+            QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+            if (loadDoc.isArray()) {
+                array = loadDoc.array();
+                QList <int> toDelete;
+                for (int i = 0; i < array.size(); i++) {
+                    QJsonValue val = array.at(i);
+                    if (val.isObject() && val.toObject().keys().contains(presetName)) {
+                        toDelete << i;
+                    }
+                }
+                for (int i : toDelete) {
+                    array.removeAt(i);
+                }
+            } else if (loadDoc.isObject()) {
+                QJsonObject obj = loadDoc.object();
+                if (obj.keys().contains(presetName)) {
+                    obj.remove(presetName);
+                }
+                array.append(obj);
+            }
+            loadFile.close();
+        } else if (!loadFile.open(QIODevice::ReadWrite)) {
+            //TODO: error message
+        }
+    }
+    if (!loadFile.open(QIODevice::WriteOnly)) {
+            //TODO: error message
+    }
+    object[presetName] = doc.array();
+    array.append(object);
+    loadFile.write(QJsonDocument(array).toJson());
+}
+
+const QStringList AssetParameterModel::getPresetList(const QString &presetFile) const
+{
+    QFile loadFile(presetFile);
+    if (loadFile.exists() && loadFile.open(QIODevice::ReadOnly)) {
+        QByteArray saveData = loadFile.readAll();
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+        if (loadDoc.isObject()) {
+            qDebug()<<"// PRESET LIST IS AN OBJECT!!!";
+            return loadDoc.object().keys();
+        } else if (loadDoc.isArray()) {
+            qDebug()<<"// PRESET LIST IS AN ARRAY!!!";
+            QStringList result;
+            QJsonArray array = loadDoc.array();
+            for (int i = 0; i < array.size(); i++) {
+                QJsonValue val = array.at(i);
+                if (val.isObject()) {
+                    result << val.toObject().keys();
+                }
+            }
+            return result;
+        }
+    }
+    return QStringList();
+}
+
+const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QString &presetFile, const QString &presetName)
+{
+    QFile loadFile(presetFile);
+    QVector<QPair<QString, QVariant>> params;
+    if (loadFile.exists() && loadFile.open(QIODevice::ReadOnly)) {
+        QByteArray saveData = loadFile.readAll();
+        QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
+        if (loadDoc.isObject() && loadDoc.object().contains(presetName)) {
+            qDebug()<<"..........\n..........\nLOADING OBJECT JSON";
+            QJsonValue val = loadDoc.object().value(presetName);
+            if (val.isObject()) {
+                QVariantMap map = val.toObject().toVariantMap();
+                QMap<QString, QVariant>::const_iterator i = map.constBegin();
+                while (i != map.constEnd()) {
+                    params.append({i.key(), i.value()});
+                    ++i;
+                }
+            }
+        } else if (loadDoc.isArray()) {
+            QJsonArray array = loadDoc.array();
+            for (int i = 0; i < array.size(); i++) {
+                QJsonValue val = array.at(i);
+                if (val.isObject() && val.toObject().contains(presetName)) {
+                    QJsonValue preset = val.toObject().value(presetName);
+                    if (preset.isArray()) {
+                        QJsonArray paramArray = preset.toArray();
+                        for (int j = 0; j < paramArray.size(); j++) {
+                            QJsonValue v1 = paramArray.at(j);
+                            if (v1.isObject()) {
+                                QJsonObject ob = v1.toObject();
+                                params.append({ob.value("name").toString(), ob.value("value").toVariant()});
+                            }
+                        }
+                    }
+                    qDebug()<<"// LOADED PRESET: "<<presetName<<"\n"<<params;
+                    break;
+                }
+            }
+        }
+    }
+    return params;
+}
+
 void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params)
 {
     QLocale locale;
     for (const auto &param : params) {
         if (param.second.type() == QVariant::Double) {
-            setParameter(param.first, locale.toString(param.second.toDouble()));
+            setParameter(param.first, locale.toString(param.second.toDouble()), false);
         } else {
-            setParameter(param.first, param.second.toString());
+            setParameter(param.first, param.second.toString(), false);
         }
     }
+    emit modelChanged();
+    emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
 }
 
 ObjectId AssetParameterModel::getOwnerId() const

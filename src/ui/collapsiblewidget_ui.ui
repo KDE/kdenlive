@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>271</width>
-    <height>48</height>
+    <width>344</width>
+    <height>67</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -116,6 +116,19 @@
            </property>
            <property name="checkable">
             <bool>true</bool>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="presetButton">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="popupMode">
+            <enum>QToolButton::InstantPopup</enum>
            </property>
            <property name="autoRaise">
             <bool>true</bool>

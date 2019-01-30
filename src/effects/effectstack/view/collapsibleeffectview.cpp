@@ -110,6 +110,8 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     m_keyframesButton->setCheckable(true);
     m_keyframesButton->setToolTip(i18n("Enable Keyframes"));
     l->insertWidget(3, m_keyframesButton);
+
+    // Enable button
     m_enabledButton = new KDualAction(i18n("Disable Effect"), i18n("Enable Effect"), this);
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
@@ -154,11 +156,13 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     } else {
         m_keyframesButton->setChecked(true);
     }
+    // Presets
+    presetButton->setIcon(QIcon::fromTheme(QStringLiteral("document-new-from-template")));
+    presetButton->setMenu(m_view->presetMenu());
 
+    // Main menu
     m_menu = new QMenu(this);
-    if (effectModel->rowCount() > 0) {
-        m_menu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(slotResetEffect()));
-    } else {
+    if (effectModel->rowCount() == 0) {
         collapseButton->setEnabled(false);
         m_view->setVisible(false);
     }

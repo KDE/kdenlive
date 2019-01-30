@@ -27,6 +27,7 @@
 #include <QAbstractListModel>
 #include <QDomElement>
 #include <QUndoCommand>
+#include <QJsonDocument>
 #include <unordered_map>
 
 #include <memory>
@@ -127,6 +128,12 @@ public:
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */
     QVector<QPair<QString, QVariant>> getAllParameters() const;
+    /* @brief Returns a json definition of the effect with all param values */
+    QJsonDocument toJson() const;
+    void savePreset(const QString &presetFile, const QString &presetName);
+    void deletePreset(const QString &presetFile, const QString &presetName);
+    const QStringList getPresetList(const QString &presetFile) const;
+    const QVector<QPair<QString, QVariant>> loadPreset(const QString &presetFile, const QString &presetName);
 
     /* @brief Sets the value of a list of parameters
        @param params contains the pairs (parameter name, parameter value)

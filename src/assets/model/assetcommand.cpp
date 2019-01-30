@@ -123,4 +123,26 @@ bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
+AssetUpdateCommand::AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, QVector<QPair<QString, QVariant> > parameters, QUndoCommand *parent)
+    : QUndoCommand(parent)
+    , m_model(model)
+    , m_value(parameters)
+{
+    const QString id = model->getAssetId();
+    if (EffectsRepository::get()->exists(id)) {
+        setText(i18n("Update %1", EffectsRepository::get()->getName(id)));
+    } else if (TransitionsRepository::get()->exists(id)) {
+        setText(i18n("Update %1", TransitionsRepository::get()->getName(id)));
+    }
+    m_oldValue = m_model->getAllParameters();
+}
 
+void AssetUpdateCommand::undo()
+{
+    m_model->setParameters(m_oldValue);
+}
+// virtual
+void AssetUpdateCommand::redo()
+{
+    m_model->setParameters(m_value);
+}

@@ -78,7 +78,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_buttonNext->setAutoRaise(true);
     m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
-
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("keyframes")), i18n("Keyframe interpolation"), this);
     QAction *linear = new QAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Linear"), this);
@@ -112,8 +111,11 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(copy, &QAction::triggered, this, &KeyframeWidget::slotCopyKeyframes);
     QAction *paste = new QAction(i18n("Import keyframes from clipboard"), this);
     connect(paste, &QAction::triggered, this, &KeyframeWidget::slotImportKeyframes);
+    // Remove keyframes
     QAction *removeNext = new QAction(i18n("Remove all keyframes after cursor"), this);
     connect(removeNext, &QAction::triggered, this, &KeyframeWidget::slotRemoveNextKeyframes);
+
+    // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default keyframe type"), this);
     QAction *discrete2 = new QAction(QIcon::fromTheme(QStringLiteral("discrete")), i18n("Discrete"), this);
     discrete2->setData((int)mlt_keyframe_discrete);
@@ -144,6 +146,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     auto *container = new QMenu(this);
     container->addAction(copy);
     container->addAction(paste);
+    container->addSeparator();
     container->addAction(kfType);
     container->addAction(removeNext);
 
@@ -451,32 +454,12 @@ void KeyframeWidget::showKeyframes(bool enable)
 
 void KeyframeWidget::slotCopyKeyframes()
 {
-    QJsonArray list;
-    for (const auto &w : m_parameters) {
-        int type = m_model->data(w.first, AssetParameterModel::TypeRole).toInt();
-        QString name = m_model->data(w.first, Qt::DisplayRole).toString();
-        QString value = m_model->data(w.first, AssetParameterModel::ValueRole).toString();
-        double min = m_model->data(w.first, AssetParameterModel::MinRole).toDouble();
-        double max = m_model->data(w.first, AssetParameterModel::MaxRole).toDouble();
-        double factor = m_model->data(w.first, AssetParameterModel::FactorRole).toDouble();
-        if (factor > 0) {
-            min /= factor;
-            max /= factor;
-        }
-        QJsonObject currentParam;
-        currentParam.insert(QLatin1String("name"), QJsonValue(name));
-        currentParam.insert(QLatin1String("value"), QJsonValue(value));
-        currentParam.insert(QLatin1String("type"), QJsonValue(type));
-        currentParam.insert(QLatin1String("min"), QJsonValue(min));
-        currentParam.insert(QLatin1String("max"), QJsonValue(max));
-        list.push_back(currentParam);
-    }
-    if (list.isEmpty()) {
+    QJsonDocument effectDoc = m_model->toJson();
+    if (effectDoc.isEmpty()) {
         return;
     }
     QClipboard *clipboard = QApplication::clipboard();
-    QJsonDocument json(list);
-    clipboard->setText(QString(json.toJson()));
+    clipboard->setText(QString(effectDoc.toJson()));
 }
 
 void KeyframeWidget::slotImportKeyframes()
@@ -524,3 +507,6 @@ void KeyframeWidget::slotRemoveNextKeyframes()
 {
     m_keyframes->removeNextKeyframes(GenTime(m_time->getValue(), pCore->getCurrentFps()));
 }
+
+
+

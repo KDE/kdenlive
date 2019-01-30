@@ -31,6 +31,11 @@
 #include <QFontDatabase>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QInputDialog>
+#include <QDir>
+#include <QStandardPaths>
+#include <QActionGroup>
+#include <QMenu>
 #include <utility>
 
 AssetParameterView::AssetParameterView(QWidget *parent)
@@ -41,6 +46,9 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     m_lay->setContentsMargins(0, 0, 0, 2);
     m_lay->setSpacing(0);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // Presets Combo
+    m_presetMenu = new QMenu(this);
+    m_presetMenu->setToolTip(i18n("Presets"));
 }
 
 void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
@@ -49,6 +57,30 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     QMutexLocker lock(&m_lock);
     m_model = model;
     const QString paramTag = model->getAssetId();
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(paramTag));
+    connect(this, &AssetParameterView::updatePresets, [this, presetFile] (const QString &presetName) {
+        m_presetMenu->clear();
+        m_presetGroup.reset(new QActionGroup(this));
+        m_presetGroup->setExclusive(true);
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(resetValues()));
+        // Save preset
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset"), this, SLOT(slotSavePreset()));
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, SLOT(slotUpdatePreset()));
+        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, SLOT(slotDeletePreset()));
+        m_presetMenu->addSeparator();
+        QStringList presets = m_model->getPresetList(presetFile);
+        for (const QString &pName : presets) {
+            QAction *ac = m_presetMenu->addAction(pName, this, SLOT(slotLoadPreset()));
+            m_presetGroup->addAction(ac);
+            ac->setData(pName);
+            ac->setCheckable(true);
+            if (pName == presetName) {
+                ac->setChecked(true);
+            }
+        }
+    });
+    emit updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
     if (paramTag.endsWith(QStringLiteral("lift_gamma_gain"))) {
         // Special case, the colorwheel widget manages several parameters
@@ -86,17 +118,21 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 
 void AssetParameterView::resetValues()
 {
+    QVector<QPair<QString, QVariant> > values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
         ParamType type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
-        QString defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toString();
+        QVariant defaultValue = m_model->data(index, AssetParameterModel::DefaultRole);
         if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
-            if (!defaultValue.contains(QLatin1Char('='))) {
-                defaultValue.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
+            QString val = defaultValue.toString();
+            if (!val.contains(QLatin1Char('='))) {
+                val.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
+                defaultValue = QVariant(val);
             }
         }
-        m_model->setParameter(name, defaultValue);
+        values.append({name, defaultValue});
+        /*m_model->setParameter(name, defaultValue);
         if (m_mainKeyframeWidget) {
             // Handles additional params like rotation so only refresh initial param at the end
         } else if (type == ParamType::ColorWheel) {
@@ -107,8 +143,10 @@ void AssetParameterView::resetValues()
             }
         } else {
             refresh(index, index, QVector<int>());
-        }
+        }*/
     }
+    AssetUpdateCommand *command = new AssetUpdateCommand(m_model, values);
+    pCore->pushUndo(command);
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->resetKeyframes();
     }
@@ -238,4 +276,67 @@ void AssetParameterView::toggleKeyframes(bool enable)
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->showKeyframes(enable);
     }
+}
+
+void AssetParameterView::slotDeletePreset()
+{
+    QAction *ac = m_presetGroup->checkedAction();
+    if (!ac) {
+        return;
+    }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+    }
+    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+    m_model->deletePreset(presetFile, ac->data().toString());
+    emit updatePresets();
+}
+
+
+void AssetParameterView::slotUpdatePreset()
+{
+    QAction *ac = m_presetGroup->checkedAction();
+    if (!ac) {
+        return;
+    }
+    slotSavePreset(ac->data().toString());
+}
+
+void AssetParameterView::slotSavePreset(QString presetName)
+{
+    if (presetName.isEmpty()) {
+        bool ok;
+        presetName = QInputDialog::getText(this, i18n("Enter preset name"),
+                                                           i18n("Enter the name of this preset"),
+                                                           QLineEdit::Normal, QString(), &ok);
+        if (!ok)
+            return;
+    }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+    }
+    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+    m_model->savePreset(presetFile, presetName);
+    emit updatePresets(presetName);
+}
+
+void AssetParameterView::slotLoadPreset()
+{
+    QAction *action = qobject_cast<QAction *>(sender());
+    if (!action) {
+        return;
+    }
+    const QString presetName = action->data().toString();
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+    const QVector<QPair<QString, QVariant>> params = m_model->loadPreset(presetFile, presetName);
+    AssetUpdateCommand *command = new AssetUpdateCommand(m_model, params);
+    pCore->pushUndo(command);
+}
+
+QMenu *AssetParameterView::presetMenu()
+{
+    return m_presetMenu;
 }

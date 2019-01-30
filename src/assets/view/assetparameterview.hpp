@@ -34,6 +34,8 @@
  */
 
 class QVBoxLayout;
+class QMenu;
+class QActionGroup;
 class AbstractParamWidget;
 class AssetParameterModel;
 class KeyframeWidget;
@@ -54,9 +56,6 @@ public:
     /** Returns the preferred widget height */
     int contentHeight() const;
 
-    /** Reset all parameter values to default */
-    void resetValues();
-
     /** Returns the type of monitor overlay required by this effect */
     MonitorSceneType needsMonitorEffectScene() const;
 
@@ -64,10 +63,20 @@ public:
     bool keyframesAllowed() const;
     /** Returns true is the keyframes should be hidden on first opening*/
     bool modelHideKeyframes() const;
+    /** Returns the preset menu to be embedded in toolbars */
+    QMenu *presetMenu();
 
 public slots:
     void slotRefresh();
     void toggleKeyframes(bool enable);
+    /** Reset all parameter values to default */
+    void resetValues();
+    /** Save all parameters to a preset */
+    void slotSavePreset(QString presetName = QString());
+    /** Save all parameters to a preset */
+    void slotLoadPreset();
+    void slotUpdatePreset();
+    void slotDeletePreset();
 
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.
@@ -81,6 +90,8 @@ protected:
     std::shared_ptr<AssetParameterModel> m_model;
     std::vector<AbstractParamWidget *> m_widgets;
     KeyframeWidget *m_mainKeyframeWidget;
+    QMenu *m_presetMenu;
+    std::shared_ptr<QActionGroup> m_presetGroup;
 
 private slots:
     /** @brief Apply a change of parameter sent by the view
@@ -93,6 +104,8 @@ private slots:
 signals:
     void seekToPos(int);
     void initKeyframeView(bool active);
+    /** @brief clear and refill the effect presets */
+    void updatePresets(const QString &presetName = QString());
 };
 
 #endif

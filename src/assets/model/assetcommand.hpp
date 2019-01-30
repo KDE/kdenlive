@@ -65,5 +65,17 @@ private:
     QTime m_stamp;
 };
 
+class AssetUpdateCommand : public QUndoCommand
+{
+public:
+    AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, QVector<QPair<QString, QVariant> > parameters, QUndoCommand *parent = nullptr);
+    void undo() override;
+    void redo() override;
 
+private:
+    std::shared_ptr<AssetParameterModel> m_model;
+    QVector<QPair<QString, QVariant> > m_value;
+    QVector<QPair<QString, QVariant> > m_oldValue;
+    bool m_updateView;
+};
 #endif
