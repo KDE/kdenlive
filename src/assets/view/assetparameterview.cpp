@@ -207,7 +207,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->slotRefresh();
     } else {
-        auto type = m_model->data(m_model->index(bottomRight.row(), 0), AssetParameterModel::TypeRole).value<ParamType>();
+        auto type = m_model->data(m_model->index(topLeft.row(), 0), AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::ColorWheel) {
             // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
             // Should be better managed
@@ -215,8 +215,10 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
             return;
         }
         Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
-        for (int i = topLeft.row(); i <= bottomRight.row(); ++i) {
-            m_widgets[(uint)i]->slotRefresh();
+        for (uint i = topLeft.row(); i <= bottomRight.row(); ++i) {
+            if (m_widgets.size() < i) {
+                m_widgets[i]->slotRefresh();
+            }
         }
     }
 }

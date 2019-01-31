@@ -155,7 +155,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
     if (m_wheelRegion.contains(m_lastPoint)) {
         m_isInWheel = true;
         m_isInSquare = false;
-        if (event->button() != Qt::MidButton) {
+        if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
             // reset to default on middle button

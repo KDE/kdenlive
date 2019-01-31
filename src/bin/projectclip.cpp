@@ -458,9 +458,24 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
         Mlt::Filter converter(*prod->profile(), "avcolor_space");
         m_thumbsProducer->attach(converter);
     } else {
-        m_thumbsProducer = cloneProducer(pCore->thumbProfile(), true);
-        Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
-        m_thumbsProducer->attach(converter);
+        QString mltService = m_masterProducer->get("mlt_service");
+        const QString mltResource = m_masterProducer->get("resource");
+        if (mltService == QLatin1String("avformat")) {
+            mltService = QStringLiteral("avformat-novalidate");
+        }
+        m_thumbsProducer.reset(new Mlt::Producer(*pCore->thumbProfile(), mltService.toUtf8().constData(), mltResource.toUtf8().constData()));
+        if (m_thumbsProducer->is_valid()) {
+            Mlt::Properties original(m_masterProducer->get_properties());
+            Mlt::Properties cloneProps(m_thumbsProducer->get_properties());
+            cloneProps.pass_list(original, ClipController::getPassPropertiesList());
+            Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
+            Mlt::Filter padder(*pCore->thumbProfile(), "resize");
+            Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
+            m_thumbsProducer->set("audio_index", -1);
+            m_thumbsProducer->attach(scaler);
+            m_thumbsProducer->attach(padder);
+            m_thumbsProducer->attach(converter);
+        }
     }
     return m_thumbsProducer;
 }

@@ -182,7 +182,7 @@ void ColorWheelItem::mousePressEvent(QMouseEvent *event)
             NegQColor color = colorForPoint(m_lastPoint);
             setColor(color);
         }
-    } else if (event->button() == Qt::MidButton) {
+    } else if (event->button() == Qt::RightButton) {
         NegQColor color = NegQColor::fromRgbF(m_defaultValue / m_sizeFactor, m_defaultValue / m_sizeFactor, m_defaultValue / m_sizeFactor);
         setColor(color);
         event->accept();

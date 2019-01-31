@@ -38,7 +38,7 @@ ThumbnailProvider::~ThumbnailProvider() {}
 
 void ThumbnailProvider::resetProject()
 {
-    m_producers.clear();
+    //m_producers.clear();
 }
 
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
@@ -127,16 +127,19 @@ QImage ThumbnailProvider::makeThumbnail(std::shared_ptr<Mlt::Producer> producer,
     if (frame == nullptr || !frame->is_valid()) {
         return QImage();
     }
+    int ow = 0;//requestedSize.width();
+    int oh = 0;//requestedSize.height();
+    /*if (ow > 0 && oh > 0) {
+        frame->set("rescale.interp", "fastest");
+        frame->set("deinterlace_method", "onefield");
+        frame->set("top_field_first", -1);
+    }*/
     mlt_image_format format = mlt_image_rgb24a;
-    int ow = 0;
-    int oh = 0;
-    const uchar *imagedata = frame->get_image(format, ow, oh);
-    if (imagedata) {
-        QImage result(ow, oh, QImage::Format_RGBA8888);
-        memcpy(result.bits(), imagedata, (unsigned)(ow * oh * 4));
-        if (!result.isNull()) {
-            return result;
-        }
+    const uchar *image = frame->get_image(format, ow, oh);
+    if (image) {
+        QImage temp(ow, oh, QImage::Format_ARGB32);
+        memcpy(temp.scanLine(0), image, (unsigned)(ow * oh * 4));
+        return temp.rgbSwapped();
     }
     return QImage();
 }
