@@ -149,7 +149,9 @@ void LoadJob::checkProfile(const QString clipId, QDomElement xml, std::shared_pt
     if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
         // This is an image, create profile from image size
         int width = producer->get_int("meta.media.width");
+        width += width % 8;
         int height = producer->get_int("meta.media.height");
+        height += height % 2;
         if (width > 100 && height > 100) {
             std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
             projectProfile->m_width = width;
