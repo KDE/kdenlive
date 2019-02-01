@@ -41,7 +41,7 @@ protected:
     void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    void slotUpdateDisplay(QString currentProfile = QString());
+    void slotUpdateDisplay(QString currentProfilePath = QString());
     void slotCreateProfile();
     bool slotSaveProfile();
     void slotDeleteProfile();
@@ -49,6 +49,8 @@ private slots:
     void slotProfileEdited();
     /** @brief Make sure the profile's width is always a multiple of 8 */
     void slotAdjustWidth();
+    /** @brief Make sure the profile's height is always a multiple of 2 */
+    void slotAdjustHeight();
     void accept() override;
     void reject() override;
 
@@ -64,6 +66,7 @@ private:
     KMessageWidget *m_infoMessage;
     void saveProfile(const QString &path);
     bool askForSave();
+    void connectDialog();
 };
 
 #endif

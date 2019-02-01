@@ -70,7 +70,14 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
     fillList(profileDescription);
     slotUpdateDisplay();
-    connect(m_view.profiles_list, static_cast<void (KComboBox::*)(const QString&)>(&KComboBox::currentIndexChanged), this, &ProfilesDialog::slotUpdateDisplay);
+    connectDialog();
+}
+
+void ProfilesDialog::connectDialog()
+{
+    connect(m_view.profiles_list, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), [&]() {
+        slotUpdateDisplay();
+    });
     connect(m_view.button_create, &QAbstractButton::clicked, this, &ProfilesDialog::slotCreateProfile);
     connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
     connect(m_view.button_delete, &QAbstractButton::clicked, this, &ProfilesDialog::slotDeleteProfile);
@@ -85,6 +92,8 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     connect(m_view.display_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
+    connect(m_view.size_h, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustHeight);
+    m_view.size_h->setSingleStep(2);
     connect(m_view.size_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
     connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
     m_view.size_w->setSingleStep(8);
@@ -124,26 +133,13 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     m_view.description->setEnabled(false);
 
     slotUpdateDisplay(profilePath);
-    connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
-
-    connect(m_view.description, &QLineEdit::textChanged, this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.frame_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.frame_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.aspect_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.aspect_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.display_num, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.display_den, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.progressive, &QCheckBox::stateChanged, this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.size_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.size_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ProfilesDialog::slotProfileEdited);
-    connect(m_view.size_w, &QAbstractSpinBox::editingFinished, this, &ProfilesDialog::slotAdjustWidth);
-    m_view.size_w->setSingleStep(8);
+    connectDialog();
 }
 
 void ProfilesDialog::slotAdjustWidth()
 {
     // A profile's width should always be a multiple of 8
-    m_view.size_w->blockSignals(true);
+    QSignalBlocker blk(m_view.size_w);
     int val = m_view.size_w->value();
     int correctedWidth = (val + 7) / 8 * 8;
     if (val == correctedWidth) {
@@ -156,7 +152,24 @@ void ProfilesDialog::slotAdjustWidth()
         m_infoMessage->setMessageType(KMessageWidget::Warning);
         m_infoMessage->animatedShow();
     }
-    m_view.size_w->blockSignals(false);
+}
+
+void ProfilesDialog::slotAdjustHeight()
+{
+    // A profile's height should always be a multiple of 2
+    QSignalBlocker blk(m_view.size_h);
+    int val = m_view.size_h->value();
+    int correctedHeight = val + (val % 2);
+    if (val == correctedHeight) {
+        // Ok, no action required, width is a multiple of 8
+        m_infoMessage->animatedHide();
+    } else {
+        m_view.size_h->setValue(correctedHeight);
+        m_infoMessage->setText(i18n("Profile height must be a multiple of 2. It was adjusted to %1", correctedHeight));
+        m_infoMessage->setWordWrap(m_infoMessage->text().length() > 35);
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->animatedShow();
+    }
 }
 
 void ProfilesDialog::slotProfileEdited()
@@ -314,8 +327,9 @@ void ProfilesDialog::slotDeleteProfile()
     }
 }
 
-void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
+void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
 {
+    qDebug()<<"/ / / /UPDATING DISPLAY FOR PROFILE: "<<currentProfilePath;
     if (!askForSave()) {
         m_view.profiles_list->blockSignals(true);
         m_view.profiles_list->setCurrentIndex(m_selectedProfileIndex);
@@ -325,15 +339,15 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfile)
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
-    if (currentProfile.isEmpty()) {
-        currentProfile = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
+    if (currentProfilePath.isEmpty()) {
+        currentProfilePath = m_view.profiles_list->itemData(m_view.profiles_list->currentIndex()).toString();
     }
-    m_isCustomProfile = currentProfile.contains(QLatin1Char('/'));
+    m_isCustomProfile = currentProfilePath.contains(QLatin1Char('/'));
     m_view.button_create->setEnabled(true);
     m_view.button_delete->setEnabled(m_isCustomProfile);
     m_view.properties->setEnabled(m_isCustomProfile);
     m_view.button_save->setEnabled(m_isCustomProfile);
-    std::unique_ptr<ProfileModel> &curProfile = ProfileRepository::get()->getProfile(currentProfile);
+    std::unique_ptr<ProfileModel> &curProfile = ProfileRepository::get()->getProfile(currentProfilePath);
     m_view.description->setText(curProfile->description());
     m_view.size_w->setValue(curProfile->width());
     m_view.size_h->setValue(curProfile->height());
