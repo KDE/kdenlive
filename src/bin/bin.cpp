@@ -651,16 +651,16 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     QToolButton *tb1 = new QToolButton(this);
     tb1->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     connect(tb1, &QToolButton::clicked, [&] () {
-        m_slider->setValue(qMin(m_slider->value() - 1, m_slider->maximum()));
+        m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
     });
     QToolButton *tb2 = new QToolButton(this);
     tb2->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     connect(tb2, &QToolButton::clicked, [&] () {
-        m_slider->setValue(qMax(m_slider->value() + 1, m_slider->minimum()));
+        m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
     });
-    lay->addWidget(tb1);
-    lay->addWidget(m_slider);
     lay->addWidget(tb2);
+    lay->addWidget(m_slider);
+    lay->addWidget(tb1);
     container->setLayout(lay);
     auto *widgetslider = new QWidgetAction(this);
     widgetslider->setDefaultWidget(container);
