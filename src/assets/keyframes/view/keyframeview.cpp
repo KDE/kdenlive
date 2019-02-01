@@ -169,7 +169,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
         bool ok;
         GenTime position(pos + offset, pCore->getCurrentFps());
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
-        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) < ceil(m_lineHeight / 1.5)) {
+        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
             m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
             // Select and seek to keyframe
             m_currentKeyframe = m_currentKeyframeOriginal;
@@ -207,7 +207,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
     if (event->y() < m_lineHeight) {
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
-        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) < ceil(m_lineHeight / 1.5)) {
+        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
             m_hoverKeyframe = keyframe.first.frames(pCore->getCurrentFps()) - offset;
             setCursor(Qt::PointingHandCursor);
             update();
@@ -243,7 +243,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         GenTime position(pos + offset, pCore->getCurrentFps());
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
-        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) < ceil(m_lineHeight / 1.5)) {
+        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
             m_model->removeKeyframe(keyframe.first);
             if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe + offset) {
                 m_currentKeyframe = m_currentKeyframeOriginal = -1;

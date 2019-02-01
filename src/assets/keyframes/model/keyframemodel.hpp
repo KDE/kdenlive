@@ -108,7 +108,7 @@ public:
     Q_INVOKABLE bool updateKeyframe(int pos, double newVal);
     bool updateKeyframe(GenTime pos, QVariant value);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
-    bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo);
+    bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo, bool update = true);
     /* @brief updates the value of a keyframe, without any management of undo/redo
        @param pos is the position of the keyframe
        @param value is the new value of the param

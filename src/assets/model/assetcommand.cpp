@@ -123,7 +123,7 @@ bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetUpdateCommand::AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, QVector<QPair<QString, QVariant> > parameters, QUndoCommand *parent)
+AssetUpdateCommand::AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, const QVector<QPair<QString, QVariant> > parameters, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_value(parameters)
@@ -145,4 +145,10 @@ void AssetUpdateCommand::undo()
 void AssetUpdateCommand::redo()
 {
     m_model->setParameters(m_value);
+}
+
+// virtual
+int AssetUpdateCommand::id() const
+{
+    return 3;
 }

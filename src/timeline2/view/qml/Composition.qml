@@ -227,6 +227,7 @@ Item {
                 inPoint: 0
                 outPoint: compositionRoot.clipDuration
                 masterObject: compositionRoot
+                kfrModel: compositionRoot.keyframeModel
             }
         }
         /*Drag.active: mouseArea.drag.active

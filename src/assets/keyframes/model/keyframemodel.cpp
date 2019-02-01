@@ -304,7 +304,7 @@ bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value)
     return operation();
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo)
+bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo, bool update)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -314,8 +314,8 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &
     if (m_paramType == ParamType::KeyframeParam) {
         if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
-    auto operation = updateKeyframe_lambda(pos, type, value, true);
-    auto reverse = updateKeyframe_lambda(pos, type, oldValue, true);
+    auto operation = updateKeyframe_lambda(pos, type, value, update);
+    auto reverse = updateKeyframe_lambda(pos, type, oldValue, update);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -731,12 +731,17 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     Fun redo = []() { return true; };
     Mlt::Properties mlt_prop;
     QLocale locale;
+    disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
+    removeAllKeyframes(undo, redo);
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
     (void)mlt_prop.anim_get_int("key", 0, 0);
 
     Mlt::Animation *anim = mlt_prop.get_anim("key");
-
+    int in = 0;
+    if (auto ptr = m_model.lock()) {
+        in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    }
     qDebug() << "Found" << anim->key_count() << "animation properties";
     for (int i = 0; i < anim->key_count(); ++i) {
         int frame;
@@ -757,9 +762,18 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
             value = QVariant(mlt_prop.anim_get_double("key", frame));
             break;
         }
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
+        if (i == 0 && frame > in) {
+            // Always add a keyframe at start pos
+            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
+        } else if (frame == in && hasKeyframe(GenTime(in))) {
+            // First keyframe already exists, adjust its value
+            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, true);
+            continue;
+        }
+        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
     }
     delete anim;
+    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 
@@ -774,6 +788,10 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
 
     Mlt::Properties mlt_prop;
     QLocale locale;
+    int in = 0;
+    if (auto ptr = m_model.lock()) {
+        in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
     (void)mlt_prop.anim_get_int("key", 0, 0);
@@ -800,6 +818,14 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
             value = QVariant(mlt_prop.anim_get_double("key", frame));
             break;
         }
+        if (i == 0 && frame > in) {
+            // Always add a keyframe at start pos
+            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
+        } else if (frame == in && hasKeyframe(GenTime(in))) {
+            // First keyframe already exists, adjust its value
+            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
+            continue;
+        }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
     delete anim;
@@ -809,8 +835,14 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     } else {
         effectName = i18n("effect");
     }
+    Fun update_local = [this]() {
+        emit dataChanged(index(0), index(m_keyframeList.size()), {});
+        return true;
+    };
+    update_local();
+    PUSH_LAMBDA(update_local, undo);
+    PUSH_LAMBDA(update_local, redo);
     PUSH_UNDO(undo, redo, i18n("Reset %1", effectName));
-    emit dataChanged(index(0), index(0), {ValueRole, NormalizedValueRole, TypeRole});
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
@@ -963,8 +995,6 @@ void KeyframeModel::sendModification()
         } else {
             Q_ASSERT(false); // Not implemented, TODO
         }
-        m_lastData = data;
-        ptr->dataChanged(m_index, m_index);
     }
 }
 
@@ -980,7 +1010,7 @@ void KeyframeModel::refresh()
     }
     if (animData == m_lastData) {
         // nothing to do
-        qDebug()<<"// DATA WAS ALREADY PARSED, ABORTING\n_________________";
+        qDebug()<<"// DATA WAS ALREADY PARSED, ABORTING REFRESH\n_________________";
         return;
     }
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
@@ -999,6 +1029,7 @@ void KeyframeModel::refresh()
             Q_ASSERT(false); // Not implemented, TODO
         }
     }
+    m_lastData = animData;
 }
 
 void KeyframeModel::reset()
@@ -1011,7 +1042,6 @@ void KeyframeModel::reset()
         qDebug() << "WARNING : unable to access keyframe's model";
         return;
     }
-    qDebug()<<" + + + RFRSH PARAM: "<<animData;
     if (animData == m_lastData) {
         // nothing to do
         qDebug()<<"// DATA WAS ALREADY PARSED, ABORTING\n_________________";
@@ -1036,6 +1066,7 @@ void KeyframeModel::reset()
             Q_ASSERT(false); // Not implemented, TODO
         }
     }
+    m_lastData = animData;
 }
 
 QList<QPoint> KeyframeModel::getRanges(const QString &animData)

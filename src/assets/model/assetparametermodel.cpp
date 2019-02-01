@@ -166,9 +166,11 @@ void AssetParameterModel::setParameter(const QString &name, const int value, boo
             emit modelChanged();
             emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         }
-        // Update timeline view if necessary
+        // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
+        // Trigger monitor refresh
         pCore->refreshProjectItem(m_ownerId);
+        // Invalidate timeline preview
         pCore->invalidateItem(m_ownerId);
     }
 }
@@ -190,6 +192,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         }
     } else {
         m_asset->set(name.toLatin1().constData(), value.toUtf8().constData());
+        qDebug()<<" = = SET EFFECT PARAM: "<<name<<" = "<<value;
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = value;
         } else {
@@ -227,8 +230,11 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         if (!update)
             emit modelChanged();
     } else {
+        // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
+        // Trigger monitor refresh
         pCore->refreshProjectItem(m_ownerId);
+        // Invalidate timeline preview
         pCore->invalidateItem(m_ownerId);
     }
 }
@@ -719,8 +725,11 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
             setParameter(param.first, param.second.toString(), false);
         }
     }
-    emit modelChanged();
-    emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
+    if (m_keyframes) {
+        m_keyframes->refresh();
+    }
+    //emit modelChanged();
+    emit dataChanged(index(0), index(m_rows.count()), {});
 }
 
 ObjectId AssetParameterModel::getOwnerId() const

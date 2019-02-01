@@ -71,6 +71,7 @@ public:
     AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, QVector<QPair<QString, QVariant> > parameters, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
+    int id() const override;
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;

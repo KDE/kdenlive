@@ -116,7 +116,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     }
 }
 
-void AssetParameterView::resetValues()
+QVector<QPair<QString, QVariant> > AssetParameterView::getDefaultValues() const
 {
     QVector<QPair<QString, QVariant> > values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
@@ -132,24 +132,18 @@ void AssetParameterView::resetValues()
             }
         }
         values.append({name, defaultValue});
-        /*m_model->setParameter(name, defaultValue);
-        if (m_mainKeyframeWidget) {
-            // Handles additional params like rotation so only refresh initial param at the end
-        } else if (type == ParamType::ColorWheel) {
-            if (i == m_model->rowCount() - 1) {
-                // Special case, the ColorWheel widget handles several params, so only refresh once when all parameters were set.
-                QModelIndex firstIndex = m_model->index(0, 0);
-                refresh(firstIndex, firstIndex, QVector<int>());
-            }
-        } else {
-            refresh(index, index, QVector<int>());
-        }*/
     }
+    return values;
+}
+
+void AssetParameterView::resetValues()
+{
+    const QVector<QPair<QString, QVariant> > values = getDefaultValues();
     AssetUpdateCommand *command = new AssetUpdateCommand(m_model, values);
     pCore->pushUndo(command);
-    if (m_mainKeyframeWidget) {
+    /*if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->resetKeyframes();
-    }
+    }*/
 }
 
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)

@@ -316,7 +316,7 @@ void KeyframeWidget::resetKeyframes()
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
     // reset keyframes
-    m_keyframes->reset();
+    m_keyframes->refresh();
     //m_model->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);

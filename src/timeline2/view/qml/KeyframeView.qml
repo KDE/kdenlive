@@ -35,6 +35,7 @@ Rectangle
     property int outPoint
     property bool selected
     property var masterObject
+    property var kfrModel
 
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
@@ -49,7 +50,7 @@ Rectangle
                 if (activeFrame < 0) {
                     activeFrame = 0
                 } else {
-                    keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
+                    kfrModel.moveKeyframe(oldFrame, activeFrame, true)
                 }
             }
             event.accepted = true
@@ -60,7 +61,7 @@ Rectangle
             } else {
                 var oldFrame = activeFrame
                 activeFrame += 1
-                keyframeModel.moveKeyframe(oldFrame, activeFrame, true)
+                kfrModel.moveKeyframe(oldFrame, activeFrame, true)
             }
             event.accepted = true
         }
@@ -70,19 +71,19 @@ Rectangle
         }
         if ((event.key == Qt.Key_Plus) && !(event.modifiers & Qt.ControlModifier)) {
             var newVal = Math.min(keyframes.itemAt(activeIndex).value / parent.height + .05, 1)
-            keyframeModel.updateKeyframe(activeFrame, newVal)
+            kfrModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
         }
         else if ((event.key == Qt.Key_Minus) && !(event.modifiers & Qt.ControlModifier)) {
             var newVal = Math.max(keyframes.itemAt(activeIndex).value / parent.height - .05, 0)
-            keyframeModel.updateKeyframe(activeFrame, newVal)
+            kfrModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
         }
         event.accepted = false
     }
     Repeater {
         id: keyframes
-        model: keyframeModel
+        model: kfrModel
         Rectangle {
             id: keyframe
             property int frame : model.frame
@@ -118,9 +119,9 @@ Rectangle
                     if (frame != inPoint && newPos != frame) {
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             // offset all subsequent keyframes
-                            keyframeModel.offsetKeyframes(frame, newPos, true)
+                            kfrModel.offsetKeyframes(frame, newPos, true)
                         } else {
-                            keyframeModel.moveKeyframe(frame, newPos, true)
+                            kfrModel.moveKeyframe(frame, newPos, true)
                         }
                     }
                 }
