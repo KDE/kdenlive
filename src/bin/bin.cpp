@@ -658,9 +658,9 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     connect(tb2, &QToolButton::clicked, [&] () {
         m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
     });
-    lay->addWidget(tb1);
-    lay->addWidget(m_slider);
     lay->addWidget(tb2);
+    lay->addWidget(m_slider);
+    lay->addWidget(tb1);
     container->setLayout(lay);
     auto *widgetslider = new QWidgetAction(this);
     widgetslider->setDefaultWidget(container);
