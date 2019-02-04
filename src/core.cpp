@@ -647,6 +647,29 @@ void Core::clearSelection()
     }
 }
 
+void Core::selectItem(int itemId)
+{
+    if (m_mainWindow) {
+        m_mainWindow->getCurrentTimeline()->controller()->addSelection(itemId, true);
+    }
+}
+
+bool Core::isSelected(int itemId) const
+{
+    if (m_mainWindow) {
+        return m_mainWindow->getCurrentTimeline()->controller()->selection().contains(itemId);
+    }
+    return false;
+}
+
+void Core::removeFromSelection(int itemId)
+{
+    if (m_mainWindow) {
+        m_mainWindow->getCurrentTimeline()->controller()->removeSelection(itemId);
+    }
+
+}
+
 void Core::triggerAction(const QString &name)
 {
     QAction *action = m_mainWindow->actionCollection()->action(name);

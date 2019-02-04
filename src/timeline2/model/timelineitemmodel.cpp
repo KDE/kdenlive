@@ -496,6 +496,14 @@ bool TimelineItemModel::isInMultiSelection(int cid) const
     return res;
 }
 
+bool TimelineItemModel::isSelected(int cid) const
+{
+    if (m_temporarySelectionGroup == -1) {
+        return false;
+    }
+    return m_groups->getRootId(cid) == m_temporarySelectionGroup;
+}
+
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)
 {
     QVector<int> roles;

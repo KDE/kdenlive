@@ -102,6 +102,7 @@ public:
     /* @brief returns true if clip is in temporary selection group.
      */
     bool isInMultiSelection(int cid) const;
+    bool isSelected(int cid) const;
 
     virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
     virtual void _beginInsertRows(const QModelIndex &, int, int) override;

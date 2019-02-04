@@ -7,7 +7,7 @@ import com.enums 1.0
 Row {
     id: thumbRow
     anchors.fill: parent
-    visible: timeline.showThumbnails && mltService != 'color' && !isAudio
+    visible: timeline.showThumbnails && clipRoot.itemType != ProducerType.Color && !isAudio
     opacity: parentTrack.isAudio || parentTrack.isHidden || clipStatus == ClipState.Disabled ? 0.2 : 1
     property int thumbWidth: container.height * 16.0/9.0
     property int scrollStart: Math.max(0, scrollView.flickableItem.contentX / timeline.scaleFactor - clipRoot.modelStart)

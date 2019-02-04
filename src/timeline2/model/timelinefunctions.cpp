@@ -141,8 +141,10 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         topElements.insert(root);
     }
     // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
+    bool isSelected = pCore->isSelected(clipId);
     pCore->clearSelection();
     int count = 0;
+    QList <int> newIds;
     for (int cid : clips) {
         int start = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
@@ -157,6 +159,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
             }
             // splitted elements go temporarily in the same group as original ones.
             timeline->m_groups->setInGroupOf(newId, cid, undo, redo);
+            newIds << newId;
         }
     }
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
@@ -172,6 +175,9 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
             Q_ASSERT(undone);
             return false;
         }
+    }
+    if (isSelected && !newIds.isEmpty()) {
+        pCore->selectItem(newIds.first());
     }
     return count > 0;
 }
