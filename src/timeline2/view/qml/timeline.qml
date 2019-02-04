@@ -182,7 +182,7 @@ Rectangle {
     property int spacerFrame: -1
     property int spacerClickFrame: -1
     property real timeScale: timeline.scaleFactor
-    property real snapping: timeline.snap ? 10 / Math.sqrt(timeScale) : -1
+    property real snapping: timeline.snap ? 10 / Math.sqrt(timeScale) - 0.5 : -1
     property var timelineSelection: timeline.selection
     property int trackHeight
     property int copiedClip: -1
@@ -197,7 +197,7 @@ Rectangle {
         } else {
             scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
         }
-        root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
+        //root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
         if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
             // update dragged item pos
@@ -244,7 +244,7 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.flickableItem.contentY)
                 if (track !=-1) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                    frame = controller.suggestSnapPoint(frame, root.snapping)
+                    frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                     if (clipBeingDroppedId >= 0){
                         controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -331,7 +331,7 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                    frame = controller.suggestSnapPoint(frame, root.snapping)
+                    frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                     if (clipBeingDroppedId >= 0){
                         controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -826,7 +826,7 @@ Rectangle {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.snapping)
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, Math.floor(root.snapping))
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
                     scim = true
@@ -1040,7 +1040,7 @@ Rectangle {
                                         var tId = Logic.getTrackIdFromPos(posy)
                                         timeline.activeTrack = tId
                                         if (dragProxy.isComposition) {
-                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.snapping)
+                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, Math.floor(root.snapping))
                                         } else {
                                             if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
                                                 var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y);
@@ -1050,7 +1050,7 @@ Rectangle {
                                                 dragProxy.masterObject.y = pos.y
                                                 console.log('bringing item to front')
                                             }
-                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.snapping)
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, Math.floor(root.snapping))
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
                                         if (delta != 0) {
