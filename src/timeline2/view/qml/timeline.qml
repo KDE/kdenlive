@@ -1038,7 +1038,13 @@ Rectangle {
                                         var posx = Math.round((parent.x)/ root.timeScale)
                                         var posy = Math.min(Math.max(0, mouse.y + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                         var tId = Logic.getTrackIdFromPos(posy)
-                                        timeline.activeTrack = tId
+                                        if (tId == dragProxy.masterObject.trackId) {
+                                            if (posx == dragFrame) {
+                                                return
+                                            }
+                                        } else {
+                                            timeline.activeTrack = tId
+                                        }
                                         if (dragProxy.isComposition) {
                                             dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, Math.floor(root.snapping))
                                         } else {

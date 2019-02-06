@@ -32,8 +32,6 @@ Rectangle {
     property string mltService: ''
     property string effectNames
     property int modelStart
-    // Used to store the current frame on move
-    property int currentFrame: -1
     property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0

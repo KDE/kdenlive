@@ -330,7 +330,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     }
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
-    qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
+    //qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove);
     if (operation()) {
         auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove);

@@ -462,7 +462,7 @@ bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool upd
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
-    qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
+    //qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
     if (trackId == -1) {
         return false;
     }
@@ -485,7 +485,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     int old_trackId = getClipTrackId(clipId);
     bool notifyViewOnly = false;
     bool localUpdateView = updateView;
-    qDebug()<<"MOVING CLIP FROM: "<<old_trackId<<" == "<<trackId;
+    //qDebug()<<"MOVING CLIP FROM: "<<old_trackId<<" == "<<trackId;
     Fun update_model = []() { return true; };
     if (old_trackId == trackId) {
         // Move on same track, simply inform the view
