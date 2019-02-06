@@ -2315,7 +2315,7 @@ void TimelineController::removeEffectKeyframe(int cid, int frame)
     }
 }
 
-void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue)
+void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFrame, QVariant normalizedValue)
 {
     if (m_model->isClip(cid)) {
         std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);

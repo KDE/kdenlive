@@ -79,7 +79,7 @@ protected:
 
     /* @brief Removes the keyframe at the given position. */
     bool removeKeyframe(int frame);
-    bool moveKeyframe(int oldPos, int pos, double newVal);
+    bool moveKeyframe(int oldPos, int pos, QVariant newVal);
     bool removeKeyframe(GenTime pos);
     /* @brief Delete all the keyframes of the model */
     bool removeAllKeyframes();
@@ -98,8 +98,8 @@ public:
     */
     Q_INVOKABLE bool moveKeyframe(int oldPos, int pos, bool logUndo);
     Q_INVOKABLE bool offsetKeyframes(int oldPos, int pos, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, double newVal, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun &undo, Fun &redo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo);
 
     /* @brief updates the value of a keyframe
        @param old is the position of the keyframe
@@ -154,6 +154,7 @@ public:
     /* @brief Return the interpolated value at given pos */
     QVariant getInterpolatedValue(int pos) const;
     QVariant getInterpolatedValue(const GenTime &pos) const;
+    QVariant updateInterpolated(QVariant interpValue, double val);
     /* @brief Return the real value from a normalized one */
     QVariant getNormalizedValue(double newVal) const;
 

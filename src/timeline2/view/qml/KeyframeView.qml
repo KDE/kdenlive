@@ -50,7 +50,7 @@ Rectangle
                 if (activeFrame < 0) {
                     activeFrame = 0
                 } else {
-                    kfrModel.moveKeyframe(oldFrame, activeFrame, true)
+                    timeline.updateEffectKeyframe(masterObject.clipId, oldFrame, activeFrame)
                 }
             }
             event.accepted = true
@@ -61,7 +61,7 @@ Rectangle
             } else {
                 var oldFrame = activeFrame
                 activeFrame += 1
-                kfrModel.moveKeyframe(oldFrame, activeFrame, true)
+                timeline.updateEffectKeyframe(masterObject.clipId, oldFrame, activeFrame)
             }
             event.accepted = true
         }
@@ -89,7 +89,7 @@ Rectangle
             property int frame : model.frame
             property int frameType : model.type
             x: (model.frame - inPoint) * timeScale
-            height: parent.height // * model.normalizedValue
+            height: parent.height
             property int value: parent.height * model.normalizedValue
             property int tmpVal : keyframeVal.y + root.baseUnit / 2
             property int tmpPos : x + keyframeVal.x + root.baseUnit / 2
@@ -119,9 +119,10 @@ Rectangle
                     if (frame != inPoint && newPos != frame) {
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             // offset all subsequent keyframes
-                            kfrModel.offsetKeyframes(frame, newPos, true)
+                            // TODO: rewrite using timeline to ensure all kf parameters are updated
+                            timeline.offsetKeyframes(masterObject.clipId, frame, newPos)
                         } else {
-                            kfrModel.moveKeyframe(frame, newPos, true)
+                            timeline.updateEffectKeyframe(masterObject.clipId, frame, newPos)
                         }
                     }
                 }

@@ -78,7 +78,6 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, 
         local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
         local_redo = updateKeyframe_lambda(pos, type, value, notify);
     } else {
-        qDebug() << "True addition";
         local_redo = addKeyframe_lambda(pos, type, value, notify);
         local_undo = deleteKeyframe_lambda(pos, notify);
     }
@@ -131,7 +130,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
 
 bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify)
 {
-    qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps());
+    qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps())<<" NOTIFY: "<<notify;
     qDebug() << "before" << getAnimProperty();
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -139,8 +138,8 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     QVariant oldValue = m_keyframeList[pos].second;
     Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, notify);
     Fun local_redo = deleteKeyframe_lambda(pos, notify);
-    qDebug() << "before2" << getAnimProperty();
     if (local_redo()) {
+        qDebug() << "after" << getAnimProperty();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
@@ -170,13 +169,20 @@ bool KeyframeModel::removeKeyframe(GenTime pos)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun &undo, Fun &redo)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo)
 {
     qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
     if (oldPos == pos) {
-        double realValue;
+        if (!newVal.isValid()) {
+            // no change
+            return true;
+        }
+        if (m_paramType == ParamType::AnimatedRect) {
+            return updateKeyframe(pos, newVal);
+        }
+        double realValue = newVal.toDouble();
         // Calculate real value from normalized
         if (auto ptr = m_model.lock()) {
             double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
@@ -186,13 +192,13 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
             int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
             if (logRole == -1) {
                 // Logarythmic scale for lower than norm values
-                if (newVal >= 0.5) {
-                    realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                if (realValue >= 0.5) {
+                    realValue = norm + (2 * (realValue - 0.5) * (max / factor - norm));
                 } else {
-                    realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
+                    realValue = norm - pow(2 * (0.5 - realValue), 10.0 / 6) * (norm - min / factor);
                 }
             } else {
-                realValue = (newVal * (max - min) + min) / factor;
+                realValue = (realValue * (max - min) + min) / factor;
             }
         }
         return updateKeyframe(pos, realValue);
@@ -208,23 +214,28 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, Fun
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
     if (res) {
-        if (newVal > -1) {
+        if (m_paramType == ParamType::AnimatedRect) {
+            if (!newVal.isValid()) {
+                newVal = oldValue;
+            }
+            res = addKeyframe(pos, oldType, newVal, true, local_undo, local_redo);
+        } else if (newVal.isValid()) {
             if (auto ptr = m_model.lock()) {
                 double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
                 double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
                 double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
                 double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
                 int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
-                double realValue;
+                double realValue = newVal.toDouble();
                 if (logRole == -1) {
                     // Logarythmic scale for lower than norm values
                     if (newVal >= 0.5) {
-                        realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                        realValue = norm + (2 * (realValue - 0.5) * (max / factor - norm));
                     } else {
-                        realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
+                        realValue = norm - pow(2 * (0.5 - realValue), 10.0 / 6) * (norm - min / factor);
                     }
                 } else {
-                    realValue = (newVal * (max - min) + min) / factor;
+                    realValue = (realValue * (max - min) + min) / factor;
                 }
                 res = addKeyframe(pos, oldType, realValue, true, local_undo, local_redo);
             }
@@ -247,7 +258,7 @@ bool KeyframeModel::moveKeyframe(int oldPos, int pos, bool logUndo)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
-    return moveKeyframe(oPos, nPos, -1, logUndo);
+    return moveKeyframe(oPos, nPos, QVariant(), logUndo);
 }
 
 bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
@@ -266,7 +277,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
     }
     bool res = true;
     for (const auto &t : times) {
-        res &= moveKeyframe(t, t + diff, -1, undo, redo);
+        res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
     }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move keyframes"));
@@ -274,14 +285,14 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(int oldPos, int pos, double newVal)
+bool KeyframeModel::moveKeyframe(int oldPos, int pos, QVariant newVal)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
     return moveKeyframe(oPos, nPos, newVal, true);
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, double newVal, bool logUndo)
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
@@ -869,6 +880,16 @@ QVariant KeyframeModel::getInterpolatedValue(int p) const
 {
     auto pos = GenTime(p, pCore->getCurrentFps());
     return getInterpolatedValue(pos);
+}
+
+QVariant KeyframeModel::updateInterpolated(QVariant interpValue, double val)
+{
+    QStringList vals = interpValue.toString().split(QLatin1Char(' '));
+    QLocale locale;
+    if (!vals.isEmpty()) {
+        vals[vals.size() -1] = locale.toString(val);
+    }
+    return vals.join(QLatin1Char(' '));
 }
 
 QVariant KeyframeModel::getNormalizedValue(double newVal) const

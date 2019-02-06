@@ -84,7 +84,7 @@ public:
     */
     bool updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
-    bool updateKeyframe(GenTime oldPos, GenTime pos, double normalizedVal, bool logUndo = true);
+    bool updateKeyframe(GenTime oldPos, GenTime pos, QVariant normalizedVal, bool logUndo = true);
     KeyframeType keyframeType(GenTime pos) const;
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good
@@ -148,7 +148,8 @@ private:
     std::weak_ptr<AssetParameterModel> m_model;
     std::weak_ptr<DocUndoStack> m_undoStack;
     std::unordered_map<QPersistentModelIndex, std::shared_ptr<KeyframeModel>> m_parameters;
-
+    // Index of the parameter that is displayed in timeline
+    QModelIndex m_inTimelineIndex;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
 public:

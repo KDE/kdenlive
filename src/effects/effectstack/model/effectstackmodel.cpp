@@ -1042,7 +1042,7 @@ bool EffectStackModel::removeKeyFrame(int frame)
     return listModel->removeKeyframe(GenTime(frame, pCore->getCurrentFps()));
 }
 
-bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, double normalisedVal)
+bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant normalisedVal)
 {
     if (rootItem->childCount() == 0) return false;
     int ix = 0;

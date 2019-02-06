@@ -113,7 +113,7 @@ public:
     /** Remove a keyframe in all model parameters */
     bool removeKeyFrame(int frame);
     /** Update a keyframe in all model parameters (with value updated only in first parameter)*/
-    bool updateKeyFrame(int oldFrame, int newFrame, double normalisedVal);
+    bool updateKeyFrame(int oldFrame, int newFrame, QVariant normalisedVal);
     /** Remove unwanted fade effects, mostly after a cut operation */
     void cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo);
 

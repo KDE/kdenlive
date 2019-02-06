@@ -314,7 +314,7 @@ public:
     Q_INVOKABLE double fps() const;
     Q_INVOKABLE void addEffectKeyframe(int cid, int frame, double val);
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
-    Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, double normalizedValue);
+    Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, QVariant normalizedValue = QVariant());
 
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();

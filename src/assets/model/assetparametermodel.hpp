@@ -91,6 +91,8 @@ public:
         ScaleRole,
         OpacityRole,
         RelativePosRole,
+        // Don't display this param in timeline keyframes
+        ShowInTimelineRole,
         InRole,
         OutRole,
         ParentInRole,
