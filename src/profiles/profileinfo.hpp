@@ -63,7 +63,7 @@ public:
     bool isCompatible(std::unique_ptr<ProfileInfo> &other) const;
     bool isCompatible(Mlt::Profile *other) const;
 
-    virtual void adjustWidth() = 0;
+    virtual void adjustDimensions() = 0;
 
     const QString descriptiveString() const;
     const QString dialogDescriptiveString() const;

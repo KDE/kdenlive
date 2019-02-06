@@ -787,6 +787,7 @@ QDockWidget *Bin::clipPropertiesDock()
 
 void Bin::abortOperations()
 {
+    m_infoMessage->hide();
     blockSignals(true);
     if (m_propertiesPanel) {
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
@@ -1114,7 +1115,6 @@ void Bin::setMonitor(Monitor *monitor)
 
 void Bin::setDocument(KdenliveDoc *project)
 {
-    m_infoMessage->hide();
     blockSignals(true);
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);

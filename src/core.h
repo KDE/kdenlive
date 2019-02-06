@@ -197,6 +197,8 @@ private:
     QString m_profile;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     bool m_guiConstructed = false;
+        /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
+    void checkProfileValidity();
 
 public slots:
     void triggerAction(const QString &name);

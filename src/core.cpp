@@ -297,10 +297,22 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_mainWindow->updateRenderWidgetProfile();
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(&getCurrentProfile()->profile());
+            checkProfileValidity();
         }
         return true;
     }
     return false;
+}
+
+void Core::checkProfileValidity()
+{
+    int offset = (getCurrentProfile()->profile().width() % 8) + (getCurrentProfile()->profile().height() % 2);
+    if (offset > 0) {
+        // Profile is broken, warn user
+        if (m_binWidget) {
+            m_binWidget->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
+        }
+    }
 }
 
 double Core::getCurrentSar() const

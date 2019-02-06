@@ -171,7 +171,7 @@ void LoadJob::checkProfile(const QString clipId, QDomElement xml, std::shared_pt
         blankProfile->from_producer(*producer);
         std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(blankProfile.get()));
         std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
-        clipProfile->adjustWidth();
+        clipProfile->adjustDimensions();
         if (*clipProfile.get() == *projectProfile.get()) {
             if (KdenliveSettings::default_profile().isEmpty()) {
                 // Confirm default project format

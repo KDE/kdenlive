@@ -66,7 +66,7 @@ public:
     int colorspace() const override;
     QString path() const override;
 
-    void adjustWidth() override{};
+    void adjustDimensions() override{};
 
     /* @brief get underlying profile. Use with caution*/
     Mlt::Profile &profile() { return *m_profile.get(); };
@@ -86,7 +86,7 @@ class ProfileParam : public ProfileInfo
 public:
     ProfileParam() = delete;
 
-    ProfileParam(const QDomElement &element);
+    ProfileParam(QDomElement element);
     ProfileParam(ProfileInfo *p);
     ProfileParam(Mlt::Profile *p);
 
@@ -107,7 +107,7 @@ public:
     double dar() const override;
 
     // A profile's width should always be a multiple of 8
-    void adjustWidth() override;
+    void adjustDimensions() override;
     bool is_valid() const override;
 
     QString m_path;

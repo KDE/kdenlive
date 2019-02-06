@@ -1337,7 +1337,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     if (matchingProfile.isEmpty() && (profile->width() % 8 != 0)) {
         // Make sure profile width is a multiple of 8, required by some parts of mlt
-        profile->adjustWidth();
+        profile->adjustDimensions();
         matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     }
     if (!matchingProfile.isEmpty()) {

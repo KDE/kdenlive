@@ -104,12 +104,12 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     lay->addWidget(m_outPoint);
 
     // Check what kind of parameters are in our target
-    for (const QPersistentModelIndex &ix : indexes) {
-        ParamType type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
+    for (const QPersistentModelIndex &idx : indexes) {
+        ParamType type = m_model->data(idx, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
-            m_simpleTargets.insert(m_model->data(ix, Qt::DisplayRole).toString(), m_model->data(ix, AssetParameterModel::NameRole).toString());
+            m_simpleTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), m_model->data(idx, AssetParameterModel::NameRole).toString());
         } else if (type == ParamType::AnimatedRect) {
-            m_geometryTargets.insert(m_model->data(ix, Qt::DisplayRole).toString(), m_model->data(ix, AssetParameterModel::NameRole).toString());
+            m_geometryTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), m_model->data(idx, AssetParameterModel::NameRole).toString());
         }
     }
 
