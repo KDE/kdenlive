@@ -1038,7 +1038,7 @@ Rectangle {
                                         var posx = Math.round((parent.x)/ root.timeScale)
                                         var posy = Math.min(Math.max(0, mouse.y + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                         var tId = Logic.getTrackIdFromPos(posy)
-                                        if (tId == dragProxy.masterObject.trackId) {
+                                        if (dragProxy.masterObject && tId == dragProxy.masterObject.trackId) {
                                             if (posx == dragFrame) {
                                                 return
                                             }
