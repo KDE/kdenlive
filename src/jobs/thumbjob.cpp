@@ -41,6 +41,8 @@ ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool 
     , m_reloadAll(reloadAllThumbs)
     , m_subClip(false)
 {
+    //m_fullWidth += 8 - m_fullWidth % 8;
+    //m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
     Q_ASSERT(item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubClipItem);
     if (item->itemType() == AbstractProjectItem::ClipItem) {
@@ -100,7 +102,7 @@ bool ThumbJob::startJob()
     frame->set("top_field_first", -1);
     frame->set("rescale.interp", "nearest");
     if ((frame != nullptr) && frame->is_valid()) {
-        m_result = KThumb::getFrame(frame.data(), m_fullWidth, m_imageHeight, false);
+        m_result = KThumb::getFrame(frame.data());
         m_done = true;
     }
     return m_done;

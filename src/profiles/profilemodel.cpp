@@ -155,7 +155,7 @@ ProfileParam::ProfileParam(QDomElement element)
     int height = element.attribute(QStringLiteral("height")).toInt();
     if ((width % 8) + (height % 2) > 0) {
         pCore->displayBinMessage(i18n("The project profile is invalid (%1x%2), it was adjusted to %3x%4.", width, height, width + (width % 8), height + (height % 2)), KMessageWidget::Warning);
-        width += width % 8;
+        width += 8 - width % 8;
         height += height % 2;
         element.setAttribute(QStringLiteral("width"), width);
         element.setAttribute(QStringLiteral("height"), height);
@@ -263,7 +263,7 @@ double ProfileParam::sar() const
 }
 void ProfileParam::adjustDimensions()
 {
-    m_width += m_width % 8;
+    m_width += 8 - m_width % 8;
     m_height += m_height % 2;
 }
 

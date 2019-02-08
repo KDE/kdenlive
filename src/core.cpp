@@ -646,7 +646,7 @@ Mlt::Profile *Core::thumbProfile()
         m_thumbProfile = std::unique_ptr<Mlt::Profile>(new Mlt::Profile(m_currentProfile.toStdString().c_str()));
         m_thumbProfile->set_height(200);
         int width = 200 * m_thumbProfile->dar();
-        width += width % 8;
+        width += 8 - width % 8;
         m_thumbProfile->set_width(width);
     }
     return m_thumbProfile.get();

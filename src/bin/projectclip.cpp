@@ -374,6 +374,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
     updateProducer(std::move(producer));
+    m_thumbsProducer.reset();
     connectEffectStack();
 
     // Update info

@@ -1291,7 +1291,12 @@ void KdenliveDoc::loadDocumentProperties()
         list = m_document.elementsByTagName(QStringLiteral("profile"));
         if (!list.isEmpty()) {
             std::unique_ptr<ProfileInfo> xmlProfile(new ProfileParam(list.at(0).toElement()));
-            profileFound = pCore->setCurrentProfile(ProfileRepository::get()->findMatchingProfile(xmlProfile.get()));
+            QString profilePath = ProfileRepository::get()->findMatchingProfile(xmlProfile.get());
+            // Document profile does not exist, create it as custom profile
+            if (profilePath.isEmpty()) {
+                profilePath = ProfileRepository::get()->saveProfile(xmlProfile.get());
+            }
+            profileFound = pCore->setCurrentProfile(profilePath);
         }
     }
     if (!profileFound) {
