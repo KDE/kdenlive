@@ -422,7 +422,7 @@ void ProjectSettings::accept()
             }
         }
     }
-    if (!m_savedProject && selectedProfile() != pCore->getCurrentProfile()->path()) {
+    if (selectedProfile() != pCore->getCurrentProfile()->path()) {
         if (KMessageBox::warningContinueCancel(
                 this,
                 i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "

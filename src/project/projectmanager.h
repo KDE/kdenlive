@@ -81,6 +81,11 @@ public:
     */
     virtual std::shared_ptr<DocUndoStack> undoStack();
 
+    /** @brief This will create a backup file with fps appended to project name, 
+     *  and save the project with an updated profile info, then reopen it.
+    */
+    void saveWithUpdatedProfile(const QString updatedProfile);
+
 public slots:
     void newFile(bool showProjectSettings = true, bool force = false);
     /** @brief Shows file open dialog. */

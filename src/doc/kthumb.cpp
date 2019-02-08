@@ -105,29 +105,19 @@ QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth,
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == nullptr || !frame->is_valid()) {
-        QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
-        p.fill(QColor(Qt::red).rgb());
-        return p;
+        qDebug()<<"* * * *INVALID FRAME";
+        return QImage();
     }
     int ow = forceRescale ? 0 : width;
     int oh = forceRescale ? 0 : height;
     mlt_image_format format = mlt_image_rgb24a;
-    ow += ow % 2;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
-        QImage image(ow, oh, QImage::Format_RGBA8888);
-        memcpy(image.bits(), imagedata, (unsigned)(ow * oh * 4));
-        if (!image.isNull()) {
-            if (ow > (2 * width)) {
-                // there was a scaling problem, do it manually
-                image = image.scaled(width, height);
-            }
-            return image;
-        }
+        QImage temp(ow, oh, QImage::Format_ARGB32);
+        memcpy(temp.scanLine(0), imagedata, (unsigned)(ow * oh * 4));
+        return temp.rgbSwapped();
     }
-    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
-    p.fill(QColor(Qt::red).rgb());
-    return p;
+    return QImage();
 }
 
 // static

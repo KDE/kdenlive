@@ -1610,11 +1610,6 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) {
             slotSwitchAudioThumbs();
         }
-        if (pCore->getCurrentProfile()->path() != profile || project->profileChanged(profile)) {
-            pCore->setCurrentProfile(profile);
-            pCore->projectManager()->slotResetProfiles();
-            slotUpdateDocumentState(true);
-        }
         if (project->getDocumentProperty(QStringLiteral("proxyparams")) != w->proxyParams() ||
             project->getDocumentProperty(QStringLiteral("proxyextension")) != w->proxyExtension()) {
             modified = true;
@@ -1690,6 +1685,16 @@ void MainWindow::slotEditProjectSettings()
                         pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }
+            }
+        }
+        if (pCore->getCurrentProfile()->path() != profile || project->profileChanged(profile)) {
+            if (!qFuzzyCompare(pCore->getCurrentProfile()->fps() - ProfileRepository::get()->getProfile(profile)->fps(), 0.)) {
+                // Fps was changed, we save the project to an xml file with updated profile and reload project
+                pCore->projectManager()->saveWithUpdatedProfile(profile);
+            } else {
+                pCore->setCurrentProfile(profile);
+                pCore->projectManager()->slotResetProfiles();
+                slotUpdateDocumentState(true);
             }
         }
         if (modified) {

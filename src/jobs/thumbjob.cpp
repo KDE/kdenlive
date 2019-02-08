@@ -30,6 +30,7 @@
 #include "utils/thumbnailcache.hpp"
 #include <QDir>
 #include <QScopedPointer>
+#include <QPainter>
 #include <mlt++/MltProducer.h>
 
 ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool persistent, bool reloadAllThumbs)
@@ -41,8 +42,8 @@ ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool 
     , m_reloadAll(reloadAllThumbs)
     , m_subClip(false)
 {
-    //m_fullWidth += 8 - m_fullWidth % 8;
-    //m_imageHeight += m_imageHeight % 2;
+    m_fullWidth += 8 - m_fullWidth % 8;
+    m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
     Q_ASSERT(item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubClipItem);
     if (item->itemType() == AbstractProjectItem::ClipItem) {
@@ -89,6 +90,7 @@ bool ThumbJob::startJob()
     }
     m_prod = m_binClip->thumbProducer();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
+        qDebug()<<"********\nCOULD NOT READ THUMB PRODUCER\n********";
         return false;
     }
     int max = m_prod->get_length();
@@ -122,6 +124,11 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_inCache) {
         if (m_result.isNull()) {
             qDebug() << "+++++\nINVALID RESULT IMAGE\n++++++++++++++";
+            m_result = QImage(m_fullWidth, m_imageHeight, QImage::Format_ARGB32_Premultiplied);
+            m_result.fill(Qt::red);
+            QPainter p(&m_result);
+            p.setPen(Qt::white);
+            p.drawText(0, 0, m_fullWidth, m_imageHeight, Qt::AlignCenter, i18n("Invalid"));
         } else {
             ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
         }

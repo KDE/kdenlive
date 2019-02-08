@@ -30,7 +30,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-
+#include "profiles/profilerepository.hpp"
 
 #include <KActionCollection>
 #include <KJob>
@@ -874,3 +874,60 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 {
     return current()->commandStack();
 }
+
+void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
+{
+    // First backup current project with fps appended
+    const QString currentFile = m_project->url().toLocalFile();
+    QString backupFile = currentFile.section(QLatin1Char('.'), 0, -2);
+    backupFile.append(QString("-%1.kdenlive").arg((int)(pCore->getCurrentFps() * 100)));
+    if (!saveFileAs(backupFile)) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write backup file %1", backupFile));
+        return;
+    }
+    closeCurrentDocument();
+
+    // Now update to new profile
+    auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
+    QFile f(backupFile);
+    QDomDocument doc;
+    doc.setContent(&f, false);
+    f.close();
+    QDomElement mltProfile = doc.documentElement().firstChildElement(QStringLiteral("profile"));
+    if (!mltProfile.isNull()) {
+        mltProfile.setAttribute(QStringLiteral("frame_rate_num"), newProfile->frame_rate_num());
+        mltProfile.setAttribute(QStringLiteral("frame_rate_den"), newProfile->frame_rate_den());
+        mltProfile.setAttribute(QStringLiteral("display_aspect_num"), newProfile->display_aspect_num());
+        mltProfile.setAttribute(QStringLiteral("display_aspect_den"), newProfile->display_aspect_den());
+        mltProfile.setAttribute(QStringLiteral("sample_aspect_num"), newProfile->sample_aspect_num());
+        mltProfile.setAttribute(QStringLiteral("sample_aspect_den"), newProfile->sample_aspect_den());
+        mltProfile.setAttribute(QStringLiteral("colorspace"), newProfile->colorspace());
+        mltProfile.setAttribute(QStringLiteral("progressive"), newProfile->progressive());
+        mltProfile.setAttribute(QStringLiteral("description"), newProfile->description());
+        mltProfile.setAttribute(QStringLiteral("width"), newProfile->width());
+        mltProfile.setAttribute(QStringLiteral("height"), newProfile->height());
+    }
+    QDomNodeList playlists = doc.documentElement().elementsByTagName(QStringLiteral("playlist"));
+    for (int i = 0; i < playlists.count(); ++i) {
+        QDomElement e = playlists.at(i).toElement();
+        if (e.attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
+            Xml::setXmlProperty(e, QStringLiteral("kdenlive:docproperties.profile"), updatedProfile);
+            break;
+        }
+    }
+    QFile file(currentFile);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        return;
+    }
+    QTextStream out(&file);
+    out << doc.toString();
+    if (file.error() != QFile::NoError) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", currentFile));
+        file.close();
+        return;
+    }
+    file.close();
+    openFile(QUrl::fromLocalFile(currentFile));
+}
+
+

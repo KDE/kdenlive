@@ -1480,6 +1480,7 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
     m_producer->optimise();
     xmlConsumer.set("terminate_on_pause", 1);
     xmlConsumer.set("store", "kdenlive");
+    xmlConsumer.set("time_format", "clock");
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
     // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
     // xmlConsumer.set("no_meta", 1);
