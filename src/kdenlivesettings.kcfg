@@ -131,9 +131,24 @@
       <default>false</default>
     </entry>
 
+    <entry name="externalproxy" type="Bool">
+      <label>Enable proxy clips.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="generateproxy" type="Bool">
       <label>Auto generate proxy for new clips.</label>
       <default>false</default>
+    </entry>
+
+    <entry name="external_proxy_profile" type="Int">
+      <label>index for the external proxy clips combo.</label>
+      <default></default>
+    </entry>
+
+    <entry name="externalProxyProfile" type="String">
+      <label>Pattern to find external proxy clips.</label>
+      <default></default>
     </entry>
 
     <entry name="generateimageproxy" type="Bool">

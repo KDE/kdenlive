@@ -86,12 +86,18 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_pw->loadProfile(KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile());
     connect(m_pw, &ProfileWidget::profileChanged, this, &KdenliveSettingsDialog::slotDialogModified);
     m_page8->setIcon(QIcon::fromTheme(QStringLiteral("project-defaults")));
-    connect(m_configProject.kcfg_generateproxy, &QAbstractButton::toggled, m_configProject.kcfg_proxyminsize, &QWidget::setEnabled);
-    m_configProject.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
-    connect(m_configProject.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProject.kcfg_proxyimageminsize, &QWidget::setEnabled);
-    m_configProject.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
+
+    QWidget *p9 = new QWidget;
+    m_configProxy.setupUi(p9);
+    KPageWidgetItem* page9 = addPage(p9, i18n("Proxy Clips"));
+    page9->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
+    connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
+    m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
+    connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
+    m_configProxy.kcfg_proxyimageminsize->setEnabled(KdenliveSettings::generateimageproxy());
+    loadExternalProxyProfiles();
 
     QWidget *p3 = new QWidget;
     m_configTimeline.setupUi(p3);
@@ -308,22 +314,22 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
     m_configProject.kcfg_preview_profile->setToolTip(i18n("Select default timeline preview profile"));
 
     // proxy profile stuff
-    m_configProject.proxy_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    m_configProject.proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
-    m_configProject.proxy_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-    m_configProject.proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
-    m_configProject.kcfg_proxy_profile->setToolTip(i18n("Select default proxy profile"));
-    m_configProject.proxyparams->setVisible(false);
-    m_configProject.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
-    m_configProject.proxyparams->setPlainText(KdenliveSettings::proxyparams());
+    m_configProxy.proxy_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
+    m_configProxy.proxy_showprofileinfo->setToolTip(i18n("Show default profile parameters"));
+    m_configProxy.proxy_manageprofile->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    m_configProxy.proxy_manageprofile->setToolTip(i18n("Manage proxy profiles"));
+    m_configProxy.kcfg_proxy_profile->setToolTip(i18n("Select default proxy profile"));
+    m_configProxy.proxyparams->setVisible(false);
+    m_configProxy.proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 3);
+    m_configProxy.proxyparams->setPlainText(KdenliveSettings::proxyparams());
 
     act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(0);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
-    m_configProject.proxy_manageprofile->setDefaultAction(act);
+    m_configProxy.proxy_manageprofile->setDefaultAction(act);
 
-    connect(m_configProject.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProject.proxyparams, &QWidget::setVisible);
-    connect(m_configProject.kcfg_proxy_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+    connect(m_configProxy.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProxy.proxyparams, &QWidget::setVisible);
+    connect(m_configProxy.kcfg_proxy_profile, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
             &KdenliveSettingsDialog::slotUpdateProxyProfile);
 
     slotUpdateProxyProfile(-1);
@@ -828,14 +834,14 @@ void KdenliveSettingsDialog::updateSettings()
 
     // Check encoding profiles
     // FFmpeg
-    QString profilestr = m_configCapture.kcfg_v4l_profile->itemData(m_configCapture.kcfg_v4l_profile->currentIndex()).toString();
+    QString profilestr = m_configCapture.kcfg_v4l_profile->currentData().toString();
     if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::v4l_parameters() ||
                                   profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::v4l_extension())) {
         KdenliveSettings::setV4l_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setV4l_extension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     // screengrab
-    profilestr = m_configCapture.kcfg_grab_profile->itemData(m_configCapture.kcfg_grab_profile->currentIndex()).toString();
+    profilestr = m_configCapture.kcfg_grab_profile->currentData().toString();
     if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::grab_parameters() ||
                                   profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::grab_extension())) {
         KdenliveSettings::setGrab_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
@@ -843,22 +849,28 @@ void KdenliveSettingsDialog::updateSettings()
     }
 
     // decklink
-    profilestr = m_configCapture.kcfg_decklink_profile->itemData(m_configCapture.kcfg_decklink_profile->currentIndex()).toString();
+    profilestr = m_configCapture.kcfg_decklink_profile->currentData().toString();
     if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::decklink_parameters() ||
                                   profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::decklink_extension())) {
         KdenliveSettings::setDecklink_parameters(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setDecklink_extension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
     // proxies
-    profilestr = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
+    profilestr = m_configProxy.kcfg_proxy_profile->currentData().toString();
     if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::proxyparams() ||
                                   profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::proxyextension())) {
         KdenliveSettings::setProxyparams(profilestr.section(QLatin1Char(';'), 0, 0));
         KdenliveSettings::setProxyextension(profilestr.section(QLatin1Char(';'), 1, 1));
     }
 
+    // external proxies
+    profilestr = m_configProxy.kcfg_external_proxy_profile->currentData().toString();
+    if (!profilestr.isEmpty() && (profilestr != KdenliveSettings::externalProxyProfile())) {
+        KdenliveSettings::setExternalProxyProfile(profilestr);
+    }
+
     // timeline preview
-    profilestr = m_configProject.kcfg_preview_profile->itemData(m_configProject.kcfg_preview_profile->currentIndex()).toString();
+    profilestr = m_configProject.kcfg_preview_profile->currentData().toString();
     if (!profilestr.isEmpty() && (profilestr.section(QLatin1Char(';'), 0, 0) != KdenliveSettings::previewparams() ||
                                   profilestr.section(QLatin1Char(';'), 1, 1) != KdenliveSettings::previewextension())) {
         KdenliveSettings::setPreviewparams(profilestr.section(QLatin1Char(';'), 0, 0));
@@ -872,7 +884,7 @@ void KdenliveSettingsDialog::updateSettings()
         emit updateLibraryFolder();
     }
 
-    QString value = m_configCapture.kcfg_v4l_alsadevice->itemData(m_configCapture.kcfg_v4l_alsadevice->currentIndex()).toString();
+    QString value = m_configCapture.kcfg_v4l_alsadevice->currentData().toString();
     if (value != KdenliveSettings::v4l_alsadevicename()) {
         KdenliveSettings::setV4l_alsadevicename(value);
     }
@@ -886,7 +898,7 @@ void KdenliveSettingsDialog::updateSettings()
         fullReset = true;
     }
 
-    value = m_configSdl.kcfg_audio_driver->itemData(m_configSdl.kcfg_audio_driver->currentIndex()).toString();
+    value = m_configSdl.kcfg_audio_driver->currentData().toString();
     if (value != KdenliveSettings::audiodrivername()) {
         KdenliveSettings::setAudiodrivername(value);
         resetConsumer = true;
@@ -894,7 +906,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (value == QLatin1String("alsa")) {
         // Audio device setting is only valid for alsa driver
-        value = m_configSdl.kcfg_audio_device->itemData(m_configSdl.kcfg_audio_device->currentIndex()).toString();
+        value = m_configSdl.kcfg_audio_device->currentData().toString();
         if (value != KdenliveSettings::audiodevicename()) {
             KdenliveSettings::setAudiodevicename(value);
             resetConsumer = true;
@@ -904,7 +916,7 @@ void KdenliveSettingsDialog::updateSettings()
         resetConsumer = true;
     }
 
-    value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
+    value = m_configSdl.kcfg_audio_backend->currentData().toString();
     if (value != KdenliveSettings::audiobackend()) {
         KdenliveSettings::setAudiobackend(value);
         resetConsumer = true;
@@ -1293,6 +1305,31 @@ void KdenliveSettingsDialog::slotManageEncodingProfile()
     loadEncodingProfiles();
 }
 
+void KdenliveSettingsDialog::loadExternalProxyProfiles()
+{
+    // load proxy profiles
+    KConfig conf(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, "proxy");
+    QMap<QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> k(values);
+    int ix = -1;
+    QString currentItem = KdenliveSettings::externalProxyProfile();
+    m_configProxy.kcfg_external_proxy_profile->blockSignals(true);
+    m_configProxy.kcfg_external_proxy_profile->clear();
+    while (k.hasNext()) {
+        k.next();
+        if (!k.key().isEmpty()) {
+            if (k.value().contains(QLatin1Char(';'))) {
+                m_configProxy.kcfg_external_proxy_profile->addItem(k.key(), k.value());
+            }
+        }
+    }
+    if (!currentItem.isEmpty()) {
+        m_configProxy.kcfg_external_proxy_profile->setCurrentIndex(m_configProxy.kcfg_external_proxy_profile->findText(currentItem));
+    }
+    m_configProxy.kcfg_external_proxy_profile->blockSignals(false);
+}
+
 void KdenliveSettingsDialog::loadEncodingProfiles()
 {
     KConfig conf(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
@@ -1377,28 +1414,28 @@ void KdenliveSettingsDialog::loadEncodingProfiles()
     }
 
     // Load Proxy profiles
-    m_configProject.kcfg_proxy_profile->blockSignals(true);
-    currentItem = m_configProject.kcfg_proxy_profile->currentText();
-    m_configProject.kcfg_proxy_profile->clear();
+    m_configProxy.kcfg_proxy_profile->blockSignals(true);
+    currentItem = m_configProxy.kcfg_proxy_profile->currentText();
+    m_configProxy.kcfg_proxy_profile->clear();
     KConfigGroup group4(&conf, "proxy");
     values = group4.entryMap();
-    m_configProject.kcfg_proxy_profile->addItem(i18n("Automatic"));
+    m_configProxy.kcfg_proxy_profile->addItem(i18n("Automatic"));
     QMapIterator<QString, QString> m(values);
     while (m.hasNext()) {
         m.next();
         if (!m.key().isEmpty()) {
-            m_configProject.kcfg_proxy_profile->addItem(m.key(), m.value());
+            m_configProxy.kcfg_proxy_profile->addItem(m.key(), m.value());
         }
     }
     if (!currentItem.isEmpty()) {
-        m_configProject.kcfg_proxy_profile->setCurrentIndex(m_configProject.kcfg_proxy_profile->findText(currentItem));
+        m_configProxy.kcfg_proxy_profile->setCurrentIndex(m_configProxy.kcfg_proxy_profile->findText(currentItem));
     }
-    m_configProject.kcfg_proxy_profile->blockSignals(false);
-    profilestr = m_configProject.kcfg_proxy_profile->itemData(m_configProject.kcfg_proxy_profile->currentIndex()).toString();
+    m_configProxy.kcfg_proxy_profile->blockSignals(false);
+    profilestr = m_configProxy.kcfg_proxy_profile->itemData(m_configProxy.kcfg_proxy_profile->currentIndex()).toString();
     if (profilestr.isEmpty()) {
-        m_configProject.proxyparams->clear();
+        m_configProxy.proxyparams->clear();
     } else {
-        m_configProject.proxyparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
+        m_configProxy.proxyparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
     }
 }
 
@@ -1452,13 +1489,13 @@ void KdenliveSettingsDialog::slotUpdateProxyProfile(int ix)
     if (ix == -1) {
         ix = KdenliveSettings::proxy_profile();
     } else {
-        ix = m_configProject.kcfg_proxy_profile->currentIndex();
+        ix = m_configProxy.kcfg_proxy_profile->currentIndex();
     }
-    QString profilestr = m_configProject.kcfg_proxy_profile->itemData(ix).toString();
+    QString profilestr = m_configProxy.kcfg_proxy_profile->itemData(ix).toString();
     if (profilestr.isEmpty()) {
         return;
     }
-    m_configProject.proxyparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
+    m_configProxy.proxyparams->setPlainText(profilestr.section(QLatin1Char(';'), 0, 0));
 }
 
 void KdenliveSettingsDialog::slotUpdatePreviewProfile(int ix)

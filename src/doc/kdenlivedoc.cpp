@@ -100,6 +100,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     m_documentProperties[QStringLiteral("proxyextension")] = KdenliveSettings::proxyextension();
     m_documentProperties[QStringLiteral("previewparameters")] = KdenliveSettings::previewparams();
     m_documentProperties[QStringLiteral("previewextension")] = KdenliveSettings::previewextension();
+    m_documentProperties[QStringLiteral("externalproxyparams")] = KdenliveSettings::externalProxyProfile();
+    m_documentProperties[QStringLiteral("enableexternalproxy")] = QString::number((int)KdenliveSettings::externalproxy());
     m_documentProperties[QStringLiteral("generateproxy")] = QString::number((int)KdenliveSettings::generateproxy());
     m_documentProperties[QStringLiteral("proxyminsize")] = QString::number(KdenliveSettings::proxyminsize());
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int)KdenliveSettings::generateimageproxy());
@@ -405,6 +407,11 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 bool KdenliveDoc::useProxy() const
 {
     return m_documentProperties.value(QStringLiteral("enableproxy")).toInt() != 0;
+}
+
+bool KdenliveDoc::useExternalProxy() const
+{
+    return m_documentProperties.value(QStringLiteral("enableexternalproxy")).toInt() != 0;
 }
 
 bool KdenliveDoc::autoGenerateProxy(int width) const
@@ -1174,6 +1181,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     }
 
     // Parse clips
+    QStringList externalProxyParams = m_documentProperties.value(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
     for (int i = 0; i < clipList.count(); ++i) {
         std::shared_ptr<ProjectClip> item = clipList.at(i);
         ClipType::ProducerType t = item->clipType();
@@ -1188,9 +1196,30 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
 
             if (doProxy) {
                 newProps.clear();
-                QString path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));
-                // insert required duration for proxy
-                newProps.insert(QStringLiteral("proxy_out"), item->getProducerProperty(QStringLiteral("out")));
+                QString path;
+                if (useExternalProxy() && item->hasLimitedDuration()) {
+                    if (externalProxyParams.count() == 3) {
+                        QFileInfo info(item->url());
+                        QDir clipDir = info.absoluteDir();
+                        if (clipDir.cd(externalProxyParams.at(0))) {
+                            // Find correct file
+                            QString fileName = info.fileName();
+                            if (!externalProxyParams.at(1).isEmpty()) {
+                                fileName.prepend(externalProxyParams.at(1));
+                            }
+                            if (!externalProxyParams.at(2).isEmpty()) {
+                                fileName = fileName.section(QLatin1Char('.'), 0, -2);
+                                fileName.append(externalProxyParams.at(2));
+                            }
+                            if (clipDir.exists(fileName)) {
+                                path = clipDir.absoluteFilePath(fileName);
+                            }
+                        }
+                    }
+                }
+                if (path.isEmpty()) {
+                    path = dir.absoluteFilePath(item->hash() + (t == ClipType::Image ? QStringLiteral(".png") : extension));
+                }
                 newProps.insert(QStringLiteral("kdenlive:proxy"), path);
                 // We need to insert empty proxy so that undo will work
                 // TODO: how to handle clip properties

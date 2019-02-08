@@ -41,11 +41,13 @@ public:
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
     bool useProxy() const;
+    bool useExternalProxy() const;
     bool generateProxy() const;
     int proxyMinSize() const;
     bool generateImageProxy() const;
     int proxyImageMinSize() const;
     int proxyImageSize() const;
+    QString externalProxyParams() const;
     QString proxyParams() const;
     QString proxyExtension() const;
     const QMap<QString, QString> metadata() const;
@@ -90,8 +92,11 @@ private:
     QDir m_previewDir;
     /** @brief Fill the proxy profiles combobox. */
     void loadProxyProfiles();
+    /** @brief Fill the external proxy profiles combobox. */
+    void loadExternalProxyProfiles();
     QString m_previewparams;
     QString m_previewextension;
+    QString m_initialExternalProxyProfile;
     /** @brief Fill the proxy profiles combobox. */
     void loadPreviewProfiles();
 

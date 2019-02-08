@@ -1,0 +1,8 @@
+# This lists patterns for camcorder proxy clips. a ';' separated list with
+# * relative path
+# * prefix
+# * suffix
+
+[proxy]
+Sony PXW=../Sub;;S03.MP4
+

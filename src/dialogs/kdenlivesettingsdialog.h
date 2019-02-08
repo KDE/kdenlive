@@ -29,6 +29,7 @@
 #include "ui_configjogshuttle_ui.h"
 #include "ui_configmisc_ui.h"
 #include "ui_configproject_ui.h"
+#include "ui_configproxy_ui.h"
 #include "ui_configsdl_ui.h"
 #include "ui_configtimeline_ui.h"
 #include "ui_configtranscode_ui.h"
@@ -83,6 +84,7 @@ private slots:
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
+    void loadExternalProxyProfiles();
 
 private:
     KPageWidgetItem *m_page1;
@@ -101,6 +103,7 @@ private:
     Ui::ConfigSdl_UI m_configSdl;
     Ui::ConfigTranscode_UI m_configTranscode;
     Ui::ConfigProject_UI m_configProject;
+    Ui::ConfigProxy_UI m_configProxy;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     bool m_modified;

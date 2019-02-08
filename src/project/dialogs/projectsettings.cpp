@@ -100,10 +100,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         generate_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateproxy")).toInt() != 0);
         proxy_minsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyminsize")).toInt());
         m_proxyparameters = doc->getDocumentProperty(QStringLiteral("proxyparams"));
+        m_initialExternalProxyProfile = doc->getDocumentProperty(QStringLiteral("externalproxyparams"));
         generate_imageproxy->setChecked(doc->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() != 0);
         proxy_imageminsize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimageminsize")).toInt());
         proxy_imagesize->setValue(doc->getDocumentProperty(QStringLiteral("proxyimagesize")).toInt());
         m_proxyextension = doc->getDocumentProperty(QStringLiteral("proxyextension"));
+        external_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() != 0);
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
@@ -118,6 +120,9 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     } else {
         currentProf = KdenliveSettings::default_profile();
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
+        external_proxy->setChecked(KdenliveSettings::externalproxy());
+        qDebug()<<"//// INITIAL REPORT; ENABLE EXT PROCY: "<<KdenliveSettings::externalproxy()<<"\n++++++++";
+        m_initialExternalProxyProfile = KdenliveSettings::externalProxyProfile();
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
         m_proxyparameters = KdenliveSettings::proxyparams();
@@ -137,6 +142,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
 
     loadProxyProfiles();
     loadPreviewProfiles();
+    loadExternalProxyProfiles();
 
     // Proxy GUI stuff
     proxy_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
@@ -147,10 +153,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(proxy_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManageEncodingProfile);
     proxy_profile->setToolTip(i18n("Select default proxy profile"));
 
-    connect(proxy_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateProxyParams()));
+    connect(proxy_profile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdateProxyParams);
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(proxy_showprofileinfo, &QAbstractButton::clicked, proxyparams, &QWidget::setVisible);
+
+    external_proxy_profile->setToolTip(i18n("Select camcorder profile"));
 
     // Preview GUI stuff
     preview_showprofileinfo->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
@@ -161,7 +169,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(preview_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManagePreviewProfile);
     preview_profile->setToolTip(i18n("Select default preview profile"));
 
-    connect(preview_profile, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdatePreviewParams()));
+    connect(preview_profile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdatePreviewParams);
     previewparams->setVisible(false);
     previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(preview_showprofileinfo, &QAbstractButton::clicked, previewparams, &QWidget::setVisible);
@@ -477,6 +485,11 @@ bool ProjectSettings::useProxy() const
     return enable_proxy->isChecked();
 }
 
+bool ProjectSettings::useExternalProxy() const
+{
+    return external_proxy->isChecked();
+}
+
 bool ProjectSettings::generateProxy() const
 {
     return generate_proxy->isChecked();
@@ -502,15 +515,21 @@ int ProjectSettings::proxyImageSize() const
     return proxy_imagesize->value();
 }
 
+
+QString ProjectSettings::externalProxyParams() const
+{
+    return external_proxy_profile->currentData().toString();
+}
+
 QString ProjectSettings::proxyParams() const
 {
-    QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
+    QString params = proxy_profile->currentData().toString();
     return params.section(QLatin1Char(';'), 0, 0);
 }
 
 QString ProjectSettings::proxyExtension() const
 {
-    QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
+    QString params = proxy_profile->currentData().toString();
     return params.section(QLatin1Char(';'), 1, 1);
 }
 
@@ -649,13 +668,13 @@ void ProjectSettings::slotExportToText()
 
 void ProjectSettings::slotUpdateProxyParams()
 {
-    QString params = proxy_profile->itemData(proxy_profile->currentIndex()).toString();
+    QString params = proxy_profile->currentData().toString();
     proxyparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
 void ProjectSettings::slotUpdatePreviewParams()
 {
-    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
+    QString params = preview_profile->currentData().toString();
     previewparams->setPlainText(params.section(QLatin1Char(';'), 0, 0));
 }
 
@@ -754,6 +773,36 @@ void ProjectSettings::loadProxyProfiles()
     }
     proxy_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
+}
+
+
+void ProjectSettings::loadExternalProxyProfiles()
+{
+    // load proxy profiles
+    KConfig conf(QStringLiteral("externalproxies.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
+    KConfigGroup group(&conf, "proxy");
+    QMap<QString, QString> values = group.entryMap();
+    QMapIterator<QString, QString> k(values);
+    int ix = -1;
+    external_proxy_profile->clear();
+    while (k.hasNext()) {
+        k.next();
+        if (!k.key().isEmpty()) {
+            if (ix == -1 && k.value() == m_initialExternalProxyProfile) {
+                // this is the current profile
+                ix = external_proxy_profile->count();
+            }
+            if (k.value().contains(QLatin1Char(';'))) {
+                external_proxy_profile->addItem(k.key(), k.value());
+            }
+        }
+    }
+    if (ix == -1 && !m_initialExternalProxyProfile.isEmpty()) {
+        // Current project proxy settings not found
+        ix = external_proxy_profile->count();
+        external_proxy_profile->addItem(i18n("Current Settings"), m_initialExternalProxyProfile);
+    }
+    external_proxy_profile->setCurrentIndex(ix);
 }
 
 void ProjectSettings::loadPreviewProfiles()

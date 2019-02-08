@@ -158,6 +158,7 @@ ki18n_wrap_ui(kdenlive_UIS
     ui/configjogshuttle_ui.ui
     ui/configmisc_ui.ui
     ui/configproject_ui.ui
+    ui/configproxy_ui.ui
     ui/configsdl_ui.ui
     ui/configtimeline_ui.ui
     ui/configtranscode_ui.ui

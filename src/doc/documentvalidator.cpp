@@ -1362,7 +1362,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 originalProd.removeAttribute(QStringLiteral("file_hash"));
                 originalProd.removeAttribute(QStringLiteral("file_size"));
                 originalProd.removeAttribute(QStringLiteral("frame_size"));
-                originalProd.removeAttribute(QStringLiteral("proxy_out"));
                 originalProd.removeAttribute(QStringLiteral("zone_out"));
                 originalProd.removeAttribute(QStringLiteral("zone_in"));
                 originalProd.removeAttribute(QStringLiteral("name"));

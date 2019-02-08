@@ -122,6 +122,7 @@ public:
     /** @brief Get all document properties that need to be saved */
     QMap<QString, QString> documentProperties();
     bool useProxy() const;
+    bool useExternalProxy() const;
     bool autoGenerateProxy(int width) const;
     bool autoGenerateImageProxy(int width) const;
     /** @brief Saves effects embedded in project file. */

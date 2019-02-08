@@ -1621,6 +1621,17 @@ void MainWindow::slotEditProjectSettings()
                 pCore->bin()->rebuildProxies();
             }
         }
+
+        if (project->getDocumentProperty(QStringLiteral("externalproxyparams")) != w->externalProxyParams()) {
+            modified = true;
+            project->setDocumentProperty(QStringLiteral("externalproxyparams"), w->externalProxyParams());
+            if (pCore->projectItemModel()->clipsCount() > 0 &&
+                KMessageBox::questionYesNo(this, i18n("You have changed the proxy parameters. Do you want to recreate all proxy clips for this project?")) ==
+                    KMessageBox::Yes) {
+                pCore->bin()->rebuildProxies();
+            }
+        }
+
         if (project->getDocumentProperty(QStringLiteral("generateproxy")) != QString::number((int)w->generateProxy())) {
             modified = true;
             project->setDocumentProperty(QStringLiteral("generateproxy"), QString::number((int)w->generateProxy()));
@@ -1645,6 +1656,10 @@ void MainWindow::slotEditProjectSettings()
             project->setDocumentProperty(QStringLiteral("enableproxy"), QString::number((int)w->useProxy()));
             modified = true;
             slotUpdateProxySettings();
+        }
+        if (QString::number((int)w->useExternalProxy()) != project->getDocumentProperty(QStringLiteral("enableexternalproxy"))) {
+            project->setDocumentProperty(QStringLiteral("enableexternalproxy"), QString::number((int)w->useExternalProxy()));
+            modified = true;
         }
         if (w->metadata() != project->metadata()) {
             project->setMetadata(w->metadata());
