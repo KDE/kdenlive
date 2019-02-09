@@ -28,7 +28,6 @@
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
 
-
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
 #endif
@@ -40,13 +39,13 @@
 #include <KOpenWithDialog>
 #include <KRun>
 #include <KService>
-#include <QDir>
-#include <QThread>
 #include <QAction>
-#include <QTimer>
-#include <QSize>
+#include <QDir>
 #include <QGuiApplication>
 #include <QScreen>
+#include <QSize>
+#include <QThread>
+#include <QTimer>
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -91,7 +90,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
 
     QWidget *p9 = new QWidget;
     m_configProxy.setupUi(p9);
-    KPageWidgetItem* page9 = addPage(p9, i18n("Proxy Clips"));
+    KPageWidgetItem *page9 = addPage(p9, i18n("Proxy Clips"));
     page9->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
@@ -347,23 +346,22 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &map
         m_configSdl.kcfg_external_display->setEnabled(false);
     }
 
-    //Config dialog size
+    // Config dialog size
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup settingsGroup(config, "settings");
     QSize optimalSize;
 
-    if(!settingsGroup.exists() || !settingsGroup.hasKey("dialogSize")){
-        const QSize screenSize = (QGuiApplication::primaryScreen()->availableSize()*0.9);
+    if (!settingsGroup.exists() || !settingsGroup.hasKey("dialogSize")) {
+        const QSize screenSize = (QGuiApplication::primaryScreen()->availableSize() * 0.9);
         const QSize targetSize = QSize(1024, 700);
         optimalSize = targetSize.boundedTo(screenSize);
-    }
-    else {
-        optimalSize = settingsGroup.readEntry("dialogSize",  QVariant(size())).toSize();
+    } else {
+        optimalSize = settingsGroup.readEntry("dialogSize", QVariant(size())).toSize();
     }
     resize(optimalSize);
 }
 
-//static
+// static
 bool KdenliveSettingsDialog::getBlackMagicDeviceList(KComboBox *devicelist, bool force)
 {
     if (!force && !KdenliveSettings::decklink_device_found()) {
@@ -893,7 +891,8 @@ void KdenliveSettingsDialog::updateSettings()
         KdenliveSettings::setExternal_display(m_configSdl.kcfg_external_display->isChecked());
         resetConsumer = true;
         fullReset = true;
-    } else if (KdenliveSettings::external_display() && KdenliveSettings::blackmagic_output_device() != m_configSdl.kcfg_blackmagic_output_device->currentIndex()) {
+    } else if (KdenliveSettings::external_display() &&
+               KdenliveSettings::blackmagic_output_device() != m_configSdl.kcfg_blackmagic_output_device->currentIndex()) {
         resetConsumer = true;
         fullReset = true;
     }
@@ -1000,7 +999,7 @@ void KdenliveSettingsDialog::updateSettings()
     }
     emit checkTabPosition();
 
-    //remembering Config dialog size
+    // remembering Config dialog size
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup settingsGroup(config, "settings");
     settingsGroup.writeEntry("dialogSize", QVariant(size()));
@@ -1312,7 +1311,6 @@ void KdenliveSettingsDialog::loadExternalProxyProfiles()
     KConfigGroup group(&conf, "proxy");
     QMap<QString, QString> values = group.entryMap();
     QMapIterator<QString, QString> k(values);
-    int ix = -1;
     QString currentItem = KdenliveSettings::externalProxyProfile();
     m_configProxy.kcfg_external_proxy_profile->blockSignals(true);
     m_configProxy.kcfg_external_proxy_profile->clear();

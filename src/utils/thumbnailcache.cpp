@@ -173,7 +173,7 @@ void ThumbnailCache::saveCachedThumbs(QStringList keys)
         if (!thumbFolder.exists(key) && m_volatileCache->contains(key)) {
             QImage img = m_volatileCache->get(key);
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
-                qDebug()<<"// Error writing thumbnails to "<<thumbFolder.absolutePath();
+                qDebug() << "// Error writing thumbnails to " << thumbFolder.absolutePath();
                 break;
             }
         }

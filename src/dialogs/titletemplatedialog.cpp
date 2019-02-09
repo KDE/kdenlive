@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 
-
 #include "klocalizedstring.h"
 #include <KComboBox>
 #include <QDir>

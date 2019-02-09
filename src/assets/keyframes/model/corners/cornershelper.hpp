@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "assets/keyframes/model/keyframemonitorhelper.hpp"
 
+#include <QObject>
 #include <QPersistentModelIndex>
 #include <QVariant>
-#include <QObject>
 
 #include <memory>
 
@@ -43,14 +43,13 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit CornersHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    explicit CornersHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
     /** @brief Send data update to the monitor
-    */
+     */
     void refreshParams(int pos) override;
 
 private slots:
     void slotUpdateFromMonitorData(const QVariantList &v) override;
-
 };
 
 #endif

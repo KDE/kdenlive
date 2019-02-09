@@ -18,32 +18,32 @@
  ***************************************************************************/
 
 #include "keyframewidget.hpp"
+#include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
-#include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "assets/model/assetcommand.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/keyframeimport.h"
 #include "core.h"
+#include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 #include "timecode.h"
 #include "timecodedisplay.h"
-#include "kdenlivesettings.h"
 
 #include "widgets/doublewidget.h"
 #include "widgets/geometrywidget.h"
 
 #include <KSelectAction>
-#include <QToolButton>
 #include <QApplication>
 #include <QClipboard>
-#include <QVBoxLayout>
-#include <QMenu>
-#include <QJsonObject>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QJsonObject>
+#include <QMenu>
 #include <QPointer>
+#include <QToolButton>
+#include <QVBoxLayout>
 #include <klocalizedstring.h>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
@@ -140,9 +140,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         kfType->setCurrentAction(linear2);
         break;
     }
-    connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), [&](QAction *ac) {
-        KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt());
-    });
+    connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered),
+            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
     auto *container = new QMenu(this);
     container->addAction(copy);
     container->addAction(paste);
@@ -213,7 +212,7 @@ void KeyframeWidget::slotRefreshParams()
     KeyframeType keyType = m_keyframes->keyframeType(GenTime(pos, pCore->getCurrentFps()));
     int i = 0;
     while (auto ac = m_selectType->action(i)) {
-        if (ac->data().toInt() == (int) keyType) {
+        if (ac->data().toInt() == (int)keyType) {
             m_selectType->setCurrentItem(i);
             break;
         }
@@ -302,7 +301,7 @@ void KeyframeWidget::slotRefresh()
     Q_ASSERT(ok);
     // refresh keyframes
     m_keyframes->refresh();
-    //m_model->dataChanged(QModelIndex(), QModelIndex());
+    // m_model->dataChanged(QModelIndex(), QModelIndex());
     //->getKeyframeModel()->getKeyModel(m_index)->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
@@ -317,7 +316,7 @@ void KeyframeWidget::resetKeyframes()
     Q_ASSERT(ok);
     // reset keyframes
     m_keyframes->refresh();
-    //m_model->dataChanged(QModelIndex(), QModelIndex());
+    // m_model->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration);
     m_time->setRange(0, duration - 1);
     slotRefreshParams();
@@ -366,7 +365,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             if (m_neededScene == MonitorSceneDefault && !m_monitorHelper) {
                 m_neededScene = MonitorSceneType::MonitorSceneCorners;
                 m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
-                connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor, Qt::UniqueConnection);
+                connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeWidget::slotUpdateKeyframesFromMonitor,
+                        Qt::UniqueConnection);
                 connect(this, &KeyframeWidget::addIndex, m_monitorHelper, &CornersHelper::addIndex);
             } else {
                 if (type == ParamType::KeyframeParam) {
@@ -437,7 +437,7 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(QPersistentModelIndex index,
 
 MonitorSceneType KeyframeWidget::requiredScene() const
 {
-    qDebug()<<"// // // RESULTING REQUIRED SCENE: "<<m_neededScene;
+    qDebug() << "// // // RESULTING REQUIRED SCENE: " << m_neededScene;
     return m_neededScene;
 }
 
@@ -469,19 +469,19 @@ void KeyframeWidget::slotImportKeyframes()
 
     int inPos = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int outPos = inPos + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    QList <QPersistentModelIndex>indexes;
+    QList<QPersistentModelIndex> indexes;
     for (const auto &w : m_parameters) {
         indexes << w.first;
     }
-    QPointer<KeyframeImport>import = new KeyframeImport(inPos, outPos, values, m_model, indexes, this);
+    QPointer<KeyframeImport> import = new KeyframeImport(inPos, outPos, values, m_model, indexes, this);
     if (import->exec() != QDialog::Accepted) {
         delete import;
         return;
     }
     QString keyframeData = import->selectedData();
     QString tag = import->selectedTarget();
-    qDebug()<<"// CHECKING FOR TARGET PARAM: "<<tag;
-    //m_model->setParameter(tag, keyframeData, true);
+    qDebug() << "// CHECKING FOR TARGET PARAM: " << tag;
+    // m_model->setParameter(tag, keyframeData, true);
     /*for (const auto &w : m_parameters) {
         qDebug()<<"// GOT PARAM: "<<m_model->data(w.first, AssetParameterModel::NameRole).toString();
         if (tag == m_model->data(w.first, AssetParameterModel::NameRole).toString()) {
@@ -497,16 +497,12 @@ void KeyframeWidget::slotImportKeyframes()
     m_model->modelChanged();
     qDebug()<<"//// UPDATING KEYFRAMES CORE---------";
     pCore->updateItemKeyframes(m_model->getOwnerId());*/
-    qDebug()<<"//// UPDATING KEYFRAMES CORE . ..  .DONE ---------";
-    //emit importKeyframes(type, tag, keyframeData);
+    qDebug() << "//// UPDATING KEYFRAMES CORE . ..  .DONE ---------";
+    // emit importKeyframes(type, tag, keyframeData);
     delete import;
 }
-
 
 void KeyframeWidget::slotRemoveNextKeyframes()
 {
     m_keyframes->removeNextKeyframes(GenTime(m_time->getValue(), pCore->getCurrentFps()));
 }
-
-
-

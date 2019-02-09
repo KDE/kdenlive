@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef ROTOHELPER_H
 #define ROTOHELPER_H
 
-#include "bpoint.h"
 #include "assets/keyframes/model/keyframemonitorhelper.hpp"
+#include "bpoint.h"
 #include <QPersistentModelIndex>
 #include <QVariant>
 #include <QWidget>
@@ -40,7 +40,7 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit RotoHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    explicit RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
@@ -51,7 +51,6 @@ public:
     */
     static QList<BPoint> getPoints(QVariant value, const QSize frame);
     void refreshParams(int pos) override;
-
 
 private slots:
     void slotUpdateFromMonitorData(const QVariantList &v) override;

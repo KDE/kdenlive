@@ -18,12 +18,11 @@
  ***************************************************************************/
 
 #include "documentchecker.h"
+#include "bin/binplaylist.hpp"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "kthumb.h"
-#include "bin/binplaylist.hpp"
 #include "titler/titlewidget.h"
-
 
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -65,9 +64,9 @@ DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc)
 {
 }
 
-QMap <QString, QString> DocumentChecker::getLumaPairs() const
+QMap<QString, QString> DocumentChecker::getLumaPairs() const
 {
-    QMap <QString, QString> lumaSearchPairs;
+    QMap<QString, QString> lumaSearchPairs;
     lumaSearchPairs.insert(QStringLiteral("luma"), QStringLiteral("resource"));
     lumaSearchPairs.insert(QStringLiteral("movit.luma_mix"), QStringLiteral("resource"));
     lumaSearchPairs.insert(QStringLiteral("composite"), QStringLiteral("luma"));
@@ -113,7 +112,7 @@ bool DocumentChecker::hasErrorInClips()
             if (!storageFolder.isEmpty() && !QFile::exists(storageFolder) && projectDir.exists(documentid)) {
                 storageFolder = projectDir.absolutePath();
                 Xml::setXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.storagefolder"),
-                                         projectDir.absoluteFilePath(documentid));
+                                    projectDir.absoluteFilePath(documentid));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
             }
             break;
@@ -235,7 +234,7 @@ bool DocumentChecker::hasErrorInClips()
     QStringList missingLumas;
     QStringList filesToCheck;
     QString filePath;
-    QMap <QString, QString>lumaSearchPairs = getLumaPairs();
+    QMap<QString, QString> lumaSearchPairs = getLumaPairs();
 
     QDomNodeList trans = m_doc.elementsByTagName(QStringLiteral("transition"));
     max = trans.count();
@@ -361,8 +360,8 @@ bool DocumentChecker::hasErrorInClips()
         ClipType::ProducerType type;
         int status = CLIPMISSING;
         const QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-        QString resource = service == QLatin1String("timewarp") ? Xml::getXmlProperty(e, QStringLiteral("warp_resource"))
-                                                                : Xml::getXmlProperty(e, QStringLiteral("resource"));
+        QString resource =
+            service == QLatin1String("timewarp") ? Xml::getXmlProperty(e, QStringLiteral("warp_resource")) : Xml::getXmlProperty(e, QStringLiteral("resource"));
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
         if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") ||
             service == QLatin1String("timewarp")) {
@@ -605,7 +604,6 @@ void DocumentChecker::updateProperty(const QDomElement &effect, const QString &n
     }
 }
 
-
 void DocumentChecker::setProperty(QDomElement &effect, const QString &name, const QString &value)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
@@ -672,8 +670,7 @@ void DocumentChecker::slotSearchClips()
             if (!clipPath.isEmpty()) {
                 fixed = true;
                 child->setText(1, clipPath);
-                child->setIcon(0,
-                               perfectMatch ? QIcon::fromTheme(QStringLiteral("dialog-ok")) : QIcon::fromTheme(QStringLiteral("dialog-warning")));
+                child->setIcon(0, perfectMatch ? QIcon::fromTheme(QStringLiteral("dialog-ok")) : QIcon::fromTheme(QStringLiteral("dialog-warning")));
                 child->setData(0, statusRole, CLIPOK);
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -1036,7 +1033,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAOK) {
-        QMap <QString, QString>lumaSearchPairs = getLumaPairs();
+        QMap<QString, QString> lumaSearchPairs = getLumaPairs();
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
             QString luma;
@@ -1049,7 +1046,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }
         }
     } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
-        QMap <QString, QString>lumaSearchPairs = getLumaPairs();
+        QMap<QString, QString> lumaSearchPairs = getLumaPairs();
         for (int i = 0; i < trans.count(); ++i) {
             QString service = getProperty(trans.at(i).toElement(), QStringLiteral("mlt_service"));
             QString luma;
@@ -1124,7 +1121,7 @@ void DocumentChecker::slotDeleteSelected()
     if (!deletedLumas.isEmpty()) {
         QDomElement e;
         QDomNodeList transitions = m_doc.elementsByTagName(QStringLiteral("transition"));
-        QMap <QString, QString>lumaSearchPairs = getLumaPairs();
+        QMap<QString, QString> lumaSearchPairs = getLumaPairs();
         for (const QString &lumaPath : deletedLumas) {
             for (int i = 0; i < transitions.count(); ++i) {
                 e = transitions.item(i).toElement();

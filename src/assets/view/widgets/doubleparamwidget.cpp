@@ -50,8 +50,7 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_lay->addWidget(m_doubleWidget);
 
     // Connect signal
-    connect(m_doubleWidget, &DoubleWidget::valueChanged,
-            [this, locale](double val) { emit valueChanged(m_index, locale.toString(val), true); });
+    connect(m_doubleWidget, &DoubleWidget::valueChanged, [this, locale](double val) { emit valueChanged(m_index, locale.toString(val), true); });
     slotRefresh();
 }
 

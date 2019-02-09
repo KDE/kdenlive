@@ -35,9 +35,7 @@ BezierSplineEditor::BezierSplineEditor(QWidget *parent)
     m_curve = CubicBezierSpline();
 }
 
-BezierSplineEditor::~BezierSplineEditor()
-{
-}
+BezierSplineEditor::~BezierSplineEditor() {}
 
 void BezierSplineEditor::paintEvent(QPaintEvent *event)
 {

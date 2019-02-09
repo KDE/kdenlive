@@ -28,7 +28,6 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 
-
 #include "kdenlive_debug.h"
 #include <QDialog>
 #include <QFileDialog>
@@ -130,7 +129,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     title->setText(effectName);
 
     m_view = new AssetParameterView(this);
-    const std::shared_ptr<AssetParameterModel>effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
+    const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
     m_view->setModel(effectParamModel, frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
@@ -402,7 +401,7 @@ void CollapsibleEffectView::slotSaveEffect()
     QDomElement effect = EffectsRepository::get()->getXml(effectId);
     // Adjust param values
     QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-    QMap <QString, QString> values;
+    QMap<QString, QString> values;
     QLocale locale;
     for (const auto &param : currentValues) {
         if (param.second.type() == QVariant::Double) {
@@ -458,8 +457,8 @@ void CollapsibleEffectView::slotResetEffect()
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
     widgetFrame->setFixedHeight(collapse ? 0 : m_view->sizeHint().height());
-    setFixedHeight(widgetFrame->height() + frame->height() + (2*decoframe->lineWidth()));
-    //m_view->setVisible(!collapse);
+    setFixedHeight(widgetFrame->height() + frame->height() + (2 * decoframe->lineWidth()));
+    // m_view->setVisible(!collapse);
     emit switchHeight(m_model, height());
     m_model->setCollapsed(collapse);
 }
@@ -480,7 +479,7 @@ void CollapsibleEffectView::animationFinished()
 
 void CollapsibleEffectView::setGroupIndex(int ix)
 {
-	Q_UNUSED(ix)
+    Q_UNUSED(ix)
     /*if (m_info.groupIndex == -1 && ix != -1) {
         m_menu->removeAction(m_groupAction);
     } else if (m_info.groupIndex != -1 && ix == -1) {
@@ -490,9 +489,8 @@ void CollapsibleEffectView::setGroupIndex(int ix)
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
 }
 
-void CollapsibleEffectView::setGroupName(const QString &groupName)
-{
-	Q_UNUSED(groupName)
+void CollapsibleEffectView::setGroupName(const QString &groupName){
+    Q_UNUSED(groupName)
     /*m_info.groupName = groupName;
     m_effect.setAttribute(QStringLiteral("kdenlive_info"), m_info.toString());*/
 }

@@ -28,12 +28,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/documentchecker.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "xml/xml.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "jobs/audiothumbjob.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
-#include "jobs/audiothumbjob.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -54,6 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
+#include "xml/xml.hpp"
 
 #include "xml/xml.hpp"
 
@@ -76,7 +76,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QVBoxLayout>
 #include <QtConcurrent>
 
-
 /**
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
@@ -88,17 +87,12 @@ public:
     explicit BinItemDelegate(QObject *parent = nullptr)
         : QStyledItemDelegate(parent)
         , m_editorOpen(false)
-        , dragType(PlaylistState::Disabled)
         , m_dar(1.778)
+        , dragType(PlaylistState::Disabled)
     {
-        connect(this, &QStyledItemDelegate::closeEditor, [&]() {
-            m_editorOpen = false;
-        });
+        connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
     }
-    void setDar(double dar)
-    {
-        m_dar = dar;
-    }
+    void setDar(double dar) { m_dar = dar; }
     void setEditorData(QWidget *w, const QModelIndex &i) const override
     {
         if (!m_editorOpen) {
@@ -108,6 +102,9 @@ public:
     }
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
     {
+        Q_UNUSED(model);
+        Q_UNUSED(option);
+        Q_UNUSED(index);
         if (event->type() == QEvent::MouseButtonPress) {
             QMouseEvent *me = (QMouseEvent *)event;
             if (m_audioDragRect.contains(me->pos())) {
@@ -310,13 +307,15 @@ public:
             QStyledItemDelegate::paint(painter, option, index);
         }
     }
-    private:
-        mutable bool m_editorOpen;
-        mutable QRect m_audioDragRect;
-        mutable QRect m_videoDragRect;
-        double m_dar;
-    public:
-        PlaylistState::ClipState dragType;
+
+private:
+    mutable bool m_editorOpen;
+    mutable QRect m_audioDragRect;
+    mutable QRect m_videoDragRect;
+    double m_dar;
+
+public:
+    PlaylistState::ClipState dragType;
 };
 
 MyListView::MyListView(QWidget *parent)
@@ -354,7 +353,7 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
         QModelIndex ix = indexAt(m_startPos);
         if (ix.isValid()) {
             QAbstractItemDelegate *del = itemDelegate(ix);
-            m_dragType = static_cast<BinItemDelegate*>(del)->dragType;
+            m_dragType = static_cast<BinItemDelegate *>(del)->dragType;
         } else {
             m_dragType = PlaylistState::Disabled;
         }
@@ -650,14 +649,10 @@ Bin::Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent)
     connect(m_slider, &QAbstractSlider::valueChanged, this, &Bin::slotSetIconSize);
     QToolButton *tb1 = new QToolButton(this);
     tb1->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
-    connect(tb1, &QToolButton::clicked, [&] () {
-        m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum()));
-    });
+    connect(tb1, &QToolButton::clicked, [&]() { m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum())); });
     QToolButton *tb2 = new QToolButton(this);
     tb2->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
-    connect(tb2, &QToolButton::clicked, [&] () {
-        m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum()));
-    });
+    connect(tb2, &QToolButton::clicked, [&]() { m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum())); });
     lay->addWidget(tb2);
     lay->addWidget(m_slider);
     lay->addWidget(tb1);
@@ -1470,7 +1465,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     ClipType::ProducerType type = ClipType::Unknown;
     bool isFolder = false;
     bool isImported = false;
-    AbstractProjectItem::PROJECTITEMTYPE itemType;
+    AbstractProjectItem::PROJECTITEMTYPE itemType = AbstractProjectItem::FolderItem;
     QString clipService;
     QString audioCodec;
     if (m_itemView) {
@@ -1589,7 +1584,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
         if (ix.column() == 0 && item->childCount() > 0) {
             QRect IconRect = m_itemView->visualRect(ix);
             IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
-            if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height()/2))) {
+            if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
                 QTreeView *view = static_cast<QTreeView *>(m_itemView);
                 view->setExpanded(ix, !view->isExpanded(ix));
                 return;
@@ -1599,7 +1594,8 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
     if (ix.isValid()) {
         QRect IconRect = m_itemView->visualRect(ix);
         IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
-        if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) || (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height()/2)))) {
+        if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) ||
+                              (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height() / 2)))) {
             // User clicked outside icon, trigger rename
             m_itemView->edit(ix);
             return;
@@ -2031,7 +2027,6 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
     m_infoMessage->setMessageType(type);
     m_infoMessage->animatedShow();
 }
-
 
 void Bin::refreshClip(const QString &id)
 {
@@ -3080,7 +3075,7 @@ std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)
     return effectStack;
 }
 
-int Bin::getClipDuration(int itemId) const
+size_t Bin::getClipDuration(int itemId) const
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(QString::number(itemId));
     Q_ASSERT(clip != nullptr);

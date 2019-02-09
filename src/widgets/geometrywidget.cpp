@@ -25,11 +25,11 @@
 #include "dragvalue.h"
 #include "monitor/monitor.h"
 
-
 #include <KLocalizedString>
 #include <QGridLayout>
 
-GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock, bool useOpacity, bool percentOpacity, QWidget *parent)
+GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QRect &rect, double opacity, const QSize frameSize, bool useRatioLock,
+                               bool useOpacity, bool percentOpacity, QWidget *parent)
     : QWidget(parent)
     , m_min(range.first)
     , m_max(range.second)
@@ -87,10 +87,8 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
 
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
-        m_opacity->setValue((int) (opacity * m_opacityFactor));
-        connect(m_opacity, &DragValue::valueChanged, [&]() {
-            emit valueChanged(getValue());
-        });
+        m_opacity->setValue((int)(opacity * m_opacityFactor));
+        connect(m_opacity, &DragValue::valueChanged, [&]() { emit valueChanged(getValue()); });
         horLayout2->addWidget(m_opacity);
     }
     horLayout2->addStretch(10);

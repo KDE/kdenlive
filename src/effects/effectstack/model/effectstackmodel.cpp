@@ -20,25 +20,25 @@
  ***************************************************************************/
 #include "effectstackmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
-#include "timeline2/model/timelinemodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
 #include "effects/effectsrepository.hpp"
 #include "macros.hpp"
+#include "timeline2/model/timelinemodel.hpp"
+#include <profiles/profilemodel.hpp>
 #include <stack>
 #include <utility>
 #include <vector>
-#include <profiles/profilemodel.hpp>
 
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
     , m_effectStackEnabled(true)
     , m_ownerId(ownerId)
     , m_undoStack(undo_stack)
-    , m_loadingExisting(false)
     , m_lock(QReadWriteLock::Recursive)
+    , m_loadingExisting(false)
 {
     m_masterService = std::move(service);
 }
@@ -114,17 +114,15 @@ void EffectStackModel::removeCurrentEffect()
 
 void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
 {
-    qDebug()<<"* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
+    qDebug() << "* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(effect->getId()) > 0);
     int parentId = -1;
     if (auto ptr = effect->parentItem().lock()) parentId = ptr->getId();
     int current = 0;
-    bool currentChanged = false;
     if (auto srv = m_masterService.lock()) {
         current = srv->get_int("kdenlive:activeeffect");
         if (current >= rootItem->childCount() - 1) {
-            currentChanged = true;
             srv->set("kdenlive:activeeffect", --current);
         }
     }
@@ -157,7 +155,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
                 if (outFades < 0) {
                     roles << TimelineModel::FadeOutRole;
                 }
-                qDebug()<<"// EMITTING UNDO DATA CHANGE: "<<roles;
+                qDebug() << "// EMITTING UNDO DATA CHANGE: " << roles;
                 emit dataChanged(QModelIndex(), QModelIndex(), roles);
             }
             // TODO: only update if effect is fade or keyframe
@@ -178,7 +176,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
             } else if (outFades < 0) {
                 roles << TimelineModel::FadeOutRole;
             }
-            qDebug()<<"// EMITTING REDO DATA CHANGE: "<<roles;
+            qDebug() << "// EMITTING REDO DATA CHANGE: " << roles;
             emit dataChanged(QModelIndex(), QModelIndex(), roles);
             pCore->updateItemKeyframes(m_ownerId);
             return true;
@@ -188,7 +186,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
         PUSH_LAMBDA(update2, undo);
         PUSH_UNDO(undo, redo, i18n("Delete effect %1", effectName));
     } else {
-        qDebug()<<"..........FAILED EFFECT DELETION";
+        qDebug() << "..........FAILED EFFECT DELETION";
     }
 }
 
@@ -207,14 +205,14 @@ bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
 
 QDomElement EffectStackModel::toXml(QDomDocument &document)
 {
-     QDomElement container = document.createElement(QStringLiteral("effects"));
-     for (int i = 0; i < rootItem->childCount(); ++i) {
+    QDomElement container = document.createElement(QStringLiteral("effects"));
+    for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         QDomElement sub = document.createElement(QStringLiteral("effect"));
         sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
         sub.setAttribute(QStringLiteral("in"), sourceEffect->filter().get_int("in"));
         sub.setAttribute(QStringLiteral("out"), sourceEffect->filter().get_int("out"));
-        QVector <QPair<QString,QVariant> > params = sourceEffect->getAllParameters();
+        QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
         QLocale locale;
         for (auto param : params) {
             if (param.second.type() == QVariant::Double) {
@@ -224,8 +222,8 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
             }
         }
         container.appendChild(sub);
-     }
-     return container;
+    }
+    return container;
 }
 
 void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
@@ -489,7 +487,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 PUSH_LAMBDA(refresh, redo);
                 PUSH_LAMBDA(refresh, undo);
             } else {
-                qDebug()<<"// NULL Keyframes---------";
+                qDebug() << "// NULL Keyframes---------";
             }
         }
     }
@@ -701,7 +699,7 @@ bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
     bool found = false;
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
-        //NO undo. this should only be used on project opening
+        // NO undo. this should only be used on project opening
         if (copyEffect(item, state, false)) {
             found = true;
         }
@@ -850,10 +848,10 @@ bool EffectStackModel::checkConsistency()
                 if (filt->get("kdenlive_id") != NULL) {
                     kdenliveFilterCount++;
                 }
-                //qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
+                // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
             }
             if (kdenliveFilterCount != (int)allFilters.size()) {
-                qDebug() << "ERROR: Wrong filter count: "<<kdenliveFilterCount<<" = "<<allFilters.size();
+                qDebug() << "ERROR: Wrong filter count: " << kdenliveFilterCount << " = " << allFilters.size();
                 return false;
             }
         }
@@ -866,14 +864,15 @@ bool EffectStackModel::checkConsistency()
             auto mltFilter = ptr->filter(ct);
             auto currentFilter = allFilters[i]->filter();
             if (QString(currentFilter.get("mlt_service")) != QLatin1String(mltFilter->get("mlt_service"))) {
-                qDebug() << "ERROR: filter " << i << "differ: "<<ct<<", "<<currentFilter.get("mlt_service")<<" = "<<mltFilter->get("mlt_service");
+                qDebug() << "ERROR: filter " << i << "differ: " << ct << ", " << currentFilter.get("mlt_service") << " = " << mltFilter->get("mlt_service");
                 return false;
             }
-            QVector <QPair<QString,QVariant> > params = allFilters[i]->getAllParameters();
-            for(auto val : params) {
+            QVector<QPair<QString, QVariant>> params = allFilters[i]->getAllParameters();
+            for (auto val : params) {
                 // Check parameters values
                 if (val.second != QVariant(mltFilter->get(val.first.toUtf8().constData()))) {
-                    qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: "<<val.first<<" = "<<val.second<<" != "<<mltFilter->get(val.first.toUtf8().constData());
+                    qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: " << val.first << " = " << val.second
+                             << " != " << mltFilter->get(val.first.toUtf8().constData());
                     return false;
                 }
             }
@@ -1011,7 +1010,6 @@ bool EffectStackModel::isStackEnabled() const
     return m_effectStackEnabled;
 }
 
-
 bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
 {
     if (rootItem->childCount() == 0) return false;
@@ -1056,5 +1054,3 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), normalisedVal);
 }
-
-

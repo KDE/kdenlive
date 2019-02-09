@@ -21,21 +21,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "profilewidget.h"
-#include "kxmlgui_version.h"
 #include "kdenlivesettings.h"
+#include "kxmlgui_version.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profiles/tree/profilefilter.hpp"
 #include "profiles/tree/profiletreemodel.hpp"
 
-
 #include <KLocalizedString>
 #include <QComboBox>
+#include <QHeaderView>
 #include <QLabel>
 #include <QSplitter>
 #include <QTextEdit>
 #include <QTreeView>
-#include <QHeaderView>
 
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)
@@ -78,17 +77,16 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_treeView->header()->hide();
     QItemSelectionModel *selectionModel = m_treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
-    connect(selectionModel, &QItemSelectionModel::selectionChanged,
-            [&](const QItemSelection &selected, const QItemSelection &deselected){
-                QModelIndex current, old;
-                if (!selected.indexes().isEmpty()) {
-                    current = selected.indexes().front();
-                }
-                if (!deselected.indexes().isEmpty()) {
-                    old = deselected.indexes().front();
-                }
-                slotChangeSelection(current, old);
-            });
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, [&](const QItemSelection &selected, const QItemSelection &deselected) {
+        QModelIndex current, old;
+        if (!selected.indexes().isEmpty()) {
+            current = selected.indexes().front();
+        }
+        if (!deselected.indexes().isEmpty()) {
+            old = deselected.indexes().front();
+        }
+        slotChangeSelection(current, old);
+    });
     int treeViewFontHeight = QFontInfo(m_treeView->font()).pixelSize();
     m_treeView->setMinimumHeight(treeViewFontHeight);
     profileSplitter->addWidget(m_treeView);

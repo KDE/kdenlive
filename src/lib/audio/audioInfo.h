@@ -12,8 +12,8 @@ the Free Software Foundation, either version 3 of the License, or
 #define AUDIOINFO_H
 
 #include <QList>
-#include <mlt++/Mlt.h>
 #include <memory>
+#include <mlt++/Mlt.h>
 
 class AudioStreamInfo;
 class AudioInfo

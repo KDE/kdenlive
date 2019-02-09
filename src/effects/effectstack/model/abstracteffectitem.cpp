@@ -27,7 +27,8 @@
 #include <KLocalizedString>
 #include <utility>
 
-AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot, bool isEnabled)
+AbstractEffectItem::AbstractEffectItem(EffectItemType type, const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot,
+                                       bool isEnabled)
     : TreeItem(data, stack, isRoot)
     , m_effectItemType(type)
     , m_enabled(isEnabled)

@@ -26,11 +26,11 @@
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
-#include "effects/effectsrepository.hpp"
 #include "dialogs/profilesdialog.h"
 #include "documentchecker.h"
 #include "documentvalidator.h"
 #include "docundostack.hpp"
+#include "effects/effectsrepository.hpp"
 #include "jobs/jobmanager.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
@@ -82,7 +82,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGro
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(projectFolder)
 {
-        m_guideModel.reset(new MarkerListModel(m_commandStack, this));
+    m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
@@ -319,7 +319,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         audioTrack.isMute = false;
         audioTrack.isBlind = true;
         audioTrack.isLocked = false;
-        //audioTrack.trackName = i18n("Audio %1", audiotracks - i);
+        // audioTrack.trackName = i18n("Audio %1", audiotracks - i);
         audioTrack.duration = 0;
         tracks.append(audioTrack);
     }
@@ -329,7 +329,7 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.isMute = false;
         videoTrack.isBlind = false;
         videoTrack.isLocked = false;
-        //videoTrack.trackName = i18n("Video %1", i + 1);
+        // videoTrack.trackName = i18n("Video %1", i + 1);
         videoTrack.duration = 0;
         tracks.append(videoTrack);
     }
@@ -1166,7 +1166,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         initProxySettings();
     }
     QString extension = QLatin1Char('.') + m_proxyExtension;
-    //getDocumentProperty(QStringLiteral("proxyextension"));
+    // getDocumentProperty(QStringLiteral("proxyextension"));
     /*QString params = getDocumentProperty(QStringLiteral("proxyparams"));
     if (params.contains(QStringLiteral("-s "))) {
         QString proxySize = params.section(QStringLiteral("-s "), 1).section(QStringLiteral("x"), 0, 0);
@@ -1256,7 +1256,8 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
         m_documentProperties.insert(QStringLiteral("storagefolder"),
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
-    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());;
+    m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
+    ;
     if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     }

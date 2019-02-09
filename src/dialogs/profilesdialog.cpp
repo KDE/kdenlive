@@ -23,7 +23,6 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 
-
 #include "klocalizedstring.h"
 #include <KMessageBox>
 #include <KMessageWidget>
@@ -75,9 +74,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
 void ProfilesDialog::connectDialog()
 {
-    connect(m_view.profiles_list, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::currentIndexChanged), [&]() {
-        slotUpdateDisplay();
-    });
+    connect(m_view.profiles_list, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), [&]() { slotUpdateDisplay(); });
     connect(m_view.button_create, &QAbstractButton::clicked, this, &ProfilesDialog::slotCreateProfile);
     connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
     connect(m_view.button_delete, &QAbstractButton::clicked, this, &ProfilesDialog::slotDeleteProfile);
@@ -329,7 +326,7 @@ void ProfilesDialog::slotDeleteProfile()
 
 void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
 {
-    qDebug()<<"/ / / /UPDATING DISPLAY FOR PROFILE: "<<currentProfilePath;
+    qDebug() << "/ / / /UPDATING DISPLAY FOR PROFILE: " << currentProfilePath;
     if (!askForSave()) {
         m_view.profiles_list->blockSignals(true);
         m_view.profiles_list->setCurrentIndex(m_selectedProfileIndex);

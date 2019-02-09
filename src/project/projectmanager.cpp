@@ -11,7 +11,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "projectmanager.h"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
-#include "utils/thumbnailcache.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "jobs/jobmanager.h"
@@ -23,14 +22,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/backupwidget.h"
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
+#include "utils/thumbnailcache.hpp"
 // Temporary for testing
 #include "bin/model/markerlistmodel.hpp"
 
+#include "profiles/profilerepository.hpp"
 #include "project/notesplugin.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-#include "profiles/profilerepository.hpp"
 
 #include <KActionCollection>
 #include <KJob>
@@ -246,27 +246,27 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
         pCore->monitorManager()->setDocument(m_project);
     }
-/*  // Make sure to reset locale to system's default
-    QString requestedLocale = QLocale::system().name();
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    if (env.contains(QStringLiteral("LC_NUMERIC"))) {
-        requestedLocale = env.value(QStringLiteral("LC_NUMERIC"));
-    }
-    qDebug()<<"//////////// RESETTING LOCALE TO: "<<requestedLocale;
+    /*  // Make sure to reset locale to system's default
+        QString requestedLocale = QLocale::system().name();
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        if (env.contains(QStringLiteral("LC_NUMERIC"))) {
+            requestedLocale = env.value(QStringLiteral("LC_NUMERIC"));
+        }
+        qDebug()<<"//////////// RESETTING LOCALE TO: "<<requestedLocale;
 
-#ifdef Q_OS_MAC
-    setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
-#elif defined(Q_OS_WIN)
-    std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
-#else
-    QLocale newLocale(requestedLocale);
-    char *separator = localeconv()->decimal_point;
-    if (QString::fromUtf8(separator) != QString(newLocale.decimalPoint())) {
-        pCore->displayBinMessage(i18n("There is a locale conflict on your system, project might get corrupt"), KMessageWidget::Warning);
-    }
-    setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
-#endif
-    QLocale::setDefault(newLocale);*/
+    #ifdef Q_OS_MAC
+        setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
+    #elif defined(Q_OS_WIN)
+        std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
+    #else
+        QLocale newLocale(requestedLocale);
+        char *separator = localeconv()->decimal_point;
+        if (QString::fromUtf8(separator) != QString(newLocale.decimalPoint())) {
+            pCore->displayBinMessage(i18n("There is a locale conflict on your system, project might get corrupt"), KMessageWidget::Warning);
+        }
+        setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
+    #endif
+        QLocale::setDefault(newLocale);*/
     return true;
 }
 
@@ -819,6 +819,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 
 void ProjectManager::updateTimeline(int pos, int scrollPos)
 {
+    Q_UNUSED(scrollPos);
     pCore->jobManager()->slotCancelJobs();
     /*qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
     QFile file("/tmp/data.xml");
@@ -929,5 +930,3 @@ void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
     file.close();
     openFile(QUrl::fromLocalFile(currentFile));
 }
-
-

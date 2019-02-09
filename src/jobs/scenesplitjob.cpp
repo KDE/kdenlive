@@ -152,7 +152,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         // Create zones
         int ix = 1;
         int lastCut = 0;
-        QMap <QString, QString> zoneData;
+        QMap<QString, QString> zoneData;
         for (const QString marker : markerData) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {

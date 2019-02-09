@@ -32,7 +32,6 @@ public:
     static void msleep(unsigned long msecs) { QThread::msleep(msecs); }
 };
 
-
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out)
     : QObject()
     , m_scenelist(scenelist)
@@ -147,9 +146,8 @@ void RenderJob::receivedStderr()
                 return;
             }
             m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint)0, QString(),
-                                tr("Remaining time: ") +
-                                    QTime(0, 0, 0).addSecs(seconds).toString(QStringLiteral("hh:mm:ss")));
-            //m_jobUiserver->call(QStringLiteral("setSpeed"), (frame - m_frame) / (seconds - m_seconds));
+                                tr("Remaining time: ") + QTime(0, 0, 0).addSecs(seconds).toString(QStringLiteral("hh:mm:ss")));
+            // m_jobUiserver->call(QStringLiteral("setSpeed"), (frame - m_frame) / (seconds - m_seconds));
             // m_jobUiserver->call("setSpeed", (frame - m_frame) / (seconds - m_seconds));
             m_frame = frame;
             m_seconds = seconds;
@@ -209,7 +207,7 @@ void RenderJob::start()
     // Because of the logging, we connect to stderr in all cases.
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
-    qDebug()<< "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' '));
+    qDebug() << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' '));
     m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << endl;
 }
 

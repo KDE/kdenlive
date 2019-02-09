@@ -26,8 +26,8 @@
 #include <KLocalizedString>
 
 #include <KActionCategory>
-#include <QMenu>
 #include <QDebug>
+#include <QMenu>
 
 TransitionTreeModel::TransitionTreeModel(QObject *parent)
     : AssetTreeModel(parent)

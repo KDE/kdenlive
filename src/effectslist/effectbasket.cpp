@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "effectbasket.h"
-#include "kdenlivesettings.h"
 #include "effects/effectsrepository.hpp"
+#include "kdenlivesettings.h"
 #include <klocalizedstring.h>
 
 #include <QListWidget>

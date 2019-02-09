@@ -39,15 +39,15 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     std::fill(y, y + 256, 0);
     std::fill(s, s + 766, 0);
 
-    const uint iw = image.bytesPerLine();
-    const uint ih = image.height();
-    const uint ww = paradeSize.width();
-    const uint wh = paradeSize.height();
+    const uint iw = (uint)image.bytesPerLine();
+    const uint ih = (uint)image.height();
+    const uint ww = (uint)paradeSize.width();
+    const uint wh = (uint)paradeSize.height();
     const uint byteCount = iw * ih;
 
     // Read the stats from the input image
     for (int Y = 0; Y < image.height(); ++Y) {
-        for (int X = 0; X < image.width(); X += accelFactor) {
+        for (int X = 0; X < image.width(); X += (int)accelFactor) {
             QRgb col = image.pixel(X, Y);
             r[qRed(col)]++;
             g[qGreen(col)]++;
@@ -76,11 +76,11 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     }
 
     const int d = 20; // Distance for text
-    const int partH = (wh - nParts * d) / nParts;
+    const int partH = int((int)wh - nParts * d) / nParts;
     float scaling = 0;
-    int div = byteCount >> 7;
+    int div = (int)byteCount >> 7;
     if (div > 0) {
-        scaling = (float)partH / (byteCount >> 7);
+        scaling = (float)partH / float((int)byteCount >> 7);
     }
     const int dist = 40;
 
@@ -92,30 +92,30 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
     histogram.fill(qRgba(0, 0, 0, 0));
 
     if (drawY) {
-        drawComponentFull(&davinci, y, scaling, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled, 256);
+        drawComponentFull(&davinci, y, scaling, QRect(0, wy, (int)ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled, 256);
 
         wy += partH + d;
     }
 
     if (drawSum) {
-        drawComponentFull(&davinci, s, scaling / 3, QRect(0, wy, ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled, 256);
+        drawComponentFull(&davinci, s, scaling / 3, QRect(0, wy, (int)ww, partH + dist), QColor(220, 220, 210, 255), dist, unscaled, 256);
 
         wy += partH + d;
     }
 
     if (drawR) {
-        drawComponentFull(&davinci, r, scaling, QRect(0, wy, ww, partH + dist), QColor(255, 128, 0, 255), dist, unscaled, 256);
+        drawComponentFull(&davinci, r, scaling, QRect(0, wy, (int)ww, partH + dist), QColor(255, 128, 0, 255), dist, unscaled, 256);
 
         wy += partH + d;
     }
 
     if (drawG) {
-        drawComponentFull(&davinci, g, scaling, QRect(0, wy, ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled, 256);
+        drawComponentFull(&davinci, g, scaling, QRect(0, wy, (int)ww, partH + dist), QColor(128, 255, 0, 255), dist, unscaled, 256);
         wy += partH + d;
     }
 
     if (drawB) {
-        drawComponentFull(&davinci, b, scaling, QRect(0, wy, ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled, 256);
+        drawComponentFull(&davinci, b, scaling, QRect(0, wy, (int)ww, partH + dist), QColor(0, 128, 255, 255), dist, unscaled, 256);
     }
 
     return histogram;
@@ -123,7 +123,7 @@ QImage HistogramGenerator::calculateHistogram(const QSize &paradeSize, const QIm
 
 QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, uint max) const
 {
-    QImage component(max, size.height(), QImage::Format_ARGB32);
+    QImage component((int)max, size.height(), QImage::Format_ARGB32);
     component.fill(qRgba(0, 0, 0, 255));
     Q_ASSERT(scaling != INFINITY);
 
@@ -131,7 +131,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
 
     for (uint x = 0; x < max; ++x) {
         // Calculate the height of the curve at position x
-        int partY = scaling * y[x];
+        int partY = int(scaling * (float)y[x]);
 
         // Invert the y axis
         if (partY > partH - 1) {
@@ -140,7 +140,7 @@ QImage HistogramGenerator::drawComponent(const int *y, const QSize &size, const 
         partY = partH - 1 - partY;
 
         for (int k = partH - 1; k >= partY; --k) {
-            component.setPixel(x, k, color.rgba());
+            component.setPixel((int)x, k, color.rgba());
         }
     }
     if (unscaled && size.width() >= component.width()) {
@@ -155,15 +155,15 @@ void HistogramGenerator::drawComponentFull(QPainter *davinci, const int *y, cons
     QImage component = drawComponent(y, rect.size() - QSize(0, textSpace), scaling, color, unscaled, max);
     davinci->drawImage(rect.topLeft(), component);
 
-    int min = 0;
+    uint min = 0;
     for (uint x = 0; x < max; ++x) {
         min = x;
         if (y[x] > 0) {
             break;
         }
     }
-    int maxVal = max - 1;
-    for (int x = max - 1; x >= 0; --x) {
+    int maxVal = (int)max - 1;
+    for (int x = (int)max - 1; x >= 0; --x) {
         maxVal = x;
         if (y[x] > 0) {
             break;

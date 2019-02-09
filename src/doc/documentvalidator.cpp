@@ -19,11 +19,11 @@
 
 #include "documentvalidator.h"
 
+#include "bin/binplaylist.hpp"
 #include "core.h"
 #include "definitions.h"
-#include "mainwindow.h"
-#include "bin/binplaylist.hpp"
 #include "effects/effectsrepository.hpp"
+#include "mainwindow.h"
 #include "transitions/transitionsrepository.hpp"
 #include "xml/xml.hpp"
 
@@ -155,9 +155,9 @@ bool DocumentValidator::validate(const double currentVersion)
                                     mlt.attribute(QStringLiteral("LC_NUMERIC"))));
         }
 
-// Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
-// With some locales since C++ and Qt use a different database for locales
-// localeconv()->decimal_point does not give reliable results on Windows
+        // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
+        // With some locales since C++ and Qt use a different database for locales
+        // localeconv()->decimal_point does not give reliable results on Windows
 
 #ifndef Q_OS_WIN
         char *separator = localeconv()->decimal_point;
@@ -175,7 +175,6 @@ bool DocumentValidator::validate(const double currentVersion)
             }
         }
 #endif
-
     }
     documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
@@ -194,14 +193,14 @@ bool DocumentValidator::validate(const double currentVersion)
                                     "\"%2\". Change your computer settings or you might not be able to correctly open the project.",
                                     documentLocale.decimalPoint(), QLocale().decimalPoint()));
         }
-// locale conversion might need to be redone
-//TODO reload repositories
-/*#ifndef Q_OS_MAC
-        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
-#else
-        initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC_MASK, nullptr)));
-#endif
-*/
+        // locale conversion might need to be redone
+        // TODO reload repositories
+        /*#ifndef Q_OS_MAC
+                initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
+        #else
+                initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC_MASK, nullptr)));
+        #endif
+        */
     }
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
@@ -1656,7 +1655,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     Xml::setXmlProperty(prod, QStringLiteral("warp_resource"), resource.section(QLatin1Char('?'), 0, 0));
                     Xml::setXmlProperty(prod, QStringLiteral("warp_speed"), resource.section(QLatin1Char('?'), 1).section(QLatin1Char(':'), 0, 0));
                     Xml::setXmlProperty(prod, QStringLiteral("resource"),
-                                             resource.section(QLatin1Char('?'), 1) + QLatin1Char(':') + resource.section(QLatin1Char('?'), 0, 0));
+                                        resource.section(QLatin1Char('?'), 1) + QLatin1Char(':') + resource.section(QLatin1Char('?'), 0, 0));
                     Xml::setXmlProperty(prod, QStringLiteral("audio_index"), QStringLiteral("-1"));
                 }
             }
@@ -1774,7 +1773,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNode mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
         QDomNode tractor = mlt.firstChildElement(QStringLiteral("tractor"));
         // Build start trackIndex
-        QMap <QString, QString> trackIndex;
+        QMap<QString, QString> trackIndex;
         QDomNodeList tracks = tractor.toElement().elementsByTagName(QStringLiteral("track"));
         for (int i = 0; i < tracks.count(); i++) {
             trackIndex.insert(QString::number(i), tracks.at(i).toElement().attribute(QStringLiteral("producer")));
@@ -1996,7 +1995,7 @@ void DocumentValidator::updateProducerInfo(const QDomElement &prod, const QDomEl
                 zoneName = i18n("Zone %1", ct++);
             }
             Xml::setXmlProperty(prod, QStringLiteral("kdenlive:clipzone.") + zoneName,
-                                     data.section(QLatin1Char('-'), 0, 0) + QLatin1Char(';') + data.section(QLatin1Char('-'), 1, 1));
+                                data.section(QLatin1Char('-'), 0, 0) + QLatin1Char(';') + data.section(QLatin1Char('-'), 1, 1));
         }
     }
 }

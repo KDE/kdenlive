@@ -24,9 +24,9 @@
 
 #include "kdenlive_debug.h"
 
+#include <QDomElement>
 #include <QHash>
 #include <QPersistentModelIndex>
-#include <QDomElement>
 #include <QString>
 #include <cassert>
 #include <memory>

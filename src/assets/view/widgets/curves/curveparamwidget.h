@@ -23,10 +23,10 @@
 #define CURVEPARAMWIDGET_H
 
 #include "../abstractparamwidget.hpp"
-#include "widgets/dragvalue.h"
 #include "bezier/beziersplineeditor.h"
 #include "cubic/kis_curve_widget.h"
 #include "ui_bezierspline_ui.h"
+#include "widgets/dragvalue.h"
 
 template <typename CurveWidget_t> class ValueLabel;
 

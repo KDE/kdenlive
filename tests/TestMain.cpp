@@ -2,8 +2,8 @@
 #include "catch.hpp"
 
 #include "core.h"
-#include "src/mltcontroller/clipcontroller.h"
 #include "src/effects/effectsrepository.hpp"
+#include "src/mltcontroller/clipcontroller.h"
 #include <QApplication>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>

@@ -23,8 +23,8 @@
 #include "transitions/transitionsrepository.hpp"
 
 #include <KDeclarative/KDeclarative>
-#include <kdeclarative_version.h>
 #include <QQmlContext>
+#include <kdeclarative_version.h>
 
 #include <QStringListModel>
 

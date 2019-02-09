@@ -19,33 +19,32 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
-
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QLabel>
 #include <QPainter>
 #include <QSpinBox>
 #include <QVBoxLayout>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonDocument>
 
 #include "klocalizedstring.h"
 
-#include "widgets/positionwidget.h"
-#include "keyframeimport.h"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "keyframeimport.h"
 #include "profiles/profilemodel.hpp"
+#include "widgets/positionwidget.h"
 
-#include "mlt++/MltProperties.h"
 #include "mlt++/MltAnimation.h"
+#include "mlt++/MltProperties.h"
 
-KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList <QPersistentModelIndex>indexes, QWidget *parent)
+KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
+                               QWidget *parent)
     : QDialog(parent)
     , m_model(model)
     , m_supportsAnim(false)
@@ -220,9 +219,7 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     updateDataDisplay();
 }
 
-KeyframeImport::~KeyframeImport()
-{
-}
+KeyframeImport::~KeyframeImport() {}
 
 void KeyframeImport::resizeEvent(QResizeEvent *ev)
 {
@@ -242,7 +239,7 @@ void KeyframeImport::updateDataDisplay()
         updateRange();
         return;
     }
-    qDebug()<<"DATA: "<<comboData<<"\nRESULT: "<<m_maximas;
+    qDebug() << "DATA: " << comboData << "\nRESULT: " << m_maximas;
     double wDist = m_maximas.at(2).y() - m_maximas.at(2).x();
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
     m_sourceCombo->addItem(i18n("Geometry"), 10);
@@ -259,9 +256,9 @@ void KeyframeImport::updateDataDisplay()
     if (!m_inPoint->isValid()) {
         m_inPoint->blockSignals(true);
         m_outPoint->blockSignals(true);
-        //m_inPoint->setRange(0, m_keyframeView->duration);
+        // m_inPoint->setRange(0, m_keyframeView->duration);
         m_inPoint->setPosition(0);
-        //m_outPoint->setPosition(m_keyframeView->duration);
+        // m_outPoint->setPosition(m_keyframeView->duration);
         m_inPoint->blockSignals(false);
         m_outPoint->blockSignals(false);
     }
@@ -409,7 +406,8 @@ void KeyframeImport::updateDisplay()
             }
         }
     }
-    drawKeyFrameChannels(pix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, palette().text().color());
+    drawKeyFrameChannels(pix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0,
+                         palette().text().color());
     m_previewLabel->setPixmap(pix);
 }
 
@@ -433,10 +431,10 @@ QString KeyframeImport::selectedData() const
         std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
         animData->anim_get_double("key", m_inPoint->getPosition(), m_outPoint->getPosition());
         return anim->serialize_cut();
-        //m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
+        // m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(),
+        // m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
     }
     // Geometry target
-    int pos = m_sourceCombo->currentData().toInt();
     QPoint rectOffset;
     int ix = m_alignCombo->currentIndex();
     switch (ix) {
@@ -450,7 +448,9 @@ QString KeyframeImport::selectedData() const
         break;
     }
     return QString();
-    //m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, m_supportsAnim, pos == 11, rectOffset);
+    // int pos = m_sourceCombo->currentData().toInt();
+    // m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ?
+    // m_limitNumber->value() : 0, m_supportsAnim, pos == 11, rectOffset);
 }
 
 QString KeyframeImport::selectedTarget() const
@@ -500,7 +500,8 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     if (xDist > 0) {
         painter.fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cX);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter.drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(0).x()).arg(m_maximas.at(0).y()), &drawnText);
+        painter.drawText(txtRect, 0, i18nc("X as in x coordinate", "X") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(0).x()).arg(m_maximas.at(0).y()),
+                         &drawnText);
     }
     if (yDist > 0) {
         if (drawnText.isValid()) {
@@ -508,7 +509,8 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         }
         painter.fillRect(txtRect.x(), txtRect.top() + rectSize / 2, rectSize, rectSize, cY);
         txtRect.setX(txtRect.x() + rectSize * 2);
-        painter.drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(1).x()).arg(m_maximas.at(1).y()), &drawnText);
+        painter.drawText(txtRect, 0, i18nc("Y as in y coordinate", "Y") + QStringLiteral(" (%1-%2)").arg(m_maximas.at(1).x()).arg(m_maximas.at(1).y()),
+                         &drawnText);
     }
     if (wDist > 0) {
         if (drawnText.isValid()) {
@@ -530,7 +532,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     // Draw curves
     for (int i = 0; i < br.width(); i++) {
         mlt_rect rect = animData->anim_get_rect("key", (int)(i * frameFactor) + in);
-        qDebug()<<"// DRAWINC CURVE IWDTH: "<<rect.w<<", WDIST: "<<wDist;
+        qDebug() << "// DRAWINC CURVE IWDTH: " << rect.w << ", WDIST: " << wDist;
         if (xDist > 0) {
             painter.setPen(cX);
             int val = (rect.x - xOffset) * maxHeight / xDist;
@@ -544,7 +546,7 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
         if (wDist > 0) {
             painter.setPen(cW);
             int val = (rect.w - wOffset) * maxHeight / wDist;
-            qDebug()<<"// OFFSET: "<<wOffset<<", maxH: "<<maxHeight<<", wDIst:"<<wDist<<" = "<<val;
+            qDebug() << "// OFFSET: " << wOffset << ", maxH: " << maxHeight << ", wDIst:" << wDist << " = " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (hDist > 0) {

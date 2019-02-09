@@ -195,7 +195,7 @@ void BinPlaylist::manageBinFolderRename(const std::shared_ptr<AbstractProjectIte
 {
     QString id = binElem->clipId();
     if (binElem->itemType() != AbstractProjectItem::FolderItem) {
-        qDebug()<<"// ITEM IS NOT A FOLDER; ABORT RENAME";
+        qDebug() << "// ITEM IS NOT A FOLDER; ABORT RENAME";
     }
     // When a folder is inserted, we have to store its path into the properties
     if (binElem->parent()) {

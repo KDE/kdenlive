@@ -20,7 +20,6 @@
 #include "clipspeed.h"
 #include "kdenlivesettings.h"
 
-
 #include <QFontDatabase>
 #include <QMenu>
 #include <QStandardPaths>

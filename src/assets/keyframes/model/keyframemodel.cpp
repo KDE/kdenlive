@@ -20,11 +20,11 @@
  ***************************************************************************/
 
 #include "keyframemodel.hpp"
-#include "rotoscoping/bpoint.h"
-#include "rotoscoping/rotohelper.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
+#include "rotoscoping/bpoint.h"
+#include "rotoscoping/rotohelper.hpp"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -130,7 +130,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
 
 bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify)
 {
-    qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps())<<" NOTIFY: "<<notify;
+    qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps()) << " NOTIFY: " << notify;
     qDebug() << "before" << getAnimProperty();
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -209,7 +209,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     qDebug() << getAnimProperty();
-    //TODO: use the new Animation::key_set_frame to move a keyframe
+    // TODO: use the new Animation::key_set_frame to move a keyframe
     bool res = removeKeyframe(oldPos, local_undo, local_redo);
     qDebug() << "Move keyframe finished deletion:" << res;
     qDebug() << getAnimProperty();
@@ -613,7 +613,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     std::vector<GenTime> all_pos;
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    int kfrCount = m_keyframeList.size() - 1;
+    int kfrCount = (int)m_keyframeList.size() - 1;
     // we trigger only one global remove/insertrow event
     Fun update_redo_start = [this, kfrCount]() {
         beginRemoveRows(QModelIndex(), 1, kfrCount);
@@ -787,7 +787,6 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
-
 void KeyframeModel::resetAnimProperty(const QString &prop)
 {
     Fun undo = []() { return true; };
@@ -847,7 +846,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         effectName = i18n("effect");
     }
     Fun update_local = [this]() {
-        emit dataChanged(index(0), index(m_keyframeList.size()), {});
+        emit dataChanged(index(0), index((int)m_keyframeList.size()), {});
         return true;
     };
     update_local();
@@ -887,7 +886,7 @@ QVariant KeyframeModel::updateInterpolated(QVariant interpValue, double val)
     QStringList vals = interpValue.toString().split(QLatin1Char(' '));
     QLocale locale;
     if (!vals.isEmpty()) {
-        vals[vals.size() -1] = locale.toString(val);
+        vals[vals.size() - 1] = locale.toString(val);
     }
     return vals.join(QLatin1Char(' '));
 }
@@ -958,7 +957,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                 rect.o = 1;
             }
             prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
-                      convertToMltType(prev->second.first));
+                          convertToMltType(prev->second.first));
         }
         vals = next->second.second.toString().split(QLatin1Char(' '));
         if (vals.count() >= 4) {
@@ -973,7 +972,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                 rect.o = 1;
             }
             prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
-                      convertToMltType(next->second.first));
+                          convertToMltType(next->second.first));
         }
         mlt_rect rect = prop.anim_get_rect("keyframe", p);
         const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(locale.toString(rect.o));
@@ -1031,7 +1030,7 @@ void KeyframeModel::refresh()
     }
     if (animData == m_lastData) {
         // nothing to do
-        qDebug()<<"// DATA WAS ALREADY PARSED, ABORTING REFRESH\n_________________";
+        qDebug() << "// DATA WAS ALREADY PARSED, ABORTING REFRESH\n_________________";
         return;
     }
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
@@ -1065,14 +1064,14 @@ void KeyframeModel::reset()
     }
     if (animData == m_lastData) {
         // nothing to do
-        qDebug()<<"// DATA WAS ALREADY PARSED, ABORTING\n_________________";
+        qDebug() << "// DATA WAS ALREADY PARSED, ABORTING\n_________________";
         return;
     }
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect) {
         qDebug() << "parsing keyframe" << animData;
         resetAnimProperty(animData);
     } else if (m_paramType == ParamType::Roto_spline) {
-        //TODO: resetRotoProperty(animData);
+        // TODO: resetRotoProperty(animData);
     } else {
         // first, try to convert to double
         bool ok = false;
@@ -1125,12 +1124,11 @@ QList<QPoint> KeyframeModel::getRanges(const QString &animData)
         pH.setY(qMax((int)rect.h, pH.y()));
         pO.setX(qMin((int)rect.o, pO.x()));
         pO.setY(qMax((int)rect.o, pO.y()));
-        //value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+        // value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
     }
-    QList<QPoint> result {pX, pY, pW, pH, pO};
+    QList<QPoint> result{pX, pY, pW, pH, pO};
     return result;
 }
-
 
 std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(const QString &animData)
 {

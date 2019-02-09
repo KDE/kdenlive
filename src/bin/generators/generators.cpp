@@ -18,11 +18,11 @@
  ***************************************************************************/
 
 #include "generators.h"
+#include "assets/abstractassetsrepository.hpp"
 #include "doc/kthumb.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
-#include "assets/abstractassetsrepository.hpp"
-#include "effects/effectsrepository.hpp"
 
 #include <QDialogButtonBox>
 #include <QDir>
@@ -80,11 +80,9 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         QString tag = base.attribute(QStringLiteral("tag"), QString());
         QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
 
-        m_assetModel = std::shared_ptr<AssetParameterModel> (new AssetParameterModel(m_producer, base, tag, {ObjectType::NoItem, -1}));
-        m_view->setModel(m_assetModel, QSize(1920,1080), false);
-        connect(m_assetModel.get(), &AssetParameterModel::modelChanged, [this]() {
-            updateProducer();
-        });
+        m_assetModel = std::shared_ptr<AssetParameterModel>(new AssetParameterModel(m_producer, base, tag, {ObjectType::NoItem, -1}));
+        m_view->setModel(m_assetModel, QSize(1920, 1080), false);
+        connect(m_assetModel.get(), &AssetParameterModel::modelChanged, [this]() { updateProducer(); });
 
         lay->addStretch(10);
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);

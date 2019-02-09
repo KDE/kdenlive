@@ -29,8 +29,8 @@
 #include "macros.hpp"
 #include "utils/thumbnailcache.hpp"
 #include <QDir>
-#include <QScopedPointer>
 #include <QPainter>
+#include <QScopedPointer>
 #include <mlt++/MltProducer.h>
 
 ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool persistent, bool reloadAllThumbs)
@@ -90,7 +90,7 @@ bool ThumbJob::startJob()
     }
     m_prod = m_binClip->thumbProducer();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
-        qDebug()<<"********\nCOULD NOT READ THUMB PRODUCER\n********";
+        qDebug() << "********\nCOULD NOT READ THUMB PRODUCER\n********";
         return false;
     }
     int max = m_prod->get_length();
@@ -142,13 +142,11 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
         QImage old = subClip->thumbnail(m_result.width(), m_result.height()).toImage();
 
         // note that the image is moved into lambda, it won't be available from this class anymore
-        auto operation = [ clip = subClip, image = std::move(m_result) ]()
-        {
+        auto operation = [clip = subClip, image = std::move(m_result)]() {
             clip->setThumbnail(image);
             return true;
         };
-        auto reverse = [ clip = subClip, image = std::move(old) ]()
-        {
+        auto reverse = [clip = subClip, image = std::move(old)]() {
             clip->setThumbnail(image);
             return true;
         };
@@ -160,16 +158,14 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
         QImage old = m_binClip->thumbnail(m_result.width(), m_result.height()).toImage();
 
         // note that the image is moved into lambda, it won't be available from this class anymore
-        auto operation = [ clip = m_binClip, image = std::move(m_result), this ]()
-        {
+        auto operation = [clip = m_binClip, image = std::move(m_result), this]() {
             clip->setThumbnail(image);
             if (m_reloadAll) {
                 clip->updateTimelineClips({TimelineModel::ReloadThumbRole});
             }
             return true;
         };
-        auto reverse = [ clip = m_binClip, image = std::move(old), this ]()
-        {
+        auto reverse = [clip = m_binClip, image = std::move(old), this]() {
             clip->setThumbnail(image);
             if (m_reloadAll) {
                 clip->updateTimelineClips({TimelineModel::ReloadThumbRole});

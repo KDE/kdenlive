@@ -21,7 +21,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "effectstack/widgets/selectivecolor.h"
 
-
 #include <KLocalizedString>
 
 SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent)
@@ -53,9 +52,7 @@ SelectiveColor::SelectiveColor(const QDomElement &effect, QWidget *parent)
     updateValues();
 }
 
-SelectiveColor::~SelectiveColor()
-{
-}
+SelectiveColor::~SelectiveColor() {}
 
 void SelectiveColor::addParam(QDomElement &effect, QString name)
 {

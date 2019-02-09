@@ -12,11 +12,11 @@
 #define AUDIOENVELOPE_H
 
 #include "audioInfo.h"
-#include <mlt++/Mlt.h>
-#include <memory>
-#include <vector>
 #include <QFutureWatcher>
 #include <QObject>
+#include <memory>
+#include <mlt++/Mlt.h>
+#include <vector>
 
 class QImage;
 
@@ -32,7 +32,7 @@ class AudioEnvelope : public QObject
     Q_OBJECT
 
 public:
-    explicit AudioEnvelope(const QString &binId, int clipId, int offset = 0, int length = 0, int startPos = 0);
+    explicit AudioEnvelope(const QString &binId, int clipId, size_t offset = 0, size_t length = 0, size_t startPos = 0);
     virtual ~AudioEnvelope();
     /**
        Starts the asynchronous computation that computes the
@@ -51,32 +51,36 @@ public:
        envelope is done.
        REQUIRES: startComputeEnvelope() has been called.
     */
-    const std::vector<qint64>& envelope();
+    const std::vector<qint64> &envelope();
 
     QImage drawEnvelope();
 
     void dumpInfo();
 
     int clipId() const;
-    int startPos() const;
+    size_t startPos() const;
 
 private:
-    struct AudioSummary {
-      explicit AudioSummary(int size) : audioAmplitudes(size) {}
-      AudioSummary() {}
-      // This is the envelope data. There is one element for each
-      // frame, which contains the sum of the absolute amplitudes of
-      // the audio signal for that frame.
-      std::vector<qint64> audioAmplitudes;
-      // Maximum absolute value of the elements in 'audioAmplitudes'.
-      qint64 amplitudeMax = 0;
+    struct AudioSummary
+    {
+        explicit AudioSummary(size_t size)
+            : audioAmplitudes(size)
+        {
+        }
+        AudioSummary() {}
+        // This is the envelope data. There is one element for each
+        // frame, which contains the sum of the absolute amplitudes of
+        // the audio signal for that frame.
+        std::vector<qint64> audioAmplitudes;
+        // Maximum absolute value of the elements in 'audioAmplitudes'.
+        qint64 amplitudeMax = 0;
     };
 
     /**
        Blocks until the AudioSummary has been computed.
        REQUIRES: startComputeEnvelope() has been called.
     */
-    const AudioSummary& audioSummary();
+    const AudioSummary &audioSummary();
 
     /**
      Actually computes the envelope data, synchronously.
@@ -88,11 +92,11 @@ private:
     QFutureWatcher<AudioSummary> m_watcher;
     QFuture<AudioSummary> m_audioSummary;
 
-    const int m_offset;
+    const size_t m_offset;
     const int m_clipId;
-    const int m_startpos;
-    const int m_length;
-    int m_envelopeSize;
+    const size_t m_startpos;
+    const size_t m_length;
+    size_t m_envelopeSize;
 
 signals:
     void envelopeReady(AudioEnvelope *envelope);

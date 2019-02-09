@@ -435,7 +435,7 @@ int Core::getItemDuration(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
-        return m_binWidget->getClipDuration(id.second);
+        return (int)m_binWidget->getClipDuration(id.second);
         break;
     default:
         qDebug() << "ERROR: unhandled object type";
@@ -679,7 +679,6 @@ void Core::removeFromSelection(int itemId)
     if (m_mainWindow && m_guiConstructed) {
         m_mainWindow->getCurrentTimeline()->controller()->removeSelection(itemId);
     }
-
 }
 
 void Core::triggerAction(const QString &name)

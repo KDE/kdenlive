@@ -59,7 +59,7 @@ public:
     void manageBinItemInsertion(const std::shared_ptr<AbstractProjectItem> &binElem);
 
     /* @brief This function stores a renamed folder in bin playlise
-    */
+     */
     void manageBinFolderRename(const std::shared_ptr<AbstractProjectItem> &binElem);
 
     /* @brief Make sure bin playlist is saved in given tractor.

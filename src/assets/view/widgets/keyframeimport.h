@@ -23,8 +23,8 @@
 #define KEYFRAMEIMPORT_H
 
 #include <QDialog>
-#include <QLabel>
 #include <QDoubleSpinBox>
+#include <QLabel>
 
 #include "assets/model/assetparametermodel.hpp"
 #include "definitions.h"
@@ -37,14 +37,15 @@ class QSpinBox;
 class KeyframeView;
 
 namespace Mlt {
-    class Properties;
+class Properties;
 }
 
 class KeyframeImport : public QDialog
 {
     Q_OBJECT
 public:
-    explicit KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList <QPersistentModelIndex>indexes, QWidget *parent = nullptr);
+    explicit KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
+                            QWidget *parent = nullptr);
     virtual ~KeyframeImport();
     QString selectedData() const;
     QString selectedTarget() const;

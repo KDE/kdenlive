@@ -17,18 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "framework/mlt_version.h"
+#include "mlt++/Mlt.h"
 #include "renderjob.h"
 #include <QCoreApplication>
 #include <QDebug>
+#include <QDir>
+#include <QDomDocument>
 #include <QFileInfo>
 #include <QString>
 #include <QStringList>
-#include <QDomDocument>
 #include <QUrl>
-#include <QDir>
 #include <stdio.h>
-#include "framework/mlt_version.h"
-#include "mlt++/Mlt.h"
 
 int main(int argc, char **argv)
 {
@@ -85,10 +85,11 @@ int main(int argc, char **argv)
                     continue;
                 }
                 QScopedPointer<Mlt::Producer> playlst(prod.cut(frame.toInt(), frame.toInt() + chunkSize));
-                QScopedPointer<Mlt::Consumer> cons(new Mlt::Consumer(profile, QString("avformat:%1").arg(baseFolder.absoluteFilePath(fileName)).toUtf8().constData()));
+                QScopedPointer<Mlt::Consumer> cons(
+                    new Mlt::Consumer(profile, QString("avformat:%1").arg(baseFolder.absoluteFilePath(fileName)).toUtf8().constData()));
                 for (const QString &param : consumerParams) {
                     if (param.contains(QLatin1Char('='))) {
-                        cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(),   param.section(QLatin1Char('='), 1).toUtf8().constData());
+                        cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
                     }
                 }
                 cons->set("terminate_on_pause", 1);
@@ -99,7 +100,7 @@ int main(int argc, char **argv)
                 cons->purge();
                 fprintf(stderr, "DONE:%d \n", frame.toInt());
             }
-            //Mlt::Factory::close();
+            // Mlt::Factory::close();
             fprintf(stderr, "+ + + RENDERING FINSHED + + + \n");
             return 0;
         }

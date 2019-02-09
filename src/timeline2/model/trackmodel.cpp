@@ -53,7 +53,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         }
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
-        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex&, const QModelIndex&, QVector<int> roles){
+        QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
                 ptr2->dataChanged(ix, ix, roles);
@@ -113,7 +113,7 @@ int TrackModel::getClipsCount()
     }
     Q_ASSERT(count == static_cast<int>(m_allClips.size()));
 #else
-    int count = m_allClips.size();
+    int count = (int)m_allClips.size();
 #endif
     return count;
 }
@@ -155,7 +155,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         }
         qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
         return false;
-
     };
     if (target_clip >= count && isBlankAt(position)) {
         // In that case, we append after, in the first playlist
@@ -174,7 +173,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             }
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
             return false;
-
         };
     }
     if (isBlankAt(position)) {
@@ -197,7 +195,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 }
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
                 return false;
-
             };
         }
     }
@@ -213,11 +210,11 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
     }
     if (auto ptr = m_parent.lock()) {
         if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
-            qDebug()<<"// ATTEMPTING TO INSERT NON AUDIO CLIP ON AUDIO TRACK";
+            qDebug() << "// ATTEMPTING TO INSERT NON AUDIO CLIP ON AUDIO TRACK";
             return false;
         }
         if (!isAudioTrack() && !ptr->getClipPtr(clipId)->canBeVideo()) {
-            qDebug()<<"// ATTEMPTING TO INSERT NON VIDEO CLIP ON VIDEO TRACK";
+            qDebug() << "// ATTEMPTING TO INSERT NON VIDEO CLIP ON VIDEO TRACK";
             return false;
         }
         Fun local_undo = []() { return true; };
@@ -330,7 +327,7 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     }
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
-    //qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
+    // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove);
     if (operation()) {
         auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove);
@@ -907,21 +904,23 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
 
     if (in == compo_position && (out == -1 || out == old_out)) {
         return []() {
-            qDebug()<<"//// NO MOVE PERFORMED\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
-            return true; };
+            qDebug() << "//// NO MOVE PERFORMED\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            return true;
+        };
     }
 
     // temporary remove of current compo to check collisions
-    qDebug()<<"// CURRENT COMPOSITIONS ----\n"<<m_compoPos<<"\n--------------";
+    qDebug() << "// CURRENT COMPOSITIONS ----\n" << m_compoPos << "\n--------------";
     m_compoPos.erase(compo_position);
     bool intersecting = hasIntersectingComposition(in, out);
     // put it back
     m_compoPos[compo_position] = compoId;
 
     if (intersecting) {
-        return []() { 
-            qDebug()<<"//// FALSE MOVE PERFORMED\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
-            return false; };
+        return []() {
+            qDebug() << "//// FALSE MOVE PERFORMED\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            return false;
+        };
     }
 
     return [in, out, compoId, update_snaps, this]() {
@@ -1046,7 +1045,6 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
             }
             qDebug() << "Error : Composition Insertion failed because timeline is not available anymore";
             return false;
-
         };
     }
     return []() { return false; };

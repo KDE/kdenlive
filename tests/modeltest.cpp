@@ -22,7 +22,6 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -190,7 +189,6 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -768,6 +766,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     {
         int tid5 = TrackModel::construct(timeline);
         int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
+        Q_UNUSED(cid6);
         int tid6 = TrackModel::construct(timeline);
         REQUIRE(tid5 + 1 != tid6);
 
@@ -941,7 +940,6 @@ TEST_CASE("Check id unicity", "[ClipModel]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -997,7 +995,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -1410,7 +1407,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
 
     SECTION("Track insertion undo")
     {
-        int nb_tracks = timeline->getTracksCount();
         std::map<int, int> orig_trackPositions, final_trackPositions;
         for (const auto &it : timeline->m_iteratorTable) {
             int track = it.first;
@@ -1580,7 +1576,6 @@ TEST_CASE("Snapping", "[Snapping]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -1702,7 +1697,6 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -2019,7 +2013,6 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             int g1 = timeline->m_groups->getDirectAncestor(audio1);
             REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
             REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
-
         };
         state2();
 
@@ -2121,7 +2114,6 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
             REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
             REQUIRE(timeline->m_groups->getType(g3) == GroupType::AVSplit);
-
         };
         state2();
 

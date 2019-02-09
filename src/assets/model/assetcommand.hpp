@@ -49,7 +49,8 @@ private:
 class AssetKeyframeCommand : public QUndoCommand
 {
 public:
-    AssetKeyframeCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QVariant &value, GenTime pos, QUndoCommand *parent = nullptr);
+    AssetKeyframeCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QVariant &value, GenTime pos,
+                         QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
     int id() const override;
@@ -68,15 +69,15 @@ private:
 class AssetUpdateCommand : public QUndoCommand
 {
 public:
-    AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, QVector<QPair<QString, QVariant> > parameters, QUndoCommand *parent = nullptr);
+    AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, QVector<QPair<QString, QVariant>> parameters, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
     int id() const override;
 
 private:
     std::shared_ptr<AssetParameterModel> m_model;
-    QVector<QPair<QString, QVariant> > m_value;
-    QVector<QPair<QString, QVariant> > m_oldValue;
+    QVector<QPair<QString, QVariant>> m_value;
+    QVector<QPair<QString, QVariant>> m_oldValue;
     bool m_updateView;
 };
 #endif

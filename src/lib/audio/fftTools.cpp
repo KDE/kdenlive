@@ -53,8 +53,8 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
 
     // Deliberately avoid converting size to a float
     // to keep mid an integer.
-    float mid = (int)(size - 1) / 2;
-    float max = size - 1;
+    int mid = (int(size - 1) / 2);
+    int max = (size - 1);
     QVector<float> window;
 
     switch (windowType) {
@@ -65,10 +65,10 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         window = QVector<float>(size + 1);
 
         for (int x = 0; x < mid; ++x) {
-            window[x] = x / mid + (mid - x) / mid * param;
+            window[x] = (float)x / (float)mid + (float)(mid - x) / (float)mid * param;
         }
         for (int x = mid; x < size; ++x) {
-            window[x] = (x - mid) / (max - mid) * param + (max - x) / (max - mid);
+            window[x] = float(x - mid) / (float)(max - mid) * param + (float)(max - x) / (float)(max - mid);
         }
         window[size] = .5 + param / 2;
 
@@ -89,7 +89,7 @@ const QVector<float> FFTTools::window(const WindowType windowType, const int siz
         window = QVector<float>(size + 1);
 
         for (int x = 0; x < size; ++x) {
-            window[x] = .54 + .46 * cos(2 * M_PI * (x - mid) / size);
+            window[x] = .54 + .46 * cos(2. * M_PI * ((float)x - (float)mid) / (float)size);
         }
 
         // Integrating the cosine over the window function results in
@@ -118,14 +118,14 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     QTime start = QTime::currentTime();
 #endif
 
-    const uint numSamples = audioFrame.size() / numChannels;
+    const uint numSamples = (uint)audioFrame.size() / numChannels;
 
     if (((windowSize & 1) != 0u) || windowSize < 2) {
         return;
     }
 
-    const QString cfgSig = cfgSignature(windowSize);
-    const QString winSig = windowSignature(windowType, windowSize, param);
+    const QString cfgSig = cfgSignature((int)windowSize);
+    const QString winSig = windowSignature(windowType, (int)windowSize, param);
 
     // Get the kiss_fft configuration from the config cache
     // or build a new configuration if the requested one is not available.
@@ -139,7 +139,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 #ifdef DEBUG_FFTTOOLS
         qCDebug(KDENLIVE_LOG) << "Creating FFT configuration with size " << windowSize;
 #endif
-        myCfg = kiss_fftr_alloc(windowSize, 0, nullptr, nullptr);
+        myCfg = kiss_fftr_alloc((int)windowSize, 0, nullptr, nullptr);
         m_fftCfgs.insert(cfgSig, myCfg);
     }
 
@@ -158,15 +158,15 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 #ifdef DEBUG_FFTTOOLS
             qCDebug(KDENLIVE_LOG) << "Building new window function with signature " << winSig;
 #endif
-            window = FFTTools::window(windowType, windowSize, 0);
+            window = FFTTools::window(windowType, (int)windowSize, 0);
             m_windowFunctions.insert(winSig, window);
         }
-        windowScaleFactor = 1.0 / window[windowSize];
+        windowScaleFactor = 1.0 / window[(int)windowSize];
     }
 
     // Prepare frequency space vector. The resulting FFT vector is only half as long.
-    kiss_fft_cpx freqData[windowSize / 2];
-    float data[windowSize];
+    kiss_fft_cpx *freqData = new kiss_fft_cpx[int(windowSize) / 2];
+    float *data = new float[(int)windowSize];
 
     // Copy the first channel's audio into a vector for the FFT display;
     // Fill the data vector indices that cannot be covered with sample data with 0
@@ -179,7 +179,7 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
         // does not do noticeable worse than keeping it outside (perhaps the branch predictor
         // is good enough), so it remains in there for better readability.
         if (windowType != FFTTools::Window_Rect) {
-            data[i] = (float)audioFrame.data()[i * numChannels + channel] / 32767.0f * window[i];
+            data[i] = (float)audioFrame.data()[i * numChannels + channel] / 32767.0f * window[(int)i];
         } else {
             data[i] = (float)audioFrame.data()[i * numChannels + channel] / 32767.0f;
         }
@@ -226,6 +226,8 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
 #ifdef DEBUG_FFTTOOLS
     qCDebug(KDENLIVE_LOG) << "Calculated FFT in " << start.elapsed() << " ms.";
 #endif
+    delete[] freqData;
+    delete[] data;
 }
 
 const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &in, const uint targetSize, uint left, uint right, float fill)
@@ -235,42 +237,43 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
 #endif
 
     if (right == 0) {
-        right = in.size() - 1;
+        Q_ASSERT(in.size() > 0);
+        right = (uint)in.size() - 1;
     }
     Q_ASSERT(targetSize > 0);
     Q_ASSERT(left < right);
 
-    QVector<float> out(targetSize);
+    QVector<float> out((int)targetSize);
 
     float x;
-    uint xi;
-    uint i;
-    if (((float)(right - left)) / targetSize < 2) {
+    int xi;
+    int i;
+    if (((float)(right - left)) / (float)targetSize < 2.) {
         float x_prev = 0;
-        for (i = 0; i < targetSize; ++i) {
+        for (i = 0; i < (int)targetSize; ++i) {
 
             // i:  Target index
             // x:  Interpolated source index (float!)
             // xi: floor(x)
 
             // Transform [0,targetSize-1] to [left,right]
-            x = ((float)i) / (targetSize - 1) * (right - left) + left;
+            x = ((float)i) / float(targetSize - 1) * float(right - left) + (float)left;
             xi = (int)floor(x);
 
-            if (x > in.size() - 1) {
+            if (x > float(in.size() - 1)) {
                 // This may happen if right > in.size()-1; Fill the rest of the vector
                 // with the default value now.
                 break;
             }
 
             // Use linear interpolation in order to get smoother display
-            if (xi == 0 || xi == (uint)in.size() - 1) {
+            if (xi == 0 || xi == (int)in.size() - 1) {
                 // ... except if we are at the left or right border of the input sigal.
                 // Special case here since we consider previous and future values as well for
                 // the actual interpolation (not possible here).
                 out[i] = in[xi];
             } else {
-                if (in[xi] > in[xi + 1] && x_prev < xi) {
+                if (in[xi] > in[xi + 1] && x_prev < (float)xi) {
                     // This is a hack to preserve peaks.
                     // Consider f = {0, 100, 0}
                     //          x = {0.5,  1.5}
@@ -279,7 +282,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
                     // (x is the first after the peak if the previous x was smaller than floor(x).)
                     out[i] = in[xi];
                 } else {
-                    out[i] = (xi + 1 - x) * in[xi] + (x - xi) * in[xi + 1];
+                    out[i] = ((float)xi + 1. - x) * in[xi] + (x - (float)xi) * in[xi + 1];
                 }
             }
             x_prev = x;
@@ -287,18 +290,18 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
     } else {
         // If there are more than 2 samples per pixel in average, then use the maximum of them
         // since by only looking at the left sample we might miss some maxima.
-        uint src = left;
-        for (i = 0; i < targetSize; ++i) {
+        int src = (int)left;
+        for (i = 0; i < (int)targetSize; ++i) {
 
             // x:  right bound
             // xi: floor(x)
-            x = ((float)(i + 1)) / (targetSize - 1) * (right - left) + left;
+            x = ((float)(i + 1)) / float(targetSize - 1) * float(right - left) + (float)left;
             xi = (int)floor(x);
             int points = 0;
 
             out[i] = fill;
 
-            for (; src < xi && src < (uint)in.size(); ++src) {
+            for (; src < xi && src < (int)in.size(); ++src) {
                 if (out[i] < in[src]) {
                     out[i] = in[src];
                 }
@@ -309,7 +312,7 @@ const QVector<float> FFTTools::interpolatePeakPreserving(const QVector<float> &i
         }
     }
     // Fill the rest of the vector if the right border exceeds the input vector.
-    for (; i < targetSize; ++i) {
+    for (; i < (int)targetSize; ++i) {
         out[i] = fill;
     }
 

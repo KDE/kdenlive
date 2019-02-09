@@ -23,11 +23,11 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include <effects/effectsrepository.hpp>
 #include "macros.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include <QDebug>
+#include <effects/effectsrepository.hpp>
 #include <mlt++/MltProducer.h>
 #include <utility>
 
@@ -53,12 +53,12 @@ ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt:
     } else {
         m_endlessResize = false;
     }
-    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex&, const QModelIndex&, QVector<int> roles){
-        qDebug()<<"// GOT CLIP STACK DATA CHANGE: "<<roles;
+    QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
+        qDebug() << "// GOT CLIP STACK DATA CHANGE: " << roles;
         if (m_currentTrackId != -1) {
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                qDebug()<<"// GOT CLIP STACK DATA CHANGE DONE: "<<ix<<" = "<<roles;
+                qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
                 ptr->dataChanged(ix, ix, roles);
             }
         }
@@ -112,7 +112,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-void ClipModel::registerClipToBin(std::shared_ptr <Mlt::Producer> service, bool registerProducer)
+void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool registerProducer)
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     if (!binClip) {
@@ -192,13 +192,14 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (m_currentTrackId != -1) {
             QVector<int> roles{TimelineModel::DurationRole};
             if (!right) {
-                roles.push_back(TimelineModel::StartRole);                roles.push_back(TimelineModel::InPointRole);
+                roles.push_back(TimelineModel::StartRole);
+                roles.push_back(TimelineModel::InPointRole);
             } else {
                 roles.push_back(TimelineModel::OutPointRole);
             }
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                //TODO: integrate in undo
+                // TODO: integrate in undo
                 ptr->dataChanged(ix, ix, roles);
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
             }

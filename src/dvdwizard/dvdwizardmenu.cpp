@@ -21,12 +21,11 @@
 
 #include "kdenlivesettings.h"
 
-
+#include "doc/kthumb.h"
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 #include <KColorScheme>
 #include <QGraphicsDropShadowEffect>
-#include "doc/kthumb.h"
 
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
@@ -235,7 +234,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
     // m_view.menu_preview->resizefitInView(0, 0, m_width, m_height);
 
     connect(m_view.play_text, &QLineEdit::textChanged, this, &DvdWizardMenu::buildButton);
-    connect(m_view.text_color, &KColorButton::changed, this, static_cast<void (DvdWizardMenu::*)(const QColor&)>(&DvdWizardMenu::updateColor));
+    connect(m_view.text_color, &KColorButton::changed, this, static_cast<void (DvdWizardMenu::*)(const QColor &)>(&DvdWizardMenu::updateColor));
     connect(m_view.font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &DvdWizardMenu::buildButton);
     connect(m_view.font_family, &QFontComboBox::currentFontChanged, this, &DvdWizardMenu::buildButton);
     connect(m_view.background_image, &KUrlRequester::textChanged, this, &DvdWizardMenu::buildImage);

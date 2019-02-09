@@ -20,14 +20,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <KMessageBox>
 #include <KDeclarative/KDeclarative>
-#include <kdeclarative_version.h>
+#include <KMessageBox>
 #include <QApplication>
 #include <QOpenGLFunctions_3_2_Core>
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <kdeclarative_version.h>
 #include <klocalizedstring.h>
 
 #include "core.h"
@@ -95,9 +95,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
     , m_offset(QPoint(0, 0))
-    , m_shareContext(nullptr)
     , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
+    , m_shareContext(nullptr)
     , m_openGLSync(false)
     , m_ClientWaitSync(nullptr)
 {
@@ -212,9 +212,7 @@ void GLWidget::initializeGL()
         m_shareContext->create();
     }
 
-    m_frameRenderer = new FrameRenderer(openglContext(),
-                                        &m_offscreenSurface,
-                                        m_ClientWaitSync);
+    m_frameRenderer = new FrameRenderer(openglContext(), &m_offscreenSurface, m_ClientWaitSync);
 
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 
@@ -317,28 +315,28 @@ void GLWidget::createShader()
 void GLWidget::createYUVTextureProjectFragmentProg()
 {
     m_shader->addShaderFromSourceCode(QOpenGLShader::Fragment,
-                                        "uniform sampler2D Ytex, Utex, Vtex;"
-                                        "uniform lowp int colorspace;"
-                                        "varying highp vec2 coordinates;"
-                                        "void main(void) {"
-                                        "  mediump vec3 texel;"
-                                        "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
-                                        "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
-                                        "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
-                                        "  mediump mat3 coefficients;"
-                                        "  if (colorspace == 601) {"
-                                        "    coefficients = mat3("
-                                        "      1.1643,  1.1643,  1.1643," // column 1
-                                        "      0.0,    -0.39173, 2.017,"  // column 2
-                                        "      1.5958, -0.8129,  0.0);"   // column 3
-                                        "  } else {"                      // ITU-R 709
-                                        "    coefficients = mat3("
-                                        "      1.1643, 1.1643, 1.1643," // column 1
-                                        "      0.0,   -0.213,  2.112,"  // column 2
-                                        "      1.793, -0.533,  0.0);"   // column 3
-                                        "  }"
-                                        "  gl_FragColor = vec4(coefficients * texel, 1.0);"
-                                        "}");
+                                      "uniform sampler2D Ytex, Utex, Vtex;"
+                                      "uniform lowp int colorspace;"
+                                      "varying highp vec2 coordinates;"
+                                      "void main(void) {"
+                                      "  mediump vec3 texel;"
+                                      "  texel.r = texture2D(Ytex, coordinates).r - 0.0625;" // Y
+                                      "  texel.g = texture2D(Utex, coordinates).r - 0.5;"    // U
+                                      "  texel.b = texture2D(Vtex, coordinates).r - 0.5;"    // V
+                                      "  mediump mat3 coefficients;"
+                                      "  if (colorspace == 601) {"
+                                      "    coefficients = mat3("
+                                      "      1.1643,  1.1643,  1.1643," // column 1
+                                      "      0.0,    -0.39173, 2.017,"  // column 2
+                                      "      1.5958, -0.8129,  0.0);"   // column 3
+                                      "  } else {"                      // ITU-R 709
+                                      "    coefficients = mat3("
+                                      "      1.1643, 1.1643, 1.1643," // column 1
+                                      "      0.0,   -0.213,  2.112,"  // column 2
+                                      "      1.793, -0.533,  0.0);"   // column 3
+                                      "  }"
+                                      "  gl_FragColor = vec4(coefficients * texel, 1.0);"
+                                      "}");
     m_shader->link();
     m_textureLocation[0] = m_shader->uniformLocation("Ytex");
     m_textureLocation[1] = m_shader->uniformLocation("Utex");
@@ -346,9 +344,7 @@ void GLWidget::createYUVTextureProjectFragmentProg()
     m_colorspaceLocation = m_shader->uniformLocation("colorspace");
 }
 
-static void uploadTextures(QOpenGLContext *context,
-                           const SharedFrame &frame,
-                           GLuint texture[])
+static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GLuint texture[])
 {
     int width = frame.get_image_width();
     int height = frame.get_image_height();
@@ -417,7 +413,8 @@ void GLWidget::releaseAnalyse()
     m_analyseSem.release();
 }
 
-bool GLWidget::acquireSharedFrameTextures() {
+bool GLWidget::acquireSharedFrameTextures()
+{
     // A
     if ((m_glslManager == nullptr) && !openglContext()->supportsThreadedOpenGL()) {
         QMutexLocker locker(&m_contextSharedAccess);
@@ -442,7 +439,8 @@ bool GLWidget::acquireSharedFrameTextures() {
     return true;
 }
 
-void GLWidget::bindShaderProgram() {
+void GLWidget::bindShaderProgram()
+{
     m_shader->bind();
 
     // C & D
@@ -457,7 +455,8 @@ void GLWidget::bindShaderProgram() {
     }
 }
 
-void GLWidget::releaseSharedFrameTextures() {
+void GLWidget::releaseSharedFrameTextures()
+{
     // C & D
     if (m_glslManager) {
         glFinish();
@@ -465,7 +464,8 @@ void GLWidget::releaseSharedFrameTextures() {
     }
 }
 
-bool GLWidget::initGPUAccel() {
+bool GLWidget::initGPUAccel()
+{
     if (!KdenliveSettings::gpu_accel()) return false;
 
     m_glslManager = new Mlt::Filter(*m_monitorProfile, "glsl.manager");
@@ -474,7 +474,8 @@ bool GLWidget::initGPUAccel() {
 
 // C & D
 // TODO: insure safe, idempotent on all pipelines.
-void GLWidget::disableGPUAccel() {
+void GLWidget::disableGPUAccel()
+{
     delete m_glslManager;
     m_glslManager = nullptr;
     KdenliveSettings::setGpu_accel(false);
@@ -483,18 +484,21 @@ void GLWidget::disableGPUAccel() {
     emit gpuNotSupported();
 }
 
-bool GLWidget::onlyGLESGPUAccel() const {
+bool GLWidget::onlyGLESGPUAccel() const
+{
     return (m_glslManager != nullptr) && openglContext()->isOpenGLES();
 }
 
 #if defined(Q_OS_WIN)
-bool GLWidget::initGPUAccelSync() {
+bool GLWidget::initGPUAccelSync()
+{
     // no-op
     // TODO: getProcAddress is not working on Windows?
     return false;
 }
 #else
-bool GLWidget::initGPUAccelSync() {
+bool GLWidget::initGPUAccelSync()
+{
     if (!KdenliveSettings::gpu_accel()) return false;
     if (m_glslManager == nullptr) return false;
     if (!openglContext()->hasExtension("GL_ARB_sync")) return false;
@@ -512,7 +516,6 @@ bool GLWidget::initGPUAccelSync() {
 }
 #endif
 
-
 void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
@@ -529,8 +532,7 @@ void GLWidget::paintGL()
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
-    if (!acquireSharedFrameTextures())
-        return;
+    if (!acquireSharedFrameTextures()) return;
 
     // Bind textures.
     for (uint i = 0; i < 3; ++i) {
@@ -1188,7 +1190,8 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
             delete m_consumer;
             m_consumer = nullptr;
         }
-        QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device()) : KdenliveSettings::audiobackend();
+        QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
+                                                                      : KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {
             m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toLatin1().constData());
             if (m_consumer->is_valid()) {
@@ -1577,9 +1580,7 @@ void RenderThread::run()
     }
 }
 
-FrameRenderer::FrameRenderer(QOpenGLContext *shareContext,
-                             QSurface *surface,
-                             GLWidget::ClientWaitSync_fp clientWaitSync)
+FrameRenderer::FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, GLWidget::ClientWaitSync_fp clientWaitSync)
     : QThread(nullptr)
     , m_semaphore(3)
     , m_context(nullptr)
@@ -1702,10 +1703,10 @@ void FrameRenderer::cleanup()
 }
 
 // D
-void FrameRenderer::pipelineSyncToFrame(Mlt::Frame& frame)
+void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
 {
     GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
-    if (! sync) return;
+    if (!sync) return;
 
 #ifdef Q_OS_WIN
     // On Windows, use QOpenGLFunctions_3_2_Core instead of getProcAddress.
@@ -1799,7 +1800,6 @@ void GLWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        double currentSpeed = m_producer->get_speed();
         if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
             m_producer->seek(0);
         }

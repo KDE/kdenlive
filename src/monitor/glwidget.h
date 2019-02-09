@@ -308,9 +308,7 @@ class FrameRenderer : public QThread
 {
     Q_OBJECT
 public:
-    explicit FrameRenderer(QOpenGLContext *shareContext,
-                           QSurface *surface,
-                           GLWidget::ClientWaitSync_fp clientWaitSync);
+    explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, GLWidget::ClientWaitSync_fp clientWaitSync);
     ~FrameRenderer();
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
@@ -333,7 +331,7 @@ private:
     QSurface *m_surface;
     GLWidget::ClientWaitSync_fp m_ClientWaitSync;
 
-    void pipelineSyncToFrame(Mlt::Frame&);
+    void pipelineSyncToFrame(Mlt::Frame &);
 
 public:
     GLuint m_renderTexture[3];

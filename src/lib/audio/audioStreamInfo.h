@@ -12,8 +12,8 @@ the Free Software Foundation, either version 3 of the License, or
 #define AUDIOSTREAMINFO_H
 
 #include <QString>
-#include <mlt++/Mlt.h>
 #include <memory>
+#include <mlt++/Mlt.h>
 
 /**
   Provides easy access to properties of an audio stream.

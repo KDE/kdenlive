@@ -28,9 +28,9 @@
 #include <KAboutData>
 #include <KConfigGroup>
 #ifdef USE_DRMINGW
-#   include <exchndl.h>
+#include <exchndl.h>
 #elif defined(KF5_USE_CRASH)
-#   include <KCrash>
+#include <KCrash>
 #endif
 
 #include <KIconLoader>
@@ -39,12 +39,12 @@
 #include "definitions.h"
 #include "kdenlive_debug.h"
 #include <KDBusService>
+#include <KIconTheme>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
 #include <QDir>
 #include <QIcon>
-#include <KIconTheme>
 #include <QProcess>
 #include <QQmlEngine>
 #include <QUrl> //new
@@ -62,7 +62,6 @@ int main(int argc, char *argv[])
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
-
 
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
@@ -172,15 +171,15 @@ int main(int argc, char *argv[])
                                      "ClipState",                     // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
-                                     "com.enums",                     // import statement
-                                     1, 0,                            // major and minor version of the import
-                                     "ProducerType",                     // name in QML
+                                     "com.enums",                // import statement
+                                     1, 0,                       // major and minor version of the import
+                                     "ProducerType",             // name in QML
                                      "Error: only enums");
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
     if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
-        mlt_log_set_level( MLT_LOG_VERBOSE );
+        mlt_log_set_level(MLT_LOG_VERBOSE);
     } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {
-        mlt_log_set_level( MLT_LOG_DEBUG );
+        mlt_log_set_level(MLT_LOG_DEBUG);
     }
     QUrl url;
     if (parser.positionalArguments().count() != 0) {

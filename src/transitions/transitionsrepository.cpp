@@ -45,7 +45,8 @@ TransitionsRepository::TransitionsRepository()
         }
     }
     if (!invalidTransition.isEmpty()) {
-        pCore->displayMessage(i18n("Some of your favorite compositions are invalid and were removed: %1", invalidTransition.join(QLatin1Char(','))), ErrorMessage);
+        pCore->displayMessage(i18n("Some of your favorite compositions are invalid and were removed: %1", invalidTransition.join(QLatin1Char(','))),
+                              ErrorMessage);
         QStringList newFavorites = KdenliveSettings::favorite_transitions();
         for (const QString &effect : invalidTransition) {
             newFavorites.removeAll(effect);

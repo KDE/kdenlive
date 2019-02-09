@@ -20,8 +20,8 @@
  ***************************************************************************/
 
 #include "transitionstackview.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "monitor/monitor.h"
 

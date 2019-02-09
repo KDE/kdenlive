@@ -19,13 +19,11 @@
 #endif
 
 namespace {
-    double preventOverflow(double value) 
-    {
-        return value < 0 ? 0
-             : value > 255 ? 255
-             : value;
-    }
+double preventOverflow(double value)
+{
+    return value < 0 ? 0 : value > 255 ? 255 : value;
 }
+} // namespace
 
 ColorTools::ColorTools(QObject *parent)
     : QObject(parent)

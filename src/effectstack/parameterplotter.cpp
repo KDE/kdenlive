@@ -16,15 +16,15 @@
  ***************************************************************************/
 
 #include "parameterplotter.h"
-#include <QVariant>
+#include "kdenlive_debug.h"
 #include <KPlotObject>
+#include <KPlotPoint>
 #include <QMouseEvent>
 #include <QPen>
-#include "kdenlive_debug.h"
-#include <KPlotPoint>
+#include <QVariant>
 
-ParameterPlotter::ParameterPlotter(QWidget *parent) :
-    KPlotWidget(parent)
+ParameterPlotter::ParameterPlotter(QWidget *parent)
+    : KPlotWidget(parent)
 {
     setAntialiasing(true);
     setLeftPadding(20);
@@ -58,7 +58,7 @@ ParameterPlotter::ParameterPlotter(QWidget *parent) :
 void ParameterPlotter::setPointLists(const QDomElement &d, const QString &paramName, int startframe, int endframe)
 {
 
-    //QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
+    // QListIterator <QPair <QString, QMap< int , QVariant > > > nameit(params);
     m_paramName = paramName;
     m_itemParameter = d;
     QDomNodeList namenode = d.elementsByTagName(QStringLiteral("parameter"));
@@ -73,7 +73,7 @@ void ParameterPlotter::setPointLists(const QDomElement &d, const QString &paramN
     QString dat;
     QTextStream stre(&dat);
     d.save(stre, 2);
-    //qCDebug(KDENLIVE_LOG) << dat;
+    // qCDebug(KDENLIVE_LOG) << dat;
     int i = 0;
     while (!namenode.item(i).isNull() && namenode.item(i).toElement().attribute(QStringLiteral("name")) != m_paramName) {
         ++i;
@@ -81,13 +81,13 @@ void ParameterPlotter::setPointLists(const QDomElement &d, const QString &paramN
 
     if (namenode.count()) {
         QDomElement pa = namenode.item(i).toElement();
-        //QDomNode na = pa.firstChildElement("name");
+        // QDomNode na = pa.firstChildElement("name");
 
         m_parameterNameList << pa.attribute(QStringLiteral("namedesc")).split(';');
         emit parameterList(m_parameterNameList);
 
-        //max_y=pa.attributes().namedItem("max").nodeValue().toInt();
-        //int val=pa.attributes().namedItem("value").nodeValue().toInt();
+        // max_y=pa.attributes().namedItem("max").nodeValue().toInt();
+        // int val=pa.attributes().namedItem("value").nodeValue().toInt();
         QStringList defaults;
         if (pa.attribute(QStringLiteral("start")).contains(';')) {
             defaults = pa.attribute(QStringLiteral("start")).split(';');
@@ -128,7 +128,7 @@ void ParameterPlotter::setPointLists(const QDomElement &d, const QString &paramN
                 name = m_parameterNameList[i];
             }
             plot->addPoint(startframe, def, name);
-            //add keyframes here
+            // add keyframes here
             plot->addPoint(endframe, def);
 
             m_plotobjects.append(plot);
@@ -141,19 +141,17 @@ void ParameterPlotter::setPointLists(const QDomElement &d, const QString &paramN
          if (pointit.value().toInt() >maxy)
           max_y=pointit.value().toInt();
         }*/
-
     }
     setLimits(-1, endframe + 1, m_min_y - 10, m_max_y + 10);
 
     addPlotObjects(m_plotobjects);
-
 }
 
 void ParameterPlotter::createParametersNew()
 {
     QList<KPlotObject *> plotobjs = plotObjects();
     if (plotobjs.size() != m_parameterNameList.size()) {
-        //qCDebug(KDENLIVE_LOG) << "ERROR size not equal";
+        // qCDebug(KDENLIVE_LOG) << "ERROR size not equal";
     }
     QDomNodeList namenode = m_itemParameter.elementsByTagName(QStringLiteral("parameter"));
     QString paramlist;
@@ -164,7 +162,7 @@ void ParameterPlotter::createParametersNew()
             QList<KPlotPoint *> points = plotobjs.at(i)->points();
             for (const KPlotPoint *o : points) {
                 txtstr << (int)o->y();
-                break;//first no keyframes
+                break; // first no keyframes
             }
             if (i + 1 != plotobjs.count()) {
                 txtstr << ';';
@@ -174,14 +172,13 @@ void ParameterPlotter::createParametersNew()
     pa.attributes().namedItem(QStringLiteral("value")).setNodeValue(paramlist);
     pa.attributes().namedItem(QStringLiteral("start")).setNodeValue(paramlist);
     emit parameterChanged(m_itemParameter);
-
 }
 
 void ParameterPlotter::mouseMoveEvent(QMouseEvent *event)
 {
 
     if (m_movepoint != NULL) {
-        QList<KPlotPoint *> list =   pointsUnderPoint(event->pos() - QPoint(leftPadding(), topPadding()));
+        QList<KPlotPoint *> list = pointsUnderPoint(event->pos() - QPoint(leftPadding(), topPadding()));
         int i = 0;
         for (KPlotObject *o : plotObjects()) {
             QList<KPlotPoint *> points = o->points();
@@ -195,7 +192,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent *event)
                     if (p > 0 && p < points.size() - 1) {
                         double newx = m_movepoint->x() + delta.x() * dataRect().width() / pixRect().width();
                         if (newx > points[p - 1]->x() && newx < points[p + 1]->x() && m_moveX) {
-                            m_movepoint->setX(m_movepoint->x() + delta.x()*dataRect().width() / pixRect().width());
+                            m_movepoint->setX(m_movepoint->x() + delta.x() * dataRect().width() / pixRect().width());
                         }
                     }
                     if (m_moveTimeline && (m_moveX || m_moveY)) {
@@ -214,7 +211,7 @@ void ParameterPlotter::mouseMoveEvent(QMouseEvent *event)
 void ParameterPlotter::replot(const QString &name)
 {
 
-    //removeAllPlotObjects();
+    // removeAllPlotObjects();
     int i = 0;
     bool drawAll = name.isEmpty() || name == QLatin1String("all");
     m_activeIndexPlot = -1;
@@ -238,16 +235,16 @@ void ParameterPlotter::replot(const QString &name)
 
 void ParameterPlotter::mousePressEvent(QMouseEvent *event)
 {
-    //topPadding and other padding can be wrong and this (i hope) will be corrected in newer kde versions
+    // topPadding and other padding can be wrong and this (i hope) will be corrected in newer kde versions
     QPoint inPlot = event->pos() - QPoint(leftPadding(), topPadding());
-    QList<KPlotPoint *> list =   pointsUnderPoint(inPlot);
+    QList<KPlotPoint *> list = pointsUnderPoint(inPlot);
     if (event->button() == Qt::LeftButton) {
         if (list.size() > 0) {
             m_movepoint = list[0];
             m_oldmousepoint = event->pos();
         } else {
             if (m_newPoints && m_activeIndexPlot >= 0) {
-                //setup new points
+                // setup new points
                 KPlotObject *p = plotObjects().at(m_activeIndexPlot);
                 QList<KPlotPoint *> points = p->points();
                 QVector<QPointF> newpoints;
@@ -312,4 +309,3 @@ bool ParameterPlotter::isNewPoints() const
 {
     return m_newPoints;
 }
-

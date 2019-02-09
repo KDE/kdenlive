@@ -73,7 +73,7 @@ private:
     static const int comboScale[];
     std::shared_ptr<AssetTreeModel> m_transitionModel;
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
-	std::shared_ptr<AssetTreeModel> m_effectsModel;
+    std::shared_ptr<AssetTreeModel> m_effectsModel;
     std::unique_ptr<AssetFilter> m_effectsProxyModel;
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
     /* @brief Returns an alphabetically sorted list of favorite effects or transitions */

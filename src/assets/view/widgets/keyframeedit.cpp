@@ -128,7 +128,8 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
     m_paramIndexes << index;
     keyframe_list->insertColumn(columnId);
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(name));
-    DoubleWidget *doubleparam = new DoubleWidget(name, value, min, max, m_model->data(index, AssetParameterModel::FactorRole).toDouble(), defaultValue, comment, -1, suffix, decimals, this);
+    DoubleWidget *doubleparam = new DoubleWidget(name, value, min, max, m_model->data(index, AssetParameterModel::FactorRole).toDouble(), defaultValue, comment,
+                                                 -1, suffix, decimals, this);
 
     /*DoubleParameterWidget *doubleparam = new DoubleParameterWidget(
         paramName, 0, m_params.at(columnId).attribute(QStringLiteral("min")).toDouble(), m_params.at(columnId).attribute(QStringLiteral("max")).toDouble(),

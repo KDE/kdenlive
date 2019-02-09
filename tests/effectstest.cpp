@@ -1,6 +1,6 @@
 #include "catch.hpp"
-#include "test_utils.hpp"
 #include "doc/docundostack.hpp"
+#include "test_utils.hpp"
 
 #include <QColor>
 #include <QDebug>
@@ -39,7 +39,6 @@ TEST_CASE("Effects stack", "[Effects]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -48,7 +47,6 @@ TEST_CASE("Effects stack", "[Effects]")
     // Create a request
     int tid1;
     REQUIRE(timeline->requestTrackInsertion(-1, tid1));
-
 
     // Create clip
     QString binId = createProducer(profile_effects, "red", binModel);
@@ -65,7 +63,7 @@ TEST_CASE("Effects stack", "[Effects]")
     QVector<QPair<QString, QString>> effects = EffectsRepository::get()->getNames();
     REQUIRE(!effects.isEmpty());
 
-    anEffect = QStringLiteral("sepia"); //effects.first().first;
+    anEffect = QStringLiteral("sepia"); // effects.first().first;
 
     REQUIRE(!anEffect.isEmpty());
 
@@ -98,7 +96,6 @@ TEST_CASE("Effects stack", "[Effects]")
         auto splitModel = timeline->getClipPtr(splitted)->m_effectStack;
         REQUIRE(clipModel->rowCount() == 1);
         REQUIRE(splitModel->rowCount() == 0);
-
     }
 
     SECTION("Create cut with fade out")
@@ -115,6 +112,5 @@ TEST_CASE("Effects stack", "[Effects]")
         auto splitModel = timeline->getClipPtr(splitted)->m_effectStack;
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
-
     }
 }

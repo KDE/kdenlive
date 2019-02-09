@@ -172,12 +172,12 @@ QImage Spectrogram::renderHUD(uint)
         QTime start = QTime::currentTime();
 
         int x, y;
-        const uint minDistY = 30; // Minimum distance between two lines
-        const uint minDistX = 40;
-        const uint textDistX = 10;
-        const uint textDistY = 25;
-        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const int minDistY = 30; // Minimum distance between two lines
+        const int minDistX = 40;
+        const int textDistX = 10;
+        const int textDistY = 25;
+        const int topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
         const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
         const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
         bool hideText;
@@ -219,14 +219,14 @@ QImage Spectrogram::renderHUD(uint)
         }
 
         // Frequency grid
-        const uint hzDiff = ceil(((float)minDistX) / m_innerScopeRect.width() * m_freqMax / 1000) * 1000;
+        const uint hzDiff = (uint)ceil(((float)minDistX) / (float)m_innerScopeRect.width() * (float)m_freqMax / 1000.) * 1000;
         const int rightBorder = leftDist + m_innerScopeRect.width() - 1;
         x = 0;
         y = topDist + m_innerScopeRect.height() + textDistY;
         if (m_aGrid->isChecked()) {
             for (uint hz = 0; x <= rightBorder; hz += hzDiff) {
                 davinci.setPen(AbstractScopeWidget::penLight);
-                x = leftDist + (m_innerScopeRect.width() - 1) * ((float)hz) / m_freqMax;
+                x = int((float)leftDist + (float)(m_innerScopeRect.width() - 1) * ((float)hz) / (float)m_freqMax);
 
                 // Hide text if it would overlap with the text drawn at the mouse position
                 hideText = m_aTrackMouse->isChecked() && m_mouseWithinWidget && abs(x - (int)(leftDist + mouseX + 20)) < (int)minDistX + 16 &&
@@ -246,7 +246,7 @@ QImage Spectrogram::renderHUD(uint)
                     // Draw finer lines between the main lines
                     davinci.setPen(AbstractScopeWidget::penLightDots);
                     for (uint dHz = 3; dHz > 0; --dHz) {
-                        x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff / 4.0f) / m_freqMax;
+                        x = int((float)leftDist + (float)m_innerScopeRect.width() * ((float)hz - (float)dHz * (float)hzDiff / 4.0f) / (float)m_freqMax);
                         if (x > rightBorder) {
                             break;
                         }
@@ -277,8 +277,8 @@ QImage Spectrogram::renderHUD(uint)
         // Draw the dB brightness scale
         davinci.setPen(AbstractScopeWidget::penLighter);
         for (y = topDist; y < (int)topDist + m_innerScopeRect.height(); ++y) {
-            float val = 1 - ((float)y - topDist) / (m_innerScopeRect.height() - 1);
-            int col = m_colorMap[(int)(val * 255)];
+            float val = 1. - ((float)y - (float)topDist) / ((float)m_innerScopeRect.height() - 1.);
+            uint col = m_colorMap[(int)(val * 255)];
             for (x = leftDist - 6; x >= (int)leftDist - 13; --x) {
                 hud.setPixel(x, y, col);
             }
@@ -289,7 +289,7 @@ QImage Spectrogram::renderHUD(uint)
         davinci.drawText(m_scopeRect.left(), topDist, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmax));
         davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height() - 20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
 
-        emit signalHUDRenderingFinished(start.elapsed(), 1);
+        emit signalHUDRenderingFinished((uint)start.elapsed(), 1);
         return hud;
     }
     emit signalHUDRenderingFinished(0, 1);
@@ -322,18 +322,19 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         if (newDataAvailable) {
 
-            float freqSpectrum[fftWindow / 2];
+            float *freqSpectrum = new float[(uint)fftWindow / 2];
 
             // Get the spectral power distribution of the input samples,
             // using the given window size and function
             FFTTools::WindowType windowType = (FFTTools::WindowType)ui->windowFunction->itemData(ui->windowFunction->currentIndex()).toInt();
-            m_fftTools.fftNormalized(audioFrame, 0, num_channels, freqSpectrum, windowType, fftWindow, 0);
+            m_fftTools.fftNormalized(audioFrame, 0, (uint)num_channels, freqSpectrum, windowType, (uint)fftWindow, 0);
 
             // This method might be called also when a simple refresh is required.
             // In this case there is no data to append to the history. Only append new data.
             QVector<float> spectrumVector(fftWindow / 2);
-            memcpy(spectrumVector.data(), &freqSpectrum[0], fftWindow / 2 * sizeof(float));
+            memcpy(spectrumVector.data(), &freqSpectrum[0], (uint)fftWindow / 2 * sizeof(float));
             m_fftHistory.prepend(spectrumVector);
+            delete[] freqSpectrum;
         }
 #ifdef DEBUG_SPECTROGRAM
         else {
@@ -350,11 +351,11 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0, 0, 0, 0));
         QPainter davinci(&spectrum);
-        const uint h = m_innerScopeRect.height();
-        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
-        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        uint windowSize;
-        uint y;
+        const int h = m_innerScopeRect.height();
+        const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const int topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        int windowSize;
+        int y;
         bool completeRedraw = true;
 
         if (m_fftHistoryImg.size() == m_scopeRect.size() && !m_parameterChanged) {
@@ -383,16 +384,16 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
                 windowSize = (*it).size();
 
                 // Interpolate the frequency data to match the pixel coordinates
-                right = ((float)m_freqMax) / (m_freq / 2) * (windowSize - 1);
-                dbMap = FFTTools::interpolatePeakPreserving((*it), m_innerScopeRect.width(), 0, right, -180);
+                right = uint(((float)m_freqMax) / ((float)m_freq / 2.) * float(windowSize - 1));
+                dbMap = FFTTools::interpolatePeakPreserving((*it), (uint)m_innerScopeRect.width(), 0, right, -180);
 
                 for (int i = 0; i < dbMap.size(); ++i) {
                     float val;
                     val = dbMap[i];
-                    peak = val > m_dBmax;
+                    peak = val > (float)m_dBmax;
 
                     // Normalize dB value to [0 1], 1 corresponding to dbMax dB and 0 to dbMin dB
-                    val = (val - m_dBmax) / (m_dBmax - m_dBmin) + 1;
+                    val = (val - (float)m_dBmax) / (float)(m_dBmax - m_dBmin) + 1.;
                     if (val < 0) {
                         val = 0;
                     } else if (val > 1) {
@@ -427,7 +428,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         m_fftHistoryImg = spectrum;
 
-        emit signalScopeRenderingFinished(start.elapsed(), 1);
+        emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
         return spectrum;
     }
     emit signalScopeRenderingFinished(0, 1);

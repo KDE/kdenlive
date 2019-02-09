@@ -32,12 +32,12 @@
 #include <KRecentDirs>
 #include <KSharedConfig>
 
+#include <QAction>
 #include <QDomDocument>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QHeaderView>
 #include <QMimeData>
-#include <QAction>
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
 #include <unistd.h>

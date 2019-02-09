@@ -206,9 +206,7 @@ void CutClipJob::analyseLogInfo()
     }
 }
 
-CutClipJob::~CutClipJob()
-{
-}
+CutClipJob::~CutClipJob() {}
 
 const QString CutClipJob::destination() const
 {
@@ -398,7 +396,7 @@ QHash<ProjectClip *, AbstractClipJob *> CutClipJob::prepareTranscodeJob(double f
     ui.extra_params->setMaximumHeight(QFontMetrics(qApp->font()).lineSpacing() * 5);
     if (clips.count() == 1) {
         ui.file_url->setMode(KFile::File);
-#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
         ui.file_url->setAcceptMode(QFileDialog::AcceptSave);
 #elif !defined(KIOWIDGETS_DEPRECATED)
         ui.file_url->fileDialog()->setAcceptMode(QFileDialog::AcceptSave);

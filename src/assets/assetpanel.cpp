@@ -34,8 +34,8 @@
 
 #include <KColorScheme>
 #include <KColorUtils>
-#include <KSqueezedTextLabel>
 #include <KDualAction>
+#include <KSqueezedTextLabel>
 #include <QApplication>
 #include <QDebug>
 #include <QHBoxLayout>
@@ -59,8 +59,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     buttonToolbar->setIconSize(iconSize);
 
     // spacer
-    QWidget* empty = new QWidget();
-    empty->setSizePolicy(QSizePolicy::MinimumExpanding,QSizePolicy::Maximum);
+    QWidget *empty = new QWidget();
+    empty->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     buttonToolbar->addWidget(empty);
 
     m_switchBuiltStack = new QToolButton(this);
@@ -118,9 +118,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
-    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, [this]() {
-        m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled());
-    });
+    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 }
 
 void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
@@ -189,7 +187,7 @@ void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<Effect
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
-        QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, [&](){
+        QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, [&]() {
             if (m_effectStackWidget->isEmpty()) {
                 m_splitButton->setActive(false);
             }

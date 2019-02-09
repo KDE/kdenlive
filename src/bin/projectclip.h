@@ -125,7 +125,7 @@ public:
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
-    int frameDuration() const;
+    size_t frameDuration() const;
 
     /** @brief Returns the original clip's fps. */
     double getOriginalFps() const;
@@ -225,7 +225,7 @@ protected:
         @param clipId id of the inserted clip
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
-    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, std::shared_ptr <Mlt::Producer> service, bool forceRegister = false);
+    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, std::shared_ptr<Mlt::Producer> service, bool forceRegister = false);
 
     /* @brief update the producer to reflect new parent folder */
     void updateParent(std::shared_ptr<TreeItem> parent) override;

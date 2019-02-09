@@ -84,7 +84,7 @@ QModelIndex TimelineItemModel::index(int row, int column, const QModelIndex &par
         }
     } else if (row < getTracksCount() && row >= 0) {
         // Get sort order
-        //row = getTracksCount() - 1 - row;
+        // row = getTracksCount() - 1 - row;
         auto it = m_allTracks.cbegin();
         std::advance(it, row);
         int trackId = (*it)->getId();
@@ -104,7 +104,7 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
     int trackId = m_allClips.at(clipId)->getCurrentTrackId();
     if (trackId == -1) {
         // Clip is not inserted in a track
-        qDebug()<<"/// WARNING; INVALID CLIP INDEX REQUESTED\n________________";
+        qDebug() << "/// WARNING; INVALID CLIP INDEX REQUESTED\n________________";
         return QModelIndex();
     }
     int row = getTrackById_const(trackId)->getRowfromClip(clipId);
@@ -125,7 +125,7 @@ QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const
     auto it = m_iteratorTable.at(trackId);
     int ind = (int)std::distance<decltype(m_allTracks.cbegin())>(m_allTracks.begin(), it);
     // Get sort order
-    //ind = getTracksCount() - 1 - ind;
+    // ind = getTracksCount() - 1 - ind;
     return index(ind);
 }
 
@@ -346,7 +346,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
         case HeightRole: {
             int collapsed = getTrackById_const(id)->getProperty("kdenlive:collapsed").toInt();
-            if ( collapsed > 0) {
+            if (collapsed > 0) {
                 return collapsed;
             }
             int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
@@ -425,7 +425,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(IsLockedRole);
     } else if (name == QLatin1String("hide")) {
         roles.push_back(IsDisabledRole);
-        if(!track->isAudioTrack()) {
+        if (!track->isAudioTrack()) {
             pCore->requestMonitorRefresh();
         }
     } else if (name == QLatin1String("kdenlive:thumbs_format")) {
@@ -458,7 +458,7 @@ QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const
 
 int TimelineItemModel::getFirstVideoTrackIndex() const
 {
-    int trackId;
+    int trackId = -1;
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
         trackId = (*it)->getId();

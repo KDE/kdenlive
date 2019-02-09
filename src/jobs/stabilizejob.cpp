@@ -104,8 +104,7 @@ int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<
             // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
             // destination). We have to construct a lambda that does that.
 
-            auto createFn = [ dest = std::move(destinations), fName = std::move(filterName), fParams = std::move(filterParams) ](const QString &id)
-            {
+            auto createFn = [dest = std::move(destinations), fName = std::move(filterName), fParams = std::move(filterParams)](const QString &id) {
                 return std::make_shared<StabilizeJob>(id, fName, dest.at(id), fParams);
             };
 

@@ -20,8 +20,8 @@
  ***************************************************************************/
 
 #include "clipcreator.hpp"
-#include "core.h"
 #include "bin/bin.h"
+#include "core.h"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
@@ -220,7 +220,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
             QStringList result = dir.entryList(QDir::Files);
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
             QList<QUrl> folderFiles;
-            //QStringList allExtensions = ClipCreationDialog::getExtensions();
+            // QStringList allExtensions = ClipCreationDialog::getExtensions();
             for (const QString &path : result) {
                 QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(path));
                 // Check file is of a supported type
@@ -245,7 +245,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
             Fun local_redo = []() { return true; };
             if (folderFiles.isEmpty()) {
                 QList<QUrl> sublist;
-                for(const QString &sub : subfolders) {
+                for (const QString &sub : subfolders) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;
@@ -253,7 +253,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                 }
                 if (!sublist.isEmpty()) {
                     // load subfolders
-                    createClipsFromList(sublist, checkRemovable, parentFolder, model,undo, redo);
+                    createClipsFromList(sublist, checkRemovable, parentFolder, model, undo, redo);
                 }
             } else {
                 bool ok = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
@@ -266,7 +266,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                     }
                     // Check subfolders
                     QList<QUrl> sublist;
-                    for(const QString &sub : subfolders) {
+                    for (const QString &sub : subfolders) {
                         QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                         if (!list.contains(url)) {
                             sublist << url;
@@ -274,7 +274,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                     }
                     if (!sublist.isEmpty()) {
                         // load subfolders
-                        createClipsFromList(sublist, checkRemovable, folderId, model,undo, redo);
+                        createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo);
                     }
                 }
             }

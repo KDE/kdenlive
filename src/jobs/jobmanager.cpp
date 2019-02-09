@@ -101,7 +101,7 @@ void JobManager::discardJobs(const QString &binId, AbstractClipJob::JOBTYPE type
     }
     for (int jobId : m_jobsByClip.at(binId)) {
         if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
-            for (std::shared_ptr<AbstractClipJob>job : m_jobs.at(jobId)->m_job) {
+            for (std::shared_ptr<AbstractClipJob> job : m_jobs.at(jobId)->m_job) {
                 job->jobCanceled();
             }
             m_jobs.at(jobId)->m_future.cancel();
@@ -187,7 +187,7 @@ void JobManager::slotDiscardClipJobs(const QString &binId)
     if (m_jobsByClip.count(binId) > 0) {
         for (int jobId : m_jobsByClip.at(binId)) {
             Q_ASSERT(m_jobs.count(jobId) > 0);
-            for (std::shared_ptr<AbstractClipJob>job : m_jobs.at(jobId)->m_job) {
+            for (std::shared_ptr<AbstractClipJob> job : m_jobs.at(jobId)->m_job) {
                 job->jobCanceled();
             }
             m_jobs[jobId]->m_future.cancel();
@@ -200,7 +200,7 @@ void JobManager::slotCancelPendingJobs()
     QWriteLocker locker(&m_lock);
     for (const auto &j : m_jobs) {
         if (!j.second->m_future.isStarted()) {
-            for (std::shared_ptr<AbstractClipJob>job : j.second->m_job) {
+            for (std::shared_ptr<AbstractClipJob> job : j.second->m_job) {
                 job->jobCanceled();
             }
             j.second->m_future.cancel();
@@ -212,9 +212,9 @@ void JobManager::slotCancelJobs()
 {
     QWriteLocker locker(&m_lock);
     for (const auto &j : m_jobs) {
-        for (std::shared_ptr<AbstractClipJob>job : j.second->m_job) {
-                job->jobCanceled();
-            }
+        for (std::shared_ptr<AbstractClipJob> job : j.second->m_job) {
+            job->jobCanceled();
+        }
         j.second->m_future.cancel();
     }
 }
@@ -253,8 +253,8 @@ void JobManager::createJob(std::shared_ptr<Job_t> job)
         });
     }
     connect(&job->m_future, &QFutureWatcher<bool>::started, this, &JobManager::updateJobCount);
-    connect(&job->m_future, &QFutureWatcher<bool>::finished, [ this, id = job->m_id ]() { slotManageFinishedJob(id); });
-    connect(&job->m_future, &QFutureWatcher<bool>::canceled, [ this, id = job->m_id ]() { slotManageCanceledJob(id); });
+    connect(&job->m_future, &QFutureWatcher<bool>::finished, [this, id = job->m_id]() { slotManageFinishedJob(id); });
+    connect(&job->m_future, &QFutureWatcher<bool>::canceled, [this, id = job->m_id]() { slotManageCanceledJob(id); });
     job->m_actualFuture = QtConcurrent::mapped(job->m_job, AbstractClipJob::execute);
     job->m_future.setFuture(job->m_actualFuture);
 
@@ -323,7 +323,7 @@ void JobManager::slotManageFinishedJob(int id)
                 bid = it.first;
                 break;
             }
-            QPair <QString, QString> message = getJobMessageForClip(id, bid);
+            QPair<QString, QString> message = getJobMessageForClip(id, bid);
             if (!message.first.isEmpty()) {
                 if (!message.second.isEmpty()) {
                     pCore->displayBinLogMessage(message.first, KMessageWidget::Warning, message.second);
@@ -349,8 +349,8 @@ void JobManager::slotManageFinishedJob(int id)
             bid = it.first;
             break;
         }
-        qDebug() << "ERROR: Job " << id << " failed, BID: "<<bid;
-        QPair <QString, QString> message = getJobMessageForClip(id, bid);
+        qDebug() << "ERROR: Job " << id << " failed, BID: " << bid;
+        QPair<QString, QString> message = getJobMessageForClip(id, bid);
         if (!message.first.isEmpty()) {
             if (!message.second.isEmpty()) {
                 pCore->displayBinLogMessage(message.first, KMessageWidget::Warning, message.second);

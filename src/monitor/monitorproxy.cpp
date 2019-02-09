@@ -21,30 +21,30 @@
 
 #include "monitorproxy.h"
 #include "core.h"
-#include "monitormanager.h"
-#include "glwidget.h"
-#include "kdenlivesettings.h"
 #include "definitions.h"
 #include "doc/kthumb.h"
+#include "glwidget.h"
+#include "kdenlivesettings.h"
+#include "monitormanager.h"
 
 #include <mlt++/MltConsumer.h>
+#include <mlt++/MltFilter.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
-#include <mlt++/MltFilter.h>
 
 #define SEEK_INACTIVE (-1)
 
-MonitorProxy::MonitorProxy(GLWidget *parent) :
-        QObject(parent)
-        , q(parent)
-        , m_position(0)
-        , m_seekPosition(-1)
-        , m_zoneIn(0)
-        , m_zoneOut(-1)
+MonitorProxy::MonitorProxy(GLWidget *parent)
+    : QObject(parent)
+    , q(parent)
+    , m_position(0)
+    , m_seekPosition(-1)
+    , m_zoneIn(0)
+    , m_zoneOut(-1)
 {
 }
 
-int MonitorProxy::seekPosition() const 
+int MonitorProxy::seekPosition() const
 {
     return m_seekPosition;
 }
@@ -132,7 +132,7 @@ void MonitorProxy::pauseAndSeek(int pos)
     requestSeekPosition(pos);
 }
 
-int MonitorProxy::zoneIn() const 
+int MonitorProxy::zoneIn() const
 {
     return m_zoneIn;
 }
@@ -251,8 +251,7 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
         }
     } else if (KdenliveSettings::gpu_accel()) {
         QString service = q->m_producer->get("mlt_service");
-        QScopedPointer<Mlt::Producer> tmpProd(
-            new Mlt::Producer(*q->m_monitorProfile, service.toUtf8().constData(), q->m_producer->get("resource")));
+        QScopedPointer<Mlt::Producer> tmpProd(new Mlt::Producer(*q->m_monitorProfile, service.toUtf8().constData(), q->m_producer->get("resource")));
         Mlt::Filter scaler(*q->m_monitorProfile, "swscale");
         Mlt::Filter converter(*q->m_monitorProfile, "avcolor_space");
         tmpProd->attach(scaler);

@@ -482,7 +482,7 @@ void MainWindow::init()
     m_timelineContextMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
     m_timelineContextMenu->addAction(actionCollection()->action(KStandardAction::name(KStandardAction::Paste)));
 
-    QMenu *markersMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
+    // QMenu *markersMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
 
     /*m_timelineClipActions->addMenu(markersMenu);
     m_timelineClipActions->addSeparator();
@@ -585,7 +585,7 @@ void MainWindow::slotThemeChanged(const QString &name)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig(name);
     QPalette plt = KColorScheme::createApplicationPalette(config);
-    //qApp->setPalette(plt);
+    // qApp->setPalette(plt);
     // Required for qml palette change
     QGuiApplication::setPalette(plt);
 
@@ -624,7 +624,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
-
 
 #if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
     // Not required anymore with auto colored icons since KF5 5.23
@@ -921,7 +920,6 @@ void MainWindow::setupActions()
     connect(m_compositeAction, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotUpdateCompositing);
     addAction(QStringLiteral("timeline_compositing"), m_compositeAction);
 
-
     QAction *splitView = new QAction(QIcon::fromTheme(QStringLiteral("view-split-top-bottom")), i18n("Split Audio Tracks"), this);
     addAction(QStringLiteral("timeline_view_split"), splitView);
     splitView->setData(QVariant::fromValue(1));
@@ -1182,12 +1180,13 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_trim"), i18n("Trim Mode"), this, SLOT(slotSwitchTrimMode()), QIcon::fromTheme(QStringLiteral("cursor-arrow")));
     // disable shortcut until fully working, Qt::CTRL + Qt::Key_T);
 
-    addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")) , Qt::CTRL + Qt::Key_I);
+    addAction(QStringLiteral("insert_project_tree"), i18n("Insert Zone in Project Bin"), this, SLOT(slotInsertZoneToTree()),
+              QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")), Qt::CTRL + Qt::Key_I);
 
     addAction(QStringLiteral("monitor_seek_snap_backward"), i18n("Go to Previous Snap Point"), this, SLOT(slotSnapRewind()),
               QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::ALT + Qt::Key_Left);
-    addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()),
-              QIcon::fromTheme(QStringLiteral("media-seek-backward")), Qt::Key_Home);
+    addAction(QStringLiteral("seek_clip_start"), i18n("Go to Clip Start"), this, SLOT(slotClipStart()), QIcon::fromTheme(QStringLiteral("media-seek-backward")),
+              Qt::Key_Home);
     addAction(QStringLiteral("seek_clip_end"), i18n("Go to Clip End"), this, SLOT(slotClipEnd()), QIcon::fromTheme(QStringLiteral("media-seek-forward")),
               Qt::Key_End);
     addAction(QStringLiteral("monitor_seek_snap_forward"), i18n("Go to Next Snap Point"), this, SLOT(slotSnapForward()),
@@ -1195,8 +1194,8 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("align_playhead"), i18n("Align Playhead to Mouse Position"), this, SLOT(slotAlignPlayheadToMousePos()), QIcon(), Qt::Key_P);
 
-    addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()),
-              QIcon::fromTheme(QStringLiteral("transform-move")), Qt::SHIFT + Qt::Key_G);
+    addAction(QStringLiteral("grab_item"), i18n("Grab Current Item"), this, SLOT(slotGrabItem()), QIcon::fromTheme(QStringLiteral("transform-move")),
+              Qt::SHIFT + Qt::Key_G);
 
     QAction *stickTransition = new QAction(i18n("Automatic Transition"), this);
     stickTransition->setData(QStringLiteral("auto"));
@@ -1237,8 +1236,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("select_add_timeline_transition"), i18n("Add Transition To Selection"), this, SLOT(slotSelectAddTimelineTransition()),
               QIcon::fromTheme(QStringLiteral("edit-select")), Qt::ALT + Qt::SHIFT + Qt::Key_Plus);
     addAction(QStringLiteral("add_clip_marker"), i18n("Add Marker"), this, SLOT(slotAddClipMarker()), QIcon::fromTheme(QStringLiteral("bookmark-new")));
-    addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()),
-              QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
 
@@ -1249,42 +1247,42 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_marker_guide_quickly"), i18n("Add Marker/Guide quickly"), this, SLOT(slotAddMarkerGuideQuickly()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")), Qt::Key_Asterisk);
 
-
     // Clip actions. We set some category info on the action data to enable/disable it contextually in timelinecontroller
     KActionCategory *clipActionCategory = new KActionCategory(i18n("Current Selection"), actionCollection());
-    QAction *splitAudio =
-        addAction(QStringLiteral("clip_split"), i18n("Split Audio"), this, SLOT(slotSplitAV()), QIcon::fromTheme(QStringLiteral("document-new")), QKeySequence(), clipActionCategory);
+    QAction *splitAudio = addAction(QStringLiteral("clip_split"), i18n("Split Audio"), this, SLOT(slotSplitAV()),
+                                    QIcon::fromTheme(QStringLiteral("document-new")), QKeySequence(), clipActionCategory);
     // "S" will be handled specifically to change the action name depending on current selection
     splitAudio->setData('S');
     splitAudio->setEnabled(false);
 
-    QAction *setAudioAlignReference = addAction(QStringLiteral("set_audio_align_ref"), i18n("Set Audio Reference"), this, SLOT(slotSetAudioAlignReference()), QIcon(), QKeySequence(), clipActionCategory);
+    QAction *setAudioAlignReference = addAction(QStringLiteral("set_audio_align_ref"), i18n("Set Audio Reference"), this, SLOT(slotSetAudioAlignReference()),
+                                                QIcon(), QKeySequence(), clipActionCategory);
     // "A" as data means this action should only be available for clips with audio
     setAudioAlignReference->setData('A');
     setAudioAlignReference->setEnabled(false);
 
-    QAction *alignAudio = addAction(QStringLiteral("align_audio"), i18n("Align Audio to Reference"), this, SLOT(slotAlignAudio()), QIcon(), QKeySequence(), clipActionCategory);
+    QAction *alignAudio =
+        addAction(QStringLiteral("align_audio"), i18n("Align Audio to Reference"), this, SLOT(slotAlignAudio()), QIcon(), QKeySequence(), clipActionCategory);
     // "A" as data means this action should only be available for clips with audio
     alignAudio->setData('A');
     alignAudio->setEnabled(false);
 
     QAction *act = addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()),
-              QIcon::fromTheme(QStringLiteral("measure")), QKeySequence(), clipActionCategory);
+                             QIcon::fromTheme(QStringLiteral("measure")), QKeySequence(), clipActionCategory);
     act->setEnabled(false);
 
     act = addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()),
-              QIcon::fromTheme(QStringLiteral("go-jump-definition")), QKeySequence(), clipActionCategory);
+                    QIcon::fromTheme(QStringLiteral("go-jump-definition")), QKeySequence(), clipActionCategory);
     act->setEnabled(false);
     // "C" as data means this action should only be available for clips - not for compositions
     act->setData('C');
 
     act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
-              Qt::SHIFT + Qt::Key_R, clipActionCategory);
+                    Qt::SHIFT + Qt::Key_R, clipActionCategory);
     act->setEnabled(false);
 
-
     act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
-              QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
+                    QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
     addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, Qt::Key_1, clipActionCategory);
@@ -1302,8 +1300,8 @@ void MainWindow::setupActions()
     // "C" as data means this action should only be available for clips - not for compositions
     pasteEffects->setData('C');
 
-    QAction *groupClip = addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()), QIcon::fromTheme(QStringLiteral("object-group")),
-              Qt::CTRL + Qt::Key_G, clipActionCategory);
+    QAction *groupClip = addAction(QStringLiteral("group_clip"), i18n("Group Clips"), this, SLOT(slotGroupClips()),
+                                   QIcon::fromTheme(QStringLiteral("object-group")), Qt::CTRL + Qt::Key_G, clipActionCategory);
     // "G" as data means this action should only be available for multiple items selection
     groupClip->setData('G');
     groupClip->setEnabled(false);
@@ -1372,7 +1370,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
 
-
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
 
@@ -1383,13 +1380,12 @@ void MainWindow::setupActions()
                                        QIcon::fromTheme(QStringLiteral("bookmark-new")));
     sentToLibrary->setEnabled(false);
 
-
     pCore->library()->setupActions(QList<QAction *>() << sentToLibrary);
 
     KStandardAction::showMenubar(this, SLOT(showMenuBar(bool)), actionCollection());
 
     act = KStandardAction::quit(this, SLOT(close()), actionCollection());
-    //act->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
+    // act->setIcon(QIcon::fromTheme(QStringLiteral("application-exit")));
 
     KStandardAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
     KStandardAction::preferences(this, SLOT(slotPreferences()), actionCollection());
@@ -1406,8 +1402,8 @@ void MainWindow::setupActions()
 
     auto *addClips = new QMenu(this);
 
-    QAction *addClip = addAction(QStringLiteral("add_clip"), i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()),
-                                 QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
+    QAction *addClip =
+        addAction(QStringLiteral("add_clip"), i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
     addClips->addAction(addClip);
     QAction *action = addAction(QStringLiteral("add_color_clip"), i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
                                 QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
@@ -1430,8 +1426,8 @@ void MainWindow::setupActions()
     action->setData((int) QText);
     addClips->addAction(action);*/
 
-    QAction *addFolder = addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()),
-                                   QIcon::fromTheme(QStringLiteral("folder-new")));
+    QAction *addFolder =
+        addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), QIcon::fromTheme(QStringLiteral("folder-new")));
     addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()),
                                   QIcon::fromTheme(QStringLiteral("edit-download"))));
 
@@ -1444,13 +1440,13 @@ void MainWindow::setupActions()
     openClip->setData("edit_clip");
     openClip->setEnabled(false);
 
-    QAction *deleteClip = addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()),
-                                    QIcon::fromTheme(QStringLiteral("edit-delete")));
+    QAction *deleteClip =
+        addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     deleteClip->setData("delete_clip");
     deleteClip->setEnabled(false);
 
-    QAction *reloadClip = addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()),
-                                    QIcon::fromTheme(QStringLiteral("view-refresh")));
+    QAction *reloadClip =
+        addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), QIcon::fromTheme(QStringLiteral("view-refresh")));
     reloadClip->setData("reload_clip");
     reloadClip->setEnabled(false);
 
@@ -1460,8 +1456,8 @@ void MainWindow::setupActions()
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
 
-    QAction *locateClip = addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), pCore->bin(), SLOT(slotLocateClip()),
-                                    QIcon::fromTheme(QStringLiteral("edit-file")));
+    QAction *locateClip =
+        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), pCore->bin(), SLOT(slotLocateClip()), QIcon::fromTheme(QStringLiteral("edit-file")));
     locateClip->setData("locate_clip");
     locateClip->setEnabled(false);
 
@@ -1483,18 +1479,17 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
               Qt::SHIFT + Qt::Key_T);
 
-    addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()), QIcon::fromTheme(QStringLiteral("bookmark")));
+    addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
+              QIcon::fromTheme(QStringLiteral("bookmark")));
 
-    QHash<QString, QAction *> actions({
-        { QStringLiteral("locate"), locateClip },
-        { QStringLiteral("reload"), reloadClip },
-        { QStringLiteral("duplicate"), duplicateClip },
-        { QStringLiteral("proxy"), proxyClip },
-        { QStringLiteral("properties"), clipProperties },
-        { QStringLiteral("open"), openClip },
-        { QStringLiteral("delete"), deleteClip },
-        { QStringLiteral("folder"), addFolder }
-    });
+    QHash<QString, QAction *> actions({{QStringLiteral("locate"), locateClip},
+                                       {QStringLiteral("reload"), reloadClip},
+                                       {QStringLiteral("duplicate"), duplicateClip},
+                                       {QStringLiteral("proxy"), proxyClip},
+                                       {QStringLiteral("properties"), clipProperties},
+                                       {QStringLiteral("open"), openClip},
+                                       {QStringLiteral("delete"), deleteClip},
+                                       {QStringLiteral("folder"), addFolder}});
 
     pCore->bin()->setupMenu(addClips, addClip, actions);
 
@@ -1872,8 +1867,10 @@ void MainWindow::connectDocument()
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_projectMonitor->slotLoadClipZone(project->zone());
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
-    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, pCore->library(), &LibraryWidget::enableAddSelection, Qt::UniqueConnection);
-    connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection, Qt::UniqueConnection);
+    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, pCore->library(), &LibraryWidget::enableAddSelection,
+            Qt::UniqueConnection);
+    connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
+            Qt::UniqueConnection);
 
     // TODO REFAC: reconnect to new timeline
     /*
@@ -2040,8 +2037,7 @@ void MainWindow::slotEditKeys()
         foreach (QPushButton *button, dialog.findChildren<QPushButton *>()) {
             if (button->text() == i18n("More Actions")) {
                 QMenu *moreActionsMenu = button->menu();
-                moreActionsMenu->addAction(i18n("Download New Keyboard Schemes..."), this,
-                                           [this, schemesList]{slotGetNewKeyboardStuff(schemesList);});
+                moreActionsMenu->addAction(i18n("Download New Keyboard Schemes..."), this, [this, schemesList] { slotGetNewKeyboardStuff(schemesList); });
                 break;
             }
         }
@@ -2552,7 +2548,7 @@ void MainWindow::slotAddTransition(QAction *result)
 
 void MainWindow::slotAddEffect(QAction *result)
 {
-    qDebug()<<"// EFFECTS MENU TRIGGERED: "<<result->data().toString();
+    qDebug() << "// EFFECTS MENU TRIGGERED: " << result->data().toString();
     if (!result) {
         return;
     }
@@ -2912,7 +2908,8 @@ void MainWindow::slotGetNewKeyboardStuff(QComboBox *schemesList)
         QStringList schemes;
         schemes << QStringLiteral("Default");
         // List files in the shortcuts subdir, each one is a scheme. See KShortcutSchemesHelper::{shortcutSchemeFileName,exportActionCollection}
-        const QStringList shortcutsDirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QCoreApplication::applicationName() + QStringLiteral("/shortcuts"), QStandardPaths::LocateDirectory);
+        const QStringList shortcutsDirs = QStandardPaths::locateAll(
+            QStandardPaths::GenericDataLocation, QCoreApplication::applicationName() + QStringLiteral("/shortcuts"), QStandardPaths::LocateDirectory);
         qCDebug(KDENLIVE_LOG) << "shortcut scheme dirs:" << shortcutsDirs;
         Q_FOREACH (const QString &dir, shortcutsDirs) {
             Q_FOREACH (const QString &file, QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot)) {
@@ -3052,8 +3049,10 @@ void MainWindow::buildDynamicActions()
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered,
-                    [this, stab]() { pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(), {}, i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab); });
+            connect(action, &QAction::triggered, [this, stab]() {
+                pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(), {},
+                                                            i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab);
+            });
             break;
         }
     }
@@ -3062,10 +3061,8 @@ void MainWindow::buildDynamicActions()
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered, [&]() {
-                pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {},
-                                                             i18n("Scene detection"));
-            });
+            connect(action, &QAction::triggered,
+                    [&]() { pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Scene detection")); });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {
@@ -3329,8 +3326,7 @@ void MainWindow::slotArchiveProject()
 {
     KdenliveDoc *doc = pCore->currentDoc();
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
-    QPointer<ArchiveWidget> d(
-        new ArchiveWidget(doc->url().fileName(), xmlDoc, getMainTimeline()->controller()->extractCompositionLumas(), this));
+    QPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), xmlDoc, getMainTimeline()->controller()->extractCompositionLumas(), this));
     if (d->exec() != 0) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
@@ -3403,8 +3399,7 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
-    connect(dockWidget, &QDockWidget::dockLocationChanged, this,
-            [this](Qt::DockWidgetArea dockLocationArea)  {
+    connect(dockWidget, &QDockWidget::dockLocationChanged, this, [this](Qt::DockWidgetArea dockLocationArea) {
         if (dockLocationArea == Qt::NoDockWidgetArea) {
             updateDockTitleBars(false);
         } else {

@@ -26,9 +26,9 @@
 #include <KLocalizedString>
 #include <mlt++/MltProfile.h>
 
+#include <KMessageWidget>
 #include <QDir>
 #include <QFile>
-#include <KMessageWidget>
 
 ProfileModel::ProfileModel(const QString &path)
     : m_path(path)
@@ -154,7 +154,9 @@ ProfileParam::ProfileParam(QDomElement element)
     int width = element.attribute(QStringLiteral("width")).toInt();
     int height = element.attribute(QStringLiteral("height")).toInt();
     if ((width % 8) + (height % 2) > 0) {
-        pCore->displayBinMessage(i18n("The project profile is invalid (%1x%2), it was adjusted to %3x%4.", width, height, width + (width % 8), height + (height % 2)), KMessageWidget::Warning);
+        pCore->displayBinMessage(
+            i18n("The project profile is invalid (%1x%2), it was adjusted to %3x%4.", width, height, width + (width % 8), height + (height % 2)),
+            KMessageWidget::Warning);
         width += 8 - width % 8;
         height += height % 2;
         element.setAttribute(QStringLiteral("width"), width);

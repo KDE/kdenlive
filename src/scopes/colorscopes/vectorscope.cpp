@@ -232,7 +232,7 @@ QImage Vectorscope::renderHUD(uint)
         QPoint reference = m_vectorscopeGenerator->mapToCircle(m_scopeRect.size(), QPointF(1, 0));
 
         float r = sqrt(dx * dx + dy * dy);
-        float percent = (float)100 * r / VectorscopeGenerator::scaling / m_gain / (reference.x() - widgetCenterPoint.x());
+        float percent = (float)100 * r / (float)VectorscopeGenerator::scaling / (float)m_gain / float(reference.x() - widgetCenterPoint.x());
 
         switch (ui->backgroundMode->itemData(ui->backgroundMode->currentIndex()).toInt()) {
         case BG_NONE:
@@ -250,7 +250,7 @@ QImage Vectorscope::renderHUD(uint)
         davinci.setPen(penThin);
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 %%", locale.toString(percent, 'f', 0)));
 
-        float angle = copysign(acos(dx / r) * 180 / M_PI, dy);
+        float angle = copysign(acos((float)dx / (float)r) * 180. / M_PI, dy);
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
         //        m_circleEnabled = false;
@@ -277,7 +277,7 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
                                                              accelerationFactor);
     }
 
-    unsigned int mseconds = start.msecsTo(QTime::currentTime());
+    unsigned int mseconds = (uint)start.msecsTo(QTime::currentTime());
     emit signalScopeRenderingFinished(mseconds, accelerationFactor);
     return scope;
 }
@@ -487,7 +487,7 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("x")));
     }
 
-    emit signalBackgroundRenderingFinished(start.elapsed(), 1);
+    emit signalBackgroundRenderingFinished((uint)start.elapsed(), 1);
     return bg;
 }
 

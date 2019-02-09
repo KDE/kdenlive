@@ -29,8 +29,8 @@
 #include "macros.hpp"
 
 #include <QProcess>
-#include <QThread>
 #include <QTemporaryFile>
+#include <QThread>
 
 #include <klocalizedstring.h>
 
@@ -145,7 +145,7 @@ bool ProxyJob::startJob()
         mltParameters << QStringLiteral("progress=1");
 
         m_jobProcess = new QProcess;
-        //m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);
         m_jobProcess->start(KdenliveSettings::rendererpath(), mltParameters);
@@ -216,10 +216,10 @@ bool ProxyJob::startJob()
             m_done = true;
             return false;
         }
-        m_jobDuration = (int) binClip->duration().seconds();
+        m_jobDuration = (int)binClip->duration().seconds();
         parameters << QStringLiteral("-y") << QStringLiteral("-stats");
         // Only output error data
-        parameters << QStringLiteral("-v")<< QStringLiteral("error");
+        parameters << QStringLiteral("-v") << QStringLiteral("error");
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
             // Automatic setting, decide based on hw support
@@ -229,8 +229,12 @@ bool ProxyJob::startJob()
         if (nvenc) {
             QString pix_fmt = binClip->videoCodecProperty(QStringLiteral("pix_fmt"));
             QString codec = binClip->videoCodecProperty(QStringLiteral("name"));
-            QStringList supportedCodecs {QStringLiteral("hevc"),QStringLiteral("h264"),QStringLiteral("mjpeg"),QStringLiteral("mpeg1"),QStringLiteral("mpeg2"),QStringLiteral("mpeg4"),QStringLiteral("vc1"),QStringLiteral("vp8"),QStringLiteral("vp9")};
-            QStringList supportedPixFmts {QStringLiteral("yuv420p"),QStringLiteral("yuyv422"),QStringLiteral("rgb24"),QStringLiteral("bgr24"),QStringLiteral("yuv422p"),QStringLiteral("yuv444p"),QStringLiteral("rgb32"),QStringLiteral("yuv410p"),QStringLiteral("yuv411p")};
+            QStringList supportedCodecs{QStringLiteral("hevc"),  QStringLiteral("h264"),  QStringLiteral("mjpeg"),
+                                        QStringLiteral("mpeg1"), QStringLiteral("mpeg2"), QStringLiteral("mpeg4"),
+                                        QStringLiteral("vc1"),   QStringLiteral("vp8"),   QStringLiteral("vp9")};
+            QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
+                                         QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
+                                         QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
             bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
             if (supported) {
                 // Full hardware decoding supported
@@ -267,9 +271,9 @@ bool ProxyJob::startJob()
 
         // Make sure we don't block when proxy file already exists
         parameters << dest;
-        //qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
+        // qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;
-        //m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
+        // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);
         connect(this, &ProxyJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
         m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
@@ -300,7 +304,7 @@ void ProxyJob::processLogInfo()
 {
     const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
-    int progress;
+    int progress = 0;
     if (m_isFfmpegJob) {
         // Parse FFmpeg output
         if (m_jobDuration == 0) {
@@ -348,8 +352,7 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
-    auto operation = [clipId = m_clipId]()
-    {
+    auto operation = [clipId = m_clipId]() {
         auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
         binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
@@ -357,8 +360,7 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         pCore->bin()->reloadClip(clipId);
         return true;
     };
-    auto reverse = [clipId = m_clipId]()
-    {
+    auto reverse = [clipId = m_clipId]() {
         auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
         binClip->setProducerProperty(QStringLiteral("resource"), dest);

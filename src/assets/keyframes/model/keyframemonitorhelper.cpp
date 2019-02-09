@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QSize>
 
-KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
+KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)
     , m_model(model)
@@ -52,4 +52,3 @@ void KeyframeMonitorHelper::addIndex(QPersistentModelIndex index)
 {
     m_indexes << index;
 }
-

@@ -22,34 +22,33 @@
 #include "kdenlivesettings.h"
 #include "monitor/monitor.h"
 
-
 #include <cmath>
 
 #include <KMessageBox>
+#include <KMessageWidget>
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 #include <kns3/downloaddialog.h>
-#include <KMessageWidget>
 
 #include "kdenlive_debug.h"
+#include <QButtonGroup>
 #include <QCryptographicHash>
 #include <QDomDocument>
 #include <QFileDialog>
 #include <QFontDatabase>
+#include <QGraphicsBlurEffect>
+#include <QGraphicsDropShadowEffect>
+#include <QGraphicsEffect>
 #include <QGraphicsItem>
 #include <QGraphicsSvgItem>
 #include <QImageReader>
 #include <QKeyEvent>
 #include <QSignalMapper>
+#include <QSpinBox>
 #include <QTextBlockFormat>
 #include <QTextCursor>
 #include <QTimer>
 #include <QToolBar>
-#include <QButtonGroup>
-#include <QSpinBox>
-#include <QGraphicsBlurEffect>
-#include <QGraphicsDropShadowEffect>
-#include <QGraphicsEffect>
 
 #include <QStandardPaths>
 #include <iostream>
@@ -85,12 +84,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     , m_startViewport(nullptr)
     , m_endViewport(nullptr)
     , m_count(0)
-    , m_missingMessage(nullptr)
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
+    , m_missingMessage(nullptr)
     , m_projectTitlePath(projectTitlePath)
     , m_tc(tc)
     , m_fps(monitor->fps())
-    , m_guides(QList <QGraphicsLineItem*>())
+    , m_guides(QList<QGraphicsLineItem *>())
 {
     setupUi(this);
     setMinimumSize(200, 200);
@@ -1881,7 +1880,8 @@ void TitleWidget::loadTitle(QUrl url)
 {
     if (!url.isValid()) {
         QString startFolder = KRecentDirs::dir(QStringLiteral(":KdenliveProjectsTitles"));
-        url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(startFolder.isEmpty() ? m_projectTitlePath : startFolder), i18n("Kdenlive title (*.kdenlivetitle)"));
+        url = QFileDialog::getOpenFileUrl(this, i18n("Load Title"), QUrl::fromLocalFile(startFolder.isEmpty() ? m_projectTitlePath : startFolder),
+                                          i18n("Kdenlive title (*.kdenlivetitle)"));
     }
     if (url.isValid()) {
         // make sure we don't delete the guides
@@ -2102,7 +2102,7 @@ void TitleWidget::deleteMissingItems()
         }
     }
     if (toDelete.size() != m_titledocument.invalidCount()) {
-        qDebug()<<"/// WARNING, INCOHERENT MISSING ELEMENTS in title: "<<toDelete.size()<<" != "<<m_titledocument.invalidCount();
+        qDebug() << "/// WARNING, INCOHERENT MISSING ELEMENTS in title: " << toDelete.size() << " != " << m_titledocument.invalidCount();
     }
     while (!toDelete.isEmpty()) {
         QGraphicsItem *item = toDelete.takeFirst();
@@ -2120,7 +2120,7 @@ void TitleWidget::showMissingItems()
     for (int i = 0; i < items.count(); ++i) {
         if (items.at(i)->data(Qt::UserRole + 2).toInt() == 1) {
             // We found a missing item
-            missingUrls<<items.at(i)->data(Qt::UserRole).toString();
+            missingUrls << items.at(i)->data(Qt::UserRole).toString();
         }
     }
     missingUrls.removeDuplicates();
@@ -3051,7 +3051,7 @@ const QString TitleWidget::titleSuggest()
 
 void TitleWidget::showGuides(int state)
 {
-    for(QGraphicsLineItem *it : m_guides) {
+    for (QGraphicsLineItem *it : m_guides) {
         it->setVisible(state == Qt::Checked);
     }
     KdenliveSettings::setTitlerShowGuides(state == Qt::Checked);
@@ -3074,7 +3074,8 @@ void TitleWidget::updateGuides(int)
     int max = hguides->value();
     bool guideVisible = show_guides->checkState() == Qt::Checked;
     for (int i = 0; i < max; i++) {
-        QGraphicsLineItem *line1 = new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
+        QGraphicsLineItem *line1 =
+            new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
         line1->setPen(framepen);
         line1->setFlags(nullptr);
         line1->setData(-1, -1);
@@ -3083,7 +3084,8 @@ void TitleWidget::updateGuides(int)
     }
     max = vguides->value();
     for (int i = 0; i < max; i++) {
-        QGraphicsLineItem *line1 = new QGraphicsLineItem((i + 1) * m_frameWidth / (max + 1), 0, (i + 1) * m_frameWidth / (max + 1), m_frameHeight, m_frameBorder);
+        QGraphicsLineItem *line1 =
+            new QGraphicsLineItem((i + 1) * m_frameWidth / (max + 1), 0, (i + 1) * m_frameWidth / (max + 1), m_frameHeight, m_frameBorder);
         line1->setPen(framepen);
         line1->setFlags(nullptr);
         line1->setData(-1, -1);
@@ -3113,7 +3115,7 @@ void TitleWidget::guideColorChanged(const QColor &col)
 {
     KdenliveSettings::setTitleGuideColor(col);
     QColor guideCol(col);
-    for(QGraphicsLineItem *it : m_guides) {
+    for (QGraphicsLineItem *it : m_guides) {
         int alpha = it->pen().color().alpha();
         guideCol.setAlpha(alpha);
         QPen framePen(guideCol);

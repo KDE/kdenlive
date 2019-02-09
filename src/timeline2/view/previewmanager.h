@@ -25,8 +25,8 @@
 #include <QDir>
 #include <QFuture>
 #include <QMutex>
-#include <QTimer>
 #include <QProcess>
+#include <QTimer>
 
 class TimelineController;
 
@@ -132,7 +132,7 @@ private slots:
     /** @brief: To avoid filling the hard drive, remove preview undo history after 5 steps. */
     void doCleanupOldPreviews();
     /** @brief: Start the real rendering process. */
-    void doPreviewRender(const QString &scene); //std::shared_ptr<Mlt::Producer> sourceProd);
+    void doPreviewRender(const QString &scene); // std::shared_ptr<Mlt::Producer> sourceProd);
     /** @brief: If user does an undo, then makes a new timeline operation, delete undo history of more recent stack . */
     void slotRemoveInvalidUndo(int ix);
     /** @brief: When the timer collecting invalid zones is done, process. */

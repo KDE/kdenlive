@@ -26,16 +26,16 @@ public:
       \c out_correlated must be a pre-allocated vector of size
       \c leftSize + \c rightSize + 1.
       */
-    static void convolve(const float *left, const int leftSize, const float *right, const int rightSize, float *out_convolved);
+    static void convolve(const float *left, const size_t leftSize, const float *right, const size_t rightSize, float *out_convolved);
 
     /**
       Computes the correlation between \c left and \c right.
       \c out_correlated must be a pre-allocated vector of size
       \c leftSize + \c rightSize + 1.
       */
-    static void correlate(const qint64 *left, const int leftSize, const qint64 *right, const int rightSize, float *out_correlated);
+    static void correlate(const qint64 *left, const size_t leftSize, const qint64 *right, const size_t rightSize, float *out_correlated);
 
-    static void correlate(const qint64 *left, const int leftSize, const qint64 *right, const int rightSize, qint64 *out_correlated);
+    static void correlate(const qint64 *left, const size_t leftSize, const qint64 *right, const size_t rightSize, qint64 *out_correlated);
 };
 
 #endif // FFTCORRELATION_H

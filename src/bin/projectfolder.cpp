@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "projectitemmodel.h"
 
-
 #include <KLocalizedString>
 #include <QDomElement>
 

@@ -24,48 +24,55 @@
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 {
     NegQColor color;
-    color.qcolor = QColor::fromHsvF(h,s,l<0?-l:l,a);
-    color.sign_r = l<0?-1:1;
-    color.sign_g = l<0?-1:1;
-    color.sign_b = l<0?-1:1;
+    color.qcolor = QColor::fromHsvF(h, s, l < 0 ? -l : l, a);
+    color.sign_r = l < 0 ? -1 : 1;
+    color.sign_g = l < 0 ? -1 : 1;
+    color.sign_b = l < 0 ? -1 : 1;
     return color;
 }
 
 NegQColor NegQColor::fromRgbF(qreal r, qreal g, qreal b, qreal a)
 {
     NegQColor color;
-    color.qcolor = QColor::fromRgbF(r<0?-r:r,g<0?-g:g,b<0?-b:b,a);
-    color.sign_r = r<0?-1:1;
-    color.sign_g = g<0?-1:1;
-    color.sign_b = b<0?-1:1;
+    color.qcolor = QColor::fromRgbF(r < 0 ? -r : r, g < 0 ? -g : g, b < 0 ? -b : b, a);
+    color.sign_r = r < 0 ? -1 : 1;
+    color.sign_g = g < 0 ? -1 : 1;
+    color.sign_b = b < 0 ? -1 : 1;
     return color;
 }
 
-qreal NegQColor::redF() {
-    return qcolor.redF()*sign_r;
+qreal NegQColor::redF()
+{
+    return qcolor.redF() * sign_r;
 }
 
-qreal NegQColor::greenF() {
-    return qcolor.greenF()*sign_g;
+qreal NegQColor::greenF()
+{
+    return qcolor.greenF() * sign_g;
 }
 
-qreal NegQColor::blueF() {
-    return qcolor.blueF()*sign_b;
+qreal NegQColor::blueF()
+{
+    return qcolor.blueF() * sign_b;
 }
 
-qreal NegQColor::valueF() {
-    return qcolor.valueF()*sign_g;
+qreal NegQColor::valueF()
+{
+    return qcolor.valueF() * sign_g;
 }
 
-int NegQColor::hue() {
+int NegQColor::hue()
+{
     return qcolor.hue();
 }
 
-qreal NegQColor::hueF() {
+qreal NegQColor::hueF()
+{
     return qcolor.hueF();
 }
 
-qreal NegQColor::saturationF() {
+qreal NegQColor::saturationF()
+{
     return qcolor.saturationF();
 }
 
@@ -89,7 +96,8 @@ ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &
     setCursor(Qt::CrossCursor);
 }
 
-void ColorWheel::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero) {
+void ColorWheel::setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero)
+{
     m_sizeFactor = factor;
     m_defaultValue = defvalue;
     m_zeroShift = zero;
@@ -132,8 +140,8 @@ NegQColor ColorWheel::colorForPoint(const QPoint &point)
     }
     if (m_isInSquare) {
         qreal value = 1.0 - qreal(point.y() - m_margin) / (wheelSize() - m_margin * 2);
-        if (m_zeroShift!=0) {
-            value=value-m_zeroShift;
+        if (m_zeroShift != 0) {
+            value = value - m_zeroShift;
         }
 
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
@@ -175,7 +183,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
             changeColor(colorForPoint(m_lastPoint));
         } else {
             NegQColor c;
-            c = NegQColor::fromRgbF(m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor, m_defaultValue/m_sizeFactor);
+            c = NegQColor::fromRgbF(m_defaultValue / m_sizeFactor, m_defaultValue / m_sizeFactor, m_defaultValue / m_sizeFactor);
             changeColor(c);
         }
     }

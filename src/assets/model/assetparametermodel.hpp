@@ -26,8 +26,8 @@
 #include "klocalizedstring.h"
 #include <QAbstractListModel>
 #include <QDomElement>
-#include <QUndoCommand>
 #include <QJsonDocument>
+#include <QUndoCommand>
 #include <unordered_map>
 
 #include <memory>

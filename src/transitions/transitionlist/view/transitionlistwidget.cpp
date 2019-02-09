@@ -20,11 +20,11 @@
  ***************************************************************************/
 
 #include "transitionlistwidget.hpp"
-#include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "../model/transitiontreemodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "dialogs/profilesdialog.h"
 #include "mainwindow.h"
+#include "transitions/transitionlist/model/transitionfilter.hpp"
+#include "transitions/transitionsrepository.hpp"
 
 #include <QQmlContext>
 #include <kns3/downloaddialog.h>

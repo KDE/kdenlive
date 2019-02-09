@@ -53,13 +53,13 @@ LumaLiftGain::LumaLiftGain(const QDomNodeList &nodes, QWidget *parent)
                                    values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
 
     m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), lift, this);
-	m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
+    m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
     connect(m_lift, &ColorWheel::colorChange, this, &LumaLiftGain::valueChanged);
     m_gamma = new ColorWheel(QStringLiteral("gamma"), i18n("Gamma"), gamma, this);
-	m_gamma->setFactorDefaultZero(GAMMA_FACTOR, 1, 0);
+    m_gamma->setFactorDefaultZero(GAMMA_FACTOR, 1, 0);
     connect(m_gamma, &ColorWheel::colorChange, this, &LumaLiftGain::valueChanged);
     m_gain = new ColorWheel(QStringLiteral("gain"), i18n("Gain"), gain, this);
-	m_gain->setFactorDefaultZero(GAIN_FACTOR, 1, 0);
+    m_gain->setFactorDefaultZero(GAIN_FACTOR, 1, 0);
     connect(m_gain, &ColorWheel::colorChange, this, &LumaLiftGain::valueChanged);
 
     flowLayout->addWidget(m_lift);

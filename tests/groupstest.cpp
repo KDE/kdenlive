@@ -410,6 +410,7 @@ TEST_CASE("Orphan groups deletion", "[GroupsModel]")
 
     auto g2 = std::unordered_set<int>({2, 3});
     int gid2 = groups.groupItems(g2, undo, redo);
+    Q_UNUSED(gid2);
 
     auto g3 = std::unordered_set<int>({0, 3});
     int gid3 = groups.groupItems(g3, undo, redo);
@@ -474,13 +475,11 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
 
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
     TimelineItemModel tim2(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock2(tim2);
-    TimelineItemModel &tt2 = timMock2.get();
     auto timeline2 = std::shared_ptr<TimelineItemModel>(&timMock2.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline2, guideModel);
 
@@ -514,9 +513,11 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
     }
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
+    Q_UNUSED(tid2);
     int tid3 = TrackModel::construct(timeline, -1, -1, QStringLiteral("audio"), true);
     int tid1_2 = TrackModel::construct(timeline2);
     int tid2_2 = TrackModel::construct(timeline2);
+    Q_UNUSED(tid2_2);
     int tid3_2 = TrackModel::construct(timeline2, -1, -1, QStringLiteral("audio2"), true);
 
     int init_index = undoStack->index();
@@ -809,7 +810,6 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         state1();
 
         auto g1 = std::unordered_set<int>({clips[0], clips[3]});
-        int gid1, gid2, gid3;
         REQUIRE(timeline->requestClipsGroup(g1) > 0);
         auto state2 = [&]() {
             REQUIRE(timeline->getGroupElements(clips[0]) == g1);
@@ -911,7 +911,6 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
 
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -919,7 +918,6 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
 
     GroupsModel groups(timeline);
 
-    int init_index = undoStack->index();
     SECTION("MergeSingleGroups")
     {
         Fun undo = []() { return true; };

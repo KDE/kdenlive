@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "effectsettings.h"
 #include "kdenlivesettings.h"
 
-
 #include "klocalizedstring.h"
 #include <QApplication>
 #include <QResizeEvent>

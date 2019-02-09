@@ -21,13 +21,13 @@
 
 #include "timelinemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
-#include "effects/effectsrepository.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "effects/effectsrepository.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "snapmodel.hpp"
@@ -434,9 +434,12 @@ bool TimelineModel::normalEdit() const
     return m_editMode == TimelineMode::NormalEdit;
 }
 
-
 bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
+    Q_UNUSED(updateView);
+    Q_UNUSED(invalidateTimeline);
+    Q_UNUSED(undo);
+    Q_UNUSED(redo);
     Q_ASSERT(isClip(clipId));
     m_allClips[clipId]->setFakePosition(position);
     bool trackChanged = false;
@@ -450,7 +453,7 @@ bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool upd
     }
     QModelIndex modelIndex = makeClipIndexFromID(clipId);
     if (modelIndex.isValid()) {
-        QVector <int>roles{FakePositionRole};
+        QVector<int> roles{FakePositionRole};
         if (trackChanged) {
             roles << FakeTrackIdRole;
         }
@@ -462,7 +465,7 @@ bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool upd
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
-    //qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
+    // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
     if (trackId == -1) {
         return false;
     }
@@ -476,7 +479,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
-        qDebug()<<"// CLIP MISMATCH: "<<getTrackById_const(trackId)->trackType()<<" == "<<m_allClips[clipId]->clipState();
+        qDebug() << "// CLIP MISMATCH: " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };
@@ -485,7 +488,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     int old_trackId = getClipTrackId(clipId);
     bool notifyViewOnly = false;
     bool localUpdateView = updateView;
-    //qDebug()<<"MOVING CLIP FROM: "<<old_trackId<<" == "<<trackId;
+    // qDebug()<<"MOVING CLIP FROM: "<<old_trackId<<" == "<<trackId;
     Fun update_model = []() { return true; };
     if (old_trackId == trackId) {
         // Move on same track, simply inform the view
@@ -514,7 +517,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, localUpdateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
-        qDebug()<<"-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
+        qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
         Q_ASSERT(undone);
         return false;
@@ -556,7 +559,6 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     }
     return res;
 }
-
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
@@ -658,14 +660,16 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
             }
         }
 
-        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(), snapDistance);
+        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
+                                         snapDistance);
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
         }
     }
     // we check if move is possible
-    bool possible = m_editMode == TimelineMode::NormalEdit ? requestClipMove(clipId, trackId, position, true, false, false) : requestFakeClipMove(clipId, trackId, position, true, false, false);
+    bool possible = m_editMode == TimelineMode::NormalEdit ? requestClipMove(clipId, trackId, position, true, false, false)
+                                                           : requestFakeClipMove(clipId, trackId, position, true, false, false);
     /*} else {
         possible = requestClipMoveAttempt(clipId, trackId, position);
     }*/
@@ -675,13 +679,13 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int sn
     // Find best possible move
     if (!m_groups->isInGroup(clipId)) {
         // Easy
-        //int currentTrackId = getClipTrackId(clipId);
+        // int currentTrackId = getClipTrackId(clipId);
         // Try same track move
-        qDebug()<<"// TESTING SAME TRACVK MOVE: "<<trackId<<" = "<<sourceTrackId;
+        qDebug() << "// TESTING SAME TRACVK MOVE: " << trackId << " = " << sourceTrackId;
         trackId = sourceTrackId;
         possible = requestClipMove(clipId, trackId, position, true, false, false);
         if (!possible) {
-            qDebug() << "CANNOT MOVE CLIP : "<<clipId<<" ON TK: "<<trackId<<", AT POS: "<<position;
+            qDebug() << "CANNOT MOVE CLIP : " << clipId << " ON TK: " << trackId << ", AT POS: " << position;
         } else {
             return position;
         }
@@ -921,7 +925,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         int target_track = audioDrop ? m_videoTarget : m_audioTarget;
-        qDebug()<<"CLIP HAS A+V: "<<master->hasAudioAndVideo();
+        qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
         if (res && (!useTargets || target_track > -1) && master->hasAudioAndVideo()) {
             if (!useTargets) {
                 target_track = audioDrop ? getMirrorVideoTrackId(trackId) : getMirrorAudioTrackId(trackId);
@@ -968,7 +972,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (dropType == PlaylistState::Disabled) {
             dropType = getTrackById_const(trackId)->trackType();
         } else if (dropType != getTrackById_const(trackId)->trackType()) {
-            qDebug()<<"// INCORRECT DRAG, ABORTING";
+            qDebug() << "// INCORRECT DRAG, ABORTING";
             return false;
         }
         QString normalisedBinId = binClipId;
@@ -1113,12 +1117,13 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
 }
 
 bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
-                                     bool allowViewRefresh)
+                                         bool allowViewRefresh)
 {
-#ifdef LOGGING
-    m_logFile << "timeline->requestGroupMove(" << clipId << "," << groupId << " ," << delta_track << ", " << delta_pos << ", "
-              << (updateView ? "true" : "false") << " ); " << std::endl;
-#endif
+    Q_UNUSED(updateView);
+    Q_UNUSED(finalMove);
+    Q_UNUSED(undo);
+    Q_UNUSED(redo);
+    Q_UNUSED(allowViewRefresh);
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
     bool ok = true;
@@ -1133,7 +1138,6 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     Fun update_model = []() { return true; };
 
     // Check if there is a track move
-    bool updatePositionOnly = false;
 
     // First, remove clips
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
@@ -1141,7 +1145,6 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         int old_trackId = getItemTrackId(item);
         old_track_ids[item] = old_trackId;
         if (old_trackId != -1) {
-            bool updateThisView = allowViewRefresh;
             if (isClip(item)) {
                 old_position[item] = m_allClips[item]->getPosition();
             } else {
@@ -1169,14 +1172,13 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         int current_track_position = getTrackPosition(current_track_id);
         int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
         int target_track_position = current_track_position + d;
-        bool updateThisView = allowViewRefresh;
         if (target_track_position >= 0 && target_track_position < getTracksCount()) {
             auto it = m_allTracks.cbegin();
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             int target_position = old_position[item] + delta_pos;
             if (isClip(item)) {
-                qDebug()<<"/// SETTING FAKE CLIP: "<<target_track<<", POSITION: "<<target_position;
+                qDebug() << "/// SETTING FAKE CLIP: " << target_track << ", POSITION: " << target_position;
                 m_allClips[item]->setFakePosition(target_position);
                 if (m_allClips[item]->getFakeTrackId() != target_track) {
                     trackChanged = true;
@@ -1281,7 +1283,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
                 ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo);
                 old_position[item] = m_allClips[item]->getPosition();
             } else {
-                //ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
+                // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
                 old_position[item] = m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             }
@@ -1321,7 +1323,8 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
             if (isClip(item)) {
                 ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, local_undo, local_redo);
             } else {
-                ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, finalMove, local_undo, local_redo);
+                ok = ok &&
+                     requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, finalMove, local_undo, local_redo);
             }
         } else {
             qDebug() << "// ABORTING; MOVE TRIED ON TRACK: " << target_track_position << "..\n..\n..";
@@ -1493,7 +1496,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     Fun update_model = [itemId, right, logUndo, this]() {
         Q_ASSERT(isClip(itemId) || isComposition(itemId));
         if (getItemTrackId(itemId) != -1) {
-            qDebug()<<"++++++++++\nRESIZING ITEM: "<<itemId<<"\n+++++++";
+            qDebug() << "++++++++++\nRESIZING ITEM: " << itemId << "\n+++++++";
             QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
             notifyChange(modelIndex, modelIndex, !right, true, logUndo);
         }
@@ -2177,7 +2180,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
     if (compositionTrack == -1 || (compositionTrack > 0 && trackId == getTrackIndexFromPosition(compositionTrack - 1))) {
-        //qDebug() << "// compo track: " << trackId << ", PREVIOUS TK: " << getPreviousVideoTrackPos(trackId);
+        // qDebug() << "// compo track: " << trackId << ", PREVIOUS TK: " << getPreviousVideoTrackPos(trackId);
         compositionTrack = getPreviousVideoTrackPos(trackId);
     }
     if (compositionTrack == -1) {
@@ -2431,7 +2434,7 @@ bool TimelineModel::checkConsistency()
     // Check snaps
     auto stored_snaps = m_snaps->_snaps();
     if (snaps.size() != stored_snaps.size()) {
-        qDebug() << "Wrong number of snaps: "<<snaps.size()<<" == "<<stored_snaps.size();
+        qDebug() << "Wrong number of snaps: " << snaps.size() << " == " << stored_snaps.size();
         return false;
     }
     for (auto i = snaps.begin(), j = stored_snaps.begin(); i != snaps.end(); ++i, ++j) {
@@ -2502,9 +2505,8 @@ bool TimelineModel::checkConsistency()
             int foundId = -1;
             // we iterate to try to find a matching compo
             for (int compoId : remaining_compo) {
-                if (getTrackMltIndex(getCompositionTrackId(compoId)) == currentTrack &&
-                    m_allCompositions[compoId]->getATrack() == currentATrack && m_allCompositions[compoId]->getIn() == currentIn &&
-                    m_allCompositions[compoId]->getOut() == currentOut) {
+                if (getTrackMltIndex(getCompositionTrackId(compoId)) == currentTrack && m_allCompositions[compoId]->getATrack() == currentATrack &&
+                    m_allCompositions[compoId]->getIn() == currentIn && m_allCompositions[compoId]->getOut() == currentOut) {
                     foundId = compoId;
                     break;
                 }
@@ -2537,7 +2539,7 @@ bool TimelineModel::checkConsistency()
 
     // We check consistency of groups
     if (!m_groups->checkConsistency(true, true)) {
-        qDebug()<<"== ERROR IN GROUP CONSISTENCY";
+        qDebug() << "== ERROR IN GROUP CONSISTENCY";
         return false;
     }
     return true;
@@ -2627,7 +2629,7 @@ void TimelineModel::requestClipReload(int clipId)
 
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    bool refreshView = oldOut > binClip->frameDuration();
+    bool refreshView = oldOut > (int)binClip->frameDuration();
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo);
     }

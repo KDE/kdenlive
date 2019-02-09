@@ -115,14 +115,14 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     }
 
     std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
-    switch(role) {
-        case IdRole:
-            return item->dataColumn(AssetTreeModel::idCol);
-        case FavoriteRole:
-            return item->dataColumn(AssetTreeModel::favCol);
-        case NameRole:
-            return item->dataColumn(index.column());
-        default:
-            return QVariant();
+    switch (role) {
+    case IdRole:
+        return item->dataColumn(AssetTreeModel::idCol);
+    case FavoriteRole:
+        return item->dataColumn(AssetTreeModel::favCol);
+    case NameRole:
+        return item->dataColumn(index.column());
+    default:
+        return QVariant();
     }
 }

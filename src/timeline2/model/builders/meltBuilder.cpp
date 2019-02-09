@@ -140,9 +140,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
                                                        t->get_length(), &transProps, compoId, undo, redo);
             if (!ok) {
-                qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in()<<", ID: "<<id<<", MLT ID: "<<t->get("id");
-                //timeline->requestItemDeletion(compoId, false);
-                m_errorMessage <<i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
+                qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in() << ", ID: " << id
+                         << ", MLT ID: " << t->get("id");
+                // timeline->requestItemDeletion(compoId, false);
+                m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
                 continue;
             }
             qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in() << "/" << t->get_out();

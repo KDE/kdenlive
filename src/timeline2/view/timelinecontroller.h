@@ -23,8 +23,8 @@
 #define TIMELINECONTROLLER_H
 
 #include "definitions.h"
-#include "timeline2/model/timelineitemmodel.hpp"
 #include "lib/audio/audioCorrelation.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 
 #include <KActionCollection>
 #include <QDir>
@@ -450,7 +450,7 @@ private slots:
 
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
-    QList <QAction *>clipActions;
+    QList<QAction *> clipActions;
 
 private:
     QQuickItem *m_root;

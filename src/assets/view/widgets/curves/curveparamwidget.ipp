@@ -21,8 +21,8 @@
 
 #include "bezier/beziersplineeditor.h"
 #include "colortools.h"
-#include "kdenlivesettings.h"
 #include "cubic/kis_curve_widget.h"
+#include "kdenlivesettings.h"
 #include "widgets/dragvalue.h"
 #include <klocalizedstring.h>
 
@@ -133,7 +133,6 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 {
     // construct curve editor
     m_edit = new CurveWidget_t(this);
-    using Point_t = typename CurveWidget_t::Point_t;
     connect(m_edit, static_cast<void (CurveWidget_t::*)(const Point_t &, bool)>(&CurveWidget_t::currentPoint), this,
             static_cast<void (CurveParamWidget<CurveWidget_t>::*)(const Point_t &, bool)>(&CurveParamWidget<CurveWidget_t>::slotUpdatePointEntries));
 
@@ -193,8 +192,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 
     deleteIrrelevantItems();
     // emit the signal of the base class when appropriate
-    connect(m_edit, &CurveWidget_t::modified, [this]() {
-        emit valueChanged(m_index, m_edit->toString(), true); });
+    connect(m_edit, &CurveWidget_t::modified, [this]() { emit valueChanged(m_index, m_edit->toString(), true); });
 }
 
 template <> void CurveParamWidget<KisCurveWidget>::deleteIrrelevantItems()
@@ -403,11 +401,11 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefr
         int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
-        int inRef = (int) AssetParameterModel::Enum6Role + 2 * (start - 1);
-        int outRef = (int) AssetParameterModel::Enum7Role + 2 * (start - 1);
+        int inRef = (int)AssetParameterModel::Enum6Role + 2 * (start - 1);
+        int outRef = (int)AssetParameterModel::Enum7Role + 2 * (start - 1);
         for (int j = start; j <= number; ++j) {
-            double inVal = locale.toDouble(m_model->data(m_index, (AssetParameterModel::DataRoles) inRef).toString());
-            double outVal = locale.toDouble(m_model->data(m_index, (AssetParameterModel::DataRoles) outRef).toString());
+            double inVal = locale.toDouble(m_model->data(m_index, (AssetParameterModel::DataRoles)inRef).toString());
+            double outVal = locale.toDouble(m_model->data(m_index, (AssetParameterModel::DataRoles)outRef).toString());
             points << QPointF(inVal, outVal);
             inRef += 2;
             outRef += 2;

@@ -75,7 +75,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         return false;
     }
     int delta = getPlaytime() - size;
-    qDebug() << "compo request resize to " << size <<", ACTUAL SZ: "<<getPlaytime()<<", "<< right << delta;
+    qDebug() << "compo request resize to " << size << ", ACTUAL SZ: " << getPlaytime() << ", " << right << delta;
     int in = getIn();
     int out = in + getPlaytime() - 1;
     int oldDuration = out - in;
@@ -114,13 +114,13 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
         auto ptr = m_parent.lock();
         // we send a list of roles to be updated
-         QVector<int> roles{TimelineModel::DurationRole};
+        QVector<int> roles{TimelineModel::DurationRole};
         if (!right) {
             roles.push_back(TimelineModel::StartRole);
         }
         if (m_currentTrackId != -1 && ptr) {
             QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-            //TODO: integrate in undo
+            // TODO: integrate in undo
             ptr->dataChanged(ix, ix, roles);
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
         }

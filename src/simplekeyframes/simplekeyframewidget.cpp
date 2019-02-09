@@ -20,7 +20,6 @@
 #include "simpletimelinewidget.h"
 #include "timecodedisplay.h"
 
-
 #include <QGridLayout>
 #include <QToolButton>
 

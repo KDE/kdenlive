@@ -21,7 +21,6 @@
 
 #include "kdenlivesettings.h"
 
-
 #include "klocalizedstring.h"
 #include <QLineEdit>
 #include <QPlainTextEdit>

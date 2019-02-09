@@ -8,34 +8,34 @@ the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 */
 
-#include <QFile>
-#include <QDebug>
-#include <QFileInfo>
-#include <QDateTime>
-#include <QStringList>
 #include <QCoreApplication>
-#include <mlt++/Mlt.h>
-#include <iostream>
-#include <cstdlib>
+#include <QDateTime>
+#include <QDebug>
+#include <QFile>
+#include <QFileInfo>
+#include <QStringList>
 #include <cmath>
+#include <cstdlib>
+#include <iostream>
+#include <mlt++/Mlt.h>
 
+#include "../src/lib/audio/audioCorrelation.h"
+#include "../src/lib/audio/audioEnvelope.h"
 #include "../src/lib/audio/audioInfo.h"
 #include "../src/lib/audio/audioStreamInfo.h"
-#include "../src/lib/audio/audioEnvelope.h"
-#include "../src/lib/audio/audioCorrelation.h"
 
 void printUsage(const char *path)
 {
     std::cout << "This executable takes two audio/video files A and B and determines " << std::endl
-              << "how much B needs to be shifted in order to be synchronized with A." << std::endl << std::endl
+              << "how much B needs to be shifted in order to be synchronized with A." << std::endl
+              << std::endl
               << path << " <main audio file> <second audio file>" << std::endl
               << "\t-h, --help\n\t\tDisplay this help" << std::endl
               << "\t--fft\n\t\tUse Fourier Transform (FFT) to calculate the offset. This only takes" << std::endl
               << "\t\tO(n log n) time compared to O(n²) when using normal correlation and should be " << std::endl
               << "\t\tfaster for large data (several minutes)." << std::endl
               << "\t--profile=<profile>\n\t\tUse the given profile for calculation (run: melt -query profiles)" << std::endl
-              << "\t--no-images\n\t\tDo not save envelope and correlation images" << std::endl
-              ;
+              << "\t--no-images\n\t\tDo not save envelope and correlation images" << std::endl;
 }
 
 int main(int argc, char *argv[])
@@ -69,7 +69,6 @@ int main(int argc, char *argv[])
             useFFT = true;
             args.removeOne(str);
         }
-
     }
 
     if (args.length() < 2) {
@@ -91,10 +90,9 @@ int main(int argc, char *argv[])
         std::cout << "Usage: " << argv[0] << " <main audio file> <second audio file>" << std::endl;
         return 0;
     }
-    std::cout << "Trying to align (2)\n\t" << fileSub << "\nto fit on (1)\n\t" << fileMain
-              << "\n, result will indicate by how much (2) has to be moved." << std::endl
-              << "Profile used: " << profile << std::endl
-              ;
+    std::cout << "Trying to align (2)\n\t" << fileSub << "\nto fit on (1)\n\t" << fileMain << "\n, result will indicate by how much (2) has to be moved."
+              << std::endl
+              << "Profile used: " << profile << std::endl;
     if (useFFT) {
         std::cout << "Will use FFT based correlation." << std::endl;
     }
@@ -131,7 +129,7 @@ int main(int argc, char *argv[])
     // Calculate the correlation and hereby the audio shift
     AudioCorrelation corr(envelopeMain);
     int index = 0;
-    corr.addChild(envelopeSub/*, useFFT*/);
+    corr.addChild(envelopeSub /*, useFFT*/);
 
     int shift = corr.getShift(index);
     std::cout << " Should be shifted by " << shift << " frames: " << fileSub << std::endl
@@ -139,29 +137,18 @@ int main(int argc, char *argv[])
               << "\tin a " << prodMain.get_fps() << " fps profile (" << profile << ")." << std::endl;
 
     if (saveImages) {
-        QString outImg = QString::fromLatin1("envelope-main-%1.png")
-                         .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        QString outImg = QString::fromLatin1("envelope-main-%1.png").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         envelopeMain->drawEnvelope().save(outImg);
-        std::cout << "Saved volume envelope as "
-                  << QFileInfo(outImg).absoluteFilePath().toStdString()
-                  << std::endl;
-        outImg = QString::fromLatin1("envelope-sub-%1.png")
-                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        std::cout << "Saved volume envelope as " << QFileInfo(outImg).absoluteFilePath().toStdString() << std::endl;
+        outImg = QString::fromLatin1("envelope-sub-%1.png").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         envelopeSub->drawEnvelope().save(outImg);
-        std::cout << "Saved volume envelope as "
-                  << QFileInfo(outImg).absoluteFilePath().toStdString()
-                  << std::endl;
-        outImg = QString::fromLatin1("correlation-%1.png")
-                 .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
+        std::cout << "Saved volume envelope as " << QFileInfo(outImg).absoluteFilePath().toStdString() << std::endl;
+        outImg = QString::fromLatin1("correlation-%1.png").arg(QDateTime::currentDateTime().toString("yyyy-MM-dd-hh:mm:ss"));
         corr.info(index)->toImage().save(outImg);
-        std::cout << "Saved correlation image as "
-                  << QFileInfo(outImg).absoluteFilePath().toStdString()
-                  << std::endl;
+        std::cout << "Saved correlation image as " << QFileInfo(outImg).absoluteFilePath().toStdString() << std::endl;
     }
 
     //    Mlt::Factory::close();
 
     return 0;
-
 }
-

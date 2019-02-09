@@ -128,7 +128,7 @@ void Xml::setXmlProperty(QDomElement element, const QString &propertyName, const
     }
     if (!found) {
         // create property
-        QMap <QString, QString>map;
+        QMap<QString, QString> map;
         map.insert(propertyName, value);
         addXmlProperties(element, map);
     }
@@ -170,5 +170,3 @@ void Xml::removeMetaProperties(QDomElement producer)
         }
     }
 }
-
-

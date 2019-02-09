@@ -23,7 +23,6 @@
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 
-
 #include <mlt++/Mlt.h>
 
 #include "klocalizedstring.h"

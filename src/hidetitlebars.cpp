@@ -68,8 +68,9 @@ void HideTitleBars::slotShowTitleBars(bool show)
             continue;
         }
 
-        const bool hasVisibleDockSibling = std::find_if(std::begin(docked), std::end(docked),
-            [](QDockWidget *sub) { return sub->toggleViewAction()->isChecked(); }) != std::end(docked);;
+        const bool hasVisibleDockSibling =
+            std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) { return sub->toggleViewAction()->isChecked(); }) != std::end(docked);
+        ;
 
         if (!hasVisibleDockSibling) {
             handleRemoveBar();

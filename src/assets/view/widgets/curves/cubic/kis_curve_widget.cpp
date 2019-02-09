@@ -67,9 +67,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     emit modified();
 }
 
-KisCurveWidget::~KisCurveWidget()
-{
-}
+KisCurveWidget::~KisCurveWidget() {}
 
 QSize KisCurveWidget::sizeHint() const
 {

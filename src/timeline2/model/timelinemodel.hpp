@@ -125,9 +125,9 @@ public:
         TrackIdRole,
         FakeTrackIdRole,
         FakePositionRole,
-        MarkersRole,  /// clip only
-        StatusRole,   /// clip only
-        TypeRole,     /// clip only
+        MarkersRole, /// clip only
+        StatusRole,  /// clip only
+        TypeRole,    /// clip only
         KeyframesRole,
         DurationRole,
         InPointRole,    /// clip only
@@ -154,10 +154,10 @@ public:
         ReloadThumbRole,   /// clip only
         ItemATrack,        /// composition only
         ItemIdRole,
-        ThumbsFormatRole,  /// track only
-        EffectNamesRole,   // track and clip only
-        EffectsEnabledRole,// track and clip only
-        GrabbedRole        /// clip+composition only
+        ThumbsFormatRole,   /// track only
+        EffectNamesRole,    // track and clip only
+        EffectsEnabledRole, // track and clip only
+        GrabbedRole         /// clip+composition only
     };
 
     virtual ~TimelineModel();
@@ -260,7 +260,7 @@ public:
     int getClipIn(int clipId) const;
 
     /* @brief Returns the clip state (audio/video only)
-    */
+     */
     PlaylistState::ClipState getClipState(int clipId) const;
 
     /* @brief Returns the bin id of the clip master
@@ -352,7 +352,7 @@ public:
     bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
-                          bool allowViewRefresh = true);
+                              bool allowViewRefresh = true);
 
     /* @brief Given an intended move, try to suggest a more valid one
        (accounting for snaps and missing UI calls)

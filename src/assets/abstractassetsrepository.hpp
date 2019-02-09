@@ -58,7 +58,7 @@ public:
     QString getDescription(const QString &assetId) const;
 
     /* @brief Set an asset as favorite (or not)*/
-    virtual void setFavorite(const QString & assetId, bool favorite) = 0;
+    virtual void setFavorite(const QString &assetId, bool favorite) = 0;
 
     /* @brief Returns a DomElement representing the asset's properties */
     QDomElement getXml(const QString &assetId) const;

@@ -31,8 +31,8 @@
 #include <vector>
 
 #include <KActionCategory>
-#include <QMenu>
 #include <QDebug>
+#include <QMenu>
 
 EffectTreeModel::EffectTreeModel(QObject *parent)
     : AssetTreeModel(parent)
@@ -116,7 +116,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
 void EffectTreeModel::reloadEffect(const QString &path)
 {
-    QPair <QString, QString> asset = EffectsRepository::get()->reloadCustom(path);
+    QPair<QString, QString> asset = EffectsRepository::get()->reloadCustom(path);
     if (asset.first.isEmpty() || m_customCategory == nullptr) {
         return;
     }

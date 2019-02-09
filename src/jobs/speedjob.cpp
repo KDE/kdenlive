@@ -88,10 +88,7 @@ int SpeedJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QStr
     // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
     // destination). We have to construct a lambda that does that.
 
-    auto createFn = [ dest = std::move(destinations), fSpeed = speed / 100.0 ](const QString &id)
-    {
-        return std::make_shared<SpeedJob>(id, fSpeed, dest.at(id));
-    };
+    auto createFn = [dest = std::move(destinations), fSpeed = speed / 100.0](const QString &id) { return std::make_shared<SpeedJob>(id, fSpeed, dest.at(id)); };
 
     // We are now all set to create the job. Note that we pass all the parameters directly through the lambda, hence there are no extra parameters to the
     // function

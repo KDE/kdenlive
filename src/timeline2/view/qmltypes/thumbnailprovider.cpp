@@ -38,7 +38,7 @@ ThumbnailProvider::~ThumbnailProvider() {}
 
 void ThumbnailProvider::resetProject()
 {
-    //m_producers.clear();
+    // m_producers.clear();
 }
 
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
@@ -127,8 +127,8 @@ QImage ThumbnailProvider::makeThumbnail(std::shared_ptr<Mlt::Producer> producer,
     if (frame == nullptr || !frame->is_valid()) {
         return QImage();
     }
-    int ow = 0;//requestedSize.width();
-    int oh = 0;//requestedSize.height();
+    int ow = 0; // requestedSize.width();
+    int oh = 0; // requestedSize.height();
     /*if (ow > 0 && oh > 0) {
         frame->set("rescale.interp", "fastest");
         frame->set("deinterlace_method", "onefield");

@@ -34,13 +34,15 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     , m_model(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
-    kdeclarative.setupBindings();
-    //qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
+    QQmlEngine *eng = engine();
+    kdeclarative.setDeclarativeEngine(eng);
+    kdeclarative.setupContext();
+    kdeclarative.setupEngine(eng);
+    // qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMinimumHeight(300);
     // setClearColor(palette().base().color());
-    //setSource(QUrl(QStringLiteral("qrc:/qml/BuiltStack.qml")));
+    // setSource(QUrl(QStringLiteral("qrc:/qml/BuiltStack.qml")));
     setFocusPolicy(Qt::StrongFocus);
     QQuickItem *root = rootObject();
     QObject::connect(root, SIGNAL(valueChanged(QString, int)), parent, SLOT(parameterChanged(QString, int)));

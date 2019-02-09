@@ -26,10 +26,10 @@
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QLocale>
 #include <QString>
-#include <QJsonObject>
-#include <QJsonArray>
 
 AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent)
     : QAbstractListModel(parent)
@@ -133,7 +133,8 @@ void AssetParameterModel::prepareKeyframes()
     if (m_keyframes) return;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect || m_params[name].type == ParamType::Roto_spline) {
+        if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect ||
+            m_params[name].type == ParamType::Roto_spline) {
             addKeyframeParam(index(ix, 0));
         }
         ix++;
@@ -180,7 +181,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    qDebug()<<"// PROCESSING PARAM CHANGE: "<<name;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name;
     bool conversionSuccess;
     double doubleValue = locale.toDouble(value, &conversionSuccess);
     if (conversionSuccess) {
@@ -192,7 +193,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
         }
     } else {
         m_asset->set(name.toLatin1().constData(), value.toUtf8().constData());
-        qDebug()<<" = = SET EFFECT PARAM: "<<name<<" = "<<value;
+        qDebug() << " = = SET EFFECT PARAM: " << name << " = " << value;
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = value;
         } else {
@@ -213,7 +214,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             // these effects don't understand param change and need to be rebuild
             emit replugEffect(shared_from_this());
         } else {
-            qDebug()<<"// SENDING DATA CHANGE....";
+            qDebug() << "// SENDING DATA CHANGE....";
             if (paramIndex.isValid()) {
                 emit dataChanged(paramIndex, paramIndex);
             } else {
@@ -227,8 +228,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     // Update timeline view if necessary
     if (m_ownerId.first == ObjectType::NoItem) {
         // Used for generator clips
-        if (!update)
-            emit modelChanged();
+        if (!update) emit modelChanged();
     } else {
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
@@ -302,7 +302,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case ParentDurationRole:
         return pCore->getItemDuration(m_ownerId);
     case ParentPositionRole:
-         return pCore->getItemPosition(m_ownerId);
+        return pCore->getItemPosition(m_ownerId);
     case HideKeyframesFirstRole:
         return m_hideKeyframesByDefault;
     case MinRole:
@@ -331,7 +331,9 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return element.attribute(QStringLiteral("alpha")) == QLatin1String("1");
     case ValueRole: {
         QString value(m_asset->get(paramName.toUtf8().constData()));
-        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element) : element.attribute(QStringLiteral("value"))) : value;
+        return value.isEmpty() ? (element.attribute(QStringLiteral("value")).isNull() ? parseAttribute(m_ownerId, QStringLiteral("default"), element)
+                                                                                      : element.attribute(QStringLiteral("value")))
+                               : value;
     }
     case ListValuesRole:
         return element.attribute(QStringLiteral("paramlist")).split(QLatin1Char(';'));
@@ -574,9 +576,9 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
             QByteArray saveData = loadFile.readAll();
             QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
             if (loadDoc.isArray()) {
-                qDebug()<<" * * ** JSON IS AN ARRAY, DELETING: "<<presetName;
+                qDebug() << " * * ** JSON IS AN ARRAY, DELETING: " << presetName;
                 array = loadDoc.array();
-                QList <int> toDelete;
+                QList<int> toDelete;
                 for (int i = 0; i < array.size(); i++) {
                     QJsonValue val = array.at(i);
                     if (val.isObject() && val.toObject().keys().contains(presetName)) {
@@ -588,21 +590,21 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                 }
             } else if (loadDoc.isObject()) {
                 QJsonObject obj = loadDoc.object();
-                qDebug()<<" * * ** JSON IS AN OBJECT, DELETING: "<<presetName;
+                qDebug() << " * * ** JSON IS AN OBJECT, DELETING: " << presetName;
                 if (obj.keys().contains(presetName)) {
                     obj.remove(presetName);
                 } else {
-                    qDebug()<<" * * ** JSON DOES NOT CONTAIN: "<<obj.keys();
+                    qDebug() << " * * ** JSON DOES NOT CONTAIN: " << obj.keys();
                 }
                 array.append(obj);
             }
             loadFile.close();
         } else if (!loadFile.open(QIODevice::ReadWrite)) {
-            //TODO: error message
+            // TODO: error message
         }
     }
     if (!loadFile.open(QIODevice::WriteOnly)) {
-            //TODO: error message
+        // TODO: error message
     }
     loadFile.write(QJsonDocument(array).toJson());
 }
@@ -619,7 +621,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
             QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
             if (loadDoc.isArray()) {
                 array = loadDoc.array();
-                QList <int> toDelete;
+                QList<int> toDelete;
                 for (int i = 0; i < array.size(); i++) {
                     QJsonValue val = array.at(i);
                     if (val.isObject() && val.toObject().keys().contains(presetName)) {
@@ -638,11 +640,11 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
             }
             loadFile.close();
         } else if (!loadFile.open(QIODevice::ReadWrite)) {
-            //TODO: error message
+            // TODO: error message
         }
     }
     if (!loadFile.open(QIODevice::WriteOnly)) {
-            //TODO: error message
+        // TODO: error message
     }
     object[presetName] = doc.array();
     array.append(object);
@@ -656,10 +658,10 @@ const QStringList AssetParameterModel::getPresetList(const QString &presetFile) 
         QByteArray saveData = loadFile.readAll();
         QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
         if (loadDoc.isObject()) {
-            qDebug()<<"// PRESET LIST IS AN OBJECT!!!";
+            qDebug() << "// PRESET LIST IS AN OBJECT!!!";
             return loadDoc.object().keys();
         } else if (loadDoc.isArray()) {
-            qDebug()<<"// PRESET LIST IS AN ARRAY!!!";
+            qDebug() << "// PRESET LIST IS AN ARRAY!!!";
             QStringList result;
             QJsonArray array = loadDoc.array();
             for (int i = 0; i < array.size(); i++) {
@@ -682,7 +684,7 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
         QByteArray saveData = loadFile.readAll();
         QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
         if (loadDoc.isObject() && loadDoc.object().contains(presetName)) {
-            qDebug()<<"..........\n..........\nLOADING OBJECT JSON";
+            qDebug() << "..........\n..........\nLOADING OBJECT JSON";
             QJsonValue val = loadDoc.object().value(presetName);
             if (val.isObject()) {
                 QVariantMap map = val.toObject().toVariantMap();
@@ -708,7 +710,7 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
                             }
                         }
                     }
-                    qDebug()<<"// LOADED PRESET: "<<presetName<<"\n"<<params;
+                    qDebug() << "// LOADED PRESET: " << presetName << "\n" << params;
                     break;
                 }
             }
@@ -730,7 +732,7 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
     if (m_keyframes) {
         m_keyframes->refresh();
     }
-    //emit modelChanged();
+    // emit modelChanged();
     emit dataChanged(index(0), index(m_rows.count()), {});
 }
 

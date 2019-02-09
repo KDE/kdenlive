@@ -202,8 +202,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         }
     }
 
-    QColor bgColor =
-        KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(this).color();
+    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(this).color();
     const char *iconName = nullptr;
     setColor(parentWidget()->palette().window().color());
     switch (m_currentMessage.type) {

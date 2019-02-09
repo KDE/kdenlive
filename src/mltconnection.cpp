@@ -63,22 +63,20 @@ std::unique_ptr<MltConnection> &MltConnection::self()
 void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
 {
     QString profilePath = mltPath;
-    //environment variables should override other settings
-    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PROFILES_PATH"))
-        profilePath = qgetenv("MLT_PROFILES_PATH");
+    // environment variables should override other settings
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PROFILES_PATH")) profilePath = qgetenv("MLT_PROFILES_PATH");
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_DATA"))
         profilePath = qgetenv("MLT_DATA") + QStringLiteral("/profiles");
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && qEnvironmentVariableIsSet("MLT_PREFIX"))
         profilePath = qgetenv("MLT_PREFIX") + QStringLiteral("/share/mlt/profiles");
 #ifndef Q_OS_WIN
-    //stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
-    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !KdenliveSettings::mltpath().isEmpty())
-        profilePath = KdenliveSettings::mltpath();
+    // stored setting should not be considered on windows as MLT is distributed with each new Kdenlive version
+    if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !KdenliveSettings::mltpath().isEmpty()) profilePath = KdenliveSettings::mltpath();
 #endif
-    //try to automatically guess MLT path if installed with the same prefix as kdenlive with default data path
+    // try to automatically guess MLT path if installed with the same prefix as kdenlive with default data path
     if (profilePath.isEmpty() || !QFile::exists(profilePath))
         profilePath = QDir::cleanPath(qApp->applicationDirPath() + QStringLiteral("/../share/mlt/profiles"));
-    //fallback to build-time definition
+    // fallback to build-time definition
     if ((profilePath.isEmpty() || !QFile::exists(profilePath)) && !QStringLiteral(MLT_DATADIR).isEmpty())
         profilePath = QStringLiteral(MLT_DATADIR) + QStringLiteral("/profiles");
     KdenliveSettings::setMltpath(profilePath);
@@ -127,7 +125,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     if (profilesList.isEmpty()) {
         // Cannot find MLT path, try finding melt
         if (!meltPath.isEmpty()) {
-            if(meltPath.contains(QLatin1Char('/'))) {
+            if (meltPath.contains(QLatin1Char('/'))) {
                 profilePath = meltPath.section(QLatin1Char('/'), 0, -2) + QStringLiteral("/share/mlt/profiles");
             } else {
                 profilePath = qApp->applicationDirPath() + QStringLiteral("/share/mlt/profiles");

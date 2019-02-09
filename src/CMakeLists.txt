@@ -9,7 +9,7 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wparentheses -Wsequence-point -Wreturn-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsign-compare  -Wconversion")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-noreturn  -Wsign-conversion -Wunused ")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wstrict-aliasing -Wstrict-overflow -Wconversion")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wstrict-aliasing -Wconversion")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdisabled-optimization")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-undef")
 if (CMAKE_COMPILER_IS_GNUCXX)
@@ -26,7 +26,7 @@ if(NOT WIN32)
     if (NOT MLT_DATADIR_failed)
         string(REGEX REPLACE "[\r\n]" "" MLT_DATADIR "${MLT_DATADIR}")
     endif()
-    
+
     execute_process(
         COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=meltbin mlt-framework
         OUTPUT_VARIABLE MLT_MELTBIN
@@ -291,6 +291,8 @@ target_link_libraries(kdenliveLib
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
     )
+
+set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
 
 message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 

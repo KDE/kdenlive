@@ -29,10 +29,10 @@
 #include "lib/audio/audioStreamInfo.h"
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
+#include "monitorproxy.h"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
-#include "monitorproxy.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -487,13 +487,13 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
 
     if (m_id == Kdenlive::ProjectMonitor) {
-        m_multitrackView = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this,
-                                                    SIGNAL(multitrackView(bool)));
+        m_multitrackView =
+            m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this, SIGNAL(multitrackView(bool)));
         m_multitrackView->setCheckable(true);
         m_configMenu->addAction(m_multitrackView);
     } else if (m_id == Kdenlive::ClipMonitor) {
-        QAction *setThumbFrame = m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this,
-                                                          SLOT(slotSetThumbFrame()));
+        QAction *setThumbFrame =
+            m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
     }
 
@@ -665,10 +665,11 @@ void Monitor::slotSetZoneEnd(bool discardLastFrame)
     Q_UNUSED(discardLastFrame);
     int pos = m_glMonitor->getCurrentPos();
     if (m_controller) {
-        if (pos < m_controller->frameDuration() - 1) {
+        if (pos < (int)m_controller->frameDuration() - 1) {
             pos++;
         }
-    } else pos++;
+    } else
+        pos++;
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
@@ -840,16 +841,16 @@ void Monitor::slotStartDrag()
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     switch (dragType) {
-        case 1:
-            // Audio only drag
-            prodData.prepend('A');
-            break;
-        case 2:
-            // Audio only drag
-            prodData.prepend('V');
-            break;
-        default:
-            break;
+    case 1:
+        // Audio only drag
+        prodData.prepend('A');
+        break;
+    case 2:
+        // Audio only drag
+        prodData.prepend('V');
+        break;
+    default:
+        break;
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);
@@ -1059,9 +1060,9 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             if ((m_controller != nullptr) && !m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")).isEmpty() &&
                 m_controller->getProducerProperty(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
                 // using proxy, use original clip url to get frame
-                frame =
-                    m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")),
-                                                      -1, -1, b != nullptr ? b->isChecked() : false);
+                frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(),
+                                                                        m_controller->getProducerProperty(QStringLiteral("kdenlive:originalurl")), -1, -1,
+                                                                        b != nullptr ? b->isChecked() : false);
             } else {
                 frame = m_glMonitor->getControllerProxy()->extractFrame(m_glMonitor->getCurrentPos(), QString(), -1, -1, b != nullptr ? b->isChecked() : false);
             }
@@ -1363,18 +1364,18 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
             // we are in record mode, don't display clip
             return;
         }
-        m_glMonitor->setRulerInfo(m_controller->frameDuration(), controller->getMarkerModel());
-        m_timePos->setRange(0, m_controller->frameDuration());
+        m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), controller->getMarkerModel());
+        m_timePos->setRange(0, (int)m_controller->frameDuration());
         updateMarkers();
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
         if (out == -1) {
             m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
-            qDebug()<<m_controller->zone();
+            qDebug() << m_controller->zone();
         } else {
             m_glMonitor->getControllerProxy()->setZone(in, out, false);
         }
-        m_snaps->addPoint(m_controller->frameDuration());
+        m_snaps->addPoint((int)m_controller->frameDuration());
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
@@ -1819,7 +1820,7 @@ void Monitor::slotSwitchCompare(bool enable)
     if (enable) {
         if (m_qmlManager->sceneType() == MonitorSceneSplit) {
             // Split scene is already active
-            qDebug()<<" . . . .. ALREADY ACTIVE";
+            qDebug() << " . . . .. ALREADY ACTIVE";
             return;
         }
         buildSplitEffect(m_controller->masterProducer());
@@ -1879,7 +1880,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     delete original;
     m_splitProducer = new Mlt::Producer(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
-    m_glMonitor->setRulerInfo(m_controller->frameDuration(), m_controller->getMarkerModel());
+    m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), m_controller->getMarkerModel());
     loadQmlScene(MonitorSceneSplit);
 }
 
@@ -2138,4 +2139,3 @@ void Monitor::setConsumerProperty(const QString &name, const QString &value)
 {
     m_glMonitor->setConsumerProperty(name, value);
 }
-

@@ -23,10 +23,10 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KDeclarative/KDeclarative>
-#include <kdeclarative_version.h>
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QStandardPaths>
+#include <kdeclarative_version.h>
 
 AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)

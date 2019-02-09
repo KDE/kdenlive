@@ -254,7 +254,7 @@ void EffectStackView::updateTreeHeight()
 
 void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel)
 {
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! slotactivateeffect: "<<effectModel->row();
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! slotactivateeffect: " << effectModel->row();
     QMutexLocker lock(&m_mutex);
     m_model->setActiveEffect(effectModel->row());
     QModelIndex activeIx = m_model->getIndexFromItem(effectModel);
@@ -353,7 +353,6 @@ bool EffectStackView::isEmpty() const
     return m_model == nullptr ? true : m_model->rowCount() == 0;
 }
 
-
 void EffectStackView::enableStack(bool enable)
 {
     if (m_model) {
@@ -368,7 +367,6 @@ bool EffectStackView::isStackEnabled() const
     }
     return false;
 }
-
 
 /*
 void EffectStackView::switchBuiltStack(bool show)

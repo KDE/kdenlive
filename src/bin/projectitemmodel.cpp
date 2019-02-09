@@ -267,7 +267,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     // Folder ids are represented like:  #2 (where 2 is the folder's id)
     auto *mimeData = new QMimeData();
     QStringList list;
-    int duration = 0;
+    size_t duration = 0;
     for (int i = 0; i < indices.count(); i++) {
         QModelIndex ix = indices.at(i);
         if (!ix.isValid() || ix.column() != 0) {
@@ -280,14 +280,14 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
             QString dragId = item->clipId();
             if ((cType == ClipType::AV || cType == ClipType::Playlist)) {
                 switch (m_dragType) {
-                    case PlaylistState::AudioOnly:
-                        dragId.prepend(QLatin1Char('A'));
-                        break;
-                    case PlaylistState::VideoOnly:
-                        dragId.prepend(QLatin1Char('V'));
-                        break;
-                    default:
-                        break;
+                case PlaylistState::AudioOnly:
+                    dragId.prepend(QLatin1Char('A'));
+                    break;
+                case PlaylistState::VideoOnly:
+                    dragId.prepend(QLatin1Char('V'));
+                    break;
+                default:
+                    break;
                 }
             }
             list << dragId;
@@ -617,7 +617,8 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     auto clip = getClipByBinID(subId);
     Q_ASSERT(clip->itemType() == AbstractProjectItem::ClipItem);
     auto tc = pCore->currentDoc()->timecode().getDisplayTimecodeFromFrames(in, KdenliveSettings::frametimecode());
-    std::shared_ptr<ProjectSubClip> new_clip = ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc, zoneName);
+    std::shared_ptr<ProjectSubClip> new_clip =
+        ProjectSubClip::construct(id, clip, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), in, out, tc, zoneName);
     bool res = addItem(new_clip, subId, undo, redo);
     if (res) {
         int parentJob = pCore->jobManager()->getBlockingJobId(subId, AbstractClipJob::LOADJOB);
@@ -812,7 +813,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
     qDebug() << "Loading bin playlist...";
     if (retainList.is_valid()) {
         qDebug() << "retain is valid";
-        Mlt::Playlist playlist((mlt_playlist) retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
+        Mlt::Playlist playlist((mlt_playlist)retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             qDebug() << "playlist is valid";
 
@@ -914,7 +915,7 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
         clip->setClipStatus(AbstractProjectItem::StatusMissing);
-        //TODO: set producer as blank invalid
+        // TODO: set producer as blank invalid
     }
 }
 

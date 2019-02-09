@@ -23,12 +23,12 @@
 
 #include <QWheelEvent>
 
-ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent):
-    QDialog(parent),
-    m_clipId(clipId),
-    m_min(GenTime(minpos, tc.fps())),
-    m_max(GenTime(maxpos, tc.fps())),
-    m_length(GenTime(length, tc.fps()))
+ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, int minpos, int in, int out, int length, int maxpos, QWidget *parent)
+    : QDialog(parent)
+    , m_clipId(clipId)
+    , m_min(GenTime(minpos, tc.fps()))
+    , m_max(GenTime(maxpos, tc.fps()))
+    , m_length(GenTime(length, tc.fps()))
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -48,8 +48,7 @@ ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, 
     if (!allowCrop) {
         m_cropStart->setHidden(true);
         crop_label->hide();
-        m_cropEnd->setHidden(true),
-        end_label->hide();
+        m_cropEnd->setHidden(true), end_label->hide();
     }
 
     m_crop = GenTime(in, tc.fps());
@@ -59,10 +58,10 @@ ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, 
     m_cropStart->setValue(GenTime(in, tc.fps()));
     m_cropEnd->setValue(GenTime(length - out, tc.fps()));
 
-    connect(m_pos,       &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckStart);
-    connect(m_dur,       &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckDuration);
+    connect(m_pos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckStart);
+    connect(m_dur, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckDuration);
     connect(m_cropStart, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckCrop);
-    connect(m_cropEnd,   &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckEnd);
+    connect(m_cropEnd, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipDurationDialog::slotCheckEnd);
 
     adjustSize();
 }
@@ -163,4 +162,3 @@ GenTime ClipDurationDialog::duration() const
 {
     return m_dur->gentime();
 }
-

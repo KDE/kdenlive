@@ -71,7 +71,8 @@ struct TimelineFunctions
     static bool liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
     static bool insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone, bool overwrite);
+    static bool insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
+                           bool overwrite);
 
     static bool requestItemCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position);
     static void showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value);
@@ -92,7 +93,7 @@ struct TimelineFunctions
     static bool requestSplitVideo(std::shared_ptr<TimelineItemModel> timeline, int clipId, int videoTarget);
     static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);
     static void enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable);
-    static void saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList <int> selection, QDir targetDir);
+    static void saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList<int> selection, QDir targetDir);
     /** @brief returns the number of same type tracks between 2 tracks
      */
     static int getTrackOffset(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int destTrack);

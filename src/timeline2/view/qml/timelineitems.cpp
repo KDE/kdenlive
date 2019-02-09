@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QQuickPaintedItem>
 #include <math.h>
 
-const QStringList chanelNames {"L","R","C","LFE","BL","BR"};
+const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
 
 class TimelineTriangle : public QQuickPaintedItem
 {
@@ -56,10 +56,7 @@ class TimelinePlayhead : public QQuickPaintedItem
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY colorChanged)
 
 public:
-    TimelinePlayhead()
-    {
-        connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update()));
-    }
+    TimelinePlayhead() { connect(this, SIGNAL(colorChanged(QColor)), this, SLOT(update())); }
 
     void paint(QPainter *painter) override
     {
@@ -70,7 +67,8 @@ public:
         painter->fillPath(path, m_color);
     }
 signals:
-    void colorChanged(const QColor&);
+    void colorChanged(const QColor &);
+
 private:
     QColor m_color;
 };
@@ -91,7 +89,7 @@ public:
     TimelineWaveform()
     {
         setAntialiasing(false);
-        //setClip(true);
+        // setClip(true);
         setEnabled(false);
         setRenderTarget(QQuickPaintedItem::FramebufferObject);
         setMipmap(true);

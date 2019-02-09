@@ -25,12 +25,12 @@
 #include "profiles/profilemodel.hpp"
 #include "xml/xml.hpp"
 
-#include <mlt++/Mlt.h>
+#include <KLocalizedString>
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QTextStream>
-#include <KLocalizedString>
+#include <mlt++/Mlt.h>
 
 std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
@@ -195,12 +195,12 @@ bool EffectsRepository::hasInternalEffect(const QString &effectId) const
     return false;
 }
 
-QPair <QString, QString> EffectsRepository::reloadCustom(const QString &path)
+QPair<QString, QString> EffectsRepository::reloadCustom(const QString &path)
 {
     std::unordered_map<QString, Info> customAssets;
     parseCustomAssetFile(path, customAssets);
-    QPair <QString, QString> result;
-    //TODO: handle files with several effects
+    QPair<QString, QString> result;
+    // TODO: handle files with several effects
     for (const auto &custom : customAssets) {
         // Custom assets should override default ones
         m_assets[custom.first] = custom.second;

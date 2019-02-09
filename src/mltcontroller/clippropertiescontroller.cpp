@@ -32,8 +32,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "widgets/choosecolorwidget.h"
 
-#include <KLocalizedString>
 #include <KDualAction>
+#include <KLocalizedString>
 
 #ifdef KF5_USE_FILEMETADATA
 #include <KFileMetaData/ExtractionResult>
@@ -47,25 +47,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlive_debug.h"
 #include <KMessageBox>
 #include <QCheckBox>
+#include <QClipboard>
+#include <QComboBox>
+#include <QDesktopServices>
 #include <QDoubleSpinBox>
 #include <QFile>
 #include <QFileDialog>
 #include <QFontDatabase>
 #include <QHBoxLayout>
-#include <QComboBox>
 #include <QLabel>
+#include <QMenu>
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QPixmap>
 #include <QProcess>
+#include <QScrollArea>
 #include <QTextEdit>
 #include <QToolBar>
-#include <QMenu>
 #include <QUrl>
 #include <QVBoxLayout>
-#include <QScrollArea>
-#include <QClipboard>
-#include <QDesktopServices>
 
 AnalysisTree::AnalysisTree(QWidget *parent)
     : QTreeWidget(parent)
@@ -280,7 +280,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
         connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
-        //connect(this, static_cast<void(ClipPropertiesController::*)(int)>(&ClipPropertiesController::modified), timePos, &TimecodeDisplay::setValue);
+        // connect(this, static_cast<void(ClipPropertiesController::*)(int)>(&ClipPropertiesController::modified), timePos, &TimecodeDisplay::setValue);
     }
     if (m_type == ClipType::TextTemplate) {
         // Edit text widget
@@ -302,7 +302,8 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addWidget(choosecolor);
         // connect(choosecolor, SIGNAL(displayMessage(QString,int)), this, SIGNAL(displayMessage(QString,int)));
         connect(choosecolor, &ChooseColorWidget::modified, this, &ClipPropertiesController::slotColorModified);
-        connect(this, static_cast<void(ClipPropertiesController::*)(const QColor&)>(&ClipPropertiesController::modified), choosecolor, &ChooseColorWidget::slotColorModified);
+        connect(this, static_cast<void (ClipPropertiesController::*)(const QColor &)>(&ClipPropertiesController::modified), choosecolor,
+                &ChooseColorWidget::slotColorModified);
     }
     if (m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::Image) {
         // Aspect ratio
@@ -386,13 +387,14 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             }
         });
         connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
-        connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg, lab] (const QString &pxy) {
+        connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg, lab](const QString &pxy) {
             bool hasProxyClip = pxy.length() > 2;
             QSignalBlocker bk(pbox);
             pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
             bg->setEnabled(pbox->isChecked());
             bg->setToolTip(pxy);
-            lab->setText(hasProxyClip ? m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData()) : QString());
+            lab->setText(hasProxyClip ? m_properties->get(QString("meta.media.%1.codec.name").arg(m_properties->get_int("video_index")).toUtf8().constData())
+                                      : QString());
         });
         hlay->addWidget(pbox);
         bg->setEnabled(pbox->checkState() == Qt::Checked);
@@ -403,9 +405,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QToolButton *tb = new QToolButton(this);
         tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
         tb->setAutoRaise(true);
-        connect(tb, &QToolButton::clicked, [this, proxy](){
-            emit deleteProxy();
-        });
+        connect(tb, &QToolButton::clicked, [this, proxy]() { emit deleteProxy(); });
         tb->setToolTip(i18n("Delete proxy file"));
         groupLay->addWidget(tb);
         // Folder button
@@ -418,19 +418,19 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         tb->setPopupMode(QToolButton::InstantPopup);
 
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder"), this);
-        connect(ac, &QAction::triggered, [this](){
+        connect(ac, &QAction::triggered, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);
-        connect(ac, &QAction::triggered, [this](){
+        connect(ac, &QAction::triggered, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy file location to clipboard"), this);
-        connect(ac, &QAction::triggered, [this](){
+        connect(ac, &QAction::triggered, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QGuiApplication::clipboard()->setText(pxy);
         });
@@ -454,7 +454,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *spin = new QDoubleSpinBox(this);
         spin->setMaximum(1000);
         connect(spin, SIGNAL(valueChanged(double)), this, SLOT(slotValueChanged(double)));
-        //connect(spin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ClipPropertiesController::slotValueChanged);
+        // connect(spin, static_cast<void(QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, &ClipPropertiesController::slotValueChanged);
         spin->setObjectName(QStringLiteral("force_fps_value"));
         if (force_fps.isEmpty()) {
             spin->setValue(controller->originalFps());
@@ -478,7 +478,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *combo = new QComboBox(this);
         combo->addItem(i18n("Interlaced"), 0);
         combo->addItem(i18n("Progressive"), 1);
-        connect(combo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
+        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         combo->setObjectName(QStringLiteral("force_progressive_value"));
         if (!force_prog.isEmpty()) {
             combo->setCurrentIndex(force_prog.toInt());
@@ -500,7 +500,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo = new QComboBox(this);
         combo->addItem(i18n("Bottom first"), 0);
         combo->addItem(i18n("Top first"), 1);
-        connect(combo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
+        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         combo->setObjectName(QStringLiteral("force_tff_value"));
         if (!force_tff.isEmpty()) {
             combo->setCurrentIndex(force_tff.toInt());
@@ -568,7 +568,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             ac->setActive(vix.toInt() == -1);
             videoStream->setEnabled(vix.toInt() > -1);
             videoStream->setVisible(m_videoStreams.size() > 1);
-            connect(ac, &KDualAction::activeChanged , [this, ac, videoStream](bool activated){
+            connect(ac, &KDualAction::activeChanged, [this, ac, videoStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
@@ -582,7 +582,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-            QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, videoStream](){
+            QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, videoStream]() {
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("video_index"), QString::number(videoStream->currentData().toInt()));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -619,7 +619,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             ac->setActive(vix.toInt() == -1);
             audioStream->setEnabled(vix.toInt() > -1);
             audioStream->setVisible(m_audioStreams.size() > 1);
-            connect(ac, &KDualAction::activeChanged, [this, ac, audioStream](bool activated){
+            connect(ac, &KDualAction::activeChanged, [this, ac, audioStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
@@ -633,7 +633,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-            QObject::connect(audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, audioStream](){
+            QObject::connect(audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, audioStream]() {
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("audio_index"), QString::number(audioStream->currentData().toInt()));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -667,7 +667,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             combo->setEnabled(false);
         }
         connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-        connect(combo, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
+        connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
         hlay->addWidget(box);
         hlay->addWidget(combo);
         vbox->addLayout(hlay);
@@ -767,7 +767,6 @@ void ClipPropertiesController::slotColorModified(const QColor &newcolor)
 void ClipPropertiesController::slotDurationChanged(int duration)
 {
     QMap<QString, QString> properties;
-    int original_length = m_properties->get_int("kdenlive:original_length");
     // kdenlive_length is the default duration for image / title clips
     int kdenlive_length = m_properties->get_int("kdenlive:duration");
     int current_length = m_properties->get_int("length");
@@ -994,8 +993,7 @@ void ClipPropertiesController::fillProperties()
             property = codecInfo + QStringLiteral("bit_rate");
             int bitrate = m_sourceProperties.get_int(property.toUtf8().constData()) / 1000;
             if (bitrate > 0) {
-                propertyMap.append({i18n("Video bitrate"),
-                                                 QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
+                propertyMap.append({i18n("Video bitrate"), QString::number(bitrate) + QLatin1Char(' ') + i18nc("Kilobytes per seconds", "kb/s")});
             }
 
             int scan = m_sourceProperties.get_int("meta.media.progressive");

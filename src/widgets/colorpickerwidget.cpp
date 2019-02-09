@@ -19,7 +19,6 @@
 
 #include "colorpickerwidget.h"
 
-
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QFrame>

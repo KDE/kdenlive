@@ -24,10 +24,10 @@
 #include "../model/effecttreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
-#include <QQmlContext>
-#include <QStandardPaths>
 #include <KActionCategory>
 #include <QMenu>
+#include <QQmlContext>
+#include <QStandardPaths>
 
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)

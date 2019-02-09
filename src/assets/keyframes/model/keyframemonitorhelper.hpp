@@ -24,15 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QPersistentModelIndex>
 
-#include <QVariant>
 #include <QObject>
+#include <QVariant>
 
 #include <memory>
 
 class Monitor;
 class AssetParameterModel;
 
-/** @brief This class helps manage effects that receive data from the monitor's qml overlay to translate   
+/** @brief This class helps manage effects that receive data from the monitor's qml overlay to translate
    the data and pass it to the model
 
  */
@@ -46,21 +46,21 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
     bool connectMonitor(bool activate);
     /** @brief Send data update to the monitor
-    */
+     */
     virtual void refreshParams(int pos) = 0;
 
 protected:
     Monitor *m_monitor;
-    std::shared_ptr< AssetParameterModel> m_model;
+    std::shared_ptr<AssetParameterModel> m_model;
     /** @brief List of indexes managed by this class
-    */
-    QList <QPersistentModelIndex> m_indexes;
+     */
+    QList<QPersistentModelIndex> m_indexes;
     bool m_active;
 
 private slots:
@@ -68,14 +68,13 @@ private slots:
 
 public slots:
     /** @brief For classes that manage several parameters, add a param index to the list
-    */
+     */
     void addIndex(QPersistentModelIndex index);
 
 signals:
     /** @brief Send updated keyframe data to the parameter @index
-    */
+     */
     void updateKeyframeData(QPersistentModelIndex index, const QVariant &v);
 };
 
 #endif
-

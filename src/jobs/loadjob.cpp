@@ -32,9 +32,9 @@
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
 #include "xml/xml.hpp"
+#include <KMessageWidget>
 #include <QMimeDatabase>
 #include <QWidget>
-#include <KMessageWidget>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
@@ -282,7 +282,8 @@ bool LoadJob::startJob()
         if (m_producer) {
             m_producer.reset();
         }
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, i18n("Cannot open file %1", m_resource)), Q_ARG(int, (int)KMessageWidget::Warning));
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, i18n("Cannot open file %1", m_resource)),
+                                  Q_ARG(int, (int)KMessageWidget::Warning));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
     }
@@ -419,8 +420,7 @@ void LoadJob::processMultiStream()
         qDebug() << "Warning, something went wrong while accessing parent of bin clip";
     }
     // This helper lambda request addition of a given stream
-    auto addStream = [ this, parentId = std::move(parent) ](int vindex, int aindex, Fun &undo, Fun &redo)
-    {
+    auto addStream = [this, parentId = std::move(parent)](int vindex, int aindex, Fun &undo, Fun &redo) {
         auto clone = ProjectClip::cloneProducer(m_producer);
         clone->set("video_index", vindex);
         clone->set("audio_index", aindex);
@@ -536,8 +536,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     }
 
     // note that the image is moved into lambda, it won't be available from this class anymore
-    auto operation = [ clip = m_binClip, prod = std::move(m_producer) ]()
-    {
+    auto operation = [clip = m_binClip, prod = std::move(m_producer)]() {
         clip->setProducer(prod, true);
         return true;
     };

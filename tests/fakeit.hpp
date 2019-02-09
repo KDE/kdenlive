@@ -2,7 +2,7 @@
 /*
  *  FakeIt - A Simplified C++ Mocking Framework
  *  Copyright (c) Eran Pe'er 2013
- *  Generated: 2017-11-05 20:30:40.182814
+ *  Generated: 2018-08-17 00:22:40.428924
  *  Distributed under the MIT License. Please refer to the LICENSE file at:
  *  https://github.com/eranpeer/FakeIt
  */
@@ -11,6 +11,10 @@
 #define fakeit_h__
 
 
+#if defined __GNUC__
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wcast-function-type"
+#endif
 
 #include <functional>
 #include <memory>
@@ -250,6 +254,35 @@ namespace fakeit {
 			s += val;
 			s += "'";
 			return s;
+		}
+	};
+
+	template <>
+	struct Formatter<char const*>
+	{
+		static std::string format(char const* const &val)
+		{
+			std::string s;
+			if(val != nullptr)
+			{
+				s += '"';
+				s += val;
+				s += '"';
+			}
+			else
+			{
+				s = "[nullptr]";
+			}
+			return s;
+		}
+	};
+
+	template <>
+	struct Formatter<char*>
+	{
+		static std::string format(char* const &val)
+		{
+			return Formatter<char const*>::format( val );
 		}
 	};
 
@@ -742,6 +775,9 @@ namespace fakeit {
     };
 
 }
+#ifdef FAKEIT_ASSERT_ON_UNEXPECTED_METHOD_INVOCATION
+#include <cassert>
+#endif
 
 namespace fakeit {
 
@@ -831,7 +867,7 @@ namespace fakeit {
             out << "Unexpected method invocation: ";
             out << e.getInvocation().format() << std::endl;
             if (UnexpectedType::Unmatched == e.getUnexpectedType()) {
-                out << "  Could not find Any recorded behavior to support this method call.";
+                out << "  Could not find any recorded behavior to support this method call.";
             } else {
                 out << "  An unmocked method was invoked. All used virtual methods must be stubbed!";
             }
@@ -868,7 +904,7 @@ namespace fakeit {
         virtual std::string format(const NoMoreInvocationsVerificationEvent &e) override {
             std::ostringstream out;
             out << "Verification error" << std::endl;
-            out << "Expected no more invocations!! But the following unverified invocations were found:" << std::endl;
+            out << "Expected no more invocations!! but the following unverified invocations were found:" << std::endl;
             formatInvocationList(out, e.unverifedIvocations());
             return out.str();
         }
@@ -915,8 +951,8 @@ namespace fakeit {
 
         static void formatInvocationList(std::ostream &out, const std::vector<fakeit::Invocation *> &actualSequence) {
             size_t max_size = actualSequence.size();
-            if (max_size > 5)
-                max_size = 5;
+            if (max_size > 50)
+                max_size = 50;
 
             for (unsigned int i = 0; i < max_size; i++) {
                 out << "  ";
@@ -1170,12 +1206,13 @@ namespace fakeit {
                 std::string fomattedMessage,
                 Catch::ResultWas::OfType resultWas = Catch::ResultWas::OfType::ExpressionFailed ){
             Catch::AssertionHandler catchAssertionHandler( vetificationType, sourceLineInfo, failingExpression, Catch::ResultDisposition::Normal );
-            INTERNAL_CATCH_TRY( catchAssertionHandler ) { \
+            INTERNAL_CATCH_TRY { \
                 CATCH_INTERNAL_SUPPRESS_PARENTHESES_WARNINGS \
-                catchAssertionHandler.handle( resultWas , fomattedMessage); \
+                catchAssertionHandler.handleMessage(resultWas, fomattedMessage); \
                 CATCH_INTERNAL_UNSUPPRESS_PARENTHESES_WARNINGS \
-            } INTERNAL_CATCH_CATCH( catchAssertionHandler ) \
-            INTERNAL_CATCH_REACT( catchAssertionHandler )
+            } INTERNAL_CATCH_CATCH(catchAssertionHandler) { \
+                INTERNAL_CATCH_REACT(catchAssertionHandler) \
+            }
         }
 
         virtual void handle(const UnexpectedMethodCallEvent &evt) override {
@@ -1237,11 +1274,13 @@ static fakeit::DefaultFakeit& Fakeit = fakeit::CatchFakeit::getInstance();
 #include <unordered_set>
 
 #include <memory>
+#undef max
 #include <functional>
 #include <type_traits>
 #include <vector>
 #include <array>
 #include <new>
+#include <limits>
 
 #include <functional>
 #include <type_traits>
@@ -5281,7 +5320,9 @@ namespace fakeit {
 }
 
 namespace fakeit {
-    class NoVirtualDtor {
+    class NoVirtualDtor : public std::runtime_error {
+    public:
+		NoVirtualDtor() :std::runtime_error("Can't mock the destructor. No virtual destructor was found") {}
     };
 
     class VTUtils {
@@ -5307,6 +5348,18 @@ namespace fakeit {
         getDestructorOffset() {
             throw NoVirtualDtor();
         }
+
+		template<typename C>
+		static typename std::enable_if<std::has_virtual_destructor<C>::value, bool>::type
+			hasVirtualDestructor() {
+			return true;
+		}
+
+		template<typename C>
+		static typename std::enable_if<!std::has_virtual_destructor<C>::value, bool>::type
+			hasVirtualDestructor() {
+			return false;
+		}
 
         template<typename C>
         static unsigned int getVTSize() {
@@ -5935,6 +5988,10 @@ namespace fakeit {
                 std::vector<std::shared_ptr<Destructible>> &methodMocks,
                 std::vector<unsigned int> &offsets) :
                 _methodMocks(methodMocks), _offsets(offsets) {
+			for (std::vector<unsigned int>::iterator it = _offsets.begin(); it != _offsets.end(); ++it)
+			{
+				*it = std::numeric_limits<int>::max();
+			}
         }
 
         Destructible *getInvocatoinHandlerPtrById(unsigned int id) override {
@@ -7900,21 +7957,12 @@ namespace fakeit {
         }
 
         MockImpl(FakeitContext &fakeit)
-                : MockImpl<C, baseclasses...>(fakeit, *(createFakeInstance()), false) {
-            FakeObject<C, baseclasses...> *fake = reinterpret_cast<FakeObject<C, baseclasses...> *>(_instance);
+                : MockImpl<C, baseclasses...>(fakeit, *(createFakeInstance()), false){
+            FakeObject<C, baseclasses...> *fake = asFakeObject(_instanceOwner.get());
             fake->getVirtualTable().setCookie(1, this);
         }
 
         virtual ~MockImpl() NO_THROWS {
-            _proxy.detach();
-            if (_isOwner) {
-                FakeObject<C, baseclasses...> *fake = reinterpret_cast<FakeObject<C, baseclasses...> *>(_instance);
-                delete fake;
-            }
-        }
-
-        void detach() {
-            _isOwner = false;
             _proxy.detach();
         }
 
@@ -7929,8 +7977,8 @@ namespace fakeit {
 
 	    void initDataMembersIfOwner()
 	    {
-		    if (_isOwner) {
-			    FakeObject<C, baseclasses...> *fake = reinterpret_cast<FakeObject<C, baseclasses...> *>(_instance);
+		    if (isOwner()) {
+			    FakeObject<C, baseclasses...> *fake = asFakeObject(_instanceOwner.get());
 			    fake->initializeDataMembersArea();
 		    }
 	    }
@@ -7974,11 +8022,34 @@ namespace fakeit {
             return DtorMockingContext(new DtorMockingContextImpl(*this));
         }
 
+
+
+
+
+
+
     private:
-        DynamicProxy<C, baseclasses...> _proxy;
-        C *_instance;
-        bool _isOwner;
+
+
+
+
+
+
+
+
+
+		std::shared_ptr<FakeObject<C, baseclasses...>> _instanceOwner;
+		DynamicProxy<C, baseclasses...> _proxy;
         FakeitContext &_fakeit;
+
+        MockImpl(FakeitContext &fakeit, C &obj, bool isSpy)
+                : _instanceOwner(isSpy ? nullptr : asFakeObject(&obj))
+				, _proxy{obj}
+				, _fakeit(fakeit) {}
+
+        static FakeObject<C, baseclasses...>* asFakeObject(void* instance){
+            return reinterpret_cast<FakeObject<C, baseclasses...> *>(instance);
+        }
 
         template<typename R, typename ... arglist>
         class MethodMockingContextBase : public MethodMockingContext<R, arglist...>::Context {
@@ -8086,11 +8157,15 @@ namespace fakeit {
         };
 
         static MockImpl<C, baseclasses...> *getMockImpl(void *instance) {
-            FakeObject<C, baseclasses...> *fake = reinterpret_cast<FakeObject<C, baseclasses...> *>(instance);
+            FakeObject<C, baseclasses...> *fake = asFakeObject(instance);
             MockImpl<C, baseclasses...> *mock = reinterpret_cast<MockImpl<C, baseclasses...> *>(fake->getVirtualTable().getCookie(
                     1));
             return mock;
         }
+
+        bool isOwner(){ return _instanceOwner != nullptr;}
+
+		void unmockedDtor() {}
 
         void unmocked() {
             ActualInvocation<> invocation(Invocation::nextInvocationOrdinal(), UnknownMethod::instance());
@@ -8106,8 +8181,11 @@ namespace fakeit {
         static C *createFakeInstance() {
             FakeObject<C, baseclasses...> *fake = new FakeObject<C, baseclasses...>();
             void *unmockedMethodStubPtr = union_cast<void *>(&MockImpl<C, baseclasses...>::unmocked);
-            fake->getVirtualTable().initAll(unmockedMethodStubPtr);
-            return reinterpret_cast<C *>(fake);
+			void *unmockedDtorStubPtr = union_cast<void *>(&MockImpl<C, baseclasses...>::unmockedDtor);
+			fake->getVirtualTable().initAll(unmockedMethodStubPtr);
+			if (VTUtils::hasVirtualDestructor<C>())
+				fake->setDtor(unmockedDtorStubPtr);
+			return reinterpret_cast<C *>(fake);
         }
 
         template<typename R, typename ... arglist>
@@ -8145,10 +8223,6 @@ namespace fakeit {
             return *dtorMock;
         }
 
-        MockImpl(FakeitContext &fakeit, C &obj, bool isSpy)
-                : _proxy{obj}, _instance(&obj), _isOwner(!isSpy), _fakeit(fakeit) {
-        }
-
         template<typename R, typename ... arglist>
         static RecordedMethodBody<R, arglist...> *createRecordedMethodBody(MockObject<C> &mock,
                                                                            R(C::*vMethod)(arglist...)) {
@@ -8158,7 +8232,6 @@ namespace fakeit {
         static RecordedMethodBody<void> *createRecordedDtorBody(MockObject<C> &mock) {
             return new RecordedMethodBody<void>(mock.getFakeIt(), "dtor");
         }
-
     };
 }
 namespace fakeit {
@@ -8232,7 +8305,11 @@ namespace fakeit {
             return impl.get();
         }
 
-        C &operator()() {
+
+
+
+
+		C &operator()() {
             return get();
         }
 
@@ -8753,12 +8830,12 @@ namespace fakeit {
             return !isAtLeastVerification();
         }
 
-        bool atLeastLimitNotReached(int count) {
-            return count < -_expectedCount;
+        bool atLeastLimitNotReached(int actualCount) {
+            return actualCount < -_expectedCount;
         }
 
-        bool exactLimitNotMatched(int count) {
-            return count != _expectedCount;
+        bool exactLimitNotMatched(int actualCount) {
+            return actualCount != _expectedCount;
         }
 
         void handleExactVerificationEvent(VerificationEventHandler &verificationErrorHandler,
@@ -8850,7 +8927,7 @@ namespace fakeit {
 
         ~SequenceVerificationProgress() THROWS { };
 
-        operator bool() {
+        operator bool() const {
             return Terminator(_expectationPtr);
         }
 
@@ -9105,8 +9182,8 @@ namespace fakeit {
             return *this;
         }
 
-        operator bool() {
-            return toBool();
+        operator bool() const {
+            return const_cast<VerifyNoOtherInvocationsVerificationProgress *>(this)->toBool();
         }
 
         bool operator!() const { return !const_cast<VerifyNoOtherInvocationsVerificationProgress *>(this)->toBool(); }
@@ -9298,5 +9375,14 @@ namespace fakeit {
 #define When(call) \
     When(call)
 
+#ifdef __clang__
+//#    ifdef __ICC // icpc defines the __clang__ macro
+//#        pragma warning(pop)
+//#    else
+//#        pragma clang diagnostic pop
+//#    endif
+#elif defined __GNUC__
+#    pragma GCC diagnostic pop
+#endif
 
 #endif

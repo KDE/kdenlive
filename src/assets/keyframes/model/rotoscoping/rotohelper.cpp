@@ -20,14 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "rotohelper.hpp"
-#include "gentime.h"
-#include "core.h"
-#include "monitor/monitor.h"
 #include "assets/keyframes/model/keyframemodellist.hpp"
+#include "core.h"
+#include "gentime.h"
+#include "monitor/monitor.h"
 
 #include <QSize>
 
-RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr< AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
+RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
     : KeyframeMonitorHelper(monitor, model, index, parent)
 {
 }
@@ -37,7 +37,6 @@ void RotoHelper::slotUpdateFromMonitorData(const QVariantList &v)
     const QVariant res = RotoHelper::getSpline(QVariant(v), pCore->getCurrentFrameSize());
     emit updateKeyframeData(m_indexes.first(), res);
 }
-
 
 QVariant RotoHelper::getSpline(QVariant value, const QSize frame)
 {

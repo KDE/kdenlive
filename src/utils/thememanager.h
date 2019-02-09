@@ -24,9 +24,9 @@
 
 // Qt includes
 
-#include <QObject>
 #include <QAction>
 #include <QApplication>
+#include <QObject>
 #include <QString>
 
 // KDE includes
@@ -38,11 +38,11 @@ class ThemeManager : public QAction
 {
     Q_OBJECT
 public:
-    ThemeManager(QObject* parent);
+    ThemeManager(QObject *parent);
     QString currentSchemeName() const;
 
 private Q_SLOTS:
-    void slotSchemeChanged(QAction* triggeredAction, const QString &path);
+    void slotSchemeChanged(QAction *triggeredAction, const QString &path);
 
 private:
     QString loadCurrentScheme() const;
@@ -52,6 +52,5 @@ private:
 signals:
     void themeChanged(const QString &name);
 };
-
 
 #endif /* THEMEMANAGER_H */

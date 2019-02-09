@@ -567,13 +567,11 @@ void GroupsModel::setInGroupOf(int id, int targetId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_upLink.count(targetId) > 0);
-    Fun operation = [ this, id, group = m_upLink[targetId] ]()
-    {
+    Fun operation = [this, id, group = m_upLink[targetId]]() {
         setGroup(id, group);
         return true;
     };
-    Fun reverse = [ this, id, group = m_upLink[id] ]()
-    {
+    Fun reverse = [this, id, group = m_upLink[id]]() {
         setGroup(id, group);
         return true;
     };
@@ -597,8 +595,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
         Q_ASSERT(m_upLink.count(g) > 0);
         old_parents[g] = m_upLink[g];
     }
-    Fun operation = [ this, id, gid, type, to_add, parent = m_upLink.at(id) ]()
-    {
+    Fun operation = [this, id, gid, type, to_add, parent = m_upLink.at(id)]() {
         createGroupItem(gid);
         setGroup(gid, parent);
         for (const auto &g : to_add) {
@@ -822,9 +819,9 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
     }
     auto list = json.array();
     bool ok = true;
-    qDebug()<<"* * *READY TO LOAD JSON DATA";
+    qDebug() << "* * *READY TO LOAD JSON DATA";
     for (auto elem : list) {
-        qDebug()<<"* * *LOADING GROUP + + + + + + ++  + + +";
+        qDebug() << "* * *LOADING GROUP + + + + + + ++  + + +";
         if (!elem.isObject()) {
             qDebug() << "Error : Expected json object while parsing groups";
             undo();
@@ -845,22 +842,22 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
             }
             QJsonObject child = c.toObject();
             if (child.contains(QLatin1String("data"))) {
-            if (auto ptr = m_parent.lock()) {
-                QString data = child.value(QLatin1String("data")).toString();
-                int trackId = ptr->getTrackIndexFromPosition(data.section(":", 0, 0).toInt());
-                int pos = data.section(":", 1, 1).toInt();
-                qDebug()<<"// ORIGINAL GROUP DATA: "<<trackId<<" / "<<pos;
-                trackId = ptr->getTrackMltIndex(trackMap.value(trackId)) - 1;
-                pos += offset;
-                child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackId).arg(pos)));
-                qDebug()<<"// UPDATING GROUP DATA: "<<trackId<<" / "<<pos;
-            }
-            updatedNodes.append(QJsonValue(child));
+                if (auto ptr = m_parent.lock()) {
+                    QString cur_data = child.value(QLatin1String("data")).toString();
+                    int trackId = ptr->getTrackIndexFromPosition(data.section(":", 0, 0).toInt());
+                    int pos = cur_data.section(":", 1, 1).toInt();
+                    qDebug() << "// ORIGINAL GROUP DATA: " << trackId << " / " << pos;
+                    trackId = ptr->getTrackMltIndex(trackMap.value(trackId)) - 1;
+                    pos += offset;
+                    child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackId).arg(pos)));
+                    qDebug() << "// UPDATING GROUP DATA: " << trackId << " / " << pos;
+                }
+                updatedNodes.append(QJsonValue(child));
             }
         }
-        qDebug()<<"* ** * UPDATED JSON NODES: "<<updatedNodes;
+        qDebug() << "* ** * UPDATED JSON NODES: " << updatedNodes;
         obj.insert(QLatin1String("children"), QJsonValue(updatedNodes));
-        qDebug()<<"* ** * UPDATED JSON NODES: "<<obj;
+        qDebug() << "* ** * UPDATED JSON NODES: " << obj;
         ok = ok && fromJson(obj, undo, redo);
     }
     return ok;

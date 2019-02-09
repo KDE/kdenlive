@@ -26,6 +26,8 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectlist/model/effectfilter.hpp"
+#include "effects/effectlist/model/effecttreemodel.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
@@ -33,10 +35,8 @@
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
-#include "transitions/transitionlist/model/transitiontreemodel.hpp"
 #include "transitions/transitionlist/model/transitionfilter.hpp"
-#include "effects/effectlist/model/effecttreemodel.hpp"
-#include "effects/effectlist/model/effectfilter.hpp"
+#include "transitions/transitionlist/model/transitiontreemodel.hpp"
 #include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>
@@ -95,7 +95,6 @@ TimelineWidget::~TimelineWidget()
     delete m_proxy;
 }
 
-
 void TimelineWidget::updateEffectFavorites()
 {
     rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
@@ -108,8 +107,8 @@ void TimelineWidget::updateTransitionFavorites()
 
 const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isTransition)
 {
-    QMap <QString, QString> sortedItems;
-    for (const QString & effect : items) {
+    QMap<QString, QString> sortedItems;
+    for (const QString &effect : items) {
         sortedItems.insert(m_proxy->getAssetName(effect, isTransition), effect);
     }
     return sortedItems.values();
@@ -127,8 +126,8 @@ void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
-    rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); //m_transitionProxyModel.get());
-    //rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
+    rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); // m_transitionProxyModel.get());
+    // rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
     rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
@@ -193,8 +192,8 @@ int TimelineWidget::zoomForScale(double value) const
 {
     int scale = 100.0 / value;
     int ix = 13;
-    while(comboScale[ix] > scale && ix > 0) {
-        ix --;
+    while (comboScale[ix] > scale && ix > 0) {
+        ix--;
     }
     return ix;
 }

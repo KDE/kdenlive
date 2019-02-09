@@ -22,9 +22,9 @@
 #include "qmlmanager.h"
 #include "qml/qmlaudiothumb.h"
 
-#include <QQuickView>
-#include <QQmlContext>
 #include <QFontDatabase>
+#include <QQmlContext>
+#include <QQuickView>
 
 QmlManager::QmlManager(QQuickView *view)
     : QObject(view)
@@ -75,7 +75,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("center", displayRect.center());
         break;
     case MonitorSceneCorners:
-        qDebug()<<"/// LOADING CORNERS SCENE\n\n+++++++++++++++++++++++++\n------------------\n+++++++++++++++++";
+        qDebug() << "/// LOADING CORNERS SCENE\n\n+++++++++++++++++++++++++\n------------------\n+++++++++++++++++";
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorcornerscene.qml")));
         root = m_view->rootObject();
         QObject::connect(root, SIGNAL(effectPolygonChanged()), this, SLOT(effectPolygonChanged()), Qt::UniqueConnection);
@@ -137,7 +137,7 @@ void QmlManager::effectPolygonChanged()
         return;
     }
     QVariantList points = m_view->rootObject()->property("centerPoints").toList();
-    qDebug()<<"// GOT NEW POLYGON FROM QML: "<<points;
+    qDebug() << "// GOT NEW POLYGON FROM QML: " << points;
     emit effectPointsChanged(points);
 }
 

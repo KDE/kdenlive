@@ -24,14 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "compositionmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
-#include "transitions/transitionsrepository.hpp"
 #include "groupsmodel.hpp"
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
+#include "transitions/transitionsrepository.hpp"
 
-#include <QInputDialog>
 #include <QApplication>
 #include <QDebug>
+#include <QInputDialog>
 #include <klocalizedstring.h>
 
 bool TimelineFunctions::copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo)
@@ -144,7 +144,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
     bool isSelected = pCore->isSelected(clipId);
     pCore->clearSelection();
     int count = 0;
-    QList <int> newIds;
+    QList<int> newIds;
     for (int cid : clips) {
         int start = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
@@ -248,7 +248,8 @@ bool TimelineFunctions::extractZone(std::shared_ptr<TimelineItemModel> timeline,
     return result;
 }
 
-bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone, bool overwrite)
+bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
+                                   bool overwrite)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
@@ -258,7 +259,8 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
     if (overwrite) {
         result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
         if (!trackIds.isEmpty()) {
-            result = result && TimelineFunctions::liftZone(timeline, trackIds.takeFirst(), QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+            result =
+                result && TimelineFunctions::liftZone(timeline, trackIds.takeFirst(), QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
         }
     } else {
         // Cut all tracks
@@ -286,7 +288,7 @@ bool TimelineFunctions::insertZone(std::shared_ptr<TimelineItemModel> timeline, 
             pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
         }
     }
-    if (!result){
+    if (!result) {
         undo();
     }
     return result;
@@ -299,18 +301,18 @@ bool TimelineFunctions::liftZone(std::shared_ptr<TimelineItemModel> timeline, in
     if (startClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(startClipId) < zone.x()) {
-            qDebug()<<"/// CUTTING AT START: "<<zone.x()<<", ID: "<<startClipId;
+            qDebug() << "/// CUTTING AT START: " << zone.x() << ", ID: " << startClipId;
             TimelineFunctions::requestClipCut(timeline, startClipId, zone.x(), undo, redo);
-            qDebug()<<"/// CUTTING AT START DONE";
+            qDebug() << "/// CUTTING AT START DONE";
         }
     }
     int endClipId = timeline->getClipByPosition(trackId, zone.y());
     if (endClipId > -1) {
         // There is a clip, cut it
         if (timeline->getClipPosition(endClipId) + timeline->getClipPlaytime(endClipId) > zone.y()) {
-            qDebug()<<"/// CUTTING AT END: "<<zone.y()<<", ID: "<<endClipId;
+            qDebug() << "/// CUTTING AT END: " << zone.y() << ", ID: " << endClipId;
             TimelineFunctions::requestClipCut(timeline, endClipId, zone.y(), undo, redo);
-            qDebug()<<"/// CUTTING AT END DONE";
+            qDebug() << "/// CUTTING AT END DONE";
         }
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
@@ -469,8 +471,8 @@ bool TimelineFunctions::changeClipState(std::shared_ptr<TimelineItemModel> timel
             end = start + timeline->getItemPlaytime(clipId);
         }
     }
-    Fun local_undo = []() {return true;};
-    Fun local_redo = []() {return true;};
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
 
     bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
     Fun local_update = [start, end, timeline]() {
@@ -638,7 +640,7 @@ void TimelineFunctions::setCompositionATrack(std::shared_ptr<TimelineItemModel> 
 
 void TimelineFunctions::enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable)
 {
-    QList <int> videoTracks;
+    QList<int> videoTracks;
     for (const auto &track : timeline->m_iteratorTable) {
         if (timeline->getTrackById_const(track.first)->isAudioTrack() || timeline->getTrackById_const(track.first)->isHidden()) {
             continue;
@@ -678,107 +680,107 @@ void TimelineFunctions::enableMultitrackView(std::shared_ptr<TimelineItemModel> 
             transition.set("internal_added", 200);
             QString geometry;
             switch (i) {
-                case 0:
-                    switch (videoTracks.size()) {
-                        case 2:
-                            geometry = QStringLiteral("0 0 50% 100%");
-                            break;
-                        case 3:
-                            geometry = QStringLiteral("0 0 33% 100%");
-                            break;
-                        case 4:
-                            geometry = QStringLiteral("0 0 50% 50%");
-                            break;
-                        case 5:
-                        case 6:
-                            geometry = QStringLiteral("0 0 33% 50%");
-                            break;
-                        default:
-                            geometry = QStringLiteral("0 0 33% 33%");
-                            break;
-                    }
-                    break;
-                case 1:
-                    switch (videoTracks.size()) {
-                        case 2:
-                            geometry = QStringLiteral("50% 0 50% 100%");
-                            break;
-                        case 3:
-                            geometry = QStringLiteral("33% 0 33% 100%");
-                            break;
-                        case 4:
-                            geometry = QStringLiteral("50% 0 50% 50%");
-                            break;
-                        case 5:
-                        case 6:
-                            geometry = QStringLiteral("33% 0 33% 50%");
-                            break;
-                        default:
-                            geometry = QStringLiteral("33% 0 33% 33%");
-                            break;
-                    }
-                    break;
+            case 0:
+                switch (videoTracks.size()) {
                 case 2:
-                    switch (videoTracks.size()) {
-                        case 3:
-                            geometry = QStringLiteral("66% 0 33% 100%");
-                            break;
-                        case 4:
-                            geometry = QStringLiteral("0 50% 50% 50%");
-                            break;
-                        case 5:
-                        case 6:
-                            geometry = QStringLiteral("66% 0 33% 50%");
-                            break;
-                        default:
-                            geometry = QStringLiteral("66% 0 33% 33%");
-                            break;
-                    }
+                    geometry = QStringLiteral("0 0 50% 100%");
                     break;
                 case 3:
-                    switch (videoTracks.size()) {
-                        case 4:
-                            geometry = QStringLiteral("50% 50% 50% 50%");
-                            break;
-                        case 5:
-                        case 6:
-                            geometry = QStringLiteral("0 50% 33% 50%");
-                            break;
-                        default:
-                            geometry = QStringLiteral("0 33% 33% 33%");
-                            break;
-                    }
+                    geometry = QStringLiteral("0 0 33% 100%");
                     break;
                 case 4:
-                    switch (videoTracks.size()) {
-                        case 5:
-                        case 6:
-                            geometry = QStringLiteral("33% 50% 33% 50%");
-                            break;
-                        default:
-                            geometry = QStringLiteral("33% 33% 33% 33%");
-                            break;
-                    }
+                    geometry = QStringLiteral("0 0 50% 50%");
                     break;
                 case 5:
-                    switch (videoTracks.size()) {
-                        case 6:
-                            geometry = QStringLiteral("66% 50% 33% 50%");
-                            break;
-                        default:
-                            geometry = QStringLiteral("66% 33% 33% 33%");
-                            break;
-                    }
-                    break;
                 case 6:
-                    geometry = QStringLiteral("0 66% 33% 33%");
-                    break;
-                case 7:
-                    geometry = QStringLiteral("33% 66% 33% 33%");
+                    geometry = QStringLiteral("0 0 33% 50%");
                     break;
                 default:
-                    geometry = QStringLiteral("66% 66% 33% 33%");
+                    geometry = QStringLiteral("0 0 33% 33%");
                     break;
+                }
+                break;
+            case 1:
+                switch (videoTracks.size()) {
+                case 2:
+                    geometry = QStringLiteral("50% 0 50% 100%");
+                    break;
+                case 3:
+                    geometry = QStringLiteral("33% 0 33% 100%");
+                    break;
+                case 4:
+                    geometry = QStringLiteral("50% 0 50% 50%");
+                    break;
+                case 5:
+                case 6:
+                    geometry = QStringLiteral("33% 0 33% 50%");
+                    break;
+                default:
+                    geometry = QStringLiteral("33% 0 33% 33%");
+                    break;
+                }
+                break;
+            case 2:
+                switch (videoTracks.size()) {
+                case 3:
+                    geometry = QStringLiteral("66% 0 33% 100%");
+                    break;
+                case 4:
+                    geometry = QStringLiteral("0 50% 50% 50%");
+                    break;
+                case 5:
+                case 6:
+                    geometry = QStringLiteral("66% 0 33% 50%");
+                    break;
+                default:
+                    geometry = QStringLiteral("66% 0 33% 33%");
+                    break;
+                }
+                break;
+            case 3:
+                switch (videoTracks.size()) {
+                case 4:
+                    geometry = QStringLiteral("50% 50% 50% 50%");
+                    break;
+                case 5:
+                case 6:
+                    geometry = QStringLiteral("0 50% 33% 50%");
+                    break;
+                default:
+                    geometry = QStringLiteral("0 33% 33% 33%");
+                    break;
+                }
+                break;
+            case 4:
+                switch (videoTracks.size()) {
+                case 5:
+                case 6:
+                    geometry = QStringLiteral("33% 50% 33% 50%");
+                    break;
+                default:
+                    geometry = QStringLiteral("33% 33% 33% 33%");
+                    break;
+                }
+                break;
+            case 5:
+                switch (videoTracks.size()) {
+                case 6:
+                    geometry = QStringLiteral("66% 50% 33% 50%");
+                    break;
+                default:
+                    geometry = QStringLiteral("66% 33% 33% 33%");
+                    break;
+                }
+                break;
+            case 6:
+                geometry = QStringLiteral("0 66% 33% 33%");
+                break;
+            case 7:
+                geometry = QStringLiteral("33% 66% 33% 33%");
+                break;
+            default:
+                geometry = QStringLiteral("66% 66% 33% 33%");
+                break;
             }
             // Add transition to track:
             transition.set("geometry", geometry.toUtf8().constData());
@@ -790,10 +792,11 @@ void TimelineFunctions::enableMultitrackView(std::shared_ptr<TimelineItemModel> 
     timeline->requestMonitorRefresh();
 }
 
-void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList <int> selection, QDir targetDir)
+void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList<int> selection, QDir targetDir)
 {
     bool ok;
-    QString name = QInputDialog::getText(qApp->activeWindow(), i18n("Add Clip to Library"), i18n("Enter a name for the clip in Library"), QLineEdit::Normal, QString(), &ok);
+    QString name = QInputDialog::getText(qApp->activeWindow(), i18n("Add Clip to Library"), i18n("Enter a name for the clip in Library"), QLineEdit::Normal,
+                                         QString(), &ok);
     if (name.isEmpty() || !ok) {
         return;
     }
@@ -805,7 +808,7 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
     int lowerVideoTrack = -1;
     QString fullPath = targetDir.absoluteFilePath(name + QStringLiteral(".mlt"));
     // Build a copy of selected tracks.
-    QMap <int, int> sourceTracks;
+    QMap<int, int> sourceTracks;
     for (int i : selection) {
         int sourceTrack = timeline->getItemTrackId(i);
         int clipPos = timeline->getItemPosition(i);
@@ -819,7 +822,7 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
     }
     // Build target timeline
     Mlt::Tractor newTractor(*timeline->m_tractor->profile());
-    QScopedPointer<Mlt::Field>field(newTractor.field());
+    QScopedPointer<Mlt::Field> field(newTractor.field());
     int ix = 0;
     QString composite = TransitionsRepository::get()->getCompositingTransition();
     QMapIterator<int, int> i(sourceTracks);
@@ -828,7 +831,7 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
         i.next();
         QScopedPointer<Mlt::Playlist> newTrackPlaylist(new Mlt::Playlist(*newTractor.profile()));
         newTractor.set_track(*newTrackPlaylist, ix);
-        //QScopedPointer<Mlt::Producer> trackProducer(newTractor.track(ix));
+        // QScopedPointer<Mlt::Producer> trackProducer(newTractor.track(ix));
         int trackId = i.value();
         sourceTracks.insert(timeline->getTrackMltIndex(trackId), ix);
         std::shared_ptr<TrackModel> track = timeline->getTrackById_const(trackId);
@@ -917,20 +920,20 @@ void TimelineFunctions::saveTimelineSelection(std::shared_ptr<TimelineItemModel>
 
 int TimelineFunctions::getTrackOffset(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int destTrack)
 {
-    qDebug()<<"+++++++\nGET TRACK OFFSET: "<<startTrack<<" - "<<destTrack;
+    qDebug() << "+++++++\nGET TRACK OFFSET: " << startTrack << " - " << destTrack;
     int masterTrackMltIndex = timeline->getTrackMltIndex(startTrack);
     int destTrackMltIndex = timeline->getTrackMltIndex(destTrack);
     int offset = 0;
-    qDebug()<<"+++++++\nGET TRACK MLT: "<<masterTrackMltIndex<<" - "<<destTrackMltIndex;
+    qDebug() << "+++++++\nGET TRACK MLT: " << masterTrackMltIndex << " - " << destTrackMltIndex;
     if (masterTrackMltIndex == destTrackMltIndex) {
         return offset;
     }
-    int step = masterTrackMltIndex > destTrackMltIndex ? - 1 : 1;
+    int step = masterTrackMltIndex > destTrackMltIndex ? -1 : 1;
     bool isAudio = timeline->isAudioTrack(startTrack);
     int track = masterTrackMltIndex;
     while (track != destTrackMltIndex) {
         track += step;
-        qDebug()<<"+ + +TESTING TRACK: "<<track;
+        qDebug() << "+ + +TESTING TRACK: " << track;
         int trackId = timeline->getTrackIndexFromPosition(track - 1);
         if (isAudio == timeline->isAudioTrack(trackId)) {
             offset += step;
@@ -946,15 +949,15 @@ int TimelineFunctions::getOffsetTrackId(std::shared_ptr<TimelineItemModel> timel
     if (isAudio != audioOffset) {
         offset = -offset;
     }
-    qDebug()<<"* ** * MASTER INDEX: "<<masterTrackMltIndex<<", OFFSET: "<<offset;
+    qDebug() << "* ** * MASTER INDEX: " << masterTrackMltIndex << ", OFFSET: " << offset;
     while (offset != 0) {
         masterTrackMltIndex += offset > 0 ? 1 : -1;
-        qDebug()<<"#### TESTING TRACK: "<<masterTrackMltIndex;
+        qDebug() << "#### TESTING TRACK: " << masterTrackMltIndex;
         if (masterTrackMltIndex < 0) {
             masterTrackMltIndex = 0;
             break;
-        } else if (masterTrackMltIndex > (int)timeline->m_allTracks.size() ) {
-            masterTrackMltIndex = timeline->m_allTracks.size();
+        } else if (masterTrackMltIndex > (int)timeline->m_allTracks.size()) {
+            masterTrackMltIndex = (int)timeline->m_allTracks.size();
             break;
         }
         int trackId = timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
@@ -962,5 +965,5 @@ int TimelineFunctions::getOffsetTrackId(std::shared_ptr<TimelineItemModel> timel
             offset += offset > 0 ? -1 : 1;
         }
     }
-    return timeline->getTrackIndexFromPosition(masterTrackMltIndex -1);
+    return timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
 }

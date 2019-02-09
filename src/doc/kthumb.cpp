@@ -105,7 +105,7 @@ QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth,
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == nullptr || !frame->is_valid()) {
-        qDebug()<<"* * * *INVALID FRAME";
+        qDebug() << "* * * *INVALID FRAME";
         return QImage();
     }
     int ow = forceRescale ? 0 : width;

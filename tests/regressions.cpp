@@ -20,7 +20,6 @@ TEST_CASE("Regression")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -85,7 +84,6 @@ TEST_CASE("Regression2")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 

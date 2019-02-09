@@ -20,14 +20,14 @@
  ***************************************************************************/
 
 #include "keyframemodellist.hpp"
-#include "assets/model/assetparametermodel.hpp"
 #include "assets/model/assetcommand.hpp"
+#include "assets/model/assetparametermodel.hpp"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "keyframemodel.hpp"
 #include "klocalizedstring.h"
-#include <kdenlivesettings.h>
 #include "macros.hpp"
+#include <kdenlivesettings.h>
 
 #include <QDebug>
 
@@ -362,7 +362,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         KeyframeType type = kf.second;
         getKeyframe(new_in, &ok2);
         // Check keyframes after last position
-        QList <GenTime>positions;
+        QList<GenTime> positions;
         if (ok && !ok2 && oldIn != 0) {
             positions << old_in;
         } else if (in == 0 && ok && ok2) {
@@ -371,7 +371,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                 param.second->removeKeyframe(old_in, undo, redo);
             }
         }
-        //qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
+        // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         if (ok && !ok2) {
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_in);
@@ -391,17 +391,17 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         // Check keyframes after last position
         bool ok3;
         Keyframe toDel = getNextKeyframe(new_out, &ok3);
-        QList <GenTime>positions;
+        QList<GenTime> positions;
         if (ok && !ok2) {
             positions << old_out;
         }
         while (ok3) {
-            if (! positions.contains(toDel.first)) {
+            if (!positions.contains(toDel.first)) {
                 positions << toDel.first;
             }
             toDel = getNextKeyframe(toDel.first, &ok3);
         }
-        //qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
+        // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         if (ok && !ok2) {
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_out);

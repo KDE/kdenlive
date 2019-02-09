@@ -198,7 +198,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 if (steps != 0) {
                     channelsData[k] /= steps;
                 }
-                m_audioLevels << (int) (channelsData[k] * factor);
+                m_audioLevels << (int)((double)channelsData[k] * factor);
             }
             int p = 80 + (i * 20 / m_lengthInFrames);
             if (p != progress) {
@@ -211,9 +211,9 @@ bool AudioThumbJob::computeWithFFMPEG()
     }
     QString err = m_ffmpegProcess->readAllStandardError();
     delete m_ffmpegProcess;
-    //m_errorMessage += err;
-    //m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
-    qWarning()<<"Failed to create FFmpeg audio thumbs:\n"<<err<<"\n---------------------";
+    // m_errorMessage += err;
+    // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
+    qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
     return false;
 }
 
@@ -326,13 +326,11 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     QVariantList old = m_binClip->audioFrameCache;
 
     // note that the image is moved into lambda, it won't be available from this class anymore
-    auto operation = [ clip = m_binClip, audio = std::move(m_audioLevels) ]()
-    {
+    auto operation = [clip = m_binClip, audio = std::move(m_audioLevels)]() {
         clip->updateAudioThumbnail(audio);
         return true;
     };
-    auto reverse = [ clip = m_binClip, audio = std::move(old) ]()
-    {
+    auto reverse = [clip = m_binClip, audio = std::move(old)]() {
         clip->updateAudioThumbnail(audio);
         return true;
     };

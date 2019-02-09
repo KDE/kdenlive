@@ -70,9 +70,7 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);
     connect(this, &TimelineTabs::changeZoom, timeline, &TimelineWidget::slotChangeZoom);
     connect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
-    connect(timeline->controller(), &TimelineController::updateZoom, [&](double value) {
-        emit updateZoom(getCurrentTimeline()->zoomForScale(value));
-    });
+    connect(timeline->controller(), &TimelineController::updateZoom, [&](double value) { emit updateZoom(getCurrentTimeline()->zoomForScale(value)); });
     connect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
 }
 

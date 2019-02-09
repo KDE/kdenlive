@@ -91,7 +91,7 @@ void ProgressButton::setProgress(int progress)
         m_remainingTime.clear();
         m_timer.invalidate();
     }
-    if (remaining != m_remainingTime || m_progress != prog ) {
+    if (remaining != m_remainingTime || m_progress != prog) {
         m_progress = prog;
         m_remainingTime = remaining;
         update();

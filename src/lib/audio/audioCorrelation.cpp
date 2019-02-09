@@ -17,12 +17,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <cmath>
 #include <iostream>
 
-AudioCorrelation::AudioCorrelation(std::unique_ptr<AudioEnvelope> mainTrackEnvelope) :
-    m_mainTrackEnvelope(std::move(mainTrackEnvelope))
+AudioCorrelation::AudioCorrelation(std::unique_ptr<AudioEnvelope> mainTrackEnvelope)
+    : m_mainTrackEnvelope(std::move(mainTrackEnvelope))
 {
-    //Q_ASSERT(!mainTrackEnvelope->hasComputationStarted());
-    connect(m_mainTrackEnvelope.get(), &AudioEnvelope::envelopeReady,
-      this, &AudioCorrelation::slotAnnounceEnvelope);
+    // Q_ASSERT(!mainTrackEnvelope->hasComputationStarted());
+    connect(m_mainTrackEnvelope.get(), &AudioEnvelope::envelopeReady, this, &AudioCorrelation::slotAnnounceEnvelope);
     m_mainTrackEnvelope->startComputeEnvelope();
 }
 
@@ -49,8 +48,7 @@ void AudioCorrelation::addChild(AudioEnvelope *envelope)
     // there is no race condition where the signal 'envelopeReady' is
     // lost.
     Q_ASSERT(!envelope->hasComputationStarted());
-    connect(envelope, &AudioEnvelope::envelopeReady,
-            this, &AudioCorrelation::slotProcessChild);
+    connect(envelope, &AudioEnvelope::envelopeReady, this, &AudioCorrelation::slotProcessChild);
     envelope->startComputeEnvelope();
 }
 
@@ -59,23 +57,20 @@ void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
     // Note that at this point the computation of the envelope of the
     // main track might not be finished. envelope() will block until
     // the computation is done.
-    const int sizeMain = m_mainTrackEnvelope->envelope().size();
-    const int sizeSub = envelope->envelope().size();
+    const size_t sizeMain = m_mainTrackEnvelope->envelope().size();
+    const size_t sizeSub = envelope->envelope().size();
 
     AudioCorrelationInfo *info = new AudioCorrelationInfo(sizeMain, sizeSub);
     qint64 *correlation = info->correlationVector();
 
-    const std::vector<qint64>& envMain = m_mainTrackEnvelope->envelope();
-    const std::vector<qint64>& envSub = envelope->envelope();
+    const std::vector<qint64> &envMain = m_mainTrackEnvelope->envelope();
+    const std::vector<qint64> &envSub = envelope->envelope();
     qint64 max = 0;
 
     if (sizeSub > 200) {
-        FFTCorrelation::correlate(&envMain[0], sizeMain,
-                                  &envSub[0], sizeSub,
-                                  correlation);
+        FFTCorrelation::correlate(&envMain[0], sizeMain, &envSub[0], sizeSub, correlation);
     } else {
-        correlate(&envMain[0], sizeMain,
-                  &envSub[0], sizeSub, correlation, &max);
+        correlate(&envMain[0], sizeMain, &envSub[0], sizeSub, correlation, &max);
         info->setMax(max);
     }
 
@@ -93,8 +88,8 @@ int AudioCorrelation::getShift(int childIndex) const
     Q_ASSERT(childIndex >= 0);
     Q_ASSERT(childIndex < m_correlations.size());
 
-    int indexOffset = m_correlations.at(childIndex)->maxIndex();
-    indexOffset -= m_children.at(childIndex)->envelope().size();
+    int indexOffset = (int)m_correlations.at(childIndex)->maxIndex();
+    indexOffset -= (int)m_children.at(childIndex)->envelope().size();
 
     return indexOffset;
 }
@@ -107,7 +102,7 @@ AudioCorrelationInfo const *AudioCorrelation::info(int childIndex) const
     return m_correlations.at(childIndex);
 }
 
-void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain, const qint64 *envSub, int sizeSub, qint64 *correlation, qint64 *out_max)
+void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const qint64 *envSub, size_t sizeSub, qint64 *correlation, qint64 *out_max)
 {
     Q_ASSERT(correlation != nullptr);
 
@@ -134,16 +129,16 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain, const qint
 
     QTime t;
     t.start();
-    for (int shift = -sizeSub; shift <= sizeMain; ++shift) {
+    for (int shift = -(int)sizeSub; shift <= (int)sizeMain; ++shift) {
 
         if (shift <= 0) {
             left = envSub - shift;
             right = envMain;
-            size = std::min(sizeSub + shift, sizeMain);
+            size = std::min((int)sizeSub + shift, (int)sizeMain);
         } else {
             left = envSub;
             right = envMain + shift;
-            size = std::min(sizeSub, sizeMain - shift);
+            size = std::min((int)sizeSub, (int)sizeMain - shift);
         }
 
         sum = 0;
@@ -152,7 +147,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, int sizeMain, const qint
             left++;
             right++;
         }
-        correlation[sizeSub + shift] = qAbs(sum);
+        correlation[sizeSub + (size_t)shift] = (qint64)qAbs(sum);
 
         if (sum > max) {
             max = sum;

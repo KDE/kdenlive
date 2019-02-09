@@ -100,7 +100,7 @@ private slots:
        @param storeUndo: if true, an undo object is created
     */
     void commitChanges(const QModelIndex &index, const QString &value, bool storeUndo);
-    QVector<QPair<QString, QVariant> > getDefaultValues() const;
+    QVector<QPair<QString, QVariant>> getDefaultValues() const;
 
 signals:
     void seekToPos(int);

@@ -351,7 +351,7 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
             // Detect the movement direction here.
             // This algorithm relies on the aspect ratio of dy/dx (size and signum).
             if (movement.manhattanLength() > m_rescaleMinDist) {
-                float diff = ((float)movement.y()) / movement.x();
+                float diff = ((float)movement.y()) / (float)movement.x();
 
                 if (fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
                     m_rescaleDirection = North;
@@ -410,7 +410,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
 
     if (m_aRealtime->isChecked()) {
         int accel;
-        accel = calculateAccelFactorHUD(mseconds, oldFactor);
+        accel = (int)calculateAccelFactorHUD(mseconds, oldFactor);
         if (m_accelFactorHUD < 1) {
             accel = 1;
         }
@@ -444,7 +444,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     // Calculate the acceleration factor hint to get «realtime» updates.
     if (m_aRealtime->isChecked()) {
         int accel;
-        accel = calculateAccelFactorScope(mseconds, oldFactor);
+        accel = (int)calculateAccelFactorScope(mseconds, oldFactor);
         if (accel < 1) {
             // If mseconds happens to be 0.
             accel = 1;
@@ -477,7 +477,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
 
     if (m_aRealtime->isChecked()) {
         int accel;
-        accel = calculateAccelFactorBackground(mseconds, oldFactor);
+        accel = (int)calculateAccelFactorBackground(mseconds, oldFactor);
         if (m_accelFactorBackground < 1) {
             accel = 1;
         }

@@ -19,7 +19,6 @@
 
 #include "dragvalue.h"
 
-
 #include "kdenlivesettings.h"
 
 #include <math.h>

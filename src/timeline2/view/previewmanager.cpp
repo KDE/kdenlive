@@ -20,16 +20,16 @@
 #include "previewmanager.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
-#include "kdenlivesettings.h"
 #include "doc/kdenlivedoc.h"
-#include "profiles/profilemodel.hpp"
+#include "kdenlivesettings.h"
 #include "monitor/monitor.h"
+#include "profiles/profilemodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 
 #include <KLocalizedString>
 #include <QProcess>
-#include <QStandardPaths>
 #include <QScopedPointer>
+#include <QStandardPaths>
 #include <QtConcurrent>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
@@ -302,7 +302,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
         // Restore existing chunks, delete others
         // Check if we just undo the last stack action, then backup, otherwise delete
         bool lastUndo = false;
-        if (stackIx == stackMax - 1) {
+        if (stackIx + 1 == stackMax) {
             if (!m_undoDir.exists(QString::number(stackMax))) {
                 lastUndo = true;
                 bool foundPreviews = false;
@@ -459,7 +459,7 @@ void PreviewManager::abortRendering()
     if (m_previewProcess.state() == QProcess::NotRunning) {
         return;
     }
-    qDebug()<<"/// ABORTING RENDEIGN 1\nRRRRRRRRRR";
+    qDebug() << "/// ABORTING RENDEIGN 1\nRRRRRRRRRR";
     emit abortPreview();
     m_previewProcess.waitForFinished();
     // Re-init time estimation
@@ -489,16 +489,17 @@ void PreviewManager::receivedStderr()
 {
     QStringList resultList = QString::fromLocal8Bit(m_previewProcess.readAllStandardError()).split(QLatin1Char('\n'));
     for (auto &result : resultList) {
-        qDebug()<<"GOT PROCESS RESULT: "<<result;
+        qDebug() << "GOT PROCESS RESULT: " << result;
         if (result.startsWith(QLatin1String("START:"))) {
             workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
-            qDebug()<<"// GOT START INFO: "<<workingPreview;
+            qDebug() << "// GOT START INFO: " << workingPreview;
             m_controller->workingPreviewChanged();
         } else if (result.startsWith(QLatin1String("DONE:"))) {
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
-            m_processedChunks ++;
+            m_processedChunks++;
             QString fileName = QStringLiteral("%1.%2").arg(chunk).arg(m_extension);
-            qDebug()<<"---------------\nJOB PROGRRESS: "<<m_chunksToRender<<", "<<m_processedChunks<<" = "<<(100 * m_processedChunks / m_chunksToRender);
+            qDebug() << "---------------\nJOB PROGRRESS: " << m_chunksToRender << ", " << m_processedChunks << " = "
+                     << (100 * m_processedChunks / m_chunksToRender);
             emit previewRender(chunk, m_cacheDir.absoluteFilePath(fileName), 1000 * m_processedChunks / m_chunksToRender);
         } else {
             m_errorLog.append(result);
@@ -525,15 +526,22 @@ void PreviewManager::doPreviewRender(const QString &scene)
     m_chunksToRender = m_dirtyChunks.count();
     m_processedChunks = 0;
     int chunkSize = KdenliveSettings::timelinechunks();
-    QStringList args {KdenliveSettings::rendererpath(), scene, m_cacheDir.absolutePath(), QStringLiteral("-split"), chunks.join(QLatin1Char(',')), QString::number(chunkSize - 1), m_extension, m_consumerParams.join(QLatin1Char(' '))};
-    qDebug()<<" -  - -STARTING PREVIEW JOBS: "<<args;
+    QStringList args{KdenliveSettings::rendererpath(),
+                     scene,
+                     m_cacheDir.absolutePath(),
+                     QStringLiteral("-split"),
+                     chunks.join(QLatin1Char(',')),
+                     QString::number(chunkSize - 1),
+                     m_extension,
+                     m_consumerParams.join(QLatin1Char(' '))};
+    qDebug() << " -  - -STARTING PREVIEW JOBS: " << args;
     pCore->currentDoc()->previewProgress(0);
     m_previewProcess.start(m_renderer, args);
     QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [this, scene](int, QProcess::ExitStatus status) {
-        qDebug()<<"// PROCESS IS FINISHED!!!";
+        qDebug() << "// PROCESS IS FINISHED!!!";
         QFile::remove(scene);
         if (status == QProcess::QProcess::CrashExit) {
-            qDebug()<<"// PROCESS IS CRASHED!!!!!!";
+            qDebug() << "// PROCESS IS CRASHED!!!!!!";
             pCore->currentDoc()->previewProgress(-1);
             if (workingPreview >= 0) {
                 const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
@@ -548,7 +556,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
         m_controller->workingPreviewChanged();
     });
     if (m_previewProcess.waitForStarted()) {
-        qDebug()<<" -  - -STARTING PREVIEW JOBS . . . STARTED";
+        qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED";
     }
 }
 
@@ -664,7 +672,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
             m_renderedChunks << frame;
             m_controller->renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
-            qDebug()<<"|||| PLUGGING PREVIEW CHUNK AT: "<<frame;
+            qDebug() << "|||| PLUGGING PREVIEW CHUNK AT: " << frame;
             m_tractor->lock();
             m_previewTrack->insert_at(frame, &prod, 1);
             m_previewTrack->consolidate_blanks();

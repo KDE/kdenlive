@@ -19,13 +19,13 @@
 
 #include "archivewidget.h"
 #include "bin/bin.h"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
-#include "xml/xml.hpp"
 #include "projectsettings.h"
 #include "titler/titlewidget.h"
+#include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
 #include <KDiskFreeSpaceInfo>
@@ -39,8 +39,7 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc,
-                             const QStringList &luma_list, QWidget *parent)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QStringList &luma_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)

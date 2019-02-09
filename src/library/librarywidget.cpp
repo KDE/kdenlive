@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 #include "librarywidget.h"
+#include "core.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
 #include "project/projectmanager.h"
-#include "core.h"
 
 #include <QAction>
 #include <QDropEvent>

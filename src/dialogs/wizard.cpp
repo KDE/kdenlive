@@ -39,16 +39,16 @@
 #include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
+#include <QCheckBox>
 #include <QFile>
 #include <QLabel>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QPushButton>
 #include <QStandardPaths>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <QXmlStreamWriter>
-#include <QTemporaryFile>
-#include <QCheckBox>
-#include <QPushButton>
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -182,63 +182,63 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         m_startLayout->addWidget(errorLabel);
         errorLabel->show();
     }
-        // build profiles lists
-        /*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
-        QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
-        while (i != profilesInfo.constEnd()) {
-            QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
-            if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
-            else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
-            else m_otherProfiles.insert(i.value(), i.key());
-            ++i;
-        }
+    // build profiles lists
+    /*QMap<QString, QString> profilesInfo = ProfilesDialog::getProfilesInfo();
+    QMap<QString, QString>::const_iterator i = profilesInfo.constBegin();
+    while (i != profilesInfo.constEnd()) {
+        QMap< QString, QString > profileData = ProfilesDialog::getSettingsFromFile(i.key());
+        if (profileData.value(QStringLiteral("width")) == QLatin1String("720")) m_dvProfiles.insert(i.value(), i.key());
+        else if (profileData.value(QStringLiteral("width")).toInt() >= 1080) m_hdvProfiles.insert(i.value(), i.key());
+        else m_otherProfiles.insert(i.value(), i.key());
+        ++i;
+    }
 
-        m_standard.button_all->setChecked(true);
-        connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-        connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-        connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
-        slotCheckStandard();
-        connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
+    m_standard.button_all->setChecked(true);
+    connect(m_standard.button_all, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+    connect(m_standard.button_hdv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+    connect(m_standard.button_dv, SIGNAL(toggled(bool)), this, SLOT(slotCheckStandard()));
+    slotCheckStandard();
+    connect(m_standard.profiles_list, SIGNAL(itemSelectionChanged()), this, SLOT(slotCheckSelectedItem()));
 
-        // select default profile
-        if (!KdenliveSettings::default_profile().isEmpty()) {
-            for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
-                if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
-                    m_standard.profiles_list->setCurrentRow(i);
-                    m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
-                    break;
-                }
+    // select default profile
+    if (!KdenliveSettings::default_profile().isEmpty()) {
+        for (int i = 0; i < m_standard.profiles_list->count(); ++i) {
+            if (m_standard.profiles_list->item(i)->data(Qt::UserRole).toString() == KdenliveSettings::default_profile()) {
+                m_standard.profiles_list->setCurrentRow(i);
+                m_standard.profiles_list->scrollToItem(m_standard.profiles_list->currentItem());
+                break;
             }
         }
+    }
 
-        setPage(2, page2);
+    setPage(2, page2);
 
-        QWizardPage *page3 = new QWizardPage;
-        page3->setTitle(i18n("Additional Settings"));
-        m_extra.setupUi(page3);
-        m_extra.projectfolder->setMode(KFile::Directory);
-        m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
-        m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
-        m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
-        m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
-        connect(m_extra.videothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
-        connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
-        slotCheckThumbs();
-        addPage(page3);*/
+    QWizardPage *page3 = new QWizardPage;
+    page3->setTitle(i18n("Additional Settings"));
+    m_extra.setupUi(page3);
+    m_extra.projectfolder->setMode(KFile::Directory);
+    m_extra.projectfolder->setUrl(QUrl(KdenliveSettings::defaultprojectfolder()));
+    m_extra.videothumbs->setChecked(KdenliveSettings::videothumbnails());
+    m_extra.audiothumbs->setChecked(KdenliveSettings::audiothumbnails());
+    m_extra.autosave->setChecked(KdenliveSettings::crashrecovery());
+    connect(m_extra.videothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
+    connect(m_extra.audiothumbs, SIGNAL(stateChanged(int)), this, SLOT(slotCheckThumbs()));
+    slotCheckThumbs();
+    addPage(page3);*/
 
 #ifndef Q_WS_MAC
-        /*QWizardPage *page6 = new QWizardPage;
-        page6->setTitle(i18n("Capture device"));
-        m_capture.setupUi(page6);
-        bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
-        KdenliveSettings::setDecklink_device_found(found_decklink);
-        if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
-        else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
-        connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
-        connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
-        connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
-        connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
-        m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
+    /*QWizardPage *page6 = new QWizardPage;
+    page6->setTitle(i18n("Capture device"));
+    m_capture.setupUi(page6);
+    bool found_decklink = Render::getBlackMagicDeviceList(m_capture.decklink_devices);
+    KdenliveSettings::setDecklink_device_found(found_decklink);
+    if (found_decklink) m_capture.decklink_status->setText(i18n("Default Blackmagic Decklink card:"));
+    else m_capture.decklink_status->setText(i18n("No Blackmagic Decklink device found"));
+    connect(m_capture.decklink_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateDecklinkDevice(int)));
+    connect(m_capture.button_reload, SIGNAL(clicked()), this, SLOT(slotDetectWebcam()));
+    connect(m_capture.v4l_devices, SIGNAL(currentIndexChanged(int)), this, SLOT(slotUpdateCaptureParameters()));
+    connect(m_capture.v4l_formats, SIGNAL(currentIndexChanged(int)), this, SLOT(slotSaveCaptureFormat()));
+    m_capture.button_reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));*/
 
 #endif
 
@@ -400,7 +400,7 @@ void Wizard::checkMltComponents()
         delete filters;
         if (!hasFrei0r) {
             // Frei0r effects not found
-            qDebug()<<"Missing Frei0r module";
+            qDebug() << "Missing Frei0r module";
             m_warnings.append(
                 i18n("<li>Missing package: <b>Frei0r</b> effects (frei0r-plugins)<br/>provides many effects and transitions. Install recommended</li>"));
         }
@@ -418,7 +418,7 @@ void Wizard::checkMltComponents()
         }
         if (!hasBreeze) {
             // Breeze icons not found
-            qDebug()<<"Missing Breeze icons";
+            qDebug() << "Missing Breeze icons";
             m_warnings.append(
                 i18n("<li>Missing package: <b>Breeze</b> icons (breeze-icon-theme)<br/>provides many icons used in Kdenlive. Install recommended</li>"));
         }
@@ -454,7 +454,7 @@ void Wizard::checkMltComponents()
             consumer = new Mlt::Consumer(p, "avformat");
         }
         if (consumer == nullptr || !consumer->is_valid()) {
-            qDebug()<<"Missing AVFORMAT MLT module";
+            qDebug() << "Missing AVFORMAT MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>avformat</b> (FFmpeg)<br/>required for audio/video</li>"));
             m_brokenModule = true;
         } else {
@@ -476,14 +476,14 @@ void Wizard::checkMltComponents()
 
         // Image module
         if (!producersItemList.contains(QStringLiteral("qimage")) && !producersItemList.contains(QStringLiteral("pixbuf"))) {
-            qDebug()<<"Missing image MLT module";
+            qDebug() << "Missing image MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>qimage</b> or <b>pixbuf</b><br/>required for images and titles</li>"));
             m_brokenModule = true;
         }
 
         // Titler module
         if (!producersItemList.contains(QStringLiteral("kdenlivetitle"))) {
-            qDebug()<<"Missing TITLER MLT module";
+            qDebug() << "Missing TITLER MLT module";
             m_warnings.append(i18n("<li>Missing MLT module: <b>kdenlivetitle</b><br/>required to create titles</li>"));
             KdenliveSettings::setHastitleproducer(false);
             m_brokenModule = true;
@@ -604,7 +604,7 @@ void Wizard::slotCheckPrograms()
         if (exepath.isEmpty()) {
             exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
         }
-        qDebug()<<"Unable to find FFMpeg binary...";
+        qDebug() << "Unable to find FFMpeg binary...";
         if (exepath.isEmpty()) {
             // Check for libav version
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
@@ -886,12 +886,13 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
-    KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this);
+    KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this, KRun::RunFlags());
 }
 
 void Wizard::slotShowWebInfos()
 {
-    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this);
+    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this,
+                 KRun::RunFlags());
 }
 
 void Wizard::slotSaveCaptureFormat()
@@ -924,7 +925,6 @@ void Wizard::slotUpdateDecklinkDevice(uint captureCard)
     KdenliveSettings::setDecklink_capturedevice(captureCard);
 }
 
-
 void Wizard::testHwEncoders()
 {
     QProcess hwEncoders;
@@ -937,20 +937,34 @@ void Wizard::testHwEncoders()
     tmp.close();
 
     // VAAPI testing
-    QStringList args{"-y","-vaapi_device","/dev/dri/renderD128","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-vf","format=nv12,hwupload","-c:v","h264_vaapi","-an","-f","mp4",tmp.fileName()};
-    qDebug()<<"// FFMPEG ARGS: "<<args;
+    QStringList args{"-y",
+                     "-vaapi_device",
+                     "/dev/dri/renderD128",
+                     "-f",
+                     "lavfi",
+                     "-i",
+                     "smptebars=duration=5:size=1280x720:rate=25",
+                     "-vf",
+                     "format=nv12,hwupload",
+                     "-c:v",
+                     "h264_vaapi",
+                     "-an",
+                     "-f",
+                     "mp4",
+                     tmp.fileName()};
+    qDebug() << "// FFMPEG ARGS: " << args;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args);
     bool vaapiSupported = false;
     if (hwEncoders.waitForFinished()) {
         if (hwEncoders.exitStatus() == QProcess::CrashExit) {
-            qDebug()<<"/// ++ VAAPI NOT SUPPORTED";
+            qDebug() << "/// ++ VAAPI NOT SUPPORTED";
         } else {
             if (tmp.exists() && tmp.size() > 0) {
-                qDebug()<<"/// ++ VAAPI YES SUPPORTED ::::::";
+                qDebug() << "/// ++ VAAPI YES SUPPORTED ::::::";
                 // vaapi support enabled
                 vaapiSupported = true;
             } else {
-                qDebug()<<"/// ++ VAAPI FAILED ::::::";
+                qDebug() << "/// ++ VAAPI FAILED ::::::";
                 // vaapi support not enabled
             }
         }
@@ -964,27 +978,27 @@ void Wizard::testHwEncoders()
         return;
     }
     tmp2.close();
-    QStringList args2{"-y","-hwaccel","cuvid","-f","lavfi","-i","smptebars=duration=5:size=1280x720:rate=25","-c:v","h264_nvenc","-an","-f","mp4",tmp2.fileName()};
-    qDebug()<<"// FFMPEG ARGS: "<<args2;
+    QStringList args2{"-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",           "smptebars=duration=5:size=1280x720:rate=25",
+                      "-c:v", "h264_nvenc", "-an",   "-f", "mp4",   tmp2.fileName()};
+    qDebug() << "// FFMPEG ARGS: " << args2;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);
     bool nvencSupported = false;
     if (hwEncoders.waitForFinished()) {
         if (hwEncoders.exitStatus() == QProcess::CrashExit) {
-            qDebug()<<"/// ++ NVENC NOT SUPPORTED";
+            qDebug() << "/// ++ NVENC NOT SUPPORTED";
         } else {
             if (tmp2.exists() && tmp2.size() > 0) {
-                qDebug()<<"/// ++ NVENC YES SUPPORTED ::::::";
+                qDebug() << "/// ++ NVENC YES SUPPORTED ::::::";
                 // vaapi support enabled
                 nvencSupported = true;
             } else {
-                qDebug()<<"/// ++ NVENC FAILED ::::::";
+                qDebug() << "/// ++ NVENC FAILED ::::::";
                 // vaapi support not enabled
             }
         }
     }
     KdenliveSettings::setNvencEnabled(nvencSupported);
 }
-
 
 void Wizard::updateHwStatus()
 {
@@ -1005,7 +1019,7 @@ void Wizard::updateHwStatus()
     }
     statusLabel->setText(statusMessage);
     statusLabel->setCloseButtonVisible(false);
-    //errorLabel->setTimeout();
+    // errorLabel->setTimeout();
     m_startLayout->addWidget(statusLabel);
     statusLabel->animatedShow();
     QTimer::singleShot(3000, statusLabel, &KMessageWidget::animatedHide);

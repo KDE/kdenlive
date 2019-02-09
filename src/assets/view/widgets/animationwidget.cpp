@@ -19,8 +19,6 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-
-
 #include "kdenlive_debug.h"
 #include <KConfig>
 #include <KConfigGroup>
@@ -48,8 +46,8 @@
 #include "animationwidget.h"
 #include "assets/model/assetparametermodel.hpp"
 #include "core.h"
-#include "mltcontroller/effectscontroller.h"
 #include "kdenlivesettings.h"
+#include "mltcontroller/effectscontroller.h"
 #include "monitor/monitor.h"
 #include "timecodedisplay.h"
 #include "widgets/doublewidget.h"
@@ -227,9 +225,7 @@ AnimationWidget::AnimationWidget(std::shared_ptr<AssetParameterModel> model, QMo
     monitorSeek(m_monitor->position());
 }
 
-AnimationWidget::~AnimationWidget()
-{
-}
+AnimationWidget::~AnimationWidget() {}
 
 void AnimationWidget::finishSetup()
 {
@@ -733,7 +729,7 @@ void AnimationWidget::slotEditKeyframeType(QAction *action)
                 m_animProperties.anim_set(m_parameters.at(i).second.toUtf8().constData(), rect, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
             } else {
                 double val = m_animProperties.anim_get_double(m_parameters.at(i).second.toUtf8().constData(), pos, m_outPoint);
-                m_animProperties.anim_set(m_parameters.at(i).second.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type) action->data().toInt());
+                m_animProperties.anim_set(m_parameters.at(i).second.toUtf8().constData(), val, pos, m_outPoint, (mlt_keyframe_type)action->data().toInt());
             }
             emit valueChanged(m_parameters.at(i).first, QString(m_animController.serialize_cut()), true);
         }
@@ -793,10 +789,10 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
 
     int index = m_params.count() - 1;
 
-    DoubleWidget *doubleparam =
-        new DoubleWidget(paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(), m_model->data(ix, AssetParameterModel::FactorRole).toDouble()
-                         m_model->data(ix, AssetParameterModel::DefaultRole).toDouble(), comment, index,
-                         m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
+    DoubleWidget *doubleparam = new DoubleWidget(
+        paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(),
+        m_model->data(ix, AssetParameterModel::FactorRole).toDouble() m_model->data(ix, AssetParameterModel::DefaultRole).toDouble(), comment, index,
+        m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
     doubleparam->setObjectName(paramTag);
     doubleparam->setProperty("index", ix);
     connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
@@ -1484,9 +1480,8 @@ void AnimationWidget::slotAdjustToSource()
     m_spinHeight->blockSignals(false);
     slotAdjustRectKeyframeValue();
     if (m_lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
-                                          m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
-                                                                      : (double)m_monitorSize.width() / m_monitorSize.height());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
+                                                                                                   : (double)m_monitorSize.width() / m_monitorSize.height());
     }
 }
 
@@ -1601,9 +1596,8 @@ void AnimationWidget::slotLockRatio()
 {
     QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
     if (lockRatio->isChecked()) {
-        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"),
-                                          m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
-                                                                      : (double)m_monitorSize.width() / m_monitorSize.height());
+        m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_frameSize.width() / m_frameSize.height()
+                                                                                                   : (double)m_monitorSize.width() / m_monitorSize.height());
     } else {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), -1);
     }
@@ -1656,9 +1650,7 @@ void AnimationWidget::monitorSeek(int pos)
     }
 }
 
-void AnimationWidget::slotShowComment(bool show)
-{
-}
+void AnimationWidget::slotShowComment(bool show) {}
 
 void AnimationWidget::slotRefresh()
 {

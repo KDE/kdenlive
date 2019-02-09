@@ -20,14 +20,14 @@
 #include "tracksconfigdialog.h"
 #include "timeline/timeline.h"
 
-#include <QTableWidget>
 #include <KComboBox>
 #include <QIcon>
+#include <QTableWidget>
 
 #include "klocalizedstring.h"
 
-TracksDelegate::TracksDelegate(QObject *parent) :
-    QItemDelegate(parent)
+TracksDelegate::TracksDelegate(QObject *parent)
+    : QItemDelegate(parent)
 {
 }
 
@@ -64,9 +64,9 @@ void TracksDelegate::emitCommitData()
     emit commitData(qobject_cast<QWidget *>(sender()));
 }
 
-TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget *parent) :
-    QDialog(parent),
-    m_timeline(timeline)
+TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget *parent)
+    : QDialog(parent)
+    , m_timeline(timeline)
 {
     setupUi(this);
 
@@ -98,7 +98,7 @@ TracksConfigDialog::TracksConfigDialog(Timeline *timeline, int selected, QWidget
     buttonDown->setEnabled(false);
 
     setupOriginal(selected);
-    //table->resizeColumnToContents(0);
+    // table->resizeColumnToContents(0);
     table->resizeColumnsToContents();
     /*QRect rect = table->geometry();
     rect.setWidth(table->horizontalHeader()->length());
@@ -211,4 +211,3 @@ void TracksConfigDialog::slotDelete()
         item->setBackground(palette().dark());
     }
 }
-

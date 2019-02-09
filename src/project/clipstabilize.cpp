@@ -91,11 +91,10 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &
         QHash<QString, QString> val = hi.value();
         if (val[QStringLiteral("type")] == QLatin1String("int") || val[QStringLiteral("type")] == QLatin1String("double")) {
             DoubleWidget *dbl = new DoubleWidget(hi.key() /*name*/, val[QStringLiteral("value")].toDouble(), val[QStringLiteral("min")].toDouble(),
-                                                 val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(),
-                                                 1,
+                                                 val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(), 1,
                                                  /*default*/
-                                                 QString(),                                                                      /*comment*/
-                                                 0 /*id*/, QString(),                                                            /*suffix*/
+                                                 QString(),           /*comment*/
+                                                 0 /*id*/, QString(), /*suffix*/
                                                  val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0, this);
             dbl->setObjectName(hi.key());
             dbl->setToolTip(val[QStringLiteral("tooltip")]);

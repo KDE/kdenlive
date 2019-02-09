@@ -35,7 +35,7 @@
  * Note that this class is a Singleton
  */
 
-enum class EffectType { Video, Audio, Custom, Favorites, Hidden};
+enum class EffectType { Video, Audio, Custom, Favorites, Hidden };
 Q_DECLARE_METATYPE(EffectType)
 
 class EffectsRepository : public AbstractAssetsRepository<EffectType>
@@ -50,7 +50,7 @@ public:
     /* @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
     bool hasInternalEffect(const QString &effectId) const;
     void setFavorite(const QString &id, bool favorite) override;
-    QPair <QString, QString> reloadCustom(const QString &path);
+    QPair<QString, QString> reloadCustom(const QString &path);
 
 protected:
     // Constructor is protected because class is a Singleton

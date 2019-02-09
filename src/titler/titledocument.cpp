@@ -669,7 +669,7 @@ QPixmap TitleDocument::createInvalidPixmap(const QString &url)
     QIcon icon = QIcon::fromTheme(QStringLiteral("messagebox_warning"));
     pix.fill(QColor(255, 0, 0, 50));
     QPainter ptr(&pix);
-    icon.paint(&ptr, 0, 0, missingHeight/2, missingHeight/2);
+    icon.paint(&ptr, 0, 0, missingHeight / 2, missingHeight / 2);
     QPen pen(Qt::red);
     pen.setWidth(3);
     ptr.setPen(pen);
@@ -678,7 +678,6 @@ QPixmap TitleDocument::createInvalidPixmap(const QString &url)
     ptr.end();
     return pix;
 }
-
 
 QString TitleDocument::colorToString(const QColor &c)
 {

@@ -152,7 +152,7 @@ protected:
 
 public slots:
     Q_DECL_DEPRECATED void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QList<QString> &playlistPaths,
-                    const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio);
+                                      const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
     void adjustViewToProfile();

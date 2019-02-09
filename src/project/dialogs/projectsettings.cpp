@@ -20,11 +20,10 @@
 #include "projectsettings.h"
 
 #include "bin/bin.h"
-#include "bin/projectitemmodel.h"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
+#include "bin/projectitemmodel.h"
 #include "core.h"
-#include "xml/xml.hpp"
 #include "dialogs/encodingprofilesdialog.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -34,7 +33,7 @@
 #include "project/dialogs/profilewidget.h"
 #include "project/dialogs/temporarydata.h"
 #include "titler/titlewidget.h"
-
+#include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
 #include <KIO/FileCopyJob>
@@ -121,7 +120,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         currentProf = KdenliveSettings::default_profile();
         enable_proxy->setChecked(KdenliveSettings::enableproxy());
         external_proxy->setChecked(KdenliveSettings::externalproxy());
-        qDebug()<<"//// INITIAL REPORT; ENABLE EXT PROCY: "<<KdenliveSettings::externalproxy()<<"\n++++++++";
+        qDebug() << "//// INITIAL REPORT; ENABLE EXT PROCY: " << KdenliveSettings::externalproxy() << "\n++++++++";
         m_initialExternalProxyProfile = KdenliveSettings::externalProxyProfile();
         generate_proxy->setChecked(KdenliveSettings::generateproxy());
         proxy_minsize->setValue(KdenliveSettings::proxyminsize());
@@ -294,7 +293,7 @@ void ProjectSettings::slotDeleteUnused()
 
 void ProjectSettings::slotUpdateFiles(bool cacheOnly)
 {
-    qDebug()<<"// UPDATING PROJECT FILES\n----------\n-----------";
+    qDebug() << "// UPDATING PROJECT FILES\n----------\n-----------";
     m_projectProxies.clear();
     m_projectThumbs.clear();
     if (cacheOnly) {
@@ -336,48 +335,48 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
     for (std::shared_ptr<ProjectClip> clip : clipList) {
-        switch(clip->clipType()) {
-            case ClipType::Color:
-                // ignore color clips in list, there is no real file
-                break;
-            case ClipType::SlideShow: {
-                const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
-                for (const QString &file : subfiles) {
-                    count++;
-                    new QTreeWidgetItem(slideshows, QStringList() << file);
-                }
-                break;
+        switch (clip->clipType()) {
+        case ClipType::Color:
+            // ignore color clips in list, there is no real file
+            break;
+        case ClipType::SlideShow: {
+            const QStringList subfiles = extractSlideshowUrls(clip->clipUrl());
+            for (const QString &file : subfiles) {
+                count++;
+                new QTreeWidgetItem(slideshows, QStringList() << file);
             }
-            case ClipType::Text: {
-                new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
-                const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
-                const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
-                for (const QString &file : imagefiles) {
-                    new QTreeWidgetItem(images, QStringList() << file);
-                }
-                allFonts << fonts;
-                break;
+            break;
+        }
+        case ClipType::Text: {
+            new QTreeWidgetItem(texts, QStringList() << clip->clipUrl());
+            const QStringList imagefiles = TitleWidget::extractImageList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            const QStringList fonts = TitleWidget::extractFontList(clip->getProducerProperty(QStringLiteral("xmldata")));
+            for (const QString &file : imagefiles) {
+                new QTreeWidgetItem(images, QStringList() << file);
             }
-            case ClipType::Audio:
-                new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
-                break;
-            case ClipType::Image:
-                new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
-                break;
-            case ClipType::Playlist: {
-                new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
-                const QStringList files = extractPlaylistUrls(clip->clipUrl());
-                for (const QString &file : files) {
-                    new QTreeWidgetItem(others, QStringList() << file);
-                }
-                break;
+            allFonts << fonts;
+            break;
+        }
+        case ClipType::Audio:
+            new QTreeWidgetItem(sounds, QStringList() << clip->clipUrl());
+            break;
+        case ClipType::Image:
+            new QTreeWidgetItem(images, QStringList() << clip->clipUrl());
+            break;
+        case ClipType::Playlist: {
+            new QTreeWidgetItem(playlists, QStringList() << clip->clipUrl());
+            const QStringList files = extractPlaylistUrls(clip->clipUrl());
+            for (const QString &file : files) {
+                new QTreeWidgetItem(others, QStringList() << file);
             }
-            case ClipType::Unknown:
-                new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
-                break;
-            default:
-                new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
-                break;
+            break;
+        }
+        case ClipType::Unknown:
+            new QTreeWidgetItem(others, QStringList() << clip->clipUrl());
+            break;
+        default:
+            new QTreeWidgetItem(videos, QStringList() << clip->clipUrl());
+            break;
         }
     }
 
@@ -411,7 +410,6 @@ const QString ProjectSettings::selectedPreview() const
     return preview_profile->itemData(preview_profile->currentIndex()).toString();
 }
 
-
 void ProjectSettings::accept()
 {
     if (selectedProfile().isEmpty()) {
@@ -422,7 +420,8 @@ void ProjectSettings::accept()
     if (!params.isEmpty()) {
         if (params.section(QLatin1Char(';'), 0, 0) != m_previewparams || params.section(QLatin1Char(';'), 1, 1) != m_previewextension) {
             // Timeline preview settings changed, warn if there are existing previews
-            if (pCore->hasTimelinePreview() && KMessageBox::warningContinueCancel(this,
+            if (pCore->hasTimelinePreview() &&
+                KMessageBox::warningContinueCancel(this,
                                                    i18n("You changed the timeline preview profile. This will remove all existing timeline previews for "
                                                         "this project.\n Are you sure you want to proceed?"),
                                                    i18n("Confirm profile change")) == KMessageBox::Cancel) {
@@ -514,7 +513,6 @@ int ProjectSettings::proxyImageSize() const
 {
     return proxy_imagesize->value();
 }
-
 
 QString ProjectSettings::externalProxyParams() const
 {
@@ -754,9 +752,13 @@ void ProjectSettings::loadProxyProfiles()
                 ix = proxy_profile->count();
             }
             if (params.contains(QLatin1String("vaapi"))) {
-                proxy_profile->addItem(KdenliveSettings::vaapiEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer")) : QIcon::fromTheme(QStringLiteral("dialog-cancel")), k.key(), k.value());
+                proxy_profile->addItem(KdenliveSettings::vaapiEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer"))
+                                                                        : QIcon::fromTheme(QStringLiteral("dialog-cancel")),
+                                       k.key(), k.value());
             } else if (params.contains(QLatin1String("nvenc"))) {
-                proxy_profile->addItem(KdenliveSettings::nvencEnabled() ?QIcon::fromTheme(QStringLiteral("speedometer")) : QIcon::fromTheme(QStringLiteral("dialog-cancel")), k.key(), k.value());
+                proxy_profile->addItem(KdenliveSettings::nvencEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer"))
+                                                                        : QIcon::fromTheme(QStringLiteral("dialog-cancel")),
+                                       k.key(), k.value());
             } else {
                 proxy_profile->addItem(k.key(), k.value());
             }
@@ -774,7 +776,6 @@ void ProjectSettings::loadProxyProfiles()
     proxy_profile->setCurrentIndex(ix);
     slotUpdateProxyParams();
 }
-
 
 void ProjectSettings::loadExternalProxyProfiles()
 {
@@ -824,7 +825,9 @@ void ProjectSettings::loadPreviewProfiles()
                 ix = preview_profile->count();
             }
             if (params.contains(QLatin1String("nvenc"))) {
-                preview_profile->addItem(KdenliveSettings::nvencEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer")) : QIcon::fromTheme(QStringLiteral("dialog-cancel")), k.key(), k.value());
+                preview_profile->addItem(KdenliveSettings::nvencEnabled() ? QIcon::fromTheme(QStringLiteral("speedometer"))
+                                                                          : QIcon::fromTheme(QStringLiteral("dialog-cancel")),
+                                         k.key(), k.value());
             } else {
                 preview_profile->addItem(k.key(), k.value());
             }
@@ -842,7 +845,8 @@ void ProjectSettings::loadPreviewProfiles()
             }
         } else {
             if (m_previewparams.contains(QLatin1String("nvenc"))) {
-                preview_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
+                preview_profile->addItem(QIcon::fromTheme(QStringLiteral("speedometer")), i18n("Current Settings"),
+                                         QString(m_previewparams + QLatin1Char(';') + m_previewextension));
             } else {
                 preview_profile->addItem(i18n("Current Settings"), QString(m_previewparams + QLatin1Char(';') + m_previewextension));
             }

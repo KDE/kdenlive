@@ -22,7 +22,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     // We also mock timeline object to spy few functions and mock others
     TimelineItemModel tim(new Mlt::Profile(), undoStack);
     Mock<TimelineItemModel> timMock(tim);
-    TimelineItemModel &tt = timMock.get();
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
@@ -40,6 +39,8 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
+    Q_UNUSED(tid1);
+    Q_UNUSED(tid2);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
 

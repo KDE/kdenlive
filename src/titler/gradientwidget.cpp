@@ -29,8 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-
-
 GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent)
     : QDialog(parent)
     , Ui::GradientEdit_UI()

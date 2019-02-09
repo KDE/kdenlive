@@ -36,8 +36,8 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, Mlt::Propert
         if (m_childEffects.size() == 0) {
             return;
         }
-        qDebug()<<"* * *SETTING EFFECT PARAM: "<<name<<" = "<<m_asset->get(name.toUtf8().constData());
-        QMapIterator<int, std::shared_ptr<EffectItemModel> > i(m_childEffects);
+        qDebug() << "* * *SETTING EFFECT PARAM: " << name << " = " << m_asset->get(name.toUtf8().constData());
+        QMapIterator<int, std::shared_ptr<EffectItemModel>> i(m_childEffects);
         while (i.hasNext()) {
             i.next();
             i.value()->filter().set(name.toUtf8().constData(), m_asset->get(name.toUtf8().constData()));

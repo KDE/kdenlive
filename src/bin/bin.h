@@ -359,7 +359,7 @@ public slots:
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
     /** @brief Returns the duration of a given clip. */
-    int getClipDuration(int itemId) const;
+    size_t getClipDuration(int itemId) const;
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     PlaylistState::ClipState getClipState(int itemId) const;
     /** @brief Adjust project profile to current clip. */

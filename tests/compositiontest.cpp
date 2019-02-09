@@ -70,10 +70,12 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     std::shared_ptr<TimelineItemModel> timeline = TimelineItemModel::construct(new Mlt::Profile(), guideModel, undoStack);
 
     int tid0 = TrackModel::construct(timeline);
+    Q_UNUSED(tid0);
     int tid1 = TrackModel::construct(timeline);
     int cid2 = CompositionModel::construct(timeline, aCompo);
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
+    Q_UNUSED(tid3);
     int cid1 = CompositionModel::construct(timeline, aCompo);
 
     REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);

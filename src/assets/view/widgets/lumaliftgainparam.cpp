@@ -124,15 +124,12 @@ void LumaLiftGainParam::slotRefresh()
         values.insert(name, val);
     }
 
-    NegQColor lift = NegQColor::fromRgbF(values.value(QStringLiteral("lift_r")) / LIFT_FACTOR,
-                                   values.value(QStringLiteral("lift_g")) / LIFT_FACTOR,
-                                   values.value(QStringLiteral("lift_b")) / LIFT_FACTOR);
-    NegQColor gamma = NegQColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR,
-                                    values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
-                                    values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
-    NegQColor gain = NegQColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR,
-                                   values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
-                                   values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
+    NegQColor lift = NegQColor::fromRgbF(values.value(QStringLiteral("lift_r")) / LIFT_FACTOR, values.value(QStringLiteral("lift_g")) / LIFT_FACTOR,
+                                         values.value(QStringLiteral("lift_b")) / LIFT_FACTOR);
+    NegQColor gamma = NegQColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR, values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
+                                          values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
+    NegQColor gain = NegQColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR, values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
+                                         values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
 
     /*QColor lift = QColor::fromRgbF(values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b")));
     QColor gamma = QColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR, values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,

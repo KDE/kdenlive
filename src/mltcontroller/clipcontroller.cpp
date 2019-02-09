@@ -25,9 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
-#include "kdenlivesettings.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -272,9 +272,11 @@ bool ClipController::isValid()
 const char *ClipController::getPassPropertiesList(bool passLength)
 {
     if (!passLength) {
-        return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,file_hash,autorotate,xmldata,video_index,audio_index,set.test_image,set.test_audio";
+        return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+               "colorspace,set.force_full_luma,file_hash,autorotate,xmldata,video_index,audio_index,set.test_image,set.test_audio";
     }
-    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_colorspace,set.force_full_luma,templatetext,file_hash,autorotate,xmldata,length,video_index,audio_index,set.test_image,set.test_audio";
+    return "kdenlive:proxy,kdenlive:originalurl,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,threads,force_"
+           "colorspace,set.force_full_luma,templatetext,file_hash,autorotate,xmldata,length,video_index,audio_index,set.test_image,set.test_audio";
 }
 
 QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &prefix, bool withPrefix)
@@ -722,7 +724,8 @@ void ClipController::addEffect(QDomElement &xml)
     */
 }
 
-void ClipController::removeEffect(int effectIndex, bool delayRefresh){
+void ClipController::removeEffect(int effectIndex, bool delayRefresh)
+{
     Q_UNUSED(effectIndex) Q_UNUSED(delayRefresh)
     // TODO refac: this must be rewritten
     /*
@@ -857,7 +860,8 @@ void ClipController::addEffect(const QString &effectId)
 
 bool ClipController::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
 {
-    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), !m_hasAudio ? PlaylistState::VideoOnly : !m_hasVideo ? PlaylistState::AudioOnly : PlaylistState::Disabled);
+    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId),
+                              !m_hasAudio ? PlaylistState::VideoOnly : !m_hasVideo ? PlaylistState::AudioOnly : PlaylistState::Disabled);
     return true;
 }
 

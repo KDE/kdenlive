@@ -28,9 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "undohelper.hpp"
 #include <QDomElement>
+#include <QFileInfo>
 #include <QIcon>
 #include <QReadWriteLock>
-#include <QFileInfo>
 #include <QSize>
 
 class AbstractProjectItem;

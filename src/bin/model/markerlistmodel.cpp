@@ -355,7 +355,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = importFromJson(data, ignoreConflicts, undo ,redo);
+    bool result = importFromJson(data, ignoreConflicts, undo, redo);
     if (pushUndo) {
         PUSH_UNDO(undo, redo, m_guide ? i18n("Import guides") : i18n("Import markers"));
     }
@@ -395,7 +395,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
             int oldType = m_markerList[GenTime(pos, pCore->getCurrentFps())].second;
             res = (oldComment == comment) && (type == oldType);
         }
-        qDebug()<<"// ADDING MARKER AT POS: "<<pos<<", FPS: "<<pCore->getCurrentFps();
+        qDebug() << "// ADDING MARKER AT POS: " << pos << ", FPS: " << pCore->getCurrentFps();
         res = res && addMarker(GenTime(pos, pCore->getCurrentFps()), comment, type, undo, redo);
         if (!res) {
             bool undone = undo();
