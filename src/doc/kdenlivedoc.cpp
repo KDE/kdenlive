@@ -1198,7 +1198,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                 newProps.clear();
                 QString path;
                 if (useExternalProxy() && item->hasLimitedDuration()) {
-                    if (externalProxyParams.count() == 3) {
+                    if (externalProxyParams.count() >= 3) {
                         QFileInfo info(item->url());
                         QDir clipDir = info.absoluteDir();
                         if (clipDir.cd(externalProxyParams.at(0))) {

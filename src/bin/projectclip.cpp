@@ -409,6 +409,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     getFileHash();
     // set parent again (some info need to be stored in producer)
     updateParent(parentItem().lock());
+
     if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() == 1) {
         QList<std::shared_ptr<ProjectClip>> clipList;
         // automatic proxy generation enabled
@@ -418,9 +419,30 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
                 clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
         } else if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1 &&
-                   (m_clipType == ClipType::AV || m_clipType == ClipType::Video)) {
-            if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize() &&
-                getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
+                   (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
+            bool skipProducer = false;
+            if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() == 1) {
+                QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
+                // We have a camcorder profile, check if we have opened a proxy clip
+                if (externalParams.count() >= 6) {
+                    QFileInfo info(m_path);
+                    QDir dir = info.absoluteDir();
+                    dir.cd(externalParams.at(3));
+                    QString fileName = info.fileName();
+                    if (!externalParams.at(2).isEmpty()) {
+                        fileName.chop(externalParams.at(2).size());
+                    }
+                    fileName.append(externalParams.at(5));
+                    if (dir.exists(fileName)) {
+                        setProducerProperty(QStringLiteral("kdenlive:proxy"), m_path);
+                        m_path = dir.absoluteFilePath(fileName);
+                        setProducerProperty(QStringLiteral("kdenlive:originalurl"), m_path);
+                        getFileHash();
+                        skipProducer = true;
+                    }
+                }
+            }
+            if (!skipProducer && getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyminsize()) {
                 clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
         }
