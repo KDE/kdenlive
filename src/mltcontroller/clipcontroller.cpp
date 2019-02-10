@@ -230,11 +230,11 @@ void ClipController::getInfoForProducer()
     }
 
     if (!m_hasLimitedDuration) {
-        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime <= 0) {
             // Fix clips having missing kdenlive:duration
-            m_masterProducer->set("kdenlive:duration", m_masterProducer->get_playtime());
-            m_masterProducer->set("out", m_masterProducer->get_length() - 1);
+            m_masterProducer->set("kdenlive:duration", m_masterProducer->frames_to_time(m_masterProducer->get_playtime(), mlt_time_clock));
+            m_masterProducer->set("out", m_masterProducer->frames_to_time(m_masterProducer->get_length() - 1, mlt_time_clock));
         }
     }
 }
@@ -335,7 +335,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
 const QString ClipController::getStringDuration()
 {
     if (m_masterProducer) {
-        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime > 0) {
             return QString(m_properties->frames_to_time(playtime, mlt_time_smpte_df));
         }
@@ -347,13 +347,21 @@ const QString ClipController::getStringDuration()
 int ClipController::getProducerDuration() const
 {
     if (m_masterProducer) {
-        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime <= 0) {
             return playtime = m_masterProducer->get_length();
         }
         return playtime;
     }
     return -1;
+}
+
+char *ClipController::framesToTime(int frames) const
+{
+    if (m_masterProducer) {
+        return m_masterProducer->frames_to_time(frames, mlt_time_clock);
+    }
+    return nullptr;
 }
 
 GenTime ClipController::getPlaytime() const
@@ -363,7 +371,7 @@ GenTime ClipController::getPlaytime() const
     }
     double fps = pCore->getCurrentFps();
     if (!m_hasLimitedDuration) {
-        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
     }
     return GenTime(m_masterProducer->get_playtime(), fps);
@@ -375,7 +383,7 @@ int ClipController::getFramePlaytime() const
         return 0;
     }
     if (!m_hasLimitedDuration) {
-        int playtime = m_masterProducer->get_int("kdenlive:duration");
+        int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return playtime == 0 ? m_masterProducer->get_playtime() : playtime;
     }
     return m_masterProducer->get_playtime();

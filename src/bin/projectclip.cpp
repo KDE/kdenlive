@@ -289,12 +289,14 @@ void ProjectClip::reloadProducer(bool refreshOnly)
     // we find if there are some loading job on that clip
     int loadjobId = -1;
     pCore->jobManager()->hasPendingJob(clipId(), AbstractClipJob::LOADJOB, &loadjobId);
+    QMutexLocker lock(&m_thumbMutex);
     if (refreshOnly) {
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
-        m_thumbsProducer.reset();
         ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+        pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
+        m_thumbsProducer.reset();
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
 
     } else {
@@ -305,6 +307,7 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
+            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
             m_thumbsProducer.reset();
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
@@ -452,6 +455,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (clipType() == ClipType::Unknown) {
         return nullptr;
     }
+    QMutexLocker lock(&m_thumbMutex);
     std::shared_ptr<Mlt::Producer> prod = originalProducer();
     if (!prod->is_valid()) {
         return nullptr;
@@ -519,13 +523,17 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
             // We need to get an audio producer, if none exists
+            if (m_clipType == ClipType::Color || m_clipType == ClipType::Image) {
+                int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
+                return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration: -1));
+            }
             if (m_videoProducers.count(clipId) == 0) {
                 m_videoProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile(), true);
                 m_videoProducers[clipId]->set("set.test_audio", 1);
                 m_videoProducers[clipId]->set("set.test_image", 0);
                 m_effectStack->addService(m_videoProducers[clipId]);
             }
-            int duration = m_masterProducer->get_int("kdenlive:duration");
+            int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
             return std::shared_ptr<Mlt::Producer>(m_videoProducers[clipId]->cut(-1, duration > 0 ? duration : -1));
         }
         if (m_videoProducers.count(clipId) > 0) {
@@ -534,7 +542,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         }
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
-        int duration = m_masterProducer->get_int("kdenlive:duration");
+        int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration : -1));
     }
 

@@ -142,7 +142,9 @@ Rectangle {
 
     onForceReloadThumbChanged: {
         // TODO: find a way to force reload of clip thumbs
-        thumbsLoader.item.reload()
+        if (thumbsLoader.item) {
+            thumbsLoader.item.reload()
+        }
     }
 
     onTimeScaleChanged: {

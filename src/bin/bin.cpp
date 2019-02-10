@@ -2667,10 +2667,10 @@ void Bin::showTitleWidget(std::shared_ptr<ProjectClip> clip)
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
         if (dia_ui.duration() != clip->duration().frames(pCore->getCurrentFps()) + 1) {
             // duration changed, we need to update duration
-            newprops.insert(QStringLiteral("out"), QString::number(dia_ui.duration() - 1));
-            int currentLength = clip->getProducerIntProperty(QStringLiteral("kdenlive:duration"));
+            newprops.insert(QStringLiteral("out"), clip->framesToTime(dia_ui.duration() - 1));
+            int currentLength = clip->getProducerDuration();
             if (currentLength != dia_ui.duration()) {
-                newprops.insert(QStringLiteral("kdenlive:duration"), QString::number(dia_ui.duration()));
+                newprops.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(dia_ui.duration()));
             }
         }
         // trigger producer reload
@@ -2811,8 +2811,8 @@ void Bin::showSlideshowWidget(std::shared_ptr<ProjectClip> clip)
     if (dia->exec() == QDialog::Accepted) {
         // edit clip properties
         QMap<QString, QString> properties;
-        properties.insert(QStringLiteral("out"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
-        properties.insert(QStringLiteral("kdenlive:duration"), QString::number(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
+        properties.insert(QStringLiteral("out"), clip->framesToTime(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount() - 1));
+        properties.insert(QStringLiteral("kdenlive:duration"), clip->framesToTime(m_doc->getFramePos(dia->clipDuration()) * dia->imageCount()));
         properties.insert(QStringLiteral("kdenlive:clipname"), dia->clipName());
         properties.insert(QStringLiteral("ttl"), QString::number(m_doc->getFramePos(dia->clipDuration())));
         properties.insert(QStringLiteral("loop"), QString::number(static_cast<int>(dia->loop())));

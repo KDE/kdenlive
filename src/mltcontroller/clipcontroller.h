@@ -131,6 +131,7 @@ public:
     /** @brief Returns the clip duration as a string like 00:00:02:01. */
     const QString getStringDuration();
     int getProducerDuration() const;
+    char *framesToTime(int frames) const;
 
     /**
      * @brief Returns a pixmap created from a frame of the producer.

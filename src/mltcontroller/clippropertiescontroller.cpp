@@ -255,9 +255,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     if (m_type == ClipType::Color || m_type == ClipType::Image || m_type == ClipType::AV || m_type == ClipType::Video || m_type == ClipType::TextTemplate) {
         // Edit duration widget
         m_originalProperties.insert(QStringLiteral("out"), m_properties->get("out"));
-        int kdenlive_length = m_properties->get_int("kdenlive:duration");
+        int kdenlive_length = m_properties->time_to_frames(m_properties->get("kdenlive:duration"));
         if (kdenlive_length > 0) {
-            m_originalProperties.insert(QStringLiteral("kdenlive:duration"), QString::number(kdenlive_length));
+            m_originalProperties.insert(QStringLiteral("kdenlive:duration"), m_properties->get("kdenlive:duration"));
         }
         m_originalProperties.insert(QStringLiteral("length"), m_properties->get("length"));
         auto *hlay = new QHBoxLayout;
@@ -768,18 +768,18 @@ void ClipPropertiesController::slotDurationChanged(int duration)
 {
     QMap<QString, QString> properties;
     // kdenlive_length is the default duration for image / title clips
-    int kdenlive_length = m_properties->get_int("kdenlive:duration");
+    int kdenlive_length = m_properties->time_to_frames(m_properties->get("kdenlive:duration"));
     int current_length = m_properties->get_int("length");
     if (kdenlive_length > 0) {
         // special case, image/title clips store default duration in kdenlive:duration property
-        properties.insert(QStringLiteral("kdenlive:duration"), QString::number(duration));
+        properties.insert(QStringLiteral("kdenlive:duration"), m_properties->frames_to_time(duration));
         if (duration > current_length) {
-            properties.insert(QStringLiteral("length"), QString::number(duration));
-            properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+            properties.insert(QStringLiteral("length"), m_properties->frames_to_time(duration));
+            properties.insert(QStringLiteral("out"), m_properties->frames_to_time(duration - 1));
         }
     } else {
-        properties.insert(QStringLiteral("length"), QString::number(duration));
-        properties.insert(QStringLiteral("out"), QString::number(duration - 1));
+        properties.insert(QStringLiteral("length"), m_properties->frames_to_time(duration));
+        properties.insert(QStringLiteral("out"), m_properties->frames_to_time(duration - 1));
     }
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
@@ -821,8 +821,8 @@ void ClipPropertiesController::slotEnableForce(int state)
         if (param == QLatin1String("force_duration")) {
             int original_length = m_properties->get_int("kdenlive:original_length");
             if (original_length == 0) {
-                int kdenlive_duration = m_properties->get_int("kdenlive:duration");
-                m_properties->set("kdenlive:original_length", kdenlive_duration > 0 ? kdenlive_duration : m_properties->get_int("length"));
+                int kdenlive_length = m_properties->time_to_frames(m_properties->get("kdenlive:duration"));
+                m_properties->set("kdenlive:original_length", kdenlive_length > 0 ? m_properties->get("kdenlive:duration") : m_properties->get("length"));
             }
         } else if (param == QLatin1String("force_fps")) {
             QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + QStringLiteral("_value"));
