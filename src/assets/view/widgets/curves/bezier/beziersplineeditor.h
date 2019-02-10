@@ -19,10 +19,10 @@
 #ifndef BEZIERSPLINEEDITOR_H
 #define BEZIERSPLINEEDITOR_H
 
+#include "../abstractcurvewidget.h"
 #include "bpoint.h"
 #include "colortools.h"
 #include "cubicbezierspline.h"
-#include "effectstack/widgets/curves/abstractcurvewidget.h"
 
 #include <QWidget>
 

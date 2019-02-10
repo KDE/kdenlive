@@ -23,8 +23,8 @@
 
 #include <QWidget>
 
+#include "../abstractcurvewidget.h"
 #include "colortools.h"
-#include "effectstack/widgets/curves/abstractcurvewidget.h"
 #include "kis_cubic_curve.h"
 
 class QEvent;

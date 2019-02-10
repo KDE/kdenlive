@@ -98,6 +98,7 @@ add_subdirectory(effects)
 add_subdirectory(effectslist)
 add_subdirectory(jobs)
 add_subdirectory(lib)
+add_subdirectory(library)
 add_subdirectory(mltcontroller)
 add_subdirectory(monitor)
 add_subdirectory(profiles)
@@ -116,24 +117,13 @@ if (Qt5WebKitWidgets_FOUND)
     add_subdirectory(qt-oauth-lib)
 endif()
 
-add_subdirectory(library)
 
-list(APPEND kdenlive_SRCS
-    colortools.cpp
-    definitions.cpp
-    gentime.cpp
-    doc/kthumb.cpp
-    mainwindow.cpp
-#    renderer.cpp
-    statusbarmessagelabel.cpp
-    timecode.cpp
-    timecodedisplay.cpp
-    layoutmanagement.cpp
-    hidetitlebars.cpp
-    mltconnection.cpp
-    core.cpp
-    undohelper.cpp
-    )
+FILE(GLOB top_SRCS "*.cpp")
+string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/lib/[^;]+;?" "" top_SRCS "${top_SRCS}") 
+LIST(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+list(APPEND kdenlive_SRCS ${top_SRCS})
+
+
 
 ecm_qt_declare_logging_category(kdenlive_SRCS HEADER kdenlive_debug.h IDENTIFIER KDENLIVE_LOG CATEGORY_NAME org.kde.multimedia.kdenlive)
 
@@ -253,6 +243,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}
     ${MLT_INCLUDE_DIR}
     ${MLTPP_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
     )

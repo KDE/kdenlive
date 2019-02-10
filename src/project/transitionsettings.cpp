@@ -18,7 +18,6 @@
 #include "transitionsettings.h"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
-#include "effectslist/effectslist.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "project/projectmanager.h"
