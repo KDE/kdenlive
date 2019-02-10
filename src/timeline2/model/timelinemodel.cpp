@@ -50,6 +50,21 @@
 
 #include "macros.hpp"
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#include <rttr/registration>
+#pragma GCC diagnostic pop
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    registration::class_<TimelineModel>("TimelineModel")
+        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove));
+}
+
 int TimelineModel::next_id = 0;
 int TimelineModel::seekDuration = 30000;
 

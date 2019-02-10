@@ -1,21 +1,20 @@
 add_definitions(${Qt5Gui_DEFINITIONS})
 
-#SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -pedantic -Wextra")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wcast-qual -Wcast-align -Wfloat-equal -Wpointer-arith")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Werror-implicit-function-declaration -Wmain -Wmissing-braces")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wparentheses -Wsequence-point -Wreturn-type -Wswitch")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wsign-compare  -Wconversion")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wmissing-noreturn  -Wsign-conversion -Wunused ")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wstrict-aliasing -Wconversion")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wdisabled-optimization")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-undef")
-if (CMAKE_COMPILER_IS_GNUCXX)
-    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wlogical-op -Wunsafe-loop-optimizations ")
+SET(KDENLIVE_CXX_FLAGS "${DEFAULT_CXX_FLAGS} -Wall -pedantic -Wextra")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wcast-qual -Wcast-align -Wfloat-equal -Wpointer-arith")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Werror-implicit-function-declaration -Wmain -Wmissing-braces")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wparentheses -Wsequence-point -Wreturn-type -Wswitch")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wsign-compare  -Wconversion")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wmissing-noreturn  -Wsign-conversion -Wunused ")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wstrict-aliasing -Wconversion")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wdisabled-optimization")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wno-undef")
+if (KDENLIVE_COMPILER_IS_GNUCXX)
+    SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wlogical-op -Wunsafe-loop-optimizations ")
 endif()
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wunused-parameter -Wshadow -Wno-variadic-macros -Wno-float-conversion")
+SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS}  -Wunused-parameter -Wshadow -Wno-variadic-macros -Wno-float-conversion")
 
 if(NOT WIN32)
     find_package(PkgConfig QUIET)
@@ -290,9 +289,11 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
+    RTTR::Core
     )
 
 set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
+set_target_properties(kdenliveLib PROPERTIES COMPILE_FLAGS "${KDENLIVE_CXX_FLAGS}")
 
 message(STATUS "Found MLT++: ${MLTPP_LIBRARIES}")
 
