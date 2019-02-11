@@ -281,6 +281,7 @@ target_link_libraries(kdenliveLib
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
     RTTR::Core
+    gcov
     )
 
 set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
