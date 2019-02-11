@@ -42,7 +42,9 @@ ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool 
     , m_reloadAll(reloadAllThumbs)
     , m_subClip(false)
 {
-    m_fullWidth += 8 - m_fullWidth % 8;
+    if (m_fullWidth % 8 > 0) {
+        m_fullWidth += 8 - m_fullWidth % 8;
+    }
     m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
     Q_ASSERT(item->itemType() == AbstractProjectItem::ClipItem || item->itemType() == AbstractProjectItem::SubClipItem);
