@@ -560,6 +560,9 @@ void TimelineController::copyItem()
 
 bool TimelineController::pasteItem()
 {
+    if (m_copiedItems.isNull()) {
+        return false;
+    }
     int tid = getMouseTrack();
     int position = getMousePos();
     if (tid == -1) {
