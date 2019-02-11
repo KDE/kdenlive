@@ -30,6 +30,7 @@
 #include "effects/effectsrepository.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
+#include "logger.hpp"
 #include "snapmodel.hpp"
 #include "timelinefunctions.hpp"
 #include "trackmodel.hpp"
@@ -62,7 +63,8 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
     registration::class_<TimelineModel>("TimelineModel")
-        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove));
+        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove))
+        .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion));
 }
 
 int TimelineModel::next_id = 0;
@@ -94,6 +96,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
 
+    TRACE_CONSTR(this);
 #ifdef LOGGING
     m_logFile = std::ofstream("log.txt");
     m_logFile << "TEST_CASE(\"Regression\") {" << std::endl;
@@ -1634,12 +1637,14 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     m_logFile << "timeline->requestTrackInsertion(" << position << ", dummy_id ); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(position, id, trackName, audioTrack);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo);
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Insert Track"));
     }
+    TRACE_RES(result);
     return result;
 }
 

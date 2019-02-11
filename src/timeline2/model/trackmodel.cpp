@@ -24,6 +24,7 @@
 #include "compositionmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
+#include "logger.hpp"
 #include "snapmodel.hpp"
 #include "timelinemodel.hpp"
 #include <QDebug>
@@ -89,6 +90,7 @@ TrackModel::~TrackModel()
 int TrackModel::construct(const std::weak_ptr<TimelineModel> &parent, int id, int pos, const QString &trackName, bool audioTrack)
 {
     std::shared_ptr<TrackModel> track(new TrackModel(parent, id, trackName, audioTrack));
+    TRACE_CONSTR(track.get(), parent, id, pos, trackName, audioTrack);
     id = track->m_id;
     if (auto ptr = parent.lock()) {
         ptr->registerTrack(std::move(track), pos);
@@ -999,7 +1001,7 @@ int TrackModel::getCompositionByRow(int row) const
     if (row < (int)m_allClips.size()) {
         return -1;
     }
-    Q_ASSERT(row <= (int)m_allClips.size() + m_allCompositions.size());
+    Q_ASSERT(row <= (int)m_allClips.size() + (int)m_allCompositions.size());
     auto it = m_allCompositions.cbegin();
     std::advance(it, row - (int)m_allClips.size());
     return (*it).first;

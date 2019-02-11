@@ -1,3 +1,4 @@
+#include "logger.hpp"
 #include "test_utils.hpp"
 
 using namespace fakeit;
@@ -6,6 +7,7 @@ Mlt::Profile profile_model;
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
+    Logger::clear();
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
@@ -121,6 +123,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
+    Logger::print_trace();
 }
 
 TEST_CASE("Basic creation/deletion of a clip", "[ClipModel]")
