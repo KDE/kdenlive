@@ -39,26 +39,11 @@ include(ECMOptionalAddSubdirectory)
 include(ECMMarkNonGuiExecutable)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
+include(ECMEnableSanitizers)
 
 SET(DEFAULT_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 SET(CMAKE_CXX_FLAGS "")
-configure_file(
-	rttr.CMakeLists.txt
-	${CMAKE_BINARY_DIR}/rttr-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-	RESULT_VARIABLE result
-	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/rttr-download )
-if(result)
-	message(FATAL_ERROR "CMake step for rttr failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-	RESULT_VARIABLE result
-	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/rttr-download )
-if(result)
-	message(FATAL_ERROR "Build step for rttr failed: ${result}")
-endif()
-add_subdirectory(${CMAKE_BINARY_DIR}/rttr-src)
-
+include(rttr.CMakeLists.txt)
 
 add_definitions(-DQT_NO_CAST_TO_ASCII)
 add_definitions(-DQT_NO_URL_CAST_FROM_STRING)
@@ -66,7 +51,7 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(DEFAULT_CXX_FLAGS "${DEFAULT_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-unknown-warning-option")
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 option(BUILD_TESTS "Build tests" ON)
@@ -176,6 +161,7 @@ if (BUILD_TESTS)
         ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
         ${CMAKE_CURRENT_SOURCE_DIR}/lib
         src
+        ${CMAKE_BINARY_DIR}/rttr-install/include
         )
     ADD_EXECUTABLE(runTests ${Tests_SRCS})
     set_property(TARGET runTests PROPERTY CXX_STANDARD 14)

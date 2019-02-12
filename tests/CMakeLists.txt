@@ -29,5 +29,6 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
     ../src
+    ${CMAKE_BINARY_DIR}/rttr-install/include
     )
 

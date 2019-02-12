@@ -12,11 +12,15 @@ ExternalProject_Add(rttr_project
 	GIT_TAG "v0.9.6"
 	SOURCE_DIR "${CMAKE_BINARY_DIR}/rttr-src"
 	BINARY_DIR "${CMAKE_BINARY_DIR}/rttr-build"
+	INSTALL_DIR "${CMAKE_BINARY_DIR}/rttr-install"
 	UPDATE_COMMAND ""
-	PATCH_COMMAND git apply "${PROJECT_SOURCE_DIR}/rttr.patch"
-	CONFIGURE_COMMAND ""
-	BUILD_COMMAND ""
-	INSTALL_COMMAND ""
-	TEST_COMMAND ""
+	CONFIGURE_COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} -DCMAKE_INSTALL_PREFIX=../rttr-install/ -DBUILD_EXAMPLES=OFF -DBUILD_DOCUMENTATION=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_STATIC=ONN "${CMAKE_BINARY_DIR}/rttr-src"
+	BUILD_COMMAND ${CMAKE_COMMAND} --build .
+	INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
 	LOG_DOWNLOAD ON
 )
+
+add_custom_target(rttr_final
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/rttr-install/lib*/*.a ${CMAKE_BINARY_DIR}/rttr-install
+)
+add_dependencies(rttr_final rttr_project)

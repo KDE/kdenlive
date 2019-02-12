@@ -1,4 +1,4 @@
-add_definitions(${Qt5Gui_DEFINITIONS})
+add_definitions(${qt5gui_definitions})
 
 SET(KDENLIVE_CXX_FLAGS "${DEFAULT_CXX_FLAGS} -Wall -pedantic -Wextra")
 SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wcast-qual -Wcast-align -Wfloat-equal -Wpointer-arith")
@@ -15,6 +15,7 @@ if (KDENLIVE_COMPILER_IS_GNUCXX)
     SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -Wlogical-op -Wunsafe-loop-optimizations ")
 endif()
 SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS}  -Wunused-parameter -Wshadow -Wno-variadic-macros -Wno-float-conversion")
+
 
 if(NOT WIN32)
     find_package(PkgConfig QUIET)
@@ -41,6 +42,7 @@ endif()
 configure_file( mlt_config.h.in ${CMAKE_BINARY_DIR}/generated/mlt_config.h )
 include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
 
+include_directories( ${CMAKE_BINARY_DIR}/rttr-install/include )
 option(WITH_JogShuttle "Build Jog/Shuttle support" ON)
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
@@ -252,6 +254,9 @@ include_directories(
 # to the components requested in find_package().
 #include(${QT_USE_FILE})
 
+execute_process(COMMAND touch "${CMAKE_BINARY_DIR}/rttr-install/librttr_core.a")
+ADD_LIBRARY(RTTR STATIC IMPORTED)
+SET_TARGET_PROPERTIES(RTTR PROPERTIES IMPORTED_LOCATION "${CMAKE_BINARY_DIR}/rttr-install/librttr_core.a")
 target_link_libraries(kdenliveLib
     KF5::WidgetsAddons
     KF5::Archive
@@ -280,9 +285,11 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
-    RTTR::Core_Lib
+    RTTR
+    #RTTR::Core_Lib
     )
 
+add_dependencies(kdenliveLib rttr_final)
 if (BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)
 endif()
