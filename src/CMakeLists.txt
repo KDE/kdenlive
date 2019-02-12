@@ -280,7 +280,7 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
-    RTTR::Core
+    RTTR::Core_Lib
     gcov
     )
 
