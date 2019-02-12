@@ -283,6 +283,12 @@ target_link_libraries(kdenliveLib
     RTTR::Core_Lib
     )
 
+if (BUILD_COVERAGE)
+  target_link_libraries(kdenliveLib gcov)
+endif()
+
+
+
 set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
 set_target_properties(kdenliveLib PROPERTIES COMPILE_FLAGS "${KDENLIVE_CXX_FLAGS}")
 
