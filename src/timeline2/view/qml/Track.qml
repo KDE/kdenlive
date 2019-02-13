@@ -306,7 +306,8 @@ Column{
             opacity: 0.8
             selected: root.timelineSelection.indexOf(clipId) !== -1
             onTrimmingIn: {
-                if (controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)) {
+                var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping)
+                if (new_duration > 0) {
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
@@ -324,7 +325,8 @@ Column{
                 controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping)
             }
             onTrimmingOut: {
-                if (controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping)) {
+                var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping)
+                if (new_duration > 0) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
