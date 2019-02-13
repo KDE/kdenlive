@@ -96,7 +96,9 @@ void Logger::print_trace()
             } else if (a.can_convert<bool>()) {
                 ss << (a.convert<bool>() ? "true" : "false");
             } else if (a.can_convert<QString>()) {
-                ss << std::quoted(a.convert<QString>().toStdString());
+                  // Not supported in c++ < 14
+                  // ss << std::quoted(a.convert<QString>().toStdString());
+                  ss << "\" "<<a.convert<QString>().toStdString()<<" \"";
             } else if (a.get_type().is_pointer()) {
                 ss << get_ptr_name(a);
             } else {
@@ -106,7 +108,10 @@ void Logger::print_trace()
         }
         return ss.str();
     };
-    auto test_file = std::ofstream("test_case.cpp");
+    std::ofstream test_file;
+    test_file.open("test_case.cpp");
+    // Not supported on GCC < 5.1
+    // auto test_file = std::ofstream("test_case.cpp");
     test_file << "TEST_CASE(\"Regression\") {" << std::endl;
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
