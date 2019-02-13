@@ -102,7 +102,11 @@ void PositionEditWidget::slotRefresh()
             val = -val;
         }
     } else {
-        val = value.toInt();
+        if (value.userType() == QMetaType::QString) {
+            val = m_model->time_to_frames(value.toString());
+        } else {
+            val = value.toInt();
+        }
         if (m_inverted) {
             if (val < 0) {
                 val = -val;

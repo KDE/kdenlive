@@ -767,3 +767,8 @@ bool AssetParameterModel::hasMoreThanOneKeyframe() const
     }
     return false;
 }
+
+int AssetParameterModel::time_to_frames(const QString time)
+{
+    return m_asset->time_to_frames(time.toUtf8().constData());
+}
