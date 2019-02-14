@@ -844,13 +844,11 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
             if (child.contains(QLatin1String("data"))) {
                 if (auto ptr = m_parent.lock()) {
                     QString cur_data = child.value(QLatin1String("data")).toString();
-                    int trackId = ptr->getTrackIndexFromPosition(data.section(":", 0, 0).toInt());
+                    int trackId = ptr->getTrackIndexFromPosition(cur_data.section(":", 0, 0).toInt());
                     int pos = cur_data.section(":", 1, 1).toInt();
-                    qDebug() << "// ORIGINAL GROUP DATA: " << trackId << " / " << pos;
-                    trackId = ptr->getTrackMltIndex(trackMap.value(trackId)) - 1;
+                    int trackPos = ptr->getTrackMltIndex(trackMap.value(trackId));
                     pos += offset;
-                    child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackId).arg(pos)));
-                    qDebug() << "// UPDATING GROUP DATA: " << trackId << " / " << pos;
+                    child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
                 }
                 updatedNodes.append(QJsonValue(child));
             }
