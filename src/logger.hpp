@@ -45,9 +45,18 @@ public:
      * This function returns true if this is a top-level call, meaning that we indeed want to log it. If the function returns false, the  caller must not log.
      */
     static bool start_logging();
-    template <typename T> static void log_constr(T *inst, std::vector<rttr::variant> args);
-    template <typename T> static void log(T *inst, std::string str, std::vector<rttr::variant> args);
 
+    /** @brief This logs the construction of an object of type T, whose new instance is passed. The instance will be kept around in case future calls refer to
+     * it. The arguments should more or less match the constructor arguments. In general, it's better to call the corresponding macro TRACE_CONSTR */
+    template <typename T> static void log_constr(T *inst, std::vector<rttr::variant> args);
+
+    /** @brief Logs the call to a member function on a given instance of class T. The string contains the method name, and then the vector contains all the
+     * parameters. In general, the method should be registered in RTTR. It's better to call the corresponding macro TRACE() if appropriate */
+    template <typename T> static void log(T *inst, std::string str, std::vector<rttr::variant> args);
+    static void log_create_producer(const std::string &type, std::vector<rttr::variant> args);
+
+    /** @brief When the last function logged has a return value, you can log it through this function, by passing the corresponding value. In general, it's
+     * better to call the macro TRACE_RES */
     static void log_res(rttr::variant result);
 
     /// @brief Notify that we are done with our function. Must not be called if start_logging returned false.
@@ -57,8 +66,9 @@ public:
     static void clear();
 
 protected:
-    template <typename T> static size_t get_id_from_ptr(T *ptr);
+    /** @brief Look amongst the known instances to get the name of a given pointer */
     static std::string get_ptr_name(rttr::variant ptr);
+    template <typename T> static size_t get_id_from_ptr(T *ptr);
     struct InvokId
     {
         size_t id;
@@ -98,21 +108,26 @@ protected:
     bool m_hasGuard = false;
 };
 
+/// See Logger::log_constr. Note that the macro fills in the ptr instance for you.
 #define TRACE_CONSTR(ptr, ...)                                                                                                                                 \
     LogGuard __guard;                                                                                                                                          \
     if (__guard.hasGuard()) {                                                                                                                                  \
         Logger::log_constr((ptr), {__VA_ARGS__});                                                                                                              \
     }
+
+/// See Logger::log. Note that the macro fills the ptr instance and the method name for you.
 #define TRACE(...)                                                                                                                                             \
     LogGuard __guard;                                                                                                                                          \
     if (__guard.hasGuard()) {                                                                                                                                  \
         Logger::log(this, __FUNCTION__, {__VA_ARGS__});                                                                                                        \
     }
 
+/// See Logger::log_res
 #define TRACE_RES(res)                                                                                                                                         \
     if (__guard.hasGuard()) {                                                                                                                                  \
         Logger::log_res(res);                                                                                                                                  \
     }
+
 /******* Implementations ***********/
 template <typename T> void Logger::log_constr(T *inst, std::vector<rttr::variant> args)
 {

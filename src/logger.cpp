@@ -20,12 +20,21 @@
  ***************************************************************************/
 
 #include "logger.hpp"
+#include "bin/projectitemmodel.h"
 #include "timeline2/model/timelinemodel.hpp"
 #include <QString>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#include <rttr/registration>
+#pragma GCC diagnostic pop
 
 thread_local bool Logger::is_executing = false;
 std::mutex Logger::mut;
@@ -52,6 +61,8 @@ std::string Logger::get_ptr_name(rttr::variant ptr)
 {
     if (ptr.can_convert<TimelineModel *>()) {
         return "timeline_" + std::to_string(get_id_from_ptr(ptr.convert<TimelineModel *>()));
+    } else if (ptr.can_convert<ProjectItemModel *>()) {
+        return "binModel";
     } else {
         std::cout << "Error: unhandled ptr type " << ptr.get_type().get_name().to_string() << std::endl;
     }
@@ -63,6 +74,20 @@ void Logger::log_res(rttr::variant result)
     std::unique_lock<std::mutex> lk(mut);
     Q_ASSERT(result_awaiting < invoks.size());
     invoks[result_awaiting].res = std::move(result);
+}
+
+void Logger::log_create_producer(const std::string &type, std::vector<rttr::variant> args)
+{
+    std::unique_lock<std::mutex> lk(mut);
+    for (auto &a : args) {
+        // this will rewove shared/weak/unique ptrs
+        if (a.get_type().is_wrapper()) {
+            a = a.extract_wrapped_value();
+        }
+        const std::string class_name = a.get_type().get_name().to_string();
+    }
+    constr[type].push_back({type, std::move(args)});
+    operations.push_back(ConstrId{type, constr[type].size() - 1});
 }
 
 namespace {
@@ -93,12 +118,27 @@ void Logger::print_trace()
                 ss << "dummy_" << i;
             } else if (a.get_type() == rttr::type::get<int>()) {
                 ss << a.convert<int>();
-            } else if (a.can_convert<bool>()) {
+            } else if (a.get_type() == rttr::type::get<bool>()) {
                 ss << (a.convert<bool>() ? "true" : "false");
+            } else if (a.get_type().is_enumeration()) {
+                auto e = a.get_type().get_enumeration();
+                ss << e.get_name().to_string() << "::" << a.convert<std::string>();
             } else if (a.can_convert<QString>()) {
-                  // Not supported in c++ < 14
-                  // ss << std::quoted(a.convert<QString>().toStdString());
-                  ss << "\" "<<a.convert<QString>().toStdString()<<" \"";
+                ss << std::quoted(a.convert<QString>().toStdString());
+            } else if (a.can_convert<std::string>()) {
+                ss << std::quoted(a.convert<std::string>());
+            } else if (a.can_convert<std::unordered_set<int>>()) {
+                auto set = a.convert<std::unordered_set<int>>();
+                ss << "{";
+                bool beg = true;
+                for (int s : set) {
+                    if (beg)
+                        beg = false;
+                    else
+                        ss << ", ";
+                    ss << s;
+                }
+                ss << "}";
             } else if (a.get_type().is_pointer()) {
                 ss << get_ptr_name(a);
             } else {
@@ -110,8 +150,6 @@ void Logger::print_trace()
     };
     std::ofstream test_file;
     test_file.open("test_case.cpp");
-    // Not supported on GCC < 5.1
-    // auto test_file = std::ofstream("test_case.cpp");
     test_file << "TEST_CASE(\"Regression\") {" << std::endl;
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
@@ -161,7 +199,12 @@ void Logger::print_trace()
             } else if (id.type == "TrackModel") {
                 std::string params = process_args(constr[id.type][id.id].second);
                 test_file << "TrackModel::construct(" << params << ");" << std::endl;
-
+            } else if (id.type == "test_producer") {
+                std::string params = process_args(constr[id.type][id.id].second);
+                test_file << "createProducer(reg_profile, " << params << ");" << std::endl;
+            } else if (id.type == "test_producer_sound") {
+                std::string params = process_args(constr[id.type][id.id].second);
+                test_file << "createProducerWithSound(reg_profile, " << params << ");" << std::endl;
             } else {
                 std::cout << "Error: unknown constructor " << id.type << std::endl;
             }

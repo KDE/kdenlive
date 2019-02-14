@@ -51,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <kimagecache.h>
 
 #include "kdenlive_debug.h"
+#include "logger.hpp"
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QApplication>
@@ -60,6 +61,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFile>
 #include <QtConcurrent>
 #include <utility>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#include <rttr/registration>
+#pragma GCC diagnostic pop
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    registration::class_<ProjectClip>("ProjectClip");
+}
 
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
@@ -550,7 +565,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
             // We need to get an audio producer, if none exists
             if (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text) {
                 int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-                return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration: -1));
+                return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration : -1));
             }
             if (m_videoProducers.count(clipId) == 0) {
                 m_videoProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile(), true);

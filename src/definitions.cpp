@@ -22,6 +22,27 @@
 
 #include <QColor>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#include <rttr/registration>
+#pragma GCC diagnostic pop
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    // clang-format off
+    registration::enumeration<GroupType>("GroupType")(
+        value("Normal", GroupType::Normal),
+        value("Selection", GroupType::Selection),
+        value("AVSplit", GroupType::AVSplit),
+        value("Leaf", GroupType::Leaf)
+        );
+    // clang-format on
+}
+
 QDebug operator<<(QDebug qd, const ItemInfo &info)
 {
     qd << "ItemInfo " << &info;

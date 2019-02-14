@@ -7,7 +7,6 @@ Mlt::Profile profile_model;
 
 TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 {
-    Logger::clear();
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);

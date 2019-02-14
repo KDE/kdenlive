@@ -64,7 +64,16 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<TimelineModel>("TimelineModel")
         .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove))
-        .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion));
+        .method("requestClipInsertion", select_overload<bool(const QString &, int, int, int &, bool, bool, bool)>(&TimelineModel::requestClipInsertion))
+        .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))
+        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestGroupMove))
+        .method("requestGroupDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestGroupDeletion))
+        .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))
+        .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))
+        .method("requestClipsGroup", select_overload<int(const std::unordered_set<int> &, bool, GroupType)>(&TimelineModel::requestClipsGroup))
+        .method("requestClipUngroup", select_overload<bool(int, bool)>(&TimelineModel::requestClipUngroup))
+        .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))
+        .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion));
 }
 
 int TimelineModel::next_id = 0;
@@ -585,8 +594,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
               << (logUndo ? "true" : "false") << " ); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline);
     Q_ASSERT(m_allClips.count(clipId) > 0);
     if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
+        TRACE_RES(true);
         return true;
     }
     if (m_groups->isInGroup(clipId)) {
@@ -605,6 +616,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
+    TRACE_RES(res);
     return res;
 }
 
@@ -898,12 +910,14 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     m_logFile << "timeline->requestClipInsertion(" << binClipId.toStdString() << "," << trackId << " ," << position << ", dummy_id );" << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(binClipId, trackId, position, id, logUndo, refreshView, useTargets);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
+    TRACE_RES(result);
     return result;
 }
 
@@ -1026,9 +1040,12 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     m_logFile << "timeline->requestItemDeletion(" << itemId << "); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(itemId, logUndo);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
     if (m_groups->isInGroup(itemId)) {
-        return requestGroupDeletion(itemId, logUndo);
+        bool res = requestGroupDeletion(itemId, logUndo);
+        TRACE_RES(res);
+        return res;
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -1044,6 +1061,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, actionLabel);
     }
+    TRACE_RES(res);
     return res;
 }
 
@@ -1233,12 +1251,15 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
 
 bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
+    QWriteLocker locker(&m_lock);
+    TRACE(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
+    TRACE_RES(res);
     return res;
 }
 
@@ -1370,12 +1391,14 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
     m_logFile << "timeline->requestGroupDeletion(" << clipId << " ); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(clipId, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestGroupDeletion(clipId, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Remove group"));
     }
+    TRACE_RES(res);
     return res;
 }
 
@@ -1443,8 +1466,12 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         qDebug() << "---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
     }
     QWriteLocker locker(&m_lock);
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
-    if (size <= 0) return -1;
+    if (size <= 0) {
+        TRACE_RES(-1);
+        return -1;
+    }
     int in = getItemPosition(itemId);
     int out = in + getItemPlaytime(itemId);
     if (snapDistance > 0) {
@@ -1496,6 +1523,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     if (!result) {
         bool undone = undo();
         Q_ASSERT(undone);
+        TRACE_RES(-1);
         return -1;
     }
     if (result && logUndo) {
@@ -1505,7 +1533,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             PUSH_UNDO(undo, redo, i18n("Resize composition"));
         }
     }
-    return result ? size : -1;
+    int res = result ? size : -1;
+    TRACE_RES(res);
+    return res;
 }
 
 bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
@@ -1542,6 +1572,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
 int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool logUndo, GroupType type)
 {
     QWriteLocker locker(&m_lock);
+    TRACE(ids, logUndo, type);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (m_temporarySelectionGroup > -1) {
@@ -1558,6 +1589,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     if (result > -1 && logUndo && type != GroupType::Selection) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
+    TRACE_RES(result);
     return result;
 }
 
@@ -1607,6 +1639,7 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     m_logFile << "timeline->requestClipUngroup(" << id << " ); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(id, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
@@ -1622,6 +1655,7 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
     }
+    TRACE_RES(result);
     return result;
 }
 
@@ -1678,6 +1712,7 @@ bool TimelineModel::requestTrackDeletion(int trackId)
     m_logFile << "timeline->requestTrackDeletion(" << trackId << "); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
+    TRACE(trackId);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = requestTrackDeletion(trackId, undo, redo);
@@ -1690,6 +1725,7 @@ bool TimelineModel::requestTrackDeletion(int trackId)
         }
         PUSH_UNDO(undo, redo, i18n("Delete Track"));
     }
+    TRACE_RES(result);
     return result;
 }
 
