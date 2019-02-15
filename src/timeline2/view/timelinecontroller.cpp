@@ -603,7 +603,7 @@ bool TimelineController::pasteItem()
     std::function<bool(void)> redo = []() { return true; };
     const QString docId = m_copiedItems.documentElement().attribute(QStringLiteral("documentid"));
     QMap<QString, QString> mappedIds;
-    if (!docId.isEmpty()/* && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))*/) {
+    if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         const QString rootId = pCore->projectItemModel()->getRootFolder()->clipId();
         QString folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
