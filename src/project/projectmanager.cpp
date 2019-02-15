@@ -880,17 +880,16 @@ void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
 {
     // First backup current project with fps appended
     const QString currentFile = m_project->url().toLocalFile();
-    QString backupFile = currentFile.section(QLatin1Char('.'), 0, -2);
-    backupFile.append(QString("-%1.kdenlive").arg((int)(pCore->getCurrentFps() * 100)));
-    if (!saveFileAs(backupFile)) {
-        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write backup file %1", backupFile));
+    if (!closeCurrentDocument()) {
         return;
     }
-    closeCurrentDocument();
 
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
-    QFile f(backupFile);
+    QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
+    convertedFile.append(QString("-%1.kdenlive").arg((int)(newProfile->fps() * 100)));
+
+    QFile f(currentFile);
     QDomDocument doc;
     doc.setContent(&f, false);
     f.close();
@@ -916,17 +915,17 @@ void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
             break;
         }
     }
-    QFile file(currentFile);
+    QFile file(convertedFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;
     }
     QTextStream out(&file);
     out << doc.toString();
     if (file.error() != QFile::NoError) {
-        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", currentFile));
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", convertedFile));
         file.close();
         return;
     }
     file.close();
-    openFile(QUrl::fromLocalFile(currentFile));
+    openFile(QUrl::fromLocalFile(convertedFile));
 }

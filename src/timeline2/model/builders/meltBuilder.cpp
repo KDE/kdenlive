@@ -41,9 +41,9 @@
 static QStringList m_errorMessage;
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo);
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack);
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo);
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack);
 
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor)
 {
@@ -78,7 +78,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
             int lockState = track->get_int("kdenlive:locked_track");
             Mlt::Tractor local_tractor(*track);
-            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo);
+            ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             if (lockState > 0) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
@@ -98,7 +98,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                 timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
             }
             int lockState = local_playlist.get_int("kdenlive:locked_track");
-            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo);
+            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo, audioTrack);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), local_playlist.get("kdenlive:thumbs_format"));
             if (lockState > 0) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
@@ -166,7 +166,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 }
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo)
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack)
 {
     if (track.count() != 2) {
         // we expect a tractor with two tracks (a "fake" track)
@@ -180,7 +180,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             return false;
         }
         Mlt::Playlist playlist(*sub_track);
-        constructTrackFromMelt(timeline, tid, playlist, binIdCorresp, undo, redo);
+        constructTrackFromMelt(timeline, tid, playlist, binIdCorresp, undo, redo, audioTrack);
         if (i == 0) {
             // Pass track properties
             int height = track.get_int("kdenlive:trackheight");
@@ -190,7 +190,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             if (!trackName.isEmpty()) {
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:track_name"), trackName.toUtf8().constData());
             }
-            bool audioTrack = track.get_int("kdenlive:audio_track") == 1;
             if (audioTrack) {
                 // This is an audio track
                 timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_track"), QStringLiteral("1"));
@@ -231,10 +230,10 @@ PlaylistState::ClipState inferState(std::shared_ptr<Mlt::Producer> prod, bool au
     std::pair<bool, bool> VidAud{true, true};
     VidAud.first = getIntProperty("set.test_image") == 0;
     VidAud.second = getIntProperty("set.test_audio") == 0;
-    if (audioTrack || (service.contains(QStringLiteral("avformat")) && getIntProperty(QStringLiteral("video_index")) == -1)) {
+    if (audioTrack || ((service.contains(QStringLiteral("avformat")) && getIntProperty(QStringLiteral("video_index")) == -1))) {
         VidAud.first = false;
     }
-    if (!audioTrack || (service.contains(QStringLiteral("avformat")) && getIntProperty(QStringLiteral("audio_index")) == -1)) {
+    if (!audioTrack || ((service.contains(QStringLiteral("avformat")) && getIntProperty(QStringLiteral("audio_index")) == -1))) {
         VidAud.second = false;
     }
     return stateFromBool(VidAud);
@@ -242,9 +241,8 @@ PlaylistState::ClipState inferState(std::shared_ptr<Mlt::Producer> prod, bool au
 } // namespace
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo)
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack)
 {
-    bool audioTrack = track.get_int("kdenlive:audio_track") == 1;
     for (int i = 0; i < track.count(); i++) {
         if (track.is_blank(i)) {
             continue;
@@ -254,7 +252,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            // qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id")<<" = "<<clip->parent().get("kdenlive:clipname");
+            qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id")<<" = "<<clip->parent().get("kdenlive:clipname");
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
                 // This is a bin clip, already processed no need to change id
@@ -267,8 +265,10 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 if (clipId.isEmpty()) {
                     clipId = clip->get("kdenlive:id");
                 }
-                Q_ASSERT(binIdCorresp.count(clipId) > 0);
+                Q_ASSERT(clipId.isEmpty() && binIdCorresp.count(clipId) > 0);
                 binId = binIdCorresp.at(clipId);
+                clip->parent().set("kdenlive:id", binId.toUtf8().constData());
+                clip->parent().set("_kdenlive_processed", 1);
             }
             bool ok = false;
             int cid = -1;

@@ -382,7 +382,7 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     m_producer->set_in_and_out(in, out);
     // replant effect stack in updated service
     m_effectStack->resetService(m_producer);
-    m_producer->set("kdenlive:id", binClip->AbstractProjectItem::clipId().toUtf8().constData());
+    m_producer->set("kdenlive:id", binClip->clipId().toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
     m_endlessResize = !binClip->hasLimitedDuration();
 }
