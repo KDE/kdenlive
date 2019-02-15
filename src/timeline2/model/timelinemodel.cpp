@@ -853,10 +853,11 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         bid = binClipId.section(QLatin1Char('/'), 0, 0);
     }
     if (!pCore->projectItemModel()->hasClip(bid)) {
+        qDebug()<<" / / / /MASTER CLIP NOT FOUND";
         return false;
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
-    if (!master->isCompatible(state)) {
+    if (!master->isReady() || !master->isCompatible(state)) {
         return false;
     }
     int clipId = TimelineModel::getNextId();

@@ -521,6 +521,9 @@ void ProjectClip::createDisabledMasterProducer()
 }
 std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, PlaylistState::ClipState state, double speed)
 {
+    if (!m_masterProducer) {
+        return nullptr;
+    }
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
         // We can first cleen the speed producers we have for the current id

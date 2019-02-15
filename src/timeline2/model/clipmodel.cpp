@@ -75,7 +75,6 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.first = videoAudio.first && binClip->hasVideo();
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
-
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     clip->setClipState_lambda(state)();
@@ -624,7 +623,10 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("in"), getIn());
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
-    container.setAttribute(QStringLiteral("track"), getCurrentTrackId());
+    if (auto ptr = m_parent.lock()) {
+        int trackId = ptr->getTrackPosition(getCurrentTrackId());
+        container.setAttribute(QStringLiteral("track"), trackId);
+    }
     container.setAttribute(QStringLiteral("speed"), m_speed);
     container.appendChild(m_effectStack->toXml(document));
     return container;

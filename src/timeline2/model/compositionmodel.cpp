@@ -261,7 +261,10 @@ QDomElement CompositionModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("in"), getIn());
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
-    container.setAttribute(QStringLiteral("track"), getCurrentTrackId());
+    if (auto ptr = m_parent.lock()) {
+        int trackId = ptr->getTrackPosition(getCurrentTrackId());
+        container.setAttribute(QStringLiteral("track"), trackId);
+    }
     container.setAttribute(QStringLiteral("a_track"), getATrack());
     QScopedPointer<Mlt::Properties> props(properties());
     for (int i = 0; i < props->count(); i++) {
