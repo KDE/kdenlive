@@ -86,6 +86,23 @@ QList<std::shared_ptr<ProjectClip>> ProjectFolder::childClips()
     return allChildren;
 }
 
+bool ProjectFolder::hasChildClips() const
+{
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<AbstractProjectItem> childItem = std::static_pointer_cast<AbstractProjectItem>(child(i));
+        if (childItem->itemType() == ClipItem) {
+            return true;
+        }
+        if (childItem->itemType() == FolderItem) {
+            bool hasChildren = std::static_pointer_cast<ProjectFolder>(childItem)->hasChildClips();
+            if (hasChildren) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 QString ProjectFolder::getToolTip() const
 {
     return i18np("%1 clip", "%1 clips", childCount());

@@ -2934,11 +2934,10 @@ void Bin::slotSendAudioThumb(const QString &id)
 
 bool Bin::isEmpty() const
 {
-    // TODO: return true if we only have folders
     if (m_itemModel->getRootFolder() == nullptr) {
         return true;
     }
-    return m_itemModel->getRootFolder()->childCount() == 0;
+    return !m_itemModel->getRootFolder()->hasChildClips();
 }
 
 void Bin::reloadAllProducers()
