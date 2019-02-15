@@ -181,7 +181,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    qDebug() << "// PROCESSING PARAM CHANGE: " << name;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: "<<update;
     bool conversionSuccess;
     double doubleValue = locale.toDouble(value, &conversionSuccess);
     if (conversionSuccess) {

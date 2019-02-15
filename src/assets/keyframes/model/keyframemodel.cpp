@@ -1008,10 +1008,9 @@ void KeyframeModel::sendModification()
     if (auto ptr = m_model.lock()) {
         Q_ASSERT(m_index.isValid());
         QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        QString data;
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::Roto_spline) {
-            data = getAnimProperty();
-            ptr->setParameter(name, data, false);
+            m_lastData = getAnimProperty();
+            ptr->setParameter(name, m_lastData, false);
         } else {
             Q_ASSERT(false); // Not implemented, TODO
         }
