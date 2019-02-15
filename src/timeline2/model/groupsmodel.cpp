@@ -735,6 +735,7 @@ const QString GroupsModel::toJson(std::unordered_set<int> roots) const
 int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
 {
     if (!o.contains(QLatin1String("type"))) {
+        qDebug()<<"CANNOT PARSE GROUP DATA";
         return -1;
     }
     auto type = groupTypeFromStr(o.value(QLatin1String("type")).toString());
@@ -753,6 +754,8 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
                 id = ptr->getClipByPosition(trackId, pos);
             } else if (leaf == QLatin1String("composition")) {
                 id = ptr->getCompositionByPosition(trackId, pos);
+            } else {
+                qDebug()<<" * * *UNKNOWN ITEM: "<<leaf;
             }
             return id;
         } else {
@@ -808,10 +811,10 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMap, int offset)
+bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMap, int offset, Fun &undo, Fun &redo)
 {
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
@@ -819,12 +822,10 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
     }
     auto list = json.array();
     bool ok = true;
-    qDebug() << "* * *READY TO LOAD JSON DATA";
     for (auto elem : list) {
-        qDebug() << "* * *LOADING GROUP + + + + + + ++  + + +";
         if (!elem.isObject()) {
             qDebug() << "Error : Expected json object while parsing groups";
-            undo();
+            local_undo();
             return false;
         }
         QJsonObject obj = elem.toObject();
@@ -846,7 +847,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
                     QString cur_data = child.value(QLatin1String("data")).toString();
                     int trackId = ptr->getTrackIndexFromPosition(cur_data.section(":", 0, 0).toInt());
                     int pos = cur_data.section(":", 1, 1).toInt();
-                    int trackPos = ptr->getTrackMltIndex(trackMap.value(trackId));
+                    int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
                     pos += offset;
                     child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
                 }
@@ -856,7 +857,10 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
         qDebug() << "* ** * UPDATED JSON NODES: " << updatedNodes;
         obj.insert(QLatin1String("children"), QJsonValue(updatedNodes));
         qDebug() << "* ** * UPDATED JSON NODES: " << obj;
-        ok = ok && fromJson(obj, undo, redo);
+        ok = (fromJson(obj, local_undo, local_redo) > 0);
+        if (ok) {
+            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        }
     }
     return ok;
 }

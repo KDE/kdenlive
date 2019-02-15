@@ -664,7 +664,7 @@ bool TimelineController::pasteItem()
     }
     const QString groupsData = m_copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
     qDebug() << "************** GRP DATA ********\n" << groupsData << "\n******";
-    m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset);
+    m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
     return true;
 }
