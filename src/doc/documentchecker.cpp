@@ -136,6 +136,7 @@ bool DocumentChecker::hasErrorInClips()
     m_missingFonts.clear();
     max = documentProducers.count();
     QStringList verifiedPaths;
+    QStringList missingPaths;
     QStringList serviceToCheck;
     serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp")
                    << QStringLiteral("framebuffer") << QStringLiteral("xml");
@@ -176,6 +177,9 @@ bool DocumentChecker::hasErrorInClips()
         }
         if (verifiedPaths.contains(resource)) {
             // Don't check same url twice (for example track producers)
+            if (missingPaths.contains(resource)) {
+                m_missingClips.append(e);
+            }
             continue;
         }
 
@@ -213,6 +217,7 @@ bool DocumentChecker::hasErrorInClips()
             if (!QFile::exists(original)) {
                 // clip has proxy but original clip is missing
                 missingSources.append(e);
+                missingPaths.append(resource);
             }
             verifiedPaths.append(resource);
             continue;
@@ -225,6 +230,7 @@ bool DocumentChecker::hasErrorInClips()
         if (!QFile::exists(resource)) {
             // Missing clip found
             m_missingClips.append(e);
+            missingPaths.append(resource);
         }
         // Make sure we don't query same path twice
         verifiedPaths.append(resource);
