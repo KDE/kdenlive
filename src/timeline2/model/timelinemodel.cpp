@@ -63,17 +63,24 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
     registration::class_<TimelineModel>("TimelineModel")
-        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove))
-        .method("requestClipInsertion", select_overload<bool(const QString &, int, int, int &, bool, bool, bool)>(&TimelineModel::requestClipInsertion))
-        .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))
-        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestGroupMove))
-        .method("requestGroupDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestGroupDeletion))
-        .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))
-        .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))
-        .method("requestClipsGroup", select_overload<int(const std::unordered_set<int> &, bool, GroupType)>(&TimelineModel::requestClipsGroup))
-        .method("requestClipUngroup", select_overload<bool(int, bool)>(&TimelineModel::requestClipUngroup))
-        .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))
-        .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion));
+        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove))(
+            parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
+        .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))(
+            parameter_names("compoId", "trackId", "position", "updateView", "logUndo"))
+        .method("requestClipInsertion", select_overload<bool(const QString &, int, int, int &, bool, bool, bool)>(&TimelineModel::requestClipInsertion))(
+            parameter_names("binClipId", "trackId", "position", "id", "logUndo", "refreshView", "useTargets"))
+        .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))(parameter_names("clipId", "logUndo"))
+        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestGroupMove))(
+            parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
+        .method("requestGroupDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestGroupDeletion))(parameter_names("clipId", "logUndo"))
+        .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))(
+            parameter_names("itemId", "size", "right", "logUndo", "snapDistance", "allowSingleResize"))
+        .method("requestClipsGroup", select_overload<int(const std::unordered_set<int> &, bool, GroupType)>(&TimelineModel::requestClipsGroup))(
+            parameter_names("ids", "logUndo", "type"))
+        .method("requestClipUngroup", select_overload<bool(int, bool)>(&TimelineModel::requestClipUngroup))(parameter_names("itemId", "logUndo"))
+        .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))(
+            parameter_names("pos", "id", "trackName", "audioTrack"))
+        .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"));
 }
 
 int TimelineModel::next_id = 0;
@@ -1633,24 +1640,24 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     return groupId;
 }
 
-bool TimelineModel::requestClipUngroup(int id, bool logUndo)
+bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
 {
 #ifdef LOGGING
-    m_logFile << "timeline->requestClipUngroup(" << id << " ); " << std::endl;
+    m_logFile << "timeline->requestClipUngroup(" << itemId << " ); " << std::endl;
 #endif
     QWriteLocker locker(&m_lock);
-    TRACE(id, logUndo);
+    TRACE(itemId, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    if (id == m_temporarySelectionGroup) {
+    if (itemId == m_temporarySelectionGroup) {
         // Delete selection group without undo
         Fun tmp_undo = []() { return true; };
         Fun tmp_redo = []() { return true; };
-        requestClipUngroup(id, tmp_undo, tmp_redo);
+        requestClipUngroup(itemId, tmp_undo, tmp_redo);
         m_temporarySelectionGroup = -1;
     } else {
-        result = requestClipUngroup(id, undo, redo);
+        result = requestClipUngroup(itemId, undo, redo);
     }
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
@@ -1659,9 +1666,9 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     return result;
 }
 
-bool TimelineModel::requestClipUngroup(int id, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
 {
-    return m_groups->ungroupItem(id, undo, redo);
+    return m_groups->ungroupItem(itemId, undo, redo);
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)
@@ -1837,7 +1844,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
-        //qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
+        // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
@@ -2032,16 +2039,14 @@ int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
     return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
 }
 
-int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int cursorPosition, int snapDistance)
+int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int snapDistance)
 {
     if (!pts.empty()) {
         m_snaps->ignore(pts);
     }
-    m_snaps->addPoint(cursorPosition);
     int snapped_start = m_snaps->getClosestPoint(pos);
     int snapped_end = m_snaps->getClosestPoint(pos + length);
     m_snaps->unIgnore();
-    m_snaps->removePoint(cursorPosition);
 
     int startDiff = qAbs(pos - snapped_start);
     int endDiff = qAbs(pos + length - snapped_end);
