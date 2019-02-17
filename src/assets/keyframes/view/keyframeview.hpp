@@ -73,6 +73,7 @@ private:
     int m_currentKeyframeOriginal;
     int m_hoverKeyframe;
     int m_lineHeight;
+    int m_offset;
     double m_scale;
     int m_size;
 

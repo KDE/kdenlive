@@ -40,6 +40,7 @@ Rectangle
     onKfrCountChanged: {
         keyframecanvas.requestPaint()
     }
+
     Keys.onShortcutOverride: {
         if (event.key == Qt.Key_Left) {
             if (event.modifiers & Qt.AltModifier) {
@@ -61,7 +62,10 @@ Rectangle
             } else {
                 var oldFrame = activeFrame
                 activeFrame += 1
-                timeline.updateEffectKeyframe(masterObject.clipId, oldFrame, activeFrame)
+                activeFrame = Math.min(activeFrame, parent.width / timeScale)
+                if (activeFrame > oldFrame) {
+                    timeline.updateEffectKeyframe(masterObject.clipId, oldFrame, activeFrame)
+                }
             }
             event.accepted = true
         }
@@ -78,8 +82,9 @@ Rectangle
             var newVal = Math.max(keyframes.itemAt(activeIndex).value / parent.height - .05, 0)
             kfrModel.updateKeyframe(activeFrame, newVal)
             event.accepted = true
+        } else {
+            event.accepted = false
         }
-        event.accepted = false
     }
     Repeater {
         id: keyframes
@@ -93,6 +98,7 @@ Rectangle
             property int value: parent.height * model.normalizedValue
             property int tmpVal : keyframeVal.y + root.baseUnit / 2
             property int tmpPos : x + keyframeVal.x + root.baseUnit / 2
+            property int dragPos : -1
             anchors.bottom: parent.bottom
             onFrameTypeChanged: {
                 keyframecanvas.requestPaint()
@@ -115,6 +121,7 @@ Rectangle
                 drag.axis: Drag.XAxis
                 onReleased: {
                     root.stopScrolling = false
+                    dragPos = -1
                     var newPos = Math.round(parent.x / timeScale) + inPoint
                     if (frame != inPoint && newPos != frame) {
                         if (mouse.modifiers & Qt.ShiftModifier) {
@@ -127,10 +134,22 @@ Rectangle
                     }
                 }
                 onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton && frame != inPoint) {
-                        var newPos = Math.round(parent.x / timeScale)
-                        parent.x = newPos * timeScale
-                        keyframecanvas.requestPaint()
+                    if (mouse.buttons === Qt.LeftButton) {
+                        if (frame == inPoint) {
+                            parent.x = inPoint * timeScale
+                            return
+                        }
+                        var newPos = Math.min(Math.round(parent.x / timeScale), Math.round(keyframeContainer.width / timeScale) - 1)
+                        if (newPos < 1) {
+                            newPos = 1
+                        }
+                        if (newPos != dragPos) {
+                            dragPos = newPos
+                            parent.x = newPos * timeScale
+                            keyframecanvas.requestPaint()
+                        } else {
+                            parent.x = dragPos * timeScale
+                        }
                     }
                 }
             }
@@ -192,8 +211,17 @@ Rectangle
                             if (frame == inPoint) {
                                 parent.x = - root.baseUnit / 2
                             } else {
-                                var newPos = Math.round(parent.x / timeScale)
-                                parent.x = newPos * timeScale
+                                var newPos = Math.min(Math.round(parent.x / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + inPoint - 1)
+                                if (frame + newPos <= inPoint) {
+                                    newPos = inPoint + 1 - frame
+                                }
+                                if (newPos != dragPos) {
+                                    dragPos = newPos
+                                    parent.x = newPos * timeScale - root.baseUnit / 2
+                                    keyframecanvas.requestPaint()
+                                } else {
+                                    parent.x = dragPos * timeScale - root.baseUnit / 2
+                                }
                             }
                             keyframecanvas.requestPaint()
                         }
