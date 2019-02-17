@@ -87,7 +87,8 @@ public:
     void saveWithUpdatedProfile(const QString updatedProfile);
 
 public slots:
-    void newFile(bool showProjectSettings = true, bool force = false);
+    void newFile(QString profileName, bool showProjectSettings = true);
+    void newFile(bool showProjectSettings = true);
     /** @brief Shows file open dialog. */
     void openFile();
     void openLastFile();

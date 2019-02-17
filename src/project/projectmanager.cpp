@@ -112,19 +112,23 @@ void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
     m_loadClipsOnOpen = clipList;
 }
 
-void ProjectManager::newFile(bool showProjectSettings, bool force)
+void ProjectManager::newFile(bool showProjectSettings)
 {
-    Q_UNUSED(force)
+    QString profileName = KdenliveSettings::default_profile();
+    if (profileName.isEmpty()) {
+        profileName = pCore->getCurrentProfile()->path();
+    }
+    newFile(profileName, showProjectSettings);
+}
+
+void ProjectManager::newFile(QString profileName, bool showProjectSettings)
+{
     // fix mantis#3160
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     if (checkForBackupFile(startFile, true)) {
         return;
     }
     m_fileRevert->setEnabled(false);
-    QString profileName = KdenliveSettings::default_profile();
-    if (profileName.isEmpty()) {
-        profileName = pCore->getCurrentProfile()->path();
-    }
     QString projectFolder;
     QMap<QString, QString> documentProperties;
     QMap<QString, QString> documentMetadata;
@@ -879,10 +883,28 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
 {
     // First backup current project with fps appended
-    const QString currentFile = m_project->url().toLocalFile();
-    if (!closeCurrentDocument()) {
+    QString message;
+    if (m_project && m_project->isModified()) {
+        switch (KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()))) {
+            case KMessageBox::Yes:
+                // save document here. If saving fails, return false;
+                if (!saveFile()) {
+                    pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+                    return;
+                }
+                break;
+            default:
+                pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+                return;
+                break;
+        }
+    }
+
+    if (!m_project || m_project->isModified()) {
+        pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
         return;
     }
+    const QString currentFile = m_project->url().toLocalFile();
 
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
@@ -928,4 +950,5 @@ void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
     }
     file.close();
     openFile(QUrl::fromLocalFile(convertedFile));
+    pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }

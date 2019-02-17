@@ -1700,6 +1700,13 @@ void MainWindow::slotEditProjectSettings()
         if (pCore->getCurrentProfile()->path() != profile || project->profileChanged(profile)) {
             if (!qFuzzyCompare(pCore->getCurrentProfile()->fps() - ProfileRepository::get()->getProfile(profile)->fps(), 0.)) {
                 // Fps was changed, we save the project to an xml file with updated profile and reload project
+                // Check if blank project
+                if (project->url().fileName().isEmpty() && !project->isModified()) {
+                    // Trying to switch project profile from an empty project
+                    pCore->setCurrentProfile(profile);
+                    pCore->projectManager()->newFile(profile, false);
+                    return;
+                }
                 pCore->projectManager()->saveWithUpdatedProfile(profile);
             } else {
                 pCore->setCurrentProfile(profile);
