@@ -364,9 +364,9 @@ public:
         of the clip
        @param dontRefreshMasterClip when false, no view refresh is attempted
         */
-    Q_INVOKABLE int suggestItemMove(int itemId, int trackId, int position, int snapDistance = -1);
-    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int snapDistance = -1, bool allowViewUpdate = true);
-    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int snapDistance = -1);
+    Q_INVOKABLE int suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
+    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool allowViewUpdate = true);
+    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
        Returns true on success. If it fails, nothing is modified.
@@ -506,7 +506,7 @@ public:
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
        @returns best snap position or -1 if no snap point is near
      */
-    int requestBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int snapDistance = -1);
+    int requestBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
 
     /* @brief Requests the next snapped point
        @param pos is the current position

@@ -826,7 +826,7 @@ Rectangle {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, Math.floor(root.snapping))
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, timeline.position, Math.floor(root.snapping))
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
                     scim = true
@@ -1046,7 +1046,7 @@ Rectangle {
                                             timeline.activeTrack = tId
                                         }
                                         if (dragProxy.isComposition) {
-                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, Math.floor(root.snapping))
+                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
                                         } else {
                                             if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
                                                 var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y);
@@ -1056,7 +1056,7 @@ Rectangle {
                                                 dragProxy.masterObject.y = pos.y
                                                 console.log('bringing item to front')
                                             }
-                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, Math.floor(root.snapping))
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
                                         if (delta != 0) {
