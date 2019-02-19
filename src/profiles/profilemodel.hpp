@@ -27,9 +27,7 @@
 #include <QString>
 #include <memory>
 
-namespace Mlt {
-class Profile;
-}
+#include <mlt++/MltProfile.h>
 
 /** @brief This is a wrapper around Mlt::Profile to be used by the rest of kdenlive.
  *  It has implicit conversion to Mlt::Profile so you can use it directly in calls to Mlt backend.
@@ -64,6 +62,7 @@ public:
     int is_explicit() const;
     void set_explicit(int b);
     int colorspace() const override;
+    mlt_profile get_profile() const;
     QString path() const override;
 
     void adjustDimensions() override{};

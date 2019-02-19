@@ -25,6 +25,7 @@
 #include "macros.hpp"
 #include "rotoscoping/bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
+#include "profiles/profilemodel.hpp"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -744,21 +745,23 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     QLocale locale;
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
     removeAllKeyframes(undo, redo);
+    mlt_prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_int("key", 0, 0);
+    (void)mlt_prop.anim_get_double("key", 0, 0);
 
-    Mlt::Animation *anim = mlt_prop.get_anim("key");
+    std::shared_ptr<Mlt::Animation> anim(mlt_prop.get_anim("key"));
     int in = 0;
     if (auto ptr = m_model.lock()) {
         in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
     }
-    qDebug() << "Found" << anim->key_count() << "animation properties";
+    qDebug() << "Found" << anim->key_count() << "animation properties: "<<prop;
+    bool useDefaultType = !prop.contains(QLatin1Char('='));
     for (int i = 0; i < anim->key_count(); ++i) {
         int frame;
         mlt_keyframe_type type;
         anim->key_get(i, frame, type);
-        if (!prop.contains(QLatin1Char('='))) {
+        if (useDefaultType) {
             // TODO: use a default user defined type
             type = mlt_keyframe_linear;
         }
@@ -783,7 +786,6 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, true, undo, redo);
     }
-    delete anim;
     connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
@@ -797,6 +799,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     removeAllKeyframes(undo, redo);
 
     Mlt::Properties mlt_prop;
+    mlt_prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     QLocale locale;
     int in = 0;
     if (auto ptr = m_model.lock()) {
@@ -935,6 +938,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     --prev;
     // We now have surrounding keyframes, we use mlt to compute the value
     Mlt::Properties prop;
+    prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     QLocale locale;
     int p = pos.frames(pCore->getCurrentFps());
     if (m_paramType == ParamType::KeyframeParam) {
@@ -1091,6 +1095,7 @@ void KeyframeModel::reset()
 QList<QPoint> KeyframeModel::getRanges(const QString &animData)
 {
     Mlt::Properties mlt_prop;
+    mlt_prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     QLocale locale;
     mlt_prop.set("key", animData.toUtf8().constData());
     // This is a fake query to force the animation to be parsed

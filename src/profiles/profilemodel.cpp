@@ -24,7 +24,6 @@
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include <KLocalizedString>
-#include <mlt++/MltProfile.h>
 
 #include <KMessageWidget>
 #include <QDir>
@@ -132,6 +131,11 @@ int ProfileModel::colorspace() const
 QString ProfileModel::path() const
 {
     return m_path;
+}
+
+mlt_profile ProfileModel::get_profile() const
+{
+    return m_profile->get_profile();
 }
 
 void ProfileModel::set_explicit(int b)
