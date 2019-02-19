@@ -94,6 +94,7 @@ public slots:
 private slots:
     void setWidgetHeight(qreal value);
     void animationFinished();
+    void enableView(bool enabled);
 
 private slots:
     void slotSwitch(bool expand);

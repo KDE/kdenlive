@@ -115,8 +115,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     m_enabledButton->setActiveIcon(QIcon::fromTheme(QStringLiteral("hint")));
     m_enabledButton->setInactiveIcon(QIcon::fromTheme(QStringLiteral("visibility")));
     enabledButton->setDefaultAction(m_enabledButton);
-    connect(m_model.get(), &AssetParameterModel::enabledChange, m_enabledButton, &KDualAction::setActive);
-
+    connect(m_model.get(), &AssetParameterModel::enabledChange, this, &CollapsibleEffectView::enableView);
     m_groupAction = new QAction(QIcon::fromTheme(QStringLiteral("folder-new")), i18n("Create Group"), this);
     connect(m_groupAction, &QAction::triggered, this, &CollapsibleEffectView::slotCreateGroup);
 
@@ -784,4 +783,19 @@ bool CollapsibleEffectView::isMovable() const
 void CollapsibleEffectView::prepareImportClipKeyframes()
 {
     emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString, QString>());
+}
+
+
+void CollapsibleEffectView::enableView(bool enabled)
+{
+    m_enabledButton->setActive(enabled);
+    title->setEnabled(!enabled);
+    m_colorIcon->setEnabled(!enabled);
+    if (enabled) {
+        if (KdenliveSettings::disable_effect_parameters()) {
+            widgetFrame->setEnabled(false);
+        }
+    } else {
+        widgetFrame->setEnabled(true);
+    }
 }
