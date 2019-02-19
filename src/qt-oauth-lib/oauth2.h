@@ -135,6 +135,7 @@ private:
 
     LoginDialog *m_pLoginDialog;
     QWidget *m_pParent;
+    void buildLoginDialog();
 };
 
 #endif // QT5_USE_WEBKIT

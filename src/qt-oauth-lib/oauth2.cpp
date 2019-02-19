@@ -53,7 +53,6 @@ OAuth2::OAuth2(QWidget *parent)
     m_strClientID = QStringLiteral("33e04f36da52710a28cc"); // obtained when ttguy registered the kdenlive application with freesound
     m_strRedirectURI = QStringLiteral("https://www.freesound.org/home/app_permissions/permission_granted/");
     m_strResponseType = QStringLiteral("code");
-    m_pLoginDialog = new LoginDialog(parent);
     m_pParent = parent;
 
     m_bAccessTokenRec = false;
@@ -76,6 +75,12 @@ OAuth2::OAuth2(QWidget *parent)
         m_bAccessTokenRec = true;
         m_strAccessToken = strAccessTokenFromSettings;
     }
+    buildLoginDialog();
+}
+
+void OAuth2::buildLoginDialog()
+{
+    m_pLoginDialog = new LoginDialog(m_pParent);
     connect(m_pLoginDialog, &LoginDialog::authCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 
     connect(m_pLoginDialog, &LoginDialog::accessDenied, this, &OAuth2::SlotAccessDenied);
@@ -147,8 +152,11 @@ void OAuth2::obtainAccessToken()
     } else {
         //  login to free sound via our login dialog
         QUrl vUrl(loginUrl());
+        if (!m_pLoginDialog) {
+            buildLoginDialog();
+        }
         m_pLoginDialog->setLoginUrl(vUrl);
-        m_pLoginDialog->show();
+        m_pLoginDialog->exec();
     }
 }
 
@@ -283,8 +291,8 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
  */
 void OAuth2::SlotCanceled()
 {
-
     emit Canceled();
+    m_pLoginDialog = nullptr;
 }
 
 /**
@@ -294,8 +302,8 @@ void OAuth2::SlotCanceled()
  */
 void OAuth2::SlotDownloadHQPreview()
 {
-
     emit UseHQPreview();
+    m_pLoginDialog = nullptr;
 }
 /**
  * @brief OAuth2::obtainNewAccessToken
