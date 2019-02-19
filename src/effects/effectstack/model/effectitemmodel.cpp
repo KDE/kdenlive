@@ -195,14 +195,10 @@ void EffectItemModel::updateEnable()
 {
     filter().set("disable", isEnabled() ? 0 : 1);
     pCore->refreshProjectItem(m_ownerId);
-    if (auto ptr = m_model.lock()) {
-        QModelIndex index = ptr->getIndexFromId(m_id);
-        emit dataChanged(index, index, QVector<int>());
-        emit enabledChange(!isEnabled());
-    } else {
-        qDebug() << "Error, unable to send update to deleted model";
-        Q_ASSERT(false);
-    }
+    const QModelIndex start = AssetParameterModel::index(0, 0);
+    const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
+    emit dataChanged(start, end, QVector<int>());
+    emit enabledChange(!isEnabled());
     // Update timeline child producers
     AssetParameterModel::updateChildren(QStringLiteral("disable"));
 }
