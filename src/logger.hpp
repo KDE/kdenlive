@@ -24,6 +24,7 @@
 #include <iostream>
 #include <memory>
 #include <mutex>
+#include <unordered_map>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -41,6 +42,9 @@
 class Logger
 {
 public:
+    /// @brief Inits the logger. Must be called at startup
+    static void init();
+
     /** @brief Notify the logger that the current thread wants to start logging.
      * This function returns true if this is a top-level call, meaning that we indeed want to log it. If the function returns false, the  caller must not log.
      */
@@ -63,7 +67,11 @@ public:
     static void stop_logging();
     static void print_trace();
 
+    /// @brief Resets the current log
     static void clear();
+
+    static std::unordered_map<std::string, std::string> translation_table;
+    static std::unordered_map<std::string, std::string> back_translation_table;
 
 protected:
     /** @brief Look amongst the known instances to get the name of a given pointer */

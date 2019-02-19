@@ -71,7 +71,6 @@ Core::~Core()
 void Core::build(const QString &MltPath)
 {
     if (m_self) {
-        qDebug() << "DEBUG: Warning : trying to create a second Core";
         return;
     }
     m_self.reset(new Core());

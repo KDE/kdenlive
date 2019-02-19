@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "core.h"
+#include "logger.hpp"
 #include <config-kdenlive.h>
 
 #include <mlt++/Mlt.h>
@@ -69,6 +70,7 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
+    Logger::init();
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));

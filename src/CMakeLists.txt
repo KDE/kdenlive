@@ -16,7 +16,6 @@ if (KDENLIVE_COMPILER_IS_GNUCXX)
 endif()
 SET(KDENLIVE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS}  -Wunused-parameter -Wshadow -Wno-variadic-macros -Wno-float-conversion")
 
-
 if(NOT WIN32)
     find_package(PkgConfig QUIET)
     execute_process(

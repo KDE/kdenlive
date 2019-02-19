@@ -41,7 +41,43 @@ std::mutex Logger::mut;
 std::vector<rttr::variant> Logger::operations;
 std::vector<Logger::Invok> Logger::invoks;
 std::unordered_map<std::string, std::vector<Logger::Constr>> Logger::constr;
+std::unordered_map<std::string, std::string> Logger::translation_table;
+std::unordered_map<std::string, std::string> Logger::back_translation_table;
+
 thread_local size_t Logger::result_awaiting = INT_MAX;
+
+void Logger::init()
+{
+    std::string cur_ind = "a";
+    auto incr_ind = [&](auto &&self, size_t i = 0) {
+        if (i >= cur_ind.size()) {
+            cur_ind += "a";
+            return;
+        }
+        if (cur_ind[i] == 'z') {
+            cur_ind[i] = 'A';
+        } else if (cur_ind[i] == 'Z') {
+            cur_ind[i] = 'a';
+            self(self, i + 1);
+        } else {
+            cur_ind[i]++;
+        }
+    };
+
+    for (const auto &o : {"TimelineModel", "TrackModel", "test_producer", "test_producer_sound"}) {
+        translation_table[std::string("constr_") + o] = cur_ind;
+        incr_ind(incr_ind);
+    }
+
+    for (const auto &m : rttr::type::get<TimelineModel>().get_methods()) {
+        translation_table[m.get_name().to_string()] = cur_ind;
+        incr_ind(incr_ind);
+    }
+
+    for (const auto &i : translation_table) {
+        back_translation_table[i.second] = i.first;
+    }
+}
 
 bool Logger::start_logging()
 {
@@ -148,6 +184,64 @@ void Logger::print_trace()
         }
         return ss.str();
     };
+    auto process_args_fuzz = [&](const std::vector<rttr::variant> &args, const std::unordered_set<size_t> &refs = {}) {
+        std::stringstream ss;
+        bool deb = true;
+        size_t i = 0;
+        for (const auto &a : args) {
+            if (deb) {
+                deb = false;
+            } else {
+                ss << " ";
+            }
+            if (refs.count(i) > 0) {
+                continue;
+            } else if (a.get_type() == rttr::type::get<int>()) {
+                ss << a.convert<int>();
+            } else if (a.get_type() == rttr::type::get<bool>()) {
+                ss << (a.convert<bool>() ? "1" : "0");
+            } else if (a.get_type().is_enumeration()) {
+                ss << a.convert<int>();
+            } else if (a.can_convert<QString>()) {
+                std::string out = a.convert<QString>().toStdString();
+                if (out.empty()) {
+                    out = "$$";
+                }
+                ss << out;
+            } else if (a.can_convert<std::string>()) {
+                std::string out = a.convert<std::string>();
+                if (out.empty()) {
+                    out = "$$";
+                }
+                ss << out;
+            } else if (a.can_convert<std::unordered_set<int>>()) {
+                auto set = a.convert<std::unordered_set<int>>();
+                ss << set.size() << " ";
+                bool beg = true;
+                for (int s : set) {
+                    if (beg)
+                        beg = false;
+                    else
+                        ss << " ";
+                    ss << s;
+                }
+            } else if (a.get_type().is_pointer()) {
+                if (a.can_convert<TimelineModel *>()) {
+                    ss << get_id_from_ptr(a.convert<TimelineModel *>());
+                } else if (a.can_convert<ProjectItemModel *>()) {
+                    // only one binModel, we skip the parameter since it's unambiguous
+                } else {
+                    std::cout << "Error: unhandled ptr type " << a.get_type().get_name().to_string() << std::endl;
+                }
+            } else {
+                std::cout << "Error: unhandled arg type " << a.get_type().get_name().to_string() << std::endl;
+            }
+            ++i;
+        }
+        return ss.str();
+    };
+    std::ofstream fuzz_file;
+    fuzz_file.open("fuzz_case.txt");
     std::ofstream test_file;
     test_file.open("test_case.cpp");
     test_file << "TEST_CASE(\"Regression\") {" << std::endl;
@@ -190,6 +284,12 @@ void Logger::print_trace()
 
         } else if (o.can_convert<Logger::ConstrId>()) {
             ConstrId id = o.convert<Logger::ConstrId>();
+            std::string constr_name = std::string("constr_") + id.type;
+            if (translation_table.count(constr_name) > 0) {
+                fuzz_file << translation_table[constr_name] << " " << process_args_fuzz(constr[id.type][id.id].second) << std::endl;
+            } else {
+                std::cout << "ERROR: unknown constructor " << constr_name << std::endl;
+            }
             if (id.type == "TimelineModel") {
                 test_file << "TimelineItemModel tim_" << id.id << "(new Mlt::Profile(), undoStack);" << std::endl;
                 test_file << "Mock<TimelineItemModel> timMock_" << id.id << "(tim_" << id.id << ");" << std::endl;

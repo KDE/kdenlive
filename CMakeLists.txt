@@ -8,6 +8,12 @@ set (KDE_APPLICATIONS_VERSION_MAJOR "19")
 set (KDE_APPLICATIONS_VERSION_MINOR "03")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 
+option(BUILD_FUZZING "Build fuzzing target" OFF)
+if (BUILD_FUZZING)
+  SET(CMAKE_CXX_COMPILER /usr/bin/clang++)
+endif()
+
+
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
 cmake_minimum_required(VERSION 3.0)
 if(POLICY CMP0063)
@@ -52,6 +58,12 @@ add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH})
 SET(DEFAULT_CXX_FLAGS "${DEFAULT_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-unknown-warning-option")
+
+
+if (BUILD_FUZZING)
+  SET(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
+endif()
+
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version (use for stable releases)" ON)
 option(BUILD_TESTS "Build tests" ON)
@@ -169,6 +181,18 @@ if (BUILD_TESTS)
     ADD_TEST(runTests runTests -d yes)
 else()
     message(STATUS "Not building TESTS")
+endif()
+
+############################
+# Tests
+############################
+
+if (BUILD_FUZZING)
+    message(STATUS "Building FUZZING")
+    add_subdirectory(fuzzer)
+
+else()
+    message(STATUS "Not building FUZZING")
 endif()
 
 #add_subdirectory(testingArea)

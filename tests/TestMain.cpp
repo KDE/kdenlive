@@ -2,6 +2,7 @@
 #include "catch.hpp"
 
 #include "core.h"
+#include "logger.hpp"
 #include "src/effects/effectsrepository.hpp"
 #include "src/mltcontroller/clipcontroller.h"
 #include <QApplication>
@@ -17,6 +18,7 @@ int main(int argc, char *argv[])
     std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
     qputenv("MLT_TESTS", QByteArray("1"));
     Core::build();
+    Logger::init();
     // if Kdenlive is not installed, ensure we have one keyframable effect
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());
 
