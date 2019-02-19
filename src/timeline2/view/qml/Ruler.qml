@@ -247,6 +247,9 @@ Rectangle {
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
                             var newPos = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / timeline.scaleFactor), root.snapping)
+                            if (newPos < 0) {
+                                newPos = 0
+                            }
                             timeline.zoneIn = timeline.zoneOut > -1 ? Math.min(newPos, timeline.zoneOut - 1) : newPos
                         }
                     }
