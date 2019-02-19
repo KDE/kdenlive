@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 #include "assetpanel.hpp"
-#include "core.cpp"
+#include "core.h"
 #include "definitions.h"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -40,6 +40,7 @@
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <klocalizedstring.h>
