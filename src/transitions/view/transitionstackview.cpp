@@ -79,6 +79,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 void TransitionStackView::unsetModel()
 {
     if (m_model) {
+        disconnect(m_model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
         auto kfr = m_model->getKeyframeModel();
         if (kfr) {
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);

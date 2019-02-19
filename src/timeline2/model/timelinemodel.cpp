@@ -1611,8 +1611,6 @@ bool TimelineModel::requestClipUngroup(int id, bool logUndo)
     Fun redo = []() { return true; };
     bool result = true;
     if (id == m_temporarySelectionGroup) {
-        // Ungrouping selection group, so get id of all children
-        std::unordered_set<int> leaves = m_groups->getDirectChildren(id);
         // Delete selection group without undo
         Fun tmp_undo = []() { return true; };
         Fun tmp_redo = []() { return true; };
@@ -1803,7 +1801,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
-        // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
+        //qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point

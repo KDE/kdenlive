@@ -476,7 +476,10 @@ void TimelineController::deleteSelectedClips()
     }
     if (m_model->m_temporarySelectionGroup != -1) {
         // selection is grouped, delete group only
+        m_selection.selectedItems.clear();
+        emit selectionChanged();
         m_model->requestGroupDeletion(m_model->m_temporarySelectionGroup);
+        return;
     } else {
         for (int cid : m_selection.selectedItems) {
             m_model->requestItemDeletion(cid);
@@ -535,26 +538,26 @@ void TimelineController::copyItem()
             qDebug() << "GROUP: " << gp;
         }
         qDebug() << "\n=======";
-        m_copiedItems.clear();
+        QDomDocument copiedItems;
         int offset = -1;
-        QDomElement container = m_copiedItems.createElement(QStringLiteral("list"));
-        m_copiedItems.appendChild(container);
+        QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
+        copiedItems.appendChild(container);
         QStringList binIds;
         for (int id : extraClips) {
             if (offset == -1 || m_model->getItemPosition(id) < offset) {
                 offset = m_model->getItemPosition(id);
             }
             if (m_model->isClip(id)) {
-                container.appendChild(m_model->m_allClips[id]->toXml(m_copiedItems));
+                container.appendChild(m_model->m_allClips[id]->toXml(copiedItems));
                 const QString bid = m_model->m_allClips[id]->binId();
                 if (!binIds.contains(bid)) {
                     binIds << bid;
                 }
             } else if (m_model->isComposition(id)) {
-                container.appendChild(m_model->m_allCompositions[id]->toXml(m_copiedItems));
+                container.appendChild(m_model->m_allCompositions[id]->toXml(copiedItems));
             }
         }
-        QDomElement container2 = m_copiedItems.createElement(QStringLiteral("bin"));
+        QDomElement container2 = copiedItems.createElement(QStringLiteral("bin"));
         container.appendChild(container2);
         for (const QString &id : binIds) {
             std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
@@ -564,13 +567,13 @@ void TimelineController::copyItem()
         container.setAttribute(QStringLiteral("offset"), offset);
         container.setAttribute(QStringLiteral("masterTrack"), masterTrack);
         container.setAttribute(QStringLiteral("documentid"), pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid")));
-        QDomElement grp = m_copiedItems.createElement(QStringLiteral("groups"));
+        QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
         container.appendChild(grp);
-        grp.appendChild(m_copiedItems.createTextNode(m_model->m_groups->toJson(groupRoots)));
+        grp.appendChild(copiedItems.createTextNode(m_model->m_groups->toJson(groupRoots)));
         // TODO: groups
-        qDebug() << " / // / PASTED DOC: \n\n" << m_copiedItems.toString() << "\n\n------------";
+        qDebug() << " / // / PASTED DOC: \n\n" << copiedItems.toString() << "\n\n------------";
         QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(m_copiedItems.toString());
+        clipboard->setText(copiedItems.toString());
     } else {
         return;
     }
@@ -579,17 +582,14 @@ void TimelineController::copyItem()
 
 bool TimelineController::pasteItem()
 {
-    if (m_copiedItems.isNull()) {
-        QClipboard *clipboard = QApplication::clipboard();
-        //QString tp = QStringLiteral("html");
-        QString txt = clipboard->text();
-        m_copiedItems.setContent(txt);
-        if (m_copiedItems.documentElement().tagName() == QLatin1String("list")) {
-            qDebug()<<" / / READING CLIPS FROM CLIPBOARD";
-        } else {
-            m_copiedItems.clear();
-            return false;
-        }
+    QClipboard *clipboard = QApplication::clipboard();
+    QString txt = clipboard->text();
+    QDomDocument copiedItems;
+    copiedItems.setContent(txt);
+    if (copiedItems.documentElement().tagName() == QLatin1String("kdenlive-scene")) {
+        qDebug()<<" / / READING CLIPS FROM CLIPBOARD";
+    } else {
+        return false;
     }
     int tid = getMouseTrack();
     int position = getMousePos();
@@ -601,14 +601,14 @@ bool TimelineController::pasteItem()
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    const QString docId = m_copiedItems.documentElement().attribute(QStringLiteral("documentid"));
+    const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
     QMap<QString, QString> mappedIds;
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         const QString rootId = pCore->projectItemModel()->getRootFolder()->clipId();
         QString folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
         pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
-        QDomNodeList binClips = m_copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
+        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
@@ -621,10 +621,10 @@ bool TimelineController::pasteItem()
             pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo);
         }
     }
-    QDomNodeList clips = m_copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
-    QDomNodeList compositions = m_copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
-    int offset = m_copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
-    int masterTrack = m_model->getTrackIndexFromPosition(m_copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt());
+    QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
+    QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
+    int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
+    int masterTrack = m_model->getTrackIndexFromPosition(copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt());
     int trackOffset = TimelineFunctions::getTrackOffset(m_model, masterTrack, tid);
     bool masterIsAudio = m_model->isAudioTrack(masterTrack);
     // find paste tracks
@@ -730,7 +730,7 @@ bool TimelineController::pasteItem()
         undo();
         return false;
     }
-    const QString groupsData = m_copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
+    const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
     qDebug() << "************** GRP DATA ********\n" << groupsData << "\n******";
     m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
