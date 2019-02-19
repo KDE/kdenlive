@@ -177,6 +177,8 @@ void fuzz(const std::string &input)
                 if (name == "$$") {
                     name = "";
                 }
+                if (pos < -1) pos = 0;
+                pos = std::min((int)all_tracks[timeline].size(), pos);
                 if (timeline) {
                     TrackModel::construct(timeline, -1, pos, QString::fromStdString(name), audio);
                 }

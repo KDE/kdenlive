@@ -1087,7 +1087,6 @@ void ProjectClip::updateParent(std::shared_ptr<TreeItem> parent)
     if (parent) {
         auto item = std::static_pointer_cast<AbstractProjectItem>(parent);
         ClipController::setProducerProperty(QStringLiteral("kdenlive:folderid"), item->clipId());
-        qDebug() << "Setting parent to " << item->clipId();
     }
     AbstractProjectItem::updateParent(parent);
 }

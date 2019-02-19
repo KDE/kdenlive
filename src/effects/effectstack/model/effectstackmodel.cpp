@@ -629,15 +629,15 @@ void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectIte
 void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
     QWriteLocker locker(&m_lock);
-    qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
+    // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect";
     QModelIndex ix;
     if (!item->isRoot()) {
         auto effectItem = std::static_pointer_cast<EffectItemModel>(item);
         if (!m_loadingExisting) {
-            qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
+            // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting effect in " << m_childServices.size();
             effectItem->plant(m_masterService);
             for (const auto &service : m_childServices) {
-                qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting CLONE effect in " << (void *)service.lock().get();
+                // qDebug() << "$$$$$$$$$$$$$$$$$$$$$ Planting CLONE effect in " << (void *)service.lock().get();
                 effectItem->plantClone(service);
             }
         }
