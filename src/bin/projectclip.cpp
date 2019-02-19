@@ -548,7 +548,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
             // We need to get an audio producer, if none exists
-            if (m_clipType == ClipType::Color || m_clipType == ClipType::Image) {
+            if (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text) {
                 int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
                 return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration: -1));
             }
