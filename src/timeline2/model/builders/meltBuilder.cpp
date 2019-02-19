@@ -265,7 +265,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 if (clipId.isEmpty()) {
                     clipId = clip->get("kdenlive:id");
                 }
-                Q_ASSERT(clipId.isEmpty() && binIdCorresp.count(clipId) > 0);
+                Q_ASSERT(!clipId.isEmpty() && binIdCorresp.count(clipId) > 0);
                 binId = binIdCorresp.at(clipId);
                 clip->parent().set("kdenlive:id", binId.toUtf8().constData());
                 clip->parent().set("_kdenlive_processed", 1);
