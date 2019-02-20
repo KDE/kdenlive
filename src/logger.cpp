@@ -256,9 +256,9 @@ void Logger::print_trace()
         return ss.str();
     };
     std::ofstream fuzz_file;
-    fuzz_file.open("fuzz_case.txt");
+    fuzz_file.open("fuzz_case_" + std::to_string(dump_count) + ".txt");
     std::ofstream test_file;
-    test_file.open("test_case.cpp");
+    test_file.open("test_case_" + std::to_string(dump_count) + ".cpp");
     test_file << "TEST_CASE(\"Regression\") {" << std::endl;
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
