@@ -818,7 +818,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     Q_ASSERT(isTrack(trackId));
     int currentPos = getCompositionPosition(compoId);
     int currentTrack = getCompositionTrackId(compoId);
-    if (getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(currentTrack)->isAudioTrack()) {
+    if (getTrackById_const(trackId)->isAudioTrack()) {
         // Trying move on incompatible track type, stay on same track
         trackId = currentTrack;
     }
@@ -1293,11 +1293,11 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
 
-    // Sort clips. We need to delete from right to left to avoid confusing the view
+    // Sort clips. We need to delete from right to left to avoid confusing the view, and compositions from top to bottom
     std::vector<int> sorted_clips(all_items.begin(), all_items.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](int clipId1, int clipId2) {
-        int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition() : m_allCompositions[clipId1]->getPosition();
-        int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition() : m_allCompositions[clipId2]->getPosition();
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_track](int clipId1, int clipId2) {
+        int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition() : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : m_allCompositions[clipId1]->getPosition();
+        int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition() : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : m_allCompositions[clipId2]->getPosition();
         return p2 <= p1;
     });
 
@@ -1338,7 +1338,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
                 ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo);
                 old_position[item] = m_allClips[item]->getPosition();
             } else {
-                // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
+                //ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, finalMove, local_undo, local_redo);
                 old_position[item] = m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             }
@@ -2317,7 +2317,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         Fun insert_operation = []() { return true; };
         Fun insert_reverse = []() { return true; };
         if (old_trackId != trackId) {
-            insert_operation = [this, compoId, trackId, compositionTrack, updateView]() {
+            insert_operation = [this, compoId, compositionTrack, updateView]() {
                 qDebug() << "-------------- ATRACK ----------------\n" << compositionTrack << " = " << getTrackIndexFromPosition(compositionTrack);
                 m_allCompositions[compoId]->setATrack(compositionTrack, compositionTrack <= 0 ? -1 : getTrackIndexFromPosition(compositionTrack - 1));
                 return replantCompositions(compoId, updateView);
@@ -2398,7 +2398,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 
     for (const auto &compo : compos) {
         int aTrack = m_allCompositions[compo.second]->getATrack();
-        Q_ASSERT(aTrack != -1);
+        Q_ASSERT(aTrack != -1 && aTrack < m_tractor->count());
 
         int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
