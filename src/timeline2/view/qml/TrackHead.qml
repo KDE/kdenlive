@@ -278,7 +278,8 @@ Rectangle {
                         nameEdit.selectAll()
                     }
                     onClicked: {
-                        mouse.accepted = false
+                        trackHeadRoot.clicked()
+                        trackHeadRoot.focus = true
                     }
                     onEntered: {
                         if (nameEdit.visible == false && trackName == '') {
