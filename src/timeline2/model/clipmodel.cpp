@@ -162,7 +162,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     std::function<bool(void)> track_reverse = []() { return true; };
     int outPoint = out;
     int inPoint = in;
+    int offset = 0;
     if (m_endlessResize) {
+        offset = inPoint;
         outPoint = out - in;
         inPoint = 0;
     }
@@ -210,9 +212,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             }
             return false;
         };
-        qDebug() << "// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
         if (logUndo) {
-            adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), reverse, operation, logUndo);
+            adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -322,10 +324,10 @@ bool ClipModel::removeFade(bool fromStart)
     return true;
 }
 
-bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo)
+bool ClipModel::adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, int offset, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, undo, redo, logUndo);
+    return m_effectStack->adjustStackLength(adjustFromEnd, oldIn, oldDuration, newIn, duration, offset, undo, redo, logUndo);
 }
 
 bool ClipModel::adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo)

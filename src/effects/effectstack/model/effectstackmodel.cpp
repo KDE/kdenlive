@@ -381,7 +381,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     return res;
 }
 
-bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, Fun &undo, Fun &redo, bool logUndo)
+bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, int offset, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     const int fadeInDuration = getFadePosition(true);
@@ -477,7 +477,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             std::shared_ptr<KeyframeModelList> keyframes = effect->getKeyframeModel();
             if (keyframes != nullptr) {
                 // Effect has keyframes, update these
-                keyframes->resizeKeyframes(oldIn, oldIn + oldDuration - 1, newIn, out - 1, undo, redo);
+                keyframes->resizeKeyframes(oldIn, oldIn + oldDuration - 1, newIn, out - 1, offset, adjustFromEnd, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
                 Fun refresh = [this, effect, index]() {
                     effect->dataChanged(index, index, QVector<int>());

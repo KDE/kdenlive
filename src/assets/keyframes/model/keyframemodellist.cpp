@@ -351,38 +351,59 @@ KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index
     return nullptr;
 }
 
-void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo)
+void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo)
 {
     bool ok;
     bool ok2;
-    if (oldIn != in) {
-        GenTime old_in(oldIn, pCore->getCurrentFps());
-        GenTime new_in(in, pCore->getCurrentFps());
-        Keyframe kf = getKeyframe(old_in, &ok);
-        KeyframeType type = kf.second;
-        getKeyframe(new_in, &ok2);
-        // Check keyframes after last position
-        QList<GenTime> positions;
-        if (ok && !ok2 && oldIn != 0) {
-            positions << old_in;
-        } else if (in == 0 && ok && ok2) {
-            // We moved start to 0. As the 0 keyframe is always here, simply remove old position
-            for (const auto &param : m_parameters) {
-                param.second->removeKeyframe(old_in, undo, redo);
-            }
-        }
-        // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
-        if (ok && !ok2) {
+    QList<GenTime> positions;
+    if (!adjustFromEnd) {
+        if (offset > 0) {
+            // this is an endless resize clip
+            GenTime old_in(oldIn, pCore->getCurrentFps());
+            Keyframe kf = getKeyframe(old_in, &ok);
+            KeyframeType type = kf.second;
+            GenTime new_in(in + offset, pCore->getCurrentFps());
+            getKeyframe(new_in, &ok2);
+            positions = m_parameters.begin()->second->getKeyframePos();
+            std::sort(positions.begin(), positions.end());
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_in);
-                param.second->addKeyframe(new_in, type, value, true, undo, redo);
+                param.second->updateKeyframe(old_in, value, undo, redo);
                 for (auto frame : positions) {
-                    param.second->removeKeyframe(frame, undo, redo);
+                    if (frame > new_in) {
+                        param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
+                    } else if (frame != old_in) {
+                        param.second->removeKeyframe(frame, undo, redo);
+                    }
+                }
+            }
+        } else {
+            GenTime old_in(oldIn, pCore->getCurrentFps());
+            GenTime new_in(in, pCore->getCurrentFps());
+            Keyframe kf = getKeyframe(old_in, &ok);
+            KeyframeType type = kf.second;
+            getKeyframe(new_in, &ok2);
+            // Check keyframes after last position
+            if (ok && !ok2 && oldIn != 0) {
+                positions << old_in;
+            } else if (in == 0 && ok && ok2) {
+                // We moved start to 0. As the 0 keyframe is always here, simply remove old position
+                for (const auto &param : m_parameters) {
+                    param.second->removeKeyframe(old_in, undo, redo);
+                }
+            }
+            // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
+            if (ok && !ok2) {
+                for (const auto &param : m_parameters) {
+                    QVariant value = param.second->getInterpolatedValue(new_in);
+                    param.second->addKeyframe(new_in, type, value, true, undo, redo);
+                    for (auto frame : positions) {
+                        param.second->removeKeyframe(frame, undo, redo);
+                    }
                 }
             }
         }
-    }
-    if (oldOut != out) {
+    } else {
         GenTime old_out(oldOut, pCore->getCurrentFps());
         GenTime new_out(out, pCore->getCurrentFps());
         Keyframe kf = getKeyframe(old_out, &ok);
@@ -391,7 +412,6 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         // Check keyframes after last position
         bool ok3;
         Keyframe toDel = getNextKeyframe(new_out, &ok3);
-        QList<GenTime> positions;
         if (ok && !ok2) {
             positions << old_out;
         }
@@ -401,8 +421,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             }
             toDel = getNextKeyframe(toDel.first, &ok3);
         }
-        // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
-        if (ok && !ok2) {
+        if ((ok || positions.size() > 0) && !ok2) {
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_out);
                 param.second->addKeyframe(new_out, type, value, true, undo, redo);

@@ -1143,6 +1143,15 @@ std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(const QString &anim
     return mlt_prop;
 }
 
+QList<GenTime> KeyframeModel::getKeyframePos() const
+{
+    QList<GenTime> all_pos;
+    for (const auto &m : m_keyframeList) {
+        all_pos.push_back(m.first);
+    }
+    return all_pos;
+}
+
 bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);

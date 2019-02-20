@@ -135,7 +135,7 @@ public:
     ObjectId getOwnerId() const;
 
     /** @brief Parent item size change, update keyframes*/
-    void resizeKeyframes(int oldIn, int oldOut, int in, int out, Fun &undo, Fun &redo);
+    void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
 
 protected:
     /** @brief Helper function to apply a given operation on all parameters */

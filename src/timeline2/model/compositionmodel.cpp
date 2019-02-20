@@ -135,7 +135,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         if (kfr) {
             // Adjust keyframe length
             if (oldDuration > 0) {
-                kfr->resizeKeyframes(0, oldDuration, 0, out - in, undo, redo);
+                kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
             }
             Fun refresh = [kfr, this]() {
                 kfr->modelChanged();

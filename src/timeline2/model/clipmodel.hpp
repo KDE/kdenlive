@@ -130,7 +130,7 @@ public:
 
     bool removeFade(bool fromStart);
     /** @brief Adjust effects duration. Should be called after each resize / cut operation */
-    bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, Fun &undo, Fun &redo, bool logUndo);
+    bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, int offset, Fun &undo, Fun &redo, bool logUndo);
     bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo);
     void passTimelineProperties(std::shared_ptr<ClipModel> other);
     KeyframeModel *getKeyframeModel();

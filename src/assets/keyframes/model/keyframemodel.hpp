@@ -85,6 +85,7 @@ protected:
     bool removeAllKeyframes();
     bool removeAllKeyframes(Fun &undo, Fun &redo);
     bool removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo);
+    QList<GenTime> getKeyframePos() const;
 
 protected:
     /* @brief Same function but accumulates undo/redo */
