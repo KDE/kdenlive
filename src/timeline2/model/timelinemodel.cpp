@@ -2039,14 +2039,16 @@ int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
     return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
 }
 
-int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int snapDistance)
+int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int cursorPosition, int snapDistance)
 {
     if (!pts.empty()) {
         m_snaps->ignore(pts);
     }
+    m_snaps->addPoint(cursorPosition);
     int snapped_start = m_snaps->getClosestPoint(pos);
     int snapped_end = m_snaps->getClosestPoint(pos + length);
     m_snaps->unIgnore();
+    m_snaps->removePoint(cursorPosition);
 
     int startDiff = qAbs(pos - snapped_start);
     int endDiff = qAbs(pos + length - snapped_end);

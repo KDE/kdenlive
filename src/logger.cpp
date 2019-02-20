@@ -137,6 +137,17 @@ bool isIthParamARef(const rttr::method &method, size_t i)
     QStringList args = sig.split(QStringLiteral(","));
     return args[(int)i].contains("&") && !args[(int)i].contains("const &");
 }
+std::string quoted(const std::string &input)
+{
+#if __cpp_lib_quoted_string_io
+    std::stringstream ss;
+    ss << std::quoted(input);
+    return ss.str();
+#else
+    // very incomplete implem
+    return "\"" + input + "\"";
+#endif
+}
 } // namespace
 
 void Logger::print_trace()
@@ -164,9 +175,9 @@ void Logger::print_trace()
                 auto e = a.get_type().get_enumeration();
                 ss << e.get_name().to_string() << "::" << a.convert<std::string>();
             } else if (a.can_convert<QString>()) {
-                ss << std::quoted(a.convert<QString>().toStdString());
+                ss << quoted(a.convert<QString>().toStdString());
             } else if (a.can_convert<std::string>()) {
-                ss << std::quoted(a.convert<std::string>());
+                ss << quoted(a.convert<std::string>());
             } else if (a.can_convert<std::unordered_set<int>>()) {
                 auto set = a.convert<std::unordered_set<int>>();
                 ss << "{";
