@@ -676,6 +676,10 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
     Q_ASSERT(isTrack(trackId));
     int currentPos = getClipPosition(clipId);
     int sourceTrackId = getClipTrackId(clipId);
+    if (getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(sourceTrackId)->isAudioTrack()) {
+        // Trying move on incompatible track type, stay on same track
+        trackId = sourceTrackId;
+    }
     if (currentPos == position && sourceTrackId == trackId) {
         return position;
     }
@@ -814,6 +818,10 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     Q_ASSERT(isTrack(trackId));
     int currentPos = getCompositionPosition(compoId);
     int currentTrack = getCompositionTrackId(compoId);
+    if (getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(currentTrack)->isAudioTrack()) {
+        // Trying move on incompatible track type, stay on same track
+        trackId = currentTrack;
+    }
     if (currentPos == position && currentTrack == trackId) {
         return position;
     }
