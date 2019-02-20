@@ -30,8 +30,8 @@ export DOWNLOADS_DIR=$BUILD_PREFIX/downloads/
 cp -r $DEPS_INSTALL_PREFIX/share/locale $APPDIR/usr/share/
 
 # Use newer gcc
-#export CC=/usr/bin/gcc-6
-#export CXX=/usr/bin/g++-6
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
 
 
 # Setup variables needed to help everything find what we build
