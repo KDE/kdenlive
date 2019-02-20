@@ -303,6 +303,7 @@ public:
     Q_INVOKABLE void alignAudio(int clipId);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
+    Q_INVOKABLE int getItemMovingTrack(int itemId) const;
     bool endFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo);
     bool endFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 

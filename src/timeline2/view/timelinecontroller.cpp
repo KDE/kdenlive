@@ -2167,6 +2167,15 @@ void TimelineController::grabCurrent()
     }
 }
 
+int TimelineController::getItemMovingTrack(int itemId) const 
+{
+    if (m_model->isClip(itemId)) {
+        int trackId = m_model->m_allClips[itemId]->getFakeTrackId();
+        return trackId < 0 ? m_model->m_allClips[itemId]->getCurrentTrackId() : trackId;
+    }
+    return m_model->m_allCompositions[itemId]->getCurrentTrackId();
+}
+
 bool TimelineController::endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
     Q_ASSERT(m_model->m_allClips.count(clipId) > 0);

@@ -1042,11 +1042,10 @@ Rectangle {
                                             if (posx == dragFrame) {
                                                 return
                                             }
-                                        } else {
-                                            timeline.activeTrack = tId
                                         }
                                         if (dragProxy.isComposition) {
                                             dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
+                                            timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         } else {
                                             if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
                                                 var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y);
@@ -1057,6 +1056,7 @@ Rectangle {
                                                 console.log('bringing item to front')
                                             }
                                             dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
+                                            timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
                                         if (delta != 0) {
@@ -1257,6 +1257,7 @@ Rectangle {
         model: guidesModel
             Item {
                 id: guideRoot
+                z: 20
                 Rectangle {
                     id: guideBase
                     width: 1
