@@ -715,7 +715,7 @@ bool TimelineController::pasteItem()
         int trackId = m_model->getTrackIndexFromPosition(prod.attribute(QStringLiteral("track")).toInt());
         int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
         if (aTrackId > 0) {
-            aTrackId = tracksMap.value(m_model->getTrackIndexFromPosition(aTrackId));
+            aTrackId = tracksMap.value(m_model->getTrackIndexFromPosition(aTrackId - 1));
         }
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         int newId;
