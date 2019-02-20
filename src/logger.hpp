@@ -101,6 +101,7 @@ protected:
     static std::vector<rttr::variant> operations;
     static std::unordered_map<std::string, std::vector<Constr>> constr;
     static std::vector<Invok> invoks;
+    static int dump_count;
 };
 
 /** @brief This class provides a RAII mechanism to log the execution of a function */

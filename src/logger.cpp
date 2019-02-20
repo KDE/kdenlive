@@ -43,6 +43,7 @@ std::vector<Logger::Invok> Logger::invoks;
 std::unordered_map<std::string, std::vector<Logger::Constr>> Logger::constr;
 std::unordered_map<std::string, std::string> Logger::translation_table;
 std::unordered_map<std::string, std::string> Logger::back_translation_table;
+int Logger::dump_count = 0;
 
 thread_local size_t Logger::result_awaiting = INT_MAX;
 
@@ -140,6 +141,7 @@ bool isIthParamARef(const rttr::method &method, size_t i)
 
 void Logger::print_trace()
 {
+    dump_count++;
     auto process_args = [&](const std::vector<rttr::variant> &args, const std::unordered_set<size_t> &refs = {}) {
         std::stringstream ss;
         bool deb = true;
@@ -147,8 +149,10 @@ void Logger::print_trace()
         for (const auto &a : args) {
             if (deb) {
                 deb = false;
+                i = 0;
             } else {
                 ss << ", ";
+                ++i;
             }
             if (refs.count(i) > 0) {
                 ss << "dummy_" << i;
@@ -180,7 +184,6 @@ void Logger::print_trace()
             } else {
                 std::cout << "Error: unhandled arg type " << a.get_type().get_name().to_string() << std::endl;
             }
-            ++i;
         }
         return ss.str();
     };
@@ -191,8 +194,10 @@ void Logger::print_trace()
         for (const auto &a : args) {
             if (deb) {
                 deb = false;
+                i = 0;
             } else {
                 ss << " ";
+                ++i;
             }
             if (refs.count(i) > 0) {
                 continue;
@@ -236,7 +241,6 @@ void Logger::print_trace()
             } else {
                 std::cout << "Error: unhandled arg type " << a.get_type().get_name().to_string() << std::endl;
             }
-            ++i;
         }
         return ss.str();
     };
@@ -273,6 +277,24 @@ void Logger::print_trace()
                     test_file << a.get_type().get_name().to_string() << " dummy_" << std::to_string(a.get_index()) << ";" << std::endl;
                 }
             }
+
+            std::string invok_name = invok.method;
+            if (translation_table.count(invok_name) > 0) {
+                auto args = invok.args;
+                if (rttr::type::get<TimelineModel>().get_method(invok_name).is_valid()) {
+                    args.insert(args.begin(), invok.ptr);
+                    // adding an arg just messed up the references
+                    std::unordered_set<size_t> new_refs;
+                    for (const size_t &r : refs) {
+                        new_refs.insert(r + 1);
+                    }
+                    std::swap(refs, new_refs);
+                }
+                fuzz_file << translation_table[invok_name] << " " << process_args_fuzz(args, refs) << std::endl;
+            } else {
+                std::cout << "ERROR: unknown method " << invok_name << std::endl;
+            }
+
             if (m.get_return_type() != rttr::type::get<void>()) {
                 test_file << m.get_return_type().get_name().to_string() << " res = ";
             }
