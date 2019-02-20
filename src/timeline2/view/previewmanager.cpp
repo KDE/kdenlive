@@ -415,6 +415,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         } else {
             if (m_renderedChunks.contains(frame)) {
                 toRemove << frame;
+                m_renderedChunks.removeAll(frame);
             } else {
                 m_dirtyChunks.removeAll(frame);
             }
@@ -447,6 +448,8 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         if (hasPreview) {
             m_previewTrack->consolidate_blanks();
         }
+        m_controller->renderedChunksChanged();
+        m_controller->dirtyChunksChanged();
         m_tractor->unlock();
         if (isRendering || KdenliveSettings::autopreview()) {
             m_previewTimer.start();
