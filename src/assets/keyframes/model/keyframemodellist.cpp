@@ -357,7 +357,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
     bool ok2;
     QList<GenTime> positions;
     if (!adjustFromEnd) {
-        if (offset > 0) {
+        if (offset != 0) {
             // this is an endless resize clip
             GenTime old_in(oldIn, pCore->getCurrentFps());
             Keyframe kf = getKeyframe(old_in, &ok);
@@ -367,12 +367,21 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             positions = m_parameters.begin()->second->getKeyframePos();
             std::sort(positions.begin(), positions.end());
             for (const auto &param : m_parameters) {
-                QVariant value = param.second->getInterpolatedValue(new_in);
-                param.second->updateKeyframe(old_in, value, undo, redo);
+                if (offset > 0) {
+                    QVariant value = param.second->getInterpolatedValue(new_in);
+                    param.second->updateKeyframe(old_in, value, undo, redo);
+                }
                 for (auto frame : positions) {
-                    if (frame > new_in) {
+                    if (new_in > GenTime()) {
+                        if (frame > new_in) {
+                            param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
+                            continue;
+                        }
+                    } else if (frame > GenTime()) {
                         param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
-                    } else if (frame != old_in) {
+                        continue;
+                    }
+                    if (frame != GenTime()) {
                         param.second->removeKeyframe(frame, undo, redo);
                     }
                 }
