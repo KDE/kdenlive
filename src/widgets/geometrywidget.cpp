@@ -407,6 +407,7 @@ void GeometryWidget::setValue(const QRect r, double opacity)
     m_spinY->blockSignals(false);
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
+    adjustSizeValue();
     m_monitor->setUpEffectGeometry(r);
 }
 
