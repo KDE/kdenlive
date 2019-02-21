@@ -169,6 +169,9 @@ Rectangle
                     cursorShape: Qt.PointingHandCursor
                     drag.target: parent
                     drag.smoothed: false
+                    onPressed: {
+                        drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
+                    }
                     onClicked: {
                         keyframeContainer.activeFrame = frame
                         keyframeContainer.activeIndex = index
@@ -211,7 +214,7 @@ Rectangle
                             if (frame == inPoint) {
                                 parent.x = - root.baseUnit / 2
                             } else {
-                                var newPos = Math.min(Math.round(parent.x / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + inPoint - 1)
+                                var newPos = Math.min(Math.round((parent.x + root.baseUnit / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + inPoint - 1)
                                 if (frame + newPos <= inPoint) {
                                     newPos = inPoint + 1 - frame
                                 }
