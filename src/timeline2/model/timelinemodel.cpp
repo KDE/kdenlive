@@ -676,7 +676,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
     Q_ASSERT(isTrack(trackId));
     int currentPos = getClipPosition(clipId);
     int sourceTrackId = getClipTrackId(clipId);
-    if (getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(sourceTrackId)->isAudioTrack()) {
+    if (sourceTrackId > -1 && getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(sourceTrackId)->isAudioTrack()) {
         // Trying move on incompatible track type, stay on same track
         trackId = sourceTrackId;
     }
