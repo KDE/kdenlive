@@ -719,16 +719,16 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
     }
     // Find best possible move
     if (!m_groups->isInGroup(clipId)) {
-        // Easy
-        // int currentTrackId = getClipTrackId(clipId);
         // Try same track move
-        qDebug() << "// TESTING SAME TRACVK MOVE: " << trackId << " = " << sourceTrackId;
-        trackId = sourceTrackId;
-        possible = requestClipMove(clipId, trackId, position, true, false, false);
-        if (!possible) {
-            qDebug() << "CANNOT MOVE CLIP : " << clipId << " ON TK: " << trackId << ", AT POS: " << position;
-        } else {
-            return position;
+        if (trackId != sourceTrackId) {
+            qDebug() << "// TESTING SAME TRACVK MOVE: " << trackId << " = " << sourceTrackId;
+            trackId = sourceTrackId;
+            possible = requestClipMove(clipId, trackId, position, true, false, false);
+            if (!possible) {
+                qDebug() << "CANNOT MOVE CLIP : " << clipId << " ON TK: " << trackId << ", AT POS: " << position;
+            } else {
+                return position;
+            }
         }
 
         int blank_length = getTrackById(trackId)->getBlankSizeNearClip(clipId, after);
@@ -787,8 +787,8 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
                 blank_length = track_space;
             }
         } else {
-            // Check after before the position
-            track_space = getTrackById(i.key())->getBlankEnd(i.value() + 1) - i.value();
+            // Check space after the position
+            track_space = getTrackById(i.key())->getBlankEnd(i.value() + 1) - i.value() - 1;
             if (blank_length == -1 || blank_length > track_space) {
                 blank_length = track_space;
             }
@@ -796,11 +796,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
     }
     if (blank_length != 0) {
         int updatedPos = currentPos + (after ? blank_length : -blank_length);
-        if (allowViewUpdate) {
-            possible = requestClipMove(clipId, trackId, updatedPos, false, false, false);
-        } else {
-            possible = requestClipMoveAttempt(clipId, trackId, updatedPos);
-        }
+        possible = requestClipMove(clipId, trackId, updatedPos, true, false, false);
         if (possible) {
             return updatedPos;
         }
