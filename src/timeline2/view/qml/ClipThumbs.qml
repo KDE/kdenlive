@@ -27,7 +27,7 @@ Row {
         model: parentTrack.trackThumbsFormat == 0 ? 2 : parentTrack.trackThumbsFormat == 1 ? container.width / thumbRow.thumbWidth : parentTrack.trackThumbsFormat == 2 ? 1 : 0
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
-        property real imageWidth: container.width / thumbRepeater.count
+        property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
         Image {
             width: thumbRepeater.imageWidth
             height: container.height
