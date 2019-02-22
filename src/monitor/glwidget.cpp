@@ -985,13 +985,10 @@ int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
     if (position == -1 && m_producer->parent().get("kdenlive:id") == currentId) {
         position = consumerPosition;
     }
-    if (position != -1) {
-        m_producer->seek(position);
-    }
     if (isActive) {
         startConsumer();
     }
-    m_proxy->setPosition(m_producer->position());
+    m_proxy->requestSeekPosition(position > 0 ? position : m_producer->position());
     return error;
 }
 
