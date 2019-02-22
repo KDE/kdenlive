@@ -241,6 +241,7 @@ Rectangle {
                 }
                 clipMenu.clipId = clipRoot.clipId
                 clipMenu.clipStatus = clipRoot.clipStatus
+                clipMenu.clipFrame = Math.round(mouse.x / timeline.scaleFactor)
                 clipMenu.grouped = clipRoot.grouped
                 clipMenu.trackId = clipRoot.trackId
                 clipMenu.canBeAudio = clipRoot.canBeAudio

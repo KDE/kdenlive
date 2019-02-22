@@ -45,14 +45,19 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
     auto xml = TransitionsRepository::get()->getXml(transitionId);
     if (sourceProperties) {
         // Paste parameters from existing source composition
+        QStringList sourceProps;
+        for (int i = 0; i < sourceProperties->count(); i++) {
+            sourceProps << sourceProperties->get_name(i);
+        }
         QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
         for (int i = 0; i < params.count(); ++i) {
             QDomElement currentParameter = params.item(i).toElement();
             QString paramName = currentParameter.attribute(QStringLiteral("name"));
-            QString paramValue = sourceProperties->get(paramName.toUtf8().constData());
-            if (!paramValue.isEmpty()) {
-                currentParameter.setAttribute(QStringLiteral("value"), paramValue);
+            if (!sourceProps.contains(paramName)) {
+                continue;
             }
+            QString paramValue = sourceProperties->get(paramName.toUtf8().constData());
+            currentParameter.setAttribute(QStringLiteral("value"), paramValue);
         }
     }
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, transition, id, xml, transitionId));

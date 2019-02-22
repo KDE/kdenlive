@@ -5,6 +5,7 @@ import com.enums 1.0
 Menu {
         id: clipMenu
         property int clipId
+        property int clipFrame
         property int clipStatus
         property int trackId
         property bool grouped
@@ -122,7 +123,7 @@ Menu {
             menuModel: transitionModel
             isTransition: true
             onAssetSelected: {
-                timeline.addCompositionToClip(assetId, clipId)
+                timeline.addCompositionToClip(assetId, clipId, clipFrame)
             }
         }
 }

@@ -183,6 +183,7 @@ public:
        @return the id of the inserted composition
     */
     Q_INVOKABLE int insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo);
+    Q_INVOKABLE int insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo);
 
     /* @brief Request deletion of the currently selected clips
      */
@@ -290,7 +291,7 @@ public:
     /* @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(int clipId);
-    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId);
+    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId, int offset);
     Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);

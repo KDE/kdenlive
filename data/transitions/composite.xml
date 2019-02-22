@@ -13,6 +13,6 @@
         <name>Force Progressive Rendering</name>
     </parameter>
     <parameter type="bool" name="invert" default="0" min="0" max="1">
-        <name>Force Progressive Rendering</name>
+        <name>Invert</name>
     </parameter>
 </transition>

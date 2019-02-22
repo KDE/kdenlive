@@ -439,11 +439,39 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
 
 int TimelineController::insertNewComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
+    int clipId = m_model->getTrackById_const(tid)->getClipByPosition(position);
+    if (clipId > 0) {
+        int minimum = m_model->getClipPosition(clipId);
+        return insertNewComposition(tid, clipId, position - minimum, transitionId, logUndo);
+    }
+    return insertComposition(tid, position, transitionId, logUndo);
+}
+
+int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
+{
     int id;
-    // int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int minimum = m_model->getClipPosition(clipId);
+    int clip_duration = m_model->getClipPlaytime(clipId);
+    int position = minimum;
+    if (offset > clip_duration / 2) {
+        position += offset;
+    }
     int duration = m_model->getTrackById_const(tid)->suggestCompositionLength(position);
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
+    bool revert = false;
     if (lowerVideoTrackId > 0) {
+        int bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+        if (bottomId > 0) {
+            QPair <int, int>bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
+            if (bottom.first > minimum && position > bottom.first) {
+                int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
+                if (test_duration > 0) {
+                    position = bottom.first;
+                    duration = test_duration;
+                    revert = true;
+                }
+            }
+        }
         int duration2 = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
         if (duration2 > 0) {
             duration = (duration > 0) ? qMin(duration, duration2) : duration2;
@@ -453,8 +481,20 @@ int TimelineController::insertNewComposition(int tid, int position, const QStrin
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
     }
-    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, nullptr, id, logUndo)) {
+    QScopedPointer<Mlt::Properties> props(nullptr);
+    if (revert) {
+        props.reset(new Mlt::Properties());
+        if (transitionId == QLatin1String("dissolve")) {
+            props->set("reverse", 1);
+        } else if (transitionId == QLatin1String("composite") || transitionId == QLatin1String("slide")) {
+            props->set("invert", 1);
+        } else if (transitionId == QLatin1String("wipe")) {
+            props->set("geometry", "0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0");
+        }
+    }
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, props.get(), id, logUndo)) {
         id = -1;
+        pCore->displayMessage(i18n("Could not add composition at selected position"), InformationMessage, 500);
     }
     return id;
 }
@@ -1783,11 +1823,10 @@ void TimelineController::switchEnableState(int clipId)
     TimelineFunctions::switchEnableState(m_model, clipId);
 }
 
-void TimelineController::addCompositionToClip(const QString &assetId, int clipId)
+void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
-    int position = m_model->getClipPosition(clipId);
     int track = m_model->getClipTrackId(clipId);
-    insertNewComposition(track, position, assetId, true);
+    insertNewComposition(track, clipId, offset, assetId, true);
 }
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
