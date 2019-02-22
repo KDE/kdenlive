@@ -834,6 +834,9 @@ Rectangle {
                     scim = false
                     if (root.activeTool === 1) {
                         cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
+                        if (mouse.modifiers & Qt.ShiftModifier) {
+                            timeline.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
+                        }
                     }
                 }
             }
