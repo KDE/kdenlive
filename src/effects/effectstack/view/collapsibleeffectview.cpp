@@ -92,9 +92,15 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
 
     m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
     m_collapse->setActiveIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
-    m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("arrow-down")));
     collapseButton->setDefaultAction(m_collapse);
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
+    if (effectModel->rowCount() == 0) {
+        // Effect has no paramerter
+        m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("tools-wizard")));
+        collapseButton->setEnabled(false);
+    } else {
+        m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("arrow-down")));
+    }
 
     QHBoxLayout *l = static_cast<QHBoxLayout *>(frame->layout());
     m_colorIcon = new QLabel(this);
