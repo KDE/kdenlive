@@ -593,6 +593,13 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
     return m_projectItemModel;
 }
 
+void Core::invalidateRange(QSize range)
+{
+    if (!m_mainWindow || m_mainWindow->getCurrentTimeline()->loading) return;
+    m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.width(), range.height());
+}
+
+
 void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_mainWindow || m_mainWindow->getCurrentTimeline()->loading) return;

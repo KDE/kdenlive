@@ -159,7 +159,9 @@ public:
     bool compositionAutoTrack(int cid) const;
     std::shared_ptr<DocUndoStack> undoStack();
     double getClipSpeed(int id) const;
+    /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
+    void invalidateRange(QSize range);
     void prepareShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);

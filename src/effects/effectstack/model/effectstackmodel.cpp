@@ -494,7 +494,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
     return true;
 }
 
-bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade)
+bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     if (fromStart) {
@@ -514,9 +514,13 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             in = ptr->get_int("in");
         }
         qDebug() << "//// SETTING CLIP FADIN: " << duration;
+        int oldDuration = -1;
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                if (oldDuration == -1) {
+                    oldDuration = effect->filter().get_length();
+                }
                 effect->filter().set("in", in);
                 duration = qMin(pCore->getItemDuration(m_ownerId), duration);
                 effect->filter().set("out", in + duration);
@@ -526,6 +530,14 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         if (!indexes.isEmpty()) {
             emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
             pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
+            if (videoFade) {
+                int min = pCore->getItemPosition(m_ownerId);
+                QSize range(min, min + qMax(duration, oldDuration));
+                pCore->refreshProjectRange(range);
+                if (logUndo) {
+                    pCore->invalidateRange(range);
+                }
+            }
         }
     } else {
         // Fade out
@@ -542,13 +554,18 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         if (ptr) {
             in = ptr->get_int("in");
         }
-        int out = in + pCore->getItemDuration(m_ownerId);
+        int itemDuration = pCore->getItemDuration(m_ownerId);
+        int out = in + itemDuration;
+        int oldDuration = -1;
         QList<QModelIndex> indexes;
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+                if (oldDuration == -1) {
+                    oldDuration = effect->filter().get_length();
+                }
                 effect->filter().set("out", out);
-                duration = qMin(pCore->getItemDuration(m_ownerId), duration);
+                duration = qMin(itemDuration, duration);
                 effect->filter().set("in", out - duration);
                 indexes << getIndexFromItem(effect);
             }
@@ -556,6 +573,14 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         if (!indexes.isEmpty()) {
             emit dataChanged(indexes.first(), indexes.last(), QVector<int>());
             pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
+            if (videoFade) {
+                int min = pCore->getItemPosition(m_ownerId);
+                QSize range(min + itemDuration - qMax(duration, oldDuration), min + itemDuration);
+                pCore->refreshProjectRange(range);
+                if (logUndo) {
+                    pCore->invalidateRange(range);
+                }
+            }
         }
     }
     return true;
