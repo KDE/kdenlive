@@ -671,42 +671,59 @@ bool KeyframeModel::removeAllKeyframes()
     return res;
 }
 
+mlt_keyframe_type convertToMltType(KeyframeType type)
+{
+    switch (type) {
+    case KeyframeType::Linear:
+        return mlt_keyframe_linear;
+    case KeyframeType::Discrete:
+        return mlt_keyframe_discrete;
+    case KeyframeType::Curve:
+        return mlt_keyframe_smooth;
+    }
+    return mlt_keyframe_linear;
+}
+
 QString KeyframeModel::getAnimProperty() const
 {
     if (m_paramType == ParamType::Roto_spline) {
         return getRotoProperty();
     }
-    QString prop;
+    Mlt::Properties mlt_prop;
+    if (auto ptr = m_model.lock()) {
+        ptr->passProperties(mlt_prop);
+    }
+    int ix = 0;
     bool first = true;
-    QLocale locale;
+    std::shared_ptr<Mlt::Animation> anim;
     for (const auto keyframe : m_keyframeList) {
         if (first) {
+            switch (m_paramType) {
+                case ParamType::AnimatedRect:
+                    mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
+                    break;
+                default:
+                    mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
+                    break;
+            }
+            anim.reset(mlt_prop.get_anim("key"));
+            anim->key_set_type(ix, convertToMltType(keyframe.second.first));
             first = false;
-        } else {
-            prop += QStringLiteral(";");
-        }
-        prop += QString::number(keyframe.first.frames(pCore->getCurrentFps()));
-        switch (keyframe.second.first) {
-        case KeyframeType::Linear:
-            prop += QStringLiteral("=");
-            break;
-        case KeyframeType::Discrete:
-            prop += QStringLiteral("|=");
-            break;
-        case KeyframeType::Curve:
-            prop += QStringLiteral("~=");
-            break;
+            ix++;
+            continue;
         }
         switch (m_paramType) {
-        case ParamType::AnimatedRect:
-            prop += keyframe.second.second.toString();
-            break;
-        default:
-            prop += locale.toString(keyframe.second.second.toDouble());
-            break;
+            case ParamType::AnimatedRect:
+                mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
+                break;
+            default:
+                mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
+                break;
         }
+        anim->key_set_type(ix, convertToMltType(keyframe.second.first));
+        ix++;
     }
-    return prop;
+    return anim->serialize_cut();
 }
 
 QString KeyframeModel::getRotoProperty() const
@@ -724,57 +741,47 @@ QString KeyframeModel::getRotoProperty() const
     return doc.toJson();
 }
 
-mlt_keyframe_type convertToMltType(KeyframeType type)
-{
-    switch (type) {
-    case KeyframeType::Linear:
-        return mlt_keyframe_linear;
-    case KeyframeType::Discrete:
-        return mlt_keyframe_discrete;
-    case KeyframeType::Curve:
-        return mlt_keyframe_smooth;
-    }
-    return mlt_keyframe_linear;
-}
-
 void KeyframeModel::parseAnimProperty(const QString &prop)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    Mlt::Properties mlt_prop;
     QLocale locale;
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
     removeAllKeyframes(undo, redo);
-    mlt_prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
-    mlt_prop.set("key", prop.toUtf8().constData());
-    // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_double("key", 0, 0);
-
-    std::shared_ptr<Mlt::Animation> anim(mlt_prop.get_anim("key"));
     int in = 0;
+    int out = 0;
+    Mlt::Properties mlt_prop;
     if (auto ptr = m_model.lock()) {
         in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        ptr->passProperties(mlt_prop);
     }
-    qDebug() << "Found" << anim->key_count() << "animation properties: "<<prop;
+    mlt_prop.set("key", prop.toUtf8().constData());
+    // This is a fake query to force the animation to be parsed
+    (void)mlt_prop.anim_get_double("key", 0, out);
+
+    Mlt::Animation anim = mlt_prop.get_animation("key");
+
+    qDebug() << "Found" << anim.key_count() << ", OUT: "<<out<<", animation properties: "<<prop;
     bool useDefaultType = !prop.contains(QLatin1Char('='));
-    for (int i = 0; i < anim->key_count(); ++i) {
+    for (int i = 0; i < anim.key_count(); ++i) {
         int frame;
         mlt_keyframe_type type;
-        anim->key_get(i, frame, type);
+        anim.key_get(i, frame, type);
         if (useDefaultType) {
             // TODO: use a default user defined type
             type = mlt_keyframe_linear;
         }
         QVariant value;
         switch (m_paramType) {
-        case ParamType::AnimatedRect: {
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
-            break;
-        }
-        default:
-            value = QVariant(mlt_prop.anim_get_double("key", frame));
-            break;
+            case ParamType::AnimatedRect: {
+                mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+                break;
+            }
+            default:
+                value = QVariant(mlt_prop.anim_get_double("key", frame));
+                break;
         }
         if (i == 0 && frame > in) {
             // Always add a keyframe at start pos
@@ -799,23 +806,23 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     removeAllKeyframes(undo, redo);
 
     Mlt::Properties mlt_prop;
-    mlt_prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     QLocale locale;
     int in = 0;
     if (auto ptr = m_model.lock()) {
         in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        ptr->passProperties(mlt_prop);
     }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
     (void)mlt_prop.anim_get_int("key", 0, 0);
 
-    Mlt::Animation *anim = mlt_prop.get_anim("key");
+    Mlt::Animation anim = mlt_prop.get_animation("key");
 
-    qDebug() << "Found" << anim->key_count() << "animation properties";
-    for (int i = 0; i < anim->key_count(); ++i) {
+    qDebug() << "Found" << anim.key_count() << "animation properties";
+    for (int i = 0; i < anim.key_count(); ++i) {
         int frame;
         mlt_keyframe_type type;
-        anim->key_get(i, frame, type);
+        anim.key_get(i, frame, type);
         if (!prop.contains(QLatin1Char('='))) {
             // TODO: use a default user defined type
             type = mlt_keyframe_linear;
@@ -841,7 +848,6 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         }
         addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
     }
-    delete anim;
     QString effectName;
     if (auto ptr = m_model.lock()) {
         effectName = ptr->data(m_index, Qt::DisplayRole).toString();
@@ -938,7 +944,9 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     --prev;
     // We now have surrounding keyframes, we use mlt to compute the value
     Mlt::Properties prop;
-    prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
+    if (auto ptr = m_model.lock()) {
+        ptr->passProperties(prop);
+    }
     QLocale locale;
     int p = pos.frames(pCore->getCurrentFps());
     if (m_paramType == ParamType::KeyframeParam) {
@@ -1092,27 +1100,27 @@ void KeyframeModel::reset()
     m_lastData = animData;
 }
 
-QList<QPoint> KeyframeModel::getRanges(const QString &animData)
+QList<QPoint> KeyframeModel::getRanges(const QString &animData, std::shared_ptr<AssetParameterModel> model)
 {
     Mlt::Properties mlt_prop;
-    mlt_prop.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
+    model->passProperties(mlt_prop);
     QLocale locale;
     mlt_prop.set("key", animData.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
     (void)mlt_prop.anim_get_int("key", 0, 0);
 
-    Mlt::Animation *anim = mlt_prop.get_anim("key");
+    Mlt::Animation anim = mlt_prop.get_animation("key");
     int frame;
     mlt_keyframe_type type;
-    anim->key_get(0, frame, type);
+    anim.key_get(0, frame, type);
     mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
     QPoint pX(rect.x, rect.x);
     QPoint pY(rect.y, rect.y);
     QPoint pW(rect.w, rect.w);
     QPoint pH(rect.h, rect.h);
     QPoint pO(rect.o, rect.o);
-    for (int i = 1; i < anim->key_count(); ++i) {
-        anim->key_get(i, frame, type);
+    for (int i = 1; i < anim.key_count(); ++i) {
+        anim.key_get(i, frame, type);
         if (!animData.contains(QLatin1Char('='))) {
             // TODO: use a default user defined type
             type = mlt_keyframe_linear;

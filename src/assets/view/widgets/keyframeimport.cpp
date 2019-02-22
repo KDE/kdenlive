@@ -231,7 +231,7 @@ void KeyframeImport::updateDataDisplay()
 {
     QString comboData = m_dataCombo->currentData().toString();
     ParamType type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
-    m_maximas = KeyframeModel::getRanges(comboData);
+    m_maximas = KeyframeModel::getRanges(comboData, m_model);
     m_sourceCombo->clear();
     if (type == ParamType::KeyframeParam) {
         // 1 dimensional param.

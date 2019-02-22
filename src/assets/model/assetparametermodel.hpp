@@ -163,6 +163,7 @@ public:
     /* @brief Returns true if the effect has more than one keyframe */
     bool hasMoreThanOneKeyframe() const;
     int time_to_frames(const QString time);
+    void passProperties(Mlt::Properties &target);
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/

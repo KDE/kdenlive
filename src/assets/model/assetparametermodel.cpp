@@ -772,3 +772,9 @@ int AssetParameterModel::time_to_frames(const QString time)
 {
     return m_asset->time_to_frames(time.toUtf8().constData());
 }
+
+void AssetParameterModel::passProperties(Mlt::Properties &target)
+{
+    target.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
+    target.set_lcnumeric(m_asset->get_lcnumeric());
+}

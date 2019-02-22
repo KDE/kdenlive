@@ -163,7 +163,7 @@ public:
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    static QList<QPoint> getRanges(const QString &animData);
+    static QList<QPoint> getRanges(const QString &animData, std::shared_ptr<AssetParameterModel> model);
     static std::shared_ptr<Mlt::Properties> getAnimation(const QString &animData);
 
 protected:
