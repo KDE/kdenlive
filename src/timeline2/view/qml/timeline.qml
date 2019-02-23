@@ -227,7 +227,7 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.flickableItem.contentY)
                 var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
-                if (track >= 0) {
+                if (track >= 0 && !controller.isAudioTrack(track)) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     console.log("Trying to insert",track, frame, clipBeingDroppedData)
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
@@ -246,9 +246,13 @@ Rectangle {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                     if (clipBeingDroppedId >= 0){
+                        if (controller.isAudioTrack(track)) {
+                            // Don't allow moving composition to an audio track
+                            track = controller.getCompositionTrackId(clipBeingDroppedId)
+                        }
                         controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
-                    } else {
+                    } else if (!controller.isAudioTrack(track)) {
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
