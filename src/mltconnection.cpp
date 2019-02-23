@@ -130,6 +130,7 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
             } else {
                 profilePath = qApp->applicationDirPath() + QStringLiteral("/share/mlt/profiles");
             }
+            profilePath = QStringLiteral("/usr/local/share/mlt/profiles");
             KdenliveSettings::setMltpath(profilePath);
             profilesList = QDir(profilePath).entryList(profilesFilter, QDir::Files);
         }

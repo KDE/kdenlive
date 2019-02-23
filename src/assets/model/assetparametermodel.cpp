@@ -31,15 +31,16 @@
 #include <QLocale>
 #include <QString>
 
-AssetParameterModel::AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent)
+AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
+                                         QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
     , m_ownerId(ownerId)
-    , m_asset(asset)
+    , m_asset(std::move(asset))
     , m_keyframes(nullptr)
 {
-    Q_ASSERT(asset->is_valid());
+    Q_ASSERT(m_asset->is_valid());
     QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
 
@@ -778,9 +779,9 @@ std::shared_ptr<KeyframeModelList> AssetParameterModel::getKeyframeModel()
     return m_keyframes;
 }
 
-void AssetParameterModel::resetAsset(Mlt::Properties *asset)
+void AssetParameterModel::resetAsset(std::unique_ptr<Mlt::Properties> asset)
 {
-    m_asset.reset(asset);
+    m_asset = std::move(asset);
 }
 
 bool AssetParameterModel::hasMoreThanOneKeyframe() const

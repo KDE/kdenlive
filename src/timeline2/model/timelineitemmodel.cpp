@@ -555,14 +555,14 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         int trackId = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
             // video track, add composition
-            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(composite);
+            std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             field->plant_transition(*transition, 0, trackId);
             transition->set_tracks(0, trackId);
         } else if ((*it)->isAudioTrack()) {
             // audio mix
-            Mlt::Transition *transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
+            std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             transition->set("sum", 1);

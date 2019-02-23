@@ -58,6 +58,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
             // sox effects are not usage directly (parameters not available)
             continue;
         }
+        // qDebug() << "trying to parse " <<name <<" blacklist="<<m_blacklist.contains(name);
         if (!m_blacklist.contains(name) && parseInfoFromMlt(name, info)) {
             m_assets[name] = info;
         } else {

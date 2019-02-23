@@ -41,7 +41,7 @@ public:
     /* This construct an effect with an already existing filter
        Only used when loading an existing clip
      */
-    static std::shared_ptr<EffectItemModel> construct(Mlt::Properties *effect, std::shared_ptr<AbstractTreeModel> stack);
+    static std::shared_ptr<EffectItemModel> construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack);
 
     /* @brief This function plants the effect into the given service in last position
      */
@@ -63,7 +63,7 @@ public:
     bool isValid() const;
 
 protected:
-    EffectItemModel(const QList<QVariant> &effectData, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
+    EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
                     const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled = true);
     QMap<int, std::shared_ptr<EffectItemModel>> m_childEffects;
     void updateEnable() override;

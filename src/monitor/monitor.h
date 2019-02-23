@@ -315,7 +315,7 @@ public slots:
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
-    void slotMouseSeek(int eventDelta, uint modifiers);
+    void slotMouseSeek(int eventDelta, uint modifiers) override;
     void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);

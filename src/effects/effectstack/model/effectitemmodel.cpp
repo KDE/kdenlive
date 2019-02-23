@@ -26,10 +26,10 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
-EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, Mlt::Properties *effect, const QDomElement &xml, const QString &effectId,
+EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
                                  const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled)
     : AbstractEffectItem(EffectItemType::Effect, effectData, stack, false, isEnabled)
-    , AssetParameterModel(effect, xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId())
+    , AssetParameterModel(std::move(effect), xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId())
     , m_childId(0)
 {
     connect(this, &AssetParameterModel::updateChildren, [&](const QString &name) {
@@ -51,20 +51,20 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     Q_ASSERT(EffectsRepository::get()->exists(effectId));
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
 
-    Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectId);
+    std::unique_ptr<Mlt::Properties> effect = EffectsRepository::get()->getEffect(effectId);
     effect->set("kdenlive_id", effectId.toUtf8().constData());
 
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack), true));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, std::move(stack), true));
 
     baseFinishConstruct(self);
     return self;
 }
 
 // static
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(Mlt::Properties *effect, std::shared_ptr<AbstractTreeModel> stack)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack)
 {
     QString effectId = effect->get("kdenlive_id");
     if (effectId.isEmpty()) {
@@ -83,7 +83,8 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(Mlt::Properties *eff
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, effect, xml, effectId, std::move(stack), effect->get_int("disable") == 0));
+    bool disable = effect->get_int("disable") == 0;
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, std::move(stack), disable));
     baseFinishConstruct(self);
     return self;
 }
@@ -105,11 +106,11 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
         const QString effectId = getAssetId();
         std::shared_ptr<EffectItemModel> effect = nullptr;
         for (int i = 0; i < ptr->filter_count(); i++) {
-            std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
+            std::unique_ptr<Mlt::Filter> filt(ptr->filter(i));
             QString effName = filt->get("kdenlive_id");
             if (effName == effectId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
-                    effect = EffectItemModel::construct(ptr->filter(i), ptr2);
+                    effect = EffectItemModel::construct(std::move(filt), ptr2);
                     int childId = ptr->get_int("_childid");
                     if (childId == 0) {
                         childId = m_childId++;

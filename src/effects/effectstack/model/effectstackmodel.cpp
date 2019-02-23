@@ -758,21 +758,22 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, Playli
     m_loadingExisting = alreadyExist;
     if (auto ptr = service.lock()) {
         for (int i = 0; i < ptr->filter_count(); i++) {
-            if (ptr->filter(i)->get("kdenlive_id") == nullptr) {
+            std::unique_ptr<Mlt::Service> filter(ptr->filter(i));
+            if (filter->get("kdenlive_id") == nullptr) {
                 // don't consider internal MLT stuff
                 continue;
             }
-            const QString effectId = qstrdup(ptr->filter(i)->get("kdenlive_id"));
+            const QString effectId = qstrdup(filter->get("kdenlive_id"));
             // The MLT filter already exists, use it directly to create the effect
             std::shared_ptr<EffectItemModel> effect;
             if (alreadyExist) {
                 // effect is already plugged in the service
-                effect = EffectItemModel::construct(ptr->filter(i), shared_from_this());
+                effect = EffectItemModel::construct(std::move(filter), shared_from_this());
             } else {
                 // duplicate effect
-                Mlt::Filter *asset = EffectsRepository::get()->getEffect(effectId);
-                asset->inherit(*(ptr->filter(i)));
-                effect = EffectItemModel::construct(asset, shared_from_this());
+                std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(effectId);
+                asset->inherit(*(filter));
+                effect = EffectItemModel::construct(std::move(asset), shared_from_this());
             }
             if (effect->isAudio()) {
                 if (state == PlaylistState::VideoOnly) {
@@ -977,9 +978,9 @@ void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
             item->unplantClone(service);
         }
     }
-    Mlt::Properties *effect = EffectsRepository::get()->getEffect(effectItem->getAssetId());
+    std::unique_ptr<Mlt::Properties> effect = EffectsRepository::get()->getEffect(effectItem->getAssetId());
     effect->inherit(effectItem->filter());
-    effectItem->resetAsset(effect);
+    effectItem->resetAsset(std::move(effect));
     for (int ix = oldRow; ix < count; ix++) {
         auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
         item->unplant(m_masterService);

@@ -173,12 +173,12 @@ QString EffectsRepository::assetBlackListPath() const
     return QStringLiteral(":data/blacklisted_effects.txt");
 }
 
-Mlt::Filter *EffectsRepository::getEffect(const QString &effectId) const
+std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectId) const
 {
     Q_ASSERT(exists(effectId));
     QString service_name = m_assets.at(effectId).mltId;
     // We create the Mlt element from its name
-    Mlt::Filter *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
+    auto filter = std::make_unique<Mlt::Filter>(pCore->getCurrentProfile()->profile(), service_name.toLatin1().constData(), nullptr);
     return filter;
 }
 

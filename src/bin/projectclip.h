@@ -239,7 +239,7 @@ protected:
     /** @brief Replace instance of this clip in timeline */
     void updateChildProducers();
     void replaceInTimeline();
-    void connectEffectStack();
+    void connectEffectStack() override;
 
 public slots:
     /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to

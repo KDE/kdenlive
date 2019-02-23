@@ -66,6 +66,7 @@ Core::~Core()
     if (m_projectManager) {
         delete m_projectManager;
     }
+    ClipController::mediaUnavailable.reset();
 }
 
 void Core::build(const QString &MltPath)

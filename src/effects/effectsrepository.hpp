@@ -46,7 +46,7 @@ public:
     static std::unique_ptr<EffectsRepository> &get();
 
     /* @brief returns a fresh instance of the given effect */
-    Mlt::Filter *getEffect(const QString &effectId) const;
+    std::unique_ptr<Mlt::Filter> getEffect(const QString &effectId) const;
     /* @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
     bool hasInternalEffect(const QString &effectId) const;
     void setFavorite(const QString &id, bool favorite) override;

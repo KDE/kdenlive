@@ -538,11 +538,11 @@ public:
        @param id return parameter of the id of the inserted composition
        @param logUndo if set to false, no undo object is stored
     */
-    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, Mlt::Properties *transProps, int &id,
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int position, int length, std::unique_ptr<Mlt::Properties> transProps, int &id,
                                      bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length, Mlt::Properties *transProps,
-                                     int &id, Fun &undo, Fun &redo, bool finalMove = false);
+    bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
+                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)

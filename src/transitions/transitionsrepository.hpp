@@ -44,9 +44,8 @@ public:
     static std::unique_ptr<TransitionsRepository> &get();
 
     /* @brief Creates and return an instance of a transition given its id.
-       A raw pointer is returned, the caller is responsible for memory management.
     */
-    Mlt::Transition *getTransition(const QString &transitionId) const;
+    std::unique_ptr<Mlt::Transition> getTransition(const QString &transitionId) const;
 
     /* @brief returns true if the transition corresponding to @transitionId is a composition*/
     bool isComposition(const QString &transitionId) const;

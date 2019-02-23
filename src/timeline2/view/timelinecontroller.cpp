@@ -759,12 +759,14 @@ bool TimelineController::pasteItem()
         }
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         int newId;
-        Mlt::Properties transProps;
+        auto transProps = std::make_unique<Mlt::Properties>();
         QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
         for (int j = 0; j < props.count(); j++) {
-            transProps.set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(), props.at(j).toElement().text().toUtf8().constData());
+            transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
+                            props.at(j).toElement().text().toUtf8().constData());
         }
-        res = m_model->requestCompositionInsertion(originalId, tracksMap.value(trackId), aTrackId, position + pos, out - in, &transProps, newId, undo, redo);
+        res = m_model->requestCompositionInsertion(originalId, tracksMap.value(trackId), aTrackId, position + pos, out - in, std::move(transProps), newId, undo,
+                                                   redo);
     }
     if (!res) {
         undo();

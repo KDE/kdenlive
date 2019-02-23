@@ -404,9 +404,9 @@ bool TimelineFunctions::requestItemCopy(std::shared_ptr<TimelineItemModel> timel
                 res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, undo, redo);
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
-                QScopedPointer<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
+                std::unique_ptr<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
                 res = res & timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position,
-                                                                  timeline->m_allCompositions[id]->getPlaytime(), transProps.data(), newId, undo, redo);
+                                                                  timeline->m_allCompositions[id]->getPlaytime(), std::move(transProps), newId, undo, redo);
             }
         } else {
             res = false;

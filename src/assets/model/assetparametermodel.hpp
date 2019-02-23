@@ -72,7 +72,8 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
     Q_OBJECT
 
 public:
-    explicit AssetParameterModel(Mlt::Properties *asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId, QObject *parent = nullptr);
+    explicit AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
+                                 QObject *parent = nullptr);
     virtual ~AssetParameterModel();
     enum DataRoles {
         NameRole = Qt::UserRole + 1,
@@ -160,7 +161,7 @@ public:
 
     /* @brief Must be called before using the keyframes of this model */
     void prepareKeyframes();
-    void resetAsset(Mlt::Properties *asset);
+    void resetAsset(std::unique_ptr<Mlt::Properties> asset);
     /* @brief Returns true if the effect has more than one keyframe */
     bool hasMoreThanOneKeyframe() const;
     int time_to_frames(const QString time);
