@@ -402,7 +402,7 @@ void KisCubicCurve::removePoint(int idx)
     d->data->invalidate();
 }
 
-QString KisCubicCurve::toString() const
+const QString KisCubicCurve::toString() const
 {
     QString sCurve;
     QLocale locale;

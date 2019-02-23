@@ -30,7 +30,7 @@ set(kdenlive_SRCS
   assets/view/widgets/geometryeditwidget.cpp
   assets/view/widgets/positioneditwidget.cpp
   assets/view/widgets/coloreditwidget.cpp
-
+  assets/view/widgets/hideparamwidget.cpp
   # curves widget
   assets/view/widgets/curves/abstractcurvewidget.h
   assets/view/widgets/curves/bezier/beziersplineeditor.cpp

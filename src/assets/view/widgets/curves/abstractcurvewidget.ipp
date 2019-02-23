@@ -37,7 +37,7 @@ AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
     setAutoFillBackground(false);
     setAttribute(Qt::WA_OpaquePaintEvent);
     setMinimumSize(150, 150);
-    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    QSizePolicy sp(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     sp.setHeightForWidth(true); // force widget to have a height dependent on width;
     setSizePolicy(sp);
     setFocusPolicy(Qt::StrongFocus);
@@ -153,7 +153,6 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::setFromString(con
     m_curve.fromString(str);
     m_currentPointIndex = -1;
     emit currentPoint(Point_t(), true);
-    emit modified();
     update();
 }
 

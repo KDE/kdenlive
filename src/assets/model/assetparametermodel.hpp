@@ -63,7 +63,8 @@ enum class ParamType {
     Keywords,
     Fontfamily,
     Filterjob,
-    Readonly
+    Readonly,
+    Hidden
 };
 Q_DECLARE_METATYPE(ParamType)
 class AssetParameterModel : public QAbstractListModel, public enable_shared_from_this_virtual<AssetParameterModel>
@@ -124,7 +125,7 @@ public:
 
     /* @brief Set the parameter with given name to the given value
      */
-    Q_INVOKABLE void setParameter(const QString &name, const QString &value, bool update = true, const QModelIndex &paramIndex = QModelIndex());
+    Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, const QModelIndex &paramIndex = QModelIndex());
     void setParameter(const QString &name, const int value, bool update = true);
     Q_INVOKABLE void setParameter(const QString &name, double &value);
 

@@ -64,7 +64,6 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_maxPoints = 0;
     m_curve = KisCubicCurve();
     update();
-    emit modified();
 }
 
 KisCurveWidget::~KisCurveWidget() {}
@@ -166,7 +165,6 @@ void KisCurveWidget::mousePressEvent(QMouseEvent *e)
     m_state = State_t::DRAG;
 
     update();
-    emit modified();
     emit currentPoint(point, isCurrentPointExtremal());
 }
 

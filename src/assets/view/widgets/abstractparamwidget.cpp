@@ -26,6 +26,7 @@
 #include "curves/cubic/kis_curve_widget.h"
 #include "curves/curveparamwidget.h"
 #include "doubleparamwidget.hpp"
+#include "hideparamwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "keyframewidget.hpp"
 #include "listparamwidget.h"
@@ -118,6 +119,10 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Curve: {
         using Widget_t = CurveParamWidget<KisCurveWidget>;
         widget = new Widget_t(model, index, parent);
+        break;
+    }
+    case ParamType::Hidden: {
+        widget = new HideParamWidget(model, index, parent);
         break;
     }
     case ParamType::Animated:

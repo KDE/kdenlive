@@ -66,7 +66,7 @@ public:
     QVector<qreal> floatTransfer(int size = 256) const;
 
 public:
-    QString toString() const;
+    const QString toString() const;
     void fromString(const QString &);
 
 private:

@@ -176,14 +176,29 @@ void AssetParameterModel::setParameter(const QString &name, const int value, boo
     }
 }
 
-void AssetParameterModel::setParameter(const QString &name, const QString &value, bool update, const QModelIndex &paramIndex)
+void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
 {
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: "<<update;
+    // TODO: this does not really belong here, but I don't see another way to do it so that undo works
+    if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
+        QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
+        int points = vals.size();
+        m_asset->set("3", points / 10.);
+        // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
+        // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
+        for (int i = 0; i < points; i++) {
+            QString pointVal = vals.at(i);
+            int idx = 2 * i + 6;
+            m_asset->set(QString::number(idx).toLatin1().constData(), pointVal.section(QLatin1Char('/'), 0, 0).toDouble());
+            idx++;
+            m_asset->set(QString::number(idx).toLatin1().constData(), pointVal.section(QLatin1Char('/'), 1, 1).toDouble());
+        }
+    }
     bool conversionSuccess;
-    double doubleValue = locale.toDouble(value, &conversionSuccess);
+    double doubleValue = locale.toDouble(paramValue, &conversionSuccess);
     if (conversionSuccess) {
         m_asset->set(name.toLatin1().constData(), doubleValue);
         if (m_fixedParams.count(name) == 0) {
@@ -192,12 +207,12 @@ void AssetParameterModel::setParameter(const QString &name, const QString &value
             m_fixedParams[name] = doubleValue;
         }
     } else {
-        m_asset->set(name.toLatin1().constData(), value.toUtf8().constData());
-        qDebug() << " = = SET EFFECT PARAM: " << name << " = " << value;
+        m_asset->set(name.toLatin1().constData(), paramValue.toUtf8().constData());
+        qDebug() << " = = SET EFFECT PARAM: " << name << " = " << paramValue;
         if (m_fixedParams.count(name) == 0) {
-            m_params[name].value = value;
+            m_params[name].value = paramValue;
         } else {
-            m_fixedParams[name] = value;
+            m_fixedParams[name] = paramValue;
         }
     }
     if (update) {
@@ -346,29 +361,35 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case List2Role:
         return parseAttribute(m_ownerId, QStringLiteral("list2"), element);
     case Enum1Role:
-        return parseAttribute(m_ownerId, QStringLiteral("1"), element);
+        return m_asset->get_double("1");
     case Enum2Role:
-        return parseAttribute(m_ownerId, QStringLiteral("2"), element);
+        return m_asset->get_double("2");
     case Enum3Role:
-        return parseAttribute(m_ownerId, QStringLiteral("3"), element);
+        return m_asset->get_double("3");
     case Enum4Role:
-        return parseAttribute(m_ownerId, QStringLiteral("4"), element);
+        return m_asset->get_double("4");
     case Enum5Role:
-        return parseAttribute(m_ownerId, QStringLiteral("5"), element);
+        return m_asset->get_double("5");
     case Enum6Role:
-        return parseAttribute(m_ownerId, QStringLiteral("6"), element);
+        return m_asset->get_double("6");
     case Enum7Role:
-        return parseAttribute(m_ownerId, QStringLiteral("7"), element);
+        return m_asset->get_double("7");
     case Enum8Role:
-        return parseAttribute(m_ownerId, QStringLiteral("8"), element);
+        return m_asset->get_double("8");
     case Enum9Role:
-        return parseAttribute(m_ownerId, QStringLiteral("9"), element);
+        return m_asset->get_double("9");
     case Enum10Role:
-        return parseAttribute(m_ownerId, QStringLiteral("10"), element);
+        return m_asset->get_double("10");
     case Enum11Role:
-        return parseAttribute(m_ownerId, QStringLiteral("11"), element);
+        return m_asset->get_double("11");
     case Enum12Role:
-        return parseAttribute(m_ownerId, QStringLiteral("12"), element);
+        return m_asset->get_double("12");
+    case Enum13Role:
+        return m_asset->get_double("13");
+    case Enum14Role:
+        return m_asset->get_double("14");
+    case Enum15Role:
+        return m_asset->get_double("15");
     }
     return QVariant();
 }
@@ -428,6 +449,8 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::Filterjob;
     } else if (type == QLatin1String("readonly")) {
         return ParamType::Readonly;
+    } else if (type == QLatin1String("hidden")) {
+        return ParamType::Hidden;
     }
     qDebug() << "WARNING: Unknown type :" << type;
     return ParamType::Double;

@@ -393,19 +393,19 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShow
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefresh()
 {
-    if (m_model->data(m_index, AssetParameterModel::TypeRole).toInt() == (int)ParamType::Curve) {
+    if (m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
         QList<QPointF> points;
         QLocale locale;
         // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
-        int number = locale.toDouble(m_model->data(m_index, AssetParameterModel::Enum3Role).toString()) * 10 + 0.5;
+        int number = m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10 + 0.5;
         int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
         int inRef = (int)AssetParameterModel::Enum6Role + 2 * (start - 1);
         int outRef = (int)AssetParameterModel::Enum7Role + 2 * (start - 1);
         for (int j = start; j <= number; ++j) {
-            double inVal = locale.toDouble(m_model->data(m_index, (AssetParameterModel::DataRoles)inRef).toString());
-            double outVal = locale.toDouble(m_model->data(m_index, (AssetParameterModel::DataRoles)outRef).toString());
+            double inVal = m_model->data(m_index, (AssetParameterModel::DataRoles)inRef).toDouble();
+            double outVal = m_model->data(m_index, (AssetParameterModel::DataRoles)outRef).toDouble();
             points << QPointF(inVal, outVal);
             inRef += 2;
             outRef += 2;
