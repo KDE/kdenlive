@@ -376,7 +376,10 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed) return 0;
+    if (!m_guiConstructed) {
+        qDebug()<<"/ / // QUERYING ITEM IN BUT GUI NOT BUILD!!";
+        return 0;
+    }
     switch (id.first) {
     case ObjectType::TimelineClip:
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {

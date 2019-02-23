@@ -299,8 +299,6 @@ void KeyframeWidget::slotRefresh()
     bool ok = false;
     int duration = m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(&ok);
     Q_ASSERT(ok);
-    // refresh keyframes
-    m_keyframes->refresh();
     // m_model->dataChanged(QModelIndex(), QModelIndex());
     //->getKeyframeModel()->getKeyModel(m_index)->dataChanged(QModelIndex(), QModelIndex());
     m_keyframeview->setDuration(duration);

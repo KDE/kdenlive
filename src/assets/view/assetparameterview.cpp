@@ -191,7 +191,6 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     QMutexLocker lock(&m_lock);
     if (m_widgets.size() == 0) {
         // no visible param for this asset, abort
-        qDebug() << "/// ASKING REFRESH... EMPTY WIDGET";
         return;
     }
     Q_UNUSED(roles);
