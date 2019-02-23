@@ -160,7 +160,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_lay->addWidget(m_keyframeview);
     m_lay->addWidget(m_toolbar);
-    // slotSetPosition(0, false);
     monitorSeek(monitor->position());
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&]() { slotSetPosition(-1, true); });
@@ -382,7 +381,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
         double factor = locale.toDouble(m_model->data(index, AssetParameterModel::FactorRole).toString());
         factor = qFuzzyIsNull(factor) ? 1 : factor;
-        auto doubleWidget = new DoubleWidget(name, value * factor, min, max, factor, defaultValue, comment, -1, suffix, decimals, this);
+        auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals, this);
         connect(doubleWidget, &DoubleWidget::valueChanged,
                 [this, index](double v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = doubleWidget;
