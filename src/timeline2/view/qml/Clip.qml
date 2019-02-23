@@ -159,7 +159,7 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
-    border.color: selected? activePalette.highlight : grouped ? root.audioColor : borderColor
+    border.color: selected? activePalette.highlight : grouped ? root.groupColor : borderColor
     border.width: isGrabbed ? 8 : 1.5
 
     function updateDrag() {
@@ -422,7 +422,7 @@ Rectangle {
             when: clipRoot.selected === true
             PropertyChanges {
                 target: clipRoot
-                color: Qt.lighter(getColor(), 1.4)
+                color: Qt.lighter(getColor(), 2)
                 z: 3
             }
         }

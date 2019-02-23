@@ -69,6 +69,7 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor neutralColor READ neutralColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
 
 public:
     TimelineController(QObject *parent);
@@ -121,6 +122,7 @@ public:
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor neutralColor() const;
+    Q_INVOKABLE QColor groupColor() const;
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */

@@ -2452,7 +2452,7 @@ void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFram
 QColor TimelineController::videoColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    return scheme.background(KColorScheme::LinkBackground).color();
+    return scheme.background(KColorScheme::LinkBackground).color().darker();
 }
 
 QColor TimelineController::audioColor() const
@@ -2465,4 +2465,10 @@ QColor TimelineController::neutralColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
     return scheme.background(KColorScheme::VisitedBackground).color();
+}
+
+QColor TimelineController::groupColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
+    return scheme.background(KColorScheme::NegativeBackground).color();
 }
