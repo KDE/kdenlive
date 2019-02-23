@@ -395,7 +395,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             // Check keyframes after last position
             if (ok && !ok2 && oldIn != 0) {
                 positions << old_in;
-            } else if (in == 0 && ok && ok2) {
+            } else if (in == 0 && oldIn != 0 && ok && ok2) {
                 // We moved start to 0. As the 0 keyframe is always here, simply remove old position
                 for (const auto &param : m_parameters) {
                     param.second->removeKeyframe(old_in, undo, redo);
@@ -423,6 +423,10 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         Keyframe toDel = getNextKeyframe(new_out, &ok3);
         if (ok && !ok2) {
             positions << old_out;
+        }
+        if (toDel.first == GenTime()) {
+            // No keyframes
+            return;
         }
         while (ok3) {
             if (!positions.contains(toDel.first)) {
