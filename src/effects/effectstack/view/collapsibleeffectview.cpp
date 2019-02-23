@@ -142,7 +142,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 2);
     lay->setSpacing(0);
-    connect(m_keyframesButton, &QToolButton::toggled, [this, lay](bool toggle) {
+    connect(m_keyframesButton, &QToolButton::toggled, [this](bool toggle) {
         m_view->toggleKeyframes(toggle);
         // We need to switch twice to get a correct resize
         slotSwitch(!m_model->isCollapsed());

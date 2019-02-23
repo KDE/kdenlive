@@ -102,7 +102,7 @@ public:
 
     /** @brief Resets the curve to an empty one
      */
-    void reset();
+    void reset() override;
 
     /** @brief Returns a string corresponding to the curve
      */
@@ -121,9 +121,9 @@ public:
 public:
     /** @brief Delete current spline point if it is not a extremal point (first or last)
      */
-    void slotDeleteCurrentPoint();
-    void slotZoomIn();
-    void slotZoomOut();
+    void slotDeleteCurrentPoint() override;
+    void slotZoomIn() override;
+    void slotZoomOut() override;
 
 protected:
     void paintBackground(QPainter *p);

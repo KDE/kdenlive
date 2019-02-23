@@ -104,7 +104,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
             }
         }
     }
-    auto op = [this, pos, frame, val, isRectParam](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
+    auto op = [this, pos, val, isRectParam](std::shared_ptr<KeyframeModel> param, Fun &undo, Fun &redo) {
         QVariant value;
         if (m_inTimelineIndex.isValid()) {
             if (m_parameters.at(m_inTimelineIndex) == param) {

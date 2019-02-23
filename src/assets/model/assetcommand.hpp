@@ -78,6 +78,5 @@ private:
     std::shared_ptr<AssetParameterModel> m_model;
     QVector<QPair<QString, QVariant>> m_value;
     QVector<QPair<QString, QVariant>> m_oldValue;
-    bool m_updateView;
 };
 #endif

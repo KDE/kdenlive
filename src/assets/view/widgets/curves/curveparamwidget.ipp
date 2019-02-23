@@ -167,7 +167,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     m_ui.buttonZoomIn->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     m_ui.buttonZoomOut->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
     m_ui.buttonGridChange->setIcon(QIcon::fromTheme(QStringLiteral("view-grid")));
-    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, 0.8))));
+    m_ui.buttonShowPixmap->setIcon(QIcon(QPixmap::fromImage(ColorTools::rgbCurvePlane(QSize(16, 16), ColorTools::ColorsRGB::Luma, (float)0.8))));
     m_ui.buttonResetSpline->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     m_ui.buttonShowAllHandles->setIcon(QIcon::fromTheme(QStringLiteral("draw-bezier-curves")));
     m_ui.widgetPoint->setEnabled(false);
@@ -353,6 +353,8 @@ template <> void CurveParamWidget<BezierSplineEditor>::slotUpdatePointEntries(co
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotUpdatePointEntries(const BPoint &p, bool extremal)
 {
+    Q_UNUSED(p);
+    Q_UNUSED(extremal);
     // Wrong slot called in curve widget
     Q_ASSERT(false);
 }
@@ -382,6 +384,8 @@ template <> void CurveParamWidget<KisCurveWidget>::slotUpdatePointEntries(const 
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotUpdatePointEntries(const QPointF &p, bool extremal)
 {
+    Q_UNUSED(p);
+    Q_UNUSED(extremal);
     // Wrong slot called in curve widget
     Q_ASSERT(false);
 }
@@ -393,7 +397,7 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShow
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefresh()
 {
-    if (m_model->data(m_index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
+    if (m_model->data(m_index, AssetParameterModel::TypeRole).template value<ParamType>() == ParamType::Curve) {
         QList<QPointF> points;
         QLocale locale;
         // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result

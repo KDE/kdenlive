@@ -481,7 +481,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
     }
-    QScopedPointer<Mlt::Properties> props(nullptr);
+    std::unique_ptr<Mlt::Properties> props(nullptr);
     if (revert) {
         props.reset(new Mlt::Properties());
         if (transitionId == QLatin1String("dissolve")) {
@@ -492,7 +492,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
             props->set("geometry", "0%/0%:100%x100%:100;-1=0%/0%:100%x100%:0");
         }
     }
-    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, props.get(), id, logUndo)) {
+    if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, std::move(props), id, logUndo)) {
         id = -1;
         pCore->displayMessage(i18n("Could not add composition at selected position"), InformationMessage, 500);
     }

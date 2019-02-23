@@ -888,7 +888,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state, speed);
     auto clip = m_allClips[clipId];
-    Fun local_redo = [clip, this, state, clipId]() {
+    Fun local_redo = [clip, this, state]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip, true);
@@ -1838,7 +1838,6 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         m_allTracks.erase(it);     // actual deletion of object
         m_iteratorTable.erase(id); // clean table
         if (updateView) {
-            QModelIndex root;
             _resetView();
         }
         return true;
@@ -2269,7 +2268,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         // Move on same track, only send view update
         updateView = false;
         notifyViewOnly = true;
-        update_model = [compoId, finalMove, this]() {
+        update_model = [compoId, this]() {
             QModelIndex modelIndex = makeCompositionIndexFromID(compoId);
             notifyChange(modelIndex, modelIndex, {StartRole});
             return true;

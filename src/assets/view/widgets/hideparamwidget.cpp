@@ -31,6 +31,7 @@ HideParamWidget::HideParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
 
 void HideParamWidget::slotShowComment(bool show)
 {
+    Q_UNUSED(show);
 }
 
 void HideParamWidget::slotRefresh()

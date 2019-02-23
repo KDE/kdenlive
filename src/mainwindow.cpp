@@ -3056,7 +3056,7 @@ void MainWindow::buildDynamicActions()
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
-            connect(action, &QAction::triggered, [this, stab]() {
+            connect(action, &QAction::triggered, [stab]() {
                 pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(), {},
                                                             i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab);
             });

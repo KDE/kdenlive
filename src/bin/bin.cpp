@@ -100,7 +100,7 @@ public:
             m_editorOpen = true;
         }
     }
-    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index)
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override
     {
         Q_UNUSED(model);
         Q_UNUSED(option);

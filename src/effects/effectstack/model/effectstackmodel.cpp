@@ -401,7 +401,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             int effectDuration = qMin(effect->filter().get_length() - 1, duration);
             if (!adjustFromEnd && (oldIn != newIn || duration != oldDuration)) {
                 // Clip start was resized, adjust effect in / out
-                Fun operation = [this, effect, newIn, effectDuration, logUndo]() {
+                Fun operation = [effect, newIn, effectDuration, logUndo]() {
                     effect->setParameter(QStringLiteral("in"), newIn, false);
                     effect->setParameter(QStringLiteral("out"), newIn + effectDuration, logUndo);
                     qDebug() << "--new effect: " << newIn << "-" << newIn + effectDuration;
@@ -411,7 +411,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 if (!res) {
                     return false;
                 }
-                Fun reverse = [this, effect, oldEffectIn, oldEffectOut, logUndo]() {
+                Fun reverse = [effect, oldEffectIn, oldEffectOut, logUndo]() {
                     effect->setParameter(QStringLiteral("in"), oldEffectIn, false);
                     effect->setParameter(QStringLiteral("out"), oldEffectOut, logUndo);
                     return true;
@@ -425,7 +425,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     referenceEffectOut = oldEffectOut;
                     effect->filter().set("_refout", referenceEffectOut);
                 }
-                Fun operation = [this, effect, oldEffectIn, effectDuration, logUndo]() {
+                Fun operation = [effect, oldEffectIn, effectDuration, logUndo]() {
                     effect->setParameter(QStringLiteral("out"), oldEffectIn + effectDuration, logUndo);
                     return true;
                 };
@@ -434,7 +434,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     return false;
                 }
                 if (logUndo) {
-                    Fun reverse = [this, effect, referenceEffectOut]() {
+                    Fun reverse = [effect, referenceEffectOut]() {
                         effect->setParameter(QStringLiteral("out"), referenceEffectOut, true);
                         effect->filter().set("_refout", (char *)nullptr);
                         return true;
@@ -453,7 +453,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 referenceEffectIn = oldFadeIn;
                 effect->filter().set("_refin", referenceEffectIn);
             }
-            Fun operation = [this, effect, newFadeIn, out, logUndo]() {
+            Fun operation = [effect, newFadeIn, out, logUndo]() {
                 effect->setParameter(QStringLiteral("in"), newFadeIn, false);
                 effect->setParameter(QStringLiteral("out"), out, logUndo);
                 return true;
@@ -463,7 +463,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 return false;
             }
             if (logUndo) {
-                Fun reverse = [this, effect, referenceEffectIn, oldOut]() {
+                Fun reverse = [effect, referenceEffectIn, oldOut]() {
                     effect->setParameter(QStringLiteral("in"), referenceEffectIn, false);
                     effect->setParameter(QStringLiteral("out"), oldOut, true);
                     effect->filter().set("_refin", (char *)nullptr);
@@ -479,7 +479,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 // Effect has keyframes, update these
                 keyframes->resizeKeyframes(oldIn, oldIn + oldDuration - 1, newIn, out - 1, offset, adjustFromEnd, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
-                Fun refresh = [this, effect, index]() {
+                Fun refresh = [effect, index]() {
                     effect->dataChanged(index, index, QVector<int>());
                     return true;
                 };

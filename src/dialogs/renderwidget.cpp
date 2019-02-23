@@ -357,7 +357,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.shareButton->setEnabled(false);
 #endif
     m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
-    connect(m_view.parallel_process, &QCheckBox::stateChanged, [this](int state) { KdenliveSettings::setParallelrender(state == Qt::Checked); });
+    connect(m_view.parallel_process, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setParallelrender(state == Qt::Checked); });
     m_view.field_order->setEnabled(false);
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int index) { m_view.field_order->setEnabled(index == 2); });
     refreshView();
