@@ -210,7 +210,7 @@ Rectangle {
         if (tk.y < scrollView.flickableItem.contentY) {
             scrollView.flickableItem.contentY = Math.max(0, tk.y - scrollView.height / 3)
         } else if (tk.y + tk.height > scrollView.flickableItem.contentY + scrollView.viewport.height) {
-            scrollView.flickableItem.contentY = Math.min(scrollView.flickableItem.height, tk.y - scrollView.height / 3)
+            scrollView.flickableItem.contentY = Math.min(trackHeaders.height - scrollView.height + scrollView.__horizontalScrollBar.height, tk.y - scrollView.height / 3)
         }
     }
 
