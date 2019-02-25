@@ -141,26 +141,38 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
         topElements.insert(root);
     }
     // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
-    bool isSelected = pCore->isSelected(clipId);
-    pCore->clearSelection();
+    bool processClearSelection = false;
     int count = 0;
     QList<int> newIds;
+    int mainId = -1;
+    QList <int> clipsToCut;
     for (int cid : clips) {
         int start = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
         if (start < position && (start + duration) > position) {
-            count++;
-            int newId;
-            bool res = processClipCut(timeline, cid, position, newId, undo, redo);
-            if (!res) {
-                bool undone = undo();
-                Q_ASSERT(undone);
-                return false;
+            clipsToCut << cid;
+            if (!processClearSelection && pCore->isSelected(cid)) {
+                processClearSelection = true;
             }
-            // splitted elements go temporarily in the same group as original ones.
-            timeline->m_groups->setInGroupOf(newId, cid, undo, redo);
-            newIds << newId;
         }
+    }
+    if (processClearSelection) {
+        pCore->clearSelection();
+    }
+    for (int cid : clipsToCut) {
+        count++;
+        int newId;
+        bool res = processClipCut(timeline, cid, position, newId, undo, redo);
+        if (!res) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        } else if (cid == clipId) {
+            mainId = newId;
+        }
+        // splitted elements go temporarily in the same group as original ones.
+        timeline->m_groups->setInGroupOf(newId, cid, undo, redo);
+        newIds << newId;
     }
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
         // we now split the group hierarchy.
@@ -176,8 +188,12 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
             return false;
         }
     }
-    if (isSelected && !newIds.isEmpty()) {
-        pCore->selectItem(newIds.first());
+    if (processClearSelection) {
+        if (mainId >= 0) {
+            pCore->selectItem(mainId);
+        } else if (!newIds.isEmpty()) {
+            pCore->selectItem(newIds.first());
+        }
     }
     return count > 0;
 }
