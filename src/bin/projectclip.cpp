@@ -762,11 +762,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProf
     c.set("no_profile", 1);
     c.set("root", "/");
     c.set("store", "kdenlive");
-    c.start();
+    c.run();
     if (ignore) {
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
+    c.stop();
+    c.purge();
     std::shared_ptr<Mlt::Producer> prod;
     prod.reset(new Mlt::Producer(destProfile ? *destProfile : master_profile, "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
