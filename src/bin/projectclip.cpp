@@ -405,7 +405,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     if (m_clipType == ClipType::Audio) {
         m_thumbnail = QIcon::fromTheme(QStringLiteral("audio-x-generic"));
     } else if (m_clipType == ClipType::Image) {
-        if (getProducerIntProperty(QStringLiteral("meta.media.width")) < 8 || getProducerIntProperty(QStringLiteral("meta.media.height")) < 8) {
+        if (producer->get_int("meta.media.width") < 8 || producer->get_int("meta.media.height") < 8) {
             KMessageBox::information(QApplication::activeWindow(),
                                      i18n("Image dimension smaller than 8 pixels.\nThis is not correctly supported by our video framework."));
         }
