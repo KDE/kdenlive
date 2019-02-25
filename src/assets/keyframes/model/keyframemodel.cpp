@@ -723,7 +723,10 @@ QString KeyframeModel::getAnimProperty() const
         anim->key_set_type(ix, convertToMltType(keyframe.second.first));
         ix++;
     }
-    return anim->serialize_cut();
+    char *cut = anim->serialize_cut();
+    QString ret(cut);
+    free(cut);
+    return ret;
 }
 
 QString KeyframeModel::getRotoProperty() const
