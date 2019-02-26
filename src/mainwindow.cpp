@@ -1278,8 +1278,7 @@ void MainWindow::setupActions()
     act->setData('C');
 
     act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
-                    Qt::SHIFT + Qt::Key_R, clipActionCategory);
-    act->setEnabled(false);
+                    Qt::SHIFT + Qt::Key_R);
 
     act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
