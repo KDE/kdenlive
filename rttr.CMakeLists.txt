@@ -1,26 +1,13 @@
-cmake_minimum_required(VERSION 3.5)
-
-# simplify variable expansion
-cmake_policy(SET CMP0053 NEW)
-cmake_policy(SET CMP0010 NEW)
-
-project(rttr-download NONE)
-
 include(ExternalProject)
 ExternalProject_Add(rttr_project
-	GIT_REPOSITORY https://github.com/rttrorg/rttr.git
-	GIT_TAG "v0.9.6"
-	SOURCE_DIR "${CMAKE_BINARY_DIR}/rttr-src"
-	BINARY_DIR "${CMAKE_BINARY_DIR}/rttr-build"
-	INSTALL_DIR "${CMAKE_BINARY_DIR}/rttr-install"
-	UPDATE_COMMAND ""
-	CONFIGURE_COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} -DCMAKE_INSTALL_PREFIX=../rttr-install/ -DBUILD_EXAMPLES=OFF -DBUILD_DOCUMENTATION=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_STATIC=ONN "${CMAKE_BINARY_DIR}/rttr-src"
-	BUILD_COMMAND ${CMAKE_COMMAND} --build .
-	INSTALL_COMMAND ${CMAKE_COMMAND} --build . --target install
-	LOG_DOWNLOAD ON
+    URL https://github.com/rttrorg/rttr/archive/v0.9.6.tar.gz
+    UPDATE_COMMAND ""
+    CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DBUILD_EXAMPLES=OFF -DBUILD_DOCUMENTATION=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_STATIC=ON
 )
-
-add_custom_target(rttr_final
-    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/rttr-install/lib*/*.a ${CMAKE_BINARY_DIR}/rttr-install
-)
-add_dependencies(rttr_final rttr_project)
+ExternalProject_Get_Property(rttr_project install_dir)
+add_library(rttr_core STATIC IMPORTED)
+add_dependencies(rttr_core rttr_project)
+file(MAKE_DIRECTORY "${install_dir}/include")
+set_target_properties(rttr_core PROPERTIES
+    IMPORTED_LOCATION "${install_dir}/lib/librttr_core.a"
+    INTERFACE_INCLUDE_DIRECTORIES "${install_dir}/include")

@@ -41,7 +41,7 @@ cmake $KDENLIVE_SOURCES \
     -DCMAKE_INSTALL_PREFIX:PATH=$BUILD_PREFIX/kdenlive.appdir/usr \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
     -DBUILD_TESTING=FALSE \
-    -DBUILD_TESTS=FALSE
+    -DBUILD_TESTING=FALSE
 
 # Build and Install Kdenlive (ready for the next phase)
 make -j$CPU_COUNT install
