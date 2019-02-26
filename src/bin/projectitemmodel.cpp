@@ -356,6 +356,17 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString 
     return nullptr;
 }
 
+const QString ProjectItemModel::getFolderIdByName(const QString &folderName)
+{
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::FolderItem && c->name() == folderName) {
+            return c->clipId();
+        }
+    }
+    return QString();
+}
+
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getItemByBinId(const QString &binId)
 {
     for (const auto &clip : m_allItems) {

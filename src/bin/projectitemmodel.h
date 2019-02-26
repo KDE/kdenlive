@@ -73,8 +73,10 @@ public:
     /** @brief Helper to check whether a clip with a given id exists */
     bool hasClip(const QString &binId);
 
-    /** @brief Gets a folder by its id. If none is found, the root is returned */
+    /** @brief Gets a folder by its id. If none is found, nullptr is returned */
     std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);
+    /** @brief Gets a id folder by its name. If none is found, empty string returned */
+    const QString getFolderIdByName(const QString &folderName);
 
     /** @brief Gets any item by its id. */
     std::shared_ptr<AbstractProjectItem> getItemByBinId(const QString &binId);

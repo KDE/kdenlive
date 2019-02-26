@@ -645,9 +645,13 @@ bool TimelineController::pasteItem()
     QMap<QString, QString> mappedIds;
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
-        const QString rootId = pCore->projectItemModel()->getRootFolder()->clipId();
-        QString folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
-        pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
+        QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
+        if (folderId.isEmpty()) {
+            // Folder doe not exist
+            const QString rootId = pCore->projectItemModel()->getRootFolder()->clipId();
+            folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
+            pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
+        }
         QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
