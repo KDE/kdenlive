@@ -700,7 +700,6 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
     } else if (master->is_valid()) {
         // in that case, we have a master
         qDebug() << "Warning: weird, we received a master clip in lieue of a cut";
-        exit(1);
         double speed = 1.0;
         if (QString::fromUtf8(master->parent().get("mlt_service")) == QLatin1String("timewarp")) {
             speed = master->get_double("warp_speed");
