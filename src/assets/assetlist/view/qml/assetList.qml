@@ -248,7 +248,7 @@ Rectangle {
                 // These anchors are important to allow "copy" dragging
                 anchors.verticalCenter: parent ? parent.verticalCenter : undefined
                 anchors.right: parent ? parent.right : undefined
-                property bool isItem : styleData.value != "root" && styleData.value != ""
+                property bool isItem : styleData.value !== "root" && styleData.value !== ""
                 property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
                 height: assetText.implicitHeight + 8
                 color: "transparent"
@@ -270,7 +270,7 @@ Rectangle {
                     Image{
                         id: assetThumb
                         visible: assetDelegate.isItem
-                        property bool isFavorite: model == undefined || model.favorite == undefined ? false : model.favorite
+                        property bool isFavorite: model == undefined || model.favorite === undefined ? false : model.favorite
                         height: parent.height
                         width: height
                         source: 'image://asseticon/' + styleData.value

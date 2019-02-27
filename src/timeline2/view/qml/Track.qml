@@ -32,7 +32,7 @@ Column{
     property bool isLocked: false
     property int trackInternalId : -42
     property int trackThumbsFormat
-    property var itemType: 0
+    property int itemType: 0
     height: parent.height
 
     /*function redrawWaveforms() {

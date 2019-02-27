@@ -46,13 +46,14 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
 
     bool needsLocaleConversion = false;
     QChar separator, oldSeparator;
-    // Check locale
+    // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
+    QLocale locale;
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        QLocale locale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
-        if (locale.decimalPoint() != QLocale().decimalPoint()) {
+        QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
+        if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
             needsLocaleConversion = true;
-            separator = QLocale().decimalPoint();
-            oldSeparator = locale.decimalPoint();
+            separator = QLocale::c().decimalPoint();
+            oldSeparator = effectLocale.decimalPoint();
         }
     }
 
@@ -81,7 +82,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         ParamRow currentRow;
         currentRow.type = paramTypeFromStr(type);
         currentRow.xml = currentParameter;
-        QLocale locale;
         if (value.isNull()) {
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
             value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
@@ -182,7 +182,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: "<<update;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: "<<update<<", VAL: "<<paramValue;
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
     if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
         QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
@@ -508,13 +508,13 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId owner, const QString
             p.set("eval", content.toLatin1().constData());
             return p.get_double("eval");
         }
-    } else if (type == ParamType::Double) {
+    } else if (type == ParamType::Double || type == ParamType::Hidden) {
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
         if (attribute == QLatin1String("default")) {
             int factor = element.attribute(QStringLiteral("factor"), QStringLiteral("1")).toInt();
             if (factor > 0) {
-                return locale.toDouble(content) / factor;
+                return content.toDouble() / factor;
             }
         }
         return locale.toDouble(content);
@@ -522,6 +522,19 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId owner, const QString
     if (attribute == QLatin1String("default")) {
         if (type == ParamType::RestrictedAnim) {
             content = getDefaultKeyframes(0, content, true);
+        } else if (type == ParamType::KeyframeParam) {
+            return content.toDouble();
+        } else if (type == ParamType::List) {
+            bool ok;
+            double res = content.toDouble(&ok);
+            if (ok) {
+                return res;
+            }
+        } else if (type == ParamType::Bezier_spline) {
+            QLocale locale;
+            if (locale.decimalPoint() != QLocale::c().decimalPoint()) {
+                return content.replace(QLocale::c().decimalPoint(), locale.decimalPoint());
+            }
         }
     }
     return content;

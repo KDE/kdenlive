@@ -21,7 +21,6 @@
 #include "kis_cubic_curve.h"
 
 #include <QList>
-#include <QLocale>
 #include <QPointF>
 #include <QSharedData>
 #include <QStringList>
@@ -405,12 +404,10 @@ void KisCubicCurve::removePoint(int idx)
 const QString KisCubicCurve::toString() const
 {
     QString sCurve;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const QPointF &pair : d->data->points) {
-        sCurve += locale.toString(pair.x());
+        sCurve += QString::number(pair.x());
         sCurve += QStringLiteral("/");
-        sCurve += locale.toString(pair.y());
+        sCurve += QString::number(pair.y());
         sCurve += QStringLiteral(";");
     }
     return sCurve;
@@ -421,12 +418,11 @@ void KisCubicCurve::fromString(const QString &string)
     const QStringList data = string.split(QLatin1Char(';'));
 
     QList<QPointF> points;
-    QLocale locale;
     for (const QString &pair : data) {
         if (pair.indexOf('/') > -1) {
             QPointF p;
-            p.rx() = locale.toDouble(pair.section(QLatin1Char('/'), 0, 0));
-            p.ry() = locale.toDouble(pair.section(QLatin1Char('/'), 1, 1));
+            p.rx() = pair.section(QLatin1Char('/'), 0, 0).toDouble();
+            p.ry() = pair.section(QLatin1Char('/'), 1, 1).toDouble();
             points.append(p);
         }
     }

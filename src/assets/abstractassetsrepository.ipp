@@ -267,15 +267,6 @@ template <typename AssetType> QString AbstractAssetsRepository<AssetType>::getDe
 
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement &currentAsset, Info &res) const
 {
-    QLocale locale;
-
-    // We first deal with locale
-    if (currentAsset.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        // set a locale for that effect
-        locale = QLocale(currentAsset.attribute(QStringLiteral("LC_NUMERIC")));
-    }
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
     QString tag = currentAsset.attribute(QStringLiteral("tag"), QString());
 
     QString id = currentAsset.attribute(QStringLiteral("id"), QString());

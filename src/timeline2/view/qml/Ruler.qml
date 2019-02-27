@@ -45,7 +45,7 @@ Rectangle {
             rulerRoot.tickSpacing = Math.floor(3 * rulerRoot.fontUnit / timeline.scaleFactor) * timeline.scaleFactor
             rulerRoot.labelSpacing = (Math.floor(rulerRoot.labelSize/rulerRoot.tickSpacing) + 1) * rulerRoot.tickSpacing
         }
-        rulerRoot.labelMod = Math.max((1, Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing)))
+        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing))
         //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing)))
     }
 

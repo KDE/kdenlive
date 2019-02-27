@@ -44,8 +44,8 @@ Rectangle {
     property var audioLevels
     property var markers
     property var keyframeModel
-    property var clipStatus: 0
-    property var itemType: 0
+    property int clipStatus: 0
+    property int itemType: 0
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0

@@ -156,8 +156,8 @@ Item {
                     }
                 }
                 if (root.centerPoints.length > 2) {
-                    var c1 = convertPoint(root.centerPointsTypes[root.centerPointsTypes.length - 1])
-                    var c2 = convertPoint(root.centerPointsTypes[0])
+                    c1 = convertPoint(root.centerPointsTypes[root.centerPointsTypes.length - 1])
+                    c2 = convertPoint(root.centerPointsTypes[0])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, startP.x, startP.y);
                 }
             }

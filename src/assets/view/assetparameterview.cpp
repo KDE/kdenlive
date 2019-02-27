@@ -118,6 +118,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 
 QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
 {
+    QLocale locale;
     QVector<QPair<QString, QVariant>> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
@@ -125,7 +126,7 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
         ParamType type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         QVariant defaultValue = m_model->data(index, AssetParameterModel::DefaultRole);
         if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
-            QString val = defaultValue.toString();
+            QString val = type == ParamType::KeyframeParam ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
             if (!val.contains(QLatin1Char('='))) {
                 val.prepend(QStringLiteral("%1=").arg(m_model->data(index, AssetParameterModel::ParentInRole).toInt()));
                 defaultValue = QVariant(val);
