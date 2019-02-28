@@ -419,6 +419,7 @@ TEST_CASE("FuzzBug1")
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    TimelineModel::next_id = 0;
     {
         Mock<ProjectManager> pmMock;
         When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
@@ -549,5 +550,4 @@ TEST_CASE("FuzzBug1")
         REQUIRE(timeline_0->checkConsistency());
     }
     pCore->m_projectManager = nullptr;
-    Core::m_self.reset();
 }

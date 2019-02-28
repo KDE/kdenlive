@@ -263,6 +263,7 @@ void Logger::print_trace()
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
     test_file << "std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);" << std::endl;
+    test_file << "TimelineModel::next_id = 0;" << std::endl;
     test_file << "{" << std::endl;
     test_file << "Mock<ProjectManager> pmMock;" << std::endl;
     test_file << "When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);" << std::endl;
@@ -354,7 +355,6 @@ void Logger::print_trace()
     }
     test_file << "}" << std::endl;
     test_file << "pCore->m_projectManager = nullptr;" << std::endl;
-    test_file << "Core::m_self.reset();" << std::endl;
     test_file << "}" << std::endl;
 }
 void Logger::clear()
