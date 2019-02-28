@@ -167,7 +167,7 @@ GLWidget::~GLWidget()
     m_blackClip.reset();
     delete m_shareContext;
     delete m_shader;
-    delete m_monitorProfile;
+    // delete m_monitorProfile;
 }
 
 void GLWidget::updateAudioForAnalysis()

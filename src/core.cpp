@@ -378,7 +378,7 @@ int Core::getItemPosition(const ObjectId &id)
 int Core::getItemIn(const ObjectId &id)
 {
     if (!m_guiConstructed) {
-        qDebug()<<"/ / // QUERYING ITEM IN BUT GUI NOT BUILD!!";
+        qDebug() << "/ / // QUERYING ITEM IN BUT GUI NOT BUILD!!";
         return 0;
     }
     switch (id.first) {
@@ -603,7 +603,6 @@ void Core::invalidateRange(QSize range)
     m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.width(), range.height());
 }
 
-
 void Core::invalidateItem(ObjectId itemId)
 {
     if (!m_mainWindow || m_mainWindow->getCurrentTimeline()->loading) return;
@@ -699,4 +698,9 @@ void Core::triggerAction(const QString &name)
     if (action) {
         action->trigger();
     }
+}
+
+void Core::clean()
+{
+    m_self.reset();
 }

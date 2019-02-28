@@ -194,6 +194,7 @@ int main(int argc, char *argv[])
     Core::build(mltPath);
     pCore->initGUI(url);
     int result = app.exec();
+    Core::clean();
 
     if (EXIT_RESTART == result) {
         qCDebug(KDENLIVE_LOG) << "restarting app";

@@ -78,6 +78,9 @@ public:
     /** @brief Returns a pointer to the singleton object. */
     static std::unique_ptr<Core> &self();
 
+    /** @brief Delete the global core instance */
+    static void clean();
+
     /** @brief Returns a pointer to the main window. */
     MainWindow *window();
 
