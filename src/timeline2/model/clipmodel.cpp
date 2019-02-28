@@ -212,7 +212,8 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             }
             return false;
         };
-        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", " << m_producer->get_playtime();
+        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
+                 << m_producer->get_playtime();
         if (logUndo) {
             adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         }
@@ -632,4 +633,35 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("speed"), m_speed);
     container.appendChild(m_effectStack->toXml(document));
     return container;
+}
+
+bool ClipModel::checkConsistency()
+{
+    if (!m_effectStack->checkConsistency()) {
+        qDebug() << "Consistency check failed for effecstack";
+        return false;
+    }
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    auto instances = binClip->timelineInstances();
+    bool found = false;
+    for (const auto &i : instances) {
+        if (i == m_id) {
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        qDebug() << "ERROR: binClip doesn't acknowledge timeline clip existence";
+        return false;
+    }
+
+    if (m_currentState == PlaylistState::VideoOnly && !m_canBeVideo) {
+        qDebug() << "ERROR: clip is in video state but doesn't have video";
+        return false;
+    }
+    if (m_currentState == PlaylistState::AudioOnly && !m_canBeAudio) {
+        qDebug() << "ERROR: clip is in video state but doesn't have video";
+        return false;
+    }
+    return true;
 }

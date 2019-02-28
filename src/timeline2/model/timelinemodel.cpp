@@ -701,8 +701,8 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             }
         }
 
-        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(), cursorPosition,
-                                         snapDistance);
+        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
+                                         cursorPosition, snapDistance);
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
@@ -876,7 +876,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
         bid = binClipId.section(QLatin1Char('/'), 0, 0);
     }
     if (!pCore->projectItemModel()->hasClip(bid)) {
-        qDebug()<<" / / / /MASTER CLIP NOT FOUND";
+        qDebug() << " / / / /MASTER CLIP NOT FOUND";
         return false;
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
@@ -1292,8 +1292,14 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     // Sort clips. We need to delete from right to left to avoid confusing the view, and compositions from top to bottom
     std::vector<int> sorted_clips(all_items.begin(), all_items.end());
     std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_track](int clipId1, int clipId2) {
-        int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition() : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : m_allCompositions[clipId1]->getPosition();
-        int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition() : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : m_allCompositions[clipId2]->getPosition();
+        int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition()
+                                 : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
+                                                   : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
+                                                                     : m_allCompositions[clipId1]->getPosition();
+        int p2 = isClip(clipId2) ? m_allClips[clipId2]->getPosition()
+                                 : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
+                                                   : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
+                                                                     : m_allCompositions[clipId2]->getPosition();
         return p2 <= p1;
     });
 
@@ -1334,7 +1340,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
                 ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo);
                 old_position[item] = m_allClips[item]->getPosition();
             } else {
-                //ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, finalMove, local_undo, local_redo);
+                // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, finalMove, local_undo, local_redo);
                 old_position[item] = m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             }
@@ -2479,6 +2485,10 @@ bool TimelineModel::checkConsistency()
         if (getClipTrackId(cp.first) != -1) {
             snaps[clip->getPosition()] += 1;
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
+        }
+        if (!clip->checkConsistency()) {
+            qDebug() << "Consistency check failed for clip" << cp.first;
+            return false;
         }
     }
     for (const auto &cp : m_allCompositions) {

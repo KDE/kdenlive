@@ -140,6 +140,9 @@ public:
     /* @brief Delete active effect from stack */
     void removeCurrentEffect();
 
+    /* @brief This is a convenience function that helps check if the tree is in a valid state */
+    bool checkConsistency() override;
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(std::shared_ptr<EffectItemModel> effect);
@@ -151,8 +154,6 @@ protected:
     /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-    /* @brief This is a convenience function that helps check if the tree is in a valid state */
-    bool checkConsistency() override;
 
     std::weak_ptr<Mlt::Service> m_masterService;
     std::vector<std::weak_ptr<Mlt::Service>> m_childServices;

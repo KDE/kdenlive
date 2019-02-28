@@ -187,6 +187,9 @@ protected:
     bool isAudioOnly() const;
     double getSpeed() const;
 
+    /*@brief This is a debug function to ensure the clip is in a valid state */
+    bool checkConsistency();
+
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
     std::shared_ptr<Mlt::Producer> getProducer();

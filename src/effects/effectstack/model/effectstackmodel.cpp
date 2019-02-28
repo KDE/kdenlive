@@ -381,7 +381,8 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     return res;
 }
 
-bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, int offset, Fun &undo, Fun &redo, bool logUndo)
+bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, int offset, Fun &undo, Fun &redo,
+                                         bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     const int fadeInDuration = getFadePosition(true);
@@ -866,20 +867,18 @@ bool EffectStackModel::checkConsistency()
             qDebug() << "ERROR: unavailable service";
             return false;
         }
-        if (ptr->filter_count() != (int)allFilters.size()) {
-            // MLT inserts some default normalizer filters that are not managed by Kdenlive, which explains  why the filter count is not equal
-            int kdenliveFilterCount = 0;
-            for (int i = 0; i < ptr->filter_count(); i++) {
-                std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
-                if (filt->get("kdenlive_id") != NULL) {
-                    kdenliveFilterCount++;
-                }
-                // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
+        // MLT inserts some default normalizer filters that are not managed by Kdenlive, which explains  why the filter count is not equal
+        int kdenliveFilterCount = 0;
+        for (int i = 0; i < ptr->filter_count(); i++) {
+            std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
+            if (filt->get("kdenlive_id") != NULL) {
+                kdenliveFilterCount++;
             }
-            if (kdenliveFilterCount != (int)allFilters.size()) {
-                qDebug() << "ERROR: Wrong filter count: " << kdenliveFilterCount << " = " << allFilters.size();
-                return false;
-            }
+            // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
+        }
+        if (kdenliveFilterCount != (int)allFilters.size()) {
+            qDebug() << "ERROR: Wrong filter count: " << kdenliveFilterCount << " = " << allFilters.size();
+            return false;
         }
 
         int ct = 0;
