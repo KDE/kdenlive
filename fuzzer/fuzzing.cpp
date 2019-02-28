@@ -41,6 +41,7 @@
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectitemmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "mltconnection.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
@@ -128,7 +129,6 @@ void fuzz(const std::string &input)
     std::stringstream ss;
     ss << input;
 
-    auto repo = Mlt::Factory::init(NULL);
     Mlt::Profile profile;
     auto binModel = pCore->projectItemModel();
     binModel->clean();
@@ -406,4 +406,7 @@ void fuzz(const std::string &input)
             }
         }
     }
+    pCore->m_projectManager = nullptr;
+    Core::m_self.reset();
+    MltConnection::m_self.reset();
 }

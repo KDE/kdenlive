@@ -24,10 +24,13 @@
 #include <QApplication>
 #include <cstring>
 #include <iostream>
+#include <mlt++/MltFactory.h>
+#include <mlt++/MltRepository.h>
 
 int argc = 1;
 char *argv[1] = {"fuzz"};
 QApplication app(argc, argv);
+std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
 
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 {
