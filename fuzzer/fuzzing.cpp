@@ -406,6 +406,13 @@ void fuzz(const std::string &input)
             }
         }
     }
+    all_clips.clear();
+    all_tracks.clear();
+    all_compositions.clear();
+    for (size_t i = 0; i < all_timelines.size(); ++i) {
+        all_timelines[i].reset();
+    }
+
     pCore->m_projectManager = nullptr;
     Core::m_self.reset();
     MltConnection::m_self.reset();

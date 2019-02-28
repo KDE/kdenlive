@@ -263,6 +263,7 @@ void Logger::print_trace()
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
     test_file << "std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);" << std::endl;
+    test_file << "{" << std::endl;
     test_file << "Mock<ProjectManager> pmMock;" << std::endl;
     test_file << "When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);" << std::endl;
     test_file << "ProjectManager &mocked = pmMock.get();" << std::endl;
@@ -289,6 +290,15 @@ void Logger::print_trace()
                 }
             }
 
+            if (m.get_return_type() != rttr::type::get<void>()) {
+                test_file << m.get_return_type().get_name().to_string() << " res = ";
+            }
+            test_file << get_ptr_name(invok.ptr) << "->" << invok.method << "(" << process_args(invok.args, refs) << ");" << std::endl;
+            if (m.get_return_type() != rttr::type::get<void>() && invok.res.is_valid()) {
+                test_file << "REQUIRE( res == " << invok.res.to_string() << ");" << std::endl;
+            }
+            test_file << "}" << std::endl;
+
             std::string invok_name = invok.method;
             if (translation_table.count(invok_name) > 0) {
                 auto args = invok.args;
@@ -306,14 +316,6 @@ void Logger::print_trace()
                 std::cout << "ERROR: unknown method " << invok_name << std::endl;
             }
 
-            if (m.get_return_type() != rttr::type::get<void>()) {
-                test_file << m.get_return_type().get_name().to_string() << " res = ";
-            }
-            test_file << get_ptr_name(invok.ptr) << "->" << invok.method << "(" << process_args(invok.args, refs) << ");" << std::endl;
-            if (m.get_return_type() != rttr::type::get<void>() && invok.res.is_valid()) {
-                test_file << "REQUIRE( res == " << invok.res.to_string() << ");" << std::endl;
-            }
-            test_file << "}" << std::endl;
 
         } else if (o.can_convert<Logger::ConstrId>()) {
             ConstrId id = o.convert<Logger::ConstrId>();
@@ -324,7 +326,7 @@ void Logger::print_trace()
                 std::cout << "ERROR: unknown constructor " << constr_name << std::endl;
             }
             if (id.type == "TimelineModel") {
-                test_file << "TimelineItemModel tim_" << id.id << "(new Mlt::Profile(), undoStack);" << std::endl;
+                test_file << "TimelineItemModel tim_" << id.id << "(&reg_profile, undoStack);" << std::endl;
                 test_file << "Mock<TimelineItemModel> timMock_" << id.id << "(tim_" << id.id << ");" << std::endl;
                 test_file << "auto timeline_" << id.id << " = std::shared_ptr<TimelineItemModel>(&timMock_" << id.id << ".get(), [](...) {});" << std::endl;
                 test_file << "TimelineItemModel::finishConstruct(timeline_" << id.id << ", guideModel);" << std::endl;
@@ -350,6 +352,9 @@ void Logger::print_trace()
         test_file << "undoStack->redo();" << std::endl;
         check_consistancy();
     }
+    test_file << "}" << std::endl;
+    test_file << "pCore->m_projectManager = nullptr;" << std::endl;
+    test_file << "Core::m_self.reset();" << std::endl;
     test_file << "}" << std::endl;
 }
 void Logger::clear()
