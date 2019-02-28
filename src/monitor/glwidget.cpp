@@ -1088,9 +1088,9 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
-            delete m_consumer;
+            m_consumer.reset();
         }
-        m_consumer = new Mlt::FilteredConsumer(*profile, "multi");
+        m_consumer.reset(new Mlt::FilteredConsumer(*profile, "multi"));
         delete m_threadStartEvent;
         m_threadStartEvent = nullptr;
         delete m_threadStopEvent;
@@ -1184,13 +1184,12 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
         if (m_consumer) {
             m_consumer->purge();
             m_consumer->stop();
-            delete m_consumer;
-            m_consumer = nullptr;
+            m_consumer.reset();
         }
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
         if (serviceName.isEmpty() || serviceName != audioBackend) {
-            m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toLatin1().constData());
+            m_consumer.reset(new Mlt::FilteredConsumer(*m_monitorProfile, audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
                 setProperty("mlt_service", serviceName);
@@ -1199,15 +1198,14 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                 }
             } else {
                 // Warning, audio backend unavailable on system
-                delete m_consumer;
-                m_consumer = nullptr;
+                m_consumer.reset();
                 QStringList backends = {"sdl2_audio", "sdl_audio", "rtaudio"};
                 for (const QString &bk : backends) {
                     if (bk == audioBackend) {
                         // Already tested
                         continue;
                     }
-                    m_consumer = new Mlt::FilteredConsumer(*m_monitorProfile, bk.toLatin1().constData());
+                    m_consumer.reset(new Mlt::FilteredConsumer(*m_monitorProfile, bk.toLatin1().constData()));
                     if (m_consumer->is_valid()) {
                         if (audioBackend == KdenliveSettings::sdlAudioBackend()) {
                             // switch sdl audio backend
@@ -1219,8 +1217,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
                         setProperty("mlt_service", serviceName);
                         break;
                     } else {
-                        delete m_consumer;
-                        m_consumer = nullptr;
+                        m_consumer.reset();
                     }
                 }
                 if (!m_consumer) {
@@ -1445,7 +1442,7 @@ int GLWidget::realTime() const
     return KdenliveSettings::mltthreads();
 }
 
-Mlt::Consumer *GLWidget::consumer()
+std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
 {
     return m_consumer;
 }
@@ -1460,8 +1457,7 @@ void GLWidget::resetConsumer(bool fullReset)
     if (fullReset && m_consumer) {
         m_consumer->purge();
         m_consumer->stop();
-        delete m_consumer;
-        m_consumer = nullptr;
+        m_consumer.reset();
     }
     reconfigure();
 }
@@ -1894,8 +1890,7 @@ void GLWidget::startConsumer()
             delete m_displayEvent;
         }
         m_displayEvent = nullptr;
-        delete m_consumer;
-        m_consumer = nullptr;
+        m_consumer.reset();
         return;
     }
     m_consumer->set("refresh", 1);

@@ -103,7 +103,7 @@ public:
     float zoom() const;
     float scale() const;
     QPoint offset() const;
-    Mlt::Consumer *consumer();
+    std::shared_ptr<Mlt::Consumer> consumer();
     Mlt::Producer *producer();
     QSize profileSize() const;
     QRect displayRect() const;
@@ -195,7 +195,7 @@ protected:
     // TODO: MTL has lock/unlock of individual nodes. Use those.
     // keeping this for refactoring ease.
     QMutex m_mltMutex;
-    Mlt::Consumer *m_consumer;
+    std::shared_ptr<Mlt::Consumer> m_consumer;
     Mlt::Producer *m_producer;
     Mlt::Profile *m_monitorProfile;
     int m_id;
