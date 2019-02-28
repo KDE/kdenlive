@@ -737,7 +737,7 @@ const QString GroupsModel::toJson(std::unordered_set<int> roots) const
 int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
 {
     if (!o.contains(QLatin1String("type"))) {
-        qDebug()<<"CANNOT PARSE GROUP DATA";
+        qDebug() << "CANNOT PARSE GROUP DATA";
         return -1;
     }
     auto type = groupTypeFromStr(o.value(QLatin1String("type")).toString());
@@ -757,7 +757,7 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
             } else if (leaf == QLatin1String("composition")) {
                 id = ptr->getCompositionByPosition(trackId, pos);
             } else {
-                qDebug()<<" * * *UNKNOWN ITEM: "<<leaf;
+                qDebug() << " * * *UNKNOWN ITEM: " << leaf;
             }
             return id;
         } else {
@@ -897,6 +897,7 @@ bool GroupsModel::checkConsistency(bool failOnSingleGroups, bool checkTimelineCo
         }
     }
 
+    int selectionCount = 0;
     for (const auto &elem : m_upLink) {
         // iterate through children to check links
         for (const auto &child : m_downLink[elem.first]) {
@@ -920,6 +921,9 @@ bool GroupsModel::checkConsistency(bool failOnSingleGroups, bool checkTimelineCo
                 qDebug() << "ERROR: Group model contains groups with single element";
                 return false;
             }
+            if (getType(elem.first) == GroupType::Selection) {
+                selectionCount++;
+            }
             if (elem.second != -1 && getType(elem.first) == GroupType::Selection) {
                 qDebug() << "ERROR: Group model contains inner groups of selection type";
                 return false;
@@ -929,6 +933,10 @@ bool GroupsModel::checkConsistency(bool failOnSingleGroups, bool checkTimelineCo
                 return false;
             }
         }
+    }
+    if (selectionCount > 1) {
+        qDebug() << "ERROR: Found too many selections: " << selectionCount;
+        return false;
     }
 
     // Finally, we do a depth first visit of the tree to check for loops
