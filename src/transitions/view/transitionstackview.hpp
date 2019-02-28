@@ -33,7 +33,7 @@ class TransitionStackView : public AssetParameterView
 
 public:
     TransitionStackView(QWidget *parent = nullptr);
-    void setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer = false);
+    void setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer = false) override;
     void unsetModel();
     ObjectId stackOwner() const;
 

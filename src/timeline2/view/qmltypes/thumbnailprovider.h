@@ -31,7 +31,7 @@ class ThumbnailProvider : public QQuickImageProvider
 public:
     explicit ThumbnailProvider();
     virtual ~ThumbnailProvider();
-    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     void resetProject();
 
 private:

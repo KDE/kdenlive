@@ -31,7 +31,7 @@ class AssetIconProvider : public QQuickImageProvider
 {
 public:
     explicit AssetIconProvider(bool effect);
-    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 
 private:
     QImage makeIcon(const QString &effectId, const QString &effectName, const QSize &size);
