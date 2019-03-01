@@ -531,7 +531,7 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
                 break;
             }
             m_currentState = state;
-            if (ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
+            if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
             }

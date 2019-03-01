@@ -668,30 +668,27 @@ void GLWidget::requestSeek()
         return;
     }
     if (m_proxy->seeking()) {
-        if (!qFuzzyIsNull(m_producer->get_speed())) {
-            m_consumer->purge();
-        }
         m_producer->seek(m_proxy->seekPosition());
         if (m_consumer->is_stopped()) {
             m_consumer->start();
+        } else {
+            m_consumer->purge();
+            m_consumer->set("refresh", 1);
         }
-        m_consumer->set("refresh", 1);
     }
 }
 
 void GLWidget::seek(int pos)
 {
-    // Testing puspose only
     if (!m_proxy->seeking()) {
         m_proxy->setSeekPosition(pos);
-        if (!qFuzzyIsNull(m_producer->get_speed())) {
-            m_consumer->purge();
-        }
         m_producer->seek(pos);
         if (m_consumer->is_stopped()) {
             m_consumer->start();
+        } else {
+            m_consumer->purge();
+            m_consumer->set("refresh", 1);
         }
-        m_consumer->set("refresh", 1);
     } else {
         m_proxy->setSeekPosition(pos);
     }
@@ -699,7 +696,10 @@ void GLWidget::seek(int pos)
 
 void GLWidget::requestRefresh()
 {
-    if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
+    if (m_proxy->seeking()) {
+        return;
+    }
+    if (!m_producer && qFuzzyIsNull(m_producer->get_speed())) {
         m_refreshTimer.start();
     }
 }
@@ -712,6 +712,9 @@ QString GLWidget::frameToTime(int frames) const
 void GLWidget::refresh()
 {
     m_refreshTimer.stop();
+    if (m_proxy->seeking()) {
+        return;
+    }
     QMutexLocker locker(&m_mltMutex);
     if (m_consumer->is_stopped()) {
         m_consumer->start();

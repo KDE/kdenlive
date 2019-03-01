@@ -96,6 +96,7 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
     }
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     bool res = copyClip(timeline, clipId, newId, state, undo, redo);
+    timeline->m_blockRefresh = true;
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
     int newDuration = timeline->getClipPlaytime(clipId);
     // parse effects
@@ -116,6 +117,7 @@ bool TimelineFunctions::processClipCut(std::shared_ptr<TimelineItemModel> timeli
         updateDuration();
         PUSH_LAMBDA(updateDuration, redo);
     }
+    timeline->m_blockRefresh = false;
     return res;
 }
 

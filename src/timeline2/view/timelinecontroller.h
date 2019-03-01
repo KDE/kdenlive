@@ -481,6 +481,7 @@ private:
     PreviewManager *m_timelinePreview;
     QAction *m_disablePreview;
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
+    QMutex m_metaMutex;
 
     void emitSelectedFromSelection();
     int getCurrentItem();

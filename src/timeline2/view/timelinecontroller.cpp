@@ -1182,11 +1182,14 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     if (position == -1) {
         position = timelinePosition();
     }
+    QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
     for (int cid : m_selection.selectedItems) {
         if (m_model->isClip(cid)) {
             if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
+                // Cutting clips in the selection group is handled in TimelineFunctions
+                break;
             }
         } else {
             qDebug() << "//// TODO: COMPOSITION CUT!!!";

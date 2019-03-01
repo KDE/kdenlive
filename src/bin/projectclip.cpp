@@ -528,7 +528,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
 void ProjectClip::createDisabledMasterProducer()
 {
     if (!m_disabledProducer) {
-        m_disabledProducer = cloneProducer(&pCore->getCurrentProfile()->profile());
+        m_disabledProducer = cloneProducer();
         m_disabledProducer->set("set.test_audio", 1);
         m_disabledProducer->set("set.test_image", 1);
         m_effectStack->addService(m_disabledProducer);
@@ -549,7 +549,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
         if (state == PlaylistState::AudioOnly) {
             // We need to get an audio producer, if none exists
             if (m_audioProducers.count(clipId) == 0) {
-                m_audioProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile(), true);
+                m_audioProducers[clipId] = cloneProducer(true);
                 m_audioProducers[clipId]->set("set.test_audio", 0);
                 m_audioProducers[clipId]->set("set.test_image", 1);
                 m_effectStack->addService(m_audioProducers[clipId]);
@@ -568,7 +568,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int clipId, Play
                 return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration : -1));
             }
             if (m_videoProducers.count(clipId) == 0) {
-                m_videoProducers[clipId] = cloneProducer(&pCore->getCurrentProfile()->profile(), true);
+                m_videoProducers[clipId] = cloneProducer(true);
                 m_videoProducers[clipId]->set("set.test_audio", 1);
                 m_videoProducers[clipId]->set("set.test_image", 0);
                 m_effectStack->addService(m_videoProducers[clipId]);
@@ -746,10 +746,9 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
     return std::shared_ptr<Mlt::Producer>(normalProd->cut());
 }*/
 
-std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProfile, bool removeEffects)
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
-    Mlt::Profile master_profile(mlt_profile_clone(m_masterProducer->get_profile()));
-    Mlt::Consumer c(master_profile, "xml", "string");
+    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -767,10 +766,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(Mlt::Profile *destProf
         s.set("ignore_points", ignore);
     }
     const QByteArray clipXml = c.get("string");
-    c.stop();
-    c.purge();
     std::shared_ptr<Mlt::Producer> prod;
-    prod.reset(new Mlt::Producer(destProfile ? *destProfile : master_profile, "xml-string", clipXml.constData()));
+    prod.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
     }

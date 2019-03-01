@@ -733,7 +733,7 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
-                if (mouse.modifiers & Qt.ShiftModifier) {
+                if (mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height) {
                         // rubber selection
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
@@ -802,7 +802,7 @@ Rectangle {
                 }
                 root.mousePosChanged(Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)))
                 ruler.showZoneLabels = mouse.y < ruler.height
-                if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible) {
+                if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection
                     rubberSelect.visible = true
                 }
@@ -860,6 +860,7 @@ Rectangle {
                         var endFrame = (scrollView.flickableItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
                         timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier);
                     }
+                    rubberSelect.y = -1
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     // Shift click, process seek
                     timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
@@ -1225,6 +1226,7 @@ Rectangle {
         id: rubberSelect
         property int originX
         property int originY
+        y: -1
         color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
         border.color: activePalette.highlight
         border.width: 1

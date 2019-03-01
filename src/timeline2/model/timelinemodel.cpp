@@ -101,6 +101,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_audioTarget(-1)
     , m_videoTarget(-1)
     , m_editMode(TimelineMode::NormalEdit)
+    , m_blockRefresh(false)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -2640,6 +2641,9 @@ std::shared_ptr<Mlt::Producer> TimelineModel::producer()
 
 void TimelineModel::checkRefresh(int start, int end)
 {
+    if (m_blockRefresh) {
+        return;
+    }
     int currentPos = tractor()->position();
     if (currentPos >= start && currentPos < end) {
         emit requestMonitorRefresh();

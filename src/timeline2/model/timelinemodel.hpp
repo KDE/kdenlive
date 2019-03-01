@@ -680,6 +680,8 @@ protected:
     /* @brief Send signal to require clearing effet/composition view */
     void clearAssetView(int itemId);
 
+    bool m_blockRefresh;
+
 signals:
     /* @brief signal triggered by clearAssetView */
     void requestClearAssetView(int);
