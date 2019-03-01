@@ -130,7 +130,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
-    m_producer = m_blackClip;
+    m_producer = &*m_blackClip;
 
     if (!initGPUAccel()) {
         disableGPUAccel();
@@ -664,7 +664,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget::requestSeek()
 {
-    if (!m_producer) {
+    if (m_producer == nullptr) {
         return;
     }
     if (m_proxy->seeking()) {
@@ -699,7 +699,7 @@ void GLWidget::seek(int pos)
 
 void GLWidget::requestRefresh()
 {
-    if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
+    if ((m_producer != nullptr) && qFuzzyIsNull(m_producer->get_speed())) {
         m_refreshTimer.start();
     }
 }
@@ -912,23 +912,23 @@ void GLWidget::slotSwitchAudioOverlay(bool enable)
 {
     KdenliveSettings::setDisplayAudioOverlay(enable);
     if (m_audioWaveDisplayed && !enable) {
-        if (m_producer && m_producer->get_int("video_index") != -1) {
+        if ((m_producer != nullptr) && m_producer->get_int("video_index") != -1) {
             // We have a video producer, disable filter
             removeAudioOverlay();
         }
     }
-    if (enable && !m_audioWaveDisplayed && m_producer) {
+    if (enable && !m_audioWaveDisplayed && m_producer != nullptr) {
         createAudioOverlay(m_producer->get_int("video_index") == -1);
     }
 }
 
-int GLWidget::setProducer(std::shared_ptr<Mlt::Producer> producer, bool isActive, int position)
+int GLWidget::setProducer(Mlt::Producer *producer, bool isActive, int position)
 {
     int error = 0;
     QString currentId;
     int consumerPosition = 0;
     currentId = m_producer->parent().get("kdenlive:id");
-    if (producer) {
+    if (producer != nullptr) {
         m_producer = producer;
     } else {
         if (currentId == QLatin1String("black")) {
@@ -937,7 +937,7 @@ int GLWidget::setProducer(std::shared_ptr<Mlt::Producer> producer, bool isActive
         if (m_audioWaveDisplayed) {
             removeAudioOverlay();
         }
-        m_producer = m_blackClip;
+        m_producer = &*m_blackClip;
     }
     // redundant check. postcondition of above is m_producer != null
     if (m_producer) {
@@ -1163,7 +1163,7 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
             // A & B
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_frame_show);
         }
-        m_consumer->connect(*m_producer.get());
+        m_consumer->connect(*m_producer);
         m_consumer->start();
         return 0;
     }
@@ -1241,7 +1241,7 @@ int GLWidget::reconfigure(Mlt::Profile *profile)
     if (m_consumer->is_valid()) {
         // Connect the producer to the consumer - tell it to "run" later
         if (m_producer) {
-            m_consumer->connect(*m_producer.get());
+            m_consumer->connect(*m_producer);
             // m_producer->set_speed(0.0);
         }
         int dropFrames = realTime();
@@ -1786,7 +1786,7 @@ void GLWidget::refreshSceneLayout()
 void GLWidget::switchPlay(bool play, double speed)
 {
     m_proxy->setSeekPosition(-1);
-    if (!m_producer || !m_consumer) {
+    if ((m_producer == nullptr) || (m_consumer == nullptr)) {
         return;
     }
     if (m_isZoneMode) {
@@ -1943,7 +1943,7 @@ void GLWidget::setDropFrames(bool drop)
 
 int GLWidget::volume() const
 {
-    if ((!m_consumer) || (!m_producer)) {
+    if ((m_consumer == nullptr) || (m_producer == nullptr)) {
         return -1;
     }
     if (m_consumer->get("mlt_service") == QStringLiteral("multi")) {
@@ -1965,7 +1965,7 @@ void GLWidget::setVolume(double volume)
 
 int GLWidget::duration() const
 {
-    if (!m_producer) {
+    if (m_producer == nullptr) {
         return 0;
     }
     return m_producer->get_playtime();

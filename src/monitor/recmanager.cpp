@@ -407,8 +407,8 @@ void RecManager::slotPreview(bool preview)
 {
     if (m_device_selector->currentData().toInt() == Video4Linux) {
         if (preview) {
-            std::shared_ptr<Mlt::Producer> prod(createV4lProducer());
-            if (prod && prod->is_valid()) {
+            Mlt::Producer *prod = createV4lProducer();
+            if ((prod != nullptr) && prod->is_valid()) {
                 m_monitor->updateClipProducer(prod);
             } else {
                 emit warningMessage(i18n("Capture crashed, please check your parameters"));

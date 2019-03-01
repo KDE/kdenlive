@@ -168,7 +168,7 @@ public:
 
     /* @brief Returns the current tractor's producer, useful fo control seeking, playing, etc
      */
-    std::shared_ptr<Mlt::Producer> producer();
+    Mlt::Producer *producer();
     Mlt::Profile *getProfile();
 
     /* @brief returns the number of tracks */

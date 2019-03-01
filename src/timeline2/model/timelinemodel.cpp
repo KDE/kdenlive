@@ -2633,9 +2633,10 @@ void TimelineModel::setTimelineEffectsEnabled(bool enabled)
     // TODO if we support track effects, they should be disabled here too
 }
 
-std::shared_ptr<Mlt::Producer> TimelineModel::producer()
+Mlt::Producer *TimelineModel::producer()
 {
-    return std::make_shared<Mlt::Producer>(tractor());
+    auto *prod = new Mlt::Producer(tractor());
+    return prod;
 }
 
 void TimelineModel::checkRefresh(int start, int end)
