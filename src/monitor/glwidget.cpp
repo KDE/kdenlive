@@ -699,7 +699,7 @@ void GLWidget::requestRefresh()
     if (m_proxy->seeking()) {
         return;
     }
-    if (!m_producer && qFuzzyIsNull(m_producer->get_speed())) {
+    if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
         m_refreshTimer.start();
     }
 }
