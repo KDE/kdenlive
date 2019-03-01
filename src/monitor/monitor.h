@@ -152,7 +152,7 @@ public:
     void activateSplit();
     /** @brief Clear monitor display **/
     void clearDisplay();
-    void setProducer(Mlt::Producer *producer, int pos = -1);
+    void setProducer(std::shared_ptr<Mlt::Producer> producer, int pos = -1);
     void reconfigure();
     /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
@@ -198,7 +198,7 @@ private:
     std::shared_ptr<SnapModel> m_snaps;
 
     Mlt::Filter *m_splitEffect;
-    Mlt::Producer *m_splitProducer;
+    std::shared_ptr<Mlt::Producer> m_splitProducer;
     int m_length;
     bool m_dragStarted;
     // TODO: Move capture stuff in own class
@@ -280,7 +280,7 @@ private slots:
 public slots:
     void slotOpenDvdFile(const QString &);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
-    void updateClipProducer(Mlt::Producer *prod);
+    void updateClipProducer(std::shared_ptr<Mlt::Producer> prod);
     void updateClipProducer(const QString &playlist);
     void slotOpenClip(std::shared_ptr<ProjectClip> controller, int in = -1, int out = -1);
     void slotRefreshMonitor(bool visible);

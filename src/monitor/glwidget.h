@@ -150,7 +150,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
-    int setProducer(Mlt::Producer *producer, bool isActive, int position = -1);
+    int setProducer(std::shared_ptr<Mlt::Producer> producer, bool isActive, int position = -1);
     QString frameToTime(int frames) const;
 
 public slots:
@@ -196,7 +196,7 @@ protected:
     // keeping this for refactoring ease.
     QMutex m_mltMutex;
     std::shared_ptr<Mlt::Consumer> m_consumer;
-    Mlt::Producer *m_producer;
+    std::shared_ptr<Mlt::Producer> m_producer;
     Mlt::Profile *m_monitorProfile;
     int m_id;
     int m_rulerHeight;
@@ -231,7 +231,7 @@ private:
     QPoint m_offset;
     bool m_audioWaveDisplayed;
     MonitorProxy *m_proxy;
-    QScopedPointer<Mlt::Producer> m_blackClip;
+    std::shared_ptr<Mlt::Producer> m_blackClip;
     static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
     static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
