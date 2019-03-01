@@ -265,6 +265,9 @@ Rectangle {
         onPositionChanged: {
             var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
             root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                timeline.position = Math.round(mapped / timeline.scaleFactor)
+            }
         }
         onEntered: {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)

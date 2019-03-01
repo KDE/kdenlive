@@ -800,11 +800,16 @@ Rectangle {
                     mouse.accepted = false
                     return
                 }
-                root.mousePosChanged(Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)))
+                var mousePos = Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
+                root.mousePosChanged(mousePos)
                 ruler.showZoneLabels = mouse.y < ruler.height
-                if ((mouse.modifiers & Qt.ShiftModifier) && mouse.buttons === Qt.LeftButton && !rubberSelect.visible && rubberSelect.y > 0) {
-                    // rubber selection
-                    rubberSelect.visible = true
+                if (mouse.modifiers & Qt.ShiftModifier) {
+                    if (!pressed) {
+                        timeline.position = mousePos
+                    } else if (mouse.buttons === Qt.LeftButton && !rubberSelect.visible && rubberSelect.y > 0) {
+                        // rubber selection
+                        rubberSelect.visible = true
+                    }
                 }
                 if (rubberSelect.visible) {
                     var newX = mouse.x

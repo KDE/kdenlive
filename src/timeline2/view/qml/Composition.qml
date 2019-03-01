@@ -178,6 +178,13 @@ Item {
                 timeline.editItemDuration(clipId)
             }
         }
+        onPositionChanged: {
+            var mapped = parentTrack.mapFromItem(compositionRoot, mouse.x, mouse.y).x
+            root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                timeline.position = Math.round(mapped / timeline.scaleFactor)
+            }
+        }
         onWheel: zoomByWheel(wheel)
     }
 
