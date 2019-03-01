@@ -171,7 +171,7 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             drag.minimumX: 0
-            drag.maximumX: ruler.width
+            drag.maximumX: ruler.width - trimOut.width
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     controller.zoneOut = Math.round((trimOut.x + trimOut.width) / root.timeScale)

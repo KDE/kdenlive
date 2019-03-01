@@ -837,19 +837,9 @@ bool ProjectClip::isReady() const
     return m_clipStatus == StatusReady;
 }
 
-/*void ProjectClip::setZone(const QPoint &zone)
-{
-    m_zone = zone;
-}*/
-
 QPoint ProjectClip::zone() const
 {
-    int x = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
-    int y = getProducerIntProperty(QStringLiteral("kdenlive:zone_out"));
-    if (y <= x) {
-        y = getFramePlaytime();
-    }
-    return QPoint(x, y);
+    return ClipController::zone();
 }
 
 const QString ProjectClip::hash()

@@ -149,7 +149,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     if (!right && in + delta < 0 && !m_endlessResize) {
         return false;
     }
-    if (!m_endlessResize && right && out - delta >= m_producer->get_length()) {
+    if (!m_endlessResize && right && (out - delta >= m_producer->get_length())) {
         return false;
     }
     if (right) {

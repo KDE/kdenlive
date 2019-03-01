@@ -960,7 +960,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (useTargets && m_audioTarget == -1 && m_videoTarget == -1) {
         useTargets = false;
     }
-
     if (dropType == PlaylistState::Disabled && (type == ClipType::AV || type == ClipType::Playlist)) {
         if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
