@@ -1812,7 +1812,8 @@ void GLWidget::switchPlay(bool play, double speed)
 
 bool GLWidget::playZone(bool loop)
 {
-    if (!m_producer) {
+    if (!m_producer || m_proxy->zoneOut() <= m_proxy->zoneIn()) {
+        pCore->displayMessage(i18n("Select a zone to play"), InformationMessage, 500);
         return false;
     }
     m_proxy->setSeekPosition(-1);
@@ -1832,7 +1833,8 @@ bool GLWidget::playZone(bool loop)
 
 bool GLWidget::loopClip()
 {
-    if (!m_producer) {
+    if (!m_producer || m_proxy->zoneOut() <= m_proxy->zoneIn()) {
+        pCore->displayMessage(i18n("Select a zone to play"), InformationMessage, 500);
         return false;
     }
     m_proxy->setSeekPosition(-1);
