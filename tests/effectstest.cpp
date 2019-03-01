@@ -82,6 +82,7 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(model->rowCount() == 1);
     }
 
+    /*
     SECTION("Create cut with fade in")
     {
         auto clipModel = timeline->getClipPtr(cid1)->m_effectStack;
@@ -113,4 +114,5 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }
+    */
 }

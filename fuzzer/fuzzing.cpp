@@ -416,4 +416,7 @@ void fuzz(const std::string &input)
     pCore->m_projectManager = nullptr;
     Core::m_self.reset();
     MltConnection::m_self.reset();
+    std::cout << "---------------------------------------------------------------------------------------------------------------------------------------------"
+                 "---------------"
+              << std::endl;
 }

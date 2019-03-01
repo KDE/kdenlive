@@ -363,7 +363,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 Monitor::~Monitor()
 {
     delete m_splitEffect;
-    delete m_splitProducer;
     delete m_audioMeterWidget;
     delete m_glMonitor;
     delete m_videoWidget;
@@ -1326,7 +1325,7 @@ void Monitor::slotLoopClip()
     }
 }
 
-void Monitor::updateClipProducer(Mlt::Producer *prod)
+void Monitor::updateClipProducer(std::shared_ptr<Mlt::Producer> prod)
 {
     if (m_glMonitor->setProducer(prod, isActive(), -1)) {
         prod->set_speed(1.0);
@@ -1380,7 +1379,7 @@ void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int 
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
         }
-        m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), in);
+        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
         m_glMonitor->setAudioThumb(controller->audioChannels(), controller->audioFrameCache);
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
@@ -1826,9 +1825,9 @@ void Monitor::slotSwitchCompare(bool enable)
         buildSplitEffect(m_controller->masterProducer());
     } else if (m_splitEffect) {
         // TODO
-        m_glMonitor->setProducer(m_controller->originalProducer().get(), isActive(), position());
+        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), position());
         delete m_splitEffect;
-        m_splitProducer = nullptr;
+        m_splitProducer.reset();
         m_splitEffect = nullptr;
         loadQmlScene(MonitorSceneDefault);
     }
@@ -1878,7 +1877,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     t.set("always_active", 1);
     trac.plant_transition(t, 0, 1);
     delete original;
-    m_splitProducer = new Mlt::Producer(trac.get_producer());
+    m_splitProducer = std::make_shared<Mlt::Producer>(trac.get_producer());
     m_glMonitor->setProducer(m_splitProducer, isActive(), position());
     m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), m_controller->getMarkerModel());
     loadQmlScene(MonitorSceneSplit);
@@ -2082,7 +2081,7 @@ void Monitor::requestSeek(int pos)
     m_glMonitor->seek(pos);
 }
 
-void Monitor::setProducer(Mlt::Producer *producer, int pos)
+void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
     m_glMonitor->setProducer(producer, isActive(), pos);
 }
