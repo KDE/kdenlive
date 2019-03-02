@@ -97,14 +97,12 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     QWriteLocker locker(&m_lock);
     Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
-    std::unordered_set<int> roots;
-    std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
-    if (roots.size() == 1 && !force) {
+    if (ids.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
-        return *(roots.begin());
+        return *(ids.begin());
     }
     int gid = TimelineModel::getNextId();
-    auto operation = groupItems_lambda(gid, roots, type);
+    auto operation = groupItems_lambda(gid, ids, type);
     if (operation()) {
         auto reverse = destructGroupItem_lambda(gid);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -401,8 +399,8 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         }
         return true;
     };
-    Fun reverse = [old_parents, parent_changer]() { return parent_changer(old_parents); };
-    Fun operation = [new_parents, parent_changer]() { return parent_changer(new_parents); };
+    Fun reverse = [this, old_parents, parent_changer]() { return parent_changer(old_parents); };
+    Fun operation = [this, new_parents, parent_changer]() { return parent_changer(new_parents); };
     bool res = operation();
     if (!res) {
         bool undone = reverse();
@@ -597,7 +595,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
         Q_ASSERT(m_upLink.count(g) > 0);
         old_parents[g] = m_upLink[g];
     }
-    Fun operation = [this, gid, type, to_add, parent = m_upLink.at(id)]() {
+    Fun operation = [this, id, gid, type, to_add, parent = m_upLink.at(id)]() {
         createGroupItem(gid);
         setGroup(gid, parent);
         for (const auto &g : to_add) {
@@ -606,7 +604,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
         setType(gid, type);
         return true;
     };
-    Fun reverse = [this, old_parents, gid]() {
+    Fun reverse = [this, id, old_parents, gid]() {
         for (const auto &g : old_parents) {
             setGroup(g.first, g.second);
         }
