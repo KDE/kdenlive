@@ -18,6 +18,10 @@ if (POLICY CMP0053)
     cmake_policy(SET CMP0053 NEW)
 endif()
 
+if (BUILD_FUZZING)
+  SET(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
+endif()
+
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version" ON)
 option(BUILD_TESTING "Build tests" ON)

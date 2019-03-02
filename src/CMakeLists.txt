@@ -1,3 +1,35 @@
+### Find packages files
+find_package(LibV4L2)
+set_package_properties(LibV4L2 PROPERTIES
+    DESCRIPTION "video4linux support libraries"
+    URL "http://freecode.com/projects/libv4l"
+    TYPE RUNTIME
+    PURPOSE "Required for better webcam support")
+
+if(NOT WIN32)
+    find_package(PkgConfig QUIET)
+    execute_process(
+        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=mltdatadir mlt-framework
+        OUTPUT_VARIABLE MLT_DATADIR
+        RESULT_VARIABLE MLT_DATADIR_failed)
+    if(NOT MLT_DATADIR_failed)
+        string(REGEX REPLACE "[\r\n]" "" MLT_DATADIR "${MLT_DATADIR}")
+    endif()
+
+    execute_process(
+        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=meltbin mlt-framework
+        OUTPUT_VARIABLE MLT_MELTBIN
+        RESULT_VARIABLE MLT_MELTBIN_failed)
+    if(NOT MLT_MELTBIN_failed)
+        string(REGEX REPLACE "[\r\n]" "" MLT_MELTBIN "${MLT_MELTBIN}")
+    endif()
+else()
+    set(MLT_MELTBIN "melt.exe")
+    set(MLT_DATADIR "../share/mlt")
+endif()
+configure_file(mlt_config.h.in ${CMAKE_BINARY_DIR}/mlt_config.h)
+
+
 ### Find source files
 add_subdirectory(abstractmodel)
 add_subdirectory(assets)
@@ -67,28 +99,6 @@ install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 
 install(FILES kdenliveui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kdenlive)
 
-if(NOT WIN32)
-    find_package(PkgConfig QUIET)
-    execute_process(
-        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=mltdatadir mlt-framework
-        OUTPUT_VARIABLE MLT_DATADIR
-        RESULT_VARIABLE MLT_DATADIR_failed)
-    if(NOT MLT_DATADIR_failed)
-        string(REGEX REPLACE "[\r\n]" "" MLT_DATADIR "${MLT_DATADIR}")
-    endif()
-
-    execute_process(
-        COMMAND ${PKG_CONFIG_EXECUTABLE} --variable=meltbin mlt-framework
-        OUTPUT_VARIABLE MLT_MELTBIN
-        RESULT_VARIABLE MLT_MELTBIN_failed)
-    if(NOT MLT_MELTBIN_failed)
-        string(REGEX REPLACE "[\r\n]" "" MLT_MELTBIN "${MLT_MELTBIN}")
-    endif()
-else()
-    set(MLT_MELTBIN "melt.exe")
-    set(MLT_DATADIR "../share/mlt")
-endif()
-configure_file(mlt_config.h.in ${CMAKE_BINARY_DIR}/mlt_config.h)
 
 target_include_directories(kdenliveLib
     PRIVATE ${CMAKE_BINARY_DIR}
@@ -191,12 +201,6 @@ elseif(SDL_FOUND)
     target_link_libraries(kdenliveLib ${SDL_LIBRARY})
 endif()
 
-find_package(LibV4L2)
-set_package_properties(LibV4L2 PROPERTIES 
-    DESCRIPTION "video4linux support libraries"
-    URL "http://freecode.com/projects/libv4l"
-    TYPE RUNTIME
-    PURPOSE "Required for better webcam support")
 if(LIBV4L2_FOUND)
     target_include_directories(kdenliveLib PRIVATE SYSTEM ${LIBV4L2_INCLUDE_DIR})
     target_link_libraries(kdenliveLib ${LIBV4L2_LIBRARY})

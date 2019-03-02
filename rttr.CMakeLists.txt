@@ -5,11 +5,19 @@ ExternalProject_Add(rttr_project
     UPDATE_COMMAND ""
     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DBUILD_EXAMPLES=OFF -DBUILD_DOCUMENTATION=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_STATIC=ON
 )
+
 ExternalProject_Get_Property(rttr_project install_dir)
-add_library(rttr_core STATIC IMPORTED)
-add_dependencies(rttr_core rttr_project)
 file(MAKE_DIRECTORY "${install_dir}/include")
 file(MAKE_DIRECTORY "${install_dir}/lib")
+
+add_custom_target(rttr_copy
+    COMMAND ${CMAKE_COMMAND} -E copy ${install_dir}/lib*/*.a ${install_dir}/lib
+)
+
+add_dependencies(rttr_copy rttr_project)
+
+add_library(rttr_core STATIC IMPORTED)
+add_dependencies(rttr_core rttr_copy)
 #file(TOUCH "${install_dir}/lib/librttr_core.a")
 execute_process(COMMAND touch "${install_dir}/lib/librttr_core.a")
 set_target_properties(rttr_core PROPERTIES
