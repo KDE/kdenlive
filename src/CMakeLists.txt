@@ -29,6 +29,14 @@ else()
 endif()
 configure_file(mlt_config.h.in ${CMAKE_BINARY_DIR}/mlt_config.h)
 
+check_include_files(linux/input.h HAVE_LINUX_INPUT_H)
+if(HAVE_LINUX_INPUT_H)
+    list(APPEND kdenlive_SRCS
+        jogshuttle/jogmanager.cpp
+        jogshuttle/jogaction.cpp
+        jogshuttle/jogshuttle.cpp
+        jogshuttle/jogshuttleconfig.cpp)
+endif()
 
 ### Find source files
 add_subdirectory(abstractmodel)
@@ -58,14 +66,6 @@ add_subdirectory(widgets)
 add_subdirectory(xml)
 if(Qt5WebKitWidgets_FOUND)
     add_subdirectory(qt-oauth-lib)
-endif()
-check_include_files(linux/input.h HAVE_LINUX_INPUT_H)
-if(HAVE_LINUX_INPUT_H)
-    list(APPEND kdenlive_SRCS
-        jogshuttle/jogmanager.cpp
-        jogshuttle/jogaction.cpp
-        jogshuttle/jogshuttle.cpp
-        jogshuttle/jogshuttleconfig.cpp)
 endif()
 ## top_SRCS
 file(GLOB top_SRCS "*.cpp")
