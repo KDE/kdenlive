@@ -725,7 +725,7 @@ bool TimelineController::pasteItem()
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
         int newId;
-        bool created = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), speed, undo, redo);
+        bool created = m_model->requestClipCreation(trackId, originalId, newId, m_model->getTrackById_const(trackId)->trackType(), speed, undo, redo);
         if (created) {
             // Master producer is ready
             //ids.removeAll(originalId);
