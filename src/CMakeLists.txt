@@ -59,6 +59,7 @@ add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC})
 
 qt5_add_resources(kdenlive_extra_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
 add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS})
+target_include_directories(kdenlive PRIVATE ${CMAKE_BINARY_DIR})
 target_link_libraries(kdenlive kdenliveLib)
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 
@@ -127,6 +128,7 @@ target_link_libraries(kdenliveLib
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
     rttr_core)
+add_dependencies(kdenliveLib rttr_project)
 
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)

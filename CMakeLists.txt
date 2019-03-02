@@ -117,7 +117,6 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
   endif()
 endif()
 
-# may need to build "rttr_project" first?
 include(rttr.CMakeLists.txt)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
