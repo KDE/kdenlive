@@ -43,7 +43,7 @@ struct TimelineFunctions
        Returns true on success
        @param timeline : ptr to the timeline model
        @param clipId: Id of the clip to split
-       @param position: position (in frames) where to cut
+       @param position: position (in frames from the beginning of the timeline) where to cut
     */
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
     /* This is the same function, except that it accumulates undo/redo */

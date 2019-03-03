@@ -1642,11 +1642,11 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
             return -1;
         }
     }
-    int groupId = m_groups->groupItems(ids, undo, redo, type);
-    if (type == GroupType::Selection && *(ids.begin()) == groupId) {
+    if (type == GroupType::Selection && ids.size() == 1) {
         // only one element selected, no group created
         return -1;
     }
+    int groupId = m_groups->groupItems(ids, undo, redo, type);
     return groupId;
 }
 

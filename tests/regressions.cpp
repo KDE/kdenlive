@@ -413,3 +413,141 @@ TEST_CASE("Regression 4")
     timeline->requestClipMove(12,9 ,521, true, true );
 }
 */
+
+TEST_CASE("FuzzBug1")
+{
+    auto binModel = pCore->projectItemModel();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    TimelineModel::next_id = 0;
+    {
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        ProjectManager &mocked = pmMock.get();
+        pCore->m_projectManager = &mocked;
+        TimelineItemModel tim_0(&reg_profile, undoStack);
+        Mock<TimelineItemModel> timMock_0(tim_0);
+        auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
+        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        Fake(Method(timMock_0, adjustAssetRange));
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        TrackModel::construct(timeline_0, -1, -1, "", false);
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        TrackModel::construct(timeline_0, -1, -1, "$$$", false);
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            bool res = timeline_0->requestTrackDeletion(2);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            bool res = timeline_0->requestTrackDeletion(1);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_1;
+            bool res = timeline_0->requestTrackInsertion(-1, dummy_1, "", false);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_1;
+            bool res = timeline_0->requestTrackInsertion(-1, dummy_1, "", false);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        createProducer(reg_profile, "red", binModel, 20, true);
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_3;
+            bool res = timeline_0->requestClipInsertion("2", 3, 0, dummy_3, true, false, true);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_3;
+            bool res = timeline_0->requestClipInsertion("2", 3, 20, dummy_3, true, false, true);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_3;
+            bool res = timeline_0->requestClipInsertion("2", 3, 40, dummy_3, true, false, true);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int res = timeline_0->requestClipsGroup({5, 7}, true, GroupType::Normal);
+            REQUIRE(res == 8);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int res = timeline_0->requestClipsGroup({6, 7}, true, GroupType::Normal);
+            REQUIRE(res == 9);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int res = timeline_0->requestClipsGroup({6, 7}, false, GroupType::Normal);
+            REQUIRE(res == 9);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+    }
+    pCore->m_projectManager = nullptr;
+}
