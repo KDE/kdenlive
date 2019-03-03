@@ -72,9 +72,6 @@ file(GLOB top_SRCS "*.cpp")
 # string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/lib/[^;]+;?" "" top_SRCS "${top_SRCS}") 
 list(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 list(APPEND kdenlive_SRCS ${top_SRCS})
-## Icon for Windows and OSX
-file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
-ecm_add_app_icon(kdenlive_SRCS ICONS ${ICONS_SRCS})
 ## Others special cases
 kconfig_add_kcfg_files(kdenlive_SRCS kdenlivesettings.kcfgc)
 install(FILES kdenlivesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR})
@@ -90,6 +87,9 @@ set_property(SOURCE definitions.h PROPERTY SKIP_AUTOMOC ON)
 add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC})
 
 qt5_add_resources(kdenlive_extra_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
+## Icon for Windows and OSX
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
+ecm_add_app_icon(kdenlive_extra_SRCS ICONS ${ICONS_SRCS})
 add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
