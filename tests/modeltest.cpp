@@ -792,7 +792,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(tid6);
     }
 
-    SECTION("Movement of AV groups")
+    SECTION("Creation and movement of AV groups")
     {
         int tid6b = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
@@ -805,6 +805,14 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->requestClipInsertion(binId3, tid5, 3, cid6, true, true, false));
         int cid7 = timeline->m_groups->getSplitPartner(cid6);
 
+        auto check_group = [&]() {
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid6) == std::unordered_set<int>({cid6, cid7}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid6);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+
         auto state = [&](int pos) {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid5) == 1);
@@ -815,6 +823,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getClipPosition(cid7) == pos);
             REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
             REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+            check_group();
         };
         state(3);
 
@@ -847,6 +856,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getClipPosition(cid7) == pos);
             REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
             REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+            check_group();
         };
         state2(7);
         undoStack->undo();
@@ -865,47 +875,6 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         undoStack->undo();
         undoStack->undo();
         state(1);
-
-        // Switching audio and video, going to the extra track
-        REQUIRE(timeline->requestClipMove(cid7, tid5b, 2, true, true, true) == 0);
-        // This test is invalid. AV clips cannot be switched between audio and video clips anymore
-        /*auto state3 = [&](int pos) {
-            REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->getTrackClipsCount(tid5b) == 1);
-            REQUIRE(timeline->getTrackClipsCount(tid6b) == 1);
-            REQUIRE(timeline->getClipTrackId(cid6) == tid6b);
-            REQUIRE(timeline->getClipTrackId(cid7) == tid5b);
-            REQUIRE(timeline->getClipPosition(cid6) == pos);
-            REQUIRE(timeline->getClipPosition(cid7) == pos);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
-        };
-        state3(2);
-        undoStack->undo();
-        state(1);
-        undoStack->redo();
-        state3(2);
-        undoStack->undo();
-        state(1);*/
-
-        // Switching audio and video, switching tracks in place
-        REQUIRE(timeline->requestClipMove(cid6, tid6, 1, true, true, true) == 0);
-        /*auto state4 = [&](int pos) {
-            REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->getTrackClipsCount(tid5) == 1);
-            REQUIRE(timeline->getTrackClipsCount(tid6) == 1);
-            REQUIRE(timeline->getClipTrackId(cid6) == tid6);
-            REQUIRE(timeline->getClipTrackId(cid7) == tid5);
-            REQUIRE(timeline->getClipPosition(cid6) == pos);
-            REQUIRE(timeline->getClipPosition(cid7) == pos);
-            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::VideoOnly);
-            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
-        };
-        state4(1);
-        undoStack->undo();
-        state(1);
-        undoStack->redo();
-        state4(1);*/
     }
 
     SECTION("Clip copy")
@@ -1745,7 +1714,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     timeline->m_allClips[cid6]->m_endlessResize = false;
     timeline->m_allClips[cid7]->m_endlessResize = false;
 
-    SECTION("Clip splitting")
+    SECTION("Clip cutting")
     {
         // Trivial split
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
@@ -1767,8 +1736,10 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         };
         state();
 
+        // require cut position outside the clip
         REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 0));
         REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 5 * l));
+        // can't cut on edges either
         REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l));
         REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l + l - 5));
         state();
@@ -1799,7 +1770,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         state2();
     }
 
-    SECTION("Split and resize")
+    SECTION("Cut and resize")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
         int l = timeline->getClipPlaytime(cid1);
@@ -1857,7 +1828,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         state3();
     }
 
-    SECTION("Clip splitting 2")
+    SECTION("Clip cutting 2")
     {
         // More complex group structure split split
         int l = timeline->getClipPlaytime(cid2);
@@ -2136,6 +2107,84 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         undoStack->redo();
         state2();
     }
+    SECTION("Cut should preserve AV groups")
+    {
+        QString binId3 = createProducerWithSound(profile_model, binModel);
+        int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid5 = TrackModel::construct(timeline);
+
+        int cid6 = -1;
+        int pos = 3;
+        REQUIRE(timeline->requestClipInsertion(binId3, tid5, pos, cid6, true, true, false));
+        int cid7 = timeline->m_groups->getSplitPartner(cid6);
+        int l = timeline->getClipPlaytime(cid6);
+        REQUIRE(l >= 10);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid6) == 1);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid5);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid6);
+            REQUIRE(timeline->getClipPosition(cid6) == pos);
+            REQUIRE(timeline->getClipPosition(cid7) == pos);
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid6) == std::unordered_set<int>({cid6, cid7}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid6);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state();
+
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid6, pos + 4));
+
+        int cid8 = timeline->getClipByPosition(tid5, pos + 5);
+        int cid9 = timeline->getClipByPosition(tid6, pos + 5);
+        REQUIRE(cid8 >= 0);
+        REQUIRE(cid9 >= 0);
+
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5) == 2);
+            REQUIRE(timeline->getTrackClipsCount(tid6) == 2);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid5);
+            REQUIRE(timeline->getClipTrackId(cid7) == tid6);
+            REQUIRE(timeline->getClipTrackId(cid8) == tid5);
+            REQUIRE(timeline->getClipTrackId(cid9) == tid6);
+
+            REQUIRE(timeline->getClipPosition(cid6) == pos);
+            REQUIRE(timeline->getClipPosition(cid7) == pos);
+            REQUIRE(timeline->getClipPosition(cid8) == pos + 4);
+            REQUIRE(timeline->getClipPosition(cid9) == pos + 4);
+
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(timeline->getClipPtr(cid8)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid9)->clipState() == PlaylistState::AudioOnly);
+
+            // original AV group
+            REQUIRE(timeline->getGroupElements(cid6) == std::unordered_set<int>({cid6, cid7}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid6);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid6, cid7}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+
+            // new AV group
+            REQUIRE(timeline->getGroupElements(cid8) == std::unordered_set<int>({cid8, cid9}));
+            int g2 = timeline->m_groups->getDirectAncestor(cid8);
+            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({cid8, cid9}));
+            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
+        };
+        state2();
+
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();
