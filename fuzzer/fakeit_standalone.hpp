@@ -8,6 +8,11 @@
  */
 
 
+#if defined __GNUC__
+#    pragma GCC diagnostic push
+#    pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
+#    pragma GCC diagnostic ignored "-Wsuggest-override"
+#endif
 
 
 
@@ -9344,3 +9349,7 @@ namespace fakeit {
 #define When(call) \
     When(call)
 
+
+#if defined __GNUC__
+#    pragma GCC diagnostic pop
+#endif

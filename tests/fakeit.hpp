@@ -14,6 +14,7 @@
 #if defined __GNUC__
 #    pragma GCC diagnostic push
 #    pragma GCC diagnostic ignored "-Wcast-function-type"
+#    pragma GCC diagnostic ignored "-Wsuggest-override"
 #endif
 
 #include <functional>
@@ -9381,7 +9382,9 @@ namespace fakeit {
 //#    else
 //#        pragma clang diagnostic pop
 //#    endif
-#elif defined __GNUC__
+#endif
+
+#if defined __GNUC__
 #    pragma GCC diagnostic pop
 #endif
 

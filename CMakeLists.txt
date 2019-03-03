@@ -21,6 +21,7 @@ endif()
 if (BUILD_FUZZING)
   SET(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
 endif()
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option")
 
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version" ON)
@@ -166,7 +167,7 @@ endif()
 if (BUILD_FUZZING)
     message(STATUS "Building fuzzing")
 	set(CMAKE_CXX_COMPILER /usr/bin/clang++)
-    set(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
     add_subdirectory(fuzzer)
 endif()
 
