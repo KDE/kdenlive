@@ -33,11 +33,6 @@
 #include <unordered_set>
 #include <vector>
 
-//#define LOGGING 1 // If set to 1, we log the actions requested to the timeline as a reproducer script
-#ifdef LOGGING
-#include <fstream>
-#endif
-
 class AssetParameterModel;
 class EffectStackModel;
 class ClipModel;
@@ -721,9 +716,7 @@ protected:
     std::unique_ptr<Mlt::Producer> m_blackClip;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
-#ifdef LOGGING
-    std::ofstream m_logFile; // this is a temporary debug member to help reproduce issues
-#endif
+
     bool m_timelineEffectsEnabled;
 
     bool m_id; // id of the timeline itself
