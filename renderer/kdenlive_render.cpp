@@ -120,7 +120,7 @@ int main(int argc, char **argv)
         }
         RenderJob *rJob = new RenderJob(render, playlist, target, pid, in, out);
         rJob->start();
-        app.exec();
+        return app.exec();
     } else {
         fprintf(stderr,
                 "Kdenlive video renderer for MLT.\nUsage: "
@@ -138,5 +138,6 @@ int main(int argc, char **argv)
                 "  src: source file (usually MLT XML)\n"
                 "  dest: destination file\n"
                 "  args: space separated libavformat arguments\n");
+        return 1;
     }
 }
