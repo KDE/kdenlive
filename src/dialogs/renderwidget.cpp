@@ -2088,7 +2088,9 @@ void RenderWidget::checkRenderStatus()
 
 void RenderWidget::startRendering(RenderJobItem *item)
 {
-    if (!QProcess::startDetached(m_renderer, item->data(1, ParametersRole).toStringList())) {
+    auto rendererArgs = item->data(1, ParametersRole).toStringList();
+    qDebug() << "starting kdenlive_render process using: " << m_renderer;
+    if (!QProcess::startDetached(m_renderer, rendererArgs)) {
         item->setStatus(FAILEDJOB);
     } else {
         KNotification::event(QStringLiteral("RenderStarted"), i18n("Rendering <i>%1</i> started", item->text(1)), QPixmap(), this);
