@@ -89,8 +89,8 @@ add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC})
 qt5_add_resources(kdenlive_extra_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
 ## Icon for Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../data/icons/*-apps-kdenlive.png")
-ecm_add_app_icon(kdenlive_extra_SRCS ICONS ${ICONS_SRCS})
-add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS})
+ecm_add_app_icon(kdenlive ICONS ${ICONS_SRCS}) # icon name = variable name
+add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
     SYSTEM ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
