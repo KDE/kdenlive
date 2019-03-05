@@ -587,13 +587,6 @@ Rectangle {
                 border.color: selected? 'red' : 'transparent'
                 border.width: selected? 1 : 0
                 z: 1
-                MouseArea {
-                    anchors.fill: parent
-                    acceptedButtons: Qt.LeftButton
-                    onClicked: {
-                        //timeline.selectMultitrack()
-                    }
-                }
             }
             Flickable {
                 // Non-slider scroll area for the track headers.
@@ -774,7 +767,7 @@ Rectangle {
                         }
                     } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
                         if (mouse.y > ruler.height) {
-                            timeline.selection = []
+                            controller.requestClearSelection();
                         }
                         timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                         timeline.position = timeline.seekPosition
@@ -988,10 +981,10 @@ Rectangle {
                                     if (mouse.modifiers & Qt.ShiftModifier) {
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
                                             console.log('ADD SELECTION: ', dragProxy.draggedItem)
-                                            timeline.addSelection(dragProxy.draggedItem)
+                                            controller.requestAddToSelection(dragProxy.draggedItem)
                                         } else {
                                             console.log('REMOVE SELECTION: ', dragProxy.draggedItem)
-                                            timeline.removeSelection(dragProxy.draggedItem)
+                                            controller.requestRemoveFromSelection(dragProxy.draggedItem)
                                             //endDrag()
                                             shiftClick = true
                                             return
@@ -999,7 +992,7 @@ Rectangle {
                                         shiftClick = true
                                     } else {
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
-                                            timeline.selection = [ dragProxy.draggedItem ]
+                                            controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                         }
                                         shiftClick = false
                                     }

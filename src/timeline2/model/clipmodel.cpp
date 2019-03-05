@@ -125,7 +125,6 @@ void ClipModel::deregisterClipToBin()
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     binClip->deregisterTimelineClip(m_id);
-    pCore->removeFromSelection(m_id);
 }
 
 ClipModel::~ClipModel() = default;

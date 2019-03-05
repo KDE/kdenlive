@@ -300,10 +300,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getPosition();
         case DurationRole:
             return clip->getPlaytime();
-        case GroupedRole: {
-            int parentId = m_groups->getDirectAncestor(id);
-            return parentId != -1 && parentId != m_temporarySelectionGroup;
-        }
+        case GroupedRole:
+            return m_groups->isInGroup(id);
         case EffectNamesRole:
             return clip->effectNames();
         case InPointRole:
@@ -491,23 +489,6 @@ const QString TimelineItemModel::groupsData()
 bool TimelineItemModel::loadGroups(const QString &groupsData)
 {
     return m_groups->fromJson(groupsData);
-}
-
-bool TimelineItemModel::isInMultiSelection(int cid) const
-{
-    if (m_temporarySelectionGroup == -1) {
-        return false;
-    }
-    bool res = (m_groups->getRootId(cid) == m_temporarySelectionGroup) && (m_groups->getDirectChildren(m_temporarySelectionGroup).size() != 1);
-    return res;
-}
-
-bool TimelineItemModel::isSelected(int cid) const
-{
-    if (m_temporarySelectionGroup == -1) {
-        return false;
-    }
-    return m_groups->getRootId(cid) == m_temporarySelectionGroup;
 }
 
 void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb)

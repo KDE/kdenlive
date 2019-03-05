@@ -51,8 +51,13 @@ struct TimelineFunctions
     /* This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
     static bool processClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
-    /* @brief Makes a perfect copy of a given clip, but do not insert it */
-    static bool copyClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    /* @brief Makes a perfect clone of a given clip, but do not insert it */
+    static bool cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+
+    /* @brief Creates a string representation of the given clips, that can then be pasted using pasteClips(). Return an empty string on failure */
+    static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> itemIds);
+    /* @brief Paste the clips as described by the string. Returns true on success*/
+    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);
 
     /* @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
@@ -93,7 +98,7 @@ struct TimelineFunctions
     static bool requestSplitVideo(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int videoTarget);
     static void setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack);
     static void enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable);
-    static void saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> selection, const QDir &targetDir);
+    static void saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection, const QDir &targetDir);
     /** @brief returns the number of same type tracks between 2 tracks
      */
     static int getTrackOffset(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int destTrack);

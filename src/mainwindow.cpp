@@ -2352,39 +2352,39 @@ void MainWindow::slotRemoveAllSpace()
 void MainWindow::slotInsertTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    getMainTimeline()->controller()->addTrack(-1);
+    getCurrentTimeline()->controller()->addTrack(-1);
 }
 
 void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    getMainTimeline()->controller()->deleteTrack(-1);
+    getCurrentTimeline()->controller()->deleteTrack(-1);
 }
 
 void MainWindow::slotSelectTrack()
 {
-    getMainTimeline()->controller()->selectCurrentTrack();
+    getCurrentTimeline()->controller()->selectCurrentTrack();
 }
 
 void MainWindow::slotSelectAllTracks()
 {
 
-    getMainTimeline()->controller()->selectAll();
+    getCurrentTimeline()->controller()->selectAll();
 }
 
 void MainWindow::slotUnselectAllTracks()
 {
-    getMainTimeline()->controller()->clearSelection();
+    getCurrentTimeline()->model()->requestClearSelection();
 }
 
 void MainWindow::slotEditGuide()
 {
-    getMainTimeline()->controller()->editGuide();
+    getCurrentTimeline()->controller()->editGuide();
 }
 
 void MainWindow::slotDeleteGuide()
 {
-    getMainTimeline()->controller()->switchGuide(-1, true);
+    getCurrentTimeline()->controller()->switchGuide(-1, true);
 }
 
 void MainWindow::slotDeleteAllGuides()

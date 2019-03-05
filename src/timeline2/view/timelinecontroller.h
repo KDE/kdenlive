@@ -39,7 +39,7 @@ class TimelineController : public QObject
     Q_OBJECT
     /* @brief holds a list of currently selected clips (list of clipId's)
      */
-    Q_PROPERTY(QList<int> selection READ selection WRITE setSelection NOTIFY selectionChanged)
+    Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
     /* @brief holds the timeline zoom factor
      */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -78,27 +78,35 @@ public:
     void setModel(std::shared_ptr<TimelineItemModel> model);
     std::shared_ptr<TimelineItemModel> getModel() const;
     void setRoot(QQuickItem *root);
-
-    Q_INVOKABLE bool isMultitrackSelected() const { return m_selection.isMultitrackSelected; }
-    Q_INVOKABLE int selectedTrack() const { return m_selection.selectedTrack; }
-    /** @brief Remove a clip id from current selection
-     */
-    Q_INVOKABLE void removeSelection(int newSelection);
-    /** @brief Add a clip id to current selection
-     */
-    Q_INVOKABLE void addSelection(int newSelection, bool clear = false);
     /** @brief Edit an item's in/out points with a dialog
      */
     Q_INVOKABLE void editItemDuration(int itemId);
-    /** @brief Clear current selection and inform the view
-     */
-    void clearSelection();
+
+    /** @brief Returns the topmost track containing a selected item (-1 if selection is embty) */
+    Q_INVOKABLE int selectedTrack() const;
+
+    /** @brief Select the clip in active track under cursor
+        @param type is the type of the object (clip or composition)
+        @param select: true if the object should be selected and false if it should be deselected
+        @param addToCurrent: if true, the object will be added to the new selection
+    */
+    void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
+
     /** @brief Select all timeline items
      */
     void selectAll();
     /* @brief Select all items in one track
      */
     void selectCurrentTrack();
+    /** @brief Select multiple objects on the timeline
+        @param tracks List of ids of tracks from which to select
+        @param start/endFrame Interval from which to select the items
+        @param addToSelect if true, the old selection is retained
+    */
+    Q_INVOKABLE void selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect);
+    /* @brief Returns true is item is selected as well as other items */
+    Q_INVOKABLE bool isInSelection(int itemId);
+
     /* @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;
@@ -235,9 +243,6 @@ public:
     Q_INVOKABLE void showAsset(int id);
     Q_INVOKABLE void showTrackAsset(int trackId);
 
-    Q_INVOKABLE void selectItems(const QVariantList &arg, int startFrame, int endFrame, bool addToSelect);
-    /* @brief Returns true is item is selected as well as other items */
-    Q_INVOKABLE bool isInSelection(int itemId);
     Q_INVOKABLE bool exists(int itemId);
 
     Q_INVOKABLE int headerWidth() const;
@@ -258,12 +263,6 @@ public:
     /* @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
-    /* @brief Sets the list of currently selected clips
-       @param selection is the list of id's
-       @param trackIndex is current clip's track
-       @param isMultitrack is true if we want to select the whole tractor (currently unused)
-     */
-    void setSelection(const QList<int> &selection = QList<int>(), int trackIndex = -1, bool isMultitrack = false);
     /* @brief Get the list of currently selected clip id's
      */
     QList<int> selection() const;
@@ -416,8 +415,6 @@ public:
     void resetTrackHeight();
     /** @brief timeline preview params changed, reset */
     void resetPreview();
-    /** @brief Select the clip in active track under cursor */
-    void selectCurrentItem(ObjectType type, bool select, bool addToCurrent = false);
     /** @brief Set target tracks (video, audio) */
     void setTargetTracks(QPair<int, int> targets);
     /** @brief Return asset's display name from it's id (effect or composition) */
@@ -428,7 +425,6 @@ public:
     QStringList getThumbKeys();
 
 public slots:
-    void selectMultitrack();
     void resetView();
     Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE void setAudioTarget(int track);
@@ -449,7 +445,6 @@ public slots:
     void setScrollPos(int pos);
 
 private slots:
-    void slotUpdateSelection(int itemId);
     void updateClipActions();
 
 public:
@@ -461,12 +456,6 @@ private:
     KActionCollection *m_actionCollection;
     std::shared_ptr<TimelineItemModel> m_model;
     bool m_usePreview;
-    struct Selection
-    {
-        QList<int> selectedItems;
-        int selectedTrack;
-        bool isMultitrackSelected;
-    };
     int m_position;
     int m_seekPosition;
     int m_audioTarget;
@@ -476,18 +465,13 @@ private:
     QPoint m_zone;
     double m_scale;
     static int m_duration;
-    Selection m_selection;
-    Selection m_savedSelection;
     PreviewManager *m_timelinePreview;
     QAction *m_disablePreview;
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
 
-    void emitSelectedFromSelection();
     int getCurrentItem();
     void initializePreview();
-    // Get a list of currently selected items, including clips grouped with selection
-    std::unordered_set<int> getCurrentSelectionIds() const;
 
 signals:
     void selected(Mlt::Producer *producer);

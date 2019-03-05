@@ -876,7 +876,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(1);
     }
 
-    SECTION("Clip copy")
+    SECTION("Clip clone")
     {
         int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
         int l = timeline->getClipPlaytime(cid6);
@@ -887,7 +887,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
 
         std::function<bool(void)> undo = []() { return true; };
         std::function<bool(void)> redo = []() { return true; };
-        REQUIRE(TimelineFunctions::copyClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo));
+        REQUIRE(TimelineFunctions::cloneClip(timeline, cid6, newId, PlaylistState::VideoOnly, undo, redo));
         REQUIRE(timeline->m_allClips[cid6]->binId() == timeline->m_allClips[newId]->binId());
         // TODO check effects
     }
@@ -2025,7 +2025,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         REQUIRE(timeline->requestClipMove(audio3, tid1, 2 * l));
 
         std::unordered_set<int> selection{audio1, audio3, audio2};
-        REQUIRE(timeline->requestClipsGroup(selection, false, GroupType::Selection));
+        timeline->requestSetSelection(selection);
 
         auto state = [&]() {
             REQUIRE(timeline->checkConsistency());
@@ -2043,10 +2043,8 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
 
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, audio2, audio3}));
 
-            int sel = timeline->m_temporarySelectionGroup;
-            // check that selection is preserved
-            REQUIRE(sel != -1);
-            REQUIRE(timeline->m_groups->getType(sel) == GroupType::Selection);
+            REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>({audio1, audio3, audio2}));
+
         };
         state();
 
@@ -2078,20 +2076,11 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getTrackClipsCount(tid4) == 3);
 
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, splitted1, audio2, audio3, splitted2, splitted3}));
-
-            int sel = timeline->m_temporarySelectionGroup;
-            // check that selection is preserved
-            REQUIRE(sel != -1);
-            REQUIRE(timeline->m_groups->getType(sel) == GroupType::Selection);
-
-            REQUIRE(timeline->m_groups->getRootId(audio1) == sel);
-            REQUIRE(timeline->m_groups->getDirectChildren(sel).size() == 3);
-            REQUIRE(timeline->m_groups->getLeaves(sel).size() == 6);
+            REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>({audio1, splitted1, audio2, audio3, splitted2, splitted3}));
 
             int g1 = timeline->m_groups->getDirectAncestor(audio1);
             int g2 = timeline->m_groups->getDirectAncestor(audio2);
             int g3 = timeline->m_groups->getDirectAncestor(audio3);
-            REQUIRE(timeline->m_groups->getDirectChildren(sel) == std::unordered_set<int>({g1, g2, g3}));
             REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({audio1, splitted1}));
             REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({audio2, splitted2}));
             REQUIRE(timeline->m_groups->getDirectChildren(g3) == std::unordered_set<int>({audio3, splitted3}));
