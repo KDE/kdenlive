@@ -4,9 +4,9 @@ project(Kdenlive)
 # stable release. An additional number can be used for bugfix-only releases.
 
 # KDE Application Version, managed by release script
-set (KDE_APPLICATIONS_VERSION_MAJOR "19")
-set (KDE_APPLICATIONS_VERSION_MINOR "03")
-set (KDE_APPLICATIONS_VERSION_MICRO "70")
+set(KDE_APPLICATIONS_VERSION_MAJOR "19")
+set(KDE_APPLICATIONS_VERSION_MINOR "03")
+set(KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
 
@@ -14,14 +14,16 @@ cmake_minimum_required(VERSION 3.0)
 if(POLICY CMP0063)
   cmake_policy(SET CMP0063 NEW)
 endif()
-if (POLICY CMP0053)
+if(POLICY CMP0053)
     cmake_policy(SET CMP0053 NEW)
 endif()
 
-if (BUILD_FUZZING)
-  SET(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
+if(BUILD_FUZZING)
+  set(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
 endif()
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option")
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option")
+endif()
 
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version" ON)
@@ -80,21 +82,21 @@ endif()
 
 # Optional deps status
 find_package(KF5 5.23.0 OPTIONAL_COMPONENTS XmlGui QUIET)
-if (KF5XmlGui_FOUND)
+if(KF5XmlGui_FOUND)
   message(STATUS "Found KF5 >= 5.23.0 enabling icon coloring")
 else()
   message(STATUS "KF5 < 5.23.0 Disable icon coloring")
   set(KF5_ICON_COMPATIBILITY TRUE)
 endif()
 
-if (KF5FileMetaData_FOUND)
+if(KF5FileMetaData_FOUND)
   message(STATUS "Found KF5 FileMetadata to extract file metadata")
   set(KF5_FILEMETADATA TRUE)
 else()
   message(STATUS "KF5 FileMetadata not found, file metadata will not be available")
 endif()
 
-if (KF5Purpose_FOUND)
+if(KF5Purpose_FOUND)
   message(STATUS "Found KF5 Purpose, filesharing enabled")
   set(KF5_PURPOSE TRUE)
 else()
@@ -128,7 +130,7 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-suggest-override")
 
 # Sources
 add_subdirectory(src)
@@ -145,7 +147,7 @@ install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 # Tests
 ############################
 
-if (BUILD_TESTING)
+if(BUILD_TESTING)
     message(STATUS "Building tests")
     add_subdirectory(tests)
 
@@ -164,7 +166,7 @@ if (BUILD_TESTING)
     add_test(runTests runTests -d yes)
 endif()
 
-if (BUILD_FUZZING)
+if(BUILD_FUZZING)
     message(STATUS "Building fuzzing")
 	set(CMAKE_CXX_COMPILER /usr/bin/clang++)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
