@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "assetlistwidget.hpp"
+#include "assets/assetlist/model/assetfilter.hpp"
+#include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KDeclarative/KDeclarative>

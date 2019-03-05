@@ -23,6 +23,7 @@
 #define EFFECTFILTER_H
 
 #include "assets/assetlist/model/assetfilter.hpp"
+#include "effects/effectsrepository.hpp"
 #include <QSortFilterProxyModel>
 #include <memory>
 

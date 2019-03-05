@@ -32,7 +32,6 @@ class Producer;
 }
 class EffectStackModel;
 class MarkerListModel;
-class ProjectClip;
 class TimelineModel;
 class TrackModel;
 class KeyframeModel;

@@ -23,7 +23,6 @@
 #define MOVEABLEITEM_H
 
 #include "timelinemodel.hpp"
-#include "trackmodel.hpp"
 #include "undohelper.hpp"
 #include <QObject>
 #include <QReadWriteLock>

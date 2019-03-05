@@ -22,7 +22,6 @@
 #ifndef ASSETFILTER_H
 #define ASSETFILTER_H
 
-#include "effects/effectsrepository.hpp"
 #include <QSortFilterProxyModel>
 #include <memory>
 

@@ -23,6 +23,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
 #include "utils/thumbnailcache.hpp"
+#include "xml/xml.hpp"
+
 // Temporary for testing
 #include "bin/model/markerlistmodel.hpp"
 
@@ -885,18 +887,20 @@ void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
     // First backup current project with fps appended
     QString message;
     if (m_project && m_project->isModified()) {
-        switch (KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()))) {
-            case KMessageBox::Yes:
-                // save document here. If saving fails, return false;
-                if (!saveFile()) {
-                    pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
-                    return;
-                }
-                break;
-            default:
+        switch (
+            KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?",
+                                                                  m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()))) {
+        case KMessageBox::Yes:
+            // save document here. If saving fails, return false;
+            if (!saveFile()) {
                 pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
                 return;
-                break;
+            }
+            break;
+        default:
+            pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+            return;
+            break;
         }
     }
 

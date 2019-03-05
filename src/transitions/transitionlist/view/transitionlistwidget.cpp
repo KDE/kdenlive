@@ -21,6 +21,7 @@
 
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
+#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "dialogs/profilesdialog.h"
 #include "mainwindow.h"
 #include "transitions/transitionlist/model/transitionfilter.hpp"

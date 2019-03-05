@@ -22,15 +22,16 @@
 #ifndef ASSETLISTWIDGET_H
 #define ASSETLISTWIDGET_H
 
-#include "../model/assetfilter.hpp"
-#include "../model/assettreemodel.hpp"
-#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "effects/effectsrepository.hpp"
 #include <QQuickWidget>
 #include <memory>
 
 /* @brief This class is a generic widget that display the list of available assets
  */
+
+class AssetIconProvider;
+class AssetFilter;
+class AssetTreeModel;
 
 class AssetListWidget : public QQuickWidget
 {
