@@ -663,5 +663,7 @@ bool ClipModel::checkConsistency()
         qDebug() << "ERROR: clip is in video state but doesn't have video";
         return false;
     }
+    // TODO: check speed
+
     return true;
 }
