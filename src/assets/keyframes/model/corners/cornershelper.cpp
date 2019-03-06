@@ -27,9 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 
 #include <QSize>
-
+#include <utility>
 CornersHelper::CornersHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, model, index, parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), std::move(index), parent)
 {
 }
 

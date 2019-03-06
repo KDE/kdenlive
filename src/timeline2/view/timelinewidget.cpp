@@ -114,7 +114,7 @@ const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isT
     return sortedItems.values();
 }
 
-void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
+void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model)
 {
     m_thumbnailer->resetProject();
     m_sortModel.reset(new QSortFilterProxyModel(this));

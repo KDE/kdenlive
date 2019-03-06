@@ -77,7 +77,7 @@ public:
     virtual bool commitResult(Fun &undo, Fun &redo) = 0;
 
     // brief run a given job
-    static bool execute(std::shared_ptr<AbstractClipJob> job);
+    static bool execute(const std::shared_ptr<AbstractClipJob> &job);
 
     /* @brief return the type of this job */
     JOBTYPE jobType() const;

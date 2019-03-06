@@ -357,7 +357,7 @@ private slots:
     void slotClipStart();
     void slotClipEnd();
     void slotSelectClipInTimeline();
-    void slotClipInTimeline(const QString &clipId, QList<int> ids);
+    void slotClipInTimeline(const QString &clipId, const QList<int> &ids);
 
     void slotInsertSpace();
     void slotRemoveSpace();

@@ -813,7 +813,7 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMap, int offset, Fun &undo, Fun &redo)
+bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };

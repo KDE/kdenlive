@@ -61,7 +61,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QWidgetAction>
-
+#include <utility>
 #define SEEK_INACTIVE (-1)
 
 QuickEventEater::QuickEventEater(QObject *parent)
@@ -1208,7 +1208,7 @@ void Monitor::seekCursor(int pos)
     }*/
 }
 
-void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel)
+void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel)
 {
     if (m_controller != nullptr) {
         m_glMonitor->setRulerInfo(length);
@@ -1326,7 +1326,7 @@ void Monitor::slotLoopClip()
     }
 }
 
-void Monitor::updateClipProducer(std::shared_ptr<Mlt::Producer> prod)
+void Monitor::updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod)
 {
     if (m_glMonitor->setProducer(prod, isActive(), -1)) {
         prod->set_speed(1.0);
@@ -1342,7 +1342,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     m_glMonitor->switchPlay(true);
 }
 
-void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
+void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
 {
     if (m_controller) {
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
@@ -2084,7 +2084,7 @@ void Monitor::requestSeek(int pos)
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
-    m_glMonitor->setProducer(producer, isActive(), pos);
+    m_glMonitor->setProducer(std::move(producer), isActive(), pos);
 }
 
 void Monitor::reconfigure()

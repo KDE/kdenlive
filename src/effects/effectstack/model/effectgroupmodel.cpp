@@ -36,7 +36,7 @@ std::shared_ptr<EffectGroupModel> EffectGroupModel::construct(const QString &nam
     QList<QVariant> data;
     data << name << name;
 
-    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, std::move(stack), isRoot));
+    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, stack, isRoot));
 
     baseFinishConstruct(self);
 

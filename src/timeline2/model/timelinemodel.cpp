@@ -86,7 +86,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     : QAbstractItemModel_shared_from_this()
     , m_tractor(new Mlt::Tractor(*profile))
     , m_snaps(new SnapModel())
-    , m_undoStack(undo_stack)
+    , m_undoStack(std::move(undo_stack))
     , m_profile(profile)
     , m_blackClip(new Mlt::Producer(*profile, "color:black"))
     , m_lock(QReadWriteLock::Recursive)
@@ -518,7 +518,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         notifyViewOnly = true;
         update_model = [clipId, this, invalidateTimeline]() {
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
-            notifyChange(modelIndex, modelIndex, {StartRole});
+            notifyChange(modelIndex, modelIndex, StartRole);
             if (invalidateTimeline) {
                 int in = getClipPosition(clipId);
                 emit invalidateZone(in, in + getClipPlaytime(clipId));
@@ -2197,7 +2197,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
         notifyViewOnly = true;
         update_model = [compoId, this]() {
             QModelIndex modelIndex = makeCompositionIndexFromID(compoId);
-            notifyChange(modelIndex, modelIndex, {StartRole});
+            notifyChange(modelIndex, modelIndex, StartRole);
             return true;
         };
     }
@@ -2343,7 +2343,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     field->unlock();
     if (updateView) {
         QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);
-        notifyChange(modelIndex, modelIndex, {ItemATrack});
+        notifyChange(modelIndex, modelIndex, ItemATrack);
     }
     return true;
 }

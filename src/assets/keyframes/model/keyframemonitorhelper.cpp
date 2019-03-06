@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 
 #include <QSize>
-
-KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
+#include <utility>
+KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent)
     : QObject(parent)
     , m_monitor(monitor)
-    , m_model(model)
+    , m_model(std::move(model))
     , m_active(false)
 {
     m_indexes << index;
@@ -48,7 +48,7 @@ bool KeyframeMonitorHelper::connectMonitor(bool activate)
     return m_active;
 }
 
-void KeyframeMonitorHelper::addIndex(QPersistentModelIndex index)
+void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
 {
     m_indexes << index;
 }

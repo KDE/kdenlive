@@ -471,7 +471,7 @@ void RenderWidget::setGuides(const QList<CommentedTime> &guidesList, double dura
     }
     double fps = pCore->getCurrentProfile()->fps();
     for (int i = 0; i < guidesList.count(); i++) {
-        CommentedTime c = guidesList.at(i);
+        const CommentedTime &c = guidesList.at(i);
         GenTime pos = c.time();
         const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
         m_view.guide_start->addItem(c.comment() + QLatin1Char('/') + guidePos, pos.seconds());
@@ -1153,7 +1153,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         doc.appendChild(chapters);
         const QList<CommentedTime> guidesList = project->getGuideModel()->getAllMarkers();
         for (int i = 0; i < guidesList.count(); i++) {
-            CommentedTime c = guidesList.at(i);
+            const CommentedTime &c = guidesList.at(i);
             int time = c.time().frames(pCore->getCurrentFps());
             if (time >= in && time < out) {
                 if (zoneOnly) {

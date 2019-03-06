@@ -332,7 +332,7 @@ bool MarkerListModel::hasMarker(int frame) const
     return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
 }
 
-void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
+void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel)
 {
     READ_LOCK();
     // make sure ptr is valid

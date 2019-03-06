@@ -25,7 +25,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include <memory>
 
-AssetCommand::AssetCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QString &value, QUndoCommand *parent)
+AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, const QString &value, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_index(index)
@@ -73,7 +73,7 @@ bool AssetCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetKeyframeCommand::AssetKeyframeCommand(std::shared_ptr<AssetParameterModel> model, const QModelIndex &index, const QVariant &value, GenTime pos,
+AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, const QVariant &value, GenTime pos,
                                            QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
@@ -120,7 +120,8 @@ bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetUpdateCommand::AssetUpdateCommand(std::shared_ptr<AssetParameterModel> model, const QVector<QPair<QString, QVariant>> parameters, QUndoCommand *parent)
+AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel> &model, const QVector<QPair<QString, QVariant>> &parameters,
+                                       QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_value(parameters)

@@ -168,7 +168,7 @@ void AbstractTreeModel::notifyRowAppended(const std::shared_ptr<TreeItem> &row)
 
 void AbstractTreeModel::notifyRowAboutToDelete(std::shared_ptr<TreeItem> item, int row)
 {
-    auto index = getIndexFromItem(std::move(item));
+    auto index = getIndexFromItem(item);
     beginRemoveRows(index, row, row);
 }
 
@@ -275,7 +275,7 @@ bool AbstractTreeModel::checkConsistency()
     return true;
 }
 
-Fun AbstractTreeModel::addItem_lambda(std::shared_ptr<TreeItem> new_item, int parentId)
+Fun AbstractTreeModel::addItem_lambda(const std::shared_ptr<TreeItem> &new_item, int parentId)
 {
     return [this, new_item, parentId]() {
         /* Insertion is simply setting the parent of the item.*/

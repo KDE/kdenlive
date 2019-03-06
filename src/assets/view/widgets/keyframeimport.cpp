@@ -19,6 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include "klocalizedstring.h"
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
@@ -30,8 +31,7 @@
 #include <QPainter>
 #include <QSpinBox>
 #include <QVBoxLayout>
-
-#include "klocalizedstring.h"
+#include <utility>
 
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "core.h"
@@ -46,7 +46,7 @@
 KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
                                QWidget *parent)
     : QDialog(parent)
-    , m_model(model)
+    , m_model(std::move(model))
     , m_supportsAnim(false)
 {
     auto *lay = new QVBoxLayout(this);

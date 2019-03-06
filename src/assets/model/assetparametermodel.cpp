@@ -191,7 +191,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
         for (int i = 0; i < points; i++) {
-            QString pointVal = vals.at(i);
+            const QString &pointVal = vals.at(i);
             int idx = 2 * i + 6;
             m_asset->set(QString::number(idx).toLatin1().constData(), pointVal.section(QLatin1Char('/'), 0, 0).toDouble());
             idx++;
@@ -805,7 +805,7 @@ bool AssetParameterModel::hasMoreThanOneKeyframe() const
     return false;
 }
 
-int AssetParameterModel::time_to_frames(const QString time)
+int AssetParameterModel::time_to_frames(const QString &time)
 {
     return m_asset->time_to_frames(time.toUtf8().constData());
 }

@@ -76,9 +76,9 @@ RTTR_REGISTRATION
     registration::class_<ProjectClip>("ProjectClip");
 }
 
-ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer)
+ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
-    , ClipController(id, producer)
+    , ClipController(id, std::move(producer))
     , m_thumbsProducer(nullptr)
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
@@ -105,8 +105,8 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<
 }
 
 // static
-std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
-                                                    std::shared_ptr<Mlt::Producer> producer)
+std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model,
+                                                    const std::shared_ptr<Mlt::Producer> &producer)
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
@@ -115,7 +115,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     return self;
 }
 
-ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model)
+ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
     , m_thumbsProducer(nullptr)
@@ -144,7 +144,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDomElement &description, const QIcon &thumb,
                                                     std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectClip> self(new ProjectClip(id, description, thumb, model));
+    std::shared_ptr<ProjectClip> self(new ProjectClip(id, description, thumb, std::move(model)));
     baseFinishConstruct(self);
     return self;
 }
@@ -391,7 +391,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
-    updateProducer(std::move(producer));
+    updateProducer(producer);
     m_thumbsProducer.reset();
     connectEffectStack();
 
@@ -794,7 +794,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
     return prod;
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(std::shared_ptr<Mlt::Producer> producer)
+std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     Mlt::Consumer c(*producer->profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
@@ -1314,7 +1314,7 @@ void ProjectClip::setBinEffectsEnabled(bool enabled)
     ClipController::setBinEffectsEnabled(enabled);
 }
 
-void ProjectClip::registerService(std::weak_ptr<TimelineModel> timeline, int clipId, std::shared_ptr<Mlt::Producer> service, bool forceRegister)
+void ProjectClip::registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, bool forceRegister)
 {
     if (!service->is_cut() || forceRegister) {
         int hasAudio = service->get_int("set.test_audio") == 0;
@@ -1329,7 +1329,7 @@ void ProjectClip::registerService(std::weak_ptr<TimelineModel> timeline, int cli
             m_effectStack->addService(m_audioProducers[clipId]);
         }
     }
-    registerTimelineClip(timeline, clipId);
+    registerTimelineClip(std::move(timeline), clipId);
 }
 
 void ProjectClip::registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId)
@@ -1417,7 +1417,7 @@ void ProjectClip::replaceInTimeline()
     }
 }
 
-void ProjectClip::updateTimelineClips(QVector<int> roles)
+void ProjectClip::updateTimelineClips(const QVector<int> &roles)
 {
     for (const auto &clip : m_registeredClips) {
         if (auto timeline = clip.second.lock()) {

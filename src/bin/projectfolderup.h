@@ -43,7 +43,7 @@ public:
     static std::shared_ptr<ProjectFolderUp> construct(std::shared_ptr<ProjectItemModel> model);
 
 protected:
-    explicit ProjectFolderUp(std::shared_ptr<ProjectItemModel> model);
+    explicit ProjectFolderUp(const std::shared_ptr<ProjectItemModel> &model);
 
 public:
     ~ProjectFolderUp();

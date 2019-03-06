@@ -51,7 +51,7 @@ BuiltStack::BuiltStack(AssetPanel *parent)
 
 BuiltStack::~BuiltStack() {}
 
-void BuiltStack::setModel(std::shared_ptr<EffectStackModel> model, ObjectId ownerId)
+void BuiltStack::setModel(const std::shared_ptr<EffectStackModel> &model, ObjectId ownerId)
 {
     m_model = model;
     if (ownerId.first == ObjectType::TimelineClip) {

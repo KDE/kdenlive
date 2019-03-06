@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 #include <QWindow>
 #include <unordered_map>
-
+#include <utility>
 // static
 QStringList ClipCreationDialog::getExtensions()
 {
@@ -131,7 +131,7 @@ void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parent
         int duration = doc->getFramePos(doc->timecode().getTimecode(t->gentime()));
         QString name = dia_ui.clip_name->text();
 
-        ClipCreator::createColorClip(color, duration, name, parentFolder, model);
+        ClipCreator::createColorClip(color, duration, name, parentFolder, std::move(model));
     }
 }
 
@@ -246,7 +246,7 @@ void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &pa
         properties[QStringLiteral("animation")] = dia->animation();
 
         int duration = doc->getFramePos(dia->clipDuration()) * dia->imageCount();
-        ClipCreator::createSlideshowClip(dia->selectedPath(), duration, dia->clipName(), parentId, properties, model);
+        ClipCreator::createSlideshowClip(dia->selectedPath(), duration, dia->clipName(), parentId, properties, std::move(model));
     }
 }
 
@@ -264,7 +264,8 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parent
         properties[QStringLiteral("xmldata")] = dia_ui->xml().toString();
         QString titleSuggestion = dia_ui->titleSuggest();
 
-        ClipCreator::createTitleClip(properties, dia_ui->duration() - 1, titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, parentFolder, model);
+        ClipCreator::createTitleClip(properties, dia_ui->duration() - 1, titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, parentFolder,
+                                     std::move(model));
     }
     delete dia_ui;
 }
@@ -275,7 +276,7 @@ void ClipCreationDialog::createTitleTemplateClip(KdenliveDoc *doc, const QString
     QScopedPointer<TitleTemplateDialog> dia(new TitleTemplateDialog(doc->projectDataFolder(), QApplication::activeWindow()));
 
     if (dia->exec() == QDialog::Accepted) {
-        ClipCreator::createTitleTemplate(dia->selectedTemplate(), dia->selectedText(), i18n("Template title clip"), parentFolder, model);
+        ClipCreator::createTitleTemplate(dia->selectedTemplate(), dia->selectedText(), i18n("Template title clip"), parentFolder, std::move(model));
     }
 }
 
@@ -344,7 +345,7 @@ for (const QUrl & file :  list) {
 }*/
 //}
 
-void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model)
 {
     qDebug() << "/////////// starting to add bin clips";
     QList<QUrl> list;

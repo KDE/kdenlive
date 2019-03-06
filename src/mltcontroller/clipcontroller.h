@@ -56,7 +56,7 @@ public:
      * @param bincontroller reference to the bincontroller
      * @param producer producer to create reference to
      */
-    explicit ClipController(const QString id, std::shared_ptr<Mlt::Producer> producer = nullptr);
+    explicit ClipController(const QString &id, const std::shared_ptr<Mlt::Producer> &producer = nullptr);
 
 public:
     virtual ~ClipController();
@@ -163,7 +163,7 @@ public:
     Mlt::Properties &properties();
     void mirrorOriginalProperties(Mlt::Properties &props);
     void addEffect(QDomElement &xml);
-    bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
+    bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     void removeEffect(int effectIndex, bool delayRefresh = false);
     /** @brief Enable/disable an effect. */
     void changeEffectState(const QList<int> &indexes, bool disable);

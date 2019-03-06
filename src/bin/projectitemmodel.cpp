@@ -46,6 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>
+#include <utility>
 
 ProjectItemModel::ProjectItemModel(QObject *parent)
     : AbstractTreeModel(parent)
@@ -309,7 +310,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
     return mimeData;
 }
 
-void ProjectItemModel::onItemUpdated(std::shared_ptr<AbstractProjectItem> item, int role)
+void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role)
 {
     auto tItem = std::static_pointer_cast<TreeItem>(item);
     auto ptr = tItem->parentItem().lock();
@@ -406,6 +407,7 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 void ProjectItemModel::clean()
 {
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
+    toDelete.reserve((size_t)rootItem->childCount());
     for (int i = 0; i < rootItem->childCount(); ++i) {
         toDelete.push_back(std::static_pointer_cast<AbstractProjectItem>(rootItem->child(i)));
     }
@@ -462,7 +464,7 @@ std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const Q
     return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
 }
 
-bool ProjectItemModel::requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProjectItem> &clip, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(clip);
@@ -516,7 +518,7 @@ int ProjectItemModel::getFreeClipId()
     return m_nextId;
 }
 
-bool ProjectItemModel::addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::addItem(const std::shared_ptr<AbstractProjectItem> &item, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(parentId);
@@ -594,7 +596,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     return res;
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> producer, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
@@ -648,7 +650,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     return res;
 }
 
-Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName)
+Fun ProjectItemModel::requestRenameFolder_lambda(const std::shared_ptr<AbstractProjectItem> &folder, const QString &newName)
 {
     int id = folder->getId();
     return [this, id, newName]() {
@@ -664,7 +666,7 @@ Fun ProjectItemModel::requestRenameFolder_lambda(std::shared_ptr<AbstractProject
     };
 }
 
-bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestRenameFolder(const std::shared_ptr<AbstractProjectItem> &folder, const QString &name, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     QString oldName = folder->name();
@@ -681,7 +683,7 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = requestRenameFolder(folder, name, undo, redo);
+    bool res = requestRenameFolder(std::move(folder), name, undo, redo);
     if (res) {
         pCore->pushUndo(undo, redo, i18n("Rename Folder"));
     }
@@ -892,7 +894,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
 void ProjectItemModel::saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata,
                                               std::shared_ptr<MarkerListModel> guideModel)
 {
-    m_binPlaylist->saveDocumentProperties(props, metadata, guideModel);
+    m_binPlaylist->saveDocumentProperties(props, metadata, std::move(guideModel));
 }
 
 void ProjectItemModel::saveProperty(const QString &name, const QString &value)
@@ -930,7 +932,7 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
     }
 }
 
-void ProjectItemModel::updateWatcher(std::shared_ptr<ProjectClip> clipItem)
+void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipItem)
 {
     if (clipItem->clipType() == ClipType::AV || clipItem->clipType() == ClipType::Audio || clipItem->clipType() == ClipType::Image ||
         clipItem->clipType() == ClipType::Video || clipItem->clipType() == ClipType::Playlist || clipItem->clipType() == ClipType::TextTemplate) {

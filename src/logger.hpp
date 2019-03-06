@@ -75,7 +75,7 @@ public:
 
 protected:
     /** @brief Look amongst the known instances to get the name of a given pointer */
-    static std::string get_ptr_name(rttr::variant ptr);
+    static std::string get_ptr_name(const rttr::variant &ptr);
     template <typename T> static size_t get_id_from_ptr(T *ptr);
     struct InvokId
     {

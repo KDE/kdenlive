@@ -51,10 +51,10 @@ public:
     AssetPanel(QWidget *parent);
 
     /* @brief Shows the parameters of the given transition model */
-    void showTransition(int tid, std::shared_ptr<AssetParameterModel> transition_model);
+    void showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transition_model);
 
     /* @brief Shows the parameters of the given effect stack model */
-    void showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes);
+    void showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes);
 
     /* @brief Clear the panel so that it doesn't display anything */
     void clear();

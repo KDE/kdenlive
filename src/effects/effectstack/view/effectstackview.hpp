@@ -93,9 +93,9 @@ private:
 
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
-    void slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height);
-    void slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel);
-    void slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel);
+    void slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height);
+    void slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel);
+    void slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel);
     void loadEffects();
 
     //    void switchBuiltStack(bool show);

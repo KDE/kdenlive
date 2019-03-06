@@ -47,7 +47,7 @@ const QString AbstractClipJob::getLogDetails() const
 }
 
 // static
-bool AbstractClipJob::execute(std::shared_ptr<AbstractClipJob> job)
+bool AbstractClipJob::execute(const std::shared_ptr<AbstractClipJob> &job)
 {
     return job->startJob();
 }

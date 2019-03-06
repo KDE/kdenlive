@@ -51,8 +51,9 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }
 
-std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model,
-                                                          int in, int out, const QString &timecode, const QString &name)
+std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
+                                                          const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
+                                                          const QString &name)
 {
     std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, name));
     baseFinishConstruct(self);

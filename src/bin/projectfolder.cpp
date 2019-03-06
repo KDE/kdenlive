@@ -28,8 +28,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 #include <QDomElement>
-
-ProjectFolder::ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)
+#include <utility>
+ProjectFolder::ProjectFolder(const QString &id, const QString &name, const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::FolderItem, id, model)
 {
     m_name = name;
@@ -39,13 +39,13 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, std::shared
 
 std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectFolder> self(new ProjectFolder(id, name, model));
+    std::shared_ptr<ProjectFolder> self(new ProjectFolder(id, name, std::move(model)));
 
     baseFinishConstruct(self);
     return self;
 }
 
-ProjectFolder::ProjectFolder(std::shared_ptr<ProjectItemModel> model)
+ProjectFolder::ProjectFolder(const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model, true)
 {
     m_name = QStringLiteral("root");
@@ -53,7 +53,7 @@ ProjectFolder::ProjectFolder(std::shared_ptr<ProjectItemModel> model)
 
 std::shared_ptr<ProjectFolder> ProjectFolder::construct(std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectFolder> self(new ProjectFolder(model));
+    std::shared_ptr<ProjectFolder> self(new ProjectFolder(std::move(model)));
 
     baseFinishConstruct(self);
     return self;

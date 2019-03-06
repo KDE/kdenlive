@@ -76,7 +76,7 @@ int main(int argc, char **argv)
             if (!prod.is_valid()) {
                 fprintf(stderr, "INVALID playlist: %s \n", playlist.toUtf8().constData());
             }
-            for (const QString frame : chunks) {
+            for (const QString &frame : chunks) {
                 fprintf(stderr, "START:%d \n", frame.toInt());
                 QString fileName = QStringLiteral("%1.%2").arg(frame).arg(extension);
                 if (baseFolder.exists(fileName)) {

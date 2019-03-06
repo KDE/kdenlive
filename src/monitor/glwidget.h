@@ -125,7 +125,7 @@ public:
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
     void requestRefresh();
-    void setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model = nullptr);
+    void setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
     bool loopClip();
@@ -150,7 +150,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
-    int setProducer(std::shared_ptr<Mlt::Producer> producer, bool isActive, int position = -1);
+    int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position = -1);
     QString frameToTime(int frames) const;
 
 public slots:

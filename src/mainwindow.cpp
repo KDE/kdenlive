@@ -797,7 +797,7 @@ void MainWindow::saveNewToolbarConfig()
 
 void MainWindow::slotReloadEffects(const QStringList &paths)
 {
-    for (const QString p : paths) {
+    for (const QString &p : paths) {
         EffectsRepository::get()->reloadCustom(p);
     }
     m_effectList2->reloadEffectMenu(m_effectsMenu, m_effectActions);
@@ -2745,7 +2745,7 @@ void MainWindow::slotPasteEffects()
     getMainTimeline()->controller()->pasteEffects();
 }
 
-void MainWindow::slotClipInTimeline(const QString &clipId, QList<int> ids)
+void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids)
 {
     Q_UNUSED(clipId)
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));

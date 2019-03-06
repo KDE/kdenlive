@@ -74,8 +74,8 @@ public:
        Useful for example if the child should be a subclass of TreeItem
        @return true on success. Otherwise, nothing is modified.
     */
-    bool appendChild(std::shared_ptr<TreeItem> child);
-    void moveChild(int ix, std::shared_ptr<TreeItem> child);
+    bool appendChild(const std::shared_ptr<TreeItem> &child);
+    void moveChild(int ix, const std::shared_ptr<TreeItem> &child);
 
     /* @brief Remove given child from children list. The parent of the child is updated
        accordingly
@@ -104,7 +104,7 @@ public:
        @param column Index of the column to look-up
     */
     QVariant dataColumn(int column) const;
-    void setData(int column, const QVariant dataColumn);
+    void setData(int column, const QVariant &dataColumn);
 
     /* @brief Return the index of current item amongst father's children
        Returns -1 on error (eg: no parent set)
@@ -146,7 +146,7 @@ protected:
     static void baseFinishConstruct(const std::shared_ptr<TreeItem> &self);
 
     /* @brief Helper functions to handle registration / deregistration to the model */
-    static void registerSelf(std::shared_ptr<TreeItem> self);
+    static void registerSelf(const std::shared_ptr<TreeItem> &self);
     void deregisterSelf();
 
     /* @brief Reflect update of the parent ptr (for example set the correct depth)

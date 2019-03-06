@@ -57,7 +57,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, std::move(stack), true));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, true));
 
     baseFinishConstruct(self);
     return self;
@@ -84,7 +84,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
     bool disable = effect->get_int("disable") == 0;
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, std::move(stack), disable));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, disable));
     baseFinishConstruct(self);
     return self;
 }

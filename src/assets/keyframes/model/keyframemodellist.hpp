@@ -82,9 +82,9 @@ public:
        @param value is the new value of the param
        @param index is the index of the wanted keyframe
     */
-    bool updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index);
+    bool updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index);
     bool updateKeyframeType(GenTime pos, int type, const QPersistentModelIndex &index);
-    bool updateKeyframe(GenTime oldPos, GenTime pos, QVariant normalizedVal, bool logUndo = true);
+    bool updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo = true);
     KeyframeType keyframeType(GenTime pos) const;
     /* @brief Returns a keyframe data at given pos
        ok is a return parameter, set to true if everything went good

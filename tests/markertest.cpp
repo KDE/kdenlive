@@ -25,7 +25,7 @@ using namespace fakeit;
 using Marker = std::tuple<GenTime, QString, int>;
 double fps;
 
-void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<Marker> &l, std::shared_ptr<SnapModel> snaps)
+void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::vector<Marker> &l, const std::shared_ptr<SnapModel> &snaps)
 {
     auto list = l;
     std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
@@ -49,8 +49,8 @@ void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<M
     }
 }
 
-void checkStates(std::shared_ptr<DocUndoStack> undoStack, std::shared_ptr<MarkerListModel> model, const std::vector<std::vector<Marker>> &states,
-                 std::shared_ptr<SnapModel> snaps)
+void checkStates(const std::shared_ptr<DocUndoStack> &undoStack, const std::shared_ptr<MarkerListModel> &model, const std::vector<std::vector<Marker>> &states,
+                 const std::shared_ptr<SnapModel> &snaps)
 {
     for (size_t i = 0; i < states.size(); ++i) {
         checkMarkerList(model, states[states.size() - 1 - i], snaps);

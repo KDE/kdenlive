@@ -925,7 +925,7 @@ void GLWidget::slotSwitchAudioOverlay(bool enable)
     }
 }
 
-int GLWidget::setProducer(std::shared_ptr<Mlt::Producer> producer, bool isActive, int position)
+int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position)
 {
     int error = 0;
     QString currentId;
@@ -1872,7 +1872,7 @@ int GLWidget::getCurrentPos() const
     return m_proxy->seeking() ? m_proxy->seekPosition() : m_consumer->position();
 }
 
-void GLWidget::setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model)
+void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model)
 {
     rootObject()->setProperty("duration", duration);
     if (model != nullptr) {

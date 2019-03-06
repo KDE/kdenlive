@@ -37,7 +37,7 @@ TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTr
 
 std::shared_ptr<TreeItem> TreeItem::construct(const QList<QVariant> &data, std::shared_ptr<AbstractTreeModel> model, bool isRoot, int id)
 {
-    std::shared_ptr<TreeItem> self(new TreeItem(data, std::move(model), isRoot, id));
+    std::shared_ptr<TreeItem> self(new TreeItem(data, model, isRoot, id));
     baseFinishConstruct(self);
     return self;
 }
@@ -67,7 +67,7 @@ std::shared_ptr<TreeItem> TreeItem::appendChild(const QList<QVariant> &data)
     return std::shared_ptr<TreeItem>();
 }
 
-bool TreeItem::appendChild(std::shared_ptr<TreeItem> child)
+bool TreeItem::appendChild(const std::shared_ptr<TreeItem> &child)
 {
     if (hasAncestor(child->getId())) {
         // in that case, we are trying to create a cycle, abort
@@ -98,7 +98,7 @@ bool TreeItem::appendChild(std::shared_ptr<TreeItem> child)
     return false;
 }
 
-void TreeItem::moveChild(int ix, std::shared_ptr<TreeItem> child)
+void TreeItem::moveChild(int ix, const std::shared_ptr<TreeItem> &child)
 {
     if (auto ptr = m_model.lock()) {
         auto parentPtr = child->m_parentItem.lock();
@@ -190,7 +190,7 @@ QVariant TreeItem::dataColumn(int column) const
     return m_itemData.value(column);
 }
 
-void TreeItem::setData(int column, const QVariant dataColumn)
+void TreeItem::setData(int column, const QVariant &dataColumn)
 {
     m_itemData[column] = dataColumn;
 }
@@ -225,7 +225,7 @@ bool TreeItem::isInModel() const
     return m_isInModel;
 }
 
-void TreeItem::registerSelf(std::shared_ptr<TreeItem> self)
+void TreeItem::registerSelf(const std::shared_ptr<TreeItem> &self)
 {
     for (const auto &child : self->m_childItems) {
         registerSelf(child);

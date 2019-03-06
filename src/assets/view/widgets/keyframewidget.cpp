@@ -45,9 +45,10 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <klocalizedstring.h>
+#include <utility>
 
 KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    : AbstractParamWidget(model, index, parent)
+    : AbstractParamWidget(std::move(model), index, parent)
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
 {
@@ -422,7 +423,7 @@ void KeyframeWidget::connectMonitor(bool active)
     }
 }
 
-void KeyframeWidget::slotUpdateKeyframesFromMonitor(QPersistentModelIndex index, const QVariant &res)
+void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
     if (m_keyframes->isEmpty()) {
         m_keyframes->addKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), KeyframeType::Linear);

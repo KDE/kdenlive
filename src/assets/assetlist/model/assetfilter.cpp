@@ -86,7 +86,7 @@ bool AssetFilter::isVisible(const QModelIndex &sourceIndex)
 
 bool AssetFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
-    return filterName(std::move(item));
+    return filterName(item);
 }
 
 QModelIndex AssetFilter::getNextChild(const QModelIndex &current)

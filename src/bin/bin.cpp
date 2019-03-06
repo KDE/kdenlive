@@ -75,7 +75,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QtConcurrent>
-
+#include <utility>
 /**
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
@@ -1661,7 +1661,7 @@ void Bin::slotSwitchClipProperties()
     slotSwitchClipProperties(nullptr);
 }
 
-void Bin::slotSwitchClipProperties(std::shared_ptr<ProjectClip> clip)
+void Bin::slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip)
 {
     if (clip == nullptr) {
         m_propertiesPanel->setEnabled(false);
@@ -1692,7 +1692,7 @@ void Bin::doRefreshPanel(const QString &id)
     }
 }
 
-void Bin::showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefresh)
+void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
 {
     if ((clip == nullptr) || !clip->isReady()) {
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
@@ -1817,17 +1817,17 @@ void Bin::slotOpenCurrent()
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller)
 {
-    emit openClip(controller);
+    emit openClip(std::move(controller));
 }
 
 void Bin::openProducer(std::shared_ptr<ProjectClip> controller, int in, int out)
 {
-    emit openClip(controller, in, out);
+    emit openClip(std::move(controller), in, out);
 }
 
 void Bin::emitItemUpdated(std::shared_ptr<AbstractProjectItem> item)
 {
-    emit itemUpdated(item);
+    emit itemUpdated(std::move(item));
 }
 
 void Bin::emitRefreshPanel(const QString &id)
@@ -2175,7 +2175,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
     }
 }
 
-void Bin::editMasterEffect(std::shared_ptr<AbstractProjectItem> clip)
+void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)
 {
     if (m_gainedFocus) {
         // Widget just gained focus, updating stack is managed in the eventfilter event, not from item
@@ -2645,7 +2645,7 @@ void Bin::slotGetCurrentProjectImage(const QString &clipId, bool request)
 }
 
 // TODO: move title editing into a better place...
-void Bin::showTitleWidget(std::shared_ptr<ProjectClip> clip)
+void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
 {
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
@@ -2803,7 +2803,7 @@ void Bin::updateTimelineProducers(const QString &id, const QMap<QString, QString
     // m_doc->renderer()->updateSlowMotionProducers(id, passProperties);
 }
 
-void Bin::showSlideshowWidget(std::shared_ptr<ProjectClip> clip)
+void Bin::showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip)
 {
     QString folder = QFileInfo(clip->url()).absolutePath();
     qCDebug(KDENLIVE_LOG) << " ** * CLIP ABS PATH: " << clip->url() << " = " << folder;
@@ -2882,7 +2882,7 @@ void Bin::refreshProxySettings()
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
     } else {
         QList<std::shared_ptr<ProjectClip>> toProxy;
-        for (std::shared_ptr<ProjectClip> clp : clipList) {
+        for (const std::shared_ptr<ProjectClip> &clp : clipList) {
             ClipType::ProducerType t = clp->clipType();
             if (t == ClipType::Playlist) {
                 toProxy << clp;
@@ -2913,7 +2913,7 @@ QStringList Bin::getProxyHashList()
 {
     QStringList list;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (std::shared_ptr<ProjectClip> clp : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clp : clipList) {
         if (clp->clipType() == ClipType::AV || clp->clipType() == ClipType::Video || clp->clipType() == ClipType::Playlist) {
             list << clp->hash();
         }
@@ -2947,7 +2947,7 @@ void Bin::reloadAllProducers()
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     emit openClip(std::shared_ptr<ProjectClip>());
-    for (std::shared_ptr<ProjectClip> clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc);
         // Make sure we reload clip length
@@ -2973,7 +2973,7 @@ void Bin::slotMessageActionTriggered()
 void Bin::resetUsageCount()
 {
     const QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (std::shared_ptr<ProjectClip> clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
         clip->setRefCount(0);
     }
 }
@@ -2981,7 +2981,7 @@ void Bin::resetUsageCount()
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (std::shared_ptr<ProjectClip> clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
         if (clip->refCount() == 0) {
             *unused += 1;
             *unusedSize += clip->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
@@ -3001,7 +3001,7 @@ void Bin::rebuildProxies()
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
-    for (std::shared_ptr<ProjectClip> clp : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clp : clipList) {
         if (clp->hasProxy()) {
             toProxy << clp;
             // Abort all pending jobs
@@ -3039,7 +3039,7 @@ void Bin::saveZone(const QStringList &info, const QDir &dir)
     }
 }
 
-void Bin::setCurrent(std::shared_ptr<AbstractProjectItem> item)
+void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
 {
     switch (item->itemType()) {
     case AbstractProjectItem::ClipItem: {

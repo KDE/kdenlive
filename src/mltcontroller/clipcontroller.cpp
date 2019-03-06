@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 
-ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Producer> producer)
+ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_masterProducer(producer)
@@ -866,7 +866,7 @@ void ClipController::addEffect(const QString &effectId)
     m_effectStack->appendEffect(effectId, true);
 }
 
-bool ClipController::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+bool ClipController::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId),
                               !m_hasAudio ? PlaylistState::VideoOnly : !m_hasVideo ? PlaylistState::AudioOnly : PlaylistState::Disabled);

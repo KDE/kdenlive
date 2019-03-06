@@ -1183,7 +1183,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
     // Parse clips
     QStringList externalProxyParams = m_documentProperties.value(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
     for (int i = 0; i < clipList.count(); ++i) {
-        std::shared_ptr<ProjectClip> item = clipList.at(i);
+        const std::shared_ptr<ProjectClip> &item = clipList.at(i);
         ClipType::ProducerType t = item->clipType();
         // Only allow proxy on some clip types
         if ((t == ClipType::Video || t == ClipType::AV || t == ClipType::Unknown || t == ClipType::Image || t == ClipType::Playlist ||

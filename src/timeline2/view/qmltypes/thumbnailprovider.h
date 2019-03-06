@@ -36,7 +36,7 @@ public:
 
 private:
     QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
-    QImage makeThumbnail(std::shared_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize);
+    QImage makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize);
     QCache<int, Mlt::Producer> m_producers;
 };
 

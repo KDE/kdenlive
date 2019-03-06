@@ -108,7 +108,7 @@ public:
        The snap logic for clips is managed from the Timeline
        Note that no deregistration is necessary, the weak_ptr will be discarded as soon as it becomes invalid.
     */
-    void registerSnapModel(std::weak_ptr<SnapModel> snapModel);
+    void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel);
 
     /* @brief Exports the model to json using format above */
     QString toJson() const;

@@ -2,7 +2,7 @@
 
 using namespace fakeit;
 
-bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<KeyframeModel> m2)
+bool test_model_equality(const std::shared_ptr<KeyframeModel> &m1, const std::shared_ptr<KeyframeModel> &m2)
 {
     // we cheat a bit by simply comparing the underlying map
     qDebug() << "Equality test" << m1->m_keyframeList.size() << m2->m_keyframeList.size();
@@ -17,7 +17,7 @@ bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<Keyf
     return model1 == model2;
 }
 
-bool check_anim_identity(std::shared_ptr<KeyframeModel> m)
+bool check_anim_identity(const std::shared_ptr<KeyframeModel> &m)
 {
     auto m2 = std::shared_ptr<KeyframeModel>(new KeyframeModel(m->m_model, m->m_index, m->m_undoStack));
     m2->parseAnimProperty(m->getAnimProperty());

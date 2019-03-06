@@ -46,8 +46,8 @@ class ClipModel : public MoveableItem<Mlt::Producer>
 
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
-    ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id, PlaylistState::ClipState state,
-              double speed = 1.);
+    ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
+              PlaylistState::ClipState state, double speed = 1.);
 
 public:
     ~ClipModel();
@@ -64,7 +64,7 @@ public:
     This variants assumes a producer is already known, which should typically happen only at loading time.
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer,
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
                          PlaylistState::ClipState state);
 
     /* @brief returns a property of the clip, or from it's parent if it's a cut
@@ -121,7 +121,7 @@ public:
     void deregisterClipToBin();
 
     bool addEffect(const QString &effectId);
-    bool copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId);
+    bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /* @brief Import effects from a different stackModel */
     bool importEffects(std::shared_ptr<EffectStackModel> stackModel);
     /* @brief Import effects from a service that contains some (another clip?) */
@@ -131,7 +131,7 @@ public:
     /** @brief Adjust effects duration. Should be called after each resize / cut operation */
     bool adjustEffectLength(bool adjustFromEnd, int oldIn, int newIn, int oldDuration, int duration, int offset, Fun &undo, Fun &redo, bool logUndo);
     bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo);
-    void passTimelineProperties(std::shared_ptr<ClipModel> other);
+    void passTimelineProperties(const std::shared_ptr<ClipModel> &other);
     KeyframeModel *getKeyframeModel();
 
     int fadeIn() const;

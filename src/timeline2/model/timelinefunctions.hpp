@@ -47,12 +47,12 @@ struct TimelineFunctions
     */
     static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position);
     /* This is the same function, except that it accumulates undo/redo */
-    static bool requestClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, Fun &undo, Fun &redo);
+    static bool requestClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, Fun &undo, Fun &redo);
     /* This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
-    static bool processClipCut(std::shared_ptr<TimelineItemModel> timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
+    static bool processClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
     /* @brief Makes a perfect copy of a given clip, but do not insert it */
-    static bool copyClip(std::shared_ptr<TimelineItemModel> timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    static bool copyClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
 
     /* @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
@@ -62,21 +62,21 @@ struct TimelineFunctions
      * @param position the position at which the clips should be inserted
      * @param clipIds a return parameter with the ids assigned to the clips if success, empty otherwise
      */
-    static bool requestMultipleClipsInsertion(std::shared_ptr<TimelineItemModel> timeline, const QStringList &binIds, int trackId, int position,
+    static bool requestMultipleClipsInsertion(const std::shared_ptr<TimelineItemModel> &timeline, const QStringList &binIds, int trackId, int position,
                                               QList<int> &clipIds, bool logUndo, bool refreshView);
 
-    static int requestSpacerStartOperation(std::shared_ptr<TimelineItemModel> timeline, int trackId, int position);
-    static bool requestSpacerEndOperation(std::shared_ptr<TimelineItemModel> timeline, int itemId, int startPosition, int endPosition);
-    static bool extractZone(std::shared_ptr<TimelineItemModel> timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
-    static bool liftZone(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool removeSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool insertSpace(std::shared_ptr<TimelineItemModel> timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool insertZone(std::shared_ptr<TimelineItemModel> timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
+    static int requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position);
+    static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition);
+    static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
+    static bool liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
+    static bool removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
+    static bool insertSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
+    static bool insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
                            bool overwrite);
 
-    static bool requestItemCopy(std::shared_ptr<TimelineItemModel> timeline, int clipId, int trackId, int position);
-    static void showClipKeyframes(std::shared_ptr<TimelineItemModel> timeline, int clipId, bool value);
-    static void showCompositionKeyframes(std::shared_ptr<TimelineItemModel> timeline, int compoId, bool value);
+    static bool requestItemCopy(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int trackId, int position);
+    static void showClipKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, bool value);
+    static void showCompositionKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int compoId, bool value);
 
     /* @brief If the clip is activated, disable, otherwise enable
      * @param timeline: pointer to the timeline that we modify
@@ -84,22 +84,22 @@ struct TimelineFunctions
      * @param status: target status of the clip
      This function creates an undo object and returns true on success
      */
-    static bool switchEnableState(std::shared_ptr<TimelineItemModel> timeline, int clipId);
+    static bool switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId);
     /* @brief change the clip state and accumulates for undo/redo
      */
-    static bool changeClipState(std::shared_ptr<TimelineItemModel> timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
+    static bool changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
 
-    static bool requestSplitAudio(std::shared_ptr<TimelineItemModel> timeline, int clipId, int audioTarget);
-    static bool requestSplitVideo(std::shared_ptr<TimelineItemModel> timeline, int clipId, int videoTarget);
-    static void setCompositionATrack(std::shared_ptr<TimelineItemModel> timeline, int cid, int aTrack);
-    static void enableMultitrackView(std::shared_ptr<TimelineItemModel> timeline, bool enable);
-    static void saveTimelineSelection(std::shared_ptr<TimelineItemModel> timeline, QList<int> selection, QDir targetDir);
+    static bool requestSplitAudio(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int audioTarget);
+    static bool requestSplitVideo(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int videoTarget);
+    static void setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack);
+    static void enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable);
+    static void saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> selection, const QDir &targetDir);
     /** @brief returns the number of same type tracks between 2 tracks
      */
-    static int getTrackOffset(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int destTrack);
+    static int getTrackOffset(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int destTrack);
     /** @brief returns an offset track id
      */
-    static int getOffsetTrackId(std::shared_ptr<TimelineItemModel> timeline, int startTrack, int offset, bool audioOffset);
+    static int getOffsetTrackId(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int offset, bool audioOffset);
 };
 
 #endif

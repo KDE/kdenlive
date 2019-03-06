@@ -109,7 +109,7 @@ public:
     Q_INVOKABLE bool updateKeyframe(int pos, double newVal);
     bool updateKeyframe(GenTime pos, QVariant value);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
-    bool updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo, bool update = true);
+    bool updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update = true);
     /* @brief updates the value of a keyframe, without any management of undo/redo
        @param pos is the position of the keyframe
        @param value is the new value of the param
@@ -155,7 +155,7 @@ public:
     /* @brief Return the interpolated value at given pos */
     QVariant getInterpolatedValue(int pos) const;
     QVariant getInterpolatedValue(const GenTime &pos) const;
-    QVariant updateInterpolated(QVariant interpValue, double val);
+    QVariant updateInterpolated(const QVariant &interpValue, double val);
     /* @brief Return the real value from a normalized one */
     QVariant getNormalizedValue(double newVal) const;
 
@@ -163,15 +163,15 @@ public:
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-    static QList<QPoint> getRanges(const QString &animData, std::shared_ptr<AssetParameterModel> model);
+    static QList<QPoint> getRanges(const QString &animData, const std::shared_ptr<AssetParameterModel> &model);
     static std::shared_ptr<Mlt::Properties> getAnimation(const QString &animData);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify);
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
-    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify);
+    Fun addKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify);
 
     /** @brief Helper function that generate a lambda to remove given keyframe */
     Fun deleteKeyframe_lambda(GenTime pos, bool notify);

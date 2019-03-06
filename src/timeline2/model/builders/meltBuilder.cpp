@@ -217,7 +217,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
 namespace {
 
 // This function tries to recover the state of the producer (audio or video or both)
-PlaylistState::ClipState inferState(std::shared_ptr<Mlt::Producer> prod, bool audioTrack)
+PlaylistState::ClipState inferState(const std::shared_ptr<Mlt::Producer> &prod, bool audioTrack)
 {
     auto getProperty = [prod](const QString &name) {
         if (prod->parent().is_valid()) {

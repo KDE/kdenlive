@@ -78,7 +78,7 @@ ClipType::ProducerType getTypeForService(const QString &id, const QString &path)
 }
 
 // Read the properties of the xml and pass them to the producer. Note that some properties like resource are ignored
-void processProducerProperties(std::shared_ptr<Mlt::Producer> prod, const QDomElement &xml)
+void processProducerProperties(const std::shared_ptr<Mlt::Producer> &prod, const QDomElement &xml)
 {
     // TODO: there is some duplication with clipcontroller > updateproducer that also copies properties
     QString value;
@@ -141,7 +141,7 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
     return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
 }
 
-void LoadJob::checkProfile(const QString clipId, QDomElement xml, std::shared_ptr<Mlt::Producer> producer)
+void LoadJob::checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer)
 {
     // Check if clip profile matches
     QString service = producer->get("mlt_service");

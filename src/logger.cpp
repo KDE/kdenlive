@@ -94,7 +94,7 @@ void Logger::stop_logging()
     std::unique_lock<std::mutex> lk(mut);
     is_executing = false;
 }
-std::string Logger::get_ptr_name(rttr::variant ptr)
+std::string Logger::get_ptr_name(const rttr::variant &ptr)
 {
     if (ptr.can_convert<TimelineModel *>()) {
         return "timeline_" + std::to_string(get_id_from_ptr(ptr.convert<TimelineModel *>()));

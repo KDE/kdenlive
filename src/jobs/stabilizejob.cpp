@@ -80,7 +80,8 @@ std::unordered_set<QString> StabilizeJob::supportedFilters()
 }
 
 // static
-int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, const QString &filterName)
+int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString,
+                             const QString &filterName)
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
     if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {
@@ -104,7 +105,7 @@ int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<
             // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
             // destination). We have to construct a lambda that does that.
 
-            auto createFn = [dest = std::move(destinations), fName = std::move(filterName), fParams = std::move(filterParams)](const QString &id) {
+            auto createFn = [dest = std::move(destinations), fName = filterName, fParams = std::move(filterParams)](const QString &id) {
                 return std::make_shared<StabilizeJob>(id, fName, dest.at(id), fParams);
             };
 

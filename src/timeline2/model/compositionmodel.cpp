@@ -110,7 +110,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         // Perform resize only
         setInOut(in, out);
     }
-    Fun operation = [in, out, track_operation, this]() {
+    Fun operation = [track_operation]() {
         if (track_operation()) {
             return true;
         }
@@ -130,7 +130,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             ptr->dataChanged(ix, ix, roles);
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
         }
-        Fun reverse = [old_in, old_out, track_reverse, this]() {
+        Fun reverse = [track_reverse]() {
             if (track_reverse()) {
                 return true;
             }
@@ -143,7 +143,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             if (oldDuration > 0) {
                 kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
             }
-            Fun refresh = [kfr, this]() {
+            Fun refresh = [kfr]() {
                 kfr->modelChanged();
                 return true;
             };

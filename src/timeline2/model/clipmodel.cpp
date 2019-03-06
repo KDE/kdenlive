@@ -31,7 +31,7 @@
 #include <mlt++/MltProducer.h>
 #include <utility>
 
-ClipModel::ClipModel(std::shared_ptr<TimelineModel> parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
+ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_ptr<Mlt::Producer> prod, const QString &binClipId, int id,
                      PlaylistState::ClipState state, double speed)
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
@@ -82,7 +82,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, std::shared_ptr<Mlt::Producer> producer,
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
                          PlaylistState::ClipState state)
 {
 
@@ -118,7 +118,7 @@ void ClipModel::registerClipToBin(std::shared_ptr<Mlt::Producer> service, bool r
         qDebug() << "Error : Bin clip for id: " << m_binClipId << " NOT AVAILABLE!!!";
     }
     qDebug() << "REGISTRATION " << m_id << "ptr count" << m_parent.use_count();
-    binClip->registerService(m_parent, m_id, service, registerProducer);
+    binClip->registerService(m_parent, m_id, std::move(service), registerProducer);
 }
 
 void ClipModel::deregisterClipToBin()
@@ -297,7 +297,7 @@ bool ClipModel::addEffect(const QString &effectId)
     return true;
 }
 
-bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+bool ClipModel::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
     m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), m_currentState);
@@ -307,14 +307,14 @@ bool ClipModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int row
 bool ClipModel::importEffects(std::shared_ptr<EffectStackModel> stackModel)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->importEffects(stackModel, m_currentState);
+    m_effectStack->importEffects(std::move(stackModel), m_currentState);
     return true;
 }
 
 bool ClipModel::importEffects(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->importEffects(service, m_currentState);
+    m_effectStack->importEffects(std::move(service), m_currentState);
     return true;
 }
 
@@ -574,7 +574,7 @@ ClipType::ProducerType ClipModel::clipType() const
     return m_clipType;
 }
 
-void ClipModel::passTimelineProperties(std::shared_ptr<ClipModel> other)
+void ClipModel::passTimelineProperties(const std::shared_ptr<ClipModel> &other)
 {
     READ_LOCK();
     Mlt::Properties source(m_producer->get_properties());

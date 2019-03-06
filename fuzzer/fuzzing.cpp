@@ -384,6 +384,7 @@ void fuzz(const std::string &input)
                     if (valid) {
                         // std::cout << "VALID!!!" << std::endl;
                         std::vector<rttr::argument> args;
+                        args.reserve(arguments.size());
                         for (const auto &a : arguments) {
                             args.emplace_back(a);
                             // std::cout<<"argument="<<a.get_type().get_name().to_string()<<std::endl;

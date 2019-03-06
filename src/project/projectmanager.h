@@ -84,7 +84,7 @@ public:
     /** @brief This will create a backup file with fps appended to project name,
      *  and save the project with an updated profile info, then reopen it.
      */
-    void saveWithUpdatedProfile(const QString updatedProfile);
+    void saveWithUpdatedProfile(const QString &updatedProfile);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -145,7 +145,7 @@ public slots:
     /** @brief Project's duration changed, adjust monitor, etc. */
     void adjustProjectDuration();
     /** @brief Add an asset in timeline (effect, transition). */
-    void activateAsset(const QVariantMap effectData);
+    void activateAsset(const QVariantMap &effectData);
     /** @brief insert current timeline timecode in notes widget and focus widget to allow entering quick note */
     void slotAddProjectNote();
 

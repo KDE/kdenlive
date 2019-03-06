@@ -70,7 +70,7 @@ void SpeedJob::configureProducer()
 void SpeedJob::configureFilter() {}
 
 // static
-int SpeedJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString)
+int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString)
 {
     // Show config dialog
     bool ok;

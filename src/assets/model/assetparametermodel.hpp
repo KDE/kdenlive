@@ -164,7 +164,7 @@ public:
     void resetAsset(std::unique_ptr<Mlt::Properties> asset);
     /* @brief Returns true if the effect has more than one keyframe */
     bool hasMoreThanOneKeyframe() const;
-    int time_to_frames(const QString time);
+    int time_to_frames(const QString &time);
     void passProperties(Mlt::Properties &target);
 
 protected:

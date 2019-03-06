@@ -63,17 +63,17 @@ public:
     /* @brief Copy an existing effect and append it at the bottom of the stack
        @param logUndo: if true, an undo/redo is created
      */
-    bool copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, bool logUndo = true);
-    bool copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
+    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo);
     /* @brief Import all effects from the given effect stack
      */
-    bool importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state);
+    bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state);
     /* @brief Import all effects attached to a given service
        @param alreadyExist: if true, the effect should be already attached to the service owned by this effectstack (it means we are in the process of loading).
        In that case, we need to build the stack but not replant the effects
      */
-    bool importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo);
-    void importEffects(std::weak_ptr<Mlt::Service> service, PlaylistState::ClipState state, bool alreadyExist = false);
+    bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false);
     bool removeFade(bool fromStart);
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
@@ -81,10 +81,10 @@ public:
     void setEffectStackEnabled(bool enabled);
 
     /* @brief Returns an effect or group from the stack (at the given row) */
-    std::shared_ptr<AbstractEffectItem> getEffectStackRow(int row, std::shared_ptr<TreeItem> parentItem = nullptr);
+    std::shared_ptr<AbstractEffectItem> getEffectStackRow(int row, const std::shared_ptr<TreeItem> &parentItem = nullptr);
 
     /* @brief Move an effect in the stack */
-    void moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item);
+    void moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item);
 
     /* @brief Set effect in row as current one */
     void setActiveEffect(int ix);
@@ -94,7 +94,7 @@ public:
     bool adjustFadeLength(int duration, bool fromStart, bool audioFade, bool videoFade, bool logUndo);
     bool adjustStackLength(bool adjustFromEnd, int oldIn, int oldDuration, int newIn, int duration, int offset, Fun &undo, Fun &redo, bool logUndo);
 
-    void slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect);
+    void slotCreateGroup(const std::shared_ptr<EffectItemModel> &childEffect);
 
     /* @brief Returns the id of the owner of the stack */
     ObjectId getOwnerId() const;
@@ -126,7 +126,7 @@ public:
     void loadService(std::weak_ptr<Mlt::Service> service);
 
     /* @brief Remove a service from those managed by this stack */
-    void removeService(std::shared_ptr<Mlt::Service> service);
+    void removeService(const std::shared_ptr<Mlt::Service> &service);
 
     /* @brief Returns a comma separated list of effect names */
     const QString effectNames() const;
@@ -145,7 +145,7 @@ public:
 
 public slots:
     /* @brief Delete an effect from the stack */
-    void removeEffect(std::shared_ptr<EffectItemModel> effect);
+    void removeEffect(const std::shared_ptr<EffectItemModel> &effect);
 
 protected:
     /* @brief Register the existence of a new element
@@ -174,7 +174,7 @@ private:
 private slots:
     /** @brief: Some effects do not support dynamic changes like sox, and need to be unplugged / replugged on each param change
      */
-    void replugEffect(std::shared_ptr<AssetParameterModel> asset);
+    void replugEffect(const std::shared_ptr<AssetParameterModel> &asset);
 
 signals:
     /** @brief: This signal is connected to the project clip for bin clips and activates the reload of effects on child (timeline) producers

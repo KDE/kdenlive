@@ -122,7 +122,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::updateEnabledState, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 }
 
-void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
+void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
 {
     Q_UNUSED(tid)
     ObjectId id = transitionModel->getOwnerId();
@@ -140,7 +140,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel, QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes)
+void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
     m_splitButton->setActive(false);
     if (effectsModel == nullptr) {

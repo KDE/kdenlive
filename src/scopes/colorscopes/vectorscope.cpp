@@ -20,7 +20,7 @@
 #include <QAction>
 #include <QPainter>
 #include <QTime>
-
+#include <cmath>
 const float P75 = .75;
 
 const QPointF YUV_R(-.147, .615);
@@ -250,7 +250,7 @@ QImage Vectorscope::renderHUD(uint)
         davinci.setPen(penThin);
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height()), i18n("%1 %%", locale.toString(percent, 'f', 0)));
 
-        float angle = copysign(acos((float)dx / (float)r) * 180. / M_PI, dy);
+        float angle = copysign(std::acos((float)dx / (float)r) * 180. / M_PI, dy);
         davinci.drawText(QPoint(10, m_scopeRect.height()), i18n("%1°", locale.toString(angle, 'f', 1)));
 
         //        m_circleEnabled = false;

@@ -466,7 +466,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         checkRefresh = true;
     }
 
-    auto update_snaps = [clipId, old_in, old_out, checkRefresh, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, checkRefresh, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
@@ -885,7 +885,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
         out = in + old_out - old_in;
     }
 
-    auto update_snaps = [compoId, old_in, old_out, logUndo, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, logUndo, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out + 1);
@@ -976,7 +976,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, 
     int clip_position = m_allCompositions[compoId]->getPosition();
     int old_in = clip_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
-    return [clip_position, compoId, old_in, old_out, updateView, finalMove, this]() {
+    return [compoId, old_in, old_out, updateView, finalMove, this]() {
         int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
@@ -1130,11 +1130,11 @@ bool TrackModel::isMute() const
 bool TrackModel::importEffects(std::weak_ptr<Mlt::Service> service)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->importEffects(service, trackType());
+    m_effectStack->importEffects(std::move(service), trackType());
     return true;
 }
 
-bool TrackModel::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+bool TrackModel::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
     return m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly);

@@ -24,8 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KLocalizedString>
 #include <QDomElement>
-
-ProjectFolderUp::ProjectFolderUp(std::shared_ptr<ProjectItemModel> model)
+#include <utility>
+ProjectFolderUp::ProjectFolderUp(const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model)
 {
     m_thumbnail = QIcon::fromTheme(QStringLiteral("go-previous"));
@@ -34,7 +34,7 @@ ProjectFolderUp::ProjectFolderUp(std::shared_ptr<ProjectItemModel> model)
 
 std::shared_ptr<ProjectFolderUp> ProjectFolderUp::construct(std::shared_ptr<ProjectItemModel> model)
 {
-    std::shared_ptr<ProjectFolderUp> self(new ProjectFolderUp(model));
+    std::shared_ptr<ProjectFolderUp> self(new ProjectFolderUp(std::move(model)));
 
     baseFinishConstruct(self);
     return self;

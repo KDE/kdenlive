@@ -36,7 +36,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId
     : AbstractTreeModel()
     , m_effectStackEnabled(true)
     , m_ownerId(ownerId)
-    , m_undoStack(undo_stack)
+    , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
     , m_loadingExisting(false)
 {
@@ -45,7 +45,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId
 
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId, undo_stack));
+    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId, std::move(undo_stack)));
     self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, true);
     return self;
 }
@@ -79,7 +79,7 @@ void EffectStackModel::loadService(std::weak_ptr<Mlt::Service> service)
     }
 }
 
-void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
+void EffectStackModel::removeService(const std::shared_ptr<Mlt::Service> &service)
 {
     QWriteLocker locker(&m_lock);
     std::vector<int> to_delete;
@@ -112,7 +112,7 @@ void EffectStackModel::removeCurrentEffect()
     }
 }
 
-void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
+void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effect)
 {
     qDebug() << "* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
     QWriteLocker locker(&m_lock);
@@ -190,7 +190,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     }
 }
 
-bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, bool logUndo)
+bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -214,7 +214,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         sub.setAttribute(QStringLiteral("out"), sourceEffect->filter().get_int("out"));
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
         QLocale locale;
-        for (auto param : params) {
+        for (const auto &param : params) {
             if (param.second.type() == QVariant::Double) {
                 Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
             } else {
@@ -271,7 +271,7 @@ void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     }
 }
 
-bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (sourceItem->childCount() > 0) {
@@ -631,7 +631,7 @@ bool EffectStackModel::removeFade(bool fromStart)
     return true;
 }
 
-void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
+void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(item->getId()) > 0);
@@ -713,12 +713,12 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
     emit enabledStateChanged();
 }
 
-std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, std::shared_ptr<TreeItem> parentItem)
+std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, const std::shared_ptr<TreeItem> &parentItem)
 {
     return std::static_pointer_cast<AbstractEffectItem>(parentItem ? rootItem->child(row) : rootItem->child(row));
 }
 
-bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state)
+bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
@@ -736,7 +736,7 @@ bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
     return found;
 }
 
-bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
@@ -753,7 +753,7 @@ bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
     return found;
 }
 
-void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, PlaylistState::ClipState state, bool alreadyExist)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -820,7 +820,7 @@ int EffectStackModel::getActiveEffect() const
     return 0;
 }
 
-void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect)
+void EffectStackModel::slotCreateGroup(const std::shared_ptr<EffectItemModel> &childEffect)
 {
     QWriteLocker locker(&m_lock);
     auto groupItem = EffectGroupModel::construct(QStringLiteral("group"), shared_from_this());
@@ -893,7 +893,7 @@ bool EffectStackModel::checkConsistency()
                 return false;
             }
             QVector<QPair<QString, QVariant>> params = allFilters[i]->getAllParameters();
-            for (auto val : params) {
+            for (const auto &val : params) {
                 // Check parameters values
                 if (val.second != QVariant(mltFilter->get(val.first.toUtf8().constData()))) {
                     qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: " << val.first << " = " << val.second
@@ -964,7 +964,7 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
     return nullptr;
 }
 
-void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
+void EffectStackModel::replugEffect(const std::shared_ptr<AssetParameterModel> &asset)
 {
     QWriteLocker locker(&m_lock);
     auto effectItem = std::static_pointer_cast<EffectItemModel>(asset);
@@ -1077,5 +1077,5 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
-    return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), normalisedVal);
+    return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), std::move(normalisedVal));
 }

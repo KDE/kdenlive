@@ -41,7 +41,7 @@ public:
     TimelineWidget(QWidget *parent = Q_NULLPTR);
     ~TimelineWidget();
     /* @brief Sets the model shown by this widget */
-    void setModel(std::shared_ptr<TimelineItemModel> model);
+    void setModel(const std::shared_ptr<TimelineItemModel> &model);
 
     /* @brief Return the project's tractor
      */

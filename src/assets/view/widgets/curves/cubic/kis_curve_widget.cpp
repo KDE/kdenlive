@@ -326,7 +326,7 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
 // }
 void KisCurveWidget::setCurve(KisCubicCurve &&curve)
 {
-    m_curve = std::move(curve);
+    m_curve = curve;
 }
 
 QList<QPointF> KisCurveWidget::getPoints() const

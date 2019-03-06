@@ -26,9 +26,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 
 #include <QSize>
-
+#include <utility>
 RotoHelper::RotoHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, model, index, parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), std::move(index), parent)
 {
 }
 
@@ -38,7 +38,7 @@ void RotoHelper::slotUpdateFromMonitorData(const QVariantList &v)
     emit updateKeyframeData(m_indexes.first(), res);
 }
 
-QVariant RotoHelper::getSpline(QVariant value, const QSize frame)
+QVariant RotoHelper::getSpline(const QVariant &value, const QSize frame)
 {
     QList<BPoint> bPoints;
     const QVariantList points = value.toList();
@@ -76,7 +76,7 @@ void RotoHelper::refreshParams(int pos)
     }
 }
 
-QList<BPoint> RotoHelper::getPoints(QVariant value, const QSize frame)
+QList<BPoint> RotoHelper::getPoints(const QVariant &value, const QSize frame)
 {
     QList<BPoint> points;
     QList<QVariant> data = value.toList();

@@ -112,6 +112,6 @@ public:
 
 protected:
     // This is an helper function that finishes a construction of a freshly created TimelineItemModel
-    static void finishConstruct(std::shared_ptr<TimelineItemModel> ptr, std::shared_ptr<MarkerListModel> guideModel);
+    static void finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr, const std::shared_ptr<MarkerListModel> &guideModel);
 };
 #endif

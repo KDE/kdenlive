@@ -334,7 +334,7 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
         new QTreeWidgetItem(images, QStringList() << file);
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (std::shared_ptr<ProjectClip> clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
         switch (clip->clipType()) {
         case ClipType::Color:
             // ignore color clips in list, there is no real file

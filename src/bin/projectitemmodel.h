@@ -140,7 +140,7 @@ public:
        @param clip : pointer to the clip to delete
        @param undo,redo: lambdas that are updated to accumulate operation.
      */
-    bool requestBinClipDeletion(std::shared_ptr<AbstractProjectItem> clip, Fun &undo, Fun &redo);
+    bool requestBinClipDeletion(const std::shared_ptr<AbstractProjectItem> &clip, Fun &undo, Fun &redo);
 
     /* @brief Request creation of a bin folder
        @param id Id of the requested bin. If this is empty or invalid (already used, for example), it will be used as a return parameter to give the automatic
@@ -161,7 +161,7 @@ public:
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
 
     /* @brief This is the addition function when we already have a producer for the clip*/
-    bool requestAddBinClip(QString &id, std::shared_ptr<Mlt::Producer> producer, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinClip(QString &id, const std::shared_ptr<Mlt::Producer> &producer, const QString &parentId, Fun &undo, Fun &redo);
 
     /* @brief Create a subClip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
@@ -177,7 +177,7 @@ public:
        @param name: new name of the folder
        @param undo,redo: lambdas that are updated to accumulate operation.
     */
-    bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name, Fun &undo, Fun &redo);
+    bool requestRenameFolder(const std::shared_ptr<AbstractProjectItem> &folder, const QString &name, Fun &undo, Fun &redo);
     /* Same functions but pushes the undo object directly */
     bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name);
 
@@ -211,17 +211,17 @@ protected:
     void deregisterItem(int id, TreeItem *item) override;
 
     /* @brief Helper function to generate a lambda that rename a folder */
-    Fun requestRenameFolder_lambda(std::shared_ptr<AbstractProjectItem> folder, const QString &newName);
+    Fun requestRenameFolder_lambda(const std::shared_ptr<AbstractProjectItem> &folder, const QString &newName);
 
     /* @brief Helper function to add a given item to the tree */
-    bool addItem(std::shared_ptr<AbstractProjectItem> item, const QString &parentId, Fun &undo, Fun &redo);
+    bool addItem(const std::shared_ptr<AbstractProjectItem> &item, const QString &parentId, Fun &undo, Fun &redo);
 
     /* @brief Function to be called when the url of a clip changes */
-    void updateWatcher(std::shared_ptr<ProjectClip> item);
+    void updateWatcher(const std::shared_ptr<ProjectClip> &item);
 
 public slots:
     /** @brief An item in the list was modified, notify */
-    void onItemUpdated(std::shared_ptr<AbstractProjectItem> item, int role);
+    void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role);
     void onItemUpdated(const QString &binId, int role);
 
     /** @brief Check whether a given id is currently used or not*/

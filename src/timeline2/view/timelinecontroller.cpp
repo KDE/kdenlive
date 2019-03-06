@@ -993,7 +993,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
     }
 }
 
-void TimelineController::addAsset(const QVariantMap data)
+void TimelineController::addAsset(const QVariantMap &data)
 {
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
     if (!m_selection.selectedItems.isEmpty()) {
@@ -1127,7 +1127,7 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
-void TimelineController::selectItems(QVariantList arg, int startFrame, int endFrame, bool addToSelect)
+void TimelineController::selectItems(const QVariantList &arg, int startFrame, int endFrame, bool addToSelect)
 {
     std::unordered_set<int> previousSelection = getCurrentSelectionIds();
     std::unordered_set<int> itemsToSelect;
@@ -1548,7 +1548,7 @@ void TimelineController::resetPreview()
     }
 }
 
-void TimelineController::loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable)
+void TimelineController::loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable)
 {
     if (chunks.isEmpty() && dirty.isEmpty()) {
         return;
@@ -1809,7 +1809,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
                                                                                                             : -1;
 }
 
-void TimelineController::updateClip(int clipId, QVector<int> roles)
+void TimelineController::updateClip(int clipId, const QVector<int> &roles)
 {
     QModelIndex ix = m_model->makeClipIndexFromID(clipId);
     if (ix.isValid()) {
@@ -2003,10 +2003,10 @@ void TimelineController::clearSelection()
 void TimelineController::selectAll()
 {
     QList<int> ids;
-    for (auto clp : m_model->m_allClips) {
+    for (const auto &clp : m_model->m_allClips) {
         ids << clp.first;
     }
-    for (auto clp : m_model->m_allCompositions) {
+    for (const auto &clp : m_model->m_allCompositions) {
         ids << clp.first;
     }
     setSelection(ids);
@@ -2015,10 +2015,10 @@ void TimelineController::selectAll()
 void TimelineController::selectCurrentTrack()
 {
     QList<int> ids;
-    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
+    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
         ids << clp.first;
     }
-    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
+    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
         ids << clp.first;
     }
     setSelection(ids);
@@ -2395,7 +2395,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
 QStringList TimelineController::getThumbKeys()
 {
     QStringList result;
-    for (auto clp : m_model->m_allClips) {
+    for (const auto &clp : m_model->m_allClips) {
         const QString binId = getClipBinId(clp.first);
         std::shared_ptr<ProjectClip> binClip = pCore->bin()->getBinClip(binId);
         result << binClip->hash() + QLatin1Char('#') + QString::number(clp.second->getIn()) + QStringLiteral(".png");
@@ -2420,7 +2420,7 @@ void TimelineController::slotMultitrackView(bool enable)
     TimelineFunctions::enableMultitrackView(m_model, enable);
 }
 
-void TimelineController::saveTimelineSelection(QDir targetDir)
+void TimelineController::saveTimelineSelection(const QDir &targetDir)
 {
     TimelineFunctions::saveTimelineSelection(m_model, m_selection.selectedItems, targetDir);
 }
@@ -2447,7 +2447,7 @@ void TimelineController::removeEffectKeyframe(int cid, int frame)
     }
 }
 
-void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFrame, QVariant normalizedValue)
+void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue)
 {
     if (m_model->isClip(cid)) {
         std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);

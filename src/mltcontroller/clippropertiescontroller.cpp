@@ -379,7 +379,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             pbox->setCheckState(Qt::Unchecked);
         }
         pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
-        connect(pbox, &QCheckBox::stateChanged, [this, pbox, bg](int state) {
+        connect(pbox, &QCheckBox::stateChanged, [this, pbox](int state) {
             emit requestProxy(state == Qt::PartiallyChecked);
             if (state == Qt::Checked) {
                 QSignalBlocker bk(pbox);
@@ -568,7 +568,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             ac->setActive(vix.toInt() == -1);
             videoStream->setEnabled(vix.toInt() > -1);
             videoStream->setVisible(m_videoStreams.size() > 1);
-            connect(ac, &KDualAction::activeChanged, [this, ac, videoStream](bool activated) {
+            connect(ac, &KDualAction::activeChanged, [this, videoStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
@@ -619,7 +619,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             ac->setActive(vix.toInt() == -1);
             audioStream->setEnabled(vix.toInt() > -1);
             audioStream->setVisible(m_audioStreams.size() > 1);
-            connect(ac, &KDualAction::activeChanged, [this, ac, audioStream](bool activated) {
+            connect(ac, &KDualAction::activeChanged, [this, audioStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {

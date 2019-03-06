@@ -863,7 +863,7 @@ void ProjectManager::adjustProjectDuration()
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, nullptr);
 }
 
-void ProjectManager::activateAsset(const QVariantMap effectData)
+void ProjectManager::activateAsset(const QVariantMap &effectData)
 {
     if (effectData.contains(QStringLiteral("kdenlive/effect"))) {
         pCore->window()->addEffect(effectData.value(QStringLiteral("kdenlive/effect")).toString());
@@ -882,7 +882,7 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
     return current()->commandStack();
 }
 
-void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
+void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended
     QString message;

@@ -21,7 +21,7 @@
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-
+#include <cmath>
 // Uncomment for Scope debugging.
 //#define DEBUG_ASW
 
@@ -353,9 +353,9 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
             if (movement.manhattanLength() > m_rescaleMinDist) {
                 float diff = ((float)movement.y()) / (float)movement.x();
 
-                if (fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
+                if (std::fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
                     m_rescaleDirection = North;
-                } else if (fabs(diff) < 1 / m_rescaleVerticalThreshold) {
+                } else if (std::fabs(diff) < 1 / m_rescaleVerticalThreshold) {
                     m_rescaleDirection = East;
                 } else if (diff < 0) {
                     m_rescaleDirection = Northeast;
@@ -384,15 +384,15 @@ void AbstractScopeWidget::slotContextMenuRequested(const QPoint &pos)
 
 uint AbstractScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
+    return std::ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 uint AbstractScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
+    return std::ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
+    return std::ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 
 ///// Slots /////

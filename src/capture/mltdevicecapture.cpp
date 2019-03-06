@@ -38,7 +38,7 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture *self, mlt_fra
     self->showFrame(frame);
 }
 
-MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */ QWidget *parent)
+MltDeviceCapture::MltDeviceCapture(const QString &profile, /*VideoSurface *surface, */ QWidget *parent)
     : AbstractRender(Kdenlive::RecordMonitor, parent)
     , doCapture(0)
     , processingImage(false)

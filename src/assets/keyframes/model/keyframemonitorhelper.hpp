@@ -46,7 +46,7 @@ public:
        @param model is the asset this parameter belong to
        @param index is the index of this parameter in its model
      */
-    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent = nullptr);
+    explicit KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent = nullptr);
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
@@ -69,7 +69,7 @@ private slots:
 public slots:
     /** @brief For classes that manage several parameters, add a param index to the list
      */
-    void addIndex(QPersistentModelIndex index);
+    void addIndex(const QPersistentModelIndex &index);
 
 signals:
     /** @brief Send updated keyframe data to the parameter @index
