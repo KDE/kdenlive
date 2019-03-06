@@ -73,7 +73,7 @@ RTTR_REGISTRATION
             parameter_names("itemId", "size", "right", "logUndo", "snapDistance", "allowSingleResize"))
         .method("requestClipsGroup", select_overload<int(const std::unordered_set<int> &, bool, GroupType)>(&TimelineModel::requestClipsGroup))(
             parameter_names("ids", "logUndo", "type"))
-        .method("requestClipUngroup", select_overload<bool(int, bool)>(&TimelineModel::requestClipUngroup))(parameter_names("itemId", "logUndo"))
+        .method("requestClipUngroup", select_overload<bool(QList <int>, bool)>(&TimelineModel::requestClipUngroup))(parameter_names("itemIds", "logUndo"))
         .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))(
             parameter_names("pos", "id", "trackName", "audioTrack"))
         .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"));
@@ -1587,21 +1587,23 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     return groupId;
 }
 
-bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
+bool TimelineModel::requestClipUngroup(QList <int> itemIds, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, logUndo);
+    TRACE(itemIds, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    if (itemId == m_temporarySelectionGroup) {
+    if (itemIds.contains(m_temporarySelectionGroup)) {
         // Delete selection group without undo
         Fun tmp_undo = []() { return true; };
         Fun tmp_redo = []() { return true; };
-        requestClipUngroup(itemId, tmp_undo, tmp_redo);
+        requestClipUngroup(m_temporarySelectionGroup, tmp_undo, tmp_redo);
+        itemIds.removeAll(m_temporarySelectionGroup);
         m_temporarySelectionGroup = -1;
-    } else {
-        result = requestClipUngroup(itemId, undo, redo);
+    }
+    for (int itemId : itemIds) {
+        result = result & requestClipUngroup(itemId, undo, redo);
     }
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));

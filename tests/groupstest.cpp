@@ -868,13 +868,13 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         undoStack->redo();
         state4();
 
-        REQUIRE(timeline->requestClipUngroup(clips[0]));
+        REQUIRE(timeline->requestClipUngroup({clips[0]}));
         state3();
 
         undoStack->undo();
         state4();
 
-        REQUIRE(timeline->requestClipUngroup(clips[1]));
+        REQUIRE(timeline->requestClipUngroup({clips[1]}));
         state3();
 
         undoStack->undo();
@@ -883,13 +883,13 @@ TEST_CASE("Integration with timeline", "[GroupsModel]")
         undoStack->redo();
         state3();
 
-        REQUIRE(timeline->requestClipUngroup(clips[0]));
+        REQUIRE(timeline->requestClipUngroup({clips[0]}));
         REQUIRE(timeline->getGroupElements(clips[2]) == g2);
         REQUIRE(timeline->getGroupElements(clips[1]) == g2);
         REQUIRE(timeline->getGroupElements(clips[3]) == std::unordered_set<int>({clips[3]}));
         REQUIRE(timeline->getGroupElements(clips[0]) == std::unordered_set<int>({clips[0]}));
 
-        REQUIRE(timeline->requestClipUngroup(clips[1]));
+        REQUIRE(timeline->requestClipUngroup({clips[1]}));
         state1();
     }
 }

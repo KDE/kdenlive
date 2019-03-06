@@ -306,7 +306,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         m_selection.isMultitrackSelected = isMultitrack;
         if (m_model->m_temporarySelectionGroup > -1) {
             // Clear current selection
-            m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
+            m_model->requestClipUngroup({m_model->m_temporarySelectionGroup}, false);
         }
         std::unordered_set<int> newIds;
         if (m_selection.selectedItems.size() > 0) {
@@ -892,22 +892,22 @@ void TimelineController::unGroupSelection(int cid)
     }
     int tmpGroup = m_model->m_temporarySelectionGroup;
     if (tmpGroup >= 0) {
-        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
+        m_model->requestClipUngroup({m_model->m_temporarySelectionGroup}, false);
     }
+    QList <int> topGroups;
     if (cid > -1) {
         if (cid != tmpGroup) {
-            cid = m_model->m_groups->getDirectAncestor(cid);
+            topGroups << m_model->m_groups->getDirectAncestor(cid);
         } else {
-            cid = -1;
             for (int id : m_selection.selectedItems) {
-                if (m_model->m_groups->getRootId(id)) {
-                    cid = id;
-                    break;
+                int parentGroup = m_model->m_groups->getRootId(id);
+                if (parentGroup > -1 && !topGroups.contains(parentGroup)) {
+                    topGroups << parentGroup;
                 }
             }
         }
-        if (cid > -1) {
-            m_model->requestClipUngroup(cid);
+        if (!topGroups.isEmpty()) {
+            m_model->requestClipUngroup(topGroups);
         }
     }
     m_selection.selectedItems.clear();
@@ -1149,7 +1149,7 @@ void TimelineController::selectItems(const QVariantList &arg, int startFrame, in
         m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(itemsToSelect, true, GroupType::Selection);
         qDebug() << "// GROUPING ITEMS DONE";
     } else if (m_model->m_temporarySelectionGroup > -1) {
-        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
+        m_model->requestClipUngroup({m_model->m_temporarySelectionGroup}, false);
     }
     std::unordered_set<int> newIds;
     if (m_model->m_temporarySelectionGroup >= 0) {
@@ -1987,7 +1987,7 @@ int TimelineController::groupClips(const QList<int> &clipIds)
 
 bool TimelineController::ungroupClips(int clipId)
 {
-    return m_model->requestClipUngroup(clipId);
+    return m_model->requestClipUngroup({clipId});
 }
 
 void TimelineController::clearSelection()
@@ -2164,7 +2164,7 @@ void TimelineController::updateClipActions()
         if (actionData == QLatin1Char('G')) {
             enableAction = m_model->isInMultiSelection(item);
         } else if (actionData == QLatin1Char('U')) {
-            enableAction = m_model->m_groups->isInGroup(item) && !m_model->isInMultiSelection(item);
+            enableAction = m_model->isInMultiSelection(item) || (m_model->m_groups->isInGroup(item) && !m_model->isInMultiSelection(item));
         } else if (actionData == QLatin1Char('A')) {
             enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
         } else if (actionData == QLatin1Char('V')) {
