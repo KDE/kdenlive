@@ -509,6 +509,7 @@ void SmallJobLabel::slotTimeLineFinished()
 
 void SmallJobLabel::slotSetJobCount(int jobCount)
 {
+    QMutexLocker lk(&locker);
     if (jobCount > 0) {
         // prepare animation
         setText(i18np("%1 job", "%1 jobs", jobCount));

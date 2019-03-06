@@ -123,6 +123,7 @@ private:
 
     QTimeLine *m_timeLine;
     QAction *m_action{nullptr};
+    QMutex locker;
 
 public slots:
     void slotSetJobCount(int jobCount);
