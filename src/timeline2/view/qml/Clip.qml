@@ -289,7 +289,7 @@ Rectangle {
         Loader {
             id: thumbsLoader
             anchors.fill: parent
-            source: parentTrack.isAudio ? "ClipAudioThumbs.qml" : itemType == ProducerType.Color ? "" : "ClipThumbs.qml"
+            source: parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
         }
 
         Rectangle {
