@@ -38,7 +38,7 @@ protected:
     void writeConfig();
 
 private:
-    Ui::Waveform_UI *ui;
+    Ui::Waveform_UI *m_ui;
     WaveformGenerator *m_waveformGenerator;
 
     QAction *m_aRec601;

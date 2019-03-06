@@ -34,9 +34,9 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    mUnicodeWidget = new UnicodeWidget(inputMeth);
-    connect(mUnicodeWidget, &UnicodeWidget::charSelected, this, &UnicodeDialog::charSelected);
-    mainLayout->addWidget(mUnicodeWidget);
+    m_unicodeWidget = new UnicodeWidget(inputMeth);
+    connect(m_unicodeWidget, &UnicodeWidget::charSelected, this, &UnicodeDialog::charSelected);
+    mainLayout->addWidget(m_unicodeWidget);
     mainLayout->addWidget(buttonBox);
     connect(okButton, &QAbstractButton::clicked, this, &UnicodeDialog::slotAccept);
 }
@@ -45,7 +45,7 @@ UnicodeDialog::~UnicodeDialog() {}
 
 void UnicodeDialog::slotAccept()
 {
-    mUnicodeWidget->slotReturnPressed();
+    m_unicodeWidget->slotReturnPressed();
     accept();
 }
 
@@ -53,7 +53,7 @@ void UnicodeDialog::slotAccept()
 
 UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent)
     : QWidget(parent)
-    , inputMethod(inputMeth)
+    , m_inputMethod(inputMeth)
     , m_lastCursorPos(0)
 {
     setupUi(this);
@@ -64,7 +64,7 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     connect(arrowUp, &QAbstractButton::clicked, this, &UnicodeWidget::slotPrevUnicode);
     connect(arrowDown, &QAbstractButton::clicked, this, &UnicodeWidget::slotNextUnicode);
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         unicodeNumber->setMaxLength(MAX_LENGTH_HEX);
         break;
@@ -97,7 +97,7 @@ bool UnicodeWidget::controlCharacter(const QString &text)
     bool isControlCharacter = false;
     QString t = text.toLower();
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         if (t.isEmpty() || (t.length() == 1 && !(t == QLatin1String("9") || t == QLatin1String("a") || t == QLatin1String("d"))) ||
             (t.length() == 2 && t.at(0) == QChar('1'))) {
@@ -221,7 +221,7 @@ QString UnicodeWidget::validateText(const QString &text)
     QString newText;
     int pos = 0;
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         // Remove all characters we don't want
         while ((pos = regex.indexIn(text, pos)) != -1) {
@@ -274,7 +274,7 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
     QString newText;
     bool ok;
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         value = text.toUInt(&ok, 16);
         switch (direction) {
@@ -350,7 +350,7 @@ void UnicodeWidget::slotTextChanged(const QString &text)
         // Get the decimal number as uint to create the QChar from
         bool ok;
         uint value = 0;
-        switch (inputMethod) {
+        switch (m_inputMethod) {
         case UnicodeDialog::InputHex:
             value = newText.toUInt(&ok, 16);
             break;

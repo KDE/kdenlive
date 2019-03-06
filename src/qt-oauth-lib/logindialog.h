@@ -90,7 +90,7 @@ private slots:
     void slotRejected();
 
 private:
-    Ui::LoginDialog *ui;
+    Ui::LoginDialog *m_ui;
     QString m_strAuthCode;
 };
 

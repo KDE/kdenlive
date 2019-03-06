@@ -164,8 +164,8 @@ protected:
 
 private:
     mutable QReadWriteLock m_lock;
-    std::unordered_set<int> fadeIns;
-    std::unordered_set<int> fadeOuts;
+    std::unordered_set<int> m_fadeIns;
+    std::unordered_set<int> m_fadeOuts;
 
     /** @brief: When loading a project, we load filters/effects that are already planted
      *          in the producer, so we shouldn't plant them again. Setting this value to

@@ -35,7 +35,7 @@ protected:
     QRect scopeRect() override;
 
 private:
-    Ui::RGBParade_UI *ui;
+    Ui::RGBParade_UI *m_ui;
     RGBParadeGenerator *m_rgbParadeGenerator;
 
     QAction *m_aAxis;

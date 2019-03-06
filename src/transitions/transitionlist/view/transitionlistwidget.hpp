@@ -90,7 +90,7 @@ signals:
     void showDescriptionChanged();
 
 private:
-    TransitionListWidget *q;
+    TransitionListWidget *q; // NOLINT
 };
 
 #endif

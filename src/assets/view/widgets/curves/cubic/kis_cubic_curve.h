@@ -72,7 +72,7 @@ public:
 private:
     struct Data;
     struct Private;
-    Private *const d;
+    Private *const d; // NOLINT
 };
 
 #endif

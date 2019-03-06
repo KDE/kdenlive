@@ -31,7 +31,7 @@ Q_SIGNALS:
     void charSelected(const QString &);
 
 private:
-    UnicodeWidget *mUnicodeWidget;
+    UnicodeWidget *m_unicodeWidget;
 };
 
 class UnicodeWidget : public QWidget, public Ui::UnicodeWidget_UI
@@ -53,7 +53,7 @@ private:
     enum Direction { Forward, Backward };
 
     /** Selected input method */
-    UnicodeDialog::InputMethod inputMethod;
+    UnicodeDialog::InputMethod m_inputMethod;
 
     /** \brief Validates text and removes all invalid characters (non-hex e.g.) */
     QString validateText(const QString &text);

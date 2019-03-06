@@ -85,7 +85,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     , m_globalDelete(nullptr)
 {
     chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue) << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
-    mCurrentSizes << 0 << 0 << 0 << 0;
+    m_currentSizes << 0 << 0 << 0 << 0;
     auto *lay = new QVBoxLayout;
 
     m_currentPage = new QWidget(this);
@@ -261,7 +261,7 @@ void TemporaryData::gotPreviewSize(KJob *job)
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[0] = total;
+    m_currentSizes[0] = total;
     m_previewSize->setText(KIO::convertSize(total));
     updateTotal();
 }
@@ -273,7 +273,7 @@ void TemporaryData::gotProxySize(KIO::filesize_t total)
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[1] = total;
+    m_currentSizes[1] = total;
     m_proxySize->setText(KIO::convertSize(total));
     updateTotal();
 }
@@ -290,7 +290,7 @@ void TemporaryData::gotAudioSize(KJob *job)
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[2] = total;
+    m_currentSizes[2] = total;
     m_audioSize->setText(KIO::convertSize(total));
     updateTotal();
 }
@@ -307,7 +307,7 @@ void TemporaryData::gotThumbSize(KJob *job)
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[3] = total;
+    m_currentSizes[3] = total;
     m_thumbSize->setText(KIO::convertSize(total));
     updateTotal();
 }
@@ -320,7 +320,7 @@ void TemporaryData::updateTotal()
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
-    for (KIO::filesize_t size : mCurrentSizes) {
+    for (KIO::filesize_t size : m_currentSizes) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {

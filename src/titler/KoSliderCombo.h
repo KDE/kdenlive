@@ -132,7 +132,7 @@ private:
     Q_PRIVATE_SLOT(d, void lineEditFinished())
 
     class KoSliderComboPrivate;
-    KoSliderComboPrivate *const d;
+    KoSliderComboPrivate *const m_d;
 };
 
 #endif

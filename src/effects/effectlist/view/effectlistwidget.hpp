@@ -95,7 +95,7 @@ signals:
     void showDescriptionChanged();
 
 private:
-    EffectListWidget *q;
+    EffectListWidget *q; // NOLINT
 };
 
 #endif

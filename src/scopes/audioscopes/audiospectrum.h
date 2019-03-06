@@ -58,7 +58,7 @@ protected:
     void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) override;
 
 private:
-    Ui::AudioSpectrum_UI *ui;
+    Ui::AudioSpectrum_UI *m_ui;
 
     QAction *m_aResetHz;
     QAction *m_aTrackMouse;
@@ -85,7 +85,7 @@ private:
     /** The user has chosen a custom frequency. */
     bool m_customFreq;
 
-    float colorizeFactor;
+    float m_colorizeFactor;
 
 #ifdef DEBUG_AUDIOSPEC
     long m_timeTotal;

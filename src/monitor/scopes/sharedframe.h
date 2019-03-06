@@ -71,7 +71,7 @@ public:
     const int16_t *get_audio() const;
 
 private:
-    QExplicitlySharedDataPointer<FrameData> d;
+    QExplicitlySharedDataPointer<FrameData> d; // NOLINT
 };
 
 #endif // SHAREDFRAME_H

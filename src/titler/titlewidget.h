@@ -148,7 +148,7 @@ private:
     QAction *m_selectRects;
     QAction *m_selectImages;
     QAction *m_unselectAll;
-    QString lastDocumentHash;
+    QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
 
     // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.

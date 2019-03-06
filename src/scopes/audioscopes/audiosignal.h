@@ -53,8 +53,8 @@ public:
 private:
     double valueToPixel(double in);
     QTimer m_timer;
-    QByteArray channels, peeks, peekage;
-    QList<int> dbscale;
+    QByteArray m_channels, m_peeks, m_peekage;
+    QList<int> m_dbscale;
 
 public slots:
     void showAudio(const QByteArray &);

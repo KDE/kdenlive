@@ -97,7 +97,7 @@ private:
     void parseLicense(const QString &);
     QString GetSaveFileNameAndPathS(const QString &path, const QString &ext);
     QString m_folder;
-    QString mSaveLocation;
+    QString m_saveLocation;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
     QAction *m_autoPlay;

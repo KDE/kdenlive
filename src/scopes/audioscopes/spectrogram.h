@@ -56,7 +56,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    Ui::Spectrogram_UI *ui;
+    Ui::Spectrogram_UI *m_ui;
     FFTTools m_fftTools;
     QAction *m_aResetHz;
     QAction *m_aGrid;

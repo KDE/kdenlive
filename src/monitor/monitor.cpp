@@ -1423,7 +1423,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     // TODO or deprecate
     Q_UNUSED(profile)
     m_timePos->updateTimeCode(tc);
-    if (true) {
+    if (/* DISABLES CODE */ (true)) {
         return;
     }
     slotActivateMonitor();
@@ -1976,7 +1976,7 @@ bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Prod
 {
     // TODO
     m_controller = nullptr;
-    if (false) { // render->updateProducer(p)) {
+    if (/* DISABLES CODE */ (false)) { // render->updateProducer(p)) {
         m_glMonitor->reconfigureMulti(params, path, p->profile());
         return true;
     }

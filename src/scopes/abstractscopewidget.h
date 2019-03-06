@@ -260,7 +260,7 @@ private:
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
 
-    bool initialDimensionUpdateDone;
+    bool m_initialDimensionUpdateDone;
     bool m_requestForcedUpdate;
 
     QImage m_scopeImage;

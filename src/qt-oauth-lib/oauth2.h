@@ -129,7 +129,7 @@ private:
 
     QString m_strRedirectURI;
     QString m_strResponseType;
-    QString mstr_RefreshToken;
+    QString m_strRefreshToken;
     bool m_bAccessTokenRec;
     void RequestAccessCode(bool pIsReRequest, const QString &pCode);
 

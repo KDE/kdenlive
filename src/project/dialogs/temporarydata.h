@@ -112,8 +112,7 @@ private:
     QGridLayout *m_grid;
     KIO::filesize_t m_totalCurrent;
     KIO::filesize_t m_totalGlobal;
-    QList<KIO::filesize_t> mCurrentSizes;
-    QList<KIO::filesize_t> mGlobalSizes;
+    QList<KIO::filesize_t> m_currentSizes;
     QStringList m_globalDirectories;
     QString m_processingDirectory;
     QDir m_globalDir;

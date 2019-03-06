@@ -115,7 +115,7 @@ protected:
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
 private:
-    int a_track;
+    int m_a_track;
     QString m_compositionName;
     int m_duration;
 };

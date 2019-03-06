@@ -57,8 +57,8 @@ private:
     QString m_originalProfile;
     void slotUpdateInfoDisplay();
 
-    QComboBox *fpsFilt;
-    QComboBox *scanningFilt;
+    QComboBox *m_fpsFilt;
+    QComboBox *m_scanningFilt;
 
     QTreeView *m_treeView;
     std::shared_ptr<ProfileTreeModel> m_treeModel;

@@ -550,7 +550,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     }
     // templateBox->setIconSize(QSize(60,60));
     refreshTemplateBoxContents();
-    lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
+    m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
 }
 
 TitleWidget::~TitleWidget()
@@ -653,7 +653,7 @@ void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
-        if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
+        if (m_lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
             if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) {
                 return;
             }
@@ -670,7 +670,7 @@ void TitleWidget::templateIndexChanged(int index)
                 i->setProperty("templateText", i->toHtml());
             }
         }
-        lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
+        m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
     }
 }
 // virtual

@@ -45,8 +45,8 @@ Spectrogram::Spectrogram(QWidget *parent)
     , m_customFreq(false)
     , m_parameterChanged(false)
 {
-    ui = new Ui::Spectrogram_UI;
-    ui->setupUi(this);
+    m_ui = new Ui::Spectrogram_UI;
+    m_ui->setupUi(this);
 
     m_aResetHz = new QAction(i18n("Reset maximum frequency to sampling rate"), this);
     m_aGrid = new QAction(i18n("Draw grid"), this);
@@ -63,23 +63,23 @@ Spectrogram::Spectrogram(QWidget *parent)
     m_menu->addAction(m_aHighlightPeaks);
     m_menu->removeAction(m_aRealtime);
 
-    ui->windowSize->addItem(QStringLiteral("256"), QVariant(256));
-    ui->windowSize->addItem(QStringLiteral("512"), QVariant(512));
-    ui->windowSize->addItem(QStringLiteral("1024"), QVariant(1024));
-    ui->windowSize->addItem(QStringLiteral("2048"), QVariant(2048));
+    m_ui->windowSize->addItem(QStringLiteral("256"), QVariant(256));
+    m_ui->windowSize->addItem(QStringLiteral("512"), QVariant(512));
+    m_ui->windowSize->addItem(QStringLiteral("1024"), QVariant(1024));
+    m_ui->windowSize->addItem(QStringLiteral("2048"), QVariant(2048));
 
-    ui->windowFunction->addItem(i18n("Rectangular window"), FFTTools::Window_Rect);
-    ui->windowFunction->addItem(i18n("Triangular window"), FFTTools::Window_Triangle);
-    ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
+    m_ui->windowFunction->addItem(i18n("Rectangular window"), FFTTools::Window_Rect);
+    m_ui->windowFunction->addItem(i18n("Triangular window"), FFTTools::Window_Triangle);
+    m_ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
 
     // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators
-    ui->labelFFTSize->setToolTip(i18n("The maximum window size is limited by the number of samples per frame."));
-    ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
-    ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more "
-                                        "smearing. See Window function on Wikipedia."));
+    m_ui->labelFFTSize->setToolTip(i18n("The maximum window size is limited by the number of samples per frame."));
+    m_ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
+    m_ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more "
+                                          "smearing. See Window function on Wikipedia."));
 
     connect(m_aResetHz, &QAction::triggered, this, &Spectrogram::slotResetMaxFreq);
-    connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+    connect(m_ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
     connect(this, &Spectrogram::signalMousePositionChanged, this, &Spectrogram::forceUpdateHUD);
 
     AbstractScopeWidget::init();
@@ -100,7 +100,7 @@ Spectrogram::~Spectrogram()
     delete m_aResetHz;
     delete m_aTrackMouse;
     delete m_aGrid;
-    delete ui;
+    delete m_ui;
 }
 
 void Spectrogram::readConfig()
@@ -110,8 +110,8 @@ void Spectrogram::readConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
-    ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
-    ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
+    m_ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
+    m_ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
     m_aTrackMouse->setChecked(scopeConfig.readEntry("trackMouse", true));
     m_aGrid->setChecked(scopeConfig.readEntry("drawGrid", true));
     m_aHighlightPeaks->setChecked(scopeConfig.readEntry("highlightPeaks", true));
@@ -131,8 +131,8 @@ void Spectrogram::writeConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
-    scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
-    scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
+    scopeConfig.writeEntry("windowSize", m_ui->windowSize->currentIndex());
+    scopeConfig.writeEntry("windowFunction", m_ui->windowFunction->currentIndex());
     scopeConfig.writeEntry("trackMouse", m_aTrackMouse->isChecked());
     scopeConfig.writeEntry("drawGrid", m_aGrid->isChecked());
     scopeConfig.writeEntry("highlightPeaks", m_aHighlightPeaks->isChecked());
@@ -155,14 +155,14 @@ QString Spectrogram::widgetName() const
 
 QRect Spectrogram::scopeRect()
 {
-    m_scopeRect = QRect(QPoint(10,                                      // Left
-                               ui->verticalSpacer->geometry().top() + 6 // Top
+    m_scopeRect = QRect(QPoint(10,                                        // Left
+                               m_ui->verticalSpacer->geometry().top() + 6 // Top
                                ),
                         AbstractAudioScopeWidget::rect().bottomRight());
     m_innerScopeRect = QRect(QPoint(m_scopeRect.left() + 66, // Left
                                     m_scopeRect.top() + 6    // Top
                                     ),
-                             QPoint(ui->verticalSpacer->geometry().right() - 70, ui->verticalSpacer->geometry().bottom() - 40));
+                             QPoint(m_ui->verticalSpacer->geometry().right() - 70, m_ui->verticalSpacer->geometry().bottom() - 40));
     return m_scopeRect;
 }
 
@@ -309,7 +309,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         QTime start = QTime::currentTime();
 
-        int fftWindow = ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt();
+        int fftWindow = m_ui->windowSize->itemData(m_ui->windowSize->currentIndex()).toInt();
         if (fftWindow > num_samples) {
             fftWindow = num_samples;
         }
@@ -318,7 +318,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         }
 
         // Show the window size used, for information
-        ui->labelFFTSizeNumber->setText(QVariant(fftWindow).toString());
+        m_ui->labelFFTSizeNumber->setText(QVariant(fftWindow).toString());
 
         if (newDataAvailable) {
 
@@ -326,7 +326,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
             // Get the spectral power distribution of the input samples,
             // using the given window size and function
-            FFTTools::WindowType windowType = (FFTTools::WindowType)ui->windowFunction->itemData(ui->windowFunction->currentIndex()).toInt();
+            FFTTools::WindowType windowType = (FFTTools::WindowType)m_ui->windowFunction->itemData(m_ui->windowFunction->currentIndex()).toInt();
             m_fftTools.fftNormalized(audioFrame, 0, (uint)num_channels, freqSpectrum, windowType, (uint)fftWindow, 0);
 
             // This method might be called also when a simple refresh is required.
