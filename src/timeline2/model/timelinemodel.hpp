@@ -221,7 +221,7 @@ public:
     /* @brief Helper function that returns true if the given ID corresponds to a track */
     bool isTrack(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a track */
+    /* @brief Helper function that returns true if the given ID corresponds to a group */
     bool isGroup(int id) const;
 
     /* @brief Given a composition Id, returns its underlying parameter model */

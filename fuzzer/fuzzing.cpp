@@ -144,7 +144,7 @@ void fuzz(const std::string &input)
 
     std::vector<std::shared_ptr<TimelineModel>> all_timelines;
 
-    std::unordered_map<std::shared_ptr<TimelineModel>, std::vector<int>> all_clips, all_tracks, all_compositions;
+    std::unordered_map<std::shared_ptr<TimelineModel>, std::vector<int>> all_clips, all_tracks, all_compositions, all_groups;
     auto update_elems = [&]() {
         all_clips.clear();
         all_tracks.clear();
@@ -153,6 +153,7 @@ void fuzz(const std::string &input)
             all_clips[timeline] = {};
             all_tracks[timeline] = {};
             all_compositions[timeline] = {};
+            all_groups[timeline] = {};
             auto &clips = all_clips[timeline];
             clips.clear();
             for (const auto &c : timeline->m_allClips) {
@@ -173,6 +174,13 @@ void fuzz(const std::string &input)
                 tracks.push_back(c.first);
             }
             std::sort(tracks.begin(), tracks.end());
+
+            auto &groups = all_groups[timeline];
+            groups.clear();
+            for (int c : timeline->m_allGroups) {
+                groups.push_back(c);
+            }
+            std::sort(groups.begin(), groups.end());
         }
     };
     auto get_timeline = [&]() -> std::shared_ptr<TimelineModel> {
@@ -181,6 +189,17 @@ void fuzz(const std::string &input)
         if (all_timelines.size() == 0) return nullptr;
         id = modulo(id, (int)all_timelines.size());
         return all_timelines[size_t(id)];
+    };
+    auto get_group = [&](std::shared_ptr<TimelineModel> timeline) {
+        int id = 0;
+        ss >> id;
+        if (!timeline) return -1;
+        if (timeline->isGroup(id)) return id;
+        if (all_timelines.size() == 0) return -1;
+        if (all_groups.count(timeline) == 0) return -1;
+        if (all_groups[timeline].size() == 0) return -1;
+        id = modulo(id, (int)all_groups[timeline].size());
+        return all_groups[timeline][id];
     };
     auto get_clip = [&](std::shared_ptr<TimelineModel> timeline) {
         int id = 0;
@@ -325,6 +344,13 @@ void fuzz(const std::string &input)
                             valid = valid && (itemId >= 0);
                             arguments.emplace_back(itemId);
                             // std::cout << "got itemId" << itemId << std::endl;
+                        } else if (arg_name == "groupId") {
+                            std::shared_ptr<TimelineModel> tim =
+                                (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
+                            int groupId = get_group(tim);
+                            valid = valid && (groupId >= 0);
+                            arguments.emplace_back(groupId);
+                            // std::cout << "got clipId" << clipId << std::endl;
                         } else if (arg_name == "ids") {
                             int count = 0;
                             ss >> count;
@@ -410,6 +436,7 @@ void fuzz(const std::string &input)
     all_clips.clear();
     all_tracks.clear();
     all_compositions.clear();
+    all_groups.clear();
     for (auto &all_timeline : all_timelines) {
         all_timeline.reset();
     }
