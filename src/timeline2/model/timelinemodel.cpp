@@ -72,8 +72,9 @@ RTTR_REGISTRATION
         .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))(
             parameter_names("itemId", "size", "right", "logUndo", "snapDistance", "allowSingleResize"))
         .method("requestClipsGroup", select_overload<int(const std::unordered_set<int> &, bool, GroupType)>(&TimelineModel::requestClipsGroup))(
-            parameter_names("ids", "logUndo", "type"))
-        .method("requestClipUngroup", select_overload<bool(QList <int>, bool)>(&TimelineModel::requestClipUngroup))(parameter_names("itemIds", "logUndo"))
+            parameter_names("itemIds", "logUndo", "type"))
+        .method("requestClipUngroup", select_overload<bool(int, bool)>(&TimelineModel::requestClipUngroup))(parameter_names("itemId", "logUndo"))
+        .method("requestClipsUngroup", &TimelineModel::requestClipsUngroup)(parameter_names("itemIds", "logUndo"))
         .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))(
             parameter_names("pos", "id", "trackName", "audioTrack"))
         .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"));
@@ -1587,23 +1588,57 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     return groupId;
 }
 
-bool TimelineModel::requestClipUngroup(QList <int> itemIds, bool logUndo)
+bool TimelineModel::requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemIds, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    if (itemIds.contains(m_temporarySelectionGroup)) {
+    int old_selection = m_temporarySelectionGroup;
+    if (m_temporarySelectionGroup != -1) {
         // Delete selection group without undo
         Fun tmp_undo = []() { return true; };
         Fun tmp_redo = []() { return true; };
         requestClipUngroup(m_temporarySelectionGroup, tmp_undo, tmp_redo);
-        itemIds.removeAll(m_temporarySelectionGroup);
         m_temporarySelectionGroup = -1;
     }
+    std::unordered_set<int> roots;
     for (int itemId : itemIds) {
-        result = result & requestClipUngroup(itemId, undo, redo);
+        int root = m_groups->getRootId(itemId);
+        if (root != old_selection) {
+            roots.insert(root);
+        }
+    }
+    for (int root : roots) {
+        result = result && requestClipUngroup(root, undo, redo);
+    }
+    if (!result) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+    }
+    if (result && logUndo) {
+        PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
+    }
+    TRACE_RES(result);
+    return result;
+}
+
+bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, logUndo);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = true;
+    if (itemId == m_temporarySelectionGroup) {
+        // Delete selection group without undo
+        Fun tmp_undo = []() { return true; };
+        Fun tmp_redo = []() { return true; };
+        requestClipUngroup(itemId, tmp_undo, tmp_redo);
+        m_temporarySelectionGroup = -1;
+    } else {
+        result = requestClipUngroup(itemId, undo, redo);
     }
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
@@ -1614,6 +1649,7 @@ bool TimelineModel::requestClipUngroup(QList <int> itemIds, bool logUndo)
 
 bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     return m_groups->ungroupItem(itemId, undo, redo);
 }
 
@@ -1657,7 +1693,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
 
 bool TimelineModel::requestTrackDeletion(int trackId)
 {
-// TODO: make sure we disable overlayTrack before deleting a track
+    // TODO: make sure we disable overlayTrack before deleting a track
     QWriteLocker locker(&m_lock);
     TRACE(trackId);
     Fun undo = []() { return true; };

@@ -23,9 +23,9 @@
 #include "../model/timelinefunctions.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "bin/bin.h"
-#include "bin/projectfolder.h"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
+#include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/spacerdialog.h"
@@ -306,7 +306,7 @@ void TimelineController::setSelection(const QList<int> &newSelection, int trackI
         m_selection.isMultitrackSelected = isMultitrack;
         if (m_model->m_temporarySelectionGroup > -1) {
             // Clear current selection
-            m_model->requestClipUngroup({m_model->m_temporarySelectionGroup}, false);
+            m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
         }
         std::unordered_set<int> newIds;
         if (m_selection.selectedItems.size() > 0) {
@@ -462,7 +462,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     if (lowerVideoTrackId > 0) {
         int bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
         if (bottomId > 0) {
-            QPair <int, int>bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
+            QPair<int, int> bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
             if (bottom.first > minimum && position > bottom.first) {
                 int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
                 if (test_duration > 0) {
@@ -627,7 +627,7 @@ bool TimelineController::pasteItem()
     QDomDocument copiedItems;
     copiedItems.setContent(txt);
     if (copiedItems.documentElement().tagName() == QLatin1String("kdenlive-scene")) {
-        qDebug()<<" / / READING CLIPS FROM CLIPBOARD";
+        qDebug() << " / / READING CLIPS FROM CLIPBOARD";
     } else {
         return false;
     }
@@ -656,7 +656,7 @@ bool TimelineController::pasteItem()
         for (int i = 0; i < binClips.count(); ++i) {
             QDomElement currentProd = binClips.item(i).toElement();
             QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
-             if (!pCore->projectItemModel()->isIdFree(clipId)) {
+            if (!pCore->projectItemModel()->isIdFree(clipId)) {
                 QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
                 Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
                 mappedIds.insert(clipId, updatedId);
@@ -705,7 +705,7 @@ bool TimelineController::pasteItem()
     bool res = true;
     QLocale locale;
     QMap<int, int> correspondingIds;
-    QList <int> waitingIds;
+    QList<int> waitingIds;
     for (int i = 0; i < clips.count(); i++) {
         waitingIds << i;
     }
@@ -728,7 +728,7 @@ bool TimelineController::pasteItem()
         bool created = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), speed, undo, redo);
         if (created) {
             // Master producer is ready
-            //ids.removeAll(originalId);
+            // ids.removeAll(originalId);
             waitingIds.removeAt(i);
         } else {
             i++;
@@ -878,37 +878,20 @@ void TimelineController::unGroupSelection(int cid)
         pCore->displayMessage(i18n("Select at least 1 item to ungroup"), InformationMessage, 500);
         return;
     }
-    if (cid == -1) {
-        if (m_model->m_temporarySelectionGroup >= 0) {
-            cid = m_model->m_temporarySelectionGroup;
-        } else {
-            for (int id : m_selection.selectedItems) {
-                if (m_model->m_groups->getRootId(id)) {
-                    cid = id;
-                    break;
-                }
-            }
-        }
-    }
+    // ask to unselect if needed
     int tmpGroup = m_model->m_temporarySelectionGroup;
     if (tmpGroup >= 0) {
-        m_model->requestClipUngroup({m_model->m_temporarySelectionGroup}, false);
+        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
     }
-    QList <int> topGroups;
-    if (cid > -1) {
-        if (cid != tmpGroup) {
-            topGroups << m_model->m_groups->getDirectAncestor(cid);
-        } else {
-            for (int id : m_selection.selectedItems) {
-                int parentGroup = m_model->m_groups->getRootId(id);
-                if (parentGroup > -1 && !topGroups.contains(parentGroup)) {
-                    topGroups << parentGroup;
-                }
-            }
-        }
-        if (!topGroups.isEmpty()) {
-            m_model->requestClipUngroup(topGroups);
-        }
+    std::unordered_set<int> ids;
+    if (cid > -1 && cid != tmpGroup) {
+        ids.insert(cid);
+    }
+    for (int id : m_selection.selectedItems) {
+        ids.insert(id);
+    }
+    if (!ids.empty()) {
+        m_model->requestClipsUngroup(ids);
     }
     m_selection.selectedItems.clear();
     emit selectionChanged();
@@ -1149,7 +1132,7 @@ void TimelineController::selectItems(const QVariantList &arg, int startFrame, in
         m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(itemsToSelect, true, GroupType::Selection);
         qDebug() << "// GROUPING ITEMS DONE";
     } else if (m_model->m_temporarySelectionGroup > -1) {
-        m_model->requestClipUngroup({m_model->m_temporarySelectionGroup}, false);
+        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
     }
     std::unordered_set<int> newIds;
     if (m_model->m_temporarySelectionGroup >= 0) {
@@ -1987,7 +1970,7 @@ int TimelineController::groupClips(const QList<int> &clipIds)
 
 bool TimelineController::ungroupClips(int clipId)
 {
-    return m_model->requestClipUngroup({clipId});
+    return m_model->requestClipUngroup(clipId);
 }
 
 void TimelineController::clearSelection()
@@ -2215,7 +2198,7 @@ void TimelineController::grabCurrent()
     }
 }
 
-int TimelineController::getItemMovingTrack(int itemId) const 
+int TimelineController::getItemMovingTrack(int itemId) const
 {
     if (m_model->isClip(itemId)) {
         int trackId = m_model->m_allClips[itemId]->getFakeTrackId();

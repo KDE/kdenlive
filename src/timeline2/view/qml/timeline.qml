@@ -1342,7 +1342,7 @@ Rectangle {
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
             //cornerstone.selected = timeline.isMultitrackSelected()
-            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem) {
+            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }
             var selectedTrack = timeline.selectedTrack()

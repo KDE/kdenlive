@@ -351,7 +351,7 @@ void fuzz(const std::string &input)
                             valid = valid && (groupId >= 0);
                             arguments.emplace_back(groupId);
                             // std::cout << "got clipId" << clipId << std::endl;
-                        } else if (arg_name == "ids") {
+                        } else if (arg_name == "itemIds") {
                             int count = 0;
                             ss >> count;
                             // std::cout << "got ids. going to read count=" << count << std::endl;
