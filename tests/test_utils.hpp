@@ -7,6 +7,7 @@
 #include <random>
 #include <string>
 
+#include "logger.hpp"
 #pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
 #pragma GCC diagnostic push
 #include "fakeit.hpp"
@@ -34,6 +35,7 @@
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include "transitions/transitionsrepository.hpp"
 
 using namespace fakeit;
 #define RESET(mock)                                                                                                                                            \

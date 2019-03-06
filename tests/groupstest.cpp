@@ -26,6 +26,7 @@ Mlt::Profile profile_group;
 
 TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
 {
+    Logger::clear();
     auto binModel = pCore->projectItemModel();
     binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -228,6 +229,7 @@ TEST_CASE("Functional test of the group hierarchy", "[GroupsModel]")
             REQUIRE(groups.getRootId(n) == 3);
         }
     }
+    Logger::print_trace();
 }
 
 TEST_CASE("Interface test of the group hierarchy", "[GroupsModel]")

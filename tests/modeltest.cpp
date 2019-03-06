@@ -1,4 +1,3 @@
-#include "logger.hpp"
 #include "test_utils.hpp"
 
 using namespace fakeit;
