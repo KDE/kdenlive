@@ -60,7 +60,7 @@ protected:
 
 public:
     static std::shared_ptr<ProjectItemModel> construct(QObject *parent = nullptr);
-    ~ProjectItemModel();
+    ~ProjectItemModel() override;
 
     friend class ProjectClip;
 

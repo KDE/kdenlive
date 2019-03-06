@@ -40,7 +40,7 @@ std::shared_ptr<ProjectFolderUp> ProjectFolderUp::construct(std::shared_ptr<Proj
     return self;
 }
 
-ProjectFolderUp::~ProjectFolderUp() {}
+ProjectFolderUp::~ProjectFolderUp() = default;
 
 std::shared_ptr<ProjectClip> ProjectFolderUp::clip(const QString &id)
 {

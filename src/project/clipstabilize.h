@@ -32,8 +32,8 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    explicit ClipStabilize(const std::vector<QString> &binIds, const QString &filterName, int out, QWidget *parent = nullptr);
-    ~ClipStabilize();
+    explicit ClipStabilize(const std::vector<QString> &binIds, QString filterName, int out, QWidget *parent = nullptr);
+    ~ClipStabilize() override;
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */

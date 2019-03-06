@@ -21,7 +21,7 @@ public:
     /** \brief The input method for the dialog. Atm only InputHex supported. */
     enum InputMethod { InputHex, InputDec };
     explicit UnicodeDialog(InputMethod inputMeth, QWidget *parent = nullptr);
-    ~UnicodeDialog();
+    ~UnicodeDialog() override;
 
 private Q_SLOTS:
     void slotAccept();
@@ -39,7 +39,7 @@ class UnicodeWidget : public QWidget, public Ui::UnicodeWidget_UI
     Q_OBJECT
 public:
     explicit UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent = nullptr);
-    ~UnicodeWidget();
+    ~UnicodeWidget() override;
 
     /** \brief Returns infos about a unicode number. Extendable/improvable ;) */
     QString unicodeInfo(const QString &unicode);

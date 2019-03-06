@@ -57,7 +57,7 @@ class EffectStackView : public QWidget
 
 public:
     EffectStackView(AssetPanel *parent);
-    virtual ~EffectStackView();
+    ~EffectStackView() override;
     void setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize);
     void unsetModel(bool reset = true);
     ObjectId stackOwner() const;

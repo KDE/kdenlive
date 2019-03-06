@@ -22,7 +22,7 @@
 #include <QPainter>
 #include <QTime>
 
-#include <math.h>
+#include <cmath>
 
 AudioSignal::AudioSignal(QWidget *parent)
     : AbstractAudioScopeWidget(false, parent)
@@ -124,13 +124,13 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     }
     if (showdb) {
         // draw db value at related pixel
-        for (int l = 0; l < m_dbscale.size(); l++) {
+        for (int l : m_dbscale) {
             if (!horiz) {
-                double xf = pow(10.0, (double)m_dbscale.at(l) / 20.0) * (double)height();
-                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString().sprintf("%d", m_dbscale.at(l)));
+                double xf = pow(10.0, (double)l / 20.0) * (double)height();
+                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString().sprintf("%d", l));
             } else {
-                double xf = pow(10.0, (double)m_dbscale.at(l) / 20.0) * (double)width();
-                p.drawText(xf * 40 / 42 - 10, height() - 2, QString().sprintf("%d", m_dbscale.at(l)));
+                double xf = pow(10.0, (double)l / 20.0) * (double)width();
+                p.drawText(xf * 40 / 42 - 10, height() - 2, QString().sprintf("%d", l));
             }
         }
     }
@@ -141,7 +141,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
 QRect AudioSignal::scopeRect()
 {
-    return QRect(0, 0, width(), height());
+    return {0, 0, width(), height()};
 }
 
 QImage AudioSignal::renderHUD(uint)

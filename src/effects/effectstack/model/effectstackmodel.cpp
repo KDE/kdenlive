@@ -35,7 +35,7 @@
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
     , m_effectStackEnabled(true)
-    , m_ownerId(ownerId)
+    , m_ownerId(std::move(ownerId))
     , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
     , m_loadingExisting(false)
@@ -871,7 +871,7 @@ bool EffectStackModel::checkConsistency()
         int kdenliveFilterCount = 0;
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
-            if (filt->get("kdenlive_id") != NULL) {
+            if (filt->get("kdenlive_id") != nullptr) {
                 kdenliveFilterCount++;
             }
             // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
@@ -883,7 +883,7 @@ bool EffectStackModel::checkConsistency()
 
         int ct = 0;
         for (uint i = 0; i < allFilters.size(); ++i) {
-            while (ptr->filter(ct)->get("kdenlive_id") == NULL && ct < ptr->filter_count()) {
+            while (ptr->filter(ct)->get("kdenlive_id") == nullptr && ct < ptr->filter_count()) {
                 ct++;
             }
             auto mltFilter = ptr->filter(ct);

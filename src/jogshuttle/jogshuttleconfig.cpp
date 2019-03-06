@@ -24,7 +24,7 @@
 #include <string>
 #include <vector>
 
-#include <stdlib.h>
+#include <cstdlib>
 
 using std::string;
 using std::stringstream;

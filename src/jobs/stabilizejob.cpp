@@ -33,13 +33,13 @@
 
 #include <klocalizedstring.h>
 
+#include <memory>
 #include <mlt++/Mlt.h>
-
-StabilizeJob::StabilizeJob(const QString &binId, const QString &filterName, const QString &destUrl, const std::unordered_map<QString, QString> &filterParams)
+StabilizeJob::StabilizeJob(const QString &binId, const QString &filterName, QString destUrl, std::unordered_map<QString, QString> filterParams)
     : MeltJob(binId, STABILIZEJOB, true, -1, -1)
     , m_filterName(filterName)
-    , m_destUrl(destUrl)
-    , m_filterParams(filterParams)
+    , m_destUrl(std::move(destUrl))
+    , m_filterParams(std::move(filterParams))
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
 }
@@ -50,7 +50,7 @@ const QString StabilizeJob::getDescription() const
 }
 void StabilizeJob::configureConsumer()
 {
-    m_consumer.reset(new Mlt::Consumer(*m_profile.get(), "xml", m_destUrl.toUtf8().constData()));
+    m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "xml", m_destUrl.toUtf8().constData());
     m_consumer->set("all", 1);
     m_consumer->set("title", "Stabilized");
     m_consumer->set("real_time", -KdenliveSettings::mltthreads());
@@ -59,7 +59,7 @@ void StabilizeJob::configureConsumer()
 void StabilizeJob::configureFilter()
 {
 
-    m_filter.reset(new Mlt::Filter(*m_profile.get(), m_filterName.toUtf8().data()));
+    m_filter = std::make_unique<Mlt::Filter>(*m_profile.get(), m_filterName.toUtf8().data());
     if ((m_filter == nullptr) || !m_filter->is_valid()) {
         m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
         return;

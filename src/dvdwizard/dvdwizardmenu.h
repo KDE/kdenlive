@@ -42,9 +42,9 @@ public:
     void setGridSize(int gridSize);
 
 private:
-    int m_width;
-    int m_height;
-    int m_gridSize;
+    int m_width{0};
+    int m_height{0};
+    int m_gridSize{1};
 
 protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
@@ -95,7 +95,7 @@ class DvdWizardMenu : public QWizardPage
 
 public:
     explicit DvdWizardMenu(DVDFORMAT format, QWidget *parent = nullptr);
-    virtual ~DvdWizardMenu();
+    ~DvdWizardMenu() override;
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);

@@ -44,7 +44,7 @@ class KeyframeWidget : public AbstractParamWidget
 
 public:
     explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent = nullptr);
-    ~KeyframeWidget();
+    ~KeyframeWidget() override;
 
     /* @brief Add a new parameter to be managed using the same keyframe viewer */
     void addParameter(const QPersistentModelIndex &index);

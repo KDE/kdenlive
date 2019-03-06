@@ -26,7 +26,7 @@ class RGBParade : public AbstractGfxScopeWidget
 {
 public:
     explicit RGBParade(QWidget *parent = nullptr);
-    ~RGBParade();
+    ~RGBParade() override;
     QString widgetName() const override;
 
 protected:

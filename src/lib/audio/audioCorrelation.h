@@ -39,7 +39,7 @@ public:
                                must return false).
     */
     explicit AudioCorrelation(std::unique_ptr<AudioEnvelope> mainTrackEnvelope);
-    ~AudioCorrelation();
+    ~AudioCorrelation() override;
 
     /**
       Adds a child envelope that will be aligned to the reference

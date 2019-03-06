@@ -22,14 +22,14 @@
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 
-AbstractClipJob::AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent)
+AbstractClipJob::AbstractClipJob(JOBTYPE type, QString id, QObject *parent)
     : QObject(parent)
-    , m_clipId(id)
+    , m_clipId(std::move(id))
     , m_jobType(type)
 {
 }
 
-AbstractClipJob::~AbstractClipJob() {}
+AbstractClipJob::~AbstractClipJob() = default;
 
 const QString AbstractClipJob::clipId() const
 {

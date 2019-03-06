@@ -46,7 +46,7 @@ protected:
     explicit ProjectFolderUp(const std::shared_ptr<ProjectItemModel> &model);
 
 public:
-    ~ProjectFolderUp();
+    ~ProjectFolderUp() override;
 
     /**
      * @brief Returns the clip if it is a child (also indirect).

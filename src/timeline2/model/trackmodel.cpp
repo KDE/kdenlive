@@ -29,7 +29,6 @@
 #include "timelinemodel.hpp"
 #include <QDebug>
 #include <QModelIndex>
-#include <mlt++/MltProfile.h>
 #include <mlt++/MltTransition.h>
 
 TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const QString &trackName, bool audioTrack)
@@ -38,7 +37,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
     , m_lock(QReadWriteLock::Recursive)
 {
     if (auto ptr = parent.lock()) {
-        m_track = std::shared_ptr<Mlt::Tractor>(new Mlt::Tractor(*ptr->getProfile()));
+        m_track = std::make_shared<Mlt::Tractor>(*ptr->getProfile());
         m_playlists[0].set_profile(*ptr->getProfile());
         m_playlists[1].set_profile(*ptr->getProfile());
         m_track->insert_track(m_playlists[0], 0);
@@ -48,8 +47,8 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         }
         if (audioTrack) {
             m_track->set("kdenlive:audio_track", 1);
-            for (int i = 0; i < 2; i++) {
-                m_playlists[i].set("hide", 1);
+            for (auto &m_playlist : m_playlists) {
+                m_playlist.set("hide", 1);
             }
         }
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
@@ -71,7 +70,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, Mlt::Tractor 
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
 {
     if (auto ptr = parent.lock()) {
-        m_track = std::shared_ptr<Mlt::Tractor>(new Mlt::Tractor(mltTrack));
+        m_track = std::make_shared<Mlt::Tractor>(mltTrack);
         m_playlists[0] = *m_track->track(0);
         m_playlists[1] = *m_track->track(1);
         m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
@@ -106,9 +105,9 @@ int TrackModel::getClipsCount()
     READ_LOCK();
 #ifdef QT_DEBUG
     int count = 0;
-    for (int j = 0; j < 2; j++) {
-        for (int i = 0; i < m_playlists[j].count(); i++) {
-            if (!m_playlists[j].is_blank(i)) {
+    for (auto &m_playlist : m_playlists) {
+        for (int i = 0; i < m_playlist.count(); i++) {
+            if (!m_playlist.is_blank(i)) {
                 count++;
             }
         }
@@ -343,10 +342,10 @@ int TrackModel::getBlankSizeAtPos(int frame)
 {
     READ_LOCK();
     int min_length = 0;
-    for (int i = 0; i < 2; ++i) {
-        int ix = m_playlists[i].get_clip_index_at(frame);
-        if (m_playlists[i].is_blank(ix)) {
-            int blank_length = m_playlists[i].clip_length(ix);
+    for (auto &m_playlist : m_playlists) {
+        int ix = m_playlist.get_clip_index_at(frame);
+        if (m_playlist.is_blank(ix)) {
+            int blank_length = m_playlist.clip_length(ix);
             if (min_length == 0 || (blank_length > 0 && blank_length < min_length)) {
                 min_length = blank_length;
             }
@@ -710,8 +709,8 @@ void TrackModel::setProperty(const QString &name, const QString &value)
     m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
     // Hide property mus be defined at playlist level or it won't be saved
     if (name == QLatin1String("kdenlive:audio_track") || name == QLatin1String("hide")) {
-        for (int i = 0; i < 2; i++) {
-            m_playlists[i].set(name.toUtf8().constData(), value.toInt());
+        for (auto &m_playlist : m_playlists) {
+            m_playlist.set(name.toUtf8().constData(), value.toInt());
         }
     }
 }
@@ -726,7 +725,7 @@ bool TrackModel::checkConsistency()
     for (const auto &c : m_allClips) {
         Q_ASSERT(c.second);
         Q_ASSERT(c.second.get() == ptr->getClipPtr(c.first).get());
-        clips.push_back({c.second->getPosition(), c.first});
+        clips.emplace_back(c.second->getPosition(), c.first);
     }
     std::sort(clips.begin(), clips.end());
     size_t current_clip = 0;
@@ -828,16 +827,16 @@ int TrackModel::getBlankStart(int position)
 {
     READ_LOCK();
     int result = 0;
-    for (int j = 0; j < 2; j++) {
-        if (m_playlists[j].count() == 0) {
+    for (auto &m_playlist : m_playlists) {
+        if (m_playlist.count() == 0) {
             break;
         }
-        if (!m_playlists[j].is_blank_at(position)) {
+        if (!m_playlist.is_blank_at(position)) {
             result = position;
             break;
         }
-        int clip_index = m_playlists[j].get_clip_index_at(position);
-        int start = m_playlists[j].clip_start(clip_index);
+        int clip_index = m_playlist.get_clip_index_at(position);
+        int start = m_playlist.clip_start(clip_index);
         if (start > result) {
             result = start;
         }

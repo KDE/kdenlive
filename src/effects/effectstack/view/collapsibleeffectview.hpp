@@ -46,7 +46,7 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
 
 public:
     explicit CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent = nullptr);
-    ~CollapsibleEffectView();
+    ~CollapsibleEffectView() override;
     QLabel *title;
 
     void setupWidget(const ItemInfo &info);

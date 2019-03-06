@@ -31,9 +31,9 @@ class BezierSplineEditor : public AbstractCurveWidget<CubicBezierSpline>
     Q_OBJECT
 
 public:
-    typedef BPoint Point_t;
+    using Point_t = BPoint;
     explicit BezierSplineEditor(QWidget *parent = nullptr);
-    ~BezierSplineEditor();
+    ~BezierSplineEditor() override;
 
     /** @brief Sets the property showAllHandles to @param show.
      *
@@ -52,11 +52,11 @@ protected:
 
 private:
     /** Whether to show handles for all points or only for the selected one. */
-    bool m_showAllHandles;
+    bool m_showAllHandles{true};
 
-    BPoint::PointType m_currentPointType;
-    double m_grabOffsetX;
-    double m_grabOffsetY;
+    BPoint::PointType m_currentPointType{BPoint::PointType::P};
+    double m_grabOffsetX{0};
+    double m_grabOffsetY{0};
     /** selected point before it was modified by dragging (at the time of the mouse press) */
     BPoint m_grabPOriginal;
     /** point with the index currentPointIndex + 1 at the time of the mouse press */

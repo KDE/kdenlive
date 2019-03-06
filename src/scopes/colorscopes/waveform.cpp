@@ -25,7 +25,7 @@ const int Waveform::m_paddingBottom(20);
 
 Waveform::Waveform(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
-    , m_ui(nullptr)
+
 {
     m_ui = new Ui::Waveform_UI();
     m_ui->setupUi(this);

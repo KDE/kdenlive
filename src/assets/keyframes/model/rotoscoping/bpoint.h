@@ -66,7 +66,7 @@ public:
     /** handle 2 */
     QPointF h2;
     /** handles are linked to achieve a natural locking spline => PH1 = -r*PH2 ; a line can be drawn through h1, p, h2 */
-    bool handlesLinked;
+    bool handlesLinked{true};
 };
 
 #endif

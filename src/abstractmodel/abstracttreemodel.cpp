@@ -103,12 +103,12 @@ QModelIndex AbstractTreeModel::index(int row, int column, const QModelIndex &par
     std::shared_ptr<TreeItem> childItem = parentItem->child(row);
     if (childItem) return createIndex(row, column, quintptr(childItem->getId()));
 
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex AbstractTreeModel::parent(const QModelIndex &index) const
 {
-    if (!index.isValid()) return QModelIndex();
+    if (!index.isValid()) return {};
 
     std::shared_ptr<TreeItem> childItem = getItemById((int)index.internalId());
     std::shared_ptr<TreeItem> parentItem = childItem->parentItem().lock();
@@ -136,7 +136,7 @@ int AbstractTreeModel::rowCount(const QModelIndex &parent) const
 QModelIndex AbstractTreeModel::getIndexFromItem(const std::shared_ptr<TreeItem> &item) const
 {
     if (item == rootItem) {
-        return QModelIndex();
+        return {};
     }
     auto parentIndex = getIndexFromItem(item->parentItem().lock());
     return index(item->row(), 0, parentIndex);
@@ -151,7 +151,7 @@ QModelIndex AbstractTreeModel::getIndexFromId(int id) const
     if (auto ptr = m_allItems.at(id).lock()) return getIndexFromItem(ptr);
 
     Q_ASSERT(false);
-    return QModelIndex();
+    return {};
 }
 
 void AbstractTreeModel::notifyRowAboutToAppend(const std::shared_ptr<TreeItem> &item)

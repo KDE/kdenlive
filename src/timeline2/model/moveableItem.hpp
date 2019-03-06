@@ -35,7 +35,7 @@ template <typename Service> class MoveableItem
     MoveableItem() = delete;
 
 protected:
-    virtual ~MoveableItem() {}
+    virtual ~MoveableItem() = default;
 
 public:
     MoveableItem(std::weak_ptr<TimelineModel> parent, int id = -1);

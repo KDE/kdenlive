@@ -109,13 +109,13 @@ protected:
     QVector<T> m_h;
     T m_begin;
     T m_end;
-    int m_intervals;
+    int m_intervals{0};
 
 public:
     KisCubicSpline()
         : m_begin(0)
         , m_end(0)
-        , m_intervals(0)
+
     {
     }
     explicit KisCubicSpline(const QList<T_point> &a)

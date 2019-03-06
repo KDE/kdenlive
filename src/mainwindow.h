@@ -35,6 +35,7 @@
 #include <KXmlGuiWindow>
 #include <QTabWidget>
 #include <kautosavefile.h>
+#include <utility>
 
 #include "bin/bin.h"
 #include "definitions.h"
@@ -63,9 +64,9 @@ class Transition;
 class MltErrorEvent : public QEvent
 {
 public:
-    explicit MltErrorEvent(const QString &message)
+    explicit MltErrorEvent(QString message)
         : QEvent(QEvent::User)
-        , m_message(message)
+        , m_message(std::move(message))
     {
     }
 
@@ -90,7 +91,7 @@ public:
      * set, latest project will be opened. If no file is open after trying this,
      * a default new file will be created. */
     void init();
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
     /** @brief Cache for luma files thumbnails. */
     static QMap<QString, QImage> m_lumacache;
@@ -116,7 +117,7 @@ public:
     QUndoView *m_undoView;
     /** @brief holds info about whether movit is available on this system */
     bool m_gpuAllowed;
-    int m_exitCode;
+    int m_exitCode{EXIT_SUCCESS};
     QMap<QString, KActionCategory *> kdenliveCategoryMap;
     QList<QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
@@ -163,14 +164,14 @@ private:
     TransitionListWidget *m_transitionList2;
     EffectListWidget *m_effectList2;
 
-    AssetPanel *m_assetPanel;
+    AssetPanel *m_assetPanel{nullptr};
     QDockWidget *m_effectStackDock;
 
     QDockWidget *m_clipMonitorDock;
-    Monitor *m_clipMonitor;
+    Monitor *m_clipMonitor{nullptr};
 
     QDockWidget *m_projectMonitorDock;
-    Monitor *m_projectMonitor;
+    Monitor *m_projectMonitor{nullptr};
 
     AudioGraphSpectrum *m_audioSpectrum;
 
@@ -179,7 +180,7 @@ private:
     KSelectAction *m_timeFormatButton;
     KSelectAction *m_compositeAction;
 
-    TimelineTabs *m_timelineTabs;
+    TimelineTabs *m_timelineTabs{nullptr};
 
     /** This list holds all the scopes used in Kdenlive, allowing to manage some global settings */
     QList<QDockWidget *> m_gfxScopesList;
@@ -201,8 +202,8 @@ private:
      * shortcut. */
     QShortcut *m_shortcutRemoveFocus;
 
-    RenderWidget *m_renderWidget;
-    StatusBarMessageLabel *m_messageLabel;
+    RenderWidget *m_renderWidget{nullptr};
+    StatusBarMessageLabel *m_messageLabel{nullptr};
     QList<QAction *> m_transitions;
     QAction *m_buttonAudioThumbs;
     QAction *m_buttonVideoThumbs;
@@ -246,8 +247,8 @@ private:
 
     QTime m_timer;
     KXMLGUIClient *m_extraFactory;
-    bool m_themeInitialized;
-    bool m_isDarkTheme;
+    bool m_themeInitialized{false};
+    bool m_isDarkTheme{false};
     EffectBasket *m_effectBasket;
     /** @brief Update widget style. */
     void doChangeStyle();

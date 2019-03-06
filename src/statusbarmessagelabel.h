@@ -30,8 +30,8 @@
 #include <QSemaphore>
 #include <QTimer>
 #include <QWidget>
-
 #include <definitions.h>
+#include <utility>
 
 #include "lib/qtimerWithTime.h"
 
@@ -45,7 +45,7 @@ class FlashLabel : public QWidget
     Q_OBJECT
 public:
     explicit FlashLabel(QWidget *parent = nullptr);
-    ~FlashLabel();
+    ~FlashLabel() override;
     QColor color() const;
     void setColor(const QColor &);
 };
@@ -59,16 +59,15 @@ struct StatusBarMessageItem
     QString text;
     MessageType type;
     int timeoutMillis;
-    bool confirmed; ///< MLT errors need to be confirmed.
+    bool confirmed{false}; ///< MLT errors need to be confirmed.
 
     /// \return true if the error still needs to be confirmed
     bool needsConfirmation() const { return (type == MltError && !confirmed); }
 
-    StatusBarMessageItem(const QString &messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0)
-        : text(messageText)
+    StatusBarMessageItem(QString messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0)
+        : text(std::move(messageText))
         , type(messageType)
         , timeoutMillis(timeoutMS)
-        , confirmed(false)
     {
     }
 
@@ -89,7 +88,7 @@ class StatusBarMessageLabel : public FlashLabel
 
 public:
     explicit StatusBarMessageLabel(QWidget *parent);
-    virtual ~StatusBarMessageLabel();
+    ~StatusBarMessageLabel() override;
 
 protected:
     // void paintEvent(QPaintEvent* event);

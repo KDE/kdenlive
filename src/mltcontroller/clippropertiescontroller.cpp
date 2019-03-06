@@ -181,7 +181,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     setLayout(lay);
     m_tabWidget->setDocumentMode(true);
     m_tabWidget->setTabPosition(QTabWidget::East);
-    QScrollArea *forcePage = new QScrollArea(this);
+    auto *forcePage = new QScrollArea(this);
     m_propertiesPage = new QWidget(this);
     m_markersPage = new QWidget(this);
     m_metaPage = new QWidget(this);
@@ -355,10 +355,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         QString proxy = m_properties->get("kdenlive:proxy");
         m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
         hlay = new QHBoxLayout;
-        QGroupBox *bg = new QGroupBox(this);
+        auto *bg = new QGroupBox(this);
         bg->setCheckable(false);
         bg->setFlat(true);
-        QHBoxLayout *groupLay = new QHBoxLayout;
+        auto *groupLay = new QHBoxLayout;
         groupLay->setContentsMargins(0, 0, 0, 0);
         auto *pbox = new QCheckBox(i18n("Proxy clip"), this);
         pbox->setTristate(true);
@@ -402,7 +402,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         groupLay->addWidget(lab);
 
         // Delete button
-        QToolButton *tb = new QToolButton(this);
+        auto *tb = new QToolButton(this);
         tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
         tb->setAutoRaise(true);
         connect(tb, &QToolButton::clicked, [this, proxy]() { emit deleteProxy(); });
@@ -410,7 +410,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         groupLay->addWidget(tb);
         // Folder button
         tb = new QToolButton(this);
-        QMenu *pMenu = new QMenu(this);
+        auto *pMenu = new QMenu(this);
         tb->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
         tb->setToolTip(i18n("Proxy options"));
         tb->setMenu(pMenu);
@@ -550,13 +550,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             KDualAction *ac = new KDualAction(i18n("Disable video"), i18n("Enable video"), this);
             ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
             ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-video")));
-            QToolButton *tbv = new QToolButton(this);
+            auto *tbv = new QToolButton(this);
             tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
             tbv->setDefaultAction(ac);
             tbv->setAutoRaise(true);
             hlay->addWidget(tbv);
             hlay->addWidget(new QLabel(i18n("Video stream")));
-            QComboBox *videoStream = new QComboBox(this);
+            auto *videoStream = new QComboBox(this);
             int ix = 1;
             for (int stream : m_videoStreams) {
                 videoStream->addItem(i18n("Video stream %1", ix), stream);
@@ -601,13 +601,13 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
             ac->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
             ac->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
-            QToolButton *tbv = new QToolButton(this);
+            auto *tbv = new QToolButton(this);
             tbv->setToolButtonStyle(Qt::ToolButtonIconOnly);
             tbv->setDefaultAction(ac);
             tbv->setAutoRaise(true);
             hlay->addWidget(tbv);
             hlay->addWidget(new QLabel(i18n("Audio stream")));
-            QComboBox *audioStream = new QComboBox(this);
+            auto *audioStream = new QComboBox(this);
             int ix = 1;
             for (int stream : m_audioStreams) {
                 audioStream->addItem(i18n("Audio stream %1", ix), stream);
@@ -711,7 +711,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     connect(m_tabWidget, &QTabWidget::currentChanged, this, &ClipPropertiesController::updateTab);
 }
 
-ClipPropertiesController::~ClipPropertiesController() {}
+ClipPropertiesController::~ClipPropertiesController() = default;
 
 void ClipPropertiesController::updateTab(int ix)
 {
@@ -787,7 +787,7 @@ void ClipPropertiesController::slotDurationChanged(int duration)
 
 void ClipPropertiesController::slotEnableForce(int state)
 {
-    QCheckBox *box = qobject_cast<QCheckBox *>(sender());
+    auto *box = qobject_cast<QCheckBox *>(sender());
     if (!box) {
         return;
     }
@@ -798,7 +798,7 @@ void ClipPropertiesController::slotEnableForce(int state)
         // The force property was disable, remove it / reset default if necessary
         if (param == QLatin1String("force_duration")) {
             // special case, reset original duration
-            TimecodeDisplay *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
+            auto *timePos = findChild<TimecodeDisplay *>(param + QStringLiteral("_value"));
             timePos->setValue(m_properties->get_int("kdenlive:original_length"));
             int original = m_properties->get_int("kdenlive:original_length");
             m_properties->set("kdenlive:original_length", (char *)nullptr);
@@ -825,19 +825,19 @@ void ClipPropertiesController::slotEnableForce(int state)
                 m_properties->set("kdenlive:original_length", kdenlive_length > 0 ? m_properties->get("kdenlive:duration") : m_properties->get("length"));
             }
         } else if (param == QLatin1String("force_fps")) {
-            QDoubleSpinBox *spin = findChild<QDoubleSpinBox *>(param + QStringLiteral("_value"));
+            auto *spin = findChild<QDoubleSpinBox *>(param + QStringLiteral("_value"));
             if (!spin) {
                 return;
             }
             properties.insert(param, locale.toString(spin->value()));
         } else if (param == QLatin1String("threads")) {
-            QSpinBox *spin = findChild<QSpinBox *>(param + QStringLiteral("_value"));
+            auto *spin = findChild<QSpinBox *>(param + QStringLiteral("_value"));
             if (!spin) {
                 return;
             }
             properties.insert(param, QString::number(spin->value()));
         } else if (param == QLatin1String("force_colorspace") || param == QLatin1String("force_progressive") || param == QLatin1String("force_tff")) {
-            QComboBox *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
+            auto *combo = findChild<QComboBox *>(param + QStringLiteral("_value"));
             if (!combo) {
                 return;
             }
@@ -847,8 +847,8 @@ void ClipPropertiesController::slotEnableForce(int state)
         } else if (param == QLatin1String("autorotate")) {
             properties.insert(QStringLiteral("autorotate"), QStringLiteral("0"));
         } else if (param == QLatin1String("force_ar")) {
-            QSpinBox *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
-            QSpinBox *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
+            auto *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
+            auto *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
             if ((spin == nullptr) || (spin2 == nullptr)) {
                 return;
             }
@@ -866,7 +866,7 @@ void ClipPropertiesController::slotEnableForce(int state)
 
 void ClipPropertiesController::slotValueChanged(double value)
 {
-    QDoubleSpinBox *box = qobject_cast<QDoubleSpinBox *>(sender());
+    auto *box = qobject_cast<QDoubleSpinBox *>(sender());
     if (!box) {
         return;
     }
@@ -880,7 +880,7 @@ void ClipPropertiesController::slotValueChanged(double value)
 
 void ClipPropertiesController::slotValueChanged(int value)
 {
-    QSpinBox *box = qobject_cast<QSpinBox *>(sender());
+    auto *box = qobject_cast<QSpinBox *>(sender());
     if (!box) {
         return;
     }
@@ -893,8 +893,8 @@ void ClipPropertiesController::slotValueChanged(int value)
 
 void ClipPropertiesController::slotAspectValueChanged(int)
 {
-    QSpinBox *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
-    QSpinBox *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
+    auto *spin = findChild<QSpinBox *>(QStringLiteral("force_aspect_num_value"));
+    auto *spin2 = findChild<QSpinBox *>(QStringLiteral("force_aspect_den_value"));
     if ((spin == nullptr) || (spin2 == nullptr)) {
         return;
     }
@@ -909,7 +909,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
 
 void ClipPropertiesController::slotComboValueChanged()
 {
-    QComboBox *box = qobject_cast<QComboBox *>(sender());
+    auto *box = qobject_cast<QComboBox *>(sender());
     if (!box) {
         return;
     }
@@ -1042,7 +1042,7 @@ void ClipPropertiesController::fillProperties()
     }
 
     for (int i = 0; i < propertyMap.count(); i++) {
-        QTreeWidgetItem *item = new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
+        auto *item = new QTreeWidgetItem(m_propertiesTree, propertyMap.at(i));
         item->setToolTip(1, propertyMap.at(i).at(1));
     }
     m_propertiesTree->setSortingEnabled(true);

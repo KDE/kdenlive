@@ -57,7 +57,7 @@ protected:
                    const QString &timecode, const QString &name = QString());
 
 public:
-    virtual ~ProjectSubClip();
+    ~ProjectSubClip() override;
 
     std::shared_ptr<ProjectClip> clip(const QString &id) override;
     std::shared_ptr<ProjectFolder> folder(const QString &id) override;

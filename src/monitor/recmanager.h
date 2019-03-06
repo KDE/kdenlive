@@ -57,7 +57,7 @@ class RecManager : public QObject
 
 public:
     explicit RecManager(Monitor *parent = nullptr);
-    ~RecManager();
+    ~RecManager() override;
     QToolBar *toolbar() const;
     void stopCapture();
     QAction *switchAction() const;
@@ -70,12 +70,12 @@ private:
     QString m_captureFolder;
     QUrl m_captureFile;
     QString m_recError;
-    QProcess *m_captureProcess;
+    QProcess *m_captureProcess{nullptr};
     QAction *m_recAction;
     QAction *m_playAction;
     QAction *m_showLogAction;
     QToolBar *m_recToolbar;
-    QComboBox *m_screenCombo;
+    QComboBox *m_screenCombo{nullptr};
     QComboBox *m_device_selector;
     QCheckBox *m_recVideo;
     QCheckBox *m_recAudio;

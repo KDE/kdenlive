@@ -30,7 +30,7 @@ class DocumentValidator
 {
 
 public:
-    DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl);
+    DocumentValidator(const QDomDocument &doc, QUrl documentUrl);
     bool isProject() const;
     bool validate(const double currentVersion);
     bool isModified() const;

@@ -128,7 +128,7 @@ void ClipModel::deregisterClipToBin()
     pCore->removeFromSelection(m_id);
 }
 
-ClipModel::~ClipModel() {}
+ClipModel::~ClipModel() = default;
 
 bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
 {
@@ -247,7 +247,7 @@ QSize ClipModel::getFrameSize() const
     if (service()->parent().is_valid()) {
         return QSize(service()->parent().get_int("meta.media.width"), service()->parent().get_int("meta.media.height"));
     }
-    return QSize(service()->get_int("meta.media.width"), service()->get_int("meta.media.height"));
+    return {service()->get_int("meta.media.width"), service()->get_int("meta.media.height")};
 }
 
 double ClipModel::getDoubleProperty(const QString &name) const

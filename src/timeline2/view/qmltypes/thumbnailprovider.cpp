@@ -34,7 +34,7 @@ ThumbnailProvider::ThumbnailProvider()
 {
 }
 
-ThumbnailProvider::~ThumbnailProvider() {}
+ThumbnailProvider::~ThumbnailProvider() = default;
 
 void ThumbnailProvider::resetProject()
 {

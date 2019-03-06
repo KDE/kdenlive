@@ -877,7 +877,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
                     newTrackPlaylist->insert_at(clip_position - offset, clip.data(), 1);
                 } else if (timeline->isComposition(itemId)) {
                     // Composition
-                    Mlt::Transition *t = new Mlt::Transition(*timeline->m_allCompositions[itemId].get());
+                    auto *t = new Mlt::Transition(*timeline->m_allCompositions[itemId].get());
                     QString id(t->get("kdenlive_id"));
                     QString internal(t->get("internal_added"));
                     if (internal.isEmpty()) {

@@ -46,7 +46,7 @@ FlashLabel::FlashLabel(QWidget *parent)
     setAutoFillBackground(true);
 }
 
-FlashLabel::~FlashLabel() {}
+FlashLabel::~FlashLabel() = default;
 
 void FlashLabel::setColor(const QColor &col)
 {
@@ -84,7 +84,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
     connect(m_label, &QLabel::linkActivated, this, &StatusBarMessageLabel::slotShowJobLog);
 }
 
-StatusBarMessageLabel::~StatusBarMessageLabel() {}
+StatusBarMessageLabel::~StatusBarMessageLabel() = default;
 
 void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
 {

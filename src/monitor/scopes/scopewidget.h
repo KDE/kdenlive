@@ -67,7 +67,7 @@ public:
     explicit ScopeWidget(QWidget *parent = nullptr);
 
     //! Destructs a ScopeWidget.
-    virtual ~ScopeWidget();
+    ~ScopeWidget() override;
 
     /*!
       Returns the title of the scope to be displayed by the application.
@@ -117,11 +117,11 @@ private:
     Q_INVOKABLE void onRefreshThreadComplete();
     void refreshInThread();
     QFuture<void> m_future;
-    bool m_refreshPending;
+    bool m_refreshPending{false};
 
     // Members accessed in multiple threads (mutex protected).
     QMutex m_mutex;
-    bool m_forceRefresh;
+    bool m_forceRefresh{false};
     QSize m_size;
 };
 

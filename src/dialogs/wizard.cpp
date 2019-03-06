@@ -62,7 +62,7 @@ static QStringList vcodecsList;
 
 MyWizardPage::MyWizardPage(QWidget *parent)
     : QWizardPage(parent)
-    , m_isComplete(false)
+
 {
 }
 
@@ -349,7 +349,7 @@ void Wizard::slotUpdateCaptureParameters()
             profileInfo->m_display_aspect_den = 3;
             profileInfo->m_sample_aspect_num = 1;
             profileInfo->m_sample_aspect_den = 1;
-            profileInfo->m_progressive = 1;
+            profileInfo->m_progressive = true;
             profileInfo->m_colorspace = 601;
             ProfileRepository::get()->saveProfile(profileInfo.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
             m_capture.v4l_formats->addItem(i18n("Default settings (%1x%2, %3/%4fps)", profileInfo->width(), profileInfo->height(),
@@ -912,7 +912,7 @@ void Wizard::slotSaveCaptureFormat()
     profile->m_display_aspect_den = format.at(2).toInt();
     profile->m_frame_rate_num = format.at(3).toInt();
     profile->m_frame_rate_den = format.at(4).toInt();
-    profile->m_progressive = 1;
+    profile->m_progressive = true;
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/profiles/"));
     if (!dir.exists()) {
         dir.mkpath(QStringLiteral("."));

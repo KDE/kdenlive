@@ -39,7 +39,7 @@ const QPointF YPbPr_Yl(-.5, .081);
 
 Vectorscope::Vectorscope(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
-    , m_gain(1)
+
 {
     m_ui = new Ui::Vectorscope_UI();
     m_ui->setupUi(this);

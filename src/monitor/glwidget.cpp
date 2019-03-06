@@ -1351,7 +1351,7 @@ void GLWidget::reloadProfile()
 
 QSize GLWidget::profileSize() const
 {
-    return QSize(m_monitorProfile->width(), m_monitorProfile->height());
+    return {m_monitorProfile->width(), m_monitorProfile->height()};
 }
 
 QRect GLWidget::displayRect() const
@@ -1361,8 +1361,8 @@ QRect GLWidget::displayRect() const
 
 QPoint GLWidget::offset() const
 {
-    return QPoint(m_offset.x() - ((int)((float)m_monitorProfile->width() * m_zoom) - width()) / 2,
-                  m_offset.y() - ((int)((float)m_monitorProfile->height() * m_zoom) - height()) / 2);
+    return {m_offset.x() - ((int)((float)m_monitorProfile->width() * m_zoom) - width()) / 2,
+            m_offset.y() - ((int)((float)m_monitorProfile->height() * m_zoom) - height()) / 2};
 }
 
 void GLWidget::setZoom(float zoom)
@@ -1507,7 +1507,7 @@ void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
     if (frame.get_int("rendered") != 0) {
-        GLWidget *widget = static_cast<GLWidget *>(self);
+        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1519,7 +1519,7 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
 {
     Mlt::Frame frame(frame_ptr);
     if (frame.get_int("rendered") != 0) {
-        GLWidget *widget = static_cast<GLWidget *>(self);
+        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLNoSyncFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1531,7 +1531,7 @@ void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
     if (frame.get_int("rendered") != 0) {
-        GLWidget *widget = static_cast<GLWidget *>(self);
+        auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
         if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showGLFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
@@ -1701,7 +1701,7 @@ void FrameRenderer::cleanup()
 // D
 void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
 {
-    GLsync sync = (GLsync)frame.get_data("movit.convert.fence");
+    auto sync = (GLsync)frame.get_data("movit.convert.fence");
     if (!sync) return;
 
 #ifdef Q_OS_WIN
@@ -1729,7 +1729,7 @@ void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
 {
     if (!rootObject()) return;
 
-    QmlAudioThumb *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
+    auto *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
 
     if (!audioThumbDisplay) return;
 

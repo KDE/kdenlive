@@ -53,8 +53,8 @@ public:
         AUDIOTHUMBJOB = 9,
         SPEEDJOB = 10
     };
-    AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent = nullptr);
-    virtual ~AbstractClipJob();
+    AbstractClipJob(JOBTYPE type, QString id, QObject *parent = nullptr);
+    ~AbstractClipJob() override;
 
     template <typename T, typename... Args> static std::shared_ptr<T> make(const QString &binId, Args &&... args)
     {

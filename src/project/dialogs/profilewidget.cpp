@@ -135,7 +135,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     setLayout(lay);
 }
 
-ProfileWidget::~ProfileWidget() {}
+ProfileWidget::~ProfileWidget() = default;
 
 void ProfileWidget::refreshFpsCombo()
 {

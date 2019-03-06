@@ -124,7 +124,7 @@ void Logger::log_create_producer(const std::string &type, std::vector<rttr::vari
         const std::string class_name = a.get_type().get_name().to_string();
     }
     constr[type].push_back({type, std::move(args)});
-    operations.push_back(ConstrId{type, constr[type].size() - 1});
+    operations.emplace_back(ConstrId{type, constr[type].size() - 1});
 }
 
 namespace {

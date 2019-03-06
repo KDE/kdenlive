@@ -57,7 +57,7 @@ public:
     /** @brief Sets up the widget. */
     explicit ColorPickerWidget(QWidget *parent = nullptr);
     /** @brief Makes sure the event filter is removed. */
-    virtual ~ColorPickerWidget();
+    ~ColorPickerWidget() override;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -75,7 +75,7 @@ private:
                           (needed for fast processing of rects) */
     QColor grabColor(const QPoint &p, bool destroyImage = true);
 
-    bool m_filterActive;
+    bool m_filterActive{false};
     QRect m_grabRect;
     QFrame *m_grabRectFrame;
 #ifdef Q_WS_X11

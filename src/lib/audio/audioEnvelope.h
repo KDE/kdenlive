@@ -33,7 +33,7 @@ class AudioEnvelope : public QObject
 
 public:
     explicit AudioEnvelope(const QString &binId, int clipId, size_t offset = 0, size_t length = 0, size_t startPos = 0);
-    virtual ~AudioEnvelope();
+    ~AudioEnvelope() override;
     /**
        Starts the asynchronous computation that computes the
        envelope. When the computations are done, the signal
@@ -67,7 +67,7 @@ private:
             : audioAmplitudes(size)
         {
         }
-        AudioSummary() {}
+        AudioSummary() = default;
         // This is the envelope data. There is one element for each
         // frame, which contains the sum of the absolute amplitudes of
         // the audio signal for that frame.

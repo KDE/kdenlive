@@ -100,8 +100,8 @@ protected:
     Mlt::Transition *service() const override;
     void setInOut(int in, int out) override;
     void setCurrentTrackId(int tid) override;
-    virtual int getOut() const override;
-    virtual int getIn() const override;
+    int getOut() const override;
+    int getIn() const override;
 
     /* @brief Performs a resize of the given composition.
        Returns true if the operation succeeded, and otherwise nothing is modified

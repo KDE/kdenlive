@@ -30,8 +30,8 @@
 
 #include <klocalizedstring.h>
 
+#include <memory>
 #include <mlt++/Mlt.h>
-
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
@@ -106,7 +106,7 @@ bool MeltJob::startJob()
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
 
-    m_producer.reset(new Mlt::Producer(*m_profile.get(), m_url.toUtf8().constData()));
+    m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
     if (m_producer && m_useProducerProfile) {
         m_profile->from_producer(*m_producer.get());
         m_profile->set_explicit(1);
@@ -118,7 +118,7 @@ bool MeltJob::startJob()
         // Reload producer
         // Force same fps as projec profile or the resulting .mlt will not load in our project
         m_profile->set_frame_rate(fps_num, fps_den);
-        m_producer.reset(new Mlt::Producer(*m_profile.get(), m_url.toUtf8().constData()));
+        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
     }
 
     if ((m_producer == nullptr) || !m_producer->is_valid()) {

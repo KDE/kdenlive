@@ -24,12 +24,12 @@
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <memory>
-
-AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, const QString &value, QUndoCommand *parent)
+#include <utility>
+AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QString value, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_index(index)
-    , m_value(value)
+    , m_value(std::move(value))
     , m_updateView(false)
     , m_stamp(QTime::currentTime())
 {
@@ -73,12 +73,12 @@ bool AssetCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, const QVariant &value, GenTime pos,
+AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QVariant value, GenTime pos,
                                            QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
     , m_index(index)
-    , m_value(value)
+    , m_value(std::move(value))
     , m_pos(pos)
     , m_updateView(false)
     , m_stamp(QTime::currentTime())
@@ -120,11 +120,10 @@ bool AssetKeyframeCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
-AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel> &model, const QVector<QPair<QString, QVariant>> &parameters,
-                                       QUndoCommand *parent)
+AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel> &model, QVector<QPair<QString, QVariant>> parameters, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_model(model)
-    , m_value(parameters)
+    , m_value(std::move(parameters))
 {
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {

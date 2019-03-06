@@ -28,7 +28,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <stdio.h>
+#include <cstdio>
 
 int main(int argc, char **argv)
 {
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
                 out = consumer.attribute("out").toInt();
             }
         }
-        RenderJob *rJob = new RenderJob(render, playlist, target, pid, in, out);
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out);
         rJob->start();
         return app.exec();
     } else {

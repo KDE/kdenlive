@@ -225,7 +225,7 @@ void EffectStackView::loadEffects()
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
-        WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
         del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
@@ -289,7 +289,7 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: " << height;
     QMutexLocker lock(&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
-    WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+    auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     del->setHeight(ix, height);
     updateTreeHeight();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";

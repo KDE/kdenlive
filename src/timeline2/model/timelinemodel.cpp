@@ -2281,7 +2281,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         }
         // Note: we need to retrieve the position of the track, that is its melt index.
         int trackPos = getTrackMltIndex(trackId);
-        compos.push_back({trackPos, compo.first});
+        compos.emplace_back(trackPos, compo.first);
         if (compo.first != currentCompo) {
             unplantComposition(compo.first);
         }
@@ -2492,7 +2492,7 @@ bool TimelineModel::checkConsistency()
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     while (nextservice != nullptr) {
         if (mlt_type == transition_type) {
-            mlt_transition tr = (mlt_transition)nextservice;
+            auto tr = (mlt_transition)nextservice;
             int currentTrack = mlt_transition_get_b_track(tr);
             int currentATrack = mlt_transition_get_a_track(tr);
 

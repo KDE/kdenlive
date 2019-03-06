@@ -32,7 +32,7 @@ class Vectorscope : public AbstractGfxScopeWidget
 
 public:
     explicit Vectorscope(QWidget *parent = nullptr);
-    ~Vectorscope();
+    ~Vectorscope() override;
 
     QString widgetName() const override;
 
@@ -69,7 +69,7 @@ private:
     int m_iPaintMode;
 
     /** Custom scaling of the vectorscope */
-    float m_gain;
+    float m_gain{1};
 
     QPoint m_centerPoint, m_pR75, m_pG75, m_pB75, m_pCy75, m_pMg75, m_pYl75;
     QPoint m_qR75, m_qG75, m_qB75, m_qCy75, m_qMg75, m_qYl75;

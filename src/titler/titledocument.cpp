@@ -324,9 +324,9 @@ QColor TitleDocument::getBackgroundColor() const
     QColor color(0, 0, 0, 0);
     if (m_scene) {
         QList<QGraphicsItem *> items = m_scene->items();
-        for (int i = 0; i < items.size(); ++i) {
-            if ((int)items.at(i)->zValue() == -1100) {
-                color = static_cast<QGraphicsRectItem *>(items.at(i))->brush().color();
+        for (auto item : items) {
+            if ((int)item->zValue() == -1100) {
+                color = static_cast<QGraphicsRectItem *>(item)->brush().color();
                 return color;
             }
         }
@@ -635,9 +635,9 @@ int TitleDocument::loadFromXml(const QDomDocument &doc, QGraphicsRectItem *start
                 QColor color = QColor(stringToColor(itemNode.attributes().namedItem(QStringLiteral("color")).nodeValue()));
                 // color.setAlpha(itemNode.attributes().namedItem("alpha").nodeValue().toInt());
                 QList<QGraphicsItem *> sceneItems = m_scene->items();
-                for (int j = 0; j < sceneItems.size(); ++j) {
-                    if ((int)sceneItems.at(j)->zValue() == -1100) {
-                        static_cast<QGraphicsRectItem *>(sceneItems.at(j))->setBrush(QBrush(color));
+                for (auto sceneItem : sceneItems) {
+                    if ((int)sceneItem->zValue() == -1100) {
+                        static_cast<QGraphicsRectItem *>(sceneItem)->setBrush(QBrush(color));
                         break;
                     }
                 }
@@ -698,7 +698,7 @@ QRectF TitleDocument::stringToRect(const QString &s)
 
     QStringList l = s.split(QLatin1Char(','));
     if (l.size() < 4) {
-        return QRectF();
+        return {};
     }
     return QRectF(l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble()).normalized();
 }
@@ -709,7 +709,7 @@ QColor TitleDocument::stringToColor(const QString &s)
     if (l.size() < 4) {
         return QColor();
     }
-    return QColor(l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt());
+    return {l.at(0).toInt(), l.at(1).toInt(), l.at(2).toInt(), l.at(3).toInt()};
 }
 
 QTransform TitleDocument::stringToTransform(const QString &s)
@@ -718,8 +718,8 @@ QTransform TitleDocument::stringToTransform(const QString &s)
     if (l.size() < 9) {
         return QTransform();
     }
-    return QTransform(l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble(), l.at(4).toDouble(), l.at(5).toDouble(),
-                      l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble());
+    return {l.at(0).toDouble(), l.at(1).toDouble(), l.at(2).toDouble(), l.at(3).toDouble(), l.at(4).toDouble(),
+            l.at(5).toDouble(), l.at(6).toDouble(), l.at(7).toDouble(), l.at(8).toDouble()};
 }
 
 QList<QVariant> TitleDocument::stringToList(const QString &s)

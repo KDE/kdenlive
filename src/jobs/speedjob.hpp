@@ -42,7 +42,7 @@ public:
     /** @brief Creates a timewarp producer
         @param speed The speed value
      */
-    SpeedJob(const QString &binId, double speed, const QString &destUrl);
+    SpeedJob(const QString &binId, double speed, QString destUrl);
 
     // This is a special function that prepares the stabilize job for a given list of clips.
     // Namely, it displays the required UI to configure the job and call startJob with the right set of parameters

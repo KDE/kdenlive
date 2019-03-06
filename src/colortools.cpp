@@ -11,7 +11,7 @@
 #include "colortools.h"
 
 #include <QColor>
-#include <math.h>
+#include <cmath>
 
 //#define DEBUG_CT
 #ifdef DEBUG_CT

@@ -85,7 +85,7 @@ public:
      */
     explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1,
                        const QString &suffix = QString(), bool showSlider = true, QWidget *parent = nullptr);
-    virtual ~DragValue();
+    ~DragValue() override;
 
     /** @brief Returns the precision = number of decimals */
     int precision() const;

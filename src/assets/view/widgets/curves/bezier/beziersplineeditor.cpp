@@ -27,15 +27,12 @@
 
 BezierSplineEditor::BezierSplineEditor(QWidget *parent)
     : AbstractCurveWidget(parent)
-    , m_showAllHandles(true)
-    , m_currentPointType(BPoint::PointType::P)
-    , m_grabOffsetX(0)
-    , m_grabOffsetY(0)
+
 {
     m_curve = CubicBezierSpline();
 }
 
-BezierSplineEditor::~BezierSplineEditor() {}
+BezierSplineEditor::~BezierSplineEditor() = default;
 
 void BezierSplineEditor::paintEvent(QPaintEvent *event)
 {

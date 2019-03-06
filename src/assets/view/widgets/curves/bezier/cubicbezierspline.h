@@ -29,7 +29,7 @@ class CubicBezierSpline
 {
 
 public:
-    typedef BPoint Point_t;
+    using Point_t = BPoint;
     explicit CubicBezierSpline();
     CubicBezierSpline(const CubicBezierSpline &spline);
     CubicBezierSpline &operator=(const CubicBezierSpline &spline);

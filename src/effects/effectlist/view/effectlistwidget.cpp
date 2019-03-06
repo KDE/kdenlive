@@ -28,7 +28,7 @@
 #include <QMenu>
 #include <QQmlContext>
 #include <QStandardPaths>
-
+#include <memory>
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)
 {
@@ -36,7 +36,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     QString effectCategory = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenliveeffectscategory.rc"));
     m_model = EffectTreeModel::construct(effectCategory, this);
 
-    m_proxyModel.reset(new EffectFilter(this));
+    m_proxyModel = std::make_unique<EffectFilter>(this);
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(EffectTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);

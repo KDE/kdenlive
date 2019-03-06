@@ -219,7 +219,7 @@ void KeyframeWidget::slotRefreshParams()
         i++;
     }
     for (const auto &w : m_parameters) {
-        ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+        auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
             ((DoubleWidget *)w.second)->setValue(m_keyframes->getInterpolatedValue(pos, w.first).toDouble());
         } else if (type == ParamType::AnimatedRect) {
@@ -329,7 +329,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     QString comment = m_model->data(index, AssetParameterModel::CommentRole).toString();
     QString suffix = m_model->data(index, AssetParameterModel::SuffixRole).toString();
 
-    ParamType type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+    auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
     // Construct object
     QWidget *paramWidget = nullptr;
     if (type == ParamType::AnimatedRect) {
@@ -415,7 +415,7 @@ void KeyframeWidget::connectMonitor(bool active)
         }
     }
     for (const auto &w : m_parameters) {
-        ParamType type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
+        auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::AnimatedRect) {
             ((GeometryWidget *)w.second)->connectMonitor(active);
             break;
@@ -489,7 +489,7 @@ void KeyframeWidget::slotImportKeyframes()
             break;
         }
     }*/
-    AssetCommand *command = new AssetCommand(m_model, m_index, keyframeData);
+    auto *command = new AssetCommand(m_model, m_index, keyframeData);
     pCore->pushUndo(command);
     /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());
     m_model->modelChanged();

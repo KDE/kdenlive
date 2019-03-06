@@ -701,8 +701,8 @@ const QStringList AssetParameterModel::getPresetList(const QString &presetFile) 
             qDebug() << "// PRESET LIST IS AN ARRAY!!!";
             QStringList result;
             QJsonArray array = loadDoc.array();
-            for (int i = 0; i < array.size(); i++) {
-                QJsonValue val = array.at(i);
+            for (auto &&i : array) {
+                QJsonValue val = i;
                 if (val.isObject()) {
                     result << val.toObject().keys();
                 }
@@ -733,14 +733,14 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
             }
         } else if (loadDoc.isArray()) {
             QJsonArray array = loadDoc.array();
-            for (int i = 0; i < array.size(); i++) {
-                QJsonValue val = array.at(i);
+            for (auto &&i : array) {
+                QJsonValue val = i;
                 if (val.isObject() && val.toObject().contains(presetName)) {
                     QJsonValue preset = val.toObject().value(presetName);
                     if (preset.isArray()) {
                         QJsonArray paramArray = preset.toArray();
-                        for (int j = 0; j < paramArray.size(); j++) {
-                            QJsonValue v1 = paramArray.at(j);
+                        for (auto &&j : paramArray) {
+                            QJsonValue v1 = j;
                             if (v1.isObject()) {
                                 QJsonObject ob = v1.toObject();
                                 params.append({ob.value("name").toString(), ob.value("value").toVariant()});

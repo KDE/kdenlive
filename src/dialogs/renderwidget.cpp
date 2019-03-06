@@ -388,7 +388,7 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
 QSize RenderWidget::sizeHint() const
 {
     // Make sure the widget has minimum size on opening
-    return QSize(200, 200);
+    return {200, 200};
 }
 
 RenderWidget::~RenderWidget()
@@ -2042,7 +2042,7 @@ void RenderWidget::checkRenderStatus()
         return;
     }
 
-    RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
+    auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
 
     // Make sure no other rendering is running
     while (item != nullptr) {
@@ -2100,7 +2100,7 @@ void RenderWidget::startRendering(RenderJobItem *item)
 int RenderWidget::waitingJobsCount() const
 {
     int count = 0;
-    RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
+    auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {
         if (item->status() == WAITINGJOB || item->status() == STARTINGJOB) {
             count++;
@@ -2869,7 +2869,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
 
 void RenderWidget::slotAbortCurrentJob()
 {
-    RenderJobItem *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
+    auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
         if (current->status() == RUNNINGJOB) {
             emit abortProcess(current->text(1));
@@ -2883,7 +2883,7 @@ void RenderWidget::slotAbortCurrentJob()
 
 void RenderWidget::slotStartCurrentJob()
 {
-    RenderJobItem *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
+    auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if ((current != nullptr) && current->status() == WAITINGJOB) {
         startRendering(current);
     }
@@ -2893,7 +2893,7 @@ void RenderWidget::slotStartCurrentJob()
 void RenderWidget::slotCheckJob()
 {
     bool activate = false;
-    RenderJobItem *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
+    auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
         if (current->status() == RUNNINGJOB || current->status() == STARTINGJOB) {
             m_view.abort_job->setText(i18n("Abort Job"));
@@ -2928,7 +2928,7 @@ void RenderWidget::slotCheckJob()
 void RenderWidget::slotCLeanUpJobs()
 {
     int ix = 0;
-    RenderJobItem *current = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(ix));
+    auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(ix));
     while (current != nullptr) {
         if (current->status() == FINISHEDJOB || current->status() == ABORTEDJOB) {
             delete current;
@@ -3000,7 +3000,7 @@ void RenderWidget::slotCheckScript()
 
 void RenderWidget::slotStartScript()
 {
-    RenderJobItem *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
+    auto *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
     if (item) {
         QString destination = item->data(1, Qt::UserRole).toString();
         if (QFile::exists(destination)) {
@@ -3167,7 +3167,7 @@ bool RenderWidget::startWaitingRenderJobs()
 #ifndef Q_OS_WIN
     outStream << "#! /bin/sh" << '\n' << '\n';
 #endif
-    RenderJobItem *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
+    auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
             // Add render process for item
@@ -3196,7 +3196,7 @@ bool RenderWidget::startWaitingRenderJobs()
 
 void RenderWidget::slotPlayRendering(QTreeWidgetItem *item, int)
 {
-    RenderJobItem *renderItem = static_cast<RenderJobItem *>(item);
+    auto *renderItem = static_cast<RenderJobItem *>(item);
     if (renderItem->status() != FINISHEDJOB) {
         return;
     }

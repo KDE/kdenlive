@@ -39,9 +39,8 @@
 RecManager::RecManager(Monitor *parent)
     : QObject(parent)
     , m_monitor(parent)
-    , m_captureProcess(nullptr)
     , m_recToolbar(new QToolBar(parent))
-    , m_screenCombo(nullptr)
+
 {
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -97,7 +96,7 @@ RecManager::RecManager(Monitor *parent)
     slotVideoDeviceChanged();
 }
 
-RecManager::~RecManager() {}
+RecManager::~RecManager() = default;
 
 void RecManager::showRecConfig()
 {

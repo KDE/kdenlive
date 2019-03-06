@@ -251,7 +251,7 @@ void TemporaryData::updateDataInfo()
 
 void TemporaryData::gotPreviewSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -280,7 +280,7 @@ void TemporaryData::gotProxySize(KIO::filesize_t total)
 
 void TemporaryData::gotAudioSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -297,7 +297,7 @@ void TemporaryData::gotAudioSize(KJob *job)
 
 void TemporaryData::gotThumbSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
@@ -511,7 +511,7 @@ void TemporaryData::processglobalDirectories()
 
 void TemporaryData::gotFolderSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;

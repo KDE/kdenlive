@@ -47,17 +47,16 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QPixmap>
-#include <kio/job.h>
 #include <klocalizedstring.h>
 
 #ifdef QT5_USE_WEBKIT
 #include "qt-oauth-lib/oauth2.h"
 #endif
 
-ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent)
+ResourceWidget::ResourceWidget(QString folder, QWidget *parent)
     : QDialog(parent)
     , m_pOAuth2(nullptr)
-    , m_folder(folder)
+    , m_folder(std::move(folder))
     , m_currentService(nullptr)
     , m_movie(nullptr)
 {
@@ -495,7 +494,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         qCDebug(KDENLIVE_LOG) << "//file import job errored: " << errTxt;
         return;
     }
-    KIO::FileCopyJob *copyJob = static_cast<KIO::FileCopyJob *>(job);
+    auto *copyJob = static_cast<KIO::FileCopyJob *>(job);
     const QUrl filePath = copyJob->destUrl();
 
     KMessageBox::information(this, i18n("Resource saved to ") + filePath.toLocalFile(), i18n("Data Imported"));

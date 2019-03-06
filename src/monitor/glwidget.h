@@ -52,7 +52,7 @@ class RenderThread;
 class FrameRenderer;
 class MonitorProxy;
 
-typedef void *(*thread_function_t)(void *);
+using thread_function_t = void *(*)(void *);
 
 /* QQuickView that renders an .
  *
@@ -77,7 +77,7 @@ public:
     using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 
     GLWidget(int id, QObject *parent = nullptr);
-    ~GLWidget();
+    ~GLWidget() override;
 
     int requestedSeekPosition;
     void createThread(RenderThread **thread, thread_function_t function, void *data);
@@ -292,7 +292,7 @@ class RenderThread : public QThread
     Q_OBJECT
 public:
     RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface);
-    ~RenderThread();
+    ~RenderThread() override;
 
 protected:
     void run() override;
@@ -309,7 +309,7 @@ class FrameRenderer : public QThread
     Q_OBJECT
 public:
     explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, GLWidget::ClientWaitSync_fp clientWaitSync);
-    ~FrameRenderer();
+    ~FrameRenderer() override;
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
     Q_INVOKABLE void showFrame(Mlt::Frame frame);

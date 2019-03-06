@@ -46,7 +46,7 @@ protected:
     explicit AbstractTreeModel(QObject *parent = nullptr);
 
 public:
-    virtual ~AbstractTreeModel();
+    ~AbstractTreeModel() override;
 
     /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
     QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;

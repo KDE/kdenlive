@@ -24,7 +24,7 @@ public:
     enum Rec { Rec_601, Rec_709 };
 
     WaveformGenerator();
-    ~WaveformGenerator();
+    ~WaveformGenerator() override;
 
     QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
                              const WaveformGenerator::Rec rec, uint accelFactor = 1);

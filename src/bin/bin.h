@@ -122,7 +122,7 @@ private:
     enum ItemRole { NameRole = Qt::UserRole, DurationRole, UsageRole };
 
     QTimeLine *m_timeLine;
-    QAction *m_action;
+    QAction *m_action{nullptr};
 
 public slots:
     void slotSetJobCount(int jobCount);
@@ -159,8 +159,8 @@ class Bin : public QWidget
     enum BinViewType { BinTreeView, BinIconView };
 
 public:
-    explicit Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent = nullptr);
-    ~Bin();
+    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr);
+    ~Bin() override;
 
     bool isLoading;
 

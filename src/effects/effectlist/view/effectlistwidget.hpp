@@ -40,7 +40,7 @@ class EffectListWidget : public AssetListWidget
 
 public:
     EffectListWidget(QWidget *parent = Q_NULLPTR);
-    ~EffectListWidget();
+    ~EffectListWidget() override;
     void setFilterType(const QString &type);
 
     /*@brief Return mime type used for drag and drop. It will be kdenlive/effect*/

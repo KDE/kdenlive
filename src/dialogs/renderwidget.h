@@ -120,7 +120,7 @@ class RenderWidget : public QDialog
 
 public:
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
-    virtual ~RenderWidget();
+    ~RenderWidget() override;
     void setGuides(const QList<CommentedTime> &guidesList, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
     void setRenderJob(const QString &dest, int progress = 0);

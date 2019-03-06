@@ -30,6 +30,7 @@
 #pragma GCC diagnostic ignored "-Wpedantic"
 #include <rttr/registration>
 #pragma GCC diagnostic pop
+
 RTTR_REGISTRATION
 {
     using namespace rttr;
@@ -56,13 +57,13 @@ QDebug operator<<(QDebug qd, const ItemInfo &info)
 
 CommentedTime::CommentedTime()
     : m_time(GenTime(0))
-    , m_type(0)
+
 {
 }
 
-CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
+CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType)
     : m_time(time)
-    , m_comment(comment)
+    , m_comment(std::move(comment))
     , m_type(markerType)
 {
 }

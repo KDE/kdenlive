@@ -50,7 +50,7 @@ class Generators : public QDialog
 
 public:
     explicit Generators(Monitor *monitor, const QString &path, QWidget *parent = nullptr);
-    virtual ~Generators();
+    ~Generators() override;
 
     static void getGenerators(const QStringList &producers, QMenu *menu);
     static QPair<QString, QString> parseGenerator(const QString &path, const QStringList &producers);

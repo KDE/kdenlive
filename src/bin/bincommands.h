@@ -29,7 +29,7 @@ class Bin;
 class MoveBinClipCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = nullptr);
+    explicit MoveBinClipCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -43,7 +43,7 @@ private:
 class MoveBinFolderCommand : public QUndoCommand
 {
 public:
-    explicit MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent = nullptr);
+    explicit MoveBinFolderCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -57,8 +57,7 @@ private:
 class RenameBinSubClipCommand : public QUndoCommand
 {
 public:
-    explicit RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out,
-                                     QUndoCommand *parent = nullptr);
+    explicit RenameBinSubClipCommand(Bin *bin, QString clipId, QString newName, QString oldName, int in, int out, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -74,8 +73,7 @@ private:
 class EditClipCommand : public QUndoCommand
 {
 public:
-    EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt,
-                    QUndoCommand *parent = nullptr);
+    EditClipCommand(Bin *bin, QString id, QMap<QString, QString> oldparams, QMap<QString, QString> newparams, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 

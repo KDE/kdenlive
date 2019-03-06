@@ -40,7 +40,7 @@ ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool 
     , m_imageHeight(imageHeight)
     , m_persistent(persistent)
     , m_reloadAll(reloadAllThumbs)
-    , m_subClip(false)
+
 {
     if (m_fullWidth % 8 > 0) {
         m_fullWidth += 8 - m_fullWidth % 8;

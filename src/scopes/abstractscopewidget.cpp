@@ -52,22 +52,9 @@ const QString AbstractScopeWidget::directions[] = {QStringLiteral("North"), QStr
 AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent)
     : QWidget(parent)
     , m_mousePos(0, 0)
-    , m_mouseWithinWidget(false)
-    , offset(5)
-    , m_accelFactorHUD(1)
-    , m_accelFactorScope(1)
-    , m_accelFactorBackground(1)
     , m_semaphoreHUD(1)
     , m_semaphoreScope(1)
     , m_semaphoreBackground(1)
-    , m_initialDimensionUpdateDone(false)
-    , m_requestForcedUpdate(false)
-    , m_rescaleMinDist(4)
-    , m_rescaleVerticalThreshold(2.0f)
-    , m_rescaleActive(false)
-    , m_rescalePropertiesLocked(false)
-    , m_rescaleFirstRescaleDone(true)
-    , m_rescaleDirection(North)
 
 {
     m_scopePalette = QPalette();

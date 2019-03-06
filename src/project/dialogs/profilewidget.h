@@ -46,7 +46,7 @@ class ProfileWidget : public QWidget
     Q_OBJECT
 public:
     explicit ProfileWidget(QWidget *parent = nullptr);
-    ~ProfileWidget();
+    ~ProfileWidget() override;
     void loadProfile(const QString &profile);
     const QString selectedProfile() const;
 

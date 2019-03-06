@@ -20,8 +20,8 @@
 #define SHAREDFRAME_H
 
 #include <QExplicitlySharedDataPointer>
+#include <cstdint>
 #include <mlt++/MltFrame.h>
-#include <stdint.h>
 
 class FrameData;
 

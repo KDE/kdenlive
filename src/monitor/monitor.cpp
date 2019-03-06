@@ -73,7 +73,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     switch (event->type()) {
     case QEvent::DragEnter: {
-        QDragEnterEvent *ev = reinterpret_cast<QDragEnterEvent *>(event);
+        auto *ev = reinterpret_cast<QDragEnterEvent *>(event);
         if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
             ev->acceptProposedAction();
             return true;
@@ -81,7 +81,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
         break;
     }
     case QEvent::DragMove: {
-        QDragEnterEvent *ev = reinterpret_cast<QDragEnterEvent *>(event);
+        auto *ev = reinterpret_cast<QDragEnterEvent *>(event);
         if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
             ev->acceptProposedAction();
             return true;
@@ -89,7 +89,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
         break;
     }
     case QEvent::Drop: {
-        QDropEvent *ev = static_cast<QDropEvent *>(event);
+        auto *ev = static_cast<QDropEvent *>(event);
         if (ev) {
             QStringList effectData;
             effectData << QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effect")));
@@ -115,7 +115,7 @@ QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent)
 bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *ev = static_cast<QKeyEvent *>(event);
+        auto *ev = static_cast<QKeyEvent *>(event);
         if (ev) {
             emit doKeyPressEvent(ev);
             return true;
@@ -639,7 +639,7 @@ int Monitor::position()
 GenTime Monitor::getSnapForPos(bool previous)
 {
     int frame = previous ? m_snaps->getPreviousPoint(m_glMonitor->getCurrentPos()) : m_snaps->getNextPoint(m_glMonitor->getCurrentPos());
-    return GenTime(frame, pCore->getCurrentFps());
+    return {frame, pCore->getCurrentFps()};
 }
 
 void Monitor::slotLoadClipZone(const QPoint &zone)
@@ -778,7 +778,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     } else {
         m_glWidget->showNormal();
         m_qmlManager->enableAudioThumbs(true);
-        QVBoxLayout *lay = (QVBoxLayout *)layout();
+        auto *lay = (QVBoxLayout *)layout();
         lay->insertWidget(0, m_glWidget, 10);
     }
 }
@@ -788,7 +788,7 @@ void Monitor::reparent()
     m_glWidget->setParent(nullptr);
     m_glWidget->showMinimized();
     m_glWidget->showNormal();
-    QVBoxLayout *lay = (QVBoxLayout *)layout();
+    auto *lay = (QVBoxLayout *)layout();
     lay->insertWidget(0, m_glWidget, 10);
 }
 
@@ -1517,7 +1517,7 @@ void Monitor::updateTimecodeFormat()
 QPoint Monitor::getZoneInfo() const
 {
     if (m_controller == nullptr) {
-        return QPoint();
+        return {};
     }
     return m_controller->zone();
 }
@@ -1585,7 +1585,7 @@ QRect Monitor::effectRect() const
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) {
-        return QRect();
+        return {};
     }
     return root->property("framesize").toRect();
 }

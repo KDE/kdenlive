@@ -21,7 +21,7 @@
 
 #include "kdenlivesettings.h"
 
-#include <math.h>
+#include <cmath>
 
 #include <QAction>
 #include <QApplication>

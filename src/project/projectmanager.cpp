@@ -53,8 +53,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
-    , m_project(nullptr)
-    , m_progressDialog(nullptr)
+
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
@@ -83,7 +82,7 @@ ProjectManager::ProjectManager(QObject *parent)
     dir.mkdir(QStringLiteral("titles"));
 }
 
-ProjectManager::~ProjectManager() {}
+ProjectManager::~ProjectManager() = default;
 
 void ProjectManager::slotLoadOnOpen()
 {
@@ -804,7 +803,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 {
     if (job->error() == 0) {
         pCore->window()->slotGotProgressInfo(QString(), 100, InformationMessage);
-        KIO::CopyJob *copyJob = static_cast<KIO::CopyJob *>(job);
+        auto *copyJob = static_cast<KIO::CopyJob *>(job);
         QString newFolder = copyJob->destUrl().toLocalFile();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));

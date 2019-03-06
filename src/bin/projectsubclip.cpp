@@ -102,12 +102,12 @@ void ProjectSubClip::setBinEffectsEnabled(bool) {}
 GenTime ProjectSubClip::duration() const
 {
     // TODO
-    return GenTime();
+    return {};
 }
 
 QPoint ProjectSubClip::zone() const
 {
-    return QPoint(m_inPoint, m_out);
+    return {m_inPoint, m_out};
 }
 
 std::shared_ptr<ProjectClip> ProjectSubClip::clipAt(int ix)

@@ -46,7 +46,7 @@ ObjectId KeyframeModelList::getOwnerId() const
     if (auto ptr = m_model.lock()) {
         return ptr->getOwnerId();
     }
-    return ObjectId();
+    return {};
 }
 
 void KeyframeModelList::addParameter(const QModelIndex &index)
@@ -98,7 +98,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
     bool isRectParam = false;
     if (m_inTimelineIndex.isValid()) {
         if (auto ptr = m_model.lock()) {
-            ParamType tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
+            auto tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
             if (tp == ParamType::AnimatedRect) {
                 isRectParam = true;
             }
@@ -166,7 +166,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
     bool isRectParam = false;
     if (m_inTimelineIndex.isValid()) {
         if (auto ptr = m_model.lock()) {
-            ParamType tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
+            auto tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
             if (tp == ParamType::AnimatedRect) {
                 isRectParam = true;
             }
@@ -201,7 +201,7 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const
         pos = kf.first;
     }
     if (auto ptr = m_model.lock()) {
-        AssetKeyframeCommand *command = new AssetKeyframeCommand(ptr, index, value, pos);
+        auto *command = new AssetKeyframeCommand(ptr, index, value, pos);
         pCore->pushUndo(command);
     }
     return true;

@@ -40,9 +40,9 @@ protected:
     void draw(QPainter *painter) override;
 
 private:
-    int m_xOffset;
-    int m_yOffset;
-    int m_blur;
+    int m_xOffset{0};
+    int m_yOffset{0};
+    int m_blur{0};
     QImage m_shadow;
 };
 
@@ -146,17 +146,17 @@ protected:
 private:
     void setCursor(const QCursor &);
     double m_zoom;
-    QGraphicsItem *m_selectedItem;
-    resizeModes m_resizeMode;
-    resizeModes m_possibleAction;
+    QGraphicsItem *m_selectedItem{nullptr};
+    resizeModes m_resizeMode{NoResize};
+    resizeModes m_possibleAction{NoResize};
     QPointF m_sceneClickPoint;
-    TITLETOOL m_tool;
+    TITLETOOL m_tool{TITLE_RECTANGLE};
     QPointF m_clickPoint;
     int m_fontSize;
-    int m_gridSize;
-    bool m_createdText;
-    bool m_moveStarted;
-    bool m_pan;
+    int m_gridSize{20};
+    bool m_createdText{false};
+    bool m_moveStarted{false};
+    bool m_pan{false};
 
 signals:
     void itemMoved();

@@ -18,8 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 JogManager::JogManager(QObject *parent)
     : QObject(parent)
-    , m_shuttle(nullptr)
-    , m_shuttleAction(nullptr)
+
 {
     slotConfigurationChanged();
 

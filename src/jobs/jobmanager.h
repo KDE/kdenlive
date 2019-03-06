@@ -72,7 +72,7 @@ class JobManager : public QAbstractListModel, public enable_shared_from_this_vir
 
 public:
     explicit JobManager(QObject *parent);
-    virtual ~JobManager();
+    ~JobManager() override;
 
     /** @brief Start a job
         This function calls the prepareJob function of the job if it provides one.

@@ -111,7 +111,6 @@
 #include <QScreen>
 #include <QStandardPaths>
 #include <QVBoxLayout>
-#include <stdlib.h>
 
 static const char version[] = KDENLIVE_VERSION;
 namespace Mlt {
@@ -137,15 +136,7 @@ static QString defaultStyle(const char *fallback = nullptr)
 
 MainWindow::MainWindow(QWidget *parent)
     : KXmlGuiWindow(parent)
-    , m_exitCode(EXIT_SUCCESS)
-    , m_assetPanel(nullptr)
-    , m_clipMonitor(nullptr)
-    , m_projectMonitor(nullptr)
-    , m_timelineTabs(nullptr)
-    , m_renderWidget(nullptr)
-    , m_messageLabel(nullptr)
-    , m_themeInitialized(false)
-    , m_isDarkTheme(false)
+
 {
 }
 
@@ -683,7 +674,7 @@ void MainWindow::updateActionsToolTip()
 
 void MainWindow::updateAction()
 {
-    QAction *action = qobject_cast<QAction *>(sender());
+    auto *action = qobject_cast<QAction *>(sender());
     QString toolTip = KLocalizedString::removeAcceleratorMarker(action->toolTip());
     QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
     action->setToolTip(i18nc("@info:tooltip Tooltip of toolbar button", "%1 (%2)", strippedTooltip, action->shortcut().toString()));
@@ -932,7 +923,7 @@ void MainWindow::setupActions()
     mixedView->setCheckable(true);
     mixedView->setChecked(!KdenliveSettings::audiotracksbelow());
 
-    QActionGroup *clipTypeGroup = new QActionGroup(this);
+    auto *clipTypeGroup = new QActionGroup(this);
     clipTypeGroup->addAction(mixedView);
     clipTypeGroup->addAction(splitView);
     connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
@@ -2082,7 +2073,7 @@ void MainWindow::slotPreferences(int page, int option)
         actions[action_text] = action_name;
     }
 
-    KdenliveSettingsDialog *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
+    auto *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
@@ -2805,7 +2796,7 @@ void MainWindow::slotClipInProjectTree()
 void MainWindow::slotSelectClipInTimeline()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    QAction *action = qobject_cast<QAction *>(sender());
+    auto *action = qobject_cast<QAction *>(sender());
     int clipId = action->data().toInt();
     getMainTimeline()->controller()->focusItem(clipId);
 }
@@ -3051,7 +3042,7 @@ void MainWindow::buildDynamicActions()
     Mlt::Profile profile;
     std::unique_ptr<Mlt::Filter> filter;
     for (const QString &stab : {QStringLiteral("vidstab"), QStringLiteral("videostab2"), QStringLiteral("videostab")}) {
-        filter.reset(new Mlt::Filter(profile, stab.toUtf8().constData()));
+        filter = std::make_unique<Mlt::Filter>(profile, stab.toUtf8().constData());
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
@@ -3062,7 +3053,7 @@ void MainWindow::buildDynamicActions()
             break;
         }
     }
-    filter.reset(new Mlt::Filter(profile, "motion_est"));
+    filter = std::make_unique<Mlt::Filter>(profile, "motion_est");
     if (filter) {
         if (filter->is_valid()) {
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
@@ -3517,7 +3508,7 @@ void MainWindow::configureToolbars()
     // Since our timeline toolbar is a non-standard toolbar (as it is docked in a custom widget, not
     // in a QToolBarDockArea, we have to hack KXmlGuiWindow to avoid a crash when saving toolbar config.
     // This is why we hijack the configureToolbars() and temporarily move the toolbar to a standard location
-    QVBoxLayout *ctnLay = (QVBoxLayout *)m_timelineToolBarContainer->layout();
+    auto *ctnLay = (QVBoxLayout *)m_timelineToolBarContainer->layout();
     ctnLay->removeWidget(m_timelineToolBar);
     addToolBar(Qt::BottomToolBarArea, m_timelineToolBar);
     auto *toolBarEditor = new KEditToolBar(guiFactory(), this);
@@ -3533,7 +3524,7 @@ void MainWindow::rebuildTimlineToolBar()
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     removeToolBar(m_timelineToolBar);
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-    QVBoxLayout *ctnLay = (QVBoxLayout *)m_timelineToolBarContainer->layout();
+    auto *ctnLay = (QVBoxLayout *)m_timelineToolBarContainer->layout();
     if (ctnLay) {
         ctnLay->insertWidget(0, m_timelineToolBar);
     }
@@ -3594,9 +3585,9 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
         // Scalable icons.
         const int progression[] = {16, 22, 32, 48, 64, 96, 128, 192, 256};
 
-        for (uint i = 0; i < 9; i++) {
+        for (int i : progression) {
             Q_FOREACH (int it, avSizes) {
-                if (it >= progression[i]) {
+                if (it >= i) {
                     QString text;
                     if (it < 19) {
                         text = i18n("Small (%1x%2)", it, it);

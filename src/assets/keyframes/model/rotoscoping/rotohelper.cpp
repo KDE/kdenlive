@@ -65,10 +65,10 @@ void RotoHelper::refreshParams(int pos)
     if (!keyframes->isEmpty()) {
         QVariant splineData = keyframes->getInterpolatedValue(pos, m_indexes.first());
         QList<BPoint> p = getPoints(splineData, pCore->getCurrentFrameSize());
-        for (int i = 0; i < p.size(); i++) {
-            centerPoints << QVariant(p.at(i).p);
-            controlPoints << QVariant(p.at(i).h1);
-            controlPoints << QVariant(p.at(i).h2);
+        for (const auto &i : p) {
+            centerPoints << QVariant(i.p);
+            controlPoints << QVariant(i.h1);
+            controlPoints << QVariant(i.h2);
         }
         if (m_monitor) {
             m_monitor->setUpEffectGeometry(QRect(), centerPoints, controlPoints);

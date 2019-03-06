@@ -31,7 +31,7 @@ class ProjectClip;
 class AddClipCutCommand : public QUndoCommand
 {
 public:
-    AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove, QUndoCommand *parent = nullptr);
+    AddClipCutCommand(ProjectList *list, QString id, int in, int out, QString desc, bool newItem, bool remove, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -48,7 +48,7 @@ private:
 class AddFolderCommand : public QUndoCommand
 {
 public:
-    AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent = nullptr);
+    AddFolderCommand(ProjectList *view, QString folderName, QString clipId, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -62,8 +62,8 @@ private:
 class EditClipCutCommand : public QUndoCommand
 {
 public:
-    EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment, const QString &newComment,
-                       bool doIt, QUndoCommand *parent = nullptr);
+    EditClipCutCommand(ProjectList *list, QString id, const QPoint &oldZone, const QPoint &newZone, QString oldComment, QString newComment, bool doIt,
+                       QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 
@@ -80,8 +80,7 @@ private:
 class EditFolderCommand : public QUndoCommand
 {
 public:
-    EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt,
-                      QUndoCommand *parent = nullptr);
+    EditFolderCommand(ProjectList *view, QString newfolderName, QString oldfolderName, QString clipId, bool doIt, QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
 

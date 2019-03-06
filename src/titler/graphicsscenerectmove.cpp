@@ -39,9 +39,7 @@
 
 MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent)
     : QGraphicsEffect(parent)
-    , m_xOffset(0)
-    , m_yOffset(0)
-    , m_blur(0)
+
 {
 }
 
@@ -380,7 +378,7 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
     if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
         if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *>(scene()) != nullptr)) {
-            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
+            auto *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
@@ -442,7 +440,7 @@ QVariant MyRectItem::itemChange(GraphicsItemChange change, const QVariant &value
     if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
         if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *>(scene()) != nullptr)) {
-            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
+            auto *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
@@ -465,7 +463,7 @@ QVariant MyPixmapItem::itemChange(GraphicsItemChange change, const QVariant &val
     if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
         if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *>(scene()) != nullptr)) {
-            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
+            auto *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
@@ -488,7 +486,7 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
     if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
         if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<GraphicsSceneRectMove *>(scene()) != nullptr)) {
-            GraphicsSceneRectMove *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
+            auto *customScene = qobject_cast<GraphicsSceneRectMove *>(scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
@@ -500,14 +498,7 @@ QVariant MySvgItem::itemChange(GraphicsItemChange change, const QVariant &value)
 }
 GraphicsSceneRectMove::GraphicsSceneRectMove(QObject *parent)
     : QGraphicsScene(parent)
-    , m_selectedItem(nullptr)
-    , m_resizeMode(NoResize)
-    , m_possibleAction(NoResize)
-    , m_tool(TITLE_RECTANGLE)
-    , m_gridSize(20)
-    , m_createdText(false)
-    , m_moveStarted(false)
-    , m_pan(false)
+
 {
     // grabMouse();
     m_zoom = 1.0;
@@ -550,7 +541,7 @@ void GraphicsSceneRectMove::keyPressEvent(QKeyEvent *keyEvent)
         return;
     }
     if (m_selectedItem->type() == QGraphicsTextItem::Type) {
-        MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
+        auto *t = static_cast<MyTextItem *>(m_selectedItem);
         if ((t->textInteractionFlags() & static_cast<int>((Qt::TextEditorInteraction) != 0)) != 0) {
             QGraphicsScene::keyPressEvent(keyEvent);
             return;
@@ -638,7 +629,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     }
     if (m_createdText) {
         m_selectedItem->setSelected(true);
-        MyTextItem *newText = static_cast<MyTextItem *>(m_selectedItem);
+        auto *newText = static_cast<MyTextItem *>(m_selectedItem);
         QTextCursor cur(newText->document());
         cur.select(QTextCursor::Document);
         newText->setTextCursor(cur);
@@ -717,7 +708,7 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
             m_selectedItem = item;
             // qCDebug(KDENLIVE_LOG) << "/////////  ITEM TYPE: " << item->type();
             if (item->type() == QGraphicsTextItem::Type) {
-                MyTextItem *t = static_cast<MyTextItem *>(item);
+                auto *t = static_cast<MyTextItem *>(item);
                 if (t->textInteractionFlags() == Qt::TextEditorInteraction) {
                     QGraphicsScene::mousePressEvent(e);
                     return;
@@ -787,7 +778,7 @@ void GraphicsSceneRectMove::clearTextSelection(bool reset)
 {
     if ((m_selectedItem != nullptr) && m_selectedItem->type() == QGraphicsTextItem::Type) {
         // disable text editing
-        MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
+        auto *t = static_cast<MyTextItem *>(m_selectedItem);
         t->textCursor().setPosition(0);
         QTextBlock cur = t->textCursor().block();
         t->setTextCursor(QTextCursor(cur));
@@ -858,7 +849,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
 
             if (m_selectedItem->type() == QGraphicsRectItem::Type && m_resizeMode != NoResize) {
-                MyRectItem *gi = static_cast<MyRectItem *>(m_selectedItem);
+                auto *gi = static_cast<MyRectItem *>(m_selectedItem);
                 // Resize using aspect ratio
                 if (!m_selectedItem->data(0).isNull()) {
                     // we want to keep aspect ratio
@@ -876,7 +867,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
             }
             QGraphicsScene::mouseMoveEvent(e);
         } else if (m_selectedItem->type() == QGraphicsTextItem::Type) {
-            MyTextItem *t = static_cast<MyTextItem *>(m_selectedItem);
+            auto *t = static_cast<MyTextItem *>(m_selectedItem);
             if ((t->textInteractionFlags() & static_cast<int>((Qt::TextEditorInteraction) != 0)) != 0) {
                 QGraphicsScene::mouseMoveEvent(e);
                 return;

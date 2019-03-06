@@ -26,7 +26,7 @@
 #include "undohelper.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
-#include <assert.h>
+#include <cassert>
 #include <memory>
 #include <mlt++/MltTractor.h>
 #include <unordered_map>
@@ -155,7 +155,7 @@ public:
         GrabbedRole         /// clip+composition only
     };
 
-    virtual ~TimelineModel();
+    ~TimelineModel() override;
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
     /* @brief Load tracks from the current tractor, used on project opening
      */

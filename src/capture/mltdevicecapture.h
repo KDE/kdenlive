@@ -58,7 +58,7 @@ class MltDeviceCapture : public AbstractRender
     explicit MltDeviceCapture(const QString &profile, /*VideoSurface *surface,*/ QWidget *parent = nullptr);
 
     /** @brief Destroy the MLT Renderer. */
-    ~MltDeviceCapture();
+    ~MltDeviceCapture() override;
 
     int doCapture;
 

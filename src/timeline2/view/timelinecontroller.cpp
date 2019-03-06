@@ -48,10 +48,10 @@
 #include <KActionCollection>
 #include <KColorScheme>
 #include <QApplication>
+#include <QClipboard>
 #include <QInputDialog>
 #include <QQuickItem>
-#include <QClipboard>
-
+#include <memory>
 #include <unistd.h>
 
 int TimelineController::m_duration = 0;
@@ -483,7 +483,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     }
     std::unique_ptr<Mlt::Properties> props(nullptr);
     if (revert) {
-        props.reset(new Mlt::Properties());
+        props = std::make_unique<Mlt::Properties>();
         if (transitionId == QLatin1String("dissolve")) {
             props->set("reverse", 1);
         } else if (transitionId == QLatin1String("composite") || transitionId == QLatin1String("slide")) {
@@ -1397,7 +1397,7 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     int startPos = m_model->getClipPosition(clipId);
 
     // plug in overlay playlist
-    Mlt::Playlist *overlay = new Mlt::Playlist(*m_model->m_tractor->profile());
+    auto *overlay = new Mlt::Playlist(*m_model->m_tractor->profile());
     overlay->insert_blank(0, startPos);
     Mlt::Producer split(trac.get_producer());
     overlay->insert_at(startPos, &split, 1);

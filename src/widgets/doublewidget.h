@@ -48,7 +48,7 @@ public:
      * @param parent (optional) Parent Widget */
     explicit DoubleWidget(const QString &name, double value, double min, double max, double factor, double defaultValue, const QString &comment, int id,
                           const QString &suffix = QString(), int decimals = 0, QWidget *parent = nullptr);
-    ~DoubleWidget();
+    ~DoubleWidget() override;
 
     /** @brief Gets the parameter's value. */
     double getValue();

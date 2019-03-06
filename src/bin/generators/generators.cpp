@@ -36,7 +36,7 @@
 #include "kxmlgui_version.h"
 #include <KMessageBox>
 #include <KRecentDirs>
-
+#include <memory>
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
@@ -81,7 +81,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
 
         auto prop = std::make_unique<Mlt::Properties>(m_producer->get_properties());
-        m_assetModel = std::shared_ptr<AssetParameterModel>(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1}));
+        m_assetModel.reset(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1})); // NOLINT
         m_view->setModel(m_assetModel, QSize(1920, 1080), false);
         connect(m_assetModel.get(), &AssetParameterModel::modelChanged, [this]() { updateProducer(); });
 

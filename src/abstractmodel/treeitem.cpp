@@ -25,8 +25,8 @@
 #include <numeric>
 #include <utility>
 
-TreeItem::TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id)
-    : m_itemData(data)
+TreeItem::TreeItem(QList<QVariant> data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id)
+    : m_itemData(std::move(data))
     , m_model(model)
     , m_depth(0)
     , m_id(id == -1 ? AbstractTreeModel::getNextId() : id)

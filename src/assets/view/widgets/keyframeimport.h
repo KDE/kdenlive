@@ -46,7 +46,7 @@ class KeyframeImport : public QDialog
 public:
     explicit KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
                             QWidget *parent = nullptr);
-    virtual ~KeyframeImport();
+    ~KeyframeImport() override;
     QString selectedData() const;
     QString selectedTarget() const;
 

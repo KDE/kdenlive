@@ -203,7 +203,7 @@ void MonitorProxy::resetZone()
 
 QPoint MonitorProxy::zone() const
 {
-    return QPoint(m_zoneIn, m_zoneOut);
+    return {m_zoneIn, m_zoneOut};
 }
 
 QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int width, int height, bool useSourceProfile)

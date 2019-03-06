@@ -46,9 +46,9 @@
 #include <QSize>
 #include <QThread>
 #include <QTimer>
+#include <cstdio>
+#include <cstdlib>
 #include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
 
 #ifdef USE_JOGSHUTTLE
@@ -58,11 +58,11 @@
 #include <linux/input.h>
 #endif
 
-KdenliveSettingsDialog::KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent)
+KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent)
     : KConfigDialog(parent, QStringLiteral("settings"), KdenliveSettings::self())
     , m_modified(false)
     , m_shuttleModified(false)
-    , m_mappable_actions(mappable_actions)
+    , m_mappable_actions(std::move(mappable_actions))
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
@@ -517,7 +517,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
 #endif
 }
 
-KdenliveSettingsDialog::~KdenliveSettingsDialog() {}
+KdenliveSettingsDialog::~KdenliveSettingsDialog() = default;
 
 void KdenliveSettingsDialog::slotUpdateGrabRegionStatus()
 {
@@ -1255,7 +1255,7 @@ void KdenliveSettingsDialog::loadCurrentV4lProfileInfo()
         prof->m_display_aspect_den = 3;
         prof->m_sample_aspect_num = 1;
         prof->m_sample_aspect_den = 1;
-        prof->m_progressive = 1;
+        prof->m_progressive = true;
         prof->m_colorspace = 601;
         ProfileRepository::get()->saveProfile(prof.get(), dir.absoluteFilePath(QStringLiteral("video4linux")));
     }
@@ -1293,7 +1293,7 @@ void KdenliveSettingsDialog::saveCurrentV4lProfile()
 
 void KdenliveSettingsDialog::slotManageEncodingProfile()
 {
-    QAction *act = qobject_cast<QAction *>(sender());
+    auto *act = qobject_cast<QAction *>(sender());
     int type = 0;
     if (act) {
         type = act->data().toInt();

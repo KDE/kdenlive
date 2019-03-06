@@ -43,12 +43,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 std::unique_ptr<Core> Core::m_self;
 Core::Core()
-    : m_mainWindow(nullptr)
-    , m_projectManager(nullptr)
-    , m_monitorManager(nullptr)
-    , m_binWidget(nullptr)
-    , m_library(nullptr)
-    , m_thumbProfile(nullptr)
+    : m_thumbProfile(nullptr)
 {
 }
 
@@ -332,12 +327,12 @@ double Core::getCurrentFps() const
 
 QSize Core::getCurrentFrameDisplaySize() const
 {
-    return QSize((int)(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height());
+    return {(int)(getCurrentProfile()->height() * getCurrentDar() + 0.5), getCurrentProfile()->height()};
 }
 
 QSize Core::getCurrentFrameSize() const
 {
-    return QSize(getCurrentProfile()->width(), getCurrentProfile()->height());
+    return {getCurrentProfile()->width(), getCurrentProfile()->height()};
 }
 
 void Core::requestMonitorRefresh()
@@ -577,7 +572,7 @@ QMap<int, QString> Core::getVideoTrackNames()
 
 QPair<int, int> Core::getCompositionATrack(int cid) const
 {
-    if (!m_guiConstructed) return QPair<int, int>();
+    if (!m_guiConstructed) return {};
     return m_mainWindow->getCurrentTimeline()->controller()->getCompositionATrack(cid);
 }
 
@@ -652,7 +647,7 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
 Mlt::Profile *Core::thumbProfile()
 {
     if (!m_thumbProfile) {
-        m_thumbProfile = std::unique_ptr<Mlt::Profile>(new Mlt::Profile(m_currentProfile.toStdString().c_str()));
+        m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         m_thumbProfile->set_height(200);
         int width = 200 * m_thumbProfile->dar();
         if (width % 8 > 0) {

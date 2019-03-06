@@ -27,12 +27,7 @@
 
 SimpleTimelineWidget::SimpleTimelineWidget(QWidget *parent)
     : QWidget(parent)
-    , m_duration(1)
-    , m_position(0)
-    , m_currentKeyframe(-1)
-    , m_currentKeyframeOriginal(-1)
-    , m_hoverKeyframe(-1)
-    , m_scale(1)
+
 {
     setMouseTracking(true);
     setMinimumSize(QSize(150, 20));

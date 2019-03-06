@@ -72,7 +72,7 @@ std::shared_ptr<ProjectItemModel> ProjectItemModel::construct(QObject *parent)
     return self;
 }
 
-ProjectItemModel::~ProjectItemModel() {}
+ProjectItemModel::~ProjectItemModel() = default;
 
 int ProjectItemModel::mapToColumn(int column) const
 {

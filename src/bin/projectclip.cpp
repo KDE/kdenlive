@@ -60,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <QFile>
 #include <QtConcurrent>
-#include <utility>
+#include <memory>
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -673,18 +673,18 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         } else {
             master->parent().set("_loaded", 1);
             if (timeWarp) {
-                m_timewarpProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
+                m_timewarpProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 m_effectStack->loadService(m_timewarpProducers[clipId]);
                 return {master, true};
             }
             if (state == PlaylistState::AudioOnly) {
-                m_audioProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
+                m_audioProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 m_effectStack->loadService(m_audioProducers[clipId]);
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
                 // good, we found a master video producer, and we didn't have any
-                m_videoProducers[clipId] = std::shared_ptr<Mlt::Producer>(new Mlt::Producer(&master->parent()));
+                m_videoProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
                 m_effectStack->loadService(m_videoProducers[clipId]);
                 return {master, true};
             }
@@ -1044,7 +1044,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
 {
     auto ptr = m_model.lock();
     Q_ASSERT(ptr);
-    ClipPropertiesController *panel = new ClipPropertiesController(static_cast<ClipController *>(this), parent);
+    auto *panel = new ClipPropertiesController(static_cast<ClipController *>(this), parent);
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
     connect(panel, &ClipPropertiesController::requestProxy, [this](bool doProxy) {
@@ -1359,8 +1359,8 @@ void ProjectClip::deregisterTimelineClip(int clipId)
 QList<int> ProjectClip::timelineInstances() const
 {
     QList<int> ids;
-    for (std::map<int, std::weak_ptr<TimelineModel>>::const_iterator it = m_registeredClips.begin(); it != m_registeredClips.end(); ++it) {
-        ids.push_back(it->first);
+    for (const auto &m_registeredClip : m_registeredClips) {
+        ids.push_back(m_registeredClip.first);
     }
     return ids;
 }

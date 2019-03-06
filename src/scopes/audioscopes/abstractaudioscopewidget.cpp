@@ -21,9 +21,6 @@
 
 AbstractAudioScopeWidget::AbstractAudioScopeWidget(bool trackMouse, QWidget *parent)
     : AbstractScopeWidget(trackMouse, parent)
-    , m_freq(0)
-    , m_nChannels(0)
-    , m_nSamples(0)
     , m_audioFrame()
     , m_newData(0)
 {

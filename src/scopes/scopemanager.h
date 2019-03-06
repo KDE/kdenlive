@@ -71,7 +71,7 @@ private:
     QList<AudioScopeData> m_audioScopes;
     QList<GfxScopeData> m_colorScopes;
 
-    AbstractMonitor *m_lastConnectedRenderer;
+    AbstractMonitor *m_lastConnectedRenderer{nullptr};
 
     QSignalMapper *m_signalMapper;
 

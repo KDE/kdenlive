@@ -59,7 +59,7 @@ std::shared_ptr<ProjectFolder> ProjectFolder::construct(std::shared_ptr<ProjectI
     return self;
 }
 
-ProjectFolder::~ProjectFolder() {}
+ProjectFolder::~ProjectFolder() = default;
 
 std::shared_ptr<ProjectClip> ProjectFolder::clip(const QString &id)
 {

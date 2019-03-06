@@ -41,7 +41,7 @@ class AssetListWidget : public QQuickWidget
 
 public:
     AssetListWidget(QWidget *parent = Q_NULLPTR);
-    virtual ~AssetListWidget();
+    ~AssetListWidget() override;
 
     /* @brief Returns the name of the asset given its model index */
     QString getName(const QModelIndex &index) const;
@@ -74,7 +74,7 @@ protected:
     std::shared_ptr<AssetTreeModel> m_model;
     std::unique_ptr<AssetFilter> m_proxyModel;
     // the QmlEngine takes ownership of the image provider
-    AssetIconProvider *m_assetIconProvider;
+    AssetIconProvider *m_assetIconProvider{nullptr};
 
 signals:
     void activateAsset(const QVariantMap data);

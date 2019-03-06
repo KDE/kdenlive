@@ -52,7 +52,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~KoSliderCombo();
+    ~KoSliderCombo() override;
 
     /**
      * The precision of values given as the number of digits after the period.

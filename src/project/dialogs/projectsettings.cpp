@@ -45,7 +45,6 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTemporaryFile>
-#include <kmessagebox.h>
 
 class NoEditDelegate : public QStyledItemDelegate
 {
@@ -63,11 +62,11 @@ public:
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks,
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks,
                                  const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
     : QDialog(parent)
     , m_savedProject(savedProject)
-    , m_lumas(lumas)
+    , m_lumas(std::move(lumas))
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);

@@ -31,7 +31,7 @@ class InvalidDialog : public QDialog
 
 public:
     explicit InvalidDialog(const QString &caption, const QString &message, bool infoOnly, QWidget *parent = nullptr);
-    ~InvalidDialog();
+    ~InvalidDialog() override;
 
     void addClip(const QString &id, const QString &path);
     QStringList getIds() const;

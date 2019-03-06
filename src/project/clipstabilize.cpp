@@ -28,12 +28,11 @@
 #include "kdenlivesettings.h"
 #include <KMessageBox>
 #include <QFontDatabase>
-#include <klocalizedstring.h>
 #include <mlt++/Mlt.h>
 
-ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &filterName, int out, QWidget *parent)
+ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterName, int out, QWidget *parent)
     : QDialog(parent)
-    , m_filtername(filterName)
+    , m_filtername(std::move(filterName))
     , m_binIds(binIds)
     , m_vbox(nullptr)
 {
@@ -168,13 +167,13 @@ void ClipStabilize::slotUpdateParams()
         QString name = w->objectName();
         if (!name.isEmpty() && m_ui_params.contains(name)) {
             if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("int") || m_ui_params[name][QStringLiteral("type")] == QLatin1String("double")) {
-                DoubleWidget *dbl = static_cast<DoubleWidget *>(w);
+                auto *dbl = static_cast<DoubleWidget *>(w);
                 m_ui_params[name][QStringLiteral("value")] = QString::number((double)(dbl->getValue()));
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("bool")) {
-                QCheckBox *ch = (QCheckBox *)w;
+                auto *ch = (QCheckBox *)w;
                 m_ui_params[name][QStringLiteral("value")] = ch->checkState() == Qt::Checked ? QStringLiteral("1") : QStringLiteral("0");
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("position")) {
-                PositionWidget *pos = (PositionWidget *)w;
+                auto *pos = (PositionWidget *)w;
                 m_ui_params[name][QStringLiteral("value")] = QString::number(pos->getPosition());
             }
         }

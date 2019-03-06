@@ -51,7 +51,7 @@ class MarkerListModel : public QAbstractListModel
 
 public:
     /* @brief Construct a marker list bound to the bin clip with given id */
-    explicit MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     /* @brief Construct a guide list (bound to the timeline) */
     MarkerListModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);

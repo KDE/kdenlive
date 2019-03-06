@@ -32,7 +32,7 @@
 
 AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
-    , m_assetIconProvider(nullptr)
+
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());

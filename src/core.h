@@ -58,7 +58,7 @@ public:
     Core(Core &&) = delete;
     Core &operator=(Core &&) = delete;
 
-    virtual ~Core();
+    ~Core() override;
 
     /**
      * @brief Setup the basics of the application, in particular the connection
@@ -189,13 +189,13 @@ private:
     /** @brief Makes sure Qt's locale and system locale settings match. */
     void initLocale();
 
-    MainWindow *m_mainWindow;
-    ProjectManager *m_projectManager;
-    MonitorManager *m_monitorManager;
+    MainWindow *m_mainWindow{nullptr};
+    ProjectManager *m_projectManager{nullptr};
+    MonitorManager *m_monitorManager{nullptr};
     std::shared_ptr<ProjectItemModel> m_projectItemModel;
     std::shared_ptr<JobManager> m_jobManager;
-    Bin *m_binWidget;
-    LibraryWidget *m_library;
+    Bin *m_binWidget{nullptr};
+    LibraryWidget *m_library{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;
 

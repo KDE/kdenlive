@@ -25,23 +25,22 @@
 #include <QStandardPaths>
 
 #include <KMessageBox>
-#include <kio_version.h>
 #include <klocalizedstring.h>
 
-ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description,
-                             const QStringList &folderInfo, bool automaticMode, QWidget *parent)
+ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringList postParams, const QString &description, QStringList folderInfo,
+                             bool automaticMode, QWidget *parent)
     : QDialog(parent)
-    , m_urls(urls)
-    , m_folderInfo(folderInfo)
+    , m_urls(std::move(urls))
+    , m_folderInfo(std::move(folderInfo))
     , m_duration(0)
     , m_automaticMode(automaticMode)
-    , m_postParams(postParams)
+    , m_postParams(std::move(postParams))
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     m_infoMessage = new KMessageWidget;
-    QGridLayout *s = static_cast<QGridLayout *>(layout());
+    auto *s = static_cast<QGridLayout *>(layout());
     s->addWidget(m_infoMessage, 10, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();

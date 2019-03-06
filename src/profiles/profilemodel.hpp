@@ -43,7 +43,7 @@ public:
     /* @brief Constructs a profile using the path to the profile description
      */
     ProfileModel(const QString &path);
-    virtual ~ProfileModel() = default;
+    ~ProfileModel() override = default;
 
     bool is_valid() const override;
     QString description() const override;

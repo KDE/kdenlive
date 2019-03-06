@@ -82,8 +82,8 @@ template <typename T> class Detect_prepareJob
     template <typename U> static ArrayOfTwo &func(...);
 
 public:
-    typedef Detect_prepareJob type;
-    enum { value = sizeof(func<Derived>(0)) == 2 };
+    typedef Detect_prepareJob type; // NOLINT
+    enum { value = sizeof(func<Derived>(nullptr)) == 2 };
 };
 
 struct dummy

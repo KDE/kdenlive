@@ -67,8 +67,8 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
-    virtual ~TitleWidget();
+    explicit TitleWidget(const QUrl &url, const Timecode &tc, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
+    ~TitleWidget() override;
     QDomDocument xml();
     void setXml(const QDomDocument &doc, const QString &id = QString());
 

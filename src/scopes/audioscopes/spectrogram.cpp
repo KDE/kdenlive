@@ -39,11 +39,7 @@ Spectrogram::Spectrogram(QWidget *parent)
     , m_fftTools()
     , m_fftHistory()
     , m_fftHistoryImg()
-    , m_dBmin(-70)
-    , m_dBmax(0)
-    , m_freqMax(0)
-    , m_customFreq(false)
-    , m_parameterChanged(false)
+
 {
     m_ui = new Ui::Spectrogram_UI;
     m_ui->setupUi(this);
@@ -322,7 +318,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         if (newDataAvailable) {
 
-            float *freqSpectrum = new float[(uint)fftWindow / 2];
+            auto *freqSpectrum = new float[(uint)fftWindow / 2];
 
             // Get the spectral power distribution of the input samples,
             // using the given window size and function
@@ -379,13 +375,13 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
             QVector<float> dbMap;
             uint right;
             ////////////////FIXME
-            for (QList<QVector<float>>::iterator it = m_fftHistory.begin(); it != m_fftHistory.end(); ++it) {
+            for (auto &it : m_fftHistory) {
 
-                windowSize = (*it).size();
+                windowSize = it.size();
 
                 // Interpolate the frequency data to match the pixel coordinates
                 right = uint(((float)m_freqMax) / ((float)m_freq / 2.) * float(windowSize - 1));
-                dbMap = FFTTools::interpolatePeakPreserving((*it), (uint)m_innerScopeRect.width(), 0, right, -180);
+                dbMap = FFTTools::interpolatePeakPreserving(it, (uint)m_innerScopeRect.width(), 0, right, -180);
 
                 for (int i = 0; i < dbMap.size(); ++i) {
                     float val;

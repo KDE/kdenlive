@@ -137,7 +137,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
             static_cast<void (CurveParamWidget<CurveWidget_t>::*)(const Point_t &, bool)>(&CurveParamWidget<CurveWidget_t>::slotUpdatePointEntries));
 
     // construct and fill layout
-    QVBoxLayout *layout = new QVBoxLayout(this);
+    auto *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     layout->addWidget(m_edit);
@@ -151,12 +151,12 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
     m_bottomParam->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
 
     // horizontal layout to make sure that everything is centered
-    QHBoxLayout *horiz_layout = new QHBoxLayout;
+    auto *horiz_layout = new QHBoxLayout;
     horiz_layout->addWidget(m_leftParam);
     horiz_layout->addWidget(m_bottomParam);
 
     layout->addLayout(horiz_layout);
-    QWidget *widget = new QWidget(this);
+    auto *widget = new QWidget(this);
     widget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_ui.setupUi(widget);
     layout->addWidget(widget);

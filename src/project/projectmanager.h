@@ -48,7 +48,7 @@ class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 public:
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
     explicit ProjectManager(QObject *parent = nullptr);
-    virtual ~ProjectManager();
+    ~ProjectManager() override;
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
@@ -174,7 +174,7 @@ private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
-    KdenliveDoc *m_project;
+    KdenliveDoc *m_project{nullptr};
     std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
     QTime m_lastSave;
     QTimer m_autoSaveTimer;
@@ -185,7 +185,7 @@ private:
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
-    QProgressDialog *m_progressDialog;
+    QProgressDialog *m_progressDialog{nullptr};
     void saveRecentFiles();
 };
 

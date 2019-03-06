@@ -52,11 +52,7 @@ AudioSpectrum::AudioSpectrum(QWidget *parent)
     , m_timeTotal(0)
     , m_showTotal(0)
 #endif
-    , m_dBmin(-70)
-    , m_dBmax(0)
-    , m_freqMax(0)
-    , m_customFreq(false)
-    , m_colorizeFactor(0)
+
 {
     m_ui = new Ui::AudioSpectrum_UI;
     m_ui->setupUi(this);
@@ -210,7 +206,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
 
         // Get the spectral power distribution of the input samples,
         // using the given window size and function
-        float *freqSpectrum = new float[(uint)fftWindow / 2];
+        auto *freqSpectrum = new float[(uint)fftWindow / 2];
         FFTTools::WindowType windowType = (FFTTools::WindowType)m_ui->windowFunction->itemData(m_ui->windowFunction->currentIndex()).toInt();
         m_fftTools.fftNormalized(audioFrame, 0, (uint)num_channels, freqSpectrum, windowType, (uint)fftWindow, 0);
 

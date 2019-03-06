@@ -35,7 +35,7 @@ class MonitorAudioLevel : public ScopeWidget
     Q_OBJECT
 public:
     explicit MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent = nullptr);
-    virtual ~MonitorAudioLevel();
+    ~MonitorAudioLevel() override;
     void refreshPixmap();
     int audioChannels;
     bool isValid;

@@ -60,7 +60,7 @@ public:
 
 protected:
     // This is protected. Call construct instead
-    explicit TreeItem(const QList<QVariant> &data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id = -1);
+    explicit TreeItem(QList<QVariant> data, const std::shared_ptr<AbstractTreeModel> &model, bool isRoot, int id = -1);
 
 public:
     virtual ~TreeItem();

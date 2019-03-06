@@ -63,7 +63,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     setToolTip(comment);
 }
 
-PositionEditWidget::~PositionEditWidget() {}
+PositionEditWidget::~PositionEditWidget() = default;
 
 void PositionEditWidget::updateTimecodeFormat()
 {

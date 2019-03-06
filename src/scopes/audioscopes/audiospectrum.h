@@ -40,7 +40,7 @@ class AudioSpectrum : public AbstractAudioScopeWidget
 
 public:
     explicit AudioSpectrum(QWidget *parent = nullptr);
-    ~AudioSpectrum();
+    ~AudioSpectrum() override;
 
     // Implemented virtual methods
     QString widgetName() const override;
@@ -75,17 +75,17 @@ private:
     QRect m_innerScopeRect;
 
     /** Lower bound for the dB value to display */
-    int m_dBmin;
+    int m_dBmin{-70};
     /** Upper bound (max: 0) */
-    int m_dBmax;
+    int m_dBmax{0};
 
     /** Maximum frequency (limited by the sampling rate if determined automatically).
         Stored for the painters. */
-    int m_freqMax;
+    int m_freqMax{0};
     /** The user has chosen a custom frequency. */
-    bool m_customFreq;
+    bool m_customFreq{false};
 
-    float m_colorizeFactor;
+    float m_colorizeFactor{0};
 
 #ifdef DEBUG_AUDIOSPEC
     long m_timeTotal;

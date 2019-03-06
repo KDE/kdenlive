@@ -53,7 +53,7 @@ protected:
     explicit ProjectFolder(const std::shared_ptr<ProjectItemModel> &model);
 
 public:
-    ~ProjectFolder();
+    ~ProjectFolder() override;
 
     /**
      * @brief Returns the clip if it is a child (also indirect).

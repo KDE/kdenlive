@@ -53,7 +53,7 @@ void MyFrame::hideEvent(QHideEvent *event)
 
 ColorPickerWidget::ColorPickerWidget(QWidget *parent)
     : QWidget(parent)
-    , m_filterActive(false)
+
 {
 #ifdef Q_WS_X11
     m_image = nullptr;

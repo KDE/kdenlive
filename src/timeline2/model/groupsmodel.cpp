@@ -516,8 +516,8 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         }
         if (!finished) {
             new_groups.erase(selected);
-            for (auto it = new_groups.begin(); it != new_groups.end(); ++it) {
-                (*it).second.erase(selected);
+            for (auto &new_group : new_groups) {
+                new_group.second.erase(selected);
             }
         }
     }

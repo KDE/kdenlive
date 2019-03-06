@@ -303,27 +303,27 @@ void fuzz(const std::string &input)
                             int compoId = get_compo(tim);
                             valid = valid && (compoId >= 0);
                             // std::cout << "got compo" << compoId << std::endl;
-                            arguments.push_back(compoId);
+                            arguments.emplace_back(compoId);
                         } else if (arg_name == "clipId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
                             int clipId = get_clip(tim);
                             valid = valid && (clipId >= 0);
-                            arguments.push_back(clipId);
+                            arguments.emplace_back(clipId);
                             // std::cout << "got clipId" << clipId << std::endl;
                         } else if (arg_name == "trackId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
                             int trackId = get_track(tim);
                             valid = valid && (trackId >= 0);
-                            arguments.push_back(rttr::variant(trackId));
+                            arguments.emplace_back(trackId);
                             // std::cout << "got trackId" << trackId << std::endl;
                         } else if (arg_name == "itemId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
                             int itemId = get_item(tim);
                             valid = valid && (itemId >= 0);
-                            arguments.push_back(itemId);
+                            arguments.emplace_back(itemId);
                             // std::cout << "got itemId" << itemId << std::endl;
                         } else if (arg_name == "ids") {
                             int count = 0;
@@ -339,7 +339,7 @@ void fuzz(const std::string &input)
                                     valid = valid && (itemId >= 0);
                                     ids.insert(itemId);
                                 }
-                                arguments.push_back(ids);
+                                arguments.emplace_back(ids);
                             } else {
                                 valid = false;
                             }
@@ -349,12 +349,12 @@ void fuzz(const std::string &input)
                                 int a = 0;
                                 ss >> a;
                                 // std::cout << "read int " << a << std::endl;
-                                arguments.push_back(a);
+                                arguments.emplace_back(a);
                             } else if (arg_type == rttr::type::get<bool>()) {
                                 bool a = false;
                                 ss >> a;
                                 // std::cout << "read bool " << a << std::endl;
-                                arguments.push_back(a);
+                                arguments.emplace_back(a);
                             } else if (arg_type == rttr::type::get<QString>()) {
                                 std::string str = "";
                                 ss >> str;
@@ -362,7 +362,7 @@ void fuzz(const std::string &input)
                                 if (str == "$$") {
                                     str = "";
                                 }
-                                arguments.push_back(QString::fromStdString(str));
+                                arguments.emplace_back(QString::fromStdString(str));
                             } else if (arg_type.is_enumeration()) {
                                 int a = 0;
                                 ss >> a;
@@ -375,7 +375,7 @@ void fuzz(const std::string &input)
                             }
                         } else {
                             if (p.get_type() == rttr::type::get<int>()) {
-                                arguments.push_back(-1);
+                                arguments.emplace_back(-1);
                             } else {
                                 assert(false);
                             }
@@ -410,8 +410,8 @@ void fuzz(const std::string &input)
     all_clips.clear();
     all_tracks.clear();
     all_compositions.clear();
-    for (size_t i = 0; i < all_timelines.size(); ++i) {
-        all_timelines[i].reset();
+    for (auto &all_timeline : all_timelines) {
+        all_timeline.reset();
     }
 
     pCore->m_projectManager = nullptr;

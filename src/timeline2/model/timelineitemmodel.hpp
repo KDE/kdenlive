@@ -65,7 +65,7 @@ protected:
     TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack);
 
 public:
-    ~TimelineItemModel();
+    ~TimelineItemModel() override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
@@ -104,11 +104,11 @@ public:
     bool isInMultiSelection(int cid) const;
     bool isSelected(int cid) const;
 
-    virtual void _beginRemoveRows(const QModelIndex &, int, int) override;
-    virtual void _beginInsertRows(const QModelIndex &, int, int) override;
-    virtual void _endRemoveRows() override;
-    virtual void _endInsertRows() override;
-    virtual void _resetView() override;
+    void _beginRemoveRows(const QModelIndex &, int, int) override;
+    void _beginInsertRows(const QModelIndex &, int, int) override;
+    void _endRemoveRows() override;
+    void _endInsertRows() override;
+    void _resetView() override;
 
 protected:
     // This is an helper function that finishes a construction of a freshly created TimelineItemModel

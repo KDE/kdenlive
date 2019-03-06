@@ -71,16 +71,15 @@
 
 const double DOCUMENTVERSION = 0.98;
 
-KdenliveDoc::KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName,
-                         const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup,
-                         MainWindow *parent)
+KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+                         const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
-    , m_projectFolder(projectFolder)
+    , m_projectFolder(std::move(projectFolder))
 {
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);

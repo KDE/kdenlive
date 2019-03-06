@@ -83,7 +83,7 @@ protected:
     ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);
 
 public:
-    virtual ~ProjectClip();
+    ~ProjectClip() override;
 
     void reloadProducer(bool refreshOnly = false);
 

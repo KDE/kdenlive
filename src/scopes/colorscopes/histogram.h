@@ -25,7 +25,7 @@ class Histogram : public AbstractGfxScopeWidget
 
 public:
     explicit Histogram(QWidget *parent = nullptr);
-    ~Histogram();
+    ~Histogram() override;
     QString widgetName() const override;
 
 protected:

@@ -39,7 +39,7 @@ class TimelineWidget : public QQuickWidget
 
 public:
     TimelineWidget(QWidget *parent = Q_NULLPTR);
-    ~TimelineWidget();
+    ~TimelineWidget() override;
     /* @brief Sets the model shown by this widget */
     void setModel(const std::shared_ptr<TimelineItemModel> &model);
 

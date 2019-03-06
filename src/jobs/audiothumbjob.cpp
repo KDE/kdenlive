@@ -158,11 +158,11 @@ bool AudioThumbJob::computeWithFFMPEG()
         int dataSize = 0;
         std::vector<const qint16 *> rawChannels;
         std::vector<QByteArray> sourceChannels;
-        for (size_t i = 0; i < channelFiles.size(); i++) {
-            channelFiles[i]->open();
-            sourceChannels.emplace_back(channelFiles[i]->readAll());
+        for (auto &channelFile : channelFiles) {
+            channelFile->open();
+            sourceChannels.emplace_back(channelFile->readAll());
             QByteArray &res = sourceChannels.back();
-            channelFiles[i]->close();
+            channelFile->close();
             if (dataSize == 0) {
                 dataSize = res.size();
             }
@@ -194,11 +194,11 @@ bool AudioThumbJob::computeWithFFMPEG()
                     channelsData[k] += abs(rawChannels[k][pos + j]);
                 }
             }
-            for (size_t k = 0; k < channelsData.size(); k++) {
+            for (long &k : channelsData) {
                 if (steps != 0) {
-                    channelsData[k] /= steps;
+                    k /= steps;
                 }
-                m_audioLevels << (int)((double)channelsData[k] * factor);
+                m_audioLevels << (int)((double)k * factor);
             }
             int p = 80 + (i * 20 / m_lengthInFrames);
             if (p != progress) {

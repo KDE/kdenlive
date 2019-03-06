@@ -89,7 +89,7 @@ public:
     friend class MonitorManager;
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
-    ~Monitor();
+    ~Monitor() override;
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);

@@ -28,14 +28,14 @@
 
 #include <QWidget>
 
-#include <stdint.h>
+#include <cstdint>
 
 class AudioSignal : public AbstractAudioScopeWidget
 {
     Q_OBJECT
 public:
     explicit AudioSignal(QWidget *parent = nullptr);
-    ~AudioSignal();
+    ~AudioSignal() override;
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
 

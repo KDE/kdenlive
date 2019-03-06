@@ -170,7 +170,7 @@ struct requestClipInfo
 
 typedef QMap<QString, QString> stringMap;
 typedef QMap<int, QMap<int, QByteArray>> audioByteArray;
-typedef QVector<qint16> audioShortVector;
+using audioShortVector = QVector<qint16>;
 
 class ItemInfo
 {
@@ -184,9 +184,9 @@ public:
     /** cropDuration is the duration of the clip */
     GenTime cropDuration;
     /** Track number */
-    int track;
+    int track{0};
     ItemInfo()
-        : track(0)
+         
     {
     }
     bool isValid() const { return startPos != endPos; }
@@ -208,15 +208,13 @@ public:
     /** endPos is the duration where the clip ends on the track */
     GenTime endPos;
     /** the track on which the transition is (b_track)*/
-    int b_track;
+    int b_track{0};
     /** the track on which the transition is applied (a_track)*/
-    int a_track;
+    int a_track{0};
     /** Does the user request for a special a_track */
-    bool forceTrack;
+    bool forceTrack{0};
     TransitionInfo()
-        : b_track(0)
-        , a_track(0)
-        , forceTrack(0)
+         
     {
     }
 };
@@ -225,7 +223,7 @@ class CommentedTime
 {
 public:
     CommentedTime();
-    CommentedTime(const GenTime &time, const QString &comment, int markerType = 0);
+    CommentedTime(const GenTime &time, QString comment, int markerType = 0);
     CommentedTime(const QString &hash, const GenTime &time);
 
     QString comment() const;
@@ -253,7 +251,7 @@ public:
 private:
     GenTime m_time;
     QString m_comment;
-    int m_type;
+    int m_type{0};
 };
 
 QDebug operator<<(QDebug qd, const ItemInfo &info);
@@ -276,7 +274,7 @@ template <typename T> struct enable_shared_from_this_virtual;
 
 class enable_shared_from_this_virtual_base : public std::enable_shared_from_this<enable_shared_from_this_virtual_base>
 {
-    typedef std::enable_shared_from_this<enable_shared_from_this_virtual_base> base_type;
+    using base_type = std::enable_shared_from_this<enable_shared_from_this_virtual_base>;
     template <typename T> friend struct enable_shared_from_this_virtual;
 
     std::shared_ptr<enable_shared_from_this_virtual_base> shared_from_this() { return base_type::shared_from_this(); }
@@ -285,7 +283,7 @@ class enable_shared_from_this_virtual_base : public std::enable_shared_from_this
 
 template <typename T> struct enable_shared_from_this_virtual : virtual enable_shared_from_this_virtual_base
 {
-    typedef enable_shared_from_this_virtual_base base_type;
+    using base_type = enable_shared_from_this_virtual_base;
 
 public:
     std::shared_ptr<T> shared_from_this()

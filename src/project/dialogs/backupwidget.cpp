@@ -22,11 +22,10 @@
 
 #include <QDir>
 #include <QPushButton>
-#include <klocalizedstring.h>
 
-BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget *parent)
+BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QString &projectId, QWidget *parent)
     : QDialog(parent)
-    , m_projectFolder(projectFolder)
+    , m_projectFolder(std::move(projectFolder))
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
@@ -59,7 +58,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     slotParseBackupFiles();
 }
 
-BackupWidget::~BackupWidget() {}
+BackupWidget::~BackupWidget() = default;
 
 void BackupWidget::slotParseBackupFiles()
 {

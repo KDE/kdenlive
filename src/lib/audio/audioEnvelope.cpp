@@ -19,7 +19,7 @@
 #include <QtConcurrent>
 #include <algorithm>
 #include <cmath>
-
+#include <memory>
 AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, size_t length, size_t startPos)
     : m_offset(offset)
     , m_clipId(clipId)
@@ -33,7 +33,7 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     if (!m_producer || !m_producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << binId;
     }
-    m_info.reset(new AudioInfo(m_producer));
+    m_info = std::make_unique<AudioInfo>(m_producer);
     if (length > 0) {
         Q_ASSERT(length + m_offset <= m_envelopeSize);
         m_envelopeSize = length;

@@ -33,7 +33,7 @@
 #include <KMessageWidget>
 #include <klocalizedstring.h>
 
-#include <math.h>
+#include <cmath>
 
 #include <mlt++/Mlt.h>
 
@@ -357,7 +357,7 @@ void AudioGraphSpectrum::refreshScope(const QSize & /*size*/, bool /*full*/)
 void AudioGraphSpectrum::processSpectrum()
 {
     QVector<double> bands(AUDIBLE_BAND_COUNT);
-    float *bins = (float *)m_filter->get_data("bins");
+    auto *bins = (float *)m_filter->get_data("bins");
     int bin_count = m_filter->get_int("bin_count");
     double bin_width = m_filter->get_double("bin_width");
 

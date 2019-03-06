@@ -24,7 +24,7 @@ BPoint::BPoint()
     : h1(-1, -1)
     , p(-1, -1)
     , h2(-1, -1)
-    , handlesLinked(true)
+
 {
 }
 

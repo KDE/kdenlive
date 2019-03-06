@@ -27,7 +27,7 @@ class ColorPlaneExport : public QDialog, public Ui::ColorPlaneExport_UI
     Q_OBJECT
 public:
     explicit ColorPlaneExport(QWidget *parent = nullptr);
-    ~ColorPlaneExport();
+    ~ColorPlaneExport() override;
 
     enum COLOR_EXPORT_MODE { CPE_YUV, CPE_YUV_Y, CPE_YUV_MOD, CPE_RGB_CURVE, CPE_YPbPr, CPE_HSV_HUESHIFT, CPE_HSV_SATURATION };
 

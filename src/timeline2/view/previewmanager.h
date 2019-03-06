@@ -55,7 +55,7 @@ public:
     friend class TimelineController;
 
     explicit PreviewManager(TimelineController *controller, Mlt::Tractor *tractor);
-    virtual ~PreviewManager();
+    ~PreviewManager() override;
     /** @brief: initialize base variables, return false if error. */
     bool initialize();
     /** @brief: a timeline operation caused changes to frames between startFrame and endFrame. */

@@ -25,10 +25,10 @@
 #include <QApplication>
 #include <QDir>
 #include <QEvent>
-
-#include <errno.h>
-#include <string.h>
+#include <cerrno>
+#include <cstring>
 #include <sys/select.h>
+#include <utility>
 // according to earlier standards
 #include <sys/time.h>
 #include <sys/types.h>
@@ -39,8 +39,8 @@ const QEvent::Type MediaCtrlEvent::Key = (QEvent::Type)QEvent::registerEventType
 const QEvent::Type MediaCtrlEvent::Jog = (QEvent::Type)QEvent::registerEventType();
 const QEvent::Type MediaCtrlEvent::Shuttle = (QEvent::Type)QEvent::registerEventType();
 
-ShuttleThread::ShuttleThread(const QString &device, QObject *parent)
-    : m_device(device)
+ShuttleThread::ShuttleThread(QString device, QObject *parent)
+    : m_device(std::move(device))
     , m_parent(parent)
     , m_isRunning(false)
 {

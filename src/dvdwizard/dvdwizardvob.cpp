@@ -77,8 +77,7 @@ void DvdTreeWidget::dropEvent(QDropEvent *event)
 
 DvdWizardVob::DvdWizardVob(QWidget *parent)
     : QWizardPage(parent)
-    , m_installCheck(true)
-    , m_duration(0)
+
 {
     m_view.setupUi(this);
     m_view.button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
@@ -136,7 +135,7 @@ DvdWizardVob::DvdWizardVob(QWidget *parent)
 
     m_warnMessage = new KMessageWidget;
     m_warnMessage->setCloseButtonVisible(false);
-    QGridLayout *s = static_cast<QGridLayout *>(layout());
+    auto *s = static_cast<QGridLayout *>(layout());
     s->addWidget(m_warnMessage, 2, 0, 1, -1);
     if (!errorMessage.isEmpty()) {
         m_warnMessage->setMessageType(KMessageWidget::Error);

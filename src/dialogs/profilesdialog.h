@@ -57,12 +57,12 @@ private slots:
 private:
     Ui::ProfilesDialog_UI m_view;
     int m_selectedProfileIndex;
-    bool m_profileIsModified;
-    bool m_isCustomProfile;
+    bool m_profileIsModified{false};
+    bool m_isCustomProfile{false};
     /** @brief If we are in single profile editing, should contain the path for this profile. */
     QString m_customProfilePath;
     /** @brief True if a profile was saved / deleted and profile tree requires a reload. */
-    bool m_profilesChanged;
+    bool m_profilesChanged{false};
     KMessageWidget *m_infoMessage;
     void saveProfile(const QString &path);
     bool askForSave();

@@ -34,7 +34,7 @@ class AssetTreeModel : public AbstractTreeModel
 {
 
 public:
-    explicit AssetTreeModel(QObject *parent = 0);
+    explicit AssetTreeModel(QObject *parent = nullptr);
 
     enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole };
 

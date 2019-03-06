@@ -59,7 +59,7 @@ class LoginDialog : public QDialog
 
 public:
     explicit LoginDialog(QWidget *parent = nullptr);
-    ~LoginDialog();
+    ~LoginDialog() override;
     void setLoginUrl(const QUrl &url);
 
     QString authCode() const;

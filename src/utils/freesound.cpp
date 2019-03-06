@@ -86,7 +86,7 @@ void FreeSound::slotShowResults(KJob *job)
         qCDebug(KDENLIVE_LOG) << job->errorString();
     } else {
         m_listWidget->blockSignals(true); // stop the listWidget from emitting signals.Ie clicking on the list while we are busy here will do nothing
-        KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+        auto *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
 
         QJsonParseError jsonError;
         QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
@@ -186,7 +186,7 @@ OnlineItemInfo FreeSound::displayItemDetails(QListWidgetItem *item)
  */
 void FreeSound::slotParseResults(KJob *job)
 {
-    KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+    auto *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
     if (jsonError.error != QJsonParseError::NoError) {
@@ -199,7 +199,8 @@ void FreeSound::slotParseResults(KJob *job)
     if (data.canConvert(QVariant::Map)) {
         QMap<QString, QVariant> info = data.toMap();
 
-        html += QLatin1String("<table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">");
+        html += QLatin1String(R"(<table width="100%" cellspacing="0"
+      cellpadding="2">)");
 
         if (info.contains(QStringLiteral("duration"))) {
             html += QLatin1String("<tr>");

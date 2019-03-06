@@ -28,7 +28,7 @@
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
-    , m_name_enabled(false)
+
 {
     setFilterRole(Qt::DisplayRole);
     setSortRole(Qt::DisplayRole);

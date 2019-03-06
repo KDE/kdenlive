@@ -74,7 +74,7 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
 public:
     explicit AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                  QObject *parent = nullptr);
-    virtual ~AssetParameterModel();
+    ~AssetParameterModel() override;
     enum DataRoles {
         NameRole = Qt::UserRole + 1,
         TypeRole,

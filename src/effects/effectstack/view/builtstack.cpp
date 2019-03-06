@@ -49,7 +49,7 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     setResizeMode(QQuickWidget::SizeRootObjectToView);
 }
 
-BuiltStack::~BuiltStack() {}
+BuiltStack::~BuiltStack() = default;
 
 void BuiltStack::setModel(const std::shared_ptr<EffectStackModel> &model, ObjectId ownerId)
 {
