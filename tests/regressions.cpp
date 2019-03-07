@@ -562,6 +562,7 @@ TEST_CASE("FuzzBug2")
 {
     Logger::clear();
     auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;
@@ -643,6 +644,7 @@ TEST_CASE("FuzzBug2")
 TEST_CASE("FuzzBug3")
 {
     auto binModel = pCore->projectItemModel();
+    binModel->clean();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     TimelineModel::next_id = 0;

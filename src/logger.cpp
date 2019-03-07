@@ -261,6 +261,7 @@ void Logger::print_trace()
     test_file.open("test_case_" + std::to_string(dump_count) + ".cpp");
     test_file << "TEST_CASE(\"Regression\") {" << std::endl;
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
+    test_file << "binModel->clean();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
     test_file << "std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);" << std::endl;
     test_file << "TimelineModel::next_id = 0;" << std::endl;
