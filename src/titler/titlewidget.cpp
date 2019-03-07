@@ -17,6 +17,7 @@
 
 #include "titlewidget.h"
 #include "KoSliderCombo.h"
+#include "core.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
@@ -153,7 +154,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
 
     itemzoom->setSuffix(i18n("%"));
     QSize profileSize = monitor->profileSize();
-    m_frameWidth = (int)(profileSize.height() * monitor->profile()->dar() + 0.5);
+    m_frameWidth = (int)(profileSize.height() * pCore->getCurrentDar() + 0.5);
     m_frameHeight = profileSize.height();
     showToolbars(TITLE_SELECT);
 

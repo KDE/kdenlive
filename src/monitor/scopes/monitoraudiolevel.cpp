@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "monitoraudiolevel.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 #include "mlt++/Mlt.h"
 
@@ -39,7 +41,7 @@ static inline double levelToDB(double level)
     return 100 * (1.0 - log10(level) * log_factor);
 }
 
-MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent)
+MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     : ScopeWidget(parent)
     , audioChannels(2)
     , m_height(height)
@@ -48,7 +50,7 @@ MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget 
     , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_filter = new Mlt::Filter(*profile, "audiolevel");
+    m_filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "audiolevel");
     if (!m_filter->is_valid()) {
         isValid = false;
         return;

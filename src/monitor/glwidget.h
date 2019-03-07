@@ -87,7 +87,7 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure(Mlt::Profile *profile = nullptr);
+    int reconfigure(bool reload = false);
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
     const QString sceneList(const QString &root, const QString &fullPath = QString());
@@ -112,7 +112,6 @@ public:
     void updateGamma();
     /** @brief delete and rebuild consumer, for example when external display is switched */
     void resetConsumer(bool fullReset);
-    Mlt::Profile *profile();
     void reloadProfile();
     void lockMonitor();
     void releaseMonitor();
@@ -197,7 +196,6 @@ protected:
     QMutex m_mltMutex;
     std::shared_ptr<Mlt::Consumer> m_consumer;
     std::shared_ptr<Mlt::Producer> m_producer;
-    Mlt::Profile *m_monitorProfile;
     int m_id;
     int m_rulerHeight;
 

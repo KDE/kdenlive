@@ -117,8 +117,6 @@ public:
     QString getMarkerThumb(GenTime pos);
     /** @brief Get current project's folder */
     const QString projectFolder() const;
-    /** @brief Get the project's Mlt profile */
-    Mlt::Profile *profile();
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());

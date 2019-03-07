@@ -26,6 +26,7 @@
 #include "glwidget.h"
 #include "kdenlivesettings.h"
 #include "monitormanager.h"
+#include "profiles/profilemodel.hpp"
 
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltFilter.h>
@@ -209,13 +210,13 @@ QPoint MonitorProxy::zone() const
 QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int width, int height, bool useSourceProfile)
 {
     if (width == -1) {
-        width = q->m_monitorProfile->width();
-        height = q->m_monitorProfile->height();
+        width = pCore->getCurrentProfile()->width();
+        height = pCore->getCurrentProfile()->height();
     } else if (width % 2 == 1) {
         width++;
     }
     if (!path.isEmpty()) {
-        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(*q->m_monitorProfile, path.toUtf8().constData()));
+        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(pCore->getCurrentProfile()->profile(), path.toUtf8().constData()));
         if (producer && producer->is_valid()) {
             QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
             return img;
@@ -251,9 +252,10 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
         }
     } else if (KdenliveSettings::gpu_accel()) {
         QString service = q->m_producer->get("mlt_service");
-        QScopedPointer<Mlt::Producer> tmpProd(new Mlt::Producer(*q->m_monitorProfile, service.toUtf8().constData(), q->m_producer->get("resource")));
-        Mlt::Filter scaler(*q->m_monitorProfile, "swscale");
-        Mlt::Filter converter(*q->m_monitorProfile, "avcolor_space");
+        QScopedPointer<Mlt::Producer> tmpProd(
+            new Mlt::Producer(pCore->getCurrentProfile()->profile(), service.toUtf8().constData(), q->m_producer->get("resource")));
+        Mlt::Filter scaler(pCore->getCurrentProfile()->profile(), "swscale");
+        Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
         tmpProd->attach(scaler);
         tmpProd->attach(converter);
         tmpProd->seek(q->m_producer->position());
