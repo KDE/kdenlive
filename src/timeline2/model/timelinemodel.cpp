@@ -403,7 +403,7 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         }
         ++it;
     }
-    if (!(*it)->isAudioTrack() && count == 0) {
+    if (it != m_allTracks.end() && !(*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
     }
     return -1;
@@ -938,9 +938,11 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         int target_track = audioDrop ? m_videoTarget : m_audioTarget;
         qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
-        if (res && (!useTargets || target_track > -1) && master->hasAudioAndVideo()) {
+        int mirror = getMirrorTrackId(trackId);
+        bool canMirrorDrop = !useTargets && mirror > -1;
+        if (res && (canMirrorDrop || target_track > -1) && master->hasAudioAndVideo()) {
             if (!useTargets) {
-                target_track = audioDrop ? getMirrorVideoTrackId(trackId) : getMirrorAudioTrackId(trackId);
+                target_track = mirror;
             }
             // QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
             QList<int> possibleTracks;
