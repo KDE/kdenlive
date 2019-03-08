@@ -134,7 +134,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             m_allClips[clip->getId()] = clip; // store clip
             // update clip position and track
             clip->setPosition(position);
-            clip->setCurrentTrackId(m_id);
+            clip->setCurrentTrackId(m_id, finalMove);
             int new_in = clip->getPosition();
             int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
@@ -164,7 +164,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                 m_playlists[0].lock();
                 std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
-                clip->setCurrentTrackId(m_id);
+                clip->setCurrentTrackId(m_id, finalMove);
                 int index = m_playlists[0].insert_at(position, *clip, 1);
                 m_playlists[0].consolidate_blanks();
                 m_playlists[0].unlock();
@@ -190,6 +190,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                     m_playlists[0].lock();
                     std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+                    clip->setCurrentTrackId(m_id);
                     int index = m_playlists[0].insert_at(position, *clip, 1);
                     m_playlists[0].consolidate_blanks();
                     m_playlists[0].unlock();

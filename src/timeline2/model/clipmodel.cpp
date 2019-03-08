@@ -65,7 +65,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     });
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, int tid, const QString &binClipId, int id, PlaylistState::ClipState state, double speed)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
@@ -75,7 +75,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, int tid, 
     videoAudio.first = videoAudio.first && binClip->hasVideo();
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
-    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(tid, state, speed);
+    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -361,7 +361,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int tid, PlaylistState::ClipState state, double speed)
+void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double speed)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -379,7 +379,7 @@ void ClipModel::refreshProducerFromBin(int tid, PlaylistState::ClipState state, 
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(tid, state, m_speed);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id,  state, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     // replant effect stack in updated service
@@ -389,12 +389,12 @@ void ClipModel::refreshProducerFromBin(int tid, PlaylistState::ClipState state, 
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
-void ClipModel::refreshProducerFromBin(int tid)
+void ClipModel::refreshProducerFromBin()
 {
-    refreshProducerFromBin(tid, m_currentState);
+    refreshProducerFromBin(m_currentState);
 }
 
-bool ClipModel::useTimewarpProducer(int tid, double speed, Fun &undo, Fun &redo)
+bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers
@@ -411,8 +411,8 @@ bool ClipModel::useTimewarpProducer(int tid, double speed, Fun &undo, Fun &redo)
     int newDuration = int(double(oldDuration) * previousSpeed / speed);
     int oldOut = getOut();
     int oldIn = getIn();
-    auto operation = useTimewarpProducer_lambda(tid, speed);
-    auto reverse = useTimewarpProducer_lambda(tid, previousSpeed);
+    auto operation = useTimewarpProducer_lambda(speed);
+    auto reverse = useTimewarpProducer_lambda(previousSpeed);
     if (oldOut >= newDuration) {
         // in that case, we are going to shrink the clip when changing the producer. We must undo that when reloading the old producer
         reverse = [reverse, oldIn, oldOut, this]() {
@@ -437,12 +437,12 @@ bool ClipModel::useTimewarpProducer(int tid, double speed, Fun &undo, Fun &redo)
     return false;
 }
 
-Fun ClipModel::useTimewarpProducer_lambda(int tid, double speed)
+Fun ClipModel::useTimewarpProducer_lambda(double speed)
 {
     QWriteLocker locker(&m_lock);
-    return [tid, speed, this]() {
+    return [speed, this]() {
         qDebug() << "timeWarp producer" << speed;
-        refreshProducerFromBin(tid, m_currentState, speed);
+        refreshProducerFromBin(m_currentState, speed);
         if (auto ptr = m_parent.lock()) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
             ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
@@ -510,15 +510,15 @@ void ClipModel::setShowKeyframes(bool show)
     service()->set("kdenlive:hide_keyframes", (int)!show);
 }
 
-void ClipModel::setCurrentTrackId(int tid)
+void ClipModel::setCurrentTrackId(int tid, bool finalMove)
 {
     if (tid == m_currentTrackId) {
         return;
     }
-    if (tid > -1) {
-        refreshProducerFromBin(tid, m_currentState);
-    }
     MoveableItem::setCurrentTrackId(tid);
+    if (finalMove) {
+        refreshProducerFromBin(m_currentState);
+    }
 }
 
 Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)

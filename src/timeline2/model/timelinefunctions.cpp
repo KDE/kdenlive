@@ -39,7 +39,7 @@ bool TimelineFunctions::copyClip(const std::shared_ptr<TimelineItemModel> &timel
 {
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
-    bool res = timeline->requestClipCreation(timeline->m_allClips[clipId]->getCurrentTrackId(), timeline->getClipBinId(clipId), newId, state, clipSpeed, undo, redo);
+    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, clipSpeed, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
 
     // copy useful timeline properties

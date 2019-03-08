@@ -840,7 +840,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     return currentPos;
 }
 
-bool TimelineModel::requestClipCreation(int trackId, const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo)
 {
     qDebug() << "requestClipCreation " << binClipId;
     QString bid = binClipId;
@@ -859,13 +859,13 @@ bool TimelineModel::requestClipCreation(int trackId, const QString &binClipId, i
     int clipId = TimelineModel::getNextId();
     id = clipId;
     Fun local_undo = deregisterClip_lambda(clipId);
-    ClipModel::construct(shared_from_this(), trackId, bid, clipId, state, speed);
+    ClipModel::construct(shared_from_this(), bid, clipId, state, speed);
     auto clip = m_allClips[clipId];
-    Fun local_redo = [clip, this, state, trackId]() {
+    Fun local_redo = [clip, this, state]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip, true);
-        clip->refreshProducerFromBin(trackId, state);
+        clip->refreshProducerFromBin(state);
         return true;
     };
 
@@ -935,7 +935,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             trackId = m_audioTarget;
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
-        res = requestClipCreation(trackId, binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
+        res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
         int target_track = audioDrop ? m_videoTarget : m_audioTarget;
         qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
@@ -959,7 +959,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 std::function<bool(void)> audio_undo = []() { return true; };
                 std::function<bool(void)> audio_redo = []() { return true; };
                 int newId;
-                res = requestClipCreation(trackId, binClipId, newId, audioDrop ? PlaylistState::VideoOnly : PlaylistState::AudioOnly, 1.0, audio_undo, audio_redo);
+                res = requestClipCreation(binClipId, newId, audioDrop ? PlaylistState::VideoOnly : PlaylistState::AudioOnly, 1.0, audio_undo, audio_redo);
                 if (res) {
                     bool move = false;
                     while (!move && !possibleTracks.isEmpty()) {
@@ -994,7 +994,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (normalisedBinId.startsWith(QLatin1Char('A')) || normalisedBinId.startsWith(QLatin1Char('V'))) {
             normalisedBinId.remove(0, 1);
         }
-        res = requestClipCreation(trackId, normalisedBinId, id, dropType, 1.0, local_undo, local_redo);
+        res = requestClipCreation(normalisedBinId, id, dropType, 1.0, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
     }
     if (!res) {
@@ -2673,9 +2673,9 @@ void TimelineModel::requestClipReload(int clipId)
     bool refreshView = oldOut > (int)binClip->frameDuration();
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo);
-    }
-    m_allClips[clipId]->refreshProducerFromBin(old_trackId);
+    }    
     if (old_trackId != -1) {
+        m_allClips[clipId]->refreshProducerFromBin();
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);
     }
 }
@@ -2713,7 +2713,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
     }
     if (success) {
-        success = m_allClips[clipId]->useTimewarpProducer(trackId, speed, local_undo, local_redo);
+        success = m_allClips[clipId]->useTimewarpProducer(speed, local_undo, local_redo);
     }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
@@ -2748,7 +2748,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         }
     } else {
         // If clip is not inserted on a track, we just change the producer
-        m_allClips[clipId]->useTimewarpProducer(-1, speed, undo, redo);
+        m_allClips[clipId]->useTimewarpProducer(speed, undo, redo);
     }
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));

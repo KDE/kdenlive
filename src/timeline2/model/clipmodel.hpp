@@ -57,7 +57,7 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, int tid, const QString &binClipId, int id, PlaylistState::ClipState state, double speed = 1.);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed = 1.);
 
     /* @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -157,7 +157,7 @@ protected:
     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
-    void setCurrentTrackId(int tid) override;
+    void setCurrentTrackId(int tid, bool finalMove = true) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -168,15 +168,15 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int tid, PlaylistState::ClipState state, double speed = 0);
-    void refreshProducerFromBin(int tid);
+    void refreshProducerFromBin(PlaylistState::ClipState state, double speed = 0);
+    void refreshProducerFromBin();
 
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
     */
-    bool useTimewarpProducer(int tid, double speed, Fun &undo, Fun &redo);
+    bool useTimewarpProducer(double speed, Fun &undo, Fun &redo);
     // @brief Lambda that merely changes the speed (in and out are untouched)
-    Fun useTimewarpProducer_lambda(int tid, double speed);
+    Fun useTimewarpProducer_lambda(double speed);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
