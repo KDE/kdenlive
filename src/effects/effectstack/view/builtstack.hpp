@@ -35,8 +35,8 @@ class BuiltStack : public QQuickWidget
 
 public:
     BuiltStack(AssetPanel *parent);
-    virtual ~BuiltStack();
-    void setModel(std::shared_ptr<EffectStackModel> model, ObjectId ownerId);
+    ~BuiltStack() override;
+    void setModel(const std::shared_ptr<EffectStackModel> &model, ObjectId ownerId);
 
 private:
     std::shared_ptr<EffectStackModel> m_model;

@@ -191,7 +191,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
         for (int i = 0; i < points; i++) {
-            QString pointVal = vals.at(i);
+            const QString &pointVal = vals.at(i);
             int idx = 2 * i + 6;
             m_asset->set(QString::number(idx).toLatin1().constData(), pointVal.section(QLatin1Char('/'), 0, 0).toDouble());
             idx++;
@@ -701,8 +701,8 @@ const QStringList AssetParameterModel::getPresetList(const QString &presetFile) 
             qDebug() << "// PRESET LIST IS AN ARRAY!!!";
             QStringList result;
             QJsonArray array = loadDoc.array();
-            for (int i = 0; i < array.size(); i++) {
-                QJsonValue val = array.at(i);
+            for (auto &&i : array) {
+                QJsonValue val = i;
                 if (val.isObject()) {
                     result << val.toObject().keys();
                 }
@@ -733,14 +733,14 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
             }
         } else if (loadDoc.isArray()) {
             QJsonArray array = loadDoc.array();
-            for (int i = 0; i < array.size(); i++) {
-                QJsonValue val = array.at(i);
+            for (auto &&i : array) {
+                QJsonValue val = i;
                 if (val.isObject() && val.toObject().contains(presetName)) {
                     QJsonValue preset = val.toObject().value(presetName);
                     if (preset.isArray()) {
                         QJsonArray paramArray = preset.toArray();
-                        for (int j = 0; j < paramArray.size(); j++) {
-                            QJsonValue v1 = paramArray.at(j);
+                        for (auto &&j : paramArray) {
+                            QJsonValue v1 = j;
                             if (v1.isObject()) {
                                 QJsonObject ob = v1.toObject();
                                 params.append({ob.value("name").toString(), ob.value("value").toVariant()});
@@ -805,7 +805,7 @@ bool AssetParameterModel::hasMoreThanOneKeyframe() const
     return false;
 }
 
-int AssetParameterModel::time_to_frames(const QString time)
+int AssetParameterModel::time_to_frames(const QString &time)
 {
     return m_asset->time_to_frames(time.toUtf8().constData());
 }

@@ -19,6 +19,7 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include "klocalizedstring.h"
 #include <QCheckBox>
 #include <QComboBox>
 #include <QDialogButtonBox>
@@ -30,8 +31,7 @@
 #include <QPainter>
 #include <QSpinBox>
 #include <QVBoxLayout>
-
-#include "klocalizedstring.h"
+#include <utility>
 
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "core.h"
@@ -46,7 +46,7 @@
 KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
                                QWidget *parent)
     : QDialog(parent)
-    , m_model(model)
+    , m_model(std::move(model))
     , m_supportsAnim(false)
 {
     auto *lay = new QVBoxLayout(this);
@@ -104,7 +104,7 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
 
     // Check what kind of parameters are in our target
     for (const QPersistentModelIndex &idx : indexes) {
-        ParamType type = m_model->data(idx, AssetParameterModel::TypeRole).value<ParamType>();
+        auto type = m_model->data(idx, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
             m_simpleTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), m_model->data(idx, AssetParameterModel::NameRole).toString());
         } else if (type == ParamType::AnimatedRect) {
@@ -219,7 +219,7 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     updateDataDisplay();
 }
 
-KeyframeImport::~KeyframeImport() {}
+KeyframeImport::~KeyframeImport() = default;
 
 void KeyframeImport::resizeEvent(QResizeEvent *ev)
 {
@@ -230,7 +230,7 @@ void KeyframeImport::resizeEvent(QResizeEvent *ev)
 void KeyframeImport::updateDataDisplay()
 {
     QString comboData = m_dataCombo->currentData().toString();
-    ParamType type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
+    auto type = m_dataCombo->currentData(Qt::UserRole + 1).value<ParamType>();
     m_maximas = KeyframeModel::getRanges(comboData, m_model);
     m_sourceCombo->clear();
     if (type == ParamType::KeyframeParam) {

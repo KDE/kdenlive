@@ -60,7 +60,7 @@ void AudioCorrelation::slotProcessChild(AudioEnvelope *envelope)
     const size_t sizeMain = m_mainTrackEnvelope->envelope().size();
     const size_t sizeSub = envelope->envelope().size();
 
-    AudioCorrelationInfo *info = new AudioCorrelationInfo(sizeMain, sizeSub);
+    auto *info = new AudioCorrelationInfo(sizeMain, sizeSub);
     qint64 *correlation = info->correlationVector();
 
     const std::vector<qint64> &envMain = m_mainTrackEnvelope->envelope();

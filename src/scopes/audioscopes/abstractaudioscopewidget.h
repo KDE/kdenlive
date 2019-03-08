@@ -13,7 +13,7 @@
 
 #include <QWidget>
 
-#include <stdint.h>
+#include <cstdint>
 
 #include "../../definitions.h"
 #include "../abstractscopewidget.h"
@@ -28,7 +28,7 @@ class AbstractAudioScopeWidget : public AbstractScopeWidget
     Q_OBJECT
 public:
     explicit AbstractAudioScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
-    virtual ~AbstractAudioScopeWidget();
+    ~AbstractAudioScopeWidget() override;
 
 public slots:
     void slotReceiveAudio(const audioShortVector &sampleData, int freq, int num_channels, int num_samples);
@@ -44,9 +44,9 @@ protected:
     virtual QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples,
                                     const int newData) = 0;
 
-    int m_freq;
-    int m_nChannels;
-    int m_nSamples;
+    int m_freq{0};
+    int m_nChannels{0};
+    int m_nSamples{0};
 
 private:
     audioShortVector m_audioFrame;

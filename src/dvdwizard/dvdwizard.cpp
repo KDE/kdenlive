@@ -87,7 +87,7 @@ DvdWizard::DvdWizard(MonitorManager *manager, const QString &url, QWidget *paren
     m_status.iso_image->setMode(KFile::File);
 
     m_isoMessage = new KMessageWidget;
-    QGridLayout *s = static_cast<QGridLayout *>(page4->layout());
+    auto *s = static_cast<QGridLayout *>(page4->layout());
     s->addWidget(m_isoMessage, 5, 0, 1, -1);
     m_isoMessage->hide();
 
@@ -909,7 +909,7 @@ void DvdWizard::slotPreview()
 
 void DvdWizard::slotBurn()
 {
-    QAction *action = qobject_cast<QAction *>(sender());
+    auto *action = qobject_cast<QAction *>(sender());
     QString exec = action->data().toString();
     QStringList args;
     if (exec.endsWith(QLatin1String("k3b"))) {

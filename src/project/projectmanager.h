@@ -48,7 +48,7 @@ class /*KDENLIVECORE_EXPORT*/ ProjectManager : public QObject
 public:
     /** @brief Sets up actions to interact for project interaction (undo, redo, open, save, ...) and creates an empty project. */
     explicit ProjectManager(QObject *parent = nullptr);
-    virtual ~ProjectManager();
+    ~ProjectManager() override;
 
     /** @brief Returns a pointer to the currently opened project. A project should always be open. */
     KdenliveDoc *current();
@@ -84,7 +84,7 @@ public:
     /** @brief This will create a backup file with fps appended to project name,
      *  and save the project with an updated profile info, then reopen it.
      */
-    void saveWithUpdatedProfile(const QString updatedProfile);
+    void saveWithUpdatedProfile(const QString &updatedProfile);
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
@@ -145,7 +145,7 @@ public slots:
     /** @brief Project's duration changed, adjust monitor, etc. */
     void adjustProjectDuration();
     /** @brief Add an asset in timeline (effect, transition). */
-    void activateAsset(const QVariantMap effectData);
+    void activateAsset(const QVariantMap &effectData);
     /** @brief insert current timeline timecode in notes widget and focus widget to allow entering quick note */
     void slotAddProjectNote();
 
@@ -174,7 +174,7 @@ private:
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
-    KdenliveDoc *m_project;
+    KdenliveDoc *m_project{nullptr};
     std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
     QTime m_lastSave;
     QTimer m_autoSaveTimer;
@@ -185,7 +185,7 @@ private:
     QAction *m_fileRevert;
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
-    QProgressDialog *m_progressDialog;
+    QProgressDialog *m_progressDialog{nullptr};
     void saveRecentFiles();
 };
 

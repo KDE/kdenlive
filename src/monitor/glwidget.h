@@ -52,7 +52,7 @@ class RenderThread;
 class FrameRenderer;
 class MonitorProxy;
 
-typedef void *(*thread_function_t)(void *);
+using thread_function_t = void *(*)(void *);
 
 /* QQuickView that renders an .
  *
@@ -77,7 +77,7 @@ public:
     using ClientWaitSync_fp = GLenum (*)(GLsync, GLbitfield, GLuint64);
 
     GLWidget(int id, QObject *parent = nullptr);
-    ~GLWidget();
+    ~GLWidget() override;
 
     int requestedSeekPosition;
     void createThread(RenderThread **thread, thread_function_t function, void *data);
@@ -87,7 +87,7 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure(Mlt::Profile *profile = nullptr);
+    int reconfigure(bool reload = false);
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
     const QString sceneList(const QString &root, const QString &fullPath = QString());
@@ -112,7 +112,6 @@ public:
     void updateGamma();
     /** @brief delete and rebuild consumer, for example when external display is switched */
     void resetConsumer(bool fullReset);
-    Mlt::Profile *profile();
     void reloadProfile();
     void lockMonitor();
     void releaseMonitor();
@@ -125,7 +124,7 @@ public:
     int getCurrentPos() const;
     /** @brief Requests a monitor refresh */
     void requestRefresh();
-    void setRulerInfo(int duration, std::shared_ptr<MarkerListModel> model = nullptr);
+    void setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
     bool loopClip();
@@ -150,7 +149,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
-    int setProducer(std::shared_ptr<Mlt::Producer> producer, bool isActive, int position = -1);
+    int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position = -1);
     QString frameToTime(int frames) const;
 
 public slots:
@@ -197,7 +196,6 @@ protected:
     QMutex m_mltMutex;
     std::shared_ptr<Mlt::Consumer> m_consumer;
     std::shared_ptr<Mlt::Producer> m_producer;
-    Mlt::Profile *m_monitorProfile;
     int m_id;
     int m_rulerHeight;
 
@@ -292,7 +290,7 @@ class RenderThread : public QThread
     Q_OBJECT
 public:
     RenderThread(thread_function_t function, void *data, QOpenGLContext *context, QSurface *surface);
-    ~RenderThread();
+    ~RenderThread() override;
 
 protected:
     void run() override;
@@ -309,7 +307,7 @@ class FrameRenderer : public QThread
     Q_OBJECT
 public:
     explicit FrameRenderer(QOpenGLContext *shareContext, QSurface *surface, GLWidget::ClientWaitSync_fp clientWaitSync);
-    ~FrameRenderer();
+    ~FrameRenderer() override;
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
     Q_INVOKABLE void showFrame(Mlt::Frame frame);

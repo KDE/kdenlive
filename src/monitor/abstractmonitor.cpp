@@ -29,7 +29,7 @@ AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager
 {
 }
 
-AbstractMonitor::~AbstractMonitor() {}
+AbstractMonitor::~AbstractMonitor() = default;
 
 bool AbstractMonitor::isActive() const
 {

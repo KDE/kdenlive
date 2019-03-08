@@ -101,7 +101,7 @@ void JobManager::discardJobs(const QString &binId, AbstractClipJob::JOBTYPE type
     }
     for (int jobId : m_jobsByClip.at(binId)) {
         if (type == AbstractClipJob::NOJOBTYPE || m_jobs.at(jobId)->m_type == type) {
-            for (std::shared_ptr<AbstractClipJob> job : m_jobs.at(jobId)->m_job) {
+            for (const std::shared_ptr<AbstractClipJob> &job : m_jobs.at(jobId)->m_job) {
                 job->jobCanceled();
             }
             m_jobs.at(jobId)->m_future.cancel();
@@ -187,7 +187,7 @@ void JobManager::slotDiscardClipJobs(const QString &binId)
     if (m_jobsByClip.count(binId) > 0) {
         for (int jobId : m_jobsByClip.at(binId)) {
             Q_ASSERT(m_jobs.count(jobId) > 0);
-            for (std::shared_ptr<AbstractClipJob> job : m_jobs.at(jobId)->m_job) {
+            for (const std::shared_ptr<AbstractClipJob> &job : m_jobs.at(jobId)->m_job) {
                 job->jobCanceled();
             }
             m_jobs[jobId]->m_future.cancel();
@@ -200,7 +200,7 @@ void JobManager::slotCancelPendingJobs()
     QWriteLocker locker(&m_lock);
     for (const auto &j : m_jobs) {
         if (!j.second->m_future.isStarted()) {
-            for (std::shared_ptr<AbstractClipJob> job : j.second->m_job) {
+            for (const std::shared_ptr<AbstractClipJob> &job : j.second->m_job) {
                 job->jobCanceled();
             }
             j.second->m_future.cancel();
@@ -212,14 +212,14 @@ void JobManager::slotCancelJobs()
 {
     QWriteLocker locker(&m_lock);
     for (const auto &j : m_jobs) {
-        for (std::shared_ptr<AbstractClipJob> job : j.second->m_job) {
+        for (const std::shared_ptr<AbstractClipJob> &job : j.second->m_job) {
             job->jobCanceled();
         }
         j.second->m_future.cancel();
     }
 }
 
-void JobManager::createJob(std::shared_ptr<Job_t> job)
+void JobManager::createJob(const std::shared_ptr<Job_t> &job)
 {
     /*
     // This thread wait mechanism was broken and caused a race condition locking the application

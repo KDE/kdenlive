@@ -38,7 +38,7 @@
 #include <QMutexLocker>
 #include <QTreeView>
 #include <QVBoxLayout>
-
+#include <utility>
 WidgetDelegate::WidgetDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
@@ -168,7 +168,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
     m_mutex.lock();
     unsetModel(false);
-    m_model = model;
+    m_model = std::move(model);
     m_sourceFrameSize = frameSize;
     m_effectsTree->setModel(m_model.get());
     m_effectsTree->setItemDelegateForColumn(0, new WidgetDelegate(this));
@@ -225,7 +225,7 @@ void EffectStackView::loadEffects()
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
-        WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
         del->setHeight(ix, view->height());
         view->buttonUp->setEnabled(i > 0);
         view->buttonDown->setEnabled(i < max - 1);
@@ -252,7 +252,7 @@ void EffectStackView::updateTreeHeight()
     setMinimumHeight(totalHeight);
 }
 
-void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effectModel)
+void EffectStackView::slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel)
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! slotactivateeffect: " << effectModel->row();
     QMutexLocker lock(&m_mutex);
@@ -262,7 +262,7 @@ void EffectStackView::slotActivateEffect(std::shared_ptr<EffectItemModel> effect
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! slotactivateeffect";
 }
 
-void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel> effectModel)
+void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel)
 {
     auto *drag = new QDrag(this);
     drag->setPixmap(pix);
@@ -284,12 +284,12 @@ void EffectStackView::slotStartDrag(QPixmap pix, std::shared_ptr<EffectItemModel
     drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 }
 
-void EffectStackView::slotAdjustDelegate(std::shared_ptr<EffectItemModel> effectModel, int height)
+void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height)
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: " << height;
     QMutexLocker lock(&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
-    WidgetDelegate *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+    auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     del->setHeight(ix, height);
     updateTreeHeight();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";

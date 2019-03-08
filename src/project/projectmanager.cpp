@@ -23,6 +23,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/dialogs/noteswidget.h"
 #include "project/dialogs/projectsettings.h"
 #include "utils/thumbnailcache.hpp"
+#include "xml/xml.hpp"
+
 // Temporary for testing
 #include "bin/model/markerlistmodel.hpp"
 
@@ -51,8 +53,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
-    , m_project(nullptr)
-    , m_progressDialog(nullptr)
+
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
     m_fileRevert->setIcon(QIcon::fromTheme(QStringLiteral("document-revert")));
@@ -81,7 +82,7 @@ ProjectManager::ProjectManager(QObject *parent)
     dir.mkdir(QStringLiteral("titles"));
 }
 
-ProjectManager::~ProjectManager() {}
+ProjectManager::~ProjectManager() = default;
 
 void ProjectManager::slotLoadOnOpen()
 {
@@ -802,7 +803,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
 {
     if (job->error() == 0) {
         pCore->window()->slotGotProgressInfo(QString(), 100, InformationMessage);
-        KIO::CopyJob *copyJob = static_cast<KIO::CopyJob *>(job);
+        auto *copyJob = static_cast<KIO::CopyJob *>(job);
         QString newFolder = copyJob->destUrl().toLocalFile();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
@@ -861,7 +862,7 @@ void ProjectManager::adjustProjectDuration()
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, nullptr);
 }
 
-void ProjectManager::activateAsset(const QVariantMap effectData)
+void ProjectManager::activateAsset(const QVariantMap &effectData)
 {
     if (effectData.contains(QStringLiteral("kdenlive/effect"))) {
         pCore->window()->addEffect(effectData.value(QStringLiteral("kdenlive/effect")).toString());
@@ -880,23 +881,25 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
     return current()->commandStack();
 }
 
-void ProjectManager::saveWithUpdatedProfile(const QString updatedProfile)
+void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended
     QString message;
     if (m_project && m_project->isModified()) {
-        switch (KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?", m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()))) {
-            case KMessageBox::Yes:
-                // save document here. If saving fails, return false;
-                if (!saveFile()) {
-                    pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
-                    return;
-                }
-                break;
-            default:
+        switch (
+            KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?",
+                                                                  m_project->url().fileName().isEmpty() ? i18n("Untitled") : m_project->url().fileName()))) {
+        case KMessageBox::Yes:
+            // save document here. If saving fails, return false;
+            if (!saveFile()) {
                 pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
                 return;
-                break;
+            }
+            break;
+        default:
+            pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+            return;
+            break;
         }
     }
 

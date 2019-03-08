@@ -47,17 +47,16 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QPixmap>
-#include <kio/job.h>
 #include <klocalizedstring.h>
 
 #ifdef QT5_USE_WEBKIT
 #include "qt-oauth-lib/oauth2.h"
 #endif
 
-ResourceWidget::ResourceWidget(const QString &folder, QWidget *parent)
+ResourceWidget::ResourceWidget(QString folder, QWidget *parent)
     : QDialog(parent)
     , m_pOAuth2(nullptr)
-    , m_folder(folder)
+    , m_folder(std::move(folder))
     , m_currentService(nullptr)
     , m_movie(nullptr)
 {
@@ -393,13 +392,13 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
         }
     }
     QUrl srcUrl(m_currentInfo.itemDownload);
-    mSaveLocation = GetSaveFileNameAndPathS(path, ext);
-    if (mSaveLocation.isEmpty()) { // user canceled save
+    m_saveLocation = GetSaveFileNameAndPathS(path, ext);
+    if (m_saveLocation.isEmpty()) { // user canceled save
         return;
     }
 
     if (m_currentService->serviceType != AbstractService::FREESOUND) {
-        saveUrl = QUrl::fromLocalFile(mSaveLocation);
+        saveUrl = QUrl::fromLocalFile(m_saveLocation);
     }
     slotSetDescription(QString());
     button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
@@ -410,7 +409,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
         DoFileDownload(srcUrl, QUrl(saveUrl));
     }
 #else
-    saveUrl = QUrl::fromLocalFile(mSaveLocation);
+    saveUrl = QUrl::fromLocalFile(m_saveLocation);
     if (m_currentService->serviceType == AbstractService::FREESOUND) {
         // No OAuth, default to HQ preview
         srcUrl = QUrl(m_currentInfo.HQpreview);
@@ -451,20 +450,20 @@ void ResourceWidget::DoFileDownload(const QUrl &srcUrl, const QUrl &saveUrl)
 void ResourceWidget::slotFreesoundUseHQPreview()
 {
 
-    mSaveLocation = mSaveLocation + QStringLiteral(".mp3"); // HQ previews are .mp3 files - so append this to file name previously chosen
-    if (QFile::exists(mSaveLocation)) {                     // check that this newly created file name file does not already exist
+    m_saveLocation = m_saveLocation + QStringLiteral(".mp3"); // HQ previews are .mp3 files - so append this to file name previously chosen
+    if (QFile::exists(m_saveLocation)) {                      // check that this newly created file name file does not already exist
         int ret =
             QMessageBox::warning(this, i18n("File Exists"),
                                  i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. "
                                       "However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ") +
-                                     QStringLiteral("\n") + mSaveLocation,
+                                     QStringLiteral("\n") + m_saveLocation,
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
         if (ret == QMessageBox::No) {
             button_import->setEnabled(true);
             return;
         }
     }
-    const QUrl saveUrl = QUrl::fromLocalFile(mSaveLocation);
+    const QUrl saveUrl = QUrl::fromLocalFile(m_saveLocation);
     QUrl srcUrl(m_currentInfo.HQpreview);
     DoFileDownload(srcUrl, saveUrl);
 }
@@ -495,7 +494,7 @@ void ResourceWidget::slotGotFile(KJob *job)
         qCDebug(KDENLIVE_LOG) << "//file import job errored: " << errTxt;
         return;
     }
-    KIO::FileCopyJob *copyJob = static_cast<KIO::FileCopyJob *>(job);
+    auto *copyJob = static_cast<KIO::FileCopyJob *>(job);
     const QUrl filePath = copyJob->destUrl();
 
     KMessageBox::information(this, i18n("Resource saved to ") + filePath.toLocalFile(), i18n("Data Imported"));
@@ -830,16 +829,16 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
     if (reply->isFinished()) {
         if (reply->error() == QNetworkReply::NoError) {
             QByteArray aSoundData = reply->readAll();
-            QFile file(mSaveLocation);
+            QFile file(m_saveLocation);
             if (file.open(QIODevice::WriteOnly)) {
                 file.write(aSoundData);
                 file.close();
 
-                KMessageBox::information(this, i18n("Resource saved to ") + mSaveLocation, i18n("Data Imported"));
-                emit addClip(QUrl(mSaveLocation), QStringList()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
+                KMessageBox::information(this, i18n("Resource saved to ") + m_saveLocation, i18n("Data Imported"));
+                emit addClip(QUrl(m_saveLocation), QStringList()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
 
                 m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
-                m_desc.append(mSaveLocation);
+                m_desc.append(m_saveLocation);
                 updateLayout();
             } else {
 #ifdef QT5_USE_WEBKIT

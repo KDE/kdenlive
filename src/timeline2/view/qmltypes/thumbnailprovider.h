@@ -30,13 +30,13 @@ class ThumbnailProvider : public QQuickImageProvider
 {
 public:
     explicit ThumbnailProvider();
-    virtual ~ThumbnailProvider();
+    ~ThumbnailProvider() override;
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
     void resetProject();
 
 private:
     QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
-    QImage makeThumbnail(std::shared_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize);
+    QImage makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize);
     QCache<int, Mlt::Producer> m_producers;
 };
 

@@ -23,7 +23,7 @@
 #include <QStringList>
 #include <QThread>
 #include <QtDBus>
-
+#include <utility>
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread
 {
@@ -35,9 +35,9 @@ public:
 RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out)
     : QObject()
     , m_scenelist(scenelist)
-    , m_dest(target)
+    , m_dest(std::move(target))
     , m_progress(0)
-    , m_prog(render)
+    , m_prog(std::move(render))
     , m_player()
     , m_jobUiserver(nullptr)
     , m_kdenliveinterface(nullptr)

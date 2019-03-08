@@ -22,7 +22,7 @@
 
 #include "definitions.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <QImage>
 #include <QObject>
@@ -47,7 +47,7 @@ class AbstractRender : public QObject
     }
 
     /** @brief Destroy the MLT Renderer. */
-    virtual ~AbstractRender() {}
+    ~AbstractRender() override = default;
 
     /** @brief This property is used to decide if the renderer should convert it's frames to QImage for use in other Kdenlive widgets. */
     bool sendFrameForAnalysis;
@@ -79,7 +79,7 @@ class AbstractMonitor : public QWidget
 public:
     AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
     Kdenlive::MonitorId id() { return m_id; }
-    virtual ~AbstractMonitor();
+    ~AbstractMonitor() override;
     bool isActive() const;
     virtual void mute(bool mute, bool updateIconOnly = false) = 0;
 

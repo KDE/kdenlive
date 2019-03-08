@@ -39,7 +39,7 @@ public:
      * @param comment (optional) A comment explaining the parameter. Will be shown in a tooltip.
      * @param parent (optional) Parent Widget */
     explicit PositionWidget(const QString &name, int pos, int min, int max, const Timecode &tc, const QString &comment = QString(), QWidget *parent = nullptr);
-    ~PositionWidget();
+    ~PositionWidget() override;
     /** @brief get current position
      */
     int getPosition() const;

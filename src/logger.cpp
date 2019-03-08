@@ -94,7 +94,7 @@ void Logger::stop_logging()
     std::unique_lock<std::mutex> lk(mut);
     is_executing = false;
 }
-std::string Logger::get_ptr_name(rttr::variant ptr)
+std::string Logger::get_ptr_name(const rttr::variant &ptr)
 {
     if (ptr.can_convert<TimelineModel *>()) {
         return "timeline_" + std::to_string(get_id_from_ptr(ptr.convert<TimelineModel *>()));
@@ -124,7 +124,7 @@ void Logger::log_create_producer(const std::string &type, std::vector<rttr::vari
         const std::string class_name = a.get_type().get_name().to_string();
     }
     constr[type].push_back({type, std::move(args)});
-    operations.push_back(ConstrId{type, constr[type].size() - 1});
+    operations.emplace_back(ConstrId{type, constr[type].size() - 1});
 }
 
 namespace {
@@ -261,6 +261,7 @@ void Logger::print_trace()
     test_file.open("test_case_" + std::to_string(dump_count) + ".cpp");
     test_file << "TEST_CASE(\"Regression\") {" << std::endl;
     test_file << "auto binModel = pCore->projectItemModel();" << std::endl;
+    test_file << "binModel->clean();" << std::endl;
     test_file << "std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);" << std::endl;
     test_file << "std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);" << std::endl;
     test_file << "TimelineModel::next_id = 0;" << std::endl;

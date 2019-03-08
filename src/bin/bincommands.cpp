@@ -22,13 +22,13 @@
 #include "bin.h"
 
 #include <klocalizedstring.h>
-
-MoveBinClipCommand::MoveBinClipCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent)
+#include <utility>
+MoveBinClipCommand::MoveBinClipCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_bin(bin)
-    , m_clipId(clipId)
-    , m_oldParentId(oldParentId)
-    , m_newParentId(newParentId)
+    , m_clipId(std::move(clipId))
+    , m_oldParentId(std::move(oldParentId))
+    , m_newParentId(std::move(newParentId))
 {
     setText(i18n("Move Clip"));
 }
@@ -43,12 +43,12 @@ void MoveBinClipCommand::redo()
     m_bin->doMoveClip(m_clipId, m_newParentId);
 }
 
-MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, const QString &clipId, const QString &oldParentId, const QString &newParentId, QUndoCommand *parent)
+MoveBinFolderCommand::MoveBinFolderCommand(Bin *bin, QString clipId, QString oldParentId, QString newParentId, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_bin(bin)
-    , m_clipId(clipId)
-    , m_oldParentId(oldParentId)
-    , m_newParentId(newParentId)
+    , m_clipId(std::move(clipId))
+    , m_oldParentId(std::move(oldParentId))
+    , m_newParentId(std::move(newParentId))
 {
     setText(i18n("Move Clip"));
 }
@@ -63,13 +63,12 @@ void MoveBinFolderCommand::redo()
     m_bin->doMoveFolder(m_clipId, m_newParentId);
 }
 
-RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, const QString &clipId, const QString &newName, const QString &oldName, int in, int out,
-                                                 QUndoCommand *parent)
+RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, QString clipId, QString newName, QString oldName, int in, int out, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_bin(bin)
-    , m_clipId(clipId)
-    , m_oldName(oldName)
-    , m_newName(newName)
+    , m_clipId(std::move(clipId))
+    , m_oldName(std::move(oldName))
+    , m_newName(std::move(newName))
     , m_in(in)
     , m_out(out)
 {
@@ -86,13 +85,12 @@ void RenameBinSubClipCommand::redo()
     m_bin->renameSubClip(m_clipId, m_newName, m_oldName, m_in, m_out);
 }
 
-EditClipCommand::EditClipCommand(Bin *bin, const QString &id, const QMap<QString, QString> &oldparams, const QMap<QString, QString> &newparams, bool doIt,
-                                 QUndoCommand *parent)
+EditClipCommand::EditClipCommand(Bin *bin, QString id, QMap<QString, QString> oldparams, QMap<QString, QString> newparams, bool doIt, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_bin(bin)
-    , m_oldparams(oldparams)
-    , m_newparams(newparams)
-    , m_id(id)
+    , m_oldparams(std::move(oldparams))
+    , m_newparams(std::move(newparams))
+    , m_id(std::move(id))
     , m_doIt(doIt)
     , m_firstExec(true)
 {

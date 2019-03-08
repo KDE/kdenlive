@@ -75,7 +75,7 @@ public:
 
 protected:
     /** @brief Look amongst the known instances to get the name of a given pointer */
-    static std::string get_ptr_name(rttr::variant ptr);
+    static std::string get_ptr_name(const rttr::variant &ptr);
     template <typename T> static size_t get_id_from_ptr(T *ptr);
     struct InvokId
     {
@@ -149,7 +149,7 @@ template <typename T> void Logger::log_constr(T *inst, std::vector<rttr::variant
     }
     std::string class_name = rttr::type::get<T>().get_name().to_string();
     constr[class_name].push_back({inst, std::move(args)});
-    operations.push_back(ConstrId{class_name, constr[class_name].size() - 1});
+    operations.emplace_back(ConstrId{class_name, constr[class_name].size() - 1});
 }
 
 template <typename T> void Logger::log(T *inst, std::string fctName, std::vector<rttr::variant> args)
@@ -163,7 +163,7 @@ template <typename T> void Logger::log(T *inst, std::string fctName, std::vector
     }
     std::string class_name = rttr::type::get<T>().get_name().to_string();
     invoks.push_back({inst, std::move(fctName), std::move(args), rttr::variant()});
-    operations.push_back(InvokId{invoks.size() - 1});
+    operations.emplace_back(InvokId{invoks.size() - 1});
     result_awaiting = invoks.size() - 1;
 }
 

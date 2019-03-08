@@ -30,6 +30,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <mlt++/Mlt.h>
+#include <utility>
 
 KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
@@ -122,7 +123,7 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value)
     Fun redo = []() { return true; };
 
     bool update = (m_keyframeList.count(pos) > 0);
-    bool res = addKeyframe(pos, type, value, true, undo, redo);
+    bool res = addKeyframe(pos, type, std::move(value), true, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, update ? i18n("Change keyframe type") : i18n("Add keyframe"));
     }
@@ -290,7 +291,7 @@ bool KeyframeModel::moveKeyframe(int oldPos, int pos, QVariant newVal)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
-    return moveKeyframe(oPos, nPos, newVal, true);
+    return moveKeyframe(oPos, nPos, std::move(newVal), true);
 }
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo)
@@ -300,7 +301,7 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, b
     if (oldPos == pos) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = moveKeyframe(oldPos, pos, newVal, undo, redo);
+    bool res = moveKeyframe(oldPos, pos, std::move(newVal), undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move keyframe"));
     }
@@ -312,11 +313,11 @@ bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value)
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType type = m_keyframeList[pos].first;
-    auto operation = updateKeyframe_lambda(pos, type, value, true);
+    auto operation = updateKeyframe_lambda(pos, type, std::move(value), true);
     return operation();
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, Fun &undo, Fun &redo, bool update)
+bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -367,7 +368,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = updateKeyframe(pos, value, undo, redo);
+    bool res = updateKeyframe(pos, std::move(value), undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
@@ -407,7 +408,7 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     return res;
 }
 
-Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify)
+Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, pos, type, value, notify]() {
@@ -421,7 +422,7 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType type, QVarian
     };
 }
 
-Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, QVariant value, bool notify)
+Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType type, const QVariant &value, bool notify)
 {
     QWriteLocker locker(&m_lock);
     return [this, notify, pos, type, value]() {
@@ -696,7 +697,7 @@ QString KeyframeModel::getAnimProperty() const
     int ix = 0;
     bool first = true;
     std::shared_ptr<Mlt::Animation> anim;
-    for (const auto keyframe : m_keyframeList) {
+    for (const auto &keyframe : m_keyframeList) {
         if (first) {
             switch (m_paramType) {
                 case ParamType::AnimatedRect:
@@ -736,7 +737,7 @@ QString KeyframeModel::getRotoProperty() const
         int in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         int out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         QMap<QString, QVariant> map;
-        for (const auto keyframe : m_keyframeList) {
+        for (const auto &keyframe : m_keyframeList) {
             map.insert(QString::number(in + keyframe.first.frames(pCore->getCurrentFps())).rightJustified(log10((double)out) + 1, '0'), keyframe.second.second);
         }
         doc = QJsonDocument::fromVariant(QVariant(map));
@@ -893,7 +894,7 @@ QVariant KeyframeModel::getInterpolatedValue(int p) const
     return getInterpolatedValue(pos);
 }
 
-QVariant KeyframeModel::updateInterpolated(QVariant interpValue, double val)
+QVariant KeyframeModel::updateInterpolated(const QVariant &interpValue, double val)
 {
     QStringList vals = interpValue.toString().split(QLatin1Char(' '));
     QLocale locale;
@@ -1103,7 +1104,7 @@ void KeyframeModel::reset()
     m_lastData = animData;
 }
 
-QList<QPoint> KeyframeModel::getRanges(const QString &animData, std::shared_ptr<AssetParameterModel> model)
+QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::shared_ptr<AssetParameterModel> &model)
 {
     Mlt::Properties mlt_prop;
     model->passProperties(mlt_prop);

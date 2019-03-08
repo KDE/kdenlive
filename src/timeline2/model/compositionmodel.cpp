@@ -32,7 +32,7 @@ CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::uni
                                    const QString &transitionId)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
     , AssetParameterModel(std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
-    , a_track(-1)
+    , m_a_track(-1)
     , m_duration(0)
 {
     m_compositionName = TransitionsRepository::get()->getName(transitionId);
@@ -110,7 +110,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         // Perform resize only
         setInOut(in, out);
     }
-    Fun operation = [in, out, track_operation, this]() {
+    Fun operation = [track_operation]() {
         if (track_operation()) {
             return true;
         }
@@ -130,7 +130,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             ptr->dataChanged(ix, ix, roles);
             track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
         }
-        Fun reverse = [old_in, old_out, track_reverse, this]() {
+        Fun reverse = [track_reverse]() {
             if (track_reverse()) {
                 return true;
             }
@@ -143,7 +143,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             if (oldDuration > 0) {
                 kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
             }
-            Fun refresh = [kfr, this]() {
+            Fun refresh = [kfr]() {
                 kfr->modelChanged();
                 return true;
             };
@@ -183,7 +183,7 @@ int CompositionModel::getPlaytime() const
 int CompositionModel::getATrack() const
 {
     READ_LOCK();
-    return a_track == -1 ? -1 : service()->get_int("a_track");
+    return m_a_track == -1 ? -1 : service()->get_int("a_track");
 }
 
 void CompositionModel::setForceTrack(bool force)
@@ -195,15 +195,15 @@ void CompositionModel::setForceTrack(bool force)
 int CompositionModel::getForcedTrack() const
 {
     QWriteLocker locker(&m_lock);
-    return (service()->get_int("force_track") == 0 || a_track == -1) ? -1 : service()->get_int("a_track");
+    return (service()->get_int("force_track") == 0 || m_a_track == -1) ? -1 : service()->get_int("a_track");
 }
 
 void CompositionModel::setATrack(int trackMltPosition, int trackId)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(trackId != getCurrentTrackId()); // can't compose with same track
-    a_track = trackMltPosition;
-    if (a_track >= 0) {
+    m_a_track = trackMltPosition;
+    if (m_a_track >= 0) {
         service()->set("a_track", trackMltPosition);
     }
     if (m_currentTrackId != -1) {

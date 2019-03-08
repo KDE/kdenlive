@@ -34,9 +34,7 @@
 
 ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *parent)
     : QDialog(parent)
-    , m_profileIsModified(false)
-    , m_isCustomProfile(false)
-    , m_profilesChanged(false)
+
 {
 
     // ask profile repository for a refresh
@@ -45,7 +43,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
     m_view.setupUi(this);
 
     // Add message widget
-    QGridLayout *lay = (QGridLayout *)layout();
+    auto *lay = (QGridLayout *)layout();
     m_infoMessage = new KMessageWidget;
     lay->addWidget(m_infoMessage, 2, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(true);
@@ -106,7 +104,7 @@ ProfilesDialog::ProfilesDialog(const QString &profilePath, bool, QWidget *parent
     m_view.setupUi(this);
 
     // Add message widget
-    QGridLayout *lay = (QGridLayout *)layout();
+    auto *lay = (QGridLayout *)layout();
     m_infoMessage = new KMessageWidget;
     lay->addWidget(m_infoMessage, 2, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(true);

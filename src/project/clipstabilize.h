@@ -32,8 +32,8 @@ class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
     Q_OBJECT
 
 public:
-    explicit ClipStabilize(const std::vector<QString> &binIds, const QString &filterName, int out, QWidget *parent = nullptr);
-    ~ClipStabilize();
+    explicit ClipStabilize(const std::vector<QString> &binIds, QString filterName, int out, QWidget *parent = nullptr);
+    ~ClipStabilize() override;
     /** @brief Should the generated clip be added to current project. */
     bool autoAddClip() const;
     /** @brief Return the filter parameters, filter name as value of "filter" entry. */
@@ -53,7 +53,7 @@ private:
     QString m_filtername;
     std::vector<QString> m_binIds;
     QHash<QString, QHash<QString, QString>> m_ui_params;
-    QVBoxLayout *vbox;
+    QVBoxLayout *m_vbox;
     void fillParameters(QStringList);
     std::unordered_map<QString, QString> m_fixedParams;
     Timecode m_tc;

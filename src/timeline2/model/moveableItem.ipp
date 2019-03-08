@@ -20,9 +20,11 @@
  ***************************************************************************/
 
 #include "macros.hpp"
+#include <utility>
+
 template <typename Service>
 MoveableItem<Service>::MoveableItem(std::weak_ptr<TimelineModel> parent, int id)
-    : m_parent(parent)
+    : m_parent(std::move(parent))
     , m_id(id == -1 ? TimelineModel::getNextId() : id)
     , m_position(-1)
     , m_currentTrackId(-1)

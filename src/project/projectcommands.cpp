@@ -23,15 +23,14 @@
 #include "doc/kdenlivedoc.h"
 
 #include <klocalizedstring.h>
-
-AddClipCutCommand::AddClipCutCommand(ProjectList *list, const QString &id, int in, int out, const QString &desc, bool newItem, bool remove,
-                                     QUndoCommand *parent)
+#include <utility>
+AddClipCutCommand::AddClipCutCommand(ProjectList *list, QString id, int in, int out, QString desc, bool newItem, bool remove, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_list(list)
-    , m_id(id)
+    , m_id(std::move(id))
     , m_in(in)
     , m_out(out)
-    , m_desc(desc)
+    , m_desc(std::move(desc))
     , m_newItem(newItem)
     , m_remove(remove)
 {
@@ -61,11 +60,11 @@ void AddClipCutCommand::redo()
         m_list->addClipCut(m_id, m_in, m_out, m_desc, m_newItem);*/
 }
 
-AddFolderCommand::AddFolderCommand(ProjectList *view, const QString &folderName, const QString &clipId, bool doIt, QUndoCommand *parent)
+AddFolderCommand::AddFolderCommand(ProjectList *view, QString folderName, QString clipId, bool doIt, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_view(view)
-    , m_name(folderName)
-    , m_id(clipId)
+    , m_name(std::move(folderName))
+    , m_id(std::move(clipId))
     , m_doIt(doIt)
 {
     if (doIt) {
@@ -95,15 +94,15 @@ void AddFolderCommand::redo()
         m_view->slotAddFolder(m_name, m_id, true);*/
 }
 
-EditClipCutCommand::EditClipCutCommand(ProjectList *list, const QString &id, const QPoint &oldZone, const QPoint &newZone, const QString &oldComment,
-                                       const QString &newComment, bool doIt, QUndoCommand *parent)
+EditClipCutCommand::EditClipCutCommand(ProjectList *list, QString id, const QPoint &oldZone, const QPoint &newZone, QString oldComment, QString newComment,
+                                       bool doIt, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_list(list)
-    , m_id(id)
+    , m_id(std::move(id))
     , m_oldZone(oldZone)
     , m_newZone(newZone)
-    , m_oldComment(oldComment)
-    , m_newComment(newComment)
+    , m_oldComment(std::move(oldComment))
+    , m_newComment(std::move(newComment))
     , m_doIt(doIt)
 {
     setText(i18n("Edit clip cut"));
@@ -127,13 +126,12 @@ void EditClipCutCommand::redo()
         m_list->doUpdateClipCut(m_id, m_oldZone, m_newZone, m_newComment); */
 }
 
-EditFolderCommand::EditFolderCommand(ProjectList *view, const QString &newfolderName, const QString &oldfolderName, const QString &clipId, bool doIt,
-                                     QUndoCommand *parent)
+EditFolderCommand::EditFolderCommand(ProjectList *view, QString newfolderName, QString oldfolderName, QString clipId, bool doIt, QUndoCommand *parent)
     : QUndoCommand(parent)
     , m_view(view)
-    , m_name(newfolderName)
-    , m_oldname(oldfolderName)
-    , m_id(clipId)
+    , m_name(std::move(newfolderName))
+    , m_oldname(std::move(oldfolderName))
+    , m_id(std::move(clipId))
     , m_doIt(doIt)
 {
     setText(i18n("Rename folder"));

@@ -34,7 +34,6 @@
 #include "ui_scenecutdialog_ui.h"
 
 #include <QScopedPointer>
-#include <klocalizedstring.h>
 
 #include <mlt++/Mlt.h>
 
@@ -52,7 +51,7 @@ const QString SceneSplitJob::getDescription() const
 }
 void SceneSplitJob::configureConsumer()
 {
-    m_consumer.reset(new Mlt::Consumer(*m_profile.get(), "null"));
+    m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "null");
     m_consumer->set("all", 1);
     m_consumer->set("terminate_on_pause", 1);
     m_consumer->set("real_time", -KdenliveSettings::mltthreads());
@@ -65,7 +64,7 @@ void SceneSplitJob::configureConsumer()
 void SceneSplitJob::configureFilter()
 {
 
-    m_filter.reset(new Mlt::Filter(*m_profile.get(), "motion_est"));
+    m_filter = std::make_unique<Mlt::Filter>(*m_profile.get(), "motion_est");
     if ((m_filter == nullptr) || !m_filter->is_valid()) {
         m_errorMessage.append(i18n("Cannot create filter motion_est. Cannot split scenes"));
         return;
@@ -82,7 +81,7 @@ void SceneSplitJob::configureProfile()
 }
 
 // static
-int SceneSplitJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString)
+int SceneSplitJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString)
 {
     // Show config dialog
     QScopedPointer<QDialog> d(new QDialog(QApplication::activeWindow()));
@@ -132,7 +131,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QJsonArray list;
         int ix = 1;
         int lastCut = 0;
-        for (const QString marker : markerData) {
+        for (const QString &marker : markerData) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
                 continue;
@@ -153,7 +152,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         int ix = 1;
         int lastCut = 0;
         QMap<QString, QString> zoneData;
-        for (const QString marker : markerData) {
+        for (const QString &marker : markerData) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {
                 continue;

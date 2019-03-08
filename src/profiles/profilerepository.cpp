@@ -106,7 +106,7 @@ std::unique_ptr<ProfileModel> &ProfileRepository::getProfile(const QString &path
 {
     QReadLocker locker(&m_mutex);
     if (m_profiles.count(path) == 0) {
-        qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << path << ". Returning default profile instead.";
+        // qCWarning(KDENLIVE_LOG) << "//// WARNING: profile not found: " << path << ". Returning default profile instead.";
         QString default_profile = KdenliveSettings::default_profile();
         if (m_profiles.count(default_profile) == 0) {
             qCWarning(KDENLIVE_LOG) << "//// WARNING: default profile not found: " << default_profile << ". Returning random profile instead.";

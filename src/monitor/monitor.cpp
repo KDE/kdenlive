@@ -30,6 +30,7 @@
 #include "mainwindow.h"
 #include "mltcontroller/clipcontroller.h"
 #include "monitorproxy.h"
+#include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
@@ -61,7 +62,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QWidgetAction>
-
+#include <utility>
 #define SEEK_INACTIVE (-1)
 
 QuickEventEater::QuickEventEater(QObject *parent)
@@ -73,7 +74,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     switch (event->type()) {
     case QEvent::DragEnter: {
-        QDragEnterEvent *ev = reinterpret_cast<QDragEnterEvent *>(event);
+        auto *ev = reinterpret_cast<QDragEnterEvent *>(event);
         if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
             ev->acceptProposedAction();
             return true;
@@ -81,7 +82,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
         break;
     }
     case QEvent::DragMove: {
-        QDragEnterEvent *ev = reinterpret_cast<QDragEnterEvent *>(event);
+        auto *ev = reinterpret_cast<QDragEnterEvent *>(event);
         if (ev->mimeData()->hasFormat(QStringLiteral("kdenlive/effect"))) {
             ev->acceptProposedAction();
             return true;
@@ -89,7 +90,7 @@ bool QuickEventEater::eventFilter(QObject *obj, QEvent *event)
         break;
     }
     case QEvent::Drop: {
-        QDropEvent *ev = static_cast<QDropEvent *>(event);
+        auto *ev = static_cast<QDropEvent *>(event);
         if (ev) {
             QStringList effectData;
             effectData << QString::fromUtf8(ev->mimeData()->data(QStringLiteral("kdenlive/effect")));
@@ -115,7 +116,7 @@ QuickMonitorEventEater::QuickMonitorEventEater(QWidget *parent)
 bool QuickMonitorEventEater::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::KeyPress) {
-        QKeyEvent *ev = static_cast<QKeyEvent *>(event);
+        auto *ev = static_cast<QKeyEvent *>(event);
         if (ev) {
             emit doKeyPressEvent(ev);
             return true;
@@ -336,7 +337,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     int tm = 0;
     int bm = 0;
     m_toolbar->getContentsMargins(nullptr, &tm, nullptr, &bm);
-    m_audioMeterWidget = new MonitorAudioLevel(m_glMonitor->profile(), m_toolbar->height() - tm - bm, this);
+    m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - tm - bm, this);
     m_toolbar->addWidget(m_audioMeterWidget);
     if (!m_audioMeterWidget->isValid) {
         KdenliveSettings::setMonitoraudio(0x01);
@@ -530,7 +531,7 @@ void Monitor::slotForceSize(QAction *a)
         // calculate size
         QRect r = QApplication::desktop()->screenGeometry();
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
-        profileWidth = m_glMonitor->profile()->dar() * profileHeight;
+        profileWidth = pCore->getCurrentProfile()->dar() * profileHeight;
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
             // reset action to free resize
             const QList<QAction *> list = m_forceSize->actions();
@@ -639,7 +640,7 @@ int Monitor::position()
 GenTime Monitor::getSnapForPos(bool previous)
 {
     int frame = previous ? m_snaps->getPreviousPoint(m_glMonitor->getCurrentPos()) : m_snaps->getNextPoint(m_glMonitor->getCurrentPos());
-    return GenTime(frame, pCore->getCurrentFps());
+    return {frame, pCore->getCurrentFps()};
 }
 
 void Monitor::slotLoadClipZone(const QPoint &zone)
@@ -778,7 +779,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
     } else {
         m_glWidget->showNormal();
         m_qmlManager->enableAudioThumbs(true);
-        QVBoxLayout *lay = (QVBoxLayout *)layout();
+        auto *lay = (QVBoxLayout *)layout();
         lay->insertWidget(0, m_glWidget, 10);
     }
 }
@@ -788,7 +789,7 @@ void Monitor::reparent()
     m_glWidget->setParent(nullptr);
     m_glWidget->showMinimized();
     m_glWidget->showNormal();
-    QVBoxLayout *lay = (QVBoxLayout *)layout();
+    auto *lay = (QVBoxLayout *)layout();
     lay->insertWidget(0, m_glWidget, 10);
 }
 
@@ -1208,7 +1209,7 @@ void Monitor::seekCursor(int pos)
     }*/
 }
 
-void Monitor::adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel)
+void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel)
 {
     if (m_controller != nullptr) {
         m_glMonitor->setRulerInfo(length);
@@ -1326,7 +1327,7 @@ void Monitor::slotLoopClip()
     }
 }
 
-void Monitor::updateClipProducer(std::shared_ptr<Mlt::Producer> prod)
+void Monitor::updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod)
 {
     if (m_glMonitor->setProducer(prod, isActive(), -1)) {
         prod->set_speed(1.0);
@@ -1342,7 +1343,7 @@ void Monitor::updateClipProducer(const QString &playlist)
     m_glMonitor->switchPlay(true);
 }
 
-void Monitor::slotOpenClip(std::shared_ptr<ProjectClip> controller, int in, int out)
+void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
 {
     if (m_controller) {
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
@@ -1423,7 +1424,7 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     // TODO or deprecate
     Q_UNUSED(profile)
     m_timePos->updateTimeCode(tc);
-    if (true) {
+    if (/* DISABLES CODE */ (true)) {
         return;
     }
     slotActivateMonitor();
@@ -1517,7 +1518,7 @@ void Monitor::updateTimecodeFormat()
 QPoint Monitor::getZoneInfo() const
 {
     if (m_controller == nullptr) {
-        return QPoint();
+        return {};
     }
     return m_controller->zone();
 }
@@ -1585,7 +1586,7 @@ QRect Monitor::effectRect() const
 {
     QQuickItem *root = m_glMonitor->rootObject();
     if (!root) {
-        return QRect();
+        return {};
     }
     return root->property("framesize").toRect();
 }
@@ -1782,7 +1783,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 // Split scene is already active
                 return;
             }
-            m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
+            m_splitEffect = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad");
             if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
                 m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
                 m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1837,7 +1838,7 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    m_splitEffect = new Mlt::Filter(*profile(), "frei0r.alphagrad");
+    m_splitEffect = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad");
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
         m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1848,13 +1849,13 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         return;
     }
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
-    Mlt::Transition t(*profile(), splitTransition.toUtf8().constData());
+    Mlt::Transition t(pCore->getCurrentProfile()->profile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         delete m_splitEffect;
         pCore->displayMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
-    Mlt::Tractor trac(*profile());
+    Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
     std::shared_ptr<Mlt::Producer> clone = ProjectClip::cloneProducer(std::make_shared<Mlt::Producer>(original));
     // Delete all effects
     int ct = 0;
@@ -1900,7 +1901,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;
     }
-    double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * m_glMonitor->profile()->dar() + 0.5);
+    double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * pCore->getCurrentProfile()->dar() + 0.5);
     m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
@@ -1952,11 +1953,6 @@ void Monitor::slotAdjustEffectCompare()
     m_glMonitor->refresh();
 }
 
-Mlt::Profile *Monitor::profile()
-{
-    return m_glMonitor->profile();
-}
-
 void Monitor::slotSwitchRec(bool enable)
 {
     if (!m_recManager) {
@@ -1976,8 +1972,8 @@ bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Prod
 {
     // TODO
     m_controller = nullptr;
-    if (false) { // render->updateProducer(p)) {
-        m_glMonitor->reconfigureMulti(params, path, p->profile());
+    if (/* DISABLES CODE */ (false)) { // render->updateProducer(p)) {
+        // m_glMonitor->reconfigureMulti(params, path, p->profile());
         return true;
     }
     return false;
@@ -1987,7 +1983,7 @@ bool Monitor::stopCapture()
 {
     m_glMonitor->stopCapture();
     slotOpenClip(nullptr);
-    m_glMonitor->reconfigure(profile());
+    m_glMonitor->reconfigure(true);
     return true;
 }
 
@@ -2084,7 +2080,7 @@ void Monitor::requestSeek(int pos)
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
-    m_glMonitor->setProducer(producer, isActive(), pos);
+    m_glMonitor->setProducer(std::move(producer), isActive(), pos);
 }
 
 void Monitor::reconfigure()

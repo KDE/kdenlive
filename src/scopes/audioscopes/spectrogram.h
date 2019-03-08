@@ -36,7 +36,7 @@ class Spectrogram : public AbstractAudioScopeWidget
 
 public:
     explicit Spectrogram(QWidget *parent = nullptr);
-    ~Spectrogram();
+    ~Spectrogram() override;
 
     QString widgetName() const override;
 
@@ -56,7 +56,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    Ui::Spectrogram_UI *ui;
+    Ui::Spectrogram_UI *m_ui;
     FFTTools m_fftTools;
     QAction *m_aResetHz;
     QAction *m_aGrid;
@@ -66,13 +66,13 @@ private:
     QList<QVector<float>> m_fftHistory;
     QImage m_fftHistoryImg;
 
-    int m_dBmin;
-    int m_dBmax;
+    int m_dBmin{-70};
+    int m_dBmax{0};
 
-    int m_freqMax;
-    bool m_customFreq;
+    int m_freqMax{0};
+    bool m_customFreq{false};
 
-    bool m_parameterChanged;
+    bool m_parameterChanged{false};
 
     QRect m_innerScopeRect;
     QRgb m_colorMap[256];

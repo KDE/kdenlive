@@ -34,9 +34,7 @@ enum { DvdButtonItem = QGraphicsItem::UserType + 1, DvdButtonUnderlineItem = QGr
 
 DvdScene::DvdScene(QObject *parent)
     : QGraphicsScene(parent)
-    , m_width(0)
-    , m_height(0)
-    , m_gridSize(1)
+
 {
 }
 void DvdScene::setProfile(int width, int height)
@@ -125,7 +123,7 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
         QPoint newPos = value.toPoint();
 
         if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<DvdScene *>(scene()) != nullptr)) {
-            DvdScene *customScene = qobject_cast<DvdScene *>(scene());
+            auto *customScene = qobject_cast<DvdScene *>(scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
@@ -133,7 +131,7 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
         }
 
         QRectF sceneShape = sceneBoundingRect();
-        DvdScene *sc = static_cast<DvdScene *>(scene());
+        auto *sc = static_cast<DvdScene *>(scene());
         newPos.setX(qMax(newPos.x(), 0));
         newPos.setY(qMax(newPos.y(), 0));
         if (newPos.x() + sceneShape.width() > sc->width()) {
@@ -261,7 +259,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
     m_view.menu_box->setEnabled(false);
 
     m_menuMessage = new KMessageWidget;
-    QGridLayout *s = static_cast<QGridLayout *>(layout());
+    auto *s = static_cast<QGridLayout *>(layout());
     s->addWidget(m_menuMessage, 7, 0, 1, -1);
     m_menuMessage->hide();
     m_view.error_message->hide();
@@ -297,7 +295,7 @@ void DvdWizardMenu::setButtonTarget(int ix)
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            DvdButton *button = static_cast<DvdButton *>(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             button->setTarget(ix, m_view.target_list->itemData(ix).toString());
             break;
         }
@@ -310,7 +308,7 @@ void DvdWizardMenu::setBackToMenu(bool backToMenu)
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            DvdButton *button = static_cast<DvdButton *>(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             button->setBackMenu(backToMenu);
             break;
         }
@@ -331,7 +329,7 @@ void DvdWizardMenu::buttonChanged()
             m_view.back_to_menu->blockSignals(true);
             foundButton = true;
             m_view.tabWidget->widget(0)->setEnabled(true);
-            DvdButton *button = static_cast<DvdButton *>(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             m_view.target_list->setCurrentIndex(button->target());
             m_view.play_text->setText(button->toPlainText());
             m_view.back_to_menu->setChecked(button->backMenu());
@@ -607,7 +605,7 @@ void DvdWizardMenu::updateUnderlineColor(QColor c)
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonUnderlineItem) {
-            DvdButtonUnderline *underline = static_cast<DvdButtonUnderline *>(list.at(i));
+            auto *underline = static_cast<DvdButtonUnderline *>(list.at(i));
             underline->setPen(Qt::NoPen);
             c.setAlpha(150);
             underline->setBrush(c);
@@ -776,7 +774,7 @@ QMap<QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
     }
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            DvdButton *button = static_cast<DvdButton *>(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             QRectF r = button->sceneBoundingRect();
             QRect adjustedRect(r.x() * ratiox, offset + r.y() * ratioy, r.width() * ratiox, r.height() * ratioy);
             // Make sure y1 is not odd (requested by spumux)
@@ -823,7 +821,7 @@ QDomElement DvdWizardMenu::toXml() const
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             buttonCount++;
-            DvdButton *button = static_cast<DvdButton *>(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             QDomElement xmlbutton = doc.createElement(QStringLiteral("button"));
             xmlbutton.setAttribute(QStringLiteral("target"), button->target());
             xmlbutton.setAttribute(QStringLiteral("command"), button->command());

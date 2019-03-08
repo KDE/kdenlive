@@ -34,14 +34,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDomElement>
 #include <QPainter>
 #include <QVariant>
-
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot)
+#include <utility>
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot)
     : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), isRoot)
     , m_name()
     , m_description()
     , m_thumbnail(QIcon())
     , m_date()
-    , m_binId(id)
+    , m_binId(std::move(id))
     , m_usage(0)
     , m_clipStatus(StatusReady)
     , m_itemType(type)
@@ -238,7 +238,7 @@ void AbstractProjectItem::setDescription(const QString &description)
 
 QPoint AbstractProjectItem::zone() const
 {
-    return QPoint();
+    return {};
 }
 
 void AbstractProjectItem::setClipStatus(CLIPSTATUS status)

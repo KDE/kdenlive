@@ -38,7 +38,7 @@ static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture *self, mlt_fra
     self->showFrame(frame);
 }
 
-MltDeviceCapture::MltDeviceCapture(QString profile, /*VideoSurface *surface, */ QWidget *parent)
+MltDeviceCapture::MltDeviceCapture(const QString &profile, /*VideoSurface *surface, */ QWidget *parent)
     : AbstractRender(Kdenlive::RecordMonitor, parent)
     , doCapture(0)
     , processingImage(false)
@@ -240,7 +240,7 @@ void MltDeviceCapture::showAudio(Mlt::Frame &frame)
     int freq = 0;
     int num_channels = 0;
     int samples = 0;
-    qint16 *data = (qint16 *)frame.get_audio(audio_format, freq, num_channels, samples);
+    auto *data = (qint16 *)frame.get_audio(audio_format, freq, num_channels, samples);
 
     if (!data) {
         return;
@@ -448,10 +448,10 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
         m_showFrameEvent = nullptr;
         delete m_mltConsumer;
         m_mltConsumer = nullptr;
-        return 0;
+        return false;
     }
     m_droppedFramesTimer.start();
-    return 1;
+    return true;
 }
 
 void MltDeviceCapture::setOverlay(const QString &path)

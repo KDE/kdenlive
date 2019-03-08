@@ -25,14 +25,14 @@ const int Waveform::m_paddingBottom(20);
 
 Waveform::Waveform(QWidget *parent)
     : AbstractGfxScopeWidget(true, parent)
-    , ui(nullptr)
-{
-    ui = new Ui::Waveform_UI();
-    ui->setupUi(this);
 
-    ui->paintMode->addItem(i18n("Yellow"), QVariant(WaveformGenerator::PaintMode_Yellow));
-    ui->paintMode->addItem(i18n("White"), QVariant(WaveformGenerator::PaintMode_White));
-    ui->paintMode->addItem(i18n("Green"), QVariant(WaveformGenerator::PaintMode_Green));
+{
+    m_ui = new Ui::Waveform_UI();
+    m_ui->setupUi(this);
+
+    m_ui->paintMode->addItem(i18n("Yellow"), QVariant(WaveformGenerator::PaintMode_Yellow));
+    m_ui->paintMode->addItem(i18n("White"), QVariant(WaveformGenerator::PaintMode_White));
+    m_ui->paintMode->addItem(i18n("Green"), QVariant(WaveformGenerator::PaintMode_Green));
 
     m_aRec601 = new QAction(i18n("Rec. 601"), this);
     m_aRec601->setCheckable(true);
@@ -45,7 +45,7 @@ Waveform::Waveform(QWidget *parent)
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
-    connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     connect(this, &Waveform::signalMousePositionChanged, this, &Waveform::forceUpdateHUD);
     connect(m_aRec601, &QAction::toggled, this, &Waveform::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Waveform::forceUpdateScope);
@@ -62,7 +62,7 @@ Waveform::~Waveform()
     delete m_aRec601;
     delete m_aRec709;
     delete m_agRec;
-    delete ui;
+    delete m_ui;
 }
 
 void Waveform::readConfig()
@@ -71,7 +71,7 @@ void Waveform::readConfig()
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
+    m_ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
     m_aRec601->setChecked(scopeConfig.readEntry("rec601", false));
     m_aRec709->setChecked(!m_aRec601->isChecked());
 }
@@ -80,7 +80,7 @@ void Waveform::writeConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
+    scopeConfig.writeEntry("paintmode", m_ui->paintMode->currentIndex());
     scopeConfig.writeEntry("rec601", m_aRec601->isChecked());
     scopeConfig.sync();
 }
@@ -89,7 +89,7 @@ QRect Waveform::scopeRect()
 {
     // Distance from top/left/right
     int border = 6;
-    QPoint topleft(border, ui->verticalSpacer->geometry().y() + border);
+    QPoint topleft(border, m_ui->verticalSpacer->geometry().y() + border);
 
     return QRect(topleft, this->size() - QSize(border + topleft.x(), border + topleft.y()));
 }
@@ -179,7 +179,7 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
     QTime start = QTime::currentTime();
     start.start();
 
-    const int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
+    const int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
                                                          (WaveformGenerator::PaintMode)paintmode, true, rec, accelFactor);

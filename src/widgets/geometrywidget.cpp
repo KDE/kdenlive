@@ -293,7 +293,7 @@ void GeometryWidget::slotMoveBottom()
 /** @brief Un/Lock aspect ratio for size in effect parameter. */
 void GeometryWidget::slotLockRatio()
 {
-    QAction *lockRatio = qobject_cast<QAction *>(QObject::sender());
+    auto *lockRatio = qobject_cast<QAction *>(QObject::sender());
     if (lockRatio->isChecked()) {
         m_monitor->setEffectSceneProperty(QStringLiteral("lockratio"), m_originalSize->isChecked() ? (double)m_sourceSize.width() / m_sourceSize.height()
                                                                                                    : (double)m_defaultSize.width() / m_defaultSize.height());

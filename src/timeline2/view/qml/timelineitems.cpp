@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainterPath>
 #include <QPalette>
 #include <QQuickPaintedItem>
-#include <math.h>
+#include <cmath>
 
 const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
 

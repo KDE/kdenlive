@@ -71,8 +71,8 @@ public slots:
 template <typename Curve_t> class AbstractCurveWidget : public __dummy_AbstractCurveWidget
 {
 public:
-    typedef typename Curve_t::Point_t Point_t;
-    virtual ~AbstractCurveWidget(){};
+    typedef typename Curve_t::Point_t Point_t; // NOLINT
+    ~AbstractCurveWidget() override = default;
 
     /** @param parent Optional parent of the widget
      */
@@ -137,23 +137,23 @@ protected:
     */
     bool isCurrentPointExtremal();
 
-    int m_zoomLevel;
-    int m_gridLines;
+    int m_zoomLevel{0};
+    int m_gridLines{3};
     /** Background */
     QPixmap m_pixmap;
     /** A copy of m_pixmap but scaled to fit the size of the edit region */
     std::shared_ptr<QPixmap> m_pixmapCache;
     /** Whether we have to regenerate the pixmap cache because the pixmap or the size of the edit region changed. */
-    bool m_pixmapIsDirty;
+    bool m_pixmapIsDirty{true};
 
-    int m_currentPointIndex;
-    int m_maxPoints;
+    int m_currentPointIndex{-1};
+    int m_maxPoints{1000000};
     int m_wWidth, m_wHeight;
 
-    State_t m_state;
+    State_t m_state{State_t::NORMAL};
     Curve_t m_curve;
 
-    double m_grabRadius;
+    double m_grabRadius{10};
 };
 
 #include "abstractcurvewidget.ipp"

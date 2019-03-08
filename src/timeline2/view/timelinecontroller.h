@@ -73,7 +73,7 @@ class TimelineController : public QObject
 
 public:
     TimelineController(QObject *parent);
-    virtual ~TimelineController();
+    ~TimelineController() override;
     /** @brief Sets the model that this widgets displays */
     void setModel(std::shared_ptr<TimelineItemModel> model);
     std::shared_ptr<TimelineItemModel> getModel() const;
@@ -235,7 +235,7 @@ public:
     Q_INVOKABLE void showAsset(int id);
     Q_INVOKABLE void showTrackAsset(int trackId);
 
-    Q_INVOKABLE void selectItems(QVariantList arg, int startFrame, int endFrame, bool addToSelect);
+    Q_INVOKABLE void selectItems(const QVariantList &arg, int startFrame, int endFrame, bool addToSelect);
     /* @brief Returns true is item is selected as well as other items */
     Q_INVOKABLE bool isInSelection(int itemId);
     Q_INVOKABLE bool exists(int itemId);
@@ -270,7 +270,7 @@ public:
 
     /* @brief Add an asset (effect, composition)
      */
-    void addAsset(const QVariantMap data);
+    void addAsset(const QVariantMap &data);
 
     /* @brief Cuts the clip on current track at timeline position
      */
@@ -318,7 +318,7 @@ public:
     Q_INVOKABLE double fps() const;
     Q_INVOKABLE void addEffectKeyframe(int cid, int frame, double val);
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
-    Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, QVariant normalizedValue = QVariant());
+    Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
 
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
@@ -389,7 +389,7 @@ public:
     bool useRuler() const;
     /* @brief Load timeline preview from saved doc
      */
-    void loadPreview(QString chunks, QString dirty, const QDateTime &documentDate, int enable);
+    void loadPreview(const QString &chunks, const QString &dirty, const QDateTime &documentDate, int enable);
     /* @brief Return document properties with added settings from timeline
      */
     QMap<QString, QString> documentProperties();
@@ -407,7 +407,7 @@ public:
      *  @returns the zone end position or -1 on fail
      */
     int insertZone(const QString &binId, QPoint zone, bool overwrite);
-    void updateClip(int clipId, QVector<int> roles);
+    void updateClip(int clipId, const QVector<int> &roles);
     void showClipKeyframes(int clipId, bool value);
     void showCompositionKeyframes(int clipId, bool value);
     /** @brief Returns last usable timeline position (seek request or current pos) */
@@ -444,7 +444,7 @@ public slots:
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable);
     /** @brief Save timeline selected clips to target folder. */
-    void saveTimelineSelection(QDir targetDir);
+    void saveTimelineSelection(const QDir &targetDir);
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
 

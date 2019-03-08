@@ -26,8 +26,8 @@
 
 class JogShuttleAction : public QObject
 {
-    Q_OBJECT public : explicit JogShuttleAction(const JogShuttle *jogShuttle, const QStringList &actionMap, QObject *parent = nullptr);
-    ~JogShuttleAction();
+    Q_OBJECT public : explicit JogShuttleAction(const JogShuttle *jogShuttle, QStringList actionMap, QObject *parent = nullptr);
+    ~JogShuttleAction() override;
 
 private:
     const JogShuttle *m_jogShuttle;

@@ -38,7 +38,7 @@ template <typename AssetType> class AbstractAssetsRepository
 
 public:
     AbstractAssetsRepository();
-    virtual ~AbstractAssetsRepository(){};
+    virtual ~AbstractAssetsRepository() = default;
 
     /* @brief Returns true if a given asset exists
      */

@@ -60,7 +60,7 @@ public:
      * @param parent The widget where our infos will be displayed
      */
     explicit ClipPropertiesController(ClipController *controller, QWidget *parent);
-    virtual ~ClipPropertiesController();
+    ~ClipPropertiesController() override;
 
 public slots:
     void slotReloadProperties();

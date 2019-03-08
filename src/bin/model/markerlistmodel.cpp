@@ -34,15 +34,15 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <klocalizedstring.h>
+#include <utility>
 
 std::array<QColor, 5> MarkerListModel::markerTypes{{Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::cyan}};
 
-MarkerListModel::MarkerListModel(const QString &clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+MarkerListModel::MarkerListModel(QString clipId, std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
     , m_guide(false)
-    , m_clipId(clipId)
+    , m_clipId(std::move(clipId))
     , m_lock(QReadWriteLock::Recursive)
 {
     setup();
@@ -332,7 +332,7 @@ bool MarkerListModel::hasMarker(int frame) const
     return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
 }
 
-void MarkerListModel::registerSnapModel(std::weak_ptr<SnapModel> snapModel)
+void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel)
 {
     READ_LOCK();
     // make sure ptr is valid

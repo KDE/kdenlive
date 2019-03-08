@@ -59,7 +59,7 @@ public:
      * @param model is the ptr to the item model
      * @param isRoot is true if this is the topmost folder
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot = false);
+    AbstractProjectItem(PROJECTITEMTYPE type, QString id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot = false);
 
     bool operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const;
 

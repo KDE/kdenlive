@@ -55,10 +55,10 @@ class MltDeviceCapture : public AbstractRender
     /** @brief Build a MLT Renderer
      *  @param winid The parent widget identifier (required for SDL display). Set to 0 for OpenGL rendering
      *  @param profile The MLT profile used for the capture (default one will be used if empty). */
-    explicit MltDeviceCapture(QString profile, /*VideoSurface *surface,*/ QWidget *parent = nullptr);
+    explicit MltDeviceCapture(const QString &profile, /*VideoSurface *surface,*/ QWidget *parent = nullptr);
 
     /** @brief Destroy the MLT Renderer. */
-    ~MltDeviceCapture();
+    ~MltDeviceCapture() override;
 
     int doCapture;
 

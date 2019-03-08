@@ -62,7 +62,7 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     setToolTip(comment);
 }
 
-GeometryEditWidget::~GeometryEditWidget() {}
+GeometryEditWidget::~GeometryEditWidget() = default;
 
 void GeometryEditWidget::slotRefresh()
 {

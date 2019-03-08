@@ -101,9 +101,9 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
                 // Logarithmic scale. Needs fine tuning by hand, but looks great.
                 wave.setPixel(i, waveformSize.height() - j - 1,
                               qRgba(CHOP255(52 * log(0.1 * gain * (float)waveValues[(size_t)i][(size_t)j])),
-                                    CHOP255(52 * log(gain * (float)waveValues[(size_t)i][(size_t)j])),
+                                    CHOP255(52 * std::log(gain * (float)waveValues[(size_t)i][(size_t)j])),
                                     CHOP255(52 * log(.25 * gain * (float)waveValues[(size_t)i][(size_t)j])),
-                                    CHOP255(64 * log(gain * (float)waveValues[(size_t)i][(size_t)j]))));
+                                    CHOP255(64 * std::log(gain * (float)waveValues[(size_t)i][(size_t)j]))));
             }
         }
         break;

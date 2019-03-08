@@ -34,7 +34,7 @@ ThumbnailProvider::ThumbnailProvider()
 {
 }
 
-ThumbnailProvider::~ThumbnailProvider() {}
+ThumbnailProvider::~ThumbnailProvider() = default;
 
 void ThumbnailProvider::resetProject()
 {
@@ -119,7 +119,7 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
     return key;
 }
 
-QImage ThumbnailProvider::makeThumbnail(std::shared_ptr<Mlt::Producer> producer, int frameNumber, const QSize &requestedSize)
+QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize)
 {
     Q_UNUSED(requestedSize)
     producer->seek(frameNumber);

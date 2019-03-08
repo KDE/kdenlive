@@ -66,7 +66,7 @@ FlowLayout::~FlowLayout()
 
 void FlowLayout::addItem(QLayoutItem *item)
 {
-    itemList.append(item);
+    m_itemList.append(item);
 }
 
 int FlowLayout::horizontalSpacing() const
@@ -87,18 +87,18 @@ int FlowLayout::verticalSpacing() const
 
 int FlowLayout::count() const
 {
-    return itemList.size();
+    return m_itemList.size();
 }
 
 QLayoutItem *FlowLayout::itemAt(int index) const
 {
-    return itemList.value(index);
+    return m_itemList.value(index);
 }
 
 QLayoutItem *FlowLayout::takeAt(int index)
 {
-    if (index >= 0 && index < itemList.size()) {
-        return itemList.takeAt(index);
+    if (index >= 0 && index < m_itemList.size()) {
+        return m_itemList.takeAt(index);
     }
     return nullptr;
 }
@@ -133,7 +133,7 @@ QSize FlowLayout::sizeHint() const
 QSize FlowLayout::minimumSize() const
 {
     QSize size;
-    for (QLayoutItem *item : itemList) {
+    for (QLayoutItem *item : m_itemList) {
         size = size.expandedTo(item->minimumSize());
     }
 
@@ -150,7 +150,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int y = effectiveRect.y();
     int lineHeight = 0;
 
-    for (QLayoutItem *item : itemList) {
+    for (QLayoutItem *item : m_itemList) {
         QWidget *wid = item->widget();
         int spaceX = horizontalSpacing();
         if (spaceX == -1) spaceX = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Horizontal);

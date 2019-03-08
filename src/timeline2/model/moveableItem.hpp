@@ -23,7 +23,6 @@
 #define MOVEABLEITEM_H
 
 #include "timelinemodel.hpp"
-#include "trackmodel.hpp"
 #include "undohelper.hpp"
 #include <QObject>
 #include <QReadWriteLock>
@@ -36,7 +35,7 @@ template <typename Service> class MoveableItem
     MoveableItem() = delete;
 
 protected:
-    virtual ~MoveableItem() {}
+    virtual ~MoveableItem() = default;
 
 public:
     MoveableItem(std::weak_ptr<TimelineModel> parent, int id = -1);

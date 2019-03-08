@@ -30,8 +30,8 @@ QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemM
 
     // In case the test system does not have avformat support, we can switch to the integrated blipflash producer
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(prof, "blipflash");
-    producer->set_in_and_out(0, 1);
-    producer->set("kdenlive:duration", 2);
+    producer->set_in_and_out(0, 9);
+    producer->set("kdenlive:duration", 10);
 
     REQUIRE(producer->is_valid());
 

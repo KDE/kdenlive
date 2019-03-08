@@ -52,7 +52,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~KoSliderCombo();
+    ~KoSliderCombo() override;
 
     /**
      * The precision of values given as the number of digits after the period.
@@ -132,7 +132,7 @@ private:
     Q_PRIVATE_SLOT(d, void lineEditFinished())
 
     class KoSliderComboPrivate;
-    KoSliderComboPrivate *const d;
+    KoSliderComboPrivate *const m_d;
 };
 
 #endif

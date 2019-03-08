@@ -34,11 +34,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <QFileInfo>
 #include <QPixmap>
-#include <utility>
 
 std::shared_ptr<Mlt::Producer> ClipController::mediaUnavailable;
 
-ClipController::ClipController(const QString clipId, std::shared_ptr<Mlt::Producer> producer)
+ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt::Producer> &producer)
     : selectedEffectIndex(1)
     , m_audioThumbCreated(false)
     , m_masterProducer(producer)
@@ -226,7 +225,7 @@ void ClipController::getInfoForProducer()
         m_clipType = ClipType::Unknown;
     }
     if (m_audioIndex > -1 || m_clipType == ClipType::Playlist) {
-        m_audioInfo.reset(new AudioStreamInfo(m_masterProducer, m_audioIndex));
+        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, m_audioIndex);
     }
 
     if (!m_hasLimitedDuration) {
@@ -374,7 +373,7 @@ GenTime ClipController::getPlaytime() const
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         return GenTime(playtime == 0 ? m_masterProducer->get_playtime() : playtime, fps);
     }
-    return GenTime(m_masterProducer->get_playtime(), fps);
+    return {m_masterProducer->get_playtime(), fps};
 }
 
 int ClipController::getFramePlaytime() const
@@ -432,7 +431,7 @@ double ClipController::getProducerDoubleProperty(const QString &name) const
 QColor ClipController::getProducerColorProperty(const QString &name) const
 {
     if (!m_properties) {
-        return QColor();
+        return {};
     }
     mlt_color color = m_properties->get_color(name.toUtf8().constData());
     return QColor::fromRgb(color.r, color.g, color.b);
@@ -866,7 +865,7 @@ void ClipController::addEffect(const QString &effectId)
     m_effectStack->appendEffect(effectId, true);
 }
 
-bool ClipController::copyEffect(std::shared_ptr<EffectStackModel> stackModel, int rowId)
+bool ClipController::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId),
                               !m_hasAudio ? PlaylistState::VideoOnly : !m_hasVideo ? PlaylistState::AudioOnly : PlaylistState::Disabled);

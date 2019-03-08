@@ -66,7 +66,7 @@ public:
       \see signalMousePositionChanged(): Emitted when mouse tracking is enabled
       */
     explicit AbstractScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
-    virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
+    ~AbstractScopeWidget() override; // Must be virtual because of inheritance, to avoid memory leaks
 
     enum RescaleDirection { North, Northeast, East, Southeast };
 
@@ -123,10 +123,10 @@ protected:
     QPoint m_mousePos;
     /** Knows whether the mouse currently lies within the widget or not.
         Can e.g. be used for drawing a HUD only when the mouse is in the widget. */
-    bool m_mouseWithinWidget;
+    bool m_mouseWithinWidget{false};
 
     /** Offset from the widget's borders */
-    const uchar offset;
+    const uchar offset{5};
 
     /** The rect on the widget we're painting in.
         Can be used by the implementing widget, e.g. in the render methods.
@@ -140,9 +140,9 @@ protected:
 
     /** The acceleration factors can be accessed also by other renderer tasks,
         e.g. to display the scope's acceleration factor in the HUD renderer. */
-    int m_accelFactorHUD;
-    int m_accelFactorScope;
-    int m_accelFactorBackground;
+    int m_accelFactorHUD{1};
+    int m_accelFactorScope{1};
+    int m_accelFactorBackground{1};
 
     /** Reads the widget's configuration.
         Can be extended in the implementing subclass (make sure to run readConfig as well). */
@@ -260,8 +260,8 @@ private:
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
 
-    bool initialDimensionUpdateDone;
-    bool m_requestForcedUpdate;
+    bool m_initialDimensionUpdateDone{false};
+    bool m_requestForcedUpdate{false};
 
     QImage m_scopeImage;
 
@@ -272,14 +272,14 @@ private:
     void prodBackgroundThread();
 
     ///// Movement detection /////
-    const int m_rescaleMinDist;
-    const float m_rescaleVerticalThreshold;
+    const int m_rescaleMinDist{4};
+    const float m_rescaleVerticalThreshold{2.0f};
 
-    bool m_rescaleActive;
-    bool m_rescalePropertiesLocked;
-    bool m_rescaleFirstRescaleDone;
+    bool m_rescaleActive{false};
+    bool m_rescalePropertiesLocked{false};
+    bool m_rescaleFirstRescaleDone{true};
     Qt::KeyboardModifiers m_rescaleModifiers;
-    RescaleDirection m_rescaleDirection;
+    RescaleDirection m_rescaleDirection{North};
     QPoint m_rescaleStartPoint;
 
 protected slots:

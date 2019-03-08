@@ -20,7 +20,7 @@
 
 #include "colorwheel.h"
 #include <qmath.h>
-
+#include <utility>
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 {
     NegQColor color;
@@ -76,15 +76,15 @@ qreal NegQColor::saturationF()
     return qcolor.saturationF();
 }
 
-ColorWheel::ColorWheel(const QString &id, const QString &name, const NegQColor &color, QWidget *parent)
+ColorWheel::ColorWheel(QString id, QString name, NegQColor color, QWidget *parent)
     : QWidget(parent)
-    , m_id(id)
+    , m_id(std::move(id))
     , m_isMouseDown(false)
     , m_margin(5)
-    , m_color(color)
+    , m_color(std::move(color))
     , m_isInWheel(false)
     , m_isInSquare(false)
-    , m_name(name)
+    , m_name(std::move(name))
 {
     QFontInfo info(font());
     m_unitSize = info.pixelSize();
@@ -145,16 +145,16 @@ NegQColor ColorWheel::colorForPoint(const QPoint &point)
         }
         return NegQColor::fromHsvF(m_color.hueF(), m_color.saturationF(), value);
     }
-    return NegQColor();
+    return {};
 }
 
 QSize ColorWheel::sizeHint() const
 {
-    return QSize(width(), height());
+    return {width(), height()};
 }
 QSize ColorWheel::minimumSizeHint() const
 {
-    return QSize(100, 100);
+    return {100, 100};
 }
 
 void ColorWheel::mousePressEvent(QMouseEvent *event)

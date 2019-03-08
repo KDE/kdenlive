@@ -69,8 +69,8 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    static std::shared_ptr<ProjectClip> construct(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model,
-                                                  std::shared_ptr<Mlt::Producer> producer);
+    static std::shared_ptr<ProjectClip> construct(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model,
+                                                  const std::shared_ptr<Mlt::Producer> &producer);
     /**
      * @brief Constructor.
      * @param description element describing the clip; the "kdenlive:id" attribute and "resource" property are used
@@ -79,11 +79,11 @@ public:
                                                   std::shared_ptr<ProjectItemModel> model);
 
 protected:
-    ProjectClip(const QString &id, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model, std::shared_ptr<Mlt::Producer> producer);
-    ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, std::shared_ptr<ProjectItemModel> model);
+    ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer);
+    ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model);
 
 public:
-    virtual ~ProjectClip();
+    ~ProjectClip() override;
 
     void reloadProducer(bool refreshOnly = false);
 
@@ -214,9 +214,9 @@ public:
                                                                                      PlaylistState::ClipState state);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
-    static std::shared_ptr<Mlt::Producer> cloneProducer(std::shared_ptr<Mlt::Producer> producer);
+    static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
-    void updateTimelineClips(QVector<int> roles);
+    void updateTimelineClips(const QVector<int> &roles);
 
 protected:
     friend class ClipModel;
@@ -225,7 +225,7 @@ protected:
         @param clipId id of the inserted clip
      */
     void registerTimelineClip(std::weak_ptr<TimelineModel> timeline, int clipId);
-    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, std::shared_ptr<Mlt::Producer> service, bool forceRegister = false);
+    void registerService(std::weak_ptr<TimelineModel> timeline, int clipId, const std::shared_ptr<Mlt::Producer> &service, bool forceRegister = false);
 
     /* @brief update the producer to reflect new parent folder */
     void updateParent(std::shared_ptr<TreeItem> parent) override;

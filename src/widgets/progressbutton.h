@@ -40,7 +40,7 @@ class ProgressButton : public QToolButton
     Q_OBJECT
 public:
     explicit ProgressButton(const QString &text, double max = 100, QWidget *parent = nullptr);
-    ~ProgressButton();
+    ~ProgressButton() override;
     int progress() const;
     void setProgress(int);
     void defineDefaultAction(QAction *action, QAction *actionInProgress);

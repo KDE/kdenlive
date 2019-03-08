@@ -20,17 +20,17 @@
 #include "v4lcapture.h"
 #include "kdenlivesettings.h"
 
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <fcntl.h>
 #include <pthread.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
 
 #include <linux/videodev2.h>
 #include <sys/ioctl.h>
 
-V4lCaptureHandler::V4lCaptureHandler() {}
+V4lCaptureHandler::V4lCaptureHandler() = default;
 
 // static
 

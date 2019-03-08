@@ -59,9 +59,9 @@ class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
-    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+    KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                 const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent = nullptr);
-    ~KdenliveDoc();
+    ~KdenliveDoc() override;
     friend class LoadJob;
     /** @brief Get current document's producer. */
     const QByteArray getProjectXml();

@@ -84,7 +84,7 @@ void ArchiveOrg::slotShowResults(KJob *job)
         return;
     }
     m_listWidget->blockSignals(true);
-    KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+    auto *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
 
@@ -192,7 +192,7 @@ OnlineItemInfo ArchiveOrg::displayItemDetails(QListWidgetItem *item)
  */
 void ArchiveOrg::slotParseResults(KJob *job)
 {
-    KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+    auto *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
 
     QJsonParseError jsonError;
     QJsonDocument doc = QJsonDocument::fromJson(storedQueryJob->data(), &jsonError);
@@ -206,7 +206,8 @@ void ArchiveOrg::slotParseResults(KJob *job)
     QVariant files;
     QVariant fileMetaData;
     QString html = QStringLiteral("<style type=\"text/css\">tr.cellone {background-color: %1;}").arg(qApp->palette().alternateBase().color().name());
-    html += QLatin1String("</style><table width=\"100%\" cellspacing=\"0\" cellpadding=\"2\">");
+    html += QLatin1String(R"(</style><table width="100%" cellspacing="0"
+      cellpadding="2">)");
     if (data.canConvert(QVariant::Map)) {
         QMap<QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();

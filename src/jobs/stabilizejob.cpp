@@ -33,13 +33,13 @@
 
 #include <klocalizedstring.h>
 
+#include <memory>
 #include <mlt++/Mlt.h>
-
-StabilizeJob::StabilizeJob(const QString &binId, const QString &filterName, const QString &destUrl, const std::unordered_map<QString, QString> &filterParams)
+StabilizeJob::StabilizeJob(const QString &binId, const QString &filterName, QString destUrl, std::unordered_map<QString, QString> filterParams)
     : MeltJob(binId, STABILIZEJOB, true, -1, -1)
     , m_filterName(filterName)
-    , m_destUrl(destUrl)
-    , m_filterParams(filterParams)
+    , m_destUrl(std::move(destUrl))
+    , m_filterParams(std::move(filterParams))
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
 }
@@ -50,7 +50,7 @@ const QString StabilizeJob::getDescription() const
 }
 void StabilizeJob::configureConsumer()
 {
-    m_consumer.reset(new Mlt::Consumer(*m_profile.get(), "xml", m_destUrl.toUtf8().constData()));
+    m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "xml", m_destUrl.toUtf8().constData());
     m_consumer->set("all", 1);
     m_consumer->set("title", "Stabilized");
     m_consumer->set("real_time", -KdenliveSettings::mltthreads());
@@ -59,7 +59,7 @@ void StabilizeJob::configureConsumer()
 void StabilizeJob::configureFilter()
 {
 
-    m_filter.reset(new Mlt::Filter(*m_profile.get(), m_filterName.toUtf8().data()));
+    m_filter = std::make_unique<Mlt::Filter>(*m_profile.get(), m_filterName.toUtf8().data());
     if ((m_filter == nullptr) || !m_filter->is_valid()) {
         m_errorMessage.append(i18n("Cannot create filter %1", m_filterName));
         return;
@@ -80,7 +80,8 @@ std::unordered_set<QString> StabilizeJob::supportedFilters()
 }
 
 // static
-int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, const QString &filterName)
+int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString,
+                             const QString &filterName)
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
     if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {
@@ -104,7 +105,7 @@ int StabilizeJob::prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<
             // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own
             // destination). We have to construct a lambda that does that.
 
-            auto createFn = [dest = std::move(destinations), fName = std::move(filterName), fParams = std::move(filterParams)](const QString &id) {
+            auto createFn = [dest = std::move(destinations), fName = filterName, fParams = std::move(filterParams)](const QString &id) {
                 return std::make_shared<StabilizeJob>(id, fName, dest.at(id), fParams);
             };
 

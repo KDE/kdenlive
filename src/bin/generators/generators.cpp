@@ -32,11 +32,13 @@
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
+#include "core.h"
 #include "klocalizedstring.h"
 #include "kxmlgui_version.h"
+#include "profiles/profilemodel.hpp"
 #include <KMessageBox>
 #include <KRecentDirs>
-
+#include <memory>
 #include <mlt++/MltConsumer.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
@@ -61,8 +63,8 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         m_preview = new QLabel;
         m_preview->setMinimumSize(1, 1);
         lay->addWidget(m_preview);
-        m_producer = new Mlt::Producer(*monitor->profile(), generatorTag.toUtf8().constData());
-        m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, monitor->profile()->width(), monitor->profile()->height()));
+        m_producer = new Mlt::Producer(pCore->getCurrentProfile()->profile(), generatorTag.toUtf8().constData());
+        m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
         auto *hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Duration")));
@@ -81,7 +83,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
 
         auto prop = std::make_unique<Mlt::Properties>(m_producer->get_properties());
-        m_assetModel = std::shared_ptr<AssetParameterModel>(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1}));
+        m_assetModel.reset(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1})); // NOLINT
         m_view->setModel(m_assetModel, QSize(1920, 1080), false);
         connect(m_assetModel.get(), &AssetParameterModel::modelChanged, [this]() { updateProducer(); });
 

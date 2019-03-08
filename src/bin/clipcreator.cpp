@@ -35,7 +35,7 @@
 #include <QDomDocument>
 #include <QMimeDatabase>
 #include <QWindow>
-
+#include <utility>
 namespace {
 QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const QString &resource, const QString &name, int duration, const QString &service)
 {
@@ -59,7 +59,7 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
 } // namespace
 
 QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
-                                     std::shared_ptr<ProjectItemModel> model)
+                                     const std::shared_ptr<ProjectItemModel> &model)
 {
     QDomDocument xml;
     auto prod = createProducer(xml, ClipType::Text, QString(), name, duration, QStringLiteral("kdenlivetitle"));
@@ -71,7 +71,7 @@ QString ClipCreator::createTitleClip(const std::unordered_map<QString, QString> 
 }
 
 QString ClipCreator::createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder,
-                                     std::shared_ptr<ProjectItemModel> model)
+                                     const std::shared_ptr<ProjectItemModel> &model)
 {
     QDomDocument xml;
 
@@ -82,7 +82,7 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     return res ? id : QStringLiteral("-1");
 }
 
-QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model, Fun &undo, Fun &redo)
+QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo)
 {
     QDomDocument xml;
     QMimeDatabase db;
@@ -152,7 +152,7 @@ bool ClipCreator::createClipFromFile(const QString &path, const QString &parentF
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    auto id = ClipCreator::createClipFromFile(path, parentFolder, model, undo, redo);
+    auto id = ClipCreator::createClipFromFile(path, parentFolder, std::move(model), undo, redo);
     bool ok = (id != QStringLiteral("-1"));
     if (ok) {
         pCore->pushUndo(undo, redo, i18n("Add clip"));
@@ -161,7 +161,7 @@ bool ClipCreator::createClipFromFile(const QString &path, const QString &parentF
 }
 
 QString ClipCreator::createSlideshowClip(const QString &path, int duration, const QString &name, const QString &parentFolder,
-                                         const std::unordered_map<QString, QString> &properties, std::shared_ptr<ProjectItemModel> model)
+                                         const std::unordered_map<QString, QString> &properties, const std::shared_ptr<ProjectItemModel> &model)
 {
     QDomDocument xml;
 
@@ -174,7 +174,7 @@ QString ClipCreator::createSlideshowClip(const QString &path, int duration, cons
 }
 
 QString ClipCreator::createTitleTemplate(const QString &path, const QString &text, const QString &name, const QString &parentFolder,
-                                         std::shared_ptr<ProjectItemModel> model)
+                                         const std::shared_ptr<ProjectItemModel> &model)
 {
     QDomDocument xml;
 
@@ -206,7 +206,7 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     return res ? id : QStringLiteral("-1");
 }
 
-bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model,
+bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
                                       Fun &undo, Fun &redo)
 {
     qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
@@ -299,7 +299,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool ok = ClipCreator::createClipsFromList(list, checkRemovable, parentFolder, model, undo, redo);
+    bool ok = ClipCreator::createClipsFromList(list, checkRemovable, parentFolder, std::move(model), undo, redo);
     if (ok) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }

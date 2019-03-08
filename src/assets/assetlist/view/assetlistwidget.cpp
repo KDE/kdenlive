@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "assetlistwidget.hpp"
+#include "assets/assetlist/model/assetfilter.hpp"
+#include "assets/assetlist/model/assettreemodel.hpp"
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 
 #include <KDeclarative/KDeclarative>
@@ -30,7 +32,7 @@
 
 AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
-    , m_assetIconProvider(nullptr)
+
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());

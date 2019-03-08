@@ -24,9 +24,9 @@
 #include "effectstackmodel.hpp"
 #include <utility>
 
-EffectGroupModel::EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot)
+EffectGroupModel::EffectGroupModel(const QList<QVariant> &data, QString name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot)
     : AbstractEffectItem(EffectItemType::Group, data, stack, isRoot)
-    , m_name(name)
+    , m_name(std::move(name))
 {
 }
 
@@ -36,7 +36,7 @@ std::shared_ptr<EffectGroupModel> EffectGroupModel::construct(const QString &nam
     QList<QVariant> data;
     data << name << name;
 
-    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, std::move(stack), isRoot));
+    std::shared_ptr<EffectGroupModel> self(new EffectGroupModel(data, name, stack, isRoot));
 
     baseFinishConstruct(self);
 

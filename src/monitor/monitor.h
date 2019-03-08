@@ -89,7 +89,7 @@ public:
     friend class MonitorManager;
 
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
-    ~Monitor();
+    ~Monitor() override;
     void resetProfile();
     /** @brief Rebuild consumers after a property change */
     void resetConsumer(bool fullReset);
@@ -117,8 +117,6 @@ public:
     QString getMarkerThumb(GenTime pos);
     /** @brief Get current project's folder */
     const QString projectFolder() const;
-    /** @brief Get the project's Mlt profile */
-    Mlt::Profile *profile();
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
@@ -280,9 +278,9 @@ private slots:
 public slots:
     void slotOpenDvdFile(const QString &);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
-    void updateClipProducer(std::shared_ptr<Mlt::Producer> prod);
+    void updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod);
     void updateClipProducer(const QString &playlist);
-    void slotOpenClip(std::shared_ptr<ProjectClip> controller, int in = -1, int out = -1);
+    void slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in = -1, int out = -1);
     void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
     void stop() override;
@@ -307,7 +305,7 @@ public slots:
     void slotLoadClipZone(const QPoint &zone);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
-    void adjustRulerSize(int length, std::shared_ptr<MarkerListModel> markerModel = nullptr);
+    void adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
     QPoint getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */

@@ -733,7 +733,7 @@ Rectangle {
                     clickY = mouseY
                     return
                 }
-                if (mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height) {
+                if (root.activeTool === 0 && mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height) {
                         // rubber selection
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
@@ -806,7 +806,7 @@ Rectangle {
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     if (!pressed) {
                         timeline.position = mousePos
-                    } else if (mouse.buttons === Qt.LeftButton && !rubberSelect.visible && rubberSelect.y > 0) {
+                    } else if (mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
                         // rubber selection
                         rubberSelect.visible = true
                     }
@@ -1342,7 +1342,7 @@ Rectangle {
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
             //cornerstone.selected = timeline.isMultitrackSelected()
-            if (dragProxy.draggedItem > -1 && (!timeline.exists(dragProxy.draggedItem) || timeline.selection.indexOf(dragProxy.draggedItem) == -1)) {
+            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }
             var selectedTrack = timeline.selectedTrack()

@@ -39,7 +39,7 @@ TransitionStackView::TransitionStackView(QWidget *parent)
 
 void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
 {
-    QHBoxLayout *lay = new QHBoxLayout;
+    auto *lay = new QHBoxLayout;
     m_trackBox = new QComboBox(this);
     QMapIterator<int, QString> i(pCore->getVideoTrackNames());
     QPair<int, int> aTrack = pCore->getCompositionATrack(model->getOwnerId().second);

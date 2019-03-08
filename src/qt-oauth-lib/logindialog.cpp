@@ -42,23 +42,24 @@
 
 LoginDialog::LoginDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::LoginDialog)
+    , m_ui(new Ui::LoginDialog)
 {
-    ui->setupUi(this);
+    m_ui->setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     setWindowTitle(i18n("Freesound Login"));
 
-    connect(ui->CancelButton, &QPushButton::clicked, this, &LoginDialog::slotRejected);
-    connect(ui->GetHQpreview, &QPushButton::clicked, this, &LoginDialog::slotGetHQPreview);
-    ui->FreeSoundLoginLabel->setText(i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality "
-                                          "preview file instead (no freesound account required)."));
-    // ui->textBrowser
-    connect(ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
+    connect(m_ui->CancelButton, &QPushButton::clicked, this, &LoginDialog::slotRejected);
+    connect(m_ui->GetHQpreview, &QPushButton::clicked, this, &LoginDialog::slotGetHQPreview);
+    m_ui->FreeSoundLoginLabel->setText(
+        i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality "
+             "preview file instead (no freesound account required)."));
+    // m_ui->textBrowser
+    connect(m_ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
 }
 
 LoginDialog::~LoginDialog()
 {
-    delete ui;
+    delete m_ui;
 }
 
 void LoginDialog::slotGetHQPreview()
@@ -105,5 +106,5 @@ QString LoginDialog::authCode() const
 
 void LoginDialog::setLoginUrl(const QUrl &url)
 {
-    ui->webView->setUrl(url);
+    m_ui->webView->setUrl(url);
 }

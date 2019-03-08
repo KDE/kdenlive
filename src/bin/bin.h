@@ -122,7 +122,8 @@ private:
     enum ItemRole { NameRole = Qt::UserRole, DurationRole, UsageRole };
 
     QTimeLine *m_timeLine;
-    QAction *m_action;
+    QAction *m_action{nullptr};
+    QMutex locker;
 
 public slots:
     void slotSetJobCount(int jobCount);
@@ -159,8 +160,8 @@ class Bin : public QWidget
     enum BinViewType { BinTreeView, BinIconView };
 
 public:
-    explicit Bin(const std::shared_ptr<ProjectItemModel> &model, QWidget *parent = nullptr);
-    ~Bin();
+    explicit Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent = nullptr);
+    ~Bin() override;
 
     bool isLoading;
 
@@ -227,7 +228,7 @@ public:
     /** @brief Trigger timecode format refresh where needed. */
     void updateTimecodeFormat();
     /** @brief Edit an effect settings to a bin clip. */
-    void editMasterEffect(std::shared_ptr<AbstractProjectItem> clip);
+    void editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip);
     /** @brief An effect setting was changed, update stack if displayed. */
     void updateMasterEffect(ClipController *ctl);
     /** @brief Display a message about an operation in status bar. */
@@ -320,7 +321,7 @@ public slots:
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
     void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
-    void slotSwitchClipProperties(std::shared_ptr<ProjectClip> clip);
+    void slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip);
     void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */
     QString slotAddFolder(const QString &folderName = QString());
@@ -369,7 +370,7 @@ protected:
     /* This function is called whenever an item is selected to propagate signals
        (for ex request to show the clip in the monitor)
     */
-    void setCurrent(std::shared_ptr<AbstractProjectItem> item);
+    void setCurrent(const std::shared_ptr<AbstractProjectItem> &item);
     void selectClip(const std::shared_ptr<ProjectClip> &clip);
     void contextMenuEvent(QContextMenuEvent *event) override;
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -433,12 +434,12 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
-    void showClipProperties(std::shared_ptr<ProjectClip> clip, bool forceRefresh = false);
+    void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;
     std::shared_ptr<ProjectClip> getFirstSelectedClip();
-    void showTitleWidget(std::shared_ptr<ProjectClip> clip);
-    void showSlideshowWidget(std::shared_ptr<ProjectClip> clip);
+    void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
+    void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
 
 signals:

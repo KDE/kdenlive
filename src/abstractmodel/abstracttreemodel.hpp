@@ -46,7 +46,7 @@ protected:
     explicit AbstractTreeModel(QObject *parent = nullptr);
 
 public:
-    virtual ~AbstractTreeModel();
+    ~AbstractTreeModel() override;
 
     /* @brief Given an item from the hierarchy, construct the corresponding ModelIndex */
     QModelIndex getIndexFromItem(const std::shared_ptr<TreeItem> &item) const;
@@ -70,7 +70,7 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const override;
 
     /* @brief Helper function to generate a lambda that adds an item to the tree */
-    Fun addItem_lambda(std::shared_ptr<TreeItem> new_item, int parentId);
+    Fun addItem_lambda(const std::shared_ptr<TreeItem> &new_item, int parentId);
 
     /* @brief Helper function to generate a lambda that removes an item from the tree */
     Fun removeItem_lambda(int id);

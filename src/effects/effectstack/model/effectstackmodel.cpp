@@ -35,8 +35,8 @@
 EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
     : AbstractTreeModel()
     , m_effectStackEnabled(true)
-    , m_ownerId(ownerId)
-    , m_undoStack(undo_stack)
+    , m_ownerId(std::move(ownerId))
+    , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
     , m_loadingExisting(false)
 {
@@ -45,7 +45,7 @@ EffectStackModel::EffectStackModel(std::weak_ptr<Mlt::Service> service, ObjectId
 
 std::shared_ptr<EffectStackModel> EffectStackModel::construct(std::weak_ptr<Mlt::Service> service, ObjectId ownerId, std::weak_ptr<DocUndoStack> undo_stack)
 {
-    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId, undo_stack));
+    std::shared_ptr<EffectStackModel> self(new EffectStackModel(std::move(service), ownerId, std::move(undo_stack)));
     self->rootItem = EffectGroupModel::construct(QStringLiteral("root"), self, true);
     return self;
 }
@@ -79,7 +79,7 @@ void EffectStackModel::loadService(std::weak_ptr<Mlt::Service> service)
     }
 }
 
-void EffectStackModel::removeService(std::shared_ptr<Mlt::Service> service)
+void EffectStackModel::removeService(const std::shared_ptr<Mlt::Service> &service)
 {
     QWriteLocker locker(&m_lock);
     std::vector<int> to_delete;
@@ -112,7 +112,7 @@ void EffectStackModel::removeCurrentEffect()
     }
 }
 
-void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
+void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effect)
 {
     qDebug() << "* * ** REMOVING EFFECT FROM STACK!!!\n!!!!!!!!!";
     QWriteLocker locker(&m_lock);
@@ -135,12 +135,12 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     Fun redo = removeItem_lambda(effect->getId());
     bool res = redo();
     if (res) {
-        int inFades = int(fadeIns.size());
-        int outFades = int(fadeOuts.size());
-        fadeIns.erase(effect->getId());
-        fadeOuts.erase(effect->getId());
-        inFades = int(fadeIns.size()) - inFades;
-        outFades = int(fadeOuts.size()) - outFades;
+        int inFades = int(m_fadeIns.size());
+        int outFades = int(m_fadeOuts.size());
+        m_fadeIns.erase(effect->getId());
+        m_fadeOuts.erase(effect->getId());
+        inFades = int(m_fadeIns.size()) - inFades;
+        outFades = int(m_fadeOuts.size()) - outFades;
         QString effectName = EffectsRepository::get()->getName(effect->getAssetId());
         Fun update = [this, current, inFades, outFades]() {
             // Required to build the effect view
@@ -190,7 +190,7 @@ void EffectStackModel::removeEffect(std::shared_ptr<EffectItemModel> effect)
     }
 }
 
-bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, bool logUndo)
+bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -214,7 +214,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         sub.setAttribute(QStringLiteral("out"), sourceEffect->filter().get_int("out"));
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
         QLocale locale;
-        for (auto param : params) {
+        for (const auto &param : params) {
             if (param.second.type() == QVariant::Double) {
                 Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
             } else {
@@ -253,9 +253,9 @@ void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
-            fadeIns.insert(effect->getId());
+            m_fadeIns.insert(effect->getId());
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
-            fadeOuts.insert(effect->getId());
+            m_fadeOuts.insert(effect->getId());
         }
         local_redo();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -271,7 +271,7 @@ void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     }
 }
 
-bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (sourceItem->childCount() > 0) {
@@ -301,10 +301,10 @@ bool EffectStackModel::copyEffect(std::shared_ptr<AbstractEffectItem> sourceItem
     connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
     QVector<int> roles = {TimelineModel::EffectNamesRole};
     if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
-        fadeIns.insert(effect->getId());
+        m_fadeIns.insert(effect->getId());
         roles << TimelineModel::FadeInRole;
     } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
-        fadeOuts.insert(effect->getId());
+        m_fadeOuts.insert(effect->getId());
         roles << TimelineModel::FadeOutRole;
     }
     bool res = local_redo();
@@ -395,7 +395,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
             continue;
         }
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(leaf);
-        if (fadeInDuration > 0 && fadeIns.count(leaf->getId()) > 0) {
+        if (fadeInDuration > 0 && m_fadeIns.count(leaf->getId()) > 0) {
             int oldEffectIn = qMax(0, effect->filter().get_in());
             int oldEffectOut = effect->filter().get_out();
             qDebug() << "--previous effect: " << oldEffectIn << "-" << oldEffectOut;
@@ -444,7 +444,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                     PUSH_LAMBDA(reverse, undo);
                 }
             }
-        } else if (fadeOutDuration > 0 && fadeOuts.count(leaf->getId()) > 0) {
+        } else if (fadeOutDuration > 0 && m_fadeOuts.count(leaf->getId()) > 0) {
             int effectDuration = qMin(fadeOutDuration, duration);
             int newFadeIn = out - effectDuration;
             int oldFadeIn = effect->filter().get_int("in");
@@ -500,7 +500,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
     QWriteLocker locker(&m_lock);
     if (fromStart) {
         // Fade in
-        if (fadeIns.empty()) {
+        if (m_fadeIns.empty()) {
             if (audioFade) {
                 appendEffect(QStringLiteral("fadein"));
             }
@@ -517,7 +517,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         qDebug() << "//// SETTING CLIP FADIN: " << duration;
         int oldDuration = -1;
         for (int i = 0; i < rootItem->childCount(); ++i) {
-            if (fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
+            if (m_fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 if (oldDuration == -1) {
                     oldDuration = effect->filter().get_length();
@@ -542,7 +542,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         }
     } else {
         // Fade out
-        if (fadeOuts.empty()) {
+        if (m_fadeOuts.empty()) {
             if (audioFade) {
                 appendEffect(QStringLiteral("fadeout"));
             }
@@ -560,7 +560,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         int oldDuration = -1;
         QList<QModelIndex> indexes;
         for (int i = 0; i < rootItem->childCount(); ++i) {
-            if (fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
+            if (m_fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 if (oldDuration == -1) {
                     oldDuration = effect->filter().get_length();
@@ -591,21 +591,21 @@ int EffectStackModel::getFadePosition(bool fromStart)
 {
     QWriteLocker locker(&m_lock);
     if (fromStart) {
-        if (fadeIns.empty()) {
+        if (m_fadeIns.empty()) {
             return 0;
         }
         for (int i = 0; i < rootItem->childCount(); ++i) {
-            if (*(fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
+            if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 return effect->filter().get_length();
             }
         }
     } else {
-        if (fadeOuts.empty()) {
+        if (m_fadeOuts.empty()) {
             return 0;
         }
         for (int i = 0; i < rootItem->childCount(); ++i) {
-            if (*(fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
+            if (*(m_fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 return effect->filter().get_length();
             }
@@ -619,8 +619,8 @@ bool EffectStackModel::removeFade(bool fromStart)
     QWriteLocker locker(&m_lock);
     std::vector<int> toRemove;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        if ((fromStart && fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) ||
-            (!fromStart && fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0)) {
+        if ((fromStart && m_fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) ||
+            (!fromStart && m_fadeOuts.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0)) {
             toRemove.push_back(i);
         }
     }
@@ -631,7 +631,7 @@ bool EffectStackModel::removeFade(bool fromStart)
     return true;
 }
 
-void EffectStackModel::moveEffect(int destRow, std::shared_ptr<AbstractEffectItem> item)
+void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allItems.count(item->getId()) > 0);
@@ -670,9 +670,9 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
         effectItem->setEffectStackEnabled(m_effectStackEnabled);
         const QString &effectId = effectItem->getAssetId();
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
-            fadeIns.insert(effectItem->getId());
+            m_fadeIns.insert(effectItem->getId());
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
-            fadeOuts.insert(effectItem->getId());
+            m_fadeOuts.insert(effectItem->getId());
         }
         ix = getIndexFromItem(effectItem);
         if (!effectItem->isAudio() && !m_loadingExisting) {
@@ -713,12 +713,12 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
     emit enabledStateChanged();
 }
 
-std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, std::shared_ptr<TreeItem> parentItem)
+std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, const std::shared_ptr<TreeItem> &parentItem)
 {
     return std::static_pointer_cast<AbstractEffectItem>(parentItem ? rootItem->child(row) : rootItem->child(row));
 }
 
-bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state)
+bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
@@ -736,7 +736,7 @@ bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
     return found;
 }
 
-bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
@@ -753,7 +753,7 @@ bool EffectStackModel::importEffects(std::shared_ptr<EffectStackModel> sourceSta
     return found;
 }
 
-void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, PlaylistState::ClipState state, bool alreadyExist)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -791,9 +791,9 @@ void EffectStackModel::importEffects(std::weak_ptr<Mlt::Service> service, Playli
             effect->prepareKeyframes();
             if (redo()) {
                 if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
-                    fadeIns.insert(effect->getId());
+                    m_fadeIns.insert(effect->getId());
                 } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
-                    fadeOuts.insert(effect->getId());
+                    m_fadeOuts.insert(effect->getId());
                 }
             }
         }
@@ -820,7 +820,7 @@ int EffectStackModel::getActiveEffect() const
     return 0;
 }
 
-void EffectStackModel::slotCreateGroup(std::shared_ptr<EffectItemModel> childEffect)
+void EffectStackModel::slotCreateGroup(const std::shared_ptr<EffectItemModel> &childEffect)
 {
     QWriteLocker locker(&m_lock);
     auto groupItem = EffectGroupModel::construct(QStringLiteral("group"), shared_from_this());
@@ -871,7 +871,7 @@ bool EffectStackModel::checkConsistency()
         int kdenliveFilterCount = 0;
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::shared_ptr<Mlt::Filter> filt(ptr->filter(i));
-            if (filt->get("kdenlive_id") != NULL) {
+            if (filt->get("kdenlive_id") != nullptr) {
                 kdenliveFilterCount++;
             }
             // qDebug() << "FILTER: "<<i<<" : "<<ptr->filter(i)->get("mlt_service");
@@ -883,7 +883,7 @@ bool EffectStackModel::checkConsistency()
 
         int ct = 0;
         for (uint i = 0; i < allFilters.size(); ++i) {
-            while (ptr->filter(ct)->get("kdenlive_id") == NULL && ct < ptr->filter_count()) {
+            while (ptr->filter(ct)->get("kdenlive_id") == nullptr && ct < ptr->filter_count()) {
                 ct++;
             }
             auto mltFilter = ptr->filter(ct);
@@ -893,7 +893,7 @@ bool EffectStackModel::checkConsistency()
                 return false;
             }
             QVector<QPair<QString, QVariant>> params = allFilters[i]->getAllParameters();
-            for (auto val : params) {
+            for (const auto &val : params) {
                 // Check parameters values
                 if (val.second != QVariant(mltFilter->get(val.first.toUtf8().constData()))) {
                     qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: " << val.first << " = " << val.second
@@ -964,7 +964,7 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
     return nullptr;
 }
 
-void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
+void EffectStackModel::replugEffect(const std::shared_ptr<AssetParameterModel> &asset)
 {
     QWriteLocker locker(&m_lock);
     auto effectItem = std::static_pointer_cast<EffectItemModel>(asset);
@@ -992,7 +992,7 @@ void EffectStackModel::replugEffect(std::shared_ptr<AssetParameterModel> asset)
 void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    const auto &toDelete = outEffects ? fadeOuts : fadeIns;
+    const auto &toDelete = outEffects ? m_fadeOuts : m_fadeIns;
     for (int id : toDelete) {
         auto effect = std::static_pointer_cast<EffectItemModel>(getItemById(id));
         Fun operation = removeItem_lambda(id);
@@ -1005,9 +1005,9 @@ void EffectStackModel::cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo)
         Fun updateRedo = [this, toDelete, outEffects]() {
             for (int id : toDelete) {
                 if (outEffects) {
-                    fadeOuts.erase(id);
+                    m_fadeOuts.erase(id);
                 } else {
-                    fadeIns.erase(id);
+                    m_fadeIns.erase(id);
                 }
             }
             QVector<int> roles = {TimelineModel::EffectNamesRole};
@@ -1077,5 +1077,5 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
-    return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), normalisedVal);
+    return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), std::move(normalisedVal));
 }

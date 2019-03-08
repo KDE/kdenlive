@@ -40,7 +40,7 @@
 
 AssetParameterView::AssetParameterView(QWidget *parent)
     : QWidget(parent)
-    , m_mainKeyframeWidget(nullptr)
+
 {
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 2);
@@ -123,7 +123,7 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
         QString name = m_model->data(index, AssetParameterModel::NameRole).toString();
-        ParamType type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
+        auto type = m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
         QVariant defaultValue = m_model->data(index, AssetParameterModel::DefaultRole);
         if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect) {
             QString val = type == ParamType::KeyframeParam ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
@@ -140,7 +140,7 @@ QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
 void AssetParameterView::resetValues()
 {
     const QVector<QPair<QString, QVariant>> values = getDefaultValues();
-    AssetUpdateCommand *command = new AssetUpdateCommand(m_model, values);
+    auto *command = new AssetUpdateCommand(m_model, values);
     pCore->pushUndo(command);
     /*if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->resetKeyframes();
@@ -150,7 +150,7 @@ void AssetParameterView::resetValues()
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
-    AssetCommand *command = new AssetCommand(m_model, index, value);
+    auto *command = new AssetCommand(m_model, index, value);
     if (storeUndo) {
         pCore->pushUndo(command);
     } else {
@@ -209,7 +209,7 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
             return;
         }
         Q_ASSERT(bottomRight.row() < (int)m_widgets.size());
-        for (size_t i = (size_t)topLeft.row(); i <= (size_t)bottomRight.row(); ++i) {
+        for (auto i = (size_t)topLeft.row(); i <= (size_t)bottomRight.row(); ++i) {
             if (m_widgets.size() > i) {
                 m_widgets[i]->slotRefresh();
             }
@@ -316,7 +316,7 @@ void AssetParameterView::slotSavePreset(QString presetName)
 
 void AssetParameterView::slotLoadPreset()
 {
-    QAction *action = qobject_cast<QAction *>(sender());
+    auto *action = qobject_cast<QAction *>(sender());
     if (!action) {
         return;
     }
@@ -324,7 +324,7 @@ void AssetParameterView::slotLoadPreset()
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
     const QVector<QPair<QString, QVariant>> params = m_model->loadPreset(presetFile, presetName);
-    AssetUpdateCommand *command = new AssetUpdateCommand(m_model, params);
+    auto *command = new AssetUpdateCommand(m_model, params);
     pCore->pushUndo(command);
 }
 

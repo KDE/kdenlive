@@ -128,11 +128,11 @@ private:
     QMutex m_switchMutex;
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
-    KdenliveDoc *m_document;
-    Monitor *m_clipMonitor;
-    Monitor *m_projectMonitor;
+    KdenliveDoc *m_document{nullptr};
+    Monitor *m_clipMonitor{nullptr};
+    Monitor *m_projectMonitor{nullptr};
     Timecode m_timecode;
-    AbstractMonitor *m_activeMonitor;
+    AbstractMonitor *m_activeMonitor{nullptr};
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
 

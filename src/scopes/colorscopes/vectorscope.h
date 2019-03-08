@@ -32,7 +32,7 @@ class Vectorscope : public AbstractGfxScopeWidget
 
 public:
     explicit Vectorscope(QWidget *parent = nullptr);
-    ~Vectorscope();
+    ~Vectorscope() override;
 
     QString widgetName() const override;
 
@@ -51,7 +51,7 @@ protected:
     void writeConfig();
 
 private:
-    Ui::Vectorscope_UI *ui;
+    Ui::Vectorscope_UI *m_ui;
 
     ColorTools *m_colorTools;
 
@@ -66,20 +66,20 @@ private:
     VectorscopeGenerator *m_vectorscopeGenerator;
 
     /** How to represent the pixels on the scope (green, original color, ...) */
-    int iPaintMode;
+    int m_iPaintMode;
 
     /** Custom scaling of the vectorscope */
-    float m_gain;
+    float m_gain{1};
 
-    QPoint m_centerPoint, pR75, pG75, pB75, pCy75, pMg75, pYl75;
-    QPoint qR75, qG75, qB75, qCy75, qMg75, qYl75;
+    QPoint m_centerPoint, m_pR75, m_pG75, m_pB75, m_pCy75, m_pMg75, m_pYl75;
+    QPoint m_qR75, m_qG75, m_qB75, m_qCy75, m_qMg75, m_qYl75;
     /** Unlike the scopeRect, this rect represents the overall visible rectangle
         and not only the square touching the Vectorscope's circle. */
     QRect m_visibleRect;
 
     /** Updates the dimension. Only necessary when the widget has been resized. */
     void updateDimensions();
-    int cw;
+    int m_cw;
 
 private slots:
     void slotGainChanged(int);

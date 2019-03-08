@@ -72,7 +72,7 @@ class JobManager : public QAbstractListModel, public enable_shared_from_this_vir
 
 public:
     explicit JobManager(QObject *parent);
-    virtual ~JobManager();
+    ~JobManager() override;
 
     /** @brief Start a job
         This function calls the prepareJob function of the job if it provides one.
@@ -139,7 +139,7 @@ public:
 protected:
     // Helper function to launch a given job.
     // This has to be launched asynchrnously since it blocks until all parents are finished
-    void createJob(std::shared_ptr<Job_t> job);
+    void createJob(const std::shared_ptr<Job_t> &job);
 
     void updateJobCount();
 

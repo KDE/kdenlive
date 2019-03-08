@@ -44,7 +44,7 @@ class KeyframeWidget : public AbstractParamWidget
 
 public:
     explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent = nullptr);
-    ~KeyframeWidget();
+    ~KeyframeWidget() override;
 
     /* @brief Add a new parameter to be managed using the same keyframe viewer */
     void addParameter(const QPersistentModelIndex &index);
@@ -77,7 +77,7 @@ private slots:
     void slotAtKeyframe(bool atKeyframe, bool singleKeyframe);
     void monitorSeek(int pos);
     void slotEditKeyframeType(QAction *action);
-    void slotUpdateKeyframesFromMonitor(QPersistentModelIndex index, const QVariant &res);
+    void slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res);
     void slotCopyKeyframes();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();

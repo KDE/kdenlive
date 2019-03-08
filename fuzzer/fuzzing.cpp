@@ -144,7 +144,7 @@ void fuzz(const std::string &input)
 
     std::vector<std::shared_ptr<TimelineModel>> all_timelines;
 
-    std::unordered_map<std::shared_ptr<TimelineModel>, std::vector<int>> all_clips, all_tracks, all_compositions;
+    std::unordered_map<std::shared_ptr<TimelineModel>, std::vector<int>> all_clips, all_tracks, all_compositions, all_groups;
     auto update_elems = [&]() {
         all_clips.clear();
         all_tracks.clear();
@@ -153,6 +153,7 @@ void fuzz(const std::string &input)
             all_clips[timeline] = {};
             all_tracks[timeline] = {};
             all_compositions[timeline] = {};
+            all_groups[timeline] = {};
             auto &clips = all_clips[timeline];
             clips.clear();
             for (const auto &c : timeline->m_allClips) {
@@ -173,6 +174,13 @@ void fuzz(const std::string &input)
                 tracks.push_back(c.first);
             }
             std::sort(tracks.begin(), tracks.end());
+
+            auto &groups = all_groups[timeline];
+            groups.clear();
+            for (int c : timeline->m_allGroups) {
+                groups.push_back(c);
+            }
+            std::sort(groups.begin(), groups.end());
         }
     };
     auto get_timeline = [&]() -> std::shared_ptr<TimelineModel> {
@@ -181,6 +189,17 @@ void fuzz(const std::string &input)
         if (all_timelines.size() == 0) return nullptr;
         id = modulo(id, (int)all_timelines.size());
         return all_timelines[size_t(id)];
+    };
+    auto get_group = [&](std::shared_ptr<TimelineModel> timeline) {
+        int id = 0;
+        ss >> id;
+        if (!timeline) return -1;
+        if (timeline->isGroup(id)) return id;
+        if (all_timelines.size() == 0) return -1;
+        if (all_groups.count(timeline) == 0) return -1;
+        if (all_groups[timeline].size() == 0) return -1;
+        id = modulo(id, (int)all_groups[timeline].size());
+        return all_groups[timeline][id];
     };
     auto get_clip = [&](std::shared_ptr<TimelineModel> timeline) {
         int id = 0;
@@ -303,29 +322,36 @@ void fuzz(const std::string &input)
                             int compoId = get_compo(tim);
                             valid = valid && (compoId >= 0);
                             // std::cout << "got compo" << compoId << std::endl;
-                            arguments.push_back(compoId);
+                            arguments.emplace_back(compoId);
                         } else if (arg_name == "clipId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
                             int clipId = get_clip(tim);
                             valid = valid && (clipId >= 0);
-                            arguments.push_back(clipId);
+                            arguments.emplace_back(clipId);
                             // std::cout << "got clipId" << clipId << std::endl;
                         } else if (arg_name == "trackId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
                             int trackId = get_track(tim);
                             valid = valid && (trackId >= 0);
-                            arguments.push_back(rttr::variant(trackId));
+                            arguments.emplace_back(trackId);
                             // std::cout << "got trackId" << trackId << std::endl;
                         } else if (arg_name == "itemId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
                             int itemId = get_item(tim);
                             valid = valid && (itemId >= 0);
-                            arguments.push_back(itemId);
+                            arguments.emplace_back(itemId);
                             // std::cout << "got itemId" << itemId << std::endl;
-                        } else if (arg_name == "ids") {
+                        } else if (arg_name == "groupId") {
+                            std::shared_ptr<TimelineModel> tim =
+                                (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
+                            int groupId = get_group(tim);
+                            valid = valid && (groupId >= 0);
+                            arguments.emplace_back(groupId);
+                            // std::cout << "got clipId" << clipId << std::endl;
+                        } else if (arg_name == "itemIds") {
                             int count = 0;
                             ss >> count;
                             // std::cout << "got ids. going to read count=" << count << std::endl;
@@ -339,7 +365,7 @@ void fuzz(const std::string &input)
                                     valid = valid && (itemId >= 0);
                                     ids.insert(itemId);
                                 }
-                                arguments.push_back(ids);
+                                arguments.emplace_back(ids);
                             } else {
                                 valid = false;
                             }
@@ -349,12 +375,12 @@ void fuzz(const std::string &input)
                                 int a = 0;
                                 ss >> a;
                                 // std::cout << "read int " << a << std::endl;
-                                arguments.push_back(a);
+                                arguments.emplace_back(a);
                             } else if (arg_type == rttr::type::get<bool>()) {
                                 bool a = false;
                                 ss >> a;
                                 // std::cout << "read bool " << a << std::endl;
-                                arguments.push_back(a);
+                                arguments.emplace_back(a);
                             } else if (arg_type == rttr::type::get<QString>()) {
                                 std::string str = "";
                                 ss >> str;
@@ -362,7 +388,7 @@ void fuzz(const std::string &input)
                                 if (str == "$$") {
                                     str = "";
                                 }
-                                arguments.push_back(QString::fromStdString(str));
+                                arguments.emplace_back(QString::fromStdString(str));
                             } else if (arg_type.is_enumeration()) {
                                 int a = 0;
                                 ss >> a;
@@ -375,7 +401,7 @@ void fuzz(const std::string &input)
                             }
                         } else {
                             if (p.get_type() == rttr::type::get<int>()) {
-                                arguments.push_back(-1);
+                                arguments.emplace_back(-1);
                             } else {
                                 assert(false);
                             }
@@ -384,6 +410,7 @@ void fuzz(const std::string &input)
                     if (valid) {
                         // std::cout << "VALID!!!" << std::endl;
                         std::vector<rttr::argument> args;
+                        args.reserve(arguments.size());
                         for (const auto &a : arguments) {
                             args.emplace_back(a);
                             // std::cout<<"argument="<<a.get_type().get_name().to_string()<<std::endl;
@@ -409,11 +436,15 @@ void fuzz(const std::string &input)
     all_clips.clear();
     all_tracks.clear();
     all_compositions.clear();
-    for (size_t i = 0; i < all_timelines.size(); ++i) {
-        all_timelines[i].reset();
+    all_groups.clear();
+    for (auto &all_timeline : all_timelines) {
+        all_timeline.reset();
     }
 
     pCore->m_projectManager = nullptr;
     Core::m_self.reset();
     MltConnection::m_self.reset();
+    std::cout << "---------------------------------------------------------------------------------------------------------------------------------------------"
+                 "---------------"
+              << std::endl;
 }

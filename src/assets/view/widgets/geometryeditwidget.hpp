@@ -38,7 +38,7 @@ class GeometryEditWidget : public AbstractParamWidget
 public:
     /** @brief Sets up the parameter's GUI.*/
     explicit GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
-    ~GeometryEditWidget();
+    ~GeometryEditWidget() override;
 
 public slots:
     /** @brief Toggle the comments on or off

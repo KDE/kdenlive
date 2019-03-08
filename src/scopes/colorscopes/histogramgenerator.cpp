@@ -14,7 +14,7 @@
 #include <QImage>
 #include <QPainter>
 #include <algorithm>
-#include <math.h>
+#include <cmath>
 
 HistogramGenerator::HistogramGenerator() = default;
 

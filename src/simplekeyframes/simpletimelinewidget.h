@@ -47,14 +47,14 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
 
 private:
-    int m_duration;
-    int m_position;
-    int m_currentKeyframe;
-    int m_currentKeyframeOriginal;
-    int m_hoverKeyframe;
+    int m_duration{1};
+    int m_position{0};
+    int m_currentKeyframe{-1};
+    int m_currentKeyframeOriginal{-1};
+    int m_hoverKeyframe{-1};
     QList<int> m_keyframes;
     int m_lineHeight;
-    double m_scale;
+    double m_scale{1};
     int m_size;
 
     QColor m_colSelected;

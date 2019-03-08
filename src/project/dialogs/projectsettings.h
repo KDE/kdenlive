@@ -33,7 +33,7 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath,
+    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString &projectPath,
                     bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
     QUrl selectedFolder() const;

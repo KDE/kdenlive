@@ -44,12 +44,13 @@ public:
         @brief destUrl is the path to the file we are going to produce
         @brief filterParams is a map containing the xml parameters of the filter
      */
-    StabilizeJob(const QString &binId, const QString &filterName, const QString &destUrl, const std::unordered_map<QString, QString> &filterparams);
+    StabilizeJob(const QString &binId, const QString &filterName, QString destUrl, std::unordered_map<QString, QString> filterparams);
 
     // This is a special function that prepares the stabilize job for a given list of clips.
     // Namely, it displays the required UI to configure the job and call startJob with the right set of parameters
     // Then the job is automatically put in queue. Its id is returned
-    static int prepareJob(std::shared_ptr<JobManager> ptr, const std::vector<QString> &binIds, int parentId, QString undoString, const QString &filterName);
+    static int prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString,
+                          const QString &filterName);
 
     // Return the list of stabilization filters that we support
     static std::unordered_set<QString> supportedFilters();

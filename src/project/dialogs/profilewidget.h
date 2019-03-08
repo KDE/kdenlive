@@ -46,7 +46,7 @@ class ProfileWidget : public QWidget
     Q_OBJECT
 public:
     explicit ProfileWidget(QWidget *parent = nullptr);
-    ~ProfileWidget();
+    ~ProfileWidget() override;
     void loadProfile(const QString &profile);
     const QString selectedProfile() const;
 
@@ -57,8 +57,8 @@ private:
     QString m_originalProfile;
     void slotUpdateInfoDisplay();
 
-    QComboBox *fpsFilt;
-    QComboBox *scanningFilt;
+    QComboBox *m_fpsFilt;
+    QComboBox *m_scanningFilt;
 
     QTreeView *m_treeView;
     std::shared_ptr<ProfileTreeModel> m_treeModel;

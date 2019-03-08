@@ -19,7 +19,7 @@ class AudioStreamInfo;
 class AudioInfo
 {
 public:
-    explicit AudioInfo(std::shared_ptr<Mlt::Producer> producer);
+    explicit AudioInfo(const std::shared_ptr<Mlt::Producer> &producer);
     ~AudioInfo();
 
     int size() const;

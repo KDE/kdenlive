@@ -52,7 +52,7 @@ class KisCurveWidget : public AbstractCurveWidget<KisCubicCurve>
     Q_OBJECT
 
 public:
-    typedef QPointF Point_t;
+    using Point_t = QPointF;
 
     /**
      * Create a new curve widget with a default curve, that is a straight
@@ -60,7 +60,7 @@ public:
      */
     explicit KisCurveWidget(QWidget *parent = nullptr);
 
-    virtual ~KisCurveWidget();
+    ~KisCurveWidget() override;
 
     QSize sizeHint() const override;
 

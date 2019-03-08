@@ -10,8 +10,8 @@
 
 #include "fftTools.h"
 
+#include <cmath>
 #include <iostream>
-#include <math.h>
 
 #include <QString>
 
@@ -165,8 +165,8 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
     }
 
     // Prepare frequency space vector. The resulting FFT vector is only half as long.
-    kiss_fft_cpx *freqData = new kiss_fft_cpx[int(windowSize) / 2];
-    float *data = new float[(int)windowSize];
+    auto *freqData = new kiss_fft_cpx[int(windowSize) / 2];
+    auto *data = new float[(int)windowSize];
 
     // Copy the first channel's audio into a vector for the FFT display;
     // Fill the data vector indices that cannot be covered with sample data with 0

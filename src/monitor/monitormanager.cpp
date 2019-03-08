@@ -33,10 +33,7 @@
 
 MonitorManager::MonitorManager(QObject *parent)
     : QObject(parent)
-    , m_document(nullptr)
-    , m_clipMonitor(nullptr)
-    , m_projectMonitor(nullptr)
-    , m_activeMonitor(nullptr)
+
 {
     setupActions();
 }
@@ -79,9 +76,9 @@ void MonitorManager::removeMonitor(AbstractMonitor *monitor)
 AbstractMonitor *MonitorManager::monitor(Kdenlive::MonitorId monitorName)
 {
     AbstractMonitor *monitor = nullptr;
-    for (int i = 0; i < m_monitorsList.size(); ++i) {
-        if (m_monitorsList[i]->id() == monitorName) {
-            monitor = m_monitorsList.at(i);
+    for (auto &i : m_monitorsList) {
+        if (i->id() == monitorName) {
+            monitor = i;
         }
     }
     return monitor;

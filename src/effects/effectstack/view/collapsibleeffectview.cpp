@@ -50,7 +50,7 @@
 #include <KRecentDirs>
 #include <klocalizedstring.h>
 
-CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> effectModel, QSize frameSize, QImage icon, QWidget *parent)
+CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)
     : AbstractCollapsibleWidget(parent)
     , m_view(nullptr)
     , m_model(effectModel)
@@ -102,7 +102,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
         m_collapse->setInactiveIcon(QIcon::fromTheme(QStringLiteral("arrow-down")));
     }
 
-    QHBoxLayout *l = static_cast<QHBoxLayout *>(frame->layout());
+    auto *l = static_cast<QHBoxLayout *>(frame->layout());
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
     m_colorIcon->setFixedSize(icon.size());
@@ -139,7 +139,7 @@ CollapsibleEffectView::CollapsibleEffectView(std::shared_ptr<EffectItemModel> ef
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
     m_keyframesButton->setVisible(m_view->keyframesAllowed());
-    QVBoxLayout *lay = new QVBoxLayout(widgetFrame);
+    auto *lay = new QVBoxLayout(widgetFrame);
     lay->setContentsMargins(0, 0, 0, 2);
     lay->setSpacing(0);
     connect(m_keyframesButton, &QToolButton::toggled, [this](bool toggle) {
@@ -260,7 +260,7 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
         return QWidget::eventFilter(o, e);
     }
     if (e->type() == QEvent::Wheel) {
-        QWheelEvent *we = static_cast<QWheelEvent *>(e);
+        auto *we = static_cast<QWheelEvent *>(e);
         if (!filterWheelEvent || we->modifiers() != Qt::NoModifier) {
             e->accept();
             return false;

@@ -23,7 +23,7 @@
 
 #include <QIcon>
 
-TrackDialog::TrackDialog(std::shared_ptr<TimelineItemModel> model, int trackIndex, QWidget *parent, bool deleteMode)
+TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex, QWidget *parent, bool deleteMode)
     : QDialog(parent)
     , m_audioCount(1)
     , m_videoCount(1)

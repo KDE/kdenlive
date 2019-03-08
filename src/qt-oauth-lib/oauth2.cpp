@@ -253,7 +253,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                     m_bAccessTokenRec = true;
                 }
                 if (map.contains(QStringLiteral("refresh_token"))) {
-                    mstr_RefreshToken = map.value(QStringLiteral("refresh_token")).toString();
+                    m_strRefreshToken = map.value(QStringLiteral("refresh_token")).toString();
                 }
                 if (map.contains(QStringLiteral("expires_in"))) {
                     // iExpiresIn = map.value("expires_in").toInt(); //time in seconds until the access_token expires
@@ -271,7 +271,7 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                     KSharedConfigPtr config = KSharedConfig::openConfig();
                     KConfigGroup authGroup(config, "FreeSoundAuthentication");
                     authGroup.writeEntry(QStringLiteral("freesound_access_token"), m_strAccessToken);
-                    authGroup.writeEntry(QStringLiteral("freesound_refresh_token"), mstr_RefreshToken);
+                    authGroup.writeEntry(QStringLiteral("freesound_refresh_token"), m_strRefreshToken);
                     //  access tokens have a limited lifetime of 24 hours.
                     emit accessTokenReceived(m_strAccessToken); // notifies ResourceWidget::slotAccessTokenReceived
 
@@ -316,6 +316,6 @@ void OAuth2::obtainNewAccessToken()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup authGroup(config, "FreeSoundAuthentication");
 
-    mstr_RefreshToken = authGroup.readEntry(QStringLiteral("freesound_refresh_token"));
-    OAuth2::RequestAccessCode(true, mstr_RefreshToken); // request new access code via the refresh token method
+    m_strRefreshToken = authGroup.readEntry(QStringLiteral("freesound_refresh_token"));
+    OAuth2::RequestAccessCode(true, m_strRefreshToken); // request new access code via the refresh token method
 }

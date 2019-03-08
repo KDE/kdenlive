@@ -54,7 +54,7 @@ public:
     bool commitResult(Fun &undo, Fun &redo) override;
 
     // Do some checks on the profile
-    static void checkProfile(const QString clipId, QDomElement xml, std::shared_ptr<Mlt::Producer> producer);
+    static void checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer);
 
 protected:
     // helper to load some kind of resources such as color. This will modify resource if needs be (for eg., in the case of color, it will prepend "color:" if

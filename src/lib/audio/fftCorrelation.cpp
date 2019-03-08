@@ -21,7 +21,7 @@ extern "C" {
 
 void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const qint64 *right, const size_t rightSize, qint64 *out_correlated)
 {
-    float *correlatedFloat = new float[leftSize + rightSize + 1];
+    auto *correlatedFloat = new float[leftSize + rightSize + 1];
     correlate(left, leftSize, right, rightSize, correlatedFloat);
 
     // The correlation vector will have entries up to N (number of entries
@@ -38,8 +38,8 @@ void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const 
     QTime t;
     t.start();
 
-    float *leftF = new float[leftSize];
-    float *rightF = new float[rightSize];
+    auto *leftF = new float[leftSize];
+    auto *rightF = new float[rightSize];
 
     // First the qint64 values need to be normalized to floats
     // Dividing by the max value is maybe not the best solution, but the

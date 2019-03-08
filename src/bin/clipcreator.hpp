@@ -41,7 +41,7 @@ namespace ClipCreator {
    @param model: a shared pointer to the bin item model
    @return the binId of the created clip
 */
-QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
+QString createColorClip(const QString &color, int duration, const QString &name, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model);
 
 /* @brief Create a title clip
    @param properties : title properties (xmldata, etc)
@@ -52,7 +52,7 @@ QString createColorClip(const QString &color, int duration, const QString &name,
 */
 
 QString createTitleClip(const std::unordered_map<QString, QString> &properties, int duration, const QString &name, const QString &parentFolder,
-                        std::shared_ptr<ProjectItemModel> model);
+                        const std::shared_ptr<ProjectItemModel> &model);
 
 /* @brief Create a title template
    @param path : path to the template
@@ -63,7 +63,7 @@ QString createTitleClip(const std::unordered_map<QString, QString> &properties, 
    @return the binId of the created clip
 */
 QString createTitleTemplate(const QString &path, const QString &text, const QString &name, const QString &parentFolder,
-                            std::shared_ptr<ProjectItemModel> model);
+                            const std::shared_ptr<ProjectItemModel> &model);
 
 /* @brief Create a slideshow clip
    @param path : path to the selected folder
@@ -75,14 +75,14 @@ QString createTitleTemplate(const QString &path, const QString &text, const QStr
    @return the binId of the created clip
 */
 QString createSlideshowClip(const QString &path, int duration, const QString &name, const QString &parentFolder,
-                            const std::unordered_map<QString, QString> &properties, std::shared_ptr<ProjectItemModel> model);
+                            const std::unordered_map<QString, QString> &properties, const std::shared_ptr<ProjectItemModel> &model);
 /* @brief Reads a file from disk and create the corresponding clip
    @param path : path to the file
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
    @return the binId of the created clip
 */
-QString createClipFromFile(const QString &path, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model, Fun &undo, Fun &redo);
+QString createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo);
 bool createClipFromFile(const QString &path, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 
 /* @brief Iterates recursively through the given url list and add the files it finds, recreating a folder structure
@@ -91,7 +91,7 @@ bool createClipFromFile(const QString &path, const QString &parentFolder, std::s
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
  */
-bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model, Fun &undo,
+bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo,
                          Fun &redo);
 bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 } // namespace ClipCreator

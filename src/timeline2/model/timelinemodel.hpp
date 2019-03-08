@@ -26,17 +26,12 @@
 #include "undohelper.hpp"
 #include <QAbstractItemModel>
 #include <QReadWriteLock>
-#include <assert.h>
+#include <cassert>
 #include <memory>
 #include <mlt++/MltTractor.h>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-
-//#define LOGGING 1 // If set to 1, we log the actions requested to the timeline as a reproducer script
-#ifdef LOGGING
-#include <fstream>
-#endif
 
 class AssetParameterModel;
 class EffectStackModel;
@@ -160,7 +155,7 @@ public:
         GrabbedRole         /// clip+composition only
     };
 
-    virtual ~TimelineModel();
+    ~TimelineModel() override;
     Mlt::Tractor *tractor() const { return m_tractor.get(); }
     /* @brief Load tracks from the current tractor, used on project opening
      */
@@ -226,7 +221,7 @@ public:
     /* @brief Helper function that returns true if the given ID corresponds to a track */
     bool isTrack(int id) const;
 
-    /* @brief Helper function that returns true if the given ID corresponds to a track */
+    /* @brief Helper function that returns true if the given ID corresponds to a group */
     bool isGroup(int id) const;
 
     /* @brief Given a composition Id, returns its underlying parameter model */
@@ -458,6 +453,8 @@ public:
     bool requestClipUngroup(int itemId, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipUngroup(int itemId, Fun &undo, Fun &redo);
+    // convenience functions for several ids at the same time
+    bool requestClipsUngroup(const std::unordered_set<int> &itemIds, bool logUndo = true);
 
     /* @brief Create a track at given position
        This action is undoable
@@ -721,9 +718,7 @@ protected:
     std::unique_ptr<Mlt::Producer> m_blackClip;
 
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
-#ifdef LOGGING
-    std::ofstream m_logFile; // this is a temporary debug member to help reproduce issues
-#endif
+
     bool m_timelineEffectsEnabled;
 
     bool m_id; // id of the timeline itself

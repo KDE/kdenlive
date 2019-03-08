@@ -45,16 +45,16 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     lay->setContentsMargins(0, 0, 0, 0);
     auto *labelLay = new QHBoxLayout;
     QLabel *fpsLabel = new QLabel(i18n("Fps"), this);
-    fpsFilt = new QComboBox(this);
-    fpsLabel->setBuddy(fpsFilt);
+    m_fpsFilt = new QComboBox(this);
+    fpsLabel->setBuddy(m_fpsFilt);
     labelLay->addWidget(fpsLabel);
-    labelLay->addWidget(fpsFilt);
+    labelLay->addWidget(m_fpsFilt);
 
     QLabel *scanningLabel = new QLabel(i18n("Scanning"), this);
-    scanningFilt = new QComboBox(this);
-    scanningLabel->setBuddy(scanningFilt);
+    m_scanningFilt = new QComboBox(this);
+    scanningLabel->setBuddy(m_scanningFilt);
     labelLay->addWidget(scanningLabel);
-    labelLay->addWidget(scanningFilt);
+    labelLay->addWidget(m_scanningFilt);
     labelLay->addStretch(1);
 
     auto *manage_profiles = new QToolButton(this);
@@ -106,56 +106,56 @@ ProfileWidget::ProfileWidget(QWidget *parent)
 
     refreshFpsCombo();
     auto updateFps = [&]() {
-        double current = fpsFilt->currentData().toDouble();
-        KdenliveSettings::setProfile_fps_filter(fpsFilt->currentText());
+        double current = m_fpsFilt->currentData().toDouble();
+        KdenliveSettings::setProfile_fps_filter(m_fpsFilt->currentText());
         m_filter->setFilterFps(current > 0, current);
         slotFilterChanged();
     };
-    connect(fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
-    int ix = fpsFilt->findText(KdenliveSettings::profile_fps_filter());
+    connect(m_fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
+    int ix = m_fpsFilt->findText(KdenliveSettings::profile_fps_filter());
     if (ix > -1) {
-        fpsFilt->setCurrentIndex(ix);
+        m_fpsFilt->setCurrentIndex(ix);
     }
-    scanningFilt->addItem("Any", -1);
-    scanningFilt->addItem("Interlaced", 0);
-    scanningFilt->addItem("Progressive", 1);
+    m_scanningFilt->addItem("Any", -1);
+    m_scanningFilt->addItem("Interlaced", 0);
+    m_scanningFilt->addItem("Progressive", 1);
 
     auto updateScanning = [&]() {
-        int current = scanningFilt->currentData().toInt();
-        KdenliveSettings::setProfile_scanning_filter(scanningFilt->currentText());
+        int current = m_scanningFilt->currentData().toInt();
+        KdenliveSettings::setProfile_scanning_filter(m_scanningFilt->currentText());
         m_filter->setFilterInterlaced(current != -1, current == 0);
         slotFilterChanged();
     };
-    connect(scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
+    connect(m_scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
 
-    ix = scanningFilt->findText(KdenliveSettings::profile_scanning_filter());
+    ix = m_scanningFilt->findText(KdenliveSettings::profile_scanning_filter());
     if (ix > -1) {
-        scanningFilt->setCurrentIndex(ix);
+        m_scanningFilt->setCurrentIndex(ix);
     }
     setLayout(lay);
 }
 
-ProfileWidget::~ProfileWidget() {}
+ProfileWidget::~ProfileWidget() = default;
 
 void ProfileWidget::refreshFpsCombo()
 {
     QLocale locale;
     QVariant currentValue;
-    if (fpsFilt->count() > 1) {
+    if (m_fpsFilt->count() > 1) {
         // remember last selected value
-        currentValue = fpsFilt->currentData();
+        currentValue = m_fpsFilt->currentData();
     }
-    fpsFilt->clear();
+    m_fpsFilt->clear();
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    fpsFilt->addItem("Any", -1);
+    m_fpsFilt->addItem("Any", -1);
     auto all_fps = ProfileRepository::get()->getAllFps();
     for (double fps : all_fps) {
-        fpsFilt->addItem(locale.toString(fps), fps);
+        m_fpsFilt->addItem(locale.toString(fps), fps);
     }
     if (currentValue.isValid()) {
-        int ix = fpsFilt->findData(currentValue);
+        int ix = m_fpsFilt->findData(currentValue);
         if (ix > -1) {
-            fpsFilt->setCurrentIndex(ix);
+            m_fpsFilt->setCurrentIndex(ix);
         }
     }
 }
@@ -167,8 +167,8 @@ void ProfileWidget::loadProfile(const QString &profile)
         m_originalProfile = m_currentProfile = m_lastValidProfile = profile;
         if (!trySelectProfile(profile)) {
             // When loading a profile, ensure it is visible so reset filters if necessary
-            fpsFilt->setCurrentIndex(0);
-            scanningFilt->setCurrentIndex(0);
+            m_fpsFilt->setCurrentIndex(0);
+            m_scanningFilt->setCurrentIndex(0);
         }
     }
 }

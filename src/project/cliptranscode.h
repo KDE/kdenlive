@@ -32,9 +32,9 @@ class ClipTranscode : public QDialog, public Ui::ClipTranscode_UI
     Q_OBJECT
 
 public:
-    ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description,
-                  const QStringList &folderInfo = QStringList(), bool automaticMode = false, QWidget *parent = nullptr);
-    ~ClipTranscode();
+    ClipTranscode(QStringList urls, const QString &params, QStringList postParams, const QString &description, QStringList folderInfo = QStringList(),
+                  bool automaticMode = false, QWidget *parent = nullptr);
+    ~ClipTranscode() override;
 
 public slots:
     void slotStartTransCode();

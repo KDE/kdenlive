@@ -25,7 +25,7 @@ using namespace fakeit;
 using Marker = std::tuple<GenTime, QString, int>;
 double fps;
 
-void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<Marker> &l, std::shared_ptr<SnapModel> snaps)
+void checkMarkerList(const std::shared_ptr<MarkerListModel> &model, const std::vector<Marker> &l, const std::shared_ptr<SnapModel> &snaps)
 {
     auto list = l;
     std::sort(list.begin(), list.end(), [](const Marker &a, const Marker &b) { return std::get<0>(a) < std::get<0>(b); });
@@ -49,8 +49,8 @@ void checkMarkerList(std::shared_ptr<MarkerListModel> model, const std::vector<M
     }
 }
 
-void checkStates(std::shared_ptr<DocUndoStack> undoStack, std::shared_ptr<MarkerListModel> model, const std::vector<std::vector<Marker>> &states,
-                 std::shared_ptr<SnapModel> snaps)
+void checkStates(const std::shared_ptr<DocUndoStack> &undoStack, const std::shared_ptr<MarkerListModel> &model, const std::vector<std::vector<Marker>> &states,
+                 const std::shared_ptr<SnapModel> &snaps)
 {
     for (size_t i = 0; i < states.size(); ++i) {
         checkMarkerList(model, states[states.size() - 1 - i], snaps);
@@ -90,14 +90,14 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
 
         // add markers
-        list.push_back(Marker(GenTime(1.3), QLatin1String("test marker"), 3));
+        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
         model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3);
         checkMarkerList(model, list, snaps);
         auto state1 = list;
 
         checkStates(undoStack, model, {{}, state1}, snaps);
 
-        list.push_back(Marker(GenTime(0.3), QLatin1String("test marker2"), 0));
+        list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0);
         model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0);
         checkMarkerList(model, list, snaps);
         auto state2 = list;
@@ -133,11 +133,11 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkMarkerList(model, list, snaps);
 
         // add markers
-        list.push_back(Marker(GenTime(1.3), QLatin1String("test marker"), 3));
+        list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
         model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3);
-        list.push_back(Marker(GenTime(0.3), QLatin1String("test marker2"), 0));
+        list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0);
         model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0);
-        list.push_back(Marker(GenTime(3), QLatin1String("test marker3"), 0));
+        list.emplace_back(GenTime(3), QLatin1String("test marker3"), 0);
         model->addMarker(GenTime(3), QLatin1String("test marker3"), 0);
         checkMarkerList(model, list, snaps);
 
@@ -164,9 +164,9 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->undo();
         checkMarkerList(model, {}, snaps);
         // non - conflicting marker
-        list.push_back(Marker(GenTime(5), QLatin1String("non conflicting"), 0));
+        list.emplace_back(GenTime(5), QLatin1String("non conflicting"), 0);
         std::vector<Marker> otherMarkers;
-        otherMarkers.push_back(Marker(GenTime(5), QLatin1String("non conflicting"), 0));
+        otherMarkers.emplace_back(GenTime(5), QLatin1String("non conflicting"), 0);
         model->addMarker(GenTime(5), QLatin1String("non conflicting"), 0);
         REQUIRE(model->importFromJson(json, false));
         checkMarkerList(model, list, snaps);
@@ -177,7 +177,7 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         undoStack->undo();
 
         // conflicting marker
-        otherMarkers.push_back(Marker(GenTime(1.3), QLatin1String("conflicting"), 1));
+        otherMarkers.emplace_back(GenTime(1.3), QLatin1String("conflicting"), 1);
         model->addMarker(GenTime(1.3), QLatin1String("conflicting"), 1);
         checkMarkerList(model, otherMarkers, snaps);
         REQUIRE_FALSE(model->importFromJson(json, false));

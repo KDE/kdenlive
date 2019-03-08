@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QWidget>
 
 namespace Mlt {
-class Profile;
 class Filter;
 } // namespace Mlt
 
@@ -34,8 +33,8 @@ class MonitorAudioLevel : public ScopeWidget
 {
     Q_OBJECT
 public:
-    explicit MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent = nullptr);
-    virtual ~MonitorAudioLevel();
+    explicit MonitorAudioLevel(int height, QWidget *parent = nullptr);
+    ~MonitorAudioLevel() override;
     void refreshPixmap();
     int audioChannels;
     bool isValid;

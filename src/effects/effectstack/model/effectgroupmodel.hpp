@@ -50,7 +50,7 @@ public:
     void unplantClone(const std::weak_ptr<Mlt::Service> &service) override;
 
 protected:
-    EffectGroupModel(const QList<QVariant> &data, const QString &name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);
+    EffectGroupModel(const QList<QVariant> &data, QString name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);
 
     void updateEnable() override;
 

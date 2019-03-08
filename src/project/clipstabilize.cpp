@@ -28,14 +28,13 @@
 #include "kdenlivesettings.h"
 #include <KMessageBox>
 #include <QFontDatabase>
-#include <klocalizedstring.h>
 #include <mlt++/Mlt.h>
 
-ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &filterName, int out, QWidget *parent)
+ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterName, int out, QWidget *parent)
     : QDialog(parent)
-    , m_filtername(filterName)
+    , m_filtername(std::move(filterName))
     , m_binIds(binIds)
-    , vbox(nullptr)
+    , m_vbox(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -83,7 +82,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
 
-    vbox = new QVBoxLayout(optionsbox);
+    m_vbox = new QVBoxLayout(optionsbox);
     QHashIterator<QString, QHash<QString, QString>> hi(m_ui_params);
     m_tc.setFormat(KdenliveSettings::project_fps());
     while (hi.hasNext()) {
@@ -99,19 +98,19 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, const QString &
             dbl->setObjectName(hi.key());
             dbl->setToolTip(val[QStringLiteral("tooltip")]);
             connect(dbl, &DoubleWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
-            vbox->addWidget(dbl);
+            m_vbox->addWidget(dbl);
         } else if (val[QStringLiteral("type")] == QLatin1String("bool")) {
             auto *ch = new QCheckBox(hi.key(), this);
             ch->setCheckState(val[QStringLiteral("value")] == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
             ch->setObjectName(hi.key());
             connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
             ch->setToolTip(val[QStringLiteral("tooltip")]);
-            vbox->addWidget(ch);
+            m_vbox->addWidget(ch);
         } else if (val[QStringLiteral("type")] == QLatin1String("position")) {
             PositionWidget *posedit = new PositionWidget(hi.key(), 0, 0, out, m_tc, QString(), this);
             posedit->setToolTip(val[QStringLiteral("tooltip")]);
             posedit->setObjectName(hi.key());
-            vbox->addWidget(posedit);
+            m_vbox->addWidget(posedit);
             connect(posedit, &PositionWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
         }
     }
@@ -163,18 +162,18 @@ QString ClipStabilize::desc() const
 
 void ClipStabilize::slotUpdateParams()
 {
-    for (int i = 0; i < vbox->count(); ++i) {
-        QWidget *w = vbox->itemAt(i)->widget();
+    for (int i = 0; i < m_vbox->count(); ++i) {
+        QWidget *w = m_vbox->itemAt(i)->widget();
         QString name = w->objectName();
         if (!name.isEmpty() && m_ui_params.contains(name)) {
             if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("int") || m_ui_params[name][QStringLiteral("type")] == QLatin1String("double")) {
-                DoubleWidget *dbl = static_cast<DoubleWidget *>(w);
+                auto *dbl = static_cast<DoubleWidget *>(w);
                 m_ui_params[name][QStringLiteral("value")] = QString::number((double)(dbl->getValue()));
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("bool")) {
-                QCheckBox *ch = (QCheckBox *)w;
+                auto *ch = (QCheckBox *)w;
                 m_ui_params[name][QStringLiteral("value")] = ch->checkState() == Qt::Checked ? QStringLiteral("1") : QStringLiteral("0");
             } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("position")) {
-                PositionWidget *pos = (PositionWidget *)w;
+                auto *pos = (PositionWidget *)w;
                 m_ui_params[name][QStringLiteral("value")] = QString::number(pos->getPosition());
             }
         }

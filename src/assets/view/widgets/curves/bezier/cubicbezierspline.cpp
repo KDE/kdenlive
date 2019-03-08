@@ -20,7 +20,7 @@
 #include <QLocale>
 #include <QStringList>
 #include <QVector>
-#include <math.h>
+#include <cmath>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
 static bool pointLessThan(const BPoint &a, const BPoint &b)

@@ -51,8 +51,8 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 public:
     ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QStringList &luma_list, QWidget *parent = nullptr);
     // Constructor for extracting widget
-    explicit ArchiveWidget(const QUrl &url, QWidget *parent = nullptr);
-    ~ArchiveWidget();
+    explicit ArchiveWidget(QUrl url, QWidget *parent = nullptr);
+    ~ArchiveWidget() override;
 
     QString extractedProjectFile() const;
 

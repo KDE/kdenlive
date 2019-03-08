@@ -65,7 +65,7 @@ mRgb2YPbPr =                        r =
 
 #include "vectorscopegenerator.h"
 #include <QImage>
-#include <math.h>
+#include <cmath>
 
 // The maximum distance from the center for any RGB color is 0.63, so
 // no need to make the circle bigger than required.
@@ -105,7 +105,7 @@ const float VectorscopeGenerator::scaling = 1 / .7;
  */
 QPoint VectorscopeGenerator::mapToCircle(const QSize &targetSize, const QPointF &point) const
 {
-    return QPoint((targetSize.width() - 1) * (point.x() + 1) / 2, (targetSize.height() - 1) * (1 - (point.y() + 1) / 2));
+    return {int((targetSize.width() - 1) * (point.x() + 1) / 2), int((targetSize.height() - 1) * (1 - (point.y() + 1) / 2))};
 }
 
 QImage VectorscopeGenerator::calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,

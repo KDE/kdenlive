@@ -1,8 +1,10 @@
+#include <memory>
+
 #include "test_utils.hpp"
 
 using namespace fakeit;
 
-bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<KeyframeModel> m2)
+bool test_model_equality(const std::shared_ptr<KeyframeModel> &m1, const std::shared_ptr<KeyframeModel> &m2)
 {
     // we cheat a bit by simply comparing the underlying map
     qDebug() << "Equality test" << m1->m_keyframeList.size() << m2->m_keyframeList.size();
@@ -17,15 +19,16 @@ bool test_model_equality(std::shared_ptr<KeyframeModel> m1, std::shared_ptr<Keyf
     return model1 == model2;
 }
 
-bool check_anim_identity(std::shared_ptr<KeyframeModel> m)
+bool check_anim_identity(const std::shared_ptr<KeyframeModel> &m)
 {
-    auto m2 = std::shared_ptr<KeyframeModel>(new KeyframeModel(m->m_model, m->m_index, m->m_undoStack));
+    auto m2 = std::make_shared<KeyframeModel>(m->m_model, m->m_index, m->m_undoStack);
     m2->parseAnimProperty(m->getAnimProperty());
     return test_model_equality(m, m2);
 }
 
 TEST_CASE("Keyframe model", "[KeyframeModel]")
 {
+    Logger::clear();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
     std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
     // Here we do some trickery to enable testing.
@@ -51,7 +54,7 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
     REQUIRE(effect->rowCount() == 1);
     QModelIndex index = effect->index(0, 0);
 
-    auto model = std::shared_ptr<KeyframeModel>(new KeyframeModel(effect, index, undoStack));
+    auto model = std::make_shared<KeyframeModel>(effect, index, undoStack);
 
     SECTION("Add/remove + undo")
     {
@@ -245,4 +248,5 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
         state1(6.1);
     }
     pCore->m_projectManager = nullptr;
+    Logger::print_trace();
 }

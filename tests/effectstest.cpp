@@ -22,6 +22,7 @@ Mlt::Profile profile_effects;
 QString anEffect;
 TEST_CASE("Effects stack", "[Effects]")
 {
+    Logger::clear();
     // Create timeline
     auto binModel = pCore->projectItemModel();
     std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
@@ -113,4 +114,5 @@ TEST_CASE("Effects stack", "[Effects]")
         REQUIRE(clipModel->rowCount() == 0);
         REQUIRE(splitModel->rowCount() == 1);
     }
+    Logger::print_trace();
 }

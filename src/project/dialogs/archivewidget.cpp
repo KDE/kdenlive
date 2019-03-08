@@ -38,7 +38,7 @@
 
 #include <QTreeWidget>
 #include <QtConcurrent>
-
+#include <utility>
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QStringList &luma_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
@@ -113,7 +113,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     QMap<QString, QString> playlistUrls;
     QMap<QString, QString> proxyUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (std::shared_ptr<ProjectClip> clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
         ClipType::ProducerType t = clip->clipType();
         QString id = clip->binId();
         if (t == ClipType::Color) {
@@ -161,7 +161,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     allFonts.removeDuplicates();
 
     m_infoMessage = new KMessageWidget(this);
-    QVBoxLayout *s = static_cast<QVBoxLayout *>(layout());
+    auto *s = static_cast<QVBoxLayout *>(layout());
     s->insertWidget(5, m_infoMessage);
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->setWordWrap(true);
@@ -209,14 +209,14 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
 }
 
 // Constructor for extract widget
-ArchiveWidget::ArchiveWidget(const QUrl &url, QWidget *parent)
+ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
     , m_temp(nullptr)
     , m_abortArchive(false)
     , m_extractMode(true)
-    , m_extractUrl(url)
+    , m_extractUrl(std::move(url))
     , m_extractArchive(nullptr)
     , m_missingClips(0)
     , m_infoMessage(nullptr)
@@ -966,7 +966,7 @@ void ArchiveWidget::slotExtractProgress()
 void ArchiveWidget::slotGotProgress(KJob *job)
 {
     if (!job->error()) {
-        KIO::DirectorySizeJob *j = static_cast<KIO::DirectorySizeJob *>(job);
+        auto *j = static_cast<KIO::DirectorySizeJob *>(job);
         progressBar->setValue(static_cast<int>(100 * j->totalSize() / m_requestedSize));
     }
     job->deleteLater();

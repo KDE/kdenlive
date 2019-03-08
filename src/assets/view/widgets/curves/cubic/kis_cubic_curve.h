@@ -30,7 +30,7 @@ class QPointF;
 class KisCubicCurve
 {
 public:
-    typedef QPointF Point_t;
+    using Point_t = QPointF;
     KisCubicCurve();
     explicit KisCubicCurve(const QList<QPointF> &points);
     explicit KisCubicCurve(const QVector<QPointF> &points);
@@ -72,7 +72,7 @@ public:
 private:
     struct Data;
     struct Private;
-    Private *const d;
+    Private *const d; // NOLINT
 };
 
 #endif

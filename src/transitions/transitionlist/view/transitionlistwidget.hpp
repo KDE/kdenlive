@@ -36,7 +36,7 @@ class TransitionListWidget : public AssetListWidget
 
 public:
     TransitionListWidget(QWidget *parent = Q_NULLPTR);
-    ~TransitionListWidget();
+    ~TransitionListWidget() override;
     void setFilterType(const QString &type);
     /*@brief Return mime type used for drag and drop. It will be kdenlive/composition
      or kdenlive/transition*/
@@ -90,7 +90,7 @@ signals:
     void showDescriptionChanged();
 
 private:
-    TransitionListWidget *q;
+    TransitionListWidget *q; // NOLINT
 };
 
 #endif

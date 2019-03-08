@@ -89,7 +89,7 @@ protected:
     QMutex m_lock;
     std::shared_ptr<AssetParameterModel> m_model;
     std::vector<AbstractParamWidget *> m_widgets;
-    KeyframeWidget *m_mainKeyframeWidget;
+    KeyframeWidget *m_mainKeyframeWidget{nullptr};
     QMenu *m_presetMenu;
     std::shared_ptr<QActionGroup> m_presetGroup;
 

@@ -43,7 +43,7 @@ public:
      * @param parent(optional) Parent widget
      */
     explicit ChooseColorWidget(const QString &name = QString(), const QString &color = QStringLiteral("0xffffffff"), const QString &comment = QString(),
-                               bool alphaEnabled = false, QWidget *parent = 0);
+                               bool alphaEnabled = false, QWidget *parent = nullptr);
 
     /** @brief Gets the chosen color. */
     QString getColor() const;

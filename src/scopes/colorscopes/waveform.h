@@ -29,7 +29,7 @@ class Waveform : public AbstractGfxScopeWidget
 
 public:
     explicit Waveform(QWidget *parent = nullptr);
-    ~Waveform();
+    ~Waveform() override;
 
     QString widgetName() const override;
 
@@ -38,7 +38,7 @@ protected:
     void writeConfig();
 
 private:
-    Ui::Waveform_UI *ui;
+    Ui::Waveform_UI *m_ui{nullptr};
     WaveformGenerator *m_waveformGenerator;
 
     QAction *m_aRec601;

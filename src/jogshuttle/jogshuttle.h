@@ -51,8 +51,8 @@ class ShuttleThread : public QThread
 {
 
 public:
-    ShuttleThread(const QString &device, QObject *parent);
-    ~ShuttleThread();
+    ShuttleThread(QString device, QObject *parent);
+    ~ShuttleThread() override;
     void run() override;
     QString device();
     void stop();
@@ -78,7 +78,7 @@ class JogShuttle : public QObject
     Q_OBJECT
 public:
     explicit JogShuttle(const QString &device, QObject *parent = nullptr);
-    ~JogShuttle();
+    ~JogShuttle() override;
     void stopDevice();
     void initDevice(const QString &device);
     static QString canonicalDevice(const QString &device);

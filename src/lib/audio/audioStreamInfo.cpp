@@ -14,7 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QString>
 #include <cstdlib>
 
-AudioStreamInfo::AudioStreamInfo(std::shared_ptr<Mlt::Producer> producer, int audioStreamIndex)
+AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer, int audioStreamIndex)
     : m_audioStreamIndex(audioStreamIndex)
     , m_ffmpegAudioIndex(0)
     , m_samplingRate(48000)

@@ -53,8 +53,8 @@ public:
         AUDIOTHUMBJOB = 9,
         SPEEDJOB = 10
     };
-    AbstractClipJob(JOBTYPE type, const QString &id, QObject *parent = nullptr);
-    virtual ~AbstractClipJob();
+    AbstractClipJob(JOBTYPE type, QString id, QObject *parent = nullptr);
+    ~AbstractClipJob() override;
 
     template <typename T, typename... Args> static std::shared_ptr<T> make(const QString &binId, Args &&... args)
     {
@@ -77,7 +77,7 @@ public:
     virtual bool commitResult(Fun &undo, Fun &redo) = 0;
 
     // brief run a given job
-    static bool execute(std::shared_ptr<AbstractClipJob> job);
+    static bool execute(const std::shared_ptr<AbstractClipJob> &job);
 
     /* @brief return the type of this job */
     JOBTYPE jobType() const;

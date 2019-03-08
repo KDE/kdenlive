@@ -30,10 +30,10 @@
 #include <kdenlivesettings.h>
 
 #include <QDebug>
-
+#include <utility>
 KeyframeModelList::KeyframeModelList(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack)
-    : m_model(model)
-    , m_undoStack(undo_stack)
+    : m_model(std::move(model))
+    , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
 {
     qDebug() << "Construct keyframemodellist. Checking model:" << m_model.expired();
@@ -46,7 +46,7 @@ ObjectId KeyframeModelList::getOwnerId() const
     if (auto ptr = m_model.lock()) {
         return ptr->getOwnerId();
     }
-    return ObjectId();
+    return {};
 }
 
 void KeyframeModelList::addParameter(const QModelIndex &index)
@@ -98,7 +98,7 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
     bool isRectParam = false;
     if (m_inTimelineIndex.isValid()) {
         if (auto ptr = m_model.lock()) {
-            ParamType tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
+            auto tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
             if (tp == ParamType::AnimatedRect) {
                 isRectParam = true;
             }
@@ -159,14 +159,14 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo)
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
 }
 
-bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, QVariant normalizedVal, bool logUndo)
+bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVariant &normalizedVal, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
     bool isRectParam = false;
     if (m_inTimelineIndex.isValid()) {
         if (auto ptr = m_model.lock()) {
-            ParamType tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
+            auto tp = ptr->data(m_inTimelineIndex, AssetParameterModel::TypeRole).value<ParamType>();
             if (tp == ParamType::AnimatedRect) {
                 isRectParam = true;
             }
@@ -193,7 +193,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, QVariant nor
     return applyOperation(op, logUndo ? i18n("Move keyframe") : QString());
 }
 
-bool KeyframeModelList::updateKeyframe(GenTime pos, QVariant value, const QPersistentModelIndex &index)
+bool KeyframeModelList::updateKeyframe(GenTime pos, const QVariant &value, const QPersistentModelIndex &index)
 {
     if (singleKeyframe()) {
         bool ok = false;
@@ -201,7 +201,7 @@ bool KeyframeModelList::updateKeyframe(GenTime pos, QVariant value, const QPersi
         pos = kf.first;
     }
     if (auto ptr = m_model.lock()) {
-        AssetKeyframeCommand *command = new AssetKeyframeCommand(ptr, index, value, pos);
+        auto *command = new AssetKeyframeCommand(ptr, index, value, pos);
         pCore->pushUndo(command);
     }
     return true;

@@ -176,7 +176,7 @@ int TimecodeDisplay::getValue() const
 
 GenTime TimecodeDisplay::gentime() const
 {
-    return GenTime(m_value, m_timecode.fps());
+    return {m_value, m_timecode.fps()};
 }
 
 Timecode TimecodeDisplay::timecode() const

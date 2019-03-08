@@ -36,7 +36,7 @@ class OpenClipArt : public AbstractService
 
 public:
     explicit OpenClipArt(QListWidget *listWidget, QObject *parent = nullptr);
-    ~OpenClipArt();
+    ~OpenClipArt() override;
     QString getExtension(QListWidgetItem *item) override;
     QString getDefaultDownloadName(QListWidgetItem *item) override;
 

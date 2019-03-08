@@ -37,7 +37,7 @@ class FreeSound : public AbstractService
 
 public:
     explicit FreeSound(QListWidget *listWidget, QObject *parent = nullptr);
-    ~FreeSound();
+    ~FreeSound() override;
     QString getExtension(QListWidgetItem *item) override;
     QString getDefaultDownloadName(QListWidgetItem *item) override;
 

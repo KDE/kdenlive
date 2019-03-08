@@ -53,7 +53,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_transitionWidget(new TransitionStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
-    QToolBar *buttonToolbar = new QToolBar(this);
+    auto *buttonToolbar = new QToolBar(this);
     buttonToolbar->addWidget(m_assetTitle);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
@@ -99,11 +99,11 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_lay->addWidget(buttonToolbar);
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(0);
-    QVBoxLayout *lay = new QVBoxLayout(m_container);
+    auto *lay = new QVBoxLayout(m_container);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_transitionWidget);
     lay->addWidget(m_effectStackWidget);
-    QScrollArea *sc = new QScrollArea;
+    auto *sc = new QScrollArea;
     sc->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     sc->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     sc->setFrameStyle(QFrame::NoFrame);
@@ -122,7 +122,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::updateEnabledState, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 }
 
-void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> transitionModel)
+void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
 {
     Q_UNUSED(tid)
     ObjectId id = transitionModel->getOwnerId();
@@ -140,7 +140,7 @@ void AssetPanel::showTransition(int tid, std::shared_ptr<AssetParameterModel> tr
     m_transitionWidget->setModel(transitionModel, QSize(), true);
 }
 
-void AssetPanel::showEffectStack(const QString &itemName, std::shared_ptr<EffectStackModel> effectsModel, QSize frameSize, bool showKeyframes)
+void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
     m_splitButton->setActive(false);
     if (effectsModel == nullptr) {

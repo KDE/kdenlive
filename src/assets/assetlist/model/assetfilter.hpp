@@ -22,7 +22,6 @@
 #ifndef ASSETFILTER_H
 #define ASSETFILTER_H
 
-#include "effects/effectsrepository.hpp"
 #include <QSortFilterProxyModel>
 #include <memory>
 
@@ -65,7 +64,7 @@ protected:
     /* @brief Apply all filter and returns true if the object should be kept after filtering */
     virtual bool applyAll(std::shared_ptr<TreeItem> item) const;
 
-    bool m_name_enabled;
+    bool m_name_enabled{false};
     QString m_name_value;
 };
 #endif

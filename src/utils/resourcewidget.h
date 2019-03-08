@@ -49,8 +49,8 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
     Q_OBJECT
 
 public:
-    explicit ResourceWidget(const QString &folder, QWidget *parent = nullptr);
-    ~ResourceWidget();
+    explicit ResourceWidget(QString folder, QWidget *parent = nullptr);
+    ~ResourceWidget() override;
 
 private slots:
     void slotStartSearch(int page = 0);
@@ -97,7 +97,7 @@ private:
     void parseLicense(const QString &);
     QString GetSaveFileNameAndPathS(const QString &path, const QString &ext);
     QString m_folder;
-    QString mSaveLocation;
+    QString m_saveLocation;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
     QAction *m_autoPlay;

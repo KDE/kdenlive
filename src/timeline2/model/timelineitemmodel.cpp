@@ -39,17 +39,16 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 
-#include <utility>
 
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
-    : TimelineModel(profile, undo_stack)
+    : TimelineModel(profile, std::move(undo_stack))
 {
 }
 
-void TimelineItemModel::finishConstruct(std::shared_ptr<TimelineItemModel> ptr, std::shared_ptr<MarkerListModel> guideModel)
+void TimelineItemModel::finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr, const std::shared_ptr<MarkerListModel> &guideModel)
 {
     ptr->weak_this_ = ptr;
-    ptr->m_groups = std::unique_ptr<GroupsModel>(new GroupsModel(ptr));
+    ptr->m_groups = std::make_unique<GroupsModel>(ptr);
     guideModel->registerSnapModel(ptr->m_snaps);
 }
 
@@ -105,7 +104,7 @@ QModelIndex TimelineItemModel::makeClipIndexFromID(int clipId) const
     if (trackId == -1) {
         // Clip is not inserted in a track
         qDebug() << "/// WARNING; INVALID CLIP INDEX REQUESTED\n________________";
-        return QModelIndex();
+        return {};
     }
     int row = getTrackById_const(trackId)->getRowfromClip(clipId);
     return index(row, 0, makeTrackIndexFromID(trackId));
@@ -148,7 +147,7 @@ QModelIndex TimelineItemModel::parent(const QModelIndex &index) const
         const int trackId = getCompositionTrackId(id);
         return makeTrackIndexFromID(trackId);
     }
-    return QModelIndex();
+    return {};
 }
 
 int TimelineItemModel::rowCount(const QModelIndex &parent) const
@@ -451,7 +450,7 @@ void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
 void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
 {
     std::shared_ptr<TrackModel> track = getTrackById(tid);
-    track->importEffects(service);
+    track->importEffects(std::move(service));
 }
 
 QVariant TimelineItemModel::getTrackProperty(int tid, const QString &name) const

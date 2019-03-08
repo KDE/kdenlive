@@ -21,6 +21,7 @@
 
 #include "transitionlistwidget.hpp"
 #include "../model/transitiontreemodel.hpp"
+#include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "dialogs/profilesdialog.h"
 #include "mainwindow.h"
 #include "transitions/transitionlist/model/transitionfilter.hpp"
@@ -35,7 +36,7 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 
     m_model = TransitionTreeModel::construct(true, this);
 
-    m_proxyModel.reset(new TransitionFilter(this));
+    m_proxyModel = std::make_unique<TransitionFilter>(this);
     m_proxyModel->setSourceModel(m_model.get());
     m_proxyModel->setSortRole(AssetTreeModel::NameRole);
     m_proxyModel->sort(0, Qt::AscendingOrder);

@@ -17,6 +17,7 @@
 
 #include "titlewidget.h"
 #include "KoSliderCombo.h"
+#include "core.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
@@ -52,8 +53,8 @@
 
 #include <QStandardPaths>
 #include <iostream>
-
 #include <mlt++/MltProfile.h>
+#include <utility>
 
 static QList<TitleTemplate> titletemplates;
 
@@ -78,7 +79,7 @@ void TitleWidget::refreshTemplateBoxContents()
     }
 }
 
-TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Monitor *monitor, QWidget *parent)
+TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTitlePath, Monitor *monitor, QWidget *parent)
     : QDialog(parent)
     , Ui::TitleWidget_UI()
     , m_startViewport(nullptr)
@@ -86,7 +87,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     , m_count(0)
     , m_unicodeDialog(new UnicodeDialog(UnicodeDialog::InputHex))
     , m_missingMessage(nullptr)
-    , m_projectTitlePath(projectTitlePath)
+    , m_projectTitlePath(std::move(projectTitlePath))
     , m_tc(tc)
     , m_fps(monitor->fps())
     , m_guides(QList<QGraphicsLineItem *>())
@@ -153,7 +154,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
 
     itemzoom->setSuffix(i18n("%"));
     QSize profileSize = monitor->profileSize();
-    m_frameWidth = (int)(profileSize.height() * monitor->profile()->dar() + 0.5);
+    m_frameWidth = (int)(profileSize.height() * pCore->getCurrentDar() + 0.5);
     m_frameHeight = profileSize.height();
     showToolbars(TITLE_SELECT);
 
@@ -550,7 +551,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, const QString &pro
     }
     // templateBox->setIconSize(QSize(60,60));
     refreshTemplateBoxContents();
-    lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
+    m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
 }
 
 TitleWidget::~TitleWidget()
@@ -653,7 +654,7 @@ void TitleWidget::templateIndexChanged(int index)
 {
     QString item = templateBox->itemData(index).toString();
     if (!item.isEmpty()) {
-        if (lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
+        if (m_lastDocumentHash != QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex()) {
             if (KMessageBox::questionYesNo(this, i18n("Do you really want to load a new template? Changes in this title will be lost!")) == KMessageBox::No) {
                 return;
             }
@@ -665,12 +666,12 @@ void TitleWidget::templateIndexChanged(int index)
         QList<QGraphicsItem *> list = graphicsView->scene()->items();
         for (QGraphicsItem *qgItem : list) {
             if (qgItem->type() == TEXTITEM) {
-                MyTextItem *i = static_cast<MyTextItem *>(qgItem);
+                auto *i = static_cast<MyTextItem *>(qgItem);
                 i->setProperty("isTemplate", "true");
                 i->setProperty("templateText", i->toHtml());
             }
         }
-        lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
+        m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
     }
 }
 // virtual
@@ -1039,8 +1040,8 @@ void TitleWidget::setCurrentItem(QGraphicsItem *item)
 void TitleWidget::zIndexChanged(int v)
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    for (int i = 0; i < l.size(); ++i) {
-        l[i]->setZValue(v);
+    for (auto &i : l) {
+        i->setZValue(v);
     }
 }
 
@@ -1061,7 +1062,7 @@ void TitleWidget::selectionChanged()
     l = graphicsView->scene()->items();
     for (QGraphicsItem *item : l) {
         if (item->type() == TEXTITEM && !item->isSelected()) {
-            MyTextItem *i = static_cast<MyTextItem *>(item);
+            auto *i = static_cast<MyTextItem *>(item);
             i->clearFocus();
         }
     }
@@ -1099,8 +1100,8 @@ void TitleWidget::selectionChanged()
         */
         int firstType = l.at(0)->type();
         bool allEqual = true;
-        for (int i = 0; i < l.size(); ++i) {
-            if (l.at(i)->type() != firstType) {
+        for (auto i : l) {
+            if (i->type() != firstType) {
                 allEqual = false;
                 break;
             }
@@ -1117,8 +1118,8 @@ void TitleWidget::selectionChanged()
             value_x->setEnabled(true);
             value_y->setEnabled(true);
             bool containsTextitem = false;
-            for (int i = 0; i < l.size(); ++i) {
-                if (l.at(i)->type() == TEXTITEM) {
+            for (auto i : l) {
+                if (i->type() == TEXTITEM) {
                     containsTextitem = true;
                     break;
                 }
@@ -1132,8 +1133,8 @@ void TitleWidget::selectionChanged()
         // Disable z index buttons if they don't make sense for the current selection
         int firstZindex = l.at(0)->zValue();
         allEqual = true;
-        for (int i = 0; i < l.size(); ++i) {
-            if ((int)l[i]->zValue() != firstZindex) {
+        for (auto &i : l) {
+            if ((int)i->zValue() != firstZindex) {
                 allEqual = false;
                 break;
             }
@@ -1186,7 +1187,7 @@ void TitleWidget::slotValueChanged(int type)
             }
 
         } else if (l.at(k)->type() == RECTITEM) {
-            QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(k));
+            auto *rec = static_cast<QGraphicsRectItem *>(l.at(k));
             switch (type) {
             case ValueX:
                 updatePosition(l.at(k), val, l.at(k)->pos().y());
@@ -1290,12 +1291,12 @@ void TitleWidget::updateDimension(QGraphicsItem *i)
         value_w->setValue(i->sceneBoundingRect().width());
         value_h->setValue(i->sceneBoundingRect().height());
     } else if (i->type() == RECTITEM) {
-        QGraphicsRectItem *r = static_cast<QGraphicsRectItem *>(i);
+        auto *r = static_cast<QGraphicsRectItem *>(i);
         // qCDebug(KDENLIVE_LOG) << "Rect width is: " << r->rect().width() << ", was: " << value_w->value() << '\n';
         value_w->setValue((int)r->rect().width());
         value_h->setValue((int)r->rect().height());
     } else if (i->type() == TEXTITEM) {
-        MyTextItem *t = static_cast<MyTextItem *>(i);
+        auto *t = static_cast<MyTextItem *>(i);
         value_w->setValue((int)t->boundingRect().width());
         value_h->setValue((int)t->boundingRect().height());
     }
@@ -1313,7 +1314,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 
     if (i->type() == TEXTITEM) {
 
-        MyTextItem *rec = static_cast<MyTextItem *>(i);
+        auto *rec = static_cast<MyTextItem *>(i);
 
         // Set the correct x coordinate value
         if (origin_x_left->isChecked()) {
@@ -1333,7 +1334,7 @@ void TitleWidget::updateCoordinates(QGraphicsItem *i)
 
     } else if (i->type() == RECTITEM) {
 
-        QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(i);
+        auto *rec = static_cast<QGraphicsRectItem *>(i);
 
         if (origin_x_left->isChecked()) {
             // Origin (0 point) is at m_frameWidth
@@ -1402,7 +1403,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i)
 void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 {
     if (i->type() == TEXTITEM) {
-        MyTextItem *rec = static_cast<MyTextItem *>(i);
+        auto *rec = static_cast<MyTextItem *>(i);
 
         int posX;
         if (origin_x_left->isChecked()) {
@@ -1428,7 +1429,7 @@ void TitleWidget::updatePosition(QGraphicsItem *i, int x, int y)
 
     } else if (i->type() == RECTITEM) {
 
-        QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(i);
+        auto *rec = static_cast<QGraphicsRectItem *>(i);
 
         int posX;
         if (origin_x_left->isChecked()) {
@@ -1603,7 +1604,7 @@ void TitleWidget::slotInsertUnicodeString(const QString &string)
     const QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (!l.isEmpty()) {
         if (l.at(0)->type() == TEXTITEM) {
-            MyTextItem *t = static_cast<MyTextItem *>(l.at(0));
+            auto *t = static_cast<MyTextItem *>(l.at(0));
             t->textCursor().insertText(string);
         }
     }
@@ -1687,9 +1688,9 @@ void TitleWidget::slotUpdateText()
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    for (int i = 0; i < l.length(); ++i) {
-        if (l.at(i)->type() == RECTITEM && (settingUp == 0)) {
-            QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(l.at(i));
+    for (auto i : l) {
+        if (i->type() == RECTITEM && (settingUp == 0)) {
+            auto *rec = static_cast<QGraphicsRectItem *>(i);
             QColor f = rectFColor->color();
             if (rectLineWidth->value() == 0) {
                 rec->setPen(Qt::NoPen);
@@ -1891,9 +1892,9 @@ void TitleWidget::loadTitle(QUrl url)
         items.removeAll(m_frameBorder);
         items.removeAll(m_frameBackground);
         items.removeAll(m_frameImage);
-        for (int i = 0; i < items.size(); ++i) {
-            if (items.at(i)->zValue() > -1000) {
-                delete items.at(i);
+        for (auto item : items) {
+            if (item->zValue() > -1000) {
+                delete item;
             }
         }
         m_scene->clearTextSelection();
@@ -2514,11 +2515,11 @@ void TitleWidget::slotZIndexTop()
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     qreal max = zIndexBounds(true, false);
     // qCDebug(KDENLIVE_LOG) << "Max z-index is " << max << ".\n";
-    for (int i = 0; i < l.size(); ++i) {
-        qreal currentZ = l[i]->zValue();
+    for (auto &i : l) {
+        qreal currentZ = i->zValue();
         if (currentZ <= max) {
             // qCDebug(KDENLIVE_LOG) << "Updating item " << i << ", is " << currentZ << ".\n";
-            l[i]->setZValue(max + 1);
+            i->setZValue(max + 1);
         } else {
             // qCDebug(KDENLIVE_LOG) << "Not updating " << i << ", is " << currentZ << ".\n";
         }
@@ -2546,10 +2547,10 @@ void TitleWidget::slotZIndexBottom()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     qreal min = zIndexBounds(false, false);
-    for (int i = 0; i < l.size(); ++i) {
-        qreal currentZ = l[i]->zValue();
+    for (auto &i : l) {
+        qreal currentZ = i->zValue();
         if (currentZ >= min) {
-            l[i]->setZValue(min - 1);
+            i->setZValue(min - 1);
         }
     }
     // Update the z index value in the GUI
@@ -2561,8 +2562,8 @@ void TitleWidget::slotZIndexBottom()
 void TitleWidget::slotSelectAll()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); ++i) {
-        l.at(i)->setSelected(true);
+    for (auto i : l) {
+        i->setSelected(true);
     }
 }
 
@@ -2571,16 +2572,16 @@ void TitleWidget::selectItems(int itemType)
     QList<QGraphicsItem *> l;
     if (!graphicsView->scene()->selectedItems().isEmpty()) {
         l = graphicsView->scene()->selectedItems();
-        for (int i = 0; i < l.size(); ++i) {
-            if (l.at(i)->type() != itemType) {
-                l.at(i)->setSelected(false);
+        for (auto i : l) {
+            if (i->type() != itemType) {
+                i->setSelected(false);
             }
         }
     } else {
         l = graphicsView->scene()->items();
-        for (int i = 0; i < l.size(); ++i) {
-            if (l.at(i)->type() == itemType) {
-                l.at(i)->setSelected(true);
+        for (auto i : l) {
+            if (i->type() == itemType) {
+                i->setSelected(true);
             }
         }
     }
@@ -2605,8 +2606,8 @@ void TitleWidget::slotSelectNone()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem *> l = graphicsView->scene()->items();
-    for (int i = 0; i < l.size(); ++i) {
-        l.at(i)->setSelected(false);
+    for (auto i : l) {
+        i->setSelected(false);
     }
     graphicsView->blockSignals(false);
     selectionChanged();
@@ -2686,7 +2687,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
         if (referenceItem->type() == TEXTITEM) {
             showToolbars(TITLE_TEXT);
-            MyTextItem *i = static_cast<MyTextItem *>(referenceItem);
+            auto *i = static_cast<MyTextItem *>(referenceItem);
             if (!i->document()->isEmpty()) {
                 // We have an existing text item selected
                 if (!i->data(100).isNull()) {
@@ -2833,7 +2834,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         } else if ((referenceItem)->type() == RECTITEM) {
             showToolbars(TITLE_RECTANGLE);
             settingUp = 1;
-            QGraphicsRectItem *rec = static_cast<QGraphicsRectItem *>(referenceItem);
+            auto *rec = static_cast<QGraphicsRectItem *>(referenceItem);
             if (rec == m_startViewport || rec == m_endViewport) {
                 enableToolbars(TITLE_SELECT);
             } else {
@@ -2907,7 +2908,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
 void TitleWidget::slotEditGradient()
 {
-    QToolButton *caller = qobject_cast<QToolButton *>(QObject::sender());
+    auto *caller = qobject_cast<QToolButton *>(QObject::sender());
     if (!caller) {
         return;
     }
@@ -3038,7 +3039,7 @@ const QString TitleWidget::titleSuggest()
     QString title;
     for (QGraphicsItem *qgItem : list) {
         if (qgItem->pos().y() < y && qgItem->type() == TEXTITEM) {
-            MyTextItem *i = static_cast<MyTextItem *>(qgItem);
+            auto *i = static_cast<MyTextItem *>(qgItem);
             QString currentTitle = i->toPlainText().simplified();
             if (currentTitle.length() > 2) {
                 title = currentTitle.length() > 12 ? currentTitle.left(12) + QStringLiteral("...") : currentTitle;
@@ -3074,8 +3075,7 @@ void TitleWidget::updateGuides(int)
     int max = hguides->value();
     bool guideVisible = show_guides->checkState() == Qt::Checked;
     for (int i = 0; i < max; i++) {
-        QGraphicsLineItem *line1 =
-            new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
+        auto *line1 = new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
         line1->setPen(framepen);
         line1->setFlags(nullptr);
         line1->setData(-1, -1);
@@ -3084,8 +3084,7 @@ void TitleWidget::updateGuides(int)
     }
     max = vguides->value();
     for (int i = 0; i < max; i++) {
-        QGraphicsLineItem *line1 =
-            new QGraphicsLineItem((i + 1) * m_frameWidth / (max + 1), 0, (i + 1) * m_frameWidth / (max + 1), m_frameHeight, m_frameBorder);
+        auto *line1 = new QGraphicsLineItem((i + 1) * m_frameWidth / (max + 1), 0, (i + 1) * m_frameWidth / (max + 1), m_frameHeight, m_frameBorder);
         line1->setPen(framepen);
         line1->setFlags(nullptr);
         line1->setData(-1, -1);
@@ -3096,14 +3095,14 @@ void TitleWidget::updateGuides(int)
     gColor.setAlpha(160);
     framepen.setColor(gColor);
 
-    QGraphicsLineItem *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
+    auto *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
     line6->setPen(framepen);
     line6->setFlags(nullptr);
     line6->setData(-1, -1);
     line6->setVisible(guideVisible);
     m_guides << line6;
 
-    QGraphicsLineItem *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
+    auto *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
     line7->setPen(framepen);
     line7->setFlags(nullptr);
     line7->setData(-1, -1);

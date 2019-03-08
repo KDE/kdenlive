@@ -161,7 +161,7 @@ public:
     const QString toJson() const;
     const QString toJson(std::unordered_set<int> roots) const;
     bool fromJson(const QString &data);
-    bool fromJsonWithOffset(const QString &data, QMap<int, int> trackMap, int offset, Fun &undo, Fun &redo);
+    bool fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo);
 
     /* @brief if the clip belongs to a AVSplit group, then return the id of the other corresponding clip. Otherwise, returns -1 */
     int getSplitPartner(int id) const;

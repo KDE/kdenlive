@@ -156,5 +156,5 @@ QModelIndex ProfileTreeModel::findProfile(const QString &profile)
             }
         }
     }
-    return QModelIndex();
+    return {};
 }

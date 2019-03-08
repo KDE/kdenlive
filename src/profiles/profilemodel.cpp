@@ -28,7 +28,7 @@
 #include <KMessageWidget>
 #include <QDir>
 #include <QFile>
-
+#include <memory>
 ProfileModel::ProfileModel(const QString &path)
     : m_path(path)
     , m_invalid(false)
@@ -44,7 +44,7 @@ ProfileModel::ProfileModel(const QString &path)
             m_invalid = true;
         }
     }
-    m_profile = std::unique_ptr<Mlt::Profile>(new Mlt::Profile(path.toStdString().c_str()));
+    m_profile = std::make_unique<Mlt::Profile>(path.toStdString().c_str());
     m_description = QString(m_profile->description());
 }
 

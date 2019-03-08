@@ -97,12 +97,39 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     QWriteLocker locker(&m_lock);
     Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
-    if (ids.size() == 1 && !force) {
+    std::unordered_set<int> roots;
+    std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
+    if (roots.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
-        return *(ids.begin());
+        return *(roots.begin());
+    }
+    if (type == GroupType::AVSplit && !force) {
+        // additional checks for AVSplit
+        if (roots.size() != 2) {
+            // must group exactly two items
+            return -1;
+        }
+        auto it = roots.begin();
+        int cid1 = *it;
+        ++it;
+        int cid2 = *it;
+        auto ptr = m_parent.lock();
+        if (!ptr) Q_ASSERT(false);
+        if (cid1 == cid2 || !ptr->isClip(cid1) || !ptr->isClip(cid2)) {
+            // invalid: we must get two different clips
+            return -1;
+        }
+        int tid1 = ptr->getClipTrackId(cid1);
+        bool isAudio1 = ptr->getTrackById(tid1)->isAudioTrack();
+        int tid2 = ptr->getClipTrackId(cid2);
+        bool isAudio2 = ptr->getTrackById(tid2)->isAudioTrack();
+        if (isAudio1 == isAudio2) {
+            // invalid: we must insert one in video the other in audio
+            return -1;
+        }
     }
     int gid = TimelineModel::getNextId();
-    auto operation = groupItems_lambda(gid, ids, type);
+    auto operation = groupItems_lambda(gid, roots, type);
     if (operation()) {
         auto reverse = destructGroupItem_lambda(gid);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -399,8 +426,8 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         }
         return true;
     };
-    Fun reverse = [this, old_parents, parent_changer]() { return parent_changer(old_parents); };
-    Fun operation = [this, new_parents, parent_changer]() { return parent_changer(new_parents); };
+    Fun reverse = [old_parents, parent_changer]() { return parent_changer(old_parents); };
+    Fun operation = [new_parents, parent_changer]() { return parent_changer(new_parents); };
     bool res = operation();
     if (!res) {
         bool undone = reverse();
@@ -514,8 +541,8 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         }
         if (!finished) {
             new_groups.erase(selected);
-            for (auto it = new_groups.begin(); it != new_groups.end(); ++it) {
-                (*it).second.erase(selected);
+            for (auto &new_group : new_groups) {
+                new_group.second.erase(selected);
             }
         }
     }
@@ -595,7 +622,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
         Q_ASSERT(m_upLink.count(g) > 0);
         old_parents[g] = m_upLink[g];
     }
-    Fun operation = [this, id, gid, type, to_add, parent = m_upLink.at(id)]() {
+    Fun operation = [this, gid, type, to_add, parent = m_upLink.at(id)]() {
         createGroupItem(gid);
         setGroup(gid, parent);
         for (const auto &g : to_add) {
@@ -604,7 +631,7 @@ bool GroupsModel::createGroupAtSameLevel(int id, std::unordered_set<int> to_add,
         setType(gid, type);
         return true;
     };
-    Fun reverse = [this, id, old_parents, gid]() {
+    Fun reverse = [this, old_parents, gid]() {
         for (const auto &g : old_parents) {
             setGroup(g.first, g.second);
         }
@@ -811,7 +838,7 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
-bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMap, int offset, Fun &undo, Fun &redo)
+bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -845,7 +872,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, QMap<int, int> trackMa
             if (child.contains(QLatin1String("data"))) {
                 if (auto ptr = m_parent.lock()) {
                     QString cur_data = child.value(QLatin1String("data")).toString();
-                    int trackId = ptr->getTrackIndexFromPosition(cur_data.section(":", 0, 0).toInt());
+                    int trackId = cur_data.section(":", 0, 0).toInt();
                     int pos = cur_data.section(":", 1, 1).toInt();
                     int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
                     pos += offset;

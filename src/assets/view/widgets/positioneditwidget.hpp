@@ -33,7 +33,7 @@ class PositionEditWidget : public AbstractParamWidget
 public:
     /** @brief Sets up the parameter's GUI.*/
     explicit PositionEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent = nullptr);
-    ~PositionEditWidget();
+    ~PositionEditWidget() override;
     /** @brief get current position
      */
     int getPosition() const;

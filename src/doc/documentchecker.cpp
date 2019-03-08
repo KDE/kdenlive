@@ -36,7 +36,7 @@
 #include <QFontDatabase>
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
-
+#include <utility>
 const int hashRole = Qt::UserRole;
 const int sizeRole = Qt::UserRole + 1;
 const int idRole = Qt::UserRole + 2;
@@ -57,8 +57,8 @@ const int LUMAPLACEHOLDER = 12;
 
 enum MISSINGTYPE { TITLE_IMAGE_ELEMENT = 20, TITLE_FONT_ELEMENT = 21 };
 
-DocumentChecker::DocumentChecker(const QUrl &url, const QDomDocument &doc)
-    : m_url(url)
+DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
+    : m_url(std::move(url))
     , m_doc(doc)
     , m_dialog(nullptr)
 {

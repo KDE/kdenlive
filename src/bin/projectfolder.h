@@ -48,12 +48,12 @@ public:
     static std::shared_ptr<ProjectFolder> construct(std::shared_ptr<ProjectItemModel> model);
 
 protected:
-    ProjectFolder(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model);
+    ProjectFolder(const QString &id, const QString &name, const std::shared_ptr<ProjectItemModel> &model);
 
-    explicit ProjectFolder(std::shared_ptr<ProjectItemModel> model);
+    explicit ProjectFolder(const std::shared_ptr<ProjectItemModel> &model);
 
 public:
-    ~ProjectFolder();
+    ~ProjectFolder() override;
 
     /**
      * @brief Returns the clip if it is a child (also indirect).

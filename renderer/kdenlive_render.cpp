@@ -28,7 +28,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
-#include <stdio.h>
+#include <cstdio>
 
 int main(int argc, char **argv)
 {
@@ -76,7 +76,7 @@ int main(int argc, char **argv)
             if (!prod.is_valid()) {
                 fprintf(stderr, "INVALID playlist: %s \n", playlist.toUtf8().constData());
             }
-            for (const QString frame : chunks) {
+            for (const QString &frame : chunks) {
                 fprintf(stderr, "START:%d \n", frame.toInt());
                 QString fileName = QStringLiteral("%1.%2").arg(frame).arg(extension);
                 if (baseFolder.exists(fileName)) {
@@ -118,9 +118,9 @@ int main(int argc, char **argv)
                 out = consumer.attribute("out").toInt();
             }
         }
-        RenderJob *rJob = new RenderJob(render, playlist, target, pid, in, out);
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out);
         rJob->start();
-        app.exec();
+        return app.exec();
     } else {
         fprintf(stderr,
                 "Kdenlive video renderer for MLT.\nUsage: "
@@ -138,5 +138,6 @@ int main(int argc, char **argv)
                 "  src: source file (usually MLT XML)\n"
                 "  dest: destination file\n"
                 "  args: space separated libavformat arguments\n");
+        return 1;
     }
 }

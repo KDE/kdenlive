@@ -47,7 +47,6 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QSortFilterProxyModel>
-#include <utility>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
 
@@ -66,7 +65,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     registerTimelineItems();
     // Build transition model for context menu
     m_transitionModel = TransitionTreeModel::construct(true, this);
-    m_transitionProxyModel.reset(new TransitionFilter(this));
+    m_transitionProxyModel = std::make_unique<TransitionFilter>(this);
     static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
@@ -74,7 +73,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 
     // Build effects model for context menu
     m_effectsModel = EffectTreeModel::construct(QStringLiteral(), this);
-    m_effectsProxyModel.reset(new EffectFilter(this));
+    m_effectsProxyModel = std::make_unique<EffectFilter>(this);
     static_cast<EffectFilter *>(m_effectsProxyModel.get())->setFilterType(true, EffectType::Favorites);
     m_effectsProxyModel->setSourceModel(m_effectsModel.get());
     m_effectsProxyModel->setSortRole(AssetTreeModel::NameRole);
@@ -114,10 +113,10 @@ const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isT
     return sortedItems.values();
 }
 
-void TimelineWidget::setModel(std::shared_ptr<TimelineItemModel> model)
+void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model)
 {
     m_thumbnailer->resetProject();
-    m_sortModel.reset(new QSortFilterProxyModel(this));
+    m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);

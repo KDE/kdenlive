@@ -31,7 +31,7 @@
 #include <xlocale.h>
 #endif
 
-template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAssetsRepository() {}
+template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAssetsRepository() = default;
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {

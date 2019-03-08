@@ -27,9 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "monitor/monitor.h"
 
 #include <QSize>
-
+#include <utility>
 CornersHelper::CornersHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, QPersistentModelIndex index, QObject *parent)
-    : KeyframeMonitorHelper(monitor, model, index, parent)
+    : KeyframeMonitorHelper(monitor, std::move(model), std::move(index), parent)
 {
 }
 
@@ -38,8 +38,8 @@ void CornersHelper::slotUpdateFromMonitorData(const QVariantList &v)
     const QVariantList points = QVariant(v).toList();
     QSize frameSize = pCore->getCurrentFrameSize();
     int ix = 0;
-    for (int i = 0; i < points.size(); i++) {
-        QPointF pt = points.at(i).toPointF();
+    for (const auto &point : points) {
+        QPointF pt = point.toPointF();
         double x = (pt.x() / frameSize.width() + 1) / 3;
         double y = (pt.y() / frameSize.height() + 1) / 3;
         emit updateKeyframeData(m_indexes.at(ix), x);
@@ -54,7 +54,7 @@ void CornersHelper::refreshParams(int pos)
     QList<double> coords;
     QSize frameSize = pCore->getCurrentFrameSize();
     for (const auto &ix : m_indexes) {
-        ParamType type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
+        auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::KeyframeParam) {
             continue;
         }

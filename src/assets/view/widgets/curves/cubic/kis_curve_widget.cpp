@@ -59,18 +59,18 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_grabOriginalX = 0;
     m_grabOriginalY = 0;
     m_draggedAwayPointIndex = 0;
-    m_pixmapIsDirty = 0;
+    m_pixmapIsDirty = false;
     m_pixmapCache = nullptr;
     m_maxPoints = 0;
     m_curve = KisCubicCurve();
     update();
 }
 
-KisCurveWidget::~KisCurveWidget() {}
+KisCurveWidget::~KisCurveWidget() = default;
 
 QSize KisCurveWidget::sizeHint() const
 {
-    return QSize(500, 500);
+    return {500, 500};
 }
 
 void KisCurveWidget::addPointInTheMiddle()
@@ -326,7 +326,7 @@ int KisCurveWidget::nearestPointInRange(QPointF pt, int wWidth, int wHeight) con
 // }
 void KisCurveWidget::setCurve(KisCubicCurve &&curve)
 {
-    m_curve = std::move(curve);
+    m_curve = curve;
 }
 
 QList<QPointF> KisCurveWidget::getPoints() const

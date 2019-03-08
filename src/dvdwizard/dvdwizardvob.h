@@ -110,7 +110,7 @@ class DvdWizardVob : public QWizardPage
 
 public:
     explicit DvdWizardVob(QWidget *parent = nullptr);
-    virtual ~DvdWizardVob();
+    ~DvdWizardVob() override;
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
     DVDFORMAT dvdFormat() const;
@@ -131,9 +131,9 @@ private:
     DvdTreeWidget *m_vobList;
     KCapacityBar *m_capacityBar;
     QAction *m_transcodeAction;
-    bool m_installCheck;
+    bool m_installCheck{true};
     KMessageWidget *m_warnMessage;
-    int m_duration;
+    int m_duration{0};
     QProcess m_transcodeProcess;
     QList<TranscodeJobInfo> m_transcodeQueue;
     TranscodeJobInfo m_currentTranscoding;

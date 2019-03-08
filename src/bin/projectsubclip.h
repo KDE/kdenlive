@@ -48,15 +48,16 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    static std::shared_ptr<ProjectSubClip> construct(const QString &id, std::shared_ptr<ProjectClip> parent, std::shared_ptr<ProjectItemModel> model, int in,
-                                                     int out, const QString &timecode, const QString &name = QString());
+    static std::shared_ptr<ProjectSubClip> construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
+                                                     const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
+                                                     const QString &name = QString());
 
 protected:
     ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
                    const QString &timecode, const QString &name = QString());
 
 public:
-    virtual ~ProjectSubClip();
+    ~ProjectSubClip() override;
 
     std::shared_ptr<ProjectClip> clip(const QString &id) override;
     std::shared_ptr<ProjectFolder> folder(const QString &id) override;

@@ -67,8 +67,8 @@ public:
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
-    virtual ~TitleWidget();
+    explicit TitleWidget(const QUrl &url, const Timecode &tc, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
+    ~TitleWidget() override;
     QDomDocument xml();
     void setXml(const QDomDocument &doc, const QString &id = QString());
 
@@ -148,7 +148,7 @@ private:
     QAction *m_selectRects;
     QAction *m_selectImages;
     QAction *m_unselectAll;
-    QString lastDocumentHash;
+    QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
 
     // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.

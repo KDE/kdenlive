@@ -14,7 +14,7 @@
 #include <QString>
 #include <cstdlib>
 
-AudioInfo::AudioInfo(std::shared_ptr<Mlt::Producer> producer)
+AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(nullptr);

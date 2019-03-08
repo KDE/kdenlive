@@ -44,12 +44,12 @@ public:
     /** @brief Send signals to the monitor to update the qml overlay.
        @param returns : true if the monitor's connection was changed to active.
     */
-    static QVariant getSpline(QVariant value, const QSize frame);
+    static QVariant getSpline(const QVariant &value, const QSize frame);
     /** @brief Returns a list of spline control points, based on its string definition and frame size
        @param value : the spline's string definition
        @param frame: the frame size
     */
-    static QList<BPoint> getPoints(QVariant value, const QSize frame);
+    static QList<BPoint> getPoints(const QVariant &value, const QSize frame);
     void refreshParams(int pos) override;
 
 private slots:

@@ -79,7 +79,7 @@ class AudioGraphSpectrum : public ScopeWidget
     Q_OBJECT
 public:
     AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = nullptr);
-    virtual ~AudioGraphSpectrum();
+    ~AudioGraphSpectrum() override;
 
 private:
     MonitorManager *m_manager;

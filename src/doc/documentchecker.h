@@ -32,8 +32,8 @@ class DocumentChecker : public QObject
     Q_OBJECT
 
 public:
-    explicit DocumentChecker(const QUrl &url, const QDomDocument &doc);
-    ~DocumentChecker();
+    explicit DocumentChecker(QUrl url, const QDomDocument &doc);
+    ~DocumentChecker() override;
     /**
      * @brief checks for problems with the clips in the project
      * Checks for missing proxies, wrong duration clips, missing fonts, missing images, missing source clips
