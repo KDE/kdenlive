@@ -626,9 +626,14 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("in"), getIn());
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
+    container.setAttribute(QStringLiteral("state"), (int)m_currentState);
     if (auto ptr = m_parent.lock()) {
         int trackId = ptr->getTrackPosition(getCurrentTrackId());
         container.setAttribute(QStringLiteral("track"), trackId);
+        if (ptr->isAudioTrack(getCurrentTrackId())) {
+            container.setAttribute(QStringLiteral("audioTrack"), 1);
+            container.setAttribute(QStringLiteral("mirrorTrack"), ptr->getTrackPosition(ptr->getMirrorVideoTrackId(getCurrentTrackId())));
+        }
     }
     container.setAttribute(QStringLiteral("speed"), m_speed);
     container.appendChild(m_effectStack->toXml(document));

@@ -986,3 +986,17 @@ int TimelineFunctions::getOffsetTrackId(const std::shared_ptr<TimelineItemModel>
     }
     return timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
 }
+
+QPair<QList <int>, QList<int> > TimelineFunctions::getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    QList <int>audioTracks;
+    QList <int>videoTracks;
+    for (const auto &track : timeline->m_allTracks) {
+        if (track->isAudioTrack()) {
+            audioTracks << track->getId();
+        } else {
+            videoTracks << track->getId();
+        }
+    }
+    return {audioTracks, videoTracks};
+}

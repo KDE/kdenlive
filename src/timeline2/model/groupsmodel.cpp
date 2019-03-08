@@ -872,7 +872,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
             if (child.contains(QLatin1String("data"))) {
                 if (auto ptr = m_parent.lock()) {
                     QString cur_data = child.value(QLatin1String("data")).toString();
-                    int trackId = ptr->getTrackIndexFromPosition(cur_data.section(":", 0, 0).toInt());
+                    int trackId = cur_data.section(":", 0, 0).toInt();
                     int pos = cur_data.section(":", 1, 1).toInt();
                     int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
                     pos += offset;

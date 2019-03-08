@@ -853,6 +853,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     if (!master->isReady() || !master->isCompatible(state)) {
+        qDebug()<<"// CLIP NOT READY OR NOT COMPATIBLE: "<<state;
         return false;
     }
     int clipId = TimelineModel::getNextId();

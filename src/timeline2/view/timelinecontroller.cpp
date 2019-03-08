@@ -540,12 +540,14 @@ void TimelineController::slotUpdateSelection(int itemId)
 void TimelineController::copyItem()
 {
     int clipId = -1;
-    int masterTrack = -1;
     if (!m_selection.selectedItems.isEmpty()) {
         clipId = m_selection.selectedItems.first();
         // Check grouped clips
         QList<int> extraClips = m_selection.selectedItems;
-        masterTrack = m_model->getTrackPosition(m_model->getItemTrackId(m_selection.selectedItems.first()));
+        //TODO better guess for master track
+        int masterTid = m_model->getItemTrackId(m_selection.selectedItems.first());
+        bool audioCopy = m_model->isAudioTrack(masterTid);
+        int masterTrack = m_model->getTrackPosition(masterTid);
         std::unordered_set<int> groupRoots;
         for (int id : m_selection.selectedItems) {
             if (m_model->m_groups->isInGroup(id)) {
@@ -605,6 +607,16 @@ void TimelineController::copyItem()
             container2.appendChild(clip->toXml(tmp));
         }
         container.setAttribute(QStringLiteral("offset"), offset);
+        if (audioCopy) {
+            int masterMirror = m_model->getMirrorVideoTrackId(masterTid);
+            if (masterMirror == -1) {
+                container.setAttribute(QStringLiteral("audioCopy"), 1);
+            } else {
+                masterTrack = m_model->getTrackPosition(masterMirror);
+            }
+        }
+        /* masterTrack contains the reference track over which we want to paste.
+           this is a video track, unless audioCopy is defined */
         container.setAttribute(QStringLiteral("masterTrack"), masterTrack);
         container.setAttribute(QStringLiteral("documentid"), pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid")));
         QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
@@ -643,6 +655,109 @@ bool TimelineController::pasteItem()
     std::function<bool(void)> redo = []() { return true; };
     const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
     QMap<QString, QString> mappedIds;
+    // Check available tracks
+    QPair<QList <int>, QList <int> > projectTracks = TimelineFunctions::getAVTracksIds(m_model);
+    bool masterIsAudio = copiedItems.documentElement().hasAttribute(QStringLiteral("audioCopy"));
+    int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
+    QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
+    QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
+    // find paste tracks
+    // List of all source audio tracks
+    QList <int> audioTracks;
+    // List of all source video tracks
+    QList <int> videoTracks;
+    // List of all audio tracks with their corresponding video mirror
+    QMap <int, int> audioMirrors;
+    // List of all source audio tracks that don't have video mirror
+    QList <int> singleAudioTracks;
+    for (int i = 0; i < clips.count(); i++) {
+        QDomElement prod = clips.at(i).toElement();
+        int trackPos = prod.attribute(QStringLiteral("track")).toInt();
+        bool audioTrack = prod.hasAttribute(QStringLiteral("audioTrack"));
+        if (audioTrack) {
+            if (!audioTracks.contains(trackPos)) {
+                audioTracks << trackPos;
+            }
+            int videoMirror = prod.attribute(QStringLiteral("mirrorTrack")).toInt();
+            if (videoMirror == -1) {
+                if (singleAudioTracks.contains(trackPos)) {
+                    continue;
+                }
+                singleAudioTracks << trackPos;
+                continue;
+            }
+            audioMirrors.insert(trackPos, videoMirror);
+            if (videoTracks.contains(videoMirror)) {
+                continue;
+            }
+            videoTracks << videoMirror;
+        } else {
+            if (videoTracks.contains(trackPos)) {
+                    continue;
+            }
+            videoTracks << trackPos;
+        }
+    }
+    for (int i = 0; i < compositions.count(); i++) {
+        QDomElement prod = compositions.at(i).toElement();
+        int trackPos = prod.attribute(QStringLiteral("track")).toInt();
+        if (!videoTracks.contains(trackPos)) {
+            videoTracks << trackPos;
+        }
+        int atrackPos = prod.attribute(QStringLiteral("a_track")).toInt();
+        if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
+            continue;
+        }
+        videoTracks << atrackPos;
+    }
+    // Now we have a list of all source tracks, check that we have enough target tracks
+    qSort(videoTracks);
+    qSort(audioTracks);
+    qSort(singleAudioTracks);
+    int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
+    int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
+    if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
+        pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+        return false;
+    }
+
+    // Check we have enough tracks above/below
+    if (requestedVideoTracks > 0) {
+        int tracksBelow = masterSourceTrack - videoTracks.first();
+        int tracksAbove = videoTracks.last() - masterSourceTrack;
+        qDebug()<<"// RQST TKS BELOW: "<<tracksBelow<<" / ABOVE: "<<tracksAbove;
+        qDebug()<<"// EXISTING TKS BELOW: "<<projectTracks.second.indexOf(tid)<<", IX: "<<tid;
+        qDebug()<<"// EXISTING TKS ABOVE: "<<projectTracks.second.size()<<" - "<<projectTracks.second.indexOf(tid);
+        if (projectTracks.second.indexOf(tid) < tracksBelow) {
+            qDebug()<<"// UPDATING BELOW TID IX TO: "<<tracksBelow;
+            // not enough tracks below, try to paste on upper track
+            tid = projectTracks.second.at(tracksBelow);
+        } else if ((projectTracks.second.size() - (projectTracks.second.indexOf(tid) + 1)) < tracksAbove) {
+            // not enough tracks above, try to paste on lower track
+            qDebug()<<"// UPDATING ABOVE TID IX TO: "<<(projectTracks.second.size() - tracksAbove);
+            tid = projectTracks.second.at(projectTracks.second.size() - tracksAbove - 1);
+        }
+    }
+    QMap <int, int>tracksMap;
+    int masterIx = projectTracks.second.indexOf(tid);
+    qDebug()<<"/// PROJECT VIDEO TKS: "<<projectTracks.second<<", MASTER: "<<tid;
+    qDebug()<<"/// PASTE VIDEO TKS: "<<videoTracks<<" / MASTER: "<<masterSourceTrack;
+    qDebug()<<"/// MASTER PASTE: "<<masterIx;
+    for (int tk : videoTracks) {
+        tracksMap.insert(tk, projectTracks.second.at(masterIx + tk - masterSourceTrack));
+        qDebug()<<"// TK MAP: "<<tk<<" => "<<projectTracks.second.at(masterIx + tk - masterSourceTrack);
+    }
+    QMapIterator<int, int> i(audioMirrors);
+    while (i.hasNext()) {
+        i.next();
+        int videoIx = tracksMap.value(i.value());
+        qDebug()<<"// TK AUDIO MAP: "<<i.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<m_model->getMirrorAudioTrackId(videoIx);
+        tracksMap.insert(i.key(), m_model->getMirrorAudioTrackId(videoIx));
+    }
+    qDebug()<<"++++++++++++++++++++++++++\n\n\n// AUDIO MIRRORS: "<<audioMirrors<<", RESULT: "<<tracksMap;
+    for (int tk : singleAudioTracks) {
+        //TODO
+    }
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
@@ -665,42 +780,8 @@ bool TimelineController::pasteItem()
             pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo);
         }
     }
-    QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
-    QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
+
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
-    int masterTrack = m_model->getTrackIndexFromPosition(copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt());
-    int trackOffset = TimelineFunctions::getTrackOffset(m_model, masterTrack, tid);
-    bool masterIsAudio = m_model->isAudioTrack(masterTrack);
-    // find paste tracks
-    QMap<int, int> tracksMap;
-    for (int i = 0; i < clips.count(); i++) {
-        QDomElement prod = clips.at(i).toElement();
-        int trackId = m_model->getTrackIndexFromPosition(prod.attribute(QStringLiteral("track")).toInt());
-        if (tracksMap.contains(trackId)) {
-            // Track already processed, skip
-            continue;
-        }
-        if (trackOffset == 0) {
-            tracksMap.insert(trackId, trackId);
-            continue;
-        }
-        tracksMap.insert(trackId, TimelineFunctions::getOffsetTrackId(m_model, trackId, trackOffset, masterIsAudio));
-    }
-    for (int i = 0; i < compositions.count(); i++) {
-        QDomElement prod = compositions.at(i).toElement();
-        int trackId = m_model->getTrackIndexFromPosition(prod.attribute(QStringLiteral("track")).toInt());
-        if (!tracksMap.contains(trackId)) {
-            tracksMap.insert(trackId, TimelineFunctions::getOffsetTrackId(m_model, trackId, trackOffset, masterIsAudio));
-        }
-        int atrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-        if (atrackId == 0) {
-            continue;
-        }
-        atrackId = m_model->getTrackIndexFromPosition(atrackId);
-        if (!tracksMap.contains(atrackId)) {
-            tracksMap.insert(atrackId, TimelineFunctions::getOffsetTrackId(m_model, atrackId, trackOffset, masterIsAudio));
-        }
-    }
 
     bool res = true;
     QLocale locale;
@@ -721,7 +802,8 @@ bool TimelineController::pasteItem()
         }
         int in = prod.attribute(QStringLiteral("in")).toInt();
         int out = prod.attribute(QStringLiteral("out")).toInt();
-        int trackId = m_model->getTrackIndexFromPosition(prod.attribute(QStringLiteral("track")).toInt());
+        int trackId;
+        trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
         int newId;
@@ -742,7 +824,7 @@ bool TimelineController::pasteItem()
         }
         m_model->m_allClips[newId]->setInOut(in, out);
         correspondingIds.insert(prod.attribute(QStringLiteral("id")).toInt(), newId);
-        res = res & m_model->getTrackById(tracksMap.value(trackId))->requestClipInsertion(newId, position + pos, true, true, undo, redo);
+        res = res & m_model->getTrackById(trackId)->requestClipInsertion(newId, position + pos, true, true, undo, redo);
         // paste effects
         if (res) {
             std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(newId);
@@ -756,10 +838,10 @@ bool TimelineController::pasteItem()
         QString originalId = prod.attribute(QStringLiteral("composition"));
         int in = prod.attribute(QStringLiteral("in")).toInt();
         int out = prod.attribute(QStringLiteral("out")).toInt();
-        int trackId = m_model->getTrackIndexFromPosition(prod.attribute(QStringLiteral("track")).toInt());
+        int trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
         int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
         if (aTrackId > 0) {
-            aTrackId = tracksMap.value(m_model->getTrackIndexFromPosition(aTrackId - 1));
+            aTrackId = m_model->getTrackPosition(tracksMap.value(trackId));
         }
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         int newId;
@@ -769,7 +851,7 @@ bool TimelineController::pasteItem()
             transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
                             props.at(j).toElement().text().toUtf8().constData());
         }
-        res = m_model->requestCompositionInsertion(originalId, tracksMap.value(trackId), aTrackId, position + pos, out - in, std::move(transProps), newId, undo,
+        res = m_model->requestCompositionInsertion(originalId, trackId, aTrackId, position + pos, out - in, std::move(transProps), newId, undo,
                                                    redo);
     }
     if (!res) {
@@ -777,7 +859,7 @@ bool TimelineController::pasteItem()
         return false;
     }
     const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
-    qDebug() << "************** GRP DATA ********\n" << groupsData << "\n******";
+    // Rebuild groups
     m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
     return true;
