@@ -1370,6 +1370,10 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, logUndo);
+    if (!m_groups->isInGroup(clipId)) {
+        TRACE_RES(false);
+        return false;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestGroupDeletion(clipId, undo, redo);
