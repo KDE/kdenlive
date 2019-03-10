@@ -363,6 +363,7 @@ void Logger::clear()
     is_executing = false;
     invoks.clear();
     operations.clear();
+    constr.clear();
 }
 
 LogGuard::LogGuard()

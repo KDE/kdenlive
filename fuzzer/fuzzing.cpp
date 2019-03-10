@@ -126,6 +126,7 @@ bool isIthParamARef(const rttr::method &method, size_t i)
 void fuzz(const std::string &input)
 {
     Logger::init();
+    Logger::clear();
     std::stringstream ss;
     ss << input;
 
