@@ -271,11 +271,10 @@ void Logger::print_trace()
     test_file << "ProjectManager &mocked = pmMock.get();" << std::endl;
     test_file << "pCore->m_projectManager = &mocked;" << std::endl;
 
+    size_t nbrConstructedTimelines = 0;
     auto check_consistancy = [&]() {
-        if (constr.count("TimelineModel") > 0) {
-            for (size_t i = 0; i < constr["TimelineModel"].size(); ++i) {
-                test_file << "REQUIRE(timeline_" << i << "->checkConsistency());" << std::endl;
-            }
+        for (size_t i = 0; i < nbrConstructedTimelines; ++i) {
+            test_file << "REQUIRE(timeline_" << i << "->checkConsistency());" << std::endl;
         }
     };
     for (const auto &o : operations) {
@@ -318,7 +317,6 @@ void Logger::print_trace()
                 std::cout << "ERROR: unknown method " << invok_name << std::endl;
             }
 
-
         } else if (o.can_convert<Logger::ConstrId>()) {
             ConstrId id = o.convert<Logger::ConstrId>();
             std::string constr_name = std::string("constr_") + id.type;
@@ -333,6 +331,7 @@ void Logger::print_trace()
                 test_file << "auto timeline_" << id.id << " = std::shared_ptr<TimelineItemModel>(&timMock_" << id.id << ".get(), [](...) {});" << std::endl;
                 test_file << "TimelineItemModel::finishConstruct(timeline_" << id.id << ", guideModel);" << std::endl;
                 test_file << "Fake(Method(timMock_" << id.id << ", adjustAssetRange));" << std::endl;
+                nbrConstructedTimelines++;
             } else if (id.type == "TrackModel") {
                 std::string params = process_args(constr[id.type][id.id].second);
                 test_file << "TrackModel::construct(" << params << ");" << std::endl;
