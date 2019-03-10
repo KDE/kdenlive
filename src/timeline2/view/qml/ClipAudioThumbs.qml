@@ -54,8 +54,8 @@ Row {
             isFirstChunk: index == 0
             showItem: waveform.visible && (index * width) < waveform.scrollEnd && (index * width + width) > waveform.scrollStart
             format: timeline.audioThumbFormat
-            inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels
-            outPoint: inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels
+            inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * Math.abs(clipRoot.speed)) * channels
+            outPoint: inPoint + Math.round(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels
             levels: clipRoot.audioLevels
             fillColor: activePalette.text
         }
