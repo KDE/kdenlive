@@ -371,10 +371,10 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     int out = getOut();
     qDebug() << "refresh " << speed << m_speed << in << out;
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyCompare(speed, 0.)) {
-        in = in * m_speed / speed;
+        in = in * std::abs(m_speed / speed);
         out = in + getPlaytime() - 1;
         // prevent going out of the clip's range
-        out = std::min(out, int(double(m_producer->get_length()) * m_speed / speed) - 1);
+        out = std::min(out, int(double(m_producer->get_length()) * std::abs(m_speed / speed)) - 1);
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
     }
@@ -408,7 +408,7 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
     std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
     int oldDuration = getPlaytime();
-    int newDuration = int(double(oldDuration) * previousSpeed / speed);
+    int newDuration = int(double(oldDuration) * std::abs(previousSpeed / speed));
     int oldOut = getOut();
     int oldIn = getIn();
     auto operation = useTimewarpProducer_lambda(speed);
@@ -639,11 +639,15 @@ QDomElement ClipModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("position"), getPosition());
     container.setAttribute(QStringLiteral("state"), (int)m_currentState);
     if (auto ptr = m_parent.lock()) {
-        int trackId = ptr->getTrackPosition(getCurrentTrackId());
+        int trackId = ptr->getTrackPosition(m_currentTrackId);
         container.setAttribute(QStringLiteral("track"), trackId);
         if (ptr->isAudioTrack(getCurrentTrackId())) {
             container.setAttribute(QStringLiteral("audioTrack"), 1);
-            container.setAttribute(QStringLiteral("mirrorTrack"), ptr->getTrackPosition(ptr->getMirrorVideoTrackId(getCurrentTrackId())));
+            int mirrorId = ptr->getMirrorVideoTrackId(m_currentTrackId);
+            if (mirrorId > -1) {
+                mirrorId = ptr->getTrackPosition(mirrorId);
+            }
+            container.setAttribute(QStringLiteral("mirrorTrack"), mirrorId);
         }
     }
     container.setAttribute(QStringLiteral("speed"), m_speed);

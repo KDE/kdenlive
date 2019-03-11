@@ -1247,6 +1247,11 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
+    Q_ASSERT(isClip(clipId));
+    if (getGroupElements(groupId).count(clipId) == 0) {
+        // this group doesn't contain the clip, abort
+        return false;
+    }
     bool ok = true;
     auto all_items = m_groups->getLeaves(groupId);
     Q_ASSERT(all_items.size() > 1);
@@ -1370,6 +1375,10 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, logUndo);
+    if (!m_groups->isInGroup(clipId)) {
+        TRACE_RES(false);
+        return false;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestGroupDeletion(clipId, undo, redo);

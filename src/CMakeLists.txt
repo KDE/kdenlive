@@ -139,8 +139,7 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
-    rttr_core)
-add_dependencies(kdenliveLib rttr_project)
+    RTTR::Core_Lib)
 
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)
@@ -166,6 +165,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 # Optional deps
 if(DRMINGW_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DUSE_DRMINGW)
+	target_include_directories(kdenlive PRIVATE SYSTEM ${DRMINGW_INCLUDE_DIR})
     target_link_libraries(kdenlive ${DRMINGW_LIBRARY})
 elseif(KF5Crash_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DKF5_USE_CRASH)

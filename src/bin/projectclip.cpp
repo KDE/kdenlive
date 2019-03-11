@@ -615,7 +615,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         qDebug() << "warp LENGTH before" << warpProducer->get_length();
         int original_length = originalProducer()->get_length();
         // this is a workaround to cope with Mlt erroneous rounding
-        warpProducer->set("length", double(original_length) / speed);
+        warpProducer->set("length", double(original_length) / std::abs(speed));
     }
 
     qDebug() << "warp LENGTH" << warpProducer->get_length();

@@ -85,6 +85,7 @@ private:
     QStringList m_lumas;
     QString m_proxyparameters;
     QString m_proxyextension;
+    bool m_newProject;
     /** @brief List of all proxies urls in this project. */
     QStringList m_projectProxies;
     /** @brief List of all thumbnails used in this project. */

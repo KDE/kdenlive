@@ -15,8 +15,8 @@ if(NOT EXISTS "${install_dir}/lib/librttr_core.a")
     file(WRITE "${install_dir}/lib/librttr_core.a" "dummy file to be replaced by build")
 endif()
 
-add_library(rttr_core STATIC IMPORTED)
-add_dependencies(rttr_core rttr_project)
-set_target_properties(rttr_core PROPERTIES
+add_library(RTTR::Core_Lib STATIC IMPORTED)
+add_dependencies(RTTR::Core_Lib rttr_project)
+set_target_properties(RTTR::Core_Lib PROPERTIES
     IMPORTED_LOCATION "${install_dir}/lib/librttr_core.a"
     INTERFACE_INCLUDE_DIRECTORIES "${install_dir}/include")

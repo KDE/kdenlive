@@ -124,7 +124,11 @@ if(NOT RELEASE_BUILD AND EXISTS ${CMAKE_SOURCE_DIR}/.git)
   endif()
 endif()
 
-include(rttr.CMakeLists.txt)
+find_package(RTTR 0.9.6 QUIET)
+if(NOT RTTR_FOUND)
+  message("RTTR not found on system, will download source and build it")
+  include(rttr.CMakeLists.txt)
+endif()
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

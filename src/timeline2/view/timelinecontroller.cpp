@@ -29,6 +29,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/spacerdialog.h"
+#include "dialogs/speeddialog.h"
 #include "doc/kdenlivedoc.h"
 #include "effects/effectsrepository.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
@@ -610,7 +611,10 @@ void TimelineController::copyItem()
         if (audioCopy) {
             int masterMirror = m_model->getMirrorVideoTrackId(masterTid);
             if (masterMirror == -1) {
-                container.setAttribute(QStringLiteral("audioCopy"), 1);
+                QPair<QList <int>, QList <int> > projectTracks = TimelineFunctions::getAVTracksIds(m_model);
+                if (!projectTracks.second.isEmpty()) {
+                    masterTrack = m_model->getTrackPosition(projectTracks.second.first());
+                }
             } else {
                 masterTrack = m_model->getTrackPosition(masterMirror);
             }
@@ -657,7 +661,6 @@ bool TimelineController::pasteItem()
     QMap<QString, QString> mappedIds;
     // Check available tracks
     QPair<QList <int>, QList <int> > projectTracks = TimelineFunctions::getAVTracksIds(m_model);
-    bool masterIsAudio = copiedItems.documentElement().hasAttribute(QStringLiteral("audioCopy"));
     int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
@@ -723,6 +726,7 @@ bool TimelineController::pasteItem()
 
     // Check we have enough tracks above/below
     if (requestedVideoTracks > 0) {
+        qDebug()<<"MASTERSTK: "<<masterSourceTrack<<", VTKS: "<<videoTracks;
         int tracksBelow = masterSourceTrack - videoTracks.first();
         int tracksAbove = videoTracks.last() - masterSourceTrack;
         qDebug()<<"// RQST TKS BELOW: "<<tracksBelow<<" / ABOVE: "<<tracksAbove;
@@ -747,17 +751,17 @@ bool TimelineController::pasteItem()
         tracksMap.insert(tk, projectTracks.second.at(masterIx + tk - masterSourceTrack));
         qDebug()<<"// TK MAP: "<<tk<<" => "<<projectTracks.second.at(masterIx + tk - masterSourceTrack);
     }
-    QMapIterator<int, int> i(audioMirrors);
-    while (i.hasNext()) {
-        i.next();
-        int videoIx = tracksMap.value(i.value());
-        qDebug()<<"// TK AUDIO MAP: "<<i.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<m_model->getMirrorAudioTrackId(videoIx);
-        tracksMap.insert(i.key(), m_model->getMirrorAudioTrackId(videoIx));
+    QMapIterator<int, int> it(audioMirrors);
+    while (it.hasNext()) {
+        it.next();
+        int videoIx = tracksMap.value(it.value());
+        //qDebug()<<"// TK AUDIO MAP: "<<it.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<m_model->getMirrorAudioTrackId(videoIx);
+        tracksMap.insert(it.key(), m_model->getMirrorAudioTrackId(videoIx));
+    }
+    for (int i = 0; i < singleAudioTracks.size(); i++) {
+        tracksMap.insert(singleAudioTracks.at(i), projectTracks.first.at(i));
     }
     qDebug()<<"++++++++++++++++++++++++++\n\n\n// AUDIO MIRRORS: "<<audioMirrors<<", RESULT: "<<tracksMap;
-    for (int tk : singleAudioTracks) {
-        //TODO
-    }
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
@@ -1748,10 +1752,13 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             minSpeed = std::max(minSpeed, minSpeed2);
             maxSpeed = std::min(maxSpeed, maxSpeed2);
         }
-        speed = QInputDialog::getDouble(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed, minSpeed, maxSpeed, 2, &ok);
-        if (!ok) {
+        // speed = QInputDialog::getDouble(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed, minSpeed, maxSpeed, 2, &ok);
+        QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), minSpeed, maxSpeed, speed < 0));
+        if (d->exec() != QDialog::Accepted) {
             return;
         }
+        speed = d->getValue();
+        qDebug() << "requesting speed " << speed;
     }
     m_model->requestClipTimeWarp(clipId, speed);
 }
