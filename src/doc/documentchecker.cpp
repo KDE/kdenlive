@@ -360,6 +360,7 @@ bool DocumentChecker::hasErrorInClips()
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_missingClips.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty());
     max = m_missingClips.count();
     m_missingProxyIds.clear();
+    QStringList processedIds;
     for (int i = 0; i < max; ++i) {
         QDomElement e = m_missingClips.at(i).toElement();
         QString clipType;
@@ -392,7 +393,11 @@ bool DocumentChecker::hasErrorInClips()
             clipType = i18n("Unknown");
             type = ClipType::Unknown;
         }
-
+        QString clipId = e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
+        if (processedIds.contains(clipId)) {
+            continue;
+        }
+        processedIds << clipId;
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
         item->setData(0, clipTypeRole, (int)type);

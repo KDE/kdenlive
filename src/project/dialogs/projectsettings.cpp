@@ -67,6 +67,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     : QDialog(parent)
     , m_savedProject(savedProject)
     , m_lumas(std::move(lumas))
+    , m_newProject(doc == nullptr)
 {
     setupUi(this);
     tabWidget->setTabBarAutoHide(true);
@@ -428,7 +429,7 @@ void ProjectSettings::accept()
             }
         }
     }
-    if (selectedProfile() != pCore->getCurrentProfile()->path()) {
+    if (!m_newProject && selectedProfile() != pCore->getCurrentProfile()->path()) {
         if (KMessageBox::warningContinueCancel(
                 this,
                 i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
