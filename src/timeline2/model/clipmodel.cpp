@@ -515,7 +515,7 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
     if (tid == m_currentTrackId) {
         return;
     }
-    MoveableItem::setCurrentTrackId(tid);
+    MoveableItem::setCurrentTrackId(tid, finalMove);
     if (finalMove) {
         refreshProducerFromBin(m_currentState);
     }

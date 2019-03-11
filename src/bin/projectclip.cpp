@@ -542,14 +542,13 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     }
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
-        // We can first cleen the speed producers we have for the current id
         if (trackId == -1) {
             // Temporary copy, return clone of master
             return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut());
         }
-        if (m_timewarpProducers.count(trackId) > 0) {
-            m_effectStack->removeService(m_timewarpProducers[trackId]);
-            m_timewarpProducers.erase(trackId);
+        if (m_timewarpProducers.count(clipId) > 0) {
+            m_effectStack->removeService(m_timewarpProducers[clipId]);
+            m_timewarpProducers.erase(clipId);
         }
         if (state == PlaylistState::AudioOnly) {
             // We need to get an audio producer, if none exists
@@ -591,17 +590,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration : -1));
     }
 
-    // in that case, we need to create a warp producer, if we don't have one
-    /*
-    if (m_audioProducers.count(trackId) > 0) {
-        m_effectStack->removeService(m_audioProducers[trackId]);
-        m_audioProducers.erase(trackId);
-    }
-    if (m_videoProducers.count(trackId) > 0) {
-        m_effectStack->removeService(m_videoProducers[trackId]);
-        m_videoProducers.erase(trackId);
-    }*/
-    
     // For timewarp clips, we keep one separate producer for each clip.
     std::shared_ptr<Mlt::Producer> warpProducer;
     if (m_timewarpProducers.count(clipId) > 0) {

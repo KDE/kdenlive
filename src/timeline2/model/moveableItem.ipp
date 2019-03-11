@@ -83,6 +83,7 @@ template <typename Service> void MoveableItem<Service>::setPosition(int pos)
 
 template <typename Service> void MoveableItem<Service>::setCurrentTrackId(int tid, bool finalMove)
 {
+    Q_UNUSED(finalMove);
     QWriteLocker locker(&m_lock);
     m_currentTrackId = tid;
 }
