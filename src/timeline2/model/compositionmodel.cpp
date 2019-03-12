@@ -244,8 +244,9 @@ void CompositionModel::setInOut(int in, int out)
     setPosition(in);
 }
 
-void CompositionModel::setCurrentTrackId(int tid)
+void CompositionModel::setCurrentTrackId(int tid, bool finalMove)
 {
+    Q_UNUSED(finalMove);
     MoveableItem::setCurrentTrackId(tid);
 }
 

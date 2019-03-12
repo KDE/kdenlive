@@ -105,7 +105,7 @@ protected:
        If you wish to actually change the track the item, use the slot in the timeline
        slot.
     */
-    virtual void setCurrentTrackId(int tid);
+    virtual void setCurrentTrackId(int tid, bool finalMove = true);
 
     /* Set in and out of service */
     virtual void setInOut(int in, int out);
