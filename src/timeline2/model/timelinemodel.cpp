@@ -2682,9 +2682,9 @@ void TimelineModel::requestClipReload(int clipId)
     bool refreshView = oldOut > (int)binClip->frameDuration();
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo);
-    }
-    m_allClips[clipId]->refreshProducerFromBin();
+    }    
     if (old_trackId != -1) {
+        m_allClips[clipId]->refreshProducerFromBin();
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);
     }
 }

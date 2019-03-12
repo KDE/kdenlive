@@ -99,7 +99,7 @@ public:
 protected:
     Mlt::Transition *service() const override;
     void setInOut(int in, int out) override;
-    void setCurrentTrackId(int tid) override;
+    void setCurrentTrackId(int tid, bool finalMove = true) override;
     int getOut() const override;
     int getIn() const override;
 
