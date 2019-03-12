@@ -75,7 +75,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.first = videoAudio.first && binClip->hasVideo();
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
-    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(id, state, speed);
+    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -379,7 +379,7 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_id, state, m_speed);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id,  state, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     // replant effect stack in updated service
@@ -508,6 +508,17 @@ void ClipModel::setShowKeyframes(bool show)
 {
     QWriteLocker locker(&m_lock);
     service()->set("kdenlive:hide_keyframes", (int)!show);
+}
+
+void ClipModel::setCurrentTrackId(int tid, bool finalMove)
+{
+    if (tid == m_currentTrackId) {
+        return;
+    }
+    MoveableItem::setCurrentTrackId(tid, finalMove);
+    if (finalMove) {
+        refreshProducerFromBin(m_currentState);
+    }
 }
 
 Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)

@@ -157,6 +157,8 @@ protected:
     */
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
+    void setCurrentTrackId(int tid, bool finalMove = true) override;
+
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
     void setTimelineEffectsEnabled(bool enabled);
