@@ -34,56 +34,14 @@ public:
     explicit ProfilesDialog(const QString &profileDescription = QString(), QWidget *parent = nullptr);
     /** @brief Using this constructor, the dialog only allows editing one profile. */
     explicit ProfilesDialog(const QString &profilePath, bool, QWidget *parent = nullptr);
-
     void fillList(const QString &selectedProfile = QString());
-    static QMap< QString, QString > getSettingsFromFile(const QString &path);
-    /** @brief Create profile from xml in MLT project file */
-    static MltVideoProfile getVideoProfileFromXml(const QDomElement &element);
-    static MltVideoProfile getVideoProfile(const QString &name);
-    static MltVideoProfile getVideoProfile(Mlt::Profile &profile);
-    static void saveProfile(MltVideoProfile &profile, QString profilePath = QString());
-    /** @brief Check if a given profile has a profile file describing it */
-    static QString existingProfile(const MltVideoProfile &profile);
-    static bool existingProfileDescription(const QString &desc);
-    static QList<MltVideoProfile> profilesList();
-
-    /** @brief Check if a given profile matches passed properties:
-     *  @param width The profile frame width
-     *  @param height The profile frame height
-     *  @param fps The profile fps
-     *  @param par The sample aspect ratio
-     *  @param isImage If true, compare width with profile's display width ( = dar * height)
-     *  @param profile The profile to match
-     *  @return true if properties match profile */
-    static bool matchProfile(int width, int height, double fps, double par, bool isImage, const MltVideoProfile &profile);
-
-    /** @brief Find profiles that match parameter properties:
-     *  @param width The profile frame width
-     *  @param height The profile frame height
-     *  @param fps The profile fps
-     *  @param par The sample aspect ratio
-     *  @param useDisplayWidth If true, compare width with profile's display width ( = dar * height)
-     *  @return A string list of the matching profiles description */
-    static QMap<QString, QString> getProfilesFromProperties(int width, int height, double fps, double par, bool useDisplayWidth = false);
-
-    /** @brief Get the descriptive text for given colorspace code (defined by MLT)
-     *  @param colorspace An int as defined in mlt_profile.h
-     *  @return The string description */
-    static QString getColorspaceDescription(int colorspace);
-
-    /** @brief Get the colorspace code (defined by MLT) from a descriptive text
-     *  @param description A string description as defined in getColorspaceDescription(int colorspace)
-     *  @return The int code */
-    static int getColorspaceFromDescription(const QString &description);
-
-    /** @brief Build a profile from it's url */
-    static MltVideoProfile getProfileFromPath(const QString &path, const QString &name);
+    bool profileTreeChanged() const;
 
 protected:
-    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    void slotUpdateDisplay(QString currentProfile = QString());
+    void slotUpdateDisplay(QString currentProfilePath = QString());
     void slotCreateProfile();
     bool slotSaveProfile();
     void slotDeleteProfile();
@@ -91,20 +49,24 @@ private slots:
     void slotProfileEdited();
     /** @brief Make sure the profile's width is always a multiple of 8 */
     void slotAdjustWidth();
-    void accept() Q_DECL_OVERRIDE;
-    void reject() Q_DECL_OVERRIDE;
+    /** @brief Make sure the profile's height is always a multiple of 2 */
+    void slotAdjustHeight();
+    void accept() override;
+    void reject() override;
 
 private:
     Ui::ProfilesDialog_UI m_view;
     int m_selectedProfileIndex;
-    bool m_profileIsModified;
-    bool m_isCustomProfile;
+    bool m_profileIsModified{false};
+    bool m_isCustomProfile{false};
     /** @brief If we are in single profile editing, should contain the path for this profile. */
     QString m_customProfilePath;
+    /** @brief True if a profile was saved / deleted and profile tree requires a reload. */
+    bool m_profilesChanged{false};
     KMessageWidget *m_infoMessage;
     void saveProfile(const QString &path);
     bool askForSave();
+    void connectDialog();
 };
 
 #endif
-

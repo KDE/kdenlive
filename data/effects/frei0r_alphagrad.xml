@@ -3,31 +3,29 @@
         <name>Alpha gradient</name>
         <description>Fill the alpha channel with a specified gradient</description>
         <author>Marko Cebokli</author>
-        
-        
-        <parameter type="simplekeyframe" name="Position" default="500" min="0" max="1000" factor="1000">
+
+        <parameter type="keyframe" name="Position" default=".500" min="0" max="1000" factor="1000">
                 <name>Position</name>
         </parameter>
-        
-        <parameter type="simplekeyframe" name="Transition width" default="500" min="0" max="1000" factor="1000">
+
+        <parameter type="keyframe" name="Transition width" default=".500" min="0" max="1000" factor="1000">
                 <name>Transition width</name>
         </parameter>
-        
-        <parameter type="simplekeyframe" name="Tilt" default="500" min="0" max="1000" factor="1000">
+
+        <parameter type="keyframe" name="Tilt" default=".500" min="0" max="1000" factor="1000">
                 <name>Tilt</name>
         </parameter>
-        
-        <parameter type="simplekeyframe" name="Min" default="0" min="0" max="1000" factor="1000">
+
+        <parameter type="keyframe" name="Min" default="0" min="0" max="1000" factor="1000">
                 <name>Min</name>
         </parameter>
 
-        <parameter type="simplekeyframe" name="Max" default="1000" min="0" max="1000" factor="1000">
+        <parameter type="keyframe" name="Max" default="1" min="0" max="1000" factor="1000">
                 <name>Max</name>
         </parameter>
-        
+
         <parameter type="list" name="Operation" default="0.0" paramlist="0.0;0.3;0.5;0.7;1.0">
                 <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
                 <name>Operation</name>
         </parameter>
-        
 </effect>

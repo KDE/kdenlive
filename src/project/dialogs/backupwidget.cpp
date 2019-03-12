@@ -20,13 +20,12 @@
 #include "backupwidget.h"
 #include "kdenlivesettings.h"
 
-#include <klocalizedstring.h>
 #include <QDir>
 #include <QPushButton>
 
-BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, const QString &projectId, QWidget *parent) :
-    QDialog(parent)
-    , m_projectFolder(projectFolder)
+BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QString &projectId, QWidget *parent)
+    : QDialog(parent)
+    , m_projectFolder(std::move(projectFolder))
 {
     setupUi(this);
     setWindowTitle(i18n("Restore Backup File"));
@@ -59,9 +58,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, const QUrl &projectFolder, co
     slotParseBackupFiles();
 }
 
-BackupWidget::~BackupWidget()
-{
-}
+BackupWidget::~BackupWidget() = default;
 
 void BackupWidget::slotParseBackupFiles()
 {
@@ -79,7 +76,7 @@ void BackupWidget::slotParseBackupFiles()
             // Displaying all backup files, so add project name in the entries
             label.prepend(resultList.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
         }
-        QListWidgetItem *item = new QListWidgetItem(label, backup_list);
+        auto *item = new QListWidgetItem(label, backup_list);
         item->setData(Qt::UserRole, resultList.at(i).absoluteFilePath());
         item->setToolTip(resultList.at(i).absoluteFilePath());
     }
@@ -95,7 +92,7 @@ void BackupWidget::slotParseBackupFiles()
                 // Displaying all backup files, so add project name in the entries
                 label.prepend(resultList2.at(i).fileName().section(QLatin1Char('-'), 0, -7) + QStringLiteral(".kdenlive - "));
             }
-            QListWidgetItem *item = new QListWidgetItem(label, backup_list);
+            auto *item = new QListWidgetItem(label, backup_list);
             item->setData(Qt::UserRole, resultList2.at(i).absoluteFilePath());
             item->setToolTip(resultList2.at(i).absoluteFilePath());
         }
@@ -122,4 +119,3 @@ QString BackupWidget::selectedFile() const
     }
     return backup_list->currentItem()->data(Qt::UserRole).toString();
 }
-

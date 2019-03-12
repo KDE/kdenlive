@@ -33,7 +33,7 @@ class SimpleKeyframeWidget : public QWidget
 
 public:
     explicit SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent = nullptr);
-    ~SimpleKeyframeWidget();
+    ~SimpleKeyframeWidget() override;
 
     int getPosition() const;
     void setKeyframes(const QList<int> &keyframes);

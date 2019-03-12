@@ -12,8 +12,8 @@
 #define AUDIOSPECTRUM_H
 
 #include "abstractaudioscopewidget.h"
-#include "lib/external/kiss_fft/tools/kiss_fftr.h"
 #include "lib/audio/fftTools.h"
+#include "lib/external/kiss_fft/tools/kiss_fftr.h"
 #include "ui_audiospectrum_ui.h"
 
 // Enables debugging
@@ -22,8 +22,8 @@
 // Show overmodulation
 #define DETECT_OVERMODULATION
 
-#include <QVector>
 #include <QHash>
+#include <QVector>
 
 class AudioSpectrum_UI;
 
@@ -40,24 +40,25 @@ class AudioSpectrum : public AbstractAudioScopeWidget
 
 public:
     explicit AudioSpectrum(QWidget *parent = nullptr);
-    ~AudioSpectrum();
+    ~AudioSpectrum() override;
 
     // Implemented virtual methods
-    QString widgetName() const Q_DECL_OVERRIDE;
+    QString widgetName() const override;
 
 protected:
     ///// Implemented methods /////
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    void readConfig() Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples,
+                            const int newData) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    void readConfig() override;
     void writeConfig();
 
-    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) Q_DECL_OVERRIDE;
+    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) override;
 
 private:
-    Ui::AudioSpectrum_UI *ui;
+    Ui::AudioSpectrum_UI *m_ui;
 
     QAction *m_aResetHz;
     QAction *m_aTrackMouse;
@@ -74,17 +75,17 @@ private:
     QRect m_innerScopeRect;
 
     /** Lower bound for the dB value to display */
-    int m_dBmin;
+    int m_dBmin{-70};
     /** Upper bound (max: 0) */
-    int m_dBmax;
+    int m_dBmax{0};
 
     /** Maximum frequency (limited by the sampling rate if determined automatically).
         Stored for the painters. */
-    int m_freqMax;
+    int m_freqMax{0};
     /** The user has chosen a custom frequency. */
-    bool m_customFreq;
+    bool m_customFreq{false};
 
-    float colorizeFactor;
+    float m_colorizeFactor{0};
 
 #ifdef DEBUG_AUDIOSPEC
     long m_timeTotal;
@@ -93,7 +94,6 @@ private:
 
 private slots:
     void slotResetMaxFreq();
-
 };
 
 #endif // AUDIOSPECTRUM_H

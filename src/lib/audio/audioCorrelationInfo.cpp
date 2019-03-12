@@ -10,10 +10,10 @@
 
 #include "audioCorrelationInfo.h"
 
-AudioCorrelationInfo::AudioCorrelationInfo(int mainSize, int subSize) :
-    m_mainSize(mainSize),
-    m_subSize(subSize),
-    m_max(-1)
+AudioCorrelationInfo::AudioCorrelationInfo(size_t mainSize, size_t subSize)
+    : m_mainSize(mainSize)
+    , m_subSize(subSize)
+    , m_max(-1)
 {
     m_correlationVector = new qint64[m_mainSize + m_subSize + 1];
 }
@@ -23,7 +23,7 @@ AudioCorrelationInfo::~AudioCorrelationInfo()
     delete[] m_correlationVector;
 }
 
-int AudioCorrelationInfo::size() const
+size_t AudioCorrelationInfo::size() const
 {
     return m_mainSize + m_subSize + 1;
 }
@@ -36,9 +36,9 @@ void AudioCorrelationInfo::setMax(qint64 max)
 qint64 AudioCorrelationInfo::max() const
 {
     if (m_max <= 0) {
-        int width = size();
+        size_t width = size();
         qint64 max = 0;
-        for (int i = 0; i < width; ++i) {
+        for (size_t i = 0; i < width; ++i) {
             if (m_correlationVector[i] > max) {
                 max = m_correlationVector[i];
             }
@@ -49,13 +49,13 @@ qint64 AudioCorrelationInfo::max() const
     return m_max;
 }
 
-int AudioCorrelationInfo::maxIndex() const
+size_t AudioCorrelationInfo::maxIndex() const
 {
     qint64 max = 0;
-    int index = 0;
-    int width = size();
+    size_t index = 0;
+    size_t width = size();
 
-    for (int i = 0; i < width; ++i) {
+    for (size_t i = 0; i < width; ++i) {
         if (m_correlationVector[i] > max) {
             max = m_correlationVector[i];
             index = i;
@@ -70,20 +70,20 @@ qint64 *AudioCorrelationInfo::correlationVector()
     return m_correlationVector;
 }
 
-QImage AudioCorrelationInfo::toImage(int height) const
+QImage AudioCorrelationInfo::toImage(size_t height) const
 {
-    int width = size();
+    size_t width = size();
     qint64 maxVal = max();
 
-    QImage img(width, height, QImage::Format_ARGB32);
+    QImage img((int)width, (int)height, QImage::Format_ARGB32);
     img.fill(qRgb(255, 255, 255));
 
     if (maxVal == 0) {
         return img;
     }
 
-    for (int x = 0; x < width; ++x) {
-        int val = img.height() * m_correlationVector[x] / maxVal;
+    for (int x = 0; x < (int)width; ++x) {
+        int val = img.height() * (int)m_correlationVector[x] / (int)maxVal;
         for (int y = img.height() - 1; y > img.height() - val - 1; --y) {
             img.setPixel(x, y, qRgb(50, 50, 50));
         }

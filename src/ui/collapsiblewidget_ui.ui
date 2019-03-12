@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>452</width>
-    <height>58</height>
+    <width>344</width>
+    <height>67</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -21,6 +21,9 @@
     <number>0</number>
    </property>
    <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
     <number>0</number>
    </property>
    <item row="0" column="0">
@@ -47,7 +50,7 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <property name="verticalSpacing">
+      <property name="spacing">
        <number>0</number>
       </property>
       <item row="0" column="0">
@@ -65,14 +68,17 @@
          <enum>QFrame::Plain</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
          <property name="leftMargin">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="topMargin">
           <number>0</number>
          </property>
          <property name="rightMargin">
-          <number>2</number>
+          <number>0</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -86,7 +92,7 @@
             <bool>true</bool>
            </property>
            <property name="arrowType">
-            <enum>Qt::DownArrow</enum>
+            <enum>Qt::NoArrow</enum>
            </property>
           </widget>
          </item>
@@ -105,12 +111,6 @@
          </item>
          <item>
           <widget class="QToolButton" name="enabledButton">
-           <property name="maximumSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
-           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -123,13 +123,20 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="menuButton">
-           <property name="maximumSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
+          <widget class="QToolButton" name="presetButton">
+           <property name="text">
+            <string>...</string>
            </property>
+           <property name="popupMode">
+            <enum>QToolButton::InstantPopup</enum>
+           </property>
+           <property name="autoRaise">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QToolButton" name="menuButton">
            <property name="text">
             <string>...</string>
            </property>
@@ -143,12 +150,6 @@
          </item>
          <item>
           <widget class="QToolButton" name="buttonUp">
-           <property name="maximumSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
-           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -159,12 +160,6 @@
          </item>
          <item>
           <widget class="QToolButton" name="buttonDown">
-           <property name="maximumSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
-           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -175,12 +170,6 @@
          </item>
          <item>
           <widget class="QToolButton" name="buttonDel">
-           <property name="maximumSize">
-            <size>
-             <width>22</width>
-             <height>22</height>
-            </size>
-           </property>
            <property name="text">
             <string>...</string>
            </property>

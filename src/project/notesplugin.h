@@ -33,7 +33,6 @@ public:
     explicit NotesPlugin(ProjectManager *projectManager);
     NotesWidget *widget();
     void clear();
-    ~NotesPlugin();
 
 private slots:
     void setProject(KdenliveDoc *document);

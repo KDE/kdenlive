@@ -21,33 +21,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectsubclip.h"
 #include "projectclip.h"
-#include "bin.h"
+#include "projectitemmodel.h"
 
-#include <QDomElement>
 #include <KLocalizedString>
+#include <QDomElement>
+#include <utility>
 
 class ClipController;
 
-ProjectSubClip::ProjectSubClip(ProjectClip *parent, int in, int out, const QString &timecode, const QString &name) :
-    AbstractProjectItem(AbstractProjectItem::SubClipItem, parent->clipId(), parent)
+ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
+                               const QString &timecode, const QString &name)
+    : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
     , m_masterClip(parent)
-    , m_in(in)
     , m_out(out)
 {
+    m_inPoint = in;
     m_duration = timecode;
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
     if (name.isEmpty()) {
-        m_name = i18n("Zone %1", parent->count() + 1);
+        m_name = i18n("Zone %1", parent->childCount() + 1);
     } else {
         m_name = name;
     }
     m_clipStatus = StatusReady;
-    setParent(parent);
     // Save subclip in MLT
-    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') +  QString::number(out));
-    connect(parent, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') + QString::number(out));
+    connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+}
+
+std::shared_ptr<ProjectSubClip> ProjectSubClip::construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
+                                                          const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
+                                                          const QString &name)
+{
+    std::shared_ptr<ProjectSubClip> self(new ProjectSubClip(id, parent, model, in, out, timecode, name));
+    baseFinishConstruct(self);
+    return self;
 }
 
 ProjectSubClip::~ProjectSubClip()
@@ -57,9 +67,9 @@ ProjectSubClip::~ProjectSubClip()
 
 void ProjectSubClip::gotThumb(int pos, const QImage &img)
 {
-    if (pos == m_in) {
+    if (pos == m_inPoint) {
         setThumbnail(img);
-        disconnect(m_masterClip, &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
+        disconnect(m_masterClip.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
     }
 }
 
@@ -75,79 +85,91 @@ QString ProjectSubClip::getToolTip() const
     return QStringLiteral("test");
 }
 
-ProjectClip *ProjectSubClip::clip(const QString &id)
+std::shared_ptr<ProjectClip> ProjectSubClip::clip(const QString &id)
 {
-    Q_UNUSED(id)
-    return nullptr;
+    Q_UNUSED(id);
+    return std::shared_ptr<ProjectClip>();
 }
 
-ProjectFolder *ProjectSubClip::folder(const QString &id)
+std::shared_ptr<ProjectFolder> ProjectSubClip::folder(const QString &id)
 {
-    Q_UNUSED(id)
-    return nullptr;
+    Q_UNUSED(id);
+    return std::shared_ptr<ProjectFolder>();
 }
 
-void ProjectSubClip::disableEffects(bool)
-{
-}
+void ProjectSubClip::setBinEffectsEnabled(bool) {}
 
 GenTime ProjectSubClip::duration() const
 {
-    //TODO
-    return GenTime();
+    // TODO
+    return {};
 }
 
 QPoint ProjectSubClip::zone() const
 {
-    return QPoint(m_in, m_out);
+    return {m_inPoint, m_out};
 }
 
-ProjectClip *ProjectSubClip::clipAt(int ix)
+std::shared_ptr<ProjectClip> ProjectSubClip::clipAt(int ix)
 {
-    Q_UNUSED(ix)
-    return nullptr;
+    Q_UNUSED(ix);
+    return std::shared_ptr<ProjectClip>();
 }
 
 QDomElement ProjectSubClip::toXml(QDomDocument &document, bool)
 {
     QDomElement sub = document.createElement(QStringLiteral("subclip"));
-    sub.setAttribute(QStringLiteral("id"), m_masterClip->clipId());
-    sub.setAttribute(QStringLiteral("in"), m_in);
+    sub.setAttribute(QStringLiteral("id"), m_masterClip->AbstractProjectItem::clipId());
+    sub.setAttribute(QStringLiteral("in"), m_inPoint);
     sub.setAttribute(QStringLiteral("out"), m_out);
     return sub;
 }
 
-ProjectSubClip *ProjectSubClip::subClip(int in, int out)
+std::shared_ptr<ProjectSubClip> ProjectSubClip::subClip(int in, int out)
 {
-    if (m_in == in && m_out == out) {
-        return this;
+    if (m_inPoint == in && m_out == out) {
+        return std::static_pointer_cast<ProjectSubClip>(shared_from_this());
     }
-    return nullptr;
-}
-
-void ProjectSubClip::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(notify)
-    if (current) {
-        m_masterClip->bin()->openProducer(m_masterClip->controller(), m_in, m_out);
-    }
+    return std::shared_ptr<ProjectSubClip>();
 }
 
 void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     m_thumbnail = QIcon(thumb);
-    bin()->emitItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()),
+                                                                       AbstractProjectItem::DataThumbnail);
+}
+
+QPixmap ProjectSubClip::thumbnail(int width, int height)
+{
+    return m_thumbnail.pixmap(width, height);
 }
 
 bool ProjectSubClip::rename(const QString &name, int column)
 {
+    // TODO refac: rework this
     Q_UNUSED(column)
     if (m_name == name) {
         return false;
     }
     // Rename folder
-    bin()->renameSubClipCommand(m_id, name, m_name, m_in, m_out);
+    // if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
     return true;
 }
 
+std::shared_ptr<ProjectClip> ProjectSubClip::getMasterClip() const
+{
+    return m_masterClip;
+}
+
+ClipType::ProducerType ProjectSubClip::clipType() const
+{
+    return m_masterClip->clipType();
+}
+
+bool ProjectSubClip::hasAudioAndVideo() const
+{
+    return m_masterClip->hasAudioAndVideo();
+}

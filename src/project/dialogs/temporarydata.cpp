@@ -21,28 +21,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "temporarydata.h"
 #include "doc/kdenlivedoc.h"
-#include "utils/KoIconUtils.h"
 
 #include <KLocalizedString>
 #include <KMessageBox>
 
-#include <QVBoxLayout>
-#include <QGridLayout>
-#include <QTabWidget>
-#include <QPaintEvent>
-#include <QFontMetrics>
-#include <QPainter>
-#include <QLabel>
-#include <QStandardPaths>
-#include <QToolButton>
 #include <QDesktopServices>
-#include <QTreeWidget>
+#include <QFontMetrics>
+#include <QGridLayout>
+#include <QLabel>
+#include <QPaintEvent>
+#include <QPainter>
 #include <QPushButton>
+#include <QStandardPaths>
+#include <QTabWidget>
+#include <QToolButton>
+#include <QTreeWidget>
+#include <QVBoxLayout>
 
 static QList<QColor> chartColors;
 
-ChartWidget::ChartWidget(QWidget *parent) :
-    QWidget(parent)
+ChartWidget::ChartWidget(QWidget *parent)
+    : QWidget(parent)
 {
     QFontMetrics ft(font());
     int minHeight = ft.height() * 6;
@@ -67,7 +66,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
     const QRectF pieRect(5, 5, pieWidth, pieWidth);
     int ix = 0;
     int previous = 0;
-    foreach (int val, m_segments) {
+    for (int val : m_segments) {
         if (val == 0) {
             ix++;
             continue;
@@ -75,19 +74,19 @@ void ChartWidget::paintEvent(QPaintEvent *event)
         painter.setBrush(chartColors.at(ix));
         painter.drawPie(pieRect, previous, val * 16);
         previous = val * 16;
-        ix ++;
+        ix++;
     }
 }
 
-TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent) :
-    QWidget(parent)
+TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget *parent)
+    : QWidget(parent)
     , m_doc(doc)
     , m_globalPage(nullptr)
     , m_globalDelete(nullptr)
 {
-    chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue)  << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
-    mCurrentSizes << 0 << 0 << 0 << 0;
-    QVBoxLayout *lay = new QVBoxLayout;
+    chartColors << QColor(Qt::darkRed) << QColor(Qt::darkBlue) << QColor(Qt::darkGreen) << QColor(Qt::darkMagenta);
+    m_currentSizes << 0 << 0 << 0 << 0;
+    auto *lay = new QVBoxLayout;
 
     m_currentPage = new QWidget(this);
     m_currentPage->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
@@ -109,8 +108,8 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_grid->addWidget(preview, 0, 2);
     m_previewSize = new QLabel(this);
     m_grid->addWidget(m_previewSize, 0, 3);
-    QToolButton *del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    auto *del = new QToolButton(this);
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deletePreview);
     del->setEnabled(false);
     m_grid->addWidget(del, 0, 4);
@@ -127,7 +126,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_proxySize = new QLabel(this);
     m_grid->addWidget(m_proxySize, 1, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteProxy);
     del->setEnabled(false);
     m_grid->addWidget(del, 1, 4);
@@ -144,7 +143,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_audioSize = new QLabel(this);
     m_grid->addWidget(m_audioSize, 2, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteAudio);
     del->setEnabled(false);
     m_grid->addWidget(del, 2, 4);
@@ -161,7 +160,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_thumbSize = new QLabel(this);
     m_grid->addWidget(m_thumbSize, 3, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteThumbs);
     del->setEnabled(false);
     m_grid->addWidget(del, 3, 4);
@@ -182,7 +181,7 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
     m_currentSize = new QLabel(this);
     m_grid->addWidget(m_currentSize, 6, 3);
     del = new QToolButton(this);
-    del->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
+    del->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(del, &QToolButton::clicked, this, &TemporaryData::deleteCurrentCacheData);
     del->setEnabled(false);
     m_grid->addWidget(del, 6, 4);
@@ -195,10 +194,10 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
 
     if (currentProjectOnly) {
         lay->addWidget(m_currentPage);
-        QSpacerItem *spacer = new QSpacerItem(1, 1, QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
+        auto *spacer = new QSpacerItem(1, 1, QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
         lay->addSpacerItem(spacer);
     } else {
-        QTabWidget *tab = new QTabWidget(this);
+        auto *tab = new QTabWidget(this);
         tab->addTab(m_currentPage, i18n("Current Project"));
         m_globalPage = new QWidget(this);
         buildGlobalCacheDialog(minHeight);
@@ -230,7 +229,7 @@ void TemporaryData::updateDataInfo()
         const QFileInfoList fList = preview.entryInfoList();
         KIO::filesize_t size = 0;
         for (const QFileInfo &info : fList) {
-            size += info.size();
+            size += (uint)info.size();
         }
         gotProxySize(size);
     }
@@ -252,17 +251,17 @@ void TemporaryData::updateDataInfo()
 
 void TemporaryData::gotPreviewSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
     QLayoutItem *button = m_grid->itemAtPosition(0, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[0] = total;
+    m_currentSizes[0] = total;
     m_previewSize->setText(KIO::convertSize(total));
     updateTotal();
 }
@@ -270,45 +269,45 @@ void TemporaryData::gotPreviewSize(KJob *job)
 void TemporaryData::gotProxySize(KIO::filesize_t total)
 {
     QLayoutItem *button = m_grid->itemAtPosition(1, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[1] = total;
+    m_currentSizes[1] = total;
     m_proxySize->setText(KIO::convertSize(total));
     updateTotal();
 }
 
 void TemporaryData::gotAudioSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
     QLayoutItem *button = m_grid->itemAtPosition(2, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[2] = total;
+    m_currentSizes[2] = total;
     m_audioSize->setText(KIO::convertSize(total));
     updateTotal();
 }
 
 void TemporaryData::gotThumbSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
     QLayoutItem *button = m_grid->itemAtPosition(3, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(total > 0);
     }
     m_totalCurrent += total;
-    mCurrentSizes[3] = total;
+    m_currentSizes[3] = total;
     m_thumbSize->setText(KIO::convertSize(total));
     updateTotal();
 }
@@ -317,11 +316,11 @@ void TemporaryData::updateTotal()
 {
     m_currentSize->setText(KIO::convertSize(m_totalCurrent));
     QLayoutItem *button = m_grid->itemAtPosition(5, 4);
-    if (button && button->widget()) {
+    if ((button != nullptr) && (button->widget() != nullptr)) {
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
-    foreach (KIO::filesize_t size, mCurrentSizes) {
+    for (KIO::filesize_t size : m_currentSizes) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
@@ -358,10 +357,11 @@ void TemporaryData::deleteProxy()
     }
     dir.setNameFilters(m_proxies);
     QStringList files = dir.entryList(QDir::Files);
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the cache proxy folder:\n%1", dir.absolutePath()), files) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this, i18n("Delete all project data in the cache proxy folder:\n%1", dir.absolutePath()), files) !=
+        KMessageBox::Continue) {
         return;
     }
-    foreach (const QString &file, files) {
+    for (const QString &file : files) {
         dir.remove(file);
     }
     emit disableProxies();
@@ -433,7 +433,7 @@ void TemporaryData::openCacheFolder()
 
 void TemporaryData::buildGlobalCacheDialog(int minHeight)
 {
-    QGridLayout *lay = new QGridLayout;
+    auto *lay = new QGridLayout;
     m_globalPie = new ChartWidget(this);
     lay->addWidget(m_globalPie, 0, 0, 1, 1);
     m_listWidget = new QTreeWidget(this);
@@ -511,13 +511,13 @@ void TemporaryData::processglobalDirectories()
 
 void TemporaryData::gotFolderSize(KJob *job)
 {
-    KIO::DirectorySizeJob *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
+    auto *sourceJob = static_cast<KIO::DirectorySizeJob *>(job);
     KIO::filesize_t total = sourceJob->totalSize();
     if (sourceJob->totalFiles() == 0) {
         total = 0;
     }
     m_totalGlobal += total;
-    TreeWidgetItem *item = new TreeWidgetItem(m_listWidget);
+    auto *item = new TreeWidgetItem(m_listWidget);
     // Check last save path for this cache folder
     QDir dir(m_globalDir.absoluteFilePath(m_processingDirectory));
     QStringList filters;
@@ -529,14 +529,14 @@ void TemporaryData::gotFolderSize(KJob *job)
         path.remove(0, 1);
         item->setText(0, m_processingDirectory + QStringLiteral(" (%1)").arg(QUrl::fromLocalFile(path).fileName()));
         if (QFile::exists(path)) {
-            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("kdenlive")));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("kdenlive")));
         } else {
-            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("dialog-close")));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
         }
     } else {
         item->setText(0, m_processingDirectory);
         if (m_processingDirectory == QLatin1String("proxy")) {
-            item->setIcon(0, KoIconUtils::themedIcon(QStringLiteral("kdenlive-show-video")));
+            item->setIcon(0, QIcon::fromTheme(QStringLiteral("kdenlive-show-video")));
         }
     }
     item->setData(0, Qt::UserRole, m_processingDirectory);
@@ -560,7 +560,7 @@ void TemporaryData::refreshGlobalPie()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     KIO::filesize_t currentSize = 0;
-    foreach (QTreeWidgetItem *current, list) {
+    for (QTreeWidgetItem *current : list) {
         if (current) {
             currentSize += current->data(1, Qt::UserRole).toULongLong();
         }
@@ -579,16 +579,17 @@ void TemporaryData::deleteSelected()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     QStringList folders;
-    foreach (QTreeWidgetItem *current, list) {
+    for (QTreeWidgetItem *current : list) {
         if (current) {
             folders << current->data(0, Qt::UserRole).toString();
         }
     }
-    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders) != KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancelList(this, i18n("Delete the following cache folders from\n%1", m_globalDir.absolutePath()), folders) !=
+        KMessageBox::Continue) {
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    foreach (const QString &folder, folders) {
+    for (const QString &folder : folders) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData();

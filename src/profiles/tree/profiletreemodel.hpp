@@ -22,38 +22,31 @@
 #ifndef PROFILETREEMODEL_H
 #define PROFILETREEMODEL_H
 
-#include <QAbstractItemModel>
+#include "abstractmodel/abstracttreemodel.hpp"
 
 /* @brief This class represents a profile hierarchy to be displayed as a tree
  */
-class ProfileItem;
+class TreeItem;
 class ProfileModel;
-class ProfileTreeModel : public QAbstractItemModel
-  {
-      Q_OBJECT
+class ProfileTreeModel : public AbstractTreeModel
+{
+    Q_OBJECT
 
-  public:
-      explicit ProfileTreeModel(QObject *parent = nullptr);
-      ~ProfileTreeModel();
+protected:
+    explicit ProfileTreeModel(QObject *parent = nullptr);
 
-      QVariant data(const QModelIndex &index, int role) const override;
-      //This is reimplemented to prevent selection of the categories
-      Qt::ItemFlags flags(const QModelIndex &index) const override;
-      QVariant headerData(int section, Qt::Orientation orientation,
-                          int role = Qt::DisplayRole) const override;
-      QModelIndex index(int row, int column,
-                        const QModelIndex &parent = QModelIndex()) const override;
-      QModelIndex parent(const QModelIndex &index) const override;
-      int rowCount(const QModelIndex &parent = QModelIndex()) const override;
-      int columnCount(const QModelIndex &parent = QModelIndex()) const override;
+public:
+    static std::shared_ptr<ProfileTreeModel> construct(QObject *parent);
 
-      /*@brief Given a valid QModelIndex, this function retrieves the corresponding profile's path. Returns the empty string if something went wrong */
-      static QString getProfile(const QModelIndex& index);
+    void init();
 
-      /** @brief This function returns the model index corresponding to a given @param profile path */
-      QModelIndex findProfile(const QString& profile);
-  private:
-      ProfileItem *rootItem;
+    QVariant data(const QModelIndex &index, int role) const override;
+
+    /*@brief Given a valid QModelIndex, this function retrieves the corresponding profile's path. Returns the empty string if something went wrong */
+    QString getProfile(const QModelIndex &index);
+
+    /** @brief This function returns the model index corresponding to a given @param profile path */
+    QModelIndex findProfile(const QString &profile);
 };
 
 #endif

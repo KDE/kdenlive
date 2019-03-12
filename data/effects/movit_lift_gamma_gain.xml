@@ -2,7 +2,7 @@
 <effect tag="movit.lift_gamma_gain" id="movit.lift_gamma_gain">
         <name>Lift/gamma/gain (GPU)</name>
         <author>Steinar H. Gunderson</author>
-        <parameter type="double" name="lift_r" default="0" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="lift_r" default="0" min="0" max="500" factor="100">
                 <name>Lift: Red</name>
         </parameter>
         <parameter type="double" name="lift_g" default="0" min="0" max="500" factor="100">

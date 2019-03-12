@@ -11,9 +11,9 @@
 #ifndef ABSTRACTGFXSCOPEWIDGET_H
 #define ABSTRACTGFXSCOPEWIDGET_H
 
-#include <QtCore>
 #include <QString>
 #include <QWidget>
+#include <QtCore>
 
 #include "../abstractscopewidget.h"
 
@@ -26,7 +26,7 @@ class AbstractGfxScopeWidget : public AbstractScopeWidget
 
 public:
     explicit AbstractGfxScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
-    virtual ~AbstractGfxScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
+    ~AbstractGfxScopeWidget() override; // Must be virtual because of inheritance, to avoid memory leaks
 
 protected:
     ///// Variables /////
@@ -36,9 +36,9 @@ protected:
         accelerationFactor hints how much faster than usual the calculation should be accomplished, if possible. */
     virtual QImage renderGfxScope(uint accelerationFactor, const QImage &) = 0;
 
-    QImage renderScope(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderScope(uint accelerationFactor) override;
 
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent *) override;
 
 private:
     QImage m_scopeImage;
@@ -55,7 +55,6 @@ protected slots:
 
 signals:
     void signalFrameRequest(const QString &widgetName);
-
 };
 
 #endif // ABSTRACTGFXSCOPEWIDGET_H

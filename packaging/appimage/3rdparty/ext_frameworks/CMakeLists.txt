@@ -180,15 +180,6 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add(
-  ext_attica
-  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL https://download.kde.org/stable/frameworks/5.51/attica-5.51.0.zip
-  URL_MD5 2915e774c50d0f09f4365897922fb0b0
-  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-  DEPENDS ext_extra_cmake_modules
-)
-
-ExternalProject_Add(
   ext_kactivities
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   URL http://download.kde.org/stable/frameworks/5.51/kactivities-5.51.0.zip
@@ -242,6 +233,32 @@ ExternalProject_Add(
   DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon
 )
 
+ExternalProject_Add(
+  ext_attica
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/attica-5.51.0.zip
+  URL_MD5 2915e774c50d0f09f4365897922fb0b0
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon
+)
+
+ExternalProject_Add(
+  ext_knewstuff
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/knewstuff-5.51.0.zip
+  URL_MD5 d5fcff457dc70b2de16488b2f1ba8e7b
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_attica
+)
+
+ExternalProject_Add(
+  ext_knotifyconfig
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/knotifyconfig-5.51.0.zip
+  URL_MD5 a1a8c6331858aab8ded199ec0b9795f4
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_knewstuff
+)
 
 ExternalProject_Add(
   ext_kpackage
@@ -326,15 +343,6 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add(
-  ext_knewstuff
-  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/frameworks/5.51/knewstuff-5.51.0.zip
-  URL_MD5 d5fcff457dc70b2de16488b2f1ba8e7b
-  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-  DEPENDS ext_kxmlgui ext_attica
-)
-
-ExternalProject_Add(
   ext_kwallet
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   URL http://download.kde.org/stable/frameworks/5.51/kwallet-5.51.0.zip
@@ -350,15 +358,6 @@ ExternalProject_Add(
   URL_MD5 ea59ac8326e5856b0ef1202c83d575b3
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
   DEPENDS ext_extra_cmake_modules ext_karchive ext_kconfig ext_kcoreaddons ext_kdbusaddons ext_ki18n ext_kservice ext_solid ext_kwindowsystem ext_kwidgetsaddons ext_kcompletion ext_kconfigwidgets ext_kiconthemes ext_kitemviews ext_kjobwidgets ext_kbookmarks ext_kwallet
-)
-
-ExternalProject_Add(
-  ext_knotifyconfig
-  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/frameworks/5.51/knotifyconfig-5.51.0.zip
-  URL_MD5 a1a8c6331858aab8ded199ec0b9795f4
-  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-  DEPENDS ext_knotifications ext_kio
 )
 
 ExternalProject_Add(
@@ -389,27 +388,29 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add(
-  ext_breezeicons
+  ext_kpurpose
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/frameworks/5.51/breeze-icons-5.51.0.zip
-  URL_MD5 a926d8fdb4847509b5855c55d1f75acf
+  URL http://download.kde.org/stable/frameworks/5.51/purpose-5.51.0.zip
+  URL_MD5 0d3323f67ed6b360e2cd77167278489b
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
   DEPENDS ext_kxmlgui
 )
 
 ExternalProject_Add(
-  ext_kdecoration
+  ext_kfilemetadata
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/plasma/5.14.3/kdecoration-5.14.3.tar.xz
-  URL_MD5 7b13d816864ebafe4325e51ff34cac26
+  URL http://download.kde.org/stable/frameworks/5.51/kfilemetadata-5.51.0.zip
+  URL_MD5 9946d31383ea759ffedcd6528bfdec92
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kguiaddons
 )
 
 ExternalProject_Add(
-  ext_breeze
+  ext_kdoctools
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/plasma/5.14.3/breeze-5.14.3.tar.xz
-  URL_MD5 2b6b023214451fc467fbd02a8479cb42
+  URL http://download.kde.org/stable/frameworks/5.51/kdoctools-5.51.0.zip
+  URL_MD5 696f5f8f4eb7e3e3b2cedca18ea6331f
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-  DEPENDS ext_kdecoration
+  DEPENDS ext_kcoreaddons
 )
+

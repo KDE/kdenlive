@@ -9,17 +9,17 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "notesplugin.h"
-#include "dialogs/noteswidget.h"
 #include "core.h"
+#include "dialogs/noteswidget.h"
+#include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
 #include "monitor/monitormanager.h"
-#include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
 
 #include "klocalizedstring.h"
 
-NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
-    QObject(projectManager)
+NotesPlugin::NotesPlugin(ProjectManager *projectManager)
+    : QObject(projectManager)
 {
     m_widget = new NotesWidget();
     connect(m_widget, &NotesWidget::insertNotesTimecode, this, &NotesPlugin::slotInsertTimecode);
@@ -30,21 +30,15 @@ NotesPlugin::NotesPlugin(ProjectManager *projectManager) :
     connect(projectManager, &ProjectManager::docOpened, this, &NotesPlugin::setProject);
 }
 
-NotesPlugin::~NotesPlugin()
-{
-    delete m_widget;
-    delete m_notesDock;
-}
-
 void NotesPlugin::setProject(KdenliveDoc *document)
 {
-    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor()->render, &Render::seekToFrame);
+    connect(m_widget, &NotesWidget::seekProject, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek);
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
 }
 
 void NotesPlugin::slotInsertTimecode()
 {
-    int frames = pCore->monitorManager()->projectMonitor()->render->seekPosition().frames(pCore->projectManager()->current()->fps());
+    int frames = pCore->monitorManager()->projectMonitor()->position();
     QString position = pCore->projectManager()->current()->timecode().getTimecodeFromFrames(frames);
     m_widget->insertHtml(QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + position + QStringLiteral("</a> "));
 }
@@ -58,4 +52,3 @@ void NotesPlugin::clear()
 {
     m_widget->clear();
 }
-

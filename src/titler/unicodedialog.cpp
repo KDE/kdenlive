@@ -9,11 +9,11 @@
 
 #include "unicodedialog.h"
 
-#include <QWheelEvent>
 #include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QWheelEvent>
 
 #include <KSharedConfig>
 #include <klocalizedstring.h>
@@ -28,35 +28,33 @@ UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
 {
     setWindowTitle(i18n("Details"));
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
-    QVBoxLayout *mainLayout = new QVBoxLayout(this);
+    auto *mainLayout = new QVBoxLayout(this);
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    mUnicodeWidget = new UnicodeWidget(inputMeth);
-    connect(mUnicodeWidget, &UnicodeWidget::charSelected, this, &UnicodeDialog::charSelected);
-    mainLayout->addWidget(mUnicodeWidget);
+    m_unicodeWidget = new UnicodeWidget(inputMeth);
+    connect(m_unicodeWidget, &UnicodeWidget::charSelected, this, &UnicodeDialog::charSelected);
+    mainLayout->addWidget(m_unicodeWidget);
     mainLayout->addWidget(buttonBox);
     connect(okButton, &QAbstractButton::clicked, this, &UnicodeDialog::slotAccept);
 }
 
-UnicodeDialog::~UnicodeDialog()
-{
-}
+UnicodeDialog::~UnicodeDialog() = default;
 
 void UnicodeDialog::slotAccept()
 {
-    mUnicodeWidget->slotReturnPressed();
+    m_unicodeWidget->slotReturnPressed();
     accept();
 }
 
 /// CONSTRUCTORS/DECONSTRUCTORS
 
 UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *parent)
-    : QWidget(parent),
-      inputMethod(inputMeth),
-      m_lastCursorPos(0)
+    : QWidget(parent)
+    , m_inputMethod(inputMeth)
+    , m_lastCursorPos(0)
 {
     setupUi(this);
     readChoices();
@@ -66,7 +64,7 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     connect(arrowUp, &QAbstractButton::clicked, this, &UnicodeWidget::slotPrevUnicode);
     connect(arrowDown, &QAbstractButton::clicked, this, &UnicodeWidget::slotNextUnicode);
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         unicodeNumber->setMaxLength(MAX_LENGTH_HEX);
         break;
@@ -84,9 +82,7 @@ UnicodeWidget::UnicodeWidget(UnicodeDialog::InputMethod inputMeth, QWidget *pare
     unicodeNumber->selectAll(); // Selection will be reset by setToolTip and similar, so set it here
 }
 
-UnicodeWidget::~UnicodeWidget()
-{
-}
+UnicodeWidget::~UnicodeWidget() = default;
 /// METHODS
 
 void UnicodeWidget::showLastUnicode()
@@ -101,11 +97,10 @@ bool UnicodeWidget::controlCharacter(const QString &text)
     bool isControlCharacter = false;
     QString t = text.toLower();
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
-        if (t.isEmpty()
-                || (t.length() == 1 && !(t == QLatin1String("9") || t == QLatin1String("a") || t == QLatin1String("d")))
-                || (t.length() == 2 && t.at(0) == QChar('1'))) {
+        if (t.isEmpty() || (t.length() == 1 && !(t == QLatin1String("9") || t == QLatin1String("a") || t == QLatin1String("d"))) ||
+            (t.length() == 2 && t.at(0) == QChar('1'))) {
             isControlCharacter = true;
         }
         break;
@@ -127,7 +122,6 @@ bool UnicodeWidget::controlCharacter(uint value)
         isControlCharacter = true;
     }
     return isControlCharacter;
-
 }
 
 QString UnicodeWidget::trimmedUnicodeNumber(QString text)
@@ -148,7 +142,8 @@ QString UnicodeWidget::unicodeInfo(const QString &unicode)
     QString u = trimmedUnicodeNumber(unicode).toLower();
 
     if (controlCharacter(u)) {
-        infoText = i18n("Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>");
+        infoText = i18n(
+            "Control character. Cannot be inserted/printed. See <a href=\"http://en.wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>");
     } else if (u == QLatin1String("a")) {
         infoText = i18n("Line Feed (newline character, \\\\n)");
     } else if (u == QLatin1String("20")) {
@@ -156,7 +151,11 @@ QString UnicodeWidget::unicodeInfo(const QString &unicode)
     } else if (u == QLatin1String("a0")) {
         infoText = i18n("No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020.");
     } else if (u == QLatin1String("ab") || u == QLatin1String("bb") || u == QLatin1String("2039") || u == QLatin1String("203a")) {
-        infoText = i18n("<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
+        infoText =
+            i18n("<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and <strong>&raquo;</strong> (u+00bb, <code>&amp;rfquo;</code> in "
+                 "HTML) are called Guillemets or angle quotes. Usage in different countries: France (with non-breaking Space 0x00a0), Switzerland, Germany, "
+                 "Finland and Sweden.</p><p><strong>&lsaquo;</strong> and <strong>&rsaquo;</strong> (U+2039/203a, <code>&amp;lsaquo;/&amp;rsaquo;</code>) are "
+                 "their single quote equivalents.</p><p>See <a href=\"http://en.wikipedia.org/wiki/Guillemets\">Wikipedia:Guillemets</a></p>");
     } else if (u == QLatin1String("2002")) {
         infoText = i18n("En Space (width of an n)");
     } else if (u == QLatin1String("2003")) {
@@ -172,17 +171,26 @@ QString UnicodeWidget::unicodeInfo(const QString &unicode)
     } else if (u == QLatin1String("2008")) {
         infoText = i18n("Punctuation Space. Width the same as between a punctuation character and the next character.");
     } else if (u == QLatin1String("2009")) {
-        infoText = i18n("Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>");
+        infoText = i18n("Thin space, in HTML also &amp;thinsp;. See U+202f and <a "
+                        "href=\"http://en.wikipedia.org/wiki/Space_(punctuation)\">Wikipedia:Space_(punctuation)</a>");
     } else if (u == QLatin1String("200a")) {
         infoText = i18n("Hair Space. Thinner than U+2009.");
     } else if (u == QLatin1String("2019")) {
-        infoText = i18n("Punctuation Apostrophe. Should be used instead of U+0027. See <a href=\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>");
+        infoText =
+            i18n("Punctuation Apostrophe. Should be used instead of U+0027. See <a href=\"http://en.wikipedia.org/wiki/Apostrophe\">Wikipedia:Apostrophe</a>");
     } else if (u == QLatin1String("2013")) {
-        infoText = i18n("<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: &ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
+        infoText = i18n("<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English language for value ranges (1878&#x2013;1903), for "
+                        "relationships/connections (Zurich&#x2013;Dublin). In the German language it is also used (with spaces!) for showing thoughts: "
+                        "&ldquo;Es war &#x2013; wie immer in den Ferien &#x2013; ein regnerischer Tag.</p> <p>See <a "
+                        "href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
     } else if (u == QLatin1String("2014")) {
-        infoText = i18n("<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
+        infoText = i18n("<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English language to mark&#x2014;like here&#x2014;thoughts. "
+                        "Traditionally without spaces. </p><p>See <a href=\"http://en.wikipedia.org/wiki/Dash\">Wikipedia:Dash</a></p>");
     } else if (u == QLatin1String("202f")) {
-        infoText = i18n("<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): 230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>but</em> 90&deg; (no space). In German for abbreviations (like: i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>");
+        infoText = i18n("<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For units (spaces are marked with U+2423, &#x2423;): "
+                        "230&#x2423;V, &#x2212;21&#x2423;&deg;C, 50&#x2423;lb, <em>but</em> 90&deg; (no space). In German for abbreviations (like: "
+                        "i.&#x202f;d.&#x202f;R. instead of i.&#xa0;d.&#xa0;R. with U+00a0).</p><p>See <a "
+                        "href=\"http://de.wikipedia.org/wiki/Schmales_Leerzeichen\">Wikipedia:de:Schmales_Leerzeichen</a></p>");
     } else if (u == QLatin1String("2026")) {
         infoText = i18n("Ellipsis: If text has been left o&#x2026; See <a href=\"http://en.wikipedia.org/wiki/Ellipsis\">Wikipedia:Ellipsis</a>");
     } else if (u == QLatin1String("2212")) {
@@ -192,11 +200,14 @@ QString UnicodeWidget::unicodeInfo(const QString &unicode)
     } else if (u == QLatin1String("2669")) {
         infoText = i18n("Quarter note (Am.) or crochet (Brit.). See <a href=\"http://en.wikipedia.org/wiki/Quarter_note\">Wikipedia:Quarter_note</a>");
     } else if (u == QLatin1String("266a") || u == QLatin1String("266b")) {
-        infoText = i18n("Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U+2669). See <a href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>");
+        infoText = i18n("Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U+2669). See <a "
+                        "href=\"http://en.wikipedia.org/wiki/Eighth_note\">Wikipedia:Eighth_note</a>");
     } else if (u == QLatin1String("266c")) {
-        infoText = i18n("Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>");
+        infoText = i18n("Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a "
+                        "href=\"http://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>");
     } else if (u == QLatin1String("1D162")) {
-        infoText = i18n("Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a href=\"http://en.wikipedia.org/wiki/Thirty-second_note\">Wikipedia:Thirty-second_note</a>");
+        infoText = i18n("Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a "
+                        "href=\"http://en.wikipedia.org/wiki/Thirty-second_note\">Wikipedia:Thirty-second_note</a>");
     } else {
         infoText = i18n("<small>No additional information available for this character.</small>");
     }
@@ -210,7 +221,7 @@ QString UnicodeWidget::validateText(const QString &text)
     QString newText;
     int pos = 0;
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         // Remove all characters we don't want
         while ((pos = regex.indexIn(text, pos)) != -1) {
@@ -249,7 +260,6 @@ void UnicodeWidget::updateOverviewChars(uint unicode)
 
     leftChars->setText(left);
     rightChars->setText(right);
-
 }
 
 void UnicodeWidget::clearOverviewChars()
@@ -264,7 +274,7 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
     QString newText;
     bool ok;
 
-    switch (inputMethod) {
+    switch (m_inputMethod) {
     case UnicodeDialog::InputHex:
         value = text.toUInt(&ok, 16);
         switch (direction) {
@@ -276,7 +286,7 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
             break;
         }
         // Wrapping
-        if (value == (uint) - 1) {
+        if (value == (uint)-1) {
             value = MAX_UNICODE_V1;
         }
         if (value > MAX_UNICODE_V1) {
@@ -340,7 +350,7 @@ void UnicodeWidget::slotTextChanged(const QString &text)
         // Get the decimal number as uint to create the QChar from
         bool ok;
         uint value = 0;
-        switch (inputMethod) {
+        switch (m_inputMethod) {
         case UnicodeDialog::InputHex:
             value = newText.toUInt(&ok, 16);
             break;
@@ -406,4 +416,3 @@ void UnicodeWidget::wheelEvent(QWheelEvent *event)
         }
     }
 }
-

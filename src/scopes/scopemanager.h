@@ -17,7 +17,7 @@
 #include <QList>
 
 class QDockWidget;
-class AbstractRender;
+class AbstractMonitor;
 
 /**
   \brief Manages communication between Scopes and Renderer
@@ -31,7 +31,8 @@ class ScopeManager : public QObject
 {
     Q_OBJECT
 
-    struct GfxScopeData {
+    struct GfxScopeData
+    {
         AbstractGfxScopeWidget *scope;
         bool singleFrameRequested;
         GfxScopeData()
@@ -41,7 +42,8 @@ class ScopeManager : public QObject
         }
     };
 
-    struct AudioScopeData {
+    struct AudioScopeData
+    {
         AbstractAudioScopeWidget *scope;
         bool singleFrameRequested;
         AudioScopeData()
@@ -69,7 +71,7 @@ private:
     QList<AudioScopeData> m_audioScopes;
     QList<GfxScopeData> m_colorScopes;
 
-    AbstractRender *m_lastConnectedRenderer;
+    AbstractMonitor *m_lastConnectedRenderer{nullptr};
 
     QSignalMapper *m_signalMapper;
 

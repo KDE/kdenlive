@@ -19,36 +19,35 @@
 #include "simplekeyframewidget.h"
 #include "simpletimelinewidget.h"
 #include "timecodedisplay.h"
-#include "utils/KoIconUtils.h"
 
-#include <QToolButton>
 #include <QGridLayout>
+#include <QToolButton>
 
 #include <klocalizedstring.h>
 
-SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent) :
-    QWidget(parent)
+SimpleKeyframeWidget::SimpleKeyframeWidget(const Timecode &t, int duration, QWidget *parent)
+    : QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
-    QGridLayout *l = new QGridLayout(this);
+    auto *l = new QGridLayout(this);
 
     m_timeline = new SimpleTimelineWidget(this);
     m_timeline->setDuration(duration);
 
     m_buttonAddDelete = new QToolButton(this);
     m_buttonAddDelete->setAutoRaise(true);
-    m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+    m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
 
     m_buttonPrevious = new QToolButton(this);
     m_buttonPrevious->setAutoRaise(true);
-    m_buttonPrevious->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-backward")));
+    m_buttonPrevious->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-backward")));
     m_buttonPrevious->setToolTip(i18n("Go to previous keyframe"));
 
     m_buttonNext = new QToolButton(this);
     m_buttonNext->setAutoRaise(true);
-    m_buttonNext->setIcon(KoIconUtils::themedIcon(QStringLiteral("media-skip-forward")));
+    m_buttonNext->setIcon(QIcon::fromTheme(QStringLiteral("media-skip-forward")));
     m_buttonNext->setToolTip(i18n("Go to next keyframe"));
 
     m_time = new TimecodeDisplay(t, this);
@@ -104,7 +103,7 @@ int SimpleKeyframeWidget::getPosition() const
     return m_time->getValue();
 }
 
-void SimpleKeyframeWidget::setKeyframes(const QList< int > &keyframes)
+void SimpleKeyframeWidget::setKeyframes(const QList<int> &keyframes)
 {
     m_timeline->setKeyframes(keyframes);
     setEnabled(true);
@@ -126,11 +125,10 @@ void SimpleKeyframeWidget::updateTimecodeFormat()
 void SimpleKeyframeWidget::slotAtKeyframe(bool atKeyframe)
 {
     if (atKeyframe) {
-        m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
         m_buttonAddDelete->setToolTip(i18n("Delete keyframe"));
     } else {
-        m_buttonAddDelete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
+        m_buttonAddDelete->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
         m_buttonAddDelete->setToolTip(i18n("Add keyframe"));
     }
 }
-

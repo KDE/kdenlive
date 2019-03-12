@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 /*!
-* @class AudioGraphSpectrum
-* @brief An audio spectrum
-* @author Jean-Baptiste Mardelle
-*/
+ * @class AudioGraphSpectrum
+ * @brief An audio spectrum
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H
@@ -31,12 +31,11 @@
 #include "scopewidget.h"
 #include "sharedframe.h"
 
-#include <QWidget>
-#include <QVector>
 #include <QPixmap>
+#include <QVector>
+#include <QWidget>
 
-namespace Mlt
-{
+namespace Mlt {
 class Filter;
 }
 
@@ -61,8 +60,8 @@ public slots:
     void showAudio(const QVector<double> &bands);
 
 protected:
-    void paintEvent(QPaintEvent *pe) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *pe) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     QVector<double> m_levels;
@@ -80,15 +79,15 @@ class AudioGraphSpectrum : public ScopeWidget
     Q_OBJECT
 public:
     AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = nullptr);
-    virtual ~AudioGraphSpectrum();
+    ~AudioGraphSpectrum() override;
 
 private:
     MonitorManager *m_manager;
     Mlt::Filter *m_filter;
     AudioGraphWidget *m_graphWidget;
-    //EqualizerWidget *m_equalizer;
+    // EqualizerWidget *m_equalizer;
     void processSpectrum();
-    void refreshScope(const QSize &size, bool full) Q_DECL_OVERRIDE;
+    void refreshScope(const QSize &size, bool full) override;
 
 public slots:
     void refreshPixmap();

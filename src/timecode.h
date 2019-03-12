@@ -22,7 +22,8 @@
 #include "gentime.h"
 
 /**
-Handles the conversion of a GenTime into a nicely formatted string, taking into account things such as drop frame if necessary. Handles multiple formats, such as HH:MM:SS:FF, HH:MM:SS:F, All Frames, All Seconds, etc.
+Handles the conversion of a GenTime into a nicely formatted string, taking into account things such as drop frame if necessary. Handles multiple formats, such
+as HH:MM:SS:FF, HH:MM:SS:F, All Frames, All Seconds, etc.
 
 @author Jason Wood
 */

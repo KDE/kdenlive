@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1109</width>
+    <width>1201</width>
     <height>269</height>
    </rect>
   </property>
@@ -14,20 +14,10 @@
    <string> Clip Problems</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="2">
-    <widget class="QPushButton" name="removeSelected">
+   <item row="2" column="0">
+    <widget class="QPushButton" name="recursiveSearch">
      <property name="text">
-      <string>Remove selected clips</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="4">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+      <string>Search recursively</string>
      </property>
     </widget>
    </item>
@@ -39,13 +29,6 @@
     </widget>
    </item>
    <item row="0" column="0" colspan="5">
-    <widget class="QLabel" name="infoLabel">
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="5">
     <widget class="QTreeWidget" name="treeWidget">
      <property name="alternatingRowColors">
       <bool>true</bool>
@@ -74,10 +57,13 @@
      </column>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QPushButton" name="recursiveSearch">
-     <property name="text">
-      <string>Search recursively</string>
+   <item row="2" column="4">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -94,8 +80,35 @@
      </property>
     </spacer>
    </item>
+   <item row="1" column="0" colspan="5">
+    <widget class="KMessageWidget" name="infoLabel">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+     <property name="messageType">
+      <enum>KMessageWidget::Warning</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="removeSelected">
+     <property name="text">
+      <string>Remove selected clips</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>recursiveSearch</tabstop>
   <tabstop>usePlaceholders</tabstop>

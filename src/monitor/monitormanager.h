@@ -21,17 +21,14 @@
 #define MONITORMANAGER_H
 
 #include "monitor.h"
-#include "recmonitor.h"
 
 #include "timecode.h"
 #include <QDir>
 
 class KdenliveDoc;
-class BinController;
 class KDualAction;
 
-namespace Mlt
-{
+namespace Mlt {
 class Profile;
 }
 
@@ -41,14 +38,16 @@ class MonitorManager : public QObject
 
 public:
     explicit MonitorManager(QObject *parent = nullptr);
-    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor, RecMonitor *recMonitor);
+    void initMonitors(Monitor *clipMonitor, Monitor *projectMonitor);
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
-    void resetProfiles(const MltVideoProfile &profile, const Timecode &tc);
+    void resetProfiles(const Timecode &tc);
+    /** @brief delete and rebuild consumer, for example when external display is switched */
+    void resetConsumers(bool fullReset);
     void stopActiveMonitor();
     void pauseActiveMonitor();
-    AbstractRender *activeRenderer();
+    AbstractMonitor *activeMonitor();
     /** Searches for a monitor with the given name.
     @return nullptr, if no monitor could be found, or the monitor otherwise.
     */
@@ -61,8 +60,6 @@ public:
     void setDocument(KdenliveDoc *doc);
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
-    BinController *binController();
-    Mlt::Profile *profile();
     /** @brief Return a mainwindow action from its id name. */
     QAction *getAction(const QString &name);
     Monitor *clipMonitor();
@@ -76,7 +73,7 @@ public slots:
 
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
-    bool activateMonitor(Kdenlive::MonitorId, bool forceRefresh = false);
+    bool activateMonitor(Kdenlive::MonitorId);
     bool isActive(Kdenlive::MonitorId id) const;
     void slotPlay();
     void slotPause();
@@ -94,6 +91,11 @@ public slots:
     void slotZoneEnd();
     void slotSetInPoint();
     void slotSetOutPoint();
+    void focusProjectMonitor();
+    void refreshProjectMonitor();
+    /** @brief Refresh project monitor if the timeline cursor is inside the range. */
+    void refreshProjectRange(QSize range);
+    void refreshClipMonitor();
 
     /** @brief Switch current monitor to fullscreen. */
     void slotSwitchFullscreen();
@@ -115,6 +117,10 @@ private slots:
     void slotSetInterpolation(int ix);
     /** @brief Switch muting on/off */
     void slotMuteCurrentMonitor(bool active);
+    /** @brief Zoom in active monitor */
+    void slotZoomIn();
+    /** @brief Zoom out active monitor */
+    void slotZoomOut();
 
 private:
     /** @brief Make sure 2 monitors cannot be activated simultaneously*/
@@ -122,12 +128,12 @@ private:
     QMutex m_switchMutex;
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
-    KdenliveDoc *m_document;
-    Monitor *m_clipMonitor;
-    Monitor *m_projectMonitor;
+    KdenliveDoc *m_document{nullptr};
+    Monitor *m_clipMonitor{nullptr};
+    Monitor *m_projectMonitor{nullptr};
     Timecode m_timecode;
-    AbstractMonitor *m_activeMonitor;
-    QList<AbstractMonitor *>m_monitorsList;
+    AbstractMonitor *m_activeMonitor{nullptr};
+    QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
 
 signals:

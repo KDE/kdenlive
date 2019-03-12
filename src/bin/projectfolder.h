@@ -41,51 +41,52 @@ public:
     /**
      * @brief Creates the supplied folder and loads its children.
      * @param description element describing the folder and its children
-     * @param parent parent folder
      */
-    ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent = nullptr);
+    static std::shared_ptr<ProjectFolder> construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model);
 
     /** @brief Creates an empty root folder. */
-    explicit ProjectFolder(Bin *bin);
+    static std::shared_ptr<ProjectFolder> construct(std::shared_ptr<ProjectItemModel> model);
 
-    ~ProjectFolder();
+protected:
+    ProjectFolder(const QString &id, const QString &name, const std::shared_ptr<ProjectItemModel> &model);
+
+    explicit ProjectFolder(const std::shared_ptr<ProjectItemModel> &model);
+
+public:
+    ~ProjectFolder() override;
 
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param id id of the child which should be returned
      */
-    ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
+    std::shared_ptr<ProjectClip> clip(const QString &id) override;
 
     /**
      * @brief Returns itself or a child folder that matches the requested id.
      * @param id id of the child which should be returned
      */
-    ProjectFolder *folder(const QString &id) Q_DECL_OVERRIDE;
+    std::shared_ptr<ProjectFolder> folder(const QString &id) override;
 
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) Q_DECL_OVERRIDE;
-
-    /** @brief Calls AbstractProjectItem::setCurrent and blank the bin monitor. */
-    void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
+    void setBinEffectsEnabled(bool enabled) override;
 
     /**
      * @brief Returns the clip if it is a child (also indirect).
      * @param index index of the child which should be returned
      */
-    ProjectClip *clipAt(int index) Q_DECL_OVERRIDE;
-
-    /** @brief Returns a pointer to the bin model this folder belongs to. */
-    Bin *bin() Q_DECL_OVERRIDE;
+    std::shared_ptr<ProjectClip> clipAt(int index) override;
 
     /** @brief Returns an xml description of the folder. */
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
-    QString getToolTip() const Q_DECL_OVERRIDE;
-    bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
+    QString getToolTip() const override;
+    bool rename(const QString &name, int column) override;
     /** @brief Returns a list of all children and sub-children clips. */
-    QList<ProjectClip *> childClips();
-
-private:
-    Bin *m_bin;
+    QList<std::shared_ptr<ProjectClip>> childClips();
+    /** @brief Returns true if folder contains a clip. */
+    bool hasChildClips() const;
+    ClipType::ProducerType clipType() const override;
+    /** @brief Returns true if item has both audio and video enabled. */
+    bool hasAudioAndVideo() const override;
 };
 
 #endif

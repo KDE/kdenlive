@@ -29,7 +29,6 @@ class V4lCaptureHandler
 public:
     V4lCaptureHandler();
     static QStringList getDeviceName(const QString &input);
-
 };
 
 #endif

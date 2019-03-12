@@ -5,9 +5,5 @@ ExternalProject_Add(
   GIT_TAG refactoring_timeline
 
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-    -DCMAKE_INSTALL_PREFIX=${KDENLIVE_INSTALL_DIR}
-    -DCMAKE_BUILD_TYPE=RelWithDebInfo
-    -DBUILD_TESTING=FALSE
-    -DBUILD_TESTS=FALSE
-
+  DEPENDS ext_mlt
 )

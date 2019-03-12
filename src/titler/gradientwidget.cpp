@@ -21,19 +21,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "gradientwidget.h"
 
+#include <QLinearGradient>
 #include <QPainter>
 #include <QPixmap>
 #include <QtMath>
-#include <QLinearGradient>
 
-#include <KSharedConfig>
 #include <KConfigGroup>
+#include <KSharedConfig>
 
-#include "utils/KoIconUtils.h"
-
-GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent) :
-    QDialog(parent),
-    Ui::GradientEdit_UI()
+GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, QWidget *parent)
+    : QDialog(parent)
+    , Ui::GradientEdit_UI()
 {
     setupUi(this);
     updatePreview();
@@ -42,8 +40,8 @@ GradientWidget::GradientWidget(const QMap<QString, QString> &gradients, int ix, 
     connect(angle, &QAbstractSlider::valueChanged, this, &GradientWidget::updatePreview);
     connect(color1, &KColorButton::changed, this, &GradientWidget::updatePreview);
     connect(color2, &KColorButton::changed, this, &GradientWidget::updatePreview);
-    add_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    remove_gradient->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
+    add_gradient->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    remove_gradient->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     connect(add_gradient, SIGNAL(clicked()), this, SLOT(saveGradient()));
     connect(remove_gradient, &QAbstractButton::clicked, this, &GradientWidget::deleteGradient);
     QFontMetrics metrics(font());
@@ -63,7 +61,8 @@ void GradientWidget::resizeEvent(QResizeEvent *event)
 QString GradientWidget::gradientToString() const
 {
     QStringList result;
-    result << color1->color().name(QColor::HexArgb) << color2->color().name(QColor::HexArgb) << QString::number(color1_pos->value()) << QString::number(color2_pos->value()) << QString::number(angle->value());
+    result << color1->color().name(QColor::HexArgb) << color2->color().name(QColor::HexArgb) << QString::number(color1_pos->value())
+           << QString::number(color2_pos->value()) << QString::number(angle->value());
     return result.join(QLatin1Char(';'));
 }
 
@@ -102,7 +101,7 @@ void GradientWidget::updatePreview()
         m_gradient.setStart(p.width() / 2, 0);
         m_gradient.setFinalStop(p.width() / 2 + (p.width() / 2) * qCos(qDegreesToRadians(ang)), p.height() * qSin(qDegreesToRadians(ang)));
     }
-    //qCDebug(KDENLIVE_LOG)<<"* * * ANGLE: "<<angle->value()<<" = "<<p.height() * tan(angle->value() * 3.1415926 / 180.0);
+    // qCDebug(KDENLIVE_LOG)<<"* * * ANGLE: "<<angle->value()<<" = "<<p.height() * tan(angle->value() * 3.1415926 / 180.0);
 
     QLinearGradient copy = m_gradient;
     QPointF gradStart = m_gradient.start() + QPointF(p.width() / 2, 0);
@@ -186,8 +185,8 @@ void GradientWidget::loadGradient()
     if (!item) {
         return;
     }
-    QString data = item->data(Qt::UserRole).toString();
-    QStringList res = data.split(QLatin1Char(';'));
+    QString grad_data = item->data(Qt::UserRole).toString();
+    QStringList res = grad_data.split(QLatin1Char(';'));
     color1->setColor(QColor(res.at(0)));
     color2->setColor(QColor(res.at(1)));
     color1_pos->setValue(res.at(2).toInt());
@@ -236,9 +235,8 @@ void GradientWidget::loadGradients(QMap<QString, QString> gradients)
         painter.fillRect(0, 0, pix.width(), pix.height(), QBrush(gr));
         painter.end();
         QIcon icon(pix);
-        QListWidgetItem *item = new QListWidgetItem(icon, k.key(), gradient_list);
+        auto *item = new QListWidgetItem(icon, k.key(), gradient_list);
         item->setData(Qt::UserRole, k.value());
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     }
 }
-

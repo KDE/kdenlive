@@ -21,17 +21,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "effectsettings.h"
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
 
-#include <QScrollArea>
+#include "klocalizedstring.h"
 #include <QApplication>
+#include <QResizeEvent>
+#include <QScrollArea>
 #include <QToolButton>
 #include <QVBoxLayout>
-#include <QResizeEvent>
-#include "klocalizedstring.h"
 
-ElidedCheckBox::ElidedCheckBox(QWidget *parent) :
-    QCheckBox(parent)
+ElidedCheckBox::ElidedCheckBox(QWidget *parent)
+    : QCheckBox(parent)
 {
 }
 
@@ -67,18 +66,18 @@ void ElidedCheckBox::resizeEvent(QResizeEvent *event)
     QCheckBox::resizeEvent(event);
 }
 
-EffectSettings::EffectSettings(QWidget *parent) :
-    QWidget(parent)
+EffectSettings::EffectSettings(QWidget *parent)
+    : QWidget(parent)
 {
-    QVBoxLayout *vbox1 = new QVBoxLayout(this);
+    auto *vbox1 = new QVBoxLayout(this);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
     checkAll = new ElidedCheckBox(this);
     checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    QHBoxLayout *hbox = new QHBoxLayout;
+    auto *hbox = new QHBoxLayout;
     hbox->addWidget(checkAll);
     effectCompare = new QToolButton(this);
-    effectCompare->setIcon(KoIconUtils::themedIcon(QStringLiteral("view-split-effect")));
+    effectCompare->setIcon(QIcon::fromTheme(QStringLiteral("view-split-effect")));
     effectCompare->setToolTip(i18n("Split compare"));
     effectCompare->setCheckable(true);
     effectCompare->setChecked(false);
@@ -95,10 +94,10 @@ EffectSettings::EffectSettings(QWidget *parent) :
     vbox1->addWidget(container);
     setLayout(vbox1);
 
-    //m_ui.buttonShowComments->setIcon(KoIconUtils::themedIcon(QStringLiteral("help-about")));
-    //m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
-    //connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
-    //m_ui.labelComment->setHidden(true);
+    // m_ui.buttonShowComments->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
+    // m_ui.buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
+    // connect(m_ui.buttonShowComments, SIGNAL(clicked()), this, SLOT(slotShowComments()));
+    // m_ui.labelComment->setHidden(true);
     setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 }
 
@@ -112,14 +111,14 @@ void EffectSettings::setLabel(const QString &label, const QString &tooltip)
 void EffectSettings::updateCheckState(int state)
 {
     checkAll->blockSignals(true);
-    checkAll->setCheckState((Qt::CheckState) state);
+    checkAll->setCheckState((Qt::CheckState)state);
     checkAll->blockSignals(false);
 }
 
 void EffectSettings::updatePalette()
 {
     // We need to reset current stylesheet if we want to change the palette!
-    //m_effectEdit->updatePalette();
+    // m_effectEdit->updatePalette();
 }
 
 void EffectSettings::resizeEvent(QResizeEvent *event)
@@ -128,4 +127,3 @@ void EffectSettings::resizeEvent(QResizeEvent *event)
     checkAll->updateText(checkAll->currentWidth() + diff);
     QWidget::resizeEvent(event);
 }
-

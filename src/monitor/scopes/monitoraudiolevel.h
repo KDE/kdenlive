@@ -25,41 +25,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "scopewidget.h"
 #include <QWidget>
 
-namespace Mlt
-{
-class Profile;
+namespace Mlt {
 class Filter;
-}
+} // namespace Mlt
 
 class MonitorAudioLevel : public ScopeWidget
 {
     Q_OBJECT
 public:
-    explicit MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent = nullptr);
-    virtual ~MonitorAudioLevel();
+    explicit MonitorAudioLevel(int height, QWidget *parent = nullptr);
+    ~MonitorAudioLevel() override;
     void refreshPixmap();
     int audioChannels;
     bool isValid;
     void setVisibility(bool enable);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     Mlt::Filter *m_filter;
     int m_height;
     QPixmap m_pixmap;
-    QVector <int> m_peaks;
-    QVector <int> m_values;
+    QVector<int> m_peaks;
+    QVector<int> m_values;
     int m_channelHeight;
     int m_channelDistance;
     int m_channelFillHeight;
     void drawBackground(int channels = 2);
-    void refreshScope(const QSize &size, bool full) Q_DECL_OVERRIDE;
+    void refreshScope(const QSize &size, bool full) override;
 
 private slots:
-    void setAudioValues(const QVector <int> &values);
+    void setAudioValues(const QVector<int> &values);
 };
 
 #endif

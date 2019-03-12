@@ -14,18 +14,18 @@
 #include <QRect>
 #include <QTime>
 
-#include <KSharedConfig>
 #include "klocalizedstring.h"
 #include <KConfigGroup>
+#include <KSharedConfig>
 
-RGBParade::RGBParade(QWidget *parent) :
-    AbstractGfxScopeWidget(true, parent)
+RGBParade::RGBParade(QWidget *parent)
+    : AbstractGfxScopeWidget(true, parent)
 {
-    ui = new Ui::RGBParade_UI();
-    ui->setupUi(this);
+    m_ui = new Ui::RGBParade_UI();
+    m_ui->setupUi(this);
 
-    ui->paintMode->addItem(i18n("RGB"), QVariant(RGBParadeGenerator::PaintMode_RGB));
-    ui->paintMode->addItem(i18n("White"), QVariant(RGBParadeGenerator::PaintMode_White));
+    m_ui->paintMode->addItem(i18n("RGB"), QVariant(RGBParadeGenerator::PaintMode_RGB));
+    m_ui->paintMode->addItem(i18n("White"), QVariant(RGBParadeGenerator::PaintMode_White));
 
     m_menu->addSeparator();
     m_aAxis = new QAction(i18n("Draw axis"), this);
@@ -38,7 +38,7 @@ RGBParade::RGBParade(QWidget *parent) :
     m_menu->addAction(m_aGradRef);
     connect(m_aGradRef, &QAction::changed, this, &RGBParade::forceUpdateScope);
 
-    connect(ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
+    connect(m_ui->paintMode, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdateScope()));
     connect(this, &RGBParade::signalMousePositionChanged, this, &RGBParade::forceUpdateHUD);
 
     m_rgbParadeGenerator = new RGBParadeGenerator();
@@ -49,7 +49,7 @@ RGBParade::~RGBParade()
 {
     writeConfig();
 
-    delete ui;
+    delete m_ui;
     delete m_rgbParadeGenerator;
     delete m_aAxis;
     delete m_aGradRef;
@@ -61,7 +61,7 @@ void RGBParade::readConfig()
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
+    m_ui->paintMode->setCurrentIndex(scopeConfig.readEntry("paintmode", 0));
     m_aAxis->setChecked(scopeConfig.readEntry("axis", false));
     m_aGradRef->setChecked(scopeConfig.readEntry("gradref", false));
 }
@@ -70,7 +70,7 @@ void RGBParade::writeConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    scopeConfig.writeEntry("paintmode", ui->paintMode->currentIndex());
+    scopeConfig.writeEntry("paintmode", m_ui->paintMode->currentIndex());
     scopeConfig.writeEntry("axis", m_aAxis->isChecked());
     scopeConfig.writeEntry("gradref", m_aGradRef->isChecked());
     scopeConfig.sync();
@@ -83,7 +83,7 @@ QString RGBParade::widgetName() const
 
 QRect RGBParade::scopeRect()
 {
-    QPoint topleft(offset, ui->verticalSpacer->geometry().y() + 2 * offset);
+    QPoint topleft(offset, m_ui->verticalSpacer->geometry().y() + 2 * offset);
     return QRect(topleft, QPoint(this->size().width() - offset, this->size().height() - offset));
 }
 
@@ -117,7 +117,7 @@ QImage RGBParade::renderHUD(uint)
         } else if (valY > scopeRect().height() - bottom) {
             valY = scopeRect().height() - bottom;
         }
-        int val = 255 * (1 - ((float)y / (scopeRect().height() - RGBParadeGenerator::distBottom)));
+        int val = 255 * (int)(1. - ((float)y / (float)(scopeRect().height() - RGBParadeGenerator::distBottom)));
         davinci.drawText(x, valY, QVariant(val).toString());
     }
 
@@ -130,10 +130,10 @@ QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
     QTime start = QTime::currentTime();
     start.start();
 
-    int paintmode = ui->paintMode->itemData(ui->paintMode->currentIndex()).toInt();
-    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode) paintmode,
-                    m_aAxis->isChecked(), m_aGradRef->isChecked(), accelerationFactor);
-    emit signalScopeRenderingFinished(start.elapsed(), accelerationFactor);
+    int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
+    QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode)paintmode, m_aAxis->isChecked(),
+                                                             m_aGradRef->isChecked(), accelerationFactor);
+    emit signalScopeRenderingFinished((uint)start.elapsed(), accelerationFactor);
     return parade;
 }
 
@@ -156,4 +156,3 @@ bool RGBParade::isBackgroundDependingOnInput() const
 {
     return false;
 }
-

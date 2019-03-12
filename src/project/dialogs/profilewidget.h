@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PROFILESELECTWIDGET_H
 
 #include "dialogs/profilesdialog.h"
+#include <memory>
 
 #include <QWidget>
 
@@ -32,6 +33,7 @@ class QTextEdit;
 class ProfileTreeModel;
 class ProfileFilter;
 class TreeView;
+class QTreeView;
 
 /**
  * @class ProfileWidget
@@ -44,8 +46,8 @@ class ProfileWidget : public QWidget
     Q_OBJECT
 public:
     explicit ProfileWidget(QWidget *parent = nullptr);
-    ~ProfileWidget();
-    void loadProfile(const QString& profile);
+    ~ProfileWidget() override;
+    void loadProfile(const QString &profile);
     const QString selectedProfile() const;
 
 private:
@@ -55,13 +57,12 @@ private:
     QString m_originalProfile;
     void slotUpdateInfoDisplay();
 
-    QComboBox *fpsFilt;
-    QComboBox *scanningFilt;
-
+    QComboBox *m_fpsFilt;
+    QComboBox *m_scanningFilt;
 
     QTreeView *m_treeView;
-    ProfileTreeModel *m_treeModel;
-    ProfileFilter* m_filter;
+    std::shared_ptr<ProfileTreeModel> m_treeModel;
+    ProfileFilter *m_filter;
 
     QTextEdit *m_descriptionPanel;
 
@@ -73,17 +74,19 @@ private:
     /* @brief Fill the description of the profile.
        @param profile_path is the path to the profile
     */
-    void fillDescriptionPanel(const QString& profile_path);
+    void fillDescriptionPanel(const QString &profile_path);
 
     /** @brief Select the profile with given path. Returns true on success */
-    bool trySelectProfile(const QString& profile);
+    bool trySelectProfile(const QString &profile);
 
     /** @brief Slot to be called whenever filtering changes */
     void slotFilterChanged();
 
+    /** @brief Reload available fps values */
+    void refreshFpsCombo();
+
 signals:
     void profileChanged();
-
 };
 
 #endif

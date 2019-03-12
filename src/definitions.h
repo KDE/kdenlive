@@ -21,30 +21,37 @@
 #define DEFINITIONS_H
 
 #include "gentime.h"
-#include "effectslist/effectslist.h"
+
 #include "kdenlive_debug.h"
 
-#include <QTreeWidgetItem>
-#include <QString>
+#include <QDomElement>
 #include <QHash>
+#include <QPersistentModelIndex>
+#include <QString>
+#include <cassert>
+#include <memory>
 
 const int MAXCLIPDURATION = 15000;
 
-namespace Kdenlive
-{
+namespace Kdenlive {
 
-enum MonitorId {
-    NoMonitor = 0x01,
-    ClipMonitor = 0x02,
-    ProjectMonitor = 0x04,
-    RecordMonitor = 0x08,
-    StopMotionMonitor = 0x10,
-    DvdMonitor = 0x20
-};
+enum MonitorId { NoMonitor = 0x01, ClipMonitor = 0x02, ProjectMonitor = 0x04, RecordMonitor = 0x08, StopMotionMonitor = 0x10, DvdMonitor = 0x20 };
 
 const int DefaultThumbHeight = 100;
+} // namespace Kdenlive
 
-}
+enum class GroupType {
+    Normal,
+    Selection, // in that case, the group is used to emulate a selection
+    AVSplit,   // in that case, the group links the audio and video of the same clip
+    Leaf       // This is a leaf (clip or composition)
+};
+
+const QString groupTypeToStr(GroupType t);
+GroupType groupTypeFromStr(const QString &s);
+
+enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, BinClip, NoItem };
+using ObjectId = std::pair<ObjectType, int>;
 
 enum OperationType {
     None = 0,
@@ -69,28 +76,23 @@ enum OperationType {
     ZoomTimeline
 };
 
-namespace PlaylistState
-{
+namespace PlaylistState {
+Q_NAMESPACE
+enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
+Q_ENUM_NS(ClipState)
+} // namespace PlaylistState
 
-enum ClipState {
-    Original = 0,
-    VideoOnly = 1,
-    AudioOnly = 2,
-    Disabled = 3
-};
+// returns a pair corresponding to (video, audio)
+std::pair<bool, bool> stateToBool(PlaylistState::ClipState state);
+PlaylistState::ClipState stateFromBool(std::pair<bool, bool> av);
 
+namespace TimelineMode {
+enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 }
 
-namespace TimelineMode
-{
-enum EditMode {
-    NormalEdit = 0,
-    OverwriteEdit = 1,
-    InsertEdit = 2
-};
-}
-
-enum ClipType {
+namespace ClipType {
+Q_NAMESPACE
+enum ProducerType {
     Unknown = 0,
     Audio = 1,
     Video = 2,
@@ -103,27 +105,18 @@ enum ClipType {
     Playlist = 9,
     WebVfx = 10,
     TextTemplate = 11,
-    QText
+    QText = 12,
+    Composition = 13,
+    Track = 14
 };
+Q_ENUM_NS(ProducerType)
+} // namespace ClipType
 
-enum ProjectItemType {
-    ProjectClipType = QTreeWidgetItem::UserType,
-    ProjectFoldeType,
-    ProjectSubclipType
-};
+enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 
-enum GraphicsRectItem {
-    AVWidget = 70000,
-    LabelWidget,
-    TransitionWidget,
-    GroupWidget
-};
+enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
-enum ProjectTool {
-    SelectTool = 0,
-    RazorTool = 1,
-    SpacerTool = 2
-};
+enum ProjectTool { SelectTool = 0, RazorTool = 1, SpacerTool = 2 };
 
 enum MonitorSceneType {
     MonitorSceneNone = 0,
@@ -135,55 +128,13 @@ enum MonitorSceneType {
     MonitorSceneRipple
 };
 
-enum TransitionType {
-    /** TRANSITIONTYPE: between 0-99: video trans, 100-199: video+audio trans, 200-299: audio trans */
-    LumaTransition = 0,
-    CompositeTransition = 1,
-    PipTransition = 2,
-    LumaFileTransition = 3,
-    MixTransition = 200
-};
+enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError };
 
-enum MessageType {
-    DefaultMessage,
-    ProcessingJobMessage,
-    OperationCompletedMessage,
-    InformationMessage,
-    ErrorMessage,
-    MltError
-};
+enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2 };
 
-enum TrackType {
-    AudioTrack = 0,
-    VideoTrack = 1
-};
+enum CacheType { SystemCacheRoot = -1, CacheRoot = 0, CacheBase = 1, CachePreview = 2, CacheProxy = 3, CacheAudio = 4, CacheThumbs = 5 };
 
-enum ClipJobStatus {
-    NoJob = 0,
-    JobWaiting = -1,
-    JobWorking = -2,
-    JobDone = -3,
-    JobCrashed = -4,
-    JobAborted = -5
-};
-
-enum CacheType {
-    SystemCacheRoot = -1,
-    CacheRoot = 0,
-    CacheBase = 1,
-    CachePreview = 2,
-    CacheProxy = 3,
-    CacheAudio = 4,
-    CacheThumbs = 5
-};
-
-enum TrimMode {
-    NormalTrim,
-    RippleTrim,
-    RollingTrim,
-    SlipTrim,
-    SlideTrim
-};
+enum TrimMode { NormalTrim, RippleTrim, RollingTrim, SlipTrim, SlideTrim };
 
 class TrackInfo
 {
@@ -195,36 +146,31 @@ public:
     bool isBlind;
     bool isLocked;
     int duration;
-    EffectsList effectsList;
-    TrackInfo() :
-        type(VideoTrack),
-        isMute(0),
-        isBlind(0),
-        isLocked(0),
-        duration(0),
-        effectsList(true) {}
+    /*EffectsList effectsList;
+    TrackInfo()
+        : type(VideoTrack)
+        , isMute(0)
+        , isBlind(0)
+        , isLocked(0)
+        , duration(0)
+        , effectsList(true)
+    {
+    }*/
 };
 
-struct ProfileInfo {
-    QSize profileSize;
-    double profileFps;
-};
-
-struct requestClipInfo {
+struct requestClipInfo
+{
     QDomElement xml;
     QString clipId;
     int imageHeight;
     bool replaceProducer;
 
-    bool operator==(const requestClipInfo &a) const
-    {
-        return clipId == a.clipId;
-    }
+    bool operator==(const requestClipInfo &a) const { return clipId == a.clipId; }
 };
 
 typedef QMap<QString, QString> stringMap;
-typedef QMap<int, QMap<int, QByteArray> > audioByteArray;
-typedef QVector<qint16> audioShortVector;
+typedef QMap<int, QMap<int, QByteArray>> audioByteArray;
+using audioShortVector = QVector<qint16>;
 
 class ItemInfo
 {
@@ -238,12 +184,12 @@ public:
     /** cropDuration is the duration of the clip */
     GenTime cropDuration;
     /** Track number */
-    int track;
-    ItemInfo() : track(0) {}
-    bool isValid() const
+    int track{0};
+    ItemInfo()
+         
     {
-        return startPos != endPos;
     }
+    bool isValid() const { return startPos != endPos; }
     bool contains(GenTime pos) const
     {
         if (startPos == endPos) {
@@ -251,10 +197,7 @@ public:
         }
         return (pos <= endPos && pos >= startPos);
     }
-    bool operator==(const ItemInfo &a) const
-    {
-        return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart;
-    }
+    bool operator==(const ItemInfo &a) const { return startPos == a.startPos && endPos == a.endPos && track == a.track && cropStart == a.cropStart; }
 };
 
 class TransitionInfo
@@ -265,51 +208,22 @@ public:
     /** endPos is the duration where the clip ends on the track */
     GenTime endPos;
     /** the track on which the transition is (b_track)*/
-    int b_track;
+    int b_track{0};
     /** the track on which the transition is applied (a_track)*/
-    int a_track;
+    int a_track{0};
     /** Does the user request for a special a_track */
-    bool forceTrack;
-    TransitionInfo() :
-        b_track(0),
-        a_track(0),
-        forceTrack(0) {}
-};
-
-class MltVideoProfile
-{
-public:
-    QString path;
-    QString description;
-    int frame_rate_num;
-    int frame_rate_den;
-    int width;
-    int height;
-    bool progressive;
-    int sample_aspect_num;
-    int sample_aspect_den;
-    int display_aspect_num;
-    int display_aspect_den;
-    int colorspace;
-    // A profile's width should always be a multiple of 8
-    void adjustWidth();
-    MltVideoProfile();
-    explicit MltVideoProfile(const QVariantList &params);
-    bool operator==(const MltVideoProfile &point) const;
-    bool operator!=(const MltVideoProfile &other) const;
-    /** @brief Returns true if both profiles have same fps, and can be mixed with the xml producer */
-    bool isCompatible(const MltVideoProfile &point) const;
-    bool isValid() const;
-    const QVariantList toList() const;
-    const QString descriptiveString();
-    const QString dialogDescriptiveString();
+    bool forceTrack{0};
+    TransitionInfo()
+         
+    {
+    }
 };
 
 class CommentedTime
 {
 public:
     CommentedTime();
-    CommentedTime(const GenTime &time, const QString &comment, int markerType = 0);
+    CommentedTime(const GenTime &time, QString comment, int markerType = 0);
     CommentedTime(const QString &hash, const GenTime &time);
 
     QString comment() const;
@@ -335,25 +249,82 @@ public:
     bool operator!=(const CommentedTime &op) const;
 
 private:
-    GenTime t;
-    QString c;
-    int type;
+    GenTime m_time;
+    QString m_comment;
+    int m_type{0};
 };
 
-QDebug operator << (QDebug qd, const ItemInfo &info);
-QDebug operator << (QDebug qd, const MltVideoProfile &profile);
+QDebug operator<<(QDebug qd, const ItemInfo &info);
 
-//we provide hash function for qstring
+// we provide hash function for qstring and QPersistentModelIndex
 namespace std {
-    template <>
-    struct hash<QString>
+template <> struct hash<QString>
+{
+    std::size_t operator()(const QString &k) const { return qHash(k); }
+};
+template <> struct hash<QPersistentModelIndex>
+{
+    std::size_t operator()(const QPersistentModelIndex &k) const { return qHash(k); }
+};
+} // namespace std
+
+// The following is a hack that allows to use shared_from_this in the case of a multiple inheritance.
+// Credit: https://stackoverflow.com/questions/14939190/boost-shared-from-this-and-multiple-inheritance
+template <typename T> struct enable_shared_from_this_virtual;
+
+class enable_shared_from_this_virtual_base : public std::enable_shared_from_this<enable_shared_from_this_virtual_base>
+{
+    using base_type = std::enable_shared_from_this<enable_shared_from_this_virtual_base>;
+    template <typename T> friend struct enable_shared_from_this_virtual;
+
+    std::shared_ptr<enable_shared_from_this_virtual_base> shared_from_this() { return base_type::shared_from_this(); }
+    std::shared_ptr<enable_shared_from_this_virtual_base const> shared_from_this() const { return base_type::shared_from_this(); }
+};
+
+template <typename T> struct enable_shared_from_this_virtual : virtual enable_shared_from_this_virtual_base
+{
+    using base_type = enable_shared_from_this_virtual_base;
+
+public:
+    std::shared_ptr<T> shared_from_this()
     {
-        std::size_t operator()(const QString& k) const
-        {
-            return qHash(k);
-        }
-    };
+        std::shared_ptr<T> result(base_type::shared_from_this(), static_cast<T *>(this));
+        return result;
+    }
 
-}
+    std::shared_ptr<T const> shared_from_this() const
+    {
+        std::shared_ptr<T const> result(base_type::shared_from_this(), static_cast<T const *>(this));
+        return result;
+    }
+};
 
+// This is a small trick to have a QAbstractItemModel with shared_from_this enabled without multiple inheritance
+// Be careful, if you use this class, you have to make sure to init weak_this_ when you construct a shared_ptr to your object
+template <class T> class QAbstractItemModel_shared_from_this : public QAbstractItemModel
+{
+protected:
+    QAbstractItemModel_shared_from_this()
+        : QAbstractItemModel()
+    {
+    }
+
+public:
+    std::shared_ptr<T> shared_from_this()
+    {
+        std::shared_ptr<T> p(weak_this_);
+        assert(p.get() == this);
+        return p;
+    }
+
+    std::shared_ptr<T const> shared_from_this() const
+    {
+        std::shared_ptr<T const> p(weak_this_);
+        assert(p.get() == this);
+        return p;
+    }
+
+public: // actually private, but avoids compiler template friendship issues
+    mutable std::weak_ptr<T> weak_this_;
+};
 #endif

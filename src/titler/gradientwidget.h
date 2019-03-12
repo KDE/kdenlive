@@ -35,7 +35,6 @@ class GradientWidget : public QDialog, public Ui::GradientEdit_UI
     Q_OBJECT
 
 public:
-
     /** @brief Draws the dialog and loads a title document (if any).
      * @param url title document to load
      * @param tc timecode of the project
@@ -43,7 +42,7 @@ public:
      * @param render project renderer
      * @param parent (optional) parent widget */
     explicit GradientWidget(const QMap<QString, QString> &gradients = QMap<QString, QString>(), int ix = 0, QWidget *parent = nullptr);
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
     QString gradientToString() const;
     static QLinearGradient gradientFromString(const QString &str, int width, int height);
     QMap<QString, QString> gradients() const;

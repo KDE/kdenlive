@@ -13,9 +13,8 @@ endif()
 
 install(FILES
   banner.png
-  blacklisted_effects.txt
-  blacklisted_transitions.txt
   encodingprofiles.rc
+  externalproxies.rc
   metadata.properties
   meta_ffmpeg.png
   meta_libav.png
@@ -29,7 +28,7 @@ install(FILES
 
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})
-install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_titles.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
+install(FILES kdenlive_renderprofiles.knsrc kdenlive_wipes.knsrc kdenlive_keyboardschemes.knsrc kdenlive_titles.knsrc DESTINATION ${CONFIG_INSTALL_DIR})
 install(FILES profiles.xml DESTINATION ${DATA_INSTALL_DIR}/kdenlive/export)
 install(FILES org.kde.kdenlive.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 install(FILES org.kde.kdenlive.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})

@@ -26,28 +26,28 @@ class RGBParade : public AbstractGfxScopeWidget
 {
 public:
     explicit RGBParade(QWidget *parent = nullptr);
-    ~RGBParade();
-    QString widgetName() const Q_DECL_OVERRIDE;
+    ~RGBParade() override;
+    QString widgetName() const override;
 
 protected:
-    void readConfig() Q_DECL_OVERRIDE;
+    void readConfig() override;
     void writeConfig();
-    QRect scopeRect() Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
 
 private:
-    Ui::RGBParade_UI *ui;
+    Ui::RGBParade_UI *m_ui;
     RGBParadeGenerator *m_rgbParadeGenerator;
 
     QAction *m_aAxis;
     QAction *m_aGradRef;
 
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE;
+    bool isHUDDependingOnInput() const override;
+    bool isScopeDependingOnInput() const override;
+    bool isBackgroundDependingOnInput() const override;
 
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderGfxScope(uint accelerationFactor, const QImage &) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
+    QImage renderBackground(uint accelerationFactor) override;
 };
 
 #endif // RGBPARADE_H

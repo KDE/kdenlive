@@ -21,118 +21,126 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "projectfolder.h"
-#include "projectclip.h"
 #include "bin.h"
-#include "utils/KoIconUtils.h"
+#include "core.h"
+#include "projectclip.h"
+#include "projectitemmodel.h"
 
-#include <QDomElement>
 #include <KLocalizedString>
-
-ProjectFolder::ProjectFolder(const QString &id, const QString &name, ProjectFolder *parent) :
-    AbstractProjectItem(AbstractProjectItem::FolderItem, id, parent)
-    , m_bin(nullptr)
+#include <QDomElement>
+#include <utility>
+ProjectFolder::ProjectFolder(const QString &id, const QString &name, const std::shared_ptr<ProjectItemModel> &model)
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, id, model)
 {
     m_name = name;
     m_clipStatus = StatusReady;
-    m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("folder"));
-    setParent(parent);
+    m_thumbnail = QIcon::fromTheme(QStringLiteral("folder"));
 }
 
-ProjectFolder::ProjectFolder(Bin *bin) :
-    AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1))
-    , m_bin(bin)
+std::shared_ptr<ProjectFolder> ProjectFolder::construct(const QString &id, const QString &name, std::shared_ptr<ProjectItemModel> model)
+{
+    std::shared_ptr<ProjectFolder> self(new ProjectFolder(id, name, std::move(model)));
+
+    baseFinishConstruct(self);
+    return self;
+}
+
+ProjectFolder::ProjectFolder(const std::shared_ptr<ProjectItemModel> &model)
+    : AbstractProjectItem(AbstractProjectItem::FolderItem, QString::number(-1), model, true)
 {
     m_name = QStringLiteral("root");
-    setParent(nullptr);
 }
 
-ProjectFolder::~ProjectFolder()
+std::shared_ptr<ProjectFolder> ProjectFolder::construct(std::shared_ptr<ProjectItemModel> model)
 {
+    std::shared_ptr<ProjectFolder> self(new ProjectFolder(std::move(model)));
+
+    baseFinishConstruct(self);
+    return self;
 }
 
-void ProjectFolder::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(notify)
-    if (current) {
-        bin()->openProducer(nullptr);
-    }
-}
+ProjectFolder::~ProjectFolder() = default;
 
-ProjectClip *ProjectFolder::clip(const QString &id)
+std::shared_ptr<ProjectClip> ProjectFolder::clip(const QString &id)
 {
-    for (int i = 0; i < count(); ++i) {
-        ProjectClip *clip = at(i)->clip(id);
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(child(i))->clip(id);
         if (clip) {
             return clip;
         }
     }
-    return nullptr;
+    return std::shared_ptr<ProjectClip>();
 }
 
-QList<ProjectClip *> ProjectFolder::childClips()
+QList<std::shared_ptr<ProjectClip>> ProjectFolder::childClips()
 {
-    QList<ProjectClip *> allChildren;
-    for (int i = 0; i < count(); ++i) {
-        AbstractProjectItem *child = at(i);
-        if (child->itemType() == ClipItem) {
-            allChildren << static_cast<ProjectClip *>(child);
-        } else if (child->itemType() == FolderItem) {
-            allChildren << static_cast<ProjectFolder *>(child)->childClips();
+    QList<std::shared_ptr<ProjectClip>> allChildren;
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<AbstractProjectItem> childItem = std::static_pointer_cast<AbstractProjectItem>(child(i));
+        if (childItem->itemType() == ClipItem) {
+            allChildren << std::static_pointer_cast<ProjectClip>(childItem);
+        } else if (childItem->itemType() == FolderItem) {
+            allChildren << std::static_pointer_cast<ProjectFolder>(childItem)->childClips();
         }
     }
     return allChildren;
 }
 
-QString ProjectFolder::getToolTip() const
+bool ProjectFolder::hasChildClips() const
 {
-    return i18np("%1 clip", "%1 clips", size());
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<AbstractProjectItem> childItem = std::static_pointer_cast<AbstractProjectItem>(child(i));
+        if (childItem->itemType() == ClipItem) {
+            return true;
+        }
+        if (childItem->itemType() == FolderItem) {
+            bool hasChildren = std::static_pointer_cast<ProjectFolder>(childItem)->hasChildClips();
+            if (hasChildren) {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
-ProjectFolder *ProjectFolder::folder(const QString &id)
+QString ProjectFolder::getToolTip() const
 {
-    if (m_id == id) {
-        return this;
+    return i18np("%1 clip", "%1 clips", childCount());
+}
+
+std::shared_ptr<ProjectFolder> ProjectFolder::folder(const QString &id)
+{
+    if (m_binId == id) {
+        return std::static_pointer_cast<ProjectFolder>(shared_from_this());
     }
-    for (int i = 0; i < count(); ++i) {
-        ProjectFolder *folderItem = at(i)->folder(id);
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<ProjectFolder> folderItem = std::static_pointer_cast<ProjectFolder>(child(i))->folder(id);
         if (folderItem) {
             return folderItem;
         }
     }
-    return nullptr;
+    return std::shared_ptr<ProjectFolder>();
 }
 
-ProjectClip *ProjectFolder::clipAt(int index)
+std::shared_ptr<ProjectClip> ProjectFolder::clipAt(int index)
 {
-    if (isEmpty()) {
-        return nullptr;
+    if (childCount() == 0) {
+        return std::shared_ptr<ProjectClip>();
     }
-    for (int i = 0; i < count(); ++i) {
-        ProjectClip *clip = at(i)->clipAt(index);
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<AbstractProjectItem>(child(i))->clipAt(index);
         if (clip) {
             return clip;
         }
     }
-    return nullptr;
+    return std::shared_ptr<ProjectClip>();
 }
 
-void ProjectFolder::disableEffects(bool disable)
+void ProjectFolder::setBinEffectsEnabled(bool enabled)
 {
-    for (int i = 0; i < count(); ++i) {
-        AbstractProjectItem *item = at(i);
-        item->disableEffects(disable);
-    }
-}
-
-Bin *ProjectFolder::bin()
-{
-    if (m_bin) {
-        return m_bin;
-    } else {
-        if (parent()) {
-            return parent()->bin();
-        }
-        return AbstractProjectItem::bin();
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<AbstractProjectItem> item = std::static_pointer_cast<AbstractProjectItem>(child(i));
+        item->setBinEffectsEnabled(enabled);
     }
 }
 
@@ -140,8 +148,8 @@ QDomElement ProjectFolder::toXml(QDomDocument &document, bool)
 {
     QDomElement folder = document.createElement(QStringLiteral("folder"));
     folder.setAttribute(QStringLiteral("name"), name());
-    for (int i = 0; i < count(); ++i) {
-        folder.appendChild(at(i)->toXml(document));
+    for (int i = 0; i < childCount(); ++i) {
+        folder.appendChild(std::static_pointer_cast<AbstractProjectItem>(child(i))->toXml(document));
     }
     return folder;
 }
@@ -153,7 +161,21 @@ bool ProjectFolder::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    bin()->renameFolderCommand(m_id, name, m_name);
-    return true;
+    if (auto ptr = m_model.lock()) {
+        auto self = std::static_pointer_cast<ProjectFolder>(shared_from_this());
+        return std::static_pointer_cast<ProjectItemModel>(ptr)->requestRenameFolder(self, name);
+    }
+    qDebug() << "ERROR: Impossible to rename folder because model is not available";
+    Q_ASSERT(false);
+    return false;
 }
 
+ClipType::ProducerType ProjectFolder::clipType() const
+{
+    return ClipType::Unknown;
+}
+
+bool ProjectFolder::hasAudioAndVideo() const
+{
+    return false;
+}

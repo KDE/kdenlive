@@ -42,7 +42,6 @@ class KoSliderCombo : public QComboBox
     Q_OBJECT
 
 public:
-
     /**
      * Constructor for the widget, where value is set to 0
      *
@@ -53,7 +52,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~KoSliderCombo();
+    ~KoSliderCombo() override;
 
     /**
      * The precision of values given as the number of digits after the period.
@@ -93,20 +92,20 @@ public:
     void setMaximum(qreal max);
 
     /**
-    * The value shown.
-    */
+     * The value shown.
+     */
     qreal value() const;
 
-    QSize minimumSizeHint() const Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    QSize sizeHint() const Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
+    QSize minimumSizeHint() const override; ///< reimplemented from KComboBox
+    QSize sizeHint() const override;        ///< reimplemented from KComboBox
 
 public slots:
 
     /**
-    * Sets the value.
-    * The value actually set is forced to be within the legal range: minimum <= value <= maximum
-    * @param value the new value
-    */
+     * Sets the value.
+     * The value actually set is forced to be within the legal range: minimum <= value <= maximum
+     * @param value the new value
+     */
     void setValue(qreal value);
 
 signals:
@@ -120,12 +119,12 @@ signals:
     void valueChanged(qreal value, bool final);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void hideEvent(QHideEvent *) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void changeEvent(QEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE; ///< reimplemented from KComboBox
+    void paintEvent(QPaintEvent *) override;       ///< reimplemented from KComboBox
+    void hideEvent(QHideEvent *) override;         ///< reimplemented from KComboBox
+    void changeEvent(QEvent *e) override;          ///< reimplemented from KComboBox
+    void mousePressEvent(QMouseEvent *e) override; ///< reimplemented from KComboBox
+    void keyPressEvent(QKeyEvent *e) override;     ///< reimplemented from KComboBox
+    void wheelEvent(QWheelEvent *e) override;      ///< reimplemented from KComboBox
 
 private:
     Q_PRIVATE_SLOT(d, void sliderValueChanged(int value))
@@ -133,7 +132,7 @@ private:
     Q_PRIVATE_SLOT(d, void lineEditFinished())
 
     class KoSliderComboPrivate;
-    KoSliderComboPrivate *const d;
+    KoSliderComboPrivate *const m_d;
 };
 
 #endif

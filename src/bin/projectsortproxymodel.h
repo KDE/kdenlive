@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef PROJECTSORTPROXYMODEL_H
 #define PROJECTSORTPROXYMODEL_H
 
-#include <QSortFilterProxyModel>
 #include <QCollator>
+#include <QSortFilterProxyModel>
 
 class QItemSelectionModel;
 
@@ -44,7 +44,7 @@ public slots:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Relay datachanged signal from view's model  */
-    void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2);
+    void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
 
 private slots:
     /** @brief Called when a row change is detected by selection model */
@@ -53,9 +53,9 @@ private slots:
 protected:
     /** @brief Decide which items should be displayed depending on the search string  */
     // cppcheck-suppress unusedFunction
-    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const Q_DECL_OVERRIDE;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
     /** @brief Reimplemented to show folders first  */
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const Q_DECL_OVERRIDE;
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterAcceptsRowItself(int source_row, const QModelIndex &source_parent) const;
     bool hasAcceptedChildren(int source_row, const QModelIndex &source_parent) const;
 

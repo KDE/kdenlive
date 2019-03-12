@@ -33,28 +33,28 @@ public:
 public slots:
     void slotSetPosition(int pos);
     void slotRemoveKeyframe(int pos);
-    void slotAddKeyframe(int pos = - 1, int select = false);
+    void slotAddKeyframe(int pos = -1, int select = false);
     void slotAddRemove();
     void slotGoToNext();
     void slotGoToPrev();
 
 protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
 
 private:
-    int m_duration;
-    int m_position;
-    int m_currentKeyframe;
-    int m_currentKeyframeOriginal;
-    int m_hoverKeyframe;
+    int m_duration{1};
+    int m_position{0};
+    int m_currentKeyframe{-1};
+    int m_currentKeyframeOriginal{-1};
+    int m_hoverKeyframe{-1};
     QList<int> m_keyframes;
     int m_lineHeight;
-    double m_scale;
+    double m_scale{1};
     int m_size;
 
     QColor m_colSelected;

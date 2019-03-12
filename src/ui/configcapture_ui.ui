@@ -52,117 +52,9 @@
        <height>0</height>
       </size>
      </property>
-     <widget class="QWidget" name="tab">
-      <attribute name="title">
-       <string>Firewire</string>
-      </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0" colspan="3">
-        <widget class="QLabel" name="dvgrab_info">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Capture format</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="KComboBox" name="kcfg_firewireformat">
-         <item>
-          <property name="text">
-           <string>DV Raw</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>DV AVI type 1</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>DV AVI type 2</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>HDV</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>241</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="2" column="0" colspan="3">
-        <widget class="QCheckBox" name="kcfg_firewireautosplit">
-         <property name="text">
-          <string>Automatically start a new file on scene cut</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0" colspan="3">
-        <widget class="QCheckBox" name="kcfg_firewiretimestamp">
-         <property name="text">
-          <string>Add recording time to captured file name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Capture file name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" colspan="2">
-        <widget class="QLineEdit" name="kcfg_dvgrabfilename"/>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>dvgrab additional parameters</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="3">
-        <widget class="QLineEdit" name="kcfg_dvgrabextra"/>
-       </item>
-       <item row="7" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>188</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </widget>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
        <string>FFmpeg</string>
@@ -756,9 +648,6 @@
  <tabstops>
   <tabstop>kcfg_defaultcapture</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>kcfg_firewireformat</tabstop>
-  <tabstop>kcfg_firewireautosplit</tabstop>
-  <tabstop>kcfg_firewiretimestamp</tabstop>
   <tabstop>kcfg_grab_capture_type</tabstop>
   <tabstop>kcfg_grab_follow_mouse</tabstop>
   <tabstop>kcfg_grab_hide_frame</tabstop>

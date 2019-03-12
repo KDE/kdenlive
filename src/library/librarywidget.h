@@ -20,29 +20,29 @@
  ***************************************************************************/
 
 /*!
-* @class LibraryWidget
-* @brief A "library" that contains a list of clips to be used across projects
-* @author Jean-Baptiste Mardelle
-*/
+ * @class LibraryWidget
+ * @brief A "library" that contains a list of clips to be used across projects
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef LIBRARYWIDGET_H
 #define LIBRARYWIDGET_H
 
 #include "definitions.h"
 
-#include <QTreeWidget>
-#include <QDir>
-#include <QTimer>
-#include <QStyledItemDelegate>
 #include <QApplication>
-#include <QPainter>
+#include <QDir>
 #include <QMutex>
+#include <QPainter>
+#include <QStyledItemDelegate>
+#include <QTimer>
+#include <QTreeWidget>
 
-#include <KMessageWidget>
-#include <KIOCore/KFileItem>
-#include <KIO/PreviewJob>
 #include <KIO/ListJob>
+#include <KIO/PreviewJob>
 #include <KIOCore/KCoreDirLister>
+#include <KIOCore/KFileItem>
+#include <KMessageWidget>
 
 class ProjectManager;
 class KJob;
@@ -54,14 +54,15 @@ class QToolBar;
  * @brief This class is responsible for drawing items in the QTreeView.
  */
 
-class LibraryItemDelegate: public QStyledItemDelegate
+class LibraryItemDelegate : public QStyledItemDelegate
 {
 public:
-    explicit LibraryItemDelegate(QObject *parent = nullptr): QStyledItemDelegate(parent)
+    explicit LibraryItemDelegate(QObject *parent = nullptr)
+        : QStyledItemDelegate(parent)
     {
     }
 
-    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
@@ -78,7 +79,7 @@ public:
         editor->setGeometry(r2);
     }
 
-    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
         QString text = index.data(Qt::UserRole + 1).toString();
@@ -90,10 +91,10 @@ public:
         const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
         int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
         hint.setWidth(width);
-        return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
+        return {hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height()))};
     }
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const Q_DECL_OVERRIDE
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 0) {
             QRect r1 = option.rect;
@@ -103,7 +104,7 @@ public:
             initStyleOption(&opt, index);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            //QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
+            // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
 
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if (option.state & QStyle::State_Selected) {
@@ -147,10 +148,10 @@ public:
     explicit LibraryTree(QWidget *parent = nullptr);
 
 protected:
-    QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    QStringList mimeTypes() const override;
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const override;
+    void dropEvent(QDropEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 public slots:
     void slotUpdateThumb(const QString &path, const QString &iconPath);
@@ -208,6 +209,8 @@ private:
 signals:
     void addProjectClips(const QList<QUrl> &);
     void thumbReady(const QString &, const QString &);
+    void enableAddSelection(bool);
+    void saveTimelineSelection(QDir);
 };
 
 #endif

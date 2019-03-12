@@ -22,24 +22,21 @@
 
 #include "kdenlivesettings.h"
 
-AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent):
-    QWidget(parent),
-    m_id(id),
-    m_monitorManager(manager)
+AbstractMonitor::AbstractMonitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent)
+    : QWidget(parent)
+    , m_id(id)
+    , m_monitorManager(manager)
 {
 }
 
-AbstractMonitor::~AbstractMonitor()
-{
-}
+AbstractMonitor::~AbstractMonitor() = default;
 
 bool AbstractMonitor::isActive() const
 {
     return m_monitorManager->isActive(m_id);
 }
 
-bool AbstractMonitor::slotActivateMonitor(bool forceRefresh)
+bool AbstractMonitor::slotActivateMonitor()
 {
-    return m_monitorManager->activateMonitor(m_id, forceRefresh);
+    return m_monitorManager->activateMonitor(m_id);
 }
-

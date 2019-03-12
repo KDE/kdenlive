@@ -1,7 +1,7 @@
 project (kdenlive-and-all-its-deps)
 
 #
-# Build all dependencies for Kdenlive and finally Kdenlive itself.
+# Build all dependencies for KMyMoney and finally KMyMoney itself.
 # Parameters: EXT_DOWNLOAD_DIR place to download all packages
 #             INSTALL_ROOT place to install everything to
 #
@@ -39,7 +39,7 @@ set(CMAKE_GLOBAL_PROFILE
   -DBUILD_TESTING=FALSE
 )
 
-# without --host=x86_64 gmp builds with optimizations for skylake and that prevents running Kdenlive on pre-skylake CPUs
+# without --host=x86_64 gmp builds with optimizations for skylake and that prevents running KMyMoney on pre-skylake CPUs
 set(AT_HOST --host=x86_64-linux-gnu)
 set(AT_SHARED_ONLY --disable-static --enable-shared)
 set(AT_CPP_FLAGS "-I${EXT_INSTALL_DIR}/include -I${EXT_INSTALL_DIR}/openssl/include")
@@ -93,22 +93,16 @@ add_subdirectory( ext_libsndfile )
 add_subdirectory( ext_libsamplerate )
 add_subdirectory( ext_alsa )
 add_subdirectory( ext_fftw3 )
-add_subdirectory( ext_fftw3f )
 add_subdirectory( ext_sdl2 )
+add_subdirectory( ext_ladspa )
 add_subdirectory( ext_x264 )
 add_subdirectory( ext_x265 )
 add_subdirectory( ext_libvpx )
 add_subdirectory( ext_ffmpeg )
-add_subdirectory( ext_sox )
-add_subdirectory( ext_jack )
-add_subdirectory( ext_ladspa )
 add_subdirectory( ext_cairo )
 add_subdirectory( ext_pango )
 add_subdirectory( ext_gdkpixbuf )
 add_subdirectory( ext_gtk+ )
-add_subdirectory( ext_gavl )
-add_subdirectory( ext_frei0r )
-add_subdirectory( ext_vidstab )
 add_subdirectory( ext_mlt )
 add_subdirectory( ext_ruby )
 add_subdirectory( ext_kdenlive )

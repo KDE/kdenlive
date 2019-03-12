@@ -89,7 +89,7 @@
     * fix crash on audiofiles
     * fix crash on opening project file with images
     * fix warnings from static analyzers (cppcheck, krazy)
-    * sort source files, easier to understand (for new developpers)
+    * sort source files, easier to understand (for new developers)
 
 0.9.8
     Changes:
@@ -103,7 +103,7 @@
 
     Bug fix:
     * Code cleanup (use const ref, fix includes, mem leaks, optimize...)
-    * Fix warnings from gcc, cppcheck, clang, scan-build: fixes many crashs & leaks
+    * Fix warnings from gcc, cppcheck, clang, scan-build: fixes many crashes & leaks
     * Fix keyframing messed up for some effects
     * Fix timeline corruption when trying to move clip before 0
     * Fix crash when closing title widget
@@ -278,7 +278,7 @@
     * Remove the "avformat-novalidate" trick for faster loading, caused crash. (#2205)
     * Allow to assign a shortcut to usage of proxies in project.
     * Use separate thread for generation of timeline thumbnails when zoom is at frame level to keep UI responsive.
-    * Allow to use JScript in render profile parameter values. Values that need evalutation need to be indicated by '%'.
+    * Allow to use JScript in render profile parameter values. Values that need evaluation need to be indicated by '%'.
     * Check for missing proxies on document opening.
     * Check document for invalid (overlapping) transitions.
     * Check for duration mismatch in clip producers when opening a document (can cause corruption).

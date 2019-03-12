@@ -23,10 +23,10 @@
 class AudioCorrelationInfo
 {
 public:
-    AudioCorrelationInfo(int mainSize, int subSize);
+    AudioCorrelationInfo(size_t mainSize, size_t subSize);
     ~AudioCorrelationInfo();
 
-    int size() const;
+    size_t size() const;
     qint64 *correlationVector();
     qint64 const *correlationVector() const;
 
@@ -40,17 +40,16 @@ public:
     /**
       Returns the index of the largest value in the correlation vector
       */
-    int maxIndex() const;
+    size_t maxIndex() const;
 
-    QImage toImage(int height = 400) const;
+    QImage toImage(size_t height = 400) const;
 
 private:
-    int m_mainSize;
-    int m_subSize;
+    size_t m_mainSize;
+    size_t m_subSize;
 
     qint64 *m_correlationVector;
     qint64 m_max;
-
 };
 
 #endif // AUDIOCORRELATIONINFO_H

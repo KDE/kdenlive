@@ -34,21 +34,16 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
 }
 
 // Responsible for item sorting!
-bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow,
-        const QModelIndex &sourceParent) const
+bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
     if (filterAcceptsRowItself(sourceRow, sourceParent)) {
         return true;
     }
-    //accept if any of the children is accepted on it's own merits
-    if (hasAcceptedChildren(sourceRow, sourceParent)) {
-        return true;
-    }
-    return false;
+    // accept if any of the children is accepted on it's own merits
+    return hasAcceptedChildren(sourceRow, sourceParent);
 }
 
-bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
-        const QModelIndex &sourceParent) const
+bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
     int cols = sourceModel()->columnCount();
     for (int i = 0; i < cols; i++) {
@@ -56,7 +51,9 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow,
         if (!index0.isValid()) {
             return false;
         }
-        if (sourceModel()->data(index0).toString().contains(m_searchString, Qt::CaseInsensitive)) {
+        auto model = sourceModel();
+        auto data = model->data(index0);
+        if (data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
             return true;
         }
     }
@@ -70,7 +67,7 @@ bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex
         return false;
     }
 
-    //check if there are children
+    // check if there are children
     int childCount = item.model()->rowCount(item);
     if (childCount == 0) {
         return false;
@@ -80,7 +77,7 @@ bool ProjectSortProxyModel::hasAcceptedChildren(int sourceRow, const QModelIndex
         if (filterAcceptsRowItself(i, item)) {
             return true;
         }
-        //recursive call -> NOTICE that this is depth-first searching, you're probably better off with breadth first search...
+        // recursive call -> NOTICE that this is depth-first searching, you're probably better off with breadth first search...
         if (hasAcceptedChildren(i, item)) {
             return true;
         }
@@ -95,12 +92,13 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
     int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
         // Let the normal alphabetical sort happen
+        // Let the normal alphabetical sort happen
         QVariant leftData;
         QVariant rightData;
         if (leftType == AbstractProjectItem::SubClipItem) {
             // Subclips, sort by start position
-            leftData = sourceModel()->data(left, AbstractProjectItem::DataDuration);
-            rightData = sourceModel()->data(right, AbstractProjectItem::DataDuration);
+            leftData = sourceModel()->data(left, AbstractProjectItem::DataInPoint);
+            rightData = sourceModel()->data(right, AbstractProjectItem::DataInPoint);
         } else {
             leftData = sourceModel()->data(left, Qt::DisplayRole);
             rightData = sourceModel()->data(right, Qt::DisplayRole);
@@ -143,8 +141,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
     }
 }
 
-void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2)
+void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
 {
-    emit dataChanged(ix1, ix2);
+    emit dataChanged(ix1, ix2, roles);
 }
-

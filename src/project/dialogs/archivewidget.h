@@ -22,14 +22,15 @@
 
 #include "ui_archivewidget_ui.h"
 
-#include <kio/global.h>
 #include <KIO/CopyJob>
 #include <QTemporaryFile>
+#include <kio/global.h>
 
 #include <QDialog>
+#include <QDomDocument>
 #include <QFuture>
 #include <QList>
-#include <QDomDocument>
+#include <memory>
 
 class KJob;
 class KArchive;
@@ -48,10 +49,10 @@ class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
     Q_OBJECT
 
 public:
-    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QList<ClipController *> &list, const QStringList &luma_list, QWidget *parent = nullptr);
+    ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QStringList &luma_list, QWidget *parent = nullptr);
     // Constructor for extracting widget
-    explicit ArchiveWidget(const QUrl &url, QWidget *parent = nullptr);
-    ~ArchiveWidget();
+    explicit ArchiveWidget(QUrl url, QWidget *parent = nullptr);
+    ~ArchiveWidget() override;
 
     QString extractedProjectFile() const;
 
@@ -76,7 +77,7 @@ private slots:
     void slotProxyOnly(int onlyProxy);
 
 protected:
-    void closeEvent(QCloseEvent *e) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent *e) override;
 
 private:
     KIO::filesize_t m_requestedSize;
@@ -113,4 +114,3 @@ signals:
 };
 
 #endif
-

@@ -18,23 +18,23 @@
  ***************************************************************************/
 
 #include "slideshowclip.h"
-#include "kdenlivesettings.h"
 #include "bin/projectclip.h"
+#include "kdenlivesettings.h"
 
 #include <KFileItem>
-#include <klocalizedstring.h>
 #include <KRecentDirs>
+#include <klocalizedstring.h>
 
 #include "kdenlive_debug.h"
-#include <QFontDatabase>
 #include <QDir>
+#include <QFontDatabase>
 #include <QStandardPaths>
 
-SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip, QWidget *parent) :
-    QDialog(parent),
-    m_count(0),
-    m_timecode(tc),
-    m_thumbJob(nullptr)
+SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip *clip, QWidget *parent)
+    : QDialog(parent)
+    , m_count(0)
+    , m_timecode(tc)
+    , m_thumbJob(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
@@ -54,7 +54,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     connect(m_view.slide_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLuma);
     connect(m_view.luma_fade, &QCheckBox::stateChanged, this, &SlideshowClip::slotEnableLumaFile);
 
-    //WARNING: keep in sync with project/clipproperties.cpp
+    // WARNING: keep in sync with project/clipproperties.cpp
     m_view.image_type->addItem(QStringLiteral("JPG (*.jpg)"), QStringLiteral("jpg"));
     m_view.image_type->addItem(QStringLiteral("JPEG (*.jpeg)"), QStringLiteral("jpeg"));
     m_view.image_type->addItem(QStringLiteral("PNG (*.png)"), QStringLiteral("png"));
@@ -135,15 +135,15 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
     folder.append(QStringLiteral("/lumas/PAL")); // TODO: cleanup the PAL / NTSC mess in luma files
     QDir lumafolder(folder);
     QStringList filesnames = lumafolder.entryList(filters, QDir::Files);
-    foreach (const QString &fname, filesnames) {
+    for (const QString &fname : filesnames) {
         QString filePath = lumafolder.absoluteFilePath(fname);
         m_view.luma_file->addItem(QIcon::fromTheme(filePath), fname, filePath);
     }
 
     if (clip) {
-        m_view.slide_loop->setChecked(clip->getProducerIntProperty(QStringLiteral("loop")));
-        m_view.slide_crop->setChecked(clip->getProducerIntProperty(QStringLiteral("crop")));
-        m_view.slide_fade->setChecked(clip->getProducerIntProperty(QStringLiteral("fade")));
+        m_view.slide_loop->setChecked(clip->getProducerIntProperty(QStringLiteral("loop")) != 0);
+        m_view.slide_crop->setChecked(clip->getProducerIntProperty(QStringLiteral("crop")) != 0);
+        m_view.slide_fade->setChecked(clip->getProducerIntProperty(QStringLiteral("fade")) != 0);
         m_view.luma_softness->setValue(clip->getProducerIntProperty(QStringLiteral("softness")));
         QString anim = clip->getProducerProperty(QStringLiteral("animation"));
         if (!anim.isEmpty()) {
@@ -167,7 +167,7 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
         slotEnableLumaFile(m_view.luma_fade->checkState());
         parseFolder();
     }
-    //adjustSize();
+    // adjustSize();
 }
 
 SlideshowClip::~SlideshowClip()
@@ -206,7 +206,6 @@ void SlideshowClip::slotEnableThumbs(int state)
             m_thumbJob = nullptr;
         }
     }
-
 }
 
 void SlideshowClip::slotEnableLumaFile(int state)
@@ -251,7 +250,7 @@ void SlideshowClip::parseFolder()
         // find pattern
         if (path_pattern.contains(QLatin1Char('?'))) {
             // New MLT syntax
-            if (path_pattern.section(QLatin1Char('?'),1).contains(QLatin1Char(':'))) {
+            if (path_pattern.section(QLatin1Char('?'), 1).contains(QLatin1Char(':'))) {
                 // Old deprecated format
                 offset = path_pattern.section(QLatin1Char(':'), -1).toInt();
             } else {
@@ -274,7 +273,7 @@ void SlideshowClip::parseFolder()
         QRegExp rx(regexp);
         QStringList entries;
         int ix;
-        foreach (const QString &p, result) {
+        for (const QString &p : result) {
             if (rx.exactMatch(p)) {
                 if (offset > 0) {
                     // make sure our image is in the range we want (> begin)
@@ -289,8 +288,8 @@ void SlideshowClip::parseFolder()
         }
         result = entries;
     }
-    foreach (const QString &p, result) {
-        QListWidgetItem *item = new QListWidgetItem(unknownicon, p);
+    for (const QString &p : result) {
+        auto *item = new QListWidgetItem(unknownicon, p);
         item->setData(Qt::UserRole, dir.filePath(p));
         m_view.icon_list->addItem(item);
     }
@@ -353,9 +352,10 @@ QString SlideshowClip::selectedPath()
     } else {
         url = m_view.pattern_url->url();
     }
-    QString path = selectedPath(url, m_view.method_mime->isChecked(), QStringLiteral(".all.") + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
+    QString path = selectedPath(url, m_view.method_mime->isChecked(),
+                                QStringLiteral(".all.") + m_view.image_type->itemData(m_view.image_type->currentIndex()).toString(), &list);
     m_count = list.count();
-    //qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
+    // qCDebug(KDENLIVE_LOG)<<"// SELECTED PATH: "<<path;
     return path;
 }
 
@@ -420,8 +420,8 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
             extension.append(QStringLiteral("?begin=%1").arg(firstFrame));
         }
     }
-    //qCDebug(KDENLIVE_LOG) << "// FOUND " << (*list).count() << " items for " << url.toLocalFile();
-    return  folder + extension;
+    // qCDebug(KDENLIVE_LOG) << "// FOUND " << (*list).count() << " items for " << url.toLocalFile();
+    return folder + extension;
 }
 
 QString SlideshowClip::clipName() const
@@ -527,11 +527,13 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
 {
     QString geometry;
     if (animation.startsWith(QLatin1String("Pan and zoom"))) {
-        geometry = QString().sprintf("0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%;%d=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%",
-                                     ttl - 1, ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1);
+        geometry = QString().sprintf(
+            "0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%;%d=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%", ttl - 1,
+            ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1);
         ttl *= 3;
     } else if (animation.startsWith(QLatin1String("Pan"))) {
-        geometry = QString().sprintf("0=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%",
+        geometry = QString().sprintf("0=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/"
+                                     "-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%",
                                      ttl - 1, ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1, ttl * 3, ttl * 4 - 1);
         ttl *= 4;
     } else if (animation.startsWith(QLatin1String("Zoom"))) {
@@ -539,4 +541,3 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
     }
     return geometry;
 }
-

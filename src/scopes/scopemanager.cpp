@@ -9,30 +9,30 @@
  ***************************************************************************/
 
 #include "scopemanager.h"
-#include "definitions.h"
-#include "kdenlivesettings.h"
-#include "core.h"
-#include "mainwindow.h"
-#include "monitor/monitormanager.h"
-#include "colorscopes/vectorscope.h"
-#include "colorscopes/waveform.h"
-#include "colorscopes/rgbparade.h"
-#include "colorscopes/histogram.h"
 #include "audioscopes/audiosignal.h"
 #include "audioscopes/audiospectrum.h"
 #include "audioscopes/spectrogram.h"
+#include "colorscopes/histogram.h"
+#include "colorscopes/rgbparade.h"
+#include "colorscopes/vectorscope.h"
+#include "colorscopes/waveform.h"
+#include "core.h"
+#include "definitions.h"
+#include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "monitor/monitormanager.h"
 
-#include <QDockWidget>
 #include "klocalizedstring.h"
+#include <QDockWidget>
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM
 #include <QDebug>
 #endif
 
-ScopeManager::ScopeManager(QObject *parent) :
-    QObject(parent),
-    m_lastConnectedRenderer(nullptr)
+ScopeManager::ScopeManager(QObject *parent)
+    : QObject(parent)
+
 {
     m_signalMapper = new QSignalMapper(this);
 
@@ -49,16 +49,16 @@ ScopeManager::ScopeManager(QObject *parent) :
 bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *audioScopeWidget)
 {
     bool added = false;
-    int exists = false;
+    int exists = 0;
     // Only add the scope if it does not exist yet in the list
-    for (int i = 0; i < m_audioScopes.size(); ++i) {
-        if (m_audioScopes[i].scope == audioScope) {
-            exists = true;
+    for (auto &m_audioScope : m_audioScopes) {
+        if (m_audioScope.scope == audioScope) {
+            exists = 1;
             break;
         }
     }
-    if (!exists) {
-        // Add scope to the list, set up signal/slot connections
+    if (exists == 0) {
+// Add scope to the list, set up signal/slot connections
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << audioScope->widgetName();
 #endif
@@ -82,14 +82,14 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
 bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *colorScopeWidget)
 {
     bool added = false;
-    int exists = false;
-    for (int i = 0; i < m_colorScopes.size(); ++i) {
-        if (m_colorScopes[i].scope == colorScope) {
-            exists = true;
+    int exists = 0;
+    for (auto &m_colorScope : m_colorScopes) {
+        if (m_colorScope.scope == colorScope) {
+            exists = 1;
             break;
         }
     }
-    if (!exists) {
+    if (exists == 0) {
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << colorScope->widgetName();
 #endif
@@ -118,11 +118,11 @@ void ScopeManager::slotDistributeAudio(const audioShortVector &sampleData, int f
 #ifdef DEBUG_SM
     qCDebug(KDENLIVE_LOG) << "ScopeManager: Starting to distribute audio.";
 #endif
-    for (int i = 0; i < m_audioScopes.size(); ++i) {
+    for (auto &m_audioScope : m_audioScopes) {
         // Distribute audio to all scopes that are visible and want to be refreshed
-        if (!m_audioScopes[i].scope->visibleRegion().isEmpty()) {
-            if (m_audioScopes[i].scope->autoRefreshEnabled()) {
-                m_audioScopes[i].scope->slotReceiveAudio(sampleData, freq, num_channels, num_samples);
+        if (!m_audioScope.scope->visibleRegion().isEmpty()) {
+            if (m_audioScope.scope->autoRefreshEnabled()) {
+                m_audioScope.scope->slotReceiveAudio(sampleData, freq, num_channels, num_samples);
 #ifdef DEBUG_SM
                 qCDebug(KDENLIVE_LOG) << "ScopeManager: Distributed audio to " << m_audioScopes[i].scope->widgetName();
 #endif
@@ -135,26 +135,26 @@ void ScopeManager::slotDistributeFrame(const QImage &image)
 #ifdef DEBUG_SM
     qCDebug(KDENLIVE_LOG) << "ScopeManager: Starting to distribute frame.";
 #endif
-    for (int i = 0; i < m_colorScopes.size(); ++i) {
-        if (!m_colorScopes[i].scope->visibleRegion().isEmpty()) {
-            if (m_colorScopes[i].scope->autoRefreshEnabled()) {
-                m_colorScopes[i].scope->slotRenderZoneUpdated(image);
+    for (auto &m_colorScope : m_colorScopes) {
+        if (!m_colorScope.scope->visibleRegion().isEmpty()) {
+            if (m_colorScope.scope->autoRefreshEnabled()) {
+                m_colorScope.scope->slotRenderZoneUpdated(image);
 #ifdef DEBUG_SM
                 qCDebug(KDENLIVE_LOG) << "ScopeManager: Distributed frame to " << m_colorScopes[i].scope->widgetName();
 #endif
-            } else if (m_colorScopes[i].singleFrameRequested) {
+            } else if (m_colorScope.singleFrameRequested) {
                 // Special case: Auto refresh is disabled, but user requested an update (e.g. by clicking).
                 // Force the scope to update.
-                m_colorScopes[i].singleFrameRequested = false;
-                m_colorScopes[i].scope->slotRenderZoneUpdated(image);
-                m_colorScopes[i].scope->forceUpdateScope();
+                m_colorScope.singleFrameRequested = false;
+                m_colorScope.scope->slotRenderZoneUpdated(image);
+                m_colorScope.scope->forceUpdateScope();
 #ifdef DEBUG_SM
                 qCDebug(KDENLIVE_LOG) << "ScopeManager: Distributed forced frame to " << m_colorScopes[i].scope->widgetName();
 #endif
             }
         }
     }
-    //checkActiveColourScopes();
+    // checkActiveColourScopes();
 }
 
 void ScopeManager::slotScopeReady()
@@ -172,20 +172,22 @@ void ScopeManager::slotRequestFrame(const QString &widgetName)
 
     // Search for the scope in the lists and tag it to trigger a forced update
     // in the distribution slots
-    for (int i = 0; i < m_colorScopes.size(); ++i) {
-        if (m_colorScopes[i].scope->widgetName() == widgetName) {
-            m_colorScopes[i].singleFrameRequested = true;
+    for (auto &m_colorScope : m_colorScopes) {
+        if (m_colorScope.scope->widgetName() == widgetName) {
+            m_colorScope.singleFrameRequested = true;
             break;
         }
     }
-    for (int i = 0; i < m_audioScopes.size(); ++i) {
-        if (m_audioScopes[i].scope->widgetName() == widgetName) {
-            m_audioScopes[i].singleFrameRequested = true;
+    for (auto &m_audioScope : m_audioScopes) {
+        if (m_audioScope.scope->widgetName() == widgetName) {
+            m_audioScope.singleFrameRequested = true;
             break;
         }
     }
     if (m_lastConnectedRenderer) {
-        m_lastConnectedRenderer->sendFrameUpdate();
+        // TODO: trigger refresh?
+        m_lastConnectedRenderer->refreshMonitorIfActive();
+        // m_lastConnectedRenderer->sendFrameUpdate();
     }
 }
 
@@ -204,7 +206,7 @@ void ScopeManager::slotUpdateActiveRenderer()
         m_lastConnectedRenderer->disconnect(this);
     }
 
-    m_lastConnectedRenderer = pCore->monitorManager()->activeRenderer();
+    m_lastConnectedRenderer = pCore->monitorManager()->activeMonitor();
     // DVD monitor shouldn't be monitored or will cause crash on deletion
     if (pCore->monitorManager()->isActive(Kdenlive::DvdMonitor)) {
         m_lastConnectedRenderer = nullptr;
@@ -212,10 +214,8 @@ void ScopeManager::slotUpdateActiveRenderer()
 
     // Connect new renderer
     if (m_lastConnectedRenderer != nullptr) {
-        connect(m_lastConnectedRenderer, &AbstractRender::frameUpdated,
-                this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
-        connect(m_lastConnectedRenderer, &AbstractRender::audioSamplesSignal,
-                this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &Monitor::frameUpdated, this, &ScopeManager::slotDistributeFrame, Qt::UniqueConnection);
+        connect(m_lastConnectedRenderer, &Monitor::audioSamplesSignal, this, &ScopeManager::slotDistributeAudio, Qt::UniqueConnection);
 
 #ifdef DEBUG_SM
         qCDebug(KDENLIVE_LOG) << "Renderer connected to ScopeManager: " << m_lastConnectedRenderer->id();
@@ -225,7 +225,7 @@ void ScopeManager::slotUpdateActiveRenderer()
 #ifdef DEBUG_SM
             qCDebug(KDENLIVE_LOG) << "Some scopes accept images, triggering frame update.";
 #endif
-            m_lastConnectedRenderer->sendFrameUpdate();
+            m_lastConnectedRenderer->refreshMonitorIfActive();
         }
     }
 }
@@ -243,8 +243,8 @@ void ScopeManager::slotCheckActiveScopes()
 bool ScopeManager::audioAcceptedByScopes() const
 {
     bool accepted = false;
-    for (int i = 0; i < m_audioScopes.size(); ++i) {
-        if (m_audioScopes.at(i).scope->isVisible() && m_audioScopes.at(i).scope->autoRefreshEnabled()) {
+    for (auto m_audioScope : m_audioScopes) {
+        if (m_audioScope.scope->isVisible() && m_audioScope.scope->autoRefreshEnabled()) {
             accepted = true;
             break;
         }
@@ -257,8 +257,8 @@ bool ScopeManager::audioAcceptedByScopes() const
 bool ScopeManager::imagesAcceptedByScopes() const
 {
     bool accepted = false;
-    for (int i = 0; i < m_colorScopes.size(); ++i) {
-        if (!m_colorScopes[i].scope->visibleRegion().isEmpty() && m_colorScopes[i].scope->autoRefreshEnabled()) {
+    for (auto m_colorScope : m_colorScopes) {
+        if (!m_colorScope.scope->visibleRegion().isEmpty() && m_colorScope.scope->autoRefreshEnabled()) {
             accepted = true;
             break;
         }
@@ -300,19 +300,14 @@ void ScopeManager::checkActiveColourScopes()
     if (monitor != nullptr) {
         monitor->sendFrameForAnalysis(imageStillRequested);
     }
-
-    RecMonitor *recMonitor = static_cast<RecMonitor *>(pCore->monitorManager()->monitor(Kdenlive::RecordMonitor));
-    if (recMonitor != nullptr) {
-        recMonitor->analyseFrames(imageStillRequested);
-    }
 }
 
 void ScopeManager::createScopes()
 {
-    createScopeDock(new Vectorscope(pCore->window()),   i18n("Vectorscope"), QStringLiteral("vectorscope"));
-    createScopeDock(new Waveform(pCore->window()),      i18n("Waveform"), QStringLiteral("waveform"));
-    createScopeDock(new RGBParade(pCore->window()),     i18n("RGB Parade"), QStringLiteral("rgb_parade"));
-    createScopeDock(new Histogram(pCore->window()),     i18n("Histogram"), QStringLiteral("histogram"));
+    createScopeDock(new Vectorscope(pCore->window()), i18n("Vectorscope"), QStringLiteral("vectorscope"));
+    createScopeDock(new Waveform(pCore->window()), i18n("Waveform"), QStringLiteral("waveform"));
+    createScopeDock(new RGBParade(pCore->window()), i18n("RGB Parade"), QStringLiteral("rgb_parade"));
+    createScopeDock(new Histogram(pCore->window()), i18n("Histogram"), QStringLiteral("histogram"));
     // Deprecated scopes
     // createScopeDock(new Spectrogram(pCore->window()),   i18n("Spectrogram"));
     // createScopeDock(new AudioSignal(pCore->window()),   i18n("Audio Signal"));
@@ -328,4 +323,3 @@ template <class T> void ScopeManager::createScopeDock(T *scopeWidget, const QStr
     // actual state will be restored by session management
     dock->close();
 }
-

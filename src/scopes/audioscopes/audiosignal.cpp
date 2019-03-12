@@ -22,24 +22,22 @@
 #include <QPainter>
 #include <QTime>
 
-#include <math.h>
+#include <cmath>
 
-AudioSignal::AudioSignal(QWidget *parent): AbstractAudioScopeWidget(false, parent)
+AudioSignal::AudioSignal(QWidget *parent)
+    : AbstractAudioScopeWidget(false, parent)
 {
     setMinimumHeight(10);
     setMinimumWidth(10);
-    dbscale << 0 << -1 << -2 << -3 << -4 << -5 << -6 << -8 << -10 << -20 << -40;
+    m_dbscale << 0 << -1 << -2 << -3 << -4 << -5 << -6 << -8 << -10 << -20 << -40;
     m_menu->removeAction(m_aRealtime);
     connect(&m_timer, &QTimer::timeout, this, &AudioSignal::slotNoAudioTimeout);
     init();
 }
 
-AudioSignal::~AudioSignal()
-{
-}
+AudioSignal::~AudioSignal() = default;
 
-QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
-                                     const int, const int num_channels, const int samples, const int)
+QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int)
 {
     QTime start = QTime::currentTime();
 
@@ -48,21 +46,21 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
     QByteArray chanAvg;
     for (int i = 0; i < num_channels; ++i) {
         long val = 0;
-        for (int s = 0; s < num_samples; s ++) {
+        for (int s = 0; s < num_samples; s++) {
             val += abs(audioFrame[i + s * num_channels] / 128);
         }
-        chanAvg.append(val / num_samples);
+        chanAvg.append(char(val / num_samples));
     }
 
-    if (peeks.count() != chanAvg.count()) {
-        peeks = QByteArray(chanAvg.count(), 0);
-        peekage = QByteArray(chanAvg.count(), 0);
+    if (m_peeks.count() != chanAvg.count()) {
+        m_peeks = QByteArray(chanAvg.count(), 0);
+        m_peekage = QByteArray(chanAvg.count(), 0);
     }
-    for (int chan = 0; chan < peeks.count(); chan++) {
-        peekage[chan] = peekage[chan] + 1;
-        if (peeks.at(chan) < chanAvg.at(chan) ||  peekage.at(chan) > 50) {
-            peekage[chan] = 0;
-            peeks[chan] = chanAvg[chan];
+    for (int chan = 0; chan < m_peeks.count(); chan++) {
+        m_peekage[chan] = char(m_peekage[chan] + 1);
+        if (m_peeks.at(chan) < chanAvg.at(chan) || m_peekage.at(chan) > 50) {
+            m_peekage[chan] = 0;
+            m_peeks[chan] = chanAvg[chan];
         }
     }
 
@@ -78,18 +76,18 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
     int dbsize = 20;
     if (!horiz) {
         // calculate actual width of lowest=longest db scale mark based on drawing font
-        dbsize = p.fontMetrics().width(QString().sprintf("%d", dbscale.at(dbscale.size() - 1)));
+        dbsize = p.fontMetrics().width(QString().sprintf("%d", m_dbscale.at(m_dbscale.size() - 1)));
     }
     bool showdb = width() > (dbsize + 40);
-    //valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
+    // valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
     for (int i = 0; i < numchan; ++i) {
-        //int maxx= (unsigned char)channels[i] * (horiz ? width() : height() ) / 127;
+        // int maxx= (unsigned char)m_channels[i] * (horiz ? width() : height() ) / 127;
         double valpixel = valueToPixel((double)(unsigned char)chanAvg[i] / 127.0);
-        int maxx =  height()  * valpixel;
-        int xdelta = height()   / 42;
+        int maxx = height() * valpixel;
+        int xdelta = height() / 42;
         int _y2 = (showdb ? width() - dbsize : width()) / numchan - 1;
         int _y1 = (showdb ? width() - dbsize : width()) * i / numchan;
-        int _x2 = maxx >  xdelta ? xdelta - 3 : maxx - 3;
+        int _x2 = maxx > xdelta ? xdelta - 3 : maxx - 3;
         if (horiz) {
             dbsize = 9;
             showdb = height() > (dbsize);
@@ -97,13 +95,13 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
             xdelta = width() / 42;
             _y2 = (showdb ? height() - dbsize : height()) / numchan - 1;
             _y1 = (showdb ? height() - dbsize : height()) * i / numchan;
-            _x2 = maxx >  xdelta ? xdelta - 1 : maxx - 1;
+            _x2 = maxx > xdelta ? xdelta - 1 : maxx - 1;
         }
 
         for (int x = 0; x <= 42; ++x) {
             int _x1 = x * xdelta;
             QColor sig = Qt::green;
-            //value of actual painted digit
+            // value of actual painted digit
             double ival = (double)_x1 / (double)xdelta / 42.0;
             if (ival > 40.0 / 42.0) {
                 sig = Qt::red;
@@ -121,30 +119,29 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame,
                 maxx -= xdelta;
             }
         }
-        int xp = valueToPixel((double)peeks.at(i) / 127.0) * (horiz ? width() : height()) - 2;
+        int xp = valueToPixel((double)m_peeks.at(i) / 127.0) * (horiz ? width() : height()) - 2;
         p.fillRect(horiz ? xp : _y1, horiz ? _y1 : height() - xdelta - xp, horiz ? 3 : _y2, horiz ? _y2 : 3, QBrush(Qt::gray, Qt::SolidPattern));
-
     }
     if (showdb) {
-        //draw db value at related pixel
-        for (int l = 0; l < dbscale.size(); l++) {
+        // draw db value at related pixel
+        for (int l : m_dbscale) {
             if (!horiz) {
-                double xf = pow(10.0, (double)dbscale.at(l) / 20.0) * (double)height();
-                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString().sprintf("%d", dbscale.at(l)));
+                double xf = pow(10.0, (double)l / 20.0) * (double)height();
+                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString().sprintf("%d", l));
             } else {
-                double xf = pow(10.0, (double)dbscale.at(l) / 20.0) * (double)width();
-                p.drawText(xf * 40 / 42 - 10, height() - 2, QString().sprintf("%d", dbscale.at(l)));
+                double xf = pow(10.0, (double)l / 20.0) * (double)width();
+                p.drawText(xf * 40 / 42 - 10, height() - 2, QString().sprintf("%d", l));
             }
         }
     }
     p.end();
-    emit signalScopeRenderingFinished((uint) start.elapsed(), 1);
+    emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
     return image;
 }
 
 QRect AudioSignal::scopeRect()
 {
-    return QRect(0, 0, width(), height());
+    return {0, 0, width(), height()};
 }
 
 QImage AudioSignal::renderHUD(uint)
@@ -167,7 +164,7 @@ void AudioSignal::slotReceiveAudio(audioShortVector audioSamples, int, int num_c
         long val = 0;
         double over1 = 0.0;
         double over2 = 0.0;
-        for (int s = 0; s < num_samples; s ++) {
+        for (int s = 0; s < num_samples; s++) {
             int sample = abs(audioSamples[i + s * num_channels] / 128);
             val += sample;
             if (sample == 128) {
@@ -175,7 +172,7 @@ void AudioSignal::slotReceiveAudio(audioShortVector audioSamples, int, int num_c
             } else {
                 num_oversample = 0;
             }
-            //if 3 samples over max => 1 peak over 0 db (0db=40.0)
+            // if 3 samples over max => 1 peak over 0 db (0db=40.0)
             if (num_oversample > 3) {
                 over1 = 41.0 / 42.0 * 127;
             }
@@ -183,15 +180,14 @@ void AudioSignal::slotReceiveAudio(audioShortVector audioSamples, int, int num_c
             if (num_oversample > 10) {
                 over2 = 127;
             }
-
         }
-        //max amplitude = 40/42, 3to10  oversamples=41, more then 10 oversamples=42
+        // max amplitude = 40/42, 3to10  oversamples=41, more then 10 oversamples=42
         if (over2 > 0.0) {
             chanSignal.append(over2);
         } else if (over1 > 0.0) {
             chanSignal.append(over1);
         } else {
-            chanSignal.append(val / num_samples * 40.0 / 42.0);
+            chanSignal.append(char((double)val / (double)num_samples * 40.0 / 42.0));
         }
     }
     showAudio(chanSignal);
@@ -200,23 +196,23 @@ void AudioSignal::slotReceiveAudio(audioShortVector audioSamples, int, int num_c
 
 void AudioSignal::slotNoAudioTimeout()
 {
-    peeks.fill(0);
+    m_peeks.fill(0);
     showAudio(QByteArray(2, 0));
     m_timer.stop();
 }
 
 void AudioSignal::showAudio(const QByteArray &arr)
 {
-    channels = arr;
-    if (peeks.count() != channels.count()) {
-        peeks = QByteArray(channels.count(), 0);
-        peekage = QByteArray(channels.count(), 0);
+    m_channels = arr;
+    if (m_peeks.count() != m_channels.count()) {
+        m_peeks = QByteArray(m_channels.count(), 0);
+        m_peekage = QByteArray(m_channels.count(), 0);
     }
-    for (int chan = 0; chan < peeks.count(); chan++) {
-        peekage[chan] = peekage[chan] + 1;
-        if (peeks.at(chan) < arr.at(chan) ||  peekage.at(chan) > 50) {
-            peekage[chan] = 0;
-            peeks[chan] = arr[chan];
+    for (int chan = 0; chan < m_peeks.count(); chan++) {
+        m_peekage[chan] = char(m_peekage[chan] + 1);
+        if (m_peeks.at(chan) < arr.at(chan) || m_peekage.at(chan) > 50) {
+            m_peekage[chan] = 0;
+            m_peeks[chan] = arr[chan];
         }
     }
     update();
@@ -224,7 +220,6 @@ void AudioSignal::showAudio(const QByteArray &arr)
 
 double AudioSignal::valueToPixel(double in)
 {
-    //in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
+    // in=0 -> return 0 (null length from max), in=127/127 return 1 (max length )
     return 1.0 - log10(in) / log10(1.0 / 127.0);
 }
-

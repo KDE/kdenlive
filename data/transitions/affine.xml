@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<transition tag="affine" id="affine">
+    <name>Transform</name>
+        <description>Perform an affine transform on for compositing.</description>
+        <author>Charles Yates</author>
+    <parameter type="animatedrect" name="geometry" default="0 0 %width %height 100">
+        <name>Rectangle</name>
+    </parameter>
+    <parameter type="keyframe" name="rotate_x" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
+                <name>Rotate X</name>
+    </parameter>
+    <parameter type="keyframe" name="rotate_y" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
+                <name>Rotate Y</name>
+    </parameter>
+    <parameter type="keyframe" name="rotate_z" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
+                <name>Rotate Z</name>
+    </parameter>
+    <parameter type="bool" name="distort" default="0" min="0" max="1">
+        <name>Distort</name>
+    </parameter>
+    <parameter type="fixed" name="keyed" default="1" min="1" max="1">
+        <name>Distort</name>
+    </parameter>
+</transition>

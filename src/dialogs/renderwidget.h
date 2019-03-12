@@ -22,12 +22,14 @@
 
 #include <KMessageWidget>
 
-#include <QPushButton>
 #include <QPainter>
+#include <QPushButton>
 #include <QStyledItemDelegate>
 
 #ifdef KF5_USE_PURPOSE
-namespace Purpose { class Menu; }
+namespace Purpose {
+class Menu;
+}
 #endif
 
 #include "definitions.h"
@@ -41,10 +43,12 @@ class RenderViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit RenderViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
+    explicit RenderViewDelegate(QWidget *parent)
+        : QStyledItemDelegate(parent)
+    {
+    }
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 1) {
             painter->save();
@@ -57,7 +61,7 @@ public:
             font.setBold(true);
             painter->setFont(font);
             QRect r1 = option.rect;
-            r1.adjust(0, textMargin, 0, - textMargin);
+            r1.adjust(0, textMargin, 0, -textMargin);
             int mid = (int)((r1.height() / 2));
             r1.setBottom(r1.y() + mid);
             QRect bounding;
@@ -95,7 +99,7 @@ public:
     }
 };
 
-class RenderJobItem: public QTreeWidgetItem
+class RenderJobItem : public QTreeWidgetItem
 {
 public:
     explicit RenderJobItem(QTreeWidget *parent, const QStringList &strings, int type = QTreeWidgetItem::Type);
@@ -115,14 +119,13 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    explicit RenderWidget(const QString &projectfolder, bool enableProxy, const QString &profile, QWidget *parent = nullptr);
-    virtual ~RenderWidget();
-    void setGuides(const QMap<double, QString> &guidesData, double duration);
+    explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
+    ~RenderWidget() override;
+    void setGuides(const QList<CommentedTime> &guidesList, double duration);
     void focusFirstVisibleItem(const QString &profile = QString());
-    void setProfile(const QString &profile);
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
-    void setDocumentPath(const QString &path);
+    void updateDocumentPath();
     void reloadProfiles();
     void setRenderProfile(const QMap<QString, QString> &props);
     int waitingJobsCount() const;
@@ -138,27 +141,21 @@ public:
     bool proxyRendering();
     /** @brief Returns true if the stem audio export checkbox is set. */
     bool isStemAudioExportEnabled() const;
-    enum RenderError {
-        CompositeError = 0,
-        ProfileError = 1,
-        ProxyWarning = 2,
-        PlaybackError = 3
-    };
+    enum RenderError { CompositeError = 0, ProfileError = 1, ProxyWarning = 2, PlaybackError = 3 };
 
     /** @brief Display warning message in render widget. */
     void errorMessage(RenderError type, const QString &message);
 
 protected:
-    QSize sizeHint() const Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    QSize sizeHint() const override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 public slots:
-    void slotExport(bool scriptExport, int zoneIn, int zoneOut,
-                    const QMap<QString, QString> &metadata,
-                    const QList<QString> &playlistPaths, const QList<QString> &trackNames,
-                    const QString &scriptPath, bool exportAudio);
+    Q_DECL_DEPRECATED void slotExport(bool scriptExport, int zoneIn, int zoneOut, const QMap<QString, QString> &metadata, const QList<QString> &playlistPaths,
+                                      const QList<QString> &trackNames, const QString &scriptPath, bool exportAudio);
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
+    void adjustViewToProfile();
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
@@ -169,7 +166,7 @@ private slots:
     void refreshParams();
     void slotSaveProfile();
     void slotEditProfile();
-    void slotDeleteProfile(bool refresh = true);
+    void slotDeleteProfile(bool dontRefresh = false);
     void slotUpdateGuideBox();
     void slotCheckStartGuidePosition();
     void slotCheckEndGuidePosition();
@@ -186,6 +183,7 @@ private slots:
     void slotPlayRendering(QTreeWidgetItem *item, int);
     void slotStartCurrentJob();
     void slotCopyToFavorites();
+    void slotDownloadNewRenderProfiles();
     void slotUpdateEncodeThreads(int);
     void slotUpdateRescaleHeight(int);
     void slotUpdateRescaleWidth(int);
@@ -208,14 +206,13 @@ private slots:
 private:
     Ui::RenderWidget_UI m_view;
     QString m_projectFolder;
-    QString m_profile;
     RenderViewDelegate *m_scriptsDelegate;
     RenderViewDelegate *m_jobsDelegate;
     bool m_blockProcessing;
     QString m_renderer;
     KMessageWidget *m_infoMessage;
     KMessageWidget *m_jobInfoMessage;
-    QMap<int, QString>m_errorMessages;
+    QMap<int, QString> m_errorMessages;
 
 #ifdef KF5_USE_PURPOSE
     Purpose::Menu *m_shareMenu;
@@ -232,6 +229,9 @@ private:
     /** @brief Create a rendering profile from MLT preset. */
     QTreeWidgetItem *loadFromMltPreset(const QString &groupName, const QString &path, const QString &profileName);
     void checkCodecs();
+    int getNewStuff(const QString &configFile);
+    void prepareRendering(bool delayedRendering, const QString &chapterFile);
+    void generateRenderFiles(QDomDocument doc, const QString &playlistPath, int in, int out, bool delayedRendering);
 
 signals:
     void abortProcess(const QString &url);
@@ -239,9 +239,7 @@ signals:
     /** Send the info about rendering that will be saved in the document:
     (profile destination, profile name and url of rendered file */
     void selectedRenderProfile(const QMap<QString, QString> &renderProps);
-    void prepareRenderingData(bool scriptExport, bool zoneOnly, const QString &chapterFile, const QString scriptPath);
     void shutdown();
 };
 
 #endif
-

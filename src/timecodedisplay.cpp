@@ -20,14 +20,17 @@
 #include "timecodedisplay.h"
 #include "kdenlivesettings.h"
 
-#include <QMouseEvent>
-#include <QLineEdit>
-#include <QStyle>
 #include <QFontDatabase>
+#include <QLineEdit>
+#include <QMouseEvent>
+#include <QStyle>
 
 #include <KColorScheme>
 
-MyValidator::MyValidator(QObject *parent) : QValidator(parent) {}
+MyValidator::MyValidator(QObject *parent)
+    : QValidator(parent)
+{
+}
 
 void MyValidator::fixup(QString &str) const
 {
@@ -43,25 +46,26 @@ QValidator::State MyValidator::validate(QString &str, int &) const
 }
 
 TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
-    : QAbstractSpinBox(parent),
-      m_timecode(t),
-      m_frametimecode(false),
-      m_minimum(0),
-      m_maximum(-1),
-      m_value(0)
+    : QAbstractSpinBox(parent)
+    , m_timecode(t)
+    , m_frametimecode(false)
+    , m_minimum(0)
+    , m_maximum(-1)
+    , m_value(0)
 {
-    QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     lineEdit()->setFont(ft);
     setFont(ft);
     lineEdit()->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     QFontMetrics fm(ft);
     setFrame(false);
     QPalette palette;
-    palette.setColor(QPalette::Base, Qt::transparent);//palette.window().color());
+    palette.setColor(QPalette::Base, Qt::transparent); // palette.window().color());
     setPalette(palette);
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
     setValue(m_minimum);
-    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() - lineEdit()->contentsRect().width() + QStyle::PM_SpinBoxFrameWidth + 6);
+    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() -
+                    lineEdit()->contentsRect().width() + (int)QStyle::PM_SpinBoxFrameWidth + 6);
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
     setAccelerated(true);
@@ -96,13 +100,13 @@ void TimecodeDisplay::setTimeCodeFormat(bool frametimecode, bool init)
     m_frametimecode = frametimecode;
     lineEdit()->clear();
     if (m_frametimecode) {
-        QIntValidator *valid = new QIntValidator(lineEdit());
+        auto *valid = new QIntValidator(lineEdit());
         valid->setBottom(0);
         lineEdit()->setValidator(valid);
         lineEdit()->setInputMask(QString());
     } else {
         lineEdit()->setInputMask(m_timecode.mask());
-        MyValidator *valid = new MyValidator(lineEdit());
+        auto *valid = new MyValidator(lineEdit());
         lineEdit()->setValidator(valid);
     }
     setValue(m_value);
@@ -172,7 +176,7 @@ int TimecodeDisplay::getValue() const
 
 GenTime TimecodeDisplay::gentime() const
 {
-    return GenTime(m_value, m_timecode.fps());
+    return {m_value, m_timecode.fps()};
 }
 
 Timecode TimecodeDisplay::timecode() const
@@ -204,38 +208,29 @@ void TimecodeDisplay::setValue(int value)
             return;
         }
         m_value = value;
-        lineEdit()->setText(QString::number(value));
+        lineEdit()->setText(QString::number(value - m_minimum));
     } else {
         if (value == m_value && lineEdit()->text() != QLatin1String(":::")) {
             return;
         }
         m_value = value;
-        QString v = m_timecode.getTimecodeFromFrames(value);
+        QString v = m_timecode.getTimecodeFromFrames(value - m_minimum);
         lineEdit()->setText(v);
     }
 }
 
 void TimecodeDisplay::setValue(const GenTime &value)
 {
-    setValue((int) value.frames(m_timecode.fps()));
-}
-
-void TimecodeDisplay::sendTimecode(bool send)
-{
-    if (send) {
-        connect(lineEdit(), &QLineEdit::textChanged, this, &TimecodeDisplay::emitTimeCode, Qt::UniqueConnection);
-    } else {
-        disconnect(lineEdit(), &QLineEdit::textChanged, this, &TimecodeDisplay::emitTimeCode);
-    }
+    setValue((int)value.frames(m_timecode.fps()));
 }
 
 void TimecodeDisplay::slotEditingFinished()
 {
     lineEdit()->deselect();
     if (m_frametimecode) {
-        setValue(lineEdit()->text().toInt());
+        setValue(lineEdit()->text().toInt() + m_minimum);
     } else {
-        setValue(lineEdit()->text());
+        setValue(m_timecode.getFrameCount(lineEdit()->text()) + m_minimum);
     }
     emit timeCodeEditingFinished(m_value);
 }
@@ -244,4 +239,3 @@ const QString TimecodeDisplay::displayText() const
 {
     return lineEdit()->displayText();
 }
-

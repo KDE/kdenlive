@@ -36,8 +36,8 @@ const int idRole = Qt::UserRole + 9;
 const int licenseRole = Qt::UserRole + 10;
 const int descriptionRole = Qt::UserRole + 11;
 
-
-struct OnlineItemInfo {
+struct OnlineItemInfo
+{
     QString itemPreview;
     QString itemName;
     QString itemDownload;
@@ -56,14 +56,10 @@ class AbstractService : public QObject
     Q_OBJECT
 
 public:
-    enum SERVICETYPE {
-        NOSERVICE = 0,
-        FREESOUND = 1,
-        OPENCLIPART = 2,
-        ARCHIVEORG = 3 };
+    enum SERVICETYPE { NOSERVICE = 0, FREESOUND = 1, OPENCLIPART = 2, ARCHIVEORG = 3 };
 
     explicit AbstractService(QListWidget *listWidget, QObject *parent = nullptr);
-    ~AbstractService();
+    ~AbstractService() override;
     /** @brief Get file extension for currently selected item. */
     virtual QString getExtension(QListWidgetItem *item);
     /** @brief Get recommEnded download file name. */
@@ -100,4 +96,3 @@ signals:
 };
 
 #endif
-

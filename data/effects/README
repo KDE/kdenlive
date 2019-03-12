@@ -51,7 +51,7 @@ The rest:
         - attribute "name": MLT filter parameter name
         - attribute "paramprefix": a string to be prepended to the parameter value before passing it to MLT
         - attribute "default": initial value, format depends on parameter type
-        - attribue  "optional": if it is set, it means that this parameter can have an empty value. So then loading a project, don't set its value to default
+        - attribute "optional": if it is set, it means that this parameter can have an empty value. So then loading a project, don't set its value to default
         - attribute "type": widget (GUI) to use
             - "fixed":
                 - sets a (MLT filter) parameter, but does not expose it to the user (no GUI)
@@ -66,7 +66,7 @@ The rest:
                     - "suffix": (optional) displayed unit of the values
             - "double":
                 - synonym for "constant"
-            - "bool": 
+            - "bool":
                 - true/false
                 - represented by a checkbox
             - "switch":
@@ -77,7 +77,7 @@ The rest:
                 - represented by a drop-down menu
                 - additional parameter attribute:
                     - "paramlist": list of possible values separated by semicolon (no whitespaces!)
-                - addtional tag:
+                - additional tag:
                     - "paramlistdisplay": (optional) list of names to use for the values separated by comma
             - "position":
                 - time stored as frame number
@@ -89,7 +89,7 @@ The rest:
                     - "alpha": (default = "0") use to enable alpha support
             - "keyframe":
                 - keyframable number
-                - keyframes are opt-in (only one keyframe by default -> should be prefered over "constant" whenever possible)
+                - keyframes are opt-in (only one keyframe by default -> should be preferred over "constant" whenever possible)
                 - works with MLT filters that utilize start/end values
                 - same attributes as "constant"
                 - additional attributes:

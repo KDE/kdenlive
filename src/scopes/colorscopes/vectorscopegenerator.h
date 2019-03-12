@@ -11,8 +11,8 @@
 #ifndef VECTORSCOPEGENERATOR_H
 #define VECTORSCOPEGENERATOR_H
 
-#include <QObject>
 #include <QImage>
+#include <QObject>
 
 class QImage;
 class QPoint;
@@ -27,17 +27,14 @@ public:
     enum ColorSpace { ColorSpace_YUV, ColorSpace_YPbPr };
     enum PaintMode { PaintMode_Green, PaintMode_Green2, PaintMode_Original, PaintMode_Chroma, PaintMode_YUV, PaintMode_Black };
 
-    QImage calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain,
-                                const VectorscopeGenerator::PaintMode &paintMode,
-                                const VectorscopeGenerator::ColorSpace &colorSpace,
-                                bool, uint accelFactor = 1) const;
+    QImage calculateVectorscope(const QSize &vectorscopeSize, const QImage &image, const float &gain, const VectorscopeGenerator::PaintMode &paintMode,
+                                const VectorscopeGenerator::ColorSpace &colorSpace, bool, uint accelFactor = 1) const;
 
     QPoint mapToCircle(const QSize &targetSize, const QPointF &point) const;
     static const float scaling;
 
 signals:
     void signalCalculationFinished(const QImage &image, uint ms);
-
 };
 
 #endif // VECTORSCOPEGENERATOR_H

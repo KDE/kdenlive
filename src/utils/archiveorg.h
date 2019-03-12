@@ -37,13 +37,13 @@ class ArchiveOrg : public AbstractService
 
 public:
     explicit ArchiveOrg(QListWidget *listWidget, QObject *parent = nullptr);
-    virtual ~ArchiveOrg();
-    QString getExtension(QListWidgetItem *item) Q_DECL_OVERRIDE;
-    QString getDefaultDownloadName(QListWidgetItem *item) Q_DECL_OVERRIDE;
+    ~ArchiveOrg() override;
+    QString getExtension(QListWidgetItem *item) override;
+    QString getDefaultDownloadName(QListWidgetItem *item) override;
 
 public slots:
-    void slotStartSearch(const QString &searchText, int page = 0) Q_DECL_OVERRIDE;
-    OnlineItemInfo displayItemDetails(QListWidgetItem *item) Q_DECL_OVERRIDE;
+    void slotStartSearch(const QString &searchText, int page = 0) override;
+    OnlineItemInfo displayItemDetails(QListWidgetItem *item) override;
     //  bool startItemPreview(QListWidgetItem *item);
     //  void stopItemPreview(QListWidgetItem *item);
 
@@ -63,4 +63,3 @@ signals:
 };
 
 #endif
-

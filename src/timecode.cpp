@@ -72,7 +72,7 @@ int timeBase = round(framerate); //We don’t need the exact framerate anymore, 
 
 int hourFrames = timeBase*60*60; //Number of frames per hour (non-drop)
 int minuteFrames = timeBase*60; //Number of frames per minute (non-drop)
-int totalMinutes = (60*hours) + minutes; //Total number of minuts
+int totalMinutes = (60*hours) + minutes; //Total number of minutes
 int frameNumber = ((hourFrames * hours) + (minuteFrames * minutes) + (timeBase * seconds) + frames) - (dropFrames * (totalMinutes - (totalMinutes \ 10)));
 return frameNumber;
 
@@ -87,19 +87,17 @@ Timecode::Timecode(Formats format, double framesPerSecond)
     setFormat(framesPerSecond, format);
 }
 
-Timecode::~Timecode()
-{
-}
+Timecode::~Timecode() = default;
 
 void Timecode::setFormat(double framesPerSecond, Formats format)
 {
     m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
-    m_dropFrameTimecode = (framesPerSecond / 1.00 != (int)framesPerSecond);
+    m_dropFrameTimecode = !qFuzzyCompare(framesPerSecond, qRound(framesPerSecond));
     m_format = format;
     m_realFps = framesPerSecond;
     if (m_dropFrameTimecode) {
-        m_dropFrames = round(m_realFps * .066666); //Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
-        m_framesPer10Minutes = round(m_realFps * 600); //Number of frames per ten minutes
+        m_dropFrames = round(m_realFps * .066666);     // Number of frames to drop on the minute marks is the nearest integer to 6% of the framerate
+        m_framesPer10Minutes = round(m_realFps * 600); // Number of frames per ten minutes
     }
 }
 
@@ -118,15 +116,13 @@ const QString Timecode::mask(const GenTime &t) const
     if (t < GenTime()) {
         if (m_dropFrameTimecode) {
             return QStringLiteral("#99:99:99,99");
-        } else {
-            return QStringLiteral("#99:99:99:99");
         }
+        return QStringLiteral("#99:99:99:99");
     }
     if (m_dropFrameTimecode) {
         return QStringLiteral("99:99:99,99");
-    } else {
-        return QStringLiteral("99:99:99:99");
     }
+    return QStringLiteral("99:99:99:99");
 }
 
 QString Timecode::reformatSeparators(QString duration) const
@@ -154,12 +150,14 @@ int Timecode::getFrameCount(const QString &duration) const
     seconds = duration.midRef(6 + offset, 2).toInt();
     frames = duration.rightRef(2).toInt();
     if (m_dropFrameTimecode) {
-        //CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
-        //Code by David Heidelberger, adapted from Andrew Duncan
-        //Given ints called hours, minutes, seconds, frames, and a double called framerate
+        // CONVERT DROP FRAME TIMECODE TO A FRAME NUMBER
+        // Code by David Heidelberger, adapted from Andrew Duncan
+        // Given ints called hours, minutes, seconds, frames, and a double called framerate
 
-        int totalMinutes = (60 * hours) + minutes; //Total number of minutes
-        int frameNumber = ((m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) - (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
+        int totalMinutes = (60 * hours) + minutes; // Total number of minutes
+        int frameNumber =
+            ((m_displayedFramesPerSecond * 3600 * hours) + (m_displayedFramesPerSecond * 60 * minutes) + (m_displayedFramesPerSecond * seconds) + frames) -
+            (m_dropFrames * (totalMinutes - floor(totalMinutes / 10)));
         return frameNumber;
     }
     return (int)((hours * 3600.0 + minutes * 60.0 + seconds) * m_realFps + frames);
@@ -168,7 +166,7 @@ int Timecode::getFrameCount(const QString &duration) const
 QString Timecode::getDisplayTimecode(const GenTime &time, bool frameDisplay) const
 {
     if (frameDisplay) {
-        return QString::number((int) time.frames(m_realFps));
+        return QString::number((int)time.frames(m_realFps));
     }
     return getTimecode(time);
 }
@@ -189,9 +187,7 @@ QString Timecode::getTimecode(const GenTime &time) const
         return getTimecodeSeconds(time);
         break;
     default:
-        qCWarning(KDENLIVE_LOG) <<
-                                "Unknown timecode format specified, defaulting to HH_MM_SS_FF"
-                                << endl;
+        qCWarning(KDENLIVE_LOG) << "Unknown timecode format specified, defaulting to HH_MM_SS_FF" << endl;
         return getTimecodeHH_MM_SS_FF(time);
     }
 }
@@ -209,7 +205,7 @@ const QString Timecode::getTimecodeFromFrames(int frames) const
     return getTimecodeHH_MM_SS_FF(frames);
 }
 
-//static
+// static
 QString Timecode::getStringTimecode(int frames, const double &fps, bool showFrames)
 {
     // Returns the timecode in an hh:mm:ss format
@@ -220,7 +216,7 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
         frames = qAbs(frames);
     }
 
-    int seconds = (int)(frames / fps);
+    auto seconds = (int)(frames / fps);
     int frms = frames % (int)(fps + 0.5);
     int minutes = seconds / 60;
     seconds = seconds % 60;
@@ -247,7 +243,7 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(const GenTime &time) const
     if (m_dropFrameTimecode) {
         return getTimecodeDropFrame(time);
     }
-    return getTimecodeHH_MM_SS_FF((int) time.frames(m_realFps));
+    return getTimecodeHH_MM_SS_FF((int)time.frames(m_realFps));
 }
 
 const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
@@ -287,7 +283,7 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
 
 const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime &time) const
 {
-    int hundredths = (int)(time.seconds() * 100);
+    auto hundredths = (int)(time.seconds() * 100);
 
     bool negative = false;
     if (hundredths < 0) {
@@ -323,7 +319,7 @@ const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime &time) const
 
 const QString Timecode::getTimecodeFrames(const GenTime &time) const
 {
-    return QString::number((int) time.frames(m_realFps));
+    return QString::number((int)time.frames(m_realFps));
 }
 
 const QString Timecode::getTimecodeSeconds(const GenTime &time) const
@@ -340,10 +336,10 @@ const QString Timecode::getTimecodeDropFrame(const GenTime &time) const
 
 const QString Timecode::getTimecodeDropFrame(int framenumber) const
 {
-    //CONVERT A FRAME NUMBER TO DROP FRAME TIMECODE
-    //Based on code by David Heidelberger, adapted from Andrew Duncan
-    //Given an int called framenumber and a double called framerate
-    //Framerate should be 29.97, 59.94, or 23.976, otherwise the calculations will be off.
+    // CONVERT A FRAME NUMBER TO DROP FRAME TIMECODE
+    // Based on code by David Heidelberger, adapted from Andrew Duncan
+    // Given an int called framenumber and a double called framerate
+    // Framerate should be 29.97, 59.94, or 23.976, otherwise the calculations will be off.
 
     bool negative = false;
     if (framenumber < 0) {
@@ -361,8 +357,8 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     }
 
     int frames = framenumber % m_displayedFramesPerSecond;
-    int seconds = (int) floor(framenumber / m_displayedFramesPerSecond) % 60;
-    int minutes = (int) floor(floor(framenumber / m_displayedFramesPerSecond) / 60) % 60;
+    int seconds = (int)floor(framenumber / m_displayedFramesPerSecond) % 60;
+    int minutes = (int)floor(floor(framenumber / m_displayedFramesPerSecond) / 60) % 60;
     int hours = floor(floor(floor(framenumber / m_displayedFramesPerSecond) / 60) / 60);
 
     QString text;

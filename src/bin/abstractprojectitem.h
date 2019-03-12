@@ -23,17 +23,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef ABSTRACTPROJECTITEM_H
 #define ABSTRACTPROJECTITEM_H
 
-#include "project/jobs/abstractclipjob.h"
+#include "abstractmodel/treeitem.hpp"
+#include "undohelper.hpp"
 
-#include <QObject>
-#include <QPixmap>
 #include <QDateTime>
+#include <QIcon>
+#include <QObject>
+#include <QReadWriteLock>
 
 class ProjectClip;
 class ProjectFolder;
 class Bin;
 class QDomElement;
 class QDomDocument;
+class ProjectItemModel;
 
 /**
  * @class AbstractProjectItem
@@ -42,77 +45,54 @@ class QDomDocument;
  * Project items are stored in a tree like structure ...
  */
 
-class AbstractProjectItem : public QObject, public QList<AbstractProjectItem *>
+class AbstractProjectItem : public QObject, public TreeItem
 {
     Q_OBJECT
 
 public:
-
-    enum PROJECTITEMTYPE {
-        FolderUpItem = 0,
-        FolderItem = 1,
-        ClipItem = 2,
-        SubClipItem = 3
-    };
+    enum PROJECTITEMTYPE { FolderUpItem = 0, FolderItem = 1, ClipItem = 2, SubClipItem = 3 };
 
     /**
      * @brief Constructor.
-     * @param parent parent this item should be added to
+     * @param type is the type of the bin item
+     * @param id is the binId
+     * @param model is the ptr to the item model
+     * @param isRoot is true if this is the topmost folder
      */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent = nullptr);
-    /**
-     * @brief Creates a project item upon project load.
-     * @param description element for this item.
-     * @param parent parent this item should be added to
-     *
-     * We try to read the attributes "name" and "description"
-     */
-    AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem *parent = nullptr);
-    virtual ~AbstractProjectItem();
+    AbstractProjectItem(PROJECTITEMTYPE type, QString id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot = false);
 
-    bool operator==(const AbstractProjectItem *projectItem) const;
+    bool operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const;
 
     /** @brief Returns a pointer to the parent item (or NULL). */
-    AbstractProjectItem *parent() const;
-    /** @brief Removes the item from its current parent and adds it as a child to @param parent. */
-    virtual void setParent(AbstractProjectItem *parent);
-
-    /**
-     * @brief Adds a new child item and notifies the bin model about it (before and after).
-     * @param child project item which should be added as a child
-     *
-     * This function is called by setParent.
-     */
-    virtual void addChild(AbstractProjectItem *child);
-
-    /**
-     * @brief Removes a child item and notifies the bin model about it (before and after).
-     * @param child project which should be removed from the child list
-     *
-     * This function is called when a child's parent is changed through setParent
-     */
-    virtual void removeChild(AbstractProjectItem *child);
-
-    /** @brief Returns a pointer to the bin model this item is child of (through its parent item). */
-    virtual Bin *bin();
-
-    /** @brief Returns the index this item has in its parent's child list. */
-    int index() const;
+    std::shared_ptr<AbstractProjectItem> parent() const;
 
     /** @brief Returns the type of this item (folder, clip, subclip, etc). */
     PROJECTITEMTYPE itemType() const;
 
     /** @brief Used to search for a clip with a specific id. */
-    virtual ProjectClip *clip(const QString &id) = 0;
+    virtual std::shared_ptr<ProjectClip> clip(const QString &id) = 0;
     /** @brief Used to search for a folder with a specific id. */
-    virtual ProjectFolder *folder(const QString &id) = 0;
-    virtual ProjectClip *clipAt(int ix) = 0;
+    virtual std::shared_ptr<ProjectFolder> folder(const QString &id) = 0;
+    virtual std::shared_ptr<ProjectClip> clipAt(int ix) = 0;
     /** @brief Recursively disable/enable bin effects. */
-    virtual void disableEffects(bool disable) = 0;
+    virtual void setBinEffectsEnabled(bool enabled) = 0;
+    /** @brief Returns true if item has both audio and video enabled. */
+    virtual bool hasAudioAndVideo() const = 0;
+
+    /** @brief This function executes what should be done when the item is deleted
+        but without deleting effectively.
+        For example, the item will deregister itself from the model and delete the
+        clips from the timeline.
+        However, the object is NOT actually deleted, and the tree structure is preserved.
+        @param Undo,Redo are the lambdas accumulating the update.
+     */
+    virtual bool selfSoftDelete(Fun &undo, Fun &redo);
 
     /** @brief Returns the clip's id. */
     const QString &clipId() const;
     virtual QPoint zone() const;
+
+    // TODO refac : these ref counting are probably deprecated by smart ptrs
     /** @brief Set current usage count. */
     void setRefCount(uint count);
     /** @brief Returns clip's current usage count in timeline. */
@@ -143,22 +123,22 @@ public:
         ItemTypeRole,
         // Duration of the clip
         DataDuration,
+        // Inpoint of the subclip (0 for clips)
+        DataInPoint,
         // If there is a running job, which type
         JobType,
         // Current progress of the job
         JobProgress,
         // error message if job crashes (not fully implemented)
-        JobMessage,
+        JobSuccess,
+        JobStatus,
         // Item status (ready or not, missing, waiting, ...)
-        ClipStatus
+        ClipStatus,
+        ClipType,
+        ClipHasAudioAndVideo
     };
 
-    enum CLIPSTATUS {
-        StatusReady = 0,
-        StatusMissing,
-        StatusWaiting,
-        StatusDeleting
-    };
+    enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting };
 
     void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
     AbstractProjectItem::CLIPSTATUS clipStatus() const;
@@ -169,7 +149,7 @@ public:
      *
      * This function is necessary for interaction with ProjectItemModel.
      */
-    virtual QVariant data(DataType type) const;
+    virtual QVariant getData(DataType type) const;
 
     /**
      * @brief Returns the amount of different types of data this item supports.
@@ -189,35 +169,52 @@ public:
     /** @brief Sets a new description. */
     virtual void setDescription(const QString &description);
 
-    /** @brief Flags this item as being current (or not) and notifies the bin model about it. */
-    virtual void setCurrent(bool current, bool notify = true) = 0;
-
     virtual QDomElement toXml(QDomDocument &document, bool includeMeta = false) = 0;
     virtual QString getToolTip() const = 0;
     virtual bool rename(const QString &name, int column) = 0;
+
+    /* @brief Return the bin id of the last parent that this element got, even if this
+       parent has already been destroyed.
+       Return the empty string if the element was parentless */
+    QString lastParentId() const;
+
+    /* @brief This is an overload of TreeItem::updateParent that tracks the id of the id of the parent */
+    void updateParent(std::shared_ptr<TreeItem> newParent) override;
+
+    /* Returns a ptr to the enclosing dir, and nullptr if none is found.
+       @param strict if set to false, the enclosing dir of a dir is itself, otherwise we try to find a "true" parent
+    */
+    std::shared_ptr<AbstractProjectItem> getEnclosingFolder(bool strict = false);
+
+    /** @brief Returns true if a clip corresponding to this bin is inserted in a timeline.
+        Note that this function does not account for children, use TreeItem::accumulate if you want to get that information as well.
+    */
+    virtual bool isIncludedInTimeline() { return false; }
+    virtual ClipType::ProducerType clipType() const = 0;
 
 signals:
     void childAdded(AbstractProjectItem *child);
     void aboutToRemoveChild(AbstractProjectItem *child);
 
 protected:
-    AbstractProjectItem *m_parent;
     QString m_name;
     QString m_description;
     QIcon m_thumbnail;
     QString m_duration;
+    int m_inPoint;
     QDateTime m_date;
-    QString m_id;
+    QString m_binId;
     uint m_usage;
     CLIPSTATUS m_clipStatus;
-    AbstractClipJob::JOBTYPE m_jobType;
-    int m_jobProgress;
 
-    QString m_jobMessage;
     PROJECTITEMTYPE m_itemType;
+
+    QString m_lastParentId;
 
     /** @brief Returns a rounded border pixmap from the @param source pixmap. */
     QPixmap roundedPixmap(const QPixmap &source);
+
+    mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
 private:
     bool m_isCurrent;

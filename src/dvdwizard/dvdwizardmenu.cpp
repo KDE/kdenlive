@@ -20,22 +20,21 @@
 #include "dvdwizardmenu.h"
 
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
-
-#include "kdenlive_debug.h"
-#include <KColorScheme>
-#include "klocalizedstring.h"
-#include <QGraphicsDropShadowEffect>
 
 #include "doc/kthumb.h"
+#include "kdenlive_debug.h"
+#include "klocalizedstring.h"
+#include <KColorScheme>
+#include <QGraphicsDropShadowEffect>
+
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProfile.h>
 
 enum { DvdButtonItem = QGraphicsItem::UserType + 1, DvdButtonUnderlineItem = QGraphicsItem::UserType + 2 };
 
-DvdScene::DvdScene(QObject *parent):
-    QGraphicsScene(parent)
-    , m_width(0)
-    , m_height(0)
-    , m_gridSize(1)
+DvdScene::DvdScene(QObject *parent)
+    : QGraphicsScene(parent)
+
 {
 }
 void DvdScene::setProfile(int width, int height)
@@ -82,8 +81,8 @@ void DvdScene::drawForeground(QPainter *painter, const QRectF &rect)
     painter->drawPoints(points.data(), points.size());
 }
 
-DvdButton::DvdButton(const QString &text):
-    QGraphicsTextItem(text)
+DvdButton::DvdButton(const QString &text)
+    : QGraphicsTextItem(text)
     , m_target(0)
     , m_command(QStringLiteral("jump title 1"))
     , m_backToMenu(false)
@@ -120,11 +119,11 @@ void DvdButton::setBackMenu(bool back)
 
 QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && (scene() != nullptr)) {
         QPoint newPos = value.toPoint();
 
-        if (QApplication::mouseButtons() == Qt::LeftButton && qobject_cast<DvdScene *> (scene())) {
-            DvdScene *customScene = qobject_cast<DvdScene *> (scene());
+        if (QApplication::mouseButtons() == Qt::LeftButton && (qobject_cast<DvdScene *>(scene()) != nullptr)) {
+            auto *customScene = qobject_cast<DvdScene *>(scene());
             int gridSize = customScene->gridSize();
             int xV = (newPos.x() / gridSize) * gridSize;
             int yV = (newPos.y() / gridSize) * gridSize;
@@ -132,7 +131,7 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
         }
 
         QRectF sceneShape = sceneBoundingRect();
-        DvdScene *sc = static_cast < DvdScene * >(scene());
+        auto *sc = static_cast<DvdScene *>(scene());
         newPos.setX(qMax(newPos.x(), 0));
         newPos.setY(qMax(newPos.y(), 0));
         if (newPos.x() + sceneShape.width() > sc->width()) {
@@ -157,12 +156,12 @@ QVariant DvdButton::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 
-DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
-    QWizardPage(parent),
-    m_color(nullptr),
-    m_safeRect(nullptr),
-    m_finalSize(720, 576),
-    m_movieLength(-1)
+DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
+    : QWizardPage(parent)
+    , m_color(nullptr)
+    , m_safeRect(nullptr)
+    , m_finalSize(720, 576)
+    , m_movieLength(-1)
 {
     m_view.setupUi(this);
     m_view.play_text->setText(i18n("Play"));
@@ -172,10 +171,10 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     connect(m_view.create_menu, &QAbstractButton::toggled, m_view.menu_box, &QWidget::setEnabled);
     connect(m_view.create_menu, &QAbstractButton::toggled, this, &QWizardPage::completeChanged);
 
-    m_view.add_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-new")));
-    m_view.delete_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("trash-empty")));
-    m_view.zoom_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-in")));
-    m_view.unzoom_button->setIcon(KoIconUtils::themedIcon(QStringLiteral("zoom-out")));
+    m_view.add_button->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    m_view.delete_button->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
+    m_view.zoom_button->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
+    m_view.unzoom_button->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
 
     m_view.add_button->setToolTip(i18n("Add new button"));
     m_view.delete_button->setToolTip(i18n("Delete current button"));
@@ -191,7 +190,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     // create background image
     m_background = new QGraphicsPixmapItem();
     m_background->setZValue(3);
-    //m_scene->addItem(m_background);
+    // m_scene->addItem(m_background);
 
     // create safe zone rect
     int safeW = m_width / 20;
@@ -209,9 +208,9 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     DvdButton *button = new DvdButton(m_view.play_text->text());
     QFont font = m_view.font_family->currentFont();
     font.setPixelSize(m_view.font_size->value());
-    //font.setStyleStrategy(QFont::NoAntialias);
+    // font.setStyleStrategy(QFont::NoAntialias);
     if (m_view.use_shadow->isChecked()) {
-        QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+        auto *shadow = new QGraphicsDropShadowEffect(this);
         shadow->setBlurRadius(7);
         shadow->setOffset(4, 4);
         button->setGraphicsEffect(shadow);
@@ -230,18 +229,18 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     }
     connect(m_view.use_grid, &QAbstractButton::toggled, this, &DvdWizardMenu::slotUseGrid);
 
-    //m_view.menu_preview->resizefitInView(0, 0, m_width, m_height);
+    // m_view.menu_preview->resizefitInView(0, 0, m_width, m_height);
 
     connect(m_view.play_text, &QLineEdit::textChanged, this, &DvdWizardMenu::buildButton);
-    connect(m_view.text_color, SIGNAL(changed(QColor)), this, SLOT(updateColor()));
-    connect(m_view.font_size, SIGNAL(valueChanged(int)), this, SLOT(buildButton()));
+    connect(m_view.text_color, &KColorButton::changed, this, static_cast<void (DvdWizardMenu::*)(const QColor &)>(&DvdWizardMenu::updateColor));
+    connect(m_view.font_size, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &DvdWizardMenu::buildButton);
     connect(m_view.font_family, &QFontComboBox::currentFontChanged, this, &DvdWizardMenu::buildButton);
     connect(m_view.background_image, &KUrlRequester::textChanged, this, &DvdWizardMenu::buildImage);
     connect(m_view.background_color, &KColorButton::changed, this, &DvdWizardMenu::buildColor);
 
-    connect(m_view.background_list, SIGNAL(currentIndexChanged(int)), this, SLOT(checkBackgroundType(int)));
+    connect(m_view.background_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &DvdWizardMenu::checkBackgroundType);
 
-    connect(m_view.target_list, SIGNAL(activated(int)), this, SLOT(setButtonTarget(int)));
+    connect(m_view.target_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &DvdWizardMenu::setButtonTarget);
     connect(m_view.back_to_menu, &QAbstractButton::toggled, this, &DvdWizardMenu::setBackToMenu);
 
     connect(m_view.add_button, &QAbstractButton::pressed, this, &DvdWizardMenu::addButton);
@@ -252,7 +251,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     connect(m_scene, &DvdScene::sceneChanged, this, &QWizardPage::completeChanged);
 
     // red background for error message
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window, KSharedConfig::openConfig(KdenliveSettings::colortheme()));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
     QPalette p = m_view.error_message->palette();
     p.setColor(QPalette::Background, scheme.background(KColorScheme::NegativeBackground).color());
     m_view.error_message->setAutoFillBackground(true);
@@ -260,7 +259,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent) :
     m_view.menu_box->setEnabled(false);
 
     m_menuMessage = new KMessageWidget;
-    QGridLayout *s =  static_cast <QGridLayout *>(layout());
+    auto *s = static_cast<QGridLayout *>(layout());
     s->addWidget(m_menuMessage, 7, 0, 1, -1);
     m_menuMessage->hide();
     m_view.error_message->hide();
@@ -279,8 +278,8 @@ void DvdWizardMenu::slotEnableShadows(int enable)
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            if (enable) {
-                QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+            if (enable != 0) {
+                auto *shadow = new QGraphicsDropShadowEffect(this);
                 shadow->setBlurRadius(7);
                 shadow->setOffset(4, 4);
                 list.at(i)->setGraphicsEffect(shadow);
@@ -296,7 +295,7 @@ void DvdWizardMenu::setButtonTarget(int ix)
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            DvdButton *button = static_cast < DvdButton * >(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             button->setTarget(ix, m_view.target_list->itemData(ix).toString());
             break;
         }
@@ -309,7 +308,7 @@ void DvdWizardMenu::setBackToMenu(bool backToMenu)
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            DvdButton *button = static_cast < DvdButton * >(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             button->setBackMenu(backToMenu);
             break;
         }
@@ -330,7 +329,7 @@ void DvdWizardMenu::buttonChanged()
             m_view.back_to_menu->blockSignals(true);
             foundButton = true;
             m_view.tabWidget->widget(0)->setEnabled(true);
-            DvdButton *button = static_cast < DvdButton * >(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             m_view.target_list->setCurrentIndex(button->target());
             m_view.play_text->setText(button->toPlainText());
             m_view.back_to_menu->setChecked(button->backMenu());
@@ -357,12 +356,12 @@ void DvdWizardMenu::addButton()
     QFont font = m_view.font_family->currentFont();
     font.setPixelSize(m_view.font_size->value());
     if (m_view.use_shadow->isChecked()) {
-        QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+        auto *shadow = new QGraphicsDropShadowEffect(this);
         shadow->setBlurRadius(7);
         shadow->setOffset(4, 4);
         button->setGraphicsEffect(shadow);
     }
-    //font.setStyleStrategy(QFont::NoAntialias);
+    // font.setStyleStrategy(QFont::NoAntialias);
     button->setFont(font);
     button->setDefaultTextColor(m_view.text_color->color());
     button->setZValue(4);
@@ -438,7 +437,7 @@ void DvdWizardMenu::setTargets(const QStringList &list, const QStringList &targe
         if (targetlist.at(i).contains(QStringLiteral("chapter"))) {
             m_view.target_list->addItem(list.at(i), targetlist.at(i));
         } else {
-            m_view.target_list->addItem(KoIconUtils::themedIcon(QStringLiteral("video-x-generic")), list.at(i), targetlist.at(i));
+            m_view.target_list->addItem(QIcon::fromTheme(QStringLiteral("video-x-generic")), list.at(i), targetlist.at(i));
             movieCount++;
         }
     }
@@ -516,9 +515,9 @@ void DvdWizardMenu::buildImage()
         m_movieLength = -1;
         QString profileName = DvdWizardVob::getDvdProfile(m_format);
         Mlt::Profile profile(profileName.toUtf8().constData());
-        profile.set_explicit(true);
+        profile.set_explicit(1);
         Mlt::Producer *producer = new Mlt::Producer(profile, m_view.background_image->url().toLocalFile().toUtf8().constData());
-        if (producer && producer->is_valid()) {
+        if ((producer != nullptr) && producer->is_valid()) {
             pix = QPixmap::fromImage(KThumb::getFrame(producer, 0, m_width, m_height));
             m_movieLength = producer->get_length();
         }
@@ -534,7 +533,7 @@ void DvdWizardMenu::buildButton()
     QList<QGraphicsItem *> list = m_scene->selectedItems();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            button = static_cast < DvdButton * >(list.at(i));
+            button = static_cast<DvdButton *>(list.at(i));
             break;
         }
     }
@@ -544,7 +543,7 @@ void DvdWizardMenu::buildButton()
     button->setPlainText(m_view.play_text->text());
     QFont font = m_view.font_family->currentFont();
     font.setPixelSize(m_view.font_size->value());
-    //font.setStyleStrategy(QFont::NoAntialias);
+    // font.setStyleStrategy(QFont::NoAntialias);
     button->setFont(font);
     button->setDefaultTextColor(m_view.text_color->color());
     // Check for button overlapping in case we changed text / size
@@ -576,7 +575,7 @@ void DvdWizardMenu::prepareUnderLines()
             r.setTop(bottom - underlineHeight);
             r.setBottom(bottom);
             r.adjust(2, 0, -2, 0);
-            DvdButtonUnderline *underline = new DvdButtonUnderline(r);
+            auto *underline = new DvdButtonUnderline(r);
             m_scene->addItem(underline);
             list.at(i)->setVisible(false);
         }
@@ -606,7 +605,7 @@ void DvdWizardMenu::updateUnderlineColor(QColor c)
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonUnderlineItem) {
-            DvdButtonUnderline *underline = static_cast < DvdButtonUnderline * >(list.at(i));
+            auto *underline = static_cast<DvdButtonUnderline *>(list.at(i));
             underline->setPen(Qt::NoPen);
             c.setAlpha(150);
             underline->setBrush(c);
@@ -620,7 +619,7 @@ void DvdWizardMenu::updateColor(const QColor &c)
     QList<QGraphicsItem *> list = m_scene->items();
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            button = static_cast < DvdButton * >(list.at(i));
+            button = static_cast<DvdButton *>(list.at(i));
             button->setDefaultTextColor(c);
         }
     }
@@ -636,7 +635,7 @@ void DvdWizardMenu::createButtonImages(const QString &selected_image, const QStr
             target = QRectF(0, 0, m_finalSize.width(), m_finalSize.height());
         } else {
             // Scale the button images to fit a letterbox image
-            double factor = (double) m_width / m_finalSize.width();
+            double factor = (double)m_width / m_finalSize.width();
             int letterboxHeight = m_height / factor;
             target = QRectF(0, (m_finalSize.height() - letterboxHeight) / 2, m_finalSize.width(), letterboxHeight);
         }
@@ -656,8 +655,8 @@ void DvdWizardMenu::createButtonImages(const QString &selected_image, const QStr
 
         QPainter p;
         p.begin(&img);
-        //p.setRenderHints(QPainter::Antialiasing, false);
-        //p.setRenderHints(QPainter::TextAntialiasing, false);
+        // p.setRenderHints(QPainter::Antialiasing, false);
+        // p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
         p.end();
         img.setColor(0, m_view.highlighted_color->color().rgb());
@@ -667,8 +666,8 @@ void DvdWizardMenu::createButtonImages(const QString &selected_image, const QStr
         updateUnderlineColor(m_view.selected_color->color());
 
         p.begin(&img);
-        //p.setRenderHints(QPainter::Antialiasing, false);
-        //p.setRenderHints(QPainter::TextAntialiasing, false);
+        // p.setRenderHints(QPainter::Antialiasing, false);
+        // p.setRenderHints(QPainter::TextAntialiasing, false);
         m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
         p.end();
         img.setColor(0, m_view.selected_color->color().rgb());
@@ -694,7 +693,7 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1, bool letterbox)
     bool showBg = false;
     QImage img(m_width, m_height, QImage::Format_ARGB32);
 
-    //TODO: Should the image be scaled when letterboxing?
+    // TODO: Should the image be scaled when letterboxing?
     /*
     QRectF source(0, 0, m_width, m_height);
     QRectF target;
@@ -726,7 +725,7 @@ void DvdWizardMenu::createBackgroundImage(const QString &img1, bool letterbox)
     m_scene->setGridSize(1);
     m_scene->render(&p, QRectF(0, 0, img.width(), img.height()));
     m_scene->setGridSize(oldSize);
-    //m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
+    // m_scene->render(&p, target, source, Qt::IgnoreAspectRatio);
     p.end();
     img.save(img1);
     m_scene->addItem(m_safeRect);
@@ -765,17 +764,17 @@ QMap<QString, QRect> DvdWizardMenu::buttonsInfo(bool letterbox)
 {
     QMap<QString, QRect> info;
     QList<QGraphicsItem *> list = m_scene->items();
-    double ratiox = (double) m_finalSize.width() / m_width;
+    double ratiox = (double)m_finalSize.width() / m_width;
     double ratioy = 1;
     int offset = 0;
     if (letterbox) {
         int letterboxHeight = m_height * ratiox;
-        ratioy = (double) letterboxHeight / m_finalSize.height();
+        ratioy = (double)letterboxHeight / m_finalSize.height();
         offset = (m_finalSize.height() - letterboxHeight) / 2;
     }
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
-            DvdButton *button = static_cast < DvdButton * >(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             QRectF r = button->sceneBoundingRect();
             QRect adjustedRect(r.x() * ratiox, offset + r.y() * ratioy, r.width() * ratiox, r.height() * ratioy);
             // Make sure y1 is not odd (requested by spumux)
@@ -800,7 +799,7 @@ QDomElement DvdWizardMenu::toXml() const
     QDomDocument doc;
     QDomElement xml = doc.createElement(QStringLiteral("menu"));
     doc.appendChild(xml);
-    xml.setAttribute(QStringLiteral("enabled"), m_view.create_menu->isChecked());
+    xml.setAttribute(QStringLiteral("enabled"), static_cast<int>(m_view.create_menu->isChecked()));
     if (m_view.background_list->currentIndex() == 0) {
         // Color bg
         xml.setAttribute(QStringLiteral("background_color"), m_view.background_color->color().name());
@@ -814,7 +813,7 @@ QDomElement DvdWizardMenu::toXml() const
     xml.setAttribute(QStringLiteral("text_color"), m_view.text_color->color().name());
     xml.setAttribute(QStringLiteral("selected_color"), m_view.selected_color->color().name());
     xml.setAttribute(QStringLiteral("highlighted_color"), m_view.highlighted_color->color().name());
-    xml.setAttribute(QStringLiteral("text_shadow"), (int) m_view.use_shadow->isChecked());
+    xml.setAttribute(QStringLiteral("text_shadow"), (int)m_view.use_shadow->isChecked());
 
     QList<QGraphicsItem *> list = m_scene->items();
     int buttonCount = 0;
@@ -822,13 +821,13 @@ QDomElement DvdWizardMenu::toXml() const
     for (int i = 0; i < list.count(); ++i) {
         if (list.at(i)->type() == DvdButtonItem) {
             buttonCount++;
-            DvdButton *button = static_cast < DvdButton * >(list.at(i));
+            auto *button = static_cast<DvdButton *>(list.at(i));
             QDomElement xmlbutton = doc.createElement(QStringLiteral("button"));
             xmlbutton.setAttribute(QStringLiteral("target"), button->target());
             xmlbutton.setAttribute(QStringLiteral("command"), button->command());
-            xmlbutton.setAttribute(QStringLiteral("backtomenu"), button->backMenu());
-            xmlbutton.setAttribute(QStringLiteral("posx"), (int) button->pos().x());
-            xmlbutton.setAttribute(QStringLiteral("posy"), (int) button->pos().y());
+            xmlbutton.setAttribute(QStringLiteral("backtomenu"), static_cast<int>(button->backMenu()));
+            xmlbutton.setAttribute(QStringLiteral("posx"), (int)button->pos().x());
+            xmlbutton.setAttribute(QStringLiteral("posy"), (int)button->pos().y());
             xmlbutton.setAttribute(QStringLiteral("text"), button->toPlainText());
             QFont font = button->font();
             xmlbutton.setAttribute(QStringLiteral("font_size"), font.pixelSize());
@@ -841,13 +840,13 @@ QDomElement DvdWizardMenu::toXml() const
 
 void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
 {
-    //qCDebug(KDENLIVE_LOG) << "// LOADING MENU";
+    // qCDebug(KDENLIVE_LOG) << "// LOADING MENU";
     if (xml.isNull()) {
         return;
     }
-    //qCDebug(KDENLIVE_LOG) << "// LOADING MENU 1";
+    // qCDebug(KDENLIVE_LOG) << "// LOADING MENU 1";
     changeProfile(format);
-    m_view.create_menu->setChecked(xml.attribute(QStringLiteral("enabled")).toInt());
+    m_view.create_menu->setChecked(xml.attribute(QStringLiteral("enabled")).toInt() != 0);
     if (xml.hasAttribute(QStringLiteral("background_color"))) {
         m_view.background_list->setCurrentIndex(0);
         m_view.background_color->setColor(xml.attribute(QStringLiteral("background_color")));
@@ -863,14 +862,14 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
     m_view.selected_color->setColor(xml.attribute(QStringLiteral("selected_color")));
     m_view.highlighted_color->setColor(xml.attribute(QStringLiteral("highlighted_color")));
 
-    m_view.use_shadow->setChecked(xml.attribute(QStringLiteral("text_shadow")).toInt());
+    m_view.use_shadow->setChecked(xml.attribute(QStringLiteral("text_shadow")).toInt() != 0);
 
     QDomNodeList buttons = xml.elementsByTagName(QStringLiteral("button"));
-    //qCDebug(KDENLIVE_LOG) << "// LOADING MENU 2" << buttons.count();
+    // qCDebug(KDENLIVE_LOG) << "// LOADING MENU 2" << buttons.count();
 
     if (!buttons.isEmpty()) {
         // Clear existing buttons
-        foreach (QGraphicsItem *item, m_scene->items()) {
+        for (QGraphicsItem *item : m_scene->items()) {
             if (item->type() == DvdButtonItem) {
                 m_scene->removeItem(item);
                 delete item;
@@ -885,21 +884,20 @@ void DvdWizardMenu::loadXml(DVDFORMAT format, const QDomElement &xml)
         QFont font(e.attribute(QStringLiteral("font_family")));
         font.setPixelSize(e.attribute(QStringLiteral("font_size")).toInt());
         if (m_view.use_shadow->isChecked()) {
-            QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect(this);
+            auto *shadow = new QGraphicsDropShadowEffect(this);
             shadow->setBlurRadius(7);
             shadow->setOffset(4, 4);
             button->setGraphicsEffect(shadow);
         }
 
-        //font.setStyleStrategy(QFont::NoAntialias);
+        // font.setStyleStrategy(QFont::NoAntialias);
         button->setFont(font);
         button->setTarget(e.attribute(QStringLiteral("target")).toInt(), e.attribute(QStringLiteral("command")));
-        button->setBackMenu(e.attribute(QStringLiteral("backtomenu")).toInt());
+        button->setBackMenu(e.attribute(QStringLiteral("backtomenu")).toInt() != 0);
         button->setDefaultTextColor(m_view.text_color->color());
         button->setZValue(4);
         m_scene->addItem(button);
         button->setPos(e.attribute(QStringLiteral("posx")).toInt(), e.attribute(QStringLiteral("posy")).toInt());
-
     }
 }
 
@@ -912,4 +910,3 @@ void DvdWizardMenu::slotUnZoom()
 {
     m_view.menu_preview->scale(0.5, 0.5);
 }
-

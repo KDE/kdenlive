@@ -169,7 +169,7 @@
     </spacer>
    </item>
    <item row="2" column="3" colspan="3">
-    <widget class="QComboBox" name="kcfg_audio_backend"/>
+    <widget class="KComboBox" name="kcfg_audio_backend"/>
    </item>
   </layout>
  </widget>

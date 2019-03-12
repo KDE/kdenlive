@@ -20,7 +20,31 @@
 #include "definitions.h"
 #include <klocalizedstring.h>
 
-QDebug operator << (QDebug qd, const ItemInfo &info)
+#include <QColor>
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#include <rttr/registration>
+#pragma GCC diagnostic pop
+
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    // clang-format off
+    registration::enumeration<GroupType>("GroupType")(
+        value("Normal", GroupType::Normal),
+        value("Selection", GroupType::Selection),
+        value("AVSplit", GroupType::AVSplit),
+        value("Leaf", GroupType::Leaf)
+        );
+    // clang-format on
+}
+
+QDebug operator<<(QDebug qd, const ItemInfo &info)
 {
     qd << "ItemInfo " << &info;
     qd << "\tTrack" << info.track;
@@ -31,178 +55,54 @@ QDebug operator << (QDebug qd, const ItemInfo &info)
     return qd.maybeSpace();
 }
 
-QDebug operator << (QDebug qd, const MltVideoProfile &profile)
-{
-    qd << "Profile " << &profile;
-    qd << "\tProfile fps num " << profile.frame_rate_num;
-    qd << "\tProfile fps den " << profile.frame_rate_den;
-    qd << "\tProfile width " << profile.width,
-       qd << "\tProfile height " << profile.height;
-    qd << "\tProfile progressive " << profile.progressive;
-    qd << "\tProfile sar num " << profile.sample_aspect_num;
-    qd << "\tProfile sar den " << profile.sample_aspect_den;
-    qd << "\tProfile dar num " << profile.display_aspect_num;
-    qd << "\tProfile dar den " << profile.display_aspect_den;
-    qd << "\tProfile colorspace " << profile.colorspace;
-    qd << "\tProfile description " << profile.description;
-    return qd.maybeSpace();
-}
+CommentedTime::CommentedTime()
+    : m_time(GenTime(0))
 
-MltVideoProfile::MltVideoProfile() :
-    frame_rate_num(0),
-    frame_rate_den(0),
-    width(0),
-    height(0),
-    progressive(0),
-    sample_aspect_num(0),
-    sample_aspect_den(0),
-    display_aspect_num(0),
-    display_aspect_den(0),
-    colorspace(0)
 {
 }
 
-MltVideoProfile::MltVideoProfile(const QVariantList &params) :
-    frame_rate_num(0),
-    frame_rate_den(0),
-    width(0),
-    height(0),
-    progressive(0),
-    sample_aspect_num(0),
-    sample_aspect_den(0),
-    display_aspect_num(0),
-    display_aspect_den(0),
-    colorspace(0)
+CommentedTime::CommentedTime(const GenTime &time, QString comment, int markerType)
+    : m_time(time)
+    , m_comment(std::move(comment))
+    , m_type(markerType)
 {
-    if (params.count() != 12) {
-        qWarning("Trying to build a profile with incorrect param numbers");
-        return;
-    }
-    frame_rate_num = params.at(0).toInt();
-    frame_rate_den = params.at(1).toInt();
-    width = params.at(2).toInt();
-    height = params.at(3).toInt();
-    progressive = params.at(4).toBool();
-    sample_aspect_num = params.at(5).toInt();
-    sample_aspect_den = params.at(6).toInt();
-    display_aspect_num = params.at(7).toInt();
-    display_aspect_den = params.at(8).toInt();
-    colorspace = params.at(9).toInt();
-    path = params.at(10).toString();
-    description = params.at(11).toString();
 }
-
-bool MltVideoProfile::operator==(const MltVideoProfile &point) const
-{
-    if (!description.isEmpty() && point.description  == description) {
-        return true;
-    }
-    int fps = frame_rate_num * 100 / frame_rate_den;
-    int sar = sample_aspect_num * 100 / sample_aspect_den;
-    int dar = display_aspect_num * 100 / display_aspect_den;
-    return      point.frame_rate_num * 100 / point.frame_rate_den == fps &&
-                point.width == width &&
-                point.height == height &&
-                point.progressive == progressive &&
-                point.sample_aspect_num * 100 / point.sample_aspect_den == sar &&
-                point.display_aspect_num * 100 / point.display_aspect_den == dar &&
-                point.colorspace == colorspace;
-}
-
-bool MltVideoProfile::isCompatible(const MltVideoProfile &point) const
-{
-    return frame_rate_num * 100 / frame_rate_den == point.frame_rate_num * 100 / point.frame_rate_den;
-}
-
-bool MltVideoProfile::isValid() const
-{
-    return (frame_rate_den > 0 && sample_aspect_den > 0 && display_aspect_den > 0 && width > 0);
-}
-
-const QVariantList MltVideoProfile::toList() const
-{
-    QVariantList result;
-    result << frame_rate_num << frame_rate_den << width << height << progressive << sample_aspect_num << sample_aspect_den << display_aspect_num << display_aspect_den << colorspace << path << description;
-    return result;
-}
-
-void MltVideoProfile::adjustWidth()
-{
-    width = (width + 7) / 8 * 8;
-}
-
-const QString MltVideoProfile::descriptiveString()
-{
-    QString data = description;
-    if (!data.isEmpty()) {
-        data.append(QLatin1Char(' '));
-    }
-    QString fps;
-    if (frame_rate_num % frame_rate_den == 0) {
-        fps = QString::number(frame_rate_num / frame_rate_den);
-    } else {
-        fps = QString::number((double)frame_rate_num / frame_rate_den, 'f', 2);
-    }
-    data.append(QStringLiteral("(%1x%2, %3fps)").arg(width).arg(height).arg(fps));
-    return data;
-}
-
-const QString MltVideoProfile::dialogDescriptiveString()
-{
-    QString text;
-    if (frame_rate_num % frame_rate_den == 0) {
-        text = QString::number(frame_rate_num / frame_rate_den);
-    } else {
-        text = QString::number((double)frame_rate_num / frame_rate_den, 'f', 2);
-    }
-    text.append(i18nc("frames per second", "fps"));
-    if (!progressive) {
-        text.append(i18n(" interlaced"));
-    }
-    return text;
-}
-
-bool MltVideoProfile::operator!=(const MltVideoProfile &other) const
-{
-    return !(*this == other);
-}
-
-CommentedTime::CommentedTime(): t(GenTime(0)), type(0) {}
-
-CommentedTime::CommentedTime(const GenTime &time, const QString &comment, int markerType)
-    : t(time), c(comment), type(markerType) { }
 
 CommentedTime::CommentedTime(const QString &hash, const GenTime &time)
-    : t(time), c(hash.section(QLatin1Char(':'), 1)), type(hash.section(QLatin1Char(':'), 0, 0).toInt()) { }
+    : m_time(time)
+    , m_comment(hash.section(QLatin1Char(':'), 1))
+    , m_type(hash.section(QLatin1Char(':'), 0, 0).toInt())
+{
+}
 
 QString CommentedTime::comment() const
 {
-    return (c.isEmpty() ? i18n("Marker") : c);
+    return (m_comment.isEmpty() ? i18n("Marker") : m_comment);
 }
 
 GenTime CommentedTime::time() const
 {
-    return t;
+    return m_time;
 }
 
 void CommentedTime::setComment(const QString &comm)
 {
-    c = comm;
+    m_comment = comm;
 }
 
 void CommentedTime::setMarkerType(int newtype)
 {
-    type = newtype;
+    m_type = newtype;
 }
 
 QString CommentedTime::hash() const
 {
-    return QString::number(type) + QLatin1Char(':') + (c.isEmpty() ? i18n("Marker") : c);
+    return QString::number(m_type) + QLatin1Char(':') + (m_comment.isEmpty() ? i18n("Marker") : m_comment);
 }
 
 int CommentedTime::markerType() const
 {
-    return type;
+    return m_type;
 }
 
 QColor CommentedTime::markerColor(int type)
@@ -228,30 +128,73 @@ QColor CommentedTime::markerColor(int type)
 
 bool CommentedTime::operator>(const CommentedTime &op) const
 {
-    return t > op.time();
+    return m_time > op.time();
 }
 
 bool CommentedTime::operator<(const CommentedTime &op) const
 {
-    return t < op.time();
+    return m_time < op.time();
 }
 
 bool CommentedTime::operator>=(const CommentedTime &op) const
 {
-    return t >= op.time();
+    return m_time >= op.time();
 }
 
 bool CommentedTime::operator<=(const CommentedTime &op) const
 {
-    return t <= op.time();
+    return m_time <= op.time();
 }
 
 bool CommentedTime::operator==(const CommentedTime &op) const
 {
-    return t == op.time();
+    return m_time == op.time();
 }
 
 bool CommentedTime::operator!=(const CommentedTime &op) const
 {
-    return t != op.time();
+    return m_time != op.time();
+}
+
+const QString groupTypeToStr(GroupType t)
+{
+    switch (t) {
+    case GroupType::Normal:
+        return QStringLiteral("Normal");
+    case GroupType::Selection:
+        return QStringLiteral("Selection");
+    case GroupType::AVSplit:
+        return QStringLiteral("AVSplit");
+    case GroupType::Leaf:
+        return QStringLiteral("Leaf");
+    }
+    Q_ASSERT(false);
+    return QString();
+}
+GroupType groupTypeFromStr(const QString &s)
+{
+    std::vector<GroupType> types{GroupType::Selection, GroupType::Normal, GroupType::AVSplit, GroupType::Leaf};
+    for (const auto &t : types) {
+        if (s == groupTypeToStr(t)) {
+            return t;
+        }
+    }
+    Q_ASSERT(false);
+    return GroupType::Normal;
+}
+
+std::pair<bool, bool> stateToBool(PlaylistState::ClipState state)
+{
+    return {state == PlaylistState::VideoOnly, state == PlaylistState::AudioOnly};
+}
+PlaylistState::ClipState stateFromBool(std::pair<bool, bool> av)
+{
+    assert(!av.first || !av.second);
+    if (av.first) {
+        return PlaylistState::VideoOnly;
+    } else if (av.second) {
+        return PlaylistState::AudioOnly;
+    } else {
+        return PlaylistState::Disabled;
+    }
 }

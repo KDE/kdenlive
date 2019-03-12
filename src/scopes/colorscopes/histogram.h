@@ -25,11 +25,11 @@ class Histogram : public AbstractGfxScopeWidget
 
 public:
     explicit Histogram(QWidget *parent = nullptr);
-    ~Histogram();
-    QString widgetName() const Q_DECL_OVERRIDE;
+    ~Histogram() override;
+    QString widgetName() const override;
 
 protected:
-    void readConfig() Q_DECL_OVERRIDE;
+    void readConfig() override;
     void writeConfig();
 
 private:
@@ -39,15 +39,14 @@ private:
     QAction *m_aRec709;
     QActionGroup *m_agRec;
 
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderGfxScope(uint accelerationFactor, const QImage &) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    Ui::Histogram_UI *ui;
-
+    QRect scopeRect() override;
+    bool isHUDDependingOnInput() const override;
+    bool isScopeDependingOnInput() const override;
+    bool isBackgroundDependingOnInput() const override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderGfxScope(uint accelerationFactor, const QImage &) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    Ui::Histogram_UI *m_ui;
 };
 
 #endif // HISTOGRAM_H

@@ -20,20 +20,18 @@
 
 #include "openclipart.h"
 
-#include <QListWidget>
 #include <QDomDocument>
+#include <QListWidget>
 
 #include <kio/job.h>
 
-OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent) :
-    AbstractService(listWidget, parent)
+OpenClipArt::OpenClipArt(QListWidget *listWidget, QObject *parent)
+    : AbstractService(listWidget, parent)
 {
     serviceType = OPENCLIPART;
 }
 
-OpenClipArt::~OpenClipArt()
-{
-}
+OpenClipArt::~OpenClipArt() = default;
 /**
  * @brief OpenClipArt::slotStartSearch
  * @param searchText
@@ -59,7 +57,7 @@ void OpenClipArt::slotShowResults(KJob *job)
         return;
     }
     m_listWidget->blockSignals(true);
-    KIO::StoredTransferJob *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
+    auto *storedQueryJob = static_cast<KIO::StoredTransferJob *>(job);
 
     QDomDocument doc;
     doc.setContent(QString::fromLatin1(storedQueryJob->data()));
@@ -97,7 +95,7 @@ OnlineItemInfo OpenClipArt::displayItemDetails(QListWidgetItem *item)
     }
     info.itemPreview = item->data(previewRole).toString();
     info.itemDownload = item->data(downloadRole).toString();
-    info.itemId = item->data(idRole).toInt();
+    info.itemId = item->data(idRole).toString();
     info.itemName = item->text();
     info.infoUrl = item->data(infoUrl).toString();
     info.author = item->data(authorRole).toString();
@@ -128,4 +126,3 @@ QString OpenClipArt::getDefaultDownloadName(QListWidgetItem *item)
     path.append('.' + url.section(QLatin1Char('.'), -1));
     return path;
 }
-

@@ -35,5 +35,5 @@ void QmlAudioThumb::setImage(const QImage &img)
 
 void QmlAudioThumb::paint(QPainter *painter)
 {
-    painter->drawImage(boundingRect().adjusted(1, 1, -1, -1), m_img);
+    painter->drawImage(boundingRect(), m_img);
 }

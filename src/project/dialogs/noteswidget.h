@@ -33,11 +33,13 @@ class NotesWidget : public QTextEdit
     Q_OBJECT
 public:
     explicit NotesWidget(QWidget *parent = nullptr);
-    ~NotesWidget();
+    ~NotesWidget() override;
+    /** @brief insert current timeline timecode and focus widget to allow entering quick note */
+    void addProjectNote();
 
 protected:
-    void mouseMoveEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
 
 private slots:
     void slotFillNotesMenu(const QPoint &pos);
@@ -48,4 +50,3 @@ signals:
 };
 
 #endif
-

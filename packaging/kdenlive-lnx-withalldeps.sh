@@ -236,5 +236,5 @@ git_pull https://github.com/mltframework/mlt.git
 configure_make mlt --enable-gpl --disable-rtaudio
 #po->ruby
 git_pull git://anongit.kde.org/kdenlive
-cmake_make kdenlive -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON -DPACKAGERS_BUILD=1 -DBUILD_TESTS=FALSE
+cmake_make kdenlive -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON -DPACKAGERS_BUILD=1 -DBUILD_TESTING=FALSE
 #-DKDE_L10N_AUTO_TRANSLATIONS:BOOL=ON \

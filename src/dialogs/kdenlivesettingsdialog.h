@@ -20,18 +20,19 @@
 #ifndef KDENLIVESETTINGSDIALOG_H
 #define KDENLIVESETTINGSDIALOG_H
 
-#include <QMap>
 #include <KConfigDialog>
 #include <KProcess>
+#include <QMap>
 
-#include "ui_configmisc_ui.h"
-#include "ui_configenv_ui.h"
-#include "ui_configtimeline_ui.h"
 #include "ui_configcapture_ui.h"
+#include "ui_configenv_ui.h"
 #include "ui_configjogshuttle_ui.h"
-#include "ui_configsdl_ui.h"
-#include "ui_configtranscode_ui.h"
+#include "ui_configmisc_ui.h"
 #include "ui_configproject_ui.h"
+#include "ui_configproxy_ui.h"
+#include "ui_configsdl_ui.h"
+#include "ui_configtimeline_ui.h"
+#include "ui_configtranscode_ui.h"
 
 class ProfileWidget;
 
@@ -40,8 +41,8 @@ class KdenliveSettingsDialog : public KConfigDialog
     Q_OBJECT
 
 public:
-    KdenliveSettingsDialog(const QMap<QString, QString> &mappable_actions, bool gpuAllowed, QWidget *parent = nullptr);
-    ~KdenliveSettingsDialog();
+    KdenliveSettingsDialog(QMap<QString, QString> mappable_actions, bool gpuAllowed, QWidget *parent = nullptr);
+    ~KdenliveSettingsDialog() override;
     void showPage(int page, int option);
     void checkProfile();
 
@@ -83,6 +84,7 @@ private slots:
     void slotEditVideo4LinuxProfile();
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
+    void loadExternalProxyProfiles();
 
 private:
     KPageWidgetItem *m_page1;
@@ -101,6 +103,7 @@ private:
     Ui::ConfigSdl_UI m_configSdl;
     Ui::ConfigTranscode_UI m_configTranscode;
     Ui::ConfigProject_UI m_configProject;
+    Ui::ConfigProxy_UI m_configProxy;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     bool m_modified;
@@ -114,10 +117,13 @@ private:
     void saveCurrentV4lProfile();
     void loadEncodingProfiles();
     void setupJogshuttleBtns(const QString &device);
-
+    /** @brief Fill a combobox with the found blackmagic devices */
+    static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
+    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
 signals:
     void customChanged();
     void doResetProfile();
+    void doResetConsumer(bool fullReset);
     void updateCaptureFolder();
     void updateLibraryFolder();
     // Screengrab method changed between fullsceen and region, update rec monitor
@@ -125,7 +131,10 @@ signals:
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
     void restartKdenlive();
     void checkTabPosition();
+    /** @brief Switch between merged / separate channels for audio thumbs */
+    void audioThumbFormatChanged();
+    /** @brief An important timeline property changed, prepare for a reset */
+    void resetView();
 };
 
 #endif
-

@@ -23,10 +23,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TEMPORARYDATA_H
 
 #include "definitions.h"
-
-#include <QWidget>
-#include <QDir>
 #include <KIO/DirectorySizeJob>
+#include <QDir>
+#include <QTreeWidgetItem>
+#include <QWidget>
 
 class KdenliveDoc;
 class QPaintEvent;
@@ -47,7 +47,7 @@ public:
     void setSegments(const QList<int> &segments);
 
 protected:
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *event) override;
 
 private:
     QList<int> m_segments;
@@ -62,9 +62,13 @@ private:
 class TreeWidgetItem : public QTreeWidgetItem
 {
 public:
-    TreeWidgetItem(QTreeWidget *parent): QTreeWidgetItem(parent) {}
+    TreeWidgetItem(QTreeWidget *parent)
+        : QTreeWidgetItem(parent)
+    {
+    }
+
 private:
-    bool operator<(const QTreeWidgetItem &other)const Q_DECL_OVERRIDE
+    bool operator<(const QTreeWidgetItem &other) const override
     {
         int column = treeWidget()->sortColumn();
         switch (column) {
@@ -108,8 +112,7 @@ private:
     QGridLayout *m_grid;
     KIO::filesize_t m_totalCurrent;
     KIO::filesize_t m_totalGlobal;
-    QList<KIO::filesize_t> mCurrentSizes;
-    QList<KIO::filesize_t> mGlobalSizes;
+    QList<KIO::filesize_t> m_currentSizes;
     QStringList m_globalDirectories;
     QString m_processingDirectory;
     QDir m_globalDir;

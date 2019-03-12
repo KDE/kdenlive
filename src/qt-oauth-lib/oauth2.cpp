@@ -39,21 +39,20 @@
 #include "kdenlive_debug.h"
 #include "logindialog.h"
 
+#include <KConfigGroup>
+#include <KSharedConfig>
+#include <QJsonParseError>
 #include <QUrl>
 #include <QUrlQuery>
-#include <QJsonParseError>
-#include <KSharedConfig>
-#include <KConfigGroup>
 
 OAuth2::OAuth2(QWidget *parent)
 
 {
     //  m_strEndPoint = "https://www.freesound.org/apiv2/oauth2/logout_and_authorize/";
     m_strEndPoint = QStringLiteral("https://www.freesound.org/apiv2/oauth2/authorize/");
-    m_strClientID = QStringLiteral("33e04f36da52710a28cc");    //obtained when ttguy registered the kdenlive application with freesound
+    m_strClientID = QStringLiteral("33e04f36da52710a28cc"); // obtained when ttguy registered the kdenlive application with freesound
     m_strRedirectURI = QStringLiteral("https://www.freesound.org/home/app_permissions/permission_granted/");
     m_strResponseType = QStringLiteral("code");
-    m_pLoginDialog = new LoginDialog(parent);
     m_pParent = parent;
 
     m_bAccessTokenRec = false;
@@ -76,6 +75,12 @@ OAuth2::OAuth2(QWidget *parent)
         m_bAccessTokenRec = true;
         m_strAccessToken = strAccessTokenFromSettings;
     }
+    buildLoginDialog();
+}
+
+void OAuth2::buildLoginDialog()
+{
+    m_pLoginDialog = new LoginDialog(m_pParent);
     connect(m_pLoginDialog, &LoginDialog::authCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 
     connect(m_pLoginDialog, &LoginDialog::accessDenied, this, &OAuth2::SlotAccessDenied);
@@ -84,30 +89,30 @@ OAuth2::OAuth2(QWidget *parent)
     connect(this, &OAuth2::AuthCodeObtained, this, &OAuth2::SlotAuthCodeObtained);
 }
 /**
-  * @brief OAuth2::getClientID - returns QString of the "clientID"
-  * @return QString of the "clientID" which is a string that identifies the Kdenlive
-   * application to the freesound website when the request for authentication is made
-  */
+ * @brief OAuth2::getClientID - returns QString of the "clientID"
+ * @return QString of the "clientID" which is a string that identifies the Kdenlive
+ * application to the freesound website when the request for authentication is made
+ */
 QString OAuth2::getClientID() const
 {
     return m_strClientID;
 }
 /**
-  * @brief OAuth2::getClientSecret - returns QString of the "client secret"
-  * @return - QString of the "client secret" which is another string that identifies the Kdenlive
-  * application to the freesound website when the application asks for an access token
-  */
+ * @brief OAuth2::getClientSecret - returns QString of the "client secret"
+ * @return - QString of the "client secret" which is another string that identifies the Kdenlive
+ * application to the freesound website when the application asks for an access token
+ */
 QString OAuth2::getClientSecret() const
 {
     return OAuth2_strClientSecret;
 }
 
 /**
-* @brief OAuth2::ForgetAccessToken - clear saved access token from settings  and memory /n
-* deletes the saved access token from the settings file and from memory.
-* Used when the authentication process has failed  and has the effect of forcing
-* the user to re-authenticate with freesound the next time they try and download a freesound HQ file
-*/
+ * @brief OAuth2::ForgetAccessToken - clear saved access token from settings  and memory /n
+ * deletes the saved access token from the settings file and from memory.
+ * Used when the authentication process has failed  and has the effect of forcing
+ * the user to re-authenticate with freesound the next time they try and download a freesound HQ file
+ */
 void OAuth2::ForgetAccessToken()
 {
 
@@ -121,9 +126,9 @@ void OAuth2::ForgetAccessToken()
 }
 
 /**
-* @brief OAuth2::loginUrl - returns  QString containing URL to connect to freesound.
-* @return - QString containing URL to connect to freesound.  Substitutes clientid,redirecturi and response types into the string
-*/
+ * @brief OAuth2::loginUrl - returns  QString containing URL to connect to freesound.
+ * @return - QString containing URL to connect to freesound.  Substitutes clientid,redirecturi and response types into the string
+ */
 QString OAuth2::loginUrl()
 {
 
@@ -147,10 +152,12 @@ void OAuth2::obtainAccessToken()
     } else {
         //  login to free sound via our login dialog
         QUrl vUrl(loginUrl());
+        if (!m_pLoginDialog) {
+            buildLoginDialog();
+        }
         m_pLoginDialog->setLoginUrl(vUrl);
-        m_pLoginDialog->show();
+        m_pLoginDialog->exec();
     }
-
 }
 
 /**
@@ -175,16 +182,18 @@ void OAuth2::SlotAuthCodeObtained()
 }
 /**
  * @brief OAuth2::RequestAccessCode - connect to freesound to exchange a authorization code or a refresh token for an access code
- * @param pIsReRequest - pass false if you are requesting an access code using a previously obtained authorization code. Pass true if you are requesting a new access code via refresh token
+ * @param pIsReRequest - pass false if you are requesting an access code using a previously obtained authorization code. Pass true if you are requesting a new
+ * access code via refresh token
  * @param pCode - pass an authorisation code here if pIsReRequest  is false. Otherwise pass a refresh token here.
  */
 void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
 {
     QString vGrantType;
     QString vCodeTypeParamName;
-    //If the access code is older than 24hrs any request to the API using the token will return a 401 (Unauthorized) response showing an ‘Expired token’ error.
+    // If the access code is older than 24hrs any request to the API using the token will return a 401 (Unauthorized) response showing an ‘Expired token’ error.
     // But you can how get a new access token using the refresh token
-    //curl -X POST -d "client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=refresh_token&refresh_token=REFRESH_TOKEN" "https://www.freesound.org/apiv2/oauth2/access_token/"
+    // curl -X POST -d "client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=refresh_token&refresh_token=REFRESH_TOKEN"
+    // "https://www.freesound.org/apiv2/oauth2/access_token/"
     if (pIsReRequest) {
         vGrantType = QStringLiteral("refresh_token");
         vCodeTypeParamName = QStringLiteral("refresh_token");
@@ -193,7 +202,7 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
         vCodeTypeParamName = QStringLiteral("code");
     }
 
-    QNetworkAccessManager *networkManager = new QNetworkAccessManager(this);
+    auto *networkManager = new QNetworkAccessManager(this);
     QUrl serviceUrl = QUrl(QStringLiteral("https://www.freesound.org/apiv2/oauth2/access_token/"));
 
     QUrlQuery postData;
@@ -204,9 +213,8 @@ void OAuth2::RequestAccessCode(bool pIsReRequest, const QString &pCode)
     postData.addQueryItem(vCodeTypeParamName, pCode);
     connect(networkManager, &QNetworkAccessManager::finished, this, &OAuth2::serviceRequestFinished);
     QNetworkRequest request(serviceUrl);
-    request.setHeader(QNetworkRequest::ContentTypeHeader,     "application/x-www-form-urlencoded");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     networkManager->post(request, postData.toString(QUrl::FullyEncoded).toUtf8());
-
 }
 /**
  * @brief OAuth2::serviceRequestFinished -  Fires when we finish downloading the access token.
@@ -230,9 +238,9 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
         QJsonParseError jsonError;
         QJsonDocument doc = QJsonDocument::fromJson(sReply, &jsonError);
         if (jsonError.error != QJsonParseError::NoError) {
-            qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished jsonError.error:  " <<  jsonError.errorString();
+            qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished jsonError.error:  " << jsonError.errorString();
             ForgetAccessToken();
-            emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
+            emit accessTokenReceived(QString()); // notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
 
         } else {
             QVariant data = doc.toVariant();
@@ -243,10 +251,9 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                 if (map.contains(QStringLiteral("access_token"))) {
                     m_strAccessToken = map.value(QStringLiteral("access_token")).toString();
                     m_bAccessTokenRec = true;
-
                 }
                 if (map.contains(QStringLiteral("refresh_token"))) {
-                    mstr_RefreshToken = map.value(QStringLiteral("refresh_token")).toString();
+                    m_strRefreshToken = map.value(QStringLiteral("refresh_token")).toString();
                 }
                 if (map.contains(QStringLiteral("expires_in"))) {
                     // iExpiresIn = map.value("expires_in").toInt(); //time in seconds until the access_token expires
@@ -254,9 +261,9 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                 if (map.contains(QStringLiteral("error"))) {
                     m_bAccessTokenRec = false;
                     sErrorText = map.value(QStringLiteral("error")).toString();
-                    qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished map error:  " <<  sErrorText;
+                    qCDebug(KDENLIVE_LOG) << "OAuth2::serviceRequestFinished map error:  " << sErrorText;
                     ForgetAccessToken();
-                    emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
+                    emit accessTokenReceived(QString()); // notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
                 }
 
                 if (m_bAccessTokenRec) {
@@ -264,22 +271,19 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
                     KSharedConfigPtr config = KSharedConfig::openConfig();
                     KConfigGroup authGroup(config, "FreeSoundAuthentication");
                     authGroup.writeEntry(QStringLiteral("freesound_access_token"), m_strAccessToken);
-                    authGroup.writeEntry(QStringLiteral("freesound_refresh_token"),  mstr_RefreshToken);
+                    authGroup.writeEntry(QStringLiteral("freesound_refresh_token"), m_strRefreshToken);
                     //  access tokens have a limited lifetime of 24 hours.
-                    emit accessTokenReceived(m_strAccessToken);//notifies ResourceWidget::slotAccessTokenReceived
+                    emit accessTokenReceived(m_strAccessToken); // notifies ResourceWidget::slotAccessTokenReceived
 
                 } else {
 
                     ForgetAccessToken();
-                    emit accessTokenReceived(QString());//notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
-
+                    emit accessTokenReceived(QString()); // notifies ResourceWidget::slotAccessTokenReceived - empty string in access token indicates error
                 }
             }
         }
-
     }
     reply->deleteLater();
-
 }
 /**
  * @brief OAuth2::SlotCanceled
@@ -287,8 +291,8 @@ void OAuth2::serviceRequestFinished(QNetworkReply *reply)
  */
 void OAuth2::SlotCanceled()
 {
-
     emit Canceled();
+    m_pLoginDialog = nullptr;
 }
 
 /**
@@ -298,8 +302,8 @@ void OAuth2::SlotCanceled()
  */
 void OAuth2::SlotDownloadHQPreview()
 {
-
     emit UseHQPreview();
+    m_pLoginDialog = nullptr;
 }
 /**
  * @brief OAuth2::obtainNewAccessToken
@@ -312,6 +316,6 @@ void OAuth2::obtainNewAccessToken()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup authGroup(config, "FreeSoundAuthentication");
 
-    mstr_RefreshToken = authGroup.readEntry(QStringLiteral("freesound_refresh_token"));
-    OAuth2::RequestAccessCode(true, mstr_RefreshToken); // request new access code via the refresh token method
+    m_strRefreshToken = authGroup.readEntry(QStringLiteral("freesound_refresh_token"));
+    OAuth2::RequestAccessCode(true, m_strRefreshToken); // request new access code via the refresh token method
 }

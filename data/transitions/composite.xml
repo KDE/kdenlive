@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<transition tag="composite" id="composite">
+    <name>Composite</name>
+        <description>A key-framable alpha-channel compositor for two frames.</description>
+        <author>Dan Dennedy</author>
+    <parameter type="animatedrect" name="geometry" default="0 0 %width %height 100">
+        <name>Rectangle</name>
+    </parameter>
+    <parameter type="bool" name="aligned" default="0" min="0" max="1">
+        <name>Align</name>
+    </parameter>
+    <parameter type="bool" name="progressive" default="1" min="0" max="1">
+        <name>Force Progressive Rendering</name>
+    </parameter>
+    <parameter type="bool" name="invert" default="0" min="0" max="1">
+        <name>Invert</name>
+    </parameter>
+</transition>

@@ -7,32 +7,28 @@ set -e
 set -x
 
 # Make sure the base dependencies are installed
-#apt-get update
-#apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
-#	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
-#apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
-#	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
-#	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
-#	mesa-common-dev libaio-dev lzma liblzma-dev\
-#	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
-#	libjack-dev autopoint language-pack-en-base
+apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
+	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
+apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
+	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
+	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
+	mesa-common-dev libaio-dev lzma liblzma-dev\
+	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
+	libjack-dev autopoint language-pack-en-base
 
-#apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
-
-# Extra dependencies for KDE AppImage Base
-#apt-get -y install liblist-moreutils-perl libtool libpixman-1-dev
+apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
 
 # Read in our parameters
-export BUILD_PREFIX=$1
-export KDENLIVE_SOURCES=$2
+#export BUILD_PREFIX=$1
+#export KDENLIVE_SOURCES=$2
+export BUILD_PREFIX=/build
+export KDENLIVE_SOURCES=/kdenlive
+export DEPS_INSTALL_PREFIX=/external
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment.
 # That's not always the case, so make sure it is
 export LC_ALL=en_US.UTF-8
 export LANG=en_us.UTF-8
-
-#export CC=/usr/bin/gcc-6
-#export CXX=/usr/bin/g++-6
 
 # We want to use $prefix/deps/usr/ for all our dependencies
 export DEPS_INSTALL_PREFIX=$BUILD_PREFIX/deps/usr
@@ -83,7 +79,7 @@ cmake --build . --target ext_png
 
   # cmake --build . --target ext_jpeg #this causes build failures in Qt 5.10
 
-cmake --build . --target ext_qt2
+cmake --build . --target ext_qt
 cmake --build . --target ext_boost
 cmake --build . --target ext_gpgme
 cmake --build . --target ext_frameworks
@@ -95,45 +91,19 @@ cmake --build . --target ext_alsa
 cmake --build . --target ext_sdl2
 
 cmake --build . --target ext_fftw3
-cmake --build . --target ext_fftw3f
 
 # ladspa expects fft3w.pc pkgconfig files
-cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftwf.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3f.pc
-cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3.pc
+cp /build/deps/usr/lib/pkgconfig/fftwf.pc /build/deps/usr/lib/pkgconfig/fftw3f.pc
+
+cmake --build . --target ext_ladspa
 
 cmake --build . --target ext_x264
 cmake --build . --target ext_x265
-
-# libvpx does not compile with this gcc6 version
-#export CC=/usr/bin/gcc
-#export CXX=/usr/bin/g++
-
 cmake --build . --target ext_libvpx
-
-#export CC=/usr/bin/gcc-6
-#export CXX=/usr/bin/g++-6
-
 cmake --build . --target ext_ffmpeg
-cmake --build . --target ext_sox
-cmake --build . --target ext_jack
-cmake --build . --target ext_ladspa
 cmake --build . --target ext_cairo
 cmake --build . --target ext_harfbuzz
 cmake --build . --target ext_pango
 cmake --build . --target ext_gdkpixbuf
 cmake --build . --target ext_gtk+
-cmake --build . --target ext_gavl
-cmake --build . --target ext_frei0r
-cmake --build . --target ext_vidstab
 cmake --build . --target ext_mlt
-
-cmake --build . --target ext_kbookmarks
-cmake --build . --target ext_kxmlgui
-cmake --build . --target ext_kconfigwidgets
-cmake --build . --target ext_knotifyconfig
-cmake --build . --target ext_knewstuff
-cmake --build . --target ext_kdeclarative
-cmake --build . --target ext_breezeicons
-cmake --build . --target ext_kcrash
-cmake --build . --target ext_breeze
-cmake --build . --target ext_ruby

@@ -25,8 +25,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "definitions.h"
 #include "timecode.h"
 
-#include <mlt++/Mlt.h>
 #include <QString>
+#include <QTreeWidget>
+
+#include <mlt++/Mlt.h>
 
 class ClipController;
 class QMimeData;
@@ -39,7 +41,7 @@ public:
     explicit AnalysisTree(QWidget *parent = nullptr);
 
 protected:
-    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const Q_DECL_OVERRIDE;
+    QMimeData *mimeData(const QList<QTreeWidgetItem *> list) const override;
 };
 
 /**
@@ -57,18 +59,17 @@ public:
      * @param properties The clip's properties
      * @param parent The widget where our infos will be displayed
      */
-    explicit ClipPropertiesController(const Timecode &tc, ClipController *controller, QWidget *parent);
-    virtual ~ClipPropertiesController();
+    explicit ClipPropertiesController(ClipController *controller, QWidget *parent);
+    ~ClipPropertiesController() override;
 
 public slots:
     void slotReloadProperties();
     void slotRefreshTimeCode();
-    void slotFillMarkers();
     void slotFillMeta(QTreeWidget *tree);
     void slotFillAnalysisData();
 
 private slots:
-    void slotColorModified(QColor newcolor);
+    void slotColorModified(const QColor &newcolor);
     void slotDurationChanged(int duration);
     void slotEnableForce(int state);
     void slotValueChanged(double);
@@ -93,17 +94,21 @@ private:
     QLabel *m_clipLabel;
     Timecode m_tc;
     QString m_id;
-    ClipType m_type;
-    Mlt::Properties m_properties;
+    ClipType::ProducerType m_type;
+    /** @brief: the properties of the active producer (can be a proxy) */
+    std::shared_ptr<Mlt::Properties> m_properties;
+    /** @brief: the properties of the original source producer (cannot be a proxy) */
+    Mlt::Properties m_sourceProperties;
     QMap<QString, QString> m_originalProperties;
     QMap<QString, QString> m_clipProperties;
+    QList<int> m_videoStreams;
+    QList<int> m_audioStreams;
     QTreeWidget *m_propertiesTree;
-    QWidget *m_forcePage;
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;
     QWidget *m_metaPage;
     QWidget *m_analysisPage;
-    QTreeWidget *m_markerTree;
+    QTreeView *m_markerTree;
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
     void fillProperties();
@@ -115,12 +120,12 @@ signals:
     void updateTimeCodeFormat();
     /** @brief Seek clip monitor to a frame. */
     void seekToFrame(int);
-    /** @brief Edit clip markers. */
-    void addMarkers(const QString &, const QList<CommentedTime> &);
-    void loadMarkers(const QString &);
-    void saveMarkers(const QString &);
     void editAnalysis(const QString &id, const QString &name, const QString &value);
     void editClip();
+    void requestProxy(bool doProxy);
+    void proxyModified(const QString &);
+    void deleteProxy();
+    void enableProxy(bool);
 };
 
 #endif

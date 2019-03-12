@@ -22,63 +22,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "bin.h"
+#include "core.h"
+#include "jobs/jobmanager.h"
+#include "macros.hpp"
+#include "projectitemmodel.h"
+
+#include "jobs/audiothumbjob.hpp"
+#include "jobs/loadjob.hpp"
+#include "jobs/thumbjob.hpp"
 
 #include <QDomElement>
-#include <QVariant>
 #include <QPainter>
-
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QString &id, AbstractProjectItem *parent) :
-    QObject()
-    , m_parent(parent)
-    , m_id(id)
+#include <QVariant>
+#include <utility>
+AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot)
+    : TreeItem(QList<QVariant>(), std::static_pointer_cast<AbstractTreeModel>(model), isRoot)
+    , m_name()
+    , m_description()
+    , m_thumbnail(QIcon())
+    , m_date()
+    , m_binId(std::move(id))
     , m_usage(0)
     , m_clipStatus(StatusReady)
-    , m_jobType(AbstractClipJob::NOJOBTYPE)
-    , m_jobProgress(0)
     , m_itemType(type)
+    , m_lock(QReadWriteLock::Recursive)
     , m_isCurrent(false)
 {
+    Q_ASSERT(!isRoot || type == FolderItem);
 }
 
-AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, const QDomElement &description, AbstractProjectItem *parent) :
-    QObject()
-    , m_parent(parent)
-    , m_id(description.attribute(QStringLiteral("id")))
-    , m_usage(0)
-    , m_clipStatus(StatusReady)
-    , m_jobType(AbstractClipJob::NOJOBTYPE)
-    , m_jobProgress(0)
-    , m_itemType(type)
-    , m_isCurrent(false)
-{
-}
-
-AbstractProjectItem::~AbstractProjectItem()
-{
-    while (!isEmpty()) {
-        AbstractProjectItem *child = takeFirst();
-        removeChild(child);
-        delete child;
-    }
-}
-
-bool AbstractProjectItem::operator==(const AbstractProjectItem *projectItem) const
+bool AbstractProjectItem::operator==(const std::shared_ptr<AbstractProjectItem> &projectItem) const
 {
     // FIXME: only works for folders
-    bool equal = static_cast<const QList *const>(this) == static_cast<const QList *const>(projectItem);
-    equal &= m_parent == projectItem->parent();
+    bool equal = this->m_childItems == projectItem->m_childItems;
+    // equal = equal && (m_parentItem == projectItem->m_parentItem);
     return equal;
 }
 
-AbstractProjectItem *AbstractProjectItem::parent() const
+std::shared_ptr<AbstractProjectItem> AbstractProjectItem::parent() const
 {
-    return m_parent;
+    return std::static_pointer_cast<AbstractProjectItem>(m_parentItem.lock());
 }
 
 void AbstractProjectItem::setRefCount(uint count)
 {
     m_usage = count;
-    bin()->emitItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
+                                                                       AbstractProjectItem::UsageCount);
 }
 
 uint AbstractProjectItem::refCount() const
@@ -89,46 +80,27 @@ uint AbstractProjectItem::refCount() const
 void AbstractProjectItem::addRef()
 {
     m_usage++;
-    bin()->emitItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
+                                                                       AbstractProjectItem::UsageCount);
 }
 
 void AbstractProjectItem::removeRef()
 {
     m_usage--;
-    bin()->emitItemUpdated(this);
+    if (auto ptr = m_model.lock())
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<AbstractProjectItem>(shared_from_this()),
+                                                                       AbstractProjectItem::UsageCount);
 }
 
 const QString &AbstractProjectItem::clipId() const
 {
-    return m_id;
-}
-
-void AbstractProjectItem::setParent(AbstractProjectItem *parent)
-{
-    if (m_parent != parent) {
-        if (m_parent) {
-            m_parent->removeChild(this);
-        }
-        m_parent = parent;
-        QObject::setParent(m_parent);
-    }
-
-    if (m_parent && !m_parent->contains(this)) {
-        m_parent->addChild(this);
-    }
-}
-
-Bin *AbstractProjectItem::bin()
-{
-    if (m_parent) {
-        return m_parent->bin();
-    }
-    return nullptr;
+    return m_binId;
 }
 
 QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
 {
-    QPixmap pix(source.width(), source.height());
+    QPixmap pix(source.size());
     pix.fill(Qt::transparent);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing, true);
@@ -140,38 +112,12 @@ QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
     return pix;
 }
 
-void AbstractProjectItem::addChild(AbstractProjectItem *child)
-{
-    if (child && !contains(child)) {
-        bin()->emitAboutToAddItem(child);
-        append(child);
-        bin()->emitItemAdded(child);
-    }
-}
-
-void AbstractProjectItem::removeChild(AbstractProjectItem *child)
-{
-    if (child && contains(child)) {
-        bin()->emitAboutToRemoveItem(child);
-        removeAll(child);
-        bin()->emitItemRemoved(child);
-    }
-}
-
-int AbstractProjectItem::index() const
-{
-    if (m_parent) {
-        return m_parent->indexOf(const_cast<AbstractProjectItem *>(this));
-    }
-    return 0;
-}
-
 AbstractProjectItem::PROJECTITEMTYPE AbstractProjectItem::itemType() const
 {
     return m_itemType;
 }
 
-QVariant AbstractProjectItem::data(DataType type) const
+QVariant AbstractProjectItem::getData(DataType type) const
 {
     QVariant data;
     switch (type) {
@@ -190,6 +136,9 @@ QVariant AbstractProjectItem::data(DataType type) const
     case DataDuration:
         data = QVariant(m_duration);
         break;
+    case DataInPoint:
+        data = QVariant(m_inPoint);
+        break;
     case DataDate:
         data = QVariant(m_date);
         break;
@@ -199,14 +148,56 @@ QVariant AbstractProjectItem::data(DataType type) const
     case ItemTypeRole:
         data = QVariant(m_itemType);
         break;
+    case ClipType:
+        data = clipType();
+        break;
+    case ClipHasAudioAndVideo:
+        data = hasAudioAndVideo();
+        break;
     case JobType:
-        data = QVariant(m_jobType);
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            if (jobIds.empty()) {
+                jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            }
+            if (jobIds.size() > 0) {
+                data = QVariant(pCore->jobManager()->getJobType(jobIds[0]));
+            }
+        }
+        break;
+    case JobStatus:
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            if (jobIds.empty()) {
+                jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            }
+            if (jobIds.size() > 0) {
+                data = QVariant::fromValue(pCore->jobManager()->getJobStatus(jobIds[0]));
+            } else {
+                data = QVariant::fromValue(JobManagerStatus::NoJob);
+            }
+        }
         break;
     case JobProgress:
-        data = QVariant(m_jobProgress);
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getPendingJobsIds(clipId());
+            if (jobIds.size() > 0) {
+                data = QVariant(pCore->jobManager()->getJobProgressForClip(jobIds[0], clipId()));
+            } else {
+                data = QVariant(0);
+            }
+        }
         break;
-    case JobMessage:
-        data = QVariant(m_jobMessage);
+    case JobSuccess:
+        if (itemType() == ClipItem) {
+            auto jobIds = pCore->jobManager()->getFinishedJobsIds(clipId());
+            if (jobIds.size() > 0) {
+                // Check the last job status
+                data = QVariant(pCore->jobManager()->jobSucceded(jobIds[jobIds.size() - 1]));
+            } else {
+                data = QVariant(true);
+            }
+        }
         break;
     case ClipStatus:
         data = QVariant(m_clipStatus);
@@ -247,7 +238,7 @@ void AbstractProjectItem::setDescription(const QString &description)
 
 QPoint AbstractProjectItem::zone() const
 {
-    return QPoint();
+    return {};
 }
 
 void AbstractProjectItem::setClipStatus(CLIPSTATUS status)
@@ -265,3 +256,45 @@ AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
     return m_clipStatus;
 }
 
+std::shared_ptr<AbstractProjectItem> AbstractProjectItem::getEnclosingFolder(bool strict)
+{
+    if (!strict && itemType() == AbstractProjectItem::FolderItem) {
+        return std::static_pointer_cast<AbstractProjectItem>(shared_from_this());
+    }
+    if (auto ptr = m_parentItem.lock()) {
+        return std::static_pointer_cast<AbstractProjectItem>(ptr)->getEnclosingFolder(false);
+    }
+    return std::shared_ptr<AbstractProjectItem>();
+}
+
+bool AbstractProjectItem::selfSoftDelete(Fun &undo, Fun &redo)
+{
+    pCore->jobManager()->slotDiscardClipJobs(clipId());
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    for (const auto &child : m_childItems) {
+        bool res = std::static_pointer_cast<AbstractProjectItem>(child)->selfSoftDelete(local_undo, local_redo);
+        if (!res) {
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            return false;
+        }
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
+QString AbstractProjectItem::lastParentId() const
+{
+    return m_lastParentId;
+}
+
+void AbstractProjectItem::updateParent(std::shared_ptr<TreeItem> newParent)
+{
+    // bool reload = !m_lastParentId.isEmpty();
+    m_lastParentId.clear();
+    if (newParent) {
+        m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
+    }
+    TreeItem::updateParent(newParent);
+}

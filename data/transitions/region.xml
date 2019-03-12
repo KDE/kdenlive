@@ -1,0 +1,41 @@
+<!DOCTYPE kpartgui>
+<transition tag="region" id="region">
+        <name>Regionalize</name>
+        <description>Use alpha channel of another clip to create a transition.</description>
+        <author>Dan Dennedy</author>
+        <parameter type="url" name="resource" default="">
+                <name>Mask clip</name>
+        </parameter>
+        <parameter type="animatedrect" name="composite.geometry" default="0 0 %width %height 100">
+            <name>Rectangle</name>
+        </parameter>
+        <parameter type="list" name="composite.operator" default="over" paramlist="over;and;or;xor" >
+                <paramlistdisplay>Over,And,Or,Xor</paramlistdisplay>
+                <name>Alpha Channel Operation</name>
+        </parameter>
+        <parameter type="bool" name="composite.aligned" max="1" min="0" default="1">
+                <name>Align</name>
+        </parameter>
+        <parameter type="bool" name="composite.fill" max="1" min="0" default="1">
+                <name>Fill</name>
+        </parameter>
+        <parameter type="bool" name="composite.distort" max="1" min="0" default="0">
+                <name>Distort</name>
+        </parameter>
+        <parameter type="list" name="composite.luma" default="" paramlist="%lumaPaths" optional="1">
+                <paramlistdisplay>%lumaNames</paramlistdisplay>
+                <name>Wipe Method</name>
+        </parameter>
+        <parameter type="double" name="composite.softness" max="100" min="0" default="0" factor="100">
+                <name>Softness</name>
+        </parameter>
+        <parameter type="bool" name="luma_invert" max="1" min="0" default="0">
+                <name>Invert</name>
+        </parameter>
+        <parameter type="bool" name="composite.progressive" max="1" min="0" default="1">
+                <name>Force Progressive Rendering</name>
+        </parameter>
+        <parameter type="bool" name="composite.deinterlace" max="1" min="0" default="0">
+                <name>Force Deinterlace Overlay</name>
+        </parameter>
+</transition>

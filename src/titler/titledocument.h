@@ -17,11 +17,11 @@
 #ifndef TITLEDOCUMENT_H
 #define TITLEDOCUMENT_H
 
-#include <QDomDocument>
-#include <QUrl>
 #include <QColor>
+#include <QDomDocument>
 #include <QRectF>
 #include <QTransform>
+#include <QUrl>
 #include <QVariant>
 
 class QGraphicsScene;
@@ -33,14 +33,7 @@ class TitleDocument
 
 public:
     TitleDocument();
-    enum TitleProperties {
-        OutlineWidth = 101,
-        OutlineColor,
-        LineSpacing,
-        Gradient,
-        RotateFactor,
-        ZoomFactor
-    };
+    enum TitleProperties { OutlineWidth = 101, OutlineColor, LineSpacing, Gradient, RotateFactor, ZoomFactor };
     void setScene(QGraphicsScene *scene, int width, int height);
     bool saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int duration, bool embed_images = false);
     QDomDocument xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false);
@@ -52,13 +45,16 @@ public:
     int frameHeight() const;
     /** \brief Extract embedded images in project titles folder. */
     static const QString extractBase64Image(const QString &titlePath, const QString &data);
+    /** \brief The number of missing elements in this title. */
+    int invalidCount() const;
 
-    enum ItemOrigin {OriginXLeft = 0, OriginYTop = 1};
-    enum AxisPosition {AxisDefault = 0, AxisInverted = 1};
+    enum ItemOrigin { OriginXLeft = 0, OriginYTop = 1 };
+    enum AxisPosition { AxisDefault = 0, AxisInverted = 1 };
 
 private:
     QGraphicsScene *m_scene;
     QString m_projectPath;
+    int m_missingElements;
     int m_width;
     int m_height;
     QString colorToString(const QColor &);
@@ -68,7 +64,7 @@ private:
     QTransform stringToTransform(const QString &);
     QList<QVariant> stringToList(const QString &);
     int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed);
+    QPixmap createInvalidPixmap(const QString &url);
 };
 
 #endif
-

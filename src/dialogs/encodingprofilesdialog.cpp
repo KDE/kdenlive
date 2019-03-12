@@ -20,17 +20,16 @@
 #include "encodingprofilesdialog.h"
 
 #include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
-#include <QVBoxLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QStandardPaths>
+#include <QVBoxLayout>
 
-EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent) :
-    QDialog(parent),
-    m_configGroup(nullptr)
+EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent)
+    : QDialog(parent)
+    , m_configGroup(nullptr)
 {
     setupUi(this);
     setWindowTitle(i18n("Manage Encoding Profiles"));
@@ -40,14 +39,14 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent)
     profile_type->addItem(i18n("Screen capture"), 3);
     profile_type->addItem(i18n("Decklink capture"), 4);
 
-    button_add->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-add")));
-    button_edit->setIcon(KoIconUtils::themedIcon(QStringLiteral("document-edit")));
-    button_delete->setIcon(KoIconUtils::themedIcon(QStringLiteral("list-remove")));
-    button_download->setIcon(KoIconUtils::themedIcon(QStringLiteral("download")));
+    button_add->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    button_edit->setIcon(QIcon::fromTheme(QStringLiteral("document-edit")));
+    button_delete->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
+    button_download->setIcon(QIcon::fromTheme(QStringLiteral("download")));
 
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     profile_type->setCurrentIndex(profileType);
-    connect(profile_type, SIGNAL(currentIndexChanged(int)), this, SLOT(slotLoadProfiles()));
+    connect(profile_type, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &EncodingProfilesDialog::slotLoadProfiles);
     connect(profile_list, &QListWidget::currentRowChanged, this, &EncodingProfilesDialog::slotShowParams);
     connect(button_delete, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotDeleteProfile);
     connect(button_add, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotAddProfile);
@@ -88,13 +87,13 @@ void EncodingProfilesDialog::slotLoadProfiles()
 
     delete m_configGroup;
     m_configGroup = new KConfigGroup(m_configFile, group);
-    QMap< QString, QString > values = m_configGroup->entryMap();
+    QMap<QString, QString> values = m_configGroup->entryMap();
     QMapIterator<QString, QString> i(values);
     while (i.hasNext()) {
         i.next();
-        QListWidgetItem *item = new QListWidgetItem(i.key(), profile_list);
+        auto *item = new QListWidgetItem(i.key(), profile_list);
         item->setData(Qt::UserRole, i.value());
-        //cout << i.key() << ": " << i.value() << endl;
+        // cout << i.key() << ": " << i.value() << endl;
     }
     profile_list->blockSignals(false);
     profile_list->setCurrentRow(0);
@@ -127,15 +126,15 @@ void EncodingProfilesDialog::slotDeleteProfile()
 void EncodingProfilesDialog::slotAddProfile()
 {
     QPointer<QDialog> d = new QDialog(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    QLineEdit *pname = new QLineEdit;
+    auto *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
-    QPlainTextEdit *pparams = new QPlainTextEdit;
+    auto *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    QLineEdit *pext = new QLineEdit;
+    auto *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
@@ -159,15 +158,15 @@ void EncodingProfilesDialog::slotAddProfile()
 void EncodingProfilesDialog::slotEditProfile()
 {
     QPointer<QDialog> d = new QDialog(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     l->addWidget(new QLabel(i18n("Profile name:")));
-    QLineEdit *pname = new QLineEdit;
+    auto *pname = new QLineEdit;
     l->addWidget(pname);
     l->addWidget(new QLabel(i18n("Parameters:")));
-    QPlainTextEdit *pparams = new QPlainTextEdit;
+    auto *pparams = new QPlainTextEdit;
     l->addWidget(pparams);
     l->addWidget(new QLabel(i18n("File extension:")));
-    QLineEdit *pext = new QLineEdit;
+    auto *pext = new QLineEdit;
     l->addWidget(pext);
     QDialogButtonBox *box = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
     connect(box, &QDialogButtonBox::accepted, d.data(), &QDialog::accept);
@@ -189,4 +188,3 @@ void EncodingProfilesDialog::slotEditProfile()
     }
     delete d;
 }
-

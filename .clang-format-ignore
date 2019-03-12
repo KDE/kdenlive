@@ -1,0 +1,3 @@
+tests/catch.hpp
+tests/fakeit.hpp
+fuzzer/fakeit_standalone.hpp

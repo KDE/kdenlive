@@ -7,7 +7,7 @@ way</description>
     <parameter type="color" name="Neutral Color" default="0x7f7f7fff">
         <name>Neutral Color</name>
     </parameter>
-    <parameter type="simplekeyframe" name="Color Temperature"
+    <parameter type="keyframe" name="Color Temperature"
 default="6500" min="1000" max="15000" factor="15000">
         <name>Color Temperature</name>
     </parameter>

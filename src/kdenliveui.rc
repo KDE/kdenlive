@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="149" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="158" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -18,31 +18,11 @@
       <Action name="add_text_template_clip" />
       <Action name="add_folder" />
       <Action name="download_resource" /> 
-      <Menu name="extract_audio" ><text>Extract Audio</text>
-	  <ActionList name="audio_transcoders_list" />
-      </Menu>
-      <Menu name="clip_actions" ><text>Clip Jobs</text>
-	<ActionList name="clip_jobs" />
-      </Menu>
-      <Menu name="transcoders" ><text>Transcode</text>
-	  <ActionList name="transcoders_list" />
-      </Menu>
       <Menu name="generators" ><text>Generators</text>
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
       <Action name="stopmotion" />
-      <Separator />
-      <Action name="locate_clip" />
-      <Action name="reload_clip" />
-      <Action name="duplicate_clip" />
-      <Action name="proxy_clip" />
-      <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
-	<ActionList name="timeline_occurrences" />
-      </Menu>
-      <Action name="clip_properties" />
-      <Action name="edit_clip" />
-      <Action name="delete_clip" />
       <Separator />
       <Action name="project_clean" />
       <Action name="project_render" />
@@ -64,18 +44,33 @@
 
     <Menu name="clip" ><text>Clip</text>
           <Menu name="marker_menu" ><text>Markers</text>
-		<Action name="add_clip_marker" />
-		<Action name="add_marker_guide_quickly" />
-		<Action name="edit_clip_marker" />
-		<Action name="delete_clip_marker" />
-		<Action name="delete_all_clip_markers" />
-	  </Menu>
+        <Action name="add_clip_marker" />
+        <Action name="add_marker_guide_quickly" />
+        <Action name="edit_clip_marker" />
+        <Action name="delete_clip_marker" />
+        <Action name="delete_all_clip_markers" />
+        </Menu>
 	  <Action name="auto_transition" />
-	  <Action name="split_audio" />
-	  <Separator />
-	  <Action name="clip_audio_and_video" />
-          <Action name="clip_video_only" />
-          <Action name="clip_audio_only" />
+      <Menu name="extract_audio" ><text>Extract Audio</text>
+	  <ActionList name="audio_transcoders_list" />
+      </Menu>
+      <Menu name="clip_actions" ><text>Clip Jobs</text>
+	<ActionList name="clip_jobs" />
+      </Menu>
+      <Menu name="transcoders" ><text>Transcode</text>
+	  <ActionList name="transcoders_list" />
+      </Menu>
+      <Separator />
+      <Action name="locate_clip" />
+      <Action name="reload_clip" />
+      <Action name="duplicate_clip" />
+      <Action name="proxy_clip" />
+      <Menu name="clip_in_timeline"><text>Clip in Timeline</text>
+	<ActionList name="timeline_occurences" />
+      </Menu>
+      <Action name="clip_properties" />
+      <Action name="edit_clip" />
+      <Action name="delete_clip" />
     </Menu>
 
     <Menu name="timeline" ><text>Timeline</text>
@@ -102,15 +97,18 @@
         <Action name="unset_render_timeline_zone" />
         <Action name="clear_render_timeline_zone"/>
       </Menu>
-      <Action name="resize_timeline_clip_start" />
-      <Action name="resize_timeline_clip_end" />
-      <Menu name="current_clip" ><text>Current clip</text>
-	  <Action name="cut_timeline_clip" />
-	  <Action name="delete_timeline_clip" />
-	  <Action name="edit_item_duration" />
-          <Action name="clip_in_project_tree" />
-          <Action name="expand_timeline_clip" />
+        <Action name="resize_timeline_clip_start" />
+        <Action name="resize_timeline_clip_end" />
+        <Menu name="current_clip" ><text>Current clip</text>
+            <Action name="cut_timeline_clip" />
+            <Action name="delete_timeline_clip" />
+            <Action name="edit_item_duration" />
+            <Action name="clip_split" />
+            <Action name="clip_disable" />
+            <Action name="clip_in_project_tree" />
+            <Action name="expand_timeline_clip" />
       </Menu>
+      <Action name="grab_item" />
       <Menu name="guide_menu" ><text>Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />
@@ -128,8 +126,7 @@
       <Action name="send_library" />
       <Menu name="timeline_tracks" ><text>Tracks</text>
         <Action name="insert_track" />
-	<Action name="delete_track" />
-	<Action name="config_tracks" />
+        <Action name="delete_track" />
 	<Separator />
 	<Action name="select_track" />
 	<Action name="select_all_tracks" />
@@ -170,22 +167,25 @@
 	    <Action name="monitor_seek_snap_forward" />
 	    <Action name="seek_end" />
       </Menu>
-      <Action name="monitor_seek_backward" />
-      <Action name="monitor_seek_backward-one-frame" />
-      <Action name="monitor_seek_backward-one-second" />
-      <Action name="monitor_seek_forward-one-second" />
-      <Action name="monitor_seek_forward-one-frame" />
-      <Action name="monitor_seek_forward" />
+      <Menu name="monitor_seek" ><text>Seek</text>
+        <Action name="monitor_seek_backward" />
+        <Action name="monitor_seek_backward-one-frame" />
+        <Action name="monitor_seek_backward-one-second" />
+        <Action name="monitor_seek_forward-one-second" />
+        <Action name="monitor_seek_forward-one-frame" />
+        <Action name="monitor_seek_forward" />
+      </Menu>
       <Separator />
       <Action name="mark_in" />
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
+      <Action name="monitor_zoomin" />
+      <Action name="monitor_zoomout" />
       <Menu name="monitor_config_overlay" ><text>Current Monitor Overlay</text>
           <Action name="monitor_overlay" />
           <Action name="monitor_overlay_tc" />
           <Action name="monitor_overlay_fps" />
-          <Action name="monitor_overlay_safezone" />
           <Action name="monitor_overlay_markers" />
           <Action name="monitor_overlay_audiothumb" />
       </Menu>
@@ -193,6 +193,7 @@
           <Action name="mlt_interlace" />
           <Action name="mlt_interpolation" />
           <Action name="mlt_gamma" />
+          <Action name="mlt_realtime" />
           <Action name="mlt_mute" />
       </Menu>
       <Action name="switch_monitor" />
@@ -213,10 +214,7 @@
       <ActionList name="dock_actions" />
     </Menu>
     <Menu name="settings" >
-      <Action name="get_new_lumas" />
-      <Action name="get_new_profiles" />
       <Action name="get_new_mlt_profiles" />
-      <Action name="get_new_titles" />
       <Action name="run_wizard" />
       <Action name="force_icon_theme" />
       <Action name="themes_menu" />
@@ -225,9 +223,10 @@
   </MenuBar>
   <ToolBar name="timelineToolBar" fullWidth="true" newline="true" noMerge="1" position="bottom">
     <text>Timeline Toolbar</text>
-    <Action name="timeline_compositing" />
+    <Action name="timeline_settings" />
     <Action name="timeline_mode" />
     <Separator />
+    <Action name="use_timeline_zone_in_edit" />
     <Action name="select_tool" />
     <Action name="razor_tool" />
     <Action name="spacer_tool" />

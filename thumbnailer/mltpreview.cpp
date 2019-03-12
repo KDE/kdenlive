@@ -24,17 +24,17 @@
 #include <QImage>
 #include <QVarLengthArray>
 
-#include <krandomsequence.h>
 #include <QDebug>
+#include <krandomsequence.h>
 #include <unistd.h>
 
 #define DBG_AREA
 
 extern "C" {
-    Q_DECL_EXPORT ThumbCreator *new_creator()
-    {
-        return new MltPreview;
-    }
+Q_DECL_EXPORT ThumbCreator *new_creator()
+{
+    return new MltPreview;
+}
 }
 
 MltPreview::MltPreview()
@@ -49,7 +49,7 @@ MltPreview::~MltPreview()
 
 bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 {
-    Mlt::Profile *profile = new Mlt::Profile();
+    auto *profile = new Mlt::Profile();
     Mlt::Producer *producer = new Mlt::Producer(*profile, path.toUtf8().data());
 
     if (producer->is_blank()) {
@@ -71,7 +71,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
         wanted_width = height * ar;
     }
 
-    //img = getFrame(producer, frame, width, height);
+    // img = getFrame(producer, frame, width, height);
     while (variance <= 40 && ct < 4) {
         img = getFrame(producer, frame, wanted_width, wanted_height);
         variance = imageVariance(img);
@@ -81,7 +81,7 @@ bool MltPreview::create(const QString &path, int width, int height, QImage &img)
 
     delete producer;
     delete profile;
-    return (img.isNull() == false);
+    return (!img.isNull());
 }
 
 QImage MltPreview::getFrame(Mlt::Producer *producer, int framepos, int width, int height)
@@ -142,4 +142,3 @@ ThumbCreator::Flags MltPreview::flags() const
 {
     return None;
 }
-

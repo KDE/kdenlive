@@ -21,35 +21,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "projectfolderup.h"
 #include "projectclip.h"
-#include "bin.h"
-#include "utils/KoIconUtils.h"
 
-#include <QDomElement>
 #include <KLocalizedString>
-
-ProjectFolderUp::ProjectFolderUp(AbstractProjectItem *parent) :
-    AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), parent)
-    , m_bin(nullptr)
+#include <QDomElement>
+#include <utility>
+ProjectFolderUp::ProjectFolderUp(const std::shared_ptr<ProjectItemModel> &model)
+    : AbstractProjectItem(AbstractProjectItem::FolderUpItem, QString(), model)
 {
-    m_thumbnail = KoIconUtils::themedIcon(QStringLiteral("go-previous"));
+    m_thumbnail = QIcon::fromTheme(QStringLiteral("go-previous"));
     m_name = i18n("Back");
-    setParent(parent);
 }
 
-ProjectFolderUp::~ProjectFolderUp()
+std::shared_ptr<ProjectFolderUp> ProjectFolderUp::construct(std::shared_ptr<ProjectItemModel> model)
 {
+    std::shared_ptr<ProjectFolderUp> self(new ProjectFolderUp(std::move(model)));
+
+    baseFinishConstruct(self);
+    return self;
 }
 
-void ProjectFolderUp::setCurrent(bool current, bool notify)
-{
-    Q_UNUSED(current)
-    Q_UNUSED(notify)
-}
+ProjectFolderUp::~ProjectFolderUp() = default;
 
-ProjectClip *ProjectFolderUp::clip(const QString &id)
+std::shared_ptr<ProjectClip> ProjectFolderUp::clip(const QString &id)
 {
     Q_UNUSED(id)
-    return nullptr;
+    return std::shared_ptr<ProjectClip>();
 }
 
 QString ProjectFolderUp::getToolTip() const
@@ -57,33 +53,19 @@ QString ProjectFolderUp::getToolTip() const
     return i18n("Go up");
 }
 
-ProjectFolder *ProjectFolderUp::folder(const QString &id)
+std::shared_ptr<ProjectFolder> ProjectFolderUp::folder(const QString &id)
 {
-    Q_UNUSED(id)
-    return nullptr;
+    Q_UNUSED(id);
+    return std::shared_ptr<ProjectFolder>();
 }
 
-ProjectClip *ProjectFolderUp::clipAt(int index)
+std::shared_ptr<ProjectClip> ProjectFolderUp::clipAt(int index)
 {
-    Q_UNUSED(index)
-    return nullptr;
+    Q_UNUSED(index);
+    return std::shared_ptr<ProjectClip>();
 }
 
-void ProjectFolderUp::disableEffects(bool)
-{
-}
-
-Bin *ProjectFolderUp::bin()
-{
-    if (m_bin) {
-        return m_bin;
-    } else {
-        if (parent()) {
-            return parent()->bin();
-        }
-        return AbstractProjectItem::bin();
-    }
-}
+void ProjectFolderUp::setBinEffectsEnabled(bool) {}
 
 QDomElement ProjectFolderUp::toXml(QDomDocument &document, bool)
 {
@@ -91,6 +73,16 @@ QDomElement ProjectFolderUp::toXml(QDomDocument &document, bool)
 }
 
 bool ProjectFolderUp::rename(const QString &, int)
+{
+    return false;
+}
+
+ClipType::ProducerType ProjectFolderUp::clipType() const
+{
+    return ClipType::Unknown;
+}
+
+bool ProjectFolderUp::hasAudioAndVideo() const
 {
     return false;
 }

@@ -33,9 +33,8 @@ private slots:
     void slotConfigurationChanged();
 
 private:
-    JogShuttle *m_shuttle;
-    JogShuttleAction *m_shuttleAction;
-
+    JogShuttle *m_shuttle{nullptr};
+    JogShuttleAction *m_shuttleAction{nullptr};
 };
 
 #endif

@@ -10,19 +10,18 @@
 
 #include "abstractscopewidget.h"
 
-#include "renderer.h"
 #include "monitor/monitor.h"
 
-#include <QtConcurrent>
 #include <QColor>
 #include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QtConcurrent>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
-
+#include <cmath>
 // Uncomment for Scope debugging.
 //#define DEBUG_ASW
 
@@ -33,42 +32,29 @@
 const int REALTIME_FPS = 30;
 
 const QColor light(250, 238, 226, 255);
-const QColor dark(40,  40,  39, 255);
-const QColor dark2(25,  25,  23, 255);
+const QColor dark(40, 40, 39, 255);
+const QColor dark2(25, 25, 23, 255);
 const QColor AbstractScopeWidget::colHighlightLight(18, 130, 255, 255);
 const QColor AbstractScopeWidget::colHighlightDark(255, 64, 19, 255);
 const QColor AbstractScopeWidget::colDarkWhite(250, 250, 250);
 
-const QPen AbstractScopeWidget::penThick(QBrush(AbstractScopeWidget::colDarkWhite.rgb()),           2, Qt::SolidLine);
-const QPen AbstractScopeWidget::penThin(QBrush(AbstractScopeWidget::colDarkWhite.rgb()),            1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)),                        1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)),                    1, Qt::DotLine);
-const QPen AbstractScopeWidget::penLighter(QBrush(QColor(225, 225, 250, 225)),                      1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)),                              1, Qt::SolidLine);
-const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)),                          1, Qt::DotLine);
-const QPen AbstractScopeWidget::penBackground(QBrush(dark2),                                        1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThick(QBrush(AbstractScopeWidget::colDarkWhite.rgb()), 2, Qt::SolidLine);
+const QPen AbstractScopeWidget::penThin(QBrush(AbstractScopeWidget::colDarkWhite.rgb()), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penLight(QBrush(QColor(200, 200, 250, 150)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penLightDots(QBrush(QColor(200, 200, 250, 150)), 1, Qt::DotLine);
+const QPen AbstractScopeWidget::penLighter(QBrush(QColor(225, 225, 250, 225)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDark(QBrush(QColor(0, 0, 20, 250)), 1, Qt::SolidLine);
+const QPen AbstractScopeWidget::penDarkDots(QBrush(QColor(0, 0, 20, 250)), 1, Qt::DotLine);
+const QPen AbstractScopeWidget::penBackground(QBrush(dark2), 1, Qt::SolidLine);
 
-const QString AbstractScopeWidget::directions[] =  {QStringLiteral("North"), QStringLiteral("Northeast"), QStringLiteral("East"), QStringLiteral("Southeast")};
+const QString AbstractScopeWidget::directions[] = {QStringLiteral("North"), QStringLiteral("Northeast"), QStringLiteral("East"), QStringLiteral("Southeast")};
 
-AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
-    QWidget(parent)
+AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent)
+    : QWidget(parent)
     , m_mousePos(0, 0)
-    , m_mouseWithinWidget(false)
-    , offset(5)
-    , m_accelFactorHUD(1)
-    , m_accelFactorScope(1)
-    , m_accelFactorBackground(1)
     , m_semaphoreHUD(1)
     , m_semaphoreScope(1)
     , m_semaphoreBackground(1)
-    , initialDimensionUpdateDone(false)
-    , m_requestForcedUpdate(false)
-    , m_rescaleMinDist(4)
-    , m_rescaleVerticalThreshold(2.0f)
-    , m_rescaleActive(false)
-    , m_rescalePropertiesLocked(false)
-    , m_rescaleFirstRescaleDone(true)
-    , m_rescaleDirection(North)
 
 {
     m_scopePalette = QPalette();
@@ -88,7 +74,7 @@ AbstractScopeWidget::AbstractScopeWidget(bool trackMouse, QWidget *parent) :
 
     m_menu = new QMenu();
     // Disabled dark palette on menus since it breaks up with some themes: kdenlive issue #2950
-    //m_menu->setPalette(m_scopePalette);
+    // m_menu->setPalette(m_scopePalette);
     m_menu->addAction(m_aAutoRefresh);
     m_menu->addAction(m_aRealtime);
 
@@ -255,20 +241,17 @@ void AbstractScopeWidget::forceUpdateHUD()
 {
     m_newHUDUpdates.fetchAndAddRelaxed(1);
     prodHUDThread();
-
 }
 void AbstractScopeWidget::forceUpdateScope()
 {
     m_newScopeUpdates.fetchAndAddRelaxed(1);
     m_requestForcedUpdate = true;
     prodScopeThread();
-
 }
 void AbstractScopeWidget::forceUpdateBackground()
 {
     m_newBackgroundUpdates.fetchAndAddRelaxed(1);
     prodBackgroundThread();
-
 }
 
 ///// Events /////
@@ -355,11 +338,11 @@ void AbstractScopeWidget::mouseMoveEvent(QMouseEvent *event)
             // Detect the movement direction here.
             // This algorithm relies on the aspect ratio of dy/dx (size and signum).
             if (movement.manhattanLength() > m_rescaleMinDist) {
-                float diff = ((float) movement.y()) / movement.x();
+                float diff = ((float)movement.y()) / (float)movement.x();
 
-                if (fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
+                if (std::fabs(diff) > m_rescaleVerticalThreshold || movement.x() == 0) {
                     m_rescaleDirection = North;
-                } else if (fabs(diff) < 1 / m_rescaleVerticalThreshold) {
+                } else if (std::fabs(diff) < 1 / m_rescaleVerticalThreshold) {
                     m_rescaleDirection = East;
                 } else if (diff < 0) {
                     m_rescaleDirection = Northeast;
@@ -388,15 +371,15 @@ void AbstractScopeWidget::slotContextMenuRequested(const QPoint &pos)
 
 uint AbstractScopeWidget::calculateAccelFactorHUD(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
+    return std::ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 uint AbstractScopeWidget::calculateAccelFactorScope(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
+    return std::ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 uint AbstractScopeWidget::calculateAccelFactorBackground(uint oldMseconds, uint)
 {
-    return ceil((float)oldMseconds * REALTIME_FPS / 1000);
+    return std::ceil((float)oldMseconds * REALTIME_FPS / 1000);
 }
 
 ///// Slots /////
@@ -414,7 +397,7 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
 
     if (m_aRealtime->isChecked()) {
         int accel;
-        accel = calculateAccelFactorHUD(mseconds, oldFactor);
+        accel = (int)calculateAccelFactorHUD(mseconds, oldFactor);
         if (m_accelFactorHUD < 1) {
             accel = 1;
         }
@@ -423,8 +406,8 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
 
     if ((m_newHUDFrames > 0 && m_aAutoRefresh->isChecked()) || m_newHUDUpdates > 0) {
 #ifdef DEBUG_ASW
-        qCDebug(KDENLIVE_LOG) << "Trying to start a new HUD thread for " << m_widgetName
-                              << ". New frames/updates: " << m_newHUDFrames << '/' << m_newHUDUpdates;
+        qCDebug(KDENLIVE_LOG) << "Trying to start a new HUD thread for " << m_widgetName << ". New frames/updates: " << m_newHUDFrames << '/'
+                              << m_newHUDUpdates;
 #endif
         prodHUDThread();
     }
@@ -432,8 +415,8 @@ void AbstractScopeWidget::slotHUDRenderingFinished(uint mseconds, uint oldFactor
 
 void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFactor)
 {
-    // The signal can be received before the thread has really finished. So we
-    // need to wait until it has really finished before starting a new thread.
+// The signal can be received before the thread has really finished. So we
+// need to wait until it has really finished before starting a new thread.
 #ifdef DEBUG_ASW
     qCDebug(KDENLIVE_LOG) << "Scope rendering has finished in " << mseconds << " ms, waiting for termination in " << m_widgetName;
 #endif
@@ -448,7 +431,7 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
     // Calculate the acceleration factor hint to get «realtime» updates.
     if (m_aRealtime->isChecked()) {
         int accel;
-        accel = calculateAccelFactorScope(mseconds, oldFactor);
+        accel = (int)calculateAccelFactorScope(mseconds, oldFactor);
         if (accel < 1) {
             // If mseconds happens to be 0.
             accel = 1;
@@ -461,8 +444,8 @@ void AbstractScopeWidget::slotScopeRenderingFinished(uint mseconds, uint oldFact
 
     if ((m_newScopeFrames > 0 && m_aAutoRefresh->isChecked()) || m_newScopeUpdates > 0) {
 #ifdef DEBUG_ASW
-        qCDebug(KDENLIVE_LOG) << "Trying to start a new scope thread for " << m_widgetName
-                              << ". New frames/updates: " << m_newScopeFrames << '/' << m_newScopeUpdates;
+        qCDebug(KDENLIVE_LOG) << "Trying to start a new scope thread for " << m_widgetName << ". New frames/updates: " << m_newScopeFrames << '/'
+                              << m_newScopeUpdates;
 #endif
         prodScopeThread();
     }
@@ -481,7 +464,7 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
 
     if (m_aRealtime->isChecked()) {
         int accel;
-        accel = calculateAccelFactorBackground(mseconds, oldFactor);
+        accel = (int)calculateAccelFactorBackground(mseconds, oldFactor);
         if (m_accelFactorBackground < 1) {
             accel = 1;
         }
@@ -490,8 +473,8 @@ void AbstractScopeWidget::slotBackgroundRenderingFinished(uint mseconds, uint ol
 
     if ((m_newBackgroundFrames > 0 && m_aAutoRefresh->isChecked()) || m_newBackgroundUpdates > 0) {
 #ifdef DEBUG_ASW
-        qCDebug(KDENLIVE_LOG) << "Trying to start a new background thread for " << m_widgetName
-                              << ". New frames/updates: " << m_newBackgroundFrames << '/' << m_newBackgroundUpdates;
+        qCDebug(KDENLIVE_LOG) << "Trying to start a new background thread for " << m_widgetName << ". New frames/updates: " << m_newBackgroundFrames << '/'
+                              << m_newBackgroundUpdates;
 #endif
         prodBackgroundThread();
     }
@@ -504,8 +487,8 @@ void AbstractScopeWidget::slotRenderZoneUpdated()
     m_newBackgroundFrames.fetchAndAddRelaxed(1);
 
 #ifdef DEBUG_ASW
-    qCDebug(KDENLIVE_LOG) << "Data incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames
-                          << '/' << m_newScopeFrames << '/' << m_newBackgroundFrames;
+    qCDebug(KDENLIVE_LOG) << "Data incoming at " << widgetName() << ". New frames total HUD/Scope/Background: " << m_newHUDFrames << '/' << m_newScopeFrames
+                          << '/' << m_newBackgroundFrames;
 #endif
 
     if (this->visibleRegion().isEmpty()) {
@@ -538,8 +521,8 @@ bool AbstractScopeWidget::autoRefreshEnabled() const
 void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 {
 #ifdef DEBUG_ASW
-    qCDebug(KDENLIVE_LOG) << "Auto-refresh switched to " << autoRefresh << " in " << widgetName()
-                          << " (Visible: " << isVisible() << '/' << this->visibleRegion().isEmpty() << ')';
+    qCDebug(KDENLIVE_LOG) << "Auto-refresh switched to " << autoRefresh << " in " << widgetName() << " (Visible: " << isVisible() << '/'
+                          << this->visibleRegion().isEmpty() << ')';
 #endif
     if (isVisible()) {
         // Notify listeners whether we accept new frames now
@@ -547,14 +530,13 @@ void AbstractScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
     }
     // TODO only if depends on input
     if (autoRefresh) {
-        //forceUpdate();
+        // forceUpdate();
         m_requestForcedUpdate = true;
     }
 }
 
-void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers) { }
+void AbstractScopeWidget::handleMouseDrag(const QPoint &, const RescaleDirection, const Qt::KeyboardModifiers) {}
 
 #ifdef DEBUG_ASW
 #undef DEBUG_ASW
 #endif
-

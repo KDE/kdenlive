@@ -24,29 +24,29 @@
 #include "statusbarmessagelabel.h"
 #include "kdenlivesettings.h"
 
+#include <KNotification>
 #include <kcolorscheme.h>
 #include <kiconloader.h>
-#include <KNotification>
 #include <klocalizedstring.h>
 
-#include <QPushButton>
-#include <QPixmap>
-#include <QLabel>
-#include <QProgressBar>
-#include <QMouseEvent>
-#include <QHBoxLayout>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QPixmap>
+#include <QProgressBar>
+#include <QPropertyAnimation>
+#include <QPushButton>
 #include <QTextEdit>
 
-FlashLabel::FlashLabel(QWidget *parent) : QWidget(parent)
+FlashLabel::FlashLabel(QWidget *parent)
+    : QWidget(parent)
 {
     setAutoFillBackground(true);
 }
 
-FlashLabel::~FlashLabel()
-{
-}
+FlashLabel::~FlashLabel() = default;
 
 void FlashLabel::setColor(const QColor &col)
 {
@@ -61,13 +61,13 @@ QColor FlashLabel::color() const
     return palette().window().color();
 }
 
-StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) :
-    FlashLabel(parent),
-    m_minTextHeight(-1),
-    m_queueSemaphore(1)
+StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent)
+    : FlashLabel(parent)
+    , m_minTextHeight(-1)
+    , m_queueSemaphore(1)
 {
     setMinimumHeight(KIconLoader::SizeSmall);
-    QHBoxLayout *lay = new QHBoxLayout(this);
+    auto *lay = new QHBoxLayout(this);
     m_pixmap = new QLabel(this);
     m_pixmap->setAlignment(Qt::AlignCenter);
     m_label = new QLabel(this);
@@ -78,23 +78,13 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget *parent) :
     lay->addWidget(m_progress);
     setLayout(lay);
     m_progress->setVisible(false);
-    lay->setContentsMargins(BorderGap, 0, BorderGap, 0);
-    m_animation.setTargetObject(this);
-    m_animation.setPropertyName("color");
+    lay->setContentsMargins(BorderGap, 0, 2 * BorderGap, 0);
     m_queueTimer.setSingleShot(true);
     connect(&m_queueTimer, &QTimer::timeout, this, &StatusBarMessageLabel::slotMessageTimeout);
     connect(m_label, &QLabel::linkActivated, this, &StatusBarMessageLabel::slotShowJobLog);
 }
 
-StatusBarMessageLabel::~StatusBarMessageLabel()
-{
-}
-
-void StatusBarMessageLabel::updatePalette()
-{
-    m_animation.setKeyValueAt(1, parentWidget()->palette().window().color());
-    setColor(parentWidget()->palette().window().color());
-}
+StatusBarMessageLabel::~StatusBarMessageLabel() = default;
 
 void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
 {
@@ -140,18 +130,21 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             if (item.type == ProcessingJobMessage) {
                 // This is a job progress info, discard previous ones
                 QList<StatusBarMessageItem> cleanList;
-                foreach (const StatusBarMessageItem &msg, m_messageQueue) {
+                for (const StatusBarMessageItem &msg : m_messageQueue) {
                     if (msg.type != ProcessingJobMessage) {
                         cleanList << msg;
                     }
                 }
                 m_messageQueue = cleanList;
+            } else {
+                // Important error message, delete previous queue so they don't appear afterwards out of context
+                m_messageQueue.clear();
             }
 
             m_messageQueue.push_front(item);
 
             // In case we are already displaying an error message, add a little delay
-            int delay = 800 * (m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
+            int delay = 800 * static_cast<int>(m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
             m_queueTimer.start(delay);
         } else {
 
@@ -160,7 +153,6 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             if (m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
                 m_queueTimer.start(0);
             }
-
         }
     }
     m_queueSemaphore.release();
@@ -192,7 +184,6 @@ bool StatusBarMessageLabel::slotMessageTimeout()
             m_label->setText(m_currentMessage.text);
             m_messageQueue.removeFirst();
             newMessage = true;
-
         }
     }
 
@@ -207,16 +198,12 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         if (!m_currentMessage.needsConfirmation()) {
             // If we only have the default message left to show in the queue,
             // keep the current one for a little longer.
-            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * (m_messageQueue.at(0).type == DefaultMessage));
-
+            m_queueTimer.start(m_currentMessage.timeoutMillis + 4000 * static_cast<int>(m_messageQueue.at(0).type == DefaultMessage));
         }
     }
 
-    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground, KSharedConfig::openConfig(KdenliveSettings::colortheme())).brush(this).color();
+    QColor bgColor = KStatefulBrush(KColorScheme::Window, KColorScheme::NegativeBackground).brush(this).color();
     const char *iconName = nullptr;
-    if (m_animation.state() == QAbstractAnimation::Running) {
-        m_animation.stop();
-    }
     setColor(parentWidget()->palette().window().color());
     switch (m_currentMessage.type) {
     case ProcessingJobMessage:
@@ -228,31 +215,41 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         m_pixmap->setCursor(Qt::ArrowCursor);
         break;
 
-    case InformationMessage:
+    case InformationMessage: {
         iconName = "dialog-information";
         m_pixmap->setCursor(Qt::ArrowCursor);
+        QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
+        anim->setDuration(1500);
+        anim->setEasingCurve(QEasingCurve::InOutQuad);
+        anim->setKeyValueAt(0.2, parentWidget()->palette().highlight().color());
+        anim->setEndValue(parentWidget()->palette().window().color());
+        anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
+    }
 
-    case ErrorMessage:
+    case ErrorMessage: {
         iconName = "dialog-warning";
         m_pixmap->setCursor(Qt::ArrowCursor);
-        m_animation.setKeyValueAt(0, bgColor);
-        m_animation.setKeyValueAt(0.8, bgColor);
-        m_animation.setKeyValueAt(1, parentWidget()->palette().window().color());
-        m_animation.setEasingCurve(QEasingCurve::OutCubic);
-        m_animation.setDuration(4000);
-        m_animation.start();
+        QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
+        anim->setStartValue(bgColor);
+        anim->setKeyValueAt(0.8, bgColor);
+        anim->setEndValue(parentWidget()->palette().window().color());
+        anim->setEasingCurve(QEasingCurve::OutCubic);
+        anim->setDuration(4000);
+        anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
-
-    case MltError:
+    }
+    case MltError: {
         iconName = "dialog-close";
         m_pixmap->setCursor(Qt::PointingHandCursor);
-        m_animation.setKeyValueAt(0, bgColor);
-        m_animation.setKeyValueAt(1, bgColor);
-        m_animation.setDuration(1000);
-        m_animation.start();
+        QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
+        anim->setStartValue(bgColor);
+        anim->setEndValue(bgColor);
+        anim->setEasingCurve(QEasingCurve::OutCubic);
+        anim->setDuration(1500);
+        anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
-
+    }
     case DefaultMessage:
         m_pixmap->setCursor(Qt::ArrowCursor);
     default:
@@ -286,13 +283,13 @@ void StatusBarMessageLabel::slotShowJobLog(const QString &text)
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     QWidget *mainWidget = new QWidget(this);
-    QVBoxLayout *l = new QVBoxLayout;
+    auto *l = new QVBoxLayout;
     QTextEdit t(&d);
     t.insertPlainText(QUrl::fromPercentEncoding(text.toUtf8()));
     t.setReadOnly(true);
     l->addWidget(&t);
     mainWidget->setLayout(l);
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    auto *mainLayout = new QVBoxLayout;
     d.setLayout(mainLayout);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);

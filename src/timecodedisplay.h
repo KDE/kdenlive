@@ -20,8 +20,8 @@
 #ifndef TIMECODEDISPLAY_H
 #define TIMECODEDISPLAY_H
 
-#include "timecode.h"
 #include "gentime.h"
+#include "timecode.h"
 
 #include <QAbstractSpinBox>
 
@@ -29,8 +29,8 @@ class MyValidator : public QValidator
 {
 public:
     explicit MyValidator(QObject *parent = nullptr);
-    void fixup(QString &str) const Q_DECL_OVERRIDE;
-    QValidator::State validate(QString &str, int &pos) const Q_DECL_OVERRIDE;
+    void fixup(QString &str) const override;
+    QValidator::State validate(QString &str, int &pos) const override;
 };
 
 /**
@@ -47,21 +47,21 @@ class TimecodeDisplay : public QAbstractSpinBox
 
 public:
     /** @brief Constructor for the widget, sets value to 0.
-    * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
-    * @param parent parent Widget */
+     * @param t Timecode object used to setup correct input (frames or HH:MM:SS:FF)
+     * @param parent parent Widget */
     explicit TimecodeDisplay(const Timecode &t, QWidget *parent = nullptr);
 
     /** @brief Returns the minimum value, which can be entered.
-    * default is 0 */
+     * default is 0 */
     int minimum() const;
 
     /** @brief Returns the maximum value, which can be entered.
-    * default is no maximum (-1) */
+     * default is no maximum (-1) */
     int maximum() const;
 
     /** @brief Sets the minimum maximum value that can be entered.
-    * @param min the minimum value
-    * @param max the maximum value */
+     * @param min the minimum value
+     * @param max the maximum value */
     void setRange(int min, int max);
 
     /** @brief Returns the current input in frames. */
@@ -70,23 +70,21 @@ public:
     /** @brief Returns the current input as a GenTime object. */
     GenTime gentime() const;
 
-    /** @brief Returs the widget's timecode object. */
+    /** @brief Returns the widget's timecode object. */
     Timecode timecode() const;
 
     /** @brief Sets value's format to frames or HH:MM:SS:FF according to @param frametimecode.
-    * @param frametimecode true = frames, false = HH:MM:SS:FF
-    * @param init true = force the change, false = update only if the frametimecode param changed */
+     * @param frametimecode true = frames, false = HH:MM:SS:FF
+     * @param init true = force the change, false = update only if the frametimecode param changed */
     void setTimeCodeFormat(bool frametimecode, bool init = false);
 
     /** @brief Sets timecode for current project.
      * @param t the new timecode */
     void updateTimeCode(const Timecode &t);
 
-    void stepBy(int steps) Q_DECL_OVERRIDE;
+    void stepBy(int steps) override;
 
     const QString displayText() const;
-    /** @brief Send a signal every time the timecode changes. */
-    void sendTimecode(bool send);
 
 private:
     /** timecode for widget */
@@ -99,14 +97,14 @@ private:
 
 public slots:
     /** @brief Sets the value.
-    * @param value the new value
-    * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
+     * @param value the new value
+     * The value actually set is forced to be within the legal range: minimum <= value <= maximum */
     void setValue(int value);
     void setValue(const QString &value);
     void setValue(const GenTime &value);
 
     /** @brief Sets value's format according to Kdenlive's settings.
-    * @param t (optional, if already existing) Timecode object to use */
+     * @param t (optional, if already existing) Timecode object to use */
     void slotUpdateTimeCodeFormat();
 
 private slots:
@@ -114,17 +112,14 @@ private slots:
 
 signals:
     void timeCodeEditingFinished(int value = -1);
-    /** @brief Emit timecode on every change if requested. */
-    void emitTimeCode(const QString &);
 
 protected:
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent *e) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *e) Q_DECL_OVERRIDE;
-    QAbstractSpinBox::StepEnabled stepEnabled() const Q_DECL_OVERRIDE;
-
+    void keyPressEvent(QKeyEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *) override;
+    void wheelEvent(QWheelEvent *e) override;
+    void enterEvent(QEvent *e) override;
+    void leaveEvent(QEvent *e) override;
+    QAbstractSpinBox::StepEnabled stepEnabled() const override;
 };
 
 #endif

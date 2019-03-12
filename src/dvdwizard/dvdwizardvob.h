@@ -21,22 +21,23 @@
 #define DVDWIZARDVOB_H
 
 #include "ui_dvdwizardvob_ui.h"
-#include <kcapacitybar.h>
 #include <QUrl>
+#include <kcapacitybar.h>
 
 #include <KMessageWidget>
 
-#include <QWizardPage>
-#include <QStyledItemDelegate>
-#include <QPainter>
-#include <QTreeWidget>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QPainter>
 #include <QProcess>
+#include <QStyledItemDelegate>
+#include <QTreeWidget>
+#include <QWizardPage>
 
 enum DVDFORMAT { PAL, PAL_WIDE, NTSC, NTSC_WIDE };
 
-struct TranscodeJobInfo {
+struct TranscodeJobInfo
+{
     QString filename;
     QString params;
     QStringList postParams;
@@ -49,10 +50,10 @@ public:
     explicit DvdTreeWidget(QWidget *parent);
 
 protected:
-    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
 
 signals:
     void addNewClip();
@@ -63,10 +64,12 @@ class DvdViewDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    explicit DvdViewDelegate(QWidget *parent) : QStyledItemDelegate(parent) {}
+    explicit DvdViewDelegate(QWidget *parent)
+        : QStyledItemDelegate(parent)
+    {
+    }
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const Q_DECL_OVERRIDE
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (index.column() == 0) {
             painter->save();
@@ -107,7 +110,7 @@ class DvdWizardVob : public QWizardPage
 
 public:
     explicit DvdWizardVob(QWidget *parent = nullptr);
-    virtual ~DvdWizardVob();
+    ~DvdWizardVob() override;
     QStringList selectedUrls() const;
     void setUrl(const QString &url);
     DVDFORMAT dvdFormat() const;
@@ -121,16 +124,16 @@ public:
     void setUseIntroMovie(bool use);
     void updateChapters(const QMap<QString, QString> &chaptersdata);
     static QString getDvdProfile(DVDFORMAT format);
-    bool isComplete() const Q_DECL_OVERRIDE;
+    bool isComplete() const override;
 
 private:
     Ui::DvdWizardVob_UI m_view;
     DvdTreeWidget *m_vobList;
     KCapacityBar *m_capacityBar;
     QAction *m_transcodeAction;
-    bool m_installCheck;
+    bool m_installCheck{true};
     KMessageWidget *m_warnMessage;
-    int m_duration;
+    int m_duration{0};
     QProcess m_transcodeProcess;
     QList<TranscodeJobInfo> m_transcodeQueue;
     TranscodeJobInfo m_currentTranscoding;
@@ -156,4 +159,3 @@ private slots:
 };
 
 #endif
-

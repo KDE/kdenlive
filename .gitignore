@@ -1,4 +1,5 @@
 *~
-build*/
+build/*
 CMakeLists.txt.user*
 po
+*.patch

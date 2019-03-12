@@ -20,10 +20,10 @@
  ***************************************************************************/
 
 /*!
-* @class QmlManager
-* @brief Manages all Qml monitor overlays
-* @author Jean-Baptiste Mardelle
-*/
+ * @class QmlManager
+ * @brief Manages all Qml monitor overlays
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef QMLMANAGER_H
 #define QMLMANAGER_H
@@ -46,7 +46,7 @@ public:
     /** @brief Set a property on the root item */
     void setProperty(const QString &name, const QVariant &value);
     /** @brief Load a monitor scene */
-    void setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom);
+    void setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize profile, double profileStretch, QRect displayRect, double zoom, int duration);
 
 private:
     QQuickView *m_view;
@@ -60,7 +60,6 @@ private slots:
 signals:
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
-
 };
 
 #endif

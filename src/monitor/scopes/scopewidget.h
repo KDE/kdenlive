@@ -19,13 +19,13 @@
 #ifndef SCOPEWIDGET_H
 #define SCOPEWIDGET_H
 
-#include <QWidget>
-#include <QString>
-#include <QThread>
+#include "dataqueue.h"
+#include "sharedframe.h"
 #include <QFuture>
 #include <QMutex>
-#include "sharedframe.h"
-#include "dataqueue.h"
+#include <QString>
+#include <QThread>
+#include <QWidget>
 
 /*!
   \class ScopeWidget
@@ -67,19 +67,19 @@ public:
     explicit ScopeWidget(QWidget *parent = nullptr);
 
     //! Destructs a ScopeWidget.
-    virtual ~ScopeWidget();
+    ~ScopeWidget() override;
 
     /*!
       Returns the title of the scope to be displayed by the application.
       This virtual function must be implemented by subclasses.
     */
-    //virtual QString getTitle() = 0;
+    // virtual QString getTitle() = 0;
 
     /*!
       Sets the preferred orientation on the scope.
       This virtual function may be reimplemented by subclasses.
     */
-    //virtual void setOrientation(Qt::Orientation) {};
+    // virtual void setOrientation(Qt::Orientation) {};
 
 public slots:
     //! Provides a new frame to the scope. Should be called by the application.
@@ -110,18 +110,18 @@ protected:
     */
     DataQueue<SharedFrame> m_queue;
 
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *) override;
+    void changeEvent(QEvent *) override;
 
 private:
     Q_INVOKABLE void onRefreshThreadComplete();
     void refreshInThread();
     QFuture<void> m_future;
-    bool m_refreshPending;
+    bool m_refreshPending{false};
 
     // Members accessed in multiple threads (mutex protected).
     QMutex m_mutex;
-    bool m_forceRefresh;
+    bool m_forceRefresh{false};
     QSize m_size;
 };
 

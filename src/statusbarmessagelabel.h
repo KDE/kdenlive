@@ -24,15 +24,14 @@
 #ifndef STATUSBARMESSAGELABEL_H
 #define STATUSBARMESSAGELABEL_H
 
-#include <QList>
-#include <QWidget>
-#include <QTimer>
-#include <QSemaphore>
-#include <QLabel>
 #include <QColor>
-#include <QPropertyAnimation>
-
+#include <QLabel>
+#include <QList>
+#include <QSemaphore>
+#include <QTimer>
+#include <QWidget>
 #include <definitions.h>
+#include <utility>
 
 #include "lib/qtimerWithTime.h"
 
@@ -40,13 +39,13 @@ class QPaintEvent;
 class QResizeEvent;
 class QProgressBar;
 
-class FlashLabel: public QWidget
+class FlashLabel : public QWidget
 {
     Q_PROPERTY(QColor color READ color WRITE setColor)
     Q_OBJECT
 public:
     explicit FlashLabel(QWidget *parent = nullptr);
-    ~FlashLabel();
+    ~FlashLabel() override;
     QColor color() const;
     void setColor(const QColor &);
 };
@@ -54,26 +53,25 @@ public:
 /**
   Queue-able message item holding all important information
   */
-struct StatusBarMessageItem {
+struct StatusBarMessageItem
+{
 
     QString text;
     MessageType type;
     int timeoutMillis;
-    bool confirmed; ///< MLT errors need to be confirmed.
+    bool confirmed{false}; ///< MLT errors need to be confirmed.
 
     /// \return true if the error still needs to be confirmed
-    bool needsConfirmation() const
+    bool needsConfirmation() const { return (type == MltError && !confirmed); }
+
+    StatusBarMessageItem(QString messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0)
+        : text(std::move(messageText))
+        , type(messageType)
+        , timeoutMillis(timeoutMS)
     {
-        return (type == MltError && !confirmed);
     }
 
-    StatusBarMessageItem(const QString &messageText = QString(), MessageType messageType = DefaultMessage, int timeoutMS = 0) :
-        text(messageText), type(messageType), timeoutMillis(timeoutMS), confirmed(false) {}
-
-    bool operator ==(const StatusBarMessageItem &other) const
-    {
-        return type == other.type && text == other.text;
-    }
+    bool operator==(const StatusBarMessageItem &other) const { return type == other.type && text == other.text; }
 };
 
 /**
@@ -90,15 +88,14 @@ class StatusBarMessageLabel : public FlashLabel
 
 public:
     explicit StatusBarMessageLabel(QWidget *parent);
-    virtual ~StatusBarMessageLabel();
-    void updatePalette();
+    ~StatusBarMessageLabel() override;
 
 protected:
-    //void paintEvent(QPaintEvent* event);
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    // void paintEvent(QPaintEvent* event);
+    void mousePressEvent(QMouseEvent *) override;
 
     /** @see QWidget::resizeEvent() */
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
 
 public slots:
     void setProgressMessage(const QString &text, int progress = 100, MessageType type = ProcessingJobMessage, int timeoutMS = 0);
@@ -129,7 +126,6 @@ private:
     QProgressBar *m_progress;
     QTimerWithTime m_queueTimer;
     QSemaphore m_queueSemaphore;
-    QPropertyAnimation m_animation;
     QList<StatusBarMessageItem> m_messageQueue;
     StatusBarMessageItem m_currentMessage;
 };

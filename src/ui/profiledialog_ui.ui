@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>430</width>
-    <height>502</height>
+    <width>594</width>
+    <height>639</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Profiles</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="5">
+   <item row="0" column="6">
     <widget class="QToolButton" name="button_delete">
      <property name="enabled">
       <bool>false</bool>
@@ -24,10 +24,31 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="KComboBox" name="profiles_list"/>
+   <item row="0" column="5">
+    <widget class="QToolButton" name="button_save">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>S</string>
+     </property>
+    </widget>
    </item>
-   <item row="1" column="0" colspan="7">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Profile</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QToolButton" name="button_create">
+     <property name="text">
+      <string>C</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="8">
     <widget class="QGroupBox" name="properties">
      <property name="title">
       <string>Properties</string>
@@ -226,7 +247,7 @@
      </layout>
     </widget>
    </item>
-   <item row="0" column="2">
+   <item row="0" column="3">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -239,61 +260,7 @@
      </property>
     </spacer>
    </item>
-   <item row="0" column="4">
-    <widget class="QToolButton" name="button_save">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="text">
-      <string>S</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="3">
-    <widget class="QToolButton" name="button_create">
-     <property name="text">
-      <string>C</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="4" colspan="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QPushButton" name="button_default">
-     <property name="text">
-      <string>Use as default</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Profile</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2" colspan="2">
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="2" column="0" colspan="6">
+   <item row="2" column="0" colspan="7">
     <widget class="QFrame" name="messageFrame">
      <property name="minimumSize">
       <size>
@@ -308,6 +275,39 @@
       <enum>QFrame::Plain</enum>
      </property>
     </widget>
+   </item>
+   <item row="3" column="5" colspan="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3" colspan="2">
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="3" column="0" colspan="3">
+    <widget class="QPushButton" name="button_default">
+     <property name="text">
+      <string>Use as default</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="profiles_list"/>
    </item>
   </layout>
  </widget>

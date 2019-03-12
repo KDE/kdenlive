@@ -20,14 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "kthumb.h"
+#include "core.h"
 #include "kdenlivesettings.h"
+#include "profiles/profilemodel.hpp"
 
 #include <mlt++/Mlt.h>
 
 #include <QImage>
 #include <QPainter>
 
-//static
+// static
 QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {
     if (!url.isValid()) {
@@ -36,25 +38,25 @@ QPixmap KThumb::getImage(const QUrl &url, int width, int height)
     return getImage(url, 0, width, height);
 }
 
-//static
+// static
 QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
 {
-    Mlt::Profile profile(KdenliveSettings::current_profile().toUtf8().constData());
+    QScopedPointer<Mlt::Profile> profile(new Mlt::Profile(pCore->getCurrentProfilePath().toUtf8().constData()));
     if (height == -1) {
-        height = width * profile.height() / profile.width();
+        height = width * (double)profile->height() / profile->width();
     }
     QPixmap pix(width, height);
     if (!url.isValid()) {
         return pix;
     }
-    Mlt::Producer *producer = new Mlt::Producer(profile, url.toLocalFile().toUtf8().constData());
+    Mlt::Producer *producer = new Mlt::Producer(*(profile.data()), url.toLocalFile().toUtf8().constData());
     if (KdenliveSettings::gpu_accel()) {
         QString service = producer->get("mlt_service");
         QString res = producer->get("resource");
         delete producer;
-        producer = new Mlt::Producer(profile, service.toUtf8().constData(), res.toUtf8().constData());
-        Mlt::Filter scaler(profile, "swscale");
-        Mlt::Filter converter(profile, "avcolor_space");
+        producer = new Mlt::Producer(*(profile.data()), service.toUtf8().constData(), res.toUtf8().constData());
+        Mlt::Filter scaler(*(profile.data()), "swscale");
+        Mlt::Filter converter(*(profile.data()), "avcolor_space");
         producer->attach(scaler);
         producer->attach(converter);
     }
@@ -63,7 +65,7 @@ QPixmap KThumb::getImage(const QUrl &url, int frame, int width, int height)
     return pix;
 }
 
-//static
+// static
 QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth, int height)
 {
     if (producer == nullptr || !producer->is_valid()) {
@@ -84,64 +86,64 @@ QImage KThumb::getFrame(Mlt::Producer *producer, int framepos, int displayWidth,
     return p;
 }
 
-//static
+// static
+QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth, int height)
+{
+    if (!producer.is_valid()) {
+        QImage p(displayWidth, height, QImage::Format_ARGB32_Premultiplied);
+        p.fill(QColor(Qt::red).rgb());
+        return p;
+    }
+    producer.seek(framepos);
+    Mlt::Frame *frame = producer.get_frame();
+    const QImage p = getFrame(frame, displayWidth, height);
+    delete frame;
+    return p;
+}
+
+// static
 QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
 {
     if (frame == nullptr || !frame->is_valid()) {
-        QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
-        p.fill(QColor(Qt::red).rgb());
-        return p;
+        qDebug() << "* * * *INVALID FRAME";
+        return QImage();
     }
     int ow = forceRescale ? 0 : width;
     int oh = forceRescale ? 0 : height;
     mlt_image_format format = mlt_image_rgb24a;
-    ow += ow % 2;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
-        QImage image(ow, oh, QImage::Format_RGBA8888);
-        memcpy(image.bits(), imagedata, ow * oh * 4);
-        if (!image.isNull()) {
-            if (ow > (2 * width)) {
-                // there was a scaling problem, do it manually
-                image = image.scaled(width, height);
-            }
-            return image;
-            /*p.fill(QColor(100, 100, 100, 70));
-            QPainter painter(&p);
-            painter.drawImage(p.rect(), image);
-            painter.end();*/
-        }
+        QImage temp(ow, oh, QImage::Format_ARGB32);
+        memcpy(temp.scanLine(0), imagedata, (unsigned)(ow * oh * 4));
+        return temp.rgbSwapped();
     }
-    QImage p(width, height, QImage::Format_ARGB32_Premultiplied);
-    p.fill(QColor(Qt::red).rgb());
-    return p;
+    return QImage();
 }
 
-//static
-uint KThumb::imageVariance(const QImage &image)
+// static
+int KThumb::imageVariance(const QImage &image)
 {
-    uint delta = 0;
-    uint avg = 0;
-    uint bytes = static_cast<uint>(image.byteCount());
-    uint STEPS = bytes / 2;
+    int delta = 0;
+    int avg = 0;
+    int bytes = image.byteCount();
+    int STEPS = bytes / 2;
     QVarLengthArray<uchar> pivot(STEPS);
     const uchar *bits = image.bits();
     // First pass: get pivots and taking average
-    for (uint i = 0; i < STEPS; ++i) {
+    for (int i = 0; i < STEPS; ++i) {
         pivot[i] = bits[2 * i];
         avg += pivot.at(i);
     }
-    if (STEPS) {
+    if (STEPS != 0) {
         avg = avg / STEPS;
     }
     // Second Step: calculate delta (average?)
-    for (uint i = 0; i < STEPS; ++i) {
+    for (int i = 0; i < STEPS; ++i) {
         int curdelta = abs(int(avg - pivot.at(i)));
         delta += curdelta;
     }
-    if (STEPS) {
+    if (STEPS != 0) {
         return delta / STEPS;
-    } else {
-        return 0;
     }
+    return 0;
 }

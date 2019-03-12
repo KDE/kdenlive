@@ -18,34 +18,38 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <config-kdenlive.h>
 #include "core.h"
+#include "logger.hpp"
+#include <config-kdenlive.h>
 
 #include <mlt++/Mlt.h>
 
 #include "kxmlgui_version.h"
 
 #include <KAboutData>
+#include <KConfigGroup>
 #ifdef USE_DRMINGW
-#   include <exchndl.h>
+#include <exchndl.h>
 #elif defined(KF5_USE_CRASH)
-#   include <KCrash>
+#include <KCrash>
 #endif
 
 #include <KIconLoader>
 #include <KSharedConfig>
-#include <KConfigGroup>
 
+#include "definitions.h"
 #include "kdenlive_debug.h"
-#include <QUrl> //new
-#include <QDir>
-#include <QApplication>
-#include <klocalizedstring.h>
-#include <QCommandLineParser>
-#include <QCommandLineOption>
 #include <KDBusService>
-#include <QProcess>
+#include <KIconTheme>
+#include <QApplication>
+#include <QCommandLineOption>
+#include <QCommandLineParser>
+#include <QDir>
 #include <QIcon>
+#include <QProcess>
+#include <QQmlEngine>
+#include <QUrl> //new
+#include <klocalizedstring.h>
 
 int main(int argc, char *argv[])
 {
@@ -53,24 +57,11 @@ int main(int argc, char *argv[])
     ExcHndlInit();
 #endif
     // Force QDomDocument to use a deterministic XML attribute order
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     qSetGlobalQHashSeed(0);
-#else
-    extern Q_CORE_EXPORT QBasicAtomicInt qt_qhash_seed;
-    qt_qhash_seed.store(0);
-#endif
-
-    // Init application
-    QApplication app(argc, argv);
-
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
-#endif
-
-#ifdef KF5_USE_CRASH
-    KCrash::initialize();
 #endif
 
 #ifdef Q_OS_WIN
@@ -79,6 +70,8 @@ int main(int argc, char *argv[])
     qputenv("PATH", path.toUtf8().constData());
 #endif
 
+    Logger::init();
+    QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
@@ -92,9 +85,17 @@ int main(int argc, char *argv[])
             qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
         } else {
             // We are not on a KDE desktop, force breeze icon theme
-            grp.writeEntry("force_breeze", true);
-            qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+            // Check if breeze theme is available
+            QStringList iconThemes = KIconTheme::list();
+            if (iconThemes.contains(QStringLiteral("breeze"))) {
+                grp.writeEntry("force_breeze", true);
+                grp.writeEntry("use_dark_breeze", true);
+                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+            }
         }
+        // Set breeze dark as default on first opening
+        KConfigGroup cg(config, "UiSettings");
+        cg.writeEntry("ColorScheme", "Breeze Dark");
     }
 
     // Init DBus services
@@ -102,24 +103,22 @@ int main(int argc, char *argv[])
 
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
-        QIcon::setThemeName("breeze");
+        bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
+        QIcon::setThemeName(darkBreeze ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
     }
 
     // Create KAboutData
-    KAboutData aboutData(QByteArray("kdenlive"),
-                         i18n("Kdenlive"), KDENLIVE_VERSION,
-                         i18n("An open source video editor."),
-                         KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2019 Kdenlive authors"),
-                         i18n("Please report bugs to http://bugs.kde.org"),
+    KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL,
+                         i18n("Copyright © 2007–2019 Kdenlive authors"), i18n("Please report bugs to http://bugs.kde.org"),
                          QStringLiteral("https://kdenlive.org"));
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
-    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("Interim maintainer, Windows cross-build, KF5 port, bugs fixing, minor functions, profiles updates, etc."), QStringLiteral("vpinon@april.org"));
+    aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite"), QStringLiteral("french.ebook.lover@gmail.com"));
+    aboutData.addAuthor(i18n("Vincent Pinon"), i18n("KF5 port, Windows cross-build, bugs fixing"), QStringLiteral("vpinon@kde.org"));
     aboutData.addAuthor(i18n("Laurent Montel"), i18n("Bugs fixing, clean up code, optimization etc."), QStringLiteral("montel@kde.org"));
+    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), QStringLiteral("root@ttill.de"));
+    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
     aboutData.addAuthor(i18n("Marco Gittler"), i18n("MLT transitions and effects, timeline, audio thumbs"), QStringLiteral("g.marco@freenet.de"));
     aboutData.addAuthor(i18n("Dan Dennedy"), i18n("Bug fixing, etc."), QStringLiteral("dan@dennedy.org"));
-    aboutData.addAuthor(i18n("Simon A. Eugster"), i18n("Color scopes, bug fixing, etc."), QStringLiteral("simon.eu@gmail.com"));
-    aboutData.addAuthor(i18n("Till Theato"), i18n("Bug fixing, etc."), QStringLiteral("root@ttill.de"));
     aboutData.addAuthor(i18n("Alberto Villa"), i18n("Bug fixing, logo, etc."), QStringLiteral("avilla@FreeBSD.org"));
     aboutData.addAuthor(i18n("Jean-Michel Poure"), i18n("Rendering profiles customization"), QStringLiteral("jm@poure.com"));
     aboutData.addAuthor(i18n("Ray Lehtiniemi"), i18n("Bug fixing, etc."), QStringLiteral("rayl@mail.com"));
@@ -128,7 +127,8 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Nara Oliveira and Farid Abdelnour | Estúdio Gunga"), i18n("Kdenlive 16.08 icon"));
     aboutData.setTranslator(i18n("NAME OF TRANSLATORS"), i18n("EMAIL OF TRANSLATORS"));
     aboutData.setOrganizationDomain(QByteArray("kde.org"));
-    aboutData.setOtherText(i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
+    aboutData.setOtherText(
+        i18n("Using:\n<a href=\"https://mltframework.org\">MLT</a> version %1\n<a href=\"https://ffmpeg.org\">FFmpeg</a> libraries", mlt_version_get_string()));
     aboutData.setDesktopFileName(QStringLiteral("org.kde.kdenlive"));
 
     // Register about data
@@ -142,6 +142,7 @@ int main(int argc, char *argv[])
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
     app.setApplicationVersion(aboutData.version());
+    app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
 
     // Create command line parser with options
     QCommandLineParser parser;
@@ -150,37 +151,54 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
     parser.addHelpOption();
 
-    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug")));
-    parser.addOption(QCommandLineOption(QStringList() <<  QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-log"), i18n("MLT log level"), QStringLiteral("verbose/debug")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("i"), i18n("Comma separated list of clips to add"), QStringLiteral("clips")));
     parser.addPositionalArgument(QStringLiteral("file"), i18n("Document to open"));
 
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    QString clipsToLoad = parser.value(QStringLiteral("i"));
+#ifdef USE_DRMINGW
+    ExcHndlInit();
+#elif defined(KF5_USE_CRASH)
+    KCrash::initialize();
+#endif
+
+    qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
+                                     "com.enums",                     // import statement
+                                     1, 0,                            // major and minor version of the import
+                                     "ClipState",                     // name in QML
+                                     "Error: only enums");
+    qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
+                                     "com.enums",                // import statement
+                                     1, 0,                       // major and minor version of the import
+                                     "ProducerType",             // name in QML
+                                     "Error: only enums");
     QString mltPath = parser.value(QStringLiteral("mlt-path"));
     if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
-        mlt_log_set_level( MLT_LOG_VERBOSE );
+        mlt_log_set_level(MLT_LOG_VERBOSE);
     } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {
-        mlt_log_set_level( MLT_LOG_DEBUG );
+        mlt_log_set_level(MLT_LOG_DEBUG);
     }
     QUrl url;
-    if (parser.positionalArguments().count()) {
+    if (parser.positionalArguments().count() != 0) {
         url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
         // Make sure we get an absolute URL so that we can autosave correctly
         QString currentPath = QDir::currentPath();
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
-    Core::build(mltPath, url, clipsToLoad);
+    Core::build(mltPath);
+    pCore->initGUI(url);
     int result = app.exec();
+    Core::clean();
 
     if (EXIT_RESTART == result) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
-        QProcess *restart = new QProcess;
+        auto *restart = new QProcess;
         restart->start(app.applicationFilePath(), QStringList());
         restart->waitForReadyRead();
         restart->waitForFinished(1000);

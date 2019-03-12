@@ -20,15 +20,15 @@
 #ifndef WIZARD_H
 #define WIZARD_H
 
-#include <QWizard>
 #include <QVBoxLayout>
+#include <QWizard>
 #include <QWizardPage>
 
-#include "ui_wizardstandard_ui.h"
-#include "ui_wizardextra_ui.h"
-#include "ui_wizardcheck_ui.h"
-#include "ui_wizardmltcheck_ui.h"
 #include "ui_wizardcapture_ui.h"
+#include "ui_wizardcheck_ui.h"
+#include "ui_wizardextra_ui.h"
+#include "ui_wizardmltcheck_ui.h"
+#include "ui_wizardstandard_ui.h"
 
 class KMessageWidget;
 
@@ -37,8 +37,8 @@ class MyWizardPage : public QWizardPage
 public:
     explicit MyWizardPage(QWidget *parent = nullptr);
     void setComplete(bool complete);
-    bool isComplete() const Q_DECL_OVERRIDE;
-    bool m_isComplete;
+    bool isComplete() const override;
+    bool m_isComplete{false};
 };
 
 class Wizard : public QWizard
@@ -50,6 +50,7 @@ public:
     void runUpdateMimeDatabase();
     void adjustSettings();
     bool isOk() const;
+    static void testHwEncoders();
 
 private:
     Ui::WizardStandard_UI m_standard;
@@ -71,6 +72,7 @@ private:
     void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();
+    void updateHwStatus();
 
 private slots:
     void slotCheckStandard();
@@ -85,4 +87,3 @@ private slots:
 };
 
 #endif
-

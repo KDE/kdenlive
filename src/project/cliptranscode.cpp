@@ -19,22 +19,28 @@
 
 #include "cliptranscode.h"
 #include "kdenlivesettings.h"
+#include "kxmlgui_version.h"
 
 #include <QFontDatabase>
 #include <QStandardPaths>
 
 #include <KMessageBox>
 #include <klocalizedstring.h>
-#include <kio_version.h>
 
-ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, const QStringList &postParams, const QString &description, const QStringList &folderInfo, bool automaticMode, QWidget *parent) :
-    QDialog(parent), m_urls(urls), m_folderInfo(folderInfo), m_duration(0), m_automaticMode(automaticMode), m_postParams(postParams)
+ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringList postParams, const QString &description, QStringList folderInfo,
+                             bool automaticMode, QWidget *parent)
+    : QDialog(parent)
+    , m_urls(std::move(urls))
+    , m_folderInfo(std::move(folderInfo))
+    , m_duration(0)
+    , m_automaticMode(automaticMode)
+    , m_postParams(std::move(postParams))
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
     m_infoMessage = new KMessageWidget;
-    QGridLayout *s =  static_cast <QGridLayout *>(layout());
+    auto *s = static_cast<QGridLayout *>(layout());
     s->addWidget(m_infoMessage, 10, 0, 1, -1);
     m_infoMessage->setCloseButtonVisible(false);
     m_infoMessage->hide();
@@ -50,7 +56,7 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         QString fileName = m_urls.constFirst();
         source_url->setUrl(QUrl::fromLocalFile(fileName));
         dest_url->setMode(KFile::File);
-#if KIO_VERSION >= QT_VERSION_CHECK(5,33,0)
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
         dest_url->setAcceptMode(QFileDialog::AcceptSave);
 #endif
         if (!params.isEmpty()) {
@@ -82,10 +88,11 @@ ClipTranscode::ClipTranscode(const QStringList &urls, const QString &params, con
         }
     } else {
         // load Profiles
-        KSharedConfigPtr config = KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
+        KSharedConfigPtr config =
+            KSharedConfig::openConfig(QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("kdenlivetranscodingrc")), KConfig::CascadeConfig);
         KConfigGroup transConfig(config, "Transcoding");
         // read the entries
-        QMap< QString, QString > profiles = transConfig.entryMap();
+        QMap<QString, QString> profiles = transConfig.entryMap();
         QMapIterator<QString, QString> i(profiles);
         while (i.hasNext()) {
             i.next();
@@ -125,7 +132,7 @@ void ClipTranscode::slotStartTransCode()
         return;
     }
     if (KdenliveSettings::ffmpegpath().isEmpty()) {
-        //FFmpeg not detected, cannot process the Job
+        // FFmpeg not detected, cannot process the Job
         log_text->setPlainText(i18n("FFmpeg not found, please set path in Kdenlive's settings Environment"));
         slotTranscodeFinished(1, QProcess::CrashExit);
         return;
@@ -192,7 +199,6 @@ void ClipTranscode::slotStartTransCode()
     source_url->setEnabled(false);
     dest_url->setEnabled(false);
     button_start->setEnabled(false);
-
 }
 
 void ClipTranscode::slotShowTranscodeInfo()
@@ -222,7 +228,7 @@ void ClipTranscode::slotShowTranscodeInfo()
             }
             progress = numbers.at(0).toInt() * 3600 + numbers.at(1).toInt() * 60 + numbers.at(2).toDouble();
         } else {
-            progress = (int) time.toDouble();
+            progress = (int)time.toDouble();
         }
         job_progress->setValue((int)(100.0 * progress / m_duration));
     }
@@ -262,7 +268,8 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
             m_transcodeProcess.close();
             slotStartTransCode();
             return;
-        } else if (auto_close->isChecked()) {
+        }
+        if (auto_close->isChecked()) {
             accept();
         } else {
             m_infoMessage->setMessageType(KMessageWidget::Positive);
@@ -277,7 +284,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
     }
     m_transcodeProcess.close();
 
-    //Refill url list in case user wants to transcode to another format
+    // Refill url list in case user wants to transcode to another format
     if (urls_list->count() > 0) {
         m_urls.clear();
         for (int i = 0; i < urls_list->count(); ++i) {
@@ -304,6 +311,4 @@ void ClipTranscode::slotUpdateParams(int ix)
         QString newFile = ffmpeg_params->toPlainText().simplified().section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), fileName);
         dest_url->setUrl(QUrl::fromLocalFile(newFile));
     }
-
 }
-

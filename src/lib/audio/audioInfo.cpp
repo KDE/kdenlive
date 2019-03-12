@@ -14,7 +14,7 @@
 #include <QString>
 #include <cstdlib>
 
-AudioInfo::AudioInfo(Mlt::Producer *producer)
+AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(nullptr);
@@ -24,7 +24,7 @@ AudioInfo::AudioInfo(Mlt::Producer *producer)
     for (int i = 0; i < streams; ++i) {
         QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
         const char *streamtype = producer->get(propertyName.data());
-        if (streamtype && strcmp("audio", streamtype) == 0) {
+        if ((streamtype != nullptr) && strcmp("audio", streamtype) == 0) {
             m_list << new AudioStreamInfo(producer, i);
         }
     }
@@ -32,7 +32,7 @@ AudioInfo::AudioInfo(Mlt::Producer *producer)
 
 AudioInfo::~AudioInfo()
 {
-    foreach (AudioStreamInfo *info, m_list) {
+    for (AudioStreamInfo *info : m_list) {
         delete info;
     }
 }
@@ -52,7 +52,7 @@ AudioStreamInfo const *AudioInfo::info(int pos) const
 
 void AudioInfo::dumpInfo() const
 {
-    foreach (AudioStreamInfo *info, m_list) {
+    for (AudioStreamInfo *info : m_list) {
         info->dumpInfo();
     }
 }

@@ -1,0 +1,11 @@
+set(kdenlive_SRCS
+  ${kdenlive_SRCS}
+  widgets/choosecolorwidget.cpp
+  widgets/colorpickerwidget.cpp
+  widgets/doublewidget.cpp
+  widgets/dragvalue.cpp
+  widgets/positionwidget.cpp
+  widgets/progressbutton.cpp
+  widgets/geometrywidget.cpp
+  PARENT_SCOPE
+)

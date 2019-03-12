@@ -20,21 +20,19 @@
 #include "v4lcapture.h"
 #include "kdenlivesettings.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <fcntl.h>
 #include <pthread.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 #include <linux/videodev2.h>
 #include <sys/ioctl.h>
 
-V4lCaptureHandler::V4lCaptureHandler()
-{
-}
+V4lCaptureHandler::V4lCaptureHandler() = default;
 
-//static
+// static
 
 QStringList V4lCaptureHandler::getDeviceName(const QString &input)
 {
@@ -52,24 +50,24 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     int captureEnabled = 1;
     if (ioctl(fd, VIDIOC_QUERYCAP, &cap) < 0) {
         fprintf(stderr, "Cannot get capabilities.");
-        //return nullptr;
+        // return nullptr;
     } else {
-        devName = strdup((char *) cap.card);
-        if (!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE)) {
+        devName = strdup((char *)cap.card);
+        if ((cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) == 0u) {
             // Device cannot capture
             captureEnabled = 0;
         }
     }
 
-    if (captureEnabled) {
+    if (captureEnabled != 0) {
         struct v4l2_format format;
         memset(&format, 0, sizeof(format));
-        format.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
         struct v4l2_fmtdesc fmt;
         memset(&fmt, 0, sizeof(fmt));
         fmt.index = 0;
-        fmt.type  = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+        fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
         struct v4l2_frmsizeenum sizes;
         memset(&sizes, 0, sizeof(sizes));
@@ -82,10 +80,11 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
             if (pixelformatdescription.length() > 2000) {
                 break;
             }
-            if (snprintf(value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24) > 0) {
+            if (snprintf(value, sizeof(value), ">%c%c%c%c", fmt.pixelformat >> 0, fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24) > 0) {
                 pixelformatdescription.append(value);
             }
-            fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0,  fmt.pixelformat >> 8, fmt.pixelformat >> 16, fmt.pixelformat >> 24);
+            fprintf(stderr, "detected format: %s: %c%c%c%c\n", fmt.description, fmt.pixelformat >> 0, fmt.pixelformat >> 8, fmt.pixelformat >> 16,
+                    fmt.pixelformat >> 24);
 
             sizes.pixel_format = fmt.pixelformat;
             sizes.index = 0;
@@ -112,7 +111,7 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
                         pixelformatdescription.append(value);
                     }
                     fprintf(stderr, "%d/%d, ", rates.discrete.numerator, rates.discrete.denominator);
-                    rates.index ++;
+                    rates.index++;
                 }
                 fprintf(stderr, "\n");
                 sizes.index++;
@@ -132,4 +131,3 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     result << (deviceName.isEmpty() ? input : deviceName) << pixelformatdescription;
     return result;
 }
-

@@ -33,17 +33,21 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, const QStringList &lumas, int videotracks, int audiotracks, const QString &projectPath, bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
+    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, const QString &projectPath,
+                    bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
     QUrl selectedFolder() const;
     QPoint tracks() const;
     bool enableVideoThumbs() const;
     bool enableAudioThumbs() const;
     bool useProxy() const;
+    bool useExternalProxy() const;
     bool generateProxy() const;
     int proxyMinSize() const;
     bool generateImageProxy() const;
     int proxyImageMinSize() const;
+    int proxyImageSize() const;
+    QString externalProxyParams() const;
     QString proxyParams() const;
     QString proxyExtension() const;
     const QMap<QString, QString> metadata() const;
@@ -53,7 +57,7 @@ public:
     const QString storageFolder() const;
 
 public slots:
-    void accept() Q_DECL_OVERRIDE;
+    void accept() override;
 
 private slots:
     void slotUpdateButton(const QString &path);
@@ -81,6 +85,7 @@ private:
     QStringList m_lumas;
     QString m_proxyparameters;
     QString m_proxyextension;
+    bool m_newProject;
     /** @brief List of all proxies urls in this project. */
     QStringList m_projectProxies;
     /** @brief List of all thumbnails used in this project. */
@@ -88,8 +93,11 @@ private:
     QDir m_previewDir;
     /** @brief Fill the proxy profiles combobox. */
     void loadProxyProfiles();
+    /** @brief Fill the external proxy profiles combobox. */
+    void loadExternalProxyProfiles();
     QString m_previewparams;
     QString m_previewextension;
+    QString m_initialExternalProxyProfile;
     /** @brief Fill the proxy profiles combobox. */
     void loadPreviewProfiles();
 
@@ -101,4 +109,3 @@ signals:
 };
 
 #endif
-

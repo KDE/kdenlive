@@ -9,7 +9,6 @@
  ***************************************************************************/
 
 #include "abstractgfxscopewidget.h"
-#include "renderer.h"
 #include "monitor/monitormanager.h"
 
 #include <QMouseEvent>
@@ -20,12 +19,12 @@
 #ifdef DEBUG_AGSW
 #endif
 
-AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent) :
-    AbstractScopeWidget(trackMouse, parent)
+AbstractGfxScopeWidget::AbstractGfxScopeWidget(bool trackMouse, QWidget *parent)
+    : AbstractScopeWidget(trackMouse, parent)
 {
 }
 
-AbstractGfxScopeWidget::~AbstractGfxScopeWidget() { }
+AbstractGfxScopeWidget::~AbstractGfxScopeWidget() = default;
 
 QImage AbstractGfxScopeWidget::renderScope(uint accelerationFactor)
 {
@@ -58,4 +57,3 @@ void AbstractGfxScopeWidget::slotAutoRefreshToggled(bool autoRefresh)
 #ifdef DEBUG_AGSW
 #undef DEBUG_AGSW
 #endif
-

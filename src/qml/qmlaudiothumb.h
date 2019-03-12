@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef QMLAUDIOTHUMBS_H
 #define QMLAUDIOTHUMBS_H
 
-#include <QQuickPaintedItem>
 #include <QImage>
+#include <QQuickPaintedItem>
 
 class QPainter;
 
@@ -33,7 +33,8 @@ class QmlAudioThumb : public QQuickPaintedItem
 public:
     explicit QmlAudioThumb(QQuickItem *parent = nullptr);
     void setImage(const QImage &img);
-    void paint(QPainter *painter) Q_DECL_OVERRIDE;
+    void paint(QPainter *painter) override;
+
 private:
     QImage m_img;
 };

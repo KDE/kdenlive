@@ -20,26 +20,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "monitoraudiolevel.h"
+#include "core.h"
+#include "profiles/profilemodel.hpp"
 
 #include "mlt++/Mlt.h"
 
-#include <math.h>
+#include <cmath>
 
-#include <QPainter>
-#include <QPaintEvent>
 #include <QFont>
+#include <QPaintEvent>
+#include <QPainter>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
-static inline double levelToDB(double dB)
+static inline double levelToDB(double level)
 {
-    if (dB == 0) {
-        return 0;
+    if (level <= 0) {
+        return -100;
     }
-    return 100 * (1.0 - log10(dB) * log_factor);
+    return 100 * (1.0 - log10(level) * log_factor);
 }
 
-MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget *parent) : ScopeWidget(parent)
+MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
+    : ScopeWidget(parent)
     , audioChannels(2)
     , m_height(height)
     , m_channelHeight(height / 2)
@@ -47,7 +50,7 @@ MonitorAudioLevel::MonitorAudioLevel(Mlt::Profile *profile, int height, QWidget 
     , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_filter = new Mlt::Filter(*profile, "audiolevel");
+    m_filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "audiolevel");
     if (!m_filter->is_valid()) {
         isValid = false;
         return;
@@ -81,12 +84,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
             QVector<int> levels;
             for (int i = 0; i < audioChannels; i++) {
                 QString s = QStringLiteral("meta.media.audio_level.%1").arg(i);
-                double audioLevel = mFrame.get_double(s.toLatin1().constData());
-                if (audioLevel == 0.0) {
-                    levels << -100;
-                } else {
-                    levels << (int) levelToDB(audioLevel);
-                }
+                levels << (int)levelToDB(mFrame.get_double(s.toLatin1().constData()));
             }
             QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
         }
@@ -165,7 +163,7 @@ void MonitorAudioLevel::drawBackground(int channels)
             p.drawLine(xf, 0, xf, totalHeight - 1);
             xf -= labelWidth / 2;
             p.setPen(palette().text().color().rgb());
-            p.drawText((int) xf, y, label);
+            p.drawText((int)xf, y, label);
             prevX = xf;
         }
     }
@@ -202,7 +200,7 @@ void MonitorAudioLevel::setAudioValues(const QVector<int> &values)
         drawBackground(values.size());
     } else {
         for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i] --;
+            m_peaks[i]--;
             if (m_values.at(i) > m_peaks.at(i)) {
                 m_peaks[i] = m_values.at(i);
             }
@@ -249,4 +247,3 @@ void MonitorAudioLevel::paintEvent(QPaintEvent *pe)
         p.fillRect((50 + m_peaks.at(i)) / 150.0 * rect.width(), i * (m_channelHeight + m_channelDistance) + 1, 1, m_channelFillHeight, palette().text());
     }
 }
-

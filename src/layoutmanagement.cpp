@@ -12,16 +12,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include "layoutmanagement.h"
 #include "core.h"
 #include "mainwindow.h"
-#include <QMenu>
 #include <QInputDialog>
+#include <QMenu>
 
 #include <KConfigGroup>
-#include <KXMLGUIFactory>
 #include <KSharedConfig>
+#include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 
-LayoutManagement::LayoutManagement(QObject *parent) :
-    QObject(parent)
+LayoutManagement::LayoutManagement(QObject *parent)
+    : QObject(parent)
 {
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
@@ -37,7 +37,7 @@ LayoutManagement::LayoutManagement(QObject *parent) :
     }
     // Required to enable user to add the load layout action to toolbar
     layoutActions->addAction(QStringLiteral("load_layouts"), m_loadLayout);
-    connect(m_loadLayout, SIGNAL(triggered(QAction *)), SLOT(slotLoadLayout(QAction *)));
+    connect(m_loadLayout, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &LayoutManagement::slotLoadLayout);
 
     connect(pCore->window(), &MainWindow::GUISetupDone, this, &LayoutManagement::slotOnGUISetupDone);
 }
@@ -55,7 +55,7 @@ void LayoutManagement::initializeLayouts()
     QList<QAction *> saveActions = saveLayout->actions();
     for (int i = 1; i < 5; ++i) {
         // Rename the layouts actions
-        foreach (const QString &key, entries) {
+        for (const QString &key : entries) {
             if (key.endsWith(QStringLiteral("_%1").arg(i))) {
                 // Found previously saved layout
                 QString layoutName = key.section(QLatin1Char('_'), 0, -2);
@@ -101,7 +101,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     int layoutId = originallayoutName.section(QLatin1Char('_'), -1).toInt();
 
     QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal,
-                         originallayoutName.section(QLatin1Char('_'), 0, -2));
+                                               originallayoutName.section(QLatin1Char('_'), 0, -2));
     if (layoutName.isEmpty()) {
         return;
     }
@@ -124,4 +124,3 @@ void LayoutManagement::slotOnGUISetupDone()
 
     initializeLayouts();
 }
-

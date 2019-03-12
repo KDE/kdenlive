@@ -11,10 +11,10 @@
 #ifndef ABSTRACTSCOPEWIDGET_H
 #define ABSTRACTSCOPEWIDGET_H
 
-#include <QWidget>
-#include <QSemaphore>
 #include <QFuture>
 #include <QMenu>
+#include <QSemaphore>
+#include <QWidget>
 /**
   \brief Abstract class for audio/colour scopes (receive data and paint it).
 
@@ -66,7 +66,7 @@ public:
       \see signalMousePositionChanged(): Emitted when mouse tracking is enabled
       */
     explicit AbstractScopeWidget(bool trackMouse = false, QWidget *parent = nullptr);
-    virtual ~AbstractScopeWidget(); // Must be virtual because of inheritance, to avoid memory leaks
+    ~AbstractScopeWidget() override; // Must be virtual because of inheritance, to avoid memory leaks
 
     enum RescaleDirection { North, Northeast, East, Southeast };
 
@@ -123,10 +123,10 @@ protected:
     QPoint m_mousePos;
     /** Knows whether the mouse currently lies within the widget or not.
         Can e.g. be used for drawing a HUD only when the mouse is in the widget. */
-    bool m_mouseWithinWidget;
+    bool m_mouseWithinWidget{false};
 
     /** Offset from the widget's borders */
-    const uchar offset;
+    const uchar offset{5};
 
     /** The rect on the widget we're painting in.
         Can be used by the implementing widget, e.g. in the render methods.
@@ -140,9 +140,9 @@ protected:
 
     /** The acceleration factors can be accessed also by other renderer tasks,
         e.g. to display the scope's acceleration factor in the HUD renderer. */
-    int m_accelFactorHUD;
-    int m_accelFactorScope;
-    int m_accelFactorBackground;
+    int m_accelFactorHUD{1};
+    int m_accelFactorScope{1};
+    int m_accelFactorBackground{1};
 
     /** Reads the widget's configuration.
         Can be extended in the implementing subclass (make sure to run readConfig as well). */
@@ -199,13 +199,13 @@ protected:
 
     ///// Reimplemented /////
 
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *) Q_DECL_OVERRIDE; // Called when the widget is activated via the Menu entry
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void leaveEvent(QEvent *) override;
+    void paintEvent(QPaintEvent *) override;
+    void resizeEvent(QResizeEvent *) override;
+    void showEvent(QShowEvent *) override; // Called when the widget is activated via the Menu entry
     //    void raise(); // Called only when  manually calling the event -> useless
 
 public slots:
@@ -237,7 +237,6 @@ signals:
     void requestAutoRefresh(bool);
 
 private:
-
     /** Counts the number of data frames that have been rendered in the active monitor.
         The frame number will be reset when the calculation starts for the current data set. */
     QAtomicInt m_newHUDFrames;
@@ -261,8 +260,8 @@ private:
     QFuture<QImage> m_threadScope;
     QFuture<QImage> m_threadBackground;
 
-    bool initialDimensionUpdateDone;
-    bool m_requestForcedUpdate;
+    bool m_initialDimensionUpdateDone{false};
+    bool m_requestForcedUpdate{false};
 
     QImage m_scopeImage;
 
@@ -273,14 +272,14 @@ private:
     void prodBackgroundThread();
 
     ///// Movement detection /////
-    const int m_rescaleMinDist;
-    const float m_rescaleVerticalThreshold;
+    const int m_rescaleMinDist{4};
+    const float m_rescaleVerticalThreshold{2.0f};
 
-    bool m_rescaleActive;
-    bool m_rescalePropertiesLocked;
-    bool m_rescaleFirstRescaleDone;
+    bool m_rescaleActive{false};
+    bool m_rescalePropertiesLocked{false};
+    bool m_rescaleFirstRescaleDone{true};
     Qt::KeyboardModifiers m_rescaleModifiers;
-    RescaleDirection m_rescaleDirection;
+    RescaleDirection m_rescaleDirection{North};
     QPoint m_rescaleStartPoint;
 
 protected slots:
@@ -297,7 +296,6 @@ protected slots:
 
     /** Resets the acceleration factors to 1 when realtime rendering is disabled. */
     void slotResetRealtimeFactor(bool realtimeChecked);
-
 };
 
 #endif // ABSTRACTSCOPEWIDGET_H

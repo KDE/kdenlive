@@ -1,14 +1,15 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
   utils/abstractservice.cpp
+  utils/archiveorg.cpp
+  utils/clipboardproxy.cpp
+  utils/devices.cpp
+  utils/flowlayout.cpp
   utils/freesound.cpp
   utils/openclipart.cpp
-  utils/archiveorg.cpp
   utils/resourcewidget.cpp
-  utils/flowlayout.cpp
   utils/thememanager.cpp
-  utils/KoIconUtils.cpp
-  utils/progressbutton.cpp
+  utils/thumbnailcache.cpp
   PARENT_SCOPE
 )
 

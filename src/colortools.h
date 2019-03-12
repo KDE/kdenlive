@@ -24,10 +24,8 @@ class ColorTools : public QObject
 public:
     explicit ColorTools(QObject *parent = nullptr);
 
-    //enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma, COL_A, COL_RGB };
-    enum class ColorsRGB{
-        R,G,B,Luma,A,RGB
-            };
+    // enum ColorsRGB { COL_R, COL_G, COL_B, COL_Luma, COL_A, COL_RGB };
+    enum class ColorsRGB { R, G, B, Luma, A, RGB };
 
     enum ComponentsHSV { COM_H, COM_S, COM_V };
 
@@ -38,7 +36,7 @@ public:
       If not the full rect should be filled, set circleOnly to true.
       See also: http://en.wikipedia.org/wiki/YUV and http://de.wikipedia.org/wiki/Vektorskop
      */
-    QImage yuvColorWheel(const QSize& size, int Y, float scaling, bool modifiedVersion, bool circleOnly);
+    QImage yuvColorWheel(const QSize &size, int Y, float scaling, bool modifiedVersion, bool circleOnly);
     /**
       @brief Draws a UV plane with given UV angle (ratio u:v stays constant)
       scaling defines how far to zoom in (or out). Lower value = zoom in.
@@ -46,7 +44,7 @@ public:
       is then laid through the UV plane, with the defined angle.
       @see yuvColorWheel()
      */
-    QImage yuvVerticalPlane(const QSize& size, int angle, float scaling);
+    QImage yuvVerticalPlane(const QSize &size, int angle, float scaling);
     /**
       @brief Draws a RGB plane with two values on one axis and one on the other.
       This is e.g. useful as background for a curves dialog. On the line from bottom left to top right
@@ -87,8 +85,8 @@ public:
       For shear == true, the image will be sheared such that the x axis goes through (0,0) and (1,1). offsetY can additionally
       shift the whole x axis vertically.
       */
-    static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor,
-                                const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false, const float offsetY = 0);
+    static QImage hsvCurvePlane(const QSize &size, const QColor &baseColor, const ComponentsHSV &xVariant, const ComponentsHSV &yVariant, bool shear = false,
+                                const float offsetY = 0);
 
 signals:
     void signalYuvWheelCalculationFinished();

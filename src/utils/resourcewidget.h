@@ -21,13 +21,13 @@
 #ifndef RESOURCEWIDGET_H
 #define RESOURCEWIDGET_H
 
-#include "ui_freesound_ui.h"
 #include "abstractservice.h"
 #include "definitions.h"
+#include "ui_freesound_ui.h"
 
 #include <QDialog>
-#include <kio/jobclasses.h>
 #include <QNetworkReply>
+#include <kio/jobclasses.h>
 
 class QAction;
 class QNetworkConfigurationManager;
@@ -49,8 +49,8 @@ class ResourceWidget : public QDialog, public Ui::FreeSound_UI
     Q_OBJECT
 
 public:
-    explicit ResourceWidget(const QString &folder, QWidget *parent = nullptr);
-    ~ResourceWidget();
+    explicit ResourceWidget(QString folder, QWidget *parent = nullptr);
+    ~ResourceWidget() override;
 
 private slots:
     void slotStartSearch(int page = 0);
@@ -97,7 +97,7 @@ private:
     void parseLicense(const QString &);
     QString GetSaveFileNameAndPathS(const QString &path, const QString &ext);
     QString m_folder;
-    QString  mSaveLocation;
+    QString m_saveLocation;
     AbstractService *m_currentService;
     OnlineItemInfo m_currentInfo;
     QAction *m_autoPlay;
@@ -114,4 +114,3 @@ signals:
 };
 
 #endif
-

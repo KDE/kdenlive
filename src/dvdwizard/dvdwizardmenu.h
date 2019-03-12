@@ -23,12 +23,12 @@
 #include "dvdwizardvob.h"
 #include "ui_dvdwizardmenu_ui.h"
 
-#include <QWizardPage>
-#include <QGraphicsScene>
-#include <QGraphicsTextItem>
+#include <QDomElement>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsRectItem>
-#include <QDomElement>
+#include <QGraphicsScene>
+#include <QGraphicsTextItem>
+#include <QWizardPage>
 
 #include <KMessageWidget>
 
@@ -40,13 +40,15 @@ public:
     void setProfile(int width, int height);
     int gridSize() const;
     void setGridSize(int gridSize);
+
 private:
-    int m_width;
-    int m_height;
-    int m_gridSize;
+    int m_width{0};
+    int m_height{0};
+    int m_gridSize{1};
+
 protected:
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
-    void drawForeground(QPainter *painter, const QRectF &rect) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
+    void drawForeground(QPainter *painter, const QRectF &rect) override;
 signals:
     void sceneChanged();
 };
@@ -55,9 +57,12 @@ class DvdButtonUnderline : public QGraphicsRectItem
 {
 
 public:
-    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = nullptr) : QGraphicsRectItem(rect, parent) {}
+    explicit DvdButtonUnderline(const QRectF &rect, QGraphicsItem *parent = nullptr)
+        : QGraphicsRectItem(rect, parent)
+    {
+    }
 
-    int type() const Q_DECL_OVERRIDE
+    int type() const override
     {
         // Enable the use of qgraphicsitem_cast with this item.
         return UserType + 2;
@@ -72,14 +77,16 @@ public:
     int target() const;
     QString command() const;
     bool backMenu() const;
-    int type() const Q_DECL_OVERRIDE;
+    int type() const override;
     void setBackMenu(bool back);
+
 private:
     int m_target;
     QString m_command;
     bool m_backToMenu;
+
 protected:
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 };
 
 class DvdWizardMenu : public QWizardPage
@@ -88,7 +95,7 @@ class DvdWizardMenu : public QWizardPage
 
 public:
     explicit DvdWizardMenu(DVDFORMAT format, QWidget *parent = nullptr);
-    virtual ~DvdWizardMenu();
+    ~DvdWizardMenu() override;
     bool createMenu() const;
     void createBackgroundImage(const QString &img1, bool letterbox);
     void createButtonImages(const QString &selected_image, const QString &highlighted_image, bool letterbox);
@@ -138,4 +145,3 @@ private slots:
 };
 
 #endif
-

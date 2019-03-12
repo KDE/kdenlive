@@ -18,26 +18,34 @@
  ***************************************************************************/
 
 #include "generators.h"
+#include "assets/abstractassetsrepository.hpp"
 #include "doc/kthumb.h"
-#include "monitor/monitor.h"
-#include "effectstack/parametercontainer.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
+#include "monitor/monitor.h"
 
-#include <QStandardPaths>
-#include <QDomDocument>
-#include <QDir>
-#include <QVBoxLayout>
-#include <QLabel>
 #include <QDialogButtonBox>
+#include <QDir>
+#include <QDomDocument>
 #include <QFileDialog>
+#include <QLabel>
+#include <QStandardPaths>
+#include <QVBoxLayout>
 
-#include <KRecentDirs>
-#include <KMessageBox>
-#include "kxmlgui_version.h"
+#include "core.h"
 #include "klocalizedstring.h"
+#include "kxmlgui_version.h"
+#include "profiles/profilemodel.hpp"
+#include <KMessageBox>
+#include <KRecentDirs>
+#include <memory>
+#include <mlt++/MltConsumer.h>
+#include <mlt++/MltProducer.h>
+#include <mlt++/MltProfile.h>
+#include <mlt++/MltTractor.h>
 
-Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
-    QDialog(parent)
+Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
+    : QDialog(parent)
     , m_producer(nullptr)
     , m_timePos(nullptr)
     , m_container(nullptr)
@@ -51,14 +59,14 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
     if (base.tagName() == QLatin1String("generator")) {
         QString generatorTag = base.attribute(QStringLiteral("tag"));
         setWindowTitle(base.firstChildElement(QStringLiteral("name")).text());
-        QVBoxLayout *lay = new QVBoxLayout(this);
+        auto *lay = new QVBoxLayout(this);
         m_preview = new QLabel;
         m_preview->setMinimumSize(1, 1);
         lay->addWidget(m_preview);
-        m_producer = new Mlt::Producer(*monitor->profile(), generatorTag.toUtf8().constData());
-        m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, monitor->profile()->width(), monitor->profile()->height()));
+        m_producer = new Mlt::Producer(pCore->getCurrentProfile()->profile(), generatorTag.toUtf8().constData());
+        m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()));
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
-        QHBoxLayout *hlay = new QHBoxLayout;
+        auto *hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Duration")));
         m_timePos = new TimecodeDisplay(monitor->timecode(), this);
         if (base.hasAttribute(QStringLiteral("updateonduration"))) {
@@ -68,11 +76,17 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
         lay->addLayout(hlay);
         QWidget *frameWidget = new QWidget;
         lay->addWidget(frameWidget);
-        ItemInfo info;
-        EffectMetaInfo metaInfo;
-        metaInfo.monitor = monitor;
-        m_container = new ParameterContainer(base, info, &metaInfo, frameWidget);
-        connect(m_container, &ParameterContainer::parameterChanged, this, &Generators::updateProducer);
+
+        m_view = new AssetParameterView(frameWidget);
+        lay->addWidget(m_view);
+        QString tag = base.attribute(QStringLiteral("tag"), QString());
+        QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
+
+        auto prop = std::make_unique<Mlt::Properties>(m_producer->get_properties());
+        m_assetModel.reset(new AssetParameterModel(std::move(prop), base, tag, {ObjectType::NoItem, -1})); // NOLINT
+        m_view->setModel(m_assetModel, QSize(1920, 1080), false);
+        connect(m_assetModel.get(), &AssetParameterModel::modelChanged, [this]() { updateProducer(); });
+
         lay->addStretch(10);
         QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
         connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -82,15 +96,8 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent) :
     }
 }
 
-void Generators::updateProducer(const QDomElement &, const QDomElement &effect, int)
+void Generators::updateProducer()
 {
-    QDomNodeList params = effect.elementsByTagName(QStringLiteral("parameter"));
-    for (int i = 0; i < params.count(); ++i) {
-        QDomElement pa = params.item(i).toElement();
-        QString paramName = pa.attribute(QStringLiteral("name"));
-        QString paramValue = pa.attribute(QStringLiteral("value"));
-        m_producer->set(paramName.toUtf8().constData(), paramValue.toUtf8().constData());
-    }
     int w = m_pixmap.width();
     int h = m_pixmap.height();
     m_pixmap = QPixmap::fromImage(KThumb::getFrame(m_producer, 0, w, h));
@@ -105,20 +112,20 @@ void Generators::resizeEvent(QResizeEvent *event)
 
 Generators::~Generators()
 {
-    delete m_producer;
     delete m_timePos;
 }
 
-//static
+// static
 void Generators::getGenerators(const QStringList &producers, QMenu *menu)
 {
-    const QStringList generatorFolders = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
+    const QStringList generatorFolders =
+        QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
     const QStringList filters = QStringList() << QStringLiteral("*.xml");
     for (const QString &folder : generatorFolders) {
         QDir directory(folder);
         const QStringList filesnames = directory.entryList(filters, QDir::Files);
         for (const QString &fname : filesnames) {
-            QPair <QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
+            QPair<QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
             if (!result.first.isEmpty()) {
                 QAction *action = menu->addAction(result.first);
                 action->setData(result.second);
@@ -127,10 +134,10 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
     }
 }
 
-//static
-QPair <QString, QString> Generators::parseGenerator(const QString &path, const QStringList &producers)
+// static
+QPair<QString, QString> Generators::parseGenerator(const QString &path, const QStringList &producers)
 {
-    QPair <QString, QString>  result;
+    QPair<QString, QString> result;
     QDomDocument doc;
     QFile file(path);
     doc.setContent(&file, false);

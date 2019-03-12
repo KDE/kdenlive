@@ -17,8 +17,8 @@
 #include <QTime>
 
 #include "klocalizedstring.h"
-#include <KSharedConfig>
 #include <KConfigGroup>
+#include <KSharedConfig>
 #include <iostream>
 
 // (defined in the header file)
@@ -28,8 +28,8 @@
 
 // (defined in the header file)
 #ifdef DETECT_OVERMODULATION
-#include <limits>
 #include <cmath>
+#include <limits>
 #endif
 
 // Draw lines instead of single pixels.
@@ -42,8 +42,8 @@
 #define ALPHA_MOVING_AVG 0.125
 #define MAX_OVM_COLOR 0.7
 
-AudioSpectrum::AudioSpectrum(QWidget *parent) :
-    AbstractAudioScopeWidget(true, parent)
+AudioSpectrum::AudioSpectrum(QWidget *parent)
+    : AbstractAudioScopeWidget(true, parent)
     , m_fftTools()
     , m_lastFFT()
     , m_lastFFTLock(1)
@@ -52,14 +52,10 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     , m_timeTotal(0)
     , m_showTotal(0)
 #endif
-    , m_dBmin(-70)
-    , m_dBmax(0)
-    , m_freqMax(0)
-    , m_customFreq(false)
-    , colorizeFactor(0)
+
 {
-    ui = new Ui::AudioSpectrum_UI;
-    ui->setupUi(this);
+    m_ui = new Ui::AudioSpectrum_UI;
+    m_ui->setupUi(this);
 
     m_aResetHz = new QAction(i18n("Reset maximum frequency to sampling rate"), this);
     m_aTrackMouse = new QAction(i18n("Track mouse"), this);
@@ -73,23 +69,24 @@ AudioSpectrum::AudioSpectrum(QWidget *parent) :
     m_menu->addAction(m_aShowMax);
     m_menu->removeAction(m_aRealtime);
 
-    ui->windowSize->addItem(QStringLiteral("256"), QVariant(256));
-    ui->windowSize->addItem(QStringLiteral("512"), QVariant(512));
-    ui->windowSize->addItem(QStringLiteral("1024"), QVariant(1024));
-    ui->windowSize->addItem(QStringLiteral("2048"), QVariant(2048));
+    m_ui->windowSize->addItem(QStringLiteral("256"), QVariant(256));
+    m_ui->windowSize->addItem(QStringLiteral("512"), QVariant(512));
+    m_ui->windowSize->addItem(QStringLiteral("1024"), QVariant(1024));
+    m_ui->windowSize->addItem(QStringLiteral("2048"), QVariant(2048));
 
-    ui->windowFunction->addItem(i18n("Rectangular window"), FFTTools::Window_Rect);
-    ui->windowFunction->addItem(i18n("Triangular window"), FFTTools::Window_Triangle);
-    ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
+    m_ui->windowFunction->addItem(i18n("Rectangular window"), FFTTools::Window_Rect);
+    m_ui->windowFunction->addItem(i18n("Triangular window"), FFTTools::Window_Triangle);
+    m_ui->windowFunction->addItem(i18n("Hamming window"), FFTTools::Window_Hamming);
 
     connect(m_aResetHz, &QAction::triggered, this, &AudioSpectrum::slotResetMaxFreq);
-    connect(ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
+    connect(m_ui->windowFunction, SIGNAL(currentIndexChanged(int)), this, SLOT(forceUpdate()));
     connect(this, &AudioSpectrum::signalMousePositionChanged, this, &AudioSpectrum::forceUpdateHUD);
 
     // Note: These strings are used in both Spectogram and AudioSpectrum. Ideally change both (if necessary) to reduce workload on translators
-    ui->labelFFTSize->setToolTip(i18n("The maximum window size is limited by the number of samples per frame."));
-    ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
-    ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more smearing. See Window function on Wikipedia."));
+    m_ui->labelFFTSize->setToolTip(i18n("The maximum window size is limited by the number of samples per frame."));
+    m_ui->windowSize->setToolTip(i18n("A bigger window improves the accuracy at the cost of computational power."));
+    m_ui->windowFunction->setToolTip(i18n("The rectangular window function is good for signals with equal signal strength (narrow peak), but creates more "
+                                          "smearing. See Window function on Wikipedia."));
 
     AbstractScopeWidget::init();
 }
@@ -99,7 +96,7 @@ AudioSpectrum::~AudioSpectrum()
 
     delete m_aResetHz;
     delete m_aTrackMouse;
-    delete ui;
+    delete m_ui;
 }
 
 void AudioSpectrum::readConfig()
@@ -109,8 +106,8 @@ void AudioSpectrum::readConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
-    ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
-    ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
+    m_ui->windowSize->setCurrentIndex(scopeConfig.readEntry("windowSize", 0));
+    m_ui->windowFunction->setCurrentIndex(scopeConfig.readEntry("windowFunction", 0));
     m_aTrackMouse->setChecked(scopeConfig.readEntry("trackMouse", true));
     m_aShowMax->setChecked(scopeConfig.readEntry("showMax", true));
     m_dBmax = scopeConfig.readEntry("dBmax", 0);
@@ -129,8 +126,8 @@ void AudioSpectrum::writeConfig()
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, AbstractScopeWidget::configName());
 
-    scopeConfig.writeEntry("windowSize", ui->windowSize->currentIndex());
-    scopeConfig.writeEntry("windowFunction", ui->windowFunction->currentIndex());
+    scopeConfig.writeEntry("windowSize", m_ui->windowSize->currentIndex());
+    scopeConfig.writeEntry("windowFunction", m_ui->windowFunction->currentIndex());
     scopeConfig.writeEntry("trackMouse", m_aTrackMouse->isChecked());
     scopeConfig.writeEntry("showMax", m_aShowMax->isChecked());
     scopeConfig.writeEntry("dBmax", m_dBmax);
@@ -154,12 +151,9 @@ QImage AudioSpectrum::renderBackground(uint)
     return QImage();
 }
 
-QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq, const int num_channels,
-                                       const int num_samples, const int)
+QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int)
 {
-    if (
-        audioFrame.size() > 63
-        && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0    // <= 0 if widget is too small (resized by user)
+    if (audioFrame.size() > 63 && m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0 // <= 0 if widget is too small (resized by user)
     ) {
         if (!m_customFreq) {
             m_freqMax = freq / 2;
@@ -184,12 +178,12 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
                     }
                 }
                 if (overmodulated) {
-                    colorizeFactor = 1;
+                    m_colorizeFactor = 1;
                 } else {
-                    if (colorizeFactor > 0) {
-                        colorizeFactor -= .08;
-                        if (colorizeFactor < 0) {
-                            colorizeFactor = 0;
+                    if (m_colorizeFactor > 0) {
+                        m_colorizeFactor -= .08;
+                        if (m_colorizeFactor < 0) {
+                            m_colorizeFactor = 0;
                         }
                     }
                 }
@@ -199,7 +193,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
         // Determine the window size to use. It should be
         // * not bigger than the number of samples actually available
         // * divisible by 2
-        int fftWindow = ui->windowSize->itemData(ui->windowSize->currentIndex()).toInt();
+        int fftWindow = m_ui->windowSize->itemData(m_ui->windowSize->currentIndex()).toInt();
         if (fftWindow > num_samples) {
             fftWindow = num_samples;
         }
@@ -208,54 +202,50 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
         }
 
         // Show the window size used, for information
-        ui->labelFFTSizeNumber->setText(QVariant(fftWindow).toString());
+        m_ui->labelFFTSizeNumber->setText(QVariant(fftWindow).toString());
 
         // Get the spectral power distribution of the input samples,
         // using the given window size and function
-        float freqSpectrum[fftWindow / 2];
-        FFTTools::WindowType windowType = (FFTTools::WindowType) ui->windowFunction->itemData(ui->windowFunction->currentIndex()).toInt();
-        m_fftTools.fftNormalized(audioFrame, 0, num_channels, freqSpectrum, windowType, fftWindow, 0);
+        auto *freqSpectrum = new float[(uint)fftWindow / 2];
+        FFTTools::WindowType windowType = (FFTTools::WindowType)m_ui->windowFunction->itemData(m_ui->windowFunction->currentIndex()).toInt();
+        m_fftTools.fftNormalized(audioFrame, 0, (uint)num_channels, freqSpectrum, windowType, (uint)fftWindow, 0);
 
         // Store the current FFT window (for the HUD) and run the interpolation
         // for easy pixel-based dB value access
         QVector<float> dbMap;
         m_lastFFTLock.acquire();
         m_lastFFT = QVector<float>(fftWindow / 2);
-        memcpy(m_lastFFT.data(), &(freqSpectrum[0]), fftWindow / 2 * sizeof(float));
+        memcpy(m_lastFFT.data(), &(freqSpectrum[0]), (uint)fftWindow / 2 * sizeof(float));
 
-        uint right = ((float) m_freqMax) / (m_freq / 2) * (m_lastFFT.size() - 1);
-        dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -180);
+        uint right = uint(((float)m_freqMax) / ((float)m_freq / 2.) * float(m_lastFFT.size() - 1));
+        dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, (uint)m_innerScopeRect.width(), 0, right, -180);
         m_lastFFTLock.release();
 
 #ifdef DEBUG_AUDIOSPEC
         QTime drawTime = QTime::currentTime();
 #endif
-
+        delete[] freqSpectrum;
         // Draw the spectrum
         QImage spectrum(m_scopeRect.size(), QImage::Format_ARGB32);
         spectrum.fill(qRgba(0, 0, 0, 0));
-        const uint w = m_innerScopeRect.width();
-        const uint h = m_innerScopeRect.height();
-        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
-        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        const int w = m_innerScopeRect.width();
+        const int h = m_innerScopeRect.height();
+        const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const int topDist = m_innerScopeRect.top() - m_scopeRect.top();
         QColor spectrumColor(AbstractScopeWidget::colDarkWhite);
         int yMax;
 
 #ifdef DETECT_OVERMODULATION
-        if (colorizeFactor > 0) {
+        if (m_colorizeFactor > 0) {
             QColor col = AbstractScopeWidget::colHighlightDark;
             QColor spec = spectrumColor;
-            float f = std::sin(M_PI_2 * colorizeFactor);
-            spectrumColor = QColor(
-                                (int)(f * col.red() + (1 - f) * spec.red()),
-                                (int)(f * col.green() + (1 - f) * spec.green()),
-                                (int)(f * col.blue() + (1 - f) * spec.blue()),
-                                spec.alpha()
-                            );
+            float f = std::sin(M_PI_2 * m_colorizeFactor);
+            spectrumColor = QColor((int)(f * (float)col.red() + (1. - f) * (float)spec.red()), (int)(f * (float)col.green() + (1. - f) * (float)spec.green()),
+                                   (int)(f * (float)col.blue() + (1. - f) * (float)spec.blue()), spec.alpha());
             // Limit the maximum colorization for non-overmodulated frames to better
             // recognize consecutively overmodulated frames
-            if (colorizeFactor > MAX_OVM_COLOR) {
-                colorizeFactor = MAX_OVM_COLOR;
+            if (m_colorizeFactor > MAX_OVM_COLOR) {
+                m_colorizeFactor = MAX_OVM_COLOR;
             }
         }
 #endif
@@ -265,8 +255,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
         davinci.setPen(QPen(QBrush(spectrumColor.rgba()), 1, Qt::SolidLine));
 #endif
 
-        for (uint i = 0; i < w; ++i) {
-            yMax = (dbMap[i] - m_dBmin) / (m_dBmax - m_dBmin) * (h - 1);
+        for (int i = 0; i < w; ++i) {
+            yMax = int((dbMap[i] - (float)m_dBmin) / (float)(m_dBmax - m_dBmin) * (float)(h - 1));
             if (yMax < 0) {
                 yMax = 0;
             } else if (yMax >= (int)h) {
@@ -297,9 +287,9 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
                 }
             }
             int prev = 0;
-            m_peakMap = FFTTools::interpolatePeakPreserving(m_peaks, m_innerScopeRect.width(), 0, right, -180);
-            for (uint i = 0; i < w; ++i) {
-                yMax = (m_peakMap[i] - m_dBmin) / (m_dBmax - m_dBmin) * (h - 1);
+            m_peakMap = FFTTools::interpolatePeakPreserving(m_peaks, (uint)m_innerScopeRect.width(), 0, right, -180);
+            for (int i = 0; i < w; ++i) {
+                yMax = (m_peakMap[i] - (float)m_dBmin) / (float)(m_dBmax - m_dBmin) * (float)(h - 1);
                 if (yMax < 0) {
                     yMax = 0;
                 } else if (yMax >= (int)h) {
@@ -318,13 +308,12 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
         qCDebug(KDENLIVE_LOG) << widgetName() << " took " << drawTime.elapsed() << " ms for drawing. Average: " << ((float)m_timeTotal / m_showTotal);
 #endif
 
-        emit signalScopeRenderingFinished(start.elapsed(), 1);
+        emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
 
         return spectrum;
-    } else {
-        emit signalScopeRenderingFinished(0, 1);
-        return QImage();
     }
+    emit signalScopeRenderingFinished(0, 1);
+    return QImage();
 }
 QImage AudioSpectrum::renderHUD(uint)
 {
@@ -333,13 +322,13 @@ QImage AudioSpectrum::renderHUD(uint)
     if (m_innerScopeRect.height() > 0 && m_innerScopeRect.width() > 0) { // May be below 0 if widget is too small
 
         // Minimum distance between two lines
-        const uint minDistY = 30;
-        const uint minDistX = 40;
-        const uint textDistX = 10;
-        const uint textDistY = 25;
-        const uint topDist = m_innerScopeRect.top() - m_scopeRect.top();
-        const uint leftDist = m_innerScopeRect.left() - m_scopeRect.left();
-        const uint dbDiff = ceil((float)minDistY / m_innerScopeRect.height() * (m_dBmax - m_dBmin));
+        const int minDistY = 30;
+        const int minDistX = 40;
+        const int textDistX = 10;
+        const int textDistY = 25;
+        const int topDist = m_innerScopeRect.top() - m_scopeRect.top();
+        const int leftDist = m_innerScopeRect.left() - m_scopeRect.left();
+        const int dbDiff = ceil((float)minDistY / (float)m_innerScopeRect.height() * (float)(m_dBmax - m_dBmin));
         const int mouseX = m_mousePos.x() - m_innerScopeRect.left();
         const int mouseY = m_mousePos.y() - m_innerScopeRect.top();
 
@@ -351,7 +340,7 @@ QImage AudioSpectrum::renderHUD(uint)
 
         int y;
         for (int db = -dbDiff; db > m_dBmin; db -= dbDiff) {
-            y = topDist + m_innerScopeRect.height() * ((float)db) / (m_dBmin - m_dBmax);
+            y = topDist + int(float(m_innerScopeRect.height()) * ((float)db) / float(m_dBmin - m_dBmax));
             if (y - topDist > m_innerScopeRect.height() - minDistY + 10) {
                 // Abort here, there is still a line left for min dB to paint which needs some room.
                 break;
@@ -364,13 +353,13 @@ QImage AudioSpectrum::renderHUD(uint)
         davinci.drawLine(leftDist, topDist + m_innerScopeRect.height() - 1, leftDist + m_innerScopeRect.width() - 1, topDist + m_innerScopeRect.height() - 1);
         davinci.drawText(leftDist + m_innerScopeRect.width() + textDistX, topDist + m_innerScopeRect.height() + 6, i18n("%1 dB", m_dBmin));
 
-        const uint hzDiff = ceil(((float)minDistX) / m_innerScopeRect.width() * m_freqMax / 1000) * 1000;
+        const int hzDiff = ceil(((float)minDistX) / (float)m_innerScopeRect.width() * (float)m_freqMax / 1000.) * 1000;
         int x = 0;
         const int rightBorder = leftDist + m_innerScopeRect.width() - 1;
         y = topDist + m_innerScopeRect.height() + textDistY;
         for (int hz = 0; x <= rightBorder; hz += hzDiff) {
             davinci.setPen(AbstractScopeWidget::penLighter);
-            x = leftDist + m_innerScopeRect.width() * ((float)hz) / m_freqMax;
+            x = leftDist + int((float)m_innerScopeRect.width() * ((float)hz) / (float)m_freqMax);
 
             if (x <= rightBorder) {
                 davinci.drawLine(x, topDist, x, topDist + m_innerScopeRect.height() + 6);
@@ -387,7 +376,7 @@ QImage AudioSpectrum::renderHUD(uint)
                 // Draw finer lines between the main lines
                 davinci.setPen(AbstractScopeWidget::penLightDots);
                 for (uint dHz = 3; dHz > 0; --dHz) {
-                    x = leftDist + m_innerScopeRect.width() * ((float)hz - dHz * hzDiff / 4.0f) / m_freqMax;
+                    x = leftDist + int((float)m_innerScopeRect.width() * ((float)hz - (float)dHz * (float)hzDiff / 4.0f) / (float)m_freqMax);
                     if (x > rightBorder) {
                         break;
                     }
@@ -402,18 +391,19 @@ QImage AudioSpectrum::renderHUD(uint)
             x = leftDist + mouseX;
 
             float db = 0;
-            float freq = ((float) mouseX) / (m_innerScopeRect.width() - 1) * m_freqMax;
+            float freq = ((float)mouseX) / (float)(m_innerScopeRect.width() - 1) * (float)m_freqMax;
             bool drawDb = false;
 
             m_lastFFTLock.acquire();
             // We need to test whether the mouse is inside the widget
             // because the position could already have changed in the meantime (-> crash)
             if (!m_lastFFT.isEmpty() && mouseX >= 0 && mouseX < m_innerScopeRect.width()) {
-                uint right = ((float) m_freqMax) / (m_freq / 2) * (m_lastFFT.size() - 1);
-                QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, m_innerScopeRect.width(), 0, right, -120);
+                uint right = uint(((float)m_freqMax) / (m_freq / 2.) * float(m_lastFFT.size() - 1));
+                QVector<float> dbMap = FFTTools::interpolatePeakPreserving(m_lastFFT, (uint)m_innerScopeRect.width(), 0, right, -120);
 
                 db = dbMap[mouseX];
-                y = topDist + m_innerScopeRect.height() - 1 - (dbMap[mouseX] - m_dBmin) / (m_dBmax - m_dBmin) * (m_innerScopeRect.height() - 1);
+                y = topDist + m_innerScopeRect.height() - 1 -
+                    int((dbMap[mouseX] - (float)m_dBmin) / float(m_dBmax - m_dBmin) * float(m_innerScopeRect.height() - 1));
 
                 if (y < (int)topDist + m_innerScopeRect.height() - 1) {
                     drawDb = true;
@@ -431,67 +421,43 @@ QImage AudioSpectrum::renderHUD(uint)
 
             if (drawDb) {
                 QPoint dist(20, -20);
-                QRect rect(
-                    leftDist + mouseX + dist.x(),
-                    topDist + mouseY + dist.y(),
-                    100,
-                    40
-                );
+                QRect rect(leftDist + mouseX + dist.x(), topDist + mouseY + dist.y(), 100, 40);
                 if (rect.right() > (int)leftDist + m_innerScopeRect.width() - 1) {
                     // Mirror the rectangle at the y axis to keep it inside the widget
-                    rect = QRect(
-                               rect.topLeft() - QPoint(rect.width() + 2 * dist.x(), 0),
-                               rect.size());
+                    rect = QRect(rect.topLeft() - QPoint(rect.width() + 2 * dist.x(), 0), rect.size());
                 }
 
-                QRect textRect(
-                    rect.topLeft() + QPoint(12, 4),
-                    rect.size()
-                );
+                QRect textRect(rect.topLeft() + QPoint(12, 4), rect.size());
 
                 davinci.fillRect(rect, AbstractScopeWidget::penBackground.brush());
                 davinci.setPen(AbstractScopeWidget::penLighter);
                 davinci.drawRect(rect);
-                davinci.drawText(textRect, QString(
-                                     i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2))
-                                     + '\n'
-                                     + i18n("%1 kHz", QString("%1").arg(freq / 1000, 0, 'f', 2))));
+                davinci.drawText(textRect,
+                                 QString(i18n("%1 dB", QString("%1").arg(db, 0, 'f', 2)) + '\n' + i18n("%1 kHz", QString("%1").arg(freq / 1000, 0, 'f', 2))));
             }
-
         }
 
-        emit signalHUDRenderingFinished(start.elapsed(), 1);
+        emit signalHUDRenderingFinished((uint)start.elapsed(), 1);
         return hud;
-
-    } else {
-#ifdef DEBUG_AUDIOSPEC
-        qCDebug(KDENLIVE_LOG) << "Widget is too small for painting inside. Size of inner scope rect is "
-                              << m_innerScopeRect.width() << 'x' << m_innerScopeRect.height() << ".";
-#endif
-        emit signalHUDRenderingFinished(0, 1);
-        return QImage();
     }
-
+#ifdef DEBUG_AUDIOSPEC
+    qCDebug(KDENLIVE_LOG) << "Widget is too small for painting inside. Size of inner scope rect is " << m_innerScopeRect.width() << 'x'
+                          << m_innerScopeRect.height() << ".";
+#endif
+    emit signalHUDRenderingFinished(0, 1);
+    return QImage();
 }
 
 QRect AudioSpectrum::scopeRect()
 {
-    m_scopeRect = QRect(
-                      QPoint(
-                          10,                                     // Left
-                          ui->verticalSpacer->geometry().top() + 6 // Top
-                      ),
-                      AbstractAudioScopeWidget::rect().bottomRight()
-                  );
-    m_innerScopeRect = QRect(
-                           QPoint(
-                               m_scopeRect.left() + 6,                 // Left
-                               m_scopeRect.top() + 6                   // Top
-                           ), QPoint(
-                               ui->verticalSpacer->geometry().right() - 70,
-                               ui->verticalSpacer->geometry().bottom() - 40
-                           )
-                       );
+    m_scopeRect = QRect(QPoint(10,                                        // Left
+                               m_ui->verticalSpacer->geometry().top() + 6 // Top
+                               ),
+                        AbstractAudioScopeWidget::rect().bottomRight());
+    m_innerScopeRect = QRect(QPoint(m_scopeRect.left() + 6, // Left
+                                    m_scopeRect.top() + 6   // Top
+                                    ),
+                             QPoint(m_ui->verticalSpacer->geometry().right() - 70, m_ui->verticalSpacer->geometry().bottom() - 40));
     return m_scopeRect;
 }
 
@@ -518,7 +484,6 @@ void AudioSpectrum::handleMouseDrag(const QPoint &movement, const RescaleDirecti
 
             // Adjust max dB value if Shift is pressed.
             m_dBmax += movement.y();
-
         }
 
         // Ensure the dB values lie in [-100, 0] (or rather [MIN_DB_VALUE, 0])
@@ -568,4 +533,3 @@ void AudioSpectrum::handleMouseDrag(const QPoint &movement, const RescaleDirecti
         forceUpdateScope();
     }
 }
-

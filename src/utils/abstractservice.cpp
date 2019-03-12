@@ -22,25 +22,21 @@
 
 #include <QObject>
 
-AbstractService::AbstractService(QListWidget *listWidget, QObject *parent) :
-    QObject(parent),
-    hasPreview(false),
-    hasMetadata(false),
-    inlineDownload(false),
-    serviceType(NOSERVICE),
-    m_listWidget(listWidget)
+AbstractService::AbstractService(QListWidget *listWidget, QObject *parent)
+    : QObject(parent)
+    , hasPreview(false)
+    , hasMetadata(false)
+    , inlineDownload(false)
+    , serviceType(NOSERVICE)
+    , m_listWidget(listWidget)
 {
 }
 
-AbstractService::~AbstractService()
-{
-}
+AbstractService::~AbstractService() = default;
 
-void AbstractService::slotStartSearch(const QString &, int)
-{
-}
+void AbstractService::slotStartSearch(const QString &, int) {}
 
-OnlineItemInfo AbstractService::displayItemDetails(QListWidgetItem */*item*/)
+OnlineItemInfo AbstractService::displayItemDetails(QListWidgetItem * /*item*/)
 {
     return {};
 }
@@ -50,9 +46,7 @@ bool AbstractService::startItemPreview(QListWidgetItem *)
     return false;
 }
 
-void AbstractService::stopItemPreview(QListWidgetItem *)
-{
-}
+void AbstractService::stopItemPreview(QListWidgetItem *) {}
 
 QString AbstractService::getExtension(QListWidgetItem *)
 {
@@ -63,4 +57,3 @@ QString AbstractService::getDefaultDownloadName(QListWidgetItem *)
 {
     return QString();
 }
-

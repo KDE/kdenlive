@@ -17,27 +17,22 @@
 
 #include "transitionsettings.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
-#include "timeline/transition.h"
-#include "timeline/transitionhandler.h"
-#include "effectslist/effectslist.h"
-#include "effectstack/effectstackedit.h"
 #include "project/projectmanager.h"
-#include "doc/kdenlivedoc.h"
-#include "utils/KoIconUtils.h"
 
 #include "klocalizedstring.h"
 
 #include <QMimeData>
 
-TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
-    QWidget(parent),
-    m_usedTransition(nullptr),
-    m_autoTrackTransition(0)
+TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent)
+    : QWidget(parent)
+    , m_usedTransition(nullptr)
+    , m_autoTrackTransition(0)
 {
     setupUi(this);
-    QVBoxLayout *vbox1 = new QVBoxLayout(frame);
+    auto *vbox1 = new QVBoxLayout(frame);
     m_effectEdit = new EffectStackEdit(monitor, frame);
     vbox1->setContentsMargins(0, 0, 0, 0);
     vbox1->setSpacing(0);
@@ -62,7 +57,7 @@ TransitionSettings::TransitionSettings(Monitor *monitor, QWidget *parent) :
         transitionsList.append(transitionInfo);
     }
     ix = 0;
-    foreach (const QStringList &value, transitionsList) {
+    for (const QStringList &value : transitionsList) {
         QStringList list = value;
         if (!list.isEmpty()) {
             list.removeLast();
@@ -91,7 +86,7 @@ void TransitionSettings::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
     QList<QToolButton *> allButtons = this->findChildren<QToolButton *>();
@@ -101,7 +96,7 @@ void TransitionSettings::refreshIcons()
         if (ic.isNull() || ic.name().isEmpty()) {
             continue;
         }
-        QIcon newIcon = KoIconUtils::themedIcon(ic.name());
+        QIcon newIcon = QIcon::fromTheme(ic.name());
         m->setIcon(newIcon);
     }
 }
@@ -128,8 +123,9 @@ void TransitionSettings::dropEvent(QDropEvent *event)
 
 void TransitionSettings::updateProjectFormat()
 {
-    m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
-    updateTrackList();
+    // TODO REFAC: get tracks list
+    // m_tracks = pCore->projectManager()->currentTimeline()->getTracksInfo();
+    // updateTrackList();
 }
 
 void TransitionSettings::updateTimecodeFormat()
@@ -151,8 +147,7 @@ void TransitionSettings::updateTrackList()
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     for (int i = limit; i > 0; i--) {
         transitionTrack->addItem(m_tracks.at(i).type == VideoTrack ? videoIcon : audioIcon,
-                                 m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName,
-                                 i);
+                                 m_tracks.at(i).trackName.isEmpty() ? QString::number(i) : m_tracks.at(i).trackName, i);
     }
     transitionTrack->addItem(i18n("Black"), 0);
     transitionTrack->setCurrentIndex(transitionTrack->findData(current));
@@ -164,17 +159,17 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
     QDomElement e = m_usedTransition->toXML().cloneNode().toElement();
     if (reinit) {
         // Reset the transition parameters to the default one
-        disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
+        disconnect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos);
         QDomElement newTransition = MainWindow::transitions.getEffectByName(transitionList->currentText()).cloneNode().toElement();
         pCore->projectManager()->currentTimeline()->transitionHandler->initTransition(newTransition);
         slotUpdateEffectParams(e, newTransition);
         m_effectEdit->transferParamDesc(newTransition, m_usedTransition->info(), false);
-        if (m_effectEdit->needsMonitorEffectScene()) {
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else if (!updateCurrent) {
         // Transition changed, update parameters dialog
-        //slotUpdateEffectParams(e, e);
+        // slotUpdateEffectParams(e, e);
         m_effectEdit->transferParamDesc(e, m_usedTransition->info(), false);
     } else {
         // Same transition, we just want to update the parameters value
@@ -191,11 +186,11 @@ void TransitionSettings::slotTransitionChanged(bool reinit, bool updateCurrent)
                 m_effectEdit->transferParamDesc(m_usedTransition->toXML(), m_usedTransition->info(), false);
             }
         }
-        if (m_effectEdit->needsMonitorEffectScene()) {
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     }
-    slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
+    // slotCheckMonitorPosition(m_effectEdit->monitor()->render->seekFramePosition());
 }
 
 void TransitionSettings::slotTransitionTrackChanged()
@@ -223,7 +218,7 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
     setEnabled(t != nullptr);
     m_effectEdit->setFrameSize(p);
     m_autoTrackTransition = nextTrack;
-    disconnect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos);
+    disconnect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos);
     if (t == m_usedTransition) {
         if (t == nullptr) {
             return;
@@ -243,12 +238,13 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             m_transitionStart = t->startPos();
             slotTransitionChanged(false, true);
         }
-        if (m_effectEdit->needsMonitorEffectScene()) {
-            slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
+            slotRenderPos(m_effectEdit->monitor()->position());
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
         return;
-    } else if (update) {
+    }
+    if (update) {
         return;
     }
     if (t) {
@@ -270,9 +266,9 @@ void TransitionSettings::slotTransitionItemSelected(Transition *t, int nextTrack
             slotTransitionChanged(false, false);
             transitionList->blockSignals(false);
         }
-        if (m_effectEdit->needsMonitorEffectScene()) {
-            slotRenderPos(m_effectEdit->monitor()->position().frames(KdenliveSettings::project_fps()));
-            connect(m_effectEdit->monitor(), &Monitor::renderPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
+        if (m_effectEdit->needsMonitorEffectScene() != 0u) {
+            slotRenderPos(m_effectEdit->monitor()->position());
+            connect(m_effectEdit->monitor(), &Monitor::seekPosition, this, &TransitionSettings::slotRenderPos, Qt::UniqueConnection);
         }
     } else {
         // null transition selected
@@ -288,7 +284,7 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
     if (m_usedTransition) {
         m_usedTransition->setTransitionParameters(param);
     }
-    //oldparam must be also first given to Transition and then return the toXML()
+    // oldparam must be also first given to Transition and then return the toXML()
     if (oldparam != param) {
         emit transitionUpdated(m_usedTransition, oldparam);
     }
@@ -296,7 +292,7 @@ void TransitionSettings::slotUpdateEffectParams(const QDomElement &oldparam, con
 
 void TransitionSettings::raiseWindow(QWidget *dock)
 {
-    if (dock && m_usedTransition) {
+    if ((dock != nullptr) && (m_usedTransition != nullptr)) {
         dock->raise();
     }
 }
@@ -325,7 +321,8 @@ void TransitionSettings::slotCheckMonitorPosition(int renderPos)
     }
     MonitorSceneType sceneType = m_effectEdit->needsMonitorEffectScene();
     if (sceneType != MonitorSceneDefault) {
-        if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) && renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
+        if (renderPos >= m_usedTransition->startPos().frames(KdenliveSettings::project_fps()) &&
+            renderPos < m_usedTransition->endPos().frames(KdenliveSettings::project_fps())) {
             if (!m_effectEdit->monitor()->effectSceneDisplayed(sceneType)) {
                 m_effectEdit->monitor()->slotShowEffectScene(sceneType);
                 m_effectEdit->initEffectScene(renderPos - m_usedTransition->startPos().frames(KdenliveSettings::project_fps()));
@@ -348,4 +345,3 @@ void TransitionSettings::updatePalette()
     // We need to reset current stylesheet if we want to change the palette!
     m_effectEdit->updatePalette();
 }
-

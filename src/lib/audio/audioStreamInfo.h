@@ -11,8 +11,9 @@ the Free Software Foundation, either version 3 of the License, or
 #ifndef AUDIOSTREAMINFO_H
 #define AUDIOSTREAMINFO_H
 
-#include <mlt++/Mlt.h>
 #include <QString>
+#include <memory>
+#include <mlt++/Mlt.h>
 
 /**
   Provides easy access to properties of an audio stream.
@@ -20,7 +21,8 @@ the Free Software Foundation, either version 3 of the License, or
 class AudioStreamInfo
 {
 public:
-    AudioStreamInfo(Mlt::Producer *producer, int audioStreamIndex);
+    // TODO make that access a shared ptr instead of raw
+    AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer, int audioStreamIndex);
     ~AudioStreamInfo();
 
     int samplingRate() const;
@@ -38,7 +40,6 @@ private:
     int m_channels;
     int m_bitRate;
     QString m_samplingFormat;
-
 };
 
 #endif // AUDIOSTREAMINFO_H

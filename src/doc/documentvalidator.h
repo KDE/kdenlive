@@ -20,17 +20,17 @@
 #ifndef DOCUMENTVALIDATOR_H
 #define DOCUMENTVALIDATOR_H
 
-#include <QDomDocument>
 #include <QColor>
+#include <QDomDocument>
 
-#include <QUrl>
 #include <QMap>
+#include <QUrl>
 
 class DocumentValidator
 {
 
 public:
-    DocumentValidator(const QDomDocument &doc, const QUrl &documentUrl);
+    DocumentValidator(const QDomDocument &doc, QUrl documentUrl);
     bool isProject() const;
     bool validate(const double currentVersion);
     bool isModified() const;

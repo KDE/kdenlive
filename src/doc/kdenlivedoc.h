@@ -25,59 +25,46 @@
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H
 
-#include <qdom.h>
-#include <QMap>
-#include <QList>
 #include <QDir>
-#include <QObject>
+#include <QList>
+#include <QMap>
 #include <QTimer>
-#include <QUrl>
+#include <memory>
+#include <qdom.h>
 
 #include <kautosavefile.h>
-#include <KDirWatch>
-#include <QUndoStack>
 
+#include "definitions.h"
 #include "gentime.h"
 #include "timecode.h"
-#include "definitions.h"
-#include "timeline/guide.h"
-#include "mltcontroller/effectscontroller.h"
 
-class Render;
-class ClipManager;
 class MainWindow;
 class TrackInfo;
-class NotesPlugin;
 class ProjectClip;
 class ClipController;
+class MarkerListModel;
+class Render;
+class ProfileParam;
 
 class QTextEdit;
 class QUndoGroup;
-class QTimer;
-class QUndoGroup;
+class QUndoCommand;
+class DocUndoStack;
 
-namespace Mlt
-{
+namespace Mlt {
 class Profile;
 }
 
-class DocUndoStack: public QUndoStack
+class KdenliveDoc : public QObject
 {
     Q_OBJECT
 public:
-    explicit DocUndoStack(QUndoGroup *parent = nullptr);
-    void push(QUndoCommand *cmd);
-signals:
-    void invalidate();
-};
-
-class KdenliveDoc: public QObject
-{
-    Q_OBJECT
-public:
-
-    KdenliveDoc(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties, const QMap<QString, QString> &metadata, const QPoint &tracks, Render *render, NotesPlugin *notes, bool *openBackup, MainWindow *parent = nullptr);
-    ~KdenliveDoc();
+    KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
+                const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent = nullptr);
+    ~KdenliveDoc() override;
+    friend class LoadJob;
+    /** @brief Get current document's producer. */
+    const QByteArray getProjectXml();
     QDomNodeList producersList();
     double fps() const;
     int width() const;
@@ -86,23 +73,14 @@ public:
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
     QDomDocument toXml();
-    DocUndoStack *commandStack();
-    Render *renderer();
-    ClipManager *clipManager();
-    QString groupsXml() const;
+    std::shared_ptr<DocUndoStack> commandStack();
 
-    void deleteClip(const QString &clipId, ClipType type, const QString &url);
     int getFramePos(const QString &duration);
     /** @brief Get a bin's clip from its id. */
-    ProjectClip *getBinClip(const QString &clipId);
+    std::shared_ptr<ProjectClip> getBinClip(const QString &clipId);
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
-    ClipController *getClipController(const QString &clipId);
 
-    const QString &profilePath() const;
-    /** @brief Returns current project profile. */
-    MltVideoProfile mltProfile() const;
-    ProfileInfo getProfileInfo() const;
     const QString description() const;
     void setUrl(const QUrl &url);
 
@@ -113,10 +91,9 @@ public:
     QString projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc). */
     QString projectDataFolder() const;
-    void setZoom(int horizontal, int vertical);
+    void setZoom(int horizontal, int vertical = -1);
     QPoint zoom() const;
     double dar() const;
-    double projectDuration() const;
     /** @brief Returns the project file xml. */
     QDomDocument xmlSceneList(const QString &scene);
     /** @brief Saves the project file xml to a file. */
@@ -127,7 +104,8 @@ public:
     void setProjectFolder(const QUrl &url);
     void setZone(int start, int end);
     QPoint zone() const;
-    int setSceneList();
+    /** @brief Returns target tracks (video, audio). */
+    QPair<int, int> targetTracks() const;
     void setDocumentProperty(const QString &name, const QString &value);
     const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
@@ -141,22 +119,15 @@ public:
     const QMap<QString, QString> metadata() const;
     /** @brief Set the document metadata (author, copyright, ...) */
     void setMetadata(const QMap<QString, QString> &meta);
-    /** @brief Get frame size of the renderer (profile)*/
-    const QSize getRenderSize() const;
-    /** @brief Add url to the file watcher so that we monitor changes */
-    void watchFile(const QString &url);
     /** @brief Get all document properties that need to be saved */
     QMap<QString, QString> documentProperties();
     bool useProxy() const;
+    bool useExternalProxy() const;
     bool autoGenerateProxy(int width) const;
     bool autoGenerateImageProxy(int width) const;
-    QString documentNotes() const;
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);
     void resetProfile();
-    /** @brief Force processing of clip id in producer queue. */
-    void forceProcessing(const QString &id);
-    void getFileProperties(const QDomElement &xml, const QString &clipId, int imageHeight, bool replaceProducer = true);
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
     /** @brief Get an action from main actioncollection. */
@@ -174,37 +145,49 @@ public:
     void initCacheDirs();
     /** @brief Get a list of all proxy hash used in this project */
     QStringList getProxyHashList();
-    /** @brief Returns true if advanced compositing is available */
-    static int compositingMode();
     /** @brief Move project data files to new url */
     void moveProjectData(const QString &src, const QString &dest);
+
+    /** @brief Returns a pointer to the guide model */
+    std::shared_ptr<MarkerListModel> getGuideModel() const;
+
+    // TODO REFAC: delete */
+    Render *renderer();
+    /** @brief Returns MLT's root (base path) */
+    const QString documentRoot() const;
+    /** @brief Returns true if timeline preview settings changed*/
+    bool updatePreviewSettings(const QString &profile);
+    /** @brief Returns the recommended proxy profile parameters */
+    QString getAutoProxyProfile();
 
 private:
     QUrl m_url;
     QDomDocument m_document;
-    KDirWatch m_fileWatcher;
-    /** Timer used to reload clips when they have been externally modified */
-    QTimer m_modifiedTimer;
-    /** List of the clip IDs that need to be reloaded after being externally modified */
-    QMap<QString, QTime> m_modifiedClips;
-    int m_width;
-    int m_height;
+    /** @brief MLT's root (base path) that is stripped from urls in saved xml */
+    QString m_documentRoot;
     Timecode m_timecode;
-    Render *m_render;
-    QTextEdit *m_notesWidget;
-    DocUndoStack *m_commandStack;
-    ClipManager *m_clipManager;
-    MltVideoProfile m_profile;
+    std::shared_ptr<DocUndoStack> m_commandStack;
     QString m_searchFolder;
 
     /** @brief Tells whether the current document has been changed after being saved. */
     bool m_modified;
+
+    /** @brief The default recommended proxy extension */
+    QString m_proxyExtension;
+
+    /** @brief The default recommended proxy params */
+    QString m_proxyParams;
+
+    /** @brief Tells whether the current document was modified by Kdenlive on opening, and a backup should be created on save. */
+    enum DOCSTATUS { CleanProject, ModifiedProject, UpgradedProject };
+    DOCSTATUS m_documentOpenStatus;
 
     /** @brief The project folder, used to store project files (titles, effects...). */
     QString m_projectFolder;
     QList<int> m_undoChunks;
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
+    std::shared_ptr<MarkerListModel> m_guideModel;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 
@@ -220,30 +203,33 @@ private:
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
     void updateProjectProfile(bool reloadProducers = false);
+    /** @brief initialize proxy settings based on hw status */
+    void initProxySettings();
 
 public slots:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
 
     /** @brief Sets the document as modified or up to date.
      * @description  If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
-     * Emits docModified conected to MainWindow::slotUpdateDocumentState \n
+     * Emits docModified connected to MainWindow::slotUpdateDocumentState \n
      * @param mod (optional) true if the document has to be saved */
     void setModified(bool mod = true);
-    void slotProxyCurrentItem(bool doProxy, QList<ProjectClip *> clipList = QList<ProjectClip *>(), bool force = false, QUndoCommand *masterCommand = nullptr);
+    void slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<ProjectClip>> clipList = QList<std::shared_ptr<ProjectClip>>(), bool force = false,
+                              QUndoCommand *masterCommand = nullptr);
     /** @brief Saves the current project at the autosave location.
      * @description The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
-    void slotAutoSave();
+    void slotAutoSave(const QString &scene);
+    /** @brief Groups were changed, save to MLT. */
+    void groupsChanged(const QString &groups);
 
 private slots:
-    void slotClipModified(const QString &path);
-    void slotClipMissing(const QString &path);
-    void slotProcessModifiedClips();
     void slotModified();
-    void slotSetDocumentNotes(const QString &notes);
-    void switchProfile(MltVideoProfile profile, const QString &id, const QDomElement &xml);
-    void slotSwitchProfile();
+    void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
+    void slotSwitchProfile(const QString &profile_path);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack();
+    /** @brief Guides were changed, save to MLT. */
+    void guidesChanged();
 
 signals:
     void resetProjectList();
@@ -253,13 +239,12 @@ signals:
      * If the document has been modified, it's called with true as an argument. */
     void docModified(bool);
     void selectLastAddedClip(const QString &);
-    void guidesUpdated();
     /** @brief When creating a backup file, also save a thumbnail of current timeline */
     void saveTimelinePreview(const QString &path);
     /** @brief Trigger the autosave timer start */
     void startAutoSave();
     /** @brief Current doc created effects, reload list */
-    void reloadEffects();
+    void reloadEffects(const QStringList &paths);
     /** @brief Fps was changed, update timeline (changed = 1 means no change) */
     void updateFps(double changed);
     /** @brief If a command is pushed when we are in the middle of undo stack, invalidate further undo history */
@@ -269,4 +254,3 @@ signals:
 };
 
 #endif
-

@@ -20,8 +20,8 @@
 #define SHAREDFRAME_H
 
 #include <QExplicitlySharedDataPointer>
+#include <cstdint>
 #include <mlt++/MltFrame.h>
-#include <stdint.h>
 
 class FrameData;
 
@@ -69,8 +69,9 @@ public:
     int get_audio_frequency() const;
     int get_audio_samples() const;
     const int16_t *get_audio() const;
+
 private:
-    QExplicitlySharedDataPointer<FrameData> d;
+    QExplicitlySharedDataPointer<FrameData> d; // NOLINT
 };
 
 #endif // SHAREDFRAME_H

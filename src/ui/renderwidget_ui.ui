@@ -47,8 +47,8 @@
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout2">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
            <layout class="QHBoxLayout" name="outfileGroup">
             <item>
              <widget class="QLabel" name="outfileLabel">
@@ -58,11 +58,11 @@
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file"/>
+             <widget class="KUrlRequester" name="out_file" native="true"/>
             </item>
            </layout>
           </item>
-          <item>
+          <item row="1" column="0">
            <widget class="QFrame" name="formatGroup">
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
@@ -128,6 +128,13 @@
                    </widget>
                   </item>
                   <item>
+                   <widget class="QToolButton" name="buttonDownload">
+                    <property name="text">
+                     <string>&amp;Download</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QToolButton" name="buttonSave">
                     <property name="text">
                      <string>&amp;Save</string>
@@ -171,7 +178,7 @@
             </layout>
            </widget>
           </item>
-          <item>
+          <item row="2" column="0">
            <layout class="QHBoxLayout" name="sizeGroup">
             <item>
              <widget class="QLabel" name="qualityLabel">
@@ -235,7 +242,7 @@
             </item>
            </layout>
           </item>
-          <item>
+          <item row="3" column="0">
            <layout class="QHBoxLayout" name="zoneGroup">
             <item>
              <widget class="QRadioButton" name="render_full">
@@ -319,17 +326,34 @@
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QCheckBox" name="options">
-            <property name="text">
-             <string>More options</string>
-            </property>
-           </widget>
+          <item row="4" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QCheckBox" name="options">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>More options</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="parallel_process">
+              <property name="text">
+               <string>Parallel processing</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item>
+          <item row="5" column="0">
            <layout class="QHBoxLayout" name="info"/>
           </item>
-          <item>
+          <item row="6" column="0">
            <widget class="QGroupBox" name="errorBox">
             <property name="title">
              <string/>
@@ -358,7 +382,7 @@
             </layout>
            </widget>
           </item>
-          <item>
+          <item row="7" column="0">
            <layout class="QHBoxLayout" name="targetGroup">
             <item>
              <widget class="QPushButton" name="buttonRender">
@@ -516,13 +540,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="scanning_list">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
+             <widget class="QComboBox" name="scanning_list">
               <item>
                <property name="text">
                 <string>Auto</string>
@@ -536,6 +554,27 @@
               <item>
                <property name="text">
                 <string>Force Interlaced</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Field</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="field_order">
+              <item>
+               <property name="text">
+                <string>Bottom Field First</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Top Field First</string>
                </property>
               </item>
              </widget>
@@ -761,6 +800,54 @@
        <string>Job Queue</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout2">
+       <item row="3" column="3">
+        <spacer name="jobSpace">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="abort_job">
+         <property name="text">
+          <string>Abort Job</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="5">
+        <widget class="QPushButton" name="buttonClose2">
+         <property name="text">
+          <string>Close</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <widget class="QPushButton" name="clean_up">
+         <property name="text">
+          <string>Clean Up</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="6">
+        <widget class="QCheckBox" name="shutdown">
+         <property name="text">
+          <string>Shutdown computer after renderings</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="start_job">
+         <property name="text">
+          <string>Start Job</string>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="0" colspan="6">
         <widget class="QSplitter" name="splitter">
          <property name="orientation">
@@ -825,53 +912,8 @@
          </widget>
         </widget>
        </item>
-       <item row="3" column="3">
-        <spacer name="jobSpace">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="abort_job">
-         <property name="text">
-          <string>Abort Job</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="5">
-        <widget class="QPushButton" name="buttonClose2">
-         <property name="text">
-          <string>Close</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QPushButton" name="clean_up">
-         <property name="text">
-          <string>Clean Up</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0" colspan="6">
-        <widget class="QCheckBox" name="shutdown">
-         <property name="text">
-          <string>Shutdown computer after renderings</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="start_job">
-         <property name="text">
-          <string>Start Job</string>
-         </property>
-        </widget>
+       <item row="1" column="0" colspan="6">
+        <layout class="QHBoxLayout" name="jobInfo"/>
        </item>
        <item row="3" column="4">
         <widget class="QToolButton" name="shareButton">
@@ -888,9 +930,6 @@
           <enum>Qt::DownArrow</enum>
          </property>
         </widget>
-       </item>
-       <item row="1" column="0" colspan="6">
-        <layout class="QHBoxLayout" name="jobInfo"/>
        </item>
       </layout>
      </widget>
@@ -963,15 +1002,15 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

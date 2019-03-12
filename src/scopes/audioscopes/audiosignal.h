@@ -26,46 +26,35 @@
 #include <QList>
 #include <QTimer>
 
-#include  <QWidget>
+#include <QWidget>
 
-#include <stdint.h>
+#include <cstdint>
 
 class AudioSignal : public AbstractAudioScopeWidget
 {
     Q_OBJECT
 public:
     explicit AudioSignal(QWidget *parent = nullptr);
-    ~AudioSignal();
+    ~AudioSignal() override;
     /** @brief Used for checking whether audio data needs to be delivered */
     bool monitoringEnabled() const;
 
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int) Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int, const int num_channels, const int samples,
+                            const int) override;
 
-    QString widgetName() const Q_DECL_OVERRIDE
-    {
-        return QStringLiteral("audioSignal");
-    }
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE
-    {
-        return false;
-    }
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE
-    {
-        return true;
-    }
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE
-    {
-        return false;
-    }
+    QString widgetName() const override { return QStringLiteral("audioSignal"); }
+    bool isHUDDependingOnInput() const override { return false; }
+    bool isScopeDependingOnInput() const override { return true; }
+    bool isBackgroundDependingOnInput() const override { return false; }
 
 private:
     double valueToPixel(double in);
     QTimer m_timer;
-    QByteArray channels, peeks, peekage;
-    QList<int> dbscale;
+    QByteArray m_channels, m_peeks, m_peekage;
+    QList<int> m_dbscale;
 
 public slots:
     void showAudio(const QByteArray &);
@@ -75,7 +64,6 @@ private slots:
 
 signals:
     void updateAudioMonitoring();
-
 };
 
 #endif

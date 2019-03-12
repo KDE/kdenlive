@@ -20,22 +20,21 @@
  ***************************************************************************/
 
 /*!
-* @class AudioGraphSpectrum
-* @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
-* @author Jean-Baptiste Mardelle
-*/
+ * @class AudioGraphSpectrum
+ * @brief An audio spectrum allowing to edit audio level / equalize clips or tracks
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef AUDIOGRAPHSPECTRUM_H
 #define AUDIOGRAPHSPECTRUM_H
 
 #include "../monitor/scopes/sharedframe.h"
 
-#include <QWidget>
-#include <QVector>
 #include <QPixmap>
+#include <QVector>
+#include <QWidget>
 
-namespace Mlt
-{
+namespace Mlt {
 class Filter;
 }
 
@@ -46,7 +45,6 @@ class EqualizerWidget : public QWidget
     Q_OBJECT
 public:
     explicit EqualizerWidget(QWidget *parent = nullptr);
-
 };
 
 class AudioGraphWidget : public QWidget
@@ -80,6 +78,7 @@ class AudioGraphSpectrum : public QWidget
 public:
     AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = nullptr);
     virtual ~AudioGraphSpectrum();
+
 private:
     MonitorManager *m_manager;
     Mlt::Filter *m_filter;
@@ -89,7 +88,6 @@ private:
 public slots:
     void processSpectrum(const SharedFrame &frame);
     void refreshPixmap();
-
 };
 
 #endif

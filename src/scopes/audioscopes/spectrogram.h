@@ -26,8 +26,8 @@
 #define SPECTROGRAM_H
 
 #include "abstractaudioscopewidget.h"
-#include "ui_spectrogram_ui.h"
 #include "lib/audio/fftTools.h"
+#include "ui_spectrogram_ui.h"
 
 class Spectrogram_UI;
 class Spectrogram : public AbstractAudioScopeWidget
@@ -36,49 +36,49 @@ class Spectrogram : public AbstractAudioScopeWidget
 
 public:
     explicit Spectrogram(QWidget *parent = nullptr);
-    ~Spectrogram();
+    ~Spectrogram() override;
 
-    QString widgetName() const Q_DECL_OVERRIDE;
+    QString widgetName() const override;
 
 protected:
     ///// Implemented methods /////
-    QRect scopeRect() Q_DECL_OVERRIDE;
-    QImage renderHUD(uint accelerationFactor) Q_DECL_OVERRIDE;
-    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples, const int newData) Q_DECL_OVERRIDE;
-    QImage renderBackground(uint accelerationFactor) Q_DECL_OVERRIDE;
-    bool isHUDDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isScopeDependingOnInput() const Q_DECL_OVERRIDE;
-    bool isBackgroundDependingOnInput() const Q_DECL_OVERRIDE;
-    void readConfig() Q_DECL_OVERRIDE;
+    QRect scopeRect() override;
+    QImage renderHUD(uint accelerationFactor) override;
+    QImage renderAudioScope(uint accelerationFactor, const audioShortVector &audioFrame, const int freq, const int num_channels, const int num_samples,
+                            const int newData) override;
+    QImage renderBackground(uint accelerationFactor) override;
+    bool isHUDDependingOnInput() const override;
+    bool isScopeDependingOnInput() const override;
+    bool isBackgroundDependingOnInput() const override;
+    void readConfig() override;
     void writeConfig();
-    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void handleMouseDrag(const QPoint &movement, const RescaleDirection rescaleDirection, const Qt::KeyboardModifiers rescaleModifiers) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
-    Ui::Spectrogram_UI *ui;
+    Ui::Spectrogram_UI *m_ui;
     FFTTools m_fftTools;
     QAction *m_aResetHz;
     QAction *m_aGrid;
     QAction *m_aTrackMouse;
     QAction *m_aHighlightPeaks;
 
-    QList<QVector<float> > m_fftHistory;
+    QList<QVector<float>> m_fftHistory;
     QImage m_fftHistoryImg;
 
-    int m_dBmin;
-    int m_dBmax;
+    int m_dBmin{-70};
+    int m_dBmax{0};
 
-    int m_freqMax;
-    bool m_customFreq;
+    int m_freqMax{0};
+    bool m_customFreq{false};
 
-    bool m_parameterChanged;
+    bool m_parameterChanged{false};
 
     QRect m_innerScopeRect;
     QRgb m_colorMap[256];
 
 private slots:
     void slotResetMaxFreq();
-
 };
 
 #endif // SPECTROGRAM_H

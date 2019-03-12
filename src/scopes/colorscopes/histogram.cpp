@@ -12,15 +12,15 @@
 #include "histogramgenerator.h"
 #include <QTime>
 
-#include <KSharedConfig>
-#include <KConfigGroup>
 #include "klocalizedstring.h"
+#include <KConfigGroup>
+#include <KSharedConfig>
 
-Histogram::Histogram(QWidget *parent) :
-    AbstractGfxScopeWidget(false, parent)
+Histogram::Histogram(QWidget *parent)
+    : AbstractGfxScopeWidget(false, parent)
 {
-    ui = new Ui::Histogram_UI();
-    ui->setupUi(this);
+    m_ui = new Ui::Histogram_UI();
+    m_ui->setupUi(this);
 
     m_aUnscaled = new QAction(i18n("Unscaled"), this);
     m_aUnscaled->setCheckable(true);
@@ -39,11 +39,11 @@ Histogram::Histogram(QWidget *parent) :
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
-    connect(ui->cbY, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
-    connect(ui->cbS, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
-    connect(ui->cbR, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
-    connect(ui->cbG, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
-    connect(ui->cbB, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(m_ui->cbY, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(m_ui->cbS, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(m_ui->cbR, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(m_ui->cbG, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
+    connect(m_ui->cbB, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
     connect(m_aUnscaled, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec601, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Histogram::forceUpdateScope);
@@ -56,7 +56,7 @@ Histogram::~Histogram()
 {
     writeConfig();
     delete m_histogramGenerator;
-    delete ui;
+    delete m_ui;
     delete m_aUnscaled;
     delete m_aRec601;
     delete m_aRec709;
@@ -69,11 +69,11 @@ void Histogram::readConfig()
 
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    ui->cbY->setChecked(scopeConfig.readEntry("yEnabled", true));
-    ui->cbS->setChecked(scopeConfig.readEntry("sEnabled", false));
-    ui->cbR->setChecked(scopeConfig.readEntry("rEnabled", true));
-    ui->cbG->setChecked(scopeConfig.readEntry("gEnabled", true));
-    ui->cbB->setChecked(scopeConfig.readEntry("bEnabled", true));
+    m_ui->cbY->setChecked(scopeConfig.readEntry("yEnabled", true));
+    m_ui->cbS->setChecked(scopeConfig.readEntry("sEnabled", false));
+    m_ui->cbR->setChecked(scopeConfig.readEntry("rEnabled", true));
+    m_ui->cbG->setChecked(scopeConfig.readEntry("gEnabled", true));
+    m_ui->cbB->setChecked(scopeConfig.readEntry("bEnabled", true));
     m_aRec601->setChecked(scopeConfig.readEntry("rec601", false));
     m_aRec709->setChecked(!m_aRec601->isChecked());
 }
@@ -82,11 +82,11 @@ void Histogram::writeConfig()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup scopeConfig(config, configName());
-    scopeConfig.writeEntry("yEnabled", ui->cbY->isChecked());
-    scopeConfig.writeEntry("sEnabled", ui->cbS->isChecked());
-    scopeConfig.writeEntry("rEnabled", ui->cbR->isChecked());
-    scopeConfig.writeEntry("gEnabled", ui->cbG->isChecked());
-    scopeConfig.writeEntry("bEnabled", ui->cbB->isChecked());
+    scopeConfig.writeEntry("yEnabled", m_ui->cbY->isChecked());
+    scopeConfig.writeEntry("sEnabled", m_ui->cbS->isChecked());
+    scopeConfig.writeEntry("rEnabled", m_ui->cbR->isChecked());
+    scopeConfig.writeEntry("gEnabled", m_ui->cbG->isChecked());
+    scopeConfig.writeEntry("bEnabled", m_ui->cbB->isChecked());
     scopeConfig.writeEntry("rec601", m_aRec601->isChecked());
     scopeConfig.sync();
 }
@@ -111,8 +111,9 @@ bool Histogram::isBackgroundDependingOnInput() const
 
 QRect Histogram::scopeRect()
 {
-    //qCDebug(KDENLIVE_LOG) << "According to the spacer, the top left point is " << ui->verticalSpacer->geometry().x() << '/' << ui->verticalSpacer->geometry().y();
-    QPoint topleft(offset, offset + ui->verticalSpacer->geometry().y());
+    // qCDebug(KDENLIVE_LOG) << "According to the spacer, the top left point is " << m_ui->verticalSpacer->geometry().x() << '/' <<
+    // m_ui->verticalSpacer->geometry().y();
+    QPoint topleft(offset, offset + m_ui->verticalSpacer->geometry().y());
     return QRect(topleft, this->rect().size() - QSize(topleft.x() + offset, topleft.y() + offset));
 }
 
@@ -125,18 +126,16 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
     QTime start = QTime::currentTime();
     start.start();
-    const int componentFlags = (ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY
-                               | (ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum
-                               | (ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR
-                               | (ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG
-                               | (ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
+    const int componentFlags =
+        (m_ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY | (m_ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum |
+        (m_ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR | (m_ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG |
+        (m_ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
 
     HistogramGenerator::Rec rec = m_aRec601->isChecked() ? HistogramGenerator::Rec_601 : HistogramGenerator::Rec_709;
 
-    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags,
-                       rec, m_aUnscaled->isChecked(), accelFactor);
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(), accelFactor);
 
-    emit signalScopeRenderingFinished(start.elapsed(), accelFactor);
+    emit signalScopeRenderingFinished(uint(start.elapsed()), accelFactor);
     return histogram;
 }
 QImage Histogram::renderBackground(uint)
@@ -144,4 +143,3 @@ QImage Histogram::renderBackground(uint)
     emit signalBackgroundRenderingFinished(0, 1);
     return QImage();
 }
-

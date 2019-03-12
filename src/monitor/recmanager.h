@@ -20,18 +20,18 @@
  ***************************************************************************/
 
 /*!
-* @class RecManager
-* @brief All recording specific features are gathered here
-* @author Jean-Baptiste Mardelle
-*/
+ * @class RecManager
+ * @brief All recording specific features are gathered here
+ * @author Jean-Baptiste Mardelle
+ */
 
 #ifndef RECMANAGER_H
 #define RECMANAGER_H
 
 #include "definitions.h"
 
-#include <QUrl>
 #include <QProcess>
+#include <QUrl>
 
 class Monitor;
 class QAction;
@@ -39,8 +39,7 @@ class QToolBar;
 class QComboBox;
 class QCheckBox;
 
-namespace Mlt
-{
+namespace Mlt {
 class Producer;
 }
 
@@ -58,7 +57,7 @@ class RecManager : public QObject
 
 public:
     explicit RecManager(Monitor *parent = nullptr);
-    ~RecManager();
+    ~RecManager() override;
     QToolBar *toolbar() const;
     void stopCapture();
     QAction *switchAction() const;
@@ -71,12 +70,12 @@ private:
     QString m_captureFolder;
     QUrl m_captureFile;
     QString m_recError;
-    QProcess *m_captureProcess;
+    QProcess *m_captureProcess{nullptr};
     QAction *m_recAction;
     QAction *m_playAction;
     QAction *m_showLogAction;
     QToolBar *m_recToolbar;
-    QComboBox *m_screenCombo;
+    QComboBox *m_screenCombo{nullptr};
     QComboBox *m_device_selector;
     QCheckBox *m_recVideo;
     QCheckBox *m_recAudio;
@@ -93,7 +92,7 @@ private slots:
 
 signals:
     void addClipToProject(const QUrl &);
-    void warningMessage(const QString&, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
+    void warningMessage(const QString &, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
 };
 
 #endif

@@ -20,21 +20,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "titletemplatedialog.h"
-#include "kdenlivesettings.h"
-#include "utils/KoIconUtils.h"
 #include "doc/kthumb.h"
+#include "kdenlivesettings.h"
 
 #include "klocalizedstring.h"
 #include <KComboBox>
 #include <QDir>
 #include <QStandardPaths>
 
-TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent) :
-    QDialog(parent)
+TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
+    : QDialog(parent)
 {
     m_view.setupUi(this);
     // Get the list of existing templates
-    const QStringList filter = { QStringLiteral("*.kdenlivetitle") };
+    const QStringList filter = {QStringLiteral("*.kdenlivetitle")};
     const QString path = folder + QStringLiteral("/titles/");
 
     // Project templates
@@ -62,9 +61,10 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     if (current > -1) {
         m_view.template_list->comboBox()->setCurrentIndex(current);
     }
-    const QStringList mimeTypeFilters = { QStringLiteral("application/x-kdenlivetitle") };
+    const QStringList mimeTypeFilters = {QStringLiteral("application/x-kdenlivetitle")};
     m_view.template_list->setFilter(mimeTypeFilters.join(' '));
-    connect(m_view.template_list->comboBox(), SIGNAL(currentIndexChanged(int)), this, SLOT(updatePreview()));
+    connect(m_view.template_list->comboBox(), static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
+            &TitleTemplateDialog::updatePreview);
     updatePreview();
 }
 

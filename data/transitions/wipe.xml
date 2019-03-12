@@ -6,7 +6,7 @@
         <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
                 <name>Softness</name>
         </parameter>
-        <parameter type="list" name="luma" default="linear_x.pgm" paramlist="%lumaPaths" optional="1">
+        <parameter type="list" name="luma" default="" paramlist="%lumaPaths" optional="1">
                 <paramlistdisplay>%lumaNames</paramlistdisplay>
                 <name>Wipe Method</name>
         </parameter>

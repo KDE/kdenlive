@@ -3,8 +3,11 @@ Active Kdenlive authors
     Jean-Baptiste Mardelle <jb@kdenlive.org>
         Main developer and maintainer, MLT and KDE SC 4 / KF5 port, 
         2005-present
+    Nicolas Carion <french.ebook.lover@gmail.com>
+        Code re-architecture & timeline rewrite
+        2016-present
     Vincent Pinon <vpinon@kde.org>
-        Interim maintainer, Windows cross-build, KF5 port, profiles updates, etc.
+        KF5 port, Windows cross-build, bugs fixing
         2012-present
 
 Former Kdenlive authors
@@ -13,8 +16,8 @@ Former Kdenlive authors
         Bugs fixing, code clean up, review
         2013-2017
     Till Theato <root@ttill.de>
-        Bug fixing, etc.
-        2010-2015
+        Rotoscoping, bug fixing, etc.
+        2009-2015
     Steve Guilford <s.guilford@dbplugins.com>
         Bug fixing
         2014

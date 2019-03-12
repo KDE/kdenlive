@@ -11,12 +11,12 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "hidetitlebars.h"
 #include "core.h"
-#include "mainwindow.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include <klocalizedstring.h>
 
-HideTitleBars::HideTitleBars(QObject *parent) :
-    QObject(parent)
+HideTitleBars::HideTitleBars(QObject *parent)
+    : QObject(parent)
 {
     m_switchAction = new QAction(i18n("Show Title Bars"), this);
     m_switchAction->setCheckable(true);
@@ -42,46 +42,43 @@ void HideTitleBars::slotShowTitleBars(bool show)
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
         QWidget *bar = dock->titleBarWidget();
-        if (show) {
-            if (dock->isFloating()) {
-                if (bar) {
-                    dock->setTitleBarWidget(nullptr);
-                    delete bar;
-                }
-                continue;
+
+        auto handleRemoveBar = [&dock, &bar]() -> void {
+            if (bar) {
+                dock->setTitleBarWidget(nullptr);
+                delete bar;
             }
-            // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
-            QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
-            if (docked.isEmpty()) {
-                if (bar) {
-                    dock->setTitleBarWidget(nullptr);
-                    delete bar;
-                }
-                continue;
-            } else {
-                bool hasVisibleDockSibling = false;
-                foreach (QDockWidget *sub, docked) {
-                    if (sub->toggleViewAction()->isChecked()) {
-                        // we have another docked widget, so tabs are visible and can be used instead of title bars
-                        hasVisibleDockSibling = true;
-                        break;
-                    }
-                }
-                if (!hasVisibleDockSibling) {
-                    if (bar) {
-                        dock->setTitleBarWidget(nullptr);
-                        delete bar;
-                    }
-                    continue;
-                }
+        };
+
+        if (!show) {
+            if (!dock->isFloating() && (bar == nullptr)) {
+                dock->setTitleBarWidget(new QWidget());
             }
-            if (!bar) {
-                dock->setTitleBarWidget(new QWidget);
-            }
-        } else {
-            if (!dock->isFloating() && !bar) {
-                dock->setTitleBarWidget(new QWidget);
-            }
+            continue;
+        }
+
+        if (dock->isFloating()) {
+            handleRemoveBar();
+            continue;
+        }
+        // Since Qt 5.6 we only display title bar in non tabbed dockwidgets
+        QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
+        if (docked.isEmpty()) {
+            handleRemoveBar();
+            continue;
+        }
+
+        const bool hasVisibleDockSibling =
+            std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) { return sub->toggleViewAction()->isChecked(); }) != std::end(docked);
+        ;
+
+        if (!hasVisibleDockSibling) {
+            handleRemoveBar();
+            continue;
+        }
+
+        if (!bar) {
+            dock->setTitleBarWidget(new QWidget());
         }
     }
     KdenliveSettings::setShowtitlebars(show);
@@ -91,4 +88,3 @@ void HideTitleBars::slotSwitchTitleBars()
 {
     m_switchAction->trigger();
 }
-

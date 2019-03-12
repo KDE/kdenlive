@@ -21,55 +21,55 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "profilewidget.h"
-#include "profiles/tree/profiletreemodel.hpp"
-#include "profiles/tree/profilefilter.hpp"
-#include "profiles/profilerepository.hpp"
-#include "profiles/profilemodel.hpp"
-#include "utils/KoIconUtils.h"
+#include "kdenlivesettings.h"
 #include "kxmlgui_version.h"
+#include "profiles/profilemodel.hpp"
+#include "profiles/profilerepository.hpp"
+#include "profiles/tree/profilefilter.hpp"
+#include "profiles/tree/profiletreemodel.hpp"
 
-#include <QLabel>
+#include <KLocalizedString>
 #include <QComboBox>
 #include <QHeaderView>
-#include <KLocalizedString>
-#include <QTextEdit>
+#include <QLabel>
 #include <QSplitter>
+#include <QTextEdit>
+#include <QTreeView>
 
-ProfileWidget::ProfileWidget(QWidget *parent) :
-    QWidget(parent)
+ProfileWidget::ProfileWidget(QWidget *parent)
+    : QWidget(parent)
 {
     m_originalProfile = QStringLiteral("invalid");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    QVBoxLayout *lay = new QVBoxLayout;
-
-    QHBoxLayout *labelLay = new QHBoxLayout;
-    QLabel* fpsLabel = new QLabel(i18n("Fps"),this);
-    fpsFilt = new QComboBox(this);
-    fpsLabel->setBuddy(fpsFilt);
+    auto *lay = new QVBoxLayout;
+    lay->setContentsMargins(0, 0, 0, 0);
+    auto *labelLay = new QHBoxLayout;
+    QLabel *fpsLabel = new QLabel(i18n("Fps"), this);
+    m_fpsFilt = new QComboBox(this);
+    fpsLabel->setBuddy(m_fpsFilt);
     labelLay->addWidget(fpsLabel);
-    labelLay->addWidget(fpsFilt);
+    labelLay->addWidget(m_fpsFilt);
 
-    QLabel* scanningLabel = new QLabel(i18n("Scanning"),this);
-    scanningFilt = new QComboBox(this);
-    scanningLabel->setBuddy(scanningFilt);
+    QLabel *scanningLabel = new QLabel(i18n("Scanning"), this);
+    m_scanningFilt = new QComboBox(this);
+    scanningLabel->setBuddy(m_scanningFilt);
     labelLay->addWidget(scanningLabel);
-    labelLay->addWidget(scanningFilt);
+    labelLay->addWidget(m_scanningFilt);
     labelLay->addStretch(1);
 
-    QToolButton *manage_profiles = new QToolButton(this);
+    auto *manage_profiles = new QToolButton(this);
     labelLay->addWidget(manage_profiles);
-    manage_profiles->setIcon(KoIconUtils::themedIcon(QStringLiteral("configure")));
+    manage_profiles->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     manage_profiles->setToolTip(i18n("Manage project profiles"));
     connect(manage_profiles, &QAbstractButton::clicked, this, &ProfileWidget::slotEditProfiles);
     lay->addLayout(labelLay);
 
-
-    QSplitter *profileSplitter = new QSplitter;
+    auto *profileSplitter = new QSplitter;
 
     m_treeView = new QTreeView(this);
-    m_treeModel = new ProfileTreeModel(this);
+    m_treeModel = ProfileTreeModel::construct(this);
     m_filter = new ProfileFilter(this);
-    m_filter->setSourceModel(m_treeModel);
+    m_filter->setSourceModel(m_treeModel.get());
     m_treeView->setModel(m_filter);
     for (int i = 1; i < m_treeModel->columnCount(); ++i) {
         m_treeView->hideColumn(i);
@@ -77,17 +77,16 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     m_treeView->header()->hide();
     QItemSelectionModel *selectionModel = m_treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
-    connect(selectionModel, &QItemSelectionModel::selectionChanged,
-            [&](const QItemSelection &selected, const QItemSelection &deselected){
-                QModelIndex current, old;
-                if (!selected.indexes().isEmpty()) {
-                    current = selected.indexes().front();
-                }
-                if (!deselected.indexes().isEmpty()) {
-                    old = deselected.indexes().front();
-                }
-                slotChangeSelection(current, old);
-            });
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, [&](const QItemSelection &selected, const QItemSelection &deselected) {
+        QModelIndex current, old;
+        if (!selected.indexes().isEmpty()) {
+            current = selected.indexes().front();
+        }
+        if (!deselected.indexes().isEmpty()) {
+            old = deselected.indexes().front();
+        }
+        slotChangeSelection(current, old);
+    });
     int treeViewFontHeight = QFontInfo(m_treeView->font()).pixelSize();
     m_treeView->setMinimumHeight(treeViewFontHeight);
     profileSplitter->addWidget(m_treeView);
@@ -104,59 +103,72 @@ ProfileWidget::ProfileWidget(QWidget *parent) :
     lay->addWidget(profileSplitter);
     profileSplitter->setStretchFactor(0, 4);
     profileSplitter->setStretchFactor(1, 3);
-    auto all_fps = ProfileRepository::get()->getAllFps();
 
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    fpsFilt->addItem("Any", -1);
-    for (double fps : all_fps) {
-        fpsFilt->addItem(locale.toString(fps), fps);
-    }
+    refreshFpsCombo();
     auto updateFps = [&]() {
-        double current = fpsFilt->currentData().toDouble();
-        KdenliveSettings::setProfile_fps_filter(fpsFilt->currentText());
-        m_filter->setFilterFps(current > 0,
-                               current);
+        double current = m_fpsFilt->currentData().toDouble();
+        KdenliveSettings::setProfile_fps_filter(m_fpsFilt->currentText());
+        m_filter->setFilterFps(current > 0, current);
         slotFilterChanged();
     };
-    connect(fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
-    int ix = fpsFilt->findText(KdenliveSettings::profile_fps_filter());
+    connect(m_fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
+    int ix = m_fpsFilt->findText(KdenliveSettings::profile_fps_filter());
     if (ix > -1) {
-        fpsFilt->setCurrentIndex(ix);
+        m_fpsFilt->setCurrentIndex(ix);
     }
-    scanningFilt->addItem("Any", -1);
-    scanningFilt->addItem("Interlaced", 0);
-    scanningFilt->addItem("Progressive", 1);
+    m_scanningFilt->addItem("Any", -1);
+    m_scanningFilt->addItem("Interlaced", 0);
+    m_scanningFilt->addItem("Progressive", 1);
 
     auto updateScanning = [&]() {
-        int current = scanningFilt->currentData().toInt();
-        KdenliveSettings::setProfile_scanning_filter(scanningFilt->currentText());
-        m_filter->setFilterInterlaced(current != -1,
-                                      current == 0);
+        int current = m_scanningFilt->currentData().toInt();
+        KdenliveSettings::setProfile_scanning_filter(m_scanningFilt->currentText());
+        m_filter->setFilterInterlaced(current != -1, current == 0);
         slotFilterChanged();
     };
-    connect(scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
+    connect(m_scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
 
-    ix = scanningFilt->findText(KdenliveSettings::profile_scanning_filter());
+    ix = m_scanningFilt->findText(KdenliveSettings::profile_scanning_filter());
     if (ix > -1) {
-        scanningFilt->setCurrentIndex(ix);
+        m_scanningFilt->setCurrentIndex(ix);
     }
     setLayout(lay);
 }
 
-ProfileWidget::~ProfileWidget()
+ProfileWidget::~ProfileWidget() = default;
+
+void ProfileWidget::refreshFpsCombo()
 {
+    QLocale locale;
+    QVariant currentValue;
+    if (m_fpsFilt->count() > 1) {
+        // remember last selected value
+        currentValue = m_fpsFilt->currentData();
+    }
+    m_fpsFilt->clear();
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    m_fpsFilt->addItem("Any", -1);
+    auto all_fps = ProfileRepository::get()->getAllFps();
+    for (double fps : all_fps) {
+        m_fpsFilt->addItem(locale.toString(fps), fps);
+    }
+    if (currentValue.isValid()) {
+        int ix = m_fpsFilt->findData(currentValue);
+        if (ix > -1) {
+            m_fpsFilt->setCurrentIndex(ix);
+        }
+    }
 }
 
-void ProfileWidget::loadProfile(const QString& profile)
+void ProfileWidget::loadProfile(const QString &profile)
 {
     auto index = m_treeModel->findProfile(profile);
     if (index.isValid()) {
         m_originalProfile = m_currentProfile = m_lastValidProfile = profile;
         if (!trySelectProfile(profile)) {
             // When loading a profile, ensure it is visible so reset filters if necessary
-            fpsFilt->setCurrentIndex(0);
-            scanningFilt->setCurrentIndex(0);
+            m_fpsFilt->setCurrentIndex(0);
+            m_scanningFilt->setCurrentIndex(0);
         }
     }
 }
@@ -168,26 +180,33 @@ const QString ProfileWidget::selectedProfile() const
 
 void ProfileWidget::slotEditProfiles()
 {
-    ProfilesDialog *w = new ProfilesDialog(m_currentProfile);
+    auto *w = new ProfilesDialog(m_currentProfile);
     w->exec();
-    loadProfile(m_currentProfile);
+    if (w->profileTreeChanged()) {
+        // Rebuild profiles tree
+        m_treeModel.reset();
+        m_treeModel = ProfileTreeModel::construct(this);
+        m_filter->setSourceModel(m_treeModel.get());
+        refreshFpsCombo();
+        loadProfile(m_currentProfile);
+    }
     delete w;
 }
 
-
-void ProfileWidget::fillDescriptionPanel(const QString& profile_path)
+void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
 {
     QString description;
     if (profile_path.isEmpty()) {
         description += i18n("No profile selected");
     } else {
-        std::unique_ptr<ProfileModel> & profile = ProfileRepository::get()->getProfile(profile_path);
+        std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(profile_path);
 
         description += i18n("<h5>Video Settings</h5>");
-        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>",profile->width(), profile->height(), profile->display_aspect_num(), profile->display_aspect_den());
-        description += i18n("Frame rate: %1 fps<br/>",profile->fps());
-        description += i18n("Pixel Aspect Ratio: %1<br/>",profile->sar());
-        description += i18n("Color Space: %1<br/>",profile->colorspaceDescription());
+        description += i18n("<p style='font-size:small'>Frame size: %1 x %2 (%3:%4)<br/>", profile->width(), profile->height(), profile->display_aspect_num(),
+                            profile->display_aspect_den());
+        description += i18n("Frame rate: %1 fps<br/>", profile->fps());
+        description += i18n("Pixel Aspect Ratio: %1<br/>", profile->sar());
+        description += i18n("Color Space: %1<br/>", profile->colorspaceDescription());
         QString interlaced = i18n("yes");
         if (profile->progressive()) {
             interlaced = i18n("no");
@@ -201,12 +220,12 @@ void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModel
 {
     auto originalIndex = m_filter->mapToSource(current);
     if (m_treeModel->parent(originalIndex) == QModelIndex()) {
-        //in that case, we have selected a category, which we don't want
+        // in that case, we have selected a category, which we don't want
         QItemSelectionModel *selection = m_treeView->selectionModel();
         selection->select(previous, QItemSelectionModel::Select);
         return;
     }
-    m_currentProfile = ProfileTreeModel::getProfile(originalIndex);
+    m_currentProfile = m_treeModel->getProfile(originalIndex);
     if (!m_currentProfile.isEmpty()) {
         m_lastValidProfile = m_currentProfile;
     }
@@ -216,35 +235,32 @@ void ProfileWidget::slotChangeSelection(const QModelIndex &current, const QModel
     fillDescriptionPanel(m_currentProfile);
 }
 
-bool ProfileWidget::trySelectProfile(const QString& profile)
+bool ProfileWidget::trySelectProfile(const QString &profile)
 {
     auto index = m_treeModel->findProfile(profile);
     if (index.isValid()) {
         // check if element is visible
         if (m_filter->isVisible(index)) {
-            //reselect
+            // reselect
             QItemSelectionModel *selection = m_treeView->selectionModel();
             selection->select(m_filter->mapFromSource(index), QItemSelectionModel::Select);
-            //expand corresponding category
+            // expand corresponding category
             auto parent = m_treeModel->parent(index);
             m_treeView->expand(m_filter->mapFromSource(parent));
             m_treeView->scrollTo(m_filter->mapFromSource(index), QAbstractItemView::PositionAtCenter);
             return true;
-        } else {
-            return false;
         }
-    } else {
     }
     return false;
 }
 
 void ProfileWidget::slotFilterChanged()
 {
-    //When filtering change, we must check if the current profile is still visible.
+    // When filtering change, we must check if the current profile is still visible.
     if (!trySelectProfile(m_currentProfile)) {
-        //we try to back-up the last valid profile
+        // we try to back-up the last valid profile
         if (!trySelectProfile(m_lastValidProfile)) {
-            //Everything fails, we don't have any profile
+            // Everything fails, we don't have any profile
             m_currentProfile = QString();
             emit profileChanged();
             fillDescriptionPanel(QString());

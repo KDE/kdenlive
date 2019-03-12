@@ -35,12 +35,14 @@
       <label>Select tab position in dockwidgets.</label>
       <default>1</default>
     </entry>
-
     <entry name="checkfirstprojectclip" type="Bool">
       <label>Check if document profile is same as first imported clip.</label>
       <default>false</default>
     </entry>
-
+    <entry name="exportframe_usingsourceres" type="Bool">
+      <label>Export image using source resolution.</label>
+      <default>true</default>
+    </entry>
     <entry name="usekuiserver" type="Bool">
       <label>Use KDE central job management to track render jobs.</label>
       <default>false</default>
@@ -63,11 +65,6 @@
 
     <entry name="autoimagesequence" type="Bool">
       <label>Automatically import image sequences.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="autoimagetransparency" type="Bool">
-      <label>Automatically add transparency transition to added images.</label>
       <default>false</default>
     </entry>
 
@@ -121,7 +118,7 @@
   <group name="project">
     <entry name="videotracks" type="Int">
       <label>Default number of video tracks.</label>
-      <default>3</default>
+      <default>2</default>
     </entry>
 
     <entry name="audiotracks" type="Int">
@@ -134,36 +131,54 @@
       <default>false</default>
     </entry>
 
+    <entry name="externalproxy" type="Bool">
+      <label>Enable proxy clips.</label>
+      <default>false</default>
+    </entry>
+
     <entry name="generateproxy" type="Bool">
       <label>Auto generate proxy for new clips.</label>
       <default>false</default>
     </entry>
-    
+
+    <entry name="external_proxy_profile" type="Int">
+      <label>index for the external proxy clips combo.</label>
+      <default></default>
+    </entry>
+
+    <entry name="externalProxyProfile" type="String">
+      <label>Pattern to find external proxy clips.</label>
+      <default></default>
+    </entry>
+
     <entry name="generateimageproxy" type="Bool">
       <label>Auto generate proxy for new image clips.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="proxyminsize" type="Int">
       <label>Minimum source size for proxy creation.</label>
       <default>1000</default>
     </entry>
-    
+
     <entry name="proxyimageminsize" type="Int">
       <label>Minimum source size for proxy creation.</label>
       <default>2000</default>
     </entry>
-    
+    <entry name="proxyimagesize" type="Int">
+      <label>Rescale size for image proxy creation.</label>
+      <default>800</default>
+    </entry>
     <entry name="proxyextension" type="String">
       <label>File extension for proxy clips.</label>
       <default></default>
     </entry>
-    
+
     <entry name="proxy_profile" type="Int">
       <label>default proxy encoding profile.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="proxyparams" type="String">
       <label>Proxy clips transcoding parameters.</label>
       <default></default>
@@ -173,22 +188,37 @@
       <label>File extension for timeline preview.</label>
       <default></default>
     </entry>
-    
+
     <entry name="preview_profile" type="Int">
       <label>default preview encoding profile.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="previewparams" type="String">
       <label>Timeline preview encoding parameters.</label>
       <default></default>
     </entry>
-  </group>
+
+    <entry name="parallelrender" type="Bool">
+      <label>Enable parallel processing for rendering.</label>
+      <default>true</default>
+    </entry>
+
+    <entry name="vaapiEnabled" type="Bool">
+      <label>Enables vaapi hw accel in encoders.</label>
+      <default>false</default>
+    </entry>
+    <entry name="nvencEnabled" type="Bool">
+      <label>Enables nvenc hw accel in encoders.</label>
+      <default>false</default>
+    </entry>
+
+    </group>
 
   <group name="timeline">
-    <entry name="timelineheaderwidth" type="String">
+    <entry name="headerwidth" type="Int">
       <label>Default width for timeline track headers.</label>
-      <default></default>
+      <default>140</default>
     </entry>
     <entry name="defaultkeyframeinterp" type="Int">
       <label>Default interpolation for keyframes.</label>
@@ -243,19 +273,9 @@
       <default>0</default>
     </entry>
 
-    <entry name="splitaudio" type="Bool">
-      <label>Automatically split audio and video.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="useTimelineZoneToEdit" type="Bool">
-    <label>Use timeline zone as in/out editing points.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="clipcornertype" type="Int">
-        <label>Timeline clip corners.</label>
-        <default>1</default>
+    <entry name="audiotracksbelow" type="Bool">
+        <label>Display audio tracks grouped below video tracks.</label>
+        <default>true</default>
     </entry>
 
     <entry name="raisepropsclips" type="Bool">
@@ -280,12 +300,10 @@
       <label>Use Movit for GPU accelerated display and effects.</label>
       <default>false</default>
     </entry>
-
     <entry name="sdlAudioBackend" type="String">
-      <label>Detected audio backend.</label>
+      <label>Detected audio backed.</label>
       <default></default>
     </entry>
-
     <entry name="audio_backend" type="Int">
       <label>Audio backend index used for sound output.</label>
       <default>0</default>
@@ -330,15 +348,15 @@
       <label>Volume used for SDL output.</label>
       <default>100</default>
     </entry>
-    
+
     <entry name="monitor_dropframes" type="Bool">
       <label>Allow framedropping in monitor playback.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="monitor_gamma" type="Int">
       <label>Monitor gamma (rbg / rec 709).</label>
-      <default>0</default>
+      <default>1</default>
     </entry>
 
     <entry name="external_display" type="Bool">
@@ -444,21 +462,6 @@
     <entry name="defaultcapture" type="Int">
       <label>Default video capture system.</label>
       <default>0</default>
-    </entry>
-
-    <entry name="firewireformat" type="Int">
-      <label>Default firewire capture format.</label>
-      <default>0</default>
-    </entry>
-
-    <entry name="firewireautosplit" type="Bool">
-      <label>Create new capture file on scene cut.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="firewiretimestamp" type="Bool">
-      <label>Add record time to captured file name.</label>
-      <default>false</default>
     </entry>
 
     <entry name="detectedv4ldevices" type="UInt">
@@ -576,31 +579,16 @@
       <default>false</default>
     </entry>
 
-    <entry name="dvgrab_path" type="String">
-      <label>Path for the dvgrab binary.</label>
-      <default></default>
-    </entry>
-
-    <entry name="dvgrabfilename" type="String">
-      <label>Default name for dvgrab capture.</label>
-      <default>capture</default>
-    </entry>
-
-    <entry name="dvgrabextra" type="String">
-      <label>Additional dvgrab parameters.</label>
-      <default></default>
-    </entry>
-
     <entry name="decklink_device_found" type="Bool">
       <label>Enable Blackmagic decklink support.</label>
-      <default>true</default>
+      <default>false</default>
     </entry>
-    
+
     <entry name="decklink_capturedevice" type="UInt">
       <label>default HDMI capture device.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="decklink_profile" type="Int">
       <label>default HDMI encoding profile.</label>
       <default>0</default>
@@ -683,20 +671,12 @@
            <label>Currently displayed page in properties panel</label>
            <default>0</default>
     </entry>
-    <entry name="project_display_ratio" type="Double">
-      <label>Current project display ratio.</label>
-      <default>1.7777778</default>
-    </entry>
     <entry name="project_fps" type="Double">
       <label>Current project fps.</label>
       <default>25</default>
     </entry>
     <entry name="default_profile" type="String">
       <label>Default project format.</label>
-      <default></default>
-    </entry>
-    <entry name="current_profile" type="String">
-      <label>active project format.</label>
       <default></default>
     </entry>
 
@@ -709,7 +689,7 @@
       <label>Show ratings in project tree view.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="showdatecolumn" type="Bool">
       <label>Show dates in project tree view.</label>
       <default>false</default>
@@ -739,7 +719,10 @@
       <label>When editing an effect with position, seek to the keyframe pos.</label>
       <default>false</default>
     </entry>
-
+    <entry name="showbuiltstack" type="Bool">
+      <label>Show builtin effect stack.</label>
+      <default>false</default>
+    </entry>
     <entry name="showeffectinfo" type="Bool">
       <label>Show small effect description in effects list.</label>
       <default>false</default>
@@ -758,6 +741,15 @@
     <entry name="displayProjectMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x05</default>
+    </entry>
+
+    <entry name="clipMonitorOverlayGuides" type="Int">
+      <label>index of current guides overlay for clip monitor.</label>
+      <default>0</default>
+    </entry>
+    <entry name="projectMonitorOverlayGuides" type="Int">
+      <label>index of current guides overlay for project monitor.</label>
+      <default>0</default>
     </entry>
 
     <entry name="displayAudioOverlay" type="Bool">
@@ -787,11 +779,6 @@
 
     <entry name="producerslist" type="StringList">
       <label>List of available MLT producers.</label>
-      <default></default>
-    </entry>
-
-    <entry name="colortheme" type="String">
-      <label>Name of the chosen color theme.</label>
       <default></default>
     </entry>
 
@@ -933,7 +920,7 @@
       <label>Default category for newly created clip markers.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="mltdeinterlacer" type="String">
       <label>Name of the chosen deinterlacer.</label>
       <default>onefield</default>
@@ -945,7 +932,11 @@
     </entry>
     <entry name="favorite_effects" type="StringList">
       <label>List of favorite effects ids.</label>
-      <default></default>
+      <default>volume,lift_gamma_gain,qtblend</default>
+    </entry>
+    <entry name="favorite_transitions" type="StringList">
+      <label>List of favorite transitions ids.</label>
+      <default>qtblend</default>
     </entry>
     <entry name="selected_effecttab" type="Int">
       <label>Last opened tab in effects list.</label>
@@ -955,11 +946,37 @@
       <label>Force breeze icon theme for consistent look.</label>
       <default>false</default>
     </entry>
+    <entry name="use_dark_breeze" type="Bool">
+      <label>Force breeze icon color theme for consistent look.</label>
+      <default>false</default>
+    </entry>
+    </group>
+  <group name="effects">
+      <entry name="lock_ratio" type="Bool">
+      <label>Lock size ratio in effects.</label>
+      <default>true</default>
+    </entry>
   </group>
   <group name="titles">
        <entry name="selected_template" type="String">
            <label>Name of last selected title template</label>
            <default></default>
        </entry>
+       <entry name="titlerShowGuides" type="Bool">
+        <label>Show guides in titler.</label>
+        <default>false</default>
+        </entry>
+        <entry name="titlerHGuides" type="Int">
+        <label>Number of horizontal guides in titler.</label>
+        <default>2</default>
+        </entry>
+        <entry name="titlerVGuides" type="Int">
+        <label>Number of vertical guides in titler.</label>
+        <default>3</default>
+        </entry>
+        <entry name="titleGuideColor" type="Color">
+        <label>color titler guides.</label>
+        <default>#ff0000</default>
+        </entry>
    </group>
 </kcfg>

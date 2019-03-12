@@ -21,23 +21,22 @@
 #define MONITOR_H
 
 #include "abstractmonitor.h"
-#include "gentime.h"
-#include "renderer.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "definitions.h"
-#include "timecodedisplay.h"
+#include "gentime.h"
 #include "scopes/sharedframe.h"
-#include "effectslist/effectslist.h"
+#include "timecodedisplay.h"
 
 #include <QDomElement>
-#include <QToolBar>
 #include <QElapsedTimer>
+#include <QMutex>
+#include <QToolBar>
 
-class SmallRuler;
-class ClipController;
-class AbstractClipItem;
-class Transition;
-class ClipItem;
-class Monitor;
+#include <memory>
+#include <unordered_set>
+
+class SnapModel;
+class ProjectClip;
 class MonitorManager;
 class QSlider;
 class KDualAction;
@@ -48,7 +47,13 @@ class QScrollBar;
 class RecManager;
 class QToolButton;
 class QmlManager;
+class GLWidget;
 class MonitorAudioLevel;
+
+namespace Mlt {
+class Profile;
+class Filter;
+} // namespace Mlt
 
 class QuickEventEater : public QObject
 {
@@ -57,10 +62,10 @@ public:
     explicit QuickEventEater(QObject *parent = nullptr);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
-    void addEffect(const QDomElement &);
+    void addEffect(const QStringList &);
 };
 
 class QuickMonitorEventEater : public QObject
@@ -70,7 +75,7 @@ public:
     explicit QuickMonitorEventEater(QWidget *parent);
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
     void doKeyPressEvent(QKeyEvent *);
@@ -81,24 +86,22 @@ class Monitor : public AbstractMonitor
     Q_OBJECT
 
 public:
+    friend class MonitorManager;
+
     Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *parent = nullptr);
-    ~Monitor();
-    Render *render;
-    AbstractRender *abstractRender() Q_DECL_OVERRIDE;
-    void resetProfile(const MltVideoProfile &profile);
+    ~Monitor() override;
+    void resetProfile();
+    /** @brief Rebuild consumers after a property change */
+    void resetConsumer(bool fullReset);
     void setCustomProfile(const QString &profile, const Timecode &tc);
     void setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *loopZone, QMenu *markerMenu = nullptr, QAction *loopClip = nullptr);
-    const QString sceneList(const QString &root);
+    const QString sceneList(const QString &root, const QString &fullPath = QString());
     const QString activeClipId();
-    GenTime position();
-    /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
-    void checkOverlay(int pos = -1);
+    int position();
     void updateTimecodeFormat();
     void updateMarkers();
     /** @brief Controller for the clip currently displayed (only valid for clip monitor). */
-    ClipController *currentController() const;
-    /** @brief Add clip markers to the ruler and context menu */
-    void setMarkers(const QList<CommentedTime> &markers);
+    std::shared_ptr<ProjectClip> currentController() const;
     /** @brief Add timeline guides to the ruler and context menu */
     void setGuides(const QMap<double, QString> &guides);
     void reloadProducer(const QString &id);
@@ -114,10 +117,6 @@ public:
     QString getMarkerThumb(GenTime pos);
     /** @brief Get current project's folder */
     const QString projectFolder() const;
-    /** @brief Get the project's profile info*/
-    ProfileInfo profileInfo() const;
-    /** @brief Get the project's Mlt profile */
-    Mlt::Profile *profile();
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
@@ -134,7 +133,7 @@ public:
     void switchMonitorInfo(int code);
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
-    void mute(bool, bool updateIconOnly = false) Q_DECL_OVERRIDE;
+    void mute(bool, bool updateIconOnly = false) override;
     bool startCapture(const QString &params, const QString &path, Mlt::Producer *p);
     bool stopCapture();
     void reparent();
@@ -143,7 +142,6 @@ public:
     void refreshIcons();
     /** @brief Send audio thumb data to qml for on monitor display */
     void prepareAudioThumb(int channels, QVariantList &audioCache);
-    void refreshMonitorIfActive();
     void connectAudioSpectrum(bool activate);
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);
@@ -152,31 +150,37 @@ public:
     void activateSplit();
     /** @brief Clear monitor display **/
     void clearDisplay();
-    /** @brief Seeks timeline without refreshing if monitor is not active **/
-    void silentSeek(int pos);
-    /** @brief Save monitor frame as image, and add image to current project if addToProject is set to true*/
+    void setProducer(std::shared_ptr<Mlt::Producer> producer, int pos = -1);
+    void reconfigure();
+    /** @brief Saves current monitor frame to an image file, and add it to project if addToProject is set to true **/
     void slotExtractCurrentFrame(QString frameName = QString(), bool addToProject = false);
+    /** @brief Zoom in active monitor */
+    void slotZoomIn();
+    /** @brief Zoom out active monitor */
+    void slotZoomOut();
+    /** @brief Set a property on the MLT consumer */
+    void setConsumerProperty(const QString &name, const QString &value);
 
 protected:
-    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void mouseDoubleClickEvent(QMouseEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+    void keyPressEvent(QKeyEvent *event) override;
 
     /** @brief Move to another position on mouse wheel event.
      *
      * Moves towards the end of the clip/timeline on mouse wheel down/back, the
      * opposite on mouse wheel up/forward.
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
-    void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void enterEvent(QEvent *event) override;
+    void leaveEvent(QEvent *event) override;
     virtual QStringList mimeTypes() const;
 
 private:
-    ClipController *m_controller;
+    std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
     GLWidget *m_glMonitor;
     /** @brief Container for our QQuickView monitor display (QQuickView needs to be embedded) **/
@@ -185,18 +189,17 @@ private:
     QScrollBar *m_verticalScroll;
     /** @brief Scrollbar for our monitor view, used when zooming the monitor **/
     QScrollBar *m_horizontalScroll;
-    /** @brief The ruler widget displaying cursor position **/
-    SmallRuler *m_ruler;
     /** @brief Widget holding the window for the QQuickView **/
     QWidget *m_videoWidget;
     /** @brief Manager for qml overlay for the QQuickView **/
     QmlManager *m_qmlManager;
+    std::shared_ptr<SnapModel> m_snaps;
 
     Mlt::Filter *m_splitEffect;
-    Mlt::Producer *m_splitProducer;
+    std::shared_ptr<Mlt::Producer> m_splitProducer;
     int m_length;
     bool m_dragStarted;
-    //TODO: Move capture stuff in own class
+    // TODO: Move capture stuff in own class
     RecManager *m_recManager;
     /** @brief The widget showing current time position **/
     TimecodeDisplay *m_timePos;
@@ -212,8 +215,6 @@ private:
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
     QPoint m_DragStartPosition;
-    /** Selected clip/transition in timeline. Used for looping it. */
-    AbstractClipItem *m_selectedClip;
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = nullptr. */
     bool m_loopClipTransition;
@@ -231,20 +232,17 @@ private:
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
-    /** @brief Connect qml on monitor toolbar buttons */
-    void connectQmlToolbar(QQuickItem *root);
     /** @brief Check and display dropped frames */
     void checkDrops(int dropped);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
-    void buildSplitEffect(Mlt::Producer *original, int pos);
+    void buildSplitEffect(Mlt::Producer *original);
 
 private slots:
-    void seekCursor(int pos);
-    void rendererStopped(int pos);
+    Q_DECL_DEPRECATED void seekCursor(int pos);
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();
-    void setClipZone(const QPoint &pos);
+    void updateClipZone();
     void slotGoToMarker(QAction *action);
     void slotSetVolume(int volume);
     void slotEditMarker();
@@ -260,34 +258,35 @@ private slots:
     /** @brief Display a non blocking error message to user **/
     void warningMessage(const QString &text, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
     void slotLockMonitor(bool lock);
-    void slotAddEffect(const QDomElement &effect);
+    void slotAddEffect(const QStringList &effect);
     void slotSwitchPlay();
     void slotEditInlineMarker();
     /** @brief Pass keypress event to mainwindow */
     void doKeyPressEvent(QKeyEvent *);
-    /** @brief The timecode was updated, refresh qml display */
-    void slotUpdateQmlTimecode(const QString &tc);
     /** @brief There was an error initializing Movit */
     void gpuError();
     void setOffsetX(int x);
     void setOffsetY(int y);
-    /** @brief Show/hide monitor zoom */
-    void slotEnableSceneZoom(bool enable);
     /** @brief Pan monitor view */
     void panView(QPoint diff);
+    /** @brief Project monitor zone changed, inform timeline */
+    void updateTimelineClipZone();
+    void slotSeekPosition(int);
+    void addSnapPoint(int pos);
+    void removeSnapPoint(int pos);
 
 public slots:
     void slotOpenDvdFile(const QString &);
-    //void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
-    void updateClipProducer(Mlt::Producer *prod);
+    // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
+    void updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod);
     void updateClipProducer(const QString &playlist);
-    void slotOpenClip(ClipController *controller, int in = -1, int out = -1);
+    void slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in = -1, int out = -1);
     void slotRefreshMonitor(bool visible);
     void slotSeek(int pos);
-    void stop() Q_DECL_OVERRIDE;
-    void start() Q_DECL_OVERRIDE;
+    void stop() override;
+    void start() override;
     void switchPlay(bool play);
-    void slotPlay() Q_DECL_OVERRIDE;
+    void slotPlay() override;
     void pause();
     void slotPlayZone();
     void slotLoopZone();
@@ -297,42 +296,45 @@ public slots:
     void slotRewind(double speed = 0);
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
-    //void saveSceneList(const QString &path, const QDomElement &info = QDomElement());
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();
     void slotSetZoneEnd(bool discardLastFrame = false);
     void slotZoneStart();
     void slotZoneEnd();
-    void slotZoneMoved(int start, int end);
+    void slotLoadClipZone(const QPoint &zone);
     void slotSeekToNextSnap();
     void slotSeekToPreviousSnap();
-    void adjustRulerSize(int length, int offset = 0);
+    void adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
     QPoint getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
     void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false);
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
-    void slotSwitchCompare(bool enable, int pos);
-    /** @brief Sets m_selectedClip to @param item. Used for looping it. */
-    void slotSetSelectedClip(AbstractClipItem *item);
-    void slotSetSelectedClip(ClipItem *item);
-    void slotSetSelectedClip(Transition *item);
-    void slotMouseSeek(int eventDelta, int modifiers) Q_DECL_OVERRIDE;
-    void slotSwitchFullScreen(bool minimizeOnly = false) Q_DECL_OVERRIDE;
+    void slotSwitchCompare(bool enable);
+    void slotMouseSeek(int eventDelta, uint modifiers) override;
+    void slotSwitchFullScreen(bool minimizeOnly = false) override;
     /** @brief Display or hide the record toolbar */
     void slotSwitchRec(bool enable);
     /** @brief Request QImage of current frame */
     void slotGetCurrentImage(bool request);
     /** @brief Enable/disable display of monitor's audio levels widget */
     void slotSwitchAudioMonitor();
+    /** @brief Request seeking */
+    void requestSeek(int pos);
+    /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
+    void checkOverlay(int pos = -1);
+    void refreshMonitorIfActive(bool directUpdate = false) override;
 
 signals:
-    void renderPosition(int);
+    void seekPosition(int);
+    /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */
+    void seekTimeline(int position);
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);
+    void timelineZoneChanged();
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
@@ -340,8 +342,7 @@ signals:
     void extractZone(const QString &id);
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
-    void addKeyframe();
-    void deleteKeyframe();
+    void addRemoveKeyframe();
     void seekToNextKeyframe();
     void seekToPreviousKeyframe();
     void seekToKeyframe(int);
@@ -349,16 +350,11 @@ signals:
     void showConfigDialog(int, int);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
-    void addEffect(const QDomElement &);
-    void addMasterEffect(const QString &, const QDomElement &);
+    void addEffect(const QStringList &);
+    void addMasterEffect(QString, const QStringList &);
     void passKeyPress(QKeyEvent *);
-    /** @brief Update the text of a clip marker. */
-    void updateClipMarker(const QString &, const QList<CommentedTime> &);
-    /** @brief Update the text of a timeline guide. */
-    void updateGuide(int, const QString &);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
     void multitrackView(bool);
-    void requestAudioThumb(const QString &);
     void timeCodeUpdated(const QString &);
     void addMarker();
     void deleteMarker(bool deleteGuide = true);

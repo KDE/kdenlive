@@ -18,17 +18,17 @@
 #ifndef TITLEWIDGET_H
 #define TITLEWIDGET_H
 
-#include "ui_titlewidget_ui.h"
-#include "titler/titledocument.h"
-#include "effectstack/graphicsscenerectmove.h"
-#include "titler/unicodedialog.h"
+#include "graphicsscenerectmove.h"
 #include "timecode.h"
+#include "titler/titledocument.h"
+#include "titler/unicodedialog.h"
+#include "ui_titlewidget_ui.h"
 
 #include <QMap>
 #include <QSignalMapper>
 
-class Render;
-
+class Monitor;
+class KMessageWidget;
 class TitleTemplate
 {
 public:
@@ -61,15 +61,14 @@ class TitleWidget : public QDialog, public Ui::TitleWidget_UI
     Q_OBJECT
 
 public:
-
     /** @brief Draws the dialog and loads a title document (if any).
      * @param url title document to load
      * @param tc timecode of the project
      * @param projectPath default path to save to or load from title documents
      * @param render project renderer
      * @param parent (optional) parent widget */
-    explicit TitleWidget(const QUrl &url, const Timecode &tc, const QString &projectTitlePath, Render *render, QWidget *parent = nullptr);
-    virtual ~TitleWidget();
+    explicit TitleWidget(const QUrl &url, const Timecode &tc, QString projectTitlePath, Monitor *monitor, QWidget *parent = nullptr);
+    ~TitleWidget() override;
     QDomDocument xml();
     void setXml(const QDomDocument &doc, const QString &id = QString());
 
@@ -90,12 +89,14 @@ public:
     /** @brief Retrieves a list of all available title templates. */
     static void refreshTitleTemplates(const QString &projectPath);
 
+    /** @brief Returns a title name suggestion based on content */
+    const QString titleSuggest();
+
 protected:
-    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) override;
+    void keyPressEvent(QKeyEvent *e) override;
 
 private:
-
     /** @brief Rectangle describing the animation start viewport. */
     QGraphicsRectItem *m_startViewport;
 
@@ -107,7 +108,7 @@ private:
 
     /** @brief Initialises the animation properties (viewport size, etc.). */
     void initAnimation();
-    QMap<QGraphicsItem *, Transform > m_transformations;
+    QMap<QGraphicsItem *, Transform> m_transformations;
     TitleDocument m_titledocument;
     QGraphicsRectItem *m_frameBorder;
     QGraphicsRectItem *m_frameBackground;
@@ -117,6 +118,7 @@ private:
     int m_count;
     /** @brief Dialog for entering Unicode characters in text fields. */
     UnicodeDialog *m_unicodeDialog;
+    KMessageWidget *m_missingMessage;
 
     /** @brief Project path for storing title documents. */
     QString m_projectTitlePath;
@@ -134,6 +136,7 @@ private:
     QAction *m_buttonCursor;
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
+    QAction *m_buttonDownload;
 
     QAction *m_unicodeAction;
     QAction *m_zUp;
@@ -145,7 +148,8 @@ private:
     QAction *m_selectRects;
     QAction *m_selectImages;
     QAction *m_unselectAll;
-    QString lastDocumentHash;
+    QString m_lastDocumentHash;
+    QList<QGraphicsLineItem *> m_guides;
 
     // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.
     QSignalMapper *m_signalMapper;
@@ -204,6 +208,9 @@ private:
     /** @brief Removes the "start" and "end" info text from animation viewports. */
     void deleteAnimInfoText();
 
+    /** @brief Refreshes the contents of combobox based on list of title templates. */
+    void refreshTemplateBoxContents();
+
     qreal maxZIndex();
 
     /** @brief Gets the minimum/maximum Z index of items.
@@ -218,9 +225,13 @@ private:
     void selectItems(int itemType);
 
     /** @brief Appends the shortcut of a QAction to a tooltip text */
-    QString getTooltipWithShortcut(const QString &text, QAction *button);
+    QString getTooltipWithShortcut(const QString &tipText, QAction *button);
     void loadGradients();
     void storeGradient(const QString &gradientData);
+
+    /** Open title download dialog */
+    void downloadTitleTemplates();
+    int getNewStuff(const QString &configFile);
 
 public slots:
     void slotNewText(MyTextItem *tt);
@@ -285,7 +296,7 @@ private slots:
     void slotChanged();
 
     /**
-     * Reacts to changes of widht/height/x/y QSpinBox values.
+     * Reacts to changes of width/height/x/y QSpinBox values.
      * @brief Updates width, height, and position of the selected items.
      * @param valueType of type ValueType
      */
@@ -305,7 +316,7 @@ private slots:
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
     void slotInsertUnicode();
-    void slotInsertUnicodeString(const QString &);
+    void slotInsertUnicodeString(const QString &string);
 
     void displayBackgroundFrame();
 
@@ -329,6 +340,12 @@ private slots:
     void slotResize50();
     void slotResize100();
     void slotResize200();
+    /** @brief Show hide guides */
+    void showGuides(int state);
+    /** @brief Build guides */
+    void updateGuides(int);
+    /** @brief guide color changed, repaint */
+    void guideColorChanged(const QColor &col);
 
     /** @brief Called when accepted, stores user selections for next time use.
      * @ref writeChoices */
@@ -353,6 +370,10 @@ private slots:
     void templateIndexChanged(int);
     void slotEditGradient();
     void slotUpdateShadow();
+    /** @brief Remove missing items from the scene. */
+    void deleteMissingItems();
+    /** @brief List missing items from the scene. */
+    void showMissingItems();
 
 signals:
     void requestBackgroundFrame(const QString &clipId, bool request);

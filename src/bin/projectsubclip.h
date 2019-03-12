@@ -24,13 +24,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "abstractprojectitem.h"
 #include "definitions.h"
+#include <memory>
 
 class ProjectFolder;
 class ProjectClip;
 class QDomElement;
 
-namespace Mlt
-{
+namespace Mlt {
 }
 
 /**
@@ -48,35 +48,46 @@ public:
     /**
      * @brief Constructor; used when loading a project and the producer is already available.
      */
-    ProjectSubClip(ProjectClip *parent, int in, int out, const QString &timecode, const QString &name = QString());
-    virtual ~ProjectSubClip();
+    static std::shared_ptr<ProjectSubClip> construct(const QString &id, const std::shared_ptr<ProjectClip> &parent,
+                                                     const std::shared_ptr<ProjectItemModel> &model, int in, int out, const QString &timecode,
+                                                     const QString &name = QString());
 
-    ProjectClip *clip(const QString &id) Q_DECL_OVERRIDE;
-    ProjectFolder *folder(const QString &id) Q_DECL_OVERRIDE;
-    ProjectSubClip *subClip(int in, int out);
-    ProjectClip *clipAt(int ix) Q_DECL_OVERRIDE;
+protected:
+    ProjectSubClip(const QString &id, const std::shared_ptr<ProjectClip> &parent, const std::shared_ptr<ProjectItemModel> &model, int in, int out,
+                   const QString &timecode, const QString &name = QString());
+
+public:
+    ~ProjectSubClip() override;
+
+    std::shared_ptr<ProjectClip> clip(const QString &id) override;
+    std::shared_ptr<ProjectFolder> folder(const QString &id) override;
+    std::shared_ptr<ProjectSubClip> subClip(int in, int out);
+    std::shared_ptr<ProjectClip> clipAt(int ix) override;
     /** @brief Recursively disable/enable bin effects. */
-    void disableEffects(bool disable) Q_DECL_OVERRIDE;
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false) Q_DECL_OVERRIDE;
+    void setBinEffectsEnabled(bool enabled) override;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
 
-    /** @brief Calls AbstractProjectItem::setCurrent and sets the bin monitor to use the clip's producer. */
-    void setCurrent(bool current, bool notify = true) Q_DECL_OVERRIDE;
-
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
+    QPixmap thumbnail(int width, int height);
 
     /** @brief Remove reference to this subclip in the master clip, to be done before a subclip is deleted. */
     void discard();
-    QPoint zone() const Q_DECL_OVERRIDE;
-    QString getToolTip() const Q_DECL_OVERRIDE;
-    bool rename(const QString &name, int column) Q_DECL_OVERRIDE;
+    QPoint zone() const override;
+    QString getToolTip() const override;
+    bool rename(const QString &name, int column) override;
+    /** @brief Returns true if item has both audio and video enabled. */
+    bool hasAudioAndVideo() const override;
+
+    /** @brief returns a pointer to the parent clip */
+    std::shared_ptr<ProjectClip> getMasterClip() const;
+    ClipType::ProducerType clipType() const override;
 
 private:
-    ProjectClip *m_masterClip;
-    int m_in;
+    std::shared_ptr<ProjectClip> m_masterClip;
     int m_out;
 
 private slots:
