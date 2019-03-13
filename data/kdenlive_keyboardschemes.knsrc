@@ -1,23 +1,5 @@
 [KNewStuff3]
 Name=Kdenlive Keyboard Schemes
-Name[ca]=Configuracions del teclat del Kdenlive
-Name[ca@valencia]=Configuracions del teclat del Kdenlive
-Name[cs]=Konfigurace klávesnice Kdenlive
-Name[en_GB]=Kdenlive Keyboard Schemes
-Name[es]=Configuraciónes del teclado de Kdenlive
-Name[fr]=Configurations de clavier de Kdenlive
-Name[gl]=Deseños de teclado de Kdenlive
-Name[it]=Configurazioni della tastiera Kdenlive
-Name[nl]=Kdenlive-toetsenbordconfiguraties
-Name[pl]=Konfiguracje klawiatury Kdenlive
-Name[pt]=Configurações do Teclado Kdenlive
-Name[sk]=Konfigurácie klávesnice Kdenlive
-Name[sl]=Konfiguracije tipkovnice Kdenlive
-Name[sv]=Kdenlive-tangentbordskonfigurationer
-Name[tr]=Kdenlive Klavye Yapılandırmaları
-Name[uk]=Конфігурації клавіатури Kdenlive
-Name[x-test]=xxKdenlive Keyboard Schemesxx
-Name[zh_CN]=Kdenlive 键盘配置
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
 Categories=Kdenlive Keyboard Schemes
 TargetDir=kdenlive/shortcuts
