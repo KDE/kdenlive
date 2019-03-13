@@ -733,5 +733,5 @@ int Core::getMediaCaptureState()
 
 void Core::setAudioCaptureVolume(int volume)
 {
-    m_capture->setAudioVolume(volume);
+    m_capture->setAudioVolume(volume / 100.0);
 }

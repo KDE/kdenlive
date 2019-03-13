@@ -22,7 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mediacapture.h"
 
 MediaCapture::MediaCapture(QObject* parent)
-    : QObject(parent)
+    : QObject(parent
+    , m_volume(1.)
 {
 }
 
