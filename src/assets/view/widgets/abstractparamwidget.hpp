@@ -39,7 +39,6 @@ public:
     AbstractParamWidget() = delete;
     AbstractParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
     ~AbstractParamWidget() override = default;
-    ;
 
     /** @brief Factory method to construct a parameter widget.
         @param model Parameter model this parameter belongs to
