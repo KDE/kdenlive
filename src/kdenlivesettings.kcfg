@@ -459,6 +459,16 @@
 
 
   <group name="capture">
+    <entry name="defaultaudiocapture" type="Int">
+      <label>Default audio capture system.</label>
+      <default>0</default>
+    </entry>
+
+    <entry name="audiocapturevolume" type="Int">
+      <label>Audio capture volume</label>
+      <default>100</default>
+    </entry>
+
     <entry name="defaultcapture" type="Int">
       <label>Default video capture system.</label>
       <default>0</default>

@@ -44,6 +44,7 @@ the Free Software Foundation, either version 3 of the License, or
 std::unique_ptr<Core> Core::m_self;
 Core::Core()
     : m_thumbProfile(nullptr)
+    , m_capture(new MediaCapture(this))
 {
 }
 
@@ -698,4 +699,39 @@ void Core::triggerAction(const QString &name)
 void Core::clean()
 {
     m_self.reset();
+}
+
+void Core::startMediaCapture(bool checkAudio, bool checkVideo, QUrl path, QString audioDevice)
+{
+    m_capture->setCaptureOutputLocation(path);
+    m_capture->setAudioCaptureDevice(audioDevice);
+    if (checkAudio && checkVideo) {
+        m_capture->recordVideo(true);
+    } else if (checkAudio) {
+        m_capture->recordAudio(true);
+    }
+}
+
+void Core::stopMediaCapture(bool checkAudio, bool checkVideo)
+{
+    if (checkAudio && checkVideo) {
+        m_capture->recordVideo(false);
+    } else if (checkAudio && !checkVideo) {
+        m_capture->recordAudio(false);
+    }
+}
+
+QStringList Core::getAudioCaptureDevices()
+{
+    return m_capture->getAudioCaptureDevices();
+}
+
+int Core::getMediaCaptureState()
+{
+    return m_capture->getState();
+}
+
+void Core::setAudioCaptureVolume(int volume)
+{
+    m_capture->setAudioVolume(volume);
 }

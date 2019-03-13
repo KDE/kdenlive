@@ -38,13 +38,15 @@ class QAction;
 class QToolBar;
 class QComboBox;
 class QCheckBox;
+class QSlider;
+class QToolButton;
 
 namespace Mlt {
 class Producer;
 }
 
 class RecManager : public QObject
-{
+{   
     Q_OBJECT
 
     enum CaptureDevice {
@@ -76,9 +78,14 @@ private:
     QAction *m_showLogAction;
     QToolBar *m_recToolbar;
     QComboBox *m_screenCombo{nullptr};
+    QToolButton *m_audioCaptureButton;
     QComboBox *m_device_selector;
+    QComboBox *m_audio_device;
     QCheckBox *m_recVideo;
     QCheckBox *m_recAudio;
+    QSlider *m_audioCaptureSlider;
+    bool m_checkAudio;
+    bool m_checkVideo;
     Mlt::Producer *createV4lProducer();
 
 private slots:
@@ -88,11 +95,13 @@ private slots:
     void slotReadProcessInfo();
     void showRecConfig();
     void slotVideoDeviceChanged(int ix = -1);
+    void slotAudioDeviceChanged(int ix = -1);
     void slotShowLog();
-
+    void slotSetVolume(int);
 signals:
     void addClipToProject(const QUrl &);
     void warningMessage(const QString &, int timeout = 5000, const QList<QAction *> &actions = QList<QAction *>());
 };
 
 #endif
+

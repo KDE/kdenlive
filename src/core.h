@@ -14,10 +14,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include "definitions.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
+#include "capture/mediacapture.h"
 #include <QObject>
 #include <QTabWidget>
 #include <QUrl>
 #include <memory>
+
 
 class Bin;
 class DocUndoStack;
@@ -181,6 +183,12 @@ public:
     int projectDuration() const;
     /** @brief Returns true if current project has some rendered timeline preview  */
     bool hasTimelinePreview() const;
+    /** @brief Handles audio and video capture **/
+    void startMediaCapture(bool, bool, QUrl, QString);
+    void stopMediaCapture(bool, bool);
+    QStringList getAudioCaptureDevices();
+    int getMediaCaptureState();
+    void setAudioCaptureVolume(int);
 
 private:
     explicit Core();
@@ -204,6 +212,7 @@ private:
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();
+    std::unique_ptr<MediaCapture> m_capture;
 
 public slots:
     void triggerAction(const QString &name);

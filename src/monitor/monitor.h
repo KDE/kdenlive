@@ -134,8 +134,6 @@ public:
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
     void mute(bool, bool updateIconOnly = false) override;
-    bool startCapture(const QString &params, const QString &path, Mlt::Producer *p);
-    bool stopCapture();
     void reparent();
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
@@ -178,7 +176,6 @@ protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
     virtual QStringList mimeTypes() const;
-
 private:
     std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
@@ -199,7 +196,6 @@ private:
     std::shared_ptr<Mlt::Producer> m_splitProducer;
     int m_length;
     bool m_dragStarted;
-    // TODO: Move capture stuff in own class
     RecManager *m_recManager;
     /** @brief The widget showing current time position **/
     TimecodeDisplay *m_timePos;
@@ -229,6 +225,7 @@ private:
     MonitorAudioLevel *m_audioMeterWidget;
     QElapsedTimer m_droppedTimer;
     double m_displayedFps;
+
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
@@ -326,7 +323,7 @@ public slots:
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
     void refreshMonitorIfActive(bool directUpdate = false) override;
-
+    
 signals:
     void seekPosition(int);
     /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */

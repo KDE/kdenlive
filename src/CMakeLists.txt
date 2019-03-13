@@ -132,6 +132,7 @@ target_link_libraries(kdenliveLib
     Qt5::Quick
     Qt5::QuickWidgets
     Qt5::Concurrent
+    Qt5::Multimedia
     ${OPENGL_LIBRARIES}
     ${OPENGLES_LIBRARIES}
     ${MLT_LIBRARIES}

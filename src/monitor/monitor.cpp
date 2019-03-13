@@ -142,11 +142,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
-{
+{   
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-
     // Create container widget
     m_glWidget = new QWidget;
     auto *glayout = new QGridLayout(m_glWidget);
@@ -268,7 +267,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Create Volume slider popup
     m_audioSlider = new QSlider(Qt::Vertical);
     m_audioSlider->setRange(0, 100);
-    m_audioSlider->setValue(100);
+    m_audioSlider->setValue(KdenliveSettings::volume());
     connect(m_audioSlider, &QSlider::valueChanged, this, &Monitor::slotSetVolume);
     auto *widgetslider = new QWidgetAction(this);
     widgetslider->setText(i18n("Audio volume"));
@@ -332,7 +331,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     /*QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);*/
-
     m_toolbar->addSeparator();
     int tm = 0;
     int bm = 0;
@@ -1968,25 +1966,6 @@ void Monitor::slotSwitchRec(bool enable)
     }
 }
 
-bool Monitor::startCapture(const QString &params, const QString &path, Mlt::Producer *p)
-{
-    // TODO
-    m_controller = nullptr;
-    if (/* DISABLES CODE */ (false)) { // render->updateProducer(p)) {
-        // m_glMonitor->reconfigureMulti(params, path, p->profile());
-        return true;
-    }
-    return false;
-}
-
-bool Monitor::stopCapture()
-{
-    m_glMonitor->stopCapture();
-    slotOpenClip(nullptr);
-    m_glMonitor->reconfigure(true);
-    return true;
-}
-
 void Monitor::doKeyPressEvent(QKeyEvent *ev)
 {
     keyPressEvent(ev);
@@ -2074,7 +2053,7 @@ void Monitor::panView(QPoint diff)
 }
 
 void Monitor::requestSeek(int pos)
-{
+{   
     m_glMonitor->seek(pos);
 }
 

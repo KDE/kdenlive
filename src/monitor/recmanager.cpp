@@ -19,12 +19,14 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
+#include "core.h"
 #include "recmanager.h"
 #include "capture/managecapturesdialog.h"
 #include "capture/mltdevicecapture.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "monitor.h"
+
 
 #include "klocalizedstring.h"
 #include <KMessageBox>
@@ -35,12 +37,16 @@
 #include <QFile>
 #include <QStandardPaths>
 #include <QToolBar>
+#include <QWidgetAction>
+#include <QToolButton>
+#include <QMenu>
 
 RecManager::RecManager(Monitor *parent)
     : QObject(parent)
     , m_monitor(parent)
     , m_recToolbar(new QToolBar(parent))
-
+    , m_checkAudio(false)
+    , m_checkVideo(false)
 {
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -74,18 +80,55 @@ RecManager::RecManager(Monitor *parent)
     QWidget *spacer = new QWidget(parent);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_recToolbar->addWidget(spacer);
+
+    m_audio_device = new QComboBox(parent);
+    QStringList audioDevices = pCore->getAudioCaptureDevices();
+    for(int ix=0; ix < audioDevices.count(); ix++) {
+        m_audio_device->addItem(audioDevices.at(ix), ix);
+    }
+    connect(m_audio_device, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
+    int selectedCapture = m_audio_device->findData(KdenliveSettings::defaultaudiocapture());
+    if (selectedCapture > -1) {
+        m_audio_device->setCurrentIndex(selectedCapture);
+    }
+    m_recToolbar->addWidget(m_audio_device);
+
+    m_audioCaptureSlider = new QSlider(Qt::Vertical);
+    m_audioCaptureSlider->setRange(0, 100);
+    m_audioCaptureSlider->setValue(KdenliveSettings::audiocapturevolume());
+    connect(m_audioCaptureSlider, &QSlider::valueChanged, this, &RecManager::slotSetVolume);
+    auto *widgetslider = new QWidgetAction(parent);
+    widgetslider->setText(i18n("Audio Capture Volume"));
+    widgetslider->setDefaultWidget(m_audioCaptureSlider);
+    auto *menu = new QMenu(parent);
+    menu->addAction(widgetslider);
+    m_audioCaptureButton = new QToolButton(parent);
+    m_audioCaptureButton->setMenu(menu);
+    m_audioCaptureButton->setToolTip(i18n("Audio Capture Volume"));
+    m_audioCaptureButton->setPopupMode(QToolButton::InstantPopup);
+    QIcon icon;
+    if (KdenliveSettings::audiocapturevolume() == 0) {
+        icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
+    } else {
+        icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+    }
+    m_audioCaptureButton->setIcon(icon);
+    m_recToolbar->addWidget(m_audioCaptureButton);
+    m_recToolbar->addSeparator();
+
     m_device_selector = new QComboBox(parent);
     // TODO: re-implement firewire / decklink capture
     // m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
     m_device_selector->addItem(i18n("Webcam"), Video4Linux);
     m_device_selector->addItem(i18n("Screen Grab"), ScreenGrab);
-    int selectedCapture = m_device_selector->findData(KdenliveSettings::defaultcapture());
+    selectedCapture = m_device_selector->findData(KdenliveSettings::defaultcapture());
+
     if (selectedCapture > -1) {
         m_device_selector->setCurrentIndex(selectedCapture);
     }
-    connect(m_device_selector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
-
+    connect(m_device_selector, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
     m_recToolbar->addWidget(m_device_selector);
+
     QAction *configureRec = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"));
     connect(configureRec, &QAction::triggered, this, &RecManager::showRecConfig);
     m_recToolbar->addSeparator();
@@ -118,6 +161,11 @@ void RecManager::stopCapture()
     if (m_captureProcess) {
         slotRecord(false);
     }
+    else if (pCore->getMediaCaptureState() == 1 && (m_checkAudio || m_checkVideo)) {
+        // QMediaRecorder::RecordingState value is 1
+        pCore->stopMediaCapture(m_checkAudio, m_checkVideo);
+        m_monitor->slotOpenClip(nullptr);
+    }
 }
 
 void RecManager::stop()
@@ -130,6 +178,7 @@ void RecManager::stop()
     }
     toolbar()->setVisible(false);
 }
+
 
 void RecManager::slotRecord(bool record)
 {
@@ -145,8 +194,9 @@ void RecManager::slotRecord(bool record)
             if (!m_recVideo->isChecked()) {
                 extension = QStringLiteral("wav");
             } else {
-                extension = KdenliveSettings::v4l_extension();
+                extension = QStringLiteral("mpeg");
             }
+
             QString path = captureFolder.absoluteFilePath("capture0000." + extension);
             int i = 1;
             while (QFile::exists(path)) {
@@ -154,53 +204,13 @@ void RecManager::slotRecord(bool record)
                 path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
                 ++i;
             }
-
-            QString v4lparameters = KdenliveSettings::v4l_parameters();
-
-            // TODO: when recording audio only, allow param configuration?
-            if (!m_recVideo->isChecked()) {
-                v4lparameters.clear();
-            }
-
-            // Add alsa audio capture
-            if (!m_recAudio->isChecked()) {
-                // if we do not want audio, make sure that we don't have audio encoding parameters
-                // this is required otherwise the MLT avformat consumer will not close properly
-                if (v4lparameters.contains(QStringLiteral("acodec"))) {
-                    QString endParam = v4lparameters.section(QStringLiteral("acodec"), 1);
-                    int vcodec = endParam.indexOf(QStringLiteral(" vcodec"));
-                    int format = endParam.indexOf(QStringLiteral(" f="));
-                    int cutPosition = -1;
-                    if (vcodec > -1) {
-                        if (format > -1) {
-                            cutPosition = qMin(vcodec, format);
-                        } else {
-                            cutPosition = vcodec;
-                        }
-                    } else if (format > -1) {
-                        cutPosition = format;
-                    } else {
-                        // nothing interesting in end params
-                        endParam.clear();
-                    }
-                    if (cutPosition > -1) {
-                        endParam.remove(0, cutPosition);
-                    }
-                    v4lparameters = QString(v4lparameters.section(QStringLiteral("acodec"), 0, 0) + QStringLiteral("an=1 ") + endParam).simplified();
-                }
-            }
-            Mlt::Producer *prod = createV4lProducer();
-            if ((prod != nullptr) && prod->is_valid()) {
-                m_monitor->startCapture(v4lparameters, path, prod);
-                m_captureFile = QUrl::fromLocalFile(path);
-            } else {
-                m_recAction->blockSignals(true);
-                m_recAction->setChecked(false);
-                m_recAction->blockSignals(false);
-                emit warningMessage(i18n("Capture crashed, please check your parameters"));
-            }
+            QString audioDevice = m_audio_device->currentText();
+            m_captureFile = QUrl::fromLocalFile(path);
+            m_checkAudio = m_recAudio->isChecked();
+            m_checkVideo = m_recVideo->isChecked();
+            pCore->startMediaCapture(m_checkAudio, m_checkVideo, m_captureFile, audioDevice);
         } else {
-            m_monitor->stopCapture();
+            stopCapture();
             emit addClipToProject(m_captureFile);
         }
         return;
@@ -228,7 +238,9 @@ void RecManager::slotRecord(bool record)
 
     QFileInfo checkCaptureFolder(captureFolder.absolutePath());
     if (!checkCaptureFolder.isWritable()) {
-        emit warningMessage(i18n("The directory %1, could not be created.\nPlease make sure you have the required permissions.", captureFolder.absolutePath()));
+        emit warningMessage(i18n("The directory %1, could not be created.\nPlease "
+                                 "make sure you have the required permissions.",
+            captureFolder.absolutePath()));
         m_recAction->blockSignals(true);
         m_recAction->setChecked(false);
         m_recAction->blockSignals(false);
@@ -257,7 +269,8 @@ void RecManager::slotRecord(bool record)
     QStringList captureArgs;
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
     if (KdenliveSettings::grab_follow_mouse()) {
-        captureArgs << QStringLiteral("-follow_mouse") << QStringLiteral("centered");
+        captureArgs << QStringLiteral("-follow_mouse")
+                    << QStringLiteral("centered");
     }
     if (!KdenliveSettings::grab_hide_frame()) {
         captureArgs << QStringLiteral("-show_region") << QStringLiteral("1");
@@ -265,17 +278,19 @@ void RecManager::slotRecord(bool record)
     captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
+        captureArgs << QStringLiteral("-s")
+                    << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
         // Region capture
         captureArgs << QStringLiteral("-s")
                     << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
-        captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') +
-                           QString::number(KdenliveSettings::grab_offsety()));
+        captureSize.append(
+            QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') + QString::number(KdenliveSettings::grab_offsety()));
     }
     // fps
-    captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
+    captureArgs << QStringLiteral("-r")
+                << QString::number(KdenliveSettings::grab_fps());
     if (KdenliveSettings::grab_hide_mouse()) {
         captureSize.append(QStringLiteral("+nomouse"));
     }
@@ -284,14 +299,14 @@ void RecManager::slotRecord(bool record)
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
     }
     captureArgs << path;
-
     m_captureProcess->start(KdenliveSettings::ffmpegpath(), captureArgs);
     if (!m_captureProcess->waitForStarted()) {
         // Problem launching capture app
-        emit warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
+        emit warningMessage(i18n("Failed to start the capture application:\n%1",KdenliveSettings::ffmpegpath()));
         // delete m_captureProcess;
     }
 }
+
 
 void RecManager::slotProcessStatus(QProcess::ProcessState status)
 {
@@ -325,6 +340,25 @@ void RecManager::slotReadProcessInfo()
     m_recError.append(data + QLatin1Char('\n'));
 }
 
+void RecManager::slotAudioDeviceChanged(int)
+{
+    int currentItem = m_audio_device->currentData().toInt();
+    KdenliveSettings::setDefaultaudiocapture(currentItem);
+}
+
+void RecManager::slotSetVolume(int volume)
+{
+    KdenliveSettings::setAudiocapturevolume(volume);
+    pCore->setAudioCaptureVolume(volume);
+    QIcon icon;
+
+    if (volume == 0) {
+        icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
+    } else {
+        icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+    }
+    m_audioCaptureButton->setIcon(icon);
+}
 void RecManager::slotVideoDeviceChanged(int)
 {
     int currentItem = m_device_selector->currentData().toInt();
