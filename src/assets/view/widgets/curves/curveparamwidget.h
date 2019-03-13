@@ -36,7 +36,6 @@ template <typename CurveWidget_t> class CurveParamWidget : public AbstractParamW
 {
 public:
     ~CurveParamWidget() override = default;
-    ;
     CurveParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
     enum class CurveModes { Red = 0, Green = 1, Blue = 2, Luma = 3, Alpha = 4, RGB = 5, Hue = 6, Saturation = 7 };
