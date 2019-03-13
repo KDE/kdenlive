@@ -28,6 +28,10 @@ if [ ! -d $BUILD_PREFIX/kdenlive-build/ ] ; then
     mkdir -p $BUILD_PREFIX/kdenlive-build/
 fi
 
+#download translations
+cp $KDENLIVE_SOURCES/packaging/appimage/
+ruby fetch_l10n_po.rb --enable-kdenlive
+
 # Now switch to it
 cd $BUILD_PREFIX/kdenlive-build/
 

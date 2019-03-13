@@ -19,11 +19,8 @@ apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl aut
 apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
 
 # Read in our parameters
-#export BUILD_PREFIX=$1
-#export KDENLIVE_SOURCES=$2
-export BUILD_PREFIX=/build
-export KDENLIVE_SOURCES=/kdenlive
-export DEPS_INSTALL_PREFIX=/external
+export BUILD_PREFIX=$1
+export KDENLIVE_SOURCES=$2
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment.
 # That's not always the case, so make sure it is
@@ -91,19 +88,50 @@ cmake --build . --target ext_alsa
 cmake --build . --target ext_sdl2
 
 cmake --build . --target ext_fftw3
+cmake --build . --target ext_fftw3f
 
 # ladspa expects fft3w.pc pkgconfig files
-cp /build/deps/usr/lib/pkgconfig/fftwf.pc /build/deps/usr/lib/pkgconfig/fftw3f.pc
-
-cmake --build . --target ext_ladspa
+cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftwf.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3f.pc
+cp $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw.pc $DEPS_INSTALL_PREFIX/lib/pkgconfig/fftw3.pc
 
 cmake --build . --target ext_x264
 cmake --build . --target ext_x265
+
+# libvpx does not compile with this gcc6 version
+#export CC=/usr/bin/gcc
+#export CXX=/usr/bin/g++
+
 cmake --build . --target ext_libvpx
+
+#export CC=/usr/bin/gcc-6
+#export CXX=/usr/bin/g++-6
+
 cmake --build . --target ext_ffmpeg
+cmake --build . --target ext_sox
+cmake --build . --target ext_jack
+cmake --build . --target ext_ladspa
 cmake --build . --target ext_cairo
 cmake --build . --target ext_harfbuzz
 cmake --build . --target ext_pango
 cmake --build . --target ext_gdkpixbuf
 cmake --build . --target ext_gtk+
+cmake --build . --target ext_gavl
+cmake --build . --target ext_frei0r
+cmake --build . --target ext_vidstab
+cmake --build . --target ext_opencv
+
+#export CC=/usr/bin/gcc-6
+#export CXX=/usr/bin/g++-6
+
+#cmake --build . --target ext_movit
 cmake --build . --target ext_mlt
+cmake --build . --target ext_kbookmarks
+cmake --build . --target ext_kxmlgui
+cmake --build . --target ext_kconfigwidgets
+cmake --build . --target ext_knotifyconfig
+cmake --build . --target ext_knewstuff
+cmake --build . --target ext_kdeclarative
+cmake --build . --target ext_breezeicons
+cmake --build . --target ext_kcrash
+cmake --build . --target ext_breeze
+cmake --build . --target ext_ruby
