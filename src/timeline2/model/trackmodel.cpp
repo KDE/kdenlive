@@ -126,6 +126,12 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     // Find out the clip id at position
     int target_clip = m_playlists[0].get_clip_index_at(position);
     int count = m_playlists[0].count();
+    if (auto ptr = m_parent.lock()) {
+        Q_ASSERT(ptr->getClipPtr(clipId)->getCurrentTrackId() == -1);
+    } else {
+        qDebug() << "impossible to get parent timeline";
+        Q_ASSERT(false);
+    }
 
     // we create the function that has to be executed after the melt order. This is essentially book-keeping
     auto end_function = [clipId, this, position, updateView, finalMove]() {

@@ -515,10 +515,10 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
     if (tid == m_currentTrackId) {
         return;
     }
-    MoveableItem::setCurrentTrackId(tid, finalMove);
-    if (finalMove) {
+    if (finalMove && tid != -1) {
         refreshProducerFromBin(m_currentState);
     }
+    MoveableItem::setCurrentTrackId(tid, finalMove);
 }
 
 Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
