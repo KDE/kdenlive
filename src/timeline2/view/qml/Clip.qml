@@ -222,7 +222,7 @@ Rectangle {
     }
 
     onAudioLevelsChanged: {
-        if (parentTrack && parentTrack.isAudio) {
+        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             thumbsLoader.item.reload()
         }
     }

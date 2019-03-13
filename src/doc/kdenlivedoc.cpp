@@ -110,6 +110,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.y() - 1);
     m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.y());
     m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
+    m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
+    m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
 
     // Load properties
     QMapIterator<QString, QString> i(properties);
