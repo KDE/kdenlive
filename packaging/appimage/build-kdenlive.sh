@@ -35,6 +35,9 @@ ruby fetch_l10n_po.rb --enable-kdenlive
 # Now switch to it
 cd $BUILD_PREFIX/kdenlive-build/
 
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
+
 # Determine how many CPUs we have
 CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
 
@@ -42,7 +45,6 @@ CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
 cmake $KDENLIVE_SOURCES \
     -DCMAKE_INSTALL_PREFIX:PATH=$BUILD_PREFIX/kdenlive.appdir/usr \
     -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-    -DBUILD_TESTING=FALSE \
     -DBUILD_TESTING=FALSE
 
 # Build and Install Kdenlive (ready for the next phase)
