@@ -20,6 +20,7 @@
     <file alias="OverlayThirds.qml">monitor/view/OverlayThirds.qml</file>
     <file alias="timeline.qml">timeline2/view/qml/timeline.qml</file>
     <file alias="TrackHead.qml">timeline2/view/qml/TrackHead.qml</file>
+    <file alias="AudioLevels.qml">timeline2/view/qml/AudioLevels.qml</file>
     <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
     <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
     <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>

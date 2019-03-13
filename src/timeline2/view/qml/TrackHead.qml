@@ -31,6 +31,7 @@ Rectangle {
     property int isComposite
     property bool isLocked
     property bool isAudio
+    property bool showAudioRecord
     property bool selected: false
     property bool current: false
     property int myTrackHeight
@@ -95,6 +96,7 @@ Rectangle {
                 headerMenu.trackId = trackId
                 headerMenu.thumbsFormat = thumbsFormat
                 headerMenu.audioTrack = trackHeadRoot.isAudio
+                headerMenu.recEnabled = trackHeadRoot.showAudioRecord
                 headerMenu.popup()
             }
         }
@@ -206,7 +208,6 @@ Rectangle {
             Item {
                 // Spacer
                 Layout.fillWidth: true
-                Layout.fillHeight: true
             }
             ToolButton {
                 iconName: 'tools-wizard'
@@ -330,6 +331,18 @@ Rectangle {
                         visible = false
                     }
                 }
+            }
+        }
+        RowLayout {
+            Loader {
+                id: audioVuMeter
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                Layout.rightMargin: 2
+                Layout.leftMargin: 4
+                Layout.minimumHeight: root.baseUnit
+                Layout.maximumHeight: root.baseUnit * 3
+                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
             }
         }
         Item {

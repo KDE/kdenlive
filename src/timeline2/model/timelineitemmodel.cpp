@@ -211,6 +211,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
     roles[ThumbsFormatRole] = "thumbsFormat";
+    roles[AudioRecordRole] = "audioRecord";
     roles[EffectNamesRole] = "effectNames";
     roles[EffectsEnabledRole] = "isStackEnabled";
     roles[GrabbedRole] = "isGrabbed";
@@ -357,7 +358,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case ThumbsFormatRole:
             return getTrackById_const(id)->getProperty("kdenlive:thumbs_format").toInt();
-        case IsCompositeRole: {
+        case IsCompositeRole: {case AudioRecordRole:
+            return getTrackById_const(id)->getProperty("kdenlive:audio_rec").toInt();
             return Qt::Unchecked;
         }
         case EffectNamesRole: {
@@ -432,6 +434,8 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         }
     } else if (name == QLatin1String("kdenlive:thumbs_format")) {
         roles.push_back(ThumbsFormatRole);
+    } else if (name == QLatin1String("kdenlive:audio_rec")) {
+        roles.push_back(AudioRecordRole);
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);

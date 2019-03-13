@@ -29,14 +29,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCamera>
 #include <QCameraInfo>
 #include <QStringList>
+#include <QAudioBuffer>
 #include <QUrl>
 #include <memory>
 
 class QAudioRecorder;
+class QAudioProbe;
 
 class MediaCapture : public QObject 
 {
     Q_OBJECT
+    Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
 
 public:
     MediaCapture(QObject* parent);
@@ -53,6 +56,7 @@ public:
     QStringList getAudioCaptureDevices();
     /** @brief Returns QMediaRecorder::State value **/
     int getState();
+    Q_INVOKABLE QVector<qreal> levels() const;
 
 public slots:
     void displayErrorMessage();
@@ -61,9 +65,17 @@ private:
     std::unique_ptr<QAudioRecorder> m_audioRecorder;
     std::unique_ptr<QMediaRecorder> m_videoRecorder;
     std::unique_ptr<QCamera> m_camera;
+    std::unique_ptr<QAudioProbe> m_probe;
     QString m_audioDevice;
     qreal m_volume;
     QUrl m_path;
+    QVector<qreal> m_levels;
+
+private slots:
+    void processBuffer(const QAudioBuffer& buffer);
+    
+signals:
+    void levelsChanged();
 };
 
 #endif

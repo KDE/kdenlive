@@ -152,7 +152,8 @@ public:
         ThumbsFormatRole,   /// track only
         EffectNamesRole,    // track and clip only
         EffectsEnabledRole, // track and clip only
-        GrabbedRole         /// clip+composition only
+        GrabbedRole,         /// clip+composition only
+        AudioRecordRole     /// track only
     };
 
     ~TimelineModel() override;

@@ -189,6 +189,7 @@ public:
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
     void setAudioCaptureVolume(int);
+    MediaCapture *getAudioDevice();
 
 private:
     explicit Core();

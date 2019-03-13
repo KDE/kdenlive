@@ -496,6 +496,7 @@ Rectangle {
         property int trackId: -1
         property int thumbsFormat: 0
         property bool audioTrack: false
+        property bool recEnabled: false
         OLD.MenuItem {
             text: i18n('Add Track')
             onTriggered: {
@@ -509,6 +510,16 @@ Rectangle {
                 timeline.deleteTrack(timeline.activeTrack)
                 timeline.ungrabHack()
             }
+        }
+        OLD.MenuItem {
+            visible: headerMenu.audioTrack
+            id: showRec
+            text: "Show Record Controls"
+            onTriggered: {
+                controller.setTrackProperty(headerMenu.trackId, "kdenlive:audio_rec", showRec.checked ? '1' : '0')
+            }
+            checkable: true
+            checked: headerMenu.recEnabled
         }
         OLD.Menu {
             title: i18n('Track thumbnails')
@@ -564,6 +575,7 @@ Rectangle {
 
     Row {
         Column {
+            id: headerContainer
             z: 1
             Rectangle {
                 id: cornerstone
@@ -596,7 +608,7 @@ Rectangle {
                     height: trackHeaders.height
                     acceptedButtons: Qt.NoButton
                     onWheel: {
-                        var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - headerFlick.height - cornerstone.height)
+                        var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.__horizontalScrollBar.height + cornerstone.height)
                         scrollView.flickableItem.contentY = Math.max(newScroll, 0)
                     }
                 }
@@ -614,6 +626,7 @@ Rectangle {
                             isComposite: model.composite
                             isLocked: model.locked
                             isAudio: model.audio
+                            showAudioRecord: model.audioRecord
                             effectNames: model.effectNames
                             isStackEnabled: model.isStackEnabled
                             width: headerWidth

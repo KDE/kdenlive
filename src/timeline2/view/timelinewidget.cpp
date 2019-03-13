@@ -128,6 +128,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model)
     rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); // m_transitionProxyModel.get());
     // rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
     rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
+    rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
