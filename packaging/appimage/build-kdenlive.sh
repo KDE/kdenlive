@@ -29,7 +29,7 @@ if [ ! -d $BUILD_PREFIX/kdenlive-build/ ] ; then
 fi
 
 #download translations
-cp $KDENLIVE_SOURCES/packaging/appimage/
+cd $KDENLIVE_SOURCES/packaging/appimage/
 ruby fetch_l10n_po.rb --enable-kdenlive
 
 # Now switch to it
