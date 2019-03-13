@@ -5,10 +5,8 @@ set -e
 set -x
 
 # Read in our parameters
-#export BUILD_PREFIX=$1
-#export KDENLIVE_SOURCES=$2
-export BUILD_PREFIX=/build
-export KDENLIVE_SOURCES=/kdenlive
+export BUILD_PREFIX=$1
+export KDENLIVE_SOURCES=$2
 
 # qjsonparser, used to add metadata to the plugins needs to work in a en_US.UTF-8 environment.
 # That's not always the case, so make sure it is
