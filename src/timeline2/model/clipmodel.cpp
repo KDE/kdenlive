@@ -365,7 +365,6 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
-    Q_ASSERT(m_currentTrackId == -1);
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();

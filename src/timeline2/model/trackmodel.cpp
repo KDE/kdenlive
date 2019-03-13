@@ -140,7 +140,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             m_allClips[clip->getId()] = clip; // store clip
             // update clip position and track
             clip->setPosition(position);
-            clip->setCurrentTrackId(m_id, finalMove);
             int new_in = clip->getPosition();
             int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
