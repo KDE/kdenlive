@@ -36,7 +36,7 @@ Rectangle {
 
         Label {
             Layout.fillWidth:true
-            text: i18n("Properties of transition ") + transitionName
+            text: i18n("Properties of transition %1", transitionName)
         }
         AssetView {
             Layout.fillWidth:true

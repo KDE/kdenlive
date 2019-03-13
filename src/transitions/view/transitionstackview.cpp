@@ -55,7 +55,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     if (!pCore->compositionAutoTrack(model->getOwnerId().second)) {
         m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
     }
-    QLabel *title = new QLabel(i18n("Composition track: "), this);
+    QLabel *title = new QLabel(i18n("Composition track:"), this);
     lay->addWidget(title);
     lay->addWidget(m_trackBox);
     m_lay->insertLayout(0, lay);

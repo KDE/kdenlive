@@ -370,7 +370,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
         KMessageBox::sorry(
             QApplication::activeWindow(),
-            i18n("This project type is unsupported (version %1) and can't be loaded.\nPlease consider upgrading your Kdenlive version.", version),
+            i18n("This project type is unsupported (version %1) and cannot be loaded.\nPlease consider upgrading your Kdenlive version.", version),
             i18n("Unable to open project"));
         return false;
     }
@@ -379,7 +379,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     if (qFuzzyCompare(version, 0.5) || qFuzzyCompare(version, 0.7)) {
         // 0.7 is unsupported
         // qCDebug(KDENLIVE_LOG) << "Unable to open document with version " << version;
-        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and can't be loaded.", version),
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("This project type is unsupported (version %1) and cannot be loaded.", version),
                            i18n("Unable to open project"));
         return false;
     }
@@ -2094,7 +2094,7 @@ bool DocumentValidator::checkMovit()
     }
     if (KMessageBox::questionYesNo(QApplication::activeWindow(),
                                    i18n("The project file uses some GPU effects. GPU acceleration is not currently enabled.\nDo you want to convert the "
-                                        "project to a non-GPU version ?\nThis might result in data loss.")) != KMessageBox::Yes) {
+                                        "project to a non-GPU version?\nThis might result in data loss.")) != KMessageBox::Yes) {
         return false;
     }
     // Try to convert Movit filters to their non GPU equivalent

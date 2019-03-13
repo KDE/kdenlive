@@ -211,7 +211,7 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
         if (profile->progressive()) {
             interlaced = i18n("no");
         }
-        description += i18n("Interlaced : %1</p>", interlaced);
+        description += i18n("Interlaced: %1</p>", interlaced);
     }
     m_descriptionPanel->setHtml(description);
 }

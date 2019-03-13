@@ -231,7 +231,7 @@ void DvdWizardVob::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exit
         // Something failed
         // TODO show log
         m_warnMessage->setMessageType(KMessageWidget::Warning);
-        m_warnMessage->setText(i18n("Transcoding failed!"));
+        m_warnMessage->setText(i18n("Transcoding failed"));
         m_warnMessage->animatedShow();
         m_transcodeQueue.clear();
     }

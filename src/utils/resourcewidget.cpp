@@ -455,7 +455,7 @@ void ResourceWidget::slotFreesoundUseHQPreview()
         int ret =
             QMessageBox::warning(this, i18n("File Exists"),
                                  i18n("HQ preview files are all mp3 files. We have added .mp3 as a file extension to the destination file name you chose. "
-                                      "However, there is an existing file of this name present. \n Do you want to overwrite the existing file?. ") +
+                                      "However, there is an existing file of this name present.\n Do you want to overwrite the existing file?") +
                                      QStringLiteral("\n") + m_saveLocation,
                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
         if (ret == QMessageBox::No) {
@@ -497,7 +497,7 @@ void ResourceWidget::slotGotFile(KJob *job)
     auto *copyJob = static_cast<KIO::FileCopyJob *>(job);
     const QUrl filePath = copyJob->destUrl();
 
-    KMessageBox::information(this, i18n("Resource saved to ") + filePath.toLocalFile(), i18n("Data Imported"));
+    KMessageBox::information(this, i18n("Resource saved to %1", filePath.toLocalFile()), i18n("Data Imported"));
     emit addClip(filePath, QStringList());
 }
 
@@ -834,7 +834,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 file.write(aSoundData);
                 file.close();
 
-                KMessageBox::information(this, i18n("Resource saved to ") + m_saveLocation, i18n("Data Imported"));
+                KMessageBox::information(this, i18n("Resource saved to %1", m_saveLocation), i18n("Data Imported"));
                 emit addClip(QUrl(m_saveLocation), QStringList()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
 
                 m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
@@ -857,7 +857,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
 #ifdef QT5_USE_WEBKIT
                 m_pOAuth2->ForgetAccessToken();
 #endif
-                m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: ") + reply->error() + QStringLiteral("<br>"));
+                m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: %1", reply->error()) + QStringLiteral("<br>"));
                 m_desc.append(QStringLiteral("<br><b>") + i18n("Try importing again to obtain a new freesound connection") + QStringLiteral("</b>"));
                 updateLayout();
             }

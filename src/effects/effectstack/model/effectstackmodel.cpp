@@ -198,7 +198,7 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     if (result && logUndo) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
         QString effectName = EffectsRepository::get()->getName(sourceEffect->getAssetId());
-        PUSH_UNDO(undo, redo, i18n("copy effect %1", effectName));
+        PUSH_UNDO(undo, redo, i18n("Copy effect %1", effectName));
     }
     return result;
 }

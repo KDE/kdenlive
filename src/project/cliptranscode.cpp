@@ -278,7 +278,7 @@ void ClipTranscode::slotTranscodeFinished(int exitCode, QProcess::ExitStatus exi
         }
     } else {
         m_infoMessage->setMessageType(KMessageWidget::Warning);
-        m_infoMessage->setText(i18n("Transcoding failed!"));
+        m_infoMessage->setText(i18n("Transcoding failed"));
         m_infoMessage->animatedShow();
         log_text->setVisible(true);
     }

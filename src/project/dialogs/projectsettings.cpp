@@ -433,7 +433,7 @@ void ProjectSettings::accept()
         if (KMessageBox::warningContinueCancel(
                 this,
                 i18n("Changing the profile of your project cannot be undone.\nIt is recommended to save your project before attempting this operation "
-                     "that might cause some corruption in transitions.\n Are you sure you want to proceed?"),
+                     "that might cause some corruption in transitions.\nAre you sure you want to proceed?"),
                 i18n("Confirm profile change")) == KMessageBox::Cancel) {
             return;
         }

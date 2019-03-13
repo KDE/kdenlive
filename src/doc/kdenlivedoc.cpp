@@ -566,11 +566,11 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         }
         QString message;
         if (m_documentOpenStatus == UpgradedProject) {
-            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you don't lose data, a backup copy called %1 "
+            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you do not lose data, a backup copy called %1 "
                            "was created.",
                            backupFile);
         } else {
-            message = i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.", backupFile);
+            message = i18n("Your project file was modified by Kdenlive.\nTo make sure you do not lose data, a backup copy called %1 was created.", backupFile);
         }
 
         KIO::FileCopyJob *copyjob = KIO::file_copy(QUrl::fromLocalFile(path), QUrl::fromLocalFile(backupFile));
@@ -1384,7 +1384,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
             QString currentProfileDesc = pCore->getCurrentProfile()->description();
             KMessageBox::ButtonCode answer = KMessageBox::questionYesNoCancel(
                 QApplication::activeWindow(),
-                i18n("Your default project profile is %1, but your clip's profile is %2.\nDo you want to change default profile for future projects ?",
+                i18n("Your default project profile is %1, but your clip's profile is %2.\nDo you want to change default profile for future projects?",
                      currentProfileDesc, profile->description()),
                 i18n("Change default project profile"), KGuiItem(i18n("Change default to %1", profile->description())),
                 KGuiItem(i18n("Keep current default %1", currentProfileDesc)), KGuiItem(i18n("Ask me later")));

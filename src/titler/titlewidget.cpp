@@ -2007,7 +2007,7 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         m_missingMessage->setCloseButtonVisible(true);
         m_missingMessage->setWordWrap(true);
         m_missingMessage->setMessageType(KMessageWidget::Warning);
-        m_missingMessage->setText(i18n("This title has %1 missing elements", m_titledocument.invalidCount()));
+        m_missingMessage->setText(i18np("This title has 1 missing element", "This title has %1 missing elements", m_titledocument.invalidCount()));
         QAction *action = new QAction(i18n("Details"));
         m_missingMessage->addAction(action);
         connect(action, &QAction::triggered, this, &TitleWidget::showMissingItems);
@@ -2125,7 +2125,7 @@ void TitleWidget::showMissingItems()
         }
     }
     missingUrls.removeDuplicates();
-    KMessageBox::informationList(QApplication::activeWindow(), i18n("The following files are missing: "), missingUrls);
+    KMessageBox::informationList(QApplication::activeWindow(), i18n("The following files are missing:"), missingUrls);
 }
 
 void TitleWidget::writeChoices()

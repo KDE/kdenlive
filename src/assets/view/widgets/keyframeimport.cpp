@@ -51,7 +51,7 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
 {
     auto *lay = new QVBoxLayout(this);
     auto *l1 = new QHBoxLayout;
-    QLabel *lab = new QLabel(i18n("Data to import: "), this);
+    QLabel *lab = new QLabel(i18n("Data to import:"), this);
     l1->addWidget(lab);
 
     m_dataCombo = new QComboBox(this);

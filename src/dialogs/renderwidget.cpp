@@ -672,7 +672,7 @@ bool RenderWidget::saveProfile(QDomElement newprofile)
     bool ok;
     while (existingProfileNames.contains(newProfileName)) {
         QString updatedProfileName = QInputDialog::getText(this, i18n("Profile already exists"),
-                                                           i18n("This profile name already exists. Change the name if you don't want to overwrite it."),
+                                                           i18n("This profile name already exists. Change the name if you do not want to overwrite it."),
                                                            QLineEdit::Normal, newProfileName, &ok);
         if (!ok) {
             return false;
@@ -880,7 +880,7 @@ void RenderWidget::slotEditProfile()
                 // a profile with that same name already exists
                 bool ok;
                 newProfileName = QInputDialog::getText(this, i18n("Profile already exists"),
-                                                       i18n("This profile name already exists. Change the name if you don't want to overwrite it."),
+                                                       i18n("This profile name already exists. Change the name if you do not want to overwrite it."),
                                                        QLineEdit::Normal, newProfileName, &ok);
                 if (!ok) {
                     return;
@@ -3363,7 +3363,7 @@ void RenderWidget::adjustSpeed(int speedIndex)
     if (m_view.formats->currentItem()) {
         QStringList speeds = m_view.formats->currentItem()->data(0, SpeedsRole).toStringList();
         if (speedIndex < speeds.count()) {
-            m_view.speed->setToolTip(i18n("Codec speed parameters:\n") + speeds.at(speedIndex));
+            m_view.speed->setToolTip(i18n("Codec speed parameters:\n%1", speeds.at(speedIndex)));
         }
     }
 }

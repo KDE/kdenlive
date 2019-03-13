@@ -328,7 +328,7 @@ void LibraryWidget::slotDeleteFromLibrary()
         if (current->data(0, Qt::UserRole + 2).toInt() == LibraryItem::PlayList) {
             message = i18n("This will delete the MLT playlist:\n%1", path);
         } else {
-            message = i18n("This will delete the file :\n%1", path);
+            message = i18n("This will delete the file:\n%1", path);
         }
         if (KMessageBox::warningContinueCancel(this, message) != KMessageBox::Continue) {
             return;

@@ -37,7 +37,7 @@ ManageCapturesDialog::ManageCapturesDialog(const QList<QUrl> &files, QWidget *pa
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
     m_importButton = m_view.buttonBox->button(QDialogButtonBox::Ok);
-    m_importButton->setText(i18n("import"));
+    m_importButton->setText(i18n("Import"));
     m_view.treeWidget->setIconSize(QSize(70, 50));
     for (const QUrl &url : files) {
         QStringList text;

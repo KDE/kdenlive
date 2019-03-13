@@ -1018,7 +1018,7 @@ void Bin::slotReloadClip()
                             f.close();
                             KMessageBox::information(
                                 this,
-                                i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.",
+                                i18n("Your project file was modified by Kdenlive.\nTo make sure you do not lose data, a backup copy called %1 was created.",
                                      backupFile));
                         }
                     }
@@ -1051,7 +1051,7 @@ void Bin::slotLocateClip()
                 qCDebug(KDENLIVE_LOG) << "  / / " + url.toString();
             } else {
                 if (!exists) {
-                    emitMessage(i18n("Couldn't locate ") + QString(" (" + url.toString() + QLatin1Char(')')), 100, ErrorMessage);
+                    emitMessage(i18n("Could not locate %1", url.toString()), 100, ErrorMessage);
                 }
                 return;
             }
@@ -1158,7 +1158,7 @@ void Bin::createClip(const QDomElement &xml)
                     out << doc.toString();
                     f.close();
                     KMessageBox::information(
-                        this, i18n("Your project file was modified by Kdenlive.\nTo make sure you don't lose data, a backup copy called %1 was created.",
+                        this, i18n("Your project file was modified by Kdenlive.\nTo make sure you do not lose data, a backup copy called %1 was created.",
                                    backupFile));
                 }
             }

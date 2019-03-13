@@ -872,7 +872,7 @@ void MainWindow::setupActions()
     connect(sceneMode, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &MainWindow::slotChangeEdit);
     addAction(QStringLiteral("timeline_mode"), sceneMode);
 
-    m_useTimelineZone = new KDualAction(i18n("Don't Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
+    m_useTimelineZone = new KDualAction(i18n("Do not Use Timeline Zone for Insert"), i18n("Use Timeline Zone for Insert"), this);
     m_useTimelineZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-on")));
     m_useTimelineZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("timeline-use-zone-off")));
     m_useTimelineZone->setAutoToggle(true);
@@ -3044,7 +3044,7 @@ void MainWindow::buildDynamicActions()
     for (const QString &stab : {QStringLiteral("vidstab"), QStringLiteral("videostab2"), QStringLiteral("videostab")}) {
         filter = std::make_unique<Mlt::Filter>(profile, stab.toUtf8().constData());
         if ((filter != nullptr) && filter->is_valid()) {
-            QAction *action = new QAction(i18n("Stabilize") + QStringLiteral(" (") + stab + QLatin1Char(')'), m_extraFactory->actionCollection());
+            QAction *action = new QAction(i18n("Stabilize (%1)", stab), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, [stab]() {
                 pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(), {},
@@ -3691,7 +3691,7 @@ void MainWindow::forceIconSet(bool force)
         bool useDarkIcons = background.value() < 100;
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply icon theme change. Restart now ?")) == KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply the icon theme change. Restart now?")) == KMessageBox::Continue) {
         slotRestart();
     }
 }
