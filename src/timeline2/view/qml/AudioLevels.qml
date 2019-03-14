@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import QtGraphicalEffects 1.12
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: recContainer
