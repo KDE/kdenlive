@@ -14,7 +14,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "definitions.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
-#include "capture/mediacapture.h"
 #include <QObject>
 #include <QTabWidget>
 #include <QUrl>
@@ -28,6 +27,7 @@ class JobManager;
 class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
+class MediaCapture;
 class Monitor;
 class MonitorManager;
 class ProfileModel;

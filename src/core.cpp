@@ -11,6 +11,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "core.h"
 #include "bin/bin.h"
 #include "bin/projectitemmodel.h"
+#include "capture/mediacapture.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "jobs/jobmanager.h"
@@ -740,4 +741,3 @@ MediaCapture *Core::getAudioDevice()
 {
     return m_capture.get();
 }
-
