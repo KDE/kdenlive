@@ -285,14 +285,24 @@ void MainWindow::init()
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
 
     m_assetPanel = new AssetPanel(this);
-
+    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::changeSpeed, this, &MainWindow::slotChangeSpeed);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
+    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, [&] () {
+        m_effectStackDock->raise();
+    });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, [&] () {
+        m_effectStackDock->raise();
+    });
+
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
     connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
+    connect(pCore->bin(), &Bin::requestShowEffectStack, [&] () {
+        m_effectStackDock->raise();
+    });
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
     connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();
@@ -310,8 +320,6 @@ void MainWindow::init()
             break;
         }
     });
-
-    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
 
     m_effectList2 = new EffectListWidget(this);
     connect(m_effectList2, &EffectListWidget::activateAsset, pCore->projectManager(), &ProjectManager::activateAsset);
