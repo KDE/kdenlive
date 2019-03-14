@@ -715,7 +715,7 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
 
 std::shared_ptr<AbstractEffectItem> EffectStackModel::getEffectStackRow(int row, const std::shared_ptr<TreeItem> &parentItem)
 {
-    return std::static_pointer_cast<AbstractEffectItem>(parentItem ? rootItem->child(row) : rootItem->child(row));
+    return std::static_pointer_cast<AbstractEffectItem>(parentItem ? parentItem->child(row) : rootItem->child(row));
 }
 
 bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state)

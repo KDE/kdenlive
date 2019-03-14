@@ -28,6 +28,7 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "effects/effectsrepository.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "groupsmodel.hpp"
 #include "kdenlivesettings.h"
 #include "logger.hpp"

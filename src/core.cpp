@@ -551,8 +551,7 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
     case (int)ObjectType::TimelineClip:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipEffectStack(itemId);
     case (int)ObjectType::TimelineTrack:
-        // TODO
-        return nullptr;
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getTrackEffectStackModel(itemId);
         break;
     case (int)ObjectType::BinClip:
         return m_binWidget->getClipEffectStack(itemId);

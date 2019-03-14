@@ -269,10 +269,11 @@ void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<Ef
     auto *mime = new QMimeData;
     mime->setData(QStringLiteral("kdenlive/effect"), effectModel->getAssetId().toUtf8());
     // TODO this will break if source effect is not on the stack of a timeline clip
+    ObjectId source = effectModel->getOwnerId();
     QByteArray effectSource;
-    effectSource += QString::number((int)effectModel->getOwnerId().first).toUtf8();
+    effectSource += QString::number((int)source.first).toUtf8();
     effectSource += '-';
-    effectSource += QString::number((int)effectModel->getOwnerId().second).toUtf8();
+    effectSource += QString::number((int)source.second).toUtf8();
     effectSource += '-';
     effectSource += QString::number(effectModel->row()).toUtf8();
     mime->setData(QStringLiteral("kdenlive/effectsource"), effectSource);
