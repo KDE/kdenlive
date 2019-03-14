@@ -23,6 +23,7 @@
 #include "../model/builders/meltBuilder.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "capture/mediacapture.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
