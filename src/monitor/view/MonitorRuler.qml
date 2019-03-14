@@ -56,14 +56,16 @@ Rectangle {
         hoverEnabled: true
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
-                controller.requestSeekPosition(Math.min(mouseX / root.timeScale, root.duration));
+                var pos = Math.max(mouseX, 0)
+                controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
             }
         }
         onPositionChanged: {
             if (mouse.buttons === Qt.LeftButton) {
-                root.mouseRulerPos = mouseX
+                var pos = Math.max(mouseX, 0)
+                root.mouseRulerPos = pos
                 if (pressed) {
-                    controller.requestSeekPosition(Math.min(mouseX / root.timeScale, root.duration));
+                    controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
                 }
             }
         }
