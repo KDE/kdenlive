@@ -335,6 +335,6 @@ void KeyframeView::paintEvent(QPaintEvent *event)
         p.drawPolygon(position);
     }
     p.setOpacity(0.5);
-    p.drawLine(m_offset, m_lineHeight, m_offset, m_lineHeight + headOffset );
-    p.drawLine(width() - m_offset, m_lineHeight, width() - m_offset, m_lineHeight + headOffset );
+    p.drawLine(m_offset, m_lineHeight, m_offset, m_lineHeight + headOffset);
+    p.drawLine(width() - m_offset, m_lineHeight, width() - m_offset, m_lineHeight + headOffset);
 }

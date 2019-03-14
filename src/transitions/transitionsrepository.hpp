@@ -44,7 +44,7 @@ public:
     static std::unique_ptr<TransitionsRepository> &get();
 
     /* @brief Creates and return an instance of a transition given its id.
-    */
+     */
     std::unique_ptr<Mlt::Transition> getTransition(const QString &transitionId) const;
 
     /* @brief returns true if the transition corresponding to @transitionId is a composition*/

@@ -24,9 +24,8 @@
 template <typename Curve_t>
 AbstractCurveWidget<Curve_t>::AbstractCurveWidget(QWidget *parent)
     : __dummy_AbstractCurveWidget(parent)
-    , 
-     m_pixmapCache(nullptr)
-     
+    , m_pixmapCache(nullptr)
+
 {
     setMouseTracking(true);
     setAutoFillBackground(false);

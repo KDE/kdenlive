@@ -333,7 +333,7 @@ bool LoadJob::startJob()
         m_producer->set("length", m_producer->frames_to_time(length, mlt_time_clock));
         int kdenlive_duration = m_producer->time_to_frames(Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:duration")).toUtf8().constData());
         if (kdenlive_duration > 0) {
-            m_producer->set("kdenlive:duration", m_producer->frames_to_time(kdenlive_duration , mlt_time_clock));
+            m_producer->set("kdenlive:duration", m_producer->frames_to_time(kdenlive_duration, mlt_time_clock));
         } else {
             m_producer->set("kdenlive:duration", m_producer->get("length"));
         }

@@ -34,6 +34,4 @@ void HideParamWidget::slotShowComment(bool show)
     Q_UNUSED(show);
 }
 
-void HideParamWidget::slotRefresh()
-{
-}
+void HideParamWidget::slotRefresh() {}

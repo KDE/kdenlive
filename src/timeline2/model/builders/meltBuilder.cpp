@@ -141,7 +141,8 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             int compoId;
             int aTrack = t->get_a_track();
             if (aTrack > tractor.count()) {
-                m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(), t->get_in(), t->get_a_track());
+                m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
+                                       t->get_in(), t->get_a_track());
                 continue;
             }
             ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
@@ -259,7 +260,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            qDebug() << "Looking for clip clip "<< clip->parent().get("kdenlive:id")<<" = "<<clip->parent().get("kdenlive:clipname");
+            qDebug() << "Looking for clip clip " << clip->parent().get("kdenlive:id") << " = " << clip->parent().get("kdenlive:clipname");
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
                 // This is a bin clip, already processed no need to change id

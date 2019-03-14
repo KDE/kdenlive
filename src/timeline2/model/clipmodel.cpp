@@ -378,7 +378,7 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id,  state, m_speed);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id, state, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     // replant effect stack in updated service

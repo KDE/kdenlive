@@ -176,6 +176,7 @@ protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
     virtual QStringList mimeTypes() const;
+
 private:
     std::shared_ptr<ProjectClip> m_controller;
     /** @brief The QQuickView that handles our monitor display (video and qml overlay) **/
@@ -323,7 +324,7 @@ public slots:
     /** @brief Check current position to show relevant infos in qml view (markers, zone in/out, etc). */
     void checkOverlay(int pos = -1);
     void refreshMonitorIfActive(bool directUpdate = false) override;
-    
+
 signals:
     void seekPosition(int);
     /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */

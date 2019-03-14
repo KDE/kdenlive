@@ -23,9 +23,9 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "macros.hpp"
+#include "profiles/profilemodel.hpp"
 #include "rotoscoping/bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
-#include "profiles/profilemodel.hpp"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -700,12 +700,12 @@ QString KeyframeModel::getAnimProperty() const
     for (const auto &keyframe : m_keyframeList) {
         if (first) {
             switch (m_paramType) {
-                case ParamType::AnimatedRect:
-                    mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
-                    break;
-                default:
-                    mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
-                    break;
+            case ParamType::AnimatedRect:
+                mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
+                break;
+            default:
+                mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
+                break;
             }
             anim.reset(mlt_prop.get_anim("key"));
             anim->key_set_type(ix, convertToMltType(keyframe.second.first));
@@ -714,12 +714,12 @@ QString KeyframeModel::getAnimProperty() const
             continue;
         }
         switch (m_paramType) {
-            case ParamType::AnimatedRect:
-                mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
-                break;
-            default:
-                mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
-                break;
+        case ParamType::AnimatedRect:
+            mlt_prop.anim_set("key", keyframe.second.second.toString().toUtf8().constData(), keyframe.first.frames(pCore->getCurrentFps()));
+            break;
+        default:
+            mlt_prop.anim_set("key", keyframe.second.second.toDouble(), keyframe.first.frames(pCore->getCurrentFps()));
+            break;
         }
         anim->key_set_type(ix, convertToMltType(keyframe.second.first));
         ix++;
@@ -766,7 +766,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 
     Mlt::Animation anim = mlt_prop.get_animation("key");
 
-    qDebug() << "Found" << anim.key_count() << ", OUT: "<<out<<", animation properties: "<<prop;
+    qDebug() << "Found" << anim.key_count() << ", OUT: " << out << ", animation properties: " << prop;
     bool useDefaultType = !prop.contains(QLatin1Char('='));
     for (int i = 0; i < anim.key_count(); ++i) {
         int frame;
@@ -778,14 +778,14 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         }
         QVariant value;
         switch (m_paramType) {
-            case ParamType::AnimatedRect: {
-                mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
-                break;
-            }
-            default:
-                value = QVariant(mlt_prop.anim_get_double("key", frame));
-                break;
+        case ParamType::AnimatedRect: {
+            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
+            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+            break;
+        }
+        default:
+            value = QVariant(mlt_prop.anim_get_double("key", frame));
+            break;
         }
         if (i == 0 && frame > in) {
             // Always add a keyframe at start pos

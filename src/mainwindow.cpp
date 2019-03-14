@@ -3691,7 +3691,8 @@ void MainWindow::forceIconSet(bool force)
         bool useDarkIcons = background.value() < 100;
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
-    if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply the icon theme change. Restart now?")) == KMessageBox::Continue) {
+    if (KMessageBox::warningContinueCancel(this, i18n("Kdenlive needs to be restarted to apply the icon theme change. Restart now?")) ==
+        KMessageBox::Continue) {
         slotRestart();
     }
 }

@@ -46,7 +46,7 @@ class Producer;
 }
 
 class RecManager : public QObject
-{   
+{
     Q_OBJECT
 
     enum CaptureDevice {
@@ -104,4 +104,3 @@ signals:
 };
 
 #endif
-

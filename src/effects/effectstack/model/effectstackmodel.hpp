@@ -154,7 +154,6 @@ protected:
     /* @brief Deregister the existence of a new element*/
     void deregisterItem(int id, TreeItem *item) override;
 
-
     std::weak_ptr<Mlt::Service> m_masterService;
     std::vector<std::weak_ptr<Mlt::Service>> m_childServices;
     bool m_effectStackEnabled;

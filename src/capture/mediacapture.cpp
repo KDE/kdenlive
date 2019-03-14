@@ -22,18 +22,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mediacapture.h"
 #include <QAudioProbe>
 
-MediaCapture::MediaCapture(QObject* parent)
+MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
     , m_volume(1.)
 {
     m_probe.reset(new QAudioProbe(this));
-    connect(m_probe.get(), &QAudioProbe::audioBufferProbed,
-            this, &MediaCapture::processBuffer);
+    connect(m_probe.get(), &QAudioProbe::audioBufferProbed, this, &MediaCapture::processBuffer);
 }
 
-MediaCapture::~MediaCapture()
-{
-}
+MediaCapture::~MediaCapture() {}
 
 void MediaCapture::displayErrorMessage()
 {
@@ -71,7 +68,7 @@ void MediaCapture::recordVideo(bool record)
     // TO DO - fix video capture
     if (!m_videoRecorder) {
         QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
-        foreach (const QCameraInfo& cameraInfo, availableCameras) {
+        foreach (const QCameraInfo &cameraInfo, availableCameras) {
             if (cameraInfo == QCameraInfo::defaultCamera()) {
                 m_camera.reset(new QCamera(cameraInfo, this));
                 break;
@@ -130,8 +127,7 @@ int MediaCapture::getState()
     return -1;
 }
 
-template <class T>
-QVector<qreal> getBufferLevels(const T *buffer, int frames, int channels)
+template <class T> QVector<qreal> getBufferLevels(const T *buffer, int frames, int channels)
 {
     QVector<qreal> max_values;
     max_values.fill(0, channels);
@@ -139,8 +135,7 @@ QVector<qreal> getBufferLevels(const T *buffer, int frames, int channels)
     for (int i = 0; i < frames; ++i) {
         for (int j = 0; j < channels; ++j) {
             qreal value = qAbs(qreal(buffer[i * channels + j]));
-            if (value > max_values.at(j))
-                max_values.replace(j, value);
+            if (value > max_values.at(j)) max_values.replace(j, value);
         }
     }
 
@@ -148,14 +143,12 @@ QVector<qreal> getBufferLevels(const T *buffer, int frames, int channels)
 }
 
 // This function returns the maximum possible sample value for a given audio format
-qreal getPeakValue(const QAudioFormat& format)
+qreal getPeakValue(const QAudioFormat &format)
 {
     // Note: Only the most common sample formats are supported
-    if (!format.isValid())
-        return qreal(0);
+    if (!format.isValid()) return qreal(0);
 
-    if (format.codec() != "audio/pcm")
-        return qreal(0);
+    if (format.codec() != "audio/pcm") return qreal(0);
 
     switch (format.sampleType()) {
     case QAudioFormat::Unknown:
@@ -165,51 +158,39 @@ qreal getPeakValue(const QAudioFormat& format)
             return qreal(0);
         return qreal(1.00003);
     case QAudioFormat::SignedInt:
-        if (format.sampleSize() == 32)
-            return qreal(INT_MAX);
-        if (format.sampleSize() == 16)
-            return qreal(SHRT_MAX);
-        if (format.sampleSize() == 8)
-            return qreal(CHAR_MAX);
+        if (format.sampleSize() == 32) return qreal(INT_MAX);
+        if (format.sampleSize() == 16) return qreal(SHRT_MAX);
+        if (format.sampleSize() == 8) return qreal(CHAR_MAX);
         break;
     case QAudioFormat::UnSignedInt:
-        if (format.sampleSize() == 32)
-            return qreal(UINT_MAX);
-        if (format.sampleSize() == 16)
-            return qreal(USHRT_MAX);
-        if (format.sampleSize() == 8)
-            return qreal(UCHAR_MAX);
+        if (format.sampleSize() == 32) return qreal(UINT_MAX);
+        if (format.sampleSize() == 16) return qreal(USHRT_MAX);
+        if (format.sampleSize() == 8) return qreal(UCHAR_MAX);
         break;
     }
 
     return qreal(0);
 }
 
-QVector<qreal> getBufferLevels(const QAudioBuffer& buffer)
+QVector<qreal> getBufferLevels(const QAudioBuffer &buffer)
 {
     QVector<qreal> values;
 
-    if (!buffer.format().isValid() || buffer.format().byteOrder() != QAudioFormat::LittleEndian)
-        return values;
+    if (!buffer.format().isValid() || buffer.format().byteOrder() != QAudioFormat::LittleEndian) return values;
 
-    if (buffer.format().codec() != "audio/pcm")
-        return values;
+    if (buffer.format().codec() != "audio/pcm") return values;
 
     int channelCount = buffer.format().channelCount();
     values.fill(0, channelCount);
     qreal peak_value = getPeakValue(buffer.format());
-    if (qFuzzyCompare(peak_value, qreal(0)))
-        return values;
+    if (qFuzzyCompare(peak_value, qreal(0))) return values;
 
     switch (buffer.format().sampleType()) {
     case QAudioFormat::Unknown:
     case QAudioFormat::UnSignedInt:
-        if (buffer.format().sampleSize() == 32)
-            values = getBufferLevels(buffer.constData<quint32>(), buffer.frameCount(), channelCount);
-        if (buffer.format().sampleSize() == 16)
-            values = getBufferLevels(buffer.constData<quint16>(), buffer.frameCount(), channelCount);
-        if (buffer.format().sampleSize() == 8)
-            values = getBufferLevels(buffer.constData<quint8>(), buffer.frameCount(), channelCount);
+        if (buffer.format().sampleSize() == 32) values = getBufferLevels(buffer.constData<quint32>(), buffer.frameCount(), channelCount);
+        if (buffer.format().sampleSize() == 16) values = getBufferLevels(buffer.constData<quint16>(), buffer.frameCount(), channelCount);
+        if (buffer.format().sampleSize() == 8) values = getBufferLevels(buffer.constData<quint8>(), buffer.frameCount(), channelCount);
         for (int i = 0; i < values.size(); ++i)
             values[i] = qAbs(values.at(i) - peak_value / 2) / (peak_value / 2);
         break;
@@ -221,12 +202,9 @@ QVector<qreal> getBufferLevels(const QAudioBuffer& buffer)
         }
         break;
     case QAudioFormat::SignedInt:
-        if (buffer.format().sampleSize() == 32)
-            values = getBufferLevels(buffer.constData<qint32>(), buffer.frameCount(), channelCount);
-        if (buffer.format().sampleSize() == 16)
-            values = getBufferLevels(buffer.constData<qint16>(), buffer.frameCount(), channelCount);
-        if (buffer.format().sampleSize() == 8)
-            values = getBufferLevels(buffer.constData<qint8>(), buffer.frameCount(), channelCount);
+        if (buffer.format().sampleSize() == 32) values = getBufferLevels(buffer.constData<qint32>(), buffer.frameCount(), channelCount);
+        if (buffer.format().sampleSize() == 16) values = getBufferLevels(buffer.constData<qint16>(), buffer.frameCount(), channelCount);
+        if (buffer.format().sampleSize() == 8) values = getBufferLevels(buffer.constData<qint8>(), buffer.frameCount(), channelCount);
         for (int i = 0; i < values.size(); ++i)
             values[i] /= peak_value;
         break;
@@ -235,14 +213,13 @@ QVector<qreal> getBufferLevels(const QAudioBuffer& buffer)
     return values;
 }
 
-void MediaCapture::processBuffer(const QAudioBuffer& buffer)
+void MediaCapture::processBuffer(const QAudioBuffer &buffer)
 {
     m_levels = getBufferLevels(buffer);
-    emit levelsChanged();    
+    emit levelsChanged();
 }
 
 QVector<qreal> MediaCapture::levels() const
 {
     return m_levels;
 }
-

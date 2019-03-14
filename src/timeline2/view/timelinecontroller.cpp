@@ -545,7 +545,7 @@ void TimelineController::copyItem()
         clipId = m_selection.selectedItems.first();
         // Check grouped clips
         QList<int> extraClips = m_selection.selectedItems;
-        //TODO better guess for master track
+        // TODO better guess for master track
         int masterTid = m_model->getItemTrackId(m_selection.selectedItems.first());
         bool audioCopy = m_model->isAudioTrack(masterTid);
         int masterTrack = m_model->getTrackPosition(masterTid);
@@ -611,7 +611,7 @@ void TimelineController::copyItem()
         if (audioCopy) {
             int masterMirror = m_model->getMirrorVideoTrackId(masterTid);
             if (masterMirror == -1) {
-                QPair<QList <int>, QList <int> > projectTracks = TimelineFunctions::getAVTracksIds(m_model);
+                QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(m_model);
                 if (!projectTracks.second.isEmpty()) {
                     masterTrack = m_model->getTrackPosition(projectTracks.second.first());
                 }
@@ -660,19 +660,19 @@ bool TimelineController::pasteItem()
     const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
     QMap<QString, QString> mappedIds;
     // Check available tracks
-    QPair<QList <int>, QList <int> > projectTracks = TimelineFunctions::getAVTracksIds(m_model);
+    QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(m_model);
     int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
     // find paste tracks
     // List of all source audio tracks
-    QList <int> audioTracks;
+    QList<int> audioTracks;
     // List of all source video tracks
-    QList <int> videoTracks;
+    QList<int> videoTracks;
     // List of all audio tracks with their corresponding video mirror
-    QMap <int, int> audioMirrors;
+    QMap<int, int> audioMirrors;
     // List of all source audio tracks that don't have video mirror
-    QList <int> singleAudioTracks;
+    QList<int> singleAudioTracks;
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
         int trackPos = prod.attribute(QStringLiteral("track")).toInt();
@@ -696,7 +696,7 @@ bool TimelineController::pasteItem()
             videoTracks << videoMirror;
         } else {
             if (videoTracks.contains(trackPos)) {
-                    continue;
+                continue;
             }
             videoTracks << trackPos;
         }
@@ -726,42 +726,42 @@ bool TimelineController::pasteItem()
 
     // Check we have enough tracks above/below
     if (requestedVideoTracks > 0) {
-        qDebug()<<"MASTERSTK: "<<masterSourceTrack<<", VTKS: "<<videoTracks;
+        qDebug() << "MASTERSTK: " << masterSourceTrack << ", VTKS: " << videoTracks;
         int tracksBelow = masterSourceTrack - videoTracks.first();
         int tracksAbove = videoTracks.last() - masterSourceTrack;
-        qDebug()<<"// RQST TKS BELOW: "<<tracksBelow<<" / ABOVE: "<<tracksAbove;
-        qDebug()<<"// EXISTING TKS BELOW: "<<projectTracks.second.indexOf(tid)<<", IX: "<<tid;
-        qDebug()<<"// EXISTING TKS ABOVE: "<<projectTracks.second.size()<<" - "<<projectTracks.second.indexOf(tid);
+        qDebug() << "// RQST TKS BELOW: " << tracksBelow << " / ABOVE: " << tracksAbove;
+        qDebug() << "// EXISTING TKS BELOW: " << projectTracks.second.indexOf(tid) << ", IX: " << tid;
+        qDebug() << "// EXISTING TKS ABOVE: " << projectTracks.second.size() << " - " << projectTracks.second.indexOf(tid);
         if (projectTracks.second.indexOf(tid) < tracksBelow) {
-            qDebug()<<"// UPDATING BELOW TID IX TO: "<<tracksBelow;
+            qDebug() << "// UPDATING BELOW TID IX TO: " << tracksBelow;
             // not enough tracks below, try to paste on upper track
             tid = projectTracks.second.at(tracksBelow);
         } else if ((projectTracks.second.size() - (projectTracks.second.indexOf(tid) + 1)) < tracksAbove) {
             // not enough tracks above, try to paste on lower track
-            qDebug()<<"// UPDATING ABOVE TID IX TO: "<<(projectTracks.second.size() - tracksAbove);
+            qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.second.size() - tracksAbove);
             tid = projectTracks.second.at(projectTracks.second.size() - tracksAbove - 1);
         }
     }
-    QMap <int, int>tracksMap;
+    QMap<int, int> tracksMap;
     int masterIx = projectTracks.second.indexOf(tid);
-    qDebug()<<"/// PROJECT VIDEO TKS: "<<projectTracks.second<<", MASTER: "<<tid;
-    qDebug()<<"/// PASTE VIDEO TKS: "<<videoTracks<<" / MASTER: "<<masterSourceTrack;
-    qDebug()<<"/// MASTER PASTE: "<<masterIx;
+    qDebug() << "/// PROJECT VIDEO TKS: " << projectTracks.second << ", MASTER: " << tid;
+    qDebug() << "/// PASTE VIDEO TKS: " << videoTracks << " / MASTER: " << masterSourceTrack;
+    qDebug() << "/// MASTER PASTE: " << masterIx;
     for (int tk : videoTracks) {
         tracksMap.insert(tk, projectTracks.second.at(masterIx + tk - masterSourceTrack));
-        qDebug()<<"// TK MAP: "<<tk<<" => "<<projectTracks.second.at(masterIx + tk - masterSourceTrack);
+        qDebug() << "// TK MAP: " << tk << " => " << projectTracks.second.at(masterIx + tk - masterSourceTrack);
     }
     QMapIterator<int, int> it(audioMirrors);
     while (it.hasNext()) {
         it.next();
         int videoIx = tracksMap.value(it.value());
-        //qDebug()<<"// TK AUDIO MAP: "<<it.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<m_model->getMirrorAudioTrackId(videoIx);
+        // qDebug()<<"// TK AUDIO MAP: "<<it.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<m_model->getMirrorAudioTrackId(videoIx);
         tracksMap.insert(it.key(), m_model->getMirrorAudioTrackId(videoIx));
     }
     for (int i = 0; i < singleAudioTracks.size(); i++) {
         tracksMap.insert(singleAudioTracks.at(i), projectTracks.first.at(i));
     }
-    qDebug()<<"++++++++++++++++++++++++++\n\n\n// AUDIO MIRRORS: "<<audioMirrors<<", RESULT: "<<tracksMap;
+    qDebug() << "++++++++++++++++++++++++++\n\n\n// AUDIO MIRRORS: " << audioMirrors << ", RESULT: " << tracksMap;
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
@@ -855,8 +855,7 @@ bool TimelineController::pasteItem()
             transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
                             props.at(j).toElement().text().toUtf8().constData());
         }
-        res = m_model->requestCompositionInsertion(originalId, trackId, aTrackId, position + pos, out - in, std::move(transProps), newId, undo,
-                                                   redo);
+        res = m_model->requestCompositionInsertion(originalId, trackId, aTrackId, position + pos, out - in, std::move(transProps), newId, undo, redo);
     }
     if (!res) {
         undo();

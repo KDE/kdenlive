@@ -853,7 +853,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     }
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     if (!master->isReady() || !master->isCompatible(state)) {
-        qDebug()<<"// CLIP NOT READY OR NOT COMPATIBLE: "<<state;
+        qDebug() << "// CLIP NOT READY OR NOT COMPATIBLE: " << state;
         return false;
     }
     int clipId = TimelineModel::getNextId();
@@ -2682,7 +2682,7 @@ void TimelineModel::requestClipReload(int clipId)
     bool refreshView = oldOut > (int)binClip->frameDuration();
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo);
-    }    
+    }
     if (old_trackId != -1) {
         m_allClips[clipId]->refreshProducerFromBin();
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);

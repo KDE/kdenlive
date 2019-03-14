@@ -144,11 +144,11 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             eff.setAttribute(QStringLiteral("id"), id);
             ////qCDebug(KDENLIVE_LOG)<<"Effect: "<<id;
 
-            Mlt::Properties param_props((mlt_properties) metadata->get_data("parameters"));
+            Mlt::Properties param_props((mlt_properties)metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
                 QDomElement params = doc.createElement(QStringLiteral("parameter"));
 
-                Mlt::Properties paramdesc((mlt_properties) param_props.get_data(param_props.get_name(j)));
+                Mlt::Properties paramdesc((mlt_properties)param_props.get_data(param_props.get_name(j)));
                 params.setAttribute(QStringLiteral("name"), paramdesc.get("identifier"));
                 if (params.attribute(QStringLiteral("name")) == QLatin1String("argument")) {
                     // This parameter has to be given as attribute when using command line, do not show it in Kdenlive

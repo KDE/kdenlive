@@ -142,7 +142,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
-{   
+{
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
@@ -2053,7 +2053,7 @@ void Monitor::panView(QPoint diff)
 }
 
 void Monitor::requestSeek(int pos)
-{   
+{
     m_glMonitor->seek(pos);
 }
 

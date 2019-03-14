@@ -568,9 +568,10 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         }
         QString message;
         if (m_documentOpenStatus == UpgradedProject) {
-            message = i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you do not lose data, a backup copy called %1 "
-                           "was created.",
-                           backupFile);
+            message =
+                i18n("Your project file was upgraded to the latest Kdenlive document version.\nTo make sure you do not lose data, a backup copy called %1 "
+                     "was created.",
+                     backupFile);
         } else {
             message = i18n("Your project file was modified by Kdenlive.\nTo make sure you do not lose data, a backup copy called %1 was created.", backupFile);
         }

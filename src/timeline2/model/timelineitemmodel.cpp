@@ -39,7 +39,6 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 
-
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : TimelineModel(profile, std::move(undo_stack))
 {
@@ -358,7 +357,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case ThumbsFormatRole:
             return getTrackById_const(id)->getProperty("kdenlive:thumbs_format").toInt();
-        case IsCompositeRole: {case AudioRecordRole:
+        case IsCompositeRole: {
+        case AudioRecordRole:
             return getTrackById_const(id)->getProperty("kdenlive:audio_rec").toInt();
             return Qt::Unchecked;
         }

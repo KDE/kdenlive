@@ -19,14 +19,13 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "core.h"
 #include "recmanager.h"
 #include "capture/managecapturesdialog.h"
 #include "capture/mltdevicecapture.h"
+#include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "kdenlivesettings.h"
 #include "monitor.h"
-
 
 #include "klocalizedstring.h"
 #include <KMessageBox>
@@ -35,11 +34,11 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
+#include <QMenu>
 #include <QStandardPaths>
 #include <QToolBar>
-#include <QWidgetAction>
 #include <QToolButton>
-#include <QMenu>
+#include <QWidgetAction>
 
 RecManager::RecManager(Monitor *parent)
     : QObject(parent)
@@ -83,10 +82,10 @@ RecManager::RecManager(Monitor *parent)
 
     m_audio_device = new QComboBox(parent);
     QStringList audioDevices = pCore->getAudioCaptureDevices();
-    for(int ix=0; ix < audioDevices.count(); ix++) {
+    for (int ix = 0; ix < audioDevices.count(); ix++) {
         m_audio_device->addItem(audioDevices.at(ix), ix);
     }
-    connect(m_audio_device, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
+    connect(m_audio_device, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
     int selectedCapture = m_audio_device->findData(KdenliveSettings::defaultaudiocapture());
     if (selectedCapture > -1) {
         m_audio_device->setCurrentIndex(selectedCapture);
@@ -126,7 +125,7 @@ RecManager::RecManager(Monitor *parent)
     if (selectedCapture > -1) {
         m_device_selector->setCurrentIndex(selectedCapture);
     }
-    connect(m_device_selector, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
+    connect(m_device_selector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
     m_recToolbar->addWidget(m_device_selector);
 
     QAction *configureRec = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"));
@@ -160,8 +159,7 @@ void RecManager::stopCapture()
 {
     if (m_captureProcess) {
         slotRecord(false);
-    }
-    else if (pCore->getMediaCaptureState() == 1 && (m_checkAudio || m_checkVideo)) {
+    } else if (pCore->getMediaCaptureState() == 1 && (m_checkAudio || m_checkVideo)) {
         // QMediaRecorder::RecordingState value is 1
         pCore->stopMediaCapture(m_checkAudio, m_checkVideo);
         m_monitor->slotOpenClip(nullptr);
@@ -178,7 +176,6 @@ void RecManager::stop()
     }
     toolbar()->setVisible(false);
 }
-
 
 void RecManager::slotRecord(bool record)
 {
@@ -240,7 +237,7 @@ void RecManager::slotRecord(bool record)
     if (!checkCaptureFolder.isWritable()) {
         emit warningMessage(i18n("The directory %1, could not be created.\nPlease "
                                  "make sure you have the required permissions.",
-            captureFolder.absolutePath()));
+                                 captureFolder.absolutePath()));
         m_recAction->blockSignals(true);
         m_recAction->setChecked(false);
         m_recAction->blockSignals(false);
@@ -269,8 +266,7 @@ void RecManager::slotRecord(bool record)
     QStringList captureArgs;
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
     if (KdenliveSettings::grab_follow_mouse()) {
-        captureArgs << QStringLiteral("-follow_mouse")
-                    << QStringLiteral("centered");
+        captureArgs << QStringLiteral("-follow_mouse") << QStringLiteral("centered");
     }
     if (!KdenliveSettings::grab_hide_frame()) {
         captureArgs << QStringLiteral("-show_region") << QStringLiteral("1");
@@ -278,19 +274,17 @@ void RecManager::slotRecord(bool record)
     captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        captureArgs << QStringLiteral("-s")
-                    << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
+        captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
         // Region capture
         captureArgs << QStringLiteral("-s")
                     << QString::number(KdenliveSettings::grab_width()) + QLatin1Char('x') + QString::number(KdenliveSettings::grab_height());
-        captureSize.append(
-            QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') + QString::number(KdenliveSettings::grab_offsety()));
+        captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') +
+                           QString::number(KdenliveSettings::grab_offsety()));
     }
     // fps
-    captureArgs << QStringLiteral("-r")
-                << QString::number(KdenliveSettings::grab_fps());
+    captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
     if (KdenliveSettings::grab_hide_mouse()) {
         captureSize.append(QStringLiteral("+nomouse"));
     }
@@ -302,11 +296,10 @@ void RecManager::slotRecord(bool record)
     m_captureProcess->start(KdenliveSettings::ffmpegpath(), captureArgs);
     if (!m_captureProcess->waitForStarted()) {
         // Problem launching capture app
-        emit warningMessage(i18n("Failed to start the capture application:\n%1",KdenliveSettings::ffmpegpath()));
+        emit warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
         // delete m_captureProcess;
     }
 }
-
 
 void RecManager::slotProcessStatus(QProcess::ProcessState status)
 {

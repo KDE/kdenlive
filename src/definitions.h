@@ -185,10 +185,7 @@ public:
     GenTime cropDuration;
     /** Track number */
     int track{0};
-    ItemInfo()
-         
-    {
-    }
+    ItemInfo() {}
     bool isValid() const { return startPos != endPos; }
     bool contains(GenTime pos) const
     {
@@ -213,10 +210,7 @@ public:
     int a_track{0};
     /** Does the user request for a special a_track */
     bool forceTrack{0};
-    TransitionInfo()
-         
-    {
-    }
+    TransitionInfo() {}
 };
 
 class CommentedTime

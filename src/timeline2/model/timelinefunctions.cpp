@@ -148,7 +148,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     int count = 0;
     QList<int> newIds;
     int mainId = -1;
-    QList <int> clipsToCut;
+    QList<int> clipsToCut;
     for (int cid : clips) {
         int start = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
@@ -987,10 +987,10 @@ int TimelineFunctions::getOffsetTrackId(const std::shared_ptr<TimelineItemModel>
     return timeline->getTrackIndexFromPosition(masterTrackMltIndex - 1);
 }
 
-QPair<QList <int>, QList<int> > TimelineFunctions::getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline)
+QPair<QList<int>, QList<int>> TimelineFunctions::getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline)
 {
-    QList <int>audioTracks;
-    QList <int>videoTracks;
+    QList<int> audioTracks;
+    QList<int> videoTracks;
     for (const auto &track : timeline->m_allTracks) {
         if (track->isAudioTrack()) {
             audioTracks << track->getId();

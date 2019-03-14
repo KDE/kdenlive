@@ -791,7 +791,6 @@ void CollapsibleEffectView::prepareImportClipKeyframes()
     emit importClipKeyframes(AVWidget, m_itemInfo, m_effect.cloneNode().toElement(), QMap<QString, QString>());
 }
 
-
 void CollapsibleEffectView::enableView(bool enabled)
 {
     m_enabledButton->setActive(enabled);

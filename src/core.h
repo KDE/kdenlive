@@ -19,7 +19,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 
-
 class Bin;
 class DocUndoStack;
 class EffectStackModel;

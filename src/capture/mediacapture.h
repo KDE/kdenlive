@@ -22,27 +22,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef MEDIACAPTURE_H
 #define MEDIACAPTURE_H
 
-#include <QMediaRecorder>
-#include <QAudioRecorder>
+#include <QAudioBuffer>
 #include <QAudioEncoderSettings>
-#include <QVideoEncoderSettings>
+#include <QAudioRecorder>
 #include <QCamera>
 #include <QCameraInfo>
+#include <QMediaRecorder>
 #include <QStringList>
-#include <QAudioBuffer>
 #include <QUrl>
+#include <QVideoEncoderSettings>
 #include <memory>
 
 class QAudioRecorder;
 class QAudioProbe;
 
-class MediaCapture : public QObject 
+class MediaCapture : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
 
 public:
-    MediaCapture(QObject* parent);
+    MediaCapture(QObject *parent);
     ~MediaCapture();
     void recordAudio(bool);
     void recordVideo(bool);
@@ -72,8 +72,8 @@ private:
     QVector<qreal> m_levels;
 
 private slots:
-    void processBuffer(const QAudioBuffer& buffer);
-    
+    void processBuffer(const QAudioBuffer &buffer);
+
 signals:
     void levelsChanged();
 };

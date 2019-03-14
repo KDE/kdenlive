@@ -182,7 +182,7 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: "<<update<<", VAL: "<<paramValue;
+    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
     if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
         QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);

@@ -100,7 +100,7 @@ struct TimelineFunctions
     /** @brief returns an offset track id
      */
     static int getOffsetTrackId(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int offset, bool audioOffset);
-    static QPair<QList <int>, QList<int> > getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline);
+    static QPair<QList<int>, QList<int>> getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline);
 };
 
 #endif

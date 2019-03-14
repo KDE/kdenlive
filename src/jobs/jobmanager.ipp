@@ -91,7 +91,7 @@ struct dummy
 
     template <typename T, bool Noprepare, typename... Args>
     static typename std::enable_if<!Detect_prepareJob<T>::value || Noprepare, int>::type
-    exec(const std::shared_ptr<JobManager>& ptr, const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
+    exec(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString, Args &&... args)
     {
         auto defaultCreate = [](const QString &id, Args... local_args) { return AbstractClipJob::make<T>(id, std::forward<Args>(local_args)...); };
         using local_createFn_t = std::function<std::shared_ptr<T>(const QString &, Args...)>;
