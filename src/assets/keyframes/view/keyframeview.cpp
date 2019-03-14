@@ -28,6 +28,7 @@
 #include <KColorScheme>
 #include <QFontDatabase>
 #include <utility>
+
 KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent)
     : QWidget(parent)
     , m_model(std::move(model))

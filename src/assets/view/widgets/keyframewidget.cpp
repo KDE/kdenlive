@@ -425,11 +425,12 @@ void KeyframeWidget::connectMonitor(bool active)
 
 void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
+    GenTime pos(getPosition(), pCore->getCurrentFps());
     if (m_keyframes->isEmpty()) {
-        m_keyframes->addKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), KeyframeType::Linear);
-        m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
+        m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+        m_keyframes->updateKeyframe(pos, res, index);
     } else if (m_keyframes->hasKeyframe(getPosition()) || m_keyframes->singleKeyframe()) {
-        m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), res, index);
+        m_keyframes->updateKeyframe(pos, res, index);
     }
 }
 
