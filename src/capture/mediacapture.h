@@ -43,15 +43,15 @@ class MediaCapture : public QObject
 
 public:
     MediaCapture(QObject *parent);
-    ~MediaCapture();
-    void recordAudio(bool);
-    void recordVideo(bool);
+    ~MediaCapture() override;
+    void recordAudio(bool /*record*/);
+    void recordVideo(bool /*record*/);
     /** @brief Sets m_path to selected output location **/
-    void setCaptureOutputLocation(QUrl);
+    void setCaptureOutputLocation(QUrl /*path*/);
     /** @brief Sets m_device to selected audio capture device **/
-    void setAudioCaptureDevice(QString);
+    void setAudioCaptureDevice(QString /*audioDevice*/);
     /** @brief Sets m_volume to selected audio capture volume **/
-    void setAudioVolume(qreal);
+    void setAudioVolume(qreal /*volume*/);
     /** @brief Returns list of audio devices available for capture **/
     QStringList getAudioCaptureDevices();
     /** @brief Returns QMediaRecorder::State value **/

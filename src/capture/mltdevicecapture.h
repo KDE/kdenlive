@@ -65,11 +65,11 @@ class MltDeviceCapture : public AbstractRender
     /** @brief Someone needs us to send again a frame. */
     void sendFrameUpdate() override {}
 
-    void emitFrameUpdated(Mlt::Frame &);
+    void emitFrameUpdated(Mlt::Frame & /*frame*/);
     void emitFrameNumber(double position);
     void emitConsumerStopped();
-    void showFrame(Mlt::Frame &);
-    void showAudio(Mlt::Frame &);
+    void showFrame(Mlt::Frame & /*frame*/);
+    void showAudio(Mlt::Frame & /*frame*/);
 
     void saveFrame(Mlt::Frame &frame);
 
@@ -106,9 +106,9 @@ private:
     /** @brief When true, images will be displayed on monitor while capturing. */
     bool m_livePreview;
     /** @brief Count captured frames, used to display only one in ten images while capturing. */
-    int m_frameCount;
+    int m_frameCount{};
 
-    void uyvy2rgb(unsigned char *yuv_buffer, int width, int height);
+    void uyvy2rgb(const unsigned char *yuv_buffer, int width, int height);
 
     QString m_capturePath;
 

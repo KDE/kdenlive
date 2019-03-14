@@ -42,7 +42,7 @@ private slots:
     void slotCheckItemIcon();
 
 private:
-    Ui::ManageCaptures_UI m_view;
+    Ui::ManageCaptures_UI m_view{};
     QPushButton *m_importButton;
 };
 

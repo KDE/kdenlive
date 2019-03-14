@@ -44,7 +44,9 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
         free(src);
         return QStringList();
     }
-    struct v4l2_capability cap;
+    struct v4l2_capability cap
+    {
+    };
 
     char *devName = nullptr;
     int captureEnabled = 1;
@@ -60,19 +62,27 @@ QStringList V4lCaptureHandler::getDeviceName(const QString &input)
     }
 
     if (captureEnabled != 0) {
-        struct v4l2_format format;
+        struct v4l2_format format
+        {
+        };
         memset(&format, 0, sizeof(format));
         format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
-        struct v4l2_fmtdesc fmt;
+        struct v4l2_fmtdesc fmt
+        {
+        };
         memset(&fmt, 0, sizeof(fmt));
         fmt.index = 0;
         fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
-        struct v4l2_frmsizeenum sizes;
+        struct v4l2_frmsizeenum sizes
+        {
+        };
         memset(&sizes, 0, sizeof(sizes));
 
-        struct v4l2_frmivalenum rates;
+        struct v4l2_frmivalenum rates
+        {
+        };
         memset(&rates, 0, sizeof(rates));
         char value[200];
 

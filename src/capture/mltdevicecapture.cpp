@@ -31,7 +31,7 @@
 #include <cstdarg>
 #include <cstdlib>
 
-static void consumer_gl_frame_show(mlt_consumer, MltDeviceCapture *self, mlt_frame frame_ptr)
+static void consumer_gl_frame_show(mlt_consumer /*unused*/, MltDeviceCapture *self, mlt_frame frame_ptr)
 {
     // detect if the producer has finished playing. Is there a better way to do it?
     Mlt::Frame frame(frame_ptr);
@@ -596,7 +596,7 @@ void MltDeviceCapture::mirror(bool activate)
     mlt_service_unlock(service.get_service());
 }
 
-void MltDeviceCapture::uyvy2rgb(unsigned char *yuv_buffer, int width, int height)
+void MltDeviceCapture::uyvy2rgb(const unsigned char *yuv_buffer, int width, int height)
 {
     processingImage = true;
     QImage image(width, height, QImage::Format_RGB888);
