@@ -1,5 +1,9 @@
 [KNewStuff3]
 Name=Kdenlive Keyboard Schemes
+Name[ca]=Esquemes de teclat del Kdenlive
+Name[nl]=Toetsenbordschema's van Kdenlive
+Name[uk]=Схеми клавіатурних скорочень Kdenlive
+Name[x-test]=xxKdenlive Keyboard Schemesxx
 ProvidersUrl=http://download.kde.org/ocs/providers.xml
 Categories=Kdenlive Keyboard Schemes
 TargetDir=kdenlive/shortcuts
