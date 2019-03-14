@@ -806,8 +806,7 @@ bool TimelineController::pasteItem()
         }
         int in = prod.attribute(QStringLiteral("in")).toInt();
         int out = prod.attribute(QStringLiteral("out")).toInt();
-        int trackId;
-        trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
+        int trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
         int newId;
@@ -845,7 +844,7 @@ bool TimelineController::pasteItem()
         int trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
         int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
         if (aTrackId > 0) {
-            aTrackId = m_model->getTrackPosition(tracksMap.value(trackId));
+            aTrackId = m_model->getTrackPosition(tracksMap.value(aTrackId));
         }
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         int newId;
