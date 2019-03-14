@@ -7,16 +7,16 @@ set -e
 set -x
 
 # Make sure the base dependencies are installed
-apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
-	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
-apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
-	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
-	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
-	mesa-common-dev libaio-dev lzma liblzma-dev\
-	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
-	libjack-dev autopoint language-pack-en-base
+#apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
+#	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
+#apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
+#	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
+#	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
+#	mesa-common-dev libaio-dev lzma liblzma-dev\
+#	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
+#	libjack-dev autopoint language-pack-en-base
 
-apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
+#apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
 
 # Read in our parameters
 export BUILD_PREFIX=$1
@@ -118,7 +118,7 @@ cmake --build . --target ext_gtk+
 cmake --build . --target ext_gavl
 cmake --build . --target ext_frei0r
 cmake --build . --target ext_vidstab
-cmake --build . --target ext_opencv
+#cmake --build . --target ext_opencv
 
 #export CC=/usr/bin/gcc-6
 #export CXX=/usr/bin/g++-6
