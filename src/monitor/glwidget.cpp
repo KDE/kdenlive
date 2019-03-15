@@ -669,12 +669,13 @@ void GLWidget::requestSeek()
     }
     if (m_proxy->seeking()) {
         m_producer->seek(m_proxy->seekPosition());
+        if (!qFuzzyIsNull(m_producer->get_speed())) {
+            m_consumer->purge();
+        }
         if (m_consumer->is_stopped()) {
             m_consumer->start();
-        } else {
-            m_consumer->purge();
-            m_consumer->set("refresh", 1);
         }
+        m_consumer->set("refresh", 1);
     }
 }
 
