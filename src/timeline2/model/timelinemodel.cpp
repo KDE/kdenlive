@@ -1509,7 +1509,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 size = out - getTrackById_const(trackId)->getBlankStart(in - 1);
             }
         }
+        int timelinePos = pCore->getTimelinePosition();
+        m_snaps->addPoint(timelinePos);
         int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
+        m_snaps->removePoint(timelinePos);
         if (proposed_size > 0) {
             // only test move if proposed_size is valid
             bool success = false;

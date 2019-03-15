@@ -178,6 +178,8 @@ public:
     int projectDuration() const;
     /** @brief Returns true if current project has some rendered timeline preview  */
     bool hasTimelinePreview() const;
+    /** @brief Returns current timeline cursor position  */
+    int getTimelinePosition() const;
     /** @brief Handles audio and video capture **/
     void startMediaCapture(bool, bool, QUrl, QString);
     void stopMediaCapture(bool, bool);
