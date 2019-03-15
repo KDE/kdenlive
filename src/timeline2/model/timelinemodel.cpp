@@ -647,6 +647,7 @@ int TimelineModel::suggestItemMove(int itemId, int trackId, int position, int cu
 
 int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool allowViewUpdate)
 {
+    Q_UNUSED(allowViewUpdate);
     QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(clipId));
     Q_ASSERT(isTrack(trackId));
@@ -1108,6 +1109,9 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
     std::unordered_set<int> allClips;
     if (trackId == -1) {
         for (const auto &track : m_allTracks) {
+            if (track->isLocked()) {
+                continue;
+            }
             std::unordered_set<int> clipTracks = getItemsInRange(track->getId(), start, end, listCompositions);
             allClips.insert(clipTracks.begin(), clipTracks.end());
         }
