@@ -2061,7 +2061,7 @@ QColor TimelineController::audioColor() const
 QColor TimelineController::neutralColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    return scheme.background(KColorScheme::PositiveBackground).color();
+    return scheme.background(KColorScheme::VisitedBackground).color();
 }
 
 QColor TimelineController::groupColor() const
