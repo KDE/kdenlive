@@ -1383,6 +1383,42 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         state1();
     }
 
+    SECTION("Select then delete")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 1));
+        auto state1 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 5);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid2);
+            REQUIRE(timeline->getClipPosition(cid2) == 1);
+        };
+        state1();
+
+        REQUIRE(timeline->requestSetSelection({cid1, cid2}));
+        int nbClips = timeline->getClipsCount();
+        REQUIRE(timeline->requestItemDeletion(cid1));
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+            REQUIRE(timeline->getClipsCount() == nbClips - 2);
+        };
+        state2();
+
+        undoStack->undo();
+        state1();
+
+        undoStack->redo();
+        state2();
+
+        undoStack->undo();
+        state1();
+    }
+
     SECTION("Track insertion undo")
     {
         std::map<int, int> orig_trackPositions, final_trackPositions;
@@ -2044,7 +2080,6 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
             REQUIRE(timeline->getGroupElements(audio1) == std::unordered_set<int>({audio1, audio2, audio3}));
 
             REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>({audio1, audio3, audio2}));
-
         };
         state();
 

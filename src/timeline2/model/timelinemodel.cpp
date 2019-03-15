@@ -1050,7 +1050,6 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     if (m_groups->isInGroup(itemId)) {
         bool res = requestGroupDeletion(itemId, logUndo);
         TRACE_RES(res);
-        requestClearSelection(true);
         return res;
     }
     Fun undo = []() { return true; };
@@ -1404,7 +1403,6 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, logUndo);
-    requestClearSelection();
     if (!m_groups->isInGroup(clipId)) {
         TRACE_RES(false);
         return false;
@@ -1428,7 +1426,8 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     std::unordered_set<int> all_compositions;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
-        if (m_currentSelection == current_group) {
+        bool isSelection = m_currentSelection == current_group;
+        if (isSelection) {
             m_currentSelection = -1;
         }
         group_queue.pop();
@@ -1449,10 +1448,17 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
             }
         }
         if (one_child != -1) {
-            bool res = m_groups->ungroupItem(one_child, undo, redo);
-            if (!res) {
-                undo();
-                return false;
+            if (isSelection) {
+                // in the case of a selection group, we delete the group but don't log it in the undo object
+                Fun tmp_undo = []() { return true; };
+                Fun tmp_redo = []() { return true; };
+                m_groups->ungroupItem(one_child, tmp_undo, tmp_redo);
+            } else {
+                bool res = m_groups->ungroupItem(one_child, undo, redo);
+                if (!res) {
+                    undo();
+                    return false;
+                }
             }
         }
     }
