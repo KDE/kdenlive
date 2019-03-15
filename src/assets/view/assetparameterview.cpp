@@ -48,7 +48,6 @@ AssetParameterView::AssetParameterView(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Presets Combo
     m_presetMenu = new QMenu(this);
-    m_presetMenu->setToolTip(i18n("Presets"));
 }
 
 void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)

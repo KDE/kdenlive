@@ -161,8 +161,9 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         m_keyframesButton->setChecked(true);
     }
     // Presets
-    presetButton->setIcon(QIcon::fromTheme(QStringLiteral("document-new-from-template")));
+    presetButton->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
     presetButton->setMenu(m_view->presetMenu());
+    presetButton->setToolTip(i18n("Presets"));
 
     // Main menu
     m_menu = new QMenu(this);
