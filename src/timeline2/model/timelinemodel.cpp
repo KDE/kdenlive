@@ -1540,7 +1540,8 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     bool result = true;
     for (int id : all_items) {
-        if (getTrackById_const(getItemTrackId(id))->isLocked()) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
             continue;
         }
         result = result && requestItemResize(id, size, right, logUndo, undo, redo);
