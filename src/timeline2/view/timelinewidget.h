@@ -47,6 +47,7 @@ public:
      */
     Mlt::Tractor *tractor();
     TimelineController *controller();
+    std::shared_ptr<TimelineItemModel> model();
     void setTool(ProjectTool tool);
     QPoint getTracksCount() const;
     /* @brief calculate zoom level for a scale */

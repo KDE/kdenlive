@@ -165,6 +165,11 @@ TimelineController *TimelineWidget::controller()
     return m_proxy;
 }
 
+std::shared_ptr<TimelineItemModel> TimelineWidget::model()
+{
+    return m_proxy->getModel();
+}
+
 void TimelineWidget::zoneUpdated(const QPoint &zone)
 {
     m_proxy->setZone(zone);

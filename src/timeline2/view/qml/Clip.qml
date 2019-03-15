@@ -237,7 +237,7 @@ Rectangle {
             root.stopScrolling = true
             if (mouse.button == Qt.RightButton) {
                 if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
-                    timeline.addSelection(clipRoot.clipId, true)
+                    controller.requestAddToSelection(clipRoot.clipId, true)
                 }
                 clipMenu.clipId = clipRoot.clipId
                 clipMenu.clipStatus = clipRoot.clipStatus

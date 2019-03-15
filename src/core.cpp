@@ -659,34 +659,6 @@ Mlt::Profile *Core::thumbProfile()
     return m_thumbProfile.get();
 }
 
-void Core::clearSelection()
-{
-    if (m_mainWindow && m_guiConstructed) {
-        m_mainWindow->getCurrentTimeline()->controller()->clearSelection();
-    }
-}
-
-void Core::selectItem(int itemId)
-{
-    if (m_mainWindow && m_guiConstructed) {
-        m_mainWindow->getCurrentTimeline()->controller()->addSelection(itemId, true);
-    }
-}
-
-bool Core::isSelected(int itemId) const
-{
-    if (m_mainWindow && m_guiConstructed) {
-        return m_mainWindow->getCurrentTimeline()->controller()->selection().contains(itemId);
-    }
-    return false;
-}
-
-void Core::removeFromSelection(int itemId)
-{
-    if (m_mainWindow && m_guiConstructed) {
-        m_mainWindow->getCurrentTimeline()->controller()->removeSelection(itemId);
-    }
-}
 
 void Core::triggerAction(const QString &name)
 {

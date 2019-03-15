@@ -78,7 +78,11 @@ RTTR_REGISTRATION
         .method("requestClipsUngroup", &TimelineModel::requestClipsUngroup)(parameter_names("itemIds", "logUndo"))
         .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))(
             parameter_names("pos", "id", "trackName", "audioTrack"))
-        .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"));
+        .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"))
+        .method("requestClearSelection", select_overload<void(bool)>(&TimelineModel::requestClearSelection))(parameter_names("onDeletion"))
+        .method("requestAddToSelection", &TimelineModel::requestAddToSelection)(parameter_names("itemId", "clear"))
+        .method("requestRemoveFromSelection", &TimelineModel::requestRemoveFromSelection)(parameter_names("itemId"))
+        .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("ids"));
 }
 
 int TimelineModel::next_id = 0;
@@ -94,7 +98,6 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
-    , m_temporarySelectionGroup(-1)
     , m_overlayTrackCount(-1)
     , m_audioTarget(-1)
     , m_videoTarget(-1)
@@ -1064,6 +1067,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
         PUSH_UNDO(undo, redo, actionLabel);
     }
     TRACE_RES(res);
+    requestClearSelection(true);
     return res;
 }
 
@@ -1086,7 +1090,6 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
         return true;
     };
     if (operation()) {
-        emit removeFromSelection(clipId);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -1115,7 +1118,6 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
         return true;
     };
     if (operation()) {
-        emit removeFromSelection(compositionId);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -1424,8 +1426,9 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     std::unordered_set<int> all_compositions;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
-        if (m_temporarySelectionGroup == current_group) {
-            m_temporarySelectionGroup = -1;
+        bool isSelection = m_currentSelection == current_group;
+        if (isSelection) {
+            m_currentSelection = -1;
         }
         group_queue.pop();
         Q_ASSERT(isGroup(current_group));
@@ -1445,10 +1448,17 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
             }
         }
         if (one_child != -1) {
-            bool res = m_groups->ungroupItem(one_child, undo, redo);
-            if (!res) {
-                undo();
-                return false;
+            if (isSelection) {
+                // in the case of a selection group, we delete the group but don't log it in the undo object
+                Fun tmp_undo = []() { return true; };
+                Fun tmp_redo = []() { return true; };
+                m_groups->ungroupItem(one_child, tmp_undo, tmp_redo);
+            } else {
+                bool res = m_groups->ungroupItem(one_child, undo, redo);
+                if (!res) {
+                    undo();
+                    return false;
+                }
             }
         }
     }
@@ -1601,17 +1611,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
     TRACE(ids, logUndo, type);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    if (m_temporarySelectionGroup > -1) {
-        m_groups->destructGroupItem(m_temporarySelectionGroup);
-        // We don't log in undo the selection changes
-        // int firstChild = *m_groups->getDirectChildren(m_temporarySelectionGroup).begin();
-        // requestClipUngroup(firstChild, undo, redo);
-        m_temporarySelectionGroup = -1;
-    }
     int result = requestClipsGroup(ids, undo, redo, type);
-    if (type == GroupType::Selection) {
-        m_temporarySelectionGroup = result;
-    }
     if (result > -1 && logUndo && type != GroupType::Selection) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
@@ -1650,21 +1650,9 @@ bool TimelineModel::requestClipsUngroup(const std::unordered_set<int> &itemIds, 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    int old_selection = m_temporarySelectionGroup;
-    if (m_temporarySelectionGroup != -1) {
-        // Delete selection group without undo
-        Fun tmp_undo = []() { return true; };
-        Fun tmp_redo = []() { return true; };
-        requestClipUngroup(m_temporarySelectionGroup, tmp_undo, tmp_redo);
-        m_temporarySelectionGroup = -1;
-    }
+    requestClearSelection();
     std::unordered_set<int> roots;
-    for (int itemId : itemIds) {
-        int root = m_groups->getRootId(itemId);
-        if (root != old_selection) {
-            roots.insert(root);
-        }
-    }
+    std::transform(itemIds.begin(), itemIds.end(), std::inserter(roots, roots.begin()), [&](int id) { return m_groups->getRootId(id); });
     for (int root : roots) {
         result = result && requestClipUngroup(root, undo, redo);
     }
@@ -1683,18 +1671,11 @@ bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, logUndo);
+    requestClearSelection();
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
-    if (itemId == m_temporarySelectionGroup) {
-        // Delete selection group without undo
-        Fun tmp_undo = []() { return true; };
-        Fun tmp_redo = []() { return true; };
-        requestClipUngroup(itemId, tmp_undo, tmp_redo);
-        m_temporarySelectionGroup = -1;
-    } else {
-        result = requestClipUngroup(itemId, undo, redo);
-    }
+    result = requestClipUngroup(itemId, undo, redo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Ungroup clips"));
     }
@@ -2633,6 +2614,12 @@ bool TimelineModel::checkConsistency()
         qDebug() << "== ERROR IN GROUP CONSISTENCY";
         return false;
     }
+
+    // Check that the selection is in a valid state:
+    if (m_currentSelection != -1 && !isClip(m_currentSelection) && !isComposition(m_currentSelection) && !isGroup(m_currentSelection)) {
+        qDebug() << "Selection is in inconsistent state";
+        return false;
+    }
     return true;
 }
 
@@ -2880,4 +2867,110 @@ int TimelineModel::getNextTrackId(int trackId)
         }
     }
     return it == m_allTracks.end() ? trackId : (*it)->getId();
+}
+
+void TimelineModel::requestClearSelection(bool onDeletion)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE();
+    if (m_currentSelection == -1) {
+        return;
+    }
+    if (isGroup(m_currentSelection)) {
+        if (m_groups->getType(m_currentSelection) == GroupType::Selection) {
+            m_groups->destructGroupItem(m_currentSelection);
+        }
+    } else {
+        Q_ASSERT(onDeletion || isClip(m_currentSelection) || isComposition(m_currentSelection));
+    }
+    m_currentSelection = -1;
+    emit selectionChanged();
+}
+void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
+{
+    Fun operation = [this, onDeletion]() {
+        requestClearSelection(onDeletion);
+        return true;
+    };
+    Fun reverse = [this, clips = getCurrentSelection()]() { return requestSetSelection(clips); };
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    }
+}
+
+std::unordered_set<int> TimelineModel::getCurrentSelection() const
+{
+    READ_LOCK();
+    if (m_currentSelection == -1) {
+        return {};
+    }
+    if (isGroup(m_currentSelection)) {
+        return m_groups->getLeaves(m_currentSelection);
+    } else {
+        Q_ASSERT(isClip(m_currentSelection) || isComposition(m_currentSelection));
+        return {m_currentSelection};
+    }
+}
+void TimelineModel::requestAddToSelection(int itemId, bool clear)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, clear);
+    if (clear) {
+        requestClearSelection();
+    }
+    std::unordered_set<int> selection = getCurrentSelection();
+    if (selection.count(itemId) == 0) {
+        selection.insert(itemId);
+        requestSetSelection(selection);
+    }
+}
+
+void TimelineModel::requestRemoveFromSelection(int itemId)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId);
+    std::unordered_set<int> selection = getCurrentSelection();
+    if (selection.count(itemId) > 0) {
+        selection.erase(itemId);
+        requestSetSelection(selection);
+    }
+}
+
+bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
+{
+    QWriteLocker locker(&m_lock);
+    TRACE(ids);
+
+    requestClearSelection();
+    // if the items are in groups, we must retrieve their topmost containing groups
+    std::unordered_set<int> roots;
+    std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return m_groups->getRootId(id); });
+
+    bool result = true;
+    if (roots.size() == 0) {
+        m_currentSelection = -1;
+    } else if (roots.size() == 1) {
+        m_currentSelection = *(roots.begin());
+    } else {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        result = m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection);
+        Q_ASSERT(m_currentSelection >= 0);
+    }
+    emit selectionChanged();
+    return result;
+}
+
+bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
+{
+    Fun reverse = [this]() {
+        requestClearSelection(false);
+        return true;
+    };
+    Fun operation = [this, ids]() { return requestSetSelection(ids); };
+    if (operation()) {
+        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        return true;
+    }
+    return false;
 }

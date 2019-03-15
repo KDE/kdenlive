@@ -174,10 +174,6 @@ public:
     /** Show / hide keyframes for a timeline clip */
     void showClipKeyframes(ObjectId id, bool enable);
     Mlt::Profile *thumbProfile();
-    void clearSelection();
-    void selectItem(int itemId);
-    bool isSelected(int itemId) const;
-    void removeFromSelection(int itemId);
     /** @brief Returns the current project duration */
     int projectDuration() const;
     /** @brief Returns true if current project has some rendered timeline preview  */

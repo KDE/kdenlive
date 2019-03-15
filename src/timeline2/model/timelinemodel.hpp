@@ -596,6 +596,29 @@ public:
     /** @brief Refresh the tractor profile in case a change was requested. */
     void updateProfile(Mlt::Profile *profile);
 
+    /** @brief Clear the current selection
+        @param onDeletion is true when the selection is cleared as a result of a deletion
+     */
+    Q_INVOKABLE void requestClearSelection(bool onDeletion = false);
+    // same function with undo/redo accumulation
+    void requestClearSelection(bool onDeletion, Fun &undo, Fun &redo);
+
+    /** @brief Add the given item to the selection
+        If @param clear is true, the selection is first cleared
+     */
+    Q_INVOKABLE void requestAddToSelection(int itemId, bool clear = false);
+
+    /** @brief Remove the given item from the selection */
+    Q_INVOKABLE void requestRemoveFromSelection(int itemId);
+
+    /** @brief Set the selection to the set of given ids */
+    bool requestSetSelection(const std::unordered_set<int> &ids);
+    // same function with undo/redo
+    bool requestSetSelection(const std::unordered_set<int> &ids, Fun &undo, Fun &redo);
+
+    /** @brief Returns a set containing all the items in the selection */
+    std::unordered_set<int> getCurrentSelection() const;
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
@@ -688,8 +711,9 @@ signals:
     void invalidateZone(int in, int out);
     /* @brief signal triggered when a track duration changed (insertion/deletion) */
     void durationUpdated();
-    /* @brief an item was deleted, make sure it is removed from selection */
-    void removeFromSelection(int id);
+
+    /* @brief Signal sent whenever the selection changes */
+    void selectionChanged();
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
@@ -724,8 +748,10 @@ protected:
 
     bool m_id; // id of the timeline itself
 
-    // id of the currently selected group in timeline, should be destroyed on each new selection
-    int m_temporarySelectionGroup;
+    // id of the selection. If -1, there is no selection, if positive, then it might either be the id of the selection group, or the id of an individual
+    // item, or, finally, the id of a group which is not of type selection. The last case happens when the selection exactly matches an existing group
+    // (in that case we cannot further group it because the selection would have only one child, which is prohibited by design)
+    int m_currentSelection = -1;
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;

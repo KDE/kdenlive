@@ -87,13 +87,11 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_zone = QPoint(-1, -1);
     m_timelinePreview = nullptr;
     m_model = std::move(model);
-    m_selection.selectedItems.clear();
-    m_selection.selectedTrack = -1;
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
-    connect(m_model.get(), &TimelineModel::removeFromSelection, this, &TimelineController::slotUpdateSelection);
+    connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
 }
 
 void TimelineController::setTargetTracks(QPair<int, int> targets)
@@ -117,70 +115,15 @@ Mlt::Tractor *TimelineController::tractor()
     return m_model->tractor();
 }
 
-void TimelineController::removeSelection(int newSelection)
-{
-    if (!m_selection.selectedItems.contains(newSelection)) {
-        return;
-    }
-    m_selection.selectedItems.removeAll(newSelection);
-    std::unordered_set<int> ids;
-    ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
-    if (ids.size() > 1) {
-        m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
-    } else if (m_model->m_temporarySelectionGroup > -1) {
-        m_model->m_groups->destructGroupItem(m_model->m_temporarySelectionGroup);
-        m_model->m_temporarySelectionGroup = -1;
-    }
-
-    std::unordered_set<int> newIds;
-    if (m_model->m_temporarySelectionGroup >= 0) {
-        // new items were selected, inform model to prepare for group drag
-        newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-    }
-    emit selectionChanged();
-    if (!m_selection.selectedItems.isEmpty())
-        emitSelectedFromSelection();
-    else
-        emit selected(nullptr);
-}
-
-void TimelineController::addSelection(int newSelection, bool clear)
-{
-    if (m_selection.selectedItems.contains(newSelection)) {
-        return;
-    }
-    if (clear) {
-        if (m_model->m_temporarySelectionGroup >= 0) {
-            m_model->m_groups->destructGroupItem(m_model->m_temporarySelectionGroup);
-            m_model->m_temporarySelectionGroup = -1;
-        }
-        m_selection.selectedItems.clear();
-    }
-    m_selection.selectedItems << newSelection;
-    std::unordered_set<int> ids;
-    ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
-    m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
-
-    std::unordered_set<int> newIds;
-    if (m_model->m_temporarySelectionGroup >= 0) {
-        // new items were selected, inform model to prepare for group drag
-        newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-    }
-    emit selectionChanged();
-    if (!m_selection.selectedItems.isEmpty())
-        emitSelectedFromSelection();
-    else
-        emit selected(nullptr);
-}
-
 int TimelineController::getCurrentItem()
 {
     // TODO: if selection is empty, return topmost clip under timeline cursor
-    if (m_selection.selectedItems.isEmpty()) {
+    auto selection = m_model->getCurrentSelection();
+    if (selection.empty()) {
         return -1;
     }
     // TODO: if selection contains more than 1 clip, return topmost clip under timeline cursor in selection
-    return m_selection.selectedItems.constFirst();
+    return *(selection.begin());
 }
 
 double TimelineController::scaleFactor() const
@@ -261,18 +204,18 @@ void TimelineController::checkDuration()
     }
 }
 
-std::unordered_set<int> TimelineController::getCurrentSelectionIds() const
+int TimelineController::selectedTrack() const
 {
-    std::unordered_set<int> selection;
-    if (m_model->m_temporarySelectionGroup >= 0 ||
-        (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
-        selection = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-    } else {
-        for (int i : m_selection.selectedItems) {
-            selection.insert(i);
-        }
+    std::unordered_set<int> sel = m_model->getCurrentSelection();
+    if (sel.empty()) return -1;
+    std::vector<std::pair<int, int>> selected_tracks; // contains pairs of (track position, track id) for each selected item
+    for (int s : sel) {
+        int tid = m_model->getItemTrackId(s);
+        selected_tracks.push_back({m_model->getTrackPosition(tid), tid});
     }
-    return selection;
+    // sort by track position
+    std::sort(selected_tracks.begin(), selected_tracks.begin(), [](const auto &a, const auto &b) { return a.first < b.first; });
+    return selected_tracks.front().second;
 }
 
 void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
@@ -284,86 +227,21 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
         pCore->displayMessage(i18n("No item under timeline cursor in active track"), InformationMessage, 500);
         return;
     }
-    if (addToCurrent || !select) {
-        toSelect = m_selection.selectedItems;
+    if (!select) {
+        m_model->requestRemoveFromSelection(currentClip);
+    } else {
+        m_model->requestAddToSelection(currentClip, !addToCurrent);
     }
-    if (select) {
-        if (!toSelect.contains(currentClip)) {
-            toSelect << currentClip;
-            setSelection(toSelect);
-        }
-    } else if (toSelect.contains(currentClip)) {
-        toSelect.removeAll(currentClip);
-        setSelection(toSelect);
-    }
-}
-
-void TimelineController::setSelection(const QList<int> &newSelection, int trackIndex, bool isMultitrack)
-{
-    qDebug() << "Changing selection to" << newSelection << " trackIndex" << trackIndex << "isMultitrack" << isMultitrack;
-    if (newSelection != selection() || trackIndex != m_selection.selectedTrack || isMultitrack != m_selection.isMultitrackSelected) {
-        m_selection.selectedItems = newSelection;
-        m_selection.selectedTrack = trackIndex;
-        m_selection.isMultitrackSelected = isMultitrack;
-        if (m_model->m_temporarySelectionGroup > -1) {
-            // Clear current selection
-            m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
-        }
-        std::unordered_set<int> newIds;
-        if (m_selection.selectedItems.size() > 0) {
-            std::unordered_set<int> ids;
-            ids.insert(m_selection.selectedItems.cbegin(), m_selection.selectedItems.cend());
-            m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(ids, true, GroupType::Selection);
-            if (m_model->m_temporarySelectionGroup >= 0 ||
-                (!m_selection.selectedItems.isEmpty() && m_model->m_groups->isInGroup(m_selection.selectedItems.constFirst()))) {
-                newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-            } else {
-                qDebug() << "// NON GROUPED SELCTUIIN: " << m_selection.selectedItems << " !!!!!!";
-            }
-            emitSelectedFromSelection();
-        } else {
-            // Empty selection
-            emit selected(nullptr);
-            emit showItemEffectStack(QString(), nullptr, QSize(), false);
-        }
-        emit selectionChanged();
-    }
-}
-
-void TimelineController::emitSelectedFromSelection()
-{
-    /*if (!m_model.trackList().count()) {
-        if (m_model.tractor())
-            selectMultitrack();
-        else
-            emit selected(0);
-        return;
-    }
-
-    int trackIndex = currentTrack();
-    int clipIndex = selection().isEmpty()? 0 : selection().first();
-    Mlt::ClipInfo* info = getClipInfo(trackIndex, clipIndex);
-    if (info && info->producer && info->producer->is_valid()) {
-        delete m_updateCommand;
-        m_updateCommand = new Timeline::UpdateCommand(*this, trackIndex, clipIndex, info->start);
-        // We need to set these special properties so time-based filters
-        // can get information about the cut while still applying filters
-        // to the cut parent.
-        info->producer->set(kFilterInProperty, info->frame_in);
-        info->producer->set(kFilterOutProperty, info->frame_out);
-        if (MLT.isImageProducer(info->producer))
-            info->producer->set("out", info->cut->get_int("out"));
-        info->producer->set(kMultitrackItemProperty, 1);
-        m_ignoreNextPositionChange = true;
-        emit selected(info->producer);
-        delete info;
-    }*/
 }
 
 QList<int> TimelineController::selection() const
 {
     if (!m_root) return QList<int>();
-    return m_selection.selectedItems;
+    QList<int> items;
+    for (int id : m_model->getCurrentSelection()) {
+        items << id;
+    }
+    return items;
 }
 
 void TimelineController::setScrollPos(int pos)
@@ -371,13 +249,6 @@ void TimelineController::setScrollPos(int pos)
     if (pos > 0 && m_root) {
         QMetaObject::invokeMethod(m_root, "setScrollPos", Qt::QueuedConnection, Q_ARG(QVariant, pos));
     }
-}
-
-void TimelineController::selectMultitrack()
-{
-    setSelection(QList<int>(), -1, true);
-    QMetaObject::invokeMethod(m_root, "selectMultitrack");
-    // emit selected(m_model.tractor());
 }
 
 void TimelineController::resetView()
@@ -518,127 +389,24 @@ int TimelineController::insertComposition(int tid, int position, const QString &
 
 void TimelineController::deleteSelectedClips()
 {
-    if (m_selection.selectedItems.isEmpty()) {
+    auto sel = m_model->getCurrentSelection();
+    if (sel.empty()) {
         return;
     }
-    if (m_model->m_temporarySelectionGroup != -1) {
-        // selection is grouped, delete group only
-        m_selection.selectedItems.clear();
-        emit selectionChanged();
-        m_model->requestGroupDeletion(m_model->m_temporarySelectionGroup);
-        return;
-    } else {
-        for (int cid : m_selection.selectedItems) {
-            m_model->requestItemDeletion(cid);
-        }
-    }
-    m_selection.selectedItems.clear();
-    emit selectionChanged();
-}
-
-void TimelineController::slotUpdateSelection(int itemId)
-{
-    if (m_selection.selectedItems.contains(itemId)) {
-        m_selection.selectedItems.removeAll(itemId);
-        emit selectionChanged();
-    }
+    // only need to delete the first item, the others will be deleted in cascade
+    m_model->requestItemDeletion(*sel.begin());
 }
 
 void TimelineController::copyItem()
 {
-    int clipId = -1;
-    if (!m_selection.selectedItems.isEmpty()) {
-        clipId = m_selection.selectedItems.first();
-        // Check grouped clips
-        QList<int> extraClips = m_selection.selectedItems;
-        // TODO better guess for master track
-        int masterTid = m_model->getItemTrackId(m_selection.selectedItems.first());
-        bool audioCopy = m_model->isAudioTrack(masterTid);
-        int masterTrack = m_model->getTrackPosition(masterTid);
-        std::unordered_set<int> groupRoots;
-        for (int id : m_selection.selectedItems) {
-            if (m_model->m_groups->isInGroup(id)) {
-                int gid = m_model->m_groups->getRootId(id);
-                qDebug() << " * ** ITEM " << id << " IS IN GROUP: " << gid;
-                if (gid != m_model->m_temporarySelectionGroup) {
-                    qDebug() << " * ** TRYING TO INSERT GP: " << gid;
-                    if (groupRoots.find(gid) == groupRoots.end()) {
-                        groupRoots.insert(gid);
-                    }
-                } else {
-                    qDebug() << " * ** TRYING TO INSERT SELECTION CHILD";
-                    std::unordered_set<int> selection = m_model->m_groups->getDirectChildren(gid);
-                    for (int j : selection) {
-                        if (groupRoots.find(j) == groupRoots.end()) {
-                            groupRoots.insert(j);
-                        }
-                    }
-                }
-                std::unordered_set<int> selection = m_model->getGroupElements(id);
-                for (int j : selection) {
-                    if (!extraClips.contains(j)) {
-                        extraClips << j;
-                    }
-                }
-            }
-        }
-        qDebug() << "==============\n GROUP ROOTS: ";
-        for (int gp : groupRoots) {
-            qDebug() << "GROUP: " << gp;
-        }
-        qDebug() << "\n=======";
-        QDomDocument copiedItems;
-        int offset = -1;
-        QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
-        copiedItems.appendChild(container);
-        QStringList binIds;
-        for (int id : extraClips) {
-            if (offset == -1 || m_model->getItemPosition(id) < offset) {
-                offset = m_model->getItemPosition(id);
-            }
-            if (m_model->isClip(id)) {
-                container.appendChild(m_model->m_allClips[id]->toXml(copiedItems));
-                const QString bid = m_model->m_allClips[id]->binId();
-                if (!binIds.contains(bid)) {
-                    binIds << bid;
-                }
-            } else if (m_model->isComposition(id)) {
-                container.appendChild(m_model->m_allCompositions[id]->toXml(copiedItems));
-            }
-        }
-        QDomElement container2 = copiedItems.createElement(QStringLiteral("bin"));
-        container.appendChild(container2);
-        for (const QString &id : binIds) {
-            std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
-            QDomDocument tmp;
-            container2.appendChild(clip->toXml(tmp));
-        }
-        container.setAttribute(QStringLiteral("offset"), offset);
-        if (audioCopy) {
-            int masterMirror = m_model->getMirrorVideoTrackId(masterTid);
-            if (masterMirror == -1) {
-                QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(m_model);
-                if (!projectTracks.second.isEmpty()) {
-                    masterTrack = m_model->getTrackPosition(projectTracks.second.first());
-                }
-            } else {
-                masterTrack = m_model->getTrackPosition(masterMirror);
-            }
-        }
-        /* masterTrack contains the reference track over which we want to paste.
-           this is a video track, unless audioCopy is defined */
-        container.setAttribute(QStringLiteral("masterTrack"), masterTrack);
-        container.setAttribute(QStringLiteral("documentid"), pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid")));
-        QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
-        container.appendChild(grp);
-        grp.appendChild(copiedItems.createTextNode(m_model->m_groups->toJson(groupRoots)));
-        // TODO: groups
-        qDebug() << " / // / PASTED DOC: \n\n" << copiedItems.toString() << "\n\n------------";
-        QClipboard *clipboard = QApplication::clipboard();
-        clipboard->setText(copiedItems.toString());
-    } else {
+    std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
+    if (selectedIds.empty()) {
         return;
     }
+    int clipId = *(selectedIds.begin());
+    QString copyString = TimelineFunctions::copyClips(m_model, selectedIds);
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);
 }
 
@@ -646,13 +414,6 @@ bool TimelineController::pasteItem()
 {
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
-    QDomDocument copiedItems;
-    copiedItems.setContent(txt);
-    if (copiedItems.documentElement().tagName() == QLatin1String("kdenlive-scene")) {
-        qDebug() << " / / READING CLIPS FROM CLIPBOARD";
-    } else {
-        return false;
-    }
     int tid = getMouseTrack();
     int position = getMousePos();
     if (tid == -1) {
@@ -661,216 +422,7 @@ bool TimelineController::pasteItem()
     if (position == -1) {
         position = timelinePosition();
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
-    const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
-    QMap<QString, QString> mappedIds;
-    // Check available tracks
-    QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(m_model);
-    int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
-    QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
-    QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
-    // find paste tracks
-    // List of all source audio tracks
-    QList<int> audioTracks;
-    // List of all source video tracks
-    QList<int> videoTracks;
-    // List of all audio tracks with their corresponding video mirror
-    QMap<int, int> audioMirrors;
-    // List of all source audio tracks that don't have video mirror
-    QList<int> singleAudioTracks;
-    for (int i = 0; i < clips.count(); i++) {
-        QDomElement prod = clips.at(i).toElement();
-        int trackPos = prod.attribute(QStringLiteral("track")).toInt();
-        bool audioTrack = prod.hasAttribute(QStringLiteral("audioTrack"));
-        if (audioTrack) {
-            if (!audioTracks.contains(trackPos)) {
-                audioTracks << trackPos;
-            }
-            int videoMirror = prod.attribute(QStringLiteral("mirrorTrack")).toInt();
-            if (videoMirror == -1) {
-                if (singleAudioTracks.contains(trackPos)) {
-                    continue;
-                }
-                singleAudioTracks << trackPos;
-                continue;
-            }
-            audioMirrors.insert(trackPos, videoMirror);
-            if (videoTracks.contains(videoMirror)) {
-                continue;
-            }
-            videoTracks << videoMirror;
-        } else {
-            if (videoTracks.contains(trackPos)) {
-                continue;
-            }
-            videoTracks << trackPos;
-        }
-    }
-    for (int i = 0; i < compositions.count(); i++) {
-        QDomElement prod = compositions.at(i).toElement();
-        int trackPos = prod.attribute(QStringLiteral("track")).toInt();
-        if (!videoTracks.contains(trackPos)) {
-            videoTracks << trackPos;
-        }
-        int atrackPos = prod.attribute(QStringLiteral("a_track")).toInt();
-        if (atrackPos == 0 || videoTracks.contains(atrackPos)) {
-            continue;
-        }
-        videoTracks << atrackPos;
-    }
-    // Now we have a list of all source tracks, check that we have enough target tracks
-    qSort(videoTracks);
-    qSort(audioTracks);
-    qSort(singleAudioTracks);
-    int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
-    int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
-    if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
-        pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
-        return false;
-    }
-
-    // Check we have enough tracks above/below
-    if (requestedVideoTracks > 0) {
-        qDebug() << "MASTERSTK: " << masterSourceTrack << ", VTKS: " << videoTracks;
-        int tracksBelow = masterSourceTrack - videoTracks.first();
-        int tracksAbove = videoTracks.last() - masterSourceTrack;
-        qDebug() << "// RQST TKS BELOW: " << tracksBelow << " / ABOVE: " << tracksAbove;
-        qDebug() << "// EXISTING TKS BELOW: " << projectTracks.second.indexOf(tid) << ", IX: " << tid;
-        qDebug() << "// EXISTING TKS ABOVE: " << projectTracks.second.size() << " - " << projectTracks.second.indexOf(tid);
-        if (projectTracks.second.indexOf(tid) < tracksBelow) {
-            qDebug() << "// UPDATING BELOW TID IX TO: " << tracksBelow;
-            // not enough tracks below, try to paste on upper track
-            tid = projectTracks.second.at(tracksBelow);
-        } else if ((projectTracks.second.size() - (projectTracks.second.indexOf(tid) + 1)) < tracksAbove) {
-            // not enough tracks above, try to paste on lower track
-            qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.second.size() - tracksAbove);
-            tid = projectTracks.second.at(projectTracks.second.size() - tracksAbove - 1);
-        }
-    }
-    QMap<int, int> tracksMap;
-    int masterIx = projectTracks.second.indexOf(tid);
-    qDebug() << "/// PROJECT VIDEO TKS: " << projectTracks.second << ", MASTER: " << tid;
-    qDebug() << "/// PASTE VIDEO TKS: " << videoTracks << " / MASTER: " << masterSourceTrack;
-    qDebug() << "/// MASTER PASTE: " << masterIx;
-    for (int tk : videoTracks) {
-        tracksMap.insert(tk, projectTracks.second.at(masterIx + tk - masterSourceTrack));
-        qDebug() << "// TK MAP: " << tk << " => " << projectTracks.second.at(masterIx + tk - masterSourceTrack);
-    }
-    QMapIterator<int, int> it(audioMirrors);
-    while (it.hasNext()) {
-        it.next();
-        int videoIx = tracksMap.value(it.value());
-        // qDebug()<<"// TK AUDIO MAP: "<<it.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<m_model->getMirrorAudioTrackId(videoIx);
-        tracksMap.insert(it.key(), m_model->getMirrorAudioTrackId(videoIx));
-    }
-    for (int i = 0; i < singleAudioTracks.size(); i++) {
-        tracksMap.insert(singleAudioTracks.at(i), projectTracks.first.at(i));
-    }
-    qDebug() << "++++++++++++++++++++++++++\n\n\n// AUDIO MIRRORS: " << audioMirrors << ", RESULT: " << tracksMap;
-    if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
-        // paste from another document, import bin clips
-        QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
-        if (folderId.isEmpty()) {
-            // Folder doe not exist
-            const QString rootId = pCore->projectItemModel()->getRootFolder()->clipId();
-            folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
-            pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
-        }
-        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
-        for (int i = 0; i < binClips.count(); ++i) {
-            QDomElement currentProd = binClips.item(i).toElement();
-            QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
-            if (!pCore->projectItemModel()->isIdFree(clipId)) {
-                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
-                Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
-                mappedIds.insert(clipId, updatedId);
-                clipId = updatedId;
-            }
-            pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo);
-        }
-    }
-
-    int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
-
-    bool res = true;
-    QLocale locale;
-    QMap<int, int> correspondingIds;
-    QList<int> waitingIds;
-    for (int i = 0; i < clips.count(); i++) {
-        waitingIds << i;
-    }
-    for (int i = 0; res && !waitingIds.isEmpty();) {
-        if (i >= waitingIds.size()) {
-            i = 0;
-        }
-        QDomElement prod = clips.at(waitingIds.at(i)).toElement();
-        QString originalId = prod.attribute(QStringLiteral("binid"));
-        if (mappedIds.contains(originalId)) {
-            // Map id
-            originalId = mappedIds.value(originalId);
-        }
-        int in = prod.attribute(QStringLiteral("in")).toInt();
-        int out = prod.attribute(QStringLiteral("out")).toInt();
-        int trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
-        int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
-        double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
-        int newId;
-        bool created = m_model->requestClipCreation(originalId, newId, m_model->getTrackById_const(trackId)->trackType(), speed, undo, redo);
-        if (created) {
-            // Master producer is ready
-            // ids.removeAll(originalId);
-            waitingIds.removeAt(i);
-        } else {
-            i++;
-            qApp->processEvents();
-            continue;
-        }
-        if (m_model->m_allClips[newId]->m_endlessResize) {
-            out = out - in;
-            in = 0;
-            m_model->m_allClips[newId]->m_producer->set("length", out + 1);
-        }
-        m_model->m_allClips[newId]->setInOut(in, out);
-        correspondingIds.insert(prod.attribute(QStringLiteral("id")).toInt(), newId);
-        res = res & m_model->getTrackById(trackId)->requestClipInsertion(newId, position + pos, true, true, undo, redo);
-        // paste effects
-        if (res) {
-            std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(newId);
-            destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), undo, redo);
-        }
-    }
-
-    // Compositions
-    for (int i = 0; res && i < compositions.count(); i++) {
-        QDomElement prod = compositions.at(i).toElement();
-        QString originalId = prod.attribute(QStringLiteral("composition"));
-        int in = prod.attribute(QStringLiteral("in")).toInt();
-        int out = prod.attribute(QStringLiteral("out")).toInt();
-        int trackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
-        int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-        if (aTrackId > 0) {
-            aTrackId = m_model->getTrackPosition(tracksMap.value(aTrackId));
-        }
-        int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
-        int newId;
-        auto transProps = std::make_unique<Mlt::Properties>();
-        QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
-        for (int j = 0; j < props.count(); j++) {
-            transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
-                            props.at(j).toElement().text().toUtf8().constData());
-        }
-        res = m_model->requestCompositionInsertion(originalId, trackId, aTrackId, position + pos, out - in, std::move(transProps), newId, undo, redo);
-    }
-    if (!res) {
-        undo();
-        return false;
-    }
-    const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
-    // Rebuild groups
-    m_model->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
-    pCore->pushUndo(undo, redo, i18n("Paste clips"));
-    return true;
+    return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
 
 void TimelineController::triggerAction(const QString &name)
@@ -950,48 +502,35 @@ void TimelineController::gotoPreviousSnap()
 
 void TimelineController::groupSelection()
 {
-    if (m_selection.selectedItems.size() < 2) {
+    const auto selection = m_model->getCurrentSelection();
+    if (selection.size() < 2) {
         pCore->displayMessage(i18n("Select at least 2 items to group"), InformationMessage, 500);
         return;
     }
-    std::unordered_set<int> clips;
-    for (int id : m_selection.selectedItems) {
-        clips.insert(id);
-    }
-    m_model->requestClipsGroup(clips);
-    emit selectionChanged();
+    m_model->requestClearSelection();
+    m_model->requestClipsGroup(selection);
+    m_model->requestSetSelection(selection);
 }
 
 void TimelineController::unGroupSelection(int cid)
 {
-    if (cid == -1 && m_selection.selectedItems.isEmpty()) {
-        pCore->displayMessage(i18n("Select at least 1 item to ungroup"), InformationMessage, 500);
-        return;
-    }
+    auto ids = m_model->getCurrentSelection();
     // ask to unselect if needed
-    int tmpGroup = m_model->m_temporarySelectionGroup;
-    if (tmpGroup >= 0) {
-        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
-    }
-    std::unordered_set<int> ids;
-    if (cid > -1 && cid != tmpGroup) {
+    m_model->requestClearSelection();
+    if (cid > -1) {
         ids.insert(cid);
-    }
-    for (int id : m_selection.selectedItems) {
-        ids.insert(id);
     }
     if (!ids.empty()) {
         m_model->requestClipsUngroup(ids);
     }
-    m_selection.selectedItems.clear();
-    emit selectionChanged();
 }
 
 void TimelineController::setInPoint()
 {
     int cursorPos = timelinePosition();
-    if (!m_selection.selectedItems.isEmpty()) {
-        for (int id : m_selection.selectedItems) {
+    const auto selection = m_model->getCurrentSelection();
+    if (!selection.empty()) {
+        for (int id : selection) {
             int start = m_model->getItemPosition(id);
             if (start == cursorPos) {
                 continue;
@@ -1010,8 +549,9 @@ int TimelineController::timelinePosition() const
 void TimelineController::setOutPoint()
 {
     int cursorPos = timelinePosition();
-    if (!m_selection.selectedItems.isEmpty()) {
-        for (int id : m_selection.selectedItems) {
+    const auto selection = m_model->getCurrentSelection();
+    if (!selection.empty()) {
+        for (int id : selection) {
             int start = m_model->getItemPosition(id);
             if (start + m_model->getItemPlaytime(id) == cursorPos) {
                 continue;
@@ -1069,9 +609,10 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
 void TimelineController::addAsset(const QVariantMap &data)
 {
     QString effect = data.value(QStringLiteral("kdenlive/effect")).toString();
-    if (!m_selection.selectedItems.isEmpty()) {
+    const auto selection = m_model->getCurrentSelection();
+    if (!selection.empty()) {
         QList<int> effectSelection;
-        for (int id : m_selection.selectedItems) {
+        for (int id : selection) {
             if (m_model->isClip(id)) {
                 effectSelection << id;
                 int partner = m_model->getClipSplitPartner(id);
@@ -1200,46 +741,17 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
-void TimelineController::selectItems(const QVariantList &arg, int startFrame, int endFrame, bool addToSelect)
+void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect)
 {
-    std::unordered_set<int> previousSelection = getCurrentSelectionIds();
     std::unordered_set<int> itemsToSelect;
     if (addToSelect) {
-        for (int cid : m_selection.selectedItems) {
-            itemsToSelect.insert(cid);
-        }
+        itemsToSelect = m_model->getCurrentSelection();
     }
-    m_selection.selectedItems.clear();
-    for (int i = 0; i < arg.count(); i++) {
-        auto currentClips = m_model->getItemsInRange(arg.at(i).toInt(), startFrame, endFrame, true);
+    for (int i = 0; i < tracks.count(); i++) {
+        auto currentClips = m_model->getItemsInRange(tracks.at(i).toInt(), startFrame, endFrame, true);
         itemsToSelect.insert(currentClips.begin(), currentClips.end());
     }
-    if (itemsToSelect.size() > 0) {
-        for (int x : itemsToSelect) {
-            m_selection.selectedItems << x;
-        }
-        qDebug() << "// GROUPING ITEMS: " << m_selection.selectedItems;
-        m_model->m_temporarySelectionGroup = m_model->requestClipsGroup(itemsToSelect, true, GroupType::Selection);
-        qDebug() << "// GROUPING ITEMS DONE";
-    } else if (m_model->m_temporarySelectionGroup > -1) {
-        m_model->requestClipUngroup(m_model->m_temporarySelectionGroup, false);
-    }
-    std::unordered_set<int> newIds;
-    if (m_model->m_temporarySelectionGroup >= 0) {
-        newIds = m_model->getGroupElements(m_selection.selectedItems.constFirst());
-        for (int child : newIds) {
-            QModelIndex ix;
-            if (m_model->isClip(child)) {
-                ix = m_model->makeClipIndexFromID(child);
-            } else if (m_model->isComposition(child)) {
-                ix = m_model->makeCompositionIndexFromID(child);
-            }
-            if (ix.isValid()) {
-                m_model->dataChanged(ix, ix, {TimelineModel::GroupedRole});
-            }
-        }
-    }
-    emit selectionChanged();
+    m_model->requestSetSelection(itemsToSelect);
 }
 
 void TimelineController::requestClipCut(int clipId, int position)
@@ -1257,7 +769,8 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
-    for (int cid : m_selection.selectedItems) {
+    const auto selection = m_model->getCurrentSelection();
+    for (int cid : selection) {
         if (m_model->isClip(cid)) {
             if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
                 foundClip = true;
@@ -1296,7 +809,8 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
 
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
-    for (int cid : m_selection.selectedItems) {
+    const auto selection = m_model->getCurrentSelection();
+    for (int cid : selection) {
         int start = m_model->getItemPosition(cid);
         if (seekToEnd) {
             start += m_model->getItemPlaytime(cid);
@@ -1740,7 +1254,6 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
 {
     if (qFuzzyCompare(speed, -1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
-        bool ok = false;
         double duration = m_model->getItemPlaytime(clipId);
         // this is the max speed so that the clip is at least one frame long
         double maxSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId));
@@ -1930,7 +1443,7 @@ void TimelineController::addEffectToClip(const QString &assetId, int clipId)
 
 bool TimelineController::splitAV()
 {
-    int cid = m_selection.selectedItems.first();
+    int cid = *m_model->getCurrentSelection().begin();
     if (m_model->isClip(cid)) {
         std::shared_ptr<ClipModel> clip = m_model->getClipPtr(cid);
         if (clip->clipState() == PlaylistState::AudioOnly) {
@@ -1980,7 +1493,7 @@ void TimelineController::alignAudio(int clipId)
         std::unordered_set<int> groupIds = m_model->getGroupElements(clipId);
         // Check that no item is grouped with our audioRef item
         // TODO
-        clearSelection();
+        m_model->requestClearSelection();
     }
     const QString otherBinId = getClipBinId(clipId);
     if (otherBinId == masterBinClipId) {
@@ -2075,38 +1588,28 @@ bool TimelineController::ungroupClips(int clipId)
     return m_model->requestClipUngroup(clipId);
 }
 
-void TimelineController::clearSelection()
-{
-    if (m_model->m_temporarySelectionGroup >= 0) {
-        m_model->m_groups->destructGroupItem(m_model->m_temporarySelectionGroup);
-        m_model->m_temporarySelectionGroup = -1;
-    }
-    m_selection.selectedItems.clear();
-    emit selectionChanged();
-}
-
 void TimelineController::selectAll()
 {
-    QList<int> ids;
-    for (const auto &clp : m_model->m_allClips) {
-        ids << clp.first;
+    std::unordered_set<int> ids;
+    for (auto clp : m_model->m_allClips) {
+        ids.insert(clp.first);
     }
-    for (const auto &clp : m_model->m_allCompositions) {
-        ids << clp.first;
+    for (auto clp : m_model->m_allCompositions) {
+        ids.insert(clp.first);
     }
-    setSelection(ids);
+    m_model->requestSetSelection(ids);
 }
 
 void TimelineController::selectCurrentTrack()
 {
-    QList<int> ids;
-    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
-        ids << clp.first;
+    std::unordered_set<int> ids;
+    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
+        ids.insert(clp.first);
     }
-    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
-        ids << clp.first;
+    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
+        ids.insert(clp.first);
     }
-    setSelection(ids);
+    m_model->requestSetSelection(ids);
 }
 
 void TimelineController::pasteEffects(int targetId)
@@ -2114,8 +1617,8 @@ void TimelineController::pasteEffects(int targetId)
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getCopiedItemId", Q_RETURN_ARG(QVariant, returnedValue));
     int sourceId = returnedValue.toInt();
-    if (targetId == -1 && !m_selection.selectedItems.isEmpty()) {
-        targetId = m_selection.selectedItems.constFirst();
+    if (targetId == -1 && !m_model->getCurrentSelection().empty()) {
+        targetId = *m_model->getCurrentSelection().begin();
     }
     if (!m_model->isClip(targetId) || !m_model->isClip(sourceId)) {
         return;
@@ -2231,7 +1734,7 @@ void TimelineController::editItemDuration(int id)
 
 void TimelineController::updateClipActions()
 {
-    if (m_selection.selectedItems.isEmpty()) {
+    if (m_model->getCurrentSelection().empty()) {
         for (QAction *act : clipActions) {
             act->setEnabled(false);
         }
@@ -2239,7 +1742,7 @@ void TimelineController::updateClipActions()
         return;
     }
     std::shared_ptr<ClipModel> clip(nullptr);
-    int item = m_selection.selectedItems.first();
+    int item = *m_model->getCurrentSelection().begin();
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
     }
@@ -2247,9 +1750,9 @@ void TimelineController::updateClipActions()
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {
-            enableAction = m_model->isInMultiSelection(item);
+            enableAction = isInSelection(item);
         } else if (actionData == QLatin1Char('U')) {
-            enableAction = m_model->isInMultiSelection(item) || (m_model->m_groups->isInGroup(item) && !m_model->isInMultiSelection(item));
+            enableAction = isInSelection(item) || (m_model->m_groups->isInGroup(item) && !isInSelection(item));
         } else if (actionData == QLatin1Char('A')) {
             enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
         } else if (actionData == QLatin1Char('V')) {
@@ -2278,11 +1781,11 @@ const QString TimelineController::getAssetName(const QString &assetId, bool isTr
 
 void TimelineController::grabCurrent()
 {
-    if (m_selection.selectedItems.isEmpty()) {
+    if (m_model->getCurrentSelection().empty()) {
         // TODO: error displayMessage
         return;
     }
-    int id = m_selection.selectedItems.constFirst();
+    int id = *m_model->getCurrentSelection().begin();
     if (m_model->isClip(id)) {
         std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
         clip->setGrab(!clip->isGrabbed());
@@ -2492,7 +1995,7 @@ QStringList TimelineController::getThumbKeys()
 
 bool TimelineController::isInSelection(int itemId)
 {
-    return m_model->isInMultiSelection(itemId);
+    return m_model->getCurrentSelection().count(itemId) > 0;
 }
 
 bool TimelineController::exists(int itemId)
@@ -2507,7 +2010,7 @@ void TimelineController::slotMultitrackView(bool enable)
 
 void TimelineController::saveTimelineSelection(const QDir &targetDir)
 {
-    TimelineFunctions::saveTimelineSelection(m_model, m_selection.selectedItems, targetDir);
+    TimelineFunctions::saveTimelineSelection(m_model, m_model->getCurrentSelection(), targetDir);
 }
 
 void TimelineController::addEffectKeyframe(int cid, int frame, double val)
