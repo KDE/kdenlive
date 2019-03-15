@@ -82,7 +82,7 @@ RTTR_REGISTRATION
         .method("requestClearSelection", select_overload<void(bool)>(&TimelineModel::requestClearSelection))(parameter_names("onDeletion"))
         .method("requestAddToSelection", &TimelineModel::requestAddToSelection)(parameter_names("itemId", "clear"))
         .method("requestRemoveFromSelection", &TimelineModel::requestRemoveFromSelection)(parameter_names("itemId"))
-        .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("ids"));
+        .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("itemIds"));
 }
 
 int TimelineModel::next_id = 0;

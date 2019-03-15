@@ -398,6 +398,7 @@ void fuzz(const std::string &input)
                                 // std::cout << "read enum " << arg_type.get_enumeration().value_to_name(var_a).to_string() << std::endl;
                                 arguments.push_back(var_a);
                             } else {
+                                std::cout << "ERROR: unsupported arg type " << arg_type.get_name().to_string() << std::endl;
                                 assert(false);
                             }
                         } else {
