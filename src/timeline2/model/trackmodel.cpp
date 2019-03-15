@@ -216,6 +216,9 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
     if (isLocked()) {
         return false;
     }
+    if (position < 0) {
+        return false;
+    }
     if (auto ptr = m_parent.lock()) {
         if (isAudioTrack() && !ptr->getClipPtr(clipId)->canBeAudio()) {
             qDebug() << "// ATTEMPTING TO INSERT NON AUDIO CLIP ON AUDIO TRACK";
