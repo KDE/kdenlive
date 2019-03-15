@@ -227,17 +227,17 @@ Item {
             }
             Column {
             ToolButton {
-                id: audioDragButton
-                iconName: "audio-volume-medium"
-                tooltip: "Audio only drag"
+                id: videoDragButton
+                iconName: "kdenlive-show-video"
+                tooltip: "Video only drag"
                 x: 10
                 enabled: false
                 visible: dragOverArea.containsMouse
             }
             ToolButton {
-                id: videoDragButton
-                iconName: "kdenlive-show-video"
-                tooltip: "Video only drag"
+                id: audioDragButton
+                iconName: "audio-volume-medium"
+                tooltip: "Audio only drag"
                 x: 10
                 enabled: false
                 visible: dragOverArea.containsMouse
