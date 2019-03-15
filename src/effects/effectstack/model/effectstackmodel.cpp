@@ -514,7 +514,6 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         if (ptr) {
             in = ptr->get_int("in");
         }
-        qDebug() << "//// SETTING CLIP FADIN: " << duration;
         int oldDuration = -1;
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (m_fadeIns.count(std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) > 0) {
@@ -597,7 +596,7 @@ int EffectStackModel::getFadePosition(bool fromStart)
         for (int i = 0; i < rootItem->childCount(); ++i) {
             if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
-                return effect->filter().get_length();
+                return effect->filter().get_length() - 1;
             }
         }
     } else {

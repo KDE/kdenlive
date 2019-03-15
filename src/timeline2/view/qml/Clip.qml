@@ -582,15 +582,15 @@ Rectangle {
                 else
                     parent.anchors.left = fadeInTriangle.left
                 console.log('released fade: ', clipRoot.fadeIn)
-                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn - 1, startFadeIn)
+                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 bubbleHelp.hide()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round(parent.x / timeScale) - startX
-                    var duration = Math.max(0, startFadeIn + delta - 1)
+                    var duration = Math.max(0, startFadeIn + delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
-                    if (duration != clipRoot.fadeIn - 1) {
+                    if (duration != clipRoot.fadeIn) {
                         timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
                         var s = timeline.timecode(Math.max(duration, 0))
