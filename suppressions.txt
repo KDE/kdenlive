@@ -1,0 +1,9 @@
+leak:f0r_construct
+leak:f0r_get_param_value
+leak:^Baltan
+leak:libglib
+leak:^QV4::CompiledData::CompilationUnit::instantiate
+leak:libfontconfig.so
+leak:KDeclarative::KDeclarative::setupEngine
+leak:QQuickEventPoint::estimatedVelocity()
+leak:QAudioProbe::QAudioProbe
