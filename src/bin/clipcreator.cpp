@@ -213,6 +213,9 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
     bool created = false;
     QMimeDatabase db;
     for (const QUrl &file : list) {
+        if (!QFile::exists(file.toLocalFile())) {
+            continue;
+        }
         QMimeType mType = db.mimeTypeForUrl(file);
         if (mType.inherits(QLatin1String("inode/directory"))) {
             // user dropped a folder, import its files
