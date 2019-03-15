@@ -520,3 +520,74 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     pCore->m_projectManager = nullptr;
     Logger::print_trace();
 }
+
+TEST_CASE("Insert/delete spaces", "[Trimming2]")
+{
+    Logger::clear();
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock);
+
+    QString binId = createProducerWithSound(profile_trimming, binModel);
+
+    int tid2b = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int tid1 = TrackModel::construct(timeline);
+    int tid1b = TrackModel::construct(timeline);
+
+    SECTION("Remove Space should preserve groups")
+    {
+
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
+        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+
+        auto state = [&](int pos) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == pos);
+            REQUIRE(timeline->getClipPosition(cid2) == pos);
+            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state(3);
+
+        REQUIRE(TimelineFunctions::requestDeleteBlankAt(timeline, tid1, 1, true));
+        state(0);
+
+        undoStack->undo();
+        state(3);
+        undoStack->redo();
+        state(0);
+    }
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+    Logger::print_trace();
+}

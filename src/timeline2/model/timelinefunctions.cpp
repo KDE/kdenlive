@@ -203,7 +203,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
     if (clips.size() > 0) {
-        timeline->requestClipsGroup(clips, false, GroupType::Selection);
+        timeline->requestSetSelection(clips);
         return (*clips.cbegin());
     }
     return -1;
@@ -220,8 +220,6 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         timeline->requestCompositionMove(itemId, track, startPosition, false, false);
     }
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
-    // clear selection
-    timeline->requestClearSelection();
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
@@ -239,11 +237,12 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
             }
         }
     }
-    if (final && clips.size() > 1) {
-        final = timeline->requestClipUngroup(itemId, undo, redo);
-    }
     if (final) {
-        pCore->pushUndo(undo, redo, i18n("Insert space"));
+        if (startPosition < endPosition) {
+            pCore->pushUndo(undo, redo, i18n("Remove space"));
+        } else {
+            pCore->pushUndo(undo, redo, i18n("Insert space"));
+        }
         return true;
     }
     return false;
@@ -1300,5 +1299,18 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     // Rebuild groups
     timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
+    return true;
+}
+
+bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks)
+{
+    // find blank duration
+    int spaceDuration = timeline->getTrackById_const(trackId)->getBlankSizeAtPos(position);
+    int cid = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
+    if (cid == -1) {
+        return false;
+    }
+    int start = timeline->getItemPosition(cid);
+    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration);
     return true;
 }

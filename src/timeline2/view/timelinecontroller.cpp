@@ -1221,15 +1221,10 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
     if (trackId == -1) {
         trackId = m_activeTrack;
     }
-    // find blank duration
-    int spaceDuration = m_model->getTrackById_const(trackId)->getBlankSizeAtPos(frame);
-    int cid = requestSpacerStartOperation(affectAllTracks ? -1 : trackId, frame);
-    if (cid == -1) {
-        pCore->displayMessage(i18n("No clips found to insert space"), InformationMessage, 500);
-        return;
+    bool res = TimelineFunctions::requestDeleteBlankAt(m_model, trackId, frame, affectAllTracks);
+    if (!res) {
+        pCore->displayMessage(i18n("Cannot remove space at given position"), InformationMessage, 500);
     }
-    int start = m_model->getItemPosition(cid);
-    requestSpacerEndOperation(cid, start, start - spaceDuration);
 }
 
 void TimelineController::invalidateItem(int cid)

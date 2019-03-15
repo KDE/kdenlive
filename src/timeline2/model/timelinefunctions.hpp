@@ -70,6 +70,15 @@ struct TimelineFunctions
     static bool requestMultipleClipsInsertion(const std::shared_ptr<TimelineItemModel> &timeline, const QStringList &binIds, int trackId, int position,
                                               QList<int> &clipIds, bool logUndo, bool refreshView);
 
+    /** @brief This function will find the blank located in the given track at the given position and remove it
+        @returns true on success, false otherwise
+        @param trackId id of the track to search in
+        @param position of the blank
+        @param affectAllTracks if true, the same blank will be removed from all tracks. Note that all the tracks must have a blank at least that big in that
+       position
+    */
+    static bool requestDeleteBlankAt(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position, bool affectAllTracks);
+
     static int requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position);
     static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
