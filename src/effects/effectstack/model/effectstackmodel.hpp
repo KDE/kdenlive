@@ -136,7 +136,7 @@ public:
     /* @brief Returns an XML representation of the effect stack with all parameters */
     QDomElement toXml(QDomDocument &document);
     /* @brief Load an effect stack from an XML representation */
-    void fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
+    bool fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
     /* @brief Delete active effect from stack */
     void removeCurrentEffect();
 

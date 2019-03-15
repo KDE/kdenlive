@@ -748,6 +748,9 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
         itemsToSelect = m_model->getCurrentSelection();
     }
     for (int i = 0; i < tracks.count(); i++) {
+        if (m_model->getTrackById_const(tracks.at(i).toInt())->isLocked()) {
+            continue;
+        }
         auto currentClips = m_model->getItemsInRange(tracks.at(i).toInt(), startFrame, endFrame, true);
         itemsToSelect.insert(currentClips.begin(), currentClips.end());
     }
@@ -1609,20 +1612,31 @@ void TimelineController::selectCurrentTrack()
 
 void TimelineController::pasteEffects(int targetId)
 {
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getCopiedItemId", Q_RETURN_ARG(QVariant, returnedValue));
-    int sourceId = returnedValue.toInt();
     if (targetId == -1 && !m_model->getCurrentSelection().empty()) {
         targetId = *m_model->getCurrentSelection().begin();
     }
-    if (!m_model->isClip(targetId) || !m_model->isClip(sourceId)) {
+    QClipboard *clipboard = QApplication::clipboard();
+    QString txt = clipboard->text();
+    if (!m_model->isClip(targetId) || txt.isEmpty()) {
+        pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
+        return;
+    }
+    QDomDocument copiedItems;
+    copiedItems.setContent(txt);
+    if (copiedItems.documentElement().tagName() != QLatin1String("kdenlive-scene")) {
+        pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
         return;
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    std::shared_ptr<EffectStackModel> sourceStack = m_model->getClipEffectStackModel(sourceId);
     std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(targetId);
-    bool result = destStack->importEffects(sourceStack, m_model->m_allClips[targetId]->clipState(), undo, redo);
+    QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
+    if (clips.isEmpty()) {
+        pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
+        return;
+    }
+    QDomElement effects = clips.at(0).firstChildElement(QStringLiteral("effects"));
+    bool result = destStack->fromXml(effects, undo, redo);
     if (result) {
         pCore->pushUndo(undo, redo, i18n("Paste effects"));
     } else {

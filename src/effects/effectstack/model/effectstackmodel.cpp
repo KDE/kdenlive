@@ -226,7 +226,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
     return container;
 }
 
-void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
+bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
 {
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
     for (int i = 0; i < nodeList.count(); ++i) {
@@ -269,6 +269,7 @@ void EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         PUSH_LAMBDA(update, redo);
         PUSH_LAMBDA(update, undo);
     }
+    return true;
 }
 
 bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
