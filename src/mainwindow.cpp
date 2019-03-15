@@ -301,7 +301,8 @@ void MainWindow::init()
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
     connect(pCore->bin(), &Bin::requestShowEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(pCore->bin(), &Bin::requestShowEffectStack, [&] () {
-        m_effectStackDock->raise();
+        // Don't raise effect stack on clip bin in case it is docked with bin or clip monitor
+        // m_effectStackDock->raise();
     });
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
     connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
