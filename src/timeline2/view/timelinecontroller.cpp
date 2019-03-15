@@ -457,7 +457,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     if (offset > clip_duration / 2) {
         position += offset;
     }
-    position = qMin(clip_duration - 1, position);
+    position = qMin(minimum + clip_duration - 1, position);
     int duration = m_model->getTrackById_const(tid)->suggestCompositionLength(position);
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
     bool revert = false;
@@ -479,11 +479,13 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
             duration = (duration > 0) ? qMin(duration, duration2) : duration2;
         }
     }
-    if (duration <= 4) {
+    if (duration < 0) {
+        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    } else if (duration <= 4) {
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
-        if (clip_duration - position < 3) {
-            position = clip_duration - duration;
+        if (minimum + clip_duration - position < 3) {
+            position = minimum + clip_duration - duration;
         }
     }
     std::unique_ptr<Mlt::Properties> props(nullptr);
