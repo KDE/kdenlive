@@ -269,7 +269,7 @@ QDomElement CompositionModel::toXml(QDomDocument &document)
     container.setAttribute(QStringLiteral("out"), getOut());
     container.setAttribute(QStringLiteral("position"), getPosition());
     if (auto ptr = m_parent.lock()) {
-        int trackId = ptr->getTrackPosition(getCurrentTrackId());
+        int trackId = ptr->getTrackPosition(m_currentTrackId);
         container.setAttribute(QStringLiteral("track"), trackId);
     }
     container.setAttribute(QStringLiteral("a_track"), getATrack());

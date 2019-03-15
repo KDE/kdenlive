@@ -462,9 +462,10 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             drag.target: parent
-            drag.minimumX: -root.baseUnit * 2
+            drag.minimumX: -root.baseUnit
             drag.maximumX: container.width
             drag.axis: Drag.XAxis
+            drag.smoothed: false
             property int startX
             property int startFadeIn
             onEntered: parent.opacity = 0.7
@@ -473,10 +474,9 @@ Rectangle {
                   parent.opacity = 0
                 }
             }
-            drag.smoothed: false
             onPressed: {
                 root.stopScrolling = true
-                startX = parent.x
+                startX = Math.round(parent.x / timeScale)
                 startFadeIn = clipRoot.fadeIn
                 parent.anchors.left = undefined
                 parent.anchors.horizontalCenter = undefined
@@ -493,18 +493,16 @@ Rectangle {
                 else
                     parent.anchors.left = fadeInTriangle.left
                 console.log('released fade: ', clipRoot.fadeIn)
-                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
+                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn - 1, startFadeIn)
                 bubbleHelp.hide()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = Math.round((parent.x - startX) / timeScale)
-                    if (delta != 0) {
-                        var duration = Math.max(0, startFadeIn + delta)
-                        duration = Math.min(duration, clipRoot.clipDuration)
-                        if (clipRoot.fadeIn - 1 != duration) {
-                            timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
-                        }
+                    var delta = Math.round(parent.x / timeScale) - startX
+                    var duration = Math.max(0, startFadeIn + delta - 1)
+                    duration = Math.min(duration, clipRoot.clipDuration)
+                    if (duration != clipRoot.fadeIn - 1) {
+                        timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                         // Show fade duration as time in a "bubble" help.
                         var s = timeline.timecode(Math.max(duration, 0))
                         bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s)
@@ -562,7 +560,7 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             drag.target: parent
             drag.axis: Drag.XAxis
-            drag.minimumX: -root.baseUnit * 2
+            drag.minimumX: -root.baseUnit
             drag.maximumX: container.width
             property int startX
             property int startFadeOut
@@ -575,7 +573,7 @@ Rectangle {
             drag.smoothed: false
             onPressed: {
                 root.stopScrolling = true
-                startX = parent.x
+                startX = Math.round(parent.x / timeScale)
                 startFadeOut = clipRoot.fadeOut
                 parent.anchors.right = undefined
                 parent.anchors.horizontalCenter = undefined
@@ -595,13 +593,11 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = Math.round((startX - parent.x) / timeScale)
-                    if (delta != 0) {
-                        var duration = Math.max(0, startFadeOut + delta)
-                        duration = Math.min(duration, clipRoot.clipDuration)
-                        if (clipRoot.fadeOut - 1 != duration) {
-                            timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
-                        }
+                    var delta = startX - Math.round(parent.x / timeScale)
+                    var duration = Math.max(0, startFadeOut + delta)
+                    duration = Math.min(duration, clipRoot.clipDuration)
+                    if (clipRoot.fadeOut != duration) {
+                        timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                         // Show fade duration as time in a "bubble" help.
                         var s = timeline.timecode(Math.max(duration, 0))
                         bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s)
