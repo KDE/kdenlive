@@ -1486,13 +1486,13 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     if (snapDistance > 0) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
-        if (right && size > out - in) {
+        if (right && size > out - in && isClip(itemId)) {
             int targetPos = in + size - 1;
             int trackId = getItemTrackId(itemId);
             if (!getTrackById_const(trackId)->isBlankAt(targetPos)) {
                 size = getTrackById_const(trackId)->getBlankEnd(out + 1) - in;
             }
-        } else if (!right && size > (out - in)) {
+        } else if (!right && size > (out - in) && isClip(itemId)) {
             int targetPos = out + 1 - size;
             int trackId = getItemTrackId(itemId);
             if (!getTrackById_const(trackId)->isBlankAt(targetPos)) {
