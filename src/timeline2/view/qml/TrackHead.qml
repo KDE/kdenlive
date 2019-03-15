@@ -44,6 +44,10 @@ Rectangle {
     border.color: root.frameColor
     signal clicked()
 
+    onCollapsedChanged: {
+        resizer.y = trackHeadRoot.height - resizer.height
+    }
+
     function pulseLockButton() {
         flashLock.restart();
     }
@@ -351,14 +355,16 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
-        Rectangle {
+    }
+    Rectangle {
             id: resizer
-            Layout.fillWidth: true
             height: 4
             color: 'red'
             opacity: 0
             Drag.active: trimInMouseArea.drag.active
             Drag.proposedAction: Qt.MoveAction
+            width: trackHeadRoot.width
+            y: trackHeadRoot.height - height
 
             MouseArea {
                 id: trimInMouseArea
@@ -367,6 +373,7 @@ Rectangle {
                 cursorShape: Qt.SizeVerCursor
                 drag.target: parent
                 drag.axis: Drag.YAxis
+                drag.minimumY: trackHeadRoot.collapsedHeight - resizer.height
                 property double startY
                 property double originalY
                 drag.smoothed: false
@@ -379,7 +386,8 @@ Rectangle {
                 onReleased: {
                     root.stopScrolling = false
                     parent.opacity = 0
-                    resizer.y = spacer.y + spacer.height
+                    parent.y = trackHeadRoot.height - parent.height
+                    //resizer.y = spacer.y + spacer.height
                 }
                 onEntered: parent.opacity = 0.5
                 onExited: parent.opacity = 0
@@ -393,7 +401,6 @@ Rectangle {
                 }
             }
         }
-    }
     DropArea { //Drop area for tracks
         anchors.fill: trackHeadRoot
         keys: 'kdenlive/effect'
