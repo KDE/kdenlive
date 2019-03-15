@@ -935,13 +935,34 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget;
+            if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
+                trackId = -1;
+            }
+        } else if (useTargets && getTrackById_const(trackId)->isLocked()) {
+            // Video target set but locked
+            trackId = m_audioTarget;
+            if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
+                trackId = -1;
+            }
+        }
+        if (trackId == -1) {
+            pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
+            return false;
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
-        int target_track = audioDrop ? m_videoTarget : m_audioTarget;
+        int target_track;
+        if (audioDrop) {
+            target_track = m_videoTarget == -1 ? -1 : getTrackById_const(m_videoTarget)->isLocked() ? -1 : m_videoTarget;
+        } else {
+            target_track = m_audioTarget == -1 ? -1 : getTrackById_const(m_audioTarget)->isLocked() ? -1 : m_audioTarget;
+        }
         qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
         int mirror = getMirrorTrackId(trackId);
+        if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
+            mirror = -1;
+        }
         bool canMirrorDrop = !useTargets && mirror > -1;
         if (res && (canMirrorDrop || target_track > -1) && master->hasAudioAndVideo()) {
             if (!useTargets) {

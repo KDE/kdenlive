@@ -135,7 +135,16 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 
 bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, Fun &undo, Fun &redo)
 {
-    const std::unordered_set<int> clips = timeline->getGroupElements(clipId);
+    const std::unordered_set<int> clipselect = timeline->getGroupElements(clipId);
+    // Remove locked items
+    std::unordered_set<int> clips;
+    for (int cid : clipselect) {
+        int tk = timeline->getClipTrackId(cid);
+        if (!timeline->getTrackById_const(tk)->isLocked()) {
+            clips.insert(cid);
+        }
+    }
+
     int root = timeline->m_groups->getRootId(clipId);
     std::unordered_set<int> topElements;
     if (timeline->m_temporarySelectionGroup == root) {
@@ -258,6 +267,9 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
     for (int trackId : tracks) {
+        if (timeline->getTrackById_const(trackId)->isLocked()) {
+            continue;
+        }
         result = result && TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
     }
     if (result && !liftOnly) {
@@ -276,10 +288,19 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     bool result = false;
     int trackId = trackIds.takeFirst();
     if (overwrite) {
-        result = TimelineFunctions::liftZone(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
-        if (!trackIds.isEmpty()) {
-            result =
-                result && TimelineFunctions::liftZone(timeline, trackIds.takeFirst(), QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        // Cut all tracks
+        auto it = timeline->m_allTracks.cbegin();
+        while (it != timeline->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (timeline->getTrackById_const(target_track)->isLocked()) {
+                ++it;
+                continue;
+            }
+            result = TimelineFunctions::liftZone(timeline, target_track, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+            if (!result) {
+                break;
+            }
+            ++it;
         }
     } else {
         // Cut all tracks
