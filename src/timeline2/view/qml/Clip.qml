@@ -431,6 +431,95 @@ Rectangle {
         }
     ]
 
+    Rectangle {
+        id: compositionIn
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 4
+        anchors.leftMargin: 4
+        width: root.baseUnit * 1.5
+        height: width
+        radius: 2
+        color: Qt.darker('mediumpurple')
+        border.width: 2
+        border.color: 'green'
+        opacity: 0
+        enabled: !clipRoot.isAudio
+        MouseArea {
+            id: compInArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onEntered: parent.opacity = 0.7
+            onExited: {
+                if (!pressed) {
+                  parent.opacity = 0
+                }
+            }
+            onPressed: {
+                timeline.addCompositionToClip('', clipRoot.clipId, 0)
+            }
+            ToolTip {
+                visible: compInArea.containsMouse && !dragProxyArea.pressed
+                font.pixelSize: root.baseUnit
+                delay: 1000
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    text: 'Click to add composition'
+                }
+            }
+        }
+    }
+    Rectangle {
+        id: compositionOut
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 4
+        anchors.rightMargin: 4
+        width: root.baseUnit * 1.5
+        height: width
+        radius: 2
+        color: Qt.darker('mediumpurple')
+        border.width: 2
+        border.color: 'green'
+        opacity: 0
+        enabled: !clipRoot.isAudio
+        MouseArea {
+            id: compOutArea
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onEntered: parent.opacity = 0.7
+            onExited: {
+                if (!pressed) {
+                  parent.opacity = 0
+                }
+            }
+            onPressed: {
+                timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration)
+            }
+            ToolTip {
+                visible: compOutArea.containsMouse && !dragProxyArea.pressed
+                font.pixelSize: root.baseUnit
+                delay: 1000
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    text: 'Click to add composition'
+                }
+            }
+        }
+    }
+
 
     TimelineTriangle {
         id: fadeInTriangle

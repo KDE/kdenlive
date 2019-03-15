@@ -1905,7 +1905,16 @@ void TimelineController::switchEnableState(int clipId)
 void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
     int track = m_model->getClipTrackId(clipId);
-    insertNewComposition(track, clipId, offset, assetId, true);
+    if (assetId.isEmpty()) {
+        QStringList compositions = KdenliveSettings::favorite_transitions();
+        if (compositions.isEmpty()) {
+            pCore->displayMessage(i18n("Select a favorite composition"), InformationMessage, 500);
+            return;
+        }
+        insertNewComposition(track, clipId, offset, compositions.first(), true);
+    } else {
+        insertNewComposition(track, clipId, offset, assetId, true);
+    }
 }
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
