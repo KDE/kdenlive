@@ -416,7 +416,7 @@ Rectangle {
             when: clipRoot.selected === false
             PropertyChanges {
                 target: clipRoot
-                color: getColor()
+                color: getColor().hsvValue < 0.45 ? Qt.lighter(getColor(), 2) : Qt.darker(getColor(), 2)
                 z: 0
             }
         },
@@ -425,7 +425,7 @@ Rectangle {
             when: clipRoot.selected === true
             PropertyChanges {
                 target: clipRoot
-                color: Qt.lighter(getColor(), 2)
+                color: getColor().hsvValue < 0.45 ? Qt.lighter(getColor(), 3) : Qt.darker(getColor(), 3)
                 z: 3
             }
         }
