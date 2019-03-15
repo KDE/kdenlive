@@ -264,6 +264,10 @@ void RecManager::slotRecord(bool record)
     }
     QRect screenSize = QApplication::desktop()->screenGeometry(screen);
     QStringList captureArgs;
+#ifdef Q_OS_WIN
+    captureArgs << QStringLiteral("-f") << QStringLiteral("gdigrab");
+    captureSize = QStringLiteral("desktop");
+#else
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
     if (KdenliveSettings::grab_follow_mouse()) {
         captureArgs << QStringLiteral("-follow_mouse") << QStringLiteral("centered");
@@ -283,11 +287,12 @@ void RecManager::slotRecord(bool record)
         captureSize.append(QLatin1Char('+') + QString::number(KdenliveSettings::grab_offsetx()) + QLatin1Char(',') +
                            QString::number(KdenliveSettings::grab_offsety()));
     }
-    // fps
-    captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
     if (KdenliveSettings::grab_hide_mouse()) {
         captureSize.append(QStringLiteral("+nomouse"));
     }
+#endif
+    // fps
+    captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
     captureArgs << QStringLiteral("-i") << captureSize;
     if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
