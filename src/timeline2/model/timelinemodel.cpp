@@ -1493,7 +1493,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 size = getTrackById_const(trackId)->getBlankEnd(out + 1) - in;
             }
         } else if (!right && size > (out - in) && isClip(itemId)) {
-            int targetPos = in + out + 1 - size;
+            int targetPos = out - size;
             int trackId = getItemTrackId(itemId);
             if (!getTrackById_const(trackId)->isBlankAt(targetPos)) {
                 size = out - getTrackById_const(trackId)->getBlankStart(in - 1);
