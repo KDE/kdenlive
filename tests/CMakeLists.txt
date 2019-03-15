@@ -17,6 +17,7 @@ SET(Tests_SRCS
     tests/snaptest.cpp
     tests/test_utils.cpp
     tests/timewarptest.cpp
+    tests/trimmingtest.cpp
     tests/treetest.cpp
     PARENT_SCOPE
 )
