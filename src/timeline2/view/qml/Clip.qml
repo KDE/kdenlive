@@ -501,7 +501,7 @@ Rectangle {
                 }
             }
             onPressed: {
-                timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration)
+                timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             ToolTip {
                 visible: compOutArea.containsMouse && !dragProxyArea.pressed
