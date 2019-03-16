@@ -763,7 +763,7 @@ Rectangle {
                             Drag.active = true
                             Drag.proposedAction = Qt.MoveAction
                             spacerClickFrame = frame
-                            spacerFrame = controller.getClipPosition(spacerGroup)
+                            spacerFrame = controller.getItemPosition(spacerGroup)
                         }
                     } else if (root.activeTool === 0 || mouse.y <= ruler.height) {
                         if (mouse.y > ruler.height) {
