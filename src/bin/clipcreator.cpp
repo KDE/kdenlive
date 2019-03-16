@@ -223,7 +223,6 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
             QStringList result = dir.entryList(QDir::Files);
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
             QList<QUrl> folderFiles;
-            // QStringList allExtensions = ClipCreationDialog::getExtensions();
             for (const QString &path : result) {
                 QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(path));
                 // Check file is of a supported type
@@ -256,12 +255,13 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                 }
                 if (!sublist.isEmpty()) {
                     // load subfolders
-                    createClipsFromList(sublist, checkRemovable, parentFolder, model, undo, redo);
+                    created = created || createClipsFromList(sublist, checkRemovable, parentFolder, model, undo, redo);
                 }
             } else {
                 bool ok = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
                 if (ok) {
                     ok = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo);
+                    created = true;
                     if (!ok) {
                         local_undo();
                     } else {
@@ -296,7 +296,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
         QString id = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
         created = created || (id != QStringLiteral("-1"));
     }
-    qDebug() << "/////////// creatclipsfromlist return";
+    qDebug() << "/////////// creatclipsfromlist return" << created;
     return created;
 }
 
