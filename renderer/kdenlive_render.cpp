@@ -36,6 +36,11 @@ int main(int argc, char **argv)
     QStringList args = app.arguments();
     QStringList preargs;
     QString locale;
+#ifdef Q_OS_WIN
+    qputenv("KDE_FORK_SLAVES", "1");
+    QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
+    qputenv("PATH", path.toUtf8().constData());
+#endif
     if (args.count() >= 4) {
         // Remove program name
         args.removeFirst();

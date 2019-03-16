@@ -82,22 +82,28 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
     KdenliveSettings::setMltpath(profilePath);
 
 #ifdef Q_OS_WIN
-    QString exeSuffix = ".exe";
+    QString exeSuffix = QStringLiteral(".exe");
 #else
-    QString exeSuffix = "";
+    QString exeSuffix = QStringLiteral("");
 #endif
-    QString meltPath;
-    if (qEnvironmentVariableIsSet("MLT_PREFIX")) {
-        meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt") + exeSuffix;
-    } else {
-        meltPath = KdenliveSettings::rendererpath();
-    }
+    QString meltPath = QCoreApplication::applicationDirPath() + QStringLiteral("/kdenlive_melt") + exeSuffix;
     if (!QFile::exists(meltPath)) {
-        meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/melt")) + exeSuffix;
+        meltPath = QStandardPaths::findExecutable(QStringLiteral("kdenlive_melt") + exeSuffix);
         if (!QFile::exists(meltPath)) {
-            meltPath = QStandardPaths::findExecutable("melt");
+            if (qEnvironmentVariableIsSet("MLT_PREFIX")) {
+                meltPath = qgetenv("MLT_PREFIX") + QStringLiteral("/bin/melt") + exeSuffix;
+            } else {
+                meltPath = KdenliveSettings::rendererpath();
+            }
+            if (!QFile::exists(meltPath)) {
+                meltPath = QDir::cleanPath(profilePath + QStringLiteral("/../../../bin/melt")) + exeSuffix;
+                if (!QFile::exists(meltPath)) {
+                    meltPath = QStandardPaths::findExecutable("melt");
+                }
+            }
         }
     }
+    qDebug() << "Using the following melt: "<<meltPath;
     KdenliveSettings::setRendererpath(meltPath);
 
     if (meltPath.isEmpty() && !qEnvironmentVariableIsSet("MLT_TESTS")) {
