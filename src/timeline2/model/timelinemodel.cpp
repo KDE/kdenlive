@@ -68,7 +68,7 @@ RTTR_REGISTRATION
             parameter_names("binClipId", "trackId", "position", "id", "logUndo", "refreshView", "useTargets"))
         .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))(parameter_names("clipId", "logUndo"))
         .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestGroupMove))(
-            parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
+            parameter_names("itemId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
         .method("requestGroupDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestGroupDeletion))(parameter_names("clipId", "logUndo"))
         .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))(
             parameter_names("itemId", "size", "right", "logUndo", "snapDistance", "allowSingleResize"))
@@ -1256,13 +1256,13 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     return true;
 }
 
-bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
+bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
+    TRACE(itemId, groupId, delta_track, delta_pos, updateView, logUndo);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
+    bool res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
@@ -1270,13 +1270,13 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
+bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
                                      bool allowViewRefresh)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
-    Q_ASSERT(isClip(clipId));
-    if (getGroupElements(groupId).count(clipId) == 0) {
+    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    if (getGroupElements(groupId).count(itemId) == 0) {
         // this group doesn't contain the clip, abort
         return false;
     }
@@ -1353,7 +1353,7 @@ bool TimelineModel::requestGroupMove(int clipId, int groupId, int delta_track, i
     int audio_delta, video_delta;
     audio_delta = video_delta = delta_track;
 
-    if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
+    if (getTrackById(old_track_ids[itemId])->isAudioTrack()) {
         // Master clip is audio, so reverse delta for video clips
         video_delta = -delta_track;
     } else {

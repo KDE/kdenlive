@@ -408,8 +408,8 @@ public:
        @param logUndo if set to true, an undo object is created
        @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
     */
-    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
+    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
+    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
                           bool allowViewRefresh = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.
