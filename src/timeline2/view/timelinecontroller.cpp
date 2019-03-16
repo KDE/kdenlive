@@ -622,10 +622,6 @@ void TimelineController::addAsset(const QVariantMap &data)
         for (int id : selection) {
             if (m_model->isClip(id)) {
                 effectSelection << id;
-                int partner = m_model->getClipSplitPartner(id);
-                if (partner > -1 && !effectSelection.contains(partner)) {
-                    effectSelection << partner;
-                }
             }
         }
         bool foundMatch = false;
