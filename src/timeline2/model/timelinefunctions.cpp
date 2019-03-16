@@ -72,10 +72,9 @@ bool TimelineFunctions::requestMultipleClipsInsertion(const std::shared_ptr<Time
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-
     for (const QString &binId : binIds) {
         int clipId;
-        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, true, undo, redo)) {
+        if (timeline->requestClipInsertion(binId, trackId, position, clipId, logUndo, refreshView, false, undo, redo)) {
             clipIds.append(clipId);
             position += timeline->getItemPlaytime(clipId);
         } else {
