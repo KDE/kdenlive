@@ -53,6 +53,7 @@ TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int tr
         comboTracks->setCurrentIndex(ix);
         if (model->isAudioTrack(trackIndex)) {
             audio_track->setChecked(true);
+            before_select->setCurrentIndex(1);
         }
     }
     trackIndex--;
