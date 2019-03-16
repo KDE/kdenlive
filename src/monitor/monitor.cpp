@@ -213,8 +213,18 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     }
 
     if (id != Kdenlive::DvdMonitor) {
-        m_toolbar->addAction(manager->getAction(QStringLiteral("mark_in")));
-        m_toolbar->addAction(manager->getAction(QStringLiteral("mark_out")));
+        QAction *markIn = new QAction(QIcon::fromTheme(QStringLiteral("zone-in")), i18n("Set Zone In"), this);
+        QAction *markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
+        m_toolbar->addAction(markIn);
+        m_toolbar->addAction(markOut);
+        connect(markIn, &QAction::triggered, [&, manager]() {
+            m_monitorManager->activateMonitor(m_id);
+            manager->getAction(QStringLiteral("mark_in"))->trigger();
+        });
+        connect(markOut, &QAction::triggered, [&, manager]() {
+            m_monitorManager->activateMonitor(m_id);
+            manager->getAction(QStringLiteral("mark_out"))->trigger();
+        });
     }
     m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_seek_backward")));
 
