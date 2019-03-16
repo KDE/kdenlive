@@ -238,6 +238,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
             }
         }
     }
+    timeline->requestClearSelection();
     if (final) {
         if (startPosition < endPosition) {
             pCore->pushUndo(undo, redo, i18n("Remove space"));
