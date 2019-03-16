@@ -543,6 +543,7 @@ Rectangle {
         color: '#FF66FFFF'
         border.width: 2
         border.color: 'green'
+        enabled: !isLocked
         opacity: 0
         Drag.active: fadeInMouseArea.drag.active
         MouseArea {
@@ -641,6 +642,7 @@ Rectangle {
         border.width: 2
         border.color: 'red'
         opacity: 0
+        enabled: !isLocked
         Drag.active: fadeOutMouseArea.drag.active
         MouseArea {
             id: fadeOutMouseArea
@@ -717,6 +719,7 @@ Rectangle {
         anchors.left: clipRoot.left
         anchors.leftMargin: 0
         height: parent.height
+        enabled: !isLocked
         width: 5
         color: isAudio? 'green' : 'lawngreen'
         opacity: 0
@@ -781,6 +784,7 @@ Rectangle {
         width: 5
         color: 'red'
         opacity: 0
+        enabled: !isLocked
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
         visible: root.activeTool === 0 && !mouseArea.drag.active
