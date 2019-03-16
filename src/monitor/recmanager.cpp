@@ -266,6 +266,8 @@ void RecManager::slotRecord(bool record)
     QStringList captureArgs;
 #ifdef Q_OS_WIN
     captureArgs << QStringLiteral("-f") << QStringLiteral("gdigrab");
+    // fps
+    captureArgs << QStringLiteral("-framerate") << QString::number(KdenliveSettings::grab_fps());
     captureSize = QStringLiteral("desktop");
 #else
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
@@ -290,9 +292,9 @@ void RecManager::slotRecord(bool record)
     if (KdenliveSettings::grab_hide_mouse()) {
         captureSize.append(QStringLiteral("+nomouse"));
     }
-#endif
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
+#endif
     captureArgs << QStringLiteral("-i") << captureSize;
     if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
