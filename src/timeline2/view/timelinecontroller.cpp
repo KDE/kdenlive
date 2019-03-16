@@ -1609,12 +1609,46 @@ void TimelineController::selectCurrentTrack()
 
 void TimelineController::pasteEffects(int targetId)
 {
-    if (targetId == -1 && !m_model->getCurrentSelection().empty()) {
-        targetId = *m_model->getCurrentSelection().begin();
+    std::unordered_set<int> targetIds;
+    if (targetId == -1) {
+        std::unordered_set<int> sel = m_model->getCurrentSelection();
+        if (sel.empty()) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+        }
+        for (int s : sel) {
+            if (m_model->isGroup(s)) {
+                std::unordered_set<int> sub = m_model->m_groups->getLeaves(s);
+                for (int current_id : sub) {
+                    if (m_model->isClip(current_id)) {
+                        targetIds.insert(current_id);
+                    }
+                }
+            } else if (m_model->isClip(s)) {
+                targetIds.insert(s);
+            }
+        }
+    } else {
+        if (m_model->m_groups->isInGroup(targetId)) {
+            targetId = m_model->m_groups->getRootId(targetId);
+        }
+        if (m_model->isGroup(targetId)) {
+            std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetId);
+            for (int current_id : sub) {
+                if (m_model->isClip(current_id)) {
+                    targetIds.insert(current_id);
+                }
+            }
+        } else if (m_model->isClip(targetId)) {
+            targetIds.insert(targetId);
+        }
     }
+    if (targetIds.empty()) {
+        pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+    }
+
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
-    if (!m_model->isClip(targetId) || txt.isEmpty()) {
+    if (txt.isEmpty()) {
         pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
         return;
     }
@@ -1624,16 +1658,28 @@ void TimelineController::pasteEffects(int targetId)
         pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
         return;
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
-    std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(targetId);
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     if (clips.isEmpty()) {
         pCore->displayMessage(i18n("No information in clipboard"), InformationMessage, 500);
         return;
     }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
     QDomElement effects = clips.at(0).firstChildElement(QStringLiteral("effects"));
-    bool result = destStack->fromXml(effects, undo, redo);
+    for (int i = 1; i < clips.size(); i++) {
+        QDomNodeList subs = clips.at(i).childNodes();
+        for (int j = 0; j < subs.size(); j++)  {
+            effects.appendChild(subs.at(j));
+        }
+    }
+    bool result = true;
+    for (int target : targetIds) {
+        std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(target);
+        result = result && destStack->fromXml(effects, undo, redo);
+        if (!result) {
+            break;
+        }
+    }
     if (result) {
         pCore->pushUndo(undo, redo, i18n("Paste effects"));
     } else {

@@ -229,9 +229,18 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
 bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
 {
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
+    PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
         const QString effectId = node.attribute(QStringLiteral("id"));
+        bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+        if (isAudioEffect) {
+            if (state != PlaylistState::AudioOnly) {
+                continue;
+            }
+        } else if (state != PlaylistState::VideoOnly) {
+            continue;
+        }
         auto effect = EffectItemModel::construct(effectId, shared_from_this());
         int in = node.attribute(QStringLiteral("in")).toInt();
         int out = node.attribute(QStringLiteral("out")).toInt();
