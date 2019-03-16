@@ -414,6 +414,7 @@ void TimelineController::copyItem()
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(copyString);
     m_root->setProperty("copiedClip", clipId);
+    m_model->requestSetSelection(selectedIds);
 }
 
 bool TimelineController::pasteItem()
