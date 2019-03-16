@@ -272,21 +272,18 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     auto *widgetslider = new QWidgetAction(this);
     widgetslider->setText(i18n("Audio volume"));
     widgetslider->setDefaultWidget(m_audioSlider);
-    auto *menu = new QMenu(this);
+    auto *menu = new QMenu(i18n("Volume"), this);
+    menu->setIcon(QIcon::fromTheme(QStringLiteral("audio-volume-medium")));
     menu->addAction(widgetslider);
+    m_configMenu->addMenu(menu);
 
-    m_audioButton = new QToolButton(this);
-    m_audioButton->setMenu(menu);
-    m_audioButton->setToolTip(i18n("Volume"));
-    m_audioButton->setPopupMode(QToolButton::InstantPopup);
-    QIcon icon;
+    /*QIcon icon;
     if (KdenliveSettings::volume() == 0) {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
     } else {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
     }
-    m_audioButton->setIcon(icon);
-    m_toolbar->addWidget(m_audioButton);
+    m_audioButton->setIcon(icon);*/
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setLayout(layout);
@@ -1237,7 +1234,6 @@ void Monitor::mute(bool mute, bool updateIconOnly)
     } else {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
     }
-    m_audioButton->setIcon(icon);
     if (!updateIconOnly) {
         m_glMonitor->setVolume(mute ? 0 : (double)KdenliveSettings::volume() / 100.0);
     }
@@ -1639,12 +1635,11 @@ void Monitor::slotSetVolume(int volume)
     if (renderVolume > 0 && volume > 0) {
         return;
     }
-    if (volume == 0) {
+    /*if (volume == 0) {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
     } else {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
-    }
-    m_audioButton->setIcon(icon);
+    }*/
 }
 
 void Monitor::sendFrameForAnalysis(bool analyse)

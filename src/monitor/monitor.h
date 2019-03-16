@@ -217,7 +217,6 @@ private:
     bool m_loopClipTransition;
     GenTime getSnapForPos(bool previous);
     QToolBar *m_toolbar;
-    QToolButton *m_audioButton;
     QSlider *m_audioSlider;
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
