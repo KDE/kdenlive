@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
+#include "jobs/audiothumbjob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/clipcontroller.h"
@@ -299,7 +300,7 @@ size_t ProjectClip::frameDuration() const
     return (size_t)d.frames(pCore->getCurrentFps());
 }
 
-void ProjectClip::reloadProducer(bool refreshOnly)
+void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
 {
     // we find if there are some loading job on that clip
     int loadjobId = -1;
@@ -313,6 +314,10 @@ void ProjectClip::reloadProducer(bool refreshOnly)
         pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         m_thumbsProducer.reset();
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
+        if (audioStreamChanged) {
+            discardAudioThumb();
+            pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+        }
 
     } else {
         // If another load job is running?
@@ -925,7 +930,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     QStringList timelineProperties{QStringLiteral("force_aspect_ratio"),  QStringLiteral("video_index"), QStringLiteral("audio_index"),
                                    QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),   QStringLiteral("threads"),
                                    QStringLiteral("force_colorspace"),    QStringLiteral("force_tff"),   QStringLiteral("force_progressive"),
-                                   QStringLiteral("video_index"),         QStringLiteral("audio_index")};
+                                   };
     QStringList forceReloadProperties{QStringLiteral("autorotate"), QStringLiteral("templatetext"),   QStringLiteral("resource"),
                                       QStringLiteral("force_fps"),  QStringLiteral("set.test_image"), QStringLiteral("set.test_audio")};
     QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"),
@@ -1016,7 +1021,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         } else {
-            reloadProducer(refreshOnly);
+            reloadProducer(refreshOnly, properties.contains(QStringLiteral("audio_index")));
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
@@ -1205,6 +1210,7 @@ void ProjectClip::discardAudioThumb()
     audioFrameCache.clear();
     qCDebug(KDENLIVE_LOG) << "////////////////////  DISCARD AUIIO THUMBNS";
     m_audioThumbCreated = false;
+    refreshAudioInfo();
     pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
 }
 

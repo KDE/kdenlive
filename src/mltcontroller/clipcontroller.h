@@ -207,6 +207,8 @@ protected:
 
     // This is the helper function that checks if the clip has audio and video and stores the result
     void checkAudioVideo();
+    // Update audio stream info
+    void refreshAudioInfo();
 
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
@@ -214,7 +216,6 @@ protected:
     std::unique_ptr<AudioStreamInfo> m_audioInfo;
     QString m_service;
     QString m_path;
-    int m_audioIndex;
     int m_videoIndex;
     ClipType::ProducerType m_clipType;
     bool m_hasLimitedDuration;

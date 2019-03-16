@@ -32,6 +32,7 @@ public:
     int audio_index() const;
     int ffmpeg_audio_index() const;
     void dumpInfo() const;
+    void setAudioIndex(const std::shared_ptr<Mlt::Producer> &producer, int ix);
 
 private:
     int m_audioStreamIndex;

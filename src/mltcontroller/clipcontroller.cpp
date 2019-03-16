@@ -44,7 +44,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_properties(producer ? new Mlt::Properties(producer->get_properties()) : nullptr)
     , m_usesProxy(false)
     , m_audioInfo(nullptr)
-    , m_audioIndex(0)
     , m_videoIndex(0)
     , m_clipType(ClipType::Unknown)
     , m_hasLimitedDuration(true)
@@ -178,15 +177,15 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
 void ClipController::getInfoForProducer()
 {
     date = QFileInfo(m_path).lastModified();
-    m_audioIndex = -1;
     m_videoIndex = -1;
+    int audioIndex = -1;
     // special case: playlist with a proxy clip have to be detected separately
     if (m_usesProxy && m_path.endsWith(QStringLiteral(".mlt"))) {
         m_clipType = ClipType::Playlist;
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
-        m_audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
+        audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
         m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
-        if (m_audioIndex == -1) {
+        if (audioIndex == -1) {
             m_clipType = ClipType::Video;
         } else if (m_videoIndex == -1) {
             m_clipType = ClipType::Audio;
@@ -224,8 +223,8 @@ void ClipController::getInfoForProducer()
     } else {
         m_clipType = ClipType::Unknown;
     }
-    if (m_audioIndex > -1 || m_clipType == ClipType::Playlist) {
-        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, m_audioIndex);
+    if (audioIndex > -1 || m_clipType == ClipType::Playlist) {
+        m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex);
     }
 
     if (!m_hasLimitedDuration) {
@@ -471,7 +470,7 @@ const QString ClipController::codec(bool audioCodec) const
     if ((m_properties == nullptr) || (m_clipType != ClipType::AV && m_clipType != ClipType::Video && m_clipType != ClipType::Audio)) {
         return QString();
     }
-    QString propertyName = QStringLiteral("meta.media.%1.codec.name").arg(audioCodec ? m_audioIndex : m_videoIndex);
+    QString propertyName = QStringLiteral("meta.media.%1.codec.name").arg(audioCodec ? m_properties->get_int("audio_index") : m_videoIndex);
     return m_properties->get(propertyName.toUtf8().constData());
 }
 
@@ -875,4 +874,11 @@ bool ClipController::copyEffect(const std::shared_ptr<EffectStackModel> &stackMo
 std::shared_ptr<MarkerListModel> ClipController::getMarkerModel() const
 {
     return m_markerModel;
+}
+
+void ClipController::refreshAudioInfo()
+{
+    if (m_audioInfo && m_masterProducer) {
+        m_audioInfo->setAudioIndex(m_masterProducer, m_properties->get_int("audio_index"));
+    }
 }
