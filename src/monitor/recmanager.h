@@ -91,7 +91,7 @@ private:
 private slots:
     void slotRecord(bool record);
     void slotPreview(bool record);
-    void slotProcessStatus(QProcess::ProcessState status);
+    void slotProcessStatus(int exitCode, QProcess::ExitStatus exitStatus);
     void slotReadProcessInfo();
     void showRecConfig();
     void slotVideoDeviceChanged(int ix = -1);
