@@ -1312,6 +1312,7 @@ void TimelineController::switchCompositing(int mode)
                     t.set("valign", "middle");
                     t.set("halign", "centre");
                     t.set("fill", 1);
+                    t.set("aligned", 0);
                     t.set("geometry", compositeGeometry.toUtf8().constData());
                 }
                 t.set("internal_added", 237);
