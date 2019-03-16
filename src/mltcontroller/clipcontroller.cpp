@@ -185,12 +185,17 @@ void ClipController::getInfoForProducer()
     } else if (m_service == QLatin1String("avformat") || m_service == QLatin1String("avformat-novalidate")) {
         audioIndex = getProducerIntProperty(QStringLiteral("audio_index"));
         m_videoIndex = getProducerIntProperty(QStringLiteral("video_index"));
-        if (audioIndex == -1) {
-            m_clipType = ClipType::Video;
-        } else if (m_videoIndex == -1) {
+        if (m_videoIndex == -1) {
             m_clipType = ClipType::Audio;
         } else {
-            m_clipType = ClipType::AV;
+            if (audioIndex == -1) {
+                m_clipType = ClipType::Video;
+            } else {
+                m_clipType = ClipType::AV;
+            }
+            if (m_service == QLatin1String("avformat")) {
+                m_properties->set("mlt_service", "avformat-novalidate");
+            }
         }
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {
         if (m_path.contains(QLatin1Char('%')) || m_path.contains(QStringLiteral("/.all."))) {
