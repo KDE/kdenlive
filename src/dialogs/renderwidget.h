@@ -107,7 +107,6 @@ public:
     int status() const;
     void setMetadata(const QString &data);
     const QString metadata() const;
-    void render();
 
 private:
     int m_status;
