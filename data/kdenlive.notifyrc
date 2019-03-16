@@ -84,7 +84,7 @@ Name[tr]=Hazırlama tamamlandı
 Name[uk]=Обробку завершено
 Name[x-test]=xxRendering finishedxx
 Name[zh_CN]=渲染结束
-Name[zh_TW]=已完成導出
+Name[zh_TW]=已完成輸出
 Comment=Rendering is over
 Comment[ar]=قد انتهى التّصيير
 Comment[bs]=Iscrtavanje je gotovo
@@ -124,7 +124,7 @@ Comment[tr]=Hazırlama bitti
 Comment[uk]=Виконання обробки завершено
 Comment[x-test]=xxRendering is overxx
 Comment[zh_CN]=渲染结束
-Comment[zh_TW]=導出已結束
+Comment[zh_TW]=輸出已結束
 Action=Popup
 
 [Event/RenderStarted]
@@ -167,7 +167,7 @@ Name[tr]=Hazırlama başladı
 Name[uk]=Обробку розпочато
 Name[x-test]=xxRendering startedxx
 Name[zh_CN]=渲染开始
-Name[zh_TW]=導出已開始
+Name[zh_TW]=輸出已開始
 Comment=Rendering was started
 Comment[ar]=قد بدأ التّصيير
 Comment[bs]=Iscrtavanje je započelo
@@ -207,7 +207,7 @@ Comment[tr]=Hazırlama başlatıldı
 Comment[uk]=Було розпочато обробку
 Comment[x-test]=xxRendering was startedxx
 Comment[zh_CN]=渲染开始
-Comment[zh_TW]=導出已開始
+Comment[zh_TW]=輸出已開始
 Action=Popup
 
 [Event/FrameCaptured]
