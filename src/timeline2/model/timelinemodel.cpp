@@ -2962,7 +2962,7 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
     } else {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        result = m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection);
+        result = (m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection)) >= 0;
         Q_ASSERT(m_currentSelection >= 0);
     }
     emit selectionChanged();
