@@ -3767,33 +3767,6 @@ void MainWindow::slotGrabItem()
     getCurrentTimeline()->controller()->grabCurrent();
 }
 
-// static
-void MainWindow::refreshLumas()
-{
-    // Check for Kdenlive installed luma files, add empty string at start for no luma
-    QStringList imagefiles;
-    QStringList fileFilters;
-    MainWindow::m_lumaFiles.clear();
-    fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
-    QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
-    customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
-    for (const QString &folder : customLumas) {
-        QDir topDir(folder);
-        QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
-        for (const QString &f : folders) {
-            QDir dir(topDir.absoluteFilePath(f));
-            QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
-            if (MainWindow::m_lumaFiles.contains(f)) {
-                imagefiles = MainWindow::m_lumaFiles.value(f);
-            }
-            for (const QString &fname : filesnames) {
-                imagefiles.append(dir.absoluteFilePath(fname));
-            }
-            MainWindow::m_lumaFiles.insert(f, imagefiles);
-        }
-    }
-}
-
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
 #endif

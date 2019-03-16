@@ -128,8 +128,6 @@ public:
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
-    /** @brief Reload luma files */
-    static void refreshLumas();
 
 protected:
     /** @brief Closes the window.

@@ -24,6 +24,7 @@
 #include "assets/assetlist/view/qmltypes/asseticonprovider.hpp"
 #include "dialogs/profilesdialog.h"
 #include "mainwindow.h"
+#include "mltconnection.h"
 #include "transitions/transitionlist/model/transitionfilter.hpp"
 #include "transitions/transitionsrepository.hpp"
 
@@ -99,7 +100,7 @@ int TransitionListWidget::getNewStuff(const QString &configFile)
 void TransitionListWidget::downloadNewLumas()
 {
     if (getNewStuff(QStringLiteral(":data/kdenlive_wipes.knsrc")) > 0) {
-        MainWindow::refreshLumas();
+        MltConnection::refreshLumas();
         // TODO: refresh currently displayd trans ?
     }
 }

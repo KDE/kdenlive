@@ -176,16 +176,22 @@ void MltConnection::refreshLumas()
     for (const QString &folder : customLumas) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
+        QString format;
         for (const QString &f : folders) {
             QDir dir(topDir.absoluteFilePath(f));
+            if (f == QLatin1String("16_9")) {
+                format = QStringLiteral("HD");
+            } else {
+                format = f;
+            }
             QStringList filesnames = dir.entryList(fileFilters, QDir::Files);
-            if (MainWindow::m_lumaFiles.contains(f)) {
-                imagefiles = MainWindow::m_lumaFiles.value(f);
+            if (MainWindow::m_lumaFiles.contains(format)) {
+                imagefiles = MainWindow::m_lumaFiles.value(format);
             }
             for (const QString &fname : filesnames) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
-            MainWindow::m_lumaFiles.insert(f, imagefiles);
+            MainWindow::m_lumaFiles.insert(format, imagefiles);
         }
     }
 }

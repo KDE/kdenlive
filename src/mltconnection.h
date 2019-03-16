@@ -38,6 +38,10 @@ public:
     /* @brief Returns a pointer to the instance of the singleton */
     static std::unique_ptr<MltConnection> &self();
 
+    /** @brief Updates the list of available Lumas
+     */
+    static void refreshLumas();
+
 protected:
     /** @brief Open connection to the MLT framework
         This constructor should be called only once
@@ -51,10 +55,6 @@ protected:
      * mltPath, MLT_PREFIX, searching for the binary `melt`, or asking to the
      * user. It doesn't fill any list of profiles, while its name suggests so. */
     void locateMeltAndProfilesPath(const QString &mltPath = QString());
-
-    /** @brief Updates the list of available Lumas
-     */
-    void refreshLumas();
 
     static std::unique_ptr<MltConnection> m_self;
 
