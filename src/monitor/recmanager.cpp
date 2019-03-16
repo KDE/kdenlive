@@ -158,16 +158,12 @@ QAction *RecManager::switchAction() const
 void RecManager::stopCapture()
 {
     if (m_captureProcess) {
-        connect(m_captureProcess, &QProcess::stateChanged, [&](QProcess::ProcessState status) {
-            if (status == QProcess::NotRunning) {
-                emit addClipToProject(m_captureFile);
-            }
-        });
         slotRecord(false);
     } else if (pCore->getMediaCaptureState() == 1 && (m_checkAudio || m_checkVideo)) {
         // QMediaRecorder::RecordingState value is 1
         pCore->stopMediaCapture(m_checkAudio, m_checkVideo);
         m_monitor->slotOpenClip(nullptr);
+        emit addClipToProject(m_captureFile);
     }
 }
 
@@ -220,8 +216,11 @@ void RecManager::slotRecord(bool record)
         if (!m_captureProcess) {
             return;
         }
-        m_captureProcess->terminate();
-        QTimer::singleShot(1500, m_captureProcess, &QProcess::kill);
+        m_captureProcess->write("q");
+        if (!m_captureProcess->waitForFinished()) {
+            m_captureProcess->terminate();
+            QTimer::singleShot(1500, m_captureProcess, &QProcess::kill);
+        }
         return;
     }
     if (m_captureProcess) {
@@ -249,7 +248,7 @@ void RecManager::slotRecord(bool record)
     }
 
     m_captureProcess = new QProcess;
-    connect(m_captureProcess, &QProcess::stateChanged, this, &RecManager::slotProcessStatus);
+    connect(m_captureProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &RecManager::slotProcessStatus);
     connect(m_captureProcess, &QProcess::readyReadStandardError, this, &RecManager::slotReadProcessInfo);
 
     QString path = captureFolder.absoluteFilePath("capture0000." + extension);
@@ -312,27 +311,22 @@ void RecManager::slotRecord(bool record)
     }
 }
 
-void RecManager::slotProcessStatus(QProcess::ProcessState status)
+void RecManager::slotProcessStatus(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    if (status == QProcess::NotRunning) {
-        m_recAction->setEnabled(true);
-        m_recAction->setChecked(false);
-        m_device_selector->setEnabled(true);
-        if (m_captureProcess) {
-            if (m_captureProcess->exitStatus() == QProcess::CrashExit) {
-                emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
-            } else {
-                if (true) {
-                    int code = m_captureProcess->exitCode();
-                    if (code != 0 && code != 255) {
-                        emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
-                    } else {
-                        // Capture successful, add clip to project
-                        emit addClipToProject(m_captureFile);
-                    }
-                }
-            }
+    m_recAction->setEnabled(true);
+    m_recAction->setChecked(false);
+    m_device_selector->setEnabled(true);
+    if (exitStatus == QProcess::CrashExit) {
+        emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
+    } else {
+        if (exitCode != 0 && exitCode != 255) {
+            emit warningMessage(i18n("Capture crashed, please check your parameters"), -1, QList<QAction *>() << m_showLogAction);
+        } else {
+            // Capture successful, add clip to project
+            emit addClipToProject(m_captureFile);
         }
+    }
+    if (m_captureProcess) {
         delete m_captureProcess;
         m_captureProcess = nullptr;
     }
