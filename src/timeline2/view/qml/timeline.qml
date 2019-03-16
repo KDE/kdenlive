@@ -624,7 +624,6 @@ Rectangle {
                             isStackEnabled: model.isStackEnabled
                             width: headerWidth
                             height: model.trackHeight
-                            selected: false
                             current: item === timeline.activeTrack
                             trackId: item
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
@@ -1346,10 +1345,6 @@ Rectangle {
             //cornerstone.selected = timeline.isMultitrackSelected()
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
-            }
-            var selectedTrack = timeline.selectedTrack()
-            for (var i = 0; i < trackHeaderRepeater.count; i++) {
-                trackHeaderRepeater.itemAt(i).selected = (i === selectedTrack)
             }
         }
     }

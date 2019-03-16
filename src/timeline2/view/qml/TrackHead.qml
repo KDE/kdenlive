@@ -32,7 +32,6 @@ Rectangle {
     property bool isLocked
     property bool isAudio
     property bool showAudioRecord
-    property bool selected: false
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
@@ -52,20 +51,12 @@ Rectangle {
         flashLock.restart();
     }
 
-    color: selected ? selectedTrackColor : getTrackColor(isAudio, true)
+    color: getTrackColor(isAudio, true)
     //border.color: selected? 'red' : 'transparent'
     //border.width: selected? 1 : 0
     clip: true
     state: 'normal'
     states: [
-        State {
-            name: 'selected'
-            when: trackHeadRoot.selected
-            PropertyChanges {
-                target: trackHeadRoot
-                //color: isAudio? root.shotcutBlue : 'darkseagreen'
-            }
-        },
         State {
             name: 'current'
             when: trackHeadRoot.current
@@ -75,7 +66,7 @@ Rectangle {
             }
         },
         State {
-            when: !trackHeadRoot.selected && !trackHeadRoot.current
+            when: !trackHeadRoot.current
             name: 'normal'
             PropertyChanges {
                 target: trackHeadRoot
@@ -197,7 +188,7 @@ Rectangle {
                             when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
                             PropertyChanges {
                                 target: trackLed
-                                color: trackHeadRoot.selected ? 'green' : 'grey'
+                                color: 'grey'
                             }
                         }
                     ]
