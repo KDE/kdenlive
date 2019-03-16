@@ -1847,19 +1847,19 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     int currentTrack = m_model->m_allClips[clipId]->getCurrentTrackId();
     bool res = true;
     if (currentTrack > -1) {
-        res = res & m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo);
+        res = res && m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo);
     }
     if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
-        res = res & TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
+        res = res && TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
     } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
         int startClipId = m_model->getClipByPosition(trackId, position);
         if (startClipId > -1) {
             // There is a clip, cut
-            res = res & TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
+            res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
         }
-        res = res & TimelineFunctions::insertSpace(m_model, trackId, QPoint(position, position + duration), undo, redo);
+        res = res && TimelineFunctions::insertSpace(m_model, trackId, QPoint(position, position + duration), undo, redo);
     }
-    res = res & m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
+    res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
         if (logUndo) {
             pCore->pushUndo(undo, redo, i18n("Move item"));
@@ -1952,7 +1952,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 int target_track = new_track_ids[item];
                 int target_position = old_position[item] + delta_pos;
                 int duration = m_model->m_allClips[item]->getPlaytime();
-                res = res & TimelineFunctions::liftZone(m_model, target_track, QPoint(target_position, target_position + duration), undo, redo);
+                res = res && TimelineFunctions::liftZone(m_model, target_track, QPoint(target_position, target_position + duration), undo, redo);
             }
         }
     } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
@@ -1968,10 +1968,10 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
             int startClipId = m_model->getClipByPosition(target_track, target_position);
             if (startClipId > -1) {
                 // There is a clip, cut
-                res = res & TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
+                res = res && TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
             }
         }
-        res = res & TimelineFunctions::insertSpace(m_model, -1, QPoint(min, max), undo, redo);
+        res = res && TimelineFunctions::insertSpace(m_model, -1, QPoint(min, max), undo, redo);
     }
     for (int item : sorted_clips) {
         if (m_model->isClip(item)) {
