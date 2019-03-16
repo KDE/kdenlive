@@ -1331,14 +1331,15 @@ void TimelineController::switchCompositing(int mode)
 void TimelineController::extractZone(QPoint zone, bool liftOnly)
 {
     QVector<int> tracks;
-    if (audioTarget() >= 0) {
-        tracks << audioTarget();
-    }
-    if (videoTarget() >= 0) {
-        tracks << videoTarget();
-    }
-    if (tracks.isEmpty()) {
-        tracks << m_activeTrack;
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (m_model->getTrackById_const(target_track)->isLocked()) {
+            ++it;
+            continue;
+        }
+        tracks << target_track;
+        ++it;
     }
     if (m_zone == QPoint()) {
         // Use current timeline position and clip zone length
