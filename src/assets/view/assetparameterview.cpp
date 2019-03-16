@@ -207,11 +207,11 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
             m_widgets[0]->slotRefresh();
             return;
         }
-        size_t max;
+        int max;
         if (!bottomRight.isValid()) {
-            max = m_widgets.size() - 1;
+            max = (int)m_widgets.size() - 1;
         } else {
-            max = (size_t)bottomRight.row();
+            max = bottomRight.row();
         }
         Q_ASSERT(max < (int)m_widgets.size());
         for (auto i = (size_t)topLeft.row(); i <= max; ++i) {

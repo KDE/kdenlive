@@ -1087,6 +1087,9 @@ void GLWidget::stopCapture()
 
 int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile)
 {
+    Q_UNUSED(params);
+    Q_UNUSED(path);
+    Q_UNUSED(profile);
     // TODO Fix or delete
     /*
     QString serviceName = property("mlt_service").toString();

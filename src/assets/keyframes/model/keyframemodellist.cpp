@@ -361,7 +361,6 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             // this is an endless resize clip
             GenTime old_in(oldIn, pCore->getCurrentFps());
             Keyframe kf = getKeyframe(old_in, &ok);
-            KeyframeType type = kf.second;
             GenTime new_in(in + offset, pCore->getCurrentFps());
             getKeyframe(new_in, &ok2);
             positions = m_parameters.begin()->second->getKeyframePos();

@@ -126,7 +126,7 @@ endif()
 
 find_package(RTTR 0.9.6 QUIET)
 if(NOT RTTR_FOUND)
-  message("RTTR not found on system, will download source and build it")
+  message(STATUS "RTTR not found on system, will download source and build it")
   include(rttr.CMakeLists.txt)
 endif()
 

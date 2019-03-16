@@ -382,6 +382,10 @@ void RenderWidget::slotShareActionFinished(const QJsonObject &output, int error,
                                      KMessageBox::Notify | KMessageBox::AllowLink);
         }
     }
+#else
+    Q_UNUSED(output);
+    Q_UNUSED(error);
+    Q_UNUSED(message);
 #endif
 }
 
