@@ -1425,6 +1425,31 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         exportAudio = selectedAudioExport();
     }
 
+    if (renderArgs.contains(QLatin1String("pix_fmt=argb"))
+     || renderArgs.contains(QLatin1String("pix_fmt=abgr"))
+     || renderArgs.contains(QLatin1String("pix_fmt=bgra"))
+     || renderArgs.contains(QLatin1String("pix_fmt=gbra"))
+     || renderArgs.contains(QLatin1String("pix_fmt=rgba"))
+     || renderArgs.contains(QLatin1String("pix_fmt=yuva"))
+     || renderArgs.contains(QLatin1String("pix_fmt=ya"  ))
+     || renderArgs.contains(QLatin1String("pix_fmt=ayuv"))) {
+        auto prods = doc.elementsByTagName(QStringLiteral("producer"));
+        for (int i = 0; i < prods.count(); ++i) {
+            auto prod = prods.at(i).toElement();
+            if (prod.attribute(QStringLiteral("id")) == QStringLiteral("black_track")) {
+                auto props = prod.elementsByTagName(QStringLiteral("property"));
+                for (int j = 0; j < props.count(); ++j) {
+                    auto prop = props.at(i).toElement();
+                    if (prop.attribute(QStringLiteral("name")) == QStringLiteral("resource")) {
+                        prop.firstChild().setNodeValue(QStringLiteral("transparent"));
+                        break;
+                    }
+                }
+                break;
+            }
+        }
+    }
+
     // disable audio if requested
     if (!exportAudio) {
         consumer.setAttribute(QStringLiteral("an"), 1);

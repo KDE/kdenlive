@@ -1372,9 +1372,6 @@ void MainWindow::setupActions()
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
 
-    addAction(QStringLiteral("save_selection"), i18n("Save Selection"), pCore->projectManager(), SLOT(slotSaveSelection()),
-              QIcon::fromTheme(QStringLiteral("document-save")));
-
     QAction *sentToLibrary = addAction(QStringLiteral("send_library"), i18n("Add Timeline Selection to Library"), pCore->library(), SLOT(slotAddToLibrary()),
                                        QIcon::fromTheme(QStringLiteral("bookmark-new")));
     sentToLibrary->setEnabled(false);
