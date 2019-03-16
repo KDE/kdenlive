@@ -244,6 +244,12 @@ QList<int> TimelineController::selection() const
     return items;
 }
 
+void TimelineController::selectItems(const QList<int> &ids)
+{
+    std::unordered_set<int> ids_s(ids.begin(), ids.end());
+    m_model->requestSetSelection(ids_s);
+}
+
 void TimelineController::setScrollPos(int pos)
 {
     if (pos > 0 && m_root) {
@@ -1574,17 +1580,6 @@ void TimelineController::resetTrackHeight()
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
     m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
-}
-
-int TimelineController::groupClips(const QList<int> &clipIds)
-{
-    std::unordered_set<int> theSet(clipIds.begin(), clipIds.end());
-    return m_model->requestClipsGroup(theSet, false, GroupType::Selection);
-}
-
-bool TimelineController::ungroupClips(int clipId)
-{
-    return m_model->requestClipUngroup(clipId);
 }
 
 void TimelineController::selectAll()

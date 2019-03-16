@@ -294,7 +294,7 @@ Rectangle {
 
                 // if the clip insertion succeeded, request the clips to be grouped
                 if (ids.length > 0) {
-                    timeline.groupClips(ids)
+                    timeline.selectItems(ids)
                     id = ids[0]
                 }
             }

@@ -104,6 +104,10 @@ public:
         @param addToSelect if true, the old selection is retained
     */
     Q_INVOKABLE void selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect);
+
+    /** @brief request a selection with a list of ids*/
+    Q_INVOKABLE void selectItems(const QList<int> &ids);
+
     /* @brief Returns true is item is selected as well as other items */
     Q_INVOKABLE bool isInSelection(int itemId);
 
@@ -163,16 +167,6 @@ public:
      * @return the ids of the inserted clips
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
-    /* @brief Request the grouping of the given clips
-     * @param clipIds the ids to be grouped
-     * @return the group id or -1 in case of faiure
-     */
-    Q_INVOKABLE int groupClips(const QList<int> &clipIds);
-    /* @brief Request the ungrouping of clips
-     * @param clipId the id of a clip belonging to the group
-     * @return true in case of success, false otherwise
-     */
-    Q_INVOKABLE bool ungroupClips(int clipId);
     Q_INVOKABLE void copyItem();
     Q_INVOKABLE bool pasteItem();
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)

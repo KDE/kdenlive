@@ -352,6 +352,12 @@ void fuzz(const std::string &input)
                             valid = valid && (groupId >= 0);
                             arguments.emplace_back(groupId);
                             // std::cout << "got clipId" << clipId << std::endl;
+                        } else if (arg_name == "logUndo") {
+                            bool a = false;
+                            ss >> a;
+                            // we enforce undo logging
+                            a = true;
+                            arguments.emplace_back(a);
                         } else if (arg_name == "itemIds") {
                             int count = 0;
                             ss >> count;

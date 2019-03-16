@@ -1612,10 +1612,15 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
 {
     QWriteLocker locker(&m_lock);
     TRACE(ids, logUndo, type);
+    if (type == GroupType::Selection) {
+        // this shouldn't be done here. Call requestSetSelection instead
+        TRACE_RES(-1);
+        return -1;
+    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     int result = requestClipsGroup(ids, undo, redo, type);
-    if (result > -1 && logUndo && type != GroupType::Selection) {
+    if (result > -1 && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Group clips"));
     }
     TRACE_RES(result);
