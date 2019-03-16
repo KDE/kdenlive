@@ -158,6 +158,11 @@ QAction *RecManager::switchAction() const
 void RecManager::stopCapture()
 {
     if (m_captureProcess) {
+        connect(m_captureProcess, &QProcess::stateChanged, [&](QProcess::ProcessState status) {
+            if (status == QProcess::NotRunning) {
+                emit addClipToProject(m_captureFile);
+            }
+        });
         slotRecord(false);
     } else if (pCore->getMediaCaptureState() == 1 && (m_checkAudio || m_checkVideo)) {
         // QMediaRecorder::RecordingState value is 1
@@ -208,7 +213,6 @@ void RecManager::slotRecord(bool record)
             pCore->startMediaCapture(m_checkAudio, m_checkVideo, m_captureFile, audioDevice);
         } else {
             stopCapture();
-            emit addClipToProject(m_captureFile);
         }
         return;
     }
