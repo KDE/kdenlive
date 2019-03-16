@@ -530,6 +530,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         hlay->addWidget(new QLabel(i18n("Threads")));
         auto *spinI = new QSpinBox(this);
         spinI->setMaximum(4);
+        spinI->setMinimum(1);
         spinI->setObjectName(QStringLiteral("threads_value"));
         if (!threads.isEmpty()) {
             spinI->setValue(threads.toInt());

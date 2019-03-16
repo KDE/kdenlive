@@ -131,6 +131,7 @@ bool AudioThumbJob::computeWithFFMPEG()
     bool isFFmpeg = KdenliveSettings::ffmpegpath().contains(QLatin1String("ffmpeg"));
     args << QStringLiteral("-filter_complex:a");
     if (m_channels == 1) {
+        //TODO: this does not correcty generate the correct stream data
         args << QStringLiteral("aformat=channel_layouts=mono,%1=100").arg(isFFmpeg ? "aresample=async" : "sample_rates");
         args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(m_audioStream > 0 ? ":" + QString::number(m_audioStream) : QString())
              << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")

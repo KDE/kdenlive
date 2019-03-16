@@ -314,11 +314,6 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
         pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         m_thumbsProducer.reset();
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
-        if (audioStreamChanged) {
-            discardAudioThumb();
-            pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
-        }
-
     } else {
         // If another load job is running?
         if (loadjobId > -1) {
@@ -332,6 +327,10 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), 150, -1, true, true);
+            if (audioStreamChanged) {
+                discardAudioThumb();
+                pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+            }
         }
     }
 }
@@ -927,14 +926,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshPanel = true;
     }
     // Some properties also need to be passed to track producers
-    QStringList timelineProperties{QStringLiteral("force_aspect_ratio"),  QStringLiteral("video_index"), QStringLiteral("audio_index"),
+    QStringList timelineProperties{QStringLiteral("force_aspect_ratio"),
                                    QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),   QStringLiteral("threads"),
                                    QStringLiteral("force_colorspace"),    QStringLiteral("force_tff"),   QStringLiteral("force_progressive"),
                                    };
     QStringList forceReloadProperties{QStringLiteral("autorotate"), QStringLiteral("templatetext"),   QStringLiteral("resource"),
-                                      QStringLiteral("force_fps"),  QStringLiteral("set.test_image"), QStringLiteral("set.test_audio")};
+                                      QStringLiteral("force_fps"),  QStringLiteral("set.test_image"), QStringLiteral("set.test_audio"), QStringLiteral("audio_index"),  QStringLiteral("video_index")};
     QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"),
-                     QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation")};
+                     QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation") };
     QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();
