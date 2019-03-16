@@ -69,7 +69,7 @@ protected:
         QString id;    // identifier of the asset
         QString mltId; //"tag" of the asset, that is the name of the mlt service
         QString name, description, author, version_str;
-        int version;
+        int version{};
         QDomElement xml;
         AssetType type;
     };
@@ -85,7 +85,7 @@ protected:
        @param res Datastructure to fill
        @return true on success
     */
-    bool parseInfoFromMlt(const QString &effectId, Info &res);
+    bool parseInfoFromMlt(const QString &assetId, Info &res);
 
     /* @brief Returns the metadata associated with the given asset*/
     virtual Mlt::Properties *getMetadata(const QString &assetId) = 0;

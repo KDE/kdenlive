@@ -123,7 +123,7 @@ private:
 
     QTimeLine *m_timeLine;
     QAction *m_action{nullptr};
-    QMutex locker;
+    QMutex m_locker;
 
 public slots:
     void slotSetJobCount(int jobCount);
@@ -320,7 +320,7 @@ public slots:
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
-    void slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos);
+    void slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos);
     void slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip);
     void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */

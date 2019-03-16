@@ -202,7 +202,7 @@ public:
     void addEffect(const QString &effectId);
 
 protected:
-    virtual void emitProducerChanged(const QString &, const std::shared_ptr<Mlt::Producer> &){};
+    virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};
     virtual void connectEffectStack(){};
 
     // This is the helper function that checks if the clip has audio and video and stores the result

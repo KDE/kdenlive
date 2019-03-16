@@ -100,8 +100,8 @@ public:
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
 
-    void _beginRemoveRows(const QModelIndex &, int, int) override;
-    void _beginInsertRows(const QModelIndex &, int, int) override;
+    void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
+    void _beginInsertRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _endRemoveRows() override;
     void _endInsertRows() override;
     void _resetView() override;

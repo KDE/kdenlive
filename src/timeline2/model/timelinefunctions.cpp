@@ -132,7 +132,7 @@ bool TimelineFunctions::requestClipCut(std::shared_ptr<TimelineItemModel> timeli
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = TimelineFunctions::requestClipCut(std::move(timeline), clipId, position, undo, redo);
+    bool result = TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo);
     if (result) {
         pCore->pushUndo(undo, redo, i18n("Cut clip"));
     }
@@ -175,7 +175,8 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             bool undone = undo();
             Q_ASSERT(undone);
             return false;
-        } else if (cid == clipId) {
+        }
+        if (cid == clipId) {
             mainId = newId;
         }
         // splitted elements go temporarily in the same group as original ones.
@@ -188,7 +189,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
         bool res = true;
         for (const int topId : topElements) {
-            res = res & timeline->m_groups->split(topId, criterion, undo, redo);
+            res = res && timeline->m_groups->split(topId, criterion, undo, redo);
         }
         if (!res) {
             bool undone = undo();
@@ -202,7 +203,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
 int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
-    if (clips.size() > 0) {
+    if (!clips.empty()) {
         timeline->requestSetSelection(clips);
         return (*clips.cbegin());
     }
@@ -356,7 +357,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
 
     std::unordered_set<int> clips = timeline->getItemsInRange(-1, zone.y() - 1, -1, true);
     bool result = false;
-    if (clips.size() > 0) {
+    if (!clips.empty()) {
         int clipId = *clips.begin();
         if (clips.size() > 1) {
             int res = timeline->requestClipsGroup(clips, undo, redo);
@@ -384,7 +385,7 @@ bool TimelineFunctions::insertSpace(const std::shared_ptr<TimelineItemModel> &ti
 
     std::unordered_set<int> clips = timeline->getItemsInRange(-1, zone.x(), -1, true);
     bool result = true;
-    if (clips.size() > 0) {
+    if (!clips.empty()) {
         int clipId = *clips.begin();
         if (clips.size() > 1) {
             int res = timeline->requestClipsGroup(clips, undo, redo);
@@ -433,8 +434,8 @@ bool TimelineFunctions::requestItemCopy(const std::shared_ptr<TimelineItemModel>
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
                 std::unique_ptr<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
-                res = res & timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position,
-                                                                  timeline->m_allCompositions[id]->getPlaytime(), std::move(transProps), newId, undo, redo);
+                res = res && timeline->requestCompositionInsertion(transitionId, target_track, -1, target_position,
+                                                                   timeline->m_allCompositions[id]->getPlaytime(), std::move(transProps), newId, undo, redo);
             }
         } else {
             res = false;
@@ -628,7 +629,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     std::function<bool(void)> redo = []() { return true; };
     std::shared_ptr<CompositionModel> compo = timeline->getCompositionPtr(cid);
     int previousATrack = compo->getATrack();
-    int previousAutoTrack = compo->getForcedTrack() == -1;
+    int previousAutoTrack = static_cast<int>(compo->getForcedTrack() == -1);
     bool autoTrack = aTrack < 0;
     if (autoTrack) {
         // Automatic track compositing, find lower video track
@@ -651,7 +652,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     Fun local_undo = [timeline, cid, previousATrack, previousAutoTrack, start, end]() {
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
-        timeline->getCompositionPtr(cid)->setForceTrack(!previousAutoTrack);
+        timeline->getCompositionPtr(cid)->setForceTrack(previousAutoTrack == 0);
         timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
         field->unlock();
         QModelIndex modelIndex = timeline->makeCompositionIndexFromID(cid);
@@ -986,7 +987,8 @@ int TimelineFunctions::getOffsetTrackId(const std::shared_ptr<TimelineItemModel>
         if (masterTrackMltIndex < 0) {
             masterTrackMltIndex = 0;
             break;
-        } else if (masterTrackMltIndex > (int)timeline->m_allTracks.size()) {
+        }
+        if (masterTrackMltIndex > (int)timeline->m_allTracks.size()) {
             masterTrackMltIndex = (int)timeline->m_allTracks.size();
             break;
         }
@@ -1012,7 +1014,7 @@ QPair<QList<int>, QList<int>> TimelineFunctions::getAVTracksIds(const std::share
     return {audioTracks, videoTracks};
 }
 
-QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> itemIds)
+QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds)
 {
     int clipId = *(itemIds.begin());
     timeline->requestClearSelection();
@@ -1262,7 +1264,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         timeline->m_allClips[newId]->setInOut(in, out);
         int targetId = prod.attribute(QStringLiteral("id")).toInt();
         correspondingIds[targetId] = newId;
-        res = res & timeline->getTrackById(curTrackId)->requestClipInsertion(newId, position + pos, true, true, undo, redo);
+        res = res && timeline->getTrackById(curTrackId)->requestClipInsertion(newId, position + pos, true, true, undo, redo);
         // paste effects
         if (res) {
             std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);

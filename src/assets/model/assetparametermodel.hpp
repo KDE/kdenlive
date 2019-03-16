@@ -127,7 +127,7 @@ public:
     /* @brief Set the parameter with given name to the given value
      */
     Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, const QModelIndex &paramIndex = QModelIndex());
-    void setParameter(const QString &name, const int value, bool update = true);
+    void setParameter(const QString &name, int value, bool update = true);
     Q_INVOKABLE void setParameter(const QString &name, double &value);
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */
@@ -178,12 +178,12 @@ protected:
        - %width and %height that are replaced with profile's height and width.
        If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
     */
-    static QVariant parseAttribute(const ObjectId owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
+    static QVariant parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
 
     /* @brief Helper function to register one more parameter that is keyframable.
        @param index is the index corresponding to this parameter
     */
-    void addKeyframeParam(const QModelIndex index);
+    void addKeyframeParam(const QModelIndex &index);
 
     struct ParamRow
     {

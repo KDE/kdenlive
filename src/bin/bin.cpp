@@ -509,7 +509,7 @@ void SmallJobLabel::slotTimeLineFinished()
 
 void SmallJobLabel::slotSetJobCount(int jobCount)
 {
-    QMutexLocker lk(&locker);
+    QMutexLocker lk(&m_locker);
     if (jobCount > 0) {
         // prepare animation
         setText(i18np("%1 job", "%1 jobs", jobCount));
@@ -1558,7 +1558,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint pos)
+void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (m_listType == BinIconView) {

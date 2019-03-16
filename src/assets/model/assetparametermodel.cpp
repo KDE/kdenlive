@@ -142,7 +142,7 @@ void AssetParameterModel::prepareKeyframes()
     }
 }
 
-void AssetParameterModel::setParameter(const QString &name, const int value, bool update)
+void AssetParameterModel::setParameter(const QString &name, int value, bool update)
 {
     Q_ASSERT(m_asset->is_valid());
     m_asset->set(name.toLatin1().constData(), value);
@@ -481,7 +481,7 @@ QString AssetParameterModel::getDefaultKeyframes(int start, const QString &defau
 }
 
 // static
-QVariant AssetParameterModel::parseAttribute(const ObjectId owner, const QString &attribute, const QDomElement &element, QVariant defaultValue)
+QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue)
 {
     if (!element.hasAttribute(attribute) && !defaultValue.isNull()) {
         return defaultValue;
@@ -778,7 +778,7 @@ ObjectId AssetParameterModel::getOwnerId() const
     return m_ownerId;
 }
 
-void AssetParameterModel::addKeyframeParam(const QModelIndex index)
+void AssetParameterModel::addKeyframeParam(const QModelIndex &index)
 {
     if (m_keyframes) {
         m_keyframes->addParameter(index);

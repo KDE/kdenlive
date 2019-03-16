@@ -155,7 +155,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     continue;
                 }
 
-                if (paramdesc.get("readonly") && !strcmp(paramdesc.get("readonly"), "yes")) {
+                if (paramdesc.get("readonly") && (strcmp(paramdesc.get("readonly"), "yes") == 0)) {
                     // Do not expose readonly parameters
                     continue;
                 }
