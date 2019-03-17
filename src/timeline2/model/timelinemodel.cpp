@@ -1532,7 +1532,13 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     std::unordered_set<int> all_items;
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
-        auto items = m_groups->getLeaves(groupId);
+        std::unordered_set<int> items;
+        if (m_groups->getType(groupId) == GroupType::AVSplit) {
+            // Only resize group elements if it is an avsplit
+            items = m_groups->getLeaves(groupId);
+        } else {
+            all_items.insert(itemId);
+        }
         for (int id : items) {
             if (id == itemId) {
                 all_items.insert(id);
