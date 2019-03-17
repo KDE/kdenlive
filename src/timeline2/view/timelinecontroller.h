@@ -56,6 +56,7 @@ class TimelineController : public QObject
     Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
+    Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
     Q_PROPERTY(bool showThumbnails READ showThumbnails NOTIFY showThumbnailsChanged)
     Q_PROPERTY(bool showMarkers READ showMarkers NOTIFY showMarkersChanged)
     Q_PROPERTY(bool showAudioThumbnails READ showAudioThumbnails NOTIFY showAudioThumbnailsChanged)
@@ -334,10 +335,6 @@ public:
      */
     void seekToMouse();
 
-    /* @brief User enabled / disabled snapping, update timeline behavior
-     */
-    void snapChanged(bool snap);
-
     /* @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
@@ -503,6 +500,9 @@ signals:
     /* @brief emitted when timeline selection changes, true if a clip is selected
      */
     void timelineClipSelected(bool);
+    /* @brief User enabled / disabled snapping, update timeline behavior
+     */
+    void snapChanged();
     Q_INVOKABLE void ungrabHack();
 };
 

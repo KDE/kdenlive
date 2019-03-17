@@ -271,11 +271,6 @@ bool TimelineController::snap()
     return KdenliveSettings::snaptopoints();
 }
 
-void TimelineController::snapChanged(bool snap)
-{
-    m_root->setProperty("snapping", snap ? 10 / std::sqrt(m_scale) : -1);
-}
-
 bool TimelineController::ripple()
 {
     return false;
