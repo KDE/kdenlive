@@ -42,13 +42,14 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     slotRefresh();
+    QLocale locale;
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
     connect(this->m_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             [this](int) {
                 emit valueChanged(m_index, m_list->itemData(m_list->currentIndex()).toString(), true);
-            });
+    });
 }
 
 void ListParamWidget::setCurrentIndex(int index)
@@ -123,12 +124,21 @@ void ListParamWidget::slotRefresh()
         if (names.count() != values.count()) {
             names = values;
         }
+        QLocale locale;
         for (int i = 0; i < names.count(); i++) {
-            m_list->addItem(names.at(i), values.at(i));
+            QString val = values.at(i);
+            bool ok;
+            double num = val.toDouble(&ok);
+            if (ok) {
+                val = locale.toString(num);
+            }
+            m_list->addItem(names.at(i), val);
         }
-        if (!value.isEmpty() && values.contains(value)) {
-            // TODO:: search item data directly
-            m_list->setCurrentIndex(values.indexOf(value));
+        if (!value.isEmpty()) {
+            int ix = m_list->findData(value);
+            if (ix > -1)  {
+                m_list->setCurrentIndex(ix);
+            }
         }
     }
 }
