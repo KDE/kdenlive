@@ -498,6 +498,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
+    bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
+    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&] (int ix) {
+        KdenliveSettings::setTitlerbg(ix);
+        displayBackgroundFrame();
+    });
+
     connect(m_scene, &QGraphicsScene::selectionChanged, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::itemMoved, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this, &TitleWidget::slotZoom);
@@ -854,19 +860,32 @@ void TitleWidget::displayBackgroundFrame()
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     if (!displayBg->isChecked()) {
-        QPixmap pattern(20, 20);
-        pattern.fill(Qt::gray);
-        QColor bgcolor(180, 180, 180);
-        QPainter p(&pattern);
-        p.fillRect(QRect(0, 0, 10, 10), bgcolor);
-        p.fillRect(QRect(10, 10, 20, 20), bgcolor);
-        p.end();
-        QBrush br(pattern);
-        QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
-        QPainter p2(&bg);
-        p2.fillRect(bg.rect(), br);
-        p2.end();
-        m_frameImage->setPixmap(bg);
+        switch (KdenliveSettings::titlerbg()) {
+            case 0: {
+                QPixmap pattern(20, 20);
+                pattern.fill(Qt::gray);
+                QColor bgcolor(180, 180, 180);
+                QPainter p(&pattern);
+                p.fillRect(QRect(0, 0, 10, 10), bgcolor);
+                p.fillRect(QRect(10, 10, 20, 20), bgcolor);
+                p.end();
+                QBrush br(pattern);
+                QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
+                QPainter p2(&bg);
+                p2.fillRect(bg.rect(), br);
+                p2.end();
+                m_frameImage->setPixmap(bg);
+                break;
+            }
+            default: {
+                QColor col = KdenliveSettings::titlerbg() == 1 ? Qt::black : Qt::white;
+                QPixmap bg((int)(r.width() / 2), (int)(r.height() / 2));
+                QPainter p2(&bg);
+                p2.fillRect(bg.rect(), col);
+                p2.end();
+                m_frameImage->setPixmap(bg);
+            }
+        }
     } else {
         emit requestBackgroundFrame(m_clipId, true);
     }
@@ -1813,13 +1832,25 @@ void TitleWidget::itemTop()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
+        QList <double> margins {m_frameHeight * 0.05, m_frameHeight * 0.1};
         QGraphicsItem *item = l.at(0);
         QRectF br = item->sceneBoundingRect();
         double diff;
-        if (br.top() > 0) {
-            diff = -br.top();
+        if (br.top() < 0.) {
+            // align with big margin
+            diff = margins.at(1) - br.top();
+        } else if (qFuzzyIsNull(br.top())) {
+            // align right with frame border
+            diff = - br.bottom();
+        } else if (br.top() <= margins.at(0)) {
+            // align with 0
+            diff = - br.top();
+        } else if (br.top() <= margins.at(1)) {
+            // align with small margin
+            diff = margins.at(0) - br.top();
         } else {
-            diff = -br.bottom();
+            // align with big margin
+            diff = margins.at(1) - br.top();
         }
         item->moveBy(0, diff);
         updateCoordinates(item);
@@ -1830,13 +1861,25 @@ void TitleWidget::itemBottom()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
+        QList <double> margins {m_frameHeight * 0.9, m_frameHeight* 0.95};
         QGraphicsItem *item = l.at(0);
         QRectF br = item->sceneBoundingRect();
         double diff;
-        if (br.bottom() > m_frameHeight) {
+        if (br.bottom() < margins.at(0)) {
+            // align with small margin
+            diff = margins.at(0) - br.bottom();
+        } else if (br.bottom() < margins.at(1)) {
+            // align big margin
+            diff = margins.at(1) - br.bottom();
+        } else if (br.bottom() < m_frameHeight) {
+            // align with frame
+            diff = m_frameHeight - br.bottom();
+        } else if (br.top() < m_frameHeight) {
+            // align left with frame
             diff = m_frameHeight - br.top();
         } else {
-            diff = m_frameHeight - br.bottom();
+            // align with big margin
+            diff = margins.at(0) - br.bottom();
         }
         item->moveBy(0, diff);
         updateCoordinates(item);
@@ -1847,13 +1890,25 @@ void TitleWidget::itemLeft()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
+        QList <double> margins {m_frameWidth * 0.05, m_frameWidth * 0.1};
         QGraphicsItem *item = l.at(0);
         QRectF br = item->sceneBoundingRect();
         double diff;
-        if (br.left() > 0) {
-            diff = -br.left();
+        if (br.left() < 0.) {
+            // align with big margin
+            diff = margins.at(1) - br.left();
+        } else if (qFuzzyIsNull(br.left())) {
+            // align right with frame border
+            diff = - br.right();
+        } else if (br.left() <= margins.at(0)) {
+            // align with 0
+            diff = - br.left();
+        } else if (br.left() <= margins.at(1)) {
+            // align with small margin
+            diff = margins.at(0) - br.left();
         } else {
-            diff = -br.right();
+            // align with big margin
+            diff = margins.at(1) - br.left();
         }
         item->moveBy(diff, 0);
         updateCoordinates(item);
@@ -1864,13 +1919,25 @@ void TitleWidget::itemRight()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
     if (l.size() == 1) {
+        QList <double> margins {m_frameWidth * 0.9, m_frameWidth * 0.95};
         QGraphicsItem *item = l.at(0);
         QRectF br = item->sceneBoundingRect();
         double diff;
-        if (br.right() < m_frameWidth) {
+        if (br.right() < margins.at(0)) {
+            // align with small margin
+            diff = margins.at(0) - br.right();
+        } else if (br.right() < margins.at(1)) {
+            // align big margin
+            diff = margins.at(1) - br.right();
+        } else if (br.right() < m_frameWidth) {
+            // align with frame
             diff = m_frameWidth - br.right();
-        } else {
+        } else if (br.left() < m_frameWidth) {
+            // align left with frame
             diff = m_frameWidth - br.left();
+        } else {
+            // align with big margin
+            diff = margins.at(0) - br.right();
         }
         item->moveBy(diff, 0);
         updateCoordinates(item);

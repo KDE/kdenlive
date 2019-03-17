@@ -273,6 +273,25 @@
       </widget>
      </item>
      <item>
+      <widget class="QComboBox" name="bgBox">
+       <item>
+        <property name="text">
+         <string>Checkered</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Black</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>White</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
       <widget class="Line" name="line_6">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
