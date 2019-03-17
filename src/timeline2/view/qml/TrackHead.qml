@@ -190,7 +190,7 @@ Rectangle {
                 height: width
                 Rectangle {
                     id: trackLed
-                    color: 'grey'
+                    color: Qt.darker(trackHeadRoot.color, 0.45)
                     anchors.fill: parent
                     width: height
                     border.width: 0
@@ -238,7 +238,7 @@ Rectangle {
                             when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                             PropertyChanges {
                                 target: trackLed
-                                color: 'grey'
+                                color: Qt.darker(trackHeadRoot.color, 0.45)
                             }
                         }
                     ]
