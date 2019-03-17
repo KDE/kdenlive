@@ -358,7 +358,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     }
     if (duration < 0) {
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
-    } else if (duration <= 4) {
+    } else if (duration <= 1) {
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
         if (minimum + clip_duration - position < 3) {
