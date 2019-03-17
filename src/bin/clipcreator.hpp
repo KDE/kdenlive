@@ -92,7 +92,7 @@ bool createClipFromFile(const QString &path, const QString &parentFolder, std::s
    @param model: a shared pointer to the bin item model
  */
 bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo,
-                         Fun &redo);
+                         Fun &redo, bool topLevel = true);
 bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 } // namespace ClipCreator
 

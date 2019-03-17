@@ -26,6 +26,7 @@
 #include "kdenlivesettings.h"
 #include "klocalizedstring.h"
 #include "macros.hpp"
+#include "mainwindow.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
 #include "utils/devices.hpp"
@@ -34,8 +35,10 @@
 #include <QApplication>
 #include <QDomDocument>
 #include <QMimeDatabase>
+#include <QProgressDialog>
 #include <QWindow>
 #include <utility>
+
 namespace {
 QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const QString &resource, const QString &name, int duration, const QString &service)
 {
@@ -207,8 +210,19 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
 }
 
 bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
-                                      Fun &undo, Fun &redo)
+                                      Fun &undo, Fun &redo, bool topLevel)
 {
+    QScopedPointer<QProgressDialog> progressDialog;
+    if (topLevel) {
+        progressDialog.reset(new QProgressDialog(pCore->window()));
+        progressDialog->setWindowTitle(i18n("Loading clips"));
+        progressDialog->setCancelButton(nullptr);
+        progressDialog->setLabelText(i18n("Importing bin clips..."));
+        progressDialog->setMaximum(0);
+        progressDialog->show();
+        progressDialog->repaint();
+        qApp->processEvents();
+    }
     qDebug() << "/////////// creatclipsfromlist" << list << checkRemovable << parentFolder;
     bool created = false;
     QMimeDatabase db;
@@ -255,12 +269,12 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                 }
                 if (!sublist.isEmpty()) {
                     // load subfolders
-                    created = created || createClipsFromList(sublist, checkRemovable, parentFolder, model, undo, redo);
+                    created = created || createClipsFromList(sublist, checkRemovable, parentFolder, model, undo, redo, false);
                 }
             } else {
                 bool ok = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
                 if (ok) {
-                    ok = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo);
+                    ok = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
                     created = true;
                     if (!ok) {
                         local_undo();
@@ -277,7 +291,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                     }
                     if (!sublist.isEmpty()) {
                         // load subfolders
-                        createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo);
+                        createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
                     }
                 }
             }
