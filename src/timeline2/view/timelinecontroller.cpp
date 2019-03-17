@@ -1334,7 +1334,7 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     auto it = m_model->m_allTracks.cbegin();
     while (it != m_model->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (m_model->getTrackById_const(target_track)->isLocked()) {
+        if (target_track != audioTarget() && target_track != videoTarget() && !m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
             ++it;
             continue;
         }
@@ -1516,11 +1516,17 @@ void TimelineController::alignAudio(int clipId)
     m_audioCorrelator->addChild(envelope);
 }
 
+void TimelineController::switchTrackActive(int trackId)
+{
+    bool active = m_model->getTrackById_const(trackId)->isTimelineActive();
+    m_model->setTrackProperty(trackId, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
+}
+
 void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {
         // apply to active track only
-        bool locked = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:locked_track").toInt() == 1;
+        bool locked = m_model->getTrackById_const(m_activeTrack)->isLocked();
         m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:locked_track"), locked ? QStringLiteral("0") : QStringLiteral("1"));
     } else {
         // Invert track lock

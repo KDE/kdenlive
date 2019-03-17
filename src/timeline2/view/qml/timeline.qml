@@ -618,6 +618,7 @@ Rectangle {
                             isDisabled: model.disabled
                             isComposite: model.composite
                             isLocked: model.locked
+                            isActive: model.trackActive
                             isAudio: model.audio
                             showAudioRecord: model.audioRecord
                             effectNames: model.effectNames

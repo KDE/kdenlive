@@ -29,7 +29,8 @@ Rectangle {
     property bool isDisabled
     property bool collapsed: false
     property int isComposite
-    property bool isLocked
+    property bool isLocked: false
+    property bool isActive: false
     property bool isAudio
     property bool showAudioRecord
     property bool current: false
@@ -104,12 +105,73 @@ Rectangle {
         }
     }
     ColumnLayout {
+        id: targetColumn
+        width: root.baseUnit / 1.5
+        height: trackHeadRoot.height
+        Item {
+            width: parent.width
+            Layout.fillHeight: true
+            Layout.topMargin: 4
+            Layout.bottomMargin: 4
+            Layout.alignment: Qt.AlignVCenter
+            Rectangle {
+                id: trackTarget
+                color: 'grey'
+                anchors.fill: parent
+                width: height
+                border.width: 0
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (trackHeadRoot.isAudio) {
+                            if (trackHeadRoot.trackId == timeline.audioTarget) {
+                                timeline.audioTarget = -1;
+                            } else {
+                                timeline.audioTarget = trackHeadRoot.trackId;
+                            }
+                        } else {
+                            if (trackHeadRoot.trackId == timeline.videoTarget) {
+                                timeline.videoTarget = -1;
+                            } else {
+                                timeline.videoTarget = trackHeadRoot.trackId;
+                            }
+                        }
+                    }
+                }
+                state:  'normalTarget'
+                states: [
+                    State {
+                        name: 'target'
+                        when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.audioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
+                        PropertyChanges {
+                            target: trackTarget
+                            color: 'green'
+                        }
+                    },
+                    State {
+                        name: 'noTarget'
+                        when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
+                        PropertyChanges {
+                            target: trackTarget
+                            color: 'grey'
+                        }
+                    }
+                ]
+                transitions: [
+                    Transition {
+                        to: '*'
+                        ColorAnimation { target: trackTarget; duration: 300 }
+                    }
+                ]
+            }
+        }
+    }
+    ColumnLayout {
         id: trackHeadColumn
         spacing: 0
         anchors.fill: parent
-        anchors.leftMargin: 0
+        anchors.leftMargin: targetColumn.width
         anchors.topMargin: 0
-
         RowLayout {
             spacing: 0
             Layout.leftMargin: 2
@@ -142,19 +204,7 @@ Rectangle {
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
-                            if (trackHeadRoot.isAudio) {
-                                if (trackHeadRoot.trackId == timeline.audioTarget) {
-                                    timeline.audioTarget = -1;
-                                } else {
-                                    timeline.audioTarget = trackHeadRoot.trackId;
-                                }
-                            } else {
-                                if (trackHeadRoot.trackId == timeline.videoTarget) {
-                                    timeline.videoTarget = -1;
-                                } else {
-                                    timeline.videoTarget = trackHeadRoot.trackId;
-                                }
-                            }
+                            timeline.switchTrackActive(trackHeadRoot.trackId)
                         }
                     }
                     state:  'normalled'
@@ -168,8 +218,8 @@ Rectangle {
                             }
                         },
                         State {
-                            name: 'target'
-                            when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.audioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
+                            name: 'active'
+                            when: trackHeadRoot.isActive
                             PropertyChanges {
                                 target: trackLed
                                 color: 'yellow'
@@ -184,8 +234,8 @@ Rectangle {
                             }
                         },
                         State {
-                            name: 'normalled'
-                            when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
+                            name: 'inactive'
+                            when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                             PropertyChanges {
                                 target: trackLed
                                 color: 'grey'

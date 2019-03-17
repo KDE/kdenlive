@@ -85,6 +85,13 @@ public:
     /* @brief Returns true if track is in locked state
      */
     bool isLocked() const;
+    /* @brief Returns true if track is active in timeline, ie. 
+     * will receive insert/lift/overwrite/extract operations
+     */
+    bool isTimelineActive() const;
+    /* @brief Returns true if track is active and not locked
+     */
+    bool shouldReceiveTimelineOp() const;
     /* @brief Returns true if track is an audio track
      */
     bool isAudioTrack() const;

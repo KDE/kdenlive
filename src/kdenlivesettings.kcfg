@@ -630,7 +630,7 @@
       <label>Path to shuttle device.</label>
       <default></default>
     </entry>
-    
+
     <entry name="shuttledevicenames" type="StringList">
       <label>Available shuttle device names.</label>
       <default></default>
@@ -805,13 +805,13 @@
     <entry name="showtitlebars" type="Bool">
       <label>Show dock widget titlebars to allow un/docking.</label>
       <default>true</default>
-    </entry>    
+    </entry>
 
     <entry name="colorclipcolor" type="Color">
       <label>Color to preselect in the color clip dialog.</label>
       <default>#000000</default>
     </entry>
-    
+
     <entry name="rescalekeepratio" type="Bool">
       <label>Keep aspect ratio in render dialog rescale widget.</label>
       <default>true</default>

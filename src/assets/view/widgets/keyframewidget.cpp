@@ -395,10 +395,11 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 
 void KeyframeWidget::slotInitMonitor(bool active)
 {
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     if (m_keyframeview) {
         m_keyframeview->initKeyframePos();
+        connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
     }
-    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     connectMonitor(active);
     if (active) {
         connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);

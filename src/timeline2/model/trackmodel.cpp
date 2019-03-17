@@ -1116,6 +1116,18 @@ bool TrackModel::isLocked() const
     return m_track->get_int("kdenlive:locked_track");
 }
 
+bool TrackModel::isTimelineActive() const
+{
+    READ_LOCK();
+    return m_track->get_int("kdenlive:timeline_active");
+}
+
+bool TrackModel::shouldReceiveTimelineOp() const
+{
+    READ_LOCK();
+    return m_track->get_int("kdenlive:timeline_active") && !m_track->get_int("kdenlive:locked_track");
+}
+
 bool TrackModel::isAudioTrack() const
 {
     return m_track->get_int("kdenlive:audio_track") == 1;

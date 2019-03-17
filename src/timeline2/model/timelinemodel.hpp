@@ -153,6 +153,7 @@ public:
         EffectNamesRole,    // track and clip only
         EffectsEnabledRole, // track and clip only
         GrabbedRole,        /// clip+composition only
+        TrackActiveRole,    /// track only
         AudioRecordRole     /// track only
     };
 

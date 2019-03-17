@@ -274,14 +274,14 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = false;
+    bool result = true;
     int trackId = trackIds.takeFirst();
     if (overwrite) {
         // Cut all tracks
         auto it = timeline->m_allTracks.cbegin();
         while (it != timeline->m_allTracks.cend()) {
             int target_track = (*it)->getId();
-            if (timeline->getTrackById_const(target_track)->isLocked()) {
+            if (!trackIds.contains(target_track) && !timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
                 ++it;
                 continue;
             }
@@ -296,7 +296,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         auto it = timeline->m_allTracks.cbegin();
         while (it != timeline->m_allTracks.cend()) {
             int target_track = (*it)->getId();
-            if (timeline->getTrackById_const(target_track)->isLocked()) {
+            if (!trackIds.contains(target_track) && !timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
                 ++it;
                 continue;
             }

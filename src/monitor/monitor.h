@@ -325,7 +325,8 @@ public slots:
     void refreshMonitorIfActive(bool directUpdate = false) override;
 
 signals:
-    void seekPosition(int);
+    void seekPosition(int pos);
+    void updateScene();
     /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */
     void seekTimeline(int position);
     void durationChanged(int);
