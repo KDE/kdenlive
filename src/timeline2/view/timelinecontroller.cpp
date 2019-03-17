@@ -1427,15 +1427,19 @@ void TimelineController::switchEnableState(int clipId)
 void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
     int track = m_model->getClipTrackId(clipId);
+    int compoId = -1;
     if (assetId.isEmpty()) {
         QStringList compositions = KdenliveSettings::favorite_transitions();
         if (compositions.isEmpty()) {
             pCore->displayMessage(i18n("Select a favorite composition"), InformationMessage, 500);
             return;
         }
-        insertNewComposition(track, clipId, offset, compositions.first(), true);
+        compoId = insertNewComposition(track, clipId, offset, compositions.first(), true);
     } else {
-        insertNewComposition(track, clipId, offset, assetId, true);
+        compoId = insertNewComposition(track, clipId, offset, assetId, true);
+    }
+    if (compoId > 0) {
+        m_model->requestSetSelection({compoId});
     }
 }
 

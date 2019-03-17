@@ -118,17 +118,6 @@ Item {
         anchors.fill: displayRect
         acceptedButtons: Qt.RightButton
         hoverEnabled: true
-        /*onPressed: {
-            root.stopScrolling = true
-            originalX = compositionRoot.x
-            originalTrackId = compositionRoot.trackId
-            startX = compositionRoot.x
-            compositionRoot.forceActiveFocus();
-            focus = true
-            if (!compositionRoot.selected) {
-                compositionRoot.clicked(compositionRoot, mouse.modifiers === Qt.ShiftModifier)
-            }
-        }*/
         Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
         Keys.onLeftPressed: {
             controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - 1, true, true)

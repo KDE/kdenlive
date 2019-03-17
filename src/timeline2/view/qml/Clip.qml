@@ -441,7 +441,7 @@ Rectangle {
         border.width: 2
         border.color: 'green'
         opacity: 0
-        enabled: !clipRoot.isAudio
+        enabled: !clipRoot.isAudio && !dragProxy.isComposition
         MouseArea {
             id: compInArea
             anchors.fill: parent
@@ -491,13 +491,16 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onEntered: parent.opacity = 0.7
+            onEntered: {
+                parent.opacity = 0.7
+                parent.visible = true
+            }
             onExited: {
-                if (!pressed) {
-                  parent.opacity = 0
-                }
+                parent.opacity = 0
+                parent.visible = false
             }
             onPressed: {
+                parent.visible = false
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
             }
             ToolTip {
@@ -540,7 +543,7 @@ Rectangle {
         color: '#FF66FFFF'
         border.width: 2
         border.color: 'green'
-        enabled: !isLocked
+        enabled: !isLocked && !dragProxy.isComposition
         opacity: 0
         Drag.active: fadeInMouseArea.drag.active
         MouseArea {
@@ -639,7 +642,7 @@ Rectangle {
         border.width: 2
         border.color: 'red'
         opacity: 0
-        enabled: !isLocked
+        enabled: !isLocked && !dragProxy.isComposition
         Drag.active: fadeOutMouseArea.drag.active
         MouseArea {
             id: fadeOutMouseArea
