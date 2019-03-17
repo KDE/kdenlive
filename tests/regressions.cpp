@@ -748,7 +748,7 @@ TEST_CASE("FuzzBug4")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         {
-            bool res = timeline_0->requestGroupDeletion(2, false);
+            timeline_0->requestGroupDeletion(2, false);
         }
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
