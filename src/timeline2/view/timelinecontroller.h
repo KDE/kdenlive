@@ -314,7 +314,7 @@ public:
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
 
-    Q_INVOKABLE void switchTrackActive(int trackId);
+    Q_INVOKABLE void switchTrackActive(int trackId = -1);
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
 

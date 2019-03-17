@@ -1474,7 +1474,8 @@ void MainWindow::setupActions()
               Qt::CTRL + Qt::SHIFT + Qt::Key_L);
     addAction(QStringLiteral("switch_track_target"), i18n("Toggle Track Target"), pCore->projectManager(), SLOT(slotSwitchTrackTarget()), QIcon(),
               Qt::SHIFT + Qt::Key_T);
-
+    addAction(QStringLiteral("switch_active_target"), i18n("Toggle Track Active"), pCore->projectManager(), SLOT(slotSwitchTrackActive()), QIcon(),
+              Qt::Key_A);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark")));
 

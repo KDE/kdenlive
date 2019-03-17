@@ -1517,6 +1517,9 @@ void TimelineController::alignAudio(int clipId)
 
 void TimelineController::switchTrackActive(int trackId)
 {
+    if (trackId == -1) {
+        trackId = m_activeTrack;
+    }
     bool active = m_model->getTrackById_const(trackId)->isTimelineActive();
     m_model->setTrackProperty(trackId, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
 }

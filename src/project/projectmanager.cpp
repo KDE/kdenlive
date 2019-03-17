@@ -752,6 +752,11 @@ void ProjectManager::slotSwitchTrackLock()
     pCore->window()->getMainTimeline()->controller()->switchTrackLock();
 }
 
+void ProjectManager::slotSwitchTrackActive()
+{
+    pCore->window()->getMainTimeline()->controller()->switchTrackActive();
+}
+
 void ProjectManager::slotSwitchAllTrackLock()
 {
     pCore->window()->getMainTimeline()->controller()->switchTrackLock(true);

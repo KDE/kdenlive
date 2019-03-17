@@ -988,5 +988,9 @@
         <label>color titler guides.</label>
         <default>#ff0000</default>
         </entry>
+        <entry name="titlerbg" type="Int">
+        <label>Default background for titler.</label>
+        <default>0</default>
+        </entry>
    </group>
 </kcfg>
