@@ -97,14 +97,14 @@ public:
         setMipmap(true);
         setTextureSize(QSize(width(), height()));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
-            qDebug()<<"* * ** WARNING AUDIO LEVELS CHANGED for: "<<m_inPoint<<"\n\n____________________\n\n________";
-            m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
-            update();
+            if (!m_binId.isEmpty() && m_audioLevels.isEmpty()) {
+                m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
+                update();
+            }
         });
         connect(this, &TimelineWaveform::propertyChanged, [&]() {
             update();
         });
-        //m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
     }
 
     void paint(QPainter *painter) override
