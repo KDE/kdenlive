@@ -1618,8 +1618,8 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
 {
     QWriteLocker locker(&m_lock);
     TRACE(ids, logUndo, type);
-    if (type == GroupType::Selection) {
-        // this shouldn't be done here. Call requestSetSelection instead
+    if (type == GroupType::Selection || type == GroupType::Leaf) {
+        // Selections shouldn't be done here. Call requestSetSelection instead
         TRACE_RES(-1);
         return -1;
     }

@@ -1070,3 +1070,64 @@ TEST_CASE("FuzzBug7")
     }
     pCore->m_projectManager = nullptr;
 }
+
+TEST_CASE("FuzzBug8")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    TimelineModel::next_id = 0;
+    {
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        ProjectManager &mocked = pmMock.get();
+        pCore->m_projectManager = &mocked;
+        TimelineItemModel tim_0(&reg_profile, undoStack);
+        Mock<TimelineItemModel> timMock_0(tim_0);
+        auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
+        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        Fake(Method(timMock_0, adjustAssetRange));
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_1;
+            bool res = timeline_0->requestTrackInsertion(-1, dummy_1, "", false);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        createProducer(reg_profile, "red20", binModel, 1, true);
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int dummy_3;
+            bool res = timeline_0->requestClipInsertion("2", 1, 40, dummy_3, true, false, true);
+            REQUIRE(res == true);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int res = timeline_0->requestClipsGroup({2}, true, GroupType::Leaf);
+            REQUIRE(res == -1);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+    }
+    pCore->m_projectManager = nullptr;
+}
