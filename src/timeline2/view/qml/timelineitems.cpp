@@ -21,6 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "kdenlivesettings.h"
+#include "core.h"
+#include "bin/projectitemmodel.h"
 #include <QPainter>
 #include <QPainterPath>
 #include <QPalette>
@@ -76,10 +78,10 @@ private:
 class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QList<QVariant> levels MEMBER m_audioLevels NOTIFY propertyChanged)
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY inPointChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
+    Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem MEMBER m_showItem)
@@ -94,7 +96,15 @@ public:
         setRenderTarget(QQuickPaintedItem::FramebufferObject);
         setMipmap(true);
         setTextureSize(QSize(width(), height()));
-        connect(this, SIGNAL(propertyChanged()), this, SLOT(update()));
+        connect(this, &TimelineWaveform::levelsChanged, [&]() {
+            qDebug()<<"* * ** WARNING AUDIO LEVELS CHANGED for: "<<m_inPoint<<"\n\n____________________\n\n________";
+            m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
+            update();
+        });
+        connect(this, &TimelineWaveform::propertyChanged, [&]() {
+            update();
+        });
+        //m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
     }
 
     void paint(QPainter *painter) override
@@ -119,9 +129,9 @@ public:
                 }
                 lastIdx = idx;
                 if (idx + m_channels >= m_audioLevels.length()) break;
-                double level = m_audioLevels.at(idx).toDouble() / 256;
+                double level = m_audioLevels.at(idx) / 256;
                 for (int j = 1; j < m_channels; j++) {
-                    level = qMax(level, m_audioLevels.at(idx + j).toDouble() / 256);
+                    level = qMax(level, m_audioLevels.at(idx + j) / 256);
                 }
                 path.lineTo(i, height() - level * height());
             }
@@ -158,7 +168,7 @@ public:
                     }
                     lastIdx = idx;
                     if (idx + channel >= m_audioLevels.length()) break;
-                    qreal level = m_audioLevels.at(idx + channel).toReal() * channelHeight / 256;
+                    qreal level = m_audioLevels.at(idx + channel) * channelHeight / 256;
                     channelPaths[channel].lineTo(i, y - level);
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
@@ -174,15 +184,18 @@ public:
     }
 
 signals:
+    void levelsChanged();
     void propertyChanged();
     void inPointChanged();
     void outPointChanged();
     void audioChannelsChanged();
 
 private:
-    QList<QVariant> m_audioLevels;
+    bool m_levels;
+    QList<double> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
+    QString m_binId;
     QColor m_color;
     bool m_format;
     bool m_showItem;

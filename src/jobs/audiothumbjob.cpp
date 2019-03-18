@@ -292,13 +292,13 @@ bool AudioThumbJob::startJob()
         for (int i = 0; i < n; i++) {
             QRgb p;
             if ((4 * i + 3) < count) {
-                p = qRgba(m_audioLevels.at(4 * i).toInt(), m_audioLevels.at(4 * i + 1).toInt(), m_audioLevels.at(4 * i + 2).toInt(),
-                          m_audioLevels.at(4 * i + 3).toInt());
+                p = qRgba(m_audioLevels.at(4 * i), m_audioLevels.at(4 * i + 1), m_audioLevels.at(4 * i + 2),
+                          m_audioLevels.at(4 * i + 3));
             } else {
-                int last = m_audioLevels.last().toInt();
-                int r = (4 * i + 0) < count ? m_audioLevels.at(4 * i + 0).toInt() : last;
-                int g = (4 * i + 1) < count ? m_audioLevels.at(4 * i + 1).toInt() : last;
-                int b = (4 * i + 2) < count ? m_audioLevels.at(4 * i + 2).toInt() : last;
+                int last = m_audioLevels.last();
+                int r = (4 * i + 0) < count ? m_audioLevels.at(4 * i + 0) : last;
+                int g = (4 * i + 1) < count ? m_audioLevels.at(4 * i + 1) : last;
+                int b = (4 * i + 2) < count ? m_audioLevels.at(4 * i + 2) : last;
                 int a = last;
                 p = qRgba(r, g, b, a);
             }
@@ -324,7 +324,7 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_successful) {
         return false;
     }
-    QVariantList old = m_binClip->audioFrameCache;
+    QList <double>old = m_binClip->audioFrameCache;
 
     // note that the image is moved into lambda, it won't be available from this class anymore
     auto operation = [clip = m_binClip, audio = std::move(m_audioLevels)]() {

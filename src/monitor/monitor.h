@@ -139,7 +139,7 @@ public:
     QAction *recAction();
     void refreshIcons();
     /** @brief Send audio thumb data to qml for on monitor display */
-    void prepareAudioThumb(int channels, QVariantList &audioCache);
+    void prepareAudioThumb(int channels, const QList <double>&audioCache = QList <double>());
     void connectAudioSpectrum(bool activate);
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);

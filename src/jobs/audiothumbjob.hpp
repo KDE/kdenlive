@@ -68,6 +68,6 @@ private:
 
     bool m_done{false}, m_successful{false};
     int m_channels, m_frequency, m_lengthInFrames, m_audioStream;
-    QVariantList m_audioLevels;
+    QList <double>m_audioLevels;
     QProcess *m_ffmpegProcess;
 };

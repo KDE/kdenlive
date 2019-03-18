@@ -194,13 +194,14 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(QVariantList audioLevels)
+void ProjectClip::updateAudioThumbnail(QList <double>audioLevels)
 {
-    std::swap(audioFrameCache, audioLevels); // avoid second copy
+    audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
     if (auto ptr = m_model.lock()) {
         emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
     }
+    qDebug()<<" * ** * YOP AUDIO LEF CHANGED";
     updateTimelineClips({TimelineModel::AudioLevelsRole});
 }
 

@@ -341,6 +341,20 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
     return nullptr;
 }
 
+const QList <double>ProjectItemModel::getAudioLevelsByBinID(const QString &binId)
+{
+    if (binId.contains(QLatin1Char('_'))) {
+        return getAudioLevelsByBinID(binId.section(QLatin1Char('_'), 0, 0));
+    }
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
+            return std::static_pointer_cast<ProjectClip>(c)->audioFrameCache;
+        }
+    }
+    return QList <double>();
+}
+
 bool ProjectItemModel::hasClip(const QString &binId)
 {
     return getClipByBinID(binId) != nullptr;

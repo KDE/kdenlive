@@ -1999,7 +1999,7 @@ void Monitor::slotEditInlineMarker()
     }
 }
 
-void Monitor::prepareAudioThumb(int channels, QVariantList &audioCache)
+void Monitor::prepareAudioThumb(int channels, const QList <double>&audioCache)
 {
     m_glMonitor->setAudioThumb(channels, audioCache);
 }

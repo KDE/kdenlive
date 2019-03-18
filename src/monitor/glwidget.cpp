@@ -1717,7 +1717,7 @@ void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
 #endif // Q_OS_WIN
 }
 
-void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
+void GLWidget::setAudioThumb(int channels, const QList <double>&audioCache)
 {
     if (!rootObject()) return;
 
@@ -1740,9 +1740,9 @@ void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
             painter.setPen(QColor(80, 80, 150, 200));
             for (int i = 0; i < img.width(); i++) {
                 int framePos = i / scale;
-                value = audioCache.at(qMin(framePos * channels, audioLevelCount)).toDouble() / 256;
+                value = audioCache.at(qMin(framePos * channels, audioLevelCount)) / 256;
                 for (int channel = 1; channel < channels; channel++) {
-                    value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)).toDouble() / 256);
+                    value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)) / 256);
                 }
                 painter.drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
             }
@@ -1750,9 +1750,9 @@ void GLWidget::setAudioThumb(int channels, const QVariantList &audioCache)
             QPainterPath positiveChannelPath;
             positiveChannelPath.moveTo(0, mappedRect.bottom());
             for (int i = 0; i < audioLevelCount / channels; i++) {
-                value = audioCache.at(qMin(i * channels, audioLevelCount)).toDouble() / 256;
+                value = audioCache.at(qMin(i * channels, audioLevelCount)) / 256;
                 for (int channel = 1; channel < channels; channel++) {
-                    value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)).toDouble() / 256);
+                    value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)) / 256);
                 }
                 positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
             }

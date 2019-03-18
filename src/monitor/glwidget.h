@@ -116,7 +116,7 @@ public:
     void lockMonitor();
     void releaseMonitor();
     int realTime() const;
-    void setAudioThumb(int channels = 0, const QVariantList &audioCache = QList<QVariant>());
+    void setAudioThumb(int channels = 0, const QList <double>&audioCache = QList<double>());
     int droppedFrames() const;
     void resetDrops();
     bool checkFrameNumber(int pos, int offset);

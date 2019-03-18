@@ -276,7 +276,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getProperty("mlt_service");
             break;
         case AudioLevelsRole:
-            return clip->getAudioWaveform();
+            // Dumb property to trigger audio thumbs reload
+            return true;
         case AudioChannelsRole:
             return clip->audioChannels();
         case HasAudio:

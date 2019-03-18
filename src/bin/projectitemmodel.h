@@ -66,6 +66,8 @@ public:
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId);
+    /** @brief Returns audio levels for a clip from its id */
+    const QList <double>getAudioLevelsByBinID(const QString &binId);
 
     /** @brief Returns a list of clips using the given url */
     QStringList getClipByUrl(const QFileInfo &url) const;

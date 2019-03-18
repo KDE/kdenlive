@@ -2926,8 +2926,7 @@ void Bin::slotSendAudioThumb(const QString &id)
     if ((clip != nullptr) && clip->audioThumbCreated()) {
         m_monitor->prepareAudioThumb(clip->audioChannels(), clip->audioFrameCache);
     } else {
-        QVariantList list;
-        m_monitor->prepareAudioThumb(0, list);
+        m_monitor->prepareAudioThumb(0);
     }
 }
 
