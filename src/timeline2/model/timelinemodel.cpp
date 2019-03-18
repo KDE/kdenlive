@@ -82,7 +82,20 @@ RTTR_REGISTRATION
         .method("requestClearSelection", select_overload<void(bool)>(&TimelineModel::requestClearSelection))(parameter_names("onDeletion"))
         .method("requestAddToSelection", &TimelineModel::requestAddToSelection)(parameter_names("itemId", "clear"))
         .method("requestRemoveFromSelection", &TimelineModel::requestRemoveFromSelection)(parameter_names("itemId"))
-        .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("itemIds"));
+        .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("itemIds"))
+        .method("requestFakeClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestFakeClipMove))(
+            parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
+        .method("requestFakeGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestFakeGroupMove))
+        // (parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView" "logUndo"))
+        .method("suggestClipMove", &TimelineModel::suggestClipMove)(parameter_names("clipId", "trackId", "position", "cursorPosition", "snapDistance"))
+        .method("suggestCompositionMove",
+                &TimelineModel::suggestCompositionMove)(parameter_names("compoId", "trackId", "position", "cursorPosition", "snapDistance"))
+        .method("addSnap", &TimelineModel::addSnap)(parameter_names("pos"))
+        .method("removeSnap", &TimelineModel::addSnap)(parameter_names("pos"))
+        // .method("requestCompositionInsertion", select_overload<bool(const QString &, int, int, int, std::unique_ptr<Mlt::Properties>, int &, bool)>(
+        //                                            &TimelineModel::requestCompositionInsertion))(
+        //     parameter_names("transitionId", "trackId", "position", "length", "transProps", "id", "logUndo"))
+        .method("requestClipTimeWarp", select_overload<bool(int, double)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed"));
 }
 
 int TimelineModel::next_id = 0;
@@ -461,7 +474,7 @@ bool TimelineModel::normalEdit() const
     return m_editMode == TimelineMode::NormalEdit;
 }
 
-bool TimelineModel::fakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
+bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
     Q_UNUSED(updateView);
     Q_UNUSED(invalidateTimeline);
@@ -560,8 +573,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
     QWriteLocker locker(&m_lock);
+    TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline)
     Q_ASSERT(m_allClips.count(clipId) > 0);
     if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
+        TRACE_RES(true);
         return true;
     }
     if (m_groups->isInGroup(clipId)) {
@@ -572,14 +587,17 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allClips[clipId]->getPosition();
-        return requestFakeGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
+        bool res = requestFakeGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
+        TRACE_RES(res);
+        return res;
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = fakeClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo);
+    bool res = requestFakeClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
+    TRACE_RES(res);
     return res;
 }
 
@@ -648,10 +666,10 @@ int TimelineModel::suggestItemMove(int itemId, int trackId, int position, int cu
     return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance);
 }
 
-int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool allowViewUpdate)
+int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance)
 {
-    Q_UNUSED(allowViewUpdate);
     QWriteLocker locker(&m_lock);
+    TRACE(clipId, trackId, position, cursorPosition, snapDistance);
     Q_ASSERT(isClip(clipId));
     Q_ASSERT(isTrack(trackId));
     int currentPos = getClipPosition(clipId);
@@ -661,6 +679,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         trackId = sourceTrackId;
     }
     if (currentPos == position && sourceTrackId == trackId) {
+        TRACE_RES(position);
         return position;
     }
     bool after = position > currentPos;
@@ -681,8 +700,8 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             }
         }
 
-        int snapped = requestBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
-                                         cursorPosition, snapDistance);
+        int snapped = getBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
+                                     cursorPosition, snapDistance);
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
@@ -695,6 +714,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         possible = requestClipMoveAttempt(clipId, trackId, position);
     }*/
     if (possible) {
+        TRACE_RES(position);
         return position;
     }
     // Find best possible move
@@ -707,6 +727,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             if (!possible) {
                 qDebug() << "CANNOT MOVE CLIP : " << clipId << " ON TK: " << trackId << ", AT POS: " << position;
             } else {
+                TRACE_RES(position);
                 return position;
             }
         }
@@ -720,9 +741,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
                 position = currentPos - blank_length;
             }
         } else {
+            TRACE_RES(currentPos);
             return currentPos;
         }
         possible = requestClipMove(clipId, trackId, position, true, false, false);
+        TRACE_RES(possible ? position : currentPos);
         return possible ? position : currentPos;
     }
     // find best pos for groups
@@ -778,15 +801,18 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         int updatedPos = currentPos + (after ? blank_length : -blank_length);
         possible = requestClipMove(clipId, trackId, updatedPos, true, false, false);
         if (possible) {
+            TRACE_RES(updatedPos);
             return updatedPos;
         }
     }
+    TRACE_RES(currentPos);
     return currentPos;
 }
 
 int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance)
 {
     QWriteLocker locker(&m_lock);
+    TRACE(compoId, trackId, position, cursorPosition, snapDistance);
     Q_ASSERT(isComposition(compoId));
     Q_ASSERT(isTrack(trackId));
     int currentPos = getCompositionPosition(compoId);
@@ -796,6 +822,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
         trackId = currentTrack;
     }
     if (currentPos == position && currentTrack == trackId) {
+        TRACE_RES(position);
         return position;
     }
 
@@ -820,7 +847,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
             ignored_pts.push_back(out);
         }
 
-        int snapped = requestBestSnapPos(position, m_allCompositions[compoId]->getPlaytime(), ignored_pts, cursorPosition, snapDistance);
+        int snapped = getBestSnapPos(position, m_allCompositions[compoId]->getPlaytime(), ignored_pts, cursorPosition, snapDistance);
         qDebug() << "Starting suggestion " << compoId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
@@ -830,6 +857,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     bool possible = requestCompositionMove(compoId, trackId, position, true, false);
     qDebug() << "Original move success" << possible;
     if (possible) {
+        TRACE_RES(position);
         return position;
     }
     /*bool after = position > currentPos;
@@ -842,6 +870,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
         return currentPos - blank_length;
     }
     return position;*/
+    TRACE_RES(currentPos);
     return currentPos;
 }
 
@@ -1151,12 +1180,14 @@ std::unordered_set<int> TimelineModel::getItemsInRange(int trackId, int start, i
 
 bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
 {
+    TRACE(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool res = requestFakeGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
+    TRACE_RES(res);
     return res;
 }
 
@@ -2064,7 +2095,7 @@ int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
     return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
 }
 
-int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int> &pts, int cursorPosition, int snapDistance)
+int TimelineModel::getBestSnapPos(int pos, int length, const std::vector<int> &pts, int cursorPosition, int snapDistance)
 {
     if (!pts.empty()) {
         m_snaps->ignore(pts);
@@ -2088,23 +2119,25 @@ int TimelineModel::requestBestSnapPos(int pos, int length, const std::vector<int
     return -1;
 }
 
-int TimelineModel::requestNextSnapPos(int pos)
+int TimelineModel::getNextSnapPos(int pos)
 {
     return m_snaps->getNextPoint(pos);
 }
 
-int TimelineModel::requestPreviousSnapPos(int pos)
+int TimelineModel::getPreviousSnapPos(int pos)
 {
     return m_snaps->getPreviousPoint(pos);
 }
 
 void TimelineModel::addSnap(int pos)
 {
+    TRACE(pos);
     return m_snaps->addPoint(pos);
 }
 
 void TimelineModel::removeSnap(int pos)
 {
+    TRACE(pos);
     return m_snaps->removePoint(pos);
 }
 
@@ -2120,12 +2153,14 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
                                                 int &id, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
+    // TRACE(transitionId, trackId, position, length, transProps.get(), id, logUndo);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = requestCompositionInsertion(transitionId, trackId, -1, position, length, std::move(transProps), id, undo, redo, logUndo);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Composition"));
     }
+    // TRACE_RES(result);
     return result;
 }
 
@@ -2781,6 +2816,8 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun
 
 bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
 {
+    QWriteLocker locker(&m_lock);
+    TRACE(clipId, speed);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Get main clip info
@@ -2797,17 +2834,18 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         } else {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
             undo();
+            TRACE_RES(false);
             return false;
         }
     } else {
         // If clip is not inserted on a track, we just change the producer
-        m_allClips[clipId]->useTimewarpProducer(speed, undo, redo);
+        result = m_allClips[clipId]->useTimewarpProducer(speed, undo, redo);
     }
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));
-        return true;
     }
-    return false;
+    TRACE_RES(result);
+    return result;
 }
 
 const QString TimelineModel::getTrackTagById(int trackId) const

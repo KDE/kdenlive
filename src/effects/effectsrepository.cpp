@@ -127,7 +127,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             continue;
         }
         if (customAssets.count(result.id) > 0) {
-            qDebug() << "Warning: duplicate custom definition of effect" << result.id << "found. Only last one will be considered";
+            qDebug() << "Warning: duplicate custom definition of effect" << result.id << "found. Only last one will be considered. Duplicate found in"
+                     << file_name;
         }
 
         result.xml = currentEffect;

@@ -494,12 +494,12 @@ void TimelineController::deleteTrack(int tid)
 
 void TimelineController::gotoNextSnap()
 {
-    setPosition(m_model->requestNextSnapPos(timelinePosition()));
+    setPosition(m_model->getNextSnapPos(timelinePosition()));
 }
 
 void TimelineController::gotoPreviousSnap()
 {
-    setPosition(m_model->requestPreviousSnapPos(timelinePosition()));
+    setPosition(m_model->getPreviousSnapPos(timelinePosition()));
 }
 
 void TimelineController::groupSelection()

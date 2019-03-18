@@ -21,6 +21,7 @@
 
 #include "logger.hpp"
 #include "bin/projectitemmodel.h"
+#include "timeline2/model/timelinefunctions.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include <QString>
 #include <fstream>
@@ -71,6 +72,11 @@ void Logger::init()
     }
 
     for (const auto &m : rttr::type::get<TimelineModel>().get_methods()) {
+        translation_table[m.get_name().to_string()] = cur_ind;
+        incr_ind(incr_ind);
+    }
+
+    for (const auto &m : rttr::type::get<TimelineFunctions>().get_methods()) {
         translation_table[m.get_name().to_string()] = cur_ind;
         incr_ind(incr_ind);
     }

@@ -345,7 +345,7 @@ public:
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /* When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
-    bool fakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
+    bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
@@ -362,7 +362,7 @@ public:
        @param dontRefreshMasterClip when false, no view refresh is attempted
         */
     Q_INVOKABLE int suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
-    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool allowViewUpdate = true);
+    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1);
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
@@ -380,6 +380,8 @@ public:
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
                               Fun &redo);
+
+protected:
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
        @param binClipId: Bin id of the clip to insert
@@ -388,6 +390,7 @@ public:
      */
     bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo);
 
+public:
     /* @brief Deletes the given clip or composition from the timeline This
        action is undoable Returns true on success. If it fails, nothing is
        modified. If the clip/composition is in a group, the call is deferred to
@@ -498,6 +501,7 @@ public:
     */
     void setUndoStack(std::weak_ptr<DocUndoStack> undo_stack);
 
+protected:
     /* @brief Requests the best snapped position for a clip
        @param pos is the clip's requested position
        @param length is the clip's duration
@@ -505,17 +509,18 @@ public:
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
        @returns best snap position or -1 if no snap point is near
      */
-    int requestBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
+    int getBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
 
+public:
     /* @brief Requests the next snapped point
        @param pos is the current position
      */
-    int requestNextSnapPos(int pos);
+    int getNextSnapPos(int pos);
 
     /* @brief Requests the previous snapped point
        @param pos is the current position
      */
-    int requestPreviousSnapPos(int pos);
+    int getPreviousSnapPos(int pos);
 
     /* @brief Add a new snap point
        @param pos is the current position

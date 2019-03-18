@@ -131,6 +131,13 @@ protected:
         Logger::log(this, __FUNCTION__, {__VA_ARGS__});                                                                                                        \
     }
 
+/// Same as TRACE, but called from a static function
+#define TRACE_STATIC(ptr, ...)                                                                                                                                 \
+    LogGuard __guard;                                                                                                                                          \
+    if (__guard.hasGuard()) {                                                                                                                                  \
+        Logger::log(ptr.get(), __FUNCTION__, {__VA_ARGS__});                                                                                                   \
+    }
+
 /// See Logger::log_res
 #define TRACE_RES(res)                                                                                                                                         \
     if (__guard.hasGuard()) {                                                                                                                                  \
