@@ -414,3 +414,27 @@ ExternalProject_Add(
   DEPENDS ext_kcoreaddons
 )
 
+ExternalProject_Add(
+  ext_breezeicons
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/breeze-icons-5.51.0.zip
+  URL_MD5 a926d8fdb4847509b5855c55d1f75acf
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+)
+
+ExternalProject_Add(
+  ext_kdecoration
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/plasma/5.14.3/kdecoration-5.14.3.tar.xz
+  URL_MD5 7b13d816864ebafe4325e51ff34cac26
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+)
+
+ExternalProject_Add(
+  ext_breeze
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/plasma/5.14.3/breeze-5.14.3.tar.xz
+  URL_MD5 2b6b023214451fc467fbd02a8479cb42
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kdecoration
+)
