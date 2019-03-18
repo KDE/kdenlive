@@ -50,8 +50,10 @@ public:
     explicit ProjectManager(QObject *parent = nullptr);
     ~ProjectManager() override;
 
-    /** @brief Returns a pointer to the currently opened project. A project should always be open. */
-    KdenliveDoc *current();
+    /** @brief Returns a pointer to the currently opened project. A project should always be open.
+        The method is virtual to allow mocking
+     */
+    virtual KdenliveDoc *current();
 
     /** @brief Store command line args for later opening. */
     void init(const QUrl &projectUrl, const QString &clipList);

@@ -1054,7 +1054,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     QDomElement container2 = copiedItems.createElement(QStringLiteral("bin"));
     container.appendChild(container2);
     for (const QString &id : binIds) {
-        std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(id);
+        std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
         QDomDocument tmp;
         container2.appendChild(clip->toXml(tmp));
     }

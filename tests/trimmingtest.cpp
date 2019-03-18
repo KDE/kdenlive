@@ -1,3 +1,4 @@
+#include "doc/kdenlivedoc.h"
 #include "test_utils.hpp"
 
 using namespace fakeit;
@@ -563,7 +564,7 @@ TEST_CASE("Insert/delete spaces", "[Trimming2]")
         auto state = [&](int pos) {
             REQUIRE(timeline->checkConsistency());
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
-            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipTrackId(cid2) == tid2);
             REQUIRE(timeline->getClipPosition(cid1) == pos);
@@ -585,6 +586,132 @@ TEST_CASE("Insert/delete spaces", "[Trimming2]")
         state(3);
         undoStack->redo();
         state(0);
+    }
+
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+    Logger::print_trace();
+}
+
+TEST_CASE("Copy/paste", "[CP]")
+{
+    Logger::clear();
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+
+    // we mock a doc to stub the getDocumentProperty
+
+    Mock<KdenliveDoc> docMock;
+    When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
+        qDebug() << "Intercepted call";
+        return QStringLiteral("dummyId");
+    });
+
+    KdenliveDoc &mockedDoc = docMock.get();
+
+    // We mock the project class so that the undoStack function returns our undoStack, and our mocked document
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+    When(Method(pmMock, current)).AlwaysReturn(&mockedDoc);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_trimming, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    RESET(timMock);
+
+    QString binId = createProducerWithSound(profile_trimming, binModel);
+    QString binId2 = createProducer(profile_trimming, "red", binModel);
+
+    int tid2b = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int tid1 = TrackModel::construct(timeline);
+    int tid1b = TrackModel::construct(timeline);
+
+    SECTION("Simple copy paste of one clip")
+    {
+
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid1, 3, cid1, true, true, false));
+        int l = timeline->getClipPlaytime(cid1);
+        int cid2 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid1, 3 + l, cid2, true, true, false));
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == 3 + l);
+        };
+        state();
+
+        QString cpy_str = TimelineFunctions::copyClips(timeline, {cid1});
+
+        // Try to paste in invalid positions
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
+        state();
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 4));
+        state();
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 4 + l));
+        state();
+        // Paste in audio track
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid2, 0));
+        state();
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid2b, 0));
+        state();
+
+        // Paste after the last clip
+        REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 3 + 2 * l));
+        int cid3 = timeline->getTrackById(tid1)->getClipByPosition(3 + 2 * l + 1);
+        REQUIRE(cid3 != -1);
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == 3 + l);
+            REQUIRE(timeline->getClipPosition(cid3) == 3 + 2 * l);
+        };
+        state2();
+
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
+
+        // Paste in different track
+        REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1b, 0));
+        int cid4 = timeline->getTrackById(tid1b)->getClipByPosition(0);
+        REQUIRE(cid4 != -1);
+        auto state3 = [&]() {
+            state2();
+            REQUIRE(timeline->getTrackClipsCount(tid1b) == 1);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid1b);
+            REQUIRE(timeline->getClipPosition(cid4) == 0);
+        };
+        state3();
+
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
+        undoStack->redo();
+        state3();
     }
 
     binModel->clean();

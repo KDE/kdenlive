@@ -107,7 +107,7 @@ public:
     /** @brief Returns target tracks (video, audio). */
     QPair<int, int> targetTracks() const;
     void setDocumentProperty(const QString &name, const QString &value);
-    const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
+    virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
     /** @brief Gets the list of renderer properties saved into the document. */
     QMap<QString, QString> getRenderProperties() const;
