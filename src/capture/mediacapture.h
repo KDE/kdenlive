@@ -47,15 +47,18 @@ public:
     void recordAudio(bool /*record*/);
     void recordVideo(bool /*record*/);
     /** @brief Sets m_path to selected output location **/
-    void setCaptureOutputLocation(QUrl /*path*/);
-    /** @brief Sets m_device to selected audio capture device **/
-    void setAudioCaptureDevice(QString /*audioDevice*/);
+    void setCaptureOutputLocation();
+    /** @brief Returns m_path **/
+    QUrl getCaptureOutputLocation();
+    /** @brief Sets m_audioDevice to selected audio capture device **/
+    void setAudioCaptureDevice();
     /** @brief Sets m_volume to selected audio capture volume **/
-    void setAudioVolume(qreal /*volume*/);
+    void setAudioVolume();
     /** @brief Returns list of audio devices available for capture **/
     QStringList getAudioCaptureDevices();
-    /** @brief Returns QMediaRecorder::State value **/
+    /** @brief Sets currentState to QMediaRecorder::State value and returns it **/
     int getState();
+    int currentState;
     Q_INVOKABLE QVector<qreal> levels() const;
 
 public slots:

@@ -20,13 +20,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "mediacapture.h"
+#include "kdenlivesettings.h"
+#include "core.h"
 #include <QAudioProbe>
+#include <QDir>
 #include <memory>
 #include <utility>
 
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
     , m_volume(1.)
+    , currentState(-1)
+    , m_audioDevice("default:")
+    , m_path(QUrl())
 {
     m_probe = std::make_unique<QAudioProbe>(this);
     connect(m_probe.get(), &QAudioProbe::audioBufferProbed, this, &MediaCapture::processBuffer);
@@ -47,9 +53,13 @@ void MediaCapture::recordAudio(bool record)
     m_probe->setSource(m_audioRecorder.get());
 
     if (record && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
+        setAudioCaptureDevice();
         m_audioRecorder->setAudioInput(m_audioDevice);
-        m_audioRecorder->setVolume(m_volume);
+        setCaptureOutputLocation();
         m_audioRecorder->setOutputLocation(m_path);
+        setAudioVolume();
+        m_audioRecorder->setVolume(m_volume);
+
         connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
 
         QAudioEncoderSettings audioSettings;
@@ -80,9 +90,9 @@ void MediaCapture::recordVideo(bool record)
     }
 
     if (record && m_videoRecorder->state() == QMediaRecorder::StoppedState) {
-        connect(m_videoRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
-
+        setCaptureOutputLocation();
         m_videoRecorder->setOutputLocation(m_path);
+        connect(m_videoRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
         m_camera->setCaptureMode(QCamera::CaptureVideo);
         m_camera->start();
         // QString container = "video/mpeg";
@@ -96,11 +106,35 @@ void MediaCapture::recordVideo(bool record)
     }
 }
 
-void MediaCapture::setCaptureOutputLocation(QUrl path)
+void MediaCapture::setCaptureOutputLocation()
 {
-    m_path = std::move(path);
+    QDir captureFolder;
+    if (KdenliveSettings::capturetoprojectfolder()) {
+        captureFolder = QDir(pCore->getProjectFolderName());
+    } else {
+        captureFolder = QDir(KdenliveSettings::capturefolder());
+    }
+    QString extension;
+    if (m_videoRecorder.get() != nullptr) {
+        extension = QStringLiteral("mpeg");
+    } else if (m_audioRecorder.get() != nullptr) {
+        extension = QStringLiteral("wav");
+    }
+
+    QString path = captureFolder.absoluteFilePath("capture0000." + extension);
+    int fileCount = 1;
+    while (QFile::exists(path)) {
+        QString num = QString::number(fileCount).rightJustified(4, '0', false);
+        path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
+        ++fileCount;
+    }
+    m_path = std::move(QUrl::fromLocalFile(path));
 }
 
+QUrl MediaCapture::getCaptureOutputLocation()
+{
+    return m_path;
+}
 QStringList MediaCapture::getAudioCaptureDevices()
 {
     m_audioRecorder = std::make_unique<QAudioRecorder>(this);
@@ -109,25 +143,27 @@ QStringList MediaCapture::getAudioCaptureDevices()
     return audioDevices;
 }
 
-void MediaCapture::setAudioCaptureDevice(QString audioDevice)
+void MediaCapture::setAudioCaptureDevice()
 {
-    m_audioDevice = std::move(audioDevice);
+    QStringList audioDevices = getAudioCaptureDevices();
+    int deviceIndex = KdenliveSettings::defaultaudiocapture();
+    m_audioDevice = std::move(audioDevices[deviceIndex]);
 }
 
-void MediaCapture::setAudioVolume(qreal volume)
+void MediaCapture::setAudioVolume()
 {
-    m_volume = volume;
+    m_volume = KdenliveSettings::audiocapturevolume()/100.0;
 }
 
 int MediaCapture::getState()
 {
     if (m_audioRecorder != nullptr) {
-        return m_audioRecorder->state();
+        currentState = m_audioRecorder->state();
     }
-    if (m_videoRecorder != nullptr) {
-        return m_videoRecorder->state();
+    else if (m_videoRecorder != nullptr) {
+        currentState = m_videoRecorder->state();
     }
-    return -1;
+    return currentState;
 }
 
 template <class T> QVector<qreal> getBufferLevels(const T *buffer, int frames, int channels)

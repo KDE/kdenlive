@@ -163,7 +163,6 @@ void RecManager::stopCapture()
         // QMediaRecorder::RecordingState value is 1
         pCore->stopMediaCapture(m_checkAudio, m_checkVideo);
         m_monitor->slotOpenClip(nullptr);
-        emit addClipToProject(m_captureFile);
     }
 }
 
@@ -182,31 +181,9 @@ void RecManager::slotRecord(bool record)
 {
     if (m_device_selector->currentData().toInt() == Video4Linux) {
         if (record) {
-            QDir captureFolder;
-            if (KdenliveSettings::capturetoprojectfolder()) {
-                captureFolder = QDir(m_monitor->projectFolder());
-            } else {
-                captureFolder = QDir(KdenliveSettings::capturefolder());
-            }
-            QString extension;
-            if (!m_recVideo->isChecked()) {
-                extension = QStringLiteral("wav");
-            } else {
-                extension = QStringLiteral("mpeg");
-            }
-
-            QString path = captureFolder.absoluteFilePath("capture0000." + extension);
-            int i = 1;
-            while (QFile::exists(path)) {
-                QString num = QString::number(i).rightJustified(4, '0', false);
-                path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
-                ++i;
-            }
-            QString audioDevice = m_audio_device->currentText();
-            m_captureFile = QUrl::fromLocalFile(path);
             m_checkAudio = m_recAudio->isChecked();
             m_checkVideo = m_recVideo->isChecked();
-            pCore->startMediaCapture(m_checkAudio, m_checkVideo, m_captureFile, audioDevice);
+            pCore->startMediaCapture(m_checkAudio, m_checkVideo);
         } else {
             stopCapture();
         }
@@ -347,7 +324,6 @@ void RecManager::slotAudioDeviceChanged(int)
 void RecManager::slotSetVolume(int volume)
 {
     KdenliveSettings::setAudiocapturevolume(volume);
-    pCore->setAudioCaptureVolume(volume);
     QIcon icon;
 
     if (volume == 0) {
