@@ -7,7 +7,7 @@
   <parameter type="url" name="av.file" filter="*.cube *.3dl *.dat *.m3d|LUT files">
 		<name>LUT file to apply</name>
 	</parameter>
-  <parameter type="list" name="av.interp" default="0" paramlist="nearest;trilinear;tetrahedral ">
+  <parameter type="list" name="av.interp" default="tetrahedral" paramlist="nearest;trilinear;tetrahedral">
 		<name>Interpolation Mode</name>
 	  <paramlistdisplay>Nearest, Trilinear, Tetrahedral</paramlistdisplay>
 	</parameter>
