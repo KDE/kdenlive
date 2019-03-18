@@ -121,15 +121,16 @@ public:
             path.moveTo(-1, height());
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
+            double level;
             int lastIdx = -1;
             for (; i <= width(); i += increment) {
                 int idx = m_inPoint + int(i * indicesPrPixel);
+                if (idx + m_channels >= m_audioLevels.length()) break;
                 if (lastIdx == idx) {
                     continue;
                 }
                 lastIdx = idx;
-                if (idx + m_channels >= m_audioLevels.length()) break;
-                double level = m_audioLevels.at(idx) / 256;
+                level = m_audioLevels.at(idx) / 256;
                 for (int j = 1; j < m_channels; j++) {
                     level = qMax(level, m_audioLevels.at(idx + j) / 256);
                 }
@@ -145,6 +146,7 @@ public:
             // Draw separate channels
             double i = 0;
             double increment = qMax(1., 1 / indicesPrPixel);
+            double level;
             QRectF bgRect(0, 0, width(), 2 * channelHeight);
             QVector<QPainterPath> channelPaths(m_channels);
             for (int channel = 0; channel < m_channels; channel++) {
@@ -163,12 +165,12 @@ public:
                 int lastIdx = -1;
                 for (i = 0; i <= width(); i += increment) {
                     int idx = m_inPoint + ceil(i * indicesPrPixel);
+                    if (idx + channel >= m_audioLevels.length()) break;
                     if (lastIdx == idx) {
                         continue;
                     }
                     lastIdx = idx;
-                    if (idx + channel >= m_audioLevels.length()) break;
-                    qreal level = m_audioLevels.at(idx + channel) * channelHeight / 256;
+                    level = m_audioLevels.at(idx + channel) * channelHeight / 256;
                     channelPaths[channel].lineTo(i, y - level);
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
