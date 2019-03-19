@@ -49,8 +49,8 @@ void MediaCapture::recordAudio(bool record)
 {
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
+		m_probe->setSource(m_audioRecorder.get());
     }
-    m_probe->setSource(m_audioRecorder.get());
 
     if (record && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
         setAudioCaptureDevice();
@@ -63,7 +63,7 @@ void MediaCapture::recordAudio(bool record)
         connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
 
         QAudioEncoderSettings audioSettings;
-        audioSettings.setBitRate(48000);
+        audioSettings.setBitRate(48000);   // Bit rate is set to 48,0000
         QString container = "audio/x-wav";
         m_audioRecorder->setEncodingSettings(audioSettings, QVideoEncoderSettings(), container);
         m_audioRecorder->record();
@@ -116,16 +116,16 @@ void MediaCapture::setCaptureOutputLocation()
     }
     QString extension;
     if (m_videoRecorder.get() != nullptr) {
-        extension = QStringLiteral("mpeg");
+        extension = QStringLiteral(".mpeg");
     } else if (m_audioRecorder.get() != nullptr) {
-        extension = QStringLiteral("wav");
+        extension = QStringLiteral(".wav");
     }
 
-    QString path = captureFolder.absoluteFilePath("capture0000." + extension);
+    QString path = captureFolder.absoluteFilePath("capture0000" + extension);
     int fileCount = 1;
     while (QFile::exists(path)) {
         QString num = QString::number(fileCount).rightJustified(4, '0', false);
-        path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
+        path = captureFolder.absoluteFilePath("capture" + num + extension);
         ++fileCount;
     }
     m_path = std::move(QUrl::fromLocalFile(path));
@@ -135,19 +135,21 @@ QUrl MediaCapture::getCaptureOutputLocation()
 {
     return m_path;
 }
+
 QStringList MediaCapture::getAudioCaptureDevices()
 {
-    m_audioRecorder = std::make_unique<QAudioRecorder>(this);
-    QStringList audioDevices = m_audioRecorder->audioInputs();
-    m_audioRecorder.reset();
+    std::unique_ptr<QAudioRecorder> audioRecorder = std::make_unique<QAudioRecorder>(this);
+    QStringList audioDevices = audioRecorder->audioInputs();
+    audioRecorder.reset();
     return audioDevices;
 }
 
 void MediaCapture::setAudioCaptureDevice()
 {
-    QStringList audioDevices = getAudioCaptureDevices();
-    int deviceIndex = KdenliveSettings::defaultaudiocapture();
-    m_audioDevice = std::move(audioDevices[deviceIndex]);
+    QString deviceName = KdenliveSettings::defaultaudiocapture();
+    if(!deviceName.isNull()) {
+		m_audioDevice = std::move(deviceName);
+	}
 }
 
 void MediaCapture::setAudioVolume()

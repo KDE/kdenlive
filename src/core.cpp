@@ -695,7 +695,7 @@ void Core::stopMediaCapture(bool checkAudio, bool checkVideo)
 {
     if (checkAudio && checkVideo) {
         m_capture->recordVideo(false);
-    } else if (checkAudio && !checkVideo) {
+    } else if (checkAudio) {
         m_capture->recordAudio(false);
     }
     bin()->slotAddClipToProject(m_mediaCaptureFile);
