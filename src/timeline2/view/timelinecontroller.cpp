@@ -2118,28 +2118,35 @@ void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFram
     }
 }
 
+bool TimelineController::darkBackground() const
+{
+	KColorScheme scheme(QApplication::palette().currentColorGroup());
+	return scheme.background(KColorScheme::NormalBackground).color().value() < 0.5;
+}
+
 QColor TimelineController::videoColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    return scheme.background(KColorScheme::LinkBackground).color().darker();
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.foreground(KColorScheme::LinkText).color();
 }
 
 QColor TimelineController::audioColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    return scheme.background(KColorScheme::NegativeBackground).color();
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
+    return scheme.foreground(KColorScheme::ActiveText).color();
 }
 
-QColor TimelineController::neutralColor() const
+QColor TimelineController::lockedColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::View);
-    return scheme.background(KColorScheme::VisitedBackground).color();
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.foreground(KColorScheme::NegativeText).color();
 }
 
 QColor TimelineController::groupColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
-    return scheme.background(KColorScheme::NegativeBackground).color();
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.foreground(KColorScheme::LinkText).color();
+		//.lighter(darkBackground() ? 160 : 60);
 }
 
 void TimelineController::switchRecording(int trackId)
