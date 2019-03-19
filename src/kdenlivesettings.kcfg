@@ -459,9 +459,9 @@
 
 
   <group name="capture">
-    <entry name="defaultaudiocapture" type="Int">
+    <entry name="defaultaudiocapture" type="String">
       <label>Default audio capture system.</label>
-      <default>0</default>
+      <default>default:</default>
     </entry>
 
     <entry name="audiocapturevolume" type="Int">
