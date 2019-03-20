@@ -18,6 +18,7 @@
 
 import QtQuick 2.6
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2 as NEWQML
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.3
 
@@ -106,7 +107,7 @@ Rectangle {
     }
     ColumnLayout {
         id: targetColumn
-        width: root.baseUnit / 1.5
+        width: root.baseUnit / 1.2
         height: trackHeadRoot.height
         Item {
             width: parent.width
@@ -121,7 +122,10 @@ Rectangle {
                 width: height
                 border.width: 0
                 MouseArea {
+                    id: targetArea
                     anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
                     onClicked: {
                         if (trackHeadRoot.isAudio) {
                             if (trackHeadRoot.trackId == timeline.audioTarget) {
@@ -138,6 +142,20 @@ Rectangle {
                         }
                     }
                 }
+                NEWQML.ToolTip {
+                        visible: targetArea.containsMouse
+                        font.pixelSize: root.baseUnit
+                        delay: 1500
+                        timeout: 5000
+                        background: Rectangle {
+                            color: activePalette.alternateBase
+                            border.color: activePalette.light
+                        }
+                        contentItem: Label {
+                            color: activePalette.text
+                            text: i18n('Click to toggle track as target. Target tracks will receive the inserted clips')
+                        }
+                    }
                 state:  'normalTarget'
                 states: [
                     State {
@@ -198,13 +216,31 @@ Rectangle {
                         id: trackTag
                         text: trackHeadRoot.trackTag
                         anchors.fill: parent
+                        font.pixelSize: root.baseUnit * 1.5
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                     }
                     MouseArea {
+                        id: tagMouseArea
                         anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             timeline.switchTrackActive(trackHeadRoot.trackId)
+                        }
+                    }
+                    NEWQML.ToolTip {
+                        visible: tagMouseArea.containsMouse
+                        font.pixelSize: root.baseUnit
+                        delay: 1500
+                        timeout: 5000
+                        background: Rectangle {
+                            color: activePalette.alternateBase
+                            border.color: activePalette.light
+                        }
+                        contentItem: Label {
+                            color: activePalette.text
+                            text: i18n('Click to make track active/inactive. Active tracks will react to insert/remove operations')
                         }
                     }
                     state:  'normalled'

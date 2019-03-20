@@ -497,18 +497,19 @@ Rectangle {
         property int thumbsFormat: 0
         property bool audioTrack: false
         property bool recEnabled: false
+        onAboutToHide: {
+            timeline.ungrabHack()
+        }
         OLD.MenuItem {
             text: i18n('Add Track')
             onTriggered: {
                 timeline.addTrack(timeline.activeTrack)
-                timeline.ungrabHack()
             }
         }
         OLD.MenuItem {
             text: i18n('Delete Track')
             onTriggered: {
                 timeline.deleteTrack(timeline.activeTrack)
-                timeline.ungrabHack()
             }
         }
         OLD.MenuItem {
