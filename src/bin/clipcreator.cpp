@@ -85,7 +85,8 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     return res ? id : QStringLiteral("-1");
 }
 
-QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo)
+QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
+                                        const std::function<void(const QString &)> &readyCallBack)
 {
     QDomDocument xml;
     QMimeDatabase db;
@@ -147,7 +148,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
 
     qDebug() << "/////////// final xml" << xml.toString();
     QString id;
-    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, undo, redo);
+    bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, undo, redo, readyCallBack);
     return res ? id : QStringLiteral("-1");
 }
 

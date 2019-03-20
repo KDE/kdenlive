@@ -266,3 +266,14 @@ QVector<qreal> MediaCapture::levels() const
 {
     return m_levels;
 }
+
+bool MediaCapture::isRecording() const
+{
+    if (m_audioRecorder && m_audioRecorder->state() == QMediaRecorder::RecordingState) {
+        return true;
+    }
+    if (m_videoRecorder && m_videoRecorder->state() == QMediaRecorder::RecordingState) {
+        return true;
+    }
+    return false;
+}

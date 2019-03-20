@@ -710,6 +710,11 @@ int Core::getMediaCaptureState()
     return m_capture->getState();
 }
 
+bool Core::isMediaCapturing()
+{
+    return m_capture->isRecording();
+}
+
 void Core::setAudioCaptureVolume(int volume)
 {
     m_capture->setAudioVolume(volume / 100.0);

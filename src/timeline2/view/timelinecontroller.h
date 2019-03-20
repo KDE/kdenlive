@@ -112,6 +112,8 @@ public:
     /* @brief Returns true is item is selected as well as other items */
     Q_INVOKABLE bool isInSelection(int itemId);
 
+    Q_INVOKABLE void startRecording(int trackId);
+
     /* @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;
@@ -454,6 +456,7 @@ private:
     int m_videoTarget;
     int m_activeTrack;
     int m_audioRef;
+    int m_recordStart;
     QPoint m_zone;
     double m_scale;
     static int m_duration;

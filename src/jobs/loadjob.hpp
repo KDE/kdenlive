@@ -43,7 +43,7 @@ public:
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */
-    LoadJob(const QString &binId, const QDomElement &xml);
+    LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack = []() {});
 
     const QString getDescription() const override;
 
@@ -73,6 +73,7 @@ private:
     QDomElement m_xml;
 
     bool m_done{false}, m_successful{false};
+    std::function<void()> m_readyCallBack;
 
     std::shared_ptr<Mlt::Producer> m_producer;
     QList<int> m_audio_list, m_video_list;

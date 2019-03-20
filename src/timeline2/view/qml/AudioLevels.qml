@@ -4,6 +4,7 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: recContainer
+    property int trackId: -1
     width: parent.width
     RowLayout {
         spacing: 2
@@ -24,6 +25,10 @@ Item {
                 }
                 onExited:  {
                     parent.color = 'darkred'
+                }
+                onClicked: {
+                    console.log("qml: starting recording")
+                    timeline.startRecording(trackId)
                 }
             }
         }

@@ -82,7 +82,8 @@ QString createSlideshowClip(const QString &path, int duration, const QString &na
    @param model: a shared pointer to the bin item model
    @return the binId of the created clip
 */
-QString createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo);
+QString createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
+                           const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
 bool createClipFromFile(const QString &path, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 
 /* @brief Iterates recursively through the given url list and add the files it finds, recreating a folder structure

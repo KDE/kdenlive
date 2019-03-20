@@ -46,6 +46,8 @@ public:
     ~MediaCapture() override;
     void recordAudio(bool /*record*/);
     void recordVideo(bool /*record*/);
+    /** @brief Returns true if a recording is in progress **/
+    bool isRecording() const;
     /** @brief Sets m_path to selected output location **/
     void setCaptureOutputLocation(QUrl /*path*/);
     /** @brief Sets m_device to selected audio capture device **/

@@ -185,6 +185,7 @@ public:
     void stopMediaCapture(bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
+    bool isMediaCapturing();
     void setAudioCaptureVolume(int);
     MediaCapture *getAudioDevice();
 
