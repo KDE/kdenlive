@@ -70,6 +70,7 @@ signals:
         This is an input signal, forwarded to the timelines
      */
     void changeZoom(int value, bool zoomOnMouse);
+    void fitZoom();
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
     /* @brief Requests that a given effectstack model is displayed in the asset panel */

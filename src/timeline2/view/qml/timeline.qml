@@ -33,6 +33,18 @@ Rectangle {
         id: compositionMenu
     }
 
+    function fitZoom() {
+        return scrollView.width / (timeline.duration * 1.1)
+    }
+
+    function scrollPos() {
+        return scrollView.flickableItem.contentX
+    }
+
+    function goToStart(pos) {
+        scrollView.flickableItem.contentX = pos
+    }
+
     function updatePalette() {
         root.color = activePalette.window
         root.textColor = activePalette.text

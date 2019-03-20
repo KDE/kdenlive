@@ -155,6 +155,26 @@ void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
     m_proxy->setScaleFactorOnMouse(pixelScale / comboScale[value], zoomOnMouse);
 }
 
+void TimelineWidget::slotFitZoom()
+{
+    QVariant returnedValue;
+    double prevScale = m_proxy->scaleFactor();
+    QMetaObject::invokeMethod(rootObject(), "fitZoom", Q_RETURN_ARG(QVariant, returnedValue));
+    double scale = returnedValue.toDouble();
+    QMetaObject::invokeMethod(rootObject(), "scrollPos", Q_RETURN_ARG(QVariant, returnedValue));
+    int scrollPos = returnedValue.toInt();
+    if (qFuzzyCompare(prevScale, scale)) {
+        scale = m_prevScale;
+        scrollPos = m_scrollPos;
+    } else {
+        m_prevScale = prevScale;
+        m_scrollPos = scrollPos;
+        scrollPos = 0;
+    }
+    m_proxy->setScaleFactorOnMouse(scale, false);
+    QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
+}
+
 Mlt::Tractor *TimelineWidget::tractor()
 {
     return m_proxy->tractor();

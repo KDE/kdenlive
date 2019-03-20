@@ -167,10 +167,6 @@ QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
 
 void TimelineController::setScaleFactorOnMouse(double scale, bool zoomOnMouse)
 {
-    /*if (m_duration * scale < width() - 160) {
-        // Don't allow scaling less than full project's width
-        scale = (width() - 160.0) / m_duration;
-    }*/
     if (m_root) {
         m_root->setProperty("zoomOnMouse", zoomOnMouse ? qMin(getMousePos(), duration()) : -1);
         m_scale = scale;

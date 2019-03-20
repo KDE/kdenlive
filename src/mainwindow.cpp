@@ -2590,13 +2590,7 @@ void MainWindow::slotZoomOut(bool zoomOnMouse)
 
 void MainWindow::slotFitZoom()
 {
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        m_zoomSlider->setValue(pCore->projectManager()->currentTimeline()->fitZoom());
-        // Make sure to reset scroll bar to start
-        pCore->projectManager()->currentTimeline()->projectView()->scrollToStart();
-    }
-    */
+    m_timelineTabs->fitZoom();
 }
 
 void MainWindow::slotSetZoom(int value, bool zoomOnMouse)

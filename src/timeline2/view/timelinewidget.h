@@ -59,6 +59,7 @@ protected:
 
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
+    void slotFitZoom();
     void zoneUpdated(const QPoint &zone);
     /* @brief Favorite effects have changed, reload model for context menu */
     void updateEffectFavorites();
@@ -77,6 +78,10 @@ private:
     std::shared_ptr<AssetTreeModel> m_effectsModel;
     std::unique_ptr<AssetFilter> m_effectsProxyModel;
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
+    /* @brief Keep last scale before fit to restore it on second click */
+    double m_prevScale;
+    /* @brief Keep last scroll position before fit to restore it on second click */
+    int m_scrollPos;
     /* @brief Returns an alphabetically sorted list of favorite effects or transitions */
     const QStringList sortedItems(const QStringList &items, bool isTransition);
 
