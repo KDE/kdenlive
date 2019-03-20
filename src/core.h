@@ -182,11 +182,10 @@ public:
     int getTimelinePosition() const;
     /** @brief Handles audio and video capture **/
     void startMediaCapture(bool, bool);
-    void stopMediaCapture(bool, bool);
+    const QString stopMediaCapture(bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
     bool isMediaCapturing();
-    void setAudioCaptureVolume(int);
     MediaCapture *getAudioDevice();
     /** @brief Returns Project Folder name for capture output location  */
     QString getProjectFolderName();

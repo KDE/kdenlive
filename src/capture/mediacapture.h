@@ -40,6 +40,7 @@ class MediaCapture : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
+    Q_PROPERTY(int recordState READ recordState NOTIFY recordStateChanged)
 
 public:
     MediaCapture(QObject *parent);
@@ -62,6 +63,7 @@ public:
     int getState();
     int currentState;
     Q_INVOKABLE QVector<qreal> levels() const;
+    Q_INVOKABLE int recordState() const;
 
 public slots:
     void displayErrorMessage();
@@ -75,12 +77,14 @@ private:
     qreal m_volume;
     QUrl m_path;
     QVector<qreal> m_levels;
+    int m_recordState;
 
 private slots:
     void processBuffer(const QAudioBuffer &buffer);
 
 signals:
     void levelsChanged();
+    void recordStateChanged();
 };
 
 #endif

@@ -2131,46 +2131,53 @@ QColor TimelineController::groupColor() const
     return scheme.background(KColorScheme::NegativeBackground).color();
 }
 
-void TimelineController::startRecording(int trackId)
+void TimelineController::switchRecording(int trackId)
 {
-    qDebug() << "start recording" << trackId;
-    if (!m_model->isTrack(trackId)) {
-        qDebug() << "ERROR: Starting to capture on invalid track " << trackId;
-    }
-    if (m_model->getTrackById_const(trackId)->isLocked()) {
-        KMessageBox::error(pCore->window(), i18n("Impossible to capture on a locked track"));
-        return;
-    }
-    int clipId = m_model->getTrackById_const(trackId)->getClipByPosition(timelinePosition());
-    if (clipId > 0) {
-        KMessageBox::error(pCore->window(), i18n("Impossible to capture here: it would overwrite an existing clip"));
-        return;
-    }
-    if (m_model->getTrackById_const(trackId)->getBlankSizeAtPos(timelinePosition()) != 0) {
-        KMessageBox::error(
-            pCore->window(),
-            i18n("Impossible to capture here: the capture could override clips. Please remove clips after the current position or choose a different track"));
-        return;
-    }
-    pCore->monitorManager()->slotSwitchMonitors(false);
-
     if (!pCore->isMediaCapturing()) {
-        m_recordStart = timelinePosition();
-        // TODO path computation should be moved to MediaCapture
-        pCore->startMediaCapture(true, false, QUrl::fromLocalFile(QStringLiteral("capture.wav")), pCore->getAudioCaptureDevices().front());
+        qDebug() << "start recording" << trackId;
+        if (!m_model->isTrack(trackId)) {
+            qDebug() << "ERROR: Starting to capture on invalid track " << trackId;
+        }
+        if (m_model->getTrackById_const(trackId)->isLocked()) {
+            pCore->displayMessage(i18n("Impossible to capture on a locked track"), ErrorMessage, 500);
+            return;
+        }
+        m_recordStart.first = timelinePosition();
+        int maximumSpace = m_model->getTrackById_const(trackId)->getBlankEnd(m_recordStart.first);
+        if (maximumSpace == INT_MAX) {
+            m_recordStart.second = 0;
+        } else {
+            m_recordStart.second = maximumSpace - m_recordStart.first;
+            if (m_recordStart.second < 8) {
+                pCore->displayMessage(i18n("Impossible to capture here: the capture could override clips. Please remove clips after the current position or choose a different track"), ErrorMessage, 500);
+                return;
+            }
+        }
+        pCore->monitorManager()->slotSwitchMonitors(false);
+        pCore->startMediaCapture(true, false);
         pCore->monitorManager()->slotPlay();
     } else {
-        pCore->stopMediaCapture(true, false);
+        QString recordedFile = pCore->stopMediaCapture(true, false);
         pCore->monitorManager()->slotPause();
+        if (recordedFile.isEmpty()) {
+            return;
+        }
 
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         std::function<void(const QString &)> callBack = [this, trackId](const QString &binId) {
             int id = -1;
-            qDebug() << "callback " << binId << " " << trackId;
-            bool res = m_model->requestClipInsertion(binId, trackId, m_recordStart, id, true, true, false);
+            qDebug() << "callback " << binId << " " << trackId<<", MAXIMUM SPACE: "<<m_recordStart.second;
+            bool res = false;
+            if (m_recordStart.second > 0) {
+                // Limited space on track
+                QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second - 1);
+                res = m_model->requestClipInsertion(binClipId, trackId, m_recordStart.first, id, true, true, false);
+            } else {
+                res = m_model->requestClipInsertion(binId, trackId, m_recordStart.first, id, true, true, false);
+            }
         };
-        QString binId = ClipCreator::createClipFromFile(QUrl::fromLocalFile(QStringLiteral("capture.wav")).toString(),
+        QString binId = ClipCreator::createClipFromFile(recordedFile,
                                                         pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
         if (binId != QStringLiteral("-1")) {
             pCore->pushUndo(undo, redo, i18n("Record audio"));
