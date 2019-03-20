@@ -388,6 +388,7 @@ Rectangle {
                 Layout.minimumHeight: root.baseUnit
                 Layout.maximumHeight: root.baseUnit * 3
                 source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
+                onLoaded: item.trackId = trackId
             }
         }
         Item {

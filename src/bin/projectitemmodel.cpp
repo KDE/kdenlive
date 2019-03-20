@@ -341,7 +341,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
     return nullptr;
 }
 
-const QList <double>ProjectItemModel::getAudioLevelsByBinID(const QString &binId)
+const QList<double> ProjectItemModel::getAudioLevelsByBinID(const QString &binId)
 {
     if (binId.contains(QLatin1Char('_'))) {
         return getAudioLevelsByBinID(binId.section(QLatin1Char('_'), 0, 0));
@@ -352,7 +352,7 @@ const QList <double>ProjectItemModel::getAudioLevelsByBinID(const QString &binId
             return std::static_pointer_cast<ProjectClip>(c)->audioFrameCache;
         }
     }
-    return QList <double>();
+    return QList<double>();
 }
 
 bool ProjectItemModel::hasClip(const QString &binId)
@@ -573,7 +573,8 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
     return addItem(new_folder, parentId, undo, redo);
 }
 
-bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo)
+bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
+                                         const std::function<void(const QString &)> &readyCallBack)
 {
     qDebug() << "/////////// requestAddBinClip" << parentId;
     QWriteLocker locker(&m_lock);
@@ -592,7 +593,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     bool res = addItem(new_clip, parentId, undo, redo);
     qDebug() << "/////////// added " << res;
     if (res) {
-        int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description);
+        int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 150, 0, true);
         pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
     }

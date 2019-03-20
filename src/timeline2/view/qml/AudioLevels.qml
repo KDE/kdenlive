@@ -4,7 +4,23 @@ import QtQuick.Layouts 1.3
 
 Item {
     id: recContainer
+    property int trackId: -1
+    property int recState: audiorec.recordState
     width: parent.width
+    
+    onRecStateChanged: {
+        if (recState == 1) {
+            // Recording
+            recbutton.color = 'orange'
+        } else if (recState == 2) {
+            // Paused
+            recbutton.color = 'white'
+        } else {
+            recbutton.color = 'darkred'
+        }
+        
+    }
+    
     RowLayout {
         spacing: 2
         Layout.fillWidth: true
@@ -13,21 +29,28 @@ Item {
             width: root.baseUnit * 1.5
             height: root.baseUnit * 1.5
             radius: root.baseUnit * .75
-            color: 'darkred'
+            color: trackHeadRoot.isLocked ? 'grey' : 'darkred'
             border.color: 'black'
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
+                enabled: !trackHeadRoot.isLocked
                 onEntered:  {
-                    parent.color = 'red'
+                    parent.border.color = 'red'
+                    parent.border.width = 4
                 }
                 onExited:  {
-                    parent.color = 'darkred'
+                    parent.border.color = 'black'
+                    parent.border.width = 1
+                }
+                onClicked: {
+                    timeline.switchRecording(trackId)
                 }
             }
         }
         Rectangle {
+            id: levelsContainer
             Layout.fillHeight: true
             width: recContainer.width - recbutton.width - 6
             border.color: root.frameColor
@@ -53,6 +76,15 @@ Item {
                     width: parent.width * audiorec.levels[index]
                     height: parent.height / levelRepeater.count
                     y: height * index
+                }
+            }
+            Repeater {
+                model: 8
+                Rectangle {
+                    color: levelsContainer.color
+                    width: 1
+                    height: parent.height
+                    x: parent.width * (index + 1) / 9
                 }
             }
         }

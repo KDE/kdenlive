@@ -158,8 +158,10 @@ public:
        @param description Xml description of the clip
        @param parentId Bin id of the parent folder
        @param undo,redo: lambdas that are updated to accumulate operation.
+       @parame readyCallBack: lambda that will be executed when the clip becomes ready. It is given the binId as parameter
     */
-    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo);
+    bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
+                           const std::function<void(const QString &)> &readyCallBack = [](const QString &) {});
     bool requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText = QString());
 
     /* @brief This is the addition function when we already have a producer for the clip*/

@@ -243,24 +243,6 @@ ExternalProject_Add(
 )
 
 ExternalProject_Add(
-  ext_knewstuff
-  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/frameworks/5.51/knewstuff-5.51.0.zip
-  URL_MD5 d5fcff457dc70b2de16488b2f1ba8e7b
-  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_attica
-)
-
-ExternalProject_Add(
-  ext_knotifyconfig
-  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
-  URL http://download.kde.org/stable/frameworks/5.51/knotifyconfig-5.51.0.zip
-  URL_MD5 a1a8c6331858aab8ded199ec0b9795f4
-  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
-  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_knewstuff
-)
-
-ExternalProject_Add(
   ext_kpackage
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   URL http://download.kde.org/stable/frameworks/5.51/kpackage-5.51.0.zip
@@ -358,6 +340,24 @@ ExternalProject_Add(
   URL_MD5 ea59ac8326e5856b0ef1202c83d575b3
   CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
   DEPENDS ext_extra_cmake_modules ext_karchive ext_kconfig ext_kcoreaddons ext_kdbusaddons ext_ki18n ext_kservice ext_solid ext_kwindowsystem ext_kwidgetsaddons ext_kcompletion ext_kconfigwidgets ext_kiconthemes ext_kitemviews ext_kjobwidgets ext_kbookmarks ext_kwallet
+)
+
+ExternalProject_Add(
+  ext_knewstuff
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/knewstuff-5.51.0.zip
+  URL_MD5 d5fcff457dc70b2de16488b2f1ba8e7b
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kio ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_attica
+)
+
+ExternalProject_Add(
+  ext_knotifyconfig
+  DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
+  URL http://download.kde.org/stable/frameworks/5.51/knotifyconfig-5.51.0.zip
+  URL_MD5 a1a8c6331858aab8ded199ec0b9795f4
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE}
+  DEPENDS ext_kwindowsystem ext_kconfig ext_kcodecs ext_kcoreaddons ext_phonon ext_knewstuff
 )
 
 ExternalProject_Add(

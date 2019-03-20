@@ -40,23 +40,30 @@ class MediaCapture : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QVector<qreal> levels READ levels NOTIFY levelsChanged)
+    Q_PROPERTY(int recordState READ recordState NOTIFY recordStateChanged)
 
 public:
     MediaCapture(QObject *parent);
     ~MediaCapture() override;
     void recordAudio(bool /*record*/);
     void recordVideo(bool /*record*/);
+    /** @brief Returns true if a recording is in progress **/
+    bool isRecording() const;
     /** @brief Sets m_path to selected output location **/
-    void setCaptureOutputLocation(QUrl /*path*/);
-    /** @brief Sets m_device to selected audio capture device **/
-    void setAudioCaptureDevice(QString /*audioDevice*/);
+    void setCaptureOutputLocation();
+    /** @brief Returns m_path **/
+    QUrl getCaptureOutputLocation();
+    /** @brief Sets m_audioDevice to selected audio capture device **/
+    void setAudioCaptureDevice();
     /** @brief Sets m_volume to selected audio capture volume **/
-    void setAudioVolume(qreal /*volume*/);
+    void setAudioVolume();
     /** @brief Returns list of audio devices available for capture **/
     QStringList getAudioCaptureDevices();
-    /** @brief Returns QMediaRecorder::State value **/
+    /** @brief Sets currentState to QMediaRecorder::State value and returns it **/
     int getState();
+    int currentState;
     Q_INVOKABLE QVector<qreal> levels() const;
+    Q_INVOKABLE int recordState() const;
 
 public slots:
     void displayErrorMessage();
@@ -70,12 +77,14 @@ private:
     qreal m_volume;
     QUrl m_path;
     QVector<qreal> m_levels;
+    int m_recordState;
 
 private slots:
     void processBuffer(const QAudioBuffer &buffer);
 
 signals:
     void levelsChanged();
+    void recordStateChanged();
 };
 
 #endif

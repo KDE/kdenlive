@@ -38,9 +38,10 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
-LoadJob::LoadJob(const QString &binId, const QDomElement &xml)
+LoadJob::LoadJob(const QString &binId, const QDomElement &xml, const std::function<void()> &readyCallBack)
     : AbstractClipJob(LOADJOB, binId)
     , m_xml(xml)
+    , m_readyCallBack(readyCallBack)
 {
 }
 
@@ -552,6 +553,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     };
     bool ok = operation();
     if (ok) {
+        m_readyCallBack();
         if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip
             pCore->selectBinClip(m_clipId);

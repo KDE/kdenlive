@@ -86,9 +86,10 @@ RecManager::RecManager(Monitor *parent)
         m_audio_device->addItem(audioDevices.at(ix), ix);
     }
     connect(m_audio_device, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
-    int selectedCapture = m_audio_device->findData(KdenliveSettings::defaultaudiocapture());
-    if (selectedCapture > -1) {
-        m_audio_device->setCurrentIndex(selectedCapture);
+    QString selectedDevice = KdenliveSettings::defaultaudiocapture();
+    int selectedIndex = m_audio_device->findText(selectedDevice);
+    if (!selectedDevice.isNull() && selectedIndex > -1) {
+        m_audio_device->setCurrentIndex(selectedIndex);
     }
     m_recToolbar->addWidget(m_audio_device);
 
@@ -120,10 +121,10 @@ RecManager::RecManager(Monitor *parent)
     // m_device_selector->addItems(QStringList() << i18n("Firewire") << i18n("Webcam") << i18n("Screen Grab") << i18n("Blackmagic Decklink"));
     m_device_selector->addItem(i18n("Webcam"), Video4Linux);
     m_device_selector->addItem(i18n("Screen Grab"), ScreenGrab);
-    selectedCapture = m_device_selector->findData(KdenliveSettings::defaultcapture());
+    selectedIndex = m_device_selector->findData(KdenliveSettings::defaultcapture());
 
-    if (selectedCapture > -1) {
-        m_device_selector->setCurrentIndex(selectedCapture);
+    if (selectedIndex > -1) {
+        m_device_selector->setCurrentIndex(selectedIndex);
     }
     connect(m_device_selector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
     m_recToolbar->addWidget(m_device_selector);
@@ -163,7 +164,6 @@ void RecManager::stopCapture()
         // QMediaRecorder::RecordingState value is 1
         pCore->stopMediaCapture(m_checkAudio, m_checkVideo);
         m_monitor->slotOpenClip(nullptr);
-        emit addClipToProject(m_captureFile);
     }
 }
 
@@ -182,31 +182,9 @@ void RecManager::slotRecord(bool record)
 {
     if (m_device_selector->currentData().toInt() == Video4Linux) {
         if (record) {
-            QDir captureFolder;
-            if (KdenliveSettings::capturetoprojectfolder()) {
-                captureFolder = QDir(m_monitor->projectFolder());
-            } else {
-                captureFolder = QDir(KdenliveSettings::capturefolder());
-            }
-            QString extension;
-            if (!m_recVideo->isChecked()) {
-                extension = QStringLiteral("wav");
-            } else {
-                extension = QStringLiteral("mpeg");
-            }
-
-            QString path = captureFolder.absoluteFilePath("capture0000." + extension);
-            int i = 1;
-            while (QFile::exists(path)) {
-                QString num = QString::number(i).rightJustified(4, '0', false);
-                path = captureFolder.absoluteFilePath("capture" + num + QLatin1Char('.') + extension);
-                ++i;
-            }
-            QString audioDevice = m_audio_device->currentText();
-            m_captureFile = QUrl::fromLocalFile(path);
             m_checkAudio = m_recAudio->isChecked();
             m_checkVideo = m_recVideo->isChecked();
-            pCore->startMediaCapture(m_checkAudio, m_checkVideo, m_captureFile, audioDevice);
+            pCore->startMediaCapture(m_checkAudio, m_checkVideo);
         } else {
             stopCapture();
         }
@@ -340,14 +318,13 @@ void RecManager::slotReadProcessInfo()
 
 void RecManager::slotAudioDeviceChanged(int)
 {
-    int currentItem = m_audio_device->currentData().toInt();
-    KdenliveSettings::setDefaultaudiocapture(currentItem);
+    QString currentDevice = m_audio_device->currentText();
+    KdenliveSettings::setDefaultaudiocapture(currentDevice);
 }
 
 void RecManager::slotSetVolume(int volume)
 {
     KdenliveSettings::setAudiocapturevolume(volume);
-    pCore->setAudioCaptureVolume(volume);
     QIcon icon;
 
     if (volume == 0) {

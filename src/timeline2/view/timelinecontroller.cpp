@@ -23,6 +23,7 @@
 #include "../model/timelinefunctions.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "bin/bin.h"
+#include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
@@ -35,6 +36,8 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioEnvelope.h"
+#include "mainwindow.h"
+#include "monitor/monitormanager.h"
 #include "previewmanager.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
@@ -48,6 +51,7 @@
 
 #include <KActionCollection>
 #include <KColorScheme>
+#include <KMessageBox>
 #include <QApplication>
 #include <QClipboard>
 #include <QInputDialog>
@@ -1673,7 +1677,7 @@ void TimelineController::pasteEffects(int targetId)
     QDomElement effects = clips.at(0).firstChildElement(QStringLiteral("effects"));
     for (int i = 1; i < clips.size(); i++) {
         QDomNodeList subs = clips.at(i).childNodes();
-        for (int j = 0; j < subs.size(); j++)  {
+        for (int j = 0; j < subs.size(); j++) {
             effects.appendChild(subs.at(j));
         }
     }
@@ -2125,4 +2129,58 @@ QColor TimelineController::groupColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
     return scheme.background(KColorScheme::NegativeBackground).color();
+}
+
+void TimelineController::switchRecording(int trackId)
+{
+    if (!pCore->isMediaCapturing()) {
+        qDebug() << "start recording" << trackId;
+        if (!m_model->isTrack(trackId)) {
+            qDebug() << "ERROR: Starting to capture on invalid track " << trackId;
+        }
+        if (m_model->getTrackById_const(trackId)->isLocked()) {
+            pCore->displayMessage(i18n("Impossible to capture on a locked track"), ErrorMessage, 500);
+            return;
+        }
+        m_recordStart.first = timelinePosition();
+        int maximumSpace = m_model->getTrackById_const(trackId)->getBlankEnd(m_recordStart.first);
+        if (maximumSpace == INT_MAX) {
+            m_recordStart.second = 0;
+        } else {
+            m_recordStart.second = maximumSpace - m_recordStart.first;
+            if (m_recordStart.second < 8) {
+                pCore->displayMessage(i18n("Impossible to capture here: the capture could override clips. Please remove clips after the current position or choose a different track"), ErrorMessage, 500);
+                return;
+            }
+        }
+        pCore->monitorManager()->slotSwitchMonitors(false);
+        pCore->startMediaCapture(true, false);
+        pCore->monitorManager()->slotPlay();
+    } else {
+        QString recordedFile = pCore->stopMediaCapture(true, false);
+        pCore->monitorManager()->slotPause();
+        if (recordedFile.isEmpty()) {
+            return;
+        }
+
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        std::function<void(const QString &)> callBack = [this, trackId](const QString &binId) {
+            int id = -1;
+            qDebug() << "callback " << binId << " " << trackId<<", MAXIMUM SPACE: "<<m_recordStart.second;
+            bool res = false;
+            if (m_recordStart.second > 0) {
+                // Limited space on track
+                QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second - 1);
+                res = m_model->requestClipInsertion(binClipId, trackId, m_recordStart.first, id, true, true, false);
+            } else {
+                res = m_model->requestClipInsertion(binId, trackId, m_recordStart.first, id, true, true, false);
+            }
+        };
+        QString binId = ClipCreator::createClipFromFile(recordedFile,
+                                                        pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
+        if (binId != QStringLiteral("-1")) {
+            pCore->pushUndo(undo, redo, i18n("Record audio"));
+        }
+    }
 }
