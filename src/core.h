@@ -181,13 +181,15 @@ public:
     /** @brief Returns current timeline cursor position  */
     int getTimelinePosition() const;
     /** @brief Handles audio and video capture **/
-    void startMediaCapture(bool, bool, QUrl, QString);
+    void startMediaCapture(bool, bool);
     void stopMediaCapture(bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
     bool isMediaCapturing();
     void setAudioCaptureVolume(int);
     MediaCapture *getAudioDevice();
+    /** @brief Returns Project Folder name for capture output location  */
+    QString getProjectFolderName();
 
 private:
     explicit Core();
@@ -212,6 +214,7 @@ private:
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();
     std::unique_ptr<MediaCapture> m_capture;
+    QUrl m_mediaCaptureFile;
 
 public slots:
     void triggerAction(const QString &name);

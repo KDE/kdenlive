@@ -34,6 +34,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KMessageBox>
 #include <QCoreApplication>
 #include <QInputDialog>
+#include <QDir>
 
 #include <mlt++/MltRepository.h>
 
@@ -680,24 +681,24 @@ void Core::clean()
     m_self.reset();
 }
 
-void Core::startMediaCapture(bool checkAudio, bool checkVideo, QUrl path, QString audioDevice)
+void Core::startMediaCapture(bool checkAudio, bool checkVideo)
 {
-    m_capture->setCaptureOutputLocation(path);
-    m_capture->setAudioCaptureDevice(audioDevice);
     if (checkAudio && checkVideo) {
         m_capture->recordVideo(true);
     } else if (checkAudio) {
         m_capture->recordAudio(true);
     }
+    m_mediaCaptureFile = m_capture->getCaptureOutputLocation();
 }
 
-void Core::stopMediaCapture(bool checkAudio, bool checkVideo)
+const QString Core::stopMediaCapture(bool checkAudio, bool checkVideo)
 {
     if (checkAudio && checkVideo) {
         m_capture->recordVideo(false);
-    } else if (checkAudio && !checkVideo) {
+    } else if (checkAudio) {
         m_capture->recordAudio(false);
     }
+    return m_capture->getCaptureOutputLocation().toLocalFile();
 }
 
 QStringList Core::getAudioCaptureDevices()
@@ -715,12 +716,12 @@ bool Core::isMediaCapturing()
     return m_capture->isRecording();
 }
 
-void Core::setAudioCaptureVolume(int volume)
-{
-    m_capture->setAudioVolume(volume / 100.0);
-}
-
 MediaCapture *Core::getAudioDevice()
 {
     return m_capture.get();
+}
+
+QString Core::getProjectFolderName()
+{
+    return m_monitorManager->getProjectFolder();
 }
