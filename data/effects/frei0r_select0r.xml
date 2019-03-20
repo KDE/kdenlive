@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
     <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
-            <name>Color Selection</name>
+            <name>Chroma-key</name>
             <description>Color based alpha selection</description>
             <author>Marko Cebokli</author>
         

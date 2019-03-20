@@ -1444,6 +1444,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
 {
+    qDebug()<<"/// ADDING ASSET: "<<assetId;
     m_model->addClipEffect(clipId, assetId);
 }
 
