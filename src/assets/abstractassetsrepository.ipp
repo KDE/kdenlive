@@ -128,9 +128,11 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     QScopedPointer<Mlt::Properties> metadata(getMetadata(assetId));
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
+            QString id = metadata->get("identifier");
             res.name = metadata->get("title");
             res.name[0] = res.name[0].toUpper();
             res.description = metadata->get("description");
+            res.description.append(QString(" (%1)").arg(id));
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
             res.version = ceil(100 * metadata->get_double("version"));
@@ -139,7 +141,6 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             // Create params
             QDomDocument doc;
             QDomElement eff = doc.createElement(QStringLiteral("effect"));
-            QString id = metadata->get("identifier");
             eff.setAttribute(QStringLiteral("tag"), id);
             eff.setAttribute(QStringLiteral("id"), id);
             ////qCDebug(KDENLIVE_LOG)<<"Effect: "<<id;
@@ -295,6 +296,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
     if (!description.isEmpty()) {
         res.description = description;
+        res.description.append(QString(" (%1)").arg(tag));
     }
 
     // Update name if the xml provide one

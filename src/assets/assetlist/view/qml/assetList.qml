@@ -291,6 +291,7 @@ Rectangle {
                         drag.target = undefined
                     }
                     onPressed: {
+                        treeView.focus = true
                         if (isItem) {
                             sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
                             if (mouse.button === Qt.LeftButton) {

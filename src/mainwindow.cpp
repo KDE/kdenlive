@@ -328,7 +328,7 @@ void MainWindow::init()
     m_effectListDock = addDock(i18n("Effects"), QStringLiteral("effect_list"), m_effectList2);
 
     m_transitionList2 = new TransitionListWidget(this);
-    m_transitionListDock = addDock(i18n("Transitions"), QStringLiteral("transition_list"), m_transitionList2);
+    m_transitionListDock = addDock(i18n("Compositions"), QStringLiteral("transition_list"), m_transitionList2);
 
     // Add monitors here to keep them at the right of the window
     m_clipMonitorDock = addDock(i18n("Clip Monitor"), QStringLiteral("clip_monitor"), m_clipMonitor);
