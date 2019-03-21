@@ -32,7 +32,7 @@ Rectangle {
     color: activePalette.window
 
     function assetType(){
-        return isEffectList ? i18n("effects") : i18n("transitions");
+        return isEffectList ? i18n("effects") : i18n("compositions");
     }
 
     function expandNodes(indexes)  {
@@ -82,7 +82,7 @@ Rectangle {
                 iconName: "show-all-effects"
                 checkable:true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Show all ')+assetType()
+                tooltip: i18n('Main %1', assetType())
                 onClicked: {
                     assetlist.setFilterType("")
                 }
