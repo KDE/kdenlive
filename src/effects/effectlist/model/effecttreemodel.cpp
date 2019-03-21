@@ -61,6 +61,10 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         doc.setContent(&file, false);
         file.close();
         QDomNodeList groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
+        // Create favorite group
+        auto groupFav = self->rootItem->appendChild(QList<QVariant>{i18n("Favorites"), QStringLiteral("root")});
+
+        auto groupLegacy = self->rootItem->appendChild(QList<QVariant>{i18n("Legacy"), QStringLiteral("root")});
 
         for (int i = 0; i < groups.count(); i++) {
             QString groupName = i18n(groups.at(i).firstChild().firstChild().nodeValue().toUtf8().constData());
@@ -71,7 +75,11 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
 
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
             for (const QString &effect : list) {
-                effectCategory[effect] = groupItem;
+                if (KdenliveSettings::favorite_effects().contains(effect)) {
+                    effectCategory[effect] = groupFav;
+                } else {
+                    effectCategory[effect] = groupItem;
+                }
             }
         }
         // We also create "Misc", "Audio" and "Custom" categories
