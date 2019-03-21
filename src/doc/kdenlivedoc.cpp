@@ -433,6 +433,8 @@ void KdenliveDoc::slotAutoSave(const QString &scene)
         if (!m_autosave->isOpen() && !m_autosave->open(QIODevice::ReadWrite)) {
             // show error: could not open the autosave file
             qCDebug(KDENLIVE_LOG) << "ERROR; CANNOT CREATE AUTOSAVE FILE";
+            pCore->displayMessage(i18n("Cannot create autosave file %1", m_autosave->fileName()), ErrorMessage);
+            return;
         }
         if (scene.isEmpty()) {
             // Make sure we don't save if scenelist is corrupted
@@ -440,7 +442,9 @@ void KdenliveDoc::slotAutoSave(const QString &scene)
             return;
         }
         m_autosave->resize(0);
-        m_autosave->write(scene.toUtf8());
+        if (m_autosave->write(scene.toUtf8()) < 0) {
+            pCore->displayMessage(i18n("Cannot create autosave file %1", m_autosave->fileName()), ErrorMessage);
+        };
         m_autosave->flush();
     }
 }
