@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "core.h"
+#include "dialogs/splash.hpp"
 #include "logger.hpp"
 #include <config-kdenlive.h>
 
@@ -51,6 +52,10 @@
 #include <QUrl> //new
 #include <klocalizedstring.h>
 
+int fact(int n)
+{
+    return n < 2 ? n : fact(n - 1) + fact(n - 2);
+}
 int main(int argc, char *argv[])
 {
 #ifdef USE_DRMINGW
@@ -167,6 +172,10 @@ int main(int argc, char *argv[])
     KCrash::initialize();
 #endif
 
+    //auto splash = new Splash();
+    // splash->show();
+    qApp->processEvents();
+
     qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
                                      "com.enums",                     // import statement
                                      1, 0,                            // major and minor version of the import
@@ -191,10 +200,15 @@ int main(int argc, char *argv[])
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
+    qApp->processEvents();
     Core::build(mltPath);
+    qApp->processEvents();
     pCore->initGUI(url);
+    //splash->endSplash();
+    qApp->processEvents();
     int result = app.exec();
     Core::clean();
+    //delete splash;
 
     if (EXIT_RESTART == result) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
