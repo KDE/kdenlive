@@ -27,6 +27,8 @@
         <file alias="discrete.svg">../data/pics/breeze-light/lt_discrete.svg</file>
         <file alias="smooth.svg">../data/pics/breeze-light/lt_smooth.svg</file>
         <file alias="kdenlive.png">../data/icons/48-apps-kdenlive.png</file>
+        <file alias="kdenlive-logo.png">../data/pics/kdenlive-logo.png</file>
+        <file alias="splash-background.png">../data/pics/splash-background.png</file>
         <file alias="kdenlive-lock.svg">../data/pics/breeze-light/lt_kdenlive-lock.svg</file>
         <file alias="kdenlive-unlock.svg">../data/pics/breeze-light/lt_kdenlive-unlock.svg</file>
         <file alias="kdenlive-hide-video.svgz">../data/pics/breeze-light/lt_kdenlive-hide-video.svgz</file>
