@@ -470,9 +470,23 @@ void TimelineController::addTrack(int tid)
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
         int newTid;
+        bool audioRecTrack = d->addRecTrack();
+        bool addAVTrack = d->addAVTrack();
         m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack());
+        if (addAVTrack) {
+            int newTid2;
+            int mirrorPos = 0;
+            int mirrorId = m_model->getMirrorAudioTrackId(newTid);
+            if (mirrorId > -1) {
+                mirrorPos = m_model->getTrackMltIndex(mirrorId);
+            }
+            m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true);
+        }
         m_model->buildTrackCompositing(true);
         m_model->_resetView();
+        if (audioRecTrack) {
+            m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+        }
     }
 }
 

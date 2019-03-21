@@ -94,9 +94,19 @@ int TrackDialog::selectedTrackId() const
     return -1;
 }
 
+bool TrackDialog::addAVTrack() const
+{
+    return av_track->isChecked();
+}
+
+bool TrackDialog::addRecTrack() const
+{
+    return arec_track->isChecked();
+}
+
 bool TrackDialog::addAudioTrack() const
 {
-    return !video_track->isChecked();
+    return audio_track->isChecked() || arec_track->isChecked();
 }
 const QString TrackDialog::trackName() const
 {

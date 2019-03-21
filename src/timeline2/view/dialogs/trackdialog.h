@@ -39,6 +39,12 @@ public:
     /** @brief: returns true if we want to insert an audio track
      */
     bool addAudioTrack() const;
+    /** @brief: returns true if we want to insert an audio record track
+     */
+    bool addRecTrack() const;
+    /** @brief: returns true if we want to insert an audio and video track
+     */
+    bool addAVTrack() const;
     /** @brief: returns the newly created track name
      */
     const QString trackName() const;
