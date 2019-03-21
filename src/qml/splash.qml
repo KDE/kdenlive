@@ -19,8 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-import QtQuick 2.3
-import QtQuick.Controls 1.2
+import QtQuick 2.6
+import QtQuick.Controls 1.5
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Styles 1.4
@@ -64,7 +64,7 @@ Window {
             anchors.top: splashContent.top
             anchors.margins: 50
             //  anchors.horizontalCenter: splashContent.horizontalCenter
-            source: "../pics/kdenlive-logo.png"
+            source: "qrc:/pics/kdenlive-logo.png"
             fillMode: Image.PreserveAspectFit
             height: splashContent.height / 5 - 100
         }
@@ -76,19 +76,19 @@ Window {
             spacing: 100
             Text {
                 color: "white"
-                text: "Website"
+                text: i18n('Website')
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
             Text {
                 color: "white"
-                text: "Donate"
+                text: i18n('Donate')
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
             Text {
                 color: "white"
-                text: "Forum"
+                text: i18n('Forum')
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
@@ -107,7 +107,7 @@ Window {
             Text {
                 id:txtProject
                 color: "#f38577"
-                text: "Recent Projects"
+                text: i18n('Recent Projects')
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.topMargin: 50
@@ -124,7 +124,7 @@ Window {
             anchors.rightMargin: splash.border
             height: 3 * splashContent.height / 5
             width: splashContent.width
-            source: "../pics/splash-background.png"
+            source: "qrc:/pics/splash-background.png"
             fillMode: Image.PreserveAspectFit
             visible: splashing
         }
@@ -177,7 +177,7 @@ Window {
                         }
                     }
                     label: Text {
-                        text: "Hide on startup"
+                        text: i18n('Hide on startup')
                         color: "white"
                     }
                 }
@@ -189,14 +189,14 @@ Window {
                 visible: !splashing
                 Button {
                     iconSource:"image://icon/document-new"
-                    text:"New"
+                    text:i18n('New')
                     //style: CustomButton {
                     //    backColor: splashContent.color
                    // }
                 }
                 Button {
                     iconSource:"image://icon/document-open"
-                    text:"Open"
+                    text:i18n('Open')
                     //style: CustomButton {
                     //    backColor: splashContent.color
                    // }

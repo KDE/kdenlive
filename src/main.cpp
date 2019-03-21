@@ -173,8 +173,8 @@ int main(int argc, char *argv[])
 #endif
 
     //auto splash = new Splash();
-    // splash->show();
-    qApp->processEvents();
+    //splash->show();
+    //qApp->processEvents();
 
     qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
                                      "com.enums",                     // import statement
@@ -200,12 +200,12 @@ int main(int argc, char *argv[])
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
-    qApp->processEvents();
+    //qApp->processEvents();
     Core::build(mltPath);
-    qApp->processEvents();
+    //qApp->processEvents();
     pCore->initGUI(url);
     //splash->endSplash();
-    qApp->processEvents();
+    //qApp->processEvents();
     int result = app.exec();
     Core::clean();
     //delete splash;
