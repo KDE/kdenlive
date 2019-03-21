@@ -35,7 +35,7 @@
     <text>Distort</text>
   </group>
   <group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.select0r,frei0r.mask0mate,rotoscoping,frei0r.keyspillm0pup">
-    <text>Alpha manipulation</text>
+    <text>Alpha/Transform</text>
   </group>
   <group list="frei0r.d90stairsteppingfix,frei0r.hqdn3d,frei0r.sharpness,frei0r.spillsupress">
     <text>Enhancement</text>
