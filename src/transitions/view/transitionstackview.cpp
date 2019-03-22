@@ -26,6 +26,7 @@
 #include "monitor/monitor.h"
 
 #include <QComboBox>
+#include <QSignalBlocker>
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -34,15 +35,19 @@
 
 TransitionStackView::TransitionStackView(QWidget *parent)
     : AssetParameterView(parent)
+    , m_trackBox(nullptr)
 {
 }
 
-void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
+void TransitionStackView::refreshTracks()
 {
-    auto *lay = new QHBoxLayout;
-    m_trackBox = new QComboBox(this);
+    if (!m_trackBox || !m_model) {
+        return;
+    }
+    QSignalBlocker bk(m_trackBox);
+    m_trackBox->clear();
     QMapIterator<int, QString> i(pCore->getVideoTrackNames());
-    QPair<int, int> aTrack = pCore->getCompositionATrack(model->getOwnerId().second);
+    QPair<int, int> aTrack = pCore->getCompositionATrack(m_model->getOwnerId().second);
     m_trackBox->addItem(i18n("Automatic"), -1);
     while (i.hasNext()) {
         i.next();
@@ -51,10 +56,17 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
         }
     }
     m_trackBox->addItem(i18n("Background"), 0);
-    AssetParameterView::setModel(model, frameSize, addSpacer);
-    if (!pCore->compositionAutoTrack(model->getOwnerId().second)) {
+    if (!pCore->compositionAutoTrack(m_model->getOwnerId().second)) {
         m_trackBox->setCurrentIndex(m_trackBox->findData(aTrack.first));
     }
+}
+
+void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
+{
+    auto *lay = new QHBoxLayout;
+    m_trackBox = new QComboBox(this);
+    AssetParameterView::setModel(model, frameSize, addSpacer);
+    refreshTracks();
     QLabel *title = new QLabel(i18n("Composition track:"), this);
     lay->addWidget(title);
     lay->addWidget(m_trackBox);
@@ -85,6 +97,8 @@ void TransitionStackView::unsetModel()
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
         }
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(MonitorSceneDefault);
+        delete m_trackBox;
+        m_trackBox = nullptr;
     }
     AssetParameterView::unsetModel();
 }
@@ -106,6 +120,7 @@ ObjectId TransitionStackView::stackOwner() const
 
 void TransitionStackView::checkCompoTrack()
 {
+    refreshTracks();
     bool autoTrack = pCore->compositionAutoTrack(m_model->getOwnerId().second);
     QPair<int, int> aTrack = autoTrack ? QPair<int, int>(-1, -1) : pCore->getCompositionATrack(m_model->getOwnerId().second);
     if (m_trackBox->currentData().toInt() != aTrack.first) {

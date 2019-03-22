@@ -36,6 +36,7 @@ public:
     void setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer = false) override;
     void unsetModel();
     ObjectId stackOwner() const;
+    void refreshTracks();
 
 private slots:
     void updateTrack(int newTrack);
