@@ -67,10 +67,9 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
         }
 
         // we create the data list corresponding to this transition
-        QList<QVariant> data;
         bool isFav = KdenliveSettings::favorite_transitions().contains(transition.first);
-        qDebug() << transition.second << transition.first << "in " << targetCategory->dataColumn(0).toString();
-        data << transition.second << transition.first << QVariant::fromValue(type) << isFav;
+        //qDebug() << transition.second << transition.first << "in " << targetCategory->dataColumn(0).toString();
+        QList<QVariant> data {transition.second, transition.first, QVariant::fromValue(type), isFav};
 
         targetCategory->appendChild(data);
     }

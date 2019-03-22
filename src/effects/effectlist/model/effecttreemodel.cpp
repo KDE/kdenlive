@@ -112,11 +112,9 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         }
 
         // we create the data list corresponding to this profile
-        QList<QVariant> data;
         bool isFav = KdenliveSettings::favorite_effects().contains(effect.first);
-        qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
-        data << effect.second << effect.first << QVariant::fromValue(type) << isFav;
-
+        //qDebug() << effect.second << effect.first << "in " << targetCategory->dataColumn(0).toString();
+        QList<QVariant> data {effect.second, effect.first, QVariant::fromValue(type), isFav};
         targetCategory->appendChild(data);
     }
     return self;
@@ -128,9 +126,8 @@ void EffectTreeModel::reloadEffect(const QString &path)
     if (asset.first.isEmpty() || m_customCategory == nullptr) {
         return;
     }
-    QList<QVariant> data;
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
-    data << asset.second << asset.first << QVariant::fromValue(EffectType::Custom) << isFav;
+    QList<QVariant> data {asset.second, asset.first, QVariant::fromValue(EffectType::Custom), isFav};
     m_customCategory->appendChild(data);
 }
 
