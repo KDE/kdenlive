@@ -51,6 +51,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     : AbstractParamWidget(std::move(model), index, parent)
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
+    , m_active(false)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -192,7 +193,7 @@ void KeyframeWidget::monitorSeek(int pos)
     int in = pCore->getItemPosition(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     bool isInRange = pos >= in && pos < out;
-    m_buttonAddDelete->setEnabled(isInRange);
+    m_buttonAddDelete->setEnabled(isInRange && pos > in);
     connectMonitor(isInRange);
     int framePos = qBound(in, pos, out) - in;
     if (isInRange && framePos != m_time->getValue()) {
@@ -410,6 +411,10 @@ void KeyframeWidget::slotInitMonitor(bool active)
 
 void KeyframeWidget::connectMonitor(bool active)
 {
+    if (active == m_active) {
+        return;
+    }
+    m_active = active;
     if (m_monitorHelper) {
         if (m_monitorHelper->connectMonitor(active)) {
             slotRefreshParams();
