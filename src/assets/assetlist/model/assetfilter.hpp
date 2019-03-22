@@ -59,7 +59,7 @@ public:
 
 protected:
     bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
-
+    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
     bool filterName(const std::shared_ptr<TreeItem> &item) const;
     /* @brief Apply all filter and returns true if the object should be kept after filtering */
     virtual bool applyAll(std::shared_ptr<TreeItem> item) const;

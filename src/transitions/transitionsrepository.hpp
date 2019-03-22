@@ -52,7 +52,6 @@ public:
 
     /* @brief Returns the id of the transition to be used for compositing */
     const QString getCompositingTransition();
-    void setFavorite(const QString &id, bool favorite) override;
 
 protected:
     // Constructor is protected because class is a Singleton
@@ -60,9 +59,6 @@ protected:
 
     /* Retrieves the list of all available effects from Mlt*/
     Mlt::Properties *retrieveListFromMlt() const override;
-
-    /* Retrieves the list of favorite effects */
-    void parseFavorites() override;
 
     /* @brief Retrieves additional info about effects from a custom XML file
        The resulting assets are stored in customAssets

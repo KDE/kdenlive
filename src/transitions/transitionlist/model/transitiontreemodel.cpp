@@ -36,11 +36,7 @@ TransitionTreeModel::TransitionTreeModel(QObject *parent)
 std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, QObject *parent)
 {
     std::shared_ptr<TransitionTreeModel> self(new TransitionTreeModel(parent));
-    QList<QVariant> rootData;
-    rootData << "Name"
-             << "ID"
-             << "Type"
-             << "isFav";
+    QList<QVariant> rootData {"Name", "ID", "Type", "isFav"};
     self->rootItem = TreeItem::construct(rootData, self, true);
 
     // We create categories, if requested
@@ -93,4 +89,27 @@ void TransitionTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *e
             }
         }
     }
+}
+
+void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool isEffect)
+{
+    if (!index.isValid()) {
+        return;
+    }
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    if (isEffect && item->depth() == 1) {
+        return;
+    }
+    item->setData(AssetTreeModel::favCol, favorite);
+    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
+    QStringList favs = KdenliveSettings::favorite_effects();
+    if (favorite) {
+        favs << id;
+    } else {
+        favs.removeAll(id);
+    }
+    KdenliveSettings::setFavorite_effects(favs);
+    /*if (TransitionsRepository::get()->exists(id)) {
+        TransitionsRepository::get()->setFavorite(id, favorite);
+    }*/
 }

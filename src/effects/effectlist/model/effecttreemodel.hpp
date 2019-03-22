@@ -39,7 +39,7 @@ public:
     static std::shared_ptr<EffectTreeModel> construct(const QString &categoryFile, QObject *parent);
     void reloadEffect(const QString &path);
     void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) override;
-
+    void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) override;
 protected:
     std::shared_ptr<TreeItem> m_customCategory;
 };

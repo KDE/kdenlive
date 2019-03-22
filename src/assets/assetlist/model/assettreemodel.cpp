@@ -67,28 +67,6 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     return item->dataColumn(AssetTreeModel::favCol).toBool();
 }
 
-void AssetTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool isEffect)
-{
-    if (!index.isValid()) {
-        return;
-    }
-    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
-    if (isEffect && item->depth() == 1) {
-        return;
-    }
-    item->setData(AssetTreeModel::favCol, favorite);
-    auto id = item->dataColumn(AssetTreeModel::idCol).toString();
-    if (isEffect) {
-        if (EffectsRepository::get()->exists(id)) {
-            EffectsRepository::get()->setFavorite(id, favorite);
-        }
-    } else {
-        if (TransitionsRepository::get()->exists(id)) {
-            TransitionsRepository::get()->setFavorite(id, favorite);
-        }
-    }
-}
-
 QString AssetTreeModel::getDescription(const QModelIndex &index) const
 {
     if (!index.isValid()) {
@@ -121,6 +99,7 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
     case FavoriteRole:
         return item->dataColumn(AssetTreeModel::favCol);
     case NameRole:
+    case Qt::DisplayRole:
         return item->dataColumn(index.column());
     default:
         return QVariant();

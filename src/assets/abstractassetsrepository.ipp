@@ -44,7 +44,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 
     // Parse effects blacklist
     parseBlackList(assetBlackListPath());
-    parseFavorites();
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());

@@ -25,6 +25,7 @@
 #include "abstractmodel/treeitem.hpp"
 #include "assettreemodel.hpp"
 #include <utility>
+#include <klocalizedstring.h>
 
 AssetFilter::AssetFilter(QObject *parent)
     : QSortFilterProxyModel(parent)
@@ -43,6 +44,17 @@ void AssetFilter::setFilterName(bool enabled, const QString &pattern)
     if (rowCount() > 1) {
         sort(0);
     }
+}
+
+bool AssetFilter::lessThan(const QModelIndex &left,
+                                      const QModelIndex &right) const
+{
+    QString leftData = sourceModel()->data(left).toString();
+    QString rightData = sourceModel()->data(right).toString();
+    if (rightData == i18n("Favorites")) {
+        return false;
+    }
+    return QString::localeAwareCompare(leftData, rightData) < 0;
 }
 
 bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const

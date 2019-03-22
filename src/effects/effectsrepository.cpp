@@ -61,22 +61,6 @@ Mlt::Properties *EffectsRepository::retrieveListFromMlt() const
     return pCore->getMltRepository()->filters();
 }
 
-void EffectsRepository::parseFavorites()
-{
-    m_favorites = KdenliveSettings::favorite_effects().toSet();
-}
-
-void EffectsRepository::setFavorite(const QString &id, bool favorite)
-{
-    Q_ASSERT(exists(id));
-    if (favorite) {
-        m_favorites << id;
-    } else {
-        m_favorites.remove(id);
-    }
-    KdenliveSettings::setFavorite_effects(QStringList::fromSet(m_favorites));
-}
-
 Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId)
 {
     return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());

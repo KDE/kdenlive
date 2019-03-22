@@ -60,22 +60,6 @@ Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
     return pCore->getMltRepository()->transitions();
 }
 
-void TransitionsRepository::parseFavorites()
-{
-    m_favorites = KdenliveSettings::favorite_transitions().toSet();
-}
-
-void TransitionsRepository::setFavorite(const QString &id, bool favorite)
-{
-    Q_ASSERT(exists(id));
-    if (favorite) {
-        m_favorites << id;
-    } else {
-        m_favorites.remove(id);
-    }
-    KdenliveSettings::setFavorite_transitions(QStringList::fromSet(m_favorites));
-}
-
 Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId)
 {
     return pCore->getMltRepository()->metadata(transition_type, assetId.toLatin1().data());

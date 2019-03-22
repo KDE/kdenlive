@@ -49,7 +49,6 @@ public:
     std::unique_ptr<Mlt::Filter> getEffect(const QString &effectId) const;
     /* @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
     bool hasInternalEffect(const QString &effectId) const;
-    void setFavorite(const QString &id, bool favorite) override;
     QPair<QString, QString> reloadCustom(const QString &path);
 
 protected:
@@ -58,9 +57,6 @@ protected:
 
     /* Retrieves the list of all available effects from Mlt*/
     Mlt::Properties *retrieveListFromMlt() const override;
-
-    /* Retrieves the list of favorite effects */
-    void parseFavorites() override;
 
     /* @brief Retrieves additional info about effects from a custom XML file
        The resulting assets are stored in customAssets
