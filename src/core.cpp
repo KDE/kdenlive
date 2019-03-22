@@ -375,7 +375,7 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed || !!m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
         qDebug() << "/ / // QUERYING ITEM IN BUT GUI NOT BUILD!!";
         return 0;
     }
