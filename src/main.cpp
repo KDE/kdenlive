@@ -52,10 +52,6 @@
 #include <QUrl> //new
 #include <klocalizedstring.h>
 
-int fact(int n)
-{
-    return n < 2 ? n : fact(n - 1) + fact(n - 2);
-}
 int main(int argc, char *argv[])
 {
 #ifdef USE_DRMINGW
@@ -172,7 +168,7 @@ int main(int argc, char *argv[])
     KCrash::initialize();
 #endif
 
-    //auto splash = new Splash();
+    //auto splash = new Splash(&app);
     //splash->show();
     //qApp->processEvents();
 
@@ -202,13 +198,12 @@ int main(int argc, char *argv[])
     }
     //qApp->processEvents();
     Core::build(mltPath);
-    //qApp->processEvents();
     pCore->initGUI(url);
+    //delete splash;
     //splash->endSplash();
     //qApp->processEvents();
     int result = app.exec();
     Core::clean();
-    //delete splash;
 
     if (EXIT_RESTART == result) {
         qCDebug(KDENLIVE_LOG) << "restarting app";

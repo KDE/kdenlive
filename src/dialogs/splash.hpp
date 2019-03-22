@@ -23,15 +23,18 @@
 #define SPLASH_H
 
 #include <QObject>
+#include <memory>
 
 class QQmlEngine;
+class QQmlComponent;
+class QQuickWindow;
 
 class Splash : public QObject
 {
     Q_OBJECT
 
 public:
-    Splash();
+    Splash(QObject *parent);
     ~Splash();
 
     void endSplash();
@@ -39,8 +42,13 @@ public:
 signals:
     void sigEndSplash();
 
+private slots:
+    void continueLoading();
+
 protected:
     QQmlEngine *m_engine;
+    QQmlComponent* component;
+    QQuickWindow *childItem;
 };
 
 #endif

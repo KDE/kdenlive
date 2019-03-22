@@ -24,31 +24,50 @@
 #include <KDeclarative/KDeclarative>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QQuickWindow>
 #include <QStandardPaths>
 
-Splash::Splash()
-    : QObject()
+Splash::Splash(QObject *parent)
+    : QObject(parent)
     , m_engine(new QQmlEngine())
+    , childItem(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(m_engine);
     kdeclarative.setupEngine(m_engine);
     kdeclarative.setupContext();
-    QQmlComponent component(m_engine);
-    component.loadUrl(QUrl(QStringLiteral("qrc:/qml/splash.qml")));
-    if (component.isReady()) {
-        auto *root = component.create();
-        connect(this, SIGNAL(sigEndSplash()), root, SIGNAL(endSplash()));
+    component = new QQmlComponent(m_engine);
+    QQuickWindow::setDefaultAlphaBuffer(true);
+    component->loadUrl(QUrl(QStringLiteral("qrc:/qml/splash.qml")));
+    if (component->isLoading())
+        QObject::connect(component, SIGNAL(statusChanged(QQmlComponent::Status)),
+                         this, SLOT(continueLoading()));
+    else {
+        continueLoading();
+    }
+}
+
+void Splash::continueLoading()
+{
+    if (component->isReady()) {
+        childItem = qobject_cast<QQuickWindow*>(component->create());
     } else {
-        qWarning() << component.errorString();
+        qWarning() << component->errorString();
     }
 }
 Splash::~Splash()
 {
+    delete childItem;
+    delete component;
     delete m_engine;
 }
 
 void Splash::endSplash()
 {
+    if (childItem) {
+        QMetaObject::invokeMethod(childItem, "endSplash");
+    } else {
+        qDebug()<<"** ERROR NO SPLASH COMPO";
+    }
     emit sigEndSplash();
 }

@@ -44,11 +44,11 @@ Window {
     property int border: 10
     property bool splashing: true
 
-    signal endSplash
-
-    onEndSplash: {
+    function endSplash()
+    {
         console.log("ending splash")
         splash.splashing = false;
+        splash.close();
     }
 
     Rectangle {
@@ -204,14 +204,18 @@ Window {
             }
         }
 
-        /*MouseArea {
-            anchors.fill: parent
+        MouseArea {
+            id: clickZone
+            anchors.fill: splashContent
             onClicked: {
                 console.log("clic");
                   splash.close();
             }
-        }*/
+        }
     }
-    Component.onCompleted: visible = true
+    Component.onCompleted: {
+        visible = true
+        clickZone.focus = true;
+    }
 
 }
