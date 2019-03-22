@@ -202,11 +202,11 @@ Rectangle {
                 }
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
-            onEditingFinished: {
+            /*onEditingFinished: {
                 if (!assetContextMenu.isDisplayed) {
                     searchList.checked = false
                 }
-            }
+            }*/
             Keys.onDownPressed: {
                 sel.setCurrentIndex(assetListModel.getNextChild(sel.currentIndex), ItemSelectionModel.ClearAndSelect)
                 treeView.expand(sel.currentIndex.parent)
@@ -251,7 +251,7 @@ Rectangle {
                 property bool isItem : styleData.value !== "root" && styleData.value !== ""
                 property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
                 height: assetText.implicitHeight + 8
-                color: "transparent"
+                color: dragArea.containsMouse ? activePalette.highlight : "transparent"
 
                 Drag.active: isItem ? dragArea.drag.active : false
                 Drag.dragType: Drag.Automatic
@@ -283,7 +283,7 @@ Rectangle {
                 }
                 MouseArea {
                     id: dragArea
-                    anchors.fill: parent
+                    anchors.fill: assetDelegate
                     hoverEnabled: true
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
                     drag.target: undefined
@@ -291,8 +291,8 @@ Rectangle {
                         drag.target = undefined
                     }
                     onPressed: {
-                        treeView.focus = true
-                        if (isItem) {
+                        if (assetDelegate.isItem) {
+                            //sel.select(styleData.index, ItemSelectionModel.Select)
                             sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
                             if (mouse.button === Qt.LeftButton) {
                                 drag.target = parent
@@ -314,6 +314,7 @@ Rectangle {
                             }
 
                         }
+                        treeView.focus = true
                     }
                     onDoubleClicked: {
                         if (isItem) {
