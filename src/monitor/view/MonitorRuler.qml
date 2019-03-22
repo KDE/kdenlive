@@ -72,7 +72,7 @@ Rectangle {
     }
     // Zone duration indicator
     Rectangle {
-        visible: zoneToolTipTimer.running || rulerMouseArea.containsMouse || trimInMouseArea.containsMouse || trimInMouseArea.pressed || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed
+        visible: inZoneMarker.visible || zoneToolTipTimer.running
         width: inLabel.contentWidth + 4
         height: inLabel.contentHeight
         property int centerPos: zone.x + zone.width / 2 - inLabel.contentWidth / 2
@@ -100,12 +100,13 @@ Rectangle {
     }
     // monitor zone
     Rectangle {
+        id: inZoneMarker
         x: controller.zoneIn * root.timeScale
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         width: 1
         color: activePalette.highlight
-        visible: rulerMouseArea.containsMouse || trimInMouseArea.containsMouse || trimInMouseArea.pressed || trimOutMouseArea.containsMouse
+        visible: controller.zoneOut > controller.zoneIn && (rulerMouseArea.containsMouse || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
     }
     Rectangle {
         x: controller.zoneOut * root.timeScale
@@ -113,7 +114,7 @@ Rectangle {
         anchors.top: parent.top
         width: 1
         color: activePalette.highlight
-        visible: rulerMouseArea.containsMouse || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse
+        visible: inZoneMarker.visible
     }
     Rectangle {
         id: zone
