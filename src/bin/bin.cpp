@@ -2164,12 +2164,16 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
                                                    QItemSelectionModel::Select);
         }
         setCurrent(parentItem);
+        bool res = false;
         if (effectData.count() == 4) {
             // Paste effect from another stack
             std::shared_ptr<EffectStackModel> sourceStack = pCore->getItemEffectStack(effectData.at(1).toInt(), effectData.at(2).toInt());
-            std::static_pointer_cast<ProjectClip>(parentItem)->copyEffect(sourceStack, effectData.at(3).toInt());
+            res = std::static_pointer_cast<ProjectClip>(parentItem)->copyEffect(sourceStack, effectData.at(3).toInt());
         } else {
-            std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
+            res = std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
+        }
+        if (!res) {
+            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
         }
     }
 }

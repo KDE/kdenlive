@@ -199,7 +199,7 @@ public:
     std::shared_ptr<EffectStackModel> getEffectStack() const;
 
     /** @brief Append an effect to this producer's effect list */
-    void addEffect(const QString &effectId);
+    bool addEffect(const QString &effectId);
 
 protected:
     virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};
