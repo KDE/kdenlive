@@ -94,7 +94,6 @@ private:
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;
-    bool m_active;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
 

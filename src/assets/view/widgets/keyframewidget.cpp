@@ -51,7 +51,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     : AbstractParamWidget(std::move(model), index, parent)
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
-    , m_active(false)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
@@ -411,10 +410,6 @@ void KeyframeWidget::slotInitMonitor(bool active)
 
 void KeyframeWidget::connectMonitor(bool active)
 {
-    if (active == m_active) {
-        return;
-    }
-    m_active = active;
     if (m_monitorHelper) {
         if (m_monitorHelper->connectMonitor(active)) {
             slotRefreshParams();
