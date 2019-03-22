@@ -84,7 +84,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
-    Q_PROPERTY(bool showItem MEMBER m_showItem)
+    Q_PROPERTY(bool showItem MEMBER m_showItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
 
 public:
@@ -109,7 +109,9 @@ public:
 
     void paint(QPainter *painter) override
     {
-        if (!m_showItem || m_audioLevels.isEmpty()) return;
+        if (!m_showItem || m_audioLevels.isEmpty()) {
+            return;
+        }
         const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
         QPen pen = painter->pen();
         pen.setColor(m_color);
@@ -190,6 +192,7 @@ signals:
     void propertyChanged();
     void inPointChanged();
     void outPointChanged();
+    void showItemChanged();
     void audioChannelsChanged();
 
 private:

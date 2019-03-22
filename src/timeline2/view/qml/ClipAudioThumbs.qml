@@ -8,7 +8,7 @@ Row {
     id: waveform
     visible: clipStatus != ClipState.VideoOnly && parentTrack.isAudio && !parentTrack.isMute
     opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
-    property int maxWidth: 2000
+    property int maxWidth: 1000
     property int innerWidth: clipRoot.width - clipRoot.border.width * 2
     anchors.fill: parent
     property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
@@ -18,7 +18,7 @@ Row {
 
     Timer {
         id: waveTimer
-        interval: 5; running: false; repeat: false
+        interval: 50; running: false; repeat: false
         onTriggered: processReload()
     }
 
@@ -36,13 +36,10 @@ Row {
         if (!waveform.visible || !timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax) || clipRoot.audioLevels == '') {
             return;
         }
-            //var t0 = new Date();
-            waveformRepeater.model = Math.ceil(waveform.innerWidth / waveform.maxWidth)
-            var firstWaveRepeater = Math.max(0, Math.floor((waveform.scrollMin - clipRoot.modelStart) / (waveform.maxWidth / timeline.scaleFactor)))
-            var lastWaveRepeater = Math.min(waveformRepeater.count - 1, firstWaveRepeater + Math.ceil((waveform.scrollMax - waveform.scrollMin) / (waveform.maxWidth / timeline.scaleFactor)))
-            for (var i = firstWaveRepeater; i <= lastWaveRepeater; i++) {
-                waveformRepeater.itemAt(i).update()
-            }
+        var chunks = Math.ceil(waveform.innerWidth / waveform.maxWidth)
+        if (waveformRepeater.model == undefined || chunks != waveformRepeater.model) {
+            waveformRepeater.model = chunks
+        }
     }
 
     Repeater {
@@ -58,6 +55,11 @@ Row {
             inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * Math.abs(clipRoot.speed)) * channels
             outPoint: inPoint + Math.round(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels
             fillColor: activePalette.text
+            onShowItemChanged: {
+                if (showItem) {
+                    update();
+                }
+            }
         }
     }
 }

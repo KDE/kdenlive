@@ -68,7 +68,7 @@ Rectangle {
     property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
-    property bool forceReloadThumb: false
+    property bool forceReloadThumb
     width : clipDuration * timeScale;
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
@@ -285,8 +285,13 @@ Rectangle {
         clip: true
         Loader {
             id: thumbsLoader
+            asynchronous: true
+            visible: status == Loader.Ready
             anchors.fill: parent
             source: parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
+            onLoaded: {
+                item.reload()
+            }
         }
 
         Rectangle {
