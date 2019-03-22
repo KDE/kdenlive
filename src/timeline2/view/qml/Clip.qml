@@ -432,9 +432,9 @@ Rectangle {
         id: compositionIn
         anchors.left: parent.left
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 4
+        anchors.bottomMargin: 2
         anchors.leftMargin: 4
-        width: root.baseUnit * 1.5
+        width: root.baseUnit * 1.2
         height: width
         radius: 2
         color: Qt.darker('mediumpurple')
@@ -442,6 +442,7 @@ Rectangle {
         border.color: 'green'
         opacity: 0
         enabled: !clipRoot.isAudio && !dragProxy.isComposition
+        visible: clipRoot.width > 4 * width
         MouseArea {
             id: compInArea
             anchors.fill: parent
@@ -455,6 +456,9 @@ Rectangle {
             }
             onPressed: {
                 timeline.addCompositionToClip('', clipRoot.clipId, 0)
+            }
+            onReleased: {
+                parent.opacity = 0
             }
             ToolTip {
                 visible: compInArea.containsMouse && !dragProxyArea.pressed
@@ -476,9 +480,9 @@ Rectangle {
         id: compositionOut
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 4
+        anchors.bottomMargin: 2
         anchors.rightMargin: 4
-        width: root.baseUnit * 1.5
+        width: root.baseUnit * 1.2
         height: width
         radius: 2
         color: Qt.darker('mediumpurple')
@@ -486,6 +490,7 @@ Rectangle {
         border.color: 'green'
         opacity: 0
         enabled: !clipRoot.isAudio
+        visible: clipRoot.width > 4 * width
         MouseArea {
             id: compOutArea
             anchors.fill: parent
@@ -493,15 +498,17 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             onEntered: {
                 parent.opacity = 0.7
-                parent.visible = true
             }
             onExited: {
-                parent.opacity = 0
-                parent.visible = false
+                if (!pressed) {
+                    parent.opacity = 0
+                }
             }
             onPressed: {
-                parent.visible = false
                 timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
+            }
+            onReleased: {
+                parent.opacity = 0
             }
             ToolTip {
                 visible: compOutArea.containsMouse && !dragProxyArea.pressed
@@ -545,6 +552,7 @@ Rectangle {
         border.color: 'green'
         enabled: !isLocked && !dragProxy.isComposition
         opacity: 0
+        visible : clipRoot.width > 3 * width
         Drag.active: fadeInMouseArea.drag.active
         MouseArea {
             id: fadeInMouseArea
@@ -644,6 +652,7 @@ Rectangle {
         opacity: 0
         enabled: !isLocked && !dragProxy.isComposition
         Drag.active: fadeOutMouseArea.drag.active
+        visible : clipRoot.width > 3 * width
         MouseArea {
             id: fadeOutMouseArea
             anchors.fill: parent
