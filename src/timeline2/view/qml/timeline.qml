@@ -985,7 +985,7 @@ Rectangle {
                                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
-                                    if (mouse.modifiers & Qt.ControlModifier) {
+                                    if (mouse.modifiers & Qt.ControlModifier || !(controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         mouse.accepted = false
                                         return
                                     }
