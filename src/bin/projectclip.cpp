@@ -765,9 +765,21 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
     const QByteArray clipXml = c.get("string");
     std::shared_ptr<Mlt::Producer> prod;
     prod.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
+
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");
     }
+
+    // we pass some properties that wouldn't be passed because of the novalidate
+    const char *prefix = "meta.";
+    const size_t prefix_len = strlen(prefix);
+    for (int i = 0; i < m_masterProducer->count(); ++i) {
+        char *current = m_masterProducer->get_name(i);
+        if (strlen(current) >= prefix_len && strncmp(current, prefix, prefix_len) == 0) {
+            prod->set(current, m_masterProducer->get(i));
+        }
+    }
+
     if (removeEffects) {
         int ct = 0;
         Mlt::Filter *filter = prod->filter(ct);

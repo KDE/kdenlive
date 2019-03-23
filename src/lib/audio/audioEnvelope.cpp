@@ -32,11 +32,12 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { envelopeReady(this); });
     if (!m_producer || !m_producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << binId;
-    }
-    m_info = std::make_unique<AudioInfo>(m_producer);
-    if (length > 0) {
-        Q_ASSERT(length + m_offset <= m_envelopeSize);
-        m_envelopeSize = length;
+    } else {
+        m_info = std::make_unique<AudioInfo>(m_producer);
+        if (length > 0) {
+            Q_ASSERT(length + m_offset <= m_envelopeSize);
+            m_envelopeSize = length;
+        }
     }
 }
 
@@ -89,6 +90,9 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
 {
     qCDebug(KDENLIVE_LOG) << "Loading envelope ...";
     AudioSummary summary(m_envelopeSize);
+    if (!m_info || m_info->size() == 0) {
+        return summary;
+    }
     int samplingRate = m_info->info(0)->samplingRate();
     mlt_audio_format format_s16 = mlt_audio_s16;
     int channels = 1;
