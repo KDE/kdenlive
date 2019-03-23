@@ -391,14 +391,15 @@ protected:
     bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo);
 
 public:
-    /* @brief Deletes the given clip or composition from the timeline This
-       action is undoable Returns true on success. If it fails, nothing is
-       modified. If the clip/composition is in a group, the call is deferred to
-       requestGroupDeletion @param clipId is the ID of the clip/composition
+    /* @brief Deletes the given clip or composition from the timeline.
+       This action is undoable.
+       Returns true on success. If it fails, nothing is modified.
+       If the clip/composition is in a group, the call is deferred to requestGroupDeletion
+       @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored */
-    Q_INVOKABLE bool requestItemDeletion(int clipId, bool logUndo = true);
+    Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestItemDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo);
 
     /* @brief Move a group to a specific position
        This action is undoable
@@ -684,7 +685,7 @@ protected:
     /* @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
-    /* Same function but accumulates undo and redo, and doesn't check for group*/
+    /* Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
 

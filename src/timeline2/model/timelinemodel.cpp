@@ -1062,13 +1062,20 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     return true;
 }
 
-bool TimelineModel::requestItemDeletion(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    if (m_groups->isInGroup(clipId)) {
-        return requestGroupDeletion(clipId, undo, redo);
+    if (m_groups->isInGroup(itemId)) {
+        return requestGroupDeletion(itemId, undo, redo);
     }
-    return requestClipDeletion(clipId, undo, redo);
+    if (isClip(itemId)) {
+        return requestClipDeletion(itemId, undo, redo);
+    }
+    if (isComposition(itemId)) {
+        return requestCompositionDeletion(itemId, undo, redo);
+    }
+    Q_ASSERT(false);
+    return false;
 }
 
 bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
@@ -1076,22 +1083,19 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     QWriteLocker locker(&m_lock);
     TRACE(itemId, logUndo);
     Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    QString actionLabel;
     if (m_groups->isInGroup(itemId)) {
-        bool res = requestGroupDeletion(itemId, logUndo);
-        TRACE_RES(res);
-        return res;
+        actionLabel = i18n("Remove group");
+    } else {
+        if (isClip(itemId)) {
+            actionLabel = i18n("Delete Clip");
+        } else {
+            actionLabel = i18n("Delete Composition");
+        }
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = false;
-    QString actionLabel;
-    if (isClip(itemId)) {
-        actionLabel = i18n("Delete Clip");
-        res = requestClipDeletion(itemId, undo, redo);
-    } else {
-        actionLabel = i18n("Delete Composition");
-        res = requestCompositionDeletion(itemId, undo, redo);
-    }
+    bool res = requestItemDeletion(itemId, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, actionLabel);
     }
@@ -1438,12 +1442,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
         TRACE_RES(false);
         return false;
     }
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    bool res = requestGroupDeletion(clipId, undo, redo);
-    if (res && logUndo) {
-        PUSH_UNDO(undo, redo, i18n("Remove group"));
-    }
+    bool res = requestItemDeletion(clipId, logUndo);
     TRACE_RES(res);
     return res;
 }
@@ -1479,7 +1478,8 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
             }
         }
         if (one_child != -1) {
-            if (isSelection) {
+            if (m_groups->getType(current_group) == GroupType::Selection) {
+                Q_ASSERT(isSelection);
                 // in the case of a selection group, we delete the group but don't log it in the undo object
                 Fun tmp_undo = []() { return true; };
                 Fun tmp_redo = []() { return true; };

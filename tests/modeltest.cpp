@@ -797,7 +797,12 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid5 = TrackModel::construct(timeline);
         int tid5b = TrackModel::construct(timeline);
-
+        auto state0 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid5) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid6) == 0);
+        };
+        state0();
         QString binId3 = createProducerWithSound(profile_model, binModel);
 
         int cid6 = -1;
@@ -824,6 +829,23 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getClipPtr(cid7)->clipState() == PlaylistState::AudioOnly);
             check_group();
         };
+        state(3);
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state(3);
+
+        // test deletion + undo after selection
+        REQUIRE(timeline->requestSetSelection({cid6}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid6, cid7});
+
+        REQUIRE(timeline->requestItemDeletion(cid6, true));
+        state0();
+        undoStack->undo();
+        state(3);
+        undoStack->redo();
+        state0();
+        undoStack->undo();
         state(3);
 
         // simple translation on the right
@@ -1694,5 +1716,3 @@ TEST_CASE("Snapping", "[Snapping]")
     pCore->m_projectManager = nullptr;
     Logger::print_trace();
 }
-
-
