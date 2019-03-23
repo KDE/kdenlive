@@ -134,12 +134,13 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     }
 
     // we create the function that has to be executed after the melt order. This is essentially book-keeping
-    auto end_function = [clipId, this, position, updateView, finalMove]() {
+    auto end_function = [clipId, this, position, updateView, finalMove](int subPlaylist) {
         if (auto ptr = m_parent.lock()) {
             std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
             m_allClips[clip->getId()] = clip; // store clip
             // update clip position and track
             clip->setPosition(position);
+            clip->setSubPlaylistIndex(subPlaylist);
             int new_in = clip->getPosition();
             int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
@@ -176,7 +177,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 if (finalMove) {
                     ptr->updateDuration();
                 }
-                return index != -1 && end_function();
+                return index != -1 && end_function(0);
             }
             qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
             return false;
@@ -199,7 +200,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     int index = m_playlists[0].insert_at(position, *clip, 1);
                     m_playlists[0].consolidate_blanks();
                     m_playlists[0].unlock();
-                    return index != -1 && end_function();
+                    return index != -1 && end_function(0);
                 }
                 qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
                 return false;
@@ -292,7 +293,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
         }
-        int target_track = clip_loc.first;
+        int target_track = m_allClips[clipId]->getSubPlaylistIndex();
         int target_clip = clip_loc.second;
         // lock MLT playlist so that we don't end up with invalid frames in monitor
         m_playlists[target_track].lock();
@@ -302,6 +303,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         if (prod != nullptr) {
             m_playlists[target_track].consolidate_blanks();
             m_allClips[clipId]->setCurrentTrackId(-1);
+            m_allClips[clipId]->setSubPlaylistIndex(-1);
             m_allClips.erase(clipId);
             delete prod;
             m_playlists[target_track].unlock();
@@ -731,6 +733,23 @@ bool TrackModel::checkConsistency()
     if (!ptr) {
         return false;
     }
+    auto check_blank_zone = [&](int playlist, int in, int out) {
+        if (in >= m_playlists[playlist].get_playtime()) {
+            return true;
+        }
+        int index = m_playlists[playlist].get_clip_index_at(in);
+        if (!m_playlists[playlist].is_blank(index)) {
+            return false;
+        }
+        int cin = m_playlists[playlist].clip_start(index);
+        if (cin > in) {
+            return false;
+        }
+        if (cin + m_playlists[playlist].clip_length(index) - 1 < out) {
+            return false;
+        }
+        return true;
+    };
     std::vector<std::pair<int, int>> clips; // clips stored by (position, id)
     for (const auto &c : m_allClips) {
         Q_ASSERT(c.second);
@@ -738,46 +757,101 @@ bool TrackModel::checkConsistency()
         clips.emplace_back(c.second->getPosition(), c.first);
     }
     std::sort(clips.begin(), clips.end());
-    size_t current_clip = 0;
-    int playtime = std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
-    for (int i = 0; i < playtime; i++) {
-        int track, index;
-        if (isBlankAt(i)) {
-            track = 0;
-            index = m_playlists[0].get_clip_index_at(i);
-        } else {
-            auto clip_loc = getClipIndexAt(i);
-            track = clip_loc.first;
-            index = clip_loc.second;
+    int last_out = 0;
+    for (size_t i = 0; i < clips.size(); ++i) {
+        auto cur_clip = m_allClips[clips[i].second];
+        if (last_out < clips[i].first) {
+            // we have some blank space before this clip, check it
+            for (int pl = 0; pl <= 1; ++pl) {
+                if (!check_blank_zone(pl, last_out, clips[i].first - 1)) {
+                    qDebug() << "ERROR: Some blank was required on playlist " << pl << " between " << last_out << " and " << clips[i].first - 1;
+                    return false;
+                }
+            }
         }
-        Q_ASSERT(m_playlists[(track + 1) % 2].is_blank_at(i));
-        if (current_clip < clips.size() && i >= clips[current_clip].first) {
-            auto clip = m_allClips[clips[current_clip].second];
-            if (i >= clips[current_clip].first + clip->getPlaytime()) {
-                current_clip++;
-                i--;
-                continue;
-            }
-            if (isBlankAt(i)) {
-                qDebug() << "ERROR: Found blank when clip was required at position " << i;
-                return false;
-            }
-            auto pr = m_playlists[track].get_clip(index);
-            Mlt::Producer prod(pr);
-            if (!prod.same_clip(*clip)) {
-                qDebug() << "ERROR: Wrong clip at position " << i;
-                delete pr;
-                return false;
-            }
+        int cur_playlist = cur_clip->getSubPlaylistIndex();
+        int clip_index = m_playlists[cur_playlist].get_clip_index_at(clips[i].first);
+        if (m_playlists[cur_playlist].is_blank(clip_index)) {
+            qDebug() << "ERROR: Found blank when clip was required at position " << clips[i].first;
+            return false;
+        }
+        if (m_playlists[cur_playlist].clip_start(clip_index) != clips[i].first) {
+            qDebug() << "ERROR: Inconsistent start position for clip at position " << clips[i].first;
+            return false;
+        }
+        if (m_playlists[cur_playlist].clip_start(clip_index) != clips[i].first) {
+            qDebug() << "ERROR: Inconsistent start position for clip at position " << clips[i].first;
+            return false;
+        }
+        if (m_playlists[cur_playlist].clip_length(clip_index) != cur_clip->getPlaytime()) {
+            qDebug() << "ERROR: Inconsistent length for clip at position " << clips[i].first;
+            return false;
+        }
+        auto pr = m_playlists[cur_playlist].get_clip(clip_index);
+        Mlt::Producer prod(pr);
+        if (!prod.same_clip(*cur_clip)) {
+            qDebug() << "ERROR: Wrong clip at position " << clips[i].first;
             delete pr;
+            return false;
+        }
+        delete pr;
 
-        } else {
-            if (!isBlankAt(i)) {
-                qDebug() << "ERROR: Found clip when blank was required at position " << i;
-                return false;
+        // the current playlist is valid, we check that the other is essentially blank
+        int other_playlist = (cur_playlist + 1) % 2;
+        int in_blank = clips[i].first;
+        int out_blank = clips[i].first + cur_clip->getPlaytime() - 1;
+
+        // the previous clip on the same playlist must not intersect
+        int prev_clip_id_same_playlist = -1;
+        for (int j = (int)i - 1; j >= 0; --j) {
+            if (cur_playlist == m_allClips[clips[(size_t)j].second]->getSubPlaylistIndex()) {
+                prev_clip_id_same_playlist = j;
+                break;
             }
         }
+        if (prev_clip_id_same_playlist >= 0 &&
+            clips[(size_t)prev_clip_id_same_playlist].first + m_allClips[clips[(size_t)prev_clip_id_same_playlist].second]->getPlaytime() > clips[i].first) {
+            qDebug() << "ERROR: found overlapping clips at position " << clips[i].first;
+            return false;
+        }
+
+        // the previous clip on the other playlist might restrict the blank in/out
+        int prev_clip_id_other_playlist = -1;
+        for (int j = (int)i - 1; j >= 0; --j) {
+            if (other_playlist == m_allClips[clips[(size_t)j].second]->getSubPlaylistIndex()) {
+                prev_clip_id_other_playlist = j;
+                break;
+            }
+        }
+        if (prev_clip_id_other_playlist >= 0) {
+            in_blank = std::max(in_blank, clips[(size_t)prev_clip_id_other_playlist].first +
+                                              m_allClips[clips[(size_t)prev_clip_id_other_playlist].second]->getPlaytime());
+        }
+
+        // the next clip on the other playlist might restrict the blank in/out
+        int next_clip_id_other_playlist = -1;
+        for (int j = (int)i + 1; j < (int)clips.size(); ++j) {
+            if (other_playlist == m_allClips[clips[(size_t)j].second]->getSubPlaylistIndex()) {
+                next_clip_id_other_playlist = j;
+                break;
+            }
+        }
+        if (next_clip_id_other_playlist >= 0) {
+            out_blank = std::min(out_blank, clips[(size_t)next_clip_id_other_playlist].first - 1);
+        }
+        if (in_blank <= out_blank && !check_blank_zone(other_playlist, in_blank, out_blank)) {
+            qDebug() << "ERROR: we expected blank on playlist " << other_playlist << " between " << in_blank << " and " << out_blank;
+            return false;
+        }
+
+        last_out = clips[i].first + cur_clip->getPlaytime();
     }
+    int playtime = std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
+    if (!clips.empty() && playtime != clips.back().first + m_allClips[clips.back().second]->getPlaytime()) {
+        qDebug() << "Error: playtime is " << playtime << " but was expected to be" << clips.back().first + m_allClips[clips.back().second]->getPlaytime();
+        return false;
+    }
+
     // We now check compositions positions
     if (m_allCompositions.size() != m_compoPos.size()) {
         qDebug() << "Error: the number of compositions position doesn't match number of compositions";

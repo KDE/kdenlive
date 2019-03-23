@@ -685,3 +685,12 @@ bool ClipModel::checkConsistency()
 
     return true;
 }
+
+int ClipModel::getSubPlaylistIndex() const
+{
+    return m_subPlaylistIndex;
+}
+void ClipModel::setSubPlaylistIndex(int index)
+{
+    m_subPlaylistIndex = index;
+}

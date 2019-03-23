@@ -137,6 +137,10 @@ public:
     int fadeIn() const;
     int fadeOut() const;
 
+    /**@brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
+    int getSubPlaylistIndex() const;
+    void setSubPlaylistIndex(int index);
+
     friend class TrackModel;
     friend class TimelineModel;
     friend class TimelineItemModel;
@@ -212,6 +216,8 @@ protected:
     // Fake track id, used when dragging in insert/overwrite mode
     int m_fakeTrack;
     int m_fakePosition;
+
+    int m_subPlaylistIndex; // Tracks have two sub playlists to enable same track transitions, we store in which one this clip is.
 };
 
 #endif
