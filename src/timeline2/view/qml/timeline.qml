@@ -1060,7 +1060,8 @@ Rectangle {
                                     }
                                 }
                                 onPositionChanged: {
-                                    if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton) {
+                                    // we have to check item validity in the controller, because they could have been deleted since the beginning of the drag
+                                    if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         continuousScrolling(mouse.x + parent.x)
                                         var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
@@ -1100,7 +1101,7 @@ Rectangle {
                                 }
                                 onReleased: {
                                     clipBeingMovedId = -1
-                                    if (!shiftClick && dragProxy.draggedItem > -1 && dragFrame > -1) {
+                                    if (!shiftClick && dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                         if (dragProxy.isComposition) {
                                             controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false, false)

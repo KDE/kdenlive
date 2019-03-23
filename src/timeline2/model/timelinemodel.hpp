@@ -215,16 +215,16 @@ public:
     int getClipSplitPartner(int clipId) const;
 
     /* @brief Helper function that returns true if the given ID corresponds to a clip */
-    bool isClip(int id) const;
+    Q_INVOKABLE bool isClip(int id) const;
 
     /* @brief Helper function that returns true if the given ID corresponds to a composition */
-    bool isComposition(int id) const;
+    Q_INVOKABLE bool isComposition(int id) const;
 
     /* @brief Helper function that returns true if the given ID corresponds to a track */
-    bool isTrack(int id) const;
+    Q_INVOKABLE bool isTrack(int id) const;
 
     /* @brief Helper function that returns true if the given ID corresponds to a group */
-    bool isGroup(int id) const;
+    Q_INVOKABLE bool isGroup(int id) const;
 
     /* @brief Given a composition Id, returns its underlying parameter model */
     std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
