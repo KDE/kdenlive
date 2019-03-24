@@ -23,6 +23,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "logger.hpp"
 #include "macros.hpp"
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
@@ -77,6 +78,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     state = stateFromBool(videoAudio);
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
+    TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
     return id;

@@ -39,6 +39,20 @@
 #include <mlt++/MltTractor.h>
 #include <mlt++/MltTransition.h>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wsign-conversion"
+#pragma GCC diagnostic ignored "-Wfloat-equal"
+#pragma GCC diagnostic ignored "-Wshadow"
+#pragma GCC diagnostic ignored "-Wpedantic"
+#include <rttr/registration>
+#pragma GCC diagnostic pop
+RTTR_REGISTRATION
+{
+    using namespace rttr;
+    registration::class_<TimelineItemModel>("TimelineItemModel");
+}
+
 TimelineItemModel::TimelineItemModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : TimelineModel(profile, std::move(undo_stack))
 {

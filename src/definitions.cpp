@@ -41,6 +41,11 @@ RTTR_REGISTRATION
         value("AVSplit", GroupType::AVSplit),
         value("Leaf", GroupType::Leaf)
         );
+    registration::enumeration<PlaylistState::ClipState>("PlaylistState")(
+        value("VideoOnly", PlaylistState::VideoOnly),
+        value("AudioOnly", PlaylistState::AudioOnly),
+        value("Disabled", PlaylistState::Disabled)
+        );
     // clang-format on
 }
 

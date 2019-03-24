@@ -22,6 +22,7 @@
 #include "logger.hpp"
 #include "bin/projectitemmodel.h"
 #include "timeline2/model/timelinefunctions.hpp"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include <QString>
 #include <fstream>
@@ -66,7 +67,7 @@ void Logger::init()
         }
     };
 
-    for (const auto &o : {"TimelineModel", "TrackModel", "test_producer", "test_producer_sound"}) {
+    for (const auto &o : {"TimelineModel", "TrackModel", "test_producer", "test_producer_sound", "ClipModel"}) {
         translation_table[std::string("constr_") + o] = cur_ind;
         incr_ind(incr_ind);
     }
@@ -106,6 +107,8 @@ std::string Logger::get_ptr_name(const rttr::variant &ptr)
         return "timeline_" + std::to_string(get_id_from_ptr(ptr.convert<TimelineModel *>()));
     } else if (ptr.can_convert<ProjectItemModel *>()) {
         return "binModel";
+    } else if (ptr.can_convert<TimelineItemModel *>()) {
+        return "timeline_" + std::to_string(get_id_from_ptr(static_cast<TimelineModel *>(ptr.convert<TimelineItemModel *>())));
     } else {
         std::cout << "Error: unhandled ptr type " << ptr.get_type().get_name().to_string() << std::endl;
     }
@@ -175,6 +178,12 @@ void Logger::print_trace()
                 ss << "dummy_" << i;
             } else if (a.get_type() == rttr::type::get<int>()) {
                 ss << a.convert<int>();
+            } else if (a.get_type() == rttr::type::get<double>()) {
+                ss << a.convert<double>();
+            } else if (a.get_type() == rttr::type::get<float>()) {
+                ss << a.convert<float>();
+            } else if (a.get_type() == rttr::type::get<size_t>()) {
+                ss << a.convert<size_t>();
             } else if (a.get_type() == rttr::type::get<bool>()) {
                 ss << (a.convert<bool>() ? "true" : "false");
             } else if (a.get_type().is_enumeration()) {
@@ -220,6 +229,12 @@ void Logger::print_trace()
                 continue;
             } else if (a.get_type() == rttr::type::get<int>()) {
                 ss << a.convert<int>();
+            } else if (a.get_type() == rttr::type::get<double>()) {
+                ss << a.convert<double>();
+            } else if (a.get_type() == rttr::type::get<float>()) {
+                ss << a.convert<float>();
+            } else if (a.get_type() == rttr::type::get<size_t>()) {
+                ss << a.convert<size_t>();
             } else if (a.get_type() == rttr::type::get<bool>()) {
                 ss << (a.convert<bool>() ? "1" : "0");
             } else if (a.get_type().is_enumeration()) {
@@ -250,6 +265,8 @@ void Logger::print_trace()
             } else if (a.get_type().is_pointer()) {
                 if (a.can_convert<TimelineModel *>()) {
                     ss << get_id_from_ptr(a.convert<TimelineModel *>());
+                } else if (a.can_convert<TimelineItemModel *>()) {
+                    ss << get_id_from_ptr(static_cast<TimelineModel *>(a.convert<TimelineItemModel *>()));
                 } else if (a.can_convert<ProjectItemModel *>()) {
                     // only one binModel, we skip the parameter since it's unambiguous
                 } else {
@@ -288,7 +305,16 @@ void Logger::print_trace()
             InvokId id = o.convert<Logger::InvokId>();
             Invok &invok = invoks[id.id];
             std::unordered_set<size_t> refs;
+            bool is_static = false;
             rttr::method m = invok.ptr.get_type().get_method(invok.method);
+            if (!m.is_valid()) {
+                is_static = true;
+                m = rttr::type::get_by_name("TimelineFunctions").get_method(invok.method);
+            }
+            if (!m.is_valid()) {
+                std::cout << "ERROR: unknown method " << invok.method << std::endl;
+                continue;
+            }
             test_file << "{" << std::endl;
             for (const auto &a : m.get_parameter_infos()) {
                 if (isIthParamARef(m, a.get_index())) {
@@ -300,7 +326,12 @@ void Logger::print_trace()
             if (m.get_return_type() != rttr::type::get<void>()) {
                 test_file << m.get_return_type().get_name().to_string() << " res = ";
             }
-            test_file << get_ptr_name(invok.ptr) << "->" << invok.method << "(" << process_args(invok.args, refs) << ");" << std::endl;
+            if (is_static) {
+                test_file << "TimelineFunctions::" << invok.method << "(" << get_ptr_name(invok.ptr) << ", " << process_args(invok.args, refs) << ");"
+                          << std::endl;
+            } else {
+                test_file << get_ptr_name(invok.ptr) << "->" << invok.method << "(" << process_args(invok.args, refs) << ");" << std::endl;
+            }
             if (m.get_return_type() != rttr::type::get<void>() && invok.res.is_valid()) {
                 test_file << "REQUIRE( res == " << invok.res.to_string() << ");" << std::endl;
             }
@@ -309,7 +340,8 @@ void Logger::print_trace()
             std::string invok_name = invok.method;
             if (translation_table.count(invok_name) > 0) {
                 auto args = invok.args;
-                if (rttr::type::get<TimelineModel>().get_method(invok_name).is_valid()) {
+                if (rttr::type::get<TimelineModel>().get_method(invok_name).is_valid() ||
+                    rttr::type::get<TimelineFunctions>().get_method(invok_name).is_valid()) {
                     args.insert(args.begin(), invok.ptr);
                     // adding an arg just messed up the references
                     std::unordered_set<size_t> new_refs;
@@ -341,6 +373,9 @@ void Logger::print_trace()
             } else if (id.type == "TrackModel") {
                 std::string params = process_args(constr[id.type][id.id].second);
                 test_file << "TrackModel::construct(" << params << ");" << std::endl;
+            } else if (id.type == "ClipModel") {
+                std::string params = process_args(constr[id.type][id.id].second);
+                test_file << "ClipModel::construct(" << params << ");" << std::endl;
             } else if (id.type == "test_producer") {
                 std::string params = process_args(constr[id.type][id.id].second);
                 test_file << "createProducer(reg_profile, " << params << ");" << std::endl;

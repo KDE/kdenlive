@@ -261,11 +261,22 @@ void fuzz(const std::string &input)
 
     while (ss >> c) {
         if (Logger::back_translation_table.count(c) > 0) {
-            // std::cout << "found=" << c;
+            std::cout << "found=" << c;
             c = Logger::back_translation_table[c];
             // std::cout << " tranlated=" << c << std::endl;
             if (c == "constr_TimelineModel") {
                 all_timelines.emplace_back(TimelineItemModel::construct(&profile, guideModel, undoStack));
+            } else if (c == "constr_ClipModel") {
+                auto timeline = get_timeline();
+                int id = 0, state_id;
+                double speed = 1;
+                PlaylistState::ClipState state = PlaylistState::VideoOnly;
+                std::string binId;
+                ss >> binId >> id >> state_id >> speed;
+                state = static_cast<PlaylistState::ClipState>(state_id);
+                if (timeline) {
+                    ClipModel::construct(timeline, QString::fromStdString(binId), -1, state, speed);
+                }
             } else if (c == "constr_TrackModel") {
                 auto timeline = get_timeline();
                 int id, pos = 0;
@@ -289,12 +300,12 @@ void fuzz(const std::string &input)
             } else if (c == "constr_test_producer_sound") {
                 createProducerWithSound(profile, binModel);
             } else {
-                // std::cout << "executing " << c << std::endl;
+                std::cout << "executing " << c << std::endl;
                 rttr::type target_type = rttr::type::get<int>();
                 bool found = false;
-                for (const std::string &t : {"TimelineModel"}) {
+                for (const std::string &t : {"TimelineModel", "TimelineFunctions"}) {
                     rttr::type current_type = rttr::type::get_by_name(t);
-                    // std::cout << "type " << t << " has methods count=" << current_type.get_methods().size() << std::endl;
+                    std::cout << "type " << t << " has methods count=" << current_type.get_methods().size() << std::endl;
                     if (current_type.get_method(c).is_valid()) {
                         found = true;
                         target_type = current_type;
@@ -302,6 +313,7 @@ void fuzz(const std::string &input)
                     }
                 }
                 if (found) {
+                    std::cout << "found!" << std::endl;
                     bool valid = true;
                     rttr::method target_method = target_type.get_method(c);
                     std::vector<rttr::variant> arguments;
@@ -316,7 +328,7 @@ void fuzz(const std::string &input)
                     for (const auto &p : target_method.get_parameter_infos()) {
                         ++i;
                         std::string arg_name = p.get_name().to_string();
-                        // std::cout << arg_name << std::endl;
+                        std::cout << arg_name << std::endl;
                         if (arg_name == "compoId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
@@ -330,7 +342,7 @@ void fuzz(const std::string &input)
                             int clipId = get_clip(tim);
                             valid = valid && (clipId >= 0);
                             arguments.emplace_back(clipId);
-                            // std::cout << "got clipId" << clipId << std::endl;
+                            std::cout << "got clipId" << clipId << std::endl;
                         } else if (arg_name == "trackId") {
                             std::shared_ptr<TimelineModel> tim =
                                 (ptr.can_convert<std::shared_ptr<TimelineModel>>() ? ptr.convert<std::shared_ptr<TimelineModel>>() : nullptr);
@@ -381,7 +393,19 @@ void fuzz(const std::string &input)
                             if (arg_type == rttr::type::get<int>()) {
                                 int a = 0;
                                 ss >> a;
-                                // std::cout << "read int " << a << std::endl;
+                                std::cout << "read int " << a << std::endl;
+                                arguments.emplace_back(a);
+                            } else if (arg_type == rttr::type::get<size_t>()) {
+                                size_t a = 0;
+                                ss >> a;
+                                arguments.emplace_back(a);
+                            } else if (arg_type == rttr::type::get<double>()) {
+                                double a = 0;
+                                ss >> a;
+                                arguments.emplace_back(a);
+                            } else if (arg_type == rttr::type::get<float>()) {
+                                float a = 0;
+                                ss >> a;
                                 arguments.emplace_back(a);
                             } else if (arg_type == rttr::type::get<bool>()) {
                                 bool a = false;
@@ -396,6 +420,17 @@ void fuzz(const std::string &input)
                                     str = "";
                                 }
                                 arguments.emplace_back(QString::fromStdString(str));
+                            } else if (arg_type == rttr::type::get<std::shared_ptr<TimelineItemModel>>()) {
+                                auto timeline = get_timeline();
+                                if (timeline) {
+                                    std::cout << "got timeline" << std::endl;
+                                    auto timeline2 = std::dynamic_pointer_cast<TimelineItemModel>(timeline);
+                                    arguments.emplace_back(timeline2);
+                                    ptr = timeline;
+                                } else {
+                                    std::cout << "didn't get timeline" << std::endl;
+                                    valid = false;
+                                }
                             } else if (arg_type.is_enumeration()) {
                                 int a = 0;
                                 ss >> a;
@@ -416,15 +451,15 @@ void fuzz(const std::string &input)
                         }
                     }
                     if (valid) {
-                        // std::cout << "VALID!!!" << std::endl;
+                        std::cout << "VALID!!! " << target_method.get_name().to_string() << std::endl;
                         std::vector<rttr::argument> args;
                         args.reserve(arguments.size());
-                        for (const auto &a : arguments) {
+                        for (auto &a : arguments) {
                             args.emplace_back(a);
-                            // std::cout<<"argument="<<a.get_type().get_name().to_string()<<std::endl;
+                            std::cout << "argument=" << a.get_type().get_name().to_string() << std::endl;
                         }
                         for (const auto &p : target_method.get_parameter_infos()) {
-                            // std::cout<<"expected="<<p.get_type().get_name().to_string()<<std::endl;
+                            std::cout << "expected=" << p.get_type().get_name().to_string() << std::endl;
                         }
                         rttr::variant res = target_method.invoke_variadic(ptr, args);
                         if (res.is_valid()) {
