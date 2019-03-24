@@ -279,9 +279,18 @@ void fuzz(const std::string &input)
                 PlaylistState::ClipState state = PlaylistState::VideoOnly;
                 std::string binId;
                 ss >> binId >> id >> state_id >> speed;
+                QString binClip = QString::fromStdString(binId);
+                bool valid = true;
+                if (!pCore->projectItemModel()->hasClip(binClip)) {
+                    if (pCore->projectItemModel()->getAllClipIds().size() == 0) {
+                        valid = false;
+                    } else {
+                        binClip = pCore->projectItemModel()->getAllClipIds()[0];
+                    }
+                }
                 state = static_cast<PlaylistState::ClipState>(state_id);
-                if (timeline) {
-                    ClipModel::construct(timeline, QString::fromStdString(binId), -1, state, speed);
+                if (timeline && valid) {
+                    ClipModel::construct(timeline, binClip, -1, state, speed);
                 }
             } else if (c == "constr_TrackModel") {
                 auto timeline = get_timeline();
