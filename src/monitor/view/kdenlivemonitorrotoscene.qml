@@ -12,6 +12,7 @@ Item {
     property string framenum
     property point profile
     property point center
+    property real baseUnit: fontMetrics.font.pointSize
     property double scalex : 1
     property double scaley : 1
     property double stretch : 1
@@ -21,7 +22,6 @@ Item {
     property double frameSize: 10
     property int duration: 300
     property double timeScale: 1
-    property real baseUnit: fontMetrics.font.pointSize
     property int mouseRulerPos: 0
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
@@ -32,8 +32,10 @@ Item {
     property bool isDefined: false
     property int requestedKeyFrame : -1
     property int requestedSubKeyFrame : -1
+    property bool requestedCenter : false
     // The coordinate points where the bezier curve passes
     property var centerPoints : []
+    property var centerCross : []
     // The control points for the bezier curve points (2 controls points for each coordinate)
     property var centerPointsTypes : []
     property bool showToolbar: false
@@ -109,6 +111,8 @@ Item {
                 }
             } else {
                 var c1; var c2
+                var topRight = []
+                var bottomLeft = []
                 for (var i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
@@ -118,11 +122,20 @@ Item {
                         if (root.requestedSubKeyFrame == root.centerPointsTypes.length - 1) {
                             subkf = true
                         }
+                        topRight.x = p1.x
+                        topRight.y = p1.y
+                        bottomLeft.x = p1.x
+                        bottomLeft.y = p1.y
                     } else {
                         c1 = convertPoint(root.centerPointsTypes[2*i - 1])
                         if (root.requestedSubKeyFrame == 2*i - 1) {
                             subkf = true
                         }
+                        // Find bounding box
+                        topRight.x = Math.max(p1.x, topRight.x)
+                        topRight.y = Math.min(p1.y, topRight.y)
+                        bottomLeft.x = Math.min(p1.x, bottomLeft.x)
+                        bottomLeft.y = Math.max(p1.y, bottomLeft.y)
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
@@ -160,6 +173,12 @@ Item {
                     c2 = convertPoint(root.centerPointsTypes[0])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, startP.x, startP.y);
                 }
+                centerCross.x = bottomLeft.x + (topRight.x - bottomLeft.x)/2
+                centerCross.y = topRight.y + (bottomLeft.y - topRight.y)/2
+                ctx.moveTo(centerCross.x - root.baseUnit, centerCross.y)
+                ctx.lineTo(centerCross.x + root.baseUnit, centerCross.y)
+                ctx.moveTo(centerCross.x, centerCross.y - root.baseUnit)
+                ctx.lineTo(centerCross.x, centerCross.y + root.baseUnit)
             }
 
             ctx.stroke()
@@ -211,12 +230,13 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         property bool pointContainsMouse
+        property bool centerContainsMouse
         hoverEnabled: true
-        cursorShape: !root.isDefined ? Qt.PointingHandCursor : pointContainsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: !root.isDefined ? Qt.PointingHandCursor : (pointContainsMouse || centerContainsMouse) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onClicked: {
             if (!root.isDefined) {
-                if (mouse.button == Qt.RightButton) {
+                if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
                     // close shape, define control points
                     var p0; var p1; var p2
                     for (var i = 0; i < root.centerPoints.length; i++) {
@@ -254,6 +274,21 @@ Item {
         onPositionChanged: {
             if (root.iskeyframe == false) return;
             if (isDefined && pressed) {
+                if (centerContainsMouse) {
+                    var xDiff = (mouseX - centerCross.x) / root.scalex
+                    var yDiff = (mouseY - centerCross.y) / root.scaley
+                    for (var j = 0; j < root.centerPoints.length; j++) {
+                        root.centerPoints[j].x += xDiff
+                        root.centerPoints[j].y += yDiff
+                        root.centerPointsTypes[j * 2].x += xDiff
+                        root.centerPointsTypes[j * 2].y += yDiff
+                        root.centerPointsTypes[j * 2 + 1].x += xDiff
+                        root.centerPointsTypes[j * 2 + 1].y += yDiff
+                    }
+                    canvas.requestPaint()
+                    root.effectPolygonChanged()
+                    return
+                }
                 if (root.requestedKeyFrame >= 0) {
                     var xDiff = (mouseX - frame.x) / root.scalex - root.centerPoints[root.requestedKeyFrame].x
                     var yDiff = (mouseY - frame.y) / root.scaley - root.centerPoints[root.requestedKeyFrame].y
@@ -277,11 +312,13 @@ Item {
                 var p1 = canvas.convertPoint(root.centerPoints[i])
                 if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
                     if (i == root.requestedKeyFrame) {
+                        centerContainsMouse = false
                         pointContainsMouse = true;
                         return;
                     }
                     root.requestedKeyFrame = i
                     canvas.requestPaint()
+                    centerContainsMouse = false
                     pointContainsMouse = true;
                     return;
                 }
@@ -291,21 +328,30 @@ Item {
                 var p1 = canvas.convertPoint(root.centerPointsTypes[i])
                 if (Math.abs(p1.x - mouseX) <= canvas.handleSize/2 && Math.abs(p1.y - mouseY) <= canvas.handleSize/2) {
                     if (i == root.requestedSubKeyFrame) {
+                        centerContainsMouse = false
                         pointContainsMouse = true;
                         return;
                     }
                     root.requestedSubKeyFrame = i
                     canvas.requestPaint()
+                    centerContainsMouse = false
                     pointContainsMouse = true;
                     return;
                 } 
               }
+              if (Math.abs(centerCross.x - mouseX) <= canvas.handleSize/2 && Math.abs(centerCross.y - mouseY) <= canvas.handleSize/2) {
+                    centerContainsMouse = true;
+                    pointContainsMouse = false;
+                    return;
+              }
+
               if (root.requestedKeyFrame == -1 && root.requestedSubKeyFrame == -1) {
                   return;
               }
               root.requestedKeyFrame = -1
               root.requestedSubKeyFrame = -1
               pointContainsMouse = false;
+              centerContainsMouse = false
               canvas.requestPaint()
             }
         }
