@@ -85,13 +85,14 @@ RTTR_REGISTRATION
         .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("itemIds"))
         .method("requestFakeClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestFakeClipMove))(
             parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
-        .method("requestFakeGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestFakeGroupMove))
+        .method("requestFakeGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestFakeGroupMove))(
+            parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
         // (parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView" "logUndo"))
         .method("suggestClipMove", &TimelineModel::suggestClipMove)(parameter_names("clipId", "trackId", "position", "cursorPosition", "snapDistance"))
         .method("suggestCompositionMove",
                 &TimelineModel::suggestCompositionMove)(parameter_names("compoId", "trackId", "position", "cursorPosition", "snapDistance"))
-        .method("addSnap", &TimelineModel::addSnap)(parameter_names("pos"))
-        .method("removeSnap", &TimelineModel::addSnap)(parameter_names("pos"))
+        // .method("addSnap", &TimelineModel::addSnap)(parameter_names("pos"))
+        // .method("removeSnap", &TimelineModel::addSnap)(parameter_names("pos"))
         // .method("requestCompositionInsertion", select_overload<bool(const QString &, int, int, int, std::unique_ptr<Mlt::Properties>, int &, bool)>(
         //                                            &TimelineModel::requestCompositionInsertion))(
         //     parameter_names("transitionId", "trackId", "position", "length", "transProps", "id", "logUndo"))
@@ -717,10 +718,15 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         TRACE_RES(position);
         return position;
     }
+    if (sourceTrackId == -1) {
+        // not clear what to do hear, if the current move doesn't work. We could try to find empty space, but it might end up being far away...
+        TRACE_RES(currentPos);
+        return currentPos;
+    }
     // Find best possible move
     if (!m_groups->isInGroup(clipId)) {
         // Try same track move
-        if (trackId != sourceTrackId) {
+        if (trackId != sourceTrackId && sourceTrackId != -1) {
             qDebug() << "// TESTING SAME TRACVK MOVE: " << trackId << " = " << sourceTrackId;
             trackId = sourceTrackId;
             possible = requestClipMove(clipId, trackId, position, true, false, false);

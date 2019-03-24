@@ -165,7 +165,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     std::unordered_set<int> clips;
     for (int cid : clipselect) {
         int tk = timeline->getClipTrackId(cid);
-        if (!timeline->getTrackById_const(tk)->isLocked()) {
+        if (tk != -1 && !timeline->getTrackById_const(tk)->isLocked()) {
             clips.insert(cid);
         }
     }
