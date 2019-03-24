@@ -12,6 +12,7 @@ Item {
     property string framenum
     property point profile
     property point center
+    property real baseUnit: fontMetrics.font.pointSize
     property double scalex : 1
     property double scaley : 1
     property double stretch : 1
@@ -21,7 +22,6 @@ Item {
     property double frameSize: 10
     property int duration: 300
     property double timeScale: 1
-    property real baseUnit: fontMetrics.font.pointSize
     property int mouseRulerPos: 0
     onOffsetxChanged: canvas.requestPaint()
     onOffsetyChanged: canvas.requestPaint()
@@ -32,6 +32,7 @@ Item {
     property bool isDefined: false
     property int requestedKeyFrame : -1
     property int requestedSubKeyFrame : -1
+    property bool requestedCenter : false
     // The coordinate points where the bezier curve passes
     property var centerPoints : []
     // The control points for the bezier curve points (2 controls points for each coordinate)
@@ -109,6 +110,8 @@ Item {
                 }
             } else {
                 var c1; var c2
+                var topRight = []
+                var bottomLeft = []
                 for (var i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
@@ -118,11 +121,20 @@ Item {
                         if (root.requestedSubKeyFrame == root.centerPointsTypes.length - 1) {
                             subkf = true
                         }
+                        topRight.x = p1.x
+                        topRight.y = p1.y
+                        bottomLeft.x = p1.x
+                        bottomLeft.y = p1.y
                     } else {
                         c1 = convertPoint(root.centerPointsTypes[2*i - 1])
                         if (root.requestedSubKeyFrame == 2*i - 1) {
                             subkf = true
                         }
+                        // Find bounding box
+                        topRight.x = Math.max(p1.x, topRight.x)
+                        topRight.y = Math.min(p1.y, topRight.y)
+                        bottomLeft.x = Math.min(p1.x, bottomLeft.x)
+                        bottomLeft.y = Math.max(p1.y, bottomLeft.y)
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
@@ -160,6 +172,13 @@ Item {
                     c2 = convertPoint(root.centerPointsTypes[0])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, startP.x, startP.y);
                 }
+                console.log('RECT CENTER: ', topRight, ' x ', bottomLeft)
+                var endx = bottomLeft.x + (topRight.x - bottomLeft.x)/2
+                var endy = topRight.y + (bottomLeft.y - topRight.y)/2
+                ctx.moveTo(endx - root.baseUnit, endy)
+                ctx.lineTo(endx + root.baseUnit, endy)
+                ctx.moveTo(endx, endy - root.baseUnit)
+                ctx.lineTo(endx, endy + root.baseUnit)
             }
 
             ctx.stroke()
@@ -216,7 +235,7 @@ Item {
 
         onClicked: {
             if (!root.isDefined) {
-                if (mouse.button == Qt.RightButton) {
+                if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
                     // close shape, define control points
                     var p0; var p1; var p2
                     for (var i = 0; i < root.centerPoints.length; i++) {
