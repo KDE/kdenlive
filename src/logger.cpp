@@ -65,6 +65,10 @@ void Logger::init()
         } else {
             cur_ind[i]++;
         }
+        if (cur_ind == "u" || cur_ind == "r") {
+            // reserved for undo and redo
+            self(self, i);
+        }
     };
 
     for (const auto &o : {"TimelineModel", "TrackModel", "test_producer", "test_producer_sound", "ClipModel"}) {
@@ -301,7 +305,18 @@ void Logger::print_trace()
         }
     };
     for (const auto &o : operations) {
-        if (o.can_convert<Logger::InvokId>()) {
+        bool isUndo = false;
+        if (o.can_convert<Logger::Undo>()) {
+            isUndo = true;
+            Undo undo = o.convert<Logger::Undo>();
+            if (undo.undo) {
+                test_file << "undoStack->undo();" << std::endl;
+                fuzz_file << "u" << std::endl;
+            } else {
+                test_file << "undoStack->redo();" << std::endl;
+                fuzz_file << "r" << std::endl;
+            }
+        } else if (o.can_convert<Logger::InvokId>()) {
             InvokId id = o.convert<Logger::InvokId>();
             Invok &invok = invoks[id.id];
             std::unordered_set<size_t> refs;
@@ -389,10 +404,12 @@ void Logger::print_trace()
             std::cout << "Error: unknown operation" << std::endl;
         }
         check_consistancy();
-        test_file << "undoStack->undo();" << std::endl;
-        check_consistancy();
-        test_file << "undoStack->redo();" << std::endl;
-        check_consistancy();
+        if (!isUndo) {
+            test_file << "undoStack->undo();" << std::endl;
+            check_consistancy();
+            test_file << "undoStack->redo();" << std::endl;
+            check_consistancy();
+        }
     }
     test_file << "}" << std::endl;
     test_file << "pCore->m_projectManager = nullptr;" << std::endl;
@@ -419,4 +436,11 @@ LogGuard::~LogGuard()
 bool LogGuard::hasGuard() const
 {
     return m_hasGuard;
+}
+
+void Logger::log_undo(bool undo)
+{
+    Logger::Undo u;
+    u.undo = undo;
+    operations.push_back(u);
 }

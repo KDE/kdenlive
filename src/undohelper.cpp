@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "undohelper.hpp"
+#include "logger.hpp"
 #include <QDebug>
 #include <utility>
 FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &text, QUndoCommand *parent)
@@ -34,6 +35,7 @@ FunctionalUndoCommand::FunctionalUndoCommand(Fun undo, Fun redo, const QString &
 void FunctionalUndoCommand::undo()
 {
     // qDebug() << "UNDOING " <<text();
+    Logger::log_undo(true);
     m_undone = true;
     bool res = m_undo();
     Q_ASSERT(res);
@@ -43,6 +45,7 @@ void FunctionalUndoCommand::redo()
 {
     if (m_undone) {
         // qDebug() << "REDOING " <<text();
+        Logger::log_undo(false);
         bool res = m_redo();
         Q_ASSERT(res);
     }

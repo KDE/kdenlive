@@ -63,6 +63,9 @@ public:
      * better to call the macro TRACE_RES */
     static void log_res(rttr::variant result);
 
+    // log whenever an undo/redo occured
+    static void log_undo(bool undo);
+
     /// @brief Notify that we are done with our function. Must not be called if start_logging returned false.
     static void stop_logging();
     static void print_trace();
@@ -85,6 +88,10 @@ protected:
     {
         std::string type;
         size_t id;
+    };
+    struct Undo
+    {
+        bool undo;
     };
     // a construction log contains the pointer as first parameter, and the vector of parameters
     using Constr = std::pair<rttr::variant, std::vector<rttr::variant>>;
