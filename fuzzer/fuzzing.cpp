@@ -491,6 +491,7 @@ void fuzz(const std::string &input)
             }
         }
     }
+    undoStack->clear();
     all_clips.clear();
     all_tracks.clear();
     all_compositions.clear();
