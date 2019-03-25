@@ -855,8 +855,8 @@ void ProjectManager::updateTimeline(int pos, int scrollPos)
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());
     pCore->window()->getMainTimeline()->controller()->setTargetTracks(m_project->targetTracks());
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
-    int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack")).toInt();
-    if (activeTrackPosition > -1) {
+    int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
+    if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());

@@ -740,25 +740,28 @@ bool GLWidget::checkFrameNumber(int pos, int offset)
         }
         return true;
     }
-    int maxPos = m_producer->get_int("out") - offset;
-    if (qFuzzyIsNull(speed)) {
-        if (pos >= maxPos) {
-            if (m_isLoopMode) {
-                m_consumer->purge();
-                m_producer->seek(m_proxy->zoneIn());
-                m_producer->set_speed(1.0);
-                m_consumer->set("refresh", 1);
-                return true;
+    int maxPos = m_producer->get_int("out");
+    if (m_isLoopMode || m_isZoneMode) {
+        if (qFuzzyIsNull(speed) && pos >= maxPos) {
+            m_consumer->purge();
+            if (!m_isLoopMode) {
+                return false;
             }
-            return false;
+            m_producer->seek(m_proxy->zoneIn());
+            m_producer->set_speed(1.0);
+            m_consumer->set("refresh", 1);
+            return true;
         }
         return true;
-    } else if (pos >= (maxPos - 1) || (speed < 0. && pos <= 0)) {
-        m_producer->set_speed(0);
-        m_consumer->set("refresh", 0);
-        m_consumer->purge();
-        m_producer->seek(qMax(0, maxPos));
-        return false;
+    } else {
+        maxPos -= offset;
+        if (pos >= (maxPos - 1) || (speed < 0. && pos <= 0)) {
+            m_producer->set_speed(0);
+            m_consumer->set("refresh", 0);
+            m_consumer->purge();
+            m_producer->seek(qMax(0, maxPos));
+            return false;
+        }
     }
     return true;
 }
