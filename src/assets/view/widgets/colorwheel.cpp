@@ -166,7 +166,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
         if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
-            // reset to default on middle button
+            // reset to default on middle/right button
             qreal r = m_color.redF();
             qreal b = m_color.blueF();
             qreal g = m_color.greenF();
@@ -177,7 +177,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
     } else if (m_sliderRegion.contains(m_lastPoint)) {
         m_isInWheel = false;
         m_isInSquare = true;
-        if (event->button() != Qt::MidButton) {
+        if (event->button() == Qt::LeftButton) {
             changeColor(colorForPoint(m_lastPoint));
         } else {
             NegQColor c;
