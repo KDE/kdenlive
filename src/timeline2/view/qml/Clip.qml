@@ -278,10 +278,12 @@ Rectangle {
     }
 
     Item {
-        // Clipping container
-        id: container
+        // Thumbs container
         anchors.fill: parent
-        anchors.margins:1.5
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
+        anchors.topMargin: parent.border.width
+        anchors.bottomMargin: parent.border.width
         clip: true
         Loader {
             id: thumbsLoader
@@ -293,6 +295,14 @@ Rectangle {
                 item.reload()
             }
         }
+    }
+
+    Item {
+        // Clipping container
+        id: container
+        anchors.fill: parent
+        anchors.margins: 1.5
+        clip: true
 
         Rectangle {
             // text background

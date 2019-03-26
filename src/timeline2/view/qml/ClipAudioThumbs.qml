@@ -9,7 +9,6 @@ Row {
     visible: clipStatus != ClipState.VideoOnly && parentTrack.isAudio && !parentTrack.isMute
     opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
     property int maxWidth: 1000
-    property int innerWidth: clipRoot.width - clipRoot.border.width * 2
     anchors.fill: parent
     property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
     property int scrollEnd: scrollStart + scrollView.viewport.width
@@ -36,7 +35,7 @@ Row {
         if (!waveform.visible || !timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax) || clipRoot.audioLevels == '') {
             return;
         }
-        var chunks = Math.ceil(waveform.innerWidth / waveform.maxWidth)
+        var chunks = Math.ceil(waveform.width / waveform.maxWidth)
         if (waveformRepeater.model == undefined || chunks != waveformRepeater.model) {
             waveformRepeater.model = chunks
         }
@@ -45,15 +44,17 @@ Row {
     Repeater {
         id: waveformRepeater
         TimelineWaveform {
-            width: Math.min(waveform.innerWidth, waveform.maxWidth)
+            width: Math.min(waveform.width, waveform.maxWidth)
             height: waveform.height
             channels: clipRoot.audioChannels
             binId: clipRoot.binId
             isFirstChunk: index == 0
             showItem: waveform.visible && (index * width) < waveform.scrollEnd && (index * width + width) > waveform.scrollStart
             format: timeline.audioThumbFormat
-            inPoint: Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * Math.abs(clipRoot.speed)) * channels
-            outPoint: inPoint + Math.round(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels
+            inPoint: clipRoot.speed < 0 ? (Math.round(clipRoot.outPoint - (index * waveform.maxWidth / clipRoot.timeScale) * Math.abs(clipRoot.speed)) * channels) : (Math.round(clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale) * clipRoot.speed) * channels)
+            outPoint: clipRoot.speed < 0 ? (inPoint - Math.ceil(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels) : (inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels)
+            /*inPoint: Math.round((clipFrameStart * Math.abs(clipRoot.timeScale)) + (index * waveform.maxWidth / clipRoot.timeScale) * clipRoot.speed) * channels
+            outPoint: inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels*/
             fillColor: activePalette.text
             onShowItemChanged: {
                 if (showItem) {

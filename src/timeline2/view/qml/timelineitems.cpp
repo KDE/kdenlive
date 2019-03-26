@@ -112,7 +112,7 @@ public:
         if (!m_showItem || m_audioLevels.isEmpty()) {
             return;
         }
-        const qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
+        qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
         QPen pen = painter->pen();
         pen.setColor(m_color);
         pen.setWidthF(0);
@@ -122,12 +122,14 @@ public:
             QPainterPath path;
             path.moveTo(-1, height());
             double i = 0;
-            double increment = qMax(1., 1 / indicesPrPixel);
+            double increment = qMax(1., 1 / qAbs(indicesPrPixel));
             double level;
             int lastIdx = -1;
             for (; i <= width(); i += increment) {
                 int idx = m_inPoint + int(i * indicesPrPixel);
-                if (idx + m_channels >= m_audioLevels.length()) break;
+                if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
+                    break;
+                }
                 if (lastIdx == idx) {
                     continue;
                 }
@@ -196,7 +198,6 @@ signals:
     void audioChannelsChanged();
 
 private:
-    bool m_levels;
     QList<double> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
