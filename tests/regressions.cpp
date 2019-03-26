@@ -1183,3 +1183,49 @@ TEST_CASE("FuzzBug9")
     }
     pCore->m_projectManager = nullptr;
 }
+
+TEST_CASE("FuzzBug10")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+    TimelineModel::next_id = 0;
+    {
+        Mock<ProjectManager> pmMock;
+        When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+        ProjectManager &mocked = pmMock.get();
+        pCore->m_projectManager = &mocked;
+        TimelineItemModel tim_0(&reg_profile, undoStack);
+        Mock<TimelineItemModel> timMock_0(tim_0);
+        auto timeline_0 = std::shared_ptr<TimelineItemModel>(&timMock_0.get(), [](...) {});
+        TimelineItemModel::finishConstruct(timeline_0, guideModel);
+        Fake(Method(timMock_0, adjustAssetRange));
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        createProducer(reg_profile, "red", binModel, 50, true);
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        ClipModel::construct(timeline_0, "2", 1, PlaylistState::VideoOnly, -1);
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+        {
+            int res = timeline_0->requestItemResize(1, 12, false, true, 1, false);
+        }
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->undo();
+        REQUIRE(timeline_0->checkConsistency());
+        undoStack->redo();
+        REQUIRE(timeline_0->checkConsistency());
+    }
+    pCore->m_projectManager = nullptr;
+}
