@@ -92,7 +92,7 @@ Rectangle {
 
     onClipResourceChanged: {
         if (itemType == ProducerType.Color) {
-            color: Qt.darker(getColor())
+            color: getColor()
         }
     }
     ToolTip {
@@ -278,10 +278,12 @@ Rectangle {
     }
 
     Item {
-        // Clipping container
-        id: container
+        // Thumbs container
         anchors.fill: parent
-        anchors.margins:1.5
+        anchors.leftMargin: 0
+        anchors.rightMargin: 0
+        anchors.topMargin: parent.border.width
+        anchors.bottomMargin: parent.border.width
         clip: true
         Loader {
             id: thumbsLoader
@@ -293,6 +295,14 @@ Rectangle {
                 item.reload()
             }
         }
+    }
+
+    Item {
+        // Clipping container
+        id: container
+        anchors.fill: parent
+        anchors.margins: 1.5
+        clip: true
 
         Rectangle {
             // text background
@@ -408,7 +418,7 @@ Rectangle {
             when: isLocked
             PropertyChanges {
                 target: clipRoot
-                color: root.neutralColor
+                color: root.lockedColor
                 opacity: 0.8
                 z: 0
             }
@@ -418,7 +428,7 @@ Rectangle {
             when: clipRoot.selected === false
             PropertyChanges {
                 target: clipRoot
-                color: getColor().hsvValue < 0.45 ? Qt.lighter(getColor(), 2) : Qt.darker(getColor(), 2)
+                color: Qt.darker(getColor(), 1.5)
                 z: 0
             }
         },
@@ -427,7 +437,7 @@ Rectangle {
             when: clipRoot.selected === true
             PropertyChanges {
                 target: clipRoot
-                color: getColor().hsvValue < 0.45 ? Qt.lighter(getColor(), 3) : Qt.darker(getColor(), 3)
+                color: getColor()
                 z: 3
             }
         }

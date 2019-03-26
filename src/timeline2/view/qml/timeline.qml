@@ -184,7 +184,7 @@ Rectangle {
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
     property color videoColor: timeline.videoColor
-    property color neutralColor: timeline.neutralColor
+    property color lockedColor: timeline.lockedColor
     property color groupColor: timeline.groupColor
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
