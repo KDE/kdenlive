@@ -1530,7 +1530,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     int in = getItemPosition(itemId);
     int out = in + getItemPlaytime(itemId);
-    if (snapDistance > 0) {
+    if (snapDistance > 0 && getItemTrackId(itemId) != -1) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
         if (right && size > out - in && isClip(itemId)) {

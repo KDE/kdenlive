@@ -753,13 +753,21 @@ bool GLWidget::checkFrameNumber(int pos, int offset)
             return true;
         }
         return true;
-    } else {
+    } else if (!qFuzzyIsNull(speed)) {
         maxPos -= offset;
-        if (pos >= (maxPos - 1) || (speed < 0. && pos <= 0)) {
+        if (pos >= (maxPos - 1) && speed > 0.) {
+            // Playing past last clip, pause
             m_producer->set_speed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
             m_producer->seek(qMax(0, maxPos));
+            return false;
+        } else if (pos <= 0 && speed < 0.) {
+            // rewinding reached 0, pause
+            m_producer->set_speed(0);
+            m_consumer->set("refresh", 0);
+            m_consumer->purge();
+            m_producer->seek(0);
             return false;
         }
     }
