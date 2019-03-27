@@ -250,7 +250,7 @@ Rectangle {
                 anchors.right: parent ? parent.right : undefined
                 property bool isItem : styleData.value !== "root" && styleData.value !== ""
                 property string mimeType : isItem ? assetlist.getMimeType(styleData.value) : ""
-                height: assetText.implicitHeight + 8
+                height: assetText.implicitHeight
                 color: dragArea.containsMouse ? activePalette.highlight : "transparent"
 
                 Drag.active: isItem ? dragArea.drag.active : false
@@ -263,15 +263,16 @@ Rectangle {
 
                 Row {
                     anchors.fill:parent
-                    anchors.leftMargin: 2
-                    anchors.topMargin: 2
-                    anchors.bottomMargin: 2
-                    spacing: 2
+                    anchors.leftMargin: 1
+                    anchors.topMargin: 1
+                    anchors.bottomMargin: 1
+                    spacing: 4
                     Image{
                         id: assetThumb
+                        anchors.verticalCenter: parent.verticalCenter
                         visible: assetDelegate.isItem
                         property bool isFavorite: model == undefined || model.favorite === undefined ? false : model.favorite
-                        height: parent.height
+                        height: parent.height * 0.8
                         width: height
                         source: 'image://asseticon/' + styleData.value
                     }
