@@ -2149,9 +2149,8 @@ QColor TimelineController::lockedColor() const
 
 QColor TimelineController::groupColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::LinkText).color();
-		//.lighter(darkBackground() ? 160 : 60);
+    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
+    return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
 void TimelineController::switchRecording(int trackId)

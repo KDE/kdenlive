@@ -92,7 +92,7 @@ Rectangle {
 
     onClipResourceChanged: {
         if (itemType == ProducerType.Color) {
-            color: getColor()
+            color: Qt.darker(getColor(), 1.5)
         }
     }
     ToolTip {
