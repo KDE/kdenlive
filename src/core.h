@@ -224,6 +224,8 @@ public slots:
 signals:
     void coreIsReady();
     void updateLibraryPath();
+    /** @brief Call config dialog on a selected page / tab */
+    void showConfigDialog(int, int);
 };
 
 #endif

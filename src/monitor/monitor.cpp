@@ -332,9 +332,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     configButton->setMenu(m_configMenu);
     configButton->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
-    if (m_recManager) {
-        m_toolbar->addAction(m_recManager->switchAction());
-    }
     /*QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);*/
@@ -443,7 +440,7 @@ void Monitor::refreshIcons()
 QAction *Monitor::recAction()
 {
     if (m_recManager) {
-        return m_recManager->switchAction();
+        return m_recManager->recAction();
     }
     return nullptr;
 }

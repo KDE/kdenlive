@@ -51,7 +51,7 @@ RecManager::RecManager(Monitor *parent)
     m_playAction->setCheckable(true);
     connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);
 
-    m_recAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"));
+    m_recAction = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
 
@@ -82,9 +82,7 @@ RecManager::RecManager(Monitor *parent)
 
     m_audio_device = new QComboBox(parent);
     QStringList audioDevices = pCore->getAudioCaptureDevices();
-    for (int ix = 0; ix < audioDevices.count(); ix++) {
-        m_audio_device->addItem(audioDevices.at(ix), ix);
-    }
+    m_audio_device->addItems(audioDevices);
     connect(m_audio_device, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
     QString selectedDevice = KdenliveSettings::defaultaudiocapture();
     int selectedIndex = m_audio_device->findText(selectedDevice);
@@ -143,7 +141,7 @@ RecManager::~RecManager() = default;
 
 void RecManager::showRecConfig()
 {
-    m_monitor->showConfigDialog(4, m_device_selector->currentData().toInt());
+    pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
 }
 
 QToolBar *RecManager::toolbar() const
@@ -151,9 +149,9 @@ QToolBar *RecManager::toolbar() const
     return m_recToolbar;
 }
 
-QAction *RecManager::switchAction() const
+QAction *RecManager::recAction() const
 {
-    return m_switchRec;
+    return m_recAction;
 }
 
 void RecManager::stopCapture()
@@ -180,7 +178,7 @@ void RecManager::stop()
 
 void RecManager::slotRecord(bool record)
 {
-    if (m_device_selector->currentData().toInt() == Video4Linux) {
+    /*if (m_device_selector->currentData().toInt() == Video4Linux) {
         if (record) {
             m_checkAudio = m_recAudio->isChecked();
             m_checkVideo = m_recVideo->isChecked();
@@ -189,7 +187,7 @@ void RecManager::slotRecord(bool record)
             stopCapture();
         }
         return;
-    }
+    }*/
     if (!record) {
         if (!m_captureProcess) {
             return;

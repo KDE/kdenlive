@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>501</width>
-    <height>817</height>
+    <width>525</width>
+    <height>891</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_8">
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="KComboBox" name="kcfg_defaultcapture">
+    <widget class="QComboBox" name="kcfg_defaultcapture">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -53,7 +53,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -68,7 +68,7 @@
         </widget>
        </item>
        <item row="1" column="6" colspan="5">
-        <widget class="KComboBox" name="kcfg_detectedv4ldevices"/>
+        <widget class="QComboBox" name="kcfg_detectedv4ldevices"/>
        </item>
        <item row="2" column="0" colspan="2">
         <widget class="QLabel" name="label_14">
@@ -102,7 +102,7 @@
         </widget>
        </item>
        <item row="3" column="6" colspan="5">
-        <widget class="KComboBox" name="kcfg_v4l_format"/>
+        <widget class="QComboBox" name="kcfg_v4l_format"/>
        </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_6">
@@ -280,7 +280,7 @@
         <widget class="QSpinBox" name="kcfg_alsachannels"/>
        </item>
        <item row="18" column="6" colspan="3">
-        <widget class="KComboBox" name="kcfg_v4l_profile">
+        <widget class="QComboBox" name="kcfg_v4l_profile">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -290,7 +290,7 @@
         </widget>
        </item>
        <item row="15" column="0" colspan="8">
-        <widget class="KComboBox" name="kcfg_v4l_alsadevice">
+        <widget class="QComboBox" name="kcfg_v4l_alsadevice">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -344,7 +344,7 @@
         </spacer>
        </item>
        <item row="0" column="0" colspan="5">
-        <widget class="KComboBox" name="kcfg_grab_capture_type">
+        <widget class="QComboBox" name="kcfg_grab_capture_type">
          <item>
           <property name="text">
            <string>Full screen capture</string>
@@ -480,7 +480,7 @@
         </widget>
        </item>
        <item row="5" column="1" colspan="2">
-        <widget class="KComboBox" name="kcfg_grab_profile">
+        <widget class="QComboBox" name="kcfg_grab_profile">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -547,7 +547,7 @@
         </widget>
        </item>
        <item row="0" column="1" colspan="8">
-        <widget class="KComboBox" name="kcfg_decklink_capturedevice">
+        <widget class="QComboBox" name="kcfg_decklink_capturedevice">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -606,7 +606,7 @@
         </widget>
        </item>
        <item row="2" column="1" colspan="6">
-        <widget class="KComboBox" name="kcfg_decklink_profile">
+        <widget class="QComboBox" name="kcfg_decklink_profile">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -634,17 +634,72 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Audio</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Audio Capture Volume </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSlider" name="kcfg_audiocapturevolume">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="sliderPosition">
+          <number>100</number>
+         </property>
+         <property name="tracking">
+          <bool>true</bool>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>false</bool>
+         </property>
+         <property name="invertedControls">
+          <bool>false</bool>
+         </property>
+         <property name="tickPosition">
+          <enum>QSlider::TicksAbove</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>Detected devices</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="kcfg_defaultaudiocapture"/>
+       </item>
+       <item row="2" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>661</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>kcfg_defaultcapture</tabstop>
   <tabstop>tabWidget</tabstop>

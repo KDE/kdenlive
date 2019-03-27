@@ -90,7 +90,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KComboBox" name="kcfg_preview_profile">
+      <widget class="QComboBox" name="kcfg_preview_profile">
        <property name="sizePolicy">
         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -153,11 +153,6 @@
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

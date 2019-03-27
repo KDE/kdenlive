@@ -113,7 +113,7 @@
        </widget>
       </item>
       <item row="2" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle1">
+       <widget class="QComboBox" name="shuttle1">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -123,7 +123,7 @@
        </widget>
       </item>
       <item row="7" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle6"/>
+       <widget class="QComboBox" name="shuttle6"/>
       </item>
       <item row="14" column="0">
        <widget class="QLabel" name="label_14">
@@ -152,7 +152,7 @@
        </widget>
       </item>
       <item row="12" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle11"/>
+       <widget class="QComboBox" name="shuttle11"/>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_7">
@@ -194,13 +194,13 @@
        </widget>
       </item>
       <item row="10" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle9"/>
+       <widget class="QComboBox" name="shuttle9"/>
       </item>
       <item row="5" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle4"/>
+       <widget class="QComboBox" name="shuttle4"/>
       </item>
       <item row="13" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle12"/>
+       <widget class="QComboBox" name="shuttle12"/>
       </item>
       <item row="8" column="0">
        <widget class="QLabel" name="label_8">
@@ -216,7 +216,7 @@
        </widget>
       </item>
       <item row="3" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle2">
+       <widget class="QComboBox" name="shuttle2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -226,10 +226,10 @@
        </widget>
       </item>
       <item row="11" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle10"/>
+       <widget class="QComboBox" name="shuttle10"/>
       </item>
       <item row="9" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle8"/>
+       <widget class="QComboBox" name="shuttle8"/>
       </item>
       <item row="10" column="0">
        <widget class="QLabel" name="label_10">
@@ -258,7 +258,7 @@
        </widget>
       </item>
       <item row="4" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle3"/>
+       <widget class="QComboBox" name="shuttle3"/>
       </item>
       <item row="11" column="0">
        <widget class="QLabel" name="label_11">
@@ -287,7 +287,7 @@
        </widget>
       </item>
       <item row="0" column="1" colspan="4">
-       <widget class="KComboBox" name="shuttledevicelist">
+       <widget class="QComboBox" name="shuttledevicelist">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -310,19 +310,19 @@
        </widget>
       </item>
       <item row="8" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle7"/>
+       <widget class="QComboBox" name="shuttle7"/>
       </item>
       <item row="15" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle14"/>
+       <widget class="QComboBox" name="shuttle14"/>
       </item>
       <item row="6" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle5"/>
+       <widget class="QComboBox" name="shuttle5"/>
       </item>
       <item row="14" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle13"/>
+       <widget class="QComboBox" name="shuttle13"/>
       </item>
       <item row="16" column="1" colspan="5">
-       <widget class="KComboBox" name="shuttle15"/>
+       <widget class="QComboBox" name="shuttle15"/>
       </item>
       <item row="15" column="0">
        <widget class="QLabel" name="label_15">
@@ -369,11 +369,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
   <customwidget>
    <class>QLineEdit</class>
    <extends>QLineEdit</extends>

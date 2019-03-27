@@ -112,7 +112,12 @@ public:
     /* @brief Returns true is item is selected as well as other items */
     Q_INVOKABLE bool isInSelection(int itemId);
 
+    /* @brief Show/hide audio record controls on a track
+     */
     Q_INVOKABLE void switchRecording(int trackId);
+    /* @brief Open Kdenlive's config diablog on a defined page and tab
+     */
+    Q_INVOKABLE void showConfig(int page, int tab);
 
     /* @brief returns current timeline's zoom factor
      */

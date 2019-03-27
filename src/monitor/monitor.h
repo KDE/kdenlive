@@ -345,7 +345,6 @@ signals:
     void seekToPreviousKeyframe();
     void seekToKeyframe(int);
     void addClipToProject(const QUrl &);
-    void showConfigDialog(int, int);
     /** @brief Request display of current bin clip. */
     void refreshCurrentClip();
     void addEffect(const QStringList &);

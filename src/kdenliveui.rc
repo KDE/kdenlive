@@ -198,7 +198,6 @@
           <Action name="mlt_mute" />
       </Menu>
       <Action name="switch_monitor" />
-      <Action name="switch_monitor_rec" />
       <Action name="insert_project_tree" />
       <Action name="insert_timeline" />
     </Menu>
