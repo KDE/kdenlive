@@ -82,9 +82,7 @@ RecManager::RecManager(Monitor *parent)
 
     m_audio_device = new QComboBox(parent);
     QStringList audioDevices = pCore->getAudioCaptureDevices();
-    for (int ix = 0; ix < audioDevices.count(); ix++) {
-        m_audio_device->addItem(audioDevices.at(ix), ix);
-    }
+    m_audio_device->addItems(audioDevices);
     connect(m_audio_device, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
     QString selectedDevice = KdenliveSettings::defaultaudiocapture();
     int selectedIndex = m_audio_device->findText(selectedDevice);
@@ -143,7 +141,7 @@ RecManager::~RecManager() = default;
 
 void RecManager::showRecConfig()
 {
-    m_monitor->showConfigDialog(4, m_device_selector->currentData().toInt());
+    pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
 }
 
 QToolBar *RecManager::toolbar() const

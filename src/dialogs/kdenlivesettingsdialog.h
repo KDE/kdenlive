@@ -109,7 +109,7 @@ private:
     bool m_modified;
     bool m_shuttleModified;
     QMap<QString, QString> m_mappable_actions;
-    QVector<KComboBox *> m_shuttle_buttons;
+    QVector<QComboBox *> m_shuttle_buttons;
     void initDevices();
     void loadTranscodeProfiles();
     void saveTranscodeProfiles();
@@ -118,8 +118,10 @@ private:
     void loadEncodingProfiles();
     void setupJogshuttleBtns(const QString &device);
     /** @brief Fill a combobox with the found blackmagic devices */
-    static bool getBlackMagicDeviceList(KComboBox *devicelist, bool force = false);
-    static bool getBlackMagicOutputDeviceList(KComboBox *devicelist, bool force = false);
+    static bool getBlackMagicDeviceList(QComboBox *devicelist, bool force = false);
+    static bool getBlackMagicOutputDeviceList(QComboBox *devicelist, bool force = false);
+    /** @brief Init QtMultimedia audio record settings */
+    bool initAudioRecDevice();
 signals:
     void customChanged();
     void doResetProfile();

@@ -534,6 +534,14 @@ Rectangle {
             checkable: true
             checked: headerMenu.recEnabled
         }
+        OLD.MenuItem {
+            visible: headerMenu.audioTrack
+            id: configRec
+            text: "Configure Recording"
+            onTriggered: {
+                timeline.showConfig(4,2)
+            }
+        }
         OLD.Menu {
             title: i18n('Track thumbnails')
             visible: !headerMenu.audioTrack

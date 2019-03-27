@@ -506,6 +506,11 @@ void TimelineController::deleteTrack(int tid)
     }
 }
 
+void TimelineController::showConfig(int page, int tab)
+{
+    pCore->showConfigDialog(page, tab);
+}
+
 void TimelineController::gotoNextSnap()
 {
     setPosition(m_model->getNextSnapPos(timelinePosition()));

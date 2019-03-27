@@ -115,6 +115,7 @@ void Core::initGUI(const QUrl &Url)
     m_currentProfile = m_profile;
     profileChanged();
     m_mainWindow = new MainWindow();
+    connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
 
     // load default profile and ask user to select one if not found.
     if (m_profile.isEmpty()) {
