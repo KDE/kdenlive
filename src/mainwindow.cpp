@@ -1616,6 +1616,13 @@ void MainWindow::slotEditProjectSettings()
         if (KdenliveSettings::audiothumbnails() != w->enableAudioThumbs()) {
             slotSwitchAudioThumbs();
         }
+        if (project->getDocumentProperty(QStringLiteral("previewparameters")) != w->proxyParams() ||
+            project->getDocumentProperty(QStringLiteral("previewextension")) != w->proxyExtension()) {
+            modified = true;
+            project->setDocumentProperty(QStringLiteral("previewparameters"), w->previewParams());
+            project->setDocumentProperty(QStringLiteral("previewextension"), w->previewExtension());
+            slotClearPreviewRender();
+        }
         if (project->getDocumentProperty(QStringLiteral("proxyparams")) != w->proxyParams() ||
             project->getDocumentProperty(QStringLiteral("proxyextension")) != w->proxyExtension()) {
             modified = true;
