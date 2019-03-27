@@ -50,6 +50,8 @@ public:
     QString externalProxyParams() const;
     QString proxyParams() const;
     QString proxyExtension() const;
+    QString previewParams() const;
+    QString previewExtension() const;
     const QMap<QString, QString> metadata() const;
     static QStringList extractPlaylistUrls(const QString &path);
     static QStringList extractSlideshowUrls(const QString &url);

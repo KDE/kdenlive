@@ -531,6 +531,18 @@ QString ProjectSettings::proxyExtension() const
     return params.section(QLatin1Char(';'), 1, 1);
 }
 
+QString ProjectSettings::previewParams() const
+{
+    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
+    return params.section(QLatin1Char(';'), 0, 0);
+}
+
+QString ProjectSettings::previewExtension() const
+{
+    QString params = preview_profile->itemData(preview_profile->currentIndex()).toString();
+    return params.section(QLatin1Char(';'), 1, 1);
+}
+
 // static
 QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
 {

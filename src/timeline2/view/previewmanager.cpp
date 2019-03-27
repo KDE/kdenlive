@@ -396,6 +396,8 @@ void PreviewManager::clearPreviewRange()
     }
     m_tractor->unlock();
     m_renderedChunks.clear();
+    // Reload preview params
+    loadParams();
     m_controller->renderedChunksChanged();
 }
 
