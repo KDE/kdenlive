@@ -273,11 +273,29 @@ void MainWindow::init()
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
+    
+    // Screen grab widget
+    QWidget *grabWidget = new QWidget(this);
+    QVBoxLayout *grabLayout = new QVBoxLayout;
+    grabWidget->setLayout(grabLayout);
+    QToolBar *recToolbar = new QToolBar(grabWidget);
+    grabLayout->addWidget(recToolbar);
+    grabLayout->addStretch(10);
+    QAction *recAction = m_clipMonitor->recAction();
+    addAction(QStringLiteral("screengrab_record"), recAction);
+    recToolbar->addAction(recAction);
+    QAction *recConfig = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"), this);
+    recToolbar->addAction(recConfig);
+    connect(recConfig, &QAction::triggered, [&]() {
+        pCore->showConfigDialog(4, 0);
+    });
+    QDockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
 
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
     QDockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
     // Close library and audiospectrum on first run
+    screenGrabDock->close();
     libraryDock->close();
     spectrumDock->close();
 
@@ -360,9 +378,6 @@ void MainWindow::init()
 
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
     bool firstRun = readOptions();
-
-    // Monitor Record action
-    addAction(QStringLiteral("switch_monitor_rec"), m_clipMonitor->recAction());
 
     // Build effects menu
     m_effectsMenu = new QMenu(i18n("Add Effect"), this);

@@ -51,7 +51,7 @@ RecManager::RecManager(Monitor *parent)
     m_playAction->setCheckable(true);
     connect(m_playAction, &QAction::toggled, this, &RecManager::slotPreview);
 
-    m_recAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"));
+    m_recAction = new QAction(QIcon::fromTheme(QStringLiteral("media-record")), i18n("Record"));
     m_recAction->setCheckable(true);
     connect(m_recAction, &QAction::toggled, this, &RecManager::slotRecord);
 
@@ -149,9 +149,9 @@ QToolBar *RecManager::toolbar() const
     return m_recToolbar;
 }
 
-QAction *RecManager::switchAction() const
+QAction *RecManager::recAction() const
 {
-    return m_switchRec;
+    return m_recAction;
 }
 
 void RecManager::stopCapture()
@@ -178,7 +178,7 @@ void RecManager::stop()
 
 void RecManager::slotRecord(bool record)
 {
-    if (m_device_selector->currentData().toInt() == Video4Linux) {
+    /*if (m_device_selector->currentData().toInt() == Video4Linux) {
         if (record) {
             m_checkAudio = m_recAudio->isChecked();
             m_checkVideo = m_recVideo->isChecked();
@@ -187,7 +187,7 @@ void RecManager::slotRecord(bool record)
             stopCapture();
         }
         return;
-    }
+    }*/
     if (!record) {
         if (!m_captureProcess) {
             return;

@@ -62,7 +62,7 @@ public:
     ~RecManager() override;
     QToolBar *toolbar() const;
     void stopCapture();
-    QAction *switchAction() const;
+    QAction *recAction() const;
     /** @brief: stop capture and hide rec panel **/
     void stop();
 
