@@ -612,7 +612,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             resource = m_service;
         }
         QString url = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(resource);
-        warpProducer.reset(new Mlt::Producer(originalProducer()->get_profile(), url.toUtf8().constData()));
+        warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
         qDebug() << "new producer: " << url;
         qDebug() << "warp LENGTH before" << warpProducer->get_length();
         int original_length = originalProducer()->get_length();
