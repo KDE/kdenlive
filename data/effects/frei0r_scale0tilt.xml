@@ -15,10 +15,10 @@
 	<parameter type="constant" name="Clip bottom" max="%height-1" min="0" default="0" factor="%height">
 		<name>Crop bottom</name>
 	</parameter>
-	<parameter type="constant" name="Scale X" max="1000" min="1" default="50" factor="100">
+	<parameter type="constant" name="Scale X" max="1000" min="1" default="100" factor="200">
 		<name>Scale X</name>
 	</parameter>
-	<parameter type="constant" name="Scale Y" max="1000" min="1" default="50" factor="100">
+	<parameter type="constant" name="Scale Y" max="1000" min="1" default="100" factor="200">
 		<name>Scale Y</name>
 	</parameter>
 	<parameter type="constant" name="Tilt X" max="%width" min="0" default="%width/2" factor="%width">
