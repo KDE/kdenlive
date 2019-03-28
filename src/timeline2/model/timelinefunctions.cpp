@@ -305,7 +305,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
                 ++it;
                 continue;
             }
-            result = TimelineFunctions::liftZone(timeline, target_track, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+            result = result && TimelineFunctions::liftZone(timeline, target_track, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
             if (!result) {
                 break;
             }
@@ -323,11 +323,11 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
             int startClipId = timeline->getClipByPosition(target_track, insertFrame);
             if (startClipId > -1) {
                 // There is a clip, cut it
-                TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
+                result = result && TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
             }
             ++it;
         }
-        result = TimelineFunctions::insertSpace(timeline, trackId, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     }
     if (result) {
         int newId = -1;
@@ -399,30 +399,38 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::insertSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo)
 {
-    Q_UNUSED(trackId)
-
-    std::unordered_set<int> clips = timeline->getItemsInRange(-1, zone.x(), -1, true);
-    bool result = true;
-    if (!clips.empty()) {
-        int clipId = *clips.begin();
-        if (clips.size() > 1) {
-            int res = timeline->requestClipsGroup(clips, undo, redo);
-            if (res > -1) {
-                result = timeline->requestGroupMove(clipId, res, 0, zone.y() - zone.x(), true, true, undo, redo);
-                if (result) {
-                    result = timeline->requestClipUngroup(clipId, undo, redo);
-                } else {
-                    pCore->displayMessage(i18n("Cannot move selected group"), ErrorMessage);
-                }
-            }
-        } else {
-            // only 1 clip to be moved
-            int clipStart = timeline->getItemPosition(clipId);
-            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart + (zone.y() - zone.x()), true, true, undo, redo);
-        }
+    timeline->requestClearSelection();
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    std::unordered_set<int> items = timeline->getItemsInRange(-1, zone.x(), -1, true);
+    if (items.empty()) {
+        return true;
     }
+    timeline->requestSetSelection(items);
+    bool result = true;
+    int itemId = *(items.begin());
+    int targetTrackId = timeline->getItemTrackId(itemId);
+    int targetPos = timeline->getItemPosition(itemId) + zone.y() - zone.x();
+
+    // TODO the three move functions should be unified in a "requestItemMove" function
+    if (timeline->m_groups->isInGroup(itemId)) {
+        result =
+            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo);
+    } else if (timeline->isClip(itemId)) {
+        result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, local_undo, local_redo);
+    } else {
+        result = result && timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true,
+                                                            local_undo, local_redo);
+    }
+    timeline->requestClearSelection();
+    if (!result) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        pCore->displayMessage(i18n("Cannot move selected group"), ErrorMessage);
+    }
+    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;
 }
 

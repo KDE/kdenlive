@@ -202,7 +202,7 @@ int TimelineModel::getCompositionTrackId(int compoId) const
 int TimelineModel::getItemTrackId(int itemId) const
 {
     READ_LOCK();
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     if (isComposition(itemId)) {
         return getCompositionTrackId(itemId);
     }
@@ -528,12 +528,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     bool notifyViewOnly = false;
-    bool localUpdateView = updateView;
     // qDebug()<<"MOVING CLIP FROM: "<<old_trackId<<" == "<<trackId;
     Fun update_model = []() { return true; };
     if (old_trackId == trackId) {
         // Move on same track, simply inform the view
-        localUpdateView = false;
+        updateView = false;
         notifyViewOnly = true;
         update_model = [clipId, this, invalidateTimeline]() {
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
@@ -549,14 +548,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
         }
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, localUpdateView, invalidateTimeline, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, localUpdateView, invalidateTimeline, local_undo, local_redo);
+    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -1088,7 +1087,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, logUndo);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     QString actionLabel;
     if (m_groups->isInGroup(itemId)) {
         actionLabel = i18n("Remove group");
@@ -1316,7 +1315,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     if (getGroupElements(groupId).count(itemId) == 0) {
         // this group doesn't contain the clip, abort
         return false;
@@ -1523,7 +1522,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     if (size <= 0) {
         TRACE_RES(-1);
         return -1;
@@ -1625,7 +1624,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     Fun update_model = [itemId, right, logUndo, this]() {
-        Q_ASSERT(isClip(itemId) || isComposition(itemId));
+        Q_ASSERT(isItem(itemId));
         if (getItemTrackId(itemId) != -1) {
             qDebug() << "++++++++++\nRESIZING ITEM: " << itemId << "\n+++++++";
             QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
@@ -2037,6 +2036,11 @@ bool TimelineModel::isClip(int id) const
 bool TimelineModel::isComposition(int id) const
 {
     return m_allCompositions.count(id) > 0;
+}
+
+bool TimelineModel::isItem(int id) const
+{
+    return isClip(id) || isComposition(id);
 }
 
 bool TimelineModel::isTrack(int id) const

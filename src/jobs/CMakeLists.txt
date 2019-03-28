@@ -9,6 +9,7 @@ set(kdenlive_SRCS
   jobs/speedjob.cpp
   jobs/stabilizejob.cpp
   jobs/thumbjob.cpp
+  jobs/transcodeclipjob.cpp
 #  jobs/cutclipjob.cpp
 #  jobs/filterjob.cpp
   jobs/proxyclipjob.cpp
