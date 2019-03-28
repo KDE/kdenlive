@@ -528,12 +528,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     bool ok = true;
     int old_trackId = getClipTrackId(clipId);
     bool notifyViewOnly = false;
-    bool localUpdateView = updateView;
     // qDebug()<<"MOVING CLIP FROM: "<<old_trackId<<" == "<<trackId;
     Fun update_model = []() { return true; };
     if (old_trackId == trackId) {
         // Move on same track, simply inform the view
-        localUpdateView = false;
+        updateView = false;
         notifyViewOnly = true;
         update_model = [clipId, this, invalidateTimeline]() {
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
@@ -549,14 +548,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
         }
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, localUpdateView, invalidateTimeline, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, localUpdateView, invalidateTimeline, local_undo, local_redo);
+    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
