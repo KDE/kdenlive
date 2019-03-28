@@ -138,7 +138,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
 namespace {
 QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta)
 {
-    Mlt::Consumer c(*producer->profile(), "xml", "string");
+    Mlt::Consumer c(producer->get_profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
     if (!s.is_valid()) {
         return QString();

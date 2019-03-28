@@ -522,7 +522,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     Logger::print_trace();
 }
 
-TEST_CASE("Insert/delete spaces", "[Trimming2]")
+TEST_CASE("Insert/delete", "[Trimming2]")
 {
     Logger::clear();
     auto binModel = pCore->projectItemModel();
@@ -586,6 +586,85 @@ TEST_CASE("Insert/delete spaces", "[Trimming2]")
         state(3);
         undoStack->redo();
         state(0);
+    }
+
+    SECTION("Insert zone should preserve groups")
+    {
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
+        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+
+        int l = timeline->getClipPlaytime(cid2);
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == 3);
+            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state();
+
+        REQUIRE(TimelineFunctions::insertZone(timeline, {tid1, tid2}, binId, 3 + 2, {l / 4, 3 * l / 4}, false));
+        int small_length = 3 * l / 4 - l / 4;
+        int cid3 = timeline->getClipByPosition(tid1, 3 + 2);
+        int cid4 = timeline->getClipByPosition(tid2, 3 + 2);
+        int cid5 = timeline->getClipByPosition(tid1, 3 + 2 + small_length);
+        int cid6 = timeline->getClipByPosition(tid2, 3 + 2 + small_length);
+
+        auto state2 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 3);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid2);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+            REQUIRE(timeline->getClipTrackId(cid5) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid6) == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == 3);
+            REQUIRE(timeline->getClipPosition(cid3) == 3 + 2);
+            REQUIRE(timeline->getClipPosition(cid4) == 3 + 2);
+            REQUIRE(timeline->getClipPosition(cid5) == 3 + 2 + small_length);
+            REQUIRE(timeline->getClipPosition(cid6) == 3 + 2 + small_length);
+            REQUIRE(timeline->getClipPlaytime(cid1) + timeline->getClipPlaytime(cid5) == l);
+            REQUIRE(timeline->getClipPlaytime(cid1) == 2);
+            REQUIRE(timeline->getClipPlaytime(cid3) == small_length);
+            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(timeline->getClipPtr(cid3)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid4)->clipState() == PlaylistState::AudioOnly);
+            REQUIRE(timeline->getClipPtr(cid5)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid6)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+
+            REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({cid3, cid4}));
+            int g2 = timeline->m_groups->getDirectAncestor(cid3);
+            REQUIRE(timeline->m_groups->getDirectChildren(g2) == std::unordered_set<int>({cid3, cid4}));
+            REQUIRE(timeline->m_groups->getType(g2) == GroupType::AVSplit);
+
+            int g3 = timeline->m_groups->getDirectAncestor(cid5);
+            REQUIRE(timeline->m_groups->getDirectChildren(g3) == std::unordered_set<int>({cid5, cid6}));
+            REQUIRE(timeline->m_groups->getType(g3) == GroupType::AVSplit);
+        };
+        state2();
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state2();
     }
 
     binModel->clean();

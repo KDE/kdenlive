@@ -1459,7 +1459,7 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
 {
-    qDebug()<<"/// ADDING ASSET: "<<assetId;
+    qDebug() << "/// ADDING ASSET: " << assetId;
     m_model->addClipEffect(clipId, assetId);
 }
 
@@ -1924,7 +1924,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
             // There is a clip, cut
             res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
         }
-        res = res && TimelineFunctions::insertSpace(m_model, trackId, QPoint(position, position + duration), undo, redo);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo);
     }
     res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
@@ -2038,7 +2038,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 res = res && TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
             }
         }
-        res = res && TimelineFunctions::insertSpace(m_model, -1, QPoint(min, max), undo, redo);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo);
     }
     for (int item : sorted_clips) {
         if (m_model->isClip(item)) {
@@ -2125,8 +2125,8 @@ void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFram
 
 bool TimelineController::darkBackground() const
 {
-	KColorScheme scheme(QApplication::palette().currentColorGroup());
-	return scheme.background(KColorScheme::NormalBackground).color().value() < 0.5;
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.background(KColorScheme::NormalBackground).color().value() < 0.5;
 }
 
 QColor TimelineController::videoColor() const
@@ -2171,7 +2171,9 @@ void TimelineController::switchRecording(int trackId)
         } else {
             m_recordStart.second = maximumSpace - m_recordStart.first;
             if (m_recordStart.second < 8) {
-                pCore->displayMessage(i18n("Impossible to capture here: the capture could override clips. Please remove clips after the current position or choose a different track"), ErrorMessage, 500);
+                pCore->displayMessage(i18n("Impossible to capture here: the capture could override clips. Please remove clips after the current position or "
+                                           "choose a different track"),
+                                      ErrorMessage, 500);
                 return;
             }
         }
@@ -2189,7 +2191,7 @@ void TimelineController::switchRecording(int trackId)
         Fun redo = []() { return true; };
         std::function<void(const QString &)> callBack = [this, trackId](const QString &binId) {
             int id = -1;
-            qDebug() << "callback " << binId << " " << trackId<<", MAXIMUM SPACE: "<<m_recordStart.second;
+            qDebug() << "callback " << binId << " " << trackId << ", MAXIMUM SPACE: " << m_recordStart.second;
             bool res = false;
             if (m_recordStart.second > 0) {
                 // Limited space on track
@@ -2199,8 +2201,8 @@ void TimelineController::switchRecording(int trackId)
                 res = m_model->requestClipInsertion(binId, trackId, m_recordStart.first, id, true, true, false);
             }
         };
-        QString binId = ClipCreator::createClipFromFile(recordedFile,
-                                                        pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
+        QString binId = ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo,
+                                                        redo, callBack);
         if (binId != QStringLiteral("-1")) {
             pCore->pushUndo(undo, redo, i18n("Record audio"));
         }
