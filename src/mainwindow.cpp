@@ -38,6 +38,7 @@
 #include "jobs/scenesplitjob.hpp"
 #include "jobs/speedjob.hpp"
 #include "jobs/stabilizejob.hpp"
+#include "jobs/transcodeclipjob.h"
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
@@ -3108,8 +3109,7 @@ void MainWindow::buildDynamicActions()
         ts = kdenliveCategoryMap.take(QStringLiteral("audiotranscoderslist"));
         delete ts;
     }
-    // TODO refac : reimplement transcode
-    /*
+    // transcoders
     ts = new KActionCategory(i18n("Transcoders"), m_extraFactory->actionCollection());
     KActionCategory *ats = new KActionCategory(i18n("Extract Audio"), m_extraFactory->actionCollection());
     KSharedConfigPtr config =
@@ -3121,16 +3121,17 @@ void MainWindow::buildDynamicActions()
     while (i.hasNext()) {
         i.next();
         QStringList transList;
-        transList << QString::number((int)AbstractClipJob::TRANSCODEJOB);
         transList << i.value().split(QLatin1Char(';'));
         auto *a = new QAction(i.key(), m_extraFactory->actionCollection());
         a->setData(transList);
         if (transList.count() > 1) {
             a->setToolTip(transList.at(1));
         }
-        // slottranscode
-        connect(a, &QAction::triggered, pCore->bin(), &Bin::slotStartClipJob);
-        if (transList.count() > 3 && transList.at(3) == QLatin1String("audio")) {
+        connect(a, &QAction::triggered, [&, a]() {
+            QStringList transcodeData = a->data().toStringList();
+            pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(), -1, QString(), transcodeData.first());
+        });
+        if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
             // This is an audio transcoding action
             ats->addAction(i.key(), a);
         } else {
@@ -3139,7 +3140,6 @@ void MainWindow::buildDynamicActions()
     }
     kdenliveCategoryMap.insert(QStringLiteral("transcoderslist"), ts);
     kdenliveCategoryMap.insert(QStringLiteral("audiotranscoderslist"), ats);
-    */
 
     // Populate View menu with show / hide actions for dock widgets
     KActionCategory *guiActions = nullptr;
