@@ -220,6 +220,9 @@ public:
     /* @brief Helper function that returns true if the given ID corresponds to a composition */
     Q_INVOKABLE bool isComposition(int id) const;
 
+    /* @brief Helper function that returns true if the given ID corresponds to a timeline item (composition or clip) */
+    Q_INVOKABLE bool isItem(int id) const;
+
     /* @brief Helper function that returns true if the given ID corresponds to a track */
     Q_INVOKABLE bool isTrack(int id) const;
 

@@ -1249,7 +1249,7 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
 
 void TimelineController::invalidateItem(int cid)
 {
-    if (!m_timelinePreview || m_model->getItemTrackId(cid) == -1) {
+    if (!m_timelinePreview || !m_model->isItem(cid) || m_model->getItemTrackId(cid) == -1) {
         return;
     }
     int start = m_model->getItemPosition(cid);

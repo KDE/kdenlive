@@ -202,7 +202,7 @@ int TimelineModel::getCompositionTrackId(int compoId) const
 int TimelineModel::getItemTrackId(int itemId) const
 {
     READ_LOCK();
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     if (isComposition(itemId)) {
         return getCompositionTrackId(itemId);
     }
@@ -1087,7 +1087,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, logUndo);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     QString actionLabel;
     if (m_groups->isInGroup(itemId)) {
         actionLabel = i18n("Remove group");
@@ -1315,7 +1315,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     if (getGroupElements(groupId).count(itemId) == 0) {
         // this group doesn't contain the clip, abort
         return false;
@@ -1522,7 +1522,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     }
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
-    Q_ASSERT(isClip(itemId) || isComposition(itemId));
+    Q_ASSERT(isItem(itemId));
     if (size <= 0) {
         TRACE_RES(-1);
         return -1;
@@ -1624,7 +1624,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     Fun update_model = [itemId, right, logUndo, this]() {
-        Q_ASSERT(isClip(itemId) || isComposition(itemId));
+        Q_ASSERT(isItem(itemId));
         if (getItemTrackId(itemId) != -1) {
             qDebug() << "++++++++++\nRESIZING ITEM: " << itemId << "\n+++++++";
             QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
@@ -2036,6 +2036,11 @@ bool TimelineModel::isClip(int id) const
 bool TimelineModel::isComposition(int id) const
 {
     return m_allCompositions.count(id) > 0;
+}
+
+bool TimelineModel::isItem(int id) const
+{
+    return isClip(id) || isComposition(id);
 }
 
 bool TimelineModel::isTrack(int id) const
