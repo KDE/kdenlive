@@ -17,19 +17,19 @@
         <name>Mask type</name>
     </parameter>
 
-    <parameter type="constant" name="Tolerance" default="240" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Tolerance" default="0.24" min="0" max="1000" factor="1000">
     <name>Tolerance</name>
     </parameter>
     
-    <parameter type="constant" name="Slope" default="400" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Slope" default="0.4" min="0" max="1000" factor="1000">
     <name>Slope</name>
     </parameter>
 
-    <parameter type="constant" name="Hue gate" default="250" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Hue gate" default="0.25" min="0" max="1000" factor="1000">
         <name>Hue gate</name>
     </parameter>
 
-    <parameter type="constant" name="Saturation threshold" default="150" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Saturation threshold" default="0.15" min="0" max="1000" factor="1000">
         <name>Saturation threshold</name>
     </parameter>
 
@@ -38,7 +38,7 @@
         <name>Operation 1</name>
     </parameter>
 
-    <parameter type="constant" name="Amount 1" default="500" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Amount 1" default="0.5" min="0" max="1000" factor="1000">
         <name>Amount 1</name>
     </parameter>
 
@@ -47,7 +47,7 @@
         <name>Operation 2</name>
     </parameter>
 
-    <parameter type="constant" name="Amount 2" default="0" min="0" max="1000" factor="1000">
+    <parameter type="animated" name="Amount 2" default="0" min="0" max="1000" factor="1000">
         <name>Amount 2</name>
     </parameter>
 

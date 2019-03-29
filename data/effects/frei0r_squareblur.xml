@@ -3,7 +3,7 @@
 	<name>Square Blur</name>
 	<description>Square blur</description>
 	<author>Drone</author>
-	<parameter type="simplekeyframe" name="Kernel size" max="500" min="0" default="50" factor="1000">
+	<parameter type="animated" name="Kernel size" max="500" min="0" default="0.05" factor="1000">
 		<name>Kernel size</name>
 	</parameter>
 </effect>
