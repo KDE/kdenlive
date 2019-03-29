@@ -7,7 +7,7 @@
                 <paramlistdisplay>Left,Right</paramlistdisplay>
                 <name>Channel</name>
         </parameter>
-	<parameter type="keyframe" name="start" max="1000" min="0" default=".5" factor="1000">
+	<parameter type="animated" name="start" max="1000" min="0" default="0.5" factor="1000">
 		<name>Pan</name>
 	</parameter>
 </effect>

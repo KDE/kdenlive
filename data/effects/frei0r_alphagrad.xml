@@ -4,23 +4,24 @@
         <description>Fill the alpha channel with a specified gradient</description>
         <author>Marko Cebokli</author>
 
-        <parameter type="keyframe" name="Position" default=".500" min="0" max="1000" factor="1000">
+
+        <parameter type="animated" name="Position" default="0.5" min="0" max="1000" factor="1000">
                 <name>Position</name>
         </parameter>
 
-        <parameter type="keyframe" name="Transition width" default=".500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Transition width" default="0.5" min="0" max="1000" factor="1000">
                 <name>Transition width</name>
         </parameter>
 
-        <parameter type="keyframe" name="Tilt" default=".500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Tilt" default="0.5" min="0" max="1000" factor="1000">
                 <name>Tilt</name>
         </parameter>
 
-        <parameter type="keyframe" name="Min" default="0" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Min" default="0" min="0" max="1000" factor="1000">
                 <name>Min</name>
         </parameter>
 
-        <parameter type="keyframe" name="Max" default="1" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Max" default="1" min="0" max="1000" factor="1000">
                 <name>Max</name>
         </parameter>
 
@@ -28,4 +29,5 @@
                 <paramlistdisplay>Write on clear,Max,Min,Add,Subtract</paramlistdisplay>
                 <name>Operation</name>
         </parameter>
+
 </effect>

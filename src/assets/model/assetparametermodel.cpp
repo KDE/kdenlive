@@ -502,7 +502,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             .replace(QLatin1String("%height"), QString::number(height))
             .replace(QLatin1String("%out"), QString::number(out));
 
-        if (type == ParamType::Double) {
+        if (type == ParamType::Double || type == ParamType::Hidden) {
             // Use a Mlt::Properties to parse mathematical operators
             Mlt::Properties p;
             p.set("eval", content.prepend(QLatin1Char('@')).toLatin1().constData());
@@ -511,12 +511,6 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     } else if (type == ParamType::Double || type == ParamType::Hidden) {
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
-        if (attribute == QLatin1String("default")) {
-            int factor = element.attribute(QStringLiteral("factor"), QStringLiteral("1")).toInt();
-            if (factor > 0) {
-                return content.toDouble() / factor;
-            }
-        }
         return locale.toDouble(content);
     }
     if (attribute == QLatin1String("default")) {

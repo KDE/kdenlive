@@ -4,15 +4,15 @@
         <description>Simple color adjustment</description>
         <author>Marko Cebokli</author>
         
-        <parameter type="simplekeyframe" name="R" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="R" default="0.5" min="0" max="1000" factor="1000">
                 <name>R</name>
         </parameter>
         
-        <parameter type="simplekeyframe" name="G" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="G" default="0.5" min="0" max="1000" factor="1000">
                 <name>G</name>
         </parameter>
         
-        <parameter type="simplekeyframe" name="B" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="B" default="0.5" min="0" max="1000" factor="1000">
                 <name>B</name>
         </parameter>
         

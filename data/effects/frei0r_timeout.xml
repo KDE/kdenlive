@@ -6,10 +6,10 @@
 	<parameter type="color" name="color" default="0x6893C8ff">
 		<name>Indicator color</name>
 	</parameter>
-        <parameter type="simplekeyframe" name="time" default="0" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="time" default="0" min="0" max="1000" factor="1000">
 	  <name>Time</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="transparency" default="0" min="0" max="1000" factor="1000">
+	<parameter type="animated" name="transparency" default="0" min="0" max="1000" factor="1000">
 	  <name>Transparency</name>
 	</parameter>
     </effect>

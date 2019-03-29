@@ -4,6 +4,7 @@
         <description>Keyframable vector based rotoscoping</description>
         <author>Till Theato</author>
         <parameter type="roto-spline" name="spline" default="" />
+
         <parameter type="list" name="mode" default="alpha" paramlist="alpha;luma;rgb">
             <paramlistdisplay>Alpha,Luma,RGB</paramlistdisplay>
             <name>Mode</name>

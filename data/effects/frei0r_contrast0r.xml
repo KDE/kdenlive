@@ -3,7 +3,7 @@
 	<name>Contrast</name>
 	<description>Adjusts the contrast of a source image</description>
 	<author>Jean-Sebastien Senecal</author>
-	<parameter type="simplekeyframe" name="Contrast" default="250" min="0" max="1000" factor="500">
+	<parameter type="animated" name="Contrast" default="0.5" min="0" max="1000" factor="500">
 		<name>Contrast</name>
 	</parameter>
 </effect>

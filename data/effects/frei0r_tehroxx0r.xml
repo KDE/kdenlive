@@ -3,7 +3,7 @@
 	<name>TehRoxx0r</name>
 	<description>Something videowall-ish</description>
 	<author>Coma</author>
-	<parameter type="constant" name="Interval" max="1000" min="0" default="0" factor="1000">
+	<parameter type="animated" name="Interval" max="1000" min="0" default="0" factor="1000">
 		<name>Interval</name>
 	</parameter>
 </effect>

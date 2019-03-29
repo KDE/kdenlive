@@ -6,45 +6,45 @@
         <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
         opened for a while), but for video.]]></full></description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="simplekeyframe" name="thresholdBrightness" default="450" min="0" max="765" factor="1">
+        <parameter type="animated" name="thresholdBrightness" default="450" min="0" max="765">
             <name>Brightness Threshold</name>
             <comment><![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to be recognized as a light source?<br/>
             Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="thresholdDifference" default="80" min="0" max="255" factor="1">
+        <parameter type="animated" name="thresholdDifference" default="80" min="0" max="255">
             <name>Difference Threshold</name>
             <comment><![CDATA[How much does the strongest color channel of a pixel have to change, compared to the background image (<code>max(dR, dG, dB)</code>), in order to be recognized as light source? <br/>
             Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise or generally bright spots counting as light source.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="thresholdDiffSum" default="0" min="0" max="765" factor="1">
+        <parameter type="animated" name="thresholdDiffSum" default="0" min="0" max="765">
             <name>Difference Sum Threshold</name>
             <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?<br/>
             Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="sensitivity" default="100" min="0" max="500" factor="100">
+        <parameter type="animated" name="sensitivity" default="1" min="0" max="500" factor="100">
             <name>Sensitivity</name>
             <comment><![CDATA[Light sensitivity.<br/>
             For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="lowerOverexposure" default="0" min="0" max="10" factor="1">
+        <parameter type="animated" name="lowerOverexposure" default="0" min="0" max="10">
             <name>Lower Overexposure</name>
             <comment><![CDATA[Lowers overexposure.<br/>
             The light mask does not get white immediately when the light source is moving slowly or staying steady.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="dim" default="0" min="0" max="255" factor="255">
+        <parameter type="animated" name="dim" default="0" min="0" max="255" factor="255">
             <name>Dimming</name>
             <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
         </parameter>
-        <parameter type="simplekeyframe" name="backgroundWeight" default="0" min="0" max="100" factor="100">
+        <parameter type="animated" name="backgroundWeight" default="0" min="0" max="100" factor="100">
             <name>Background Weight</name>
             <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without the painting person in the image if the video starts with a «clean» background image. (See the α parameter.)</comment>
         </parameter>
-        <parameter type="simplekeyframe" name="longAlpha" default="0" min="0" max="256" factor="256">
+        <parameter type="animated" name="longAlpha" default="0" min="0" max="256" factor="256">
             <name>α</name>
             <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
             The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="saturation" default="150" min="0" max="400" factor="100">
+        <parameter type="animated" name="saturation" default="1.5" min="0" max="400" factor="100">
             <name>Saturation</name>
             <comment>Increases the saturation of lights.</comment>
         </parameter>
@@ -79,45 +79,45 @@
         <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
         opened for a while), but for video.]]></full></description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="simplekeyframe" name="thresholdBrightness" default="450" min="0" max="765" factor="765">
+        <parameter type="animated" name="thresholdBrightness" default="0.588235294117647" min="0" max="765" factor="765">
             <name>Brightness Threshold</name>
             <comment><![CDATA[How bright (<code>R+G+B</code>) does a pixel need to be in order to be recognized as a light source?<br/>
             Increasing this threshold requires brighter light sources (i.e. more white or less color, respectively) but prevents some «false alarms» where semi-bright parts, e.g. hands where colors can change quite a lot compared to the background, are incorrectly recognized as light source.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="thresholdDifference" default="80" min="0" max="255" factor="255">
+        <parameter type="animated" name="thresholdDifference" default="0.313725490196078" min="0" max="255" factor="255">
             <name>Difference Threshold</name>
             <comment><![CDATA[How much does the strongest color channel of a pixel have to change, compared to the background image (<code>max(dR, dG, dB)</code>), in order to be recognized as light source? <br/>
             Increasing this threshold makes it harder for light sources to be accepted on bright backgrounds, but decreases the danger of noise or generally bright spots counting as light source.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="thresholdDiffSum" default="0" min="0" max="765" factor="765">
+        <parameter type="animated" name="thresholdDiffSum" default="0" min="0" max="765" factor="765">
             <name>Difference Sum Threshold</name>
             <comment><![CDATA[How much does the sum of all color channels <em>relative to the background image</em> (<code>dR + dG + dB</code>) have to change until a pixel is recognized as a light source?<br/>
             Raising this value might, in some cases, avoid that some light objects lit by the light source are added to the light mask.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="sensitivity" default="100" min="0" max="500" factor="500">
+        <parameter type="animated" name="sensitivity" default="0.2" min="0" max="500" factor="500">
             <name>Sensitivity</name>
             <comment><![CDATA[Light sensitivity.<br/>
             For slowly moving light source try to use a lower sensitivity to obtain a better exposure.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="lowerOverexposure" default="0" min="0" max="10" factor="10">
+        <parameter type="animated" name="lowerOverexposure" default="0" min="0" max="10" factor="10">
             <name>Lower Overexposure</name>
             <comment><![CDATA[Lowers overexposure.<br/>
             The light mask does not get white immediately when the light source is moving slowly or staying steady.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="dim" default="0" min="0" max="255" factor="255">
+        <parameter type="animated" name="dim" default="0" min="0" max="255" factor="255">
             <name>Dimming</name>
             <comment>Dims the light mask. Lights will leave a fainting trail if it is set to a value > 0.</comment>
         </parameter>
-        <parameter type="simplekeyframe" name="backgroundWeight" default="0" min="0" max="100" factor="100">
+        <parameter type="animated" name="backgroundWeight" default="0" min="0" max="100" factor="100">
             <name>Background Weight</name>
             <comment>Strength of the (calculated) background image. Setting it to 100 paints the light mask directly over the background, without the painting person in the image if the video starts with a «clean» background image. (See the α parameter.)</comment>
         </parameter>
-        <parameter type="simplekeyframe" name="longAlpha" default="0" min="0" max="256" factor="256">
+        <parameter type="animated" name="longAlpha" default="0" min="0" max="256" factor="256">
             <name>α</name>
             <comment><![CDATA[Determines how the effect tries to adapt to background changes. <br/>
             The Light Graffiti effect remembers the first frame of the clip it is applied to, so the clip should <em>always</em> start with the painter outside of the video. If the background constantly changes, e.g. on a street, try to set α > 0 to calculate an average background image.]]></comment>
         </parameter>
-        <parameter type="simplekeyframe" name="saturation" default="150" min="0" max="400" factor="400">
+        <parameter type="animated" name="saturation" default="0.375" min="0" max="400" factor="400">
             <name>Saturation</name>
             <comment>Increases the saturation of lights.</comment>
         </parameter>

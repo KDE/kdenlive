@@ -3,28 +3,28 @@
 	<name>3dflippo</name>
 	<description>Frame rotation in 3D space</description>
 	<author>c.e. prelz AS FLUIDO</author>
-	<parameter type="constant" name="Xaxisrotation" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="Xaxisrotation" max="1000" min="0" default="0.5" factor="1000">
 		<name>X axis rotation</name>
 	</parameter>
-	<parameter type="constant" name="Yaxisrotation" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="Yaxisrotation" max="1000" min="0" default="0.5" factor="1000">
 		<name>Y axis rotation</name>
 	</parameter>
-	<parameter type="constant" name="Zaxisrotation" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="Zaxisrotation" max="1000" min="0" default="0.5" factor="1000">
 		<name>Z axis rotation</name>
 	</parameter>
-	<parameter type="constant" name="Xaxisrotationrate" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="Xaxisrotationrate" max="1000" min="0" default="0.5" factor="1000">
 		<name>X axis rotation rate</name>
 	</parameter>
-	<parameter type="constant" name="Yaxisrotationrate" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="Yaxisrotationrate" max="1000" min="0" default="0.5" factor="1000">
 		<name>Y axis rotation rate</name>
 	</parameter>
-	<parameter type="constant" name="Zaxisrotationrate" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="Zaxisrotationrate" max="1000" min="0" default="0.5" factor="1000">
 		<name>Z axis rotation rate</name>
 	</parameter>
-	<parameter type="constant" name="CenterpositionX" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="CenterpositionX" max="1000" min="0" default="0.5" factor="1000">
 		<name>Center position (X)</name>
 	</parameter>
-	<parameter type="constant" name="CenterpositionY" max="1000" min="0" default="500" factor="1000">
+	<parameter type="animated" name="CenterpositionY" max="1000" min="0" default="0.5" factor="1000">
 		<name>Center position (Y)</name>
 	</parameter>
 	<parameter type="bool" name="Invertrotationassignment" default="1">

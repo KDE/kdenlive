@@ -9,19 +9,19 @@
                 <name>Measurement</name>
         </parameter>
         
-        <parameter type="constant" name="X" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="X" default="0.5" min="0" max="1000" factor="1000">
                 <name>X</name>
         </parameter>
         
-        <parameter type="constant" name="Y" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Y" default="0.5" min="0" max="1000" factor="1000">
                 <name>Y</name>
         </parameter>
         
-        <parameter type="constant" name="X size" default="7" min="0" max="25" factor="25">
+        <parameter type="animated" name="X size" default="0.28" min="0" max="25" factor="25">
                 <name>X size</name>
         </parameter>
 
-        <parameter type="constant" name="Y size" default="7" min="0" max="25" factor="25">
+        <parameter type="animated" name="Y size" default="0.28" min="0" max="25" factor="25">
                 <name>Y size</name>
         </parameter>
         
