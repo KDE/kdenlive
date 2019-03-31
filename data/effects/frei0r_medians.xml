@@ -9,7 +9,7 @@
 		<name>Type</name>
 	</parameter>
 
-	<parameter type="constant" name="Size" default="5" min="0" max="50" factor="50">
+	<parameter type="animated" name="Size" default="0.1" min="0" max="50" factor="50">
 	<name>Size</name>
 	</parameter>
 	

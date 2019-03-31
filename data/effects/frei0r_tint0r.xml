@@ -9,7 +9,7 @@
 	<parameter type="color" name="Map white to" default="0x80FF80ff">
 		<name>Map white to</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="Tint amount" default="250" min="0" max="1000" factor="1000">
+	<parameter type="animated" name="Tint amount" default="0.25" min="0" max="1000" factor="1000">
 		<name>Tint amount</name>
 	</parameter>
 </effect>

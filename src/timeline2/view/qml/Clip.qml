@@ -159,7 +159,7 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
     }
 
-    border.color: selected? activePalette.highlight : grouped ? root.groupColor : borderColor
+    border.color: selected ? root.selectionColor : grouped ? root.groupColor : borderColor
     border.width: isGrabbed ? 8 : 1.5
 
     function updateDrag() {

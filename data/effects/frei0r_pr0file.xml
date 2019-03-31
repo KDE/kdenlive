@@ -4,19 +4,19 @@
         <description>2D video oscilloscope</description>
         <author>Marko Cebokli</author>
         
-        <parameter type="constant" name="X" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="X" default="0.5" min="0" max="1000" factor="1000">
                 <name>X</name>
         </parameter>
         
-        <parameter type="constant" name="Y" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Y" default="0.5" min="0" max="1000" factor="1000">
                 <name>Y</name>
         </parameter>
         
-        <parameter type="constant" name="Tilt" default="500" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Tilt" default="0.5" min="0" max="1000" factor="1000">
                 <name>Tilt</name>
         </parameter>
 
-        <parameter type="constant" name="Length" default="650" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Length" default="0.65" min="0" max="1000" factor="1000">
                 <name>Length</name>
         </parameter>
         
@@ -25,11 +25,11 @@
                 <name>Channel</name>
         </parameter>
         
-        <parameter type="constant" name="Marker 1" default="0" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Marker 1" default="0" min="0" max="1000" factor="1000">
                 <name>Marker 1</name>
         </parameter>
         
-        <parameter type="constant" name="Marker 2" default="0" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Marker 2" default="0" min="0" max="1000" factor="1000">
                 <name>Marker 2</name>
         </parameter>
         
@@ -86,7 +86,7 @@
                 <name>Color</name>
         </parameter>
 
-        <parameter type="constant" name="Crosshair color" default="0" min="0" max="7" factor="7">
+        <parameter type="animated" name="Crosshair color" default="0" min="0" max="7" factor="7">
                 <name>Crosshair color</name>
         </parameter>
 

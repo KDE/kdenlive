@@ -9,7 +9,7 @@
 	<parameter type="constant" name="limit" max="0" min="-20" default="0">
 		<name>Limit (dB)</name>
 	</parameter>
-	<parameter type="constant" name="release" max="200" min="1" default="50" factor="100">
+	<parameter type="constant" name="release" max="200" min="1" default="0.5" factor="100">
 		<name>Release time (s)</name>
 	</parameter>
 </effect>

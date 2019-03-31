@@ -3,28 +3,28 @@
 	<name>Crop, Scale and Tilt</name>
 	<description>Scales, Tilts and Crops an Image</description>
 	<author>Richard Spindler</author>
-	<parameter type="constant" name="Clip left" max="%width-1" min="0" default="0" factor="%width">
+	<parameter type="animated" name="Clip left" max="%width" min="0" default="0" factor="%width">
 		<name>Crop left</name>
 	</parameter>
-	<parameter type="constant" name="Clip right" max="%width-1" min="0" default="0" factor="%width">
+	<parameter type="animated" name="Clip right" max="%width" min="0" default="0" factor="%width">
 		<name>Crop right</name>
 	</parameter>
-	<parameter type="constant" name="Clip top" max="%height-1" min="0" default="0" factor="%height">
+	<parameter type="animated" name="Clip top" max="%height" min="0" default="0" factor="%height">
 		<name>Crop top</name>
 	</parameter>
-	<parameter type="constant" name="Clip bottom" max="%height-1" min="0" default="0" factor="%height">
+	<parameter type="animated" name="Clip bottom" max="%height" min="0" default="0" factor="%height">
 		<name>Crop bottom</name>
 	</parameter>
-	<parameter type="constant" name="Scale X" max="1000" min="1" default="50" factor="100">
+	<parameter type="constant" name="Scale X" max="1000" min="1" default="0.5" factor="200">
 		<name>Scale X</name>
 	</parameter>
-	<parameter type="constant" name="Scale Y" max="1000" min="1" default="50" factor="100">
+	<parameter type="constant" name="Scale Y" max="1000" min="1" default="0.5" factor="200">
 		<name>Scale Y</name>
 	</parameter>
-	<parameter type="constant" name="Tilt X" max="%width" min="0" default="%width/2" factor="%width">
+	<parameter type="animated" name="Tilt X" max="%width" min="0" default="0.5" factor="%width">
 		<name>Tilt X</name>
 	</parameter>
-	<parameter type="constant" name="Tilt Y" max="%height" min="0" default="%height/2" factor="%height">
+	<parameter type="animated" name="Tilt Y" max="%height" min="0" default="0.5" factor="%height">
 		<name>Tilt Y</name>
 	</parameter>
 </effect>

@@ -19,11 +19,11 @@
 		    <name>Operation</name>
 	    </parameter>
 
-	    <parameter type="keyframe" name="Threshold" default=".500" min="0" max="1000" factor="1000">
+	    <parameter type="animated" name="Threshold" default="0.5" min="0" max="1000" factor="1000">
 		    <name>Threshold</name>
 	    </parameter>
 
-	    <parameter type="keyframe" name="Shrink/grow amount" default=".500" min="0" max="1000" factor="1000" intimeline="1">
+	    <parameter type="animated" name="Shrink/grow amount" default="0.5" min="0" max="1000" factor="1000" intimeline="1">
 		    <name>Shrink/grow amount</name>
 	    </parameter>
 
@@ -51,11 +51,11 @@
 		    <name>Operation</name>
 	    </parameter>
 
-	    <parameter type="keyframe" name="Threshold" default=".500" min="0" max="1000" factor="1000">
+	    <parameter type="animated" name="Threshold" default="0.5" min="0" max="1000" factor="1000">
 		    <name>Threshold</name>
 	    </parameter>
 
-	    <parameter type="keyframe" name="Shrink/Grow/Blur amount" default=".500" min="0" max="1000" factor="1000" intimeline="1">
+	    <parameter type="animated" name="Shrink/Grow/Blur amount" default="0.5" min="0" max="1000" factor="1000" intimeline="1">
 		    <name>Shrink/Grow/Blur amount</name>
 	    </parameter>
 

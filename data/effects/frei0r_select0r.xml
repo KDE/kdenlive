@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui>
 <group>
     <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
-            <name>Chroma-key</name>
+            <name>Color Selection</name>
             <description>Color based alpha selection</description>
             <author>Marko Cebokli</author>
         
@@ -13,15 +13,15 @@
                     <name>Invert selection</name>
             </parameter>    
         
-            <parameter type="simplekeyframe" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
                     <name>Delta R / A / Hue</name>
             </parameter>
         
-            <parameter type="simplekeyframe" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
                     <name>Delta G / B / Chroma</name>
             </parameter>
         
-            <parameter type="simplekeyframe" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
                     <name>Delta B / I / I</name>
             </parameter>
         
@@ -75,19 +75,19 @@
                     <name>Edge mode</name>
             </parameter>
         
-            <parameter type="simplekeyframe" name="Delta R / A / Hue" default="200" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
                     <name>Delta R / A / Hue</name>
             </parameter>
         
-            <parameter type="simplekeyframe" name="Delta G / B / Chroma" default="200" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
                     <name>Delta G / B / Chroma</name>
             </parameter>
         
-            <parameter type="simplekeyframe" name="Delta B / I / I" default="200" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
                     <name>Delta B / I / I</name>
             </parameter>
         
-            <parameter type="simplekeyframe" name="Slope" default="0" min="0" max="1000" factor="1000">
+            <parameter type="animated" name="Slope" default="0" min="0" max="1000" factor="1000">
                     <name>Slope</name>
             </parameter>
         

@@ -3,7 +3,7 @@
         <name>Glow</name>
         <description>Creates a Glamorous Glow</description>
         <author>Richard Spindler</author>
-        <parameter type="simplekeyframe" name="Blur" default="10" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="Blur" default="0.01" min="0" max="1000" factor="1000">
                 <name>Blur</name>
         </parameter>
 </effect>

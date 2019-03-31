@@ -2,7 +2,7 @@
 <effect tag="movit.sharpen" id="movit.sharpen">
 	<name>Deconvolution sharpen (GPU)</name>
 	<author>Steinar H. Gunderson</author>
-	<parameter type="animated" name="matrix_size" default="5" min="1" max="10" factor="1">
+	<parameter type="animated" name="matrix_size" default="5" min="1" max="10">
 		<name>Matrix size</name>
 	</parameter>
 	<parameter type="animated" name="circle_radius" default="2" min="0" max="1000" factor="100">

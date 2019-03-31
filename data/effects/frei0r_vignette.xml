@@ -3,13 +3,13 @@
         <name>Vignette</name>
         <description>Natural lens vignetting effect</description>
         <author>Simon A. Eugster (Granjow)</author>
-        <parameter type="simplekeyframe" name="aspect" default="0.5" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="aspect" default="0.5" min="0" max="1000" factor="1000">
                 <name>Aspect ratio</name>
         </parameter>
-        <parameter type="simplekeyframe" name="clearCenter" default="0" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="clearCenter" default="0" min="0" max="1000" factor="1000">
                 <name>Clear center size</name>
         </parameter>
-        <parameter type="simplekeyframe" name="soft" default="0.6" min="0" max="1000" factor="1000">
+        <parameter type="animated" name="soft" default="0.6" min="0" max="1000" factor="1000">
                 <name>Softness</name>
         </parameter>
 </effect>

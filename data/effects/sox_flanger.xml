@@ -15,7 +15,7 @@
 	<parameter type="constant" name="width" max="100" min="0" default="71" suffix="%">
 		<name>Width</name>
 	</parameter>
-	<parameter type="constant" name="speed" max="100" min="0" default="5" factor="10" suffix="Hz">
+	<parameter type="constant" name="speed" max="100" min="0" default="0.5" factor="10" suffix="Hz">
 		<name>Speed</name>
 	</parameter>
 	<parameter type="list" name="shape" default="sine" paramlist="sine;triangle">

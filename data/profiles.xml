@@ -7,8 +7,8 @@
    speeds="cpu-used=2;cpu-used=3;cpu-used=4;cpu-used=5"/>
   <profile name="MP4 - the dominating format (H264/AAC)" extension="mp4"
    qualities="15,20,45" defaultquality="30"
-   audiobitrates="192,64" defaultaudiobitrate="160"
-   args="properties=x264-medium f=mp4 vcodec=libx264 acodec=aac g=120 crf=%quality ab=%audiobitrate+'k'"
+   audiobitrates="256,64" defaultaudiobitrate="160"
+   args="f=mp4 movflags=+faststart vcodec=libx264 progressive=1 g=15 bf=2 crf=%quality acodec=aac ab=%audiobitrate+'k'"
    speeds="preset=slower;preset=medium;preset=faster;preset=ultrafast"/>
   <profile name="Transparent" extension="mov" args="vcodec=qtrle pix_fmt=argb"/>
   <profile name="MPEG-2" extension="mpg"

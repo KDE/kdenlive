@@ -6,13 +6,13 @@
 	<parameter type="constant" name="rate" max="100" min="0" default="25">
 		<name>Rate (Hz)</name>
 	</parameter>
-	<parameter type="constant" name="depth" max="100" min="0" default="25" factor="100">
+	<parameter type="constant" name="depth" max="100" min="0" default="0.25" factor="100">
 		<name>Depth</name>
 	</parameter>
 	<parameter type="constant" name="feedback" max="100" min="-100" default="0" factor="100">
 		<name>Feedback</name>
 	</parameter>
-	<parameter type="constant" name="spread" max="200" min="0" default="100" factor="100">
+	<parameter type="constant" name="spread" max="200" min="0" default="1" factor="100">
 		<name>Spread</name>
 	</parameter>
 </effect>
