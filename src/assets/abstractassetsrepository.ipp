@@ -80,7 +80,9 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
        list, while discarding the bare version of each tag (the one with no file associated)
     */
     std::unordered_map<QString, Info> customAssets;
-    for (const auto &dir : asset_dirs) {
+    // reverse order to prioritize local install
+    QListIterator<QString> dirs_it(asset_dirs);
+    for (dirs_it.toBack(); dirs_it.hasPrevious();) { auto dir=dirs_it.previous();
         QDir current_dir(dir);
         QStringList filter;
         filter << QStringLiteral("*.xml");
