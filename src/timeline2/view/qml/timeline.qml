@@ -1092,7 +1092,7 @@ Rectangle {
                                                 pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
                                                 dragProxy.masterObject.x = pos.x
                                                 dragProxy.masterObject.y = pos.y
-                                                console.log('bringing item to front')
+                                                //console.log('bringing item to front')
                                             }
                                             dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
@@ -1165,6 +1165,7 @@ Rectangle {
                             Repeater { id: tracksRepeater; model: trackDelegateModel }
                             Item {
                                 id: dragContainer
+                                z: 100
                             }
                             Repeater { id: guidesRepeater; model: guidesDelegateModel }
                         }
