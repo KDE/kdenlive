@@ -376,7 +376,7 @@ public:
     void addPreviewRange(bool add);
     /* @brief Clear current timeline zone from preview rendering
      */
-    void clearPreviewRange();
+    void clearPreviewRange(bool resetZones);
     void startPreviewRender();
     void stopPreviewRender();
     QVariantList dirtyChunks() const;

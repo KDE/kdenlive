@@ -374,7 +374,7 @@ void PreviewManager::doCleanupOldPreviews()
     }
 }
 
-void PreviewManager::clearPreviewRange()
+void PreviewManager::clearPreviewRange(bool resetZones)
 {
     m_previewGatherTimer.stop();
     abortRendering();
@@ -382,6 +382,7 @@ void PreviewManager::clearPreviewRange()
     bool hasPreview = m_previewTrack != nullptr;
     for (const auto &ix : m_renderedChunks) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
+        m_dirtyChunks << ix;
         if (!hasPreview) {
             continue;
         }
@@ -398,7 +399,11 @@ void PreviewManager::clearPreviewRange()
     m_renderedChunks.clear();
     // Reload preview params
     loadParams();
+    if (resetZones) {
+        m_dirtyChunks.clear();
+    }
     m_controller->renderedChunksChanged();
+    m_controller->dirtyChunksChanged();
 }
 
 void PreviewManager::addPreviewRange(const QPoint zone, bool add)

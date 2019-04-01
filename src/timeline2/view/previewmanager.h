@@ -65,7 +65,7 @@ public:
     /** @brief: user adds current timeline zone to the preview zone. */
     void addPreviewRange(const QPoint zone, bool add);
     /** @brief: Remove all existing previews. */
-    void clearPreviewRange();
+    void clearPreviewRange(bool resetZones);
     /** @brief: stops current rendering process. */
     void abortRendering();
     /** @brief: rendering parameters have changed, reload them. */
