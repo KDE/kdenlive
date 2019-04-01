@@ -86,7 +86,7 @@ void GeometryEditWidget::slotShowComment(bool show)
 void GeometryEditWidget::monitorSeek(int pos)
 {
     // Update monitor scene for geometry params
-    int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    int start = m_model->data(m_index, AssetParameterModel::ParentPositionRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     if (pos >= start && pos < end) {
         m_geom->connectMonitor(true);
