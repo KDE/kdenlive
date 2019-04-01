@@ -1622,7 +1622,7 @@ void MainWindow::slotEditProjectSettings()
             modified = true;
             project->setDocumentProperty(QStringLiteral("previewparameters"), w->previewParams());
             project->setDocumentProperty(QStringLiteral("previewextension"), w->previewExtension());
-            slotClearPreviewRender();
+            slotClearPreviewRender(false);
         }
         if (project->getDocumentProperty(QStringLiteral("proxyparams")) != w->proxyParams() ||
             project->getDocumentProperty(QStringLiteral("proxyextension")) != w->proxyExtension()) {
@@ -2487,10 +2487,10 @@ void MainWindow::slotRemovePreviewRender()
     }
 }
 
-void MainWindow::slotClearPreviewRender()
+void MainWindow::slotClearPreviewRender(bool resetZones)
 {
     if (pCore->currentDoc()) {
-        getCurrentTimeline()->controller()->clearPreviewRange();
+        getCurrentTimeline()->controller()->clearPreviewRange(resetZones);
     }
 }
 

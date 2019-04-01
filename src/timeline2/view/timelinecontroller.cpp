@@ -1041,10 +1041,10 @@ void TimelineController::addPreviewRange(bool add)
     }
 }
 
-void TimelineController::clearPreviewRange()
+void TimelineController::clearPreviewRange(bool resetZones)
 {
     if (m_timelinePreview) {
-        m_timelinePreview->clearPreviewRange();
+        m_timelinePreview->clearPreviewRange(resetZones);
     }
 }
 
@@ -1150,7 +1150,7 @@ bool TimelineController::useRuler() const
 void TimelineController::resetPreview()
 {
     if (m_timelinePreview) {
-        m_timelinePreview->clearPreviewRange();
+        m_timelinePreview->clearPreviewRange(true);
         initializePreview();
     }
 }
