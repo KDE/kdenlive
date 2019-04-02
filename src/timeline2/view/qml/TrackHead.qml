@@ -45,10 +45,6 @@ Rectangle {
     border.color: root.frameColor
     signal clicked()
 
-    onCollapsedChanged: {
-        resizer.y = trackHeadRoot.height - resizer.height
-    }
-
     function pulseLockButton() {
         flashLock.restart();
     }
@@ -463,11 +459,14 @@ Rectangle {
                 }
                 onReleased: {
                     root.stopScrolling = false
-                    parent.opacity = 0
-                    parent.y = trackHeadRoot.height - parent.height
-                    //resizer.y = spacer.y + spacer.height
+                    if (!trimInMouseArea.containsMouse) {
+                        parent.opacity = 0
+                    }
+                    if (mouse.modifiers & Qt.ShiftModifier) {
+                        timeline.adjustAllTrackHeight(trackHeadRoot.trackId, trackHeadRoot.myTrackHeight)
+                    }
                 }
-                onEntered: parent.opacity = 0.5
+                onEntered: parent.opacity = 0.3
                 onExited: parent.opacity = 0
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
