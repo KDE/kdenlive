@@ -676,6 +676,23 @@ void TimelineController::showTrackAsset(int trackId)
     emit showItemEffectStack(getTrackNameFromIndex(trackId), m_model->getTrackEffectStackModel(trackId), pCore->getCurrentFrameSize(), false);
 }
 
+void TimelineController::adjustAllTrackHeight(int trackId, int height)
+{
+    bool isAudio = m_model->getTrackById_const(trackId)->isAudioTrack();
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (target_track != trackId && m_model->getTrackById_const(target_track)->isAudioTrack() == isAudio) {
+            m_model->getTrackById(target_track)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(height));
+        }
+        ++it;
+    }
+    int tracksCount = m_model->getTracksCount();
+    QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
+    QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
+    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+
 void TimelineController::setPosition(int position)
 {
     setSeekPosition(position);
