@@ -1280,6 +1280,7 @@ Rectangle {
             rootIndex: trackDelegateModel.modelIndex(index)
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
+            height: trackHeight
             isAudio: audio
             trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
