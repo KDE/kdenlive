@@ -452,8 +452,6 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(TrackActiveRole);
     } else if (name == QLatin1String("kdenlive:thumbs_format")) {
         roles.push_back(ThumbsFormatRole);
-    } else if (name == QLatin1String("kdenlive:collapsed")) {
-        roles.push_back(HeightRole);
     } else if (name == QLatin1String("kdenlive:audio_rec")) {
         roles.push_back(AudioRecordRole);
     }

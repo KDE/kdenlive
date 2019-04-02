@@ -646,13 +646,16 @@ Rectangle {
                             effectNames: model.effectNames
                             isStackEnabled: model.isStackEnabled
                             width: headerWidth
+                            height: model.trackHeight
                             current: item === timeline.activeTrack
                             trackId: item
-                            height: model.trackHeight
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             collapsed: height <= collapsedHeight
                             onMyTrackHeightChanged: {
-                                collapsed = myTrackHeight <= collapsedHeight
+                                trackBaseRepeater.itemAt(index).height = myTrackHeight
+                                tracksRepeater.itemAt(index).height = myTrackHeight
+                                height = myTrackHeight
+                                collapsed = height <= collapsedHeight
                                 if (!collapsed) {
                                     controller.setTrackProperty(trackId, "kdenlive:trackheight", myTrackHeight)
                                     controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
@@ -1278,6 +1281,7 @@ Rectangle {
         delegate: Track {
             trackModel: multitrack
             rootIndex: trackDelegateModel.modelIndex(index)
+            height: trackHeight
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
             isAudio: audio

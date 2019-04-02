@@ -33,6 +33,7 @@ Column{
     property int trackInternalId : -42
     property int trackThumbsFormat
     property int itemType: 0
+    height: parent.height
 
     /*function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)
