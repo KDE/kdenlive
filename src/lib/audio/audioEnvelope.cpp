@@ -97,7 +97,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
 {
     qCDebug(KDENLIVE_LOG) << "Loading envelope ...";
     AudioSummary summary(m_envelopeSize);
-    if (!m_info || m_info->size() == 0) {
+    if (!m_info || m_info->size() < 1) {
         return summary;
     }
     int samplingRate = m_info->info(0)->samplingRate();
