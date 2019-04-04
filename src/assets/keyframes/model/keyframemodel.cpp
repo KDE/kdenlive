@@ -1146,12 +1146,13 @@ QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::share
     return result;
 }
 
-std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(const QString &animData)
+std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(std::shared_ptr<AssetParameterModel> model, const QString &animData, int duration)
 {
     std::shared_ptr<Mlt::Properties> mlt_prop(new Mlt::Properties());
+    model->passProperties(*mlt_prop.get());
     mlt_prop->set("key", animData.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
-    (void)mlt_prop->anim_get_rect("key", 0, 0);
+    (void)mlt_prop->anim_get_rect("key", 0, duration);
     return mlt_prop;
 }
 

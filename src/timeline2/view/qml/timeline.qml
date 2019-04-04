@@ -67,18 +67,25 @@ Rectangle {
 
     function zoomByWheel(wheel) {
         if (wheel.modifiers & Qt.AltModifier) {
+            // Seek to next snap
             if (wheel.angleDelta.x > 0) {
                 timeline.triggerAction('monitor_seek_snap_backward')
             } else {
                 timeline.triggerAction('monitor_seek_snap_forward')
             }
         } else if (wheel.modifiers & Qt.ControlModifier) {
+            // Zoom
             if (wheel.angleDelta.y > 0) {
                 root.zoomIn(true);
             } else {
                 root.zoomOut(true);
             }
+        } else if (wheel.modifiers & Qt.ShiftModifier) {
+            // Vertical scroll
+            var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + scrollView.__horizontalScrollBar.height + cornerstone.height)
+            scrollView.flickableItem.contentY = Math.max(newScroll, 0)
         } else {
+            // Horizontal scroll
             var newScroll = Math.min(scrollView.flickableItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
             scrollView.flickableItem.contentX = Math.max(newScroll, 0)
         }

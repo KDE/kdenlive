@@ -946,7 +946,7 @@
     </entry>
     <entry name="favorite_transitions" type="StringList">
       <label>List of favorite transitions ids.</label>
-      <default>qtblend</default>
+      <default>dissolve,qtblend</default>
     </entry>
     <entry name="selected_effecttab" type="Int">
       <label>Last opened tab in effects list.</label>

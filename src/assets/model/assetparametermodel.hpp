@@ -79,6 +79,7 @@ public:
         NameRole = Qt::UserRole + 1,
         TypeRole,
         CommentRole,
+        AlternateNameRole,
         MinRole,
         MaxRole,
         DefaultRole,
@@ -90,6 +91,8 @@ public:
         ListNamesRole,
         FactorRole,
         FilterRole,
+        FilterJobParamsRole,
+        FilterParamsRole,
         ScaleRole,
         OpacityRole,
         RelativePosRole,
@@ -128,12 +131,11 @@ public:
      */
     Q_INVOKABLE void setParameter(const QString &name, const QString &paramValue, bool update = true, const QModelIndex &paramIndex = QModelIndex());
     void setParameter(const QString &name, int value, bool update = true);
-    Q_INVOKABLE void setParameter(const QString &name, double &value);
 
     /* @brief Return all the parameters as pairs (parameter name, parameter value) */
     QVector<QPair<QString, QVariant>> getAllParameters() const;
     /* @brief Returns a json definition of the effect with all param values */
-    QJsonDocument toJson() const;
+    QJsonDocument toJson(bool includeFixed = true) const;
     void savePreset(const QString &presetFile, const QString &presetName);
     void deletePreset(const QString &presetFile, const QString &presetName);
     const QStringList getPresetList(const QString &presetFile) const;
@@ -179,6 +181,7 @@ protected:
        If keywords are found, mathematical operations are supported for double type params. For example "%width -1" is a valid value.
     */
     static QVariant parseAttribute(const ObjectId &owner, const QString &attribute, const QDomElement &element, QVariant defaultValue = QVariant());
+    QVariant parseSubAttributes(const QString &attribute, const QDomElement &element) const;
 
     /* @brief Helper function to register one more parameter that is keyframable.
        @param index is the index corresponding to this parameter
@@ -205,6 +208,11 @@ protected:
     std::shared_ptr<KeyframeModelList> m_keyframes;
     // if true, keyframe tools will be hidden by default
     bool m_hideKeyframesByDefault;
+
+    /* @brief Set the parameter with given name to the given value. This should be called when first 
+     *  building an effect in the constructor, so that we don't call shared_from_this
+     */
+    void internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex = QModelIndex());
 
 signals:
     void modelChanged();

@@ -82,6 +82,7 @@ public:
 
     /* @brief Returns an effect or group from the stack (at the given row) */
     std::shared_ptr<AbstractEffectItem> getEffectStackRow(int row, const std::shared_ptr<TreeItem> &parentItem = nullptr);
+    std::shared_ptr<AssetParameterModel> getAssetModelById(const QString &effectId);
 
     /* @brief Move an effect in the stack */
     void moveEffect(int destRow, const std::shared_ptr<AbstractEffectItem> &item);

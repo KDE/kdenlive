@@ -726,3 +726,14 @@ QString Core::getProjectFolderName()
 {
     return m_monitorManager->getProjectFolder();
 }
+
+QString Core::getTimelineClipBinId(int cid)
+{
+    if (!m_guiConstructed) {
+        return QString();
+    }
+    if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(cid)) {
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipBinId(cid);
+    }
+    return QString();
+}

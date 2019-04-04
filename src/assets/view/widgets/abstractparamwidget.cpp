@@ -19,6 +19,7 @@
 
 #include "abstractparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
+#include "buttonparamwidget.hpp"
 #include "boolparamwidget.hpp"
 #include "coloreditwidget.hpp"
 #include "curves/bezier/beziersplineeditor.h"
@@ -26,6 +27,7 @@
 #include "curves/cubic/kis_curve_widget.h"
 #include "curves/curveparamwidget.h"
 #include "doubleparamwidget.hpp"
+#include "clickablelabelwidget.hpp"
 #include "geometryeditwidget.hpp"
 #include "hideparamwidget.hpp"
 #include "keyframewidget.hpp"
@@ -125,6 +127,14 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
         widget = new HideParamWidget(model, index, parent);
         break;
     }
+    case ParamType::Filterjob: {
+        widget = new ButtonParamWidget(model, index, parent);
+        break;
+    }
+    case ParamType::Readonly: {
+        widget = new ClickableLabelParamWidget(model, index, parent);
+        break;
+    }
     case ParamType::Animated:
     case ParamType::RestrictedAnim:
     //        widget = new AnimationWidget(model, index, range, parent);
@@ -135,8 +145,6 @@ AbstractParamWidget *AbstractParamWidget::construct(const std::shared_ptr<AssetP
     case ParamType::Addedgeometry:
     case ParamType::Keywords:
     case ParamType::Fontfamily:
-    case ParamType::Filterjob:
-    case ParamType::Readonly:
         // not reimplemented
         widget = new Unsupported(model, index, parent);
         static_cast<Unsupported *>(widget)->setText(name);

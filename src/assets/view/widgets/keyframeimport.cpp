@@ -36,18 +36,24 @@
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "core.h"
 #include "doc/kdenlivedoc.h"
+#include "kdenlivesettings.h"
 #include "keyframeimport.h"
 #include "profiles/profilemodel.hpp"
 #include "widgets/positionwidget.h"
+#include <macros.hpp>
 
 #include "mlt++/MltAnimation.h"
 #include "mlt++/MltProperties.h"
 
-KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
+
+KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
                                QWidget *parent)
     : QDialog(parent)
     , m_model(std::move(model))
+    , m_indexes(indexes)
     , m_supportsAnim(false)
+    , m_previewLabel(nullptr)
+    , m_isReady(false)
 {
     auto *lay = new QVBoxLayout(this);
     auto *l1 = new QHBoxLayout;
@@ -62,10 +68,36 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     auto json = QJsonDocument::fromJson(animData.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
+        // Try to build data from a single value
+        QJsonArray list;
+        QJsonObject currentParam;
+        currentParam.insert(QLatin1String("name"), QStringLiteral("data"));
+        currentParam.insert(QLatin1String("value"), animData);
+        QString first = animData.section(QLatin1Char('='), 1, 1);
+        if (!first.isEmpty()) {
+            int spaces = first.count(QLatin1Char(' '));
+            switch (spaces) {
+                case 0:
+                    currentParam.insert(QLatin1String("type"), QJsonValue((int)ParamType::Animated));
+                    break;
+                default:
+                    currentParam.insert(QLatin1String("type"), QJsonValue((int)ParamType::AnimatedRect));
+                    break;
+            }
+            //currentParam.insert(QLatin1String("min"), QJsonValue(min));
+            //currentParam.insert(QLatin1String("max"), QJsonValue(max));
+            list.push_back(currentParam);
+            json = QJsonDocument(list);
+        }
+    }
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
         return;
     }
     auto list = json.array();
     int ix = 0;
+    int in = -1;
+    int out = -1;
     for (const auto &entry : list) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
@@ -81,6 +113,12 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
         int type = entryObj[QLatin1String("type")].toInt(0);
         double min = entryObj[QLatin1String("min")].toDouble(0);
         double max = entryObj[QLatin1String("max")].toDouble(0);
+        if (in == -1) {
+            in = entryObj[QLatin1String("in")].toInt(0);
+        }
+        if (out == -1) {
+            out = entryObj[QLatin1String("out")].toInt(0);
+        }
         m_dataCombo->insertItem(ix, name);
         m_dataCombo->setItemData(ix, value, Qt::UserRole);
         m_dataCombo->setItemData(ix, type, Qt::UserRole + 1);
@@ -88,14 +126,17 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
         m_dataCombo->setItemData(ix, max, Qt::UserRole + 3);
         ix++;
     }
-
     m_previewLabel = new QLabel(this);
     m_previewLabel->setMinimumSize(100, 150);
     m_previewLabel->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_previewLabel->setScaledContents(true);
     lay->addWidget(m_previewLabel);
     // Zone in / out
-    m_inPoint = new PositionWidget(i18n("In"), in, in, out, pCore->currentDoc()->timecode(), QString(), this);
+    in = qMax(0, in);
+    if (out <= 0) {
+        out = m_model->data(indexes.first(), AssetParameterModel::ParentDurationRole).toInt();
+    }
+    m_inPoint = new PositionWidget(i18n("In"), in, 0, out, pCore->currentDoc()->timecode(), QString(), this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
     lay->addWidget(m_inPoint);
     m_outPoint = new PositionWidget(i18n("Out"), out, in, out, pCore->currentDoc()->timecode(), QString(), this);
@@ -106,9 +147,9 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     for (const QPersistentModelIndex &idx : indexes) {
         auto type = m_model->data(idx, AssetParameterModel::TypeRole).value<ParamType>();
         if (type == ParamType::KeyframeParam) {
-            m_simpleTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), m_model->data(idx, AssetParameterModel::NameRole).toString());
+            m_simpleTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), idx);
         } else if (type == ParamType::AnimatedRect) {
-            m_geometryTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), m_model->data(idx, AssetParameterModel::NameRole).toString());
+            m_geometryTargets.insert(m_model->data(idx, Qt::DisplayRole).toString(), idx);
         }
     }
 
@@ -150,7 +191,7 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     l1->addWidget(m_alignCombo);
     l1->addStretch(10);
     ix = 0;
-    QMap<QString, QString>::const_iterator j = m_geometryTargets.constBegin();
+    QMap<QString, QModelIndex>::const_iterator j = m_geometryTargets.constBegin();
     while (j != m_geometryTargets.constEnd()) {
         m_targetCombo->insertItem(ix, j.key());
         m_targetCombo->setItemData(ix, j.value(), Qt::UserRole);
@@ -215,6 +256,7 @@ KeyframeImport::KeyframeImport(int in, int out, const QString &animData, std::sh
     connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
     lay->addWidget(buttonBox);
+    m_isReady = true;
     updateDestinationRange();
     updateDataDisplay();
 }
@@ -235,52 +277,52 @@ void KeyframeImport::updateDataDisplay()
     m_sourceCombo->clear();
     if (type == ParamType::KeyframeParam) {
         // 1 dimensional param.
-        m_sourceCombo->addItem(m_dataCombo->currentText());
+        m_sourceCombo->addItem(m_dataCombo->currentText(), ImportRoles::SimpleValue);
         updateRange();
         return;
     }
-    qDebug() << "DATA: " << comboData << "\nRESULT: " << m_maximas;
     double wDist = m_maximas.at(2).y() - m_maximas.at(2).x();
     double hDist = m_maximas.at(3).y() - m_maximas.at(3).x();
-    m_sourceCombo->addItem(i18n("Geometry"), 10);
-    m_sourceCombo->addItem(i18n("Position"), 11);
-    m_sourceCombo->addItem(i18n("X"), 0);
-    m_sourceCombo->addItem(i18n("Y"), 1);
+    m_sourceCombo->addItem(i18n("Geometry"), ImportRoles::FullGeometry);
+    m_sourceCombo->addItem(i18n("Position"), ImportRoles::Position);
+    m_sourceCombo->addItem(i18n("X"), ImportRoles::XOnly);
+    m_sourceCombo->addItem(i18n("Y"), ImportRoles::YOnly);
     if (wDist > 0) {
-        m_sourceCombo->addItem(i18n("Width"), 2);
+        m_sourceCombo->addItem(i18n("Width"), ImportRoles::WidthOnly);
     }
     if (hDist > 0) {
-        m_sourceCombo->addItem(i18n("Height"), 3);
+        m_sourceCombo->addItem(i18n("Height"), ImportRoles::HeightOnly);
     }
     updateRange();
-    if (!m_inPoint->isValid()) {
+    /*if (!m_inPoint->isValid()) {
         m_inPoint->blockSignals(true);
         m_outPoint->blockSignals(true);
         // m_inPoint->setRange(0, m_keyframeView->duration);
         m_inPoint->setPosition(0);
-        // m_outPoint->setPosition(m_keyframeView->duration);
+        m_outPoint->setPosition(m_model->data(m_targetCombo->currentData().toModelIndex(), AssetParameterModel::ParentDurationRole).toInt());
         m_inPoint->blockSignals(false);
         m_outPoint->blockSignals(false);
-    }
+    }*/
 }
 
 void KeyframeImport::updateRange()
 {
     int pos = m_sourceCombo->currentData().toInt();
-    m_alignCombo->setEnabled(pos == 11);
+    m_alignCombo->setEnabled(pos == ImportRoles::Position);
     QString rangeText;
     if (m_limitRange->isChecked()) {
         switch (pos) {
-        case 0:
+            case ImportRoles::SimpleValue:
+            case ImportRoles::XOnly:
             rangeText = i18n("Source range %1 to %2", m_maximas.at(0).x(), m_maximas.at(0).y());
             break;
-        case 1:
+        case ImportRoles::YOnly:
             rangeText = i18n("Source range %1 to %2", m_maximas.at(1).x(), m_maximas.at(1).y());
             break;
-        case 2:
+        case ImportRoles::WidthOnly:
             rangeText = i18n("Source range %1 to %2", m_maximas.at(2).x(), m_maximas.at(2).y());
             break;
-        case 3:
+        case ImportRoles::HeightOnly:
             rangeText = i18n("Source range %1 to %2", m_maximas.at(3).x(), m_maximas.at(3).y());
             break;
         default:
@@ -291,16 +333,19 @@ void KeyframeImport::updateRange()
         int profileWidth = pCore->getCurrentProfile()->width();
         int profileHeight = pCore->getCurrentProfile()->height();
         switch (pos) {
-        case 0:
+        case ImportRoles::SimpleValue:
+            rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(0).x()), m_maximas.at(0).y());
+            break;
+        case ImportRoles::XOnly:
             rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
             break;
-        case 1:
+        case ImportRoles::YOnly:
             rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(1).x()), qMax(profileHeight, m_maximas.at(1).y()));
             break;
-        case 2:
+        case ImportRoles::WidthOnly:
             rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(2).x()), qMax(profileWidth, m_maximas.at(2).y()));
             break;
-        case 3:
+        case ImportRoles::HeightOnly:
             rangeText = i18n("Source range %1 to %2", qMin(0, m_maximas.at(3).x()), qMax(profileHeight, m_maximas.at(3).y()));
             break;
         default:
@@ -321,29 +366,16 @@ void KeyframeImport::updateDestinationRange()
         m_destMax.setEnabled(true);
         m_limitRange->setEnabled(true);
         QString tag = m_targetCombo->currentData().toString();
-        /*
-        QDomNodeList params = m_xml.elementsByTagName(QStringLiteral("parameter"));
-        for (int i = 0; i < params.count(); i++) {
-            QDomElement e = params.at(i).toElement();
-            if (e.attribute(QStringLiteral("name")) == tag) {
-                double factor = e.attribute(QStringLiteral("factor")).toDouble();
-                if (factor == 0) {
-                    factor = 1;
-                }
-                double min = e.attribute(QStringLiteral("min")).toDouble() / factor;
-                double max = e.attribute(QStringLiteral("max")).toDouble() / factor;
-                m_destMin.setRange(min, max);
-                m_destMax.setRange(min, max);
-                m_destMin.setValue(min);
-                m_destMax.setValue(max);
-                break;
-            }
-        }*/
+        double min = m_model->data(m_targetCombo->currentData().toModelIndex(), AssetParameterModel::MinRole).toDouble();
+        double max = m_model->data(m_targetCombo->currentData().toModelIndex(), AssetParameterModel::MaxRole).toDouble();
+        m_destMin.setRange(min, max);
+        m_destMax.setRange(min, max);
+        m_destMin.setValue(min);
+        m_destMax.setValue(max);
     } else {
-        // TODO
         int profileWidth = pCore->getCurrentProfile()->width();
-        m_destMin.setRange(0, profileWidth);
-        m_destMax.setRange(0, profileWidth);
+        m_destMin.setRange(-2 * profileWidth, 2 * profileWidth);
+        m_destMax.setRange(-2 * profileWidth, 2 * profileWidth);
         m_destMin.setEnabled(false);
         m_destMax.setEnabled(false);
         m_limitRange->setEnabled(false);
@@ -352,6 +384,10 @@ void KeyframeImport::updateDestinationRange()
 
 void KeyframeImport::updateDisplay()
 {
+    if (!m_isReady) {
+        // Not ready
+        return;
+    }
     QPixmap pix(m_previewLabel->width(), m_previewLabel->height());
     pix.fill(Qt::transparent);
     QList<QPoint> maximas;
@@ -359,19 +395,24 @@ void KeyframeImport::updateDisplay()
     int profileWidth = pCore->getCurrentProfile()->width();
     int profileHeight = pCore->getCurrentProfile()->height();
     if (!m_maximas.isEmpty()) {
-        if (m_maximas.at(0).x() == m_maximas.at(0).y() || (selectedtarget < 10 && selectedtarget != 0)) {
+        if (m_maximas.at(0).x() == m_maximas.at(0).y() || (selectedtarget == ImportRoles::YOnly || selectedtarget == ImportRoles::WidthOnly || selectedtarget == ImportRoles::HeightOnly)) {
             maximas << QPoint();
         } else {
             if (m_limitRange->isChecked()) {
                 maximas << m_maximas.at(0);
             } else {
-                QPoint p1(qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
+                QPoint p1;
+                if (selectedtarget == ImportRoles::SimpleValue) {  
+                    p1 = QPoint(qMin(0, m_maximas.at(0).x()), m_maximas.at(0).y());
+                } else {
+                    p1 = QPoint(qMin(0, m_maximas.at(0).x()), qMax(profileWidth, m_maximas.at(0).y()));
+                }
                 maximas << p1;
             }
         }
     }
     if (m_maximas.count() > 1) {
-        if (m_maximas.at(1).x() == m_maximas.at(1).y() || (selectedtarget < 10 && selectedtarget != 1)) {
+        if (m_maximas.at(1).x() == m_maximas.at(1).y() || (selectedtarget == ImportRoles::XOnly || selectedtarget == ImportRoles::WidthOnly || selectedtarget == ImportRoles::HeightOnly)) {
             maximas << QPoint();
         } else {
             if (m_limitRange->isChecked()) {
@@ -383,7 +424,7 @@ void KeyframeImport::updateDisplay()
         }
     }
     if (m_maximas.count() > 2) {
-        if (m_maximas.at(2).x() == m_maximas.at(2).y() || (selectedtarget < 10 && selectedtarget != 2)) {
+        if (m_maximas.at(2).x() == m_maximas.at(2).y() || (selectedtarget == ImportRoles::XOnly || selectedtarget == ImportRoles::YOnly || selectedtarget == ImportRoles::HeightOnly)) {
             maximas << QPoint();
         } else {
             if (m_limitRange->isChecked()) {
@@ -395,7 +436,7 @@ void KeyframeImport::updateDisplay()
         }
     }
     if (m_maximas.count() > 3) {
-        if (m_maximas.at(3).x() == m_maximas.at(3).y() || (selectedtarget < 10 && selectedtarget != 3)) {
+        if (m_maximas.at(3).x() == m_maximas.at(3).y() || (selectedtarget == ImportRoles::XOnly || selectedtarget == ImportRoles::WidthOnly || selectedtarget == ImportRoles::YOnly)) {
             maximas << QPoint();
         } else {
             if (m_limitRange->isChecked()) {
@@ -420,36 +461,28 @@ QString KeyframeImport::selectedData() const
         QPoint maximas;
         if (m_limitRange->isChecked()) {
             maximas = m_maximas.at(ix);
-        } else if (ix == 0 || ix == 2) {
+        } else if (ix == ImportRoles::WidthOnly) {
             // Width maximas
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile()->width()));
         } else {
             // Height maximas
             maximas = QPoint(qMin(m_maximas.at(ix).x(), 0), qMax(m_maximas.at(ix).y(), pCore->getCurrentProfile()->height()));
         }
-        std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_dataCombo->currentData().toString());
+        std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
         std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
         animData->anim_get_double("key", m_inPoint->getPosition(), m_outPoint->getPosition());
         return anim->serialize_cut();
         // m_keyframeView->getSingleAnimation(ix, m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(),
         // m_limitKeyframes->isChecked() ? m_limitNumber->value() : 0, maximas, m_destMin.value(), m_destMax.value());
     }
-    // Geometry target
-    QPoint rectOffset;
-    int ix = m_alignCombo->currentIndex();
-    switch (ix) {
-    case 1:
-        rectOffset = QPoint(pCore->getCurrentProfile()->width() / 2, pCore->getCurrentProfile()->height() / 2);
-        break;
-    case 2:
-        rectOffset = QPoint(pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height());
-        break;
-    default:
-        break;
-    }
-    return QString();
-    // int pos = m_sourceCombo->currentData().toInt();
-    // m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ?
+    //return QString();
+    std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
+    std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
+    animData->anim_get_rect("key", m_inPoint->getPosition(), m_outPoint->getPosition());
+    return anim->serialize_cut();
+
+    /*int pos = m_sourceCombo->currentData().toInt();
+    m_keyframeView->getOffsetAnimation(m_inPoint->getPosition(), m_outPoint->getPosition(), m_offsetPoint->getPosition(), m_limitKeyframes->isChecked() ?*/
     // m_limitNumber->value() : 0, m_supportsAnim, pos == 11, rectOffset);
 }
 
@@ -460,7 +493,8 @@ QString KeyframeImport::selectedTarget() const
 
 void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int limitKeyframes, const QColor &textColor)
 {
-    std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_dataCombo->currentData().toString());
+    qDebug()<<"============= DRAWING KFR CHANNS: "<<m_dataCombo->currentData().toString();
+    std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, m_dataCombo->currentData().toString());
     QRect br(0, 0, pix.width(), pix.height());
     double frameFactor = (double)(out - in) / br.width();
     int offset = 1;
@@ -532,10 +566,10 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
     // Draw curves
     for (int i = 0; i < br.width(); i++) {
         mlt_rect rect = animData->anim_get_rect("key", (int)(i * frameFactor) + in);
-        qDebug() << "// DRAWINC CURVE IWDTH: " << rect.w << ", WDIST: " << wDist;
         if (xDist > 0) {
             painter.setPen(cX);
             int val = (rect.x - xOffset) * maxHeight / xDist;
+            qDebug() << "// DRAWINC CURVE : " << rect.x <<", POS: "<<((int)(i * frameFactor) + in)<< ", RESULT: " << val;
             painter.drawLine(i, maxHeight - val, i, maxHeight);
         }
         if (yDist > 0) {
@@ -593,4 +627,124 @@ void KeyframeImport::drawKeyFrameChannels(QPixmap &pix, int in, int out, int lim
             prevPos = i;
         }
     }
+}
+
+void KeyframeImport::importSelectedData()
+{
+    // Simple double value
+    std::shared_ptr<Mlt::Properties> animData = KeyframeModel::getAnimation(m_model, selectedData());
+    std::shared_ptr<Mlt::Animation> anim(new Mlt::Animation(animData->get_animation("key")));
+    std::shared_ptr<KeyframeModelList> kfrModel = m_model->getKeyframeModel();
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    // Geometry target
+    QPoint rectOffset;
+    int finalAlign = m_alignCombo->currentIndex();
+    QLocale locale;
+    for (const auto &ix : m_indexes) {
+        // update keyframes in other indexes
+        KeyframeModel *km = kfrModel->getKeyModel(ix);
+        qDebug()<<"== "<<ix<<" = "<<m_targetCombo->currentData().toModelIndex();
+        if (ix == m_targetCombo->currentData().toModelIndex()) {
+            qDebug()<<"= = = \n\nPROCESSING KF IMPORT LOP: "<<anim->key_count()<<"\n\n===";
+            // Import our keyframes
+            int frame = 0;
+            KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
+            for (int i = 0; i < anim->key_count(); i++) {
+                frame = anim->key_get_frame(i);
+                QVariant current = km->getInterpolatedValue(frame);
+                if (convertMode == ImportRoles::SimpleValue) {
+                    double dval = animData->anim_get_double("key", frame);
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), dval, true, undo, redo);
+                    continue;
+                }
+                QStringList kfrData = current.toString().split(QLatin1Char(' '));
+                // Safety check
+                int size = kfrData.size();
+                switch (convertMode) {
+                    case ImportRoles::FullGeometry:
+                    case ImportRoles::HeightOnly:
+                    case ImportRoles::WidthOnly:
+                        if (size < 4) {
+                            continue;
+                        }
+                        break;
+                    case ImportRoles::Position:
+                    case ImportRoles::YOnly:
+                        if (size < 2) {
+                            continue;
+                        }
+                        break;
+                    default:
+                        if (size == 0) {
+                            continue;
+                        }
+                        break;
+                }
+                mlt_rect rect = animData->anim_get_rect("key", frame);
+                if (convertMode == ImportRoles::Position) {
+                    switch (finalAlign) {
+                    case 1:
+                        // Align center
+                        rect.x += rect.w / 2;
+                        rect.y += rect.h / 2;
+                        break;
+                    case 2:
+                        //Align bottom right
+                        rect.x += rect.w;
+                        rect.y += rect.h;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                switch (convertMode) {
+                    case ImportRoles::FullGeometry:
+                        kfrData[0] = locale.toString(rect.x);
+                        kfrData[1] = locale.toString(rect.y);
+                        kfrData[2] = locale.toString(rect.w);
+                        kfrData[3] = locale.toString(rect.h);
+                        break;
+                    case ImportRoles::Position:
+                        kfrData[0] = locale.toString(rect.x);
+                        kfrData[1] = locale.toString(rect.y);
+                        break;
+                    case ImportRoles::SimpleValue:
+                    case ImportRoles::XOnly:
+                        kfrData[0] = locale.toString(rect.x);
+                        break;
+                    case ImportRoles::YOnly:
+                        kfrData[1] = locale.toString(rect.y);
+                        break;
+                    case ImportRoles::WidthOnly:
+                        kfrData[2] = locale.toString(rect.w);
+                        break;
+                    case ImportRoles::HeightOnly:
+                        kfrData[3] = locale.toString(rect.h);
+                        break;
+                    default:
+                        break;
+                }
+                current = kfrData.join(QLatin1Char(' '));
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), current, true, undo, redo);
+            }
+        } else {
+            int frame = 0;
+            for (int i = 0; i < anim->key_count(); i++) {
+                frame = anim->key_get_frame(i);
+                //frame += (m_inPoint->getPosition() - m_offsetPoint->getPosition());
+                QVariant current = km->getInterpolatedValue(frame);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), current, true, undo, redo);
+            }
+        }
+    }
+    pCore->pushUndo(undo, redo, i18n("Import keyframes from clipboard"));
+}
+
+int KeyframeImport::getImportType() const
+{
+    if (m_simpleTargets.contains(m_targetCombo->currentText())) {
+        return -1;
+    }
+    return m_sourceCombo->currentData().toInt();
 }

@@ -22,7 +22,6 @@
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
-#include "assets/model/assetcommand.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/keyframeimport.h"
 #include "core.h"
@@ -454,7 +453,7 @@ void KeyframeWidget::showKeyframes(bool enable)
 
 void KeyframeWidget::slotCopyKeyframes()
 {
-    QJsonDocument effectDoc = m_model->toJson();
+    QJsonDocument effectDoc = m_model->toJson(false);
     if (effectDoc.isEmpty()) {
         return;
     }
@@ -466,39 +465,21 @@ void KeyframeWidget::slotImportKeyframes()
 {
     QClipboard *clipboard = QApplication::clipboard();
     QString values = clipboard->text();
-
-    int inPos = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
-    int outPos = inPos + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     QList<QPersistentModelIndex> indexes;
     for (const auto &w : m_parameters) {
         indexes << w.first;
     }
-    QPointer<KeyframeImport> import = new KeyframeImport(inPos, outPos, values, m_model, indexes, this);
+    QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, this);
     if (import->exec() != QDialog::Accepted) {
         delete import;
         return;
     }
-    QString keyframeData = import->selectedData();
-    QString tag = import->selectedTarget();
-    qDebug() << "// CHECKING FOR TARGET PARAM: " << tag;
-    // m_model->setParameter(tag, keyframeData, true);
-    /*for (const auto &w : m_parameters) {
-        qDebug()<<"// GOT PARAM: "<<m_model->data(w.first, AssetParameterModel::NameRole).toString();
-        if (tag == m_model->data(w.first, AssetParameterModel::NameRole).toString()) {
-            qDebug()<<"// PASSING DTAT: "<<keyframeData;
-            m_model->getKeyframeModel()->getKeyModel()->parseAnimProperty(keyframeData);
-            m_model->getKeyframeModel()->getKeyModel()->modelChanged();
-            break;
-        }
-    }*/
-    auto *command = new AssetCommand(m_model, m_index, keyframeData);
-    pCore->pushUndo(command);
-    /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());
-    m_model->modelChanged();
+    import->importSelectedData();
+    
+    /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());*/
+    /*m_model->modelChanged();
     qDebug()<<"//// UPDATING KEYFRAMES CORE---------";
     pCore->updateItemKeyframes(m_model->getOwnerId());*/
-    qDebug() << "//// UPDATING KEYFRAMES CORE . ..  .DONE ---------";
-    // emit importKeyframes(type, tag, keyframeData);
     delete import;
 }
 

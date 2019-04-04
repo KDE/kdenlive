@@ -187,8 +187,10 @@ public:
     int getMediaCaptureState();
     bool isMediaCapturing();
     MediaCapture *getAudioDevice();
-    /** @brief Returns Project Folder name for capture output location  */
+    /** @brief Returns Project Folder name for capture output location */
     QString getProjectFolderName();
+    /** @brief Returns a timeline clip's bin id */
+    QString getTimelineClipBinId(int cid);
 
 private:
     explicit Core();
