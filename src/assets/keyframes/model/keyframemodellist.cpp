@@ -345,7 +345,7 @@ KeyframeModel *KeyframeModelList::getKeyModel()
 
 KeyframeModel *KeyframeModelList::getKeyModel(const QPersistentModelIndex &index)
 {
-    if (m_parameters.size() > 0) {
+    if (m_parameters.size() > 0 && m_parameters.find(index) != m_parameters.end()) {
         return m_parameters.at(index).get();
     }
     return nullptr;

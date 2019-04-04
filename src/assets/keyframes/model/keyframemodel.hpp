@@ -62,6 +62,7 @@ public:
     enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole };
     friend class KeyframeModelList;
     friend class KeyframeWidget;
+    friend class KeyframeImport;
 
 protected:
     /** @brief These methods should ONLY be called by keyframemodellist to ensure synchronisation
@@ -164,7 +165,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     static QList<QPoint> getRanges(const QString &animData, const std::shared_ptr<AssetParameterModel> &model);
-    static std::shared_ptr<Mlt::Properties> getAnimation(const QString &animData);
+    static std::shared_ptr<Mlt::Properties> getAnimation(std::shared_ptr<AssetParameterModel> model, const QString &animData, int duration = 0);
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */

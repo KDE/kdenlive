@@ -18,6 +18,7 @@ set(kdenlive_SRCS
   assets/view/widgets/abstractparamwidget.cpp
 # assets/view/widgets/animationwidget.cpp
   assets/view/widgets/boolparamwidget.cpp
+  assets/view/widgets/buttonparamwidget.cpp
   assets/view/widgets/switchparamwidget.cpp
   assets/view/widgets/urlparamwidget.cpp
   assets/view/widgets/doubleparamwidget.cpp
@@ -31,6 +32,7 @@ set(kdenlive_SRCS
   assets/view/widgets/positioneditwidget.cpp
   assets/view/widgets/coloreditwidget.cpp
   assets/view/widgets/hideparamwidget.cpp
+  assets/view/widgets/clickablelabelwidget.cpp
   # curves widget
   assets/view/widgets/curves/abstractcurvewidget.h
   assets/view/widgets/curves/bezier/beziersplineeditor.cpp

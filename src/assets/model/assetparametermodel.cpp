@@ -103,7 +103,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             }
         }
         if (!name.isEmpty()) {
-            setParameter(name, value, false);
+            internalSetParameter(name, value);
             // Keep track of param order
             m_paramOrder.push_back(name);
         }
@@ -151,23 +151,22 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
     } else {
         m_fixedParams[name] = value;
     }
-    if (update) {
-        if (m_assetId.startsWith(QStringLiteral("sox_"))) {
-            // Warning, SOX effect, need unplug/replug
-            qDebug() << "// Warning, SOX effect, need unplug/replug";
-            QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
-            for (const QString &pName : m_paramOrder) {
-                effectParam << m_asset->get(pName.toUtf8().constData());
-            }
-            m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
-            emit replugEffect(shared_from_this());
-        } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
-            // these effects don't understand param change and need to be rebuild
-            emit replugEffect(shared_from_this());
-        } else {
-            emit modelChanged();
-            emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
+    if (m_assetId.startsWith(QStringLiteral("sox_"))) {
+        // Warning, SOX effect, need unplug/replug
+        qDebug() << "// Warning, SOX effect, need unplug/replug";
+        QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
+        for (const QString &pName : m_paramOrder) {
+            effectParam << m_asset->get(pName.toUtf8().constData());
         }
+        m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
+        emit replugEffect(shared_from_this());
+    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+        // these effects don't understand param change and need to be rebuild
+        emit replugEffect(shared_from_this());
+    }
+    if (update) {
+        emit modelChanged();
+        emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
         // Trigger monitor refresh
@@ -177,12 +176,11 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
     }
 }
 
-void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
+void AssetParameterModel::internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex)
 {
     Q_ASSERT(m_asset->is_valid());
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
     if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
         QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
@@ -212,35 +210,50 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         qDebug() << " = = SET EFFECT PARAM: " << name << " = " << paramValue;
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = paramValue;
+            if (m_keyframes) {
+                KeyframeModel *km = m_keyframes->getKeyModel(paramIndex);
+                if (km) {
+                    km->refresh();
+                }
+                //m_keyframes->refresh();
+            }
         } else {
             m_fixedParams[name] = paramValue;
         }
     }
-    if (update) {
-        if (m_assetId.startsWith(QStringLiteral("sox_"))) {
-            // Warning, SOX effect, need unplug/replug
-            qDebug() << "// Warning, SOX effect, need unplug/replug";
-            QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
-            for (const QString &pName : m_paramOrder) {
-                effectParam << m_asset->get(pName.toUtf8().constData());
-            }
-            m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
-            emit replugEffect(shared_from_this());
-        } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
-            // these effects don't understand param change and need to be rebuild
-            emit replugEffect(shared_from_this());
-        } else {
-            qDebug() << "// SENDING DATA CHANGE....";
-            if (paramIndex.isValid()) {
-                emit dataChanged(paramIndex, paramIndex);
-            } else {
-                QModelIndex ix = index(m_rows.indexOf(name), 0);
-                emit dataChanged(ix, ix);
-            }
-            emit modelChanged();
+}
+
+void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
+{
+    //qDebug() << "// PROCESSING PARAM CHANGE: " << name << ", UPDATE: " << update << ", VAL: " << paramValue;
+    internalSetParameter(name, paramValue, paramIndex);
+    bool updateChildRequired = true;
+    if (m_assetId.startsWith(QStringLiteral("sox_"))) {
+        // Warning, SOX effect, need unplug/replug
+        QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
+        for (const QString &pName : m_paramOrder) {
+            effectParam << m_asset->get(pName.toUtf8().constData());
         }
+        m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
+        emit replugEffect(shared_from_this());
+        updateChildRequired = false;
+    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
+        // these effects don't understand param change and need to be rebuild
+        emit replugEffect(shared_from_this());
+        updateChildRequired = false;
+    } else if (update) {
+        qDebug() << "// SENDING DATA CHANGE....";
+        if (paramIndex.isValid()) {
+            emit dataChanged(paramIndex, paramIndex);
+        } else {
+            QModelIndex ix = index(m_rows.indexOf(name), 0);
+            emit dataChanged(ix, ix);
+        }
+        emit modelChanged();
     }
-    emit updateChildren(name);
+    if (updateChildRequired) {
+        emit updateChildren(name);
+    }
     // Update timeline view if necessary
     if (m_ownerId.first == ObjectType::NoItem) {
         // Used for generator clips
@@ -253,34 +266,6 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
         // Invalidate timeline preview
         pCore->invalidateItem(m_ownerId);
     }
-}
-
-void AssetParameterModel::setParameter(const QString &name, double &value)
-{
-    Q_ASSERT(m_asset->is_valid());
-    m_asset->set(name.toLatin1().constData(), value);
-    if (m_fixedParams.count(name) == 0) {
-        m_params[name].value = value;
-    } else {
-        m_fixedParams[name] = value;
-    }
-    if (m_assetId.startsWith(QStringLiteral("sox_"))) {
-        // Warning, SOX effect, need unplug/replug
-        qDebug() << "// Warning, SOX effect, need unplug/replug";
-        QStringList effectParam = {m_assetId.section(QLatin1Char('_'), 1)};
-        for (const QString &pName : m_paramOrder) {
-            effectParam << m_asset->get(pName.toUtf8().constData());
-        }
-        m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
-        emit replugEffect(shared_from_this());
-    } else if (m_assetId == QLatin1String("autotrack_rectangle") || m_assetId.startsWith(QStringLiteral("ladspa"))) {
-        // these effects don't understand param change and need to be rebuild
-        emit replugEffect(shared_from_this());
-    } else {
-        emit modelChanged();
-    }
-    pCore->refreshProjectItem(m_ownerId);
-    pCore->invalidateItem(m_ownerId);
 }
 
 AssetParameterModel::~AssetParameterModel() = default;
@@ -335,6 +320,17 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(m_ownerId, QStringLiteral("default"), element);
     case FilterRole:
         return parseAttribute(m_ownerId, QStringLiteral("filter"), element);
+    case FilterParamsRole:
+        return parseAttribute(m_ownerId, QStringLiteral("filterparams"), element);
+    case FilterJobParamsRole:
+        return parseSubAttributes(QStringLiteral("jobparam"), element);
+    case AlternateNameRole: {
+        QDomNode child = element.firstChildElement(QStringLiteral("name"));
+        if (child.toElement().hasAttribute(QStringLiteral("conditional"))) {
+            return child.toElement().attribute(QStringLiteral("conditional"));
+        }
+        return m_params.at(paramName).name;
+    }
     case SuffixRole:
         return element.attribute(QStringLiteral("suffix"));
     case OpacityRole:
@@ -534,6 +530,21 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
     return content;
 }
 
+QVariant AssetParameterModel::parseSubAttributes(const QString &attribute, const QDomElement &element) const
+{
+    QDomNodeList nodeList = element.elementsByTagName(attribute);
+    if (nodeList.isEmpty()) {
+        return QVariant();
+    }
+    QVariantList jobDataList;
+    for (int i = 0; i < nodeList.count(); ++i) {
+        QDomElement currentParameter = nodeList.item(i).toElement();
+        QStringList jobData {currentParameter.attribute(QStringLiteral("name")), currentParameter.text()};
+        jobDataList << jobData;
+    }
+    return jobDataList;
+}
+
 QString AssetParameterModel::getAssetId() const
 {
     return m_assetId;
@@ -553,30 +564,39 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
     return res;
 }
 
-QJsonDocument AssetParameterModel::toJson() const
+QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
 {
     QJsonArray list;
     QLocale locale;
-    for (const auto &fixed : m_fixedParams) {
-        QJsonObject currentParam;
-        QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
-        currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
-        currentParam.insert(QLatin1String("value"), fixed.second.toString());
-        int type = data(ix, AssetParameterModel::TypeRole).toInt();
-        double min = data(ix, AssetParameterModel::MinRole).toDouble();
-        double max = data(ix, AssetParameterModel::MaxRole).toDouble();
-        double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
-        if (factor > 0) {
-            min /= factor;
-            max /= factor;
+    if (includeFixed) {
+        for (const auto &fixed : m_fixedParams) {
+            QJsonObject currentParam;
+            QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
+            currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
+            currentParam.insert(QLatin1String("value"), fixed.second.toString());
+            int type = data(ix, AssetParameterModel::TypeRole).toInt();
+            double min = data(ix, AssetParameterModel::MinRole).toDouble();
+            double max = data(ix, AssetParameterModel::MaxRole).toDouble();
+            double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+            int in = data(ix, AssetParameterModel::ParentInRole).toInt();
+            int out = in + data(ix, AssetParameterModel::ParentDurationRole).toInt();
+            if (factor > 0) {
+                min /= factor;
+                max /= factor;
+            }
+            currentParam.insert(QLatin1String("type"), QJsonValue(type));
+            currentParam.insert(QLatin1String("min"), QJsonValue(min));
+            currentParam.insert(QLatin1String("max"), QJsonValue(max));
+            currentParam.insert(QLatin1String("in"), QJsonValue(in));
+            currentParam.insert(QLatin1String("out"), QJsonValue(out));
+            list.push_back(currentParam);
         }
-        currentParam.insert(QLatin1String("type"), QJsonValue(type));
-        currentParam.insert(QLatin1String("min"), QJsonValue(min));
-        currentParam.insert(QLatin1String("max"), QJsonValue(max));
-        list.push_back(currentParam);
     }
 
     for (const auto &param : m_params) {
+        if (!includeFixed && param.second.type != ParamType::KeyframeParam && param.second.type != ParamType::AnimatedRect) {
+            continue;
+        }
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
@@ -585,6 +605,8 @@ QJsonDocument AssetParameterModel::toJson() const
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();
         double factor = data(ix, AssetParameterModel::FactorRole).toDouble();
+        int in = data(ix, AssetParameterModel::ParentInRole).toInt();
+        int out = in + data(ix, AssetParameterModel::ParentDurationRole).toInt();
         if (factor > 0) {
             min /= factor;
             max /= factor;
@@ -592,6 +614,8 @@ QJsonDocument AssetParameterModel::toJson() const
         currentParam.insert(QLatin1String("type"), QJsonValue(type));
         currentParam.insert(QLatin1String("min"), QJsonValue(min));
         currentParam.insert(QLatin1String("max"), QJsonValue(max));
+        currentParam.insert(QLatin1String("in"), QJsonValue(in));
+        currentParam.insert(QLatin1String("out"), QJsonValue(out));
         list.push_back(currentParam);
     }
     return QJsonDocument(list);
@@ -763,7 +787,6 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
     if (m_keyframes) {
         m_keyframes->refresh();
     }
-    // emit modelChanged();
     emit dataChanged(index(0), index(m_rows.count()), {});
 }
 

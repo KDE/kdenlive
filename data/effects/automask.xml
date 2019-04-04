@@ -27,12 +27,12 @@
 	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
-	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0 %params in=%position" consumer="null" consumerparams="all=1 terminate_on_pause=1">
+	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0" consumer="null" consumerparams="all=1 terminate_on_pause=1">
+        <name>Analyse</name>
 		<jobparam name="storedata" />
 		<jobparam name="projecttreefilter" />
 		<jobparam name="key">motion_vector_list</jobparam>
 		<jobparam name="finalfilter">autotrack_rectangle</jobparam>
 		<jobparam name="displaydataname">Motion vectors</jobparam>
-		<name>Analyse</name>
 	</parameter>
 </effect>

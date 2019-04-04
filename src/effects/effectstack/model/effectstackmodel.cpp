@@ -929,6 +929,19 @@ void EffectStackModel::adjust(const QString &effectId, const QString &effectName
     }
 }
 
+std::shared_ptr<AssetParameterModel> EffectStackModel::getAssetModelById(const QString &effectId)
+{
+    QWriteLocker locker(&m_lock);
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+        if (effectId == sourceEffect->getAssetId()) {
+            return std::static_pointer_cast<AssetParameterModel>(sourceEffect);
+        }
+    }
+    return nullptr;
+}
+
+
 bool EffectStackModel::hasFilter(const QString &effectId) const
 {
     READ_LOCK();
@@ -991,7 +1004,7 @@ void EffectStackModel::replugEffect(const std::shared_ptr<AssetParameterModel> &
     effectItem->resetAsset(std::move(effect));
     for (int ix = oldRow; ix < count; ix++) {
         auto item = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
-        item->unplant(m_masterService);
+        item->plant(m_masterService);
         for (const auto &service : m_childServices) {
             item->plantClone(service);
         }
