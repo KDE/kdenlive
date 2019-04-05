@@ -498,9 +498,19 @@ void TimelineController::deleteTrack(int tid)
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
         int selectedTrackIx = d->selectedTrackId();
+        if (m_activeTrack == selectedTrackIx) {
+            // Make sure we don't keep an index on a deleted track
+            m_activeTrack = -1;
+        }
+        if (m_model->m_audioTarget == selectedTrackIx) {
+            setAudioTarget(-1);
+        }
+        if (m_model->m_videoTarget == selectedTrackIx) {
+            setVideoTarget(-1);
+        }
         m_model->requestTrackDeletion(selectedTrackIx);
         m_model->buildTrackCompositing(true);
-        if (m_activeTrack == selectedTrackIx) {
+        if (m_activeTrack == -1) {
             setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
         }
     }
