@@ -7,6 +7,7 @@ Item {
     property int trackId: -1
     property int recState: audiorec.recordState
     width: parent.width
+    implicitHeight: root.baseUnit * 1.5
     
     onRecStateChanged: {
         if (recState == 1) {
@@ -51,8 +52,8 @@ Item {
         }
         Rectangle {
             id: levelsContainer
-            Layout.fillHeight: true
             width: recContainer.width - recbutton.width - 6
+            height: recbutton.height
             border.color: root.frameColor
             color: Qt.lighter(activePalette.base)
             Repeater {

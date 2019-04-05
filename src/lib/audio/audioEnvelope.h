@@ -55,6 +55,8 @@ public:
 
     QImage drawEnvelope();
 
+    const size_t offset();
+
     void dumpInfo();
 
     int clipId() const;
@@ -92,10 +94,9 @@ private:
     QFutureWatcher<AudioSummary> m_watcher;
     QFuture<AudioSummary> m_audioSummary;
 
-    const size_t m_offset;
+    size_t m_offset;
     const int m_clipId;
     const size_t m_startpos;
-    const size_t m_length;
     size_t m_envelopeSize;
 
 signals:

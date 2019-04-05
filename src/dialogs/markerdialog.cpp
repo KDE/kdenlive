@@ -90,7 +90,6 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
     } else {
         clip_thumb->setHidden(true);
         label_category->setHidden(true);
-        marker_type->setHidden(true);
     }
 
     marker_comment->setText(t.comment());

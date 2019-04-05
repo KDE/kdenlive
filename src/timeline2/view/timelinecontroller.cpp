@@ -583,11 +583,44 @@ void TimelineController::setOutPoint()
     }
 }
 
-void TimelineController::editMarker(const QString &cid, int frame)
+void TimelineController::editMarker(int cid, int position)
 {
-    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(cid);
-    GenTime pos(frame, pCore->getCurrentFps());
+    Q_ASSERT(m_model->isClip(cid));
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
+}
+
+void TimelineController::addMarker(int cid, int position)
+{
+    Q_ASSERT(m_model->isClip(cid));
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
+}
+
+void TimelineController::addQuickMarker(int cid, int position)
+{
+    Q_ASSERT(m_model->isClip(cid));
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
+    clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
+}
+
+void TimelineController::deleteMarker(int cid, int position)
+{
+    Q_ASSERT(m_model->isClip(cid));
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    clip->getMarkerModel()->removeMarker(pos);
+}
+
+void TimelineController::deleteAllMarkers(int cid)
+{
+    Q_ASSERT(m_model->isClip(cid));
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
+    clip->getMarkerModel()->removeAllMarkers();
 }
 
 void TimelineController::editGuide(int frame)
@@ -1511,7 +1544,7 @@ void TimelineController::setAudioRef(int clipId)
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
     connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, [&](int cid, int shift) {
-        int pos = m_model->getClipPosition(m_audioRef) + shift + m_model->getClipIn(m_audioRef);
+        int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
         bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true);
         if (!result) {
             pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
@@ -1547,7 +1580,7 @@ void TimelineController::alignAudio(int clipId)
         }
     }
     // Perform audio calculation
-    AudioEnvelope *envelope = new AudioEnvelope(getClipBinId(clipId), clipId, (size_t)m_model->getClipIn(clipId), (size_t)m_model->getClipPlaytime(clipId),
+    AudioEnvelope *envelope = new AudioEnvelope(otherBinId, clipId, (size_t)m_model->getClipIn(clipId), (size_t)m_model->getClipPlaytime(clipId),
                                                 (size_t)m_model->getClipPosition(clipId));
     m_audioCorrelator->addChild(envelope);
 }
