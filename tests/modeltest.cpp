@@ -555,6 +555,78 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->checkConsistency());
     }
 
+    SECTION("Group and selection")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, length + 3));
+        REQUIRE(timeline->requestClipMove(cid3, tid1, 2 * length + 5));
+        auto pos_state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 0);
+            REQUIRE(timeline->getClipPosition(cid2) == length + 3);
+            REQUIRE(timeline->getClipPosition(cid3) == 2 * length + 5);
+        };
+        auto state0 = [&]() {
+            pos_state();
+            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid1));
+            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid2));
+            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid3));
+        };
+        state0();
+
+        REQUIRE(timeline->requestClipsGroup({cid1, cid2}));
+        auto state = [&]() {
+            pos_state();
+            REQUIRE_FALSE(timeline->m_groups->isInGroup(cid3));
+            REQUIRE(timeline->m_groups->isInGroup(cid1));
+            int gid = timeline->m_groups->getRootId(cid1);
+            REQUIRE(timeline->m_groups->getLeaves(gid) == std::unordered_set<int>{cid1, cid2});
+        };
+        state();
+
+        // undo/redo should work fine
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state();
+
+        // Tricky case, we do a non-trivial selection before undoing
+        REQUIRE(timeline->requestSetSelection({cid1, cid3}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2, cid3});
+        undoStack->undo();
+        state0();
+        REQUIRE(timeline->requestSetSelection({cid1, cid3}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid3});
+        undoStack->redo();
+        state();
+
+        // same thing, but when ungrouping manually
+        REQUIRE(timeline->requestSetSelection({cid1, cid3}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2, cid3});
+        REQUIRE(timeline->requestClipUngroup(cid1));
+        state0();
+
+        // normal undo/redo
+        undoStack->undo();
+        state();
+        undoStack->redo();
+        state0();
+
+        // undo/redo mixed with selections
+        REQUIRE(timeline->requestSetSelection({cid1, cid3}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid3});
+        undoStack->undo();
+        state();
+        REQUIRE(timeline->requestSetSelection({cid1, cid3}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2, cid3});
+        undoStack->redo();
+        state0();
+    }
+
     SECTION("Group move")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));

@@ -1672,6 +1672,9 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
 int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type)
 {
     QWriteLocker locker(&m_lock);
+    if (type != GroupType::Selection) {
+        requestClearSelection();
+    }
     for (int id : ids) {
         if (isClip(id)) {
             if (getClipTrackId(id) == -1) {
@@ -1690,6 +1693,12 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
         return -1;
     }
     int groupId = m_groups->groupItems(ids, undo, redo, type);
+    if (type != GroupType::Selection) {
+        // we make sure that the undo and the redo are going to unselect before doing anything else
+        Fun unselect = [this]() { return requestClearSelection(); };
+        PUSH_FRONT_LAMBDA(unselect, undo);
+        PUSH_FRONT_LAMBDA(unselect, redo);
+    }
     return groupId;
 }
 
@@ -1736,7 +1745,18 @@ bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
 bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    return m_groups->ungroupItem(itemId, undo, redo);
+    bool isSelection = m_groups->getType(m_groups->getRootId(itemId)) == GroupType::Selection;
+    if (!isSelection) {
+        requestClearSelection();
+    }
+    bool res = m_groups->ungroupItem(itemId, undo, redo);
+    if (res && !isSelection) {
+        // we make sure that the undo and the redo are going to unselect before doing anything else
+        Fun unselect = [this]() { return requestClearSelection(); };
+        PUSH_FRONT_LAMBDA(unselect, undo);
+        PUSH_FRONT_LAMBDA(unselect, redo);
+    }
+    return res;
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)

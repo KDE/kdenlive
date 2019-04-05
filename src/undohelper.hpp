@@ -30,7 +30,15 @@ using Fun = std::function<bool(void)>;
 #define PUSH_LAMBDA(operation, lambda)                                                                                                                         \
     lambda = [lambda, operation]() {                                                                                                                           \
         bool v = lambda();                                                                                                                                     \
-        return operation() && v;                                                                                                                               \
+        return v && operation();                                                                                                                               \
+    };
+
+/* @brief this macro executes an operation before a given lambda
+ */
+#define PUSH_FRONT_LAMBDA(operation, lambda)                                                                                                                   \
+    lambda = [lambda, operation]() {                                                                                                                           \
+        bool v = operation();                                                                                                                                  \
+        return v && lambda();                                                                                                                                  \
     };
 
 #include <QUndoCommand>
