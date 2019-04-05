@@ -1045,25 +1045,24 @@ QPair<QList<int>, QList<int>> TimelineFunctions::getAVTracksIds(const std::share
 QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds)
 {
     int clipId = *(itemIds.begin());
+    // We need to retrieve ALL the involved clips, ie those who are also grouped with the given clips
+    std::unordered_set<int> allIds;
+    for (const auto &itemId : itemIds) {
+        std::unordered_set<int> siblings = timeline->getGroupElements(itemId);
+        allIds.insert(siblings.begin(), siblings.end());
+    }
+
     timeline->requestClearSelection();
     // TODO better guess for master track
     int masterTid = timeline->getItemTrackId(clipId);
     bool audioCopy = timeline->isAudioTrack(masterTid);
     int masterTrack = timeline->getTrackPosition(masterTid);
-    std::unordered_set<int> groupRoots;
-    std::transform(itemIds.begin(), itemIds.end(), std::inserter(groupRoots, groupRoots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
-
-    qDebug() << "==============\n GROUP ROOTS: ";
-    for (int gp : groupRoots) {
-        qDebug() << "GROUP: " << gp;
-    }
-    qDebug() << "\n=======";
     QDomDocument copiedItems;
     int offset = -1;
     QDomElement container = copiedItems.createElement(QStringLiteral("kdenlive-scene"));
     copiedItems.appendChild(container);
     QStringList binIds;
-    for (int id : itemIds) {
+    for (int id : allIds) {
         if (offset == -1 || timeline->getItemPosition(id) < offset) {
             offset = timeline->getItemPosition(id);
         }
@@ -1104,14 +1103,24 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     container.setAttribute(QStringLiteral("documentid"), pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid")));
     QDomElement grp = copiedItems.createElement(QStringLiteral("groups"));
     container.appendChild(grp);
+
+    std::unordered_set<int> groupRoots;
+    std::transform(itemIds.begin(), itemIds.end(), std::inserter(groupRoots, groupRoots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
+
+    qDebug() << "==============\n GROUP ROOTS: ";
+    for (int gp : groupRoots) {
+        qDebug() << "GROUP: " << gp;
+    }
+    qDebug() << "\n=======";
     grp.appendChild(copiedItems.createTextNode(timeline->m_groups->toJson(groupRoots)));
-    // TODO: groups
+
     qDebug() << " / // / PASTED DOC: \n\n" << copiedItems.toString() << "\n\n------------";
     return copiedItems.toString();
 }
 
 bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position)
 {
+    timeline->requestClearSelection();
     QDomDocument copiedItems;
     copiedItems.setContent(pasteString);
     if (copiedItems.documentElement().tagName() == QLatin1String("kdenlive-scene")) {
@@ -1134,7 +1143,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     // List of all source video tracks
     QList<int> videoTracks;
     // List of all audio tracks with their corresponding video mirror
-    QMap<int, int> audioMirrors;
+    std::unordered_map<int, int> audioMirrors;
     // List of all source audio tracks that don't have video mirror
     QList<int> singleAudioTracks;
     for (int i = 0; i < clips.count(); i++) {
@@ -1153,7 +1162,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 singleAudioTracks << trackPos;
                 continue;
             }
-            audioMirrors.insert(trackPos, videoMirror);
+            audioMirrors[trackPos] = videoMirror;
             if (videoTracks.contains(videoMirror)) {
                 continue;
             }
@@ -1178,9 +1187,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         videoTracks << atrackPos;
     }
     // Now we have a list of all source tracks, check that we have enough target tracks
-    qSort(videoTracks);
-    qSort(audioTracks);
-    qSort(singleAudioTracks);
+    std::sort(videoTracks.begin(), videoTracks.end());
+    std::sort(audioTracks.begin(), audioTracks.end());
+    std::sort(singleAudioTracks.begin(), singleAudioTracks.end());
     int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
@@ -1213,19 +1222,17 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     qDebug() << "/// MASTER PASTE: " << masterIx;
     for (int tk : videoTracks) {
         tracksMap.insert(tk, projectTracks.second.at(masterIx + tk - masterSourceTrack));
-        qDebug() << "// TK MAP: " << tk << " => " << projectTracks.second.at(masterIx + tk - masterSourceTrack);
+        qDebug() << "// TK MAP: " << tk << " => " << tracksMap[tk];
     }
-    QMapIterator<int, int> it(audioMirrors);
-    while (it.hasNext()) {
-        it.next();
-        int videoIx = tracksMap.value(it.value());
+    for (const auto &mirror : audioMirrors) {
+        int videoIx = tracksMap.value(mirror.second);
         // qDebug()<<"// TK AUDIO MAP: "<<it.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<timeline->getMirrorAudioTrackId(videoIx);
-        tracksMap.insert(it.key(), timeline->getMirrorAudioTrackId(videoIx));
+        tracksMap.insert(mirror.first, timeline->getMirrorAudioTrackId(videoIx));
     }
     for (int i = 0; i < singleAudioTracks.size(); i++) {
         tracksMap.insert(singleAudioTracks.at(i), projectTracks.first.at(i));
     }
-    qDebug() << "++++++++++++++++++++++++++\n\n\n// AUDIO MIRRORS: " << audioMirrors << ", RESULT: " << tracksMap;
+    qDebug() << "++++++++++++++++++++++++++\n\n\n// TRACK MAP: " << tracksMap;
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
@@ -1328,6 +1335,10 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
     // Rebuild groups
     timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
+    // unsure to clear selection in undo/redo too.
+    Fun unselect = [&]() { return timeline->requestClearSelection(); };
+    PUSH_FRONT_LAMBDA(unselect, undo);
+    PUSH_FRONT_LAMBDA(unselect, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
     return true;
 }
