@@ -140,6 +140,10 @@ void AssetParameterModel::prepareKeyframes()
         }
         ix++;
     }
+    if (m_keyframes) {
+        // Make sure we have keyframes at same position for all parameters
+        m_keyframes->checkConsistency();
+    }
 }
 
 void AssetParameterModel::setParameter(const QString &name, int value, bool update)
