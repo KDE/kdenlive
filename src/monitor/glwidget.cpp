@@ -1351,6 +1351,9 @@ float GLWidget::scale() const
 void GLWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
+    if (m_consumer) {
+        m_consumer->set("mlt_profile", pCore->getCurrentProfilePath().toUtf8().constData());
+    }
     resizeGL(width(), height());
     refreshSceneLayout();
 }

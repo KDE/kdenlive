@@ -793,6 +793,187 @@ TEST_CASE("Copy/paste", "[CP]")
         state3();
     }
 
+    SECTION("Copy paste groups")
+    {
+
+        auto state0 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid1b) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid2b) == 0);
+        };
+        state0();
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
+        int l = timeline->getClipPlaytime(cid1);
+        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+
+        auto state = [&](int count1, int count2) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == count1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == count1);
+            REQUIRE(timeline->getTrackClipsCount(tid1b) == count2);
+            REQUIRE(timeline->getTrackClipsCount(tid2b) == count2);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == 3);
+            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state(1, 0);
+
+        QString cpy_str = TimelineFunctions::copyClips(timeline, {cid1});
+
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
+        state(1, 0);
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 4));
+        state(1, 0);
+
+        // potentially annoying selection
+        REQUIRE(timeline->requestSetSelection({cid1}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2});
+
+        // paste on same track, after clip
+        REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 3 + 2 * l));
+        int cid3 = timeline->getTrackById(tid1)->getClipByPosition(3 + 2 * l + 1);
+        REQUIRE(cid3 != -1);
+        int cid4 = timeline->m_groups->getSplitPartner(cid3);
+        auto state2 = [&](int count1, int count2) {
+            state(count1, count2);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid4) == tid2);
+            REQUIRE(timeline->getClipPosition(cid3) == 3 + 2 * l);
+            REQUIRE(timeline->getClipPosition(cid4) == 3 + 2 * l);
+            REQUIRE(timeline->getClipPtr(cid3)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid4)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({cid3, cid4}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid3);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid3, cid4}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state2(2, 0);
+
+        // potentially annoying selection
+        REQUIRE(timeline->requestSetSelection({cid1}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2});
+        undoStack->undo();
+        REQUIRE(timeline->requestClearSelection());
+        state(1, 0);
+
+        // potentially annoying selection
+        REQUIRE(timeline->requestSetSelection({cid1}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2});
+        undoStack->redo();
+        REQUIRE(timeline->requestClearSelection());
+        state2(2, 0);
+
+        // another potentially annoying selection
+        REQUIRE(timeline->requestSetSelection({cid1, cid3}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2, cid3, cid4});
+        undoStack->undo();
+        REQUIRE(timeline->requestClearSelection());
+        state(1, 0);
+        REQUIRE(timeline->requestSetSelection({cid1}));
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>{cid1, cid2});
+        undoStack->redo();
+        REQUIRE(timeline->requestClearSelection());
+        state2(2, 0);
+    }
+
+    SECTION("Paste when tracks get deleted")
+    {
+        auto state0 = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid1b) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid2b) == 0);
+        };
+        state0();
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
+        int l = timeline->getClipPlaytime(cid1);
+        int cid2 = timeline->m_groups->getSplitPartner(cid1);
+
+        auto state = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid1b) == 0);
+            REQUIRE(timeline->getTrackClipsCount(tid2b) == 0);
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid2) == tid2);
+            REQUIRE(timeline->getClipPosition(cid1) == 3);
+            REQUIRE(timeline->getClipPosition(cid2) == 3);
+            REQUIRE(timeline->getClipPtr(cid1)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid2)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid1);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid1, cid2}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state();
+
+        QString cpy_str = TimelineFunctions::copyClips(timeline, {cid1});
+
+        // we delete origin of the copy, paste should still be possible
+        REQUIRE(timeline->requestItemDeletion(cid1));
+        state0();
+
+        REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
+        int cid3 = timeline->getTrackById(tid1)->getClipByPosition(0);
+        REQUIRE(cid3 != -1);
+        int cid4 = timeline->m_groups->getSplitPartner(cid3);
+        auto state2 = [&](int audio) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(audio) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid1b) == 0);
+            REQUIRE(timeline->getClipTrackId(cid3) == tid1);
+            REQUIRE(timeline->getClipTrackId(cid4) == audio);
+            REQUIRE(timeline->getClipPosition(cid3) == 0);
+            REQUIRE(timeline->getClipPosition(cid4) == 0);
+            REQUIRE(timeline->getClipPtr(cid3)->clipState() == PlaylistState::VideoOnly);
+            REQUIRE(timeline->getClipPtr(cid4)->clipState() == PlaylistState::AudioOnly);
+            // we check that the av group was correctly created
+            REQUIRE(timeline->getGroupElements(cid3) == std::unordered_set<int>({cid3, cid4}));
+            int g1 = timeline->m_groups->getDirectAncestor(cid3);
+            REQUIRE(timeline->m_groups->getDirectChildren(g1) == std::unordered_set<int>({cid3, cid4}));
+            REQUIRE(timeline->m_groups->getType(g1) == GroupType::AVSplit);
+        };
+        state2(tid2);
+
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state2(tid2);
+        undoStack->undo();
+        state0();
+
+        // now, we remove all audio tracks, making paste impossible
+        REQUIRE(timeline->requestTrackDeletion(tid2));
+        REQUIRE(timeline->requestTrackDeletion(tid2b));
+        REQUIRE_FALSE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
+
+        // undo one deletion
+        undoStack->undo();
+        // now, tid2b should be a valid audio track
+        REQUIRE(TimelineFunctions::pasteClips(timeline, cpy_str, tid1, 0));
+        cid3 = timeline->getTrackById(tid1)->getClipByPosition(0);
+        REQUIRE(cid3 != -1);
+        cid4 = timeline->m_groups->getSplitPartner(cid3);
+        state2(tid2b);
+    }
+
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();

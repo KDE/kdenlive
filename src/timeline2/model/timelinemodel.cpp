@@ -79,7 +79,7 @@ RTTR_REGISTRATION
         .method("requestTrackInsertion", select_overload<bool(int, int &, const QString &, bool)>(&TimelineModel::requestTrackInsertion))(
             parameter_names("pos", "id", "trackName", "audioTrack"))
         .method("requestTrackDeletion", select_overload<bool(int)>(&TimelineModel::requestTrackDeletion))(parameter_names("trackId"))
-        .method("requestClearSelection", select_overload<void(bool)>(&TimelineModel::requestClearSelection))(parameter_names("onDeletion"))
+        .method("requestClearSelection", select_overload<bool(bool)>(&TimelineModel::requestClearSelection))(parameter_names("onDeletion"))
         .method("requestAddToSelection", &TimelineModel::requestAddToSelection)(parameter_names("itemId", "clear"))
         .method("requestRemoveFromSelection", &TimelineModel::requestRemoveFromSelection)(parameter_names("itemId"))
         .method("requestSetSelection", select_overload<bool(const std::unordered_set<int> &)>(&TimelineModel::requestSetSelection))(parameter_names("itemIds"))
@@ -124,7 +124,6 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("length", INT_MAX);
     m_blackClip->set("set.test_audio", 0);
-    m_blackClip->set("length", INT_MAX);
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
 
@@ -944,8 +943,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
                                          Fun &undo, Fun &redo)
 {
-    std::function<bool(void)> local_undo = []() { return true; };
-    std::function<bool(void)> local_redo = []() { return true; };
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     qDebug() << "requestClipInsertion " << binClipId << " "
              << " " << trackId << " " << position;
     bool res = false;
@@ -1672,6 +1671,9 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, bool lo
 int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type)
 {
     QWriteLocker locker(&m_lock);
+    if (type != GroupType::Selection) {
+        requestClearSelection();
+    }
     for (int id : ids) {
         if (isClip(id)) {
             if (getClipTrackId(id) == -1) {
@@ -1690,6 +1692,12 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
         return -1;
     }
     int groupId = m_groups->groupItems(ids, undo, redo, type);
+    if (type != GroupType::Selection) {
+        // we make sure that the undo and the redo are going to unselect before doing anything else
+        Fun unselect = [this]() { return requestClearSelection(); };
+        PUSH_FRONT_LAMBDA(unselect, undo);
+        PUSH_FRONT_LAMBDA(unselect, redo);
+    }
     return groupId;
 }
 
@@ -1736,7 +1744,18 @@ bool TimelineModel::requestClipUngroup(int itemId, bool logUndo)
 bool TimelineModel::requestClipUngroup(int itemId, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    return m_groups->ungroupItem(itemId, undo, redo);
+    bool isSelection = m_groups->getType(m_groups->getRootId(itemId)) == GroupType::Selection;
+    if (!isSelection) {
+        requestClearSelection();
+    }
+    bool res = m_groups->ungroupItem(itemId, undo, redo);
+    if (res && !isSelection) {
+        // we make sure that the undo and the redo are going to unselect before doing anything else
+        Fun unselect = [this]() { return requestClearSelection(); };
+        PUSH_FRONT_LAMBDA(unselect, undo);
+        PUSH_FRONT_LAMBDA(unselect, redo);
+    }
+    return res;
 }
 
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack)
@@ -1906,9 +1925,7 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
         // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
-        if (getCurrentSelection().count(clipId) > 0) {
-            requestClearSelection();
-        }
+        requestClearSelection(true);
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
@@ -2213,6 +2230,7 @@ Fun TimelineModel::deregisterComposition_lambda(int compoId)
     return [this, compoId]() {
         Q_ASSERT(m_allCompositions.count(compoId) > 0);
         Q_ASSERT(!m_groups->isInGroup(compoId)); // composition must be ungrouped at this point
+        requestClearSelection(true);
         clearAssetView(compoId);
         m_allCompositions.erase(compoId);
         m_groups->destructGroupItem(compoId);
@@ -2934,12 +2952,13 @@ int TimelineModel::getNextTrackId(int trackId)
     return it == m_allTracks.end() ? trackId : (*it)->getId();
 }
 
-void TimelineModel::requestClearSelection(bool onDeletion)
+bool TimelineModel::requestClearSelection(bool onDeletion)
 {
     QWriteLocker locker(&m_lock);
     TRACE();
     if (m_currentSelection == -1) {
-        return;
+        TRACE_RES(true);
+        return true;
     }
     if (isGroup(m_currentSelection)) {
         if (m_groups->getType(m_currentSelection) == GroupType::Selection) {
@@ -2950,6 +2969,8 @@ void TimelineModel::requestClearSelection(bool onDeletion)
     }
     m_currentSelection = -1;
     emit selectionChanged();
+    TRACE_RES(true);
+    return true;
 }
 void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
 {

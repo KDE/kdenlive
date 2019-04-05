@@ -485,10 +485,10 @@ void fuzz(const std::string &input)
                     }
                 }
             }
-            update_elems();
-            for (const auto &t : all_timelines) {
-                assert(t->checkConsistency());
-            }
+        }
+        update_elems();
+        for (const auto &t : all_timelines) {
+            assert(t->checkConsistency());
         }
     }
     undoStack->clear();

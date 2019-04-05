@@ -609,7 +609,7 @@ public:
     /** @brief Clear the current selection
         @param onDeletion is true when the selection is cleared as a result of a deletion
      */
-    Q_INVOKABLE void requestClearSelection(bool onDeletion = false);
+    Q_INVOKABLE bool requestClearSelection(bool onDeletion = false);
     // same function with undo/redo accumulation
     void requestClearSelection(bool onDeletion, Fun &undo, Fun &redo);
 

@@ -381,7 +381,7 @@ Rectangle {
                         acceptedButtons: Qt.LeftButton
                         cursorShape: Qt.PointingHandCursor
                         hoverEnabled: true
-                        onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
+                        onDoubleClicked: timeline.editMarker(clipRoot.clipId, clipRoot.modelStart + model.frame - clipRoot.inPoint)
                         onClicked: timeline.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
                     }
                 }
