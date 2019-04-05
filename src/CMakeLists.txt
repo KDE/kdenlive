@@ -69,7 +69,7 @@ if(Qt5WebKitWidgets_FOUND)
 endif()
 ## top_SRCS
 file(GLOB top_SRCS "*.cpp")
-# string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/lib/[^;]+;?" "" top_SRCS "${top_SRCS}") 
+# string(REGEX REPLACE "${CMAKE_CURRENT_SOURCE_DIR}/lib/[^;]+;?" "" top_SRCS "${top_SRCS}")
 list(REMOVE_ITEM top_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
 list(APPEND kdenlive_SRCS ${top_SRCS})
 ## Others special cases
@@ -139,8 +139,12 @@ target_link_libraries(kdenliveLib
     ${MLTPP_LIBRARIES}
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
-    kiss_fft
-    RTTR::Core_Lib)
+    kiss_fft)
+if(TARGET RTTR:Core)
+     target_link_libraries(kdenliveLib RTTR::Core)
+else()
+     target_link_libraries(kdenliveLib RTTR::Core_Lib)
+endif()
 
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib gcov)
