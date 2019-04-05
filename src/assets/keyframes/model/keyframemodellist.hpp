@@ -136,6 +136,10 @@ public:
 
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
+    
+    /** @brief Check that all keyframable parameters have the same keyframes on loading
+     *  (that's how our model works) */
+    void checkConsistency();
 
 protected:
     /** @brief Helper function to apply a given operation on all parameters */

@@ -55,7 +55,7 @@ public:
 
     QImage drawEnvelope();
 
-    const size_t offset();
+    size_t offset();
 
     void dumpInfo();
 

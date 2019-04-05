@@ -82,7 +82,7 @@ const AudioEnvelope::AudioSummary &AudioEnvelope::audioSummary()
     return *m_audioSummary.constBegin();
 }
 
-const size_t AudioEnvelope::offset()
+size_t AudioEnvelope::offset()
 {
     return m_offset;
 }

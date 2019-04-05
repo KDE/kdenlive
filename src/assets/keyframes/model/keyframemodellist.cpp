@@ -444,3 +444,35 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         }
     }
 }
+
+void KeyframeModelList::checkConsistency()
+{
+    if (m_parameters.size() < 2) {
+        return;
+    }
+    // Check keyframes in all parameters
+    QList<GenTime> fullList;
+    for (const auto &param : m_parameters) {
+        QList<GenTime> list = param.second->getKeyframePos();
+        for (auto &time : list) {
+            if (!fullList.contains(time)) {
+                fullList << time;
+            }
+        }
+    }
+    Fun local_update = []() { return true; };
+    KeyframeType type = (KeyframeType)KdenliveSettings::defaultkeyframeinterp();
+    for (const auto &param : m_parameters) {
+        QList<GenTime> list = param.second->getKeyframePos();
+        for (auto &time : fullList) {
+            if (!list.contains(time)) {
+                qDebug()<<" = = = \n\n = = = = \n\nWARNING; MISSING KF DETECTED AT: "<<time.seconds()<<"\n\n= = = \n\n= = =";
+                //TODO: add better error message after string freeze
+                pCore->displayMessage(i18n("Keyframe interpolation"), ErrorMessage);
+                QVariant missingVal = param.second->getInterpolatedValue(time);
+                local_update = param.second->addKeyframe_lambda(time, type, missingVal, false);
+                local_update();
+            }
+        }
+    }
+}
