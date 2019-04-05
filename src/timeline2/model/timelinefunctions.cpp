@@ -1105,7 +1105,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     container.appendChild(grp);
 
     std::unordered_set<int> groupRoots;
-    std::transform(itemIds.begin(), itemIds.end(), std::inserter(groupRoots, groupRoots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
+    std::transform(allIds.begin(), allIds.end(), std::inserter(groupRoots, groupRoots.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
 
     qDebug() << "==============\n GROUP ROOTS: ";
     for (int gp : groupRoots) {
@@ -1336,7 +1336,12 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     // Rebuild groups
     timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
     // unsure to clear selection in undo/redo too.
-    Fun unselect = [&]() { return timeline->requestClearSelection(); };
+    Fun unselect = [&]() {
+        qDebug() << "starting undo or redo. Selection " << timeline->m_currentSelection;
+        timeline->requestClearSelection();
+        qDebug() << "after Selection " << timeline->m_currentSelection;
+        return true;
+    };
     PUSH_FRONT_LAMBDA(unselect, undo);
     PUSH_FRONT_LAMBDA(unselect, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
