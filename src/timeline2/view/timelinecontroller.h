@@ -228,7 +228,19 @@ public:
     Q_INVOKABLE void unGroupSelection(int cid = -1);
     /* @brief Ask for edit marker dialog
      */
-    Q_INVOKABLE void editMarker(const QString &cid, int frame);
+    Q_INVOKABLE void editMarker(int cid, int position);
+    /* @brief Ask for marker add dialog
+     */
+    Q_INVOKABLE void addMarker(int cid, int position);
+    /* @brief Ask for quick marker add (without dialog)
+     */
+    Q_INVOKABLE void addQuickMarker(int cid, int position);
+    /* @brief Ask for marker delete
+     */
+    Q_INVOKABLE void deleteMarker(int cid, int position);
+    /* @brief Ask for all markers delete
+     */
+    Q_INVOKABLE void deleteAllMarkers(int cid);
     /* @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);

@@ -66,6 +66,29 @@ Menu {
             onTriggered: timeline.splitVideo(clipId)
             visible: !grouped && canBeVideo && clipStatus == ClipState.AudioOnly
         }
+        Menu {
+            title: i18n('Markers')
+            MenuItem {
+                text: i18n('Add Marker')
+                onTriggered: timeline.addMarker(clipId, timeline.position)
+            }
+            MenuItem {
+                text: i18n('Add Marker/Guide quickly')
+                onTriggered: timeline.addQuickMarker(clipId, timeline.position)
+            }
+            MenuItem {
+                text: i18n('Edit Marker')
+                onTriggered: timeline.editMarker(clipId, timeline.position)
+            }
+            MenuItem {
+                text: i18n('Delete Marker')
+                onTriggered: timeline.deleteMarker(clipId, timeline.position)
+            }
+            MenuItem {
+                text: i18n('Delete All Markers')
+                onTriggered: timeline.deleteAllMarkers(clipId)
+            }
+        }
         MenuItem {
             text: i18n('Set Audio Reference')
             onTriggered: timeline.setAudioRef(clipId)
