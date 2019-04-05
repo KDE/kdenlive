@@ -393,11 +393,22 @@ bool DocumentChecker::hasErrorInClips()
             clipType = i18n("Unknown");
             type = ClipType::Unknown;
         }
-        QString clipId = e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
-        if (processedIds.contains(clipId)) {
-            continue;
+        // Newer project format
+        QString clipId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+        if (!clipId.isEmpty()) {
+            if (processedIds.contains(clipId)) {
+                continue;
+            }
+            processedIds << clipId;
+        } else {
+            // Older project file format
+            clipId = e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
+            if (processedIds.contains(clipId)) {
+                continue;
+            }
+            processedIds << clipId;
         }
-        processedIds << clipId;
+        
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
         item->setData(0, clipTypeRole, (int)type);
