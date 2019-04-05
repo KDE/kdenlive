@@ -35,6 +35,7 @@ class MarkerListModel;
 class TimelineModel;
 class TrackModel;
 class KeyframeModel;
+class ClipSnapModel;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -194,12 +195,17 @@ protected:
 
     /*@brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
+    
+    /*@brief Register the clip marker model to timeline */
+    void registerMarkerModel(int position);
+    void unregisterMarkerModel();
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
     std::shared_ptr<Mlt::Producer> getProducer();
 
     std::shared_ptr<EffectStackModel> m_effectStack;
+    std::shared_ptr<ClipSnapModel> m_clipMarkerModel;
 
     QString m_binClipId; // This is the Id of the bin clip this clip corresponds to.
 

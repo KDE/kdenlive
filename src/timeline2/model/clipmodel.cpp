@@ -21,6 +21,7 @@
 #include "clipmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
+#include "clipsnapmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "logger.hpp"
@@ -37,6 +38,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
     , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
+    , m_clipMarkerModel(new ClipSnapModel())
     , m_binClipId(binClipId)
     , forceThumbReload(false)
     , m_currentState(state)
@@ -80,6 +82,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
+    //binClip->getMarkerModel()->registerClipSnapModel(clip->m_clipMarkerModel);
+    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel());
     parent->registerClip(clip);
     return id;
 }
@@ -109,6 +113,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
     clip->setClipState_lambda(state)();
     clip->m_effectStack->importEffects(producer, state, result.second);
+    //binClip->getMarkerModel()->registerClipSnapModel(clip->m_clipMarkerModel);
+    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel());
     parent->registerClip(clip);
     return id;
 }
@@ -692,7 +698,22 @@ int ClipModel::getSubPlaylistIndex() const
 {
     return m_subPlaylistIndex;
 }
+
 void ClipModel::setSubPlaylistIndex(int index)
 {
     m_subPlaylistIndex = index;
+}
+
+void ClipModel::registerMarkerModel(int position)
+{
+    if (auto ptr = m_parent.lock()) {
+        m_clipMarkerModel->registerSnapModel(ptr->m_snaps, position, getIn(), getOut());
+    }
+}
+
+void ClipModel::unregisterMarkerModel()
+{
+    if (auto ptr = m_parent.lock()) {
+        m_clipMarkerModel->unregisterSnapModel();
+    }
 }
