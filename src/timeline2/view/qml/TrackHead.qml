@@ -337,6 +337,19 @@ Rectangle {
             Layout.rightMargin: 4
         }
         RowLayout {
+            id: recLayout
+            Layout.maximumHeight: showAudioRecord ? -1 : 0
+            Loader {
+                id: audioVuMeter
+                Layout.fillWidth: true
+                Layout.rightMargin: 2
+                Layout.leftMargin: 4
+                visible: showAudioRecord && (trackHeadRoot.height >= 2 * muteButton.height + resizer.height)
+                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
+                onLoaded: item.trackId = trackId
+            }
+        }
+        RowLayout {
             Rectangle {
                 id: trackLabel
                 color: 'transparent'
@@ -344,7 +357,7 @@ Rectangle {
                 radius: 2
                 border.color: trackNameMouseArea.containsMouse ? activePalette.highlight : 'transparent'
                 height: nameEdit.height
-                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
+                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height + recLayout.height)
                 MouseArea {
                     id: trackNameMouseArea
                     anchors.fill: parent
@@ -408,19 +421,6 @@ Rectangle {
                         visible = false
                     }
                 }
-            }
-        }
-        RowLayout {
-            Loader {
-                id: audioVuMeter
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.rightMargin: 2
-                Layout.leftMargin: 4
-                Layout.minimumHeight: root.baseUnit
-                Layout.maximumHeight: root.baseUnit * 3
-                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
-                onLoaded: item.trackId = trackId
             }
         }
         Item {
