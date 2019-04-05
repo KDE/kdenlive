@@ -1200,9 +1200,10 @@ int GLWidget::reconfigure(bool reload)
     // use SDL for audio, OpenGL for video
     QString serviceName = property("mlt_service").toString();
     if (reload) {
-        reloadProfile();
         m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:black"));
         m_blackClip->set("kdenlive:id", "black");
+        reloadProfile();
+        return error;
     }
     if ((m_consumer == nullptr) || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
         if (m_consumer) {
@@ -1212,7 +1213,7 @@ int GLWidget::reconfigure(bool reload)
         }
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
-        if (serviceName.isEmpty() || serviceName != audioBackend) {
+        if (m_consumer == nullptr || serviceName.isEmpty() || serviceName != audioBackend) {
             m_consumer.reset(new Mlt::FilteredConsumer(pCore->getCurrentProfile()->profile(), audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
@@ -1352,7 +1353,11 @@ void GLWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
     if (m_consumer) {
-        m_consumer->set("mlt_profile", pCore->getCurrentProfilePath().toUtf8().constData());
+        // Make sure to delete and rebuild consumer to match profile
+        m_consumer->purge();
+        m_consumer->stop();
+        m_consumer.reset();
+        reconfigure();
     }
     resizeGL(width(), height());
     refreshSceneLayout();
