@@ -1544,7 +1544,7 @@ void TimelineController::setAudioRef(int clipId)
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
     connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, [&](int cid, int shift) {
-        int pos = m_model->getClipPosition(m_audioRef) + shift + m_model->getClipIn(m_audioRef);
+        int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
         bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true);
         if (!result) {
             pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
@@ -1580,7 +1580,7 @@ void TimelineController::alignAudio(int clipId)
         }
     }
     // Perform audio calculation
-    AudioEnvelope *envelope = new AudioEnvelope(getClipBinId(clipId), clipId, (size_t)m_model->getClipIn(clipId), (size_t)m_model->getClipPlaytime(clipId),
+    AudioEnvelope *envelope = new AudioEnvelope(otherBinId, clipId, (size_t)m_model->getClipIn(clipId), (size_t)m_model->getClipPlaytime(clipId),
                                                 (size_t)m_model->getClipPosition(clipId));
     m_audioCorrelator->addChild(envelope);
 }

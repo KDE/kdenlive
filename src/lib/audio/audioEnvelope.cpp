@@ -24,20 +24,22 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     : m_offset(offset)
     , m_clipId(clipId)
     , m_startpos(startPos)
-    , m_length(length)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
-    m_envelopeSize = clip->frameDuration();
     m_producer = clip->cloneProducer();
+    if (length > 2000) {
+        // Analyse on timeline clip zone only
+        m_offset = 0;
+        m_producer->set_in_and_out((int) offset, (int) (offset + length));
+    }
+    m_envelopeSize = m_producer->get_playtime();
+
+    m_producer->set("set.test_image", 1);
     connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { envelopeReady(this); });
     if (!m_producer || !m_producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << binId;
     } else {
         m_info = std::make_unique<AudioInfo>(m_producer);
-        if (length > 0) {
-            Q_ASSERT(length + m_offset <= m_envelopeSize);
-            m_envelopeSize = length;
-        }
     }
 }
 
@@ -80,6 +82,11 @@ const AudioEnvelope::AudioSummary &AudioEnvelope::audioSummary()
     return *m_audioSummary.constBegin();
 }
 
+const size_t AudioEnvelope::offset()
+{
+    return m_offset;
+}
+
 const std::vector<qint64> &AudioEnvelope::envelope()
 {
     // Blocks until the summary is available.
@@ -99,7 +106,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
 
     QTime t;
     t.start();
-    m_producer->seek((int)m_offset);
+    m_producer->seek(0);
     for (size_t i = 0; i < summary.audioAmplitudes.size(); ++i) {
         std::unique_ptr<Mlt::Frame> frame(m_producer->get_frame((int)i));
         qint64 position = mlt_frame_get_position(frame->get_frame());

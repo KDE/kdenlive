@@ -90,6 +90,7 @@ int AudioCorrelation::getShift(int childIndex) const
 
     int indexOffset = (int)m_correlations.at(childIndex)->maxIndex();
     indexOffset -= (int)m_children.at(childIndex)->envelope().size();
+    indexOffset += (int)m_children.at(childIndex)->offset();
 
     return indexOffset;
 }
