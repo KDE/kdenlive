@@ -124,7 +124,6 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_blackClip->set("aspect_ratio", 1);
     m_blackClip->set("length", INT_MAX);
     m_blackClip->set("set.test_audio", 0);
-    m_blackClip->set("length", INT_MAX);
     m_blackClip->set_in_and_out(0, TimelineModel::seekDuration);
     m_tractor->insert_track(*m_blackClip, 0);
 
