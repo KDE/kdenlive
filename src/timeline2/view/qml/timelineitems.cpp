@@ -79,7 +79,7 @@ class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
-    Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY inPointChanged)
+    Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY propertyChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
