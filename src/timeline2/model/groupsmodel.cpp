@@ -884,10 +884,16 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
         qDebug() << "* ** * UPDATED JSON NODES: " << updatedNodes;
         obj.insert(QLatin1String("children"), QJsonValue(updatedNodes));
         qDebug() << "* ** * UPDATED JSON NODES: " << obj;
-        ok = (fromJson(obj, local_undo, local_redo) > 0);
-        if (ok) {
-            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        ok = ok && (fromJson(obj, local_undo, local_redo) > 0);
+        if (!ok) {
+            break;
         }
+    }
+    if (ok) {
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    } else {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
     }
     return ok;
 }

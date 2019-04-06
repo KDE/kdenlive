@@ -843,6 +843,7 @@ void ProjectManager::updateTimeline(int pos, int scrollPos)
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
+    pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     constructTimelineFromMelt(m_mainTimelineModel, tractor);
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     if (!groupsData.isEmpty()) {
@@ -850,7 +851,6 @@ void ProjectManager::updateTimeline(int pos, int scrollPos)
     }
 
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
-    pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());
     pCore->window()->getMainTimeline()->controller()->setTargetTracks(m_project->targetTracks());
