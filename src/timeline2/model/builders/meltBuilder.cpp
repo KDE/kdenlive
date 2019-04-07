@@ -37,6 +37,7 @@
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltTransition.h>
+#include <mlt++/MltProfile.h>
 
 static QStringList m_errorMessage;
 
@@ -111,6 +112,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             qDebug() << "ERROR: Unexpected item in the timeline";
         }
     }
+    ok = true;
 
     // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
@@ -130,7 +132,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         }
         service.reset(service->producer());
     }
-
     // Sort compositions and insert
     if (!compositions.isEmpty()) {
         std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
@@ -145,12 +146,13 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                                        t->get_in(), t->get_a_track());
                 continue;
             }
+
             ok = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
                                                        t->get_length(), std::move(transProps), compoId, undo, redo);
             if (!ok) {
                 qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in() << ", ID: " << id
                          << ", MLT ID: " << t->get("id");
-                // timeline->requestItemDeletion(compoId, false);
+                //timeline->requestItemDeletion(compoId, false);
                 m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
                 continue;
             }
@@ -162,11 +164,12 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     timeline->buildTrackCompositing();
     timeline->updateDuration();
 
-    if (!ok) {
+    /*if (!ok) {
         // TODO log error
+        // Don't abort loading because of failed composition
         undo();
         return false;
-    }
+    }*/
     if (!m_errorMessage.isEmpty()) {
         KMessageBox::sorry(qApp->activeWindow(), m_errorMessage.join("\n"), i18n("Problems found in your project file"));
     }
