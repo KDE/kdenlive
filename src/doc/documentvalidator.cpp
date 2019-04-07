@@ -79,17 +79,10 @@ bool DocumentValidator::validate(const double currentVersion)
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         // Check document numeric separator (added in Kdenlive 16.12.1
         QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
-        QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
+        QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString());
         QChar numericalSeparator;
-        for (int i = 0; i < props.count(); ++i) {
-            QDomNode n = props.at(i);
-            if (n.toElement().attribute(QStringLiteral("name")) == QLatin1String("kdenlive:docproperties.decimalPoint")) {
-                QString sep = n.firstChild().nodeValue();
-                if (!sep.isEmpty()) {
-                    numericalSeparator = sep.at(0);
-                }
-                break;
-            }
+        if (!sep.isEmpty()) {
+            numericalSeparator = sep.at(0);
         }
         bool error = false;
         if (!numericalSeparator.isNull() && numericalSeparator != QLocale().decimalPoint()) {
