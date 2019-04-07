@@ -844,7 +844,10 @@ void ProjectManager::updateTimeline(int pos, int scrollPos)
     Mlt::Tractor tractor(s);
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
-    constructTimelineFromMelt(m_mainTimelineModel, tractor);
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor)) {
+        //TODO: act on project load failure
+        qDebug()<<"// Project failed to load!!";
+    }
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
