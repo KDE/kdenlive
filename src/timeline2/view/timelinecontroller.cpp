@@ -556,8 +556,21 @@ void TimelineController::unGroupSelection(int cid)
     }
 }
 
+bool TimelineController::dragOperationRunning()
+{
+    QVariant returnedValue;
+    QMetaObject::invokeMethod(m_root, "isDragging", Q_RETURN_ARG(QVariant, returnedValue));
+    return returnedValue.toBool();
+}
+
 void TimelineController::setInPoint()
 {
+    if (dragOperationRunning()) {
+        // Don't allow timeline operation while drag in progress
+        qDebug()<<"Cannot operate while dragging";
+        return;
+    }
+
     int cursorPos = timelinePosition();
     const auto selection = m_model->getCurrentSelection();
     if (!selection.empty()) {
@@ -579,6 +592,11 @@ int TimelineController::timelinePosition() const
 
 void TimelineController::setOutPoint()
 {
+    if (dragOperationRunning()) {
+        // Don't allow timeline operation while drag in progress
+        qDebug()<<"Cannot operate while dragging";
+        return;
+    }
     int cursorPos = timelinePosition();
     const auto selection = m_model->getCurrentSelection();
     if (!selection.empty()) {
