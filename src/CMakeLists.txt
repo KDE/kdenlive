@@ -140,7 +140,7 @@ target_link_libraries(kdenliveLib
     ${CMAKE_DL_LIBS}
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft)
-if(TARGET RTTR:Core)
+if(TARGET RTTR::Core)
      target_link_libraries(kdenliveLib RTTR::Core)
 else()
      target_link_libraries(kdenliveLib RTTR::Core_Lib)
