@@ -160,6 +160,10 @@ Rectangle {
         scrollTimer.running = false
         scrollTimer.stop()
     }
+    
+    function isDragging() {
+        return dragProxy.draggedItem > -1 && dragProxyArea.pressed
+    }
 
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
         dragProxy.x = itemObject.modelStart * timeScale

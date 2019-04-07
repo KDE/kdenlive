@@ -439,6 +439,8 @@ public:
     void grabCurrent();
     /** @brief Returns keys for all used thumbnails */
     QStringList getThumbKeys();
+    /** @brief Returns true if a drag operation is currently running in timeline */
+    bool dragOperationRunning();
 
 public slots:
     void resetView();
