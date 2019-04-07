@@ -31,6 +31,7 @@
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "trackmodel.hpp"
+#include "snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
 #include <QDebug>
 #include <QFileInfo>
@@ -62,7 +63,7 @@ void TimelineItemModel::finishConstruct(const std::shared_ptr<TimelineItemModel>
 {
     ptr->weak_this_ = ptr;
     ptr->m_groups = std::make_unique<GroupsModel>(ptr);
-    guideModel->registerSnapModel(ptr->m_snaps);
+    guideModel->registerSnapModel(std::static_pointer_cast<SnapInterface>(ptr->m_snaps));
 }
 
 std::shared_ptr<TimelineItemModel> TimelineItemModel::construct(Mlt::Profile *profile, std::shared_ptr<MarkerListModel> guideModel,

@@ -29,7 +29,6 @@
 #include "macros.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/snapmodel.hpp"
-#include "timeline2/model/clipsnapmodel.hpp"
 
 #include <QDebug>
 #include <QJsonArray>
@@ -244,7 +243,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
 void MarkerListModel::addSnapPoint(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<std::weak_ptr<SnapModel>> validSnapModels;
+    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
     for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
@@ -253,21 +252,12 @@ void MarkerListModel::addSnapPoint(GenTime pos)
     }
     // Update the list of snapModel known to be valid
     std::swap(m_registeredSnaps, validSnapModels);
-    std::vector<std::weak_ptr<ClipSnapModel>> validClipSnapModels;
-    for (const auto &snapModel : m_registeredClipSnaps) {
-        if (auto ptr = snapModel.lock()) {
-            validClipSnapModels.push_back(snapModel);
-            ptr->addPoint(pos.frames(pCore->getCurrentFps()));
-        }
-    }
-    // Update the list of snapModel known to be valid
-    std::swap(m_registeredClipSnaps, validClipSnapModels);
 }
 
 void MarkerListModel::removeSnapPoint(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<std::weak_ptr<SnapModel>> validSnapModels;
+    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
     for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
@@ -276,16 +266,6 @@ void MarkerListModel::removeSnapPoint(GenTime pos)
     }
     // Update the list of snapModel known to be valid
     std::swap(m_registeredSnaps, validSnapModels);
-    
-    std::vector<std::weak_ptr<ClipSnapModel>> validClipSnapModels;
-    for (const auto &snapModel : m_registeredClipSnaps) {
-        if (auto ptr = snapModel.lock()) {
-            validClipSnapModels.push_back(snapModel);
-            ptr->removePoint(pos.frames(pCore->getCurrentFps()));
-        }
-    }
-    // Update the list of snapModel known to be valid
-    std::swap(m_registeredClipSnaps, validClipSnapModels);
 }
 
 QVariant MarkerListModel::data(const QModelIndex &index, int role) const
@@ -362,7 +342,7 @@ bool MarkerListModel::hasMarker(int frame) const
     return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
 }
 
-void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel)
+void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel)
 {
     READ_LOCK();
     // make sure ptr is valid
@@ -372,27 +352,8 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapMode
 
         // we now add the already existing markers to the snap
         for (const auto &marker : m_markerList) {
-            GenTime pos = marker.first;
-            ptr->addPoint(pos.frames(pCore->getCurrentFps()));
-        }
-    } else {
-        qDebug() << "Error: added snapmodel is null";
-        Q_ASSERT(false);
-    }
-}
-
-void MarkerListModel::registerClipSnapModel(const std::weak_ptr<ClipSnapModel> &snapModel)
-{
-    READ_LOCK();
-    // make sure ptr is valid
-    if (auto ptr = snapModel.lock()) {
-        // ptr is valid, we store it
-        m_registeredClipSnaps.push_back(snapModel);
-
-        // we now add the already existing markers to the snap
-        for (const auto &marker : m_markerList) {
-            GenTime pos = marker.first;
-            ptr->addPoint(pos.frames(pCore->getCurrentFps()));
+            qDebug()<<" *- *-* REGISTEING MARKER: "<<marker.first.frames(pCore->getCurrentFps());
+            ptr->addPoint(marker.first.frames(pCore->getCurrentFps()));
         }
     } else {
         qDebug() << "Error: added snapmodel is null";

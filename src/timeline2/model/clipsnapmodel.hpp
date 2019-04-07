@@ -22,41 +22,48 @@
 #ifndef CLIPSNAPMODEL_H
 #define CLIPSNAPMODEL_H
 
-#include <map>
-#include <vector>
-#include <memory>
+#include "snapmodel.hpp"
 
-class SnapModel;
+#include <map>
+#include <memory>
+#include <unordered_set>
+
 class MarkerListModel;
 
 /** @brief This class represents the snap points of a clip of the timeline.
-    Basically, one can add or remove snap points, and query the closest snap point to a given location
+    Basically, one can add or remove snap points
  *
  */
 
-class ClipSnapModel : public enable_shared_from_this_virtual<ClipSnapModel>
+class ClipSnapModel : public virtual SnapInterface, public std::enable_shared_from_this<SnapInterface>
 {
 public:
     ClipSnapModel();
 
     /* @brief Adds a snappoint at given position */
-    void addPoint(size_t position);
+    void addPoint(int position) override;
 
     /* @brief Removes a snappoint from given position */
-    void removePoint(size_t position);
+    void removePoint(int position) override;
 
-    void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, size_t position, size_t in, size_t out);
-    void unregisterSnapModel();
+    void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out);
+    void deregisterSnapModel();
     
     void setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel);
+    
+    void updateSnapModelPos(int newPos);
+    void updateSnapModelInOut(std::pair<int, int> newInOut);
 
 
 private:
     std::weak_ptr<SnapModel> m_registeredSnap;
     std::weak_ptr<MarkerListModel> m_parentModel;
-    size_t m_inPoint;
-    size_t m_outPoint;
-    size_t m_position;
+    std::unordered_set<int> m_snapPoints;
+    int m_inPoint;
+    int m_outPoint;
+    int m_position;
+    void addAllSnaps();
+    void removeAllSnaps();
 
 };
 

@@ -21,7 +21,6 @@
 
 #include "bin/model/markerlistmodel.hpp"
 #include "clipsnapmodel.hpp"
-#include "snapmodel.hpp"
 #include <QDebug>
 #include <climits>
 #include <cstdlib>
@@ -29,8 +28,9 @@
 
 ClipSnapModel::ClipSnapModel() = default;
 
-void ClipSnapModel::addPoint(size_t position)
+void ClipSnapModel::addPoint(int position)
 {
+    m_snapPoints.insert(position);
     if (position <= m_inPoint || position >= m_outPoint) {
         return;
     }
@@ -39,8 +39,9 @@ void ClipSnapModel::addPoint(size_t position)
     }
 }
 
-void ClipSnapModel::removePoint(size_t position)
+void ClipSnapModel::removePoint(int position)
 {
+    m_snapPoints.erase(position);
     if (position <= m_inPoint || position >= m_outPoint) {
         return;
     }
@@ -49,63 +50,67 @@ void ClipSnapModel::removePoint(size_t position)
     }
 }
 
-void ClipSnapModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, size_t position, size_t in, size_t out)
+void ClipSnapModel::updateSnapModelPos(int newPos)
+{
+    if (newPos == m_position) {
+        return;
+    }
+    removeAllSnaps();
+    m_position = newPos;
+    addAllSnaps();
+}
+
+void ClipSnapModel::updateSnapModelInOut(std::pair<int, int> newInOut)
+{
+    removeAllSnaps();
+    m_inPoint = newInOut.first;
+    m_outPoint = newInOut.second;
+    addAllSnaps();
+}  
+
+void ClipSnapModel::addAllSnaps()
+{
+    if (auto ptr = m_registeredSnap.lock()) {
+        for (const auto &snap : m_snapPoints) {
+            if (snap >= m_inPoint && snap < m_outPoint) {
+                ptr->addPoint(m_position + snap - m_inPoint);
+            }
+        }
+    }
+}
+
+void ClipSnapModel::removeAllSnaps()
+{
+    if (auto ptr = m_registeredSnap.lock()) {
+        for (const auto &snap : m_snapPoints) {
+            if (snap >= m_inPoint && snap < m_outPoint) {
+                ptr->removePoint(m_position + snap - m_inPoint);
+            }
+        }
+    }
+}
+
+void ClipSnapModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out)
 {
     // make sure ptr is valid
     m_inPoint = in;
     m_outPoint = out;
-    m_position = position;
-    auto ptr = m_registeredSnap.lock();
-    if (!ptr) {
-        m_registeredSnap = snapModel;
-        ptr = m_registeredSnap.lock();
-    }
-    if (ptr) {
-        // we now add the already existing markers to the snap
-        if (auto ptr2 = m_parentModel.lock()) {
-        std::vector<size_t> snaps = ptr2->getSnapPoints();
-            for (const auto &snap : snaps) {
-                if (snap < m_inPoint) {
-                    continue;
-                }
-                if (snap > m_outPoint) {
-                    break;
-                }
-                ptr->addPoint(m_position + snap - m_inPoint);
-            }
-        }
-    } else {
-        qDebug() << "Error: added snapmodel is null";
-        Q_ASSERT(false);
-    }
+    m_position = qMax(0, position);
+    m_registeredSnap = snapModel;
+    addAllSnaps();
 }
 
-void ClipSnapModel::unregisterSnapModel()
+void ClipSnapModel::deregisterSnapModel()
 {
     // make sure ptr is valid
-    auto ptr = m_registeredSnap.lock();
-    if (!ptr) {
-        return;
-    }
-    // we now add the already existing markers to the snap
-    if (auto ptr2 = m_parentModel.lock()) {
-        std::vector<size_t> snaps = ptr2->getSnapPoints();
-        for (const auto &snap : snaps) {
-            if (snap < m_inPoint) {
-                continue;
-            }
-            if (snap > m_outPoint) {
-                break;
-            }
-            ptr->removePoint(m_position + snap - m_inPoint);
-        }
-    }
+    removeAllSnaps();
+    m_registeredSnap.reset();
 }
 
 void ClipSnapModel::setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel)
 {
     m_parentModel = markerModel;
     if (auto ptr = m_parentModel.lock()) {
-        ptr->registerClipSnapModel(shared_from_this());
+        ptr->registerSnapModel(std::static_pointer_cast<SnapInterface>(shared_from_this()));
     }
 }

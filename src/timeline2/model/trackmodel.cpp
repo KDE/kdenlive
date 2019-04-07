@@ -145,7 +145,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             int new_out = new_in + clip->getPlaytime();
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
-            m_allClips[clipId]->registerMarkerModel(new_in);
             if (updateView) {
                 int clip_index = getRowfromClip(clipId);
                 ptr->_beginInsertRows(ptr->makeTrackIndexFromID(m_id), clip_index, clip_index);
@@ -302,7 +301,6 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
         Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
         auto prod = m_playlists[target_track].replace_with_blank(target_clip);
         if (prod != nullptr) {
-            m_allClips[clipId]->unregisterMarkerModel();
             m_playlists[target_track].consolidate_blanks();
             m_allClips[clipId]->setCurrentTrackId(-1);
             m_allClips[clipId]->setSubPlaylistIndex(-1);
@@ -485,7 +483,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             ptr->m_snaps->removePoint(old_out);
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
-            m_allClips[clipId]->registerMarkerModel(new_in);
             if (checkRefresh) {
                 ptr->checkRefresh(old_in, old_out);
                 ptr->checkRefresh(new_in, new_out);
@@ -504,7 +501,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     // qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta;
     if (delta > 0) { // we shrink clip
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
-            m_allClips[clipId]->unregisterMarkerModel();
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
             // insert blank to space that is going to be empty
@@ -537,7 +533,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             // clip is last, it can always be extended
             return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
                 // color, image and title clips can have unlimited resize
-                m_allClips[clipId]->unregisterMarkerModel();
                 QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
                 if (out >= clip->get_length()) {
                     clip->parent().set("length", out + 1);
@@ -571,7 +566,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         int blank_length = m_playlists[target_track].clip_length(blank);
         if (blank_length + delta >= 0 && other_blank_end >= out) {
             return [blank_length, blank, right, clipId, delta, update_snaps, this, in, out, target_clip, target_track]() {
-                m_allClips[clipId]->unregisterMarkerModel();
                 int target_clip_mutable = target_clip;
                 int err = 0;
                 if (blank_length + delta == 0) {

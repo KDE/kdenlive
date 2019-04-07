@@ -163,6 +163,8 @@ protected:
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
     void setCurrentTrackId(int tid, bool finalMove = true) override;
+    void setPosition(int pos) override;
+    void setInOut(int in, int out) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -195,10 +197,6 @@ protected:
 
     /*@brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
-    
-    /*@brief Register the clip marker model to timeline */
-    void registerMarkerModel(int position);
-    void unregisterMarkerModel();
 
 protected:
     std::shared_ptr<Mlt::Producer> m_producer;
