@@ -26,6 +26,7 @@ Item {
     property bool showSafezone
     property bool showAudiothumb
     property bool showToolbar: false
+    property bool hasAV: controller.clipHasAV
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
@@ -209,13 +210,13 @@ Item {
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton
             x: 0
-            width: 2 * audioDragButton.width
-            height: 2.5 * audioDragButton.height
+            width: parent.width
+            height: 2 * audioDragButton.height
             y: parent.height - height
             propagateComposedEvents: true
             onPressed: {
                 // First found child is the Column
-                var clickedChild = childAt(mouseX,mouseY).childAt(mouseX,mouseY)
+                var clickedChild = childAt(mouseX,mouseY) ? childAt(mouseX,mouseY).childAt(mouseX,mouseY).childAt(mouseX,mouseY) : ""
                 if (clickedChild == audioDragButton) {
                     dragType = 1
                 } else if (clickedChild == videoDragButton) {
@@ -225,22 +226,26 @@ Item {
                 }
                 mouse.accepted = false
             }
-            Column {
+            Rectangle {
+                x: 5
+                width: childrenRect.width
+                height: childrenRect.height
+                color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.5)
+                radius: 4
+                visible: root.hasAV && dragOverArea.containsMouse
+            Row {
             ToolButton {
                 id: videoDragButton
                 iconName: "kdenlive-show-video"
                 tooltip: "Video only drag"
-                x: 10
                 enabled: false
-                visible: dragOverArea.containsMouse
             }
             ToolButton {
                 id: audioDragButton
                 iconName: "audio-volume-medium"
                 tooltip: "Audio only drag"
-                x: 10
                 enabled: false
-                visible: dragOverArea.containsMouse
+            }
             }
             }
         }

@@ -21,6 +21,7 @@
 #include "clipmodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
+#include "clipsnapmodel.hpp"
 #include "core.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "logger.hpp"
@@ -37,6 +38,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     : MoveableItem<Mlt::Producer>(parent, id)
     , m_producer(std::move(prod))
     , m_effectStack(EffectStackModel::construct(m_producer, {ObjectType::TimelineClip, m_id}, parent->m_undoStack))
+    , m_clipMarkerModel(new ClipSnapModel())
     , m_binClipId(binClipId)
     , forceThumbReload(false)
     , m_currentState(state)
@@ -81,6 +83,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
+    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel());
     return id;
 }
 
@@ -110,6 +113,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     clip->setClipState_lambda(state)();
     clip->m_effectStack->importEffects(producer, state, result.second);
     parent->registerClip(clip);
+    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel());
     return id;
 }
 
@@ -184,7 +188,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     }
     Fun operation = [this, inPoint, outPoint, track_operation]() {
         if (track_operation()) {
-            m_producer->set_in_and_out(inPoint, outPoint);
+            setInOut(inPoint, outPoint);
             return true;
         }
         return false;
@@ -208,7 +212,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         }
         Fun reverse = [this, old_in, old_out, track_reverse]() {
             if (track_reverse()) {
-                m_producer->set_in_and_out(old_in, old_out);
+                setInOut(old_in, old_out);
                 return true;
             }
             return false;
@@ -510,12 +514,36 @@ void ClipModel::setShowKeyframes(bool show)
     service()->set("kdenlive:hide_keyframes", (int)!show);
 }
 
+void ClipModel::setPosition(int pos)
+{
+    MoveableItem::setPosition(pos);
+    m_clipMarkerModel->updateSnapModelPos(pos);
+}
+
+void ClipModel::setInOut(int in, int out)
+{
+    MoveableItem::setInOut(in, out);
+    m_clipMarkerModel->updateSnapModelInOut(std::pair<int, int>(in, out));
+}
+
 void ClipModel::setCurrentTrackId(int tid, bool finalMove)
 {
     if (tid == m_currentTrackId) {
         return;
     }
+    bool registerSnap = m_currentTrackId == -1 && tid > -1;
+    
+    if (m_currentTrackId > -1 && tid == -1) {
+        // Removing clip
+        m_clipMarkerModel->deregisterSnapModel();
+    }
     MoveableItem::setCurrentTrackId(tid, finalMove);
+    if (registerSnap) {
+        if (auto ptr = m_parent.lock()) {
+            m_clipMarkerModel->registerSnapModel(ptr->m_snaps, getPosition(), getIn(), getOut());
+        }
+    }
+
     if (finalMove && tid != -1) {
         refreshProducerFromBin(m_currentState);
     }
@@ -692,7 +720,9 @@ int ClipModel::getSubPlaylistIndex() const
 {
     return m_subPlaylistIndex;
 }
+
 void ClipModel::setSubPlaylistIndex(int index)
 {
     m_subPlaylistIndex = index;
 }
+

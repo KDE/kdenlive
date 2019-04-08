@@ -477,7 +477,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         checkRefresh = true;
     }
 
-    auto update_snaps = [old_in, old_out, checkRefresh, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, clipId, checkRefresh, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);

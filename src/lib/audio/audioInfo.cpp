@@ -18,7 +18,7 @@ AudioInfo::AudioInfo(const std::shared_ptr<Mlt::Producer> &producer)
 {
     // Since we already receive an MLT producer, we do not need to initialize MLT:
     // Mlt::Factory::init(nullptr);
-
+    m_list = QList<AudioStreamInfo *>();
     // Get the number of streams and add the information of each of them if it is an audio stream.
     int streams = producer->get_int("meta.media.nb_streams");
     for (int i = 0; i < streams; ++i) {
@@ -45,7 +45,7 @@ int AudioInfo::size() const
 AudioStreamInfo const *AudioInfo::info(int pos) const
 {
     Q_ASSERT(pos >= 0);
-    Q_ASSERT(pos <= m_list.size());
+    Q_ASSERT(pos < m_list.size());
 
     return m_list.at(pos);
 }

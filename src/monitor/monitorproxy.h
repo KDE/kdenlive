@@ -42,6 +42,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(bool clipHasAV READ clipHasAV NOTIFY clipHasAVChanged)
 
 public:
     MonitorProxy(GLWidget *parent);
@@ -53,6 +54,9 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
+    /** brief: Returns true if current clip in monitor has Audio and Video
+     * */
+    bool clipHasAV() const;
     QString markerComment() const;
     Q_INVOKABLE void requestSeekPosition(int pos);
     /** brief: Returns seek position or consumer position when not seeking
@@ -78,6 +82,7 @@ public:
     QPoint zone() const;
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
+    void setClipHasAV(bool hasAV);
 
 signals:
     void positionChanged();
@@ -95,6 +100,7 @@ signals:
     void seekPreviousKeyframe();
     void addRemoveKeyframe();
     void seekToKeyframe();
+    void clipHasAVChanged();
 
 private:
     GLWidget *q;
@@ -102,6 +108,7 @@ private:
     int m_seekPosition;
     int m_zoneIn;
     int m_zoneOut;
+    bool m_hasAV;
     QString m_markerComment;
 };
 

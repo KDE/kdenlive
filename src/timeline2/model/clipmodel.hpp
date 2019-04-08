@@ -35,6 +35,7 @@ class MarkerListModel;
 class TimelineModel;
 class TrackModel;
 class KeyframeModel;
+class ClipSnapModel;
 
 /* @brief This class represents a Clip object, as viewed by the backend.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -162,6 +163,8 @@ protected:
     bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
 
     void setCurrentTrackId(int tid, bool finalMove = true) override;
+    void setPosition(int pos) override;
+    void setInOut(int in, int out) override;
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
      */
@@ -200,6 +203,7 @@ protected:
     std::shared_ptr<Mlt::Producer> getProducer();
 
     std::shared_ptr<EffectStackModel> m_effectStack;
+    std::shared_ptr<ClipSnapModel> m_clipMarkerModel;
 
     QString m_binClipId; // This is the Id of the bin clip this clip corresponds to.
 

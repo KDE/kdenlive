@@ -614,6 +614,10 @@ void TimelineController::setOutPoint()
 void TimelineController::editMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+        return;
+    }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
@@ -622,6 +626,10 @@ void TimelineController::editMarker(int cid, int position)
 void TimelineController::addMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to add marker"), InformationMessage, 500);
+        return;
+    }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
@@ -630,6 +638,10 @@ void TimelineController::addMarker(int cid, int position)
 void TimelineController::addQuickMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to add marker"), InformationMessage, 500);
+        return;
+    }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
     CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
@@ -639,6 +651,10 @@ void TimelineController::addQuickMarker(int cid, int position)
 void TimelineController::deleteMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to remove marker"), InformationMessage, 500);
+        return;
+    }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->removeMarker(pos);

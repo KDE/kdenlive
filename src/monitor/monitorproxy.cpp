@@ -42,6 +42,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_seekPosition(-1)
     , m_zoneIn(0)
     , m_zoneOut(-1)
+    , m_hasAV(false)
 {
 }
 
@@ -278,4 +279,15 @@ void MonitorProxy::activateClipMonitor(bool isClipMonitor)
 QString MonitorProxy::toTimecode(int frames) const
 {
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
+}
+
+bool MonitorProxy::clipHasAV() const
+{
+    return m_hasAV;
+}
+
+void MonitorProxy::setClipHasAV(bool hasAV)
+{
+    m_hasAV = hasAV;
+    emit clipHasAVChanged();
 }
