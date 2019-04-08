@@ -243,7 +243,7 @@ QHash<int, QByteArray> MarkerListModel::roleNames() const
 void MarkerListModel::addSnapPoint(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<std::weak_ptr<SnapModel>> validSnapModels;
+    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
     for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
@@ -257,7 +257,7 @@ void MarkerListModel::addSnapPoint(GenTime pos)
 void MarkerListModel::removeSnapPoint(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
-    std::vector<std::weak_ptr<SnapModel>> validSnapModels;
+    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
     for (const auto &snapModel : m_registeredSnaps) {
         if (auto ptr = snapModel.lock()) {
             validSnapModels.push_back(snapModel);
@@ -326,13 +326,23 @@ QList<CommentedTime> MarkerListModel::getAllMarkers() const
     return markers;
 }
 
+std::vector<size_t> MarkerListModel::getSnapPoints() const
+{
+    READ_LOCK();
+    std::vector<size_t> markers;
+    for (const auto &marker : m_markerList) {
+        markers.push_back(marker.first.frames(pCore->getCurrentFps()));
+    }
+    return markers;
+}
+
 bool MarkerListModel::hasMarker(int frame) const
 {
     READ_LOCK();
     return m_markerList.count(GenTime(frame, pCore->getCurrentFps())) > 0;
 }
 
-void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel)
+void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel)
 {
     READ_LOCK();
     // make sure ptr is valid
@@ -342,8 +352,8 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapMode
 
         // we now add the already existing markers to the snap
         for (const auto &marker : m_markerList) {
-            GenTime pos = marker.first;
-            ptr->addPoint(pos.frames(pCore->getCurrentFps()));
+            qDebug()<<" *- *-* REGISTEING MARKER: "<<marker.first.frames(pCore->getCurrentFps());
+            ptr->addPoint(marker.first.frames(pCore->getCurrentFps()));
         }
     } else {
         qDebug() << "Error: added snapmodel is null";

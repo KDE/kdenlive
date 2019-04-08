@@ -23,6 +23,10 @@
 #include <climits>
 #include <cstdlib>
 
+
+SnapInterface::SnapInterface() = default;
+SnapInterface::~SnapInterface() = default;
+
 SnapModel::SnapModel() = default;
 
 void SnapModel::addPoint(int position)

@@ -25,21 +25,38 @@
 #include <map>
 #include <vector>
 
+/** @brief This is a base class for snap models (timeline, clips)
+    Implements only basic functions like add or remove snap points
+ */
+
+class SnapInterface
+{
+public:
+    SnapInterface();
+    virtual ~SnapInterface();
+    /* @brief Adds a snappoint at given position */
+    virtual void addPoint(int position) = 0;
+
+    /* @brief Removes a snappoint from given position */
+    virtual void removePoint(int position) = 0;
+};
+
+
 /** @brief This class represents the snap points of the timeline.
     Basically, one can add or remove snap points, and query the closest snap point to a given location
  *
  */
 
-class SnapModel
+class SnapModel : public virtual SnapInterface
 {
 public:
     SnapModel();
 
     /* @brief Adds a snappoint at given position */
-    void addPoint(int position);
+    void addPoint(int position) override;
 
     /* @brief Removes a snappoint from given position */
-    void removePoint(int position);
+    void removePoint(int position) override;
 
     /* @brief Retrieves closest point. Returns -1 if there is no snappoint available */
     int getClosestPoint(int position);

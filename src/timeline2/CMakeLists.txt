@@ -5,6 +5,7 @@ set(kdenlive_SRCS
   timeline2/model/compositionmodel.cpp
   timeline2/model/groupsmodel.cpp
   timeline2/model/snapmodel.cpp
+  timeline2/model/clipsnapmodel.cpp
   timeline2/model/timelinefunctions.cpp
   timeline2/model/timelineitemmodel.cpp
   timeline2/model/timelinemodel.cpp

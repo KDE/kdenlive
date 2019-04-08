@@ -35,7 +35,7 @@
 
 class ClipController;
 class DocUndoStack;
-class SnapModel;
+class SnapInterface;
 
 /* @brief This class is the model for a list of markers.
    A marker is defined by a time, a type (the color used to represent it) and a comment string.
@@ -97,6 +97,9 @@ public:
     /* @brief Returns all markers in model */
     QList<CommentedTime> getAllMarkers() const;
 
+    /* @brief Returns all markers positions in model */
+    std::vector<size_t> getSnapPoints() const;
+
     /* @brief Returns true if a marker exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
      */
@@ -108,7 +111,7 @@ public:
        The snap logic for clips is managed from the Timeline
        Note that no deregistration is necessary, the weak_ptr will be discarded as soon as it becomes invalid.
     */
-    void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel);
+    void registerSnapModel(const std::weak_ptr<SnapInterface> &snapModel);
 
     /* @brief Exports the model to json using format above */
     QString toJson() const;
@@ -172,7 +175,7 @@ private:
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
 
     std::map<GenTime, std::pair<QString, int>> m_markerList;
-    std::vector<std::weak_ptr<SnapModel>> m_registeredSnaps;
+    std::vector<std::weak_ptr<SnapInterface>> m_registeredSnaps;
 
 signals:
     void modelChanged();

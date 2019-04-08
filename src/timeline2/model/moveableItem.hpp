@@ -99,7 +99,7 @@ protected:
       This function is meant to be called by the trackmodel, not directly by the user.
       If you wish to actually move the item, use the requestMove slot.
     */
-    void setPosition(int position);
+    virtual void setPosition(int position);
     /* Updates the stored track id of the item
        This function is meant to be called by the timeline, not directly by the user.
        If you wish to actually change the track the item, use the slot in the timeline
