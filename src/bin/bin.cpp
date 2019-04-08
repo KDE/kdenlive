@@ -242,8 +242,8 @@ public:
                         QIcon vDrag = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
                         vDrag.paint(painter, m_videoDragRect, Qt::AlignLeft);
                     } else {
-                        m_audioDragRect = QRect();
-                        m_videoDragRect = QRect();
+                        //m_audioDragRect = QRect();
+                        //m_videoDragRect = QRect();
                     }
                 }
                 if (type == AbstractProjectItem::ClipItem) {
