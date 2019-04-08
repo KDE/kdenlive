@@ -1044,7 +1044,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             updateTimelineClips(updateRoles);
         }
     }
-    if (!passProperties.isEmpty()) {
+    if (!passProperties.isEmpty() && (!reload || refreshOnly)) {
         if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->updateTimelineProducers(m_binId, passProperties);
     }
 }
