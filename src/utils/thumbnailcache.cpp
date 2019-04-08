@@ -128,6 +128,7 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
     }
     QDir thumbFolder = getDir(&ok);
     if (ok && thumbFolder.exists(key)) {
+        m_storedOnDisk[binId].push_back(pos);
         return QImage(thumbFolder.absoluteFilePath(key));
     }
     return QImage();

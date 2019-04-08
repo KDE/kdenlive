@@ -93,5 +93,5 @@ protected:
     // the following maps keeps track of the positions that we store for each clip in volatile caches.
     // Note that we don't track deletions due to items dropped from the cache. So the maps can contain more items that are currently stored.
     std::unordered_map<QString, std::vector<int>> m_storedVolatile;
-    std::unordered_map<QString, std::vector<int>> m_storedOnDisk;
+    mutable std::unordered_map<QString, std::vector<int>> m_storedOnDisk;
 };
