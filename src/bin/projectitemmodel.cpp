@@ -137,6 +137,7 @@ bool ProjectItemModel::setData(const QModelIndex &index, const QVariant &value, 
 Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
 {
     /*return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;*/
+    READ_LOCK();
     if (!index.isValid()) {
         return Qt::ItemIsDropEnabled;
     }
@@ -168,6 +169,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 {
     Q_UNUSED(row)
     Q_UNUSED(column)
+    QWriteLocker locker(&m_lock);
     if (action == Qt::IgnoreAction) {
         return true;
     }
@@ -217,6 +219,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
 
 QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    READ_LOCK();
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         QVariant columnName;
         switch (section) {
@@ -240,6 +243,7 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
 
 int ProjectItemModel::columnCount(const QModelIndex &parent) const
 {
+    READ_LOCK();
     if (parent.isValid()) {
         return getBinItemByIndex(parent)->supportedDataCount();
     }
@@ -262,6 +266,7 @@ QStringList ProjectItemModel::mimeTypes() const
 
 QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
 {
+    READ_LOCK();
     // Mime data is a list of id's separated by ';'.
     // Clip ids are represented like:  2 (where 2 is the clip's id)
     // Clip zone ids are represented like:  2/10/200 (where 2 is the clip's id, 10 and 200 are in and out points)
@@ -312,6 +317,7 @@ QMimeData *ProjectItemModel::mimeData(const QModelIndexList &indices) const
 
 void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role)
 {
+    QWriteLocker locker(&m_lock);
     auto tItem = std::static_pointer_cast<TreeItem>(item);
     auto ptr = tItem->parentItem().lock();
     if (ptr) {
@@ -322,6 +328,7 @@ void ProjectItemModel::onItemUpdated(const std::shared_ptr<AbstractProjectItem> 
 
 void ProjectItemModel::onItemUpdated(const QString &binId, int role)
 {
+    QWriteLocker locker(&m_lock);
     std::shared_ptr<AbstractProjectItem> item = getItemByBinId(binId);
     if (item) {
         onItemUpdated(item, role);
@@ -329,6 +336,7 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
 }
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
 {
+    READ_LOCK();
     if (binId.contains(QLatin1Char('_'))) {
         return getClipByBinID(binId.section(QLatin1Char('_'), 0, 0));
     }
@@ -343,6 +351,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
 
 const QList<double> ProjectItemModel::getAudioLevelsByBinID(const QString &binId)
 {
+    READ_LOCK();
     if (binId.contains(QLatin1Char('_'))) {
         return getAudioLevelsByBinID(binId.section(QLatin1Char('_'), 0, 0));
     }
@@ -357,11 +366,13 @@ const QList<double> ProjectItemModel::getAudioLevelsByBinID(const QString &binId
 
 bool ProjectItemModel::hasClip(const QString &binId)
 {
+    READ_LOCK();
     return getClipByBinID(binId) != nullptr;
 }
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString &binId)
 {
+    READ_LOCK();
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::FolderItem && c->clipId() == binId) {
@@ -373,6 +384,7 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString 
 
 const QString ProjectItemModel::getFolderIdByName(const QString &folderName)
 {
+    READ_LOCK();
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::FolderItem && c->name() == folderName) {
@@ -384,6 +396,7 @@ const QString ProjectItemModel::getFolderIdByName(const QString &folderName)
 
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getItemByBinId(const QString &binId)
 {
+    READ_LOCK();
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->clipId() == binId) {
@@ -395,11 +408,13 @@ std::shared_ptr<AbstractProjectItem> ProjectItemModel::getItemByBinId(const QStr
 
 void ProjectItemModel::setBinEffectsEnabled(bool enabled)
 {
+    QWriteLocker locker(&m_lock);
     return std::static_pointer_cast<AbstractProjectItem>(rootItem)->setBinEffectsEnabled(enabled);
 }
 
 QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) const
 {
+    READ_LOCK();
     QStringList noInfo;
     noInfo << QString::number(-1);
     noInfo << QString();
@@ -420,6 +435,7 @@ QStringList ProjectItemModel::getEnclosingFolderInfo(const QModelIndex &index) c
 
 void ProjectItemModel::clean()
 {
+    QWriteLocker locker(&m_lock);
     std::vector<std::shared_ptr<AbstractProjectItem>> toDelete;
     toDelete.reserve((size_t)rootItem->childCount());
     for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -437,11 +453,13 @@ void ProjectItemModel::clean()
 
 std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
 {
+    READ_LOCK();
     return std::static_pointer_cast<ProjectFolder>(rootItem);
 }
 
 void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     loadSubClips(id, dataMap, undo, redo);
@@ -449,6 +467,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
 
 void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
     if (!clip) {
         return;
@@ -475,6 +494,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QStri
 
 std::shared_ptr<AbstractProjectItem> ProjectItemModel::getBinItemByIndex(const QModelIndex &index) const
 {
+    READ_LOCK();
     return std::static_pointer_cast<AbstractProjectItem>(getItemById((int)index.internalId()));
 }
 
@@ -498,6 +518,7 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
 
 void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 {
+    QWriteLocker locker(&m_lock);
     auto clip = std::static_pointer_cast<AbstractProjectItem>(item);
     m_binPlaylist->manageBinItemInsertion(clip);
     AbstractTreeModel::registerItem(item);
@@ -508,6 +529,7 @@ void ProjectItemModel::registerItem(const std::shared_ptr<TreeItem> &item)
 }
 void ProjectItemModel::deregisterItem(int id, TreeItem *item)
 {
+    QWriteLocker locker(&m_lock);
     auto clip = static_cast<AbstractProjectItem *>(item);
     m_binPlaylist->manageBinItemDeletion(clip);
     // TODO : here, we should suspend jobs belonging to the item we delete. They can be restarted if the item is reinserted by undo
@@ -602,6 +624,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
 
 bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, const QString &undoText)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestAddBinClip(id, description, parentId, undo, redo);
@@ -656,6 +679,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
 }
 bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const QString &zoneName, const QString &parentId)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestAddBinSubClip(id, in, out, zoneName, parentId, undo, redo);
@@ -696,6 +720,7 @@ bool ProjectItemModel::requestRenameFolder(const std::shared_ptr<AbstractProject
 
 bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name)
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestRenameFolder(std::move(folder), name, undo, redo);
@@ -707,6 +732,7 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
 
 bool ProjectItemModel::requestCleanup()
 {
+    QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = true;
@@ -734,6 +760,7 @@ bool ProjectItemModel::requestCleanup()
 
 std::vector<QString> ProjectItemModel::getAllClipIds() const
 {
+    READ_LOCK();
     std::vector<QString> result;
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
@@ -746,6 +773,7 @@ std::vector<QString> ProjectItemModel::getAllClipIds() const
 
 QStringList ProjectItemModel::getClipByUrl(const QFileInfo &url) const
 {
+    READ_LOCK();
     QStringList result;
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
@@ -760,6 +788,7 @@ QStringList ProjectItemModel::getClipByUrl(const QFileInfo &url) const
 
 bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 {
+    QWriteLocker locker(&m_lock);
     // At this point, we expect the folders properties to have a name of the form "x.y" where x is the id of the parent folder and y the id of the child.
     // Note that for root folder, x = -1
     // The value of the property is the name of the child folder
@@ -825,6 +854,7 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 
 bool ProjectItemModel::isIdFree(const QString &id) const
 {
+    READ_LOCK();
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->clipId() == id) {
@@ -836,6 +866,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
 
 void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp)
 {
+    QWriteLocker locker(&m_lock);
     clean();
     Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
     qDebug() << "Loading bin playlist...";
@@ -919,11 +950,13 @@ void ProjectItemModel::saveProperty(const QString &name, const QString &value)
 
 QMap<QString, QString> ProjectItemModel::getProxies(const QString &root)
 {
+    READ_LOCK();
     return m_binPlaylist->getProxies(root);
 }
 
 void ProjectItemModel::reloadClip(const QString &binId)
 {
+    QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
         clip->reloadProducer();
@@ -932,6 +965,7 @@ void ProjectItemModel::reloadClip(const QString &binId)
 
 void ProjectItemModel::setClipWaiting(const QString &binId)
 {
+    QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
         clip->setClipStatus(AbstractProjectItem::StatusWaiting);
@@ -940,6 +974,7 @@ void ProjectItemModel::setClipWaiting(const QString &binId)
 
 void ProjectItemModel::setClipInvalid(const QString &binId)
 {
+    QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
         clip->setClipStatus(AbstractProjectItem::StatusMissing);
@@ -949,6 +984,7 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
 
 void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipItem)
 {
+    QWriteLocker locker(&m_lock);
     if (clipItem->clipType() == ClipType::AV || clipItem->clipType() == ClipType::Audio || clipItem->clipType() == ClipType::Image ||
         clipItem->clipType() == ClipType::Video || clipItem->clipType() == ClipType::Playlist || clipItem->clipType() == ClipType::TextTemplate) {
         m_fileWatcher->removeFile(clipItem->clipId());
@@ -958,10 +994,12 @@ void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipIte
 
 void ProjectItemModel::setDragType(PlaylistState::ClipState type)
 {
+    QWriteLocker locker(&m_lock);
     m_dragType = type;
 }
 
 int ProjectItemModel::clipsCount() const
 {
+    READ_LOCK();
     return m_binPlaylist->count();
 }
