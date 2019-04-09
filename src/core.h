@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "definitions.h"
 #include "kdenlivecore_export.h"
 #include "undohelper.hpp"
+#include <QMutex>
 #include <QObject>
 #include <QTabWidget>
 #include <QUrl>
@@ -216,6 +217,8 @@ private:
     void checkProfileValidity();
     std::unique_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
+
+    QMutex m_thumbProfileMutex;
 
 public slots:
     void triggerAction(const QString &name);
