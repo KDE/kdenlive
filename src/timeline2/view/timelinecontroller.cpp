@@ -1466,6 +1466,55 @@ void TimelineController::extract(int clipId)
     TimelineFunctions::extractZone(m_model, QVector<int>() << track, zone, false);
 }
 
+bool TimelineController::insertClipZone(const QString &binId, int tid, int position)
+{
+    QStringList binIdData = binId.split(QLatin1Char('/'));
+    int in = 0;
+    int out = -1;
+    if (binIdData.size() >= 3) {
+        in = binIdData.at(1).toInt();
+        out = binIdData.at(2).toInt();
+    }
+
+    QString bid = binIdData.first();
+    // dropType indicates if we want a normal drop (disabled), audio only or video only drop
+    PlaylistState::ClipState dropType = PlaylistState::Disabled;
+    if (bid.startsWith(QLatin1Char('A'))) {
+        dropType = PlaylistState::AudioOnly;
+        bid = bid.remove(0, 1);
+    } else if (bid.startsWith(QLatin1Char('V'))) {
+        dropType = PlaylistState::VideoOnly;
+        bid = bid.remove(0, 1);
+    }
+    int aTrack = -1;
+    int vTrack = -1;
+    std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(bid);
+    if (out <= in) {
+        out = clip->frameDuration() - 1;
+    }
+    if (dropType == PlaylistState::VideoOnly) {
+        vTrack = tid;
+    } else if (dropType == PlaylistState::AudioOnly) {
+        aTrack = tid;
+    } else {
+        if (m_model->getTrackById_const(tid)->isAudioTrack()) {
+            aTrack = tid;
+            vTrack = clip->hasAudioAndVideo() ? m_model->getMirrorVideoTrackId(aTrack) : -1;
+        } else {
+            vTrack = tid;
+            aTrack = clip->hasAudioAndVideo() ? m_model->getMirrorAudioTrackId(vTrack) : -1;
+        }
+    }
+    QList<int> target_tracks;
+    if (vTrack > -1) {
+        target_tracks << vTrack;
+    }
+    if (aTrack > -1) {
+        target_tracks << aTrack;
+    }
+    return TimelineFunctions::insertZone(m_model, target_tracks, binId, position, QPoint(in, out), m_model->m_editMode == TimelineMode::OverwriteEdit);
+}
+
 int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
 {
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);

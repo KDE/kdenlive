@@ -325,6 +325,8 @@ Rectangle {
             return id
         }
 
+        property int fakeFrame: -1
+        property int fakeTrack: -1
         width: root.width - headerWidth
         height: root.height - ruler.height
         y: ruler.height
@@ -341,7 +343,14 @@ Rectangle {
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
                     console.log('dropped data: ', clipBeingDroppedData)
-                    clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
+                    if (controller.normalEdit()) {
+                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
+                    } else {
+                        // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
+                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
+                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                        fakeTrack = timeline.activeTrack
+                    }
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
                     drag.accepted = false
@@ -360,12 +369,21 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                    frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                     if (clipBeingDroppedId >= 0){
-                        controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
+                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                        fakeTrack = timeline.activeTrack
+                        //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                     } else {
-                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                        frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
+                        if (controller.normalEdit()) {
+                            clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                        } else {
+                            // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
+                            clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
+                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                            fakeTrack = timeline.activeTrack
+                        }
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                     }
                 }
@@ -375,6 +393,10 @@ Rectangle {
             if (clipBeingDroppedId != -1) {
                 var frame = controller.getClipPosition(clipBeingDroppedId)
                 var track = controller.getClipTrackId(clipBeingDroppedId)
+                if (!controller.normalEdit()) {
+                    frame = fakeFrame
+                    track = fakeTrack
+                }
                 /* We simulate insertion at the final position so that stored undo has correct value
                  * NOTE: even if dropping multiple clips, requesting the deletion of the first one is
                  * enough as internally it will request the group deletion
@@ -383,10 +405,21 @@ Rectangle {
 
                 var binIds = clipBeingDroppedData.split(";")
                 if (binIds.length == 1) {
-                    timeline.insertClip(track, frame, clipBeingDroppedData, true, true, false)
+                    if (controller.normalEdit()) {
+                        timeline.insertClip(track, frame, clipBeingDroppedData, true, true, false)
+                    } else {
+                        timeline.insertClipZone(clipBeingDroppedData, track, frame)
+                    }
                 } else {
-                    timeline.insertClips(track, frame, binIds, true, true)
+                    if (controller.normalEdit()) {
+                        timeline.insertClips(track, frame, binIds, true, true)
+                    } else {
+                        // TODO
+                        console.log('multiple clips insert/overwrite not supported yet')
+                    }
                 }
+                fakeTrack = -1
+                fakeFrame = -1
             }
             clearDropData()
         }
@@ -1129,7 +1162,7 @@ Rectangle {
                                                 controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                             } else {
                                                 // Fake move, only process final move
-                                                timeline.endFakeMove(dragProxy.draggedItem, dragFrame , true, true, true)
+                                                timeline.endFakeMove(dragProxy.draggedItem, dragFrame, true, true, true)
                                             }
                                         }
                                         dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor

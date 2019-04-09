@@ -421,6 +421,7 @@ public:
     /** @brief Insert clip monitor into timeline
      *  @returns the zone end position or -1 on fail
      */
+    Q_INVOKABLE bool insertClipZone(const QString &binId, int tid, int pos);
     int insertZone(const QString &binId, QPoint zone, bool overwrite);
     void updateClip(int clipId, const QVector<int> &roles);
     void showClipKeyframes(int clipId, bool value);
