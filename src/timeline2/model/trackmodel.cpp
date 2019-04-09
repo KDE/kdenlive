@@ -207,7 +207,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             };
         }
     }
-
     return []() { return false; };
 }
 

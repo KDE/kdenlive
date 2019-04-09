@@ -295,7 +295,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
-    int trackId = trackIds.takeFirst();
+    int trackId = trackIds.first();
     if (overwrite) {
         // Cut all tracks
         auto it = timeline->m_allTracks.cbegin();
@@ -307,6 +307,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
             }
             result = result && TimelineFunctions::liftZone(timeline, target_track, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
             if (!result) {
+                qDebug()<<"// LIFTING ZONE FAILED\n";
                 break;
             }
             ++it;
@@ -338,6 +339,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
     }
     if (!result) {
+        qDebug()<<"// REQUESTING SPACE FAILED";
         undo();
     }
     return result;

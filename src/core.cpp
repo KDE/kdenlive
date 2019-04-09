@@ -57,6 +57,7 @@ void Core::prepareShutdown()
 
 Core::~Core()
 {
+    qDebug() << "deleting core";
     if (m_monitorManager) {
         delete m_monitorManager;
     }
@@ -650,6 +651,7 @@ void Core::showClipKeyframes(ObjectId id, bool enable)
 
 Mlt::Profile *Core::thumbProfile()
 {
+    QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
         m_thumbProfile->set_height(200);
