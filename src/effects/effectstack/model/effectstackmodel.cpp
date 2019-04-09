@@ -975,7 +975,7 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
     if (auto ptr = m_masterService.lock()) {
         ix = ptr->get_int("kdenlive:activeeffect");
     }
-    if (ix < 0) {
+    if (ix < 0 || ix >= rootItem->childCount()) {
         return nullptr;
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
