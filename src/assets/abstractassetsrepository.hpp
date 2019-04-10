@@ -71,8 +71,8 @@ protected:
         AssetType type;
     };
 
-    // Reads the blacklist file and populate appropriate structure
-    void parseBlackList(const QString &path);
+    // Reads the asset list from file and populates appropriate structure
+    void parseAssetList(const QString &filePath, QSet<QString> &destination);
 
     void init();
     virtual Mlt::Properties *retrieveListFromMlt() const = 0;
@@ -106,9 +106,14 @@ protected:
     /* @brief Returns the path to the assets' blacklist*/
     virtual QString assetBlackListPath() const = 0;
 
+    /* @brief Returns the path to the assets' preferred list*/
+    virtual QString assetPreferredListPath() const = 0;
+
     std::unordered_map<QString, Info> m_assets;
 
     QSet<QString> m_blacklist;
+
+    QSet<QString> m_preferred_list;
 };
 
 #include "abstractassetsrepository.ipp"

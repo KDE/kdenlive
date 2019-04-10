@@ -35,7 +35,7 @@
  * Note that this class is a Singleton
  */
 
-enum class EffectType { Video, Audio, Custom, Favorites, Hidden };
+enum class EffectType { Preferred, Video, Audio, Custom, Favorites, Hidden };
 Q_DECLARE_METATYPE(EffectType)
 
 class EffectsRepository : public AbstractAssetsRepository<EffectType>
@@ -51,6 +51,9 @@ public:
     bool hasInternalEffect(const QString &effectId) const;
     QPair<QString, QString> reloadCustom(const QString &path);
 
+    /* @brief Returns whether this belongs to main effects */
+    bool isPreferred(const QString &effectId) const;
+
 protected:
     // Constructor is protected because class is a Singleton
     EffectsRepository();
@@ -65,6 +68,9 @@ protected:
 
     /* @brief Returns the path to the effects' blacklist*/
     QString assetBlackListPath() const override;
+
+    /* @brief Returns the path to the effects' preferred list*/
+    QString assetPreferredListPath() const override;
 
     QStringList assetDirs() const override;
 

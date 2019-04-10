@@ -1526,7 +1526,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     if (clip->hasVideo()) {
         vTrack = videoTarget();
     }
-    if (aTrack == -1 && vTrack == -1) {
+    /*if (aTrack == -1 && vTrack == -1) {
         // No target tracks defined, use active track
         if (m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
             aTrack = m_activeTrack;
@@ -1535,7 +1535,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
             vTrack = m_activeTrack;
             aTrack = m_model->getMirrorAudioTrackId(vTrack);
         }
-    }
+    }*/
     int insertPoint;
     QPoint sourceZone;
     if (useRuler() && m_zone != QPoint()) {
@@ -2070,7 +2070,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
             // There is a clip, cut
             res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, false);
     }
     res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
@@ -2184,7 +2184,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 res = res && TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
             }
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo, false);
     }
     for (int item : sorted_clips) {
         if (m_model->isClip(item)) {

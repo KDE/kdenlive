@@ -47,6 +47,8 @@ EffectListWidget::EffectListWidget(QWidget *parent)
     m_assetIconProvider = new AssetIconProvider(true);
 
     setup();
+    // Activate "Main effects" filter
+    setFilterType("");
 }
 
 void EffectListWidget::updateFavorite(const QModelIndex &index)
@@ -73,7 +75,7 @@ void EffectListWidget::setFilterType(const QString &type)
     } else if (type == "favorites") {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Favorites);
     } else {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(false, EffectType::Video);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Preferred);
     }
 }
 

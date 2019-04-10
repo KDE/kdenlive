@@ -2426,10 +2426,11 @@ void MainWindow::slotInsertClipOverwrite()
     }
     int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
     if (pos > 0) {
+        Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         m_projectMonitor->refreshMonitorIfActive(true);
         getCurrentTimeline()->controller()->setPosition(pos);
-        pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+        pCore->monitorManager()->activateMonitor(activeMonitor);
     }
 }
 
@@ -2442,10 +2443,11 @@ void MainWindow::slotInsertClipInsert()
     }
     int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
     if (pos > 0) {
+        Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         m_projectMonitor->refreshMonitorIfActive(true);
         getCurrentTimeline()->controller()->setPosition(pos);
-        pCore->monitorManager()->activateMonitor(Kdenlive::ClipMonitor);
+        pCore->monitorManager()->activateMonitor(activeMonitor);
     }
 }
 

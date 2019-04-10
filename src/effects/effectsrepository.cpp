@@ -158,6 +158,16 @@ QString EffectsRepository::assetBlackListPath() const
     return QStringLiteral(":data/blacklisted_effects.txt");
 }
 
+QString EffectsRepository::assetPreferredListPath() const
+{
+    return QStringLiteral(":data/preferred_effects.txt");
+}
+
+bool EffectsRepository::isPreferred(const QString &effectId) const
+{
+    return m_preferred_list.contains(effectId);
+}
+
 std::unique_ptr<Mlt::Filter> EffectsRepository::getEffect(const QString &effectId) const
 {
     Q_ASSERT(exists(effectId));
