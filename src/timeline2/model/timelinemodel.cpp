@@ -3015,11 +3015,18 @@ void TimelineModel::requestRemoveFromSelection(int itemId)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId);
-    std::unordered_set<int> selection = getCurrentSelection();
-    if (selection.count(itemId) > 0) {
-        selection.erase(itemId);
-        requestSetSelection(selection);
+    std::unordered_set<int> all_items = {itemId};
+    int parentGroup = m_groups->getDirectAncestor(itemId);
+    if (parentGroup > -1 && m_groups->getType(parentGroup) != GroupType::Selection) {
+        all_items = m_groups->getLeaves(parentGroup);
     }
+    std::unordered_set<int> selection = getCurrentSelection();
+    for (int current_itemId : all_items) {
+        if (selection.count(current_itemId) > 0) {
+            selection.erase(current_itemId);
+        }
+    }
+    requestSetSelection(selection);
 }
 
 bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
