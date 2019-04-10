@@ -295,7 +295,6 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
-    int trackId = trackIds.first();
     if (overwrite) {
         // Cut all tracks
         auto it = timeline->m_allTracks.cbegin();
@@ -331,9 +330,11 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     }
     if (result) {
-        int newId = -1;
-        QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
-        result = timeline->requestClipInsertion(binClipId, trackId, insertFrame, newId, true, true, true, undo, redo);
+        if (!trackIds.isEmpty()) {
+            int newId = -1;
+            QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+            result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, true, undo, redo);
+        }
         if (result) {
             pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
         }
@@ -376,8 +377,18 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
 bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
 {
     Q_UNUSED(trackId)
-
-    std::unordered_set<int> clips = timeline->getItemsInRange(-1, zone.y() - 1, -1, true);
+    
+    std::unordered_set<int> clips;
+    auto it = timeline->m_allTracks.cbegin();
+    while (it != timeline->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (timeline->m_videoTarget == target_track || timeline->m_audioTarget == target_track || timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.y() - 1, -1, true);
+            clips.insert(subs.begin(), subs.end());
+        }
+        ++it;
+    }
+    
     bool result = false;
     if (!clips.empty()) {
         int clipId = *clips.begin();
@@ -401,12 +412,27 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     return result;
 }
 
-bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, bool followTargets)
 {
     timeline->requestClearSelection();
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    std::unordered_set<int> items = timeline->getItemsInRange(-1, zone.x(), -1, true);
+    std::unordered_set<int> items;
+    if (!followTargets) {
+        // Select clips in all tracks
+        items = timeline->getItemsInRange(-1, zone.x(), -1, true);
+    } else {
+        // Select clips in target and active tracks only
+        auto it = timeline->m_allTracks.cbegin();
+        while (it != timeline->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (timeline->m_videoTarget == target_track || timeline->m_audioTarget == target_track || timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+                std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.x(), -1, true);
+                items.insert(subs.begin(), subs.end());
+            }
+            ++it;
+        }
+    }
     if (items.empty()) {
         return true;
     }

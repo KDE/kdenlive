@@ -88,7 +88,7 @@ struct TimelineFunctions
     /** @brief This function will insert a blank space starting at zone.x, and ending at zone.y. This will affect all the tracks
         @returns true on success, false otherwise
     */
-    static bool requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo);
+    static bool requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, bool followTargets = true);
     static bool insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
                            bool overwrite);
 
