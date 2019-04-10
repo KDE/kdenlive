@@ -50,7 +50,7 @@ public:
     virtual void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) = 0;
 
     // for convenience, we store the column of each data field
-    static int nameCol, idCol, favCol, typeCol;
+    static int nameCol, idCol, favCol, typeCol, preferredCol;
 
 protected:
 };

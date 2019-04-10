@@ -138,6 +138,10 @@ All effects with a custom XML GUI need to be blacklisted.
 ==========
 
 ==========
+Effects can be added to "Main effects" list in kdenlive/data/preferred_effects.txt
+==========
+
+==========
 Effects can be assigned to an effect category in kdenlive/data/kdenliveeffectscategory.rc.
 ==========
 

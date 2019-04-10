@@ -43,7 +43,10 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 #endif
 
     // Parse effects blacklist
-    parseBlackList(assetBlackListPath());
+    parseAssetList(assetBlackListPath(), m_blacklist);
+
+    // Parse preferred effects' list
+    parseAssetList(assetPreferredListPath(), m_preferred_list);
 
     // Retrieve the list of MLT's available assets.
     QScopedPointer<Mlt::Properties> assets(retrieveListFromMlt());
@@ -108,19 +111,19 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     }
 }
 
-template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseBlackList(const QString &path)
+template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAssetList(const QString &filePath, QSet<QString> &destination)
 {
-    QFile blacklist_file(path);
-    if (blacklist_file.open(QIODevice::ReadOnly)) {
-        QTextStream stream(&blacklist_file);
+    QFile assetFile(filePath);
+    if (assetFile.open(QIODevice::ReadOnly)) {
+        QTextStream stream(&assetFile);
         QString line;
         while (stream.readLineInto(&line)) {
             line = line.simplified();
             if (!line.isEmpty() && !line.startsWith('#')) {
-                m_blacklist.insert(line);
+                destination.insert(line);
             }
         }
-        blacklist_file.close();
+        assetFile.close();
     }
 }
 

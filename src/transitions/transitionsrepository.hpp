@@ -71,6 +71,9 @@ protected:
     /* @brief Returns the path to the transitions' blacklist*/
     QString assetBlackListPath() const override;
 
+    /* @brief Returns the path to the effects' preferred list*/
+    QString assetPreferredListPath() const override;
+
     void parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res) override;
 
     /* @brief Returns the metadata associated with the given asset*/
