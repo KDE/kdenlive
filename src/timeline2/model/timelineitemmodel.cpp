@@ -224,6 +224,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[CanBeAudioRole] = "canBeAudio";
     roles[CanBeVideoRole] = "canBeVideo";
     roles[ReloadThumbRole] = "reloadThumb";
+    roles[PositionOffsetRole] = "positionOffset";
     roles[ThumbsFormatRole] = "thumbsFormat";
     roles[AudioRecordRole] = "audioRecord";
     roles[TrackActiveRole] = "trackActive";
@@ -333,6 +334,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeOut();
         case ReloadThumbRole:
             return clip->forceThumbReload;
+        case PositionOffsetRole:
+            return clip->getOffset();
         case SpeedRole:
             return clip->getSpeed();
         case GrabbedRole:

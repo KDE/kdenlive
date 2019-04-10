@@ -106,6 +106,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "positionOffset"
+                    value: model.positionOffset
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                }
+                Binding {
+                    target: loader.item
                     property: "effectNames"
                     value: model.effectNames
                     when: loader.status == Loader.Ready && isClip(model.clipType)
