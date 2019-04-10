@@ -80,7 +80,8 @@ Rectangle {
             ToolButton {
                 id: showAll
                 iconName: "show-all-effects"
-                checkable:true
+                checkable: true
+                checked: true
                 exclusiveGroup: filterGroup
                 tooltip: i18n('Main %1', assetType())
                 onClicked: {

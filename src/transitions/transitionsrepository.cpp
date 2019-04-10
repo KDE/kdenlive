@@ -146,6 +146,13 @@ QString TransitionsRepository::assetBlackListPath() const
     return QStringLiteral(":data/blacklisted_transitions.txt");
 }
 
+QString TransitionsRepository::assetPreferredListPath() const
+{
+    // Transitions do not have "Main" filter implemented, so we return an empty
+    // string instead of path to a file with that list
+    return QStringLiteral("");
+}
+
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const
 {
     Q_ASSERT(exists(transitionId));
