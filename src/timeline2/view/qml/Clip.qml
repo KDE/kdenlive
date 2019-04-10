@@ -49,6 +49,7 @@ Rectangle {
     property int fadeIn: 0
     property int fadeOut: 0
     property int binId: 0
+    property int positionOffset: 0
     property var parentTrack
     property int trackIndex //Index in track repeater
     property int clipId     //Id of the clip in the model
@@ -82,6 +83,11 @@ Rectangle {
             clipRoot.forceActiveFocus();
             mouseArea.focus = true
         }
+    }
+
+    function clearAndMove(offset) {
+        controller.requestClearSelection()
+        controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true);
     }
 
     onInPointChanged: {
@@ -327,6 +333,52 @@ Rectangle {
             }
         }
         Rectangle {
+            // Offset info
+            id: offsetRect
+            color: 'darkgreen'
+            width: offsetLabel.width + radius
+            height: offsetLabel.height
+            radius: height/3
+            x: labelRect.width + 4
+            visible: labelRect.visible && positionOffset != 0
+            MouseArea {
+                id: offsetArea
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                anchors.fill: parent
+                onClicked: {
+                    clearAndMove(positionOffset)
+                }
+                ToolTip {
+                    visible: offsetArea.containsMouse
+                    font.pixelSize: root.baseUnit
+                    delay: 1000
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: i18n('Offset') + (positionOffset < 0 ? ( ': -' + timeline.timecode(-positionOffset)) : ': ' + timeline.timecode(positionOffset))
+                    }
+                }
+                Text {
+                    id: offsetLabel
+                    text: positionOffset
+                    font.pixelSize: root.baseUnit * 1.2
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                        topMargin: 1
+                        leftMargin: 1
+                    }
+                    color: 'white'
+                    style: Text.Outline
+                    styleColor: 'black'
+                }
+            }
+        }
+        Rectangle {
             // effects
             id: effectsRect
             color: '#555555'
@@ -486,7 +538,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    text: 'Click to add composition'
+                    text: i18n('Click to add composition')
                 }
             }
         }
@@ -536,7 +588,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    text: 'Click to add composition'
+                    text: i18n('Click to add composition')
                 }
             }
         }

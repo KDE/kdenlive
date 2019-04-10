@@ -195,6 +195,12 @@ protected:
     bool isAudioOnly() const;
     double getSpeed() const;
 
+    /** @brief Returns the clip offset (calculated in the model between 2 clips from same bin clip */
+    void setOffset(int offset);
+    /** @brief Clears the clip offset (calculated in the model between 2 clips from same bin clip */
+    void clearOffset();
+    int getOffset() const;
+
     /*@brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
 
@@ -220,6 +226,8 @@ protected:
     // Fake track id, used when dragging in insert/overwrite mode
     int m_fakeTrack;
     int m_fakePosition;
+    // Temporary val to store offset between two clips with same bin id.
+    int m_positionOffset;
 
     int m_subPlaylistIndex; // Tracks have two sub playlists to enable same track transitions, we store in which one this clip is.
 };

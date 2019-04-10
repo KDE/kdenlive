@@ -62,6 +62,8 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     }
     m_sceneType = type;
     QQuickItem *root = nullptr;
+    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
+    m_view->rootContext()->setContextProperty("fixedFont", ft);
     switch (type) {
     case MonitorSceneGeometry:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
@@ -117,8 +119,6 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     if (root && duration > 0) {
         root->setProperty("duration", duration);
     }
-    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    m_view->rootContext()->setContextProperty("fixedFont", ft);
 }
 
 void QmlManager::effectRectChanged()

@@ -130,7 +130,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
     m_producer = m_blackClip;
-
+    rootContext()->setContextProperty("markersModel", 0);
     if (!initGPUAccel()) {
         disableGPUAccel();
     }
@@ -956,6 +956,8 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
             removeAudioOverlay();
         }
         m_producer = m_blackClip;
+        // Reset markersModel
+        rootContext()->setContextProperty("markersModel", 0);
     }
     // redundant check. postcondition of above is m_producer != null
     if (m_producer) {

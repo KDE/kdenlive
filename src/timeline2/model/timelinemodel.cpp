@@ -2962,6 +2962,13 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
     }
     if (isGroup(m_currentSelection)) {
         if (m_groups->getType(m_currentSelection) == GroupType::Selection) {
+            // Reset offset display on clips
+            std::unordered_set<int> items = getCurrentSelection();
+            for (auto &id : items) {
+                if (isClip(id)) {
+                    m_allClips[id]->clearOffset();
+                }
+            }
             m_groups->destructGroupItem(m_currentSelection);
         }
     } else {
@@ -3047,6 +3054,34 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
     } else {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
+        if (ids.size() == 2) {
+            // Check if we selected 2 clips from the same master
+            QList<int> pairIds;
+            for(auto &id : roots) {
+                if (isClip(id)) {
+                    pairIds << id;
+                }
+            }
+            if (pairIds.size() == 2 && getClipBinId(pairIds.at(0)) == getClipBinId(pairIds.at(1))) {
+                // Check if they have same bin id
+                // Both clips have same bin ID, display offset
+                int pos1 = getClipPosition(pairIds.at(0));
+                int pos2 = getClipPosition(pairIds.at(1));
+                if (pos2 > pos1) {
+                    int offset = pos2 - pos1 - getClipIn(pairIds.at(1)) - getClipIn(pairIds.at(0));
+                    if (offset != 0) {
+                        m_allClips[pairIds.at(1)]->setOffset(offset);
+                        m_allClips[pairIds.at(0)]->setOffset(-offset);
+                    }
+                } else {
+                    int offset = pos1 - pos2 - getClipIn(pairIds.at(0)) - getClipIn(pairIds.at(1));
+                    if (offset != 0) {
+                        m_allClips[pairIds.at(0)]->setOffset(offset);
+                        m_allClips[pairIds.at(1)]->setOffset(-offset);
+                    }
+                }
+            }
+        }
         result = (m_currentSelection = m_groups->groupItems(ids, undo, redo, GroupType::Selection)) >= 0;
         Q_ASSERT(m_currentSelection >= 0);
     }

@@ -44,6 +44,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , m_currentState(state)
     , m_speed(speed)
     , m_fakeTrack(-1)
+    , m_positionOffset(0)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -726,3 +727,23 @@ void ClipModel::setSubPlaylistIndex(int index)
     m_subPlaylistIndex = index;
 }
 
+void ClipModel::setOffset(int offset)
+{
+    m_positionOffset = offset;
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::PositionOffsetRole});
+    }
+}
+
+void ClipModel::clearOffset()
+{
+    if (m_positionOffset != 0) {
+        setOffset(0);
+    }
+}
+
+int ClipModel::getOffset() const
+{
+    return m_positionOffset;
+}
