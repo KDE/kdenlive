@@ -1353,7 +1353,6 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
     }
     m_controller = controller;
-    loadQmlScene(MonitorSceneDefault);
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
@@ -1367,6 +1366,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             return;
         }
         m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), controller->getMarkerModel());
+        loadQmlScene(MonitorSceneDefault);
         m_timePos->setRange(0, (int)m_controller->frameDuration());
         updateMarkers();
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
@@ -1389,6 +1389,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setClipHasAV(controller->hasAudioAndVideo());
         // hasEffects =  controller->hasEffects();
     } else {
+        loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive());
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
