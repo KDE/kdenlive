@@ -134,8 +134,8 @@ void AssetParameterModel::prepareKeyframes()
     if (m_keyframes) return;
     int ix = 0;
     for (const auto &name : m_rows) {
-        if (m_params[name].type == ParamType::KeyframeParam || m_params[name].type == ParamType::AnimatedRect ||
-            m_params[name].type == ParamType::Roto_spline) {
+        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
+            m_params.at(name).type == ParamType::Roto_spline) {
             addKeyframeParam(index(ix, 0));
         }
         ix++;
@@ -144,6 +144,20 @@ void AssetParameterModel::prepareKeyframes()
         // Make sure we have keyframes at same position for all parameters
         m_keyframes->checkConsistency();
     }
+}
+
+QStringList AssetParameterModel::getKeyframableParameters() const
+{
+    QStringList paramNames;
+    int ix = 0;
+    for (const auto &name : m_rows) {
+        if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect) {
+            //addKeyframeParam(index(ix, 0));
+            paramNames << name;
+        }
+        ix++;
+    }
+    return paramNames;
 }
 
 void AssetParameterModel::setParameter(const QString &name, int value, bool update)

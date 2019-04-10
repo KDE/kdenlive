@@ -1158,6 +1158,30 @@ std::shared_ptr<Mlt::Properties> KeyframeModel::getAnimation(std::shared_ptr<Ass
     return mlt_prop;
 }
 
+const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetParameterModel> model, const QString &animData, int offset)
+{
+    Mlt::Properties mlt_prop;
+    model->passProperties(mlt_prop);
+    mlt_prop.set("key", animData.toUtf8().constData());
+    // This is a fake query to force the animation to be parsed
+    (void)mlt_prop.anim_get_rect("key", 0);
+    Mlt::Animation anim = mlt_prop.get_animation("key");
+    if (offset > 0) {
+        for (int i = anim.key_count() - 1; i >=0 ; --i) {
+            int pos = anim.key_get_frame(i) + offset;
+            anim.key_set_frame(i, pos);
+        }
+    } else {
+        for (int i = 0; i < anim.key_count(); ++i) {
+            int pos = anim.key_get_frame(i) + offset;
+            if (pos > 0) {
+                anim.key_set_frame(i, pos);
+            }
+        }
+    }
+    return qstrdup(anim.serialize_cut());
+}
+
 QList<GenTime> KeyframeModel::getKeyframePos() const
 {
     QList<GenTime> all_pos;

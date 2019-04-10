@@ -1834,9 +1834,12 @@ void TimelineController::pasteEffects(int targetId)
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     QDomElement effects = clips.at(0).firstChildElement(QStringLiteral("effects"));
+    effects.setAttribute(QStringLiteral("parentIn"), clips.at(0).toElement().attribute(QStringLiteral("in")));
     for (int i = 1; i < clips.size(); i++) {
-        QDomNodeList subs = clips.at(i).childNodes();
+        QDomElement subeffects = clips.at(i).firstChildElement(QStringLiteral("effects"));
+        QDomNodeList subs = subeffects.childNodes();
         for (int j = 0; j < subs.size(); j++) {
+            subs.at(j).toElement().setAttribute(QStringLiteral("parentIn"), clips.at(i).toElement().attribute(QStringLiteral("in")));
             effects.appendChild(subs.at(j));
         }
     }

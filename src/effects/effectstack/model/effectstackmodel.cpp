@@ -210,8 +210,12 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         QDomElement sub = document.createElement(QStringLiteral("effect"));
         sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
-        sub.setAttribute(QStringLiteral("in"), sourceEffect->filter().get_int("in"));
-        sub.setAttribute(QStringLiteral("out"), sourceEffect->filter().get_int("out"));
+        int filterIn = sourceEffect->filter().get_int("in");
+        int filterOut = sourceEffect->filter().get_int("out");
+        if (filterOut > filterIn) {
+            sub.setAttribute(QStringLiteral("in"), filterIn);
+            sub.setAttribute(QStringLiteral("out"), filterOut);
+        }
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
         QLocale locale;
         for (const auto &param : params) {
@@ -229,6 +233,8 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
 bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
 {
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
+    int parentIn = effectsXml.attribute(QStringLiteral("parentIn")).toInt();
+    int currentIn = pCore->getItemIn(m_ownerId);
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
@@ -248,11 +254,19 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             effect->filter().set("in", in);
             effect->filter().set("out", out);
         }
+        QStringList keyframeParams = effect->getKeyframableParameters();
         QVector<QPair<QString, QVariant>> parameters;
         QDomNodeList params = node.elementsByTagName(QStringLiteral("property"));
         for (int j = 0; j < params.count(); j++) {
             QDomElement pnode = params.item(j).toElement();
-            parameters.append(QPair<QString, QVariant>(pnode.attribute(QStringLiteral("name")), QVariant(pnode.text())));
+            const QString pName = pnode.attribute(QStringLiteral("name"));
+            if (keyframeParams.contains(pName)) {
+                // This is a keyframable parameter, fix offest
+                QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn);
+                parameters.append(QPair<QString, QVariant>(pName, QVariant(pValue)));
+            } else {
+                parameters.append(QPair<QString, QVariant>(pName, QVariant(pnode.text())));
+            }
         }
         effect->setParameters(parameters);
         Fun local_undo = removeItem_lambda(effect->getId());

@@ -168,6 +168,8 @@ public:
     bool hasMoreThanOneKeyframe() const;
     int time_to_frames(const QString &time);
     void passProperties(Mlt::Properties &target);
+    /* @brief Returns a list of the parameter names that are keyframable */
+    QStringList getKeyframableParameters() const;
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
