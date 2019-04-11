@@ -487,6 +487,8 @@ bool DocumentChecker::hasErrorInClips()
     }
     if (!infoLabel.isEmpty()) {
         m_ui.infoLabel->setText(infoLabel);
+    } else {
+        m_ui.infoLabel->setVisible(false);
     }
 
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());

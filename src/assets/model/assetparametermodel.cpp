@@ -538,6 +538,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             if (ok) {
                 return res;
             }
+            return defaultValue;
         } else if (type == ParamType::Bezier_spline) {
             QLocale locale;
             if (locale.decimalPoint() != QLocale::c().decimalPoint()) {
