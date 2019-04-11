@@ -172,7 +172,7 @@ public:
 
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
-    QList <double>audioFrameCache;
+    QList<double> audioFrameCache;
     bool audioThumbCreated() const;
 
     void setWaitingStatus(const QString &id);
@@ -244,11 +244,14 @@ protected:
 public slots:
     /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
-    void updateAudioThumbnail(QList <double>audioLevels);
+    void updateAudioThumbnail(QList<double> audioLevels);
     /** @brief Extract image thumbnails for timeline. */
     void slotExtractImage(const QList<int> &frames);
     /** @brief Delete the proxy file */
     void deleteProxy();
+
+    /** @brief imports effect from a given producer */
+    void importEffects(const std::shared_ptr<Mlt::Producer> &producer);
 
 private:
     /** @brief Generate and store file hash if not available. */
