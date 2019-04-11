@@ -160,7 +160,7 @@ Rectangle {
         scrollTimer.running = false
         scrollTimer.stop()
     }
-    
+
     function isDragging() {
         return dragProxy.draggedItem > -1 && dragProxyArea.pressed
     }
