@@ -328,6 +328,12 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     int position = minimum;
     if (offset > clip_duration / 2) {
         position += offset;
+    } else {
+        // Check if we have a composition at beginning
+        std::unordered_set<int> existing = m_model->getTrackById_const(tid)->getCompositionsInRange(minimum, minimum + offset);
+        if (existing.size() > 0) {
+            position += offset;
+        }
     }
     position = qMin(minimum + clip_duration - 1, position);
     int duration = m_model->getTrackById_const(tid)->suggestCompositionLength(position);
