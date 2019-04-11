@@ -1021,8 +1021,8 @@ Rectangle {
                             property bool isComposition
                             property int verticalOffset
                             property var masterObject
-                            color: 'green'
-                            opacity: 0.8
+                            color: 'transparent'
+                            //opacity: 0.8
                             MouseArea {
                                 id: dragProxyArea
                                 anchors.fill: parent
@@ -1068,11 +1068,23 @@ Rectangle {
                                         var posx = Math.round((parent.x)/ root.timeScale)
                                         var clickAccepted = true
                                         if (controller.normalEdit() && (tk != Logic.getTrackIdFromPos(parent.y) || x != posx)) {
-                                            console.log('INCORRECT DRAG, Trying to recover item: ', parent.y,' XPOS: ',x,'=',posx,'\n!!!!!!!!!!')
+                                            console.log('INCORRECT DRAG, Trying to recover item: ', parent.y,' XPOS: ',x,'=',posx,'on track: ',tk ,'\n!!!!!!!!!!')
                                             // Try to find correct item
                                             var track = Logic.getTrackById(tk)
-                                            var container = track.children[0].children[0].children[0]
-                                            var tentativeClip = container.childAt(mouseX + parent.x, 5)
+                                            var container = track.children[0]
+                                            var tentativeClip = undefined
+                                            var realX = mouseX + parent.x
+                                            for (var i = 0 ; i < container.children.length; i++) {
+                                                if (container.children[i].children.length == 0 || container.children[i].children[0].children.length == 0) {
+                                                    continue
+                                                }
+                                                var testX = container.children[i].children[0].children[0].x - realX
+                                                if (dragProxy.isComposition == container.children[i].children[0].children[0].isComposition && testX < 0 && testX + container.children[i].children[0].children[0].width > 0) {
+                                                    // Found clip in place
+                                                    tentativeClip = container.children[i].children[0].children[0]
+                                                    break
+                                                }
+                                            }
                                             if (tentativeClip && tentativeClip.clipId) {
                                                 clickAccepted = true
                                                 dragProxy.draggedItem = tentativeClip.clipId
@@ -1089,6 +1101,7 @@ Rectangle {
                                                 mouse.accepted = false
                                                 dragProxy.draggedItem = -1
                                                 dragProxy.masterObject = undefined
+                                                dragProxy.sourceFrame = -1
                                                 parent.x = 0
                                                 parent.y = 0
                                                 parent.width = 0
