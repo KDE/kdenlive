@@ -80,12 +80,15 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         };
         state();
 
-        // require cut position outside the clip
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 0));
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 5 * l));
-        // can't cut on edges either
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l));
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l + l - 5));
+        // require cut position outside the clip. Should return true and nothing is done
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, 0));
+        state();
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, 5 * l));
+        state();
+        // cut on edges doesn't do anything either
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, l));
+        state();
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, l + l - 5));
         state();
 
         REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, l + 4));
@@ -213,10 +216,11 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
         };
         state();
 
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 0));
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 5 * l));
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, l));
-        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid2, 2 * l));
+        // These functions will return true but do nothing
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, 0));
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, 5 * l));
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, l));
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, 2 * l));
         state();
 
         REQUIRE(TimelineFunctions::requestClipCut(timeline, cid2, l + 4));
