@@ -27,10 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "effects/effectstack/model/effectstackmodel.hpp"
+#include "jobs/audiothumbjob.hpp"
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
-#include "jobs/audiothumbjob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/clipcontroller.h"
@@ -111,9 +111,13 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
-    self->m_effectStack->importEffects(producer, PlaylistState::Disabled, true);
     model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
     return self;
+}
+
+void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer)
+{
+    m_effectStack->importEffects(producer, PlaylistState::Disabled, true);
 }
 
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)
@@ -194,14 +198,14 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(QList <double>audioLevels)
+void ProjectClip::updateAudioThumbnail(QList<double> audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
     if (auto ptr = m_model.lock()) {
         emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
     }
-    qDebug()<<" * ** * YOP AUDIO LEF CHANGED";
+    qDebug() << " * ** * YOP AUDIO LEF CHANGED";
     updateTimelineClips({TimelineModel::AudioLevelsRole});
 }
 
@@ -547,7 +551,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     }
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
-        if (trackId == -1 || (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text))) {
+        if (trackId == -1 ||
+            (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
             return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration : -1));
@@ -939,14 +944,15 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshPanel = true;
     }
     // Some properties also need to be passed to track producers
-    QStringList timelineProperties{QStringLiteral("force_aspect_ratio"),
-                                   QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),   QStringLiteral("threads"),
-                                   QStringLiteral("force_colorspace"),    QStringLiteral("force_tff"),   QStringLiteral("force_progressive"),
-                                   };
-    QStringList forceReloadProperties{QStringLiteral("autorotate"), QStringLiteral("templatetext"),   QStringLiteral("resource"),
-                                      QStringLiteral("force_fps"),  QStringLiteral("set.test_image"), QStringLiteral("set.test_audio"), QStringLiteral("audio_index"),  QStringLiteral("video_index")};
+    QStringList timelineProperties{
+        QStringLiteral("force_aspect_ratio"), QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),         QStringLiteral("threads"),
+        QStringLiteral("force_colorspace"),   QStringLiteral("force_tff"),           QStringLiteral("force_progressive"),
+    };
+    QStringList forceReloadProperties{QStringLiteral("autorotate"),  QStringLiteral("templatetext"),   QStringLiteral("resource"),
+                                      QStringLiteral("force_fps"),   QStringLiteral("set.test_image"), QStringLiteral("set.test_audio"),
+                                      QStringLiteral("audio_index"), QStringLiteral("video_index")};
     QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"),
-                     QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation") };
+                     QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation")};
     QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();
