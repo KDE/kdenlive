@@ -86,7 +86,7 @@ void ListParamWidget::slotShowComment(bool show)
 
 QString ListParamWidget::getValue()
 {
-    return m_list->itemData(m_list->currentIndex()).toString();
+    return m_list->currentData().toString();
 }
 
 void ListParamWidget::slotRefresh()
