@@ -52,6 +52,7 @@ Item {
     property int aTrack: -1
     property int clipId     //Id of the clip in the model
     property int originalTrackId: trackId
+    property bool isComposition: true
     property int originalX: x
     property int originalDuration: clipDuration
     property int lastValidDuration: clipDuration

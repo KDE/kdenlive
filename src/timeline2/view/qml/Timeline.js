@@ -71,8 +71,8 @@ function getTrackIndexFromId(id) {
 
 function getTrackById(id) {
     var i = 0;
-    for (; i < trackHeaderRepeater.count; i++) {
-        if (trackHeaderRepeater.itemAt(i).trackId == id) {
+    for (; i < tracksRepeater.count; i++) {
+        if (tracksRepeater.itemAt(i).trackInternalId == id) {
             return tracksRepeater.itemAt(i);
         }
     }

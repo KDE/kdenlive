@@ -70,6 +70,7 @@ Rectangle {
     property double speed: 1.0
     property color borderColor: 'black'
     property bool forceReloadThumb
+    property bool isComposition: false
     width : clipDuration * timeScale;
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
@@ -87,7 +88,8 @@ Rectangle {
 
     function clearAndMove(offset) {
         controller.requestClearSelection()
-        controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true);
+        controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true)
+        controller.requestAddToSelection(clipRoot.clipId)
     }
 
     onInPointChanged: {
