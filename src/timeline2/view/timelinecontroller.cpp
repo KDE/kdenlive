@@ -1469,7 +1469,7 @@ void TimelineController::extract(int clipId)
     int in = m_model->getClipPosition(clipId);
     QPoint zone(in, in + m_model->getClipPlaytime(clipId));
     int track = m_model->getClipTrackId(clipId);
-    TimelineFunctions::extractZone(m_model, QVector<int>() << track, zone, false);
+    TimelineFunctions::extractZone(m_model, {track}, zone, false);
 }
 
 bool TimelineController::insertClipZone(const QString &binId, int tid, int position)

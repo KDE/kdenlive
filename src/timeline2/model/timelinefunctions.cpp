@@ -272,13 +272,43 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     return false;
 }
 
+
+bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, Fun &undo, Fun &redo)
+{
+    // Check if we have grouped clips that are on unaffected tracks, and ungroup them
+    bool result = true;
+    std::unordered_set<int> affectedItems;
+    // First find all affected items
+    for (int &trackId : tracks) {
+        std::unordered_set<int> items = timeline->getItemsInRange(trackId, zone.x(), zone.y());
+        affectedItems.insert(items.begin(), items.end());
+    }
+    for (int item : affectedItems) {
+        if (timeline->m_groups->isInGroup(item)) {
+            int groupId = timeline->m_groups->getRootId(item);
+            std::unordered_set<int> all_children = timeline->m_groups->getLeaves(groupId);
+            for (int child: all_children) {
+                int childTrackId = timeline->getItemTrackId(child);
+                if (!tracks.contains(childTrackId)) {
+                    // This item should not be affected by the operation, ungroup it
+                    result = result && timeline->requestClipUngroup(child, undo, redo);
+                }
+            }
+        }
+    }
+    return result;
+}
+
 bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
-    for (int trackId : tracks) {
+    
+    result = breakAffectedGroups(timeline, tracks, zone, undo, redo);
+    
+    for (int &trackId : tracks) {
         if (timeline->getTrackById_const(trackId)->isLocked()) {
             continue;
         }
@@ -298,37 +328,36 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
+    QVector<int> affectedTracks;
+    auto it = timeline->m_allTracks.cbegin();
+    while (it != timeline->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (!trackIds.contains(target_track) && !timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            ++it;
+            continue;
+        }
+        affectedTracks << target_track;
+        ++it;
+    }
+    result = breakAffectedGroups(timeline, affectedTracks, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+    
     if (overwrite) {
         // Cut all tracks
-        auto it = timeline->m_allTracks.cbegin();
-        while (it != timeline->m_allTracks.cend()) {
-            int target_track = (*it)->getId();
-            if (!trackIds.contains(target_track) && !timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-                ++it;
-                continue;
-            }
+        for (int target_track : affectedTracks) {
             result = result && TimelineFunctions::liftZone(timeline, target_track, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
             if (!result) {
                 qDebug() << "// LIFTING ZONE FAILED\n";
                 break;
             }
-            ++it;
         }
     } else {
         // Cut all tracks
-        auto it = timeline->m_allTracks.cbegin();
-        while (it != timeline->m_allTracks.cend()) {
-            int target_track = (*it)->getId();
-            if (!trackIds.contains(target_track) && !timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-                ++it;
-                continue;
-            }
+        for (int target_track : affectedTracks) {
             int startClipId = timeline->getClipByPosition(target_track, insertFrame);
             if (startClipId > -1) {
                 // There is a clip, cut it
                 result = result && TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
             }
-            ++it;
         }
         result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     }

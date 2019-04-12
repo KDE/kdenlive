@@ -119,6 +119,10 @@ struct TimelineFunctions
      */
     static int getOffsetTrackId(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int offset, bool audioOffset);
     static QPair<QList<int>, QList<int>> getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline);
+
+    /** @brief This function breaks group is an item in the zone is grouped with an item outside of selected tracks
+     */
+    static bool breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, Fun &undo, Fun &redo);
 };
 
 #endif
