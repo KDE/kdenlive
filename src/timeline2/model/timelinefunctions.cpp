@@ -246,7 +246,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    int res = timeline->requestClipsGroup(clips, undo, redo);
+    int res = timeline->requestClipsGroup(clips, undo, redo, GroupType::Selection);
     bool final = false;
     if (res > -1) {
         if (clips.size() > 1) {
