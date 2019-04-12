@@ -47,3 +47,7 @@ rotoscoping
 speed
 vignette
 volume
+fadein
+fadeout
+fade_to_black
+fade_from_black
