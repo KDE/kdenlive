@@ -118,13 +118,12 @@ cmake --build . --target ext_gtk+
 cmake --build . --target ext_gavl
 cmake --build . --target ext_frei0r
 cmake --build . --target ext_vidstab
-#cmake --build . --target ext_opencv
+cmake --build . --target ext_opencv
 
 #export CC=/usr/bin/gcc-6
 #export CXX=/usr/bin/g++-6
 
 #cmake --build . --target ext_movit
-cmake --build . --target ext_mlt
 cmake --build . --target ext_kbookmarks
 cmake --build . --target ext_kxmlgui
 cmake --build . --target ext_kconfigwidgets
