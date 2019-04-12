@@ -228,6 +228,70 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     timeline->m_allClips[cid3]->m_endlessResize = false;
     timeline->m_allClips[cid4]->m_endlessResize = false;
 
+    SECTION("Endless clips can be resized both sides")
+    {
+        timeline->m_allClips[cid1]->m_endlessResize = true;
+
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+        int l = timeline->getClipPlaytime(cid1);
+
+        // try resizing uninserted clip
+        REQUIRE(timeline->requestItemResize(cid1, l + 2, false) == l + 2);
+        REQUIRE(timeline->getClipPlaytime(cid1) == l + 2);
+        undoStack->undo();
+        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        undoStack->redo();
+        REQUIRE(timeline->getClipPlaytime(cid1) == l + 2);
+        undoStack->undo();
+        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+
+        REQUIRE(timeline->requestItemResize(cid1, 3 * l, true) == 3 * l);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 3 * l);
+        undoStack->undo();
+        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        undoStack->redo();
+        REQUIRE(timeline->getClipPlaytime(cid1) == 3 * l);
+        undoStack->undo();
+        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+
+        // try resizing inserted clip
+        int pos = 10;
+        REQUIRE(timeline->requestClipMove(cid1, tid1, pos));
+
+        auto state = [&](int s, int p) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == p);
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
+            REQUIRE(timeline->getClipPlaytime(cid1) == s);
+        };
+        state(l, pos);
+
+        // too big
+        REQUIRE(timeline->requestItemResize(cid1, l + pos + 2, false) == -1);
+
+        REQUIRE(timeline->requestItemResize(cid1, l + 2, false) == l + 2);
+        state(l + 2, pos - 2);
+        undoStack->undo();
+        state(l, pos);
+        undoStack->redo();
+        state(l + 2, pos - 2);
+        undoStack->undo();
+        state(l, pos);
+
+        REQUIRE(timeline->requestItemResize(cid1, 3 * l, true) == 3 * l);
+        state(3 * l, pos);
+        undoStack->undo();
+        state(l, pos);
+        undoStack->redo();
+        state(3 * l, pos);
+        undoStack->undo();
+        state(l, pos);
+    }
+
     SECTION("Insert a clip in a track and change track")
     {
         REQUIRE(timeline->checkConsistency());
