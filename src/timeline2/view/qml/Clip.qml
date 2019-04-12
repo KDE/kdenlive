@@ -236,10 +236,10 @@ Rectangle {
     }
     MouseArea {
         id: mouseArea
-        visible: root.activeTool === 0
+        enabled: root.activeTool === 0
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
-        hoverEnabled: true
+        hoverEnabled: root.activeTool === 0
         cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
         onPressed: {
             root.stopScrolling = true
