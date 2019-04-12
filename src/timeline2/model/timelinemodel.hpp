@@ -136,19 +136,19 @@ public:
         IsAudioRole,
         SortRole,
         ShowKeyframesRole,
-        AudioLevelsRole,   /// clip only
-        AudioChannelsRole, /// clip only
-        IsCompositeRole,   /// track only
-        IsLockedRole,      /// track only
-        HeightRole,        /// track only
-        TrackTagRole,      /// track only
-        FadeInRole,        /// clip only
-        FadeOutRole,       /// clip only
-        FileHashRole,      /// clip only
-        SpeedRole,         /// clip only
-        ReloadThumbRole,   /// clip only
-        PositionOffsetRole,/// clip only
-        ItemATrack,        /// composition only
+        AudioLevelsRole,    /// clip only
+        AudioChannelsRole,  /// clip only
+        IsCompositeRole,    /// track only
+        IsLockedRole,       /// track only
+        HeightRole,         /// track only
+        TrackTagRole,       /// track only
+        FadeInRole,         /// clip only
+        FadeOutRole,        /// clip only
+        FileHashRole,       /// clip only
+        SpeedRole,          /// clip only
+        ReloadThumbRole,    /// clip only
+        PositionOffsetRole, /// clip only
+        ItemATrack,         /// composition only
         ItemIdRole,
         ThumbsFormatRole,   /// track only
         EffectNamesRole,    // track and clip only
@@ -439,6 +439,8 @@ public:
        @param right is true if we change the right side of the item, false otherwise
        @param logUndo if set to true, an undo object is created
        @param snap if set to true, the resize order will be coerced to use the snapping grid
+       if @param allowSingleResize is false, then the resize will also be applied to any clip in the same AV group (allow resizing audio and video at the same
+       time)
     */
     Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
 
