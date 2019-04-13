@@ -1327,7 +1327,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 
     // Sort clips. We need to delete from right to left to avoid confusing the view, and compositions from top to bottom
     std::vector<int> sorted_clips(all_items.begin(), all_items.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_track](int clipId1, int clipId2) {
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_track, delta_pos](int clipId1, int clipId2) {
         int p1 = isClip(clipId1) ? m_allClips[clipId1]->getPosition()
                                  : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
                                                    : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
@@ -1336,7 +1336,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                                  : delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
                                                    : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
                                                                      : m_allCompositions[clipId2]->getPosition();
-        return p2 <= p1;
+        return delta_pos > 0 ? p2 <= p1 : p1 <= p2;
     });
 
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
@@ -1400,7 +1400,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     }
 
     // Reverse sort. We need to insert from left to right to avoid confusing the view
-    std::reverse(std::begin(sorted_clips), std::end(sorted_clips));
+    // std::reverse(std::begin(sorted_clips), std::end(sorted_clips));
     for (int item : sorted_clips) {
         int current_track_id = old_track_ids[item];
         int current_track_position = getTrackPosition(current_track_id);
