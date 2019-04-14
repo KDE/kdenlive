@@ -66,13 +66,13 @@ Column{
                     target: loader.item
                     property: "fakeTid"
                     value: model.fakeTrackId
-                    when: loader.status == Loader.Ready && loader.item
+                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
                     property: "fakePosition"
                     value: model.fakePosition
-                    when: loader.status == Loader.Ready && loader.item
+                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
                 }
                 Binding {
                     target: loader.item
