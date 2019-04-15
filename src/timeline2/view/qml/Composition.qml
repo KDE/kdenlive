@@ -260,7 +260,7 @@ Item {
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
         enabled: !compositionRoot.grouped
-        visible: root.activeTool === 0 && !dragProxyArea.drag.active
+        visible: trimInMouseArea.pressed || (root.activeTool === 0 && !dragProxyArea.drag.active && compositionRoot.width > 4 * width)
 
         MouseArea {
             id: trimInMouseArea
@@ -310,7 +310,7 @@ Item {
         Drag.active: trimOutMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
         enabled: !compositionRoot.grouped
-        visible: root.activeTool === 0 && !dragProxyArea.drag.active
+        visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !dragProxyArea.drag.active && compositionRoot.width > 4 * width)
 
         MouseArea {
             id: trimOutMouseArea
