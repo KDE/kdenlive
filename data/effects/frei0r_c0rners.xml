@@ -4,47 +4,47 @@
 	<description>Four corners geometry engine</description>
 	<author>Marko Cebokli</author>
 
-	<parameter type="animated" widget="corners" name="Corner 1 X" default="0.333333333333333" min="0" max="6000" factor="6000">
+	<parameter type="animated" widget="corners" name="0" default="0.333333333333333" min="0" max="6000" factor="6000">
 		<name>Corner 1 X</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 1 Y" default="0.333333333333333" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="1" default="0.333333333333333" min="0" max="6000" factor="6000">
 		<name>Corner 1 Y</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 2 X" default="0.666666666666667" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="2" default="0.666666666666667" min="0" max="6000" factor="6000">
 		<name>Corner 2 X</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 2 Y" default="0.333333333333333" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="3" default="0.333333333333333" min="0" max="6000" factor="6000">
 		<name>Corner 2 Y</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 3 X" default="0.666666666666667" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="4" default="0.666666666666667" min="0" max="6000" factor="6000">
 		<name>Corner 3 X</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 3 Y" default="0.666666666666667" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="5" default="0.666666666666667" min="0" max="6000" factor="6000">
 		<name>Corner 3 Y</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 4 X" default="0.333333333333333" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="6" default="0.333333333333333" min="0" max="6000" factor="6000">
 		<name>Corner 4 X</name>
 	</parameter>
 	
-        <parameter type="animated" widget="corners" name="Corner 4 Y" default="0.666666666666667" min="0" max="6000" factor="6000">
+        <parameter type="animated" widget="corners" name="7" default="0.666666666666667" min="0" max="6000" factor="6000">
 		<name>Corner 4 Y</name>
 	</parameter>
 
-        <parameter type="animated" widget="corners" name="Stretch X" default="0.5" min="0" max="2000" factor="2000">
+        <parameter type="animated" widget="corners" name="9" default="0.5" min="0" max="2000" factor="2000">
             <name>Stretch X</name>
         </parameter>
 
-        <parameter type="animated" widget="corners" name="Stretch Y" default="0.5" min="0" max="2000" factor="2000">
+        <parameter type="animated" widget="corners" name="10" default="0.5" min="0" max="2000" factor="2000">
             <name>Stretch Y</name>
         </parameter>
 
-        <parameter type="animated" widget="corners" name="Feather Alpha" default="0.05" min="0" max="100" factor="100" intimeline="1">
+        <parameter type="animated" widget="corners" name="13" default="0.05" min="0" max="100" factor="100" intimeline="1">
             <name>Feather Alpha</name>
         </parameter>
 	
