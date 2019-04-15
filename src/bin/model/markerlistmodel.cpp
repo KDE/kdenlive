@@ -146,10 +146,13 @@ bool MarkerListModel::editMarker(GenTime oldPos, GenTime pos, QString comment, i
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_markerList.count(oldPos) > 0);
     QString oldComment = m_markerList[oldPos].first;
+    int oldType = m_markerList[oldPos].second;
     if (comment.isEmpty()) {
         comment = oldComment;
     }
-    int oldType = m_markerList[oldPos].second;
+    if (type == -1) {
+        type = oldType;
+    }
     if (oldPos == pos && oldComment == comment && oldType == type) return true;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };

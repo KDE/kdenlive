@@ -426,10 +426,12 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     if (!clips.empty()) {
         int clipId = *clips.begin();
         if (clips.size() > 1) {
+            int clipsGroup = timeline->m_groups->getRootId(clipId);
             int res = timeline->requestClipsGroup(clips, undo, redo);
             if (res > -1) {
                 result = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
-                if (result) {
+                if (result && res != clipsGroup) {
+                    // Only ungroup if a group was created
                     result = timeline->requestClipUngroup(clipId, undo, redo);
                 }
                 if (!result) {
