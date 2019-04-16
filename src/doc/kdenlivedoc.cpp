@@ -1352,9 +1352,7 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    if (!qFuzzyCompare(fpsChanged, 1.0)) {
-        pCore->bin()->reloadAllProducers();
-    }
+    pCore->bin()->reloadAllProducers();
 }
 
 void KdenliveDoc::resetProfile()
