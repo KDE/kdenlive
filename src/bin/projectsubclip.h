@@ -65,7 +65,7 @@ public:
     std::shared_ptr<ProjectClip> clipAt(int ix) override;
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
 
     /** @brief Returns the clip's duration. */
     GenTime duration() const;

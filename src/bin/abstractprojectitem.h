@@ -169,7 +169,7 @@ public:
     /** @brief Sets a new description. */
     virtual void setDescription(const QString &description);
 
-    virtual QDomElement toXml(QDomDocument &document, bool includeMeta = false) = 0;
+    virtual QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) = 0;
     virtual QString getToolTip() const = 0;
     virtual bool rename(const QString &name, int column) = 0;
 

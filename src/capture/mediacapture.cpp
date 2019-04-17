@@ -37,6 +37,9 @@ MediaCapture::MediaCapture(QObject *parent)
 {
     m_probe = std::make_unique<QAudioProbe>(this);
     connect(m_probe.get(), &QAudioProbe::audioBufferProbed, this, &MediaCapture::processBuffer);
+    m_resetTimer.setInterval(5000);
+    m_resetTimer.setSingleShot(true);
+    connect(&m_resetTimer, &QTimer::timeout, this, &MediaCapture::resetIfUnused);
 }
 
 MediaCapture::~MediaCapture() = default;
@@ -46,13 +49,29 @@ void MediaCapture::displayErrorMessage()
     qDebug() << " !!!!!!!!!!!!!!!! ERROR : QMediarecorder - Capture failed";
 }
 
+void MediaCapture::resetIfUnused()
+{
+    QMutexLocker lk(&m_recMutex);
+    qDebug()<<"// CLEARING REC MANAGER";
+    if (m_audioRecorder && m_audioRecorder->state() == QMediaRecorder::StoppedState) {
+        m_audioRecorder.reset();
+    }
+}
+
 void MediaCapture::recordAudio(bool record)
 {
+    QMutexLocker lk(&m_recMutex);
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
         m_probe->setSource(m_audioRecorder.get());
         connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, [&] (QMediaRecorder::State state) {
             m_recordState = state;
+            if (m_recordState == QMediaRecorder::StoppedState) {
+                m_resetTimer.start();
+                m_levels.clear();
+                emit levelsChanged();
+                pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+            }
             emit recordStateChanged();
         });
     }
@@ -61,24 +80,21 @@ void MediaCapture::recordAudio(bool record)
         setAudioCaptureDevice();
         m_audioRecorder->setAudioInput(m_audioDevice);
         setCaptureOutputLocation();
-        m_audioRecorder->setOutputLocation(m_path);
         setAudioVolume();
         m_audioRecorder->setVolume(m_volume);
+        //qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
 
         connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
 
         QAudioEncoderSettings audioSettings;
+        audioSettings.setCodec("audio/x-flac");
         audioSettings.setBitRate(48000);   // Bit rate is set to 48,0000
-        QString container = "audio/x-wav";
-        m_audioRecorder->setEncodingSettings(audioSettings, QVideoEncoderSettings(), container);
+        audioSettings.setChannelCount(2);
+        m_audioRecorder->setEncodingSettings(audioSettings);
+        m_audioRecorder->setOutputLocation(m_path);
         m_audioRecorder->record();
     } else if (m_audioRecorder->state() != QMediaRecorder::PausedState) {
         m_audioRecorder->stop();
-        m_audioRecorder.reset();
-        m_levels.clear();
-        emit levelsChanged();
-        m_recordState = QMediaRecorder::StoppedState;
-        emit recordStateChanged();
     } else {
         m_audioRecorder->record();
     }
@@ -127,7 +143,7 @@ void MediaCapture::setCaptureOutputLocation()
     if (m_videoRecorder.get() != nullptr) {
         extension = QStringLiteral(".mpeg");
     } else if (m_audioRecorder.get() != nullptr) {
-        extension = QStringLiteral(".wav");
+        extension = QStringLiteral(".flac");
     }
 
     QString path = captureFolder.absoluteFilePath("capture0000" + extension);

@@ -136,7 +136,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
 }
 
 namespace {
-QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta)
+QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool includeMeta, bool includeProfile)
 {
     Mlt::Consumer c(*producer->profile(), "xml", "string");
     Mlt::Service s(producer->get_service());
@@ -151,6 +151,9 @@ QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool include
     if (!includeMeta) {
         c.set("no_meta", 1);
     }
+    if (!includeProfile) {
+        c.set("no_profile", 1);
+    }
     c.set("store", "kdenlive");
     c.set("no_root", 1);
     c.set("root", "/");
@@ -163,11 +166,11 @@ QString producerXml(const std::shared_ptr<Mlt::Producer> &producer, bool include
 }
 } // namespace
 
-void ClipController::getProducerXML(QDomDocument &document, bool includeMeta)
+void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bool includeProfile)
 {
     // TODO refac this is a probable duplicate with Clip::xml
     if (m_masterProducer) {
-        QString xml = producerXml(m_masterProducer, includeMeta);
+        QString xml = producerXml(m_masterProducer, includeMeta, includeProfile);
         document.setContent(xml);
     } else {
         qCDebug(KDENLIVE_LOG) << " + + ++ NO MASTER PROD";
@@ -310,8 +313,10 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     } else {
         m_usesProxy = false;
     }
+    // When resetting profile, duration can change so we invalidate it to 0 in that case
+    int length = m_properties->get_int("length");
+    const char *passList = getPassPropertiesList(m_usesProxy && length > 0);
     // This is necessary as some properties like set.test_audio are reset on producer creation
-    const char *passList = getPassPropertiesList(m_usesProxy);
     passProperties.pass_list(*m_properties, passList);
     delete m_properties;
     *m_masterProducer = producer.get();
