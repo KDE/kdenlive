@@ -186,6 +186,24 @@ Rectangle {
         dragProxy.verticalOffset = 0
     }
 
+    function getItemAtPos(tk, posx, isComposition) {
+        var track = Logic.getTrackById(tk)
+        var container = track.children[0]
+        var tentativeClip = undefined
+        //console.log('TESTING ITMES OK TK: ', tk, ', POS: ', posx, ', CHILREN: ', container.children.length, ', COMPO: ', isComposition)
+        for (var i = 0 ; i < container.children.length; i++) {
+            if (container.children[i].children.length == 0 || container.children[i].children[0].children.length == 0) {
+                continue
+            }
+            tentativeClip = container.children[i].children[0].childAt(posx, 1)
+            if (tentativeClip && tentativeClip.clipId && (tentativeClip.isComposition == isComposition)) {
+                //console.log('found item with id: ', tentativeClip.clipId, ' IS COMPO: ', tentativeClip.isComposition)
+                break
+            }
+        }
+        return tentativeClip
+    }
+
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
@@ -236,6 +254,32 @@ Rectangle {
             scrollView.flickableItem.contentY = Math.max(0, tk.y - scrollView.height / 3)
         } else if (tk.y + tk.height > scrollView.flickableItem.contentY + scrollView.viewport.height) {
             scrollView.flickableItem.contentY = Math.min(trackHeaders.height - scrollView.height + scrollView.__horizontalScrollBar.height, tk.y - scrollView.height / 3)
+        }
+    }
+
+    onActiveToolChanged: {
+        if (root.activeTool == 2) {
+            // Spacer activated
+            endDrag()
+        } else if (root.activeTool == 0) {
+            var tk = getMouseTrack()
+            if (tk < 0) {
+                console.log('........ MOUSE OUTSIDE TRAKS\n\n.........')
+                return
+            }
+            var pos = getMousePos() * timeline.scaleFactor
+            var sourceTrack = Logic.getTrackById(tk)
+            var allowComposition = tracksArea.mouseY- sourceTrack.y > sourceTrack.height / 2
+            var tentativeItem = undefined
+            if (allowComposition) {
+                tentativeItem = getItemAtPos(tk, pos, true)
+            }
+            if (!tentativeItem) {
+                tentativeItem = getItemAtPos(tk, pos, false)
+            }
+            if (tentativeItem) {
+                tentativeItem.updateDrag()
+            }
         }
     }
 
@@ -1033,6 +1077,7 @@ Rectangle {
                                 property int dragFrame
                                 property bool shiftClick: false
                                 cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+                                enabled: root.activeTool == 0
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
                                     if (mouse.modifiers & Qt.ControlModifier || !(controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
@@ -1070,21 +1115,7 @@ Rectangle {
                                         if (controller.normalEdit() && (tk != Logic.getTrackIdFromPos(parent.y) || x != posx)) {
                                             console.log('INCORRECT DRAG, Trying to recover item: ', parent.y,' XPOS: ',x,'=',posx,'on track: ',tk ,'\n!!!!!!!!!!')
                                             // Try to find correct item
-                                            var track = Logic.getTrackById(tk)
-                                            var container = track.children[0]
-                                            var tentativeClip = undefined
-                                            var realX = mouseX + parent.x
-                                            for (var i = 0 ; i < container.children.length; i++) {
-                                                if (container.children[i].children.length == 0 || container.children[i].children[0].children.length == 0) {
-                                                    continue
-                                                }
-                                                var testX = container.children[i].children[0].children[0].x - realX
-                                                if (dragProxy.isComposition == container.children[i].children[0].children[0].isComposition && testX < 0 && testX + container.children[i].children[0].children[0].width > 0) {
-                                                    // Found clip in place
-                                                    tentativeClip = container.children[i].children[0].children[0]
-                                                    break
-                                                }
-                                            }
+                                            var tentativeClip = getItemAtPos(tk, mouseX + parent.x, dragProxy.isComposition)
                                             if (tentativeClip && tentativeClip.clipId) {
                                                 clickAccepted = true
                                                 dragProxy.draggedItem = tentativeClip.clipId
