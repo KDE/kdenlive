@@ -132,7 +132,7 @@ public:
 
     bool rename(const QString &name, int column) override;
 
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
 
     QVariant getData(DataType type) const override;
 

@@ -144,7 +144,7 @@ void ProjectFolder::setBinEffectsEnabled(bool enabled)
     }
 }
 
-QDomElement ProjectFolder::toXml(QDomDocument &document, bool)
+QDomElement ProjectFolder::toXml(QDomDocument &document, bool, bool)
 {
     QDomElement folder = document.createElement(QStringLiteral("folder"));
     folder.setAttribute(QStringLiteral("name"), name());

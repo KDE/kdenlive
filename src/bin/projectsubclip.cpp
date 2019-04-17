@@ -116,7 +116,7 @@ std::shared_ptr<ProjectClip> ProjectSubClip::clipAt(int ix)
     return std::shared_ptr<ProjectClip>();
 }
 
-QDomElement ProjectSubClip::toXml(QDomDocument &document, bool)
+QDomElement ProjectSubClip::toXml(QDomDocument &document, bool, bool)
 {
     QDomElement sub = document.createElement(QStringLiteral("subclip"));
     sub.setAttribute(QStringLiteral("id"), m_masterClip->AbstractProjectItem::clipId());

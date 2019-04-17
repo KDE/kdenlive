@@ -2951,10 +2951,12 @@ void Bin::reloadAllProducers()
     emit openClip(std::shared_ptr<ProjectClip>());
     for (const std::shared_ptr<ProjectClip> &clip : clipList) {
         QDomDocument doc;
-        QDomElement xml = clip->toXml(doc);
+        QDomElement xml = clip->toXml(doc, false, false);
         // Make sure we reload clip length
         xml.removeAttribute(QStringLiteral("out"));
         Xml::removeXmlProperty(xml, QStringLiteral("length"));
+        clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
+        clip->resetProducerProperty(QStringLiteral("length"));
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();

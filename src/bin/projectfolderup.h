@@ -70,7 +70,7 @@ public:
     void setBinEffectsEnabled(bool enabled) override;
 
     /** @brief Returns an xml description of the folder. */
-    QDomElement toXml(QDomDocument &document, bool includeMeta = false) override;
+    QDomElement toXml(QDomDocument &document, bool includeMeta = false, bool includeProfile = true) override;
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;
     ClipType::ProducerType clipType() const override;

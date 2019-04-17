@@ -67,7 +67,7 @@ std::shared_ptr<ProjectClip> ProjectFolderUp::clipAt(int index)
 
 void ProjectFolderUp::setBinEffectsEnabled(bool) {}
 
-QDomElement ProjectFolderUp::toXml(QDomDocument &document, bool)
+QDomElement ProjectFolderUp::toXml(QDomDocument &document, bool, bool)
 {
     return document.documentElement();
 }
