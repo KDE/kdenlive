@@ -116,6 +116,9 @@ public:
     /* @brief Show/hide audio record controls on a track
      */
     Q_INVOKABLE void switchRecording(int trackId);
+    /* @brief Add recorded file to timeline
+     */
+    void finishRecording(const QString &recordedFile);
     /* @brief Open Kdenlive's config diablog on a defined page and tab
      */
     Q_INVOKABLE void showConfig(int page, int tab);
@@ -482,6 +485,7 @@ private:
     int m_activeTrack;
     int m_audioRef;
     QPair<int, int> m_recordStart;
+    int m_recordTrack;
     QPoint m_zone;
     double m_scale;
     static int m_duration;

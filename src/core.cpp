@@ -695,14 +695,13 @@ void Core::startMediaCapture(bool checkAudio, bool checkVideo)
     m_mediaCaptureFile = m_capture->getCaptureOutputLocation();
 }
 
-const QString Core::stopMediaCapture(bool checkAudio, bool checkVideo)
+void Core::stopMediaCapture(bool checkAudio, bool checkVideo)
 {
     if (checkAudio && checkVideo) {
         m_capture->recordVideo(false);
     } else if (checkAudio) {
         m_capture->recordAudio(false);
     }
-    return m_capture->getCaptureOutputLocation().toLocalFile();
 }
 
 QStringList Core::getAudioCaptureDevices()

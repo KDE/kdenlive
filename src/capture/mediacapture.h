@@ -31,6 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QStringList>
 #include <QUrl>
 #include <QVideoEncoderSettings>
+#include <QTimer>
+#include <QMutex>
 #include <memory>
 
 class QAudioRecorder;
@@ -78,13 +80,17 @@ private:
     QUrl m_path;
     QVector<qreal> m_levels;
     int m_recordState;
+    QTimer m_resetTimer;
+    QMutex m_recMutex;
 
 private slots:
     void processBuffer(const QAudioBuffer &buffer);
+    void resetIfUnused();
 
 signals:
     void levelsChanged();
     void recordStateChanged();
+    void recordDone();
 };
 
 #endif

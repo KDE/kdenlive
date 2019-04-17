@@ -77,6 +77,7 @@ TimelineController::TimelineController(QObject *parent)
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
     m_disablePreview->setEnabled(false);
+    connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
 }
 
 TimelineController::~TimelineController()
@@ -2323,6 +2324,7 @@ void TimelineController::switchRecording(int trackId)
             return;
         }
         m_recordStart.first = timelinePosition();
+        m_recordTrack = trackId;
         int maximumSpace = m_model->getTrackById_const(trackId)->getBlankEnd(m_recordStart.first);
         if (maximumSpace == INT_MAX) {
             m_recordStart.second = 0;
@@ -2339,30 +2341,37 @@ void TimelineController::switchRecording(int trackId)
         pCore->startMediaCapture(true, false);
         pCore->monitorManager()->slotPlay();
     } else {
-        QString recordedFile = pCore->stopMediaCapture(true, false);
+        pCore->stopMediaCapture(true, false);
         pCore->monitorManager()->slotPause();
-        if (recordedFile.isEmpty()) {
+    }
+}
+
+void TimelineController::finishRecording(const QString &recordedFile)
+{
+    if (recordedFile.isEmpty()) {
+        return;
+    }
+
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    std::function<void(const QString &)> callBack = [this](const QString &binId) {
+        int id = -1;
+        if (m_recordTrack == -1) {
             return;
         }
-
-        Fun undo = []() { return true; };
-        Fun redo = []() { return true; };
-        std::function<void(const QString &)> callBack = [this, trackId](const QString &binId) {
-            int id = -1;
-            qDebug() << "callback " << binId << " " << trackId << ", MAXIMUM SPACE: " << m_recordStart.second;
-            bool res = false;
-            if (m_recordStart.second > 0) {
-                // Limited space on track
-                QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second - 1);
-                res = m_model->requestClipInsertion(binClipId, trackId, m_recordStart.first, id, true, true, false);
-            } else {
-                res = m_model->requestClipInsertion(binId, trackId, m_recordStart.first, id, true, true, false);
-            }
-        };
-        QString binId = ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo,
-                                                        redo, callBack);
-        if (binId != QStringLiteral("-1")) {
-            pCore->pushUndo(undo, redo, i18n("Record audio"));
+        qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
+        bool res = false;
+        if (m_recordStart.second > 0) {
+            // Limited space on track
+            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second - 1);
+            res = m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
+        } else {
+            res = m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);
         }
+    };
+    QString binId = ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo,
+                                                    redo, callBack);
+    if (binId != QStringLiteral("-1")) {
+        pCore->pushUndo(undo, redo, i18n("Record audio"));
     }
 }

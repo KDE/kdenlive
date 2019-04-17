@@ -183,7 +183,7 @@ public:
     int getTimelinePosition() const;
     /** @brief Handles audio and video capture **/
     void startMediaCapture(bool, bool);
-    const QString stopMediaCapture(bool, bool);
+    void stopMediaCapture(bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
     bool isMediaCapturing();
@@ -231,6 +231,7 @@ signals:
     void updateLibraryPath();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(int, int);
+    void finalizeRecording(const QString &captureFile);
 };
 
 #endif

@@ -8,7 +8,7 @@ Item {
     property int recState: audiorec.recordState
     width: parent.width
     implicitHeight: root.baseUnit * 1.5
-    
+
     onRecStateChanged: {
         if (recState == 1) {
             // Recording
@@ -19,9 +19,7 @@ Item {
         } else {
             recbutton.color = 'darkred'
         }
-        
     }
-    
     RowLayout {
         spacing: 2
         Layout.fillWidth: true
