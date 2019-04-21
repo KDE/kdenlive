@@ -44,12 +44,7 @@ template <class F, class... ArgTypes> decltype(auto) invoke(F &&f, ArgTypes &&..
 }
 } // namespace util
 
-void Disable_Console_Output()
-{
-    // close C file descriptors
-    fclose(stdout);
-    fclose(stderr);
-}
+void Disable_Console_Output();
 
 template <class F, class... Args> bool ABORTS(F &&f, Args &&... args)
 {
@@ -85,7 +80,7 @@ template <class F, class... Args> bool ABORTS(F &&f, Args &&... args)
         }
     }
 
-    return true;
+    return aborted;
 }
 #else
 template <class F, class... Args> bool ABORTS(F &&, Args &&...)
