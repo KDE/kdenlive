@@ -70,7 +70,9 @@ protected:
     bool addMarker(GenTime pos, const QString &comment, int type, Fun &undo, Fun &redo);
 
 public:
-    /* @brief Removes the marker at the given position. */
+    /* @brief Removes the marker at the given position.
+       Returns false if no marker was found at given pos
+     */
     bool removeMarker(GenTime pos);
     /* @brief Delete all the markers of the model */
     bool removeAllMarkers();
