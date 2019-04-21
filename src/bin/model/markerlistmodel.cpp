@@ -116,7 +116,9 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 bool MarkerListModel::removeMarker(GenTime pos, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    Q_ASSERT(m_markerList.count(pos) > 0);
+    if (m_markerList.count(pos) == 0) {
+        return false;
+    }
     QString oldComment = m_markerList[pos].first;
     int oldType = m_markerList[pos].second;
     Fun local_undo = addMarker_lambda(pos, oldComment, oldType);
@@ -355,7 +357,7 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
 
         // we now add the already existing markers to the snap
         for (const auto &marker : m_markerList) {
-            qDebug()<<" *- *-* REGISTEING MARKER: "<<marker.first.frames(pCore->getCurrentFps());
+            qDebug() << " *- *-* REGISTEING MARKER: " << marker.first.frames(pCore->getCurrentFps());
             ptr->addPoint(marker.first.frames(pCore->getCurrentFps()));
         }
     } else {

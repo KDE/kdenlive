@@ -1,4 +1,5 @@
 #pragma once
+#include "abortutil.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "catch.hpp"
 #include "doc/docundostack.hpp"

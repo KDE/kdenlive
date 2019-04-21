@@ -1,26 +1,10 @@
-#include "catch.hpp"
+#include "test_utils.hpp"
 
-#pragma GCC diagnostic ignored "-Wnon-virtual-dtor"
-#pragma GCC diagnostic push
-#include "fakeit.hpp"
-#include <QColor>
-#include <QDebug>
-#include <QString>
-#include <cmath>
-#include <iostream>
-#include <tuple>
-#include <unordered_set>
-
+#include "kdenlivesettings.h"
 #define private public
 #define protected public
 #include "bin/model/markerlistmodel.hpp"
-#include "core.h"
-#include "doc/docundostack.hpp"
-#include "gentime.h"
-#include "project/projectmanager.h"
 #include "timeline2/model/snapmodel.hpp"
-
-using namespace fakeit;
 
 using Marker = std::tuple<GenTime, QString, int>;
 double fps;
@@ -54,7 +38,7 @@ void checkStates(const std::shared_ptr<DocUndoStack> &undoStack, const std::shar
 {
     for (size_t i = 0; i < states.size(); ++i) {
         checkMarkerList(model, states[states.size() - 1 - i], snaps);
-        if (i < states.size() - 1) {
+        if (i != states.size() - 1) {
             undoStack->undo();
         }
     }
@@ -91,40 +75,83 @@ TEST_CASE("Marker model", "[MarkerListModel]")
 
         // add markers
         list.emplace_back(GenTime(1.3), QLatin1String("test marker"), 3);
-        model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3);
+        REQUIRE(model->addMarker(GenTime(1.3), QLatin1String("test marker"), 3));
         checkMarkerList(model, list, snaps);
         auto state1 = list;
 
         checkStates(undoStack, model, {{}, state1}, snaps);
 
         list.emplace_back(GenTime(0.3), QLatin1String("test marker2"), 0);
-        model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0);
+        REQUIRE(model->addMarker(GenTime(0.3), QLatin1String("test marker2"), 0));
         checkMarkerList(model, list, snaps);
         auto state2 = list;
 
         checkStates(undoStack, model, {{}, state1, state2}, snaps);
 
+        // delete unexisting marker shouldn't work
+        REQUIRE_FALSE(model->removeMarker(GenTime(42.)));
+        checkMarkerList(model, list, snaps);
+        checkStates(undoStack, model, {{}, state1, state2}, snaps);
+
         // rename markers
         std::get<1>(list[0]) = QLatin1String("new comment");
         std::get<2>(list[0]) = 1;
-        model->addMarker(GenTime(1.3), QLatin1String("new comment"), 1);
+        REQUIRE(model->addMarker(GenTime(1.3), QLatin1String("new comment"), 1));
         checkMarkerList(model, list, snaps);
         auto state3 = list;
         checkStates(undoStack, model, {{}, state1, state2, state3}, snaps);
 
-        // delete markers
-        std::swap(list[0], list[1]);
-        list.pop_back();
-        model->removeMarker(GenTime(1.3));
+        // edit marker
+        GenTime oldPos = std::get<0>(list[1]);
+        std::get<0>(list[1]) = GenTime(42.8);
+        std::get<1>(list[1]) = QLatin1String("edited comment");
+        std::get<2>(list[1]) = 3;
+        REQUIRE(model->editMarker(oldPos, GenTime(42.8), QLatin1String("edited comment"), 3));
         checkMarkerList(model, list, snaps);
         auto state4 = list;
         checkStates(undoStack, model, {{}, state1, state2, state3, state4}, snaps);
 
+        // delete markers
+        std::swap(list[0], list[1]);
         list.pop_back();
-        model->removeMarker(GenTime(0.3));
+        REQUIRE(model->removeMarker(GenTime(1.3)));
         checkMarkerList(model, list, snaps);
         auto state5 = list;
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5}, snaps);
+
+        GenTime old = std::get<0>(list.back());
+        list.pop_back();
+        REQUIRE(model->removeMarker(old));
+        checkMarkerList(model, list, snaps);
+        auto state6 = list;
+        checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6}, snaps);
+
+        // add some back
+        list.emplace_back(GenTime(1.7), QLatin1String("test marker6"), KdenliveSettings::default_marker_type());
+        REQUIRE(model->addMarker(GenTime(1.7), QLatin1String("test marker6"), -1));
+        auto state7 = list;
+        list.emplace_back(GenTime(2), QLatin1String("auieuansr"), 3);
+        REQUIRE(model->addMarker(GenTime(2), QLatin1String("auieuansr"), 3));
+        auto state8 = list;
+        list.emplace_back(GenTime(0), QLatin1String("sasenust"), 1);
+        REQUIRE(model->addMarker(GenTime(0), QLatin1String("sasenust"), 1));
+        checkMarkerList(model, list, snaps);
+        auto state9 = list;
+        checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6, state7, state8, state9}, snaps);
+
+        // try spurious model registration
+        std::shared_ptr<SnapInterface> spurious;
+        REQUIRE(ABORTS(&MarkerListModel::registerSnapModel, model, spurious));
+
+        // try real model registration
+        std::shared_ptr<SnapModel> other_snaps = std::make_shared<SnapModel>();
+        model->registerSnapModel(other_snaps);
+        checkMarkerList(model, list, other_snaps);
+
+        // remove all
+        REQUIRE(model->removeAllMarkers());
+        checkMarkerList(model, {}, snaps);
+        checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6, state7, state8, state9, {}}, snaps);
     }
 
     SECTION("Json identity test")
