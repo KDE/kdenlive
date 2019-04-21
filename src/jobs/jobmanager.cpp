@@ -275,7 +275,7 @@ void JobManager::slotManageCanceledJob(int id)
     Q_ASSERT(m_jobs.count(id) > 0);
     if (m_jobs[id]->m_processed) return;
     m_jobs[id]->m_processed = true;
-    m_jobs[id]->m_completionMutex.unlock();
+    //m_jobs[id]->m_completionMutex.unlock(); // crashing on Windows
     // send notification to refresh view
     for (const auto &it : m_jobs[id]->m_indices) {
         pCore->projectItemModel()->onItemUpdated(it.first, AbstractProjectItem::JobStatus);
