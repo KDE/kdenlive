@@ -336,7 +336,6 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         }
         */
     }
-    m_producerLock.unlock();
     qDebug() << "// replace finished: " << binId() << " : " << m_masterProducer->get("resource");
 }
 
