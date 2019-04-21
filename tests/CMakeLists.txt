@@ -7,6 +7,7 @@ string (REPLACE "-std=gnu++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
 
 SET(Tests_SRCS
     tests/TestMain.cpp
+    tests/abortutil.cpp
     tests/compositiontest.cpp
     tests/effectstest.cpp
     tests/groupstest.cpp
@@ -17,8 +18,8 @@ SET(Tests_SRCS
     tests/snaptest.cpp
     tests/test_utils.cpp
     tests/timewarptest.cpp
-    tests/trimmingtest.cpp
     tests/treetest.cpp
+    tests/trimmingtest.cpp
     PARENT_SCOPE
 )
 
