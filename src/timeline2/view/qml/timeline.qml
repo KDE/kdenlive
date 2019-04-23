@@ -855,6 +855,11 @@ Rectangle {
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
+                    if (root.activeTool === 1) {
+                        // razor tool
+                        var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
+                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
+                    }
                     if (dragProxy.draggedItem > -1) {
                         mouse.accepted = false
                         return
@@ -878,10 +883,6 @@ Rectangle {
                         }
                         timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                         timeline.position = timeline.seekPosition
-                    } else if (root.activeTool === 1) {
-                        // razor tool
-                        var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
-                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
@@ -908,6 +909,12 @@ Rectangle {
                     clickX = mouseX
                     clickY = mouseY
                     return
+                }
+                if (!pressed && !rubberSelect.visible && root.activeTool === 1) {
+                    cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
+                    if (mouse.modifiers & Qt.ShiftModifier) {
+                        timeline.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
+                    }
                 }
                 if (dragProxy.draggedItem > -1) {
                     mouse.accepted = false
@@ -951,12 +958,6 @@ Rectangle {
                     scim = true
                 } else {
                     scim = false
-                    if (root.activeTool === 1) {
-                        cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
-                        if (mouse.modifiers & Qt.ShiftModifier) {
-                            timeline.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
-                        }
-                    }
                 }
             }
             onReleased: {
