@@ -1,5 +1,5 @@
 #include "abortutil.hpp"
-#ifdef __linux__
+#if !defined(_WIN32) && (defined(__unix__) || defined(__unix) || (defined(__APPLE__) && defined(__MACH__)))
 
 void Disable_Console_Output()
 {
