@@ -37,7 +37,7 @@
     </entry>
     <entry name="checkfirstprojectclip" type="Bool">
       <label>Check if document profile is same as first imported clip.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
     <entry name="exportframe_usingsourceres" type="Bool">
       <label>Export image using source resolution.</label>
