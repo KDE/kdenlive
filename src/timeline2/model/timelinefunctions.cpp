@@ -248,7 +248,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     std::function<bool(void)> redo = []() { return true; };
     int res = timeline->requestClipsGroup(clips, undo, redo, GroupType::Selection);
     bool final = false;
-    if (res > -1) {
+    if (res > -1 || clips.size() == 1) {
         if (clips.size() > 1) {
             final = timeline->requestGroupMove(itemId, res, 0, endPosition - startPosition, true, true, undo, redo);
         } else {
