@@ -166,18 +166,12 @@ ProjectClip::~ProjectClip()
 
 void ProjectClip::connectEffectStack()
 {
-    connect(m_effectStack.get(), &EffectStackModel::modelChanged, this, &ProjectClip::updateChildProducers);
-    connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, &ProjectClip::updateChildProducers);
     connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&]() {
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            AbstractProjectItem::IconOverlay);
         }
     });
-    /*connect(m_effectStack.get(), &EffectStackModel::modelChanged, [&](){
-        qDebug()<<"/ / / STACK CHANGED";
-        updateChildProducers();
-    });*/
 }
 
 QString ProjectClip::getToolTip() const
@@ -1408,22 +1402,6 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
 bool ProjectClip::isIncludedInTimeline()
 {
     return m_registeredClips.size() > 0;
-}
-
-void ProjectClip::updateChildProducers()
-{
-    // TODO refac: the effect should be managed by an effectstack on the master
-    /*
-    // pass effect stack on all child producers
-    QMutexLocker locker(&m_producerMutex);
-    for (const auto &clip : m_timelineProducers) {
-        if (auto producer = clip.second) {
-            Clip clp(producer->parent());
-            clp.deleteEffects();
-            clp.replaceEffects(*m_masterProducer);
-        }
-    }
-    */
 }
 
 void ProjectClip::replaceInTimeline()

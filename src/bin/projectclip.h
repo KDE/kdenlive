@@ -236,8 +236,6 @@ protected:
     void deregisterTimelineClip(int clipId);
 
     void emitProducerChanged(const QString &id, const std::shared_ptr<Mlt::Producer> &producer) override { emit producerChanged(id, producer); };
-    /** @brief Replace instance of this clip in timeline */
-    void updateChildProducers();
     void replaceInTimeline();
     void connectEffectStack() override;
 
