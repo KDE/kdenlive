@@ -131,7 +131,7 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     res = res && timeline->requestItemResize(newId, duration - newDuration, false, true, undo, redo);
     // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
-    res = res && timeline->requestClipMove(newId, trackId, position, true, false, undo, redo);
+    res = res && timeline->requestClipMove(newId, trackId, position, true, false, true, undo, redo);
     if (durationChanged) {
         // Track length changed, check project duration
         Fun updateDuration = [timeline]() {
@@ -254,7 +254,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         } else {
             // only 1 clip to be moved
             if (isClip) {
-                final = timeline->requestClipMove(itemId, track, endPosition, true, true, undo, redo);
+                final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, undo, redo);
             } else {
                 final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
             }
@@ -441,7 +441,7 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
         } else {
             // only 1 clip to be moved
             int clipStart = timeline->getItemPosition(clipId);
-            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, undo, redo);
+            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, true, undo, redo);
         }
     }
     return result;
@@ -483,7 +483,7 @@ bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemMod
         result =
             result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo);
     } else if (timeline->isClip(itemId)) {
-        result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, local_undo, local_redo);
+        result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, local_undo, local_redo);
     } else {
         result = result && timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true,
                                                             local_undo, local_redo);
@@ -522,7 +522,7 @@ bool TimelineFunctions::requestItemCopy(const std::shared_ptr<TimelineItemModel>
             std::advance(it, target_track_position);
             int target_track = (*it)->getId();
             if (timeline->isClip(id)) {
-                res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, undo, redo);
+                res = res && timeline->requestClipMove(newId, target_track, target_position, true, true, true, undo, redo);
             } else {
                 const QString &transitionId = timeline->m_allCompositions[id]->getAssetId();
                 std::unique_ptr<Mlt::Properties> transProps(timeline->m_allCompositions[id]->properties());
@@ -646,7 +646,7 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
         bool success = false;
         while (!success && !possibleTracks.isEmpty()) {
             int newTrack = possibleTracks.takeFirst();
-            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+            success = timeline->requestClipMove(newId, newTrack, position, true, false, true, undo, redo);
         }
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::VideoOnly, undo, redo);
         success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);
@@ -697,7 +697,7 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
         bool success = false;
         while (!success && !possibleTracks.isEmpty()) {
             int newTrack = possibleTracks.takeFirst();
-            success = timeline->requestClipMove(newId, newTrack, position, true, false, undo, redo);
+            success = timeline->requestClipMove(newId, newTrack, position, true, true, true, undo, redo);
         }
         TimelineFunctions::changeClipState(timeline, cid, PlaylistState::AudioOnly, undo, redo);
         success = success && timeline->m_groups->createGroupAtSameLevel(cid, std::unordered_set<int>{newId}, GroupType::AVSplit, undo, redo);

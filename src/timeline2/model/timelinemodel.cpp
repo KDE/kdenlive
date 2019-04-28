@@ -503,9 +503,9 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     return false;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo)
 {
-    // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView;
+    // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
     if (trackId == -1) {
         return false;
     }
@@ -533,10 +533,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         // Move on same track, simply inform the view
         updateView = false;
         notifyViewOnly = true;
-        update_model = [clipId, this, invalidateTimeline]() {
+        update_model = [clipId, this, trackId, invalidateTimeline]() {
             QModelIndex modelIndex = makeClipIndexFromID(clipId);
             notifyChange(modelIndex, modelIndex, StartRole);
-            if (invalidateTimeline) {
+            if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
                 int in = getClipPosition(clipId);
                 emit invalidateZone(in, in + getClipPlaytime(clipId));
             }
@@ -547,14 +547,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
         }
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, invalidateTimeline, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, local_undo, local_redo);
+    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -621,7 +621,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestClipMove(clipId, trackId, position, updateView, invalidateTimeline, undo, redo);
+    bool res = requestClipMove(clipId, trackId, position, updateView, invalidateTimeline, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
@@ -649,7 +649,7 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
         int delta_pos = position - m_allClips[clipId]->getPosition();
         res = requestGroupMove(clipId, groupId, delta_track, delta_pos, false, false, undo, redo, false);
     } else {
-        res = requestClipMove(clipId, trackId, position, false, false, undo, redo);
+        res = requestClipMove(clipId, trackId, position, false, false, false, undo, redo);
     }
     if (res) {
         undo();
@@ -987,7 +987,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
-        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, logUndo, local_undo, local_redo);
         int target_track;
         if (audioDrop) {
             target_track = m_videoTarget == -1 ? -1 : getTrackById_const(m_videoTarget)->isLocked() ? -1 : m_videoTarget;
@@ -1023,7 +1023,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     bool move = false;
                     while (!move && !possibleTracks.isEmpty()) {
                         int newTrack = possibleTracks.takeFirst();
-                        move = requestClipMove(newId, newTrack, position, true, false, audio_undo, audio_redo);
+                        move = requestClipMove(newId, newTrack, position, true, true, true, audio_undo, audio_redo);
                     }
                     // use lazy evaluation to group only if move was successful
                     res = res && move && requestClipsGroup({id, newId}, audio_undo, audio_redo, GroupType::AVSplit);
@@ -1054,7 +1054,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             normalisedBinId.remove(0, 1);
         }
         res = requestClipCreation(normalisedBinId, id, dropType, 1.0, local_undo, local_redo);
-        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, logUndo, local_undo, local_redo);
     }
     if (!res) {
         bool undone = local_undo();
@@ -1431,7 +1431,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int target_track = (*it)->getId();
             int target_position = old_position[item] + delta_pos;
             if (isClip(item)) {
-                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, local_undo, local_redo);
+                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, finalMove, local_undo, local_redo);
             } else {
                 ok = ok &&
                      requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, finalMove, local_undo, local_redo);
