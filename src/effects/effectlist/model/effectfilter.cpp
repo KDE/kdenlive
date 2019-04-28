@@ -64,5 +64,9 @@ bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
 
 bool EffectFilter::applyAll(std::shared_ptr<TreeItem> item) const
 {
-    return filterName(item) && filterType(item);
+    if (!m_name_value.isEmpty()) {
+        return filterName(item);
+    } else {
+        return filterType(item);
+    }
 }
