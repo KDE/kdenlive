@@ -60,6 +60,9 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
             QString paramValue = sourceProperties->get(paramName.toUtf8().constData());
             currentParameter.setAttribute(QStringLiteral("value"), paramValue);
         }
+        if (sourceProps.contains(QStringLiteral("force_track"))) {
+            transition->set("force_track", sourceProperties->get_int("force_track"));
+        }
     }
     std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, std::move(transition), id, xml, transitionId));
     id = composition->m_id;
