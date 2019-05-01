@@ -111,6 +111,7 @@ NegQColor ColorWheel::color() const
 void ColorWheel::setColor(const NegQColor &color)
 {
     m_color = color;
+    update();
 }
 
 int ColorWheel::wheelSize() const

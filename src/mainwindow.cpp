@@ -2215,7 +2215,11 @@ void MainWindow::slotAddClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        return;
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        if (selectedClip > -1) {
+            getMainTimeline()->controller()->addMarker(selectedClip);
+            return;
+        }
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2233,16 +2237,11 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        // TODO refac retrieve active clip
-        /*
-        if (pCore->projectManager()->currentTimeline()) {
-            ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
-            if (item) {
-                pos = (GenTime(m_projectMonitor->position(), pCore->getCurrentFps()) - item->startPos() + item->cropStart()) / item->speed();
-                clip = pCore->bin()->getBinClip(item->getBinId());
-            }
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        if (selectedClip > -1) {
+            getMainTimeline()->controller()->deleteMarker(selectedClip);
+            return;
         }
-        */
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2270,15 +2269,11 @@ void MainWindow::slotDeleteAllClipMarkers()
 {
     std::shared_ptr<ProjectClip> clip(nullptr);
     if (m_projectMonitor->isActive()) {
-        // TODO refac
-        /*
-        if (pCore->projectManager()->currentTimeline()) {
-            ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
-            if (item) {
-                clip = pCore->bin()->getBinClip(item->getBinId());
-            }
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        if (selectedClip > -1) {
+            getMainTimeline()->controller()->deleteAllMarkers(selectedClip);
+            return;
         }
-        */
     } else {
         clip = m_clipMonitor->currentController();
     }
@@ -2298,16 +2293,11 @@ void MainWindow::slotEditClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        // TODO refac
-        /*
-        if (pCore->projectManager()->currentTimeline()) {
-            ClipItem *item = pCore->projectManager()->currentTimeline()->projectView()->getActiveClipUnderCursor();
-            if (item) {
-                pos = (GenTime(m_projectMonitor->position(), pCore->getCurrentFps()) - item->startPos() + item->cropStart()) / item->speed();
-                clip = pCore->bin()->getBinClip(item->getBinId());
-            }
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        if (selectedClip > -1) {
+            getMainTimeline()->controller()->editMarker(selectedClip);
+            return;
         }
-        */
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2345,7 +2335,14 @@ void MainWindow::slotAddMarkerGuideQuickly()
         CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
         clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
     } else {
-        getMainTimeline()->controller()->switchGuide();
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        if (selectedClip == -1) {
+            // Add timeline guide
+            getMainTimeline()->controller()->switchGuide();
+        } else {
+            // Add marker to main clip
+            getMainTimeline()->controller()->addQuickMarker(selectedClip);
+        }
     }
 }
 

@@ -85,6 +85,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         // Special case, the colorwheel widget manages several parameters
         QModelIndex index = model->index(0, 0);
         auto w = AbstractParamWidget::construct(model, index, frameSize, this);
+        connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
         m_widgets.push_back(w);
@@ -150,6 +151,18 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetCommand(m_model, index, value);
+    if (storeUndo) {
+        pCore->pushUndo(command);
+    } else {
+        command->redo();
+        delete command;
+    }
+}
+
+void AssetParameterView::commitMultipleChanges(const QList <QModelIndex> indexes, const QStringList &values, bool storeUndo)
+{
+    // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
+    auto *command = new AssetMultiCommand(m_model, indexes, values);
     if (storeUndo) {
         pCore->pushUndo(command);
     } else {
