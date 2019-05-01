@@ -405,6 +405,30 @@ void TimelineController::deleteSelectedClips()
     m_model->requestItemDeletion(*sel.begin());
 }
 
+int TimelineController::getMainSelectedClip()
+{
+    auto sel = m_model->getCurrentSelection();
+    if (sel.empty() || sel.size() > 2) {
+        return -1;
+    }
+    int itemId = *(sel.begin());
+    if (sel.size() == 2) {
+        int parentGroup = m_model->m_groups->getRootId(itemId);
+        if (parentGroup == -1 || m_model->m_groups->getType(parentGroup) != GroupType::AVSplit) {
+            return -1;
+        }
+    }
+    if (m_model->isClip(itemId)) {
+        int position = timelinePosition();
+        int start = m_model->getClipPosition(itemId);
+        int end = start + m_model->getClipPlaytime(itemId);
+        if (position >= start && position <= end) {
+            return itemId;
+        }
+    }
+    return -1;
+}
+
 void TimelineController::copyItem()
 {
     std::unordered_set<int> selectedIds = m_model->getCurrentSelection();
@@ -621,6 +645,9 @@ void TimelineController::setOutPoint()
 void TimelineController::editMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position == -1) {
+        position = timelinePosition();
+    }
     if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
         return;
@@ -633,6 +660,9 @@ void TimelineController::editMarker(int cid, int position)
 void TimelineController::addMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position == -1) {
+        position = timelinePosition();
+    }
     if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to add marker"), InformationMessage, 500);
         return;
@@ -645,6 +675,9 @@ void TimelineController::addMarker(int cid, int position)
 void TimelineController::addQuickMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position == -1) {
+        position = timelinePosition();
+    }
     if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to add marker"), InformationMessage, 500);
         return;
@@ -658,6 +691,9 @@ void TimelineController::addQuickMarker(int cid, int position)
 void TimelineController::deleteMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    if (position == -1) {
+        position = timelinePosition();
+    }
     if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to remove marker"), InformationMessage, 500);
         return;

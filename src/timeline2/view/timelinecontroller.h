@@ -208,6 +208,11 @@ public:
 
     Q_INVOKABLE void triggerAction(const QString &name);
 
+    /* @brief Returns id of the timeline selcted clip if there is only 1 clip selected
+     * or an AVSplit group. Returns -1 otherwise
+     */
+    int getMainSelectedClip();
+
     /* @brief Do we want to display video thumbnails
      */
     bool showThumbnails() const;
@@ -231,16 +236,16 @@ public:
     Q_INVOKABLE void unGroupSelection(int cid = -1);
     /* @brief Ask for edit marker dialog
      */
-    Q_INVOKABLE void editMarker(int cid, int position);
+    Q_INVOKABLE void editMarker(int cid, int position = -1);
     /* @brief Ask for marker add dialog
      */
-    Q_INVOKABLE void addMarker(int cid, int position);
+    Q_INVOKABLE void addMarker(int cid, int position = -1);
     /* @brief Ask for quick marker add (without dialog)
      */
-    Q_INVOKABLE void addQuickMarker(int cid, int position);
+    Q_INVOKABLE void addQuickMarker(int cid, int position = -1);
     /* @brief Ask for marker delete
      */
-    Q_INVOKABLE void deleteMarker(int cid, int position);
+    Q_INVOKABLE void deleteMarker(int cid, int position = -1);
     /* @brief Ask for all markers delete
      */
     Q_INVOKABLE void deleteAllMarkers(int cid);
