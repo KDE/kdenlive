@@ -54,6 +54,7 @@ signals:
         The bool allows to decide whether an undo object should be created
      */
     void valueChanged(QModelIndex, QString, bool);
+    void valuesChanged(const QList <QModelIndex>, const QStringList&, bool);
 
     /* @brief Signal sent when the filter needs to be deactivated or reactivated.
        This happens for example when the user has to pick a color.

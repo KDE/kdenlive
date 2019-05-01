@@ -73,6 +73,67 @@ bool AssetCommand::mergeWith(const QUndoCommand *other)
     return true;
 }
 
+AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> &model, const QList <QModelIndex> indexes, const QStringList values, QUndoCommand *parent)
+    : QUndoCommand(parent)
+    , m_model(model)
+    , m_indexes(indexes)
+    , m_values(values)
+    , m_updateView(false)
+    , m_stamp(QTime::currentTime())
+{
+    QLocale locale;
+    qDebug()<<"CREATING MULTIPLE COMMAND!!!\nVALUES: "<<m_values;
+    m_name = m_model->data(indexes.first(), AssetParameterModel::NameRole).toString();
+    const QString id = model->getAssetId();
+    if (EffectsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1", EffectsRepository::get()->getName(id)));
+    } else if (TransitionsRepository::get()->exists(id)) {
+        setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
+    }
+    for (QModelIndex ix : m_indexes) {
+        QVariant previousVal = m_model->data(ix, AssetParameterModel::ValueRole);
+        m_oldValues << (previousVal.type() == QVariant::Double ? locale.toString(previousVal.toDouble()) : previousVal.toString());
+    }
+}
+
+void AssetMultiCommand::undo()
+{
+    int indx = 0;
+    int max = m_indexes.size() - 1;
+    for (const QModelIndex &ix : m_indexes) {
+        m_model->setParameter(m_model->data(ix, AssetParameterModel::NameRole).toString(), m_oldValues.at(indx), indx == max, ix);
+        indx++;
+    }
+}
+// virtual
+void AssetMultiCommand::redo()
+{
+    int indx = 0;
+    int max = m_indexes.size() - 1;
+    for (const QModelIndex &ix : m_indexes) {
+        m_model->setParameter(m_model->data(ix, AssetParameterModel::NameRole).toString(), m_values.at(indx), m_updateView && indx == max, ix);
+        indx++;
+    }
+    m_updateView = true;
+}
+
+// virtual
+int AssetMultiCommand::id() const
+{
+    return 1;
+}
+// virtual
+bool AssetMultiCommand::mergeWith(const QUndoCommand *other)
+{
+    if (other->id() != id() || static_cast<const AssetMultiCommand *>(other)->m_indexes != m_indexes  ||
+        m_stamp.msecsTo(static_cast<const AssetMultiCommand *>(other)->m_stamp) > 3000) {
+        return false;
+    }
+    m_values = static_cast<const AssetMultiCommand *>(other)->m_values;
+    m_stamp = static_cast<const AssetMultiCommand *>(other)->m_stamp;
+    return true;
+}
+
 AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterModel> &model, const QModelIndex &index, QVariant value, GenTime pos,
                                            QUndoCommand *parent)
     : QUndoCommand(parent)

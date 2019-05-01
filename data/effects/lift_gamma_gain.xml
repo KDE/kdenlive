@@ -11,22 +11,22 @@
         <parameter type="colorwheel" name="lift_b" default="0" min="0" max="500" factor="100">
                 <name>Lift: Blue</name>
         </parameter>
-        <parameter type="double" name="gamma_r" default="1" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="gamma_r" default="1" min="0" max="500" factor="100">
                 <name>Gamma: Red</name>
         </parameter>
-        <parameter type="double" name="gamma_g" default="1" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="gamma_g" default="1" min="0" max="500" factor="100">
                 <name>Gamma: Green</name>
         </parameter>
-        <parameter type="double" name="gamma_b" default="1" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="gamma_b" default="1" min="0" max="500" factor="100">
                 <name>Gamma: Blue</name>
         </parameter>
-        <parameter type="double" name="gain_r" default="1" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="gain_r" default="1" min="0" max="500" factor="100">
                 <name>Gain: Red</name>
         </parameter>
-        <parameter type="double" name="gain_g" default="1" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="gain_g" default="1" min="0" max="500" factor="100">
                 <name>Gain: Green</name>
         </parameter>
-        <parameter type="double" name="gain_b" default="1" min="0" max="500" factor="100">
+        <parameter type="colorwheel" name="gain_b" default="1" min="0" max="500" factor="100">
                 <name>Gain: Blue</name>
         </parameter>
 </effect>
