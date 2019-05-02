@@ -1456,6 +1456,11 @@ void MainWindow::setupActions()
     deleteClip->setData("delete_clip");
     deleteClip->setEnabled(false);
 
+    QAction *renameClip =
+        addAction(QStringLiteral("rename_clip"), i18n("Rename Clip"), pCore->bin(), SLOT(slotRenameItem()), QIcon::fromTheme(QStringLiteral("document-edit")));
+    renameClip->setData("rename_clip");
+    renameClip->setEnabled(false);
+
     QAction *reloadClip =
         addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), QIcon::fromTheme(QStringLiteral("view-refresh")));
     reloadClip->setData("reload_clip");
@@ -1500,6 +1505,7 @@ void MainWindow::setupActions()
                                        {QStringLiteral("proxy"), proxyClip},
                                        {QStringLiteral("properties"), clipProperties},
                                        {QStringLiteral("open"), openClip},
+                                       {QStringLiteral("rename"), renameClip},
                                        {QStringLiteral("delete"), deleteClip},
                                        {QStringLiteral("folder"), addFolder}});
 

@@ -608,7 +608,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_searchLine = new QLineEdit(this);
     m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     // m_searchLine->setClearButtonEnabled(true);
-    m_searchLine->setPlaceholderText(i18n("Search"));
+    m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
     connect(m_searchLine, &QLineEdit::textChanged, m_proxyModel, &ProjectSortProxyModel::slotSetSearchString);
 
@@ -684,11 +684,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
-
-    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), this);
-    m_renameAction->setText(i18n("Rename"));
-    m_renameAction->setData("rename");
-    pCore->window()->actionCollection()->addAction(QStringLiteral("rename"), m_renameAction);
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
@@ -973,7 +968,7 @@ void Bin::slotDeleteClip()
         usedFolder = usedFolder || item->childCount() > 0;
         items.push_back(item);
     }
-    if (included && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from timeline")) != KMessageBox::Continue)) {
+    if (included && (KMessageBox::warningContinueCancel(this, i18n("This will delete all selected clips from the timeline")) != KMessageBox::Continue)) {
         return;
     }
     if (usedFolder && (KMessageBox::warningContinueCancel(this, i18n("This will delete all folder content")) != KMessageBox::Continue)) {
@@ -1536,6 +1531,8 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
+    m_renameAction->setEnabled(true);
+
     m_editAction->setVisible(!isFolder);
     m_clipsActionsMenu->setEnabled(enableClipActions);
     m_extractAudioAction->setEnabled(enableClipActions);
@@ -1543,6 +1540,8 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_inTimelineAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+    m_renameAction->setVisible(true);
+
     if (m_transcodeAction) {
         m_transcodeAction->setEnabled(enableClipActions);
         m_transcodeAction->menuAction()->setVisible(itemType != AbstractProjectItem::FolderItem && clipService.contains(QStringLiteral("avformat")));
@@ -1922,6 +1921,7 @@ void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString,
     m_duplicateAction = actions.value(QStringLiteral("duplicate"));
     m_locateAction = actions.value(QStringLiteral("locate"));
     m_proxyAction = actions.value(QStringLiteral("proxy"));
+    m_renameAction = actions.value(QStringLiteral("rename"));
 
     auto *m = new QMenu(this);
     m->addActions(addMenu->actions());

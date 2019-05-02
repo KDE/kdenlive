@@ -312,7 +312,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         m_originalProperties.insert(QStringLiteral("force_aspect_den"), (force_ar_den == 0) ? QString() : QString::number(force_ar_den));
         m_originalProperties.insert(QStringLiteral("force_aspect_num"), (force_ar_num == 0) ? QString() : QString::number(force_ar_num));
         auto *hlay = new QHBoxLayout;
-        QCheckBox *box = new QCheckBox(i18n("Aspect Ratio"), this);
+        QCheckBox *box = new QCheckBox(i18n("Aspect ratio"), this);
         box->setObjectName(QStringLiteral("force_ar"));
         vbox->addWidget(box);
         connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
