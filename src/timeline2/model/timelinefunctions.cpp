@@ -586,27 +586,24 @@ bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel>
     int track = timeline->getClipTrackId(clipId);
     int start = -1;
     int end = -1;
+    bool invalidate = false;
     if (track > -1) {
         if (!timeline->getTrackById_const(track)->isAudioTrack()) {
-            start = timeline->getItemPosition(clipId);
-            end = start + timeline->getItemPlaytime(clipId);
+            invalidate = true;
         }
+        start = timeline->getItemPosition(clipId);
+        end = start + timeline->getItemPlaytime(clipId);
     }
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-
-    bool result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
-    Fun local_update = [start, end, timeline]() {
-        if (start > -1) {
-            timeline->invalidateZone(start, end);
-            timeline->checkRefresh(start, end);
-        }
-        return true;
-    };
-    if (start > -1) {
-        local_update();
-        PUSH_LAMBDA(local_update, local_redo);
-        PUSH_LAMBDA(local_update, local_undo);
+    // For the state change to work, we need to unplant/replant the clip
+    bool result = true;
+    if (track > -1) {
+        result = timeline->getTrackById(track)->requestClipDeletion(clipId, true, invalidate, local_undo, local_redo);
+    }
+    result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
+    if (result && track > -1) {
+        result = timeline->getTrackById(track)->requestClipInsertion(clipId, start, true, true, local_undo, local_redo);
     }
     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
     return result;

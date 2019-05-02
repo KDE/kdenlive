@@ -2458,7 +2458,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         }
     }
     // sort by decreasing b_track
-    std::sort(compos.begin(), compos.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+    std::sort(compos.begin(), compos.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first < b.first; });
     // replant
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();

@@ -533,7 +533,7 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
         return;
     }
     bool registerSnap = m_currentTrackId == -1 && tid > -1;
-    
+
     if (m_currentTrackId > -1 && tid == -1) {
         // Removing clip
         m_clipMarkerModel->deregisterSnapModel();
@@ -555,23 +555,9 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
     QWriteLocker locker(&m_lock);
     return [this, state]() {
         if (auto ptr = m_parent.lock()) {
-            switch (state) {
-            case PlaylistState::Disabled:
-                m_producer->set("set.test_audio", 1);
-                m_producer->set("set.test_image", 1);
-                break;
-            case PlaylistState::VideoOnly:
-                m_producer->set("set.test_image", 0);
-                break;
-            case PlaylistState::AudioOnly:
-                m_producer->set("set.test_audio", 0);
-                break;
-            default:
-                // error
-                break;
-            }
             m_currentState = state;
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
+                refreshProducerFromBin(m_currentState);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
             }
