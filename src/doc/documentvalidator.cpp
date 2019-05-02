@@ -2246,6 +2246,7 @@ void DocumentValidator::checkOrphanedProducers()
         }
         if (!binProducers.contains(id)) {
             QString binId = Xml::getXmlProperty(prod, QStringLiteral("kdenlive:binid"));
+            Xml::setXmlProperty(prod, QStringLiteral("kdenlive:id"), binId);
             if (!binId.isEmpty() && binProducers.contains(binId)) {
                 continue;
             }

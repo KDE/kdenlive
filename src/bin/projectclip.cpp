@@ -620,8 +620,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
         warpProducer->set("length", double(original_length) / std::abs(speed));
-        
-        
     }
 
     qDebug() << "warp LENGTH" << warpProducer->get_length();
@@ -660,13 +658,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(-1, clipId, state, speed)->cut(in, out));
                 return {prod, false};
             }
-            if (state == PlaylistState::Disabled && !m_disabledProducer) {
-                qDebug() << "Warning: weird, we found a disabled clip whose master is already loaded but we don't have any yet";
-                createDisabledMasterProducer();
-                return {std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(in, out)), false};
-            }
-            if (state == PlaylistState::Disabled && QString::fromUtf8(m_disabledProducer->get("id")) != QString::fromUtf8(master->parent().get("id"))) {
-                qDebug() << "Warning: weird, we found a disabled clip whose master is already loaded but doesn't match ours";
+            if (state == PlaylistState::Disabled) {
+                if (!m_disabledProducer) {
+                    qDebug() << "Warning: weird, we found a disabled clip whose master is already loaded but we don't have any yet";
+                    createDisabledMasterProducer();
+                }
                 return {std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(in, out)), false};
             }
             // We have a good id, this clip can be used
@@ -689,11 +685,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 m_effectStack->loadService(m_videoProducers[clipId]);
                 return {master, true};
             }
-            if (state == PlaylistState::Disabled && !m_disabledProducer) {
-                // good, we found a master disabled producer, and we didn't have any
-                m_disabledProducer.reset(master->parent().cut());
-                m_effectStack->loadService(m_disabledProducer);
-                return {master, true};
+            if (state == PlaylistState::Disabled) {
+                if (!m_disabledProducer) {
+                    createDisabledMasterProducer();
+                }
+                return {std::make_shared<Mlt::Producer>(m_disabledProducer->cut(master->get_in(), master->get_out())), true};
             }
             qDebug() << "Warning: weird, we found a clip whose master is not loaded but we already have a master";
             Q_ASSERT(false);
