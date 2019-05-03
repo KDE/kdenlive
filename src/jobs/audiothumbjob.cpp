@@ -120,7 +120,13 @@ bool AudioThumbJob::computeWithFFMPEG()
         channelTmpfile->close();
         channelFiles.emplace_back(std::move(channelTmpfile));
     }
-    args << QStringLiteral("-i") << QUrl::fromLocalFile(m_prod->get("resource")).toLocalFile();
+    // Always create audio thumbs from the original source file, because proxy 
+    // can have a different audio config (channels / mono/ stereo)
+    QString filePath = m_prod->get("kdenlive:originalurl");
+    if (filePath.isEmpty()) {
+        filePath = m_prod->get("resource");
+    }
+    args << QStringLiteral("-i") << QUrl::fromLocalFile(filePath).toLocalFile();
     // Output progress info
     args << QStringLiteral("-progress");
 #ifdef Q_OS_WIN

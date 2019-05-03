@@ -208,7 +208,6 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[GroupedRole] = "grouped";
     roles[IsDisabledRole] = "disabled";
     roles[IsAudioRole] = "audio";
-    roles[AudioLevelsRole] = "audioLevels";
     roles[AudioChannelsRole] = "audioChannels";
     roles[IsCompositeRole] = "composite";
     roles[IsLockedRole] = "locked";
@@ -291,9 +290,6 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case ServiceRole:
             return clip->getProperty("mlt_service");
             break;
-        case AudioLevelsRole:
-            // Dumb property to trigger audio thumbs reload
-            return true;
         case AudioChannelsRole:
             return clip->audioChannels();
         case HasAudio:
