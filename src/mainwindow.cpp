@@ -3678,6 +3678,7 @@ void MainWindow::slotUpdateCompositing(QAction *compose)
     if (m_renderWidget) {
         m_renderWidget->errorMessage(RenderWidget::CompositeError, mode == 1 ? i18n("Rendering using low quality track compositing") : QString());
     }
+    pCore->currentDoc()->setModified();
 }
 
 void MainWindow::slotUpdateCompositeAction(int mode)
