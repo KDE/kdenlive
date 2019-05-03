@@ -762,6 +762,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_infoMessage->hide();
     connect(this, &Bin::requesteInvalidRemoval, this, &Bin::slotQueryRemoval);
     connect(this, SIGNAL(displayBinMessage(QString, KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString, KMessageWidget::MessageType)));
+    wheelAccumulatedDelta = 0;
 }
 
 Bin::~Bin()
@@ -837,7 +838,10 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::Wheel) {
         auto *e = static_cast<QWheelEvent *>(event);
         if ((e != nullptr) && e->modifiers() == Qt::ControlModifier) {
-            slotZoomView(e->delta() > 0);
+            wheelAccumulatedDelta += e->delta();
+            if (abs(wheelAccumulatedDelta) >= QWheelEvent::DefaultDeltasPerStep) {
+                slotZoomView(wheelAccumulatedDelta > 0);
+            }
             // emit zoomView(e->delta() > 0);
             return true;
         }
@@ -881,6 +885,7 @@ void Bin::slotSaveHeaders()
 
 void Bin::slotZoomView(bool zoomIn)
 {
+    wheelAccumulatedDelta = 0;
     if (m_itemModel->rowCount() == 0) {
         // Don't zoom on empty bin
         return;

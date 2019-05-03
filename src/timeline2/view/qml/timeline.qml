@@ -74,11 +74,14 @@ Rectangle {
                 timeline.triggerAction('monitor_seek_snap_forward')
             }
         } else if (wheel.modifiers & Qt.ControlModifier) {
+            root.wheelAccumulatedDelta += wheel.angleDelta.y;
             // Zoom
-            if (wheel.angleDelta.y > 0) {
+            if (root.wheelAccumulatedDelta >= defaultDeltasPerStep) {
                 root.zoomIn(true);
-            } else {
+                root.wheelAccumulatedDelta = 0;
+            } else if (root.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
                 root.zoomOut(true);
+                root.wheelAccumulatedDelta = 0;
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
             // Vertical scroll
@@ -231,6 +234,8 @@ Rectangle {
     property int copiedClip: -1
     property int zoomOnMouse: -1
     property int viewActiveTrack: timeline.activeTrack
+    property int wheelAccumulatedDelta: 0
+    readonly property int defaultDeltasPerStep: 120
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
