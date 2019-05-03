@@ -514,7 +514,6 @@ void TimelineController::addTrack(int tid)
             m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true);
         }
         m_model->buildTrackCompositing(true);
-        m_model->_resetView();
         if (audioRecTrack) {
             m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
         }

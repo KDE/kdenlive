@@ -112,6 +112,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             qDebug() << "ERROR: Unexpected item in the timeline";
         }
     }
+    timeline->_resetView();
 
     // Loading compositions
     QScopedPointer<Mlt::Service> service(tractor.producer());
