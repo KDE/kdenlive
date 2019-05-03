@@ -111,7 +111,7 @@ void PositionEditWidget::slotRefresh()
             if (val < 0) {
                 val = -val;
             } else {
-                val = max - value.toInt();
+                val = max - val;
             }
         }
     }
