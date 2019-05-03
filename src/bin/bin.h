@@ -441,6 +441,7 @@ private:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
+    int wheelAccumulatedDelta;
 
 signals:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);
