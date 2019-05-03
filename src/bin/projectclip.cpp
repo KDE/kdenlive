@@ -199,8 +199,6 @@ void ProjectClip::updateAudioThumbnail(QList<double> audioLevels)
     if (auto ptr = m_model.lock()) {
         emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
     }
-    qDebug() << " * ** * YOP AUDIO LEF CHANGED";
-    updateTimelineClips({TimelineModel::AudioLevelsRole});
 }
 
 bool ProjectClip::audioThumbCreated() const

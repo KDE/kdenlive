@@ -31,6 +31,7 @@
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
+#include "monitor/monitor.h"
 #include "xml/xml.hpp"
 #include <KMessageWidget>
 #include <QMimeDatabase>
@@ -248,6 +249,7 @@ bool LoadJob::startJob()
     if (m_done) {
         return true;
     }
+    pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(m_clipId);
     m_resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));

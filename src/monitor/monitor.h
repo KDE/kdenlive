@@ -158,6 +158,8 @@ public:
     void slotZoomOut();
     /** @brief Set a property on the MLT consumer */
     void setConsumerProperty(const QString &name, const QString &value);
+    /** @brief Play or Loop zone sets a fake "out" on the producer. It is necessary to reset this before reloading the producer */
+    void resetPlayOrLoopZone(const QString &binId);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
