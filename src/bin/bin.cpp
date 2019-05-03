@@ -1024,7 +1024,7 @@ void Bin::slotReloadClip()
                     }
                 }
             }
-            currentItem->reloadProducer(false);
+            currentItem->reloadProducer(false, true);
         }
     }
 }

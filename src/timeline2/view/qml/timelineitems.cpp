@@ -109,8 +109,14 @@ public:
 
     void paint(QPainter *painter) override
     {
-        if (!m_showItem || m_audioLevels.isEmpty()) {
+        if (!m_showItem || m_binId.isEmpty()) {
             return;
+        }
+        if (m_audioLevels.isEmpty()) {
+            m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
+            if (m_audioLevels.isEmpty()) {
+                return;
+            }
         }
         qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
         QPen pen = painter->pen();

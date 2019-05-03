@@ -32,7 +32,7 @@ Row {
     function processReload() {
         // This is needed to make the model have the correct count.
         // Model as a property expression is not working in all cases.
-        if (!waveform.visible || !timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax) || clipRoot.audioLevels == '') {
+        if (!waveform.visible || !timeline.showAudioThumbnails || (waveform.scrollMin > clipRoot.modelStart + clipRoot.clipDuration) || (clipRoot.modelStart > waveform.scrollMax)) {
             return;
         }
         var chunks = Math.ceil(waveform.width / waveform.maxWidth)

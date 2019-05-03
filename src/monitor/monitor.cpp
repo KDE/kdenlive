@@ -1301,6 +1301,13 @@ void Monitor::slotPlay()
     m_playAction->trigger();
 }
 
+void Monitor::resetPlayOrLoopZone(const QString &binId)
+{
+    if (activeClipId() == binId) {
+        m_glMonitor->resetZoneMode();
+    }
+}
+
 void Monitor::slotPlayZone()
 {
     slotActivateMonitor();
@@ -1347,6 +1354,7 @@ void Monitor::updateClipProducer(const QString &playlist)
 void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int in, int out)
 {
     if (m_controller) {
+        m_glMonitor->resetZoneMode();
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                    SLOT(checkOverlay()));
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
@@ -1404,7 +1412,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
 const QString Monitor::activeClipId()
 {
     if (m_controller) {
-        return m_controller->AbstractProjectItem::clipId();
+        return m_controller->clipId();
     }
     return QString();
 }

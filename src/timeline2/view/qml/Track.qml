@@ -130,12 +130,6 @@ Column{
                 }
                 Binding {
                     target: loader.item
-                    property: "audioLevels"
-                    value: model.audioLevels
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
-                }
-                Binding {
-                    target: loader.item
                     property: "showKeyframes"
                     value: model.showKeyframes
                     when: loader.status == Loader.Ready && loader.item

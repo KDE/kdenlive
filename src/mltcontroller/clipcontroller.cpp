@@ -543,6 +543,7 @@ void ClipController::setProducerProperty(const QString &name, const QString &val
 void ClipController::resetProducerProperty(const QString &name)
 {
     // TODO: also set property on all track producers
+    if (!m_masterProducer) return;
     m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
 }
 

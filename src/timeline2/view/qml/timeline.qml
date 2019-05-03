@@ -1037,6 +1037,12 @@ Rectangle {
                             anchors.bottom: parent.bottom
                             x: timeline.position * timeline.scaleFactor - (width / 2)
                         }
+                        MouseArea {
+                            anchors.fill: parent
+                            acceptedButtons: Qt.NoButton
+                            onWheel: zoomByWheel(wheel)
+                            cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
+                        }
                     }
                 }
                 OLD.ScrollView {

@@ -41,7 +41,6 @@ Rectangle {
     property bool showKeyframes: false
     property bool isGrabbed: false
     property bool grouped: false
-    property var audioLevels
     property var markers
     property var keyframeModel
     property int clipStatus: 0
@@ -226,12 +225,6 @@ Rectangle {
             dropSource = ''
             dropRow = -1
             drag.acceptProposedAction
-        }
-    }
-
-    onAudioLevelsChanged: {
-        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload()
         }
     }
     MouseArea {
