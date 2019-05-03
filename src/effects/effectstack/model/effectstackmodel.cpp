@@ -588,7 +588,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 if (oldDuration == -1) {
                     oldDuration = effect->filter().get_length();
                 }
-                effect->filter().set("out", out);
+                effect->filter().set("out", out - 1);
                 duration = qMin(itemDuration, duration);
                 effect->filter().set("in", out - duration);
                 indexes << getIndexFromItem(effect);
