@@ -1880,9 +1880,9 @@ void TimelineController::pasteEffects(int targetId)
     for (int i = 1; i < clips.size(); i++) {
         QDomElement subeffects = clips.at(i).firstChildElement(QStringLiteral("effects"));
         QDomNodeList subs = subeffects.childNodes();
-        for (int j = 0; j < subs.size(); j++) {
-            subs.at(j).toElement().setAttribute(QStringLiteral("parentIn"), clips.at(i).toElement().attribute(QStringLiteral("in")));
-            effects.appendChild(subs.at(j));
+        while (!subs.isEmpty()) {
+            subs.at(0).toElement().setAttribute(QStringLiteral("parentIn"), clips.at(i).toElement().attribute(QStringLiteral("in")));
+            effects.appendChild(subs.at(0));
         }
     }
     bool result = true;
