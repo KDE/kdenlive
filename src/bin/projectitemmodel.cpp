@@ -457,19 +457,20 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
     return std::static_pointer_cast<ProjectFolder>(rootItem);
 }
 
-void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap)
+void ProjectItemModel::loadSubClips(const QString &id, const stringMap &clipData)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    loadSubClips(id, dataMap, undo, redo);
+    loadSubClips(id, clipData, undo, redo);
 }
 
-void ProjectItemModel::loadSubClips(const QString &id, const QMap<QString, QString> &dataMap, Fun &undo, Fun &redo)
+void ProjectItemModel::loadSubClips(const QString &id, const stringMap &dataMap, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
     if (!clip) {
+        qDebug()<<" = = = = = CLIP NOT LOADED";
         return;
     }
     QMapIterator<QString, QString> i(dataMap);
