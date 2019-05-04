@@ -248,11 +248,11 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             continue;
         }
         auto effect = EffectItemModel::construct(effectId, shared_from_this());
-        int in = node.attribute(QStringLiteral("in")).toInt();
-        int out = node.attribute(QStringLiteral("out")).toInt();
-        if (out > 0) {
-            effect->filter().set("in", in);
-            effect->filter().set("out", out);
+        const QString in = node.attribute(QStringLiteral("in"));
+        const QString out = node.attribute(QStringLiteral("out"));
+        if (!out.isEmpty()) {
+            effect->filter().set("in", in.toUtf8().constData());
+            effect->filter().set("out", out.toUtf8().constData());
         }
         QStringList keyframeParams = effect->getKeyframableParameters();
         QVector<QPair<QString, QVariant>> parameters;
@@ -260,6 +260,9 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         for (int j = 0; j < params.count(); j++) {
             QDomElement pnode = params.item(j).toElement();
             const QString pName = pnode.attribute(QStringLiteral("name"));
+            if (pName == QLatin1String("in") || pName == QLatin1String("out")) {
+                continue;
+            }
             if (keyframeParams.contains(pName)) {
                 // This is a keyframable parameter, fix offest
                 QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn);
@@ -277,8 +280,15 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
             m_fadeIns.insert(effect->getId());
+            int duration = effect->filter().get_length() - 1;
+            effect->filter().set("in", currentIn);
+            effect->filter().set("out", currentIn + duration);
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
             m_fadeOuts.insert(effect->getId());
+            int duration = effect->filter().get_length() - 1;
+            int filterOut = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
+            effect->filter().set("in", filterOut - duration);
+            effect->filter().set("out", filterOut);
         }
         local_redo();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -326,9 +336,17 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     QVector<int> roles = {TimelineModel::EffectNamesRole};
     if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
         m_fadeIns.insert(effect->getId());
+        int duration = effect->filter().get_length() - 1;
+        int in = pCore->getItemIn(m_ownerId);
+        effect->filter().set("in", in);
+        effect->filter().set("out", in + duration);
         roles << TimelineModel::FadeInRole;
     } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
         m_fadeOuts.insert(effect->getId());
+        int duration = effect->filter().get_length() - 1;
+        int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
+        effect->filter().set("in", out - duration);
+        effect->filter().set("out", out);
         roles << TimelineModel::FadeOutRole;
     }
     bool res = local_redo();
