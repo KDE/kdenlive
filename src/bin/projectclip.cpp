@@ -111,7 +111,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
-    model->loadSubClips(id, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone.")));
+    QMetaObject::invokeMethod(model.get(), "loadSubClips", Qt::QueuedConnection, Q_ARG(const QString&, id), Q_ARG(const stringMap&, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone."))));
     return self;
 }
 
