@@ -3183,32 +3183,17 @@ QList<QAction *> MainWindow::getExtraActions(const QString &name)
 
 void MainWindow::slotTranscode(const QStringList &urls)
 {
-    Q_UNUSED(urls)
-    // TODO refac : remove or reimplement transcoding
-    /*
+    Q_ASSERT(!urls.isEmpty());
     QString params;
     QString desc;
-    if (urls.isEmpty()) {
-        QAction *action = qobject_cast<QAction *>(sender());
-        QStringList transList = action->data().toStringList();
-        pCore->bin()->startClipJob(transList);
-        return;
-    }
-    if (urls.isEmpty()) {
-        m_messageLabel->setMessage(i18n("No clip to transcode"), ErrorMessage);
-        return;
-    }
     qCDebug(KDENLIVE_LOG) << "// TRANSODING FOLDER: " << pCore->bin()->getFolderInfo();
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getFolderInfo());
     connect(d, &ClipTranscode::addClip, this, &MainWindow::slotAddProjectClip);
     d->show();
-    */
 }
 
 void MainWindow::slotTranscodeClip()
 {
-    // TODO refac : remove or reimplement transcoding
-    /*
     QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
     const QString dialogFilter =
         i18n("All Supported Files") + QLatin1Char('(') + allExtensions + QStringLiteral(");;") + i18n("All Files") + QStringLiteral("(*)");
@@ -3218,7 +3203,6 @@ void MainWindow::slotTranscodeClip()
         return;
     }
     slotTranscode(urls);
-    */
 }
 
 void MainWindow::slotSetDocumentRenderProfile(const QMap<QString, QString> &props)
