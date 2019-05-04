@@ -894,32 +894,6 @@ Monitor *Bin::monitor()
     return m_monitor;
 }
 
-const QStringList Bin::getFolderInfo(const QModelIndex &selectedIx)
-{
-    QModelIndexList indexes;
-    if (selectedIx.isValid()) {
-        indexes << selectedIx;
-    } else {
-        indexes = m_proxyModel->selectionModel()->selectedIndexes();
-    }
-    if (indexes.isEmpty()) {
-        // return root folder info
-        QStringList folderInfo;
-        folderInfo << QString::number(-1);
-        folderInfo << QString();
-        return folderInfo;
-    }
-    QModelIndex ix = indexes.constFirst();
-    if (ix.isValid() && (m_proxyModel->selectionModel()->isSelected(ix) || selectedIx.isValid())) {
-        return m_itemModel->getEnclosingFolderInfo(m_proxyModel->mapToSource(ix));
-    }
-    // return root folder info
-    QStringList folderInfo;
-    folderInfo << QString::number(-1);
-    folderInfo << QString();
-    return folderInfo;
-}
-
 void Bin::slotAddClip()
 {
     // Check if we are in a folder
@@ -2055,7 +2029,6 @@ void Bin::slotCreateProjectClip()
         return;
     }
     ClipType::ProducerType type = (ClipType::ProducerType)act->data().toInt();
-    QStringList folderInfo = getFolderInfo();
     QString parentFolder = getCurrentFolder();
     switch (type) {
     case ClipType::Color:
@@ -2231,14 +2204,18 @@ void Bin::doMoveFolder(const QString &id, const QString &newParentId)
     currentItem->changeParent(newParent);
 }
 
-void Bin::droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo)
+void Bin::droppedUrls(const QList<QUrl> &urls, const QString &folderInfo)
 {
     QModelIndex current;
     if (folderInfo.isEmpty()) {
         current = m_proxyModel->mapToSource(m_proxyModel->selectionModel()->currentIndex());
     } else {
         // get index for folder
-        current = getIndexForId(folderInfo.constFirst(), true);
+        std::shared_ptr<ProjectFolder> folder = m_itemModel->getFolderByBinId(folderInfo);
+        if (!folder) {
+            folder = m_itemModel->getRootFolder();
+        }
+        current = m_itemModel->getIndexFromItem(folder);
     }
     slotItemDropped(urls, current);
 }

@@ -27,7 +27,7 @@
 #include <KMessageBox>
 #include <klocalizedstring.h>
 
-ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringList postParams, const QString &description, QStringList folderInfo,
+ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringList postParams, const QString &description, QString folderInfo,
                              bool automaticMode, QWidget *parent)
     : QDialog(parent)
     , m_urls(std::move(urls))

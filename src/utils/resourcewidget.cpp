@@ -498,7 +498,7 @@ void ResourceWidget::slotGotFile(KJob *job)
     const QUrl filePath = copyJob->destUrl();
 
     KMessageBox::information(this, i18n("Resource saved to %1", filePath.toLocalFile()), i18n("Data Imported"));
-    emit addClip(filePath, QStringList());
+    emit addClip(filePath, QString());
 }
 
 /**
@@ -835,7 +835,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 file.close();
 
                 KMessageBox::information(this, i18n("Resource saved to %1", m_saveLocation), i18n("Data Imported"));
-                emit addClip(QUrl(m_saveLocation), QStringList()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
+                emit addClip(QUrl(m_saveLocation), QString()); // MainWindow::slotDownloadResources() links this signal to MainWindow::slotAddProjectClip
 
                 m_desc.append(QStringLiteral("<br>") + i18n("Saved file to") + QStringLiteral("<br>"));
                 m_desc.append(m_saveLocation);

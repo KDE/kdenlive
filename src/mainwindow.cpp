@@ -2549,7 +2549,7 @@ void MainWindow::slotEditItemDuration()
     */
 }
 
-void MainWindow::slotAddProjectClip(const QUrl &url, const QStringList &folderInfo)
+void MainWindow::slotAddProjectClip(const QUrl &url, const QString &folderInfo)
 {
     pCore->bin()->droppedUrls(QList<QUrl>() << url, folderInfo);
 }
@@ -3186,8 +3186,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
     Q_ASSERT(!urls.isEmpty());
     QString params;
     QString desc;
-    qCDebug(KDENLIVE_LOG) << "// TRANSODING FOLDER: " << pCore->bin()->getFolderInfo();
-    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getFolderInfo());
+    ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->bin()->getCurrentFolder());
     connect(d, &ClipTranscode::addClip, this, &MainWindow::slotAddProjectClip);
     d->show();
 }
