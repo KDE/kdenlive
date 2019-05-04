@@ -1076,7 +1076,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
             KRecentDirs::add(QStringLiteral(":KdenliveFramesFolder"), QUrl::fromLocalFile(selectedFile).adjusted(QUrl::RemoveFilename).toLocalFile());
 
             if (addToProject) {
-                QStringList folderInfo = pCore->bin()->getFolderInfo();
+                QString folderInfo = pCore->bin()->getCurrentFolder();
                 pCore->bin()->droppedUrls(QList<QUrl>() << QUrl::fromLocalFile(selectedFile), folderInfo);
             }
         }

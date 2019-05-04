@@ -258,8 +258,6 @@ public:
     void rebuildProxies();
     /** @brief Return a list of all clips hashes used in this project */
     QStringList getProxyHashList();
-    /** @brief Get info (id, name) of a folder (or the currently selected one)  */
-    const QStringList getFolderInfo(const QModelIndex &selectedIx = QModelIndex());
     /** @brief Get binId of the current selected folder */
     QString getCurrentFolder();
     /** @brief Save a clip zone as MLT playlist */
@@ -356,7 +354,7 @@ public slots:
     /** @brief Select a clip in the Bin from its id. */
     void selectClipById(const QString &id, int frame = -1, const QPoint &zone = QPoint());
     void slotAddClipToProject(const QUrl &url);
-    void droppedUrls(const QList<QUrl> &urls, const QStringList &folderInfo = QStringList());
+    void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
     /** @brief Returns the duration of a given clip. */
