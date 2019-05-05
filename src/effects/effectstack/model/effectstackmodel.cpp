@@ -833,8 +833,22 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             if (redo()) {
                 if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
                     m_fadeIns.insert(effect->getId());
+                    int clipIn = ptr->get_int("in");
+                    if (effect->filter().get_int("in") != clipIn) {
+                        // Broken fade, fix
+                        int filterLength = effect->filter().get_length() - 1;
+                        effect->filter().set("in", clipIn);
+                        effect->filter().set("out", clipIn + filterLength);
+                    }
                 } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
                     m_fadeOuts.insert(effect->getId());
+                    int clipOut = ptr->get_int("out");
+                    if (effect->filter().get_int("out") != clipOut) {
+                        // Broken fade, fix
+                        int filterLength = effect->filter().get_length() - 1;
+                        effect->filter().set("in", clipOut - filterLength);
+                        effect->filter().set("out", clipOut);
+                    }
                 }
             }
         }
