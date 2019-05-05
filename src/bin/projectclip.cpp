@@ -518,6 +518,8 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
             Mlt::Filter padder(*pCore->thumbProfile(), "resize");
             Mlt::Filter converter(*pCore->thumbProfile(), "avcolor_space");
             m_thumbsProducer->set("audio_index", -1);
+            // Required to make get_playtime() return > 1
+            m_thumbsProducer->set("out", m_thumbsProducer->get_length() -1);
             m_thumbsProducer->attach(scaler);
             m_thumbsProducer->attach(padder);
             m_thumbsProducer->attach(converter);
