@@ -52,8 +52,6 @@ ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool 
         m_binClip = pCore->projectItemModel()->getClipByBinID(binId);
     } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
         m_subClip = true;
-        m_binClip = pCore->projectItemModel()->getClipByBinID(item->parent()->clipId());
-        m_frameNumber = std::max(m_frameNumber, std::static_pointer_cast<ProjectSubClip>(item)->zone().x());
     }
 }
 
