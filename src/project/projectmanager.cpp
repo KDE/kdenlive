@@ -53,6 +53,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
+    , m_mainTimelineModel(nullptr)
 
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
@@ -239,6 +240,9 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
     }
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
+    if (m_mainTimelineModel) {
+        m_mainTimelineModel->prepareClose();
+    }
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {

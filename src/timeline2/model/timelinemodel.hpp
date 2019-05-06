@@ -632,6 +632,9 @@ public:
     /** @brief Returns a set containing all the items in the selection */
     std::unordered_set<int> getCurrentSelection() const;
 
+    /** @brief Do some cleanup before closing */
+    void prepareClose();
+
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
@@ -775,6 +778,7 @@ protected:
     int m_videoTarget;
     // Timeline editing mode
     TimelineMode::EditMode m_editMode;
+    bool m_closing;
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
