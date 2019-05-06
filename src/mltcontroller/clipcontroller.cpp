@@ -676,17 +676,76 @@ Mlt::Properties &ClipController::properties()
     return *m_properties;
 }
 
+
+void ClipController::backupOriginalProperties()
+{
+    if (m_properties->get_int("kdenlive:original.backup") == 1) {
+        return;
+    }
+    int propsCount = m_properties->count();
+    // store original props
+    for (int j = 0; j < propsCount; j++) {
+        QString propName = m_properties->get_name(j);
+        if (!propName.startsWith(QLatin1Char('_'))) {
+            propName.prepend(QStringLiteral("kdenlive:original."));
+            m_properties->set(propName.toUtf8().constData(), m_properties->get(j));
+        }
+    }
+    m_properties->set("kdenlive:original.backup", 1);
+}
+
+void ClipController::clearBackupProperties()
+{
+    if (m_properties->get_int("kdenlive:original.backup") == 0) {
+        return;
+    }
+    int propsCount = m_properties->count();
+    // clear original props
+    QStringList passProps;
+    for (int j = 0; j < propsCount; j++) {
+        QString propName = m_properties->get_name(j);
+        if (propName.startsWith(QLatin1String("kdenlive:original."))) {
+            passProps << propName;
+        }
+    }
+    for (const QString &p : passProps) {
+        m_properties->set(p.toUtf8().constData(), (char *)nullptr);
+    }
+    m_properties->set("kdenlive:original.backup", (char *)nullptr);
+}
+
 void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
 {
     if (m_usesProxy && QFileInfo(m_properties->get("resource")).fileName() == QFileInfo(m_properties->get("kdenlive:proxy")).fileName()) {
-        // We have a proxy clip, load original source producer
-        std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_path.toUtf8().constData());
-        // Get frame to make sure we retrieve all original props
-        std::shared_ptr<Mlt::Frame> fr(prod->get_frame());
-        if (!prod->is_valid()) {
-            return;
+        // This is a proxy, we need to use the real source properties
+        if (m_properties->get_int("kdenlive:original.backup") == 0) {
+            // We have a proxy clip, load original source producer
+            std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_path.toUtf8().constData());
+            // Get frame to make sure we retrieve all original props
+            std::shared_ptr<Mlt::Frame> fr(prod->get_frame());
+            if (!prod->is_valid()) {
+                return;
+            }
+            int width = 0;
+            int height = 0;
+            mlt_image_format format = mlt_image_none;
+            fr->get_image(format, width, height);
+            Mlt::Properties sourceProps(prod->get_properties());
+            props.inherit(sourceProps);
+            int propsCount = sourceProps.count();
+            // store original props
+            for (int i = 0; i < propsCount; i++) {
+                QString propName = sourceProps.get_name(i);
+                if (!propName.startsWith(QLatin1Char('_'))) {
+                    propName.prepend(QStringLiteral("kdenlive:original."));
+                    m_properties->set(propName.toUtf8().constData(), sourceProps.get(i));
+                }
+            }
+            m_properties->set("kdenlive:original.backup", 1);
         }
-        Mlt::Properties sourceProps(prod->get_properties());
+        // Properties were fetched in the past, reuse
+        Mlt::Properties sourceProps;
+        sourceProps.pass_values(*m_properties, "kdenlive:original.");
         props.inherit(sourceProps);
     } else {
         if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Audio) {

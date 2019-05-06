@@ -316,6 +316,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
         if (loadjobId > -1) {
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::LOADJOB);
         }
+        if (QFile::exists(m_path) && !hasProxy()) {
+            clearBackupProperties();
+        }
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
@@ -979,6 +982,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         } else {
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
+            backupOriginalProperties();
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
     } else if (!reload) {

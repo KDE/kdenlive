@@ -209,6 +209,8 @@ protected:
     void checkAudioVideo();
     // Update audio stream info
     void refreshAudioInfo();
+    void backupOriginalProperties();
+    void clearBackupProperties();
 
     std::shared_ptr<Mlt::Producer> m_masterProducer;
     Mlt::Properties *m_properties;
