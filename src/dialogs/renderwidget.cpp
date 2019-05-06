@@ -358,6 +358,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 #endif
     m_view.parallel_process->setChecked(KdenliveSettings::parallelrender());
     connect(m_view.parallel_process, &QCheckBox::stateChanged, [](int state) { KdenliveSettings::setParallelrender(state == Qt::Checked); });
+    if (KdenliveSettings::gpu_accel()) {
+        // Disable parallel rendering for movit
+        m_view.parallel_process->setEnabled(false);
+    }
     m_view.field_order->setEnabled(false);
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int index) { m_view.field_order->setEnabled(index == 2); });
     refreshView();
@@ -1456,7 +1460,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     }
 
     int threadCount = QThread::idealThreadCount();
-    if (threadCount < 2 || !m_view.parallel_process->isChecked()) {
+    if (threadCount < 2 || !m_view.parallel_process->isChecked() || !m_view.parallel_process->isEnabled()) {
         threadCount = 1;
     }
 
@@ -1866,7 +1870,7 @@ void RenderWidget::slotExport(bool scriptExport, int zoneIn, int zoneOut, const 
         }
 
         int threadCount = QThread::idealThreadCount();
-        if (threadCount > 2 && m_view.parallel_process->isChecked()) {
+        if (threadCount > 2 && m_view.parallel_process->isChecked() && m_view.parallel_process->isEnabled()) {
             threadCount = qMin(threadCount - 1, 4);
         } else {
             threadCount = 1;
