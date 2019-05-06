@@ -21,6 +21,7 @@ frei0r.hqdn3d
 frei0r.IIRblur
 frei0r.keyspillm0pup
 frei0r.lenscorrection
+frei0r.levels
 frei0r.pixeliz0r
 frei0r.pr0be
 frei0r.pr0file
