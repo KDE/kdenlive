@@ -117,6 +117,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_videoTarget(-1)
     , m_editMode(TimelineMode::NormalEdit)
     , m_blockRefresh(false)
+    , m_closing(false)
 {
     // Create black background track
     m_blackClip->set("id", "black_track");
@@ -128,6 +129,17 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     m_tractor->insert_track(*m_blackClip, 0);
 
     TRACE_CONSTR(this);
+}
+
+void TimelineModel::prepareClose()
+{
+    // Unlock all tracks to allow delting clip from tracks
+    m_closing = true;
+    auto it = m_allTracks.begin();
+    while (it != m_allTracks.end()) {
+        (*it)->setProperty(QStringLiteral("kdenlive:locked_track"), (char*) nullptr);
+        ++it;
+    }
 }
 
 TimelineModel::~TimelineModel()
@@ -1342,7 +1354,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         int p2 = m_allClips[clipId2]->getPosition();
         return delta_pos > 0 ? p2 <= p1 : p1 <= p2;
     });
-    
+
     // Sort compositions. We need to delete in the move direction from top to bottom
     std::vector<int> sorted_compositions(all_compositions.begin(), all_compositions.end());
     std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](int clipId1, int clipId2) {
@@ -2092,6 +2104,9 @@ bool TimelineModel::isGroup(int id) const
 
 void TimelineModel::updateDuration()
 {
+    if (m_closing) {
+        return;
+    }
     int current = m_blackClip->get_playtime() - TimelineModel::seekDuration;
     int duration = 0;
     for (const auto &tck : m_iteratorTable) {
