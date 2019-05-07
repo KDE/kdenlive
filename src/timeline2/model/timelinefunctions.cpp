@@ -1387,7 +1387,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
                             props.at(j).toElement().text().toUtf8().constData());
         }
-        res = timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in, std::move(transProps), newId, undo, redo);
+        res = timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, undo, redo);
     }
     if (!res) {
         undo();
