@@ -46,11 +46,12 @@ void TransitionStackView::refreshTracks()
     }
     QSignalBlocker bk(m_trackBox);
     m_trackBox->clear();
-    QMapIterator<int, QString> i(pCore->getVideoTrackNames());
     QPair<int, int> aTrack = pCore->getCompositionATrack(m_model->getOwnerId().second);
     m_trackBox->addItem(i18n("Automatic"), -1);
-    while (i.hasNext()) {
-        i.next();
+    QMapIterator<int, QString> i(pCore->getVideoTrackNames());
+    i.toBack();
+    while (i.hasPrevious()) {
+        i.previous();
         if (i.key() < aTrack.second) {
             m_trackBox->addItem(i.value(), i.key());
         }
