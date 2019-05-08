@@ -450,6 +450,8 @@ public:
     QStringList getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */
     bool dragOperationRunning();
+    /** @brief Disconnect some stuff before closing project */
+    void prepareClose();
 
 public slots:
     void resetView();

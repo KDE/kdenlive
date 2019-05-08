@@ -82,6 +82,12 @@ TimelineController::TimelineController(QObject *parent)
 
 TimelineController::~TimelineController()
 {
+    prepareClose();
+}
+
+void TimelineController::prepareClose()
+{
+    // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     delete m_timelinePreview;
     m_timelinePreview = nullptr;
 }
