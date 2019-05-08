@@ -838,6 +838,37 @@ bool GroupsModel::fromJson(const QString &data)
     return ok;
 }
 
+void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap)
+{
+    auto value = childObject.value(QLatin1String("children"));
+    auto children = value.toArray();
+    for (auto c : children) {
+        if (!c.isObject()) {
+            continue;
+        }
+        auto child = c.toObject();
+        auto type = groupTypeFromStr(child.value(QLatin1String("type")).toString());
+        if (child.contains(QLatin1String("data"))) {
+            if (auto ptr = m_parent.lock()) {
+                QString cur_data = child.value(QLatin1String("data")).toString();
+                int trackId = cur_data.section(":", 0, 0).toInt();
+                int pos = cur_data.section(":", 1, 1).toInt();
+                int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
+                pos += offset;
+                child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
+                updatedNodes.append(QJsonValue(child));
+            }
+        } else if (type != GroupType::Leaf) {
+            QJsonObject currentGroup;
+            currentGroup.insert(QLatin1String("type"), QJsonValue(groupTypeToStr(type)));
+            QJsonArray array;
+            adjustOffset(array, child, offset, trackMap);
+            currentGroup.insert(QLatin1String("children"), array);
+            updatedNodes.append(QJsonValue(currentGroup));
+        }
+    }
+}
+
 bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &trackMap, int offset, Fun &undo, Fun &redo)
 {
     Fun local_undo = []() { return true; };
@@ -848,6 +879,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
         return false;
     }
     auto list = json.array();
+    QJsonArray newGroups;
     bool ok = true;
     for (auto elem : list) {
         if (!elem.isObject()) {
@@ -856,39 +888,31 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
             return false;
         }
         QJsonObject obj = elem.toObject();
+        QJsonArray updatedNodes;
+        auto type = groupTypeFromStr(obj.value(QLatin1String("type")).toString());
         auto value = obj.value(QLatin1String("children"));
         if (!value.isArray()) {
             qDebug() << "Error : Expected json array of children while parsing groups";
             continue;
         }
-        QJsonArray updatedNodes;
+        // Adjust offset
         auto children = value.toArray();
-        std::unordered_set<int> ids;
-        for (auto c : children) {
-            if (!c.isObject()) {
-                continue;
-            }
-            QJsonObject child = c.toObject();
-            if (child.contains(QLatin1String("data"))) {
-                if (auto ptr = m_parent.lock()) {
-                    QString cur_data = child.value(QLatin1String("data")).toString();
-                    int trackId = cur_data.section(":", 0, 0).toInt();
-                    int pos = cur_data.section(":", 1, 1).toInt();
-                    int trackPos = ptr->getTrackPosition(trackMap.value(trackId));
-                    pos += offset;
-                    child.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(trackPos).arg(pos)));
-                }
-                updatedNodes.append(QJsonValue(child));
-            }
-        }
-        qDebug() << "* ** * UPDATED JSON NODES: " << updatedNodes;
-        obj.insert(QLatin1String("children"), QJsonValue(updatedNodes));
-        qDebug() << "* ** * UPDATED JSON NODES: " << obj;
-        ok = ok && (fromJson(obj, local_undo, local_redo) > 0);
-        if (!ok) {
+        adjustOffset(updatedNodes, obj, offset, trackMap);
+        QJsonObject currentGroup;
+        currentGroup.insert(QLatin1String("children"), QJsonValue(updatedNodes));
+        currentGroup.insert(QLatin1String("type"), QJsonValue(groupTypeToStr(type)));
+        newGroups.append(QJsonValue(currentGroup));
+    }
+
+    // Group
+    for (const auto &elem : newGroups) {
+        if (!elem.isObject()) {
+            qDebug() << "Error : Expected json object while parsing groups";
             break;
         }
+        ok = ok && fromJson(elem.toObject(), local_undo, local_redo);
     }
+    
     if (ok) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     } else {
