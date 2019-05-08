@@ -70,7 +70,7 @@
   </mediaobject>
 </screenshot>
 </para>
-<para>Open &kdenlive; and create a new project (<guilabel>File</guilabel> &amp;rarr; <guilabel>New</guilabel>).
+<para>Open &kdenlive; and create a new project (<menuchoice><guimenu>File</guimenu> <guimenuitem>New</guimenuitem></menuchoice>).
 </para>
 <para>Choose the previously created project folder (<filename>quickstart-tutorial/</filename>) and select an appropriate project profile. The video files provided above are 720p, 23.98 fps.<footnote><para><ulink url="http://en.wikipedia.org/wiki/720p">720</ulink> is the video height, p stands for <ulink url="http://en.wikipedia.org/wiki/Progressive_scan">progressive scan</ulink> in contrast to <ulink url="http://en.wikipedia.org/wiki/Interlaced_video">interlaced video</ulink>, and the fps number denotes the number of full frames per second.</para></footnote> If you are using your own files and don’t know which one to use, &kdenlive; will suggest an appropriate one when the first clip is added <footnote><para>Provided Configure Kdenlive Settings under <ulink url="http://userbase.kde.org/Special:myLanguage/Kdenlive/Manual/Settings_Menu/Configure_Kdenlive#Misc">Misc</ulink> is set to <emphasis>Check if first added clip matches project profile</emphasis></para></footnote> , so you can leave the field on whatever it is.
 </para>
@@ -128,7 +128,7 @@
   </mediaobject>
 </screenshot>
 </para>
-<para>Let’s save the work via <guilabel>File</guilabel> &amp;rarr; <guilabel>Save</guilabel>. This saves our project, &ie; where we placed the clips on the timeline, which effects we applied, and so on. It can <emphasis>not</emphasis> be played.<footnote><para>To be correct, it <emphasis>can</emphasis> be played using <varname>melt yourproject.kdenlive</varname>, but this is not the way you would want to present your final video since it is (most likely) too slow. Additionally, it only works if melt is installed.</para></footnote> The process of creating the final video is called <emphasis>Rendering</emphasis>.
+<para>Let’s save the work via <menuchoice><guimenu>File</guimenu> <guimenuitem>Save</guimenuitem></menuchoice>. This saves our project, &ie; where we placed the clips on the timeline, which effects we applied, and so on. It can <emphasis>not</emphasis> be played.<footnote><para>To be correct, it <emphasis>can</emphasis> be played using <varname>melt yourproject.kdenlive</varname>, but this is not the way you would want to present your final video since it is (most likely) too slow. Additionally, it only works if melt is installed.</para></footnote> The process of creating the final video is called <emphasis>Rendering</emphasis>.
 </para>
 </sect1>
 <sect1 id="timeline"><title>Timeline</title> 
@@ -262,7 +262,7 @@
   </mediaobject>
 </screenshot>
 </para>
-<para>The Piano can be colourized by adding an <emphasis>effect</emphasis> to it.  Select the piano clip, then double-click the <guilabel>RGB Adjustment</guilabel> effect in the <guilabel>Effect List</guilabel>. If it is not visible, you can get it via <guilabel>View</guilabel> &amp;rarr; <guilabel>Effect List</guilabel>.
+<para>The Piano can be colourized by adding an <emphasis>effect</emphasis> to it.  Select the piano clip, then double-click the <guilabel>RGB Adjustment</guilabel> effect in the <guilabel>Effect List</guilabel>. If it is not visible, you can get it via <menuchoice><guimenu>View</guimenu> <guimenuitem>Effect List</guimenuitem></menuchoice>.
 </para>
 <para>
 <screenshot>
@@ -349,7 +349,7 @@
 </para>
 <para>Since the clips do not provide any audio, let’s search for some nice piece of music, from your local collection or on web pages like <ulink url="http://www.jamendo.com">Jamendo</ulink>. The audio clip should, after adding it, be dragged to an audio track on the timeline.
 </para>
-<para>The audio clip can be resized on the timeline the same way as video clips are. The cursor will snap in at the end of the project automatically. To add a fade out effect at the end of the audio clip (except if you found a file with exactly the right length) you can hover the top right (or left) edge of the timeline clip and drag the red shaded triangle to the position where fading out should start.<footnote><para>This shaded triangle is a shorthand for adding the effect <guilabel>Fade</guilabel> &amp;rarr; <guilabel>Fade out</guilabel>. Both ways lead to the same result.</para></footnote>
+<para>The audio clip can be resized on the timeline the same way as video clips are. The cursor will snap in at the end of the project automatically. To add a fade out effect at the end of the audio clip (except if you found a file with exactly the right length) you can hover the top right (or left) edge of the timeline clip and drag the red shaded triangle to the position where fading out should start.<footnote><para>This shaded triangle is a shorthand for adding the effect <menuchoice><guimenu>Fade</guimenu> <guimenuitem>Fade out</guimenuitem></menuchoice>. Both ways lead to the same result.</para></footnote>
 </para>
 </sect2>
 </sect1>
@@ -370,7 +370,7 @@
   </mediaobject>
 </screenshot>
 </para>
-<para>A few minutes left, and the project is finished! Click the Render button (or go to <guilabel>Project</guilabel> &amp;rarr; <guilabel>Render</guilabel>, or press <keycombo>&Ctrl;&Enter;</keycombo>) to get the dialog shown on the left. Select the desired output file for our new video with all effects and transitions, choose MP4 (works nearly everywhere), select the output file location and press the <guilabel>Render to File</guilabel> button.
+<para>A few minutes left, and the project is finished! Click the Render button (or go to <menuchoice><guimenu>Project</guimenu> <guimenuitem>Render</guimenuitem></menuchoice>, or press <keycombo>&Ctrl;&Enter;</keycombo>) to get the dialog shown on the left. Select the desired output file for our new video with all effects and transitions, choose MP4 (works nearly everywhere), select the output file location and press the <guilabel>Render to File</guilabel> button.
 </para>
 <para>
 <screenshot>
