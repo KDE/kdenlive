@@ -791,7 +791,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
                 }
             }
         } else {
-            trackPosition.insert(clipTrack, after ? in + getItemPlaytime(current_clipId) : in);
+            trackPosition.insert(clipTrack, after ? in + getItemPlaytime(current_clipId) - 1 : in);
         }
     }
     // Now check space on each track
