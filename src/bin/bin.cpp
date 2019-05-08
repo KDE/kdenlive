@@ -2650,7 +2650,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     if (dia_ui.exec() == QDialog::Accepted) {
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
-        if (dia_ui.duration() != clip->duration().frames(pCore->getCurrentFps()) + 1) {
+        if (dia_ui.duration() != clip->duration().frames(pCore->getCurrentFps())) {
             // duration changed, we need to update duration
             newprops.insert(QStringLiteral("out"), clip->framesToTime(dia_ui.duration() - 1));
             int currentLength = clip->getProducerDuration();

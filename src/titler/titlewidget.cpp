@@ -2049,8 +2049,9 @@ int TitleWidget::getNewStuff(const QString &configFile)
 QDomDocument TitleWidget::xml()
 {
     QDomDocument doc = m_titledocument.xml(m_startViewport, m_endViewport);
-    doc.documentElement().setAttribute(QStringLiteral("duration"), m_tc.getFrameCount(title_duration->text()));
-    doc.documentElement().setAttribute(QStringLiteral("out"), m_tc.getFrameCount(title_duration->text()));
+    int duration = m_tc.getFrameCount(title_duration->text());
+    doc.documentElement().setAttribute(QStringLiteral("duration"), duration);
+    doc.documentElement().setAttribute(QStringLiteral("out"), duration - 1);
     return doc;
 }
 
