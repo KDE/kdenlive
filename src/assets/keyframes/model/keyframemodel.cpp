@@ -756,11 +756,13 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
     removeAllKeyframes(undo, redo);
     int in = 0;
     int out = 0;
+    bool useOpacity = true;
     Mlt::Properties mlt_prop;
     if (auto ptr = m_model.lock()) {
         in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         ptr->passProperties(mlt_prop);
+        useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
     }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
@@ -782,7 +784,11 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         switch (m_paramType) {
         case ParamType::AnimatedRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+            if (useOpacity) {
+                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+            } else {
+                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h));
+            }
             break;
         }
         default:
@@ -814,9 +820,13 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     Mlt::Properties mlt_prop;
     QLocale locale;
     int in = 0;
+    bool useOpacity = true;
     if (auto ptr = m_model.lock()) {
         in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         ptr->passProperties(mlt_prop);
+        if (m_paramType == ParamType::AnimatedRect) {
+            useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+        }
     }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
@@ -837,7 +847,11 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         switch (m_paramType) {
         case ParamType::AnimatedRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+            if (useOpacity) {
+                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+            } else {
+                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h));
+            }
             break;
         }
         default:
@@ -950,8 +964,12 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     --prev;
     // We now have surrounding keyframes, we use mlt to compute the value
     Mlt::Properties prop;
+    bool useOpacity = true;
     if (auto ptr = m_model.lock()) {
         ptr->passProperties(prop);
+        if (m_paramType == ParamType::AnimatedRect) {
+            useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+        }
     }
     QLocale locale;
     int p = pos.frames(pCore->getCurrentFps());
@@ -969,10 +987,12 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             rect.y = vals.at(1).toInt();
             rect.w = vals.at(2).toInt();
             rect.h = vals.at(3).toInt();
-            if (vals.count() > 4) {
-                rect.o = locale.toDouble(vals.at(4));
-            } else {
-                rect.o = 1;
+            if (useOpacity) {
+                if (vals.count()) {
+                    rect.o = locale.toDouble(vals.at(4));
+                } else {
+                    rect.o = 1;
+                }
             }
             prop.anim_set("keyframe", rect, prev->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
                           convertToMltType(prev->second.first));
@@ -984,16 +1004,21 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             rect.y = vals.at(1).toInt();
             rect.w = vals.at(2).toInt();
             rect.h = vals.at(3).toInt();
-            if (vals.count() > 4) {
-                rect.o = locale.toDouble(vals.at(4));
-            } else {
-                rect.o = 1;
+            if (useOpacity) {
+                if (vals.count() > 4) {
+                    rect.o = locale.toDouble(vals.at(4));
+                } else {
+                    rect.o = 1;
+                }
             }
             prop.anim_set("keyframe", rect, next->first.frames(pCore->getCurrentFps()), next->first.frames(pCore->getCurrentFps()),
                           convertToMltType(next->second.first));
         }
         mlt_rect rect = prop.anim_get_rect("keyframe", p);
-        const QString res = QStringLiteral("%1 %2 %3 %4 %5").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h).arg(locale.toString(rect.o));
+        QString res = QStringLiteral("%1 %2 %3 %4").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h);
+        if (useOpacity) {
+            res.append(QStringLiteral(" %1").arg(locale.toString(rect.o)));
+        }
         return QVariant(res);
     } else if (m_paramType == ParamType::Roto_spline) {
         // interpolate
