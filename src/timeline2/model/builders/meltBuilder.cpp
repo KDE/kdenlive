@@ -135,7 +135,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     // Sort compositions and insert
     bool compositionOk = true;
     if (!compositions.isEmpty()) {
-        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
+        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() > b->get_b_track(); });
         while (!compositions.isEmpty()) {
             QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
             auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
