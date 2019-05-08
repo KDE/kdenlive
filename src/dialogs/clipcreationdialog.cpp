@@ -264,7 +264,7 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parent
         properties[QStringLiteral("xmldata")] = dia_ui->xml().toString();
         QString titleSuggestion = dia_ui->titleSuggest();
 
-        ClipCreator::createTitleClip(properties, dia_ui->duration() - 1, titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, parentFolder,
+        ClipCreator::createTitleClip(properties, dia_ui->duration(), titleSuggestion.isEmpty() ? i18n("Title clip") : titleSuggestion, parentFolder,
                                      std::move(model));
     }
     delete dia_ui;

@@ -219,6 +219,8 @@ protected:
        @param type: new type of the group
     */
     void setType(int gid, GroupType type);
+    
+    void adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject, int offset, const QMap<int, int> &trackMap);
 
 private:
     std::weak_ptr<TimelineItemModel> m_parent;

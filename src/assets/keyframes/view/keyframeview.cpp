@@ -226,7 +226,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
 void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
 {
     Q_UNUSED(event)
-    if (m_currentKeyframe >= 0) {
+    if (m_currentKeyframe >= 0 && m_currentKeyframeOriginal != m_currentKeyframe) {
         int offset = pCore->getItemIn(m_model->getOwnerId());
         GenTime initPos(m_currentKeyframeOriginal + offset, pCore->getCurrentFps());
         GenTime targetPos(m_currentKeyframe + offset, pCore->getCurrentFps());
@@ -245,12 +245,14 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
         if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
-            m_model->removeKeyframe(keyframe.first);
-            if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe + offset) {
-                m_currentKeyframe = m_currentKeyframeOriginal = -1;
-            }
-            if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
-                emit atKeyframe(false, m_model->singleKeyframe());
+            if (keyframe.first.frames(pCore->getCurrentFps()) != offset) {
+                m_model->removeKeyframe(keyframe.first);
+                if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe + offset) {
+                    m_currentKeyframe = m_currentKeyframeOriginal = -1;
+                }
+                if (keyframe.first.frames(pCore->getCurrentFps()) == m_position + offset) {
+                    emit atKeyframe(false, m_model->singleKeyframe());
+                }
             }
             return;
         }
