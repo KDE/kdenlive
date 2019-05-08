@@ -240,6 +240,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         }
     }
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
+    pCore->window()->getMainTimeline()->controller()->prepareClose();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
     }

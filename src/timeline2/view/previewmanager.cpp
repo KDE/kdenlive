@@ -546,7 +546,6 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      m_consumerParams.join(QLatin1Char(' '))};
     qDebug() << " -  - -STARTING PREVIEW JOBS: " << args;
     pCore->currentDoc()->previewProgress(0);
-    m_previewProcess.start(m_renderer, args);
     QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [this, scene](int, QProcess::ExitStatus status) {
         qDebug() << "// PROCESS IS FINISHED!!!";
         QFile::remove(scene);
@@ -565,6 +564,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
         workingPreview = -1;
         m_controller->workingPreviewChanged();
     });
+    m_previewProcess.start(m_renderer, args);
     if (m_previewProcess.waitForStarted()) {
         qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED";
     }
