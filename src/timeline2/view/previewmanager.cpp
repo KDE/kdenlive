@@ -252,12 +252,13 @@ bool PreviewManager::loadParams()
     }
     // Remove the r= and s= parameter (forcing framerate / frame size) as it causes rendering failure.
     // These parameters should be provided by MLT's profile
-    for (int i = 0; i < m_consumerParams.count(); i++) {
-        if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) /*|| m_consumerParams.at(i).startsWith(QStringLiteral("s="))*/) {
+    // NOTE: this is still required for DNxHD so leave it
+    /*for (int i = 0; i < m_consumerParams.count(); i++) {
+        if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) || m_consumerParams.at(i).startsWith(QStringLiteral("s="))) {
             m_consumerParams.removeAt(i);
             i--;
         }
-    }
+    }*/
     if (doc->getDocumentProperty(QStringLiteral("resizepreview")).toInt() != 0) {
         int resizeWidth = doc->getDocumentProperty(QStringLiteral("previewheight")).toInt();
         m_consumerParams << QStringLiteral("s=%1x%2").arg((int)(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
