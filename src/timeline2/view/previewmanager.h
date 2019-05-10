@@ -139,6 +139,7 @@ private slots:
     void slotProcessDirtyChunks();
     /** @brief: Process preview rendering output. */
     void receivedStderr();
+    void processEnded(int, QProcess::ExitStatus status);
 
 public slots:
     /** @brief: Prepare and start rendering. */

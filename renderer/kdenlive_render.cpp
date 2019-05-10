@@ -20,7 +20,7 @@
 #include "framework/mlt_version.h"
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
-#include <QCoreApplication>
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QDomDocument>
@@ -32,7 +32,7 @@
 
 int main(int argc, char **argv)
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
     QStringList args = app.arguments();
     QStringList preargs;
     QString locale;
@@ -76,6 +76,10 @@ int main(int argc, char **argv)
             if (!prod.is_valid()) {
                 fprintf(stderr, "INVALID playlist: %s \n", playlist.toUtf8().constData());
             }
+            profile.from_producer(prod);
+            profile.set_explicit(1);
+            const char *localename = prod.get_lcnumeric();
+            QLocale::setDefault(QLocale(localename));
             for (const QString &frame : chunks) {
                 fprintf(stderr, "START:%d \n", frame.toInt());
                 QString fileName = QStringLiteral("%1.%2").arg(frame).arg(extension);
@@ -91,6 +95,9 @@ int main(int argc, char **argv)
                     if (param.contains(QLatin1Char('='))) {
                         cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
                     }
+                }
+                if (!cons->is_valid()) {
+                    fprintf(stderr, " = =  = INVALID CONSUMER\n\n");
                 }
                 cons->set("terminate_on_pause", 1);
                 cons->connect(*playlst);
