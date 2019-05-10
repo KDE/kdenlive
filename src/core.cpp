@@ -68,7 +68,7 @@ Core::~Core()
     ClipController::mediaUnavailable.reset();
 }
 
-void Core::build(const QString &MltPath)
+void Core::build(bool isAppImage, const QString &MltPath)
 {
     if (m_self) {
         return;
@@ -86,9 +86,18 @@ void Core::build(const QString &MltPath)
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
-
-    // Open connection with Mlt
-    MltConnection::construct(MltPath);
+    
+    if (isAppImage) {
+        QString appPath = qApp->applicationDirPath();
+        KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
+        KdenliveSettings::setFfplaypath(QDir::cleanPath(appPath + QStringLiteral("/ffplay")));
+        KdenliveSettings::setFfprobepath(QDir::cleanPath(appPath + QStringLiteral("/ffprobe")));
+        KdenliveSettings::setRendererpath(QDir::cleanPath(appPath + QStringLiteral("/melt")));
+        MltConnection::construct(QDir::cleanPath(appPath + QStringLiteral("/../share/mlt/profiles")));
+    } else {
+        // Open connection with Mlt
+        MltConnection::construct(MltPath);
+    }
 
     // load the profile from disk
     ProfileRepository::get()->refresh();

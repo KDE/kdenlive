@@ -44,6 +44,8 @@ PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tra
 {
     m_previewGatherTimer.setSingleShot(true);
     m_previewGatherTimer.setInterval(200);
+    QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &PreviewManager::processEnded);
+
 
     // Find path for Kdenlive renderer
 #ifdef Q_OS_WIN
@@ -252,12 +254,13 @@ bool PreviewManager::loadParams()
     }
     // Remove the r= and s= parameter (forcing framerate / frame size) as it causes rendering failure.
     // These parameters should be provided by MLT's profile
-    for (int i = 0; i < m_consumerParams.count(); i++) {
-        if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) /*|| m_consumerParams.at(i).startsWith(QStringLiteral("s="))*/) {
+    // NOTE: this is still required for DNxHD so leave it
+    /*for (int i = 0; i < m_consumerParams.count(); i++) {
+        if (m_consumerParams.at(i).startsWith(QStringLiteral("r=")) || m_consumerParams.at(i).startsWith(QStringLiteral("s="))) {
             m_consumerParams.removeAt(i);
             i--;
         }
-    }
+    }*/
     if (doc->getDocumentProperty(QStringLiteral("resizepreview")).toInt() != 0) {
         int resizeWidth = doc->getDocumentProperty(QStringLiteral("previewheight")).toInt();
         m_consumerParams << QStringLiteral("s=%1x%2").arg((int)(resizeWidth * pCore->getCurrentDar())).arg(resizeWidth);
@@ -472,12 +475,17 @@ void PreviewManager::abortRendering()
     qDebug() << "/// ABORTING RENDEIGN 1\nRRRRRRRRRR";
     emit abortPreview();
     m_previewProcess.waitForFinished();
+    if (m_previewProcess.state() != QProcess::NotRunning) {
+        m_previewProcess.kill();
+        m_previewProcess.waitForFinished();
+    }
     // Re-init time estimation
     emit previewRender(-1, QString(), 1000);
 }
 
 void PreviewManager::startPreviewRender()
 {
+    QMutexLocker lock(&m_previewMutex);
     if (m_renderedChunks.isEmpty() && m_dirtyChunks.isEmpty()) {
         m_controller->addPreviewRange(true);
     }
@@ -524,11 +532,8 @@ void PreviewManager::doPreviewRender(const QString &scene)
     if (m_dirtyChunks.isEmpty()) {
         return;
     }
+    Q_ASSERT(m_previewProcess.state() == QProcess::NotRunning);
 
-    if (m_previewProcess.state() != QProcess::NotRunning) {
-        m_previewProcess.kill();
-        m_previewProcess.waitForFinished();
-    }
     QStringList chunks;
     for (QVariant &frame : m_dirtyChunks) {
         chunks << frame.toString();
@@ -546,28 +551,31 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      m_consumerParams.join(QLatin1Char(' '))};
     qDebug() << " -  - -STARTING PREVIEW JOBS: " << args;
     pCore->currentDoc()->previewProgress(0);
-    QObject::connect(&m_previewProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [this, scene](int, QProcess::ExitStatus status) {
-        qDebug() << "// PROCESS IS FINISHED!!!";
-        QFile::remove(scene);
-        if (status == QProcess::QProcess::CrashExit) {
-            qDebug() << "// PROCESS IS CRASHED!!!!!!";
-            pCore->currentDoc()->previewProgress(-1);
-            if (workingPreview >= 0) {
-                const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
-                if (m_cacheDir.exists(fileName)) {
-                    m_cacheDir.remove(fileName);
-                }
-            }
-        } else {
-            pCore->currentDoc()->previewProgress(1000);
-        }
-        workingPreview = -1;
-        m_controller->workingPreviewChanged();
-    });
     m_previewProcess.start(m_renderer, args);
     if (m_previewProcess.waitForStarted()) {
         qDebug() << " -  - -STARTING PREVIEW JOBS . . . STARTED";
     }
+}
+
+void PreviewManager::processEnded(int, QProcess::ExitStatus status)
+{
+    qDebug() << "// PROCESS IS FINISHED!!!";
+    const QString sceneList = m_cacheDir.absoluteFilePath(QStringLiteral("preview.mlt"));
+    QFile::remove(sceneList);
+    if (status == QProcess::QProcess::CrashExit) {
+        qDebug() << "// PROCESS CRASHED!!!!!!";
+        pCore->currentDoc()->previewProgress(-1);
+        if (workingPreview >= 0) {
+            const QString fileName = QStringLiteral("%1.%2").arg(workingPreview).arg(m_extension);
+            if (m_cacheDir.exists(fileName)) {
+                m_cacheDir.remove(fileName);
+            }
+        }
+    } else {
+        pCore->currentDoc()->previewProgress(1000);
+    }
+    workingPreview = -1;
+    m_controller->workingPreviewChanged();
 }
 
 void PreviewManager::slotProcessDirtyChunks()
