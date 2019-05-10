@@ -65,9 +65,11 @@ public:
     /**
      * @brief Setup the basics of the application, in particular the connection
      * with Mlt
+     * @param isAppImage do we expect an AppImage (if yes, we use App path to deduce 
+     * other binaries paths (melt, ffmpeg, etc)
      * @param MltPath (optional) path to MLT environment
      */
-    static void build(const QString &MltPath = QString());
+    static void build(bool isAppImage, const QString &MltPath = QString());
 
     /**
      * @brief Init the GUI part of the app and show the main window

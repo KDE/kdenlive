@@ -182,7 +182,6 @@ int main(int argc, char *argv[])
                                      1, 0,                       // major and minor version of the import
                                      "ProducerType",             // name in QML
                                      "Error: only enums");
-    QString mltPath = parser.value(QStringLiteral("mlt-path"));
     if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);
     } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {
@@ -196,8 +195,7 @@ int main(int argc, char *argv[])
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
-    //qApp->processEvents();
-    Core::build(mltPath);
+    Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
     pCore->initGUI(url);
     //delete splash;
     //splash->endSplash();
