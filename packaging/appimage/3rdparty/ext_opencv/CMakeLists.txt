@@ -19,6 +19,6 @@ ExternalProject_Add(
   DOWNLOAD_DIR ${EXT_DOWNLOAD_DIR}
   URL https://github.com/opencv/opencv/archive/4.1.0.tar.gz
   URL_MD5 b80c59c7e4feee6a00608315e02b0b73
-  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE} -DOPENCV_EXTRA_MODULES_PATH=${EXT_BUILD_DIR}/deps-build/ext_opencv/ext_opencv_contrib-prefix/src/ext_opencv_contrib/modules -DOPENCV_GENERATE_PKGCONFIG=ON
+  CMAKE_ARGS ${CMAKE_GLOBAL_PROFILE} -DOPENCV_EXTRA_MODULES_PATH=${EXT_BUILD_DIR}/deps-build/ext_opencv/ext_opencv_contrib-prefix/src/ext_opencv_contrib/modules -DOPENCV_GENERATE_PKGCONFIG=ON -DBUILD_opencv_freetype=OFF
   DEPENDS ext_opencv_contrib
 )
