@@ -35,7 +35,7 @@ std::unique_ptr<Mlt::Repository> repo(Mlt::Factory::init(nullptr));
 extern "C" int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 {
     qputenv("MLT_TESTS", QByteArray("1"));
-    Core::build();
+    Core::build(false);
     const char *input = reinterpret_cast<const char *>(data);
     char *target = new char[size + 1];
     strncpy(target, input, size);

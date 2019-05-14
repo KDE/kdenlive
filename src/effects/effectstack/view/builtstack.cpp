@@ -36,8 +36,12 @@ BuiltStack::BuiltStack(AssetPanel *parent)
     KDeclarative::KDeclarative kdeclarative;
     QQmlEngine *eng = engine();
     kdeclarative.setDeclarativeEngine(eng);
-    kdeclarative.setupContext();
+#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 45, 0)
     kdeclarative.setupEngine(eng);
+    kdeclarative.setupContext();
+#else
+    kdeclarative.setupBindings();
+#endif
     // qmlRegisterType<ColorWheelItem>("Kdenlive.Controls", 1, 0, "ColorWheelItem");
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     setMinimumHeight(300);

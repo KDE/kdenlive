@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     signal(SIGSEGV, signalHandler);
     QApplication app(argc, argv);
     qputenv("MLT_TESTS", QByteArray("1"));
-    Core::build();
+    Core::build(false);
     std::stringstream ss;
     std::string str;
     while (getline(std::cin, str)) {

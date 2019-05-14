@@ -479,6 +479,7 @@ Rectangle {
         property int clickedY
         onAboutToHide: {
             timeline.ungrabHack()
+            editGuideMenu.visible = false
         }
         OLD.MenuItem {
             text: i18n('Paste')
@@ -547,7 +548,6 @@ Rectangle {
                 editGuideMenu.visible = true
             } else {
                 addGuideMenu.text = i18n('Add Guide')
-                editGuideMenu.visible = false
             }
             console.log("pop menu")
         }
@@ -556,6 +556,10 @@ Rectangle {
         id: rulermenu
         property int clickedX
         property int clickedY
+        onAboutToHide: {
+            timeline.ungrabHack()
+            editGuideMenu2.visible = false
+        }
         OLD.MenuItem {
             id: addGuideMenu2
             text: i18n('Add Guide')
@@ -585,7 +589,6 @@ Rectangle {
                 editGuideMenu2.visible = true
             } else {
                 addGuideMenu2.text = i18n('Add Guide')
-                editGuideMenu2.visible = false
             }
             console.log("pop menu")
         }

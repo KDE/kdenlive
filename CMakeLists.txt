@@ -51,7 +51,7 @@ include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 include(ECMEnableSanitizers)
 add_definitions(-DTRANSLATION_DOMAIN=\"kdenlive\")
-find_package(KF5 5.45.0 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
+find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigWidgets
                             DBusAddons KIO WidgetsAddons NotifyConfig NewStuff XmlGui Notifications GuiAddons TextWidgets IconThemes Declarative Solid
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
