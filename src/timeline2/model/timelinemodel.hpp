@@ -446,6 +446,10 @@ public:
 
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+    
+    /* Returns a list of {id, position duration} for all elements in the group*/
+    Q_INVOKABLE const QVariantList getGroupData(int itemId);
+    Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);
 
     /* @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track

@@ -70,11 +70,13 @@ Rectangle {
     property color borderColor: 'black'
     property bool forceReloadThumb
     property bool isComposition: false
+    property var groupTrimData
     width : clipDuration * timeScale;
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
     signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim)
     signal trimmedIn(var clip, bool shiftTrim)
+    signal initGroupTrim(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim)
     signal trimmedOut(var clip, bool shiftTrim)
 
@@ -816,6 +818,9 @@ Rectangle {
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                if (!shiftTrim && clipRoot.grouped) {
+                    clipRoot.initGroupTrim(clipRoot)
+                }
                 parent.opacity = 0
             }
             onReleased: {
@@ -878,6 +883,9 @@ Rectangle {
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                if (!shiftTrim && clipRoot.grouped) {
+                    clipRoot.initGroupTrim(clipRoot)
+                }
                 parent.opacity = 0
             }
             onReleased: {
