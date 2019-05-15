@@ -82,7 +82,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         ParamRow currentRow;
         currentRow.type = paramTypeFromStr(type);
         currentRow.xml = currentParameter;
-        if (value.isNull()) {
+        if (value.isEmpty()) {
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
             value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
         }
@@ -538,7 +538,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             if (ok) {
                 return res;
             }
-            return defaultValue;
+            return defaultValue.isNull() ? content : defaultValue;
         } else if (type == ParamType::Bezier_spline) {
             QLocale locale;
             if (locale.decimalPoint() != QLocale::c().decimalPoint()) {
