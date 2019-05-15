@@ -259,6 +259,10 @@ Column{
         id: clipDelegate
         Clip {
             height: trackRoot.height
+            onInitGroupTrim: {
+                // We are resizing a group, remember coordinates of all elements
+                clip.groupTrimData = controller.getGroupData(clip.clipId)
+            }
             onTrimmingIn: {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                 if (new_duration > 0) {
@@ -275,8 +279,16 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping, shiftTrim)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping, shiftTrim)
+                if (shiftTrim) {
+                    // We only resize one element
+                    controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping, shiftTrim)
+                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping, shiftTrim)
+                } else {
+                    var updatedGroupData = controller.getGroupData(clip.clipId)
+                    controller.processGroupResize(clip.groupTrimData, updatedGroupData, false)
+                }
+                
+                clip.groupTrimData = undefined
             }
             onTrimmingOut: {
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
@@ -293,8 +305,13 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping, shiftTrim)
-                controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping, shiftTrim)
+                if (shiftTrim) {
+                    controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping, shiftTrim)
+                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping, shiftTrim)
+                } else {
+                    var updatedGroupData = controller.getGroupData(clip.clipId)
+                    controller.processGroupResize(clip.groupTrimData, updatedGroupData, true)
+                }
             }
         }
     }

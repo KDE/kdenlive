@@ -1544,6 +1544,65 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     return true;
 }
 
+const QVariantList TimelineModel::getGroupData(int itemId)
+{
+    QWriteLocker locker(&m_lock);
+    if (!m_groups->isInGroup(itemId)) {
+        return {itemId,getItemPosition(itemId),getItemPlaytime(itemId)};
+    }
+    int groupId = m_groups->getRootId(itemId);
+    QVariantList result;
+    std::unordered_set<int> items = m_groups->getLeaves(groupId);
+    for (int id : items) {
+        result << id << getItemPosition(id) << getItemPlaytime(id);
+    }
+    return result;
+}
+
+void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPos, bool right)
+{
+    Q_ASSERT(startPos.size() == endPos.size());
+    QMap <int, QPair<int,int> >startData;
+    QMap <int, QPair<int,int> >endData;
+    while( !startPos.isEmpty()) {
+        int id = startPos.takeFirst().toInt();
+        int in = startPos.takeFirst().toInt();
+        int duration = startPos.takeFirst().toInt();
+        startData.insert(id, {in, duration});
+        id = endPos.takeFirst().toInt();
+        in = endPos.takeFirst().toInt();
+        duration = endPos.takeFirst().toInt();
+        endData.insert(id, {in, duration});
+    }
+    QMapIterator<int, QPair<int,int> > i(startData);
+    QList <int> changedItems;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = true;
+    while (i.hasNext()) {
+        i.next();
+        QPair<int,int> startPos = i.value();
+        QPair<int,int> endPos = endData.value(i.key());
+        if (startPos.first != endPos.first || startPos.second != endPos.second) {
+            // Revert individual items to original position
+            requestItemResize(i.key(), startPos.second, right, false, 0, true);
+            changedItems << i.key();
+        }
+    }
+    for (int id : changedItems) {
+        QPair<int,int> endPos = endData.value(id);
+        result = result & requestItemResize(id, endPos.second, right, true, undo, redo, false);
+        if (!result) {
+            break;
+        }
+    }
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Resize group"));
+    } else {
+        undo();
+    }
+}
+
 int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
     if (logUndo) {
@@ -1601,16 +1660,14 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         if (m_groups->getType(groupId) == GroupType::AVSplit) {
             // Only resize group elements if it is an avsplit
             items = m_groups->getLeaves(groupId);
-        } else {
-            all_items.insert(itemId);
         }
+        all_items.insert(itemId);
         for (int id : items) {
             if (id == itemId) {
-                all_items.insert(id);
                 continue;
             }
             int start = getItemPosition(id);
-            int end = in + getItemPlaytime(id);
+            int end = start + getItemPlaytime(id);
             if (right) {
                 if (out == end) {
                     all_items.insert(id);
@@ -1623,12 +1680,19 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         all_items.insert(itemId);
     }
     bool result = true;
+    int finalPos = right ? in + size : out - size;
+    int finalSize;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
         if (tid > -1 && getTrackById_const(tid)->isLocked()) {
             continue;
         }
-        result = result && requestItemResize(id, size, right, logUndo, undo, redo);
+        if (right) {
+            finalSize = finalPos - getItemPosition(id);
+        } else {
+            finalSize = getItemPosition(id) + getItemPlaytime(id) - finalPos;
+        }
+        result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
     }
     if (!result) {
         bool undone = undo();
@@ -1704,11 +1768,16 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     if (type != GroupType::Selection) {
         requestClearSelection();
     }
+    int clipsCount = 0;
+    QList <int> tracks;
     for (int id : ids) {
         if (isClip(id)) {
-            if (getClipTrackId(id) == -1) {
+            int trackId = getClipTrackId(id);
+            if (trackId == -1) {
                 return -1;
             }
+            tracks << trackId;
+            clipsCount++;
         } else if (isComposition(id)) {
             if (getCompositionTrackId(id) == -1) {
                 return -1;
@@ -1720,6 +1789,26 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
     if (type == GroupType::Selection && ids.size() == 1) {
         // only one element selected, no group created
         return -1;
+    }
+    if (ids.size() == 2 && clipsCount == 2 && type == GroupType::Normal) {
+        // Check if we are grouping an AVSplit
+        std::unordered_set<int>::const_iterator it = ids.begin();
+        int firstId = *it;
+        std::advance(it, 1);
+        int secondId = *it;
+        bool isAVGroup = false;
+        if (getClipBinId(firstId) == getClipBinId(secondId)) {
+            if (getClipState(firstId) == PlaylistState::AudioOnly) {
+                if (getClipState(secondId) == PlaylistState::VideoOnly) {
+                    isAVGroup = true;
+                }
+            } else if (getClipState(secondId) == PlaylistState::AudioOnly) {
+                isAVGroup = true;
+            }
+        }
+        if (isAVGroup) {
+            type = GroupType::AVSplit;
+        }
     }
     int groupId = m_groups->groupItems(ids, undo, redo, type);
     if (type != GroupType::Selection) {
