@@ -1024,8 +1024,14 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         // interpolate
         QSize frame = pCore->getCurrentFrameSize();
         QList<BPoint> p1 = RotoHelper::getPoints(prev->second.second, frame);
-        qreal relPos = (p - prev->first.frames(pCore->getCurrentFps())) / (qreal)(((next->first - prev->first).frames(pCore->getCurrentFps())) + 1);
         QList<BPoint> p2 = RotoHelper::getPoints(next->second.second, frame);
+        // relPos should be in [0,1]:
+        // - equal to 0 on prev keyframe
+        // - equal to 1 on next keyframe
+        qreal relPos = 0;
+        if (next->first != prev->first) {
+            relPos = (p - prev->first.frames(pCore->getCurrentFps())) / (qreal)(((next->first - prev->first).frames(pCore->getCurrentFps())));
+        }
         int count = qMin(p1.count(), p2.count());
         QList<QVariant> vlist;
         for (int i = 0; i < count; ++i) {
