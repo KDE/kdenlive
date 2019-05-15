@@ -138,6 +138,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_sceneVisibilityAction(nullptr)
     , m_multitrackView(nullptr)
     , m_contextMenu(nullptr)
+    , m_markerMenu(nullptr)
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
@@ -701,6 +702,24 @@ void Monitor::slotShowMenu(const QPoint pos)
 {
     slotActivateMonitor();
     if (m_contextMenu) {
+        if (m_markerMenu) {
+            // Fill guide menu
+            m_markerMenu->clear();
+            std::shared_ptr<MarkerListModel> model;
+            if (m_id == Kdenlive::ClipMonitor && m_controller) {
+                model = m_controller->getMarkerModel();
+            } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {
+                model = pCore->currentDoc()->getGuideModel();
+            }
+            if (model) {
+                QList<CommentedTime> markersList = model->getAllMarkers();
+                for (CommentedTime mkr : markersList) {
+                    QAction *a = m_markerMenu->addAction(mkr.comment());
+                    a->setData(mkr.time().frames(pCore->getCurrentFps()));
+                }
+            }
+            m_markerMenu->setEnabled(!m_markerMenu->isEmpty());
+        }
         m_contextMenu->popup(pos);
     }
 }

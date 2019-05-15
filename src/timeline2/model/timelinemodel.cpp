@@ -1581,17 +1581,17 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
     bool result = true;
     while (i.hasNext()) {
         i.next();
-        QPair<int,int> startPos = i.value();
-        QPair<int,int> endPos = endData.value(i.key());
-        if (startPos.first != endPos.first || startPos.second != endPos.second) {
+        QPair<int,int> startItemPos = i.value();
+        QPair<int,int> endItemPos = endData.value(i.key());
+        if (startItemPos.first != endItemPos.first || startItemPos.second != endItemPos.second) {
             // Revert individual items to original position
-            requestItemResize(i.key(), startPos.second, right, false, 0, true);
+            requestItemResize(i.key(), startItemPos.second, right, false, 0, true);
             changedItems << i.key();
         }
     }
     for (int id : changedItems) {
-        QPair<int,int> endPos = endData.value(id);
-        result = result & requestItemResize(id, endPos.second, right, true, undo, redo, false);
+        QPair<int,int> endItemPos = endData.value(id);
+        result = result & requestItemResize(id, endItemPos.second, right, true, undo, redo, false);
         if (!result) {
             break;
         }
