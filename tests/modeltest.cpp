@@ -210,6 +210,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     QString binId = createProducer(profile_model, "red", binModel);
     QString binId2 = createProducer(profile_model, "blue", binModel);
     QString binId3 = createProducer(profile_model, "green", binModel);
+    QString binId_unlimited = createProducer(profile_model, "green", binModel, 20, false);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid1, tid2, tid3;
@@ -219,63 +220,56 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
     int cid4 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
+    int cid5 = ClipModel::construct(timeline, binId_unlimited, -1, PlaylistState::VideoOnly);
 
     Verify(Method(timMock, _resetView)).Exactly(3_Times);
     RESET(timMock);
 
-    // for testing purposes, we make sure the clip will behave as regular clips
-    // (ie their size is fixed, we cannot resize them past their original size)
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
-    timeline->m_allClips[cid4]->m_endlessResize = false;
-
     SECTION("Endless clips can be resized both sides")
     {
-        timeline->m_allClips[cid1]->m_endlessResize = true;
 
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
-        int l = timeline->getClipPlaytime(cid1);
+        int l = timeline->getClipPlaytime(cid5);
 
         // try resizing uninserted clip
-        REQUIRE(timeline->requestItemResize(cid1, l + 2, false) == l + 2);
-        REQUIRE(timeline->getClipPlaytime(cid1) == l + 2);
+        REQUIRE(timeline->requestItemResize(cid5, l + 2, false) == l + 2);
+        REQUIRE(timeline->getClipPlaytime(cid5) == l + 2);
         undoStack->undo();
-        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        REQUIRE(timeline->getClipPlaytime(cid5) == l);
         undoStack->redo();
-        REQUIRE(timeline->getClipPlaytime(cid1) == l + 2);
+        REQUIRE(timeline->getClipPlaytime(cid5) == l + 2);
         undoStack->undo();
-        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        REQUIRE(timeline->getClipPlaytime(cid5) == l);
 
-        REQUIRE(timeline->requestItemResize(cid1, 3 * l, true) == 3 * l);
-        REQUIRE(timeline->getClipPlaytime(cid1) == 3 * l);
+        REQUIRE(timeline->requestItemResize(cid5, 3 * l, true) == 3 * l);
+        REQUIRE(timeline->getClipPlaytime(cid5) == 3 * l);
         undoStack->undo();
-        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        REQUIRE(timeline->getClipPlaytime(cid5) == l);
         undoStack->redo();
-        REQUIRE(timeline->getClipPlaytime(cid1) == 3 * l);
+        REQUIRE(timeline->getClipPlaytime(cid5) == 3 * l);
         undoStack->undo();
-        REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        REQUIRE(timeline->getClipPlaytime(cid5) == l);
 
         // try resizing inserted clip
         int pos = 10;
-        REQUIRE(timeline->requestClipMove(cid1, tid1, pos));
+        REQUIRE(timeline->requestClipMove(cid5, tid1, pos));
 
         auto state = [&](int s, int p) {
             REQUIRE(timeline->checkConsistency());
-            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
-            REQUIRE(timeline->getClipPosition(cid1) == p);
+            REQUIRE(timeline->getClipTrackId(cid5) == tid1);
+            REQUIRE(timeline->getClipPosition(cid5) == p);
             REQUIRE(timeline->getTrackClipsCount(tid1) == 1);
             REQUIRE(timeline->getTrackClipsCount(tid2) == 0);
-            REQUIRE(timeline->getClipPlaytime(cid1) == s);
+            REQUIRE(timeline->getClipPlaytime(cid5) == s);
         };
         state(l, pos);
 
         // too big
-        REQUIRE(timeline->requestItemResize(cid1, l + pos + 2, false) == -1);
+        REQUIRE(timeline->requestItemResize(cid5, l + pos + 2, false) == -1);
 
-        REQUIRE(timeline->requestItemResize(cid1, l + 2, false) == l + 2);
+        REQUIRE(timeline->requestItemResize(cid5, l + 2, false) == l + 2);
         state(l + 2, pos - 2);
         undoStack->undo();
         state(l, pos);
@@ -284,7 +278,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         undoStack->undo();
         state(l, pos);
 
-        REQUIRE(timeline->requestItemResize(cid1, 3 * l, true) == 3 * l);
+        REQUIRE(timeline->requestItemResize(cid5, 3 * l, true) == 3 * l);
         state(3 * l, pos);
         undoStack->undo();
         state(l, pos);
@@ -1146,8 +1140,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int tid2 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
 
     int length = 20;
     int nclips = timeline->m_allClips.size();
@@ -1766,9 +1758,6 @@ TEST_CASE("Snapping", "[Snapping]")
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
-    timeline->m_allClips[cid1]->m_endlessResize = false;
-    timeline->m_allClips[cid2]->m_endlessResize = false;
-    timeline->m_allClips[cid3]->m_endlessResize = false;
 
     int length = timeline->getClipPlaytime(cid1);
     int length2 = timeline->getClipPlaytime(cid2);
