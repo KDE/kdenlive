@@ -82,7 +82,7 @@ public:
     void setRoot(QQuickItem *root);
     /** @brief Edit an item's in/out points with a dialog
      */
-    Q_INVOKABLE void editItemDuration(int itemId);
+    Q_INVOKABLE void editItemDuration(int itemId = -1);
 
     /** @brief Returns the topmost track containing a selected item (-1 if selection is embty) */
     Q_INVOKABLE int selectedTrack() const;
@@ -209,9 +209,11 @@ public:
     Q_INVOKABLE void triggerAction(const QString &name);
 
     /* @brief Returns id of the timeline selcted clip if there is only 1 clip selected
-     * or an AVSplit group. Returns -1 otherwise
+     * or an AVSplit group. If allowComposition is true, returns composition id if 
+     * only 1 is selected, otherwise returns -1. If restrictToCurrentPos is true, it will
+     * only return the id if timeline cursor is inside item
      */
-    int getMainSelectedClip();
+    int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
 
     /* @brief Do we want to display video thumbnails
      */
