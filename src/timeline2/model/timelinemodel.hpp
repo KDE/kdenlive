@@ -172,6 +172,9 @@ public:
     /* @brief returns the number of tracks */
     int getTracksCount() const;
 
+    /* @brief returns the ids of all the tracks */
+    std::unordered_set<int> getAllTracksIds() const;
+
     /* @brief returns the track index (id) from its position */
     int getTrackIndexFromPosition(int pos) const;
 
@@ -322,6 +325,13 @@ public:
     int getMirrorVideoTrackId(int trackId) const;
     int getMirrorTrackId(int trackId) const;
 
+    /* @brief Sets a track in a given lock state
+       Locked tracks can't receive any operations (resize, move, insertion, deletion...)
+       @param trackId is of the track to alter
+       @param lock if true, the track will be locked, otherwise unlocked.
+    */
+    Q_INVOKABLE void setTrackLockedState(int trackId, bool lock);
+
     /* @brief Move a clip to a specific position
        This action is undoable
        Returns true on success. If it fails, nothing is modified.
@@ -446,7 +456,7 @@ public:
 
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
-    
+
     /* Returns a list of {id, position duration} for all elements in the group*/
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
     Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);

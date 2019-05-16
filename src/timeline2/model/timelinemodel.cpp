@@ -60,6 +60,7 @@ RTTR_REGISTRATION
 {
     using namespace rttr;
     registration::class_<TimelineModel>("TimelineModel")
+        .method("setTrackLockedState", &TimelineModel::setTrackLockedState)(parameter_names("trackId", "lock"))
         .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove))(
             parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
         .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))(
@@ -87,7 +88,6 @@ RTTR_REGISTRATION
             parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
         .method("requestFakeGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestFakeGroupMove))(
             parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
-        // (parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView" "logUndo"))
         .method("suggestClipMove", &TimelineModel::suggestClipMove)(parameter_names("clipId", "trackId", "position", "cursorPosition", "snapDistance"))
         .method("suggestCompositionMove",
                 &TimelineModel::suggestCompositionMove)(parameter_names("compoId", "trackId", "position", "cursorPosition", "snapDistance"))
@@ -138,7 +138,7 @@ void TimelineModel::prepareClose()
     m_closing = true;
     auto it = m_allTracks.begin();
     while (it != m_allTracks.end()) {
-        (*it)->setProperty(QStringLiteral("kdenlive:locked_track"), (char*) nullptr);
+        (*it)->unlock();
         ++it;
     }
 }
@@ -1359,12 +1359,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Sort compositions. We need to delete in the move direction from top to bottom
     std::vector<int> sorted_compositions(all_compositions.begin(), all_compositions.end());
     std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](int clipId1, int clipId2) {
-        int p1 = delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
-                                                   : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
-                                                                     : m_allCompositions[clipId1]->getPosition();
-        int p2 = delta_track < 0 ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
-                                                   : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
-                                                                     : m_allCompositions[clipId2]->getPosition();
+        int p1 = delta_track < 0
+                     ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
+                     : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : m_allCompositions[clipId1]->getPosition();
+        int p2 = delta_track < 0
+                     ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
+                     : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : m_allCompositions[clipId2]->getPosition();
         return delta_track == 0 ? (delta_pos > 0 ? p2 <= p1 : p1 <= p2) : p1 <= p2;
     });
     sorted_clips.insert(sorted_clips.end(), sorted_compositions.begin(), sorted_compositions.end());
@@ -1548,7 +1548,7 @@ const QVariantList TimelineModel::getGroupData(int itemId)
 {
     QWriteLocker locker(&m_lock);
     if (!m_groups->isInGroup(itemId)) {
-        return {itemId,getItemPosition(itemId),getItemPlaytime(itemId)};
+        return {itemId, getItemPosition(itemId), getItemPlaytime(itemId)};
     }
     int groupId = m_groups->getRootId(itemId);
     QVariantList result;
@@ -1562,9 +1562,9 @@ const QVariantList TimelineModel::getGroupData(int itemId)
 void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPos, bool right)
 {
     Q_ASSERT(startPos.size() == endPos.size());
-    QMap <int, QPair<int,int> >startData;
-    QMap <int, QPair<int,int> >endData;
-    while( !startPos.isEmpty()) {
+    QMap<int, QPair<int, int>> startData;
+    QMap<int, QPair<int, int>> endData;
+    while (!startPos.isEmpty()) {
         int id = startPos.takeFirst().toInt();
         int in = startPos.takeFirst().toInt();
         int duration = startPos.takeFirst().toInt();
@@ -1574,15 +1574,15 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
         duration = endPos.takeFirst().toInt();
         endData.insert(id, {in, duration});
     }
-    QMapIterator<int, QPair<int,int> > i(startData);
-    QList <int> changedItems;
+    QMapIterator<int, QPair<int, int>> i(startData);
+    QList<int> changedItems;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool result = true;
     while (i.hasNext()) {
         i.next();
-        QPair<int,int> startItemPos = i.value();
-        QPair<int,int> endItemPos = endData.value(i.key());
+        QPair<int, int> startItemPos = i.value();
+        QPair<int, int> endItemPos = endData.value(i.key());
         if (startItemPos.first != endItemPos.first || startItemPos.second != endItemPos.second) {
             // Revert individual items to original position
             requestItemResize(i.key(), startItemPos.second, right, false, 0, true);
@@ -1590,7 +1590,7 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
         }
     }
     for (int id : changedItems) {
-        QPair<int,int> endItemPos = endData.value(id);
+        QPair<int, int> endItemPos = endData.value(id);
         result = result & requestItemResize(id, endItemPos.second, right, true, undo, redo, false);
         if (!result) {
             break;
@@ -1769,7 +1769,7 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
         requestClearSelection();
     }
     int clipsCount = 0;
-    QList <int> tracks;
+    QList<int> tracks;
     for (int id : ids) {
         if (isClip(id)) {
             int trackId = getClipTrackId(id);
@@ -3182,7 +3182,7 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
         if (ids.size() == 2) {
             // Check if we selected 2 clips from the same master
             QList<int> pairIds;
-            for(auto &id : roots) {
+            for (auto &id : roots) {
                 if (isClip(id)) {
                     pairIds << id;
                 }
@@ -3226,4 +3226,21 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids, Fun 
         return true;
     }
     return false;
+}
+
+void TimelineModel::setTrackLockedState(int trackId, bool lock)
+{
+    TRACE(trackId, lock);
+    if (lock) {
+        getTrackById(trackId)->lock();
+    } else {
+        getTrackById(trackId)->unlock();
+    }
+};
+
+std::unordered_set<int> TimelineModel::getAllTracksIds() const
+{
+    std::unordered_set<int> result;
+    std::transform(m_iteratorTable.begin(), m_iteratorTable.end(), std::inserter(result, result.begin()), [&](const auto &track) { return track.first; });
+    return result;
 }

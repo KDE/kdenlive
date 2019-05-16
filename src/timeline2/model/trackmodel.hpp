@@ -82,6 +82,10 @@ public:
      */
     operator Mlt::Producer &() { return *m_track.get(); }
 
+    /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items */
+    void lock();
+    void unlock();
+
     /* @brief Returns true if track is in locked state
      */
     bool isLocked() const;
