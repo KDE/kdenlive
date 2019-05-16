@@ -2215,7 +2215,7 @@ void MainWindow::slotAddClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
         if (selectedClip > -1) {
             getMainTimeline()->controller()->addMarker(selectedClip);
             return;
@@ -2237,7 +2237,7 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
         if (selectedClip > -1) {
             getMainTimeline()->controller()->deleteMarker(selectedClip);
             return;
@@ -2269,7 +2269,7 @@ void MainWindow::slotDeleteAllClipMarkers()
 {
     std::shared_ptr<ProjectClip> clip(nullptr);
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
         if (selectedClip > -1) {
             getMainTimeline()->controller()->deleteAllMarkers(selectedClip);
             return;
@@ -2293,7 +2293,7 @@ void MainWindow::slotEditClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
         if (selectedClip > -1) {
             getMainTimeline()->controller()->editMarker(selectedClip);
             return;
@@ -2335,7 +2335,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
         CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
         clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
     } else {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedClip();
+        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
         if (selectedClip == -1) {
             // Add timeline guide
             getMainTimeline()->controller()->switchGuide();
@@ -2535,12 +2535,7 @@ void MainWindow::slotUnGroupClips()
 
 void MainWindow::slotEditItemDuration()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->editItemDuration();
-    }
-    */
+    getCurrentTimeline()->controller()->editItemDuration();
 }
 
 void MainWindow::slotAddProjectClip(const QUrl &url, const QString &folderInfo)

@@ -411,7 +411,7 @@ void TimelineController::deleteSelectedClips()
     m_model->requestItemDeletion(*sel.begin());
 }
 
-int TimelineController::getMainSelectedClip()
+int TimelineController::getMainSelectedItem(bool restrictToCurrentPos, bool allowComposition)
 {
     auto sel = m_model->getCurrentSelection();
     if (sel.empty() || sel.size() > 2) {
@@ -422,6 +422,11 @@ int TimelineController::getMainSelectedClip()
         int parentGroup = m_model->m_groups->getRootId(itemId);
         if (parentGroup == -1 || m_model->m_groups->getType(parentGroup) != GroupType::AVSplit) {
             return -1;
+        }
+    }
+    if (!restrictToCurrentPos) {
+        if (m_model->isClip(itemId) || (allowComposition && m_model->isComposition(itemId))) {
+            return itemId;
         }
     }
     if (m_model->isClip(itemId)) {
@@ -1914,6 +1919,13 @@ double TimelineController::fps() const
 
 void TimelineController::editItemDuration(int id)
 {
+    if (id == -1) {
+        id = getMainSelectedItem(false, true);
+    }
+    if (id == -1) {
+        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        return;
+    }
     int start = m_model->getItemPosition(id);
     int in = 0;
     int duration = m_model->getItemPlaytime(id);
@@ -2057,6 +2069,9 @@ void TimelineController::grabCurrent()
         return;
     }
     int id = *m_model->getCurrentSelection().begin();
+    while (m_model->isGroup(id)) {
+        id = *m_model->m_groups->getLeaves(id).begin();
+    }
     if (m_model->isClip(id)) {
         std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
         clip->setGrab(!clip->isGrabbed());
