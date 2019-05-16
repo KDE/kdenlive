@@ -374,7 +374,6 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
-    qDebug() << "refresh " << speed << m_speed << in << out;
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyCompare(speed, 0.)) {
         in = in * std::abs(m_speed / speed);
         out = in + getPlaytime() - 1;

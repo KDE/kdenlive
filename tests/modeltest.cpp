@@ -31,7 +31,8 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     // This is faked to allow to count calls
     Fake(Method(timMock, _resetView));
 
-    int id1 = TrackModel::construct(timeline);
+    int id1, id2, id3;
+    REQUIRE(timeline->requestTrackInsertion(-1, id1));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
     REQUIRE(timeline->getTrackPosition(id1) == 0);
@@ -39,14 +40,14 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
-    int id2 = TrackModel::construct(timeline);
+    REQUIRE(timeline->requestTrackInsertion(-1, id2));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
     REQUIRE(timeline->getTrackPosition(id2) == 1);
     Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
-    int id3 = TrackModel::construct(timeline);
+    REQUIRE(timeline->requestTrackInsertion(-1, id3));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
     REQUIRE(timeline->getTrackPosition(id3) == 2);
@@ -211,9 +212,10 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     QString binId3 = createProducer(profile_model, "green", binModel);
 
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
-    int tid1 = TrackModel::construct(timeline);
-    int tid2 = TrackModel::construct(timeline);
-    int tid3 = TrackModel::construct(timeline);
+    int tid1, tid2, tid3;
+    REQUIRE(timeline->requestTrackInsertion(-1, tid1));
+    REQUIRE(timeline->requestTrackInsertion(-1, tid2));
+    REQUIRE(timeline->requestTrackInsertion(-1, tid3));
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid3 = ClipModel::construct(timeline, binId3, -1, PlaylistState::VideoOnly);
     int cid4 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
