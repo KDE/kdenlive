@@ -139,7 +139,7 @@ bool DocumentChecker::hasErrorInClips()
     QStringList missingPaths;
     QStringList serviceToCheck;
     serviceToCheck << QStringLiteral("kdenlivetitle") << QStringLiteral("qimage") << QStringLiteral("pixbuf") << QStringLiteral("timewarp")
-                   << QStringLiteral("framebuffer") << QStringLiteral("xml");
+                   << QStringLiteral("framebuffer") << QStringLiteral("xml") << QStringLiteral("qtext");
     for (int i = 0; i < max; ++i) {
         QDomElement e = documentProducers.item(i).toElement();
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
@@ -147,6 +147,42 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         if (service == QLatin1String("qtext")) {
+            QString text = Xml::getXmlProperty(e, QStringLiteral("text"));
+            if (text == QLatin1String("INVALID")) {
+                // Warning, this is an invalid clip (project saved with missing source)
+                // Check if source clip is now available
+                QString resource = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+                if (resource.isEmpty()) {
+                    resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+                }
+                // Make sure to have absolute paths
+                if (QFileInfo(resource).isRelative()) {
+                    resource.prepend(root);
+                }
+                if (QFile::exists(resource)) {
+                    // Reset to original service
+                    Xml::removeXmlProperty(e, QStringLiteral("text"));
+                    QString original_service = Xml::getXmlProperty(e, QStringLiteral("kdenlive:orig_service"));
+                    if (!original_service.isEmpty()) {
+                        Xml::setXmlProperty(e, QStringLiteral("mlt_service"), original_service);
+                    } else {
+                        // Try to guess service
+                        if (Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
+                        }
+                        else if (resource.endsWith(QLatin1String(".kdenlivetitle"))) {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("kdenlivetitle"));
+                        } else if (resource.endsWith(QLatin1String(".kdenlive")) || resource.endsWith(QLatin1String(".mlt"))) {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("xml"));
+                        } else {
+                            Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+                        }
+                        
+                    }
+                }
+                continue;
+            }
+            
             checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
                                        e.attribute(QStringLiteral("name")));
             continue;
