@@ -1217,19 +1217,6 @@ void Monitor::slotForwardOneFrame(int diff)
     m_glMonitor->seek(m_glMonitor->getCurrentPos() + diff);
 }
 
-void Monitor::seekCursor(int pos)
-{
-    Q_UNUSED(pos)
-    // Deprecated should not be used, instead requestSeek
-    /*if (m_ruler->slotNewValue(pos)) {
-        m_timePos->setValue(pos);
-        checkOverlay(pos);
-        if (m_id != Kdenlive::ClipMonitor) {
-            emit renderPosition(pos);
-        }
-    }*/
-}
-
 void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel)
 {
     if (m_controller != nullptr) {
