@@ -61,6 +61,10 @@ QString getTagContentByAttribute(const QDomElement &element, const QString &tagN
 QString getXmlProperty(const QDomElement &element, const QString &propertyName, const QString &defaultReturn = QString());
 QString getXmlParameter(const QDomElement &element, const QString &propertyName, const QString &defaultReturn = QString());
 
+/* @brief Returns true if the element contains a named property
+*/
+bool hasXmlProperty(QDomElement element, const QString &propertyName);
+
 /* @brief Add properties to the given xml element
    For each element (n, v) in the properties map, it creates a sub element of the form : <property name="n">v</property>
    @param producer is the xml element where to append properties

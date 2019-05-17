@@ -134,6 +134,18 @@ void Xml::setXmlProperty(QDomElement element, const QString &propertyName, const
     }
 }
 
+bool Xml::hasXmlProperty(QDomElement element, const QString &propertyName)
+{
+    QDomNodeList params = element.elementsByTagName(QStringLiteral("property"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement e = params.item(i).toElement();
+        if (e.attribute(QStringLiteral("name")) == propertyName) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Xml::removeXmlProperty(QDomElement effect, const QString &name)
 {
     QDomNodeList params = effect.elementsByTagName(QStringLiteral("property"));
