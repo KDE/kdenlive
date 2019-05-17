@@ -111,7 +111,6 @@ Rectangle {
         } else {
             scrollTimer.stop()
         }
-
     }
     function getTrackYFromId(a_track) {
         return Logic.getTrackYFromId(a_track)
@@ -998,20 +997,6 @@ Rectangle {
                 }
                 scim = false
             }
-            Timer {
-                id: scrubTimer
-                interval: 25
-                repeat: true
-                running: parent.scim && parent.containsMouse
-                         && (parent.mouseX < 50 || parent.mouseX > parent.width - 50)
-                         && (timeline.position * timeline.scaleFactor >= 50)
-                onTriggered: {
-                    if (parent.mouseX < 50)
-                        timeline.seekPosition = Math.max(0, timeline.position - 10)
-                    else
-                        timeline.seekPosition = Math.min(timeline.position + 10, timeline.fullDuration - 1)
-                }
-            }
 
             Column {
                 Flickable {
@@ -1210,6 +1195,7 @@ Rectangle {
                                 }
                                 onReleased: {
                                     clipBeingMovedId = -1
+                                    root.stopScrolling = false
                                     if (!shiftClick && dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                         if (dragProxy.isComposition) {
