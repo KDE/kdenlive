@@ -1603,6 +1603,27 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
     }
 }
 
+const std::vector<int> TimelineModel::getBoundaries(int itemId)
+{
+    std::vector<int> boundaries;
+    std::unordered_set<int> items;
+    if (m_groups->isInGroup(itemId)) {
+        int groupId = m_groups->getRootId(itemId);
+        items = m_groups->getLeaves(groupId);
+    } else {
+        items.insert(itemId);
+    }
+    for (int id : items) {
+        if (isClip(id) || isComposition(id)) {
+            int in = getItemPosition(id);
+            int out = in + getItemPlaytime(id);
+            boundaries.push_back(in);
+            boundaries.push_back(out);
+        }
+    }
+    return boundaries;
+}
+
 int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
     if (logUndo) {
@@ -1635,7 +1656,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         }
         int timelinePos = pCore->getTimelinePosition();
         m_snaps->addPoint(timelinePos);
-        int proposed_size = m_snaps->proposeSize(in, out, size, right, snapDistance);
+        int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
         m_snaps->removePoint(timelinePos);
         if (proposed_size > 0) {
             // only test move if proposed_size is valid
@@ -3236,7 +3257,7 @@ void TimelineModel::setTrackLockedState(int trackId, bool lock)
     } else {
         getTrackById(trackId)->unlock();
     }
-};
+}
 
 std::unordered_set<int> TimelineModel::getAllTracksIds() const
 {

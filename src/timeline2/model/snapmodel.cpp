@@ -131,3 +131,24 @@ int SnapModel::proposeSize(int in, int out, int size, bool right, int maxSnapDis
     unIgnore();
     return proposed_size;
 }
+
+int SnapModel::proposeSize(int in, int out, const std::vector<int> boundaries, int size, bool right, int maxSnapDist)
+{
+    ignore(boundaries);
+    int proposed_size = -1;
+    if (right) {
+        int target_pos = in + size - 1;
+        int snapped_pos = getClosestPoint(target_pos);
+        if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= maxSnapDist) {
+            proposed_size = snapped_pos - in;
+        }
+    } else {
+        int target_pos = out + 1 - size;
+        int snapped_pos = getClosestPoint(target_pos);
+        if (snapped_pos != -1 && qAbs(target_pos - snapped_pos) <= maxSnapDist) {
+            proposed_size = out - snapped_pos;
+        }
+    }
+    unIgnore();
+    return proposed_size;
+}

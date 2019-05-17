@@ -531,6 +531,9 @@ protected:
        @returns best snap position or -1 if no snap point is near
      */
     int getBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
+    /* @brief Returns a list of in/out of all items in the group of itemId
+     */
+    const std::vector<int> getBoundaries(int itemId);
 
 public:
     /* @brief Requests the next snapped point
