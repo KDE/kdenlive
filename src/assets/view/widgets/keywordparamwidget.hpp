@@ -19,44 +19,36 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "boolparamwidget.hpp"
-#include "assets/model/assetparametermodel.hpp"
+#ifndef KEYWORDPARAMWIDGET_H
+#define KEYWORDPARAMWIDGET_H
 
-BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
-    : AbstractParamWidget(std::move(model), index, parent)
+#include "abstractparamwidget.hpp"
+#include "ui_keywordval_ui.h"
+#include <QWidget>
+
+/** @brief This class represents a parameter that requires
+           the user to choose tick a checkbox
+ */
+class KeywordParamWidget : public AbstractParamWidget, public Ui::Keywordval_UI
 {
-    setupUi(this);
+    Q_OBJECT
+public:
+    /** @brief Constructor for the widgetComment
+        @param name String containing the name of the parameter
+        @param comment Optional string containing the comment associated to the parameter
+        @param checked Boolean indicating whether the checkbox should initially be checked
+        @param parent Parent widget
+    */
+    KeywordParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent);
 
-    // setup the comment
-    QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
-    m_labelComment->setText(comment);
-    m_widgetComment->setHidden(true);
+public slots:
+    /** @brief Toggle the comments on or off
+     */
+    void slotShowComment(bool show) override;
 
-    // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    /** @brief refresh the properties to reflect changes in the model
+     */
+    void slotRefresh() override;
+};
 
-    // set check state
-    slotRefresh();
-
-    // emit the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit valueChanged(m_index, QString::number(m_checkBox->isChecked()), true); });
-}
-
-void BoolParamWidget::slotShowComment(bool show)
-{
-    if (!m_labelComment->text().isEmpty()) {
-        m_widgetComment->setVisible(show);
-    }
-}
-
-void BoolParamWidget::slotRefresh()
-{
-    bool checked = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
-    m_checkBox->setChecked(checked);
-}
-
-bool BoolParamWidget::getValue()
-{
-    return m_checkBox->isChecked();
-}
+#endif

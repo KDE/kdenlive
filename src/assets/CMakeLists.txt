@@ -33,6 +33,8 @@ set(kdenlive_SRCS
   assets/view/widgets/coloreditwidget.cpp
   assets/view/widgets/hideparamwidget.cpp
   assets/view/widgets/clickablelabelwidget.cpp
+  assets/view/widgets/fontparamwidget.cpp
+  assets/view/widgets/keywordparamwidget.cpp
   # curves widget
   assets/view/widgets/curves/abstractcurvewidget.h
   assets/view/widgets/curves/bezier/beziersplineeditor.cpp

@@ -19,44 +19,60 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "boolparamwidget.hpp"
+#include "keywordparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
-BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
 
     // setup the comment
+    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
-    m_labelComment->setText(comment);
-    m_widgetComment->setHidden(true);
 
     // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
-
+    label->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    
+    QStringList kwrdValues = m_model->data(m_index, AssetParameterModel::ListValuesRole).toStringList();
+    QStringList kwrdNames = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
+    comboboxwidget->addItems(kwrdNames);
+    int i = 0;
+    for (const QString &keywordVal : kwrdValues) {
+        if (i >= comboboxwidget->count()) {
+            break;
+        }
+        comboboxwidget->setItemData(i, keywordVal);
+        i++;
+    }
+    comboboxwidget->insertItem(0, i18n("<select a keyword>"));
+    comboboxwidget->setCurrentIndex(0);
     // set check state
     slotRefresh();
 
     // emit the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit valueChanged(m_index, QString::number(m_checkBox->isChecked()), true); });
+    connect(lineeditwidget, &QLineEdit::editingFinished, [this]() { 
+        emit valueChanged(m_index, lineeditwidget->text(), true);
+    });
+    connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            [this](int ix) {
+            if (ix > 0) {
+                QString comboval = comboboxwidget->itemData(ix).toString();
+                this->lineeditwidget->insert(comboval);
+                emit valueChanged(m_index, lineeditwidget->text(), true);
+                comboboxwidget->setCurrentIndex(0);
+            }
+    });
 }
 
-void BoolParamWidget::slotShowComment(bool show)
+void KeywordParamWidget::slotShowComment(bool show)
 {
-    if (!m_labelComment->text().isEmpty()) {
-        m_widgetComment->setVisible(show);
-    }
+    Q_UNUSED(show);
 }
 
-void BoolParamWidget::slotRefresh()
+void KeywordParamWidget::slotRefresh()
 {
-    bool checked = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
-    m_checkBox->setChecked(checked);
+    lineeditwidget->setText(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
 }
 
-bool BoolParamWidget::getValue()
-{
-    return m_checkBox->isChecked();
-}
