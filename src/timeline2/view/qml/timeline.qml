@@ -519,6 +519,15 @@ Rectangle {
                 timeline.switchGuide(timeline.position);
             }
         }
+        GuidesMenu {
+            title: i18n('Go to guide...')
+            menuModel: guidesModel
+            enabled: guidesDelegateModel.count > 0
+            onGuideSelected: {
+                timeline.seekPosition = assetFrame
+                timeline.position = timeline.seekPosition
+            }
+        }
         OLD.MenuItem {
             id: editGuideMenu
             text: i18n('Edit Guide')
@@ -564,6 +573,15 @@ Rectangle {
             text: i18n('Add Guide')
             onTriggered: {
                 timeline.switchGuide(timeline.position);
+            }
+        }
+        GuidesMenu {
+            title: i18n('Go to guide...')
+            menuModel: guidesModel
+            enabled: guidesDelegateModel.count > 0
+            onGuideSelected: {
+                timeline.seekPosition = assetFrame
+                timeline.position = timeline.seekPosition
             }
         }
         OLD.MenuItem {
