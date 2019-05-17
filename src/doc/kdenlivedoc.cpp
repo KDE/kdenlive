@@ -112,6 +112,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
+    m_documentProperties[QStringLiteral("seekOffset")] = QString::number(TimelineModel::seekDuration);
 
     // Load properties
     QMapIterator<QString, QString> i(properties);

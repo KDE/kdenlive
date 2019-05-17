@@ -237,7 +237,6 @@ private:
     void buildSplitEffect(Mlt::Producer *original);
 
 private slots:
-    Q_DECL_DEPRECATED void seekCursor(int pos);
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();

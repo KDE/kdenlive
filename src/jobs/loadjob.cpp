@@ -132,7 +132,7 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
     if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
         // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
         // Beware that "consumer" currently crashes on audio mixes!
-        resource.prepend(QStringLiteral("xml:"));
+        //resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
         qDebug() << "////// ERROR, INCOMPATIBLE PROFILE: " << resource;
@@ -140,7 +140,7 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         // path.prepend(QStringLiteral("consumer:"));
     }
     pCore->getCurrentProfile()->set_explicit(1);
-    return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), "xml", resource.toUtf8().constData());
 }
 
 void LoadJob::checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer)
@@ -267,9 +267,35 @@ bool LoadJob::startJob()
     case ClipType::QText:
         m_producer = loadResource(m_resource, QStringLiteral("qtext:"));
         break;
-    case ClipType::Playlist:
+    case ClipType::Playlist: {
         m_producer = loadPlaylist(m_resource);
+        if (m_resource.endsWith(QLatin1String(".kdenlive"))) {
+            QFile f(m_resource);
+            QDomDocument doc;
+            doc.setContent(&f, false);
+            f.close();
+            QDomElement pl = doc.documentElement().firstChildElement(QStringLiteral("playlist"));
+            if (!pl.isNull()) {
+                QString offsetData = Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.seekOffset"));
+                if (offsetData.isEmpty() && Xml::getXmlProperty(pl, QStringLiteral("kdenlive:docproperties.version")) == QLatin1String("0.98")) {
+                    offsetData = QStringLiteral("30000");
+                }
+                if (!offsetData.isEmpty()) {
+                    bool ok = false;
+                    int offset = offsetData.toInt(&ok);
+                    qDebug()<<" / / /GET OFFSET DATA: "<<offset;
+                    if (ok) {
+                        offset = m_producer->get_playtime() - offset - 1;
+                        m_producer->set("out", offset - 1);
+                        m_producer->set("length", offset);
+                    }
+                }
+            } else {
+                qDebug()<<":_______\n______<nEMPTY PLAYLIST\n----";
+            }
+        }
         break;
+    }
     case ClipType::SlideShow:
     default:
         if (!service.isEmpty()) {
