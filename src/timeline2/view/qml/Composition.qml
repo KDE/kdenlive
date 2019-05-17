@@ -148,6 +148,9 @@ Item {
                     compositionMenu.popup()
                 }
             }
+        onReleased: {
+            root.stopScrolling = false
+        }
         onEntered: {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
             initDrag(compositionRoot, itemPos, compositionRoot.clipId, compositionRoot.modelStart, compositionRoot.trackId, true)

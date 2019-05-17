@@ -564,12 +564,17 @@ void TimelineController::showConfig(int page, int tab)
 
 void TimelineController::gotoNextSnap()
 {
-    setPosition(m_model->getNextSnapPos(timelinePosition()));
+    int nextSnap = m_model->getNextSnapPos(timelinePosition());
+    if (nextSnap > timelinePosition()) {
+        setPosition(nextSnap);
+    }
 }
 
 void TimelineController::gotoPreviousSnap()
 {
-    setPosition(m_model->getPreviousSnapPos(timelinePosition()));
+    if (timelinePosition() > 0) {
+        setPosition(m_model->getPreviousSnapPos(timelinePosition()));
+    }
 }
 
 void TimelineController::groupSelection()
