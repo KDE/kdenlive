@@ -1852,7 +1852,9 @@ bool TimelineModel::requestClipsUngroup(const std::unordered_set<int> &itemIds, 
     std::unordered_set<int> roots;
     std::transform(itemIds.begin(), itemIds.end(), std::inserter(roots, roots.begin()), [&](int id) { return m_groups->getRootId(id); });
     for (int root : roots) {
-        result = result && requestClipUngroup(root, undo, redo);
+        if (isGroup(root)) {
+            result = result && requestClipUngroup(root, undo, redo);
+        }
     }
     if (!result) {
         bool undone = undo();
