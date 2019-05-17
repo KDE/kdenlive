@@ -43,6 +43,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     Q_ASSERT(m_asset->is_valid());
     QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
+    m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
 
     bool needsLocaleConversion = false;
     QChar separator, oldSeparator;
@@ -187,10 +188,12 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
         emit dataChanged(index(0, 0), index(m_rows.count() - 1, 0), {});
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
-        // Trigger monitor refresh
-        pCore->refreshProjectItem(m_ownerId);
-        // Invalidate timeline preview
-        pCore->invalidateItem(m_ownerId);
+        if (!m_isAudio) {
+            // Trigger monitor refresh
+            pCore->refreshProjectItem(m_ownerId);
+            // Invalidate timeline preview
+            pCore->invalidateItem(m_ownerId);
+        }
     }
 }
 
@@ -279,10 +282,12 @@ void AssetParameterModel::setParameter(const QString &name, const QString &param
     } else {
         // Update fades in timeline
         pCore->updateItemModel(m_ownerId, m_assetId);
-        // Trigger monitor refresh
-        pCore->refreshProjectItem(m_ownerId);
-        // Invalidate timeline preview
-        pCore->invalidateItem(m_ownerId);
+        if (!m_isAudio) {
+            // Trigger monitor refresh
+            pCore->refreshProjectItem(m_ownerId);
+            // Invalidate timeline preview
+            pCore->invalidateItem(m_ownerId);
+        }
     }
 }
 

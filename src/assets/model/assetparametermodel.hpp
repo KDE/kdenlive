@@ -210,6 +210,8 @@ protected:
     std::shared_ptr<KeyframeModelList> m_keyframes;
     // if true, keyframe tools will be hidden by default
     bool m_hideKeyframesByDefault;
+    // true if this is an audio effect, used to prevent unnecessary monitor refresh / timeline invalidate
+    bool m_isAudio;
 
     /* @brief Set the parameter with given name to the given value. This should be called when first 
      *  building an effect in the constructor, so that we don't call shared_from_this

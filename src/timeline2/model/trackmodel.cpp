@@ -1198,7 +1198,7 @@ bool TrackModel::isTimelineActive() const
 bool TrackModel::shouldReceiveTimelineOp() const
 {
     READ_LOCK();
-    return m_track->get_int("kdenlive:timeline_active") && !m_track->get_int("kdenlive:locked_track");
+    return isTimelineActive() && !isLocked();
 }
 
 bool TrackModel::isAudioTrack() const
@@ -1232,4 +1232,21 @@ bool TrackModel::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel,
 {
     QWriteLocker locker(&m_lock);
     return m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly);
+}
+
+void TrackModel::lock()
+{
+    setProperty(QStringLiteral("kdenlive:locked_track"), QStringLiteral("1"));
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
+    }
+}
+void TrackModel::unlock()
+{
+    setProperty(QStringLiteral("kdenlive:locked_track"), (char *)nullptr);
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
+    }
 }

@@ -281,8 +281,8 @@ Column{
                 bubbleHelp.hide()
                 if (shiftTrim || clip.groupTrimData == undefined) {
                     // We only resize one element
-                    controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, root.snapping, shiftTrim)
-                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, root.snapping, shiftTrim)
+                    controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
+                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
                     controller.processGroupResize(clip.groupTrimData, updatedGroupData, false)
@@ -305,8 +305,8 @@ Column{
             onTrimmedOut: {
                 bubbleHelp.hide()
                 if (shiftTrim || clip.groupTrimData == undefined) {
-                    controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping, shiftTrim)
-                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping, shiftTrim)
+                    controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
+                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
                     controller.processGroupResize(clip.groupTrimData, updatedGroupData, true)

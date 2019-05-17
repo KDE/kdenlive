@@ -36,8 +36,8 @@
 #include <QSet>
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
-#include <mlt++/MltTransition.h>
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltTransition.h>
 
 static QStringList m_errorMessage;
 
@@ -83,7 +83,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             if (lockState > 0) {
-                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
+                timeline->setTrackLockedState(tid, true);
             }
             break;
         }
@@ -104,7 +104,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), local_playlist.get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             if (lockState > 0) {
-                timeline->setTrackProperty(tid, QStringLiteral("kdenlive:locked_track"), QString::number(lockState));
+                timeline->setTrackLockedState(tid, true);
             }
             break;
         }
@@ -149,11 +149,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             }
 
             compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
-                                                       t->get_length(), std::move(transProps), compoId, undo, redo);
+                                                                  t->get_length(), std::move(transProps), compoId, undo, redo);
             if (!compositionOk) {
                 qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in() << ", ID: " << id
                          << ", MLT ID: " << t->get("id");
-                //timeline->requestItemDeletion(compoId, false);
+                // timeline->requestItemDeletion(compoId, false);
                 m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
                 continue;
             }

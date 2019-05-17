@@ -314,7 +314,7 @@ Rectangle {
                 implicitWidth: trackHeadRoot.iconSize
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
-                onClicked: controller.setTrackProperty(trackId, "kdenlive:locked_track", isLocked ? '0' : '1')
+                onClicked: controller.setTrackLockedState(trackId, !isLocked)
                 tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
 
                  SequentialAnimation {

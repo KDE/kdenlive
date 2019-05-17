@@ -359,7 +359,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case TrackTagRole:
             return getTrackTagById(id);
         case IsLockedRole:
-            return getTrackById_const(id)->getProperty("kdenlive:locked_track").toInt() == 1;
+            return getTrackById_const(id)->isLocked();
         case HeightRole: {
             int collapsed = getTrackById_const(id)->getProperty("kdenlive:collapsed").toInt();
             if (collapsed > 0) {

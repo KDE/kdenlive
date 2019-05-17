@@ -608,7 +608,7 @@ void TimelineController::setInPoint()
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
-        qDebug()<<"Cannot operate while dragging";
+        qDebug() << "Cannot operate while dragging";
         return;
     }
 
@@ -635,7 +635,7 @@ void TimelineController::setOutPoint()
 {
     if (dragOperationRunning()) {
         // Don't allow timeline operation while drag in progress
-        qDebug()<<"Cannot operate while dragging";
+        qDebug() << "Cannot operate while dragging";
         return;
     }
     int cursorPos = timelinePosition();
@@ -1745,29 +1745,21 @@ void TimelineController::switchTrackLock(bool applyToAll)
     if (!applyToAll) {
         // apply to active track only
         bool locked = m_model->getTrackById_const(m_activeTrack)->isLocked();
-        m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:locked_track"), locked ? QStringLiteral("0") : QStringLiteral("1"));
+        m_model->setTrackLockedState(m_activeTrack, !locked);
     } else {
         // Invert track lock
-        // Get track states first
-        QMap<int, bool> trackLockState;
-        int unlockedTracksCount = 0;
-        int tracksCount = m_model->getTracksCount();
-        for (int track = tracksCount - 1; track >= 0; track--) {
-            int trackIx = m_model->getTrackIndexFromPosition(track);
-            bool isLocked = m_model->getTrackById_const(trackIx)->getProperty("kdenlive:locked_track").toInt() == 1;
-            if (!isLocked) {
-                unlockedTracksCount++;
+        const auto ids = m_model->getAllTracksIds();
+        // count the number of tracks to be locked
+        int toBeLockedCount =
+            std::accumulate(ids.begin(), ids.end(), 0, [this](int s, int id) { return s + (m_model->getTrackById_const(id)->isLocked() ? 0 : 1); });
+        bool leaveOneUnlocked = toBeLockedCount == m_model->getTracksCount();
+        for (const int id : ids) {
+            // leave active track unlocked
+            if (leaveOneUnlocked && id == m_activeTrack) {
+                continue;
             }
-            trackLockState.insert(trackIx, isLocked);
-        }
-        if (unlockedTracksCount == tracksCount) {
-            // do not lock all tracks, leave active track unlocked
-            trackLockState.insert(m_activeTrack, true);
-        }
-        QMapIterator<int, bool> i(trackLockState);
-        while (i.hasNext()) {
-            i.next();
-            m_model->setTrackProperty(i.key(), QStringLiteral("kdenlive:locked_track"), i.value() ? QStringLiteral("0") : QStringLiteral("1"));
+            bool isLocked = m_model->getTrackById_const(id)->isLocked();
+            m_model->setTrackLockedState(id, !isLocked);
         }
     }
 }
@@ -2425,8 +2417,8 @@ void TimelineController::finishRecording(const QString &recordedFile)
             res = m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);
         }
     };
-    QString binId = ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo,
-                                                    redo, callBack);
+    QString binId =
+        ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
     if (binId != QStringLiteral("-1")) {
         pCore->pushUndo(undo, redo, i18n("Record audio"));
     }

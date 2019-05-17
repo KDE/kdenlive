@@ -6,19 +6,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
+    <width>570</width>
     <height>60</height>
    </rect>
   </property>
   <layout class="QGridLayout">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <property name="spacing">
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QLabel" name="name">
+    <widget class="QLabel" name="labelName">
      <property name="text">
       <string>TextLabel</string>
      </property>

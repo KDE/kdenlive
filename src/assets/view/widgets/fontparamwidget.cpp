@@ -19,10 +19,10 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#include "boolparamwidget.hpp"
+#include "fontparamwidget.hpp"
 #include "assets/model/assetparametermodel.hpp"
 
-BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+FontParamWidget::FontParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
@@ -30,33 +30,25 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     // setup the comment
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
-    m_labelComment->setText(comment);
-    m_widgetComment->setHidden(true);
 
     // setup the name
-    m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
 
     // set check state
     slotRefresh();
 
     // emit the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int) { emit valueChanged(m_index, QString::number(m_checkBox->isChecked()), true); });
+    connect(this->fontfamilywidget, &QFontComboBox::currentFontChanged, [this](const QFont &font) { emit valueChanged(m_index, font.family(), true); });
 }
 
-void BoolParamWidget::slotShowComment(bool show)
+void FontParamWidget::slotShowComment(bool show)
 {
-    if (!m_labelComment->text().isEmpty()) {
-        m_widgetComment->setVisible(show);
-    }
+    Q_UNUSED(show);
 }
 
-void BoolParamWidget::slotRefresh()
+void FontParamWidget::slotRefresh()
 {
-    bool checked = m_model->data(m_index, AssetParameterModel::ValueRole).toInt();
-    m_checkBox->setChecked(checked);
+    const QString family = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+    fontfamilywidget->setCurrentFont(QFont(family));
 }
 
-bool BoolParamWidget::getValue()
-{
-    return m_checkBox->isChecked();
-}
