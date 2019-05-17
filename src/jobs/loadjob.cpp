@@ -474,7 +474,7 @@ void LoadJob::processMultiStream()
     QLabel *lab1 = new QLabel(i18n("Additional streams for clip\n %1", m_resource), mainWidget);
     mainLayout->addWidget(lab1);
     QList<QGroupBox *> groupList;
-    QList<KComboBox *> comboList;
+    QList<QComboBox *> comboList;
     // We start loading the list at 1, video index 0 should already be loaded
     for (int j = 1; j < m_video_list.count(); ++j) {
         m_producer->set("video_index", m_video_list.at(j));
@@ -492,7 +492,7 @@ void LoadJob::processMultiStream()
         iconLabel->setPixmap(QPixmap::fromImage(thumb));
         vh->addWidget(iconLabel);
         if (m_audio_list.count() > 1) {
-            auto *cb = new KComboBox(mainWidget);
+            auto *cb = new QComboBox(mainWidget);
             mainLayout->addWidget(cb);
             for (int k = 0; k < m_audio_list.count(); ++k) {
                 cb->addItem(i18n("Audio stream %1", m_audio_list.at(k)), m_audio_list.at(k));
@@ -503,6 +503,7 @@ void LoadJob::processMultiStream()
         }
         mainLayout->addWidget(streamFrame);
     }
+    m_producer->set("video_index", m_video_list.at(0));
     mainLayout->addWidget(buttonBox);
     if (dialog->exec() == QDialog::Accepted) {
         // import selected streams
@@ -518,8 +519,8 @@ void LoadJob::processMultiStream()
                 addStream(vindex, aindex, undo, redo);
             }
         }
+        pCore->pushUndo(undo, redo, i18n("Add additional streams for clip"));
     }
-    pCore->pushUndo(undo, redo, i18n("Add additional streams for clip"));
 }
 
 bool LoadJob::commitResult(Fun &undo, Fun &redo)
