@@ -181,6 +181,10 @@ TEST_CASE("Keyframe model", "[KeyframeModel]")
 
         REQUIRE(model->removeAllKeyframes());
         state0();
+        REQUIRE(model->removeAllKeyframes());
+        state0();
+        undoStack->undo();
+        state0();
         undoStack->undo();
         state3();
         undoStack->redo();
