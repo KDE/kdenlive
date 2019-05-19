@@ -625,7 +625,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     }
     // we trigger only one global remove/insertrow event
     Fun update_redo_start = [this, kfrCount]() {
-        beginRemoveRows(QModelIndex(), 1, 1 + kfrCount);
+        beginRemoveRows(QModelIndex(), 1, kfrCount);
         return true;
     };
     Fun update_redo_end = [this]() {
@@ -633,7 +633,7 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
         return true;
     };
     Fun update_undo_start = [this, kfrCount]() {
-        beginInsertRows(QModelIndex(), 1, 1 + kfrCount);
+        beginInsertRows(QModelIndex(), 1, kfrCount);
         return true;
     };
     Fun update_undo_end = [this]() {
