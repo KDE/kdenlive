@@ -1350,7 +1350,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 
     // Sort clips first
     std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_track, delta_pos](int clipId1, int clipId2) {
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_pos](int clipId1, int clipId2) {
         int p1 = m_allClips[clipId1]->getPosition();
         int p2 = m_allClips[clipId2]->getPosition();
         return delta_pos > 0 ? p2 <= p1 : p1 <= p2;
@@ -1703,6 +1703,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     bool result = true;
     int finalPos = right ? in + size : out - size;
     int finalSize;
+    int resizedCount = 0;
     for (int id : all_items) {
         int tid = getItemTrackId(id);
         if (tid > -1 && getTrackById_const(tid)->isLocked()) {
@@ -1714,8 +1715,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             finalSize = getItemPosition(id) + getItemPlaytime(id) - finalPos;
         }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
+        resizedCount++;
     }
-    if (!result) {
+    if (!result || resizedCount == 0) {
         bool undone = undo();
         Q_ASSERT(undone);
         TRACE_RES(-1);
@@ -3239,6 +3241,7 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
 
 bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids, Fun &undo, Fun &redo)
 {
+    QWriteLocker locker(&m_lock);
     Fun reverse = [this]() {
         requestClearSelection(false);
         return true;
@@ -3253,16 +3256,35 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids, Fun 
 
 void TimelineModel::setTrackLockedState(int trackId, bool lock)
 {
+    QWriteLocker locker(&m_lock);
     TRACE(trackId, lock);
-    if (lock) {
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    Fun lock_lambda = [this, trackId]() {
         getTrackById(trackId)->lock();
-    } else {
+        return true;
+    };
+    Fun unlock_lambda = [this, trackId]() {
         getTrackById(trackId)->unlock();
+        return true;
+    };
+    if (lock) {
+        if (lock_lambda()) {
+            UPDATE_UNDO_REDO(lock_lambda, unlock_lambda, undo, redo);
+            PUSH_UNDO(undo, redo, i18n("Lock track"));
+        }
+    } else {
+        if (unlock_lambda()) {
+            UPDATE_UNDO_REDO(unlock_lambda, lock_lambda, undo, redo);
+            PUSH_UNDO(undo, redo, i18n("Unlock track"));
+        }
     }
 }
 
 std::unordered_set<int> TimelineModel::getAllTracksIds() const
 {
+    READ_LOCK();
     std::unordered_set<int> result;
     std::transform(m_iteratorTable.begin(), m_iteratorTable.end(), std::inserter(result, result.begin()), [&](const auto &track) { return track.first; });
     return result;

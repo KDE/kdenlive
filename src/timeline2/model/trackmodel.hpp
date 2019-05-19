@@ -82,14 +82,10 @@ public:
      */
     operator Mlt::Producer &() { return *m_track.get(); }
 
-    /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items */
-    void lock();
-    void unlock();
-
     /* @brief Returns true if track is in locked state
      */
     bool isLocked() const;
-    /* @brief Returns true if track is active in timeline, ie. 
+    /* @brief Returns true if track is active in timeline, ie.
      * will receive insert/lift/overwrite/extract operations
      */
     bool isTimelineActive() const;
@@ -114,6 +110,13 @@ public:
     void setProperty(const QString &name, const QString &value);
 
 protected:
+    /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
+       This functions are dangerous to call directly since locking the track will potentially
+       mess up with the undo/redo system (a track lock may make an undo impossible).
+       Prefer calling TimelineModel::setTrackLockedState */
+    void lock();
+    void unlock();
+
     /* @brief Returns a lambda that performs a resize of the given clip.
        The lamda returns true if the operation succeeded, and otherwise nothing is modified
        This method is protected because it shouldn't be called directly. Call the function in the timeline instead.

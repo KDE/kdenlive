@@ -176,6 +176,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     }
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
+            if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
+                return false;
+            }
             track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right);
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
