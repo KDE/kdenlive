@@ -175,12 +175,13 @@ public:
                 int lastIdx = -1;
                 for (i = 0; i <= width(); i += increment) {
                     int idx = m_inPoint + ceil(i * indicesPrPixel);
-                    if (idx + channel >= m_audioLevels.length()) break;
                     if (lastIdx == idx) {
                         continue;
                     }
                     lastIdx = idx;
-                    level = m_audioLevels.at(idx + channel) * channelHeight / 256;
+                    idx += channel;
+                    if (idx >= m_audioLevels.length() || idx < 0) break;
+                    level = m_audioLevels.at(idx) * channelHeight / 256;
                     channelPaths[channel].lineTo(i, y - level);
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
