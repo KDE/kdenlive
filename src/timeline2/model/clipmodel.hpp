@@ -200,6 +200,8 @@ protected:
     /** @brief Clears the clip offset (calculated in the model between 2 clips from same bin clip */
     void clearOffset();
     int getOffset() const;
+    /** @brief Returns the producer's duration, or -1 if it can be resized without limit  */
+    int getMaxDuration() const;
 
     /*@brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();

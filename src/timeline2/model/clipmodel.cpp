@@ -84,7 +84,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
-    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel());
+    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
     return id;
 }
 
@@ -114,7 +114,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     clip->setClipState_lambda(state)();
     clip->m_effectStack->importEffects(producer, state, result.second);
     parent->registerClip(clip);
-    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel());
+    clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
     return id;
 }
 
@@ -543,7 +543,7 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
     MoveableItem::setCurrentTrackId(tid, finalMove);
     if (registerSnap) {
         if (auto ptr = m_parent.lock()) {
-            m_clipMarkerModel->registerSnapModel(ptr->m_snaps, getPosition(), getIn(), getOut());
+            m_clipMarkerModel->registerSnapModel(ptr->m_snaps, getPosition(), getIn(), getOut(), m_speed);
         }
     }
 
@@ -734,4 +734,13 @@ void ClipModel::clearOffset()
 int ClipModel::getOffset() const
 {
     return m_positionOffset;
+}
+
+int ClipModel::getMaxDuration() const
+{
+    READ_LOCK();
+    if (m_endlessResize) {
+        return -1;
+    }
+    return m_producer->get_length();
 }

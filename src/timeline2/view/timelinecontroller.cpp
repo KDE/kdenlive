@@ -668,7 +668,7 @@ void TimelineController::editMarker(int cid, int position)
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
 }
 
@@ -683,7 +683,7 @@ void TimelineController::addMarker(int cid, int position)
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
 }
 
@@ -698,7 +698,7 @@ void TimelineController::addQuickMarker(int cid, int position)
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
     CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
     clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
 }
@@ -714,7 +714,7 @@ void TimelineController::deleteMarker(int cid, int position)
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos(position - m_model->getClipPosition(cid) + m_model->getClipIn(cid), pCore->getCurrentFps());
+    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
     clip->getMarkerModel()->removeMarker(pos);
 }
 

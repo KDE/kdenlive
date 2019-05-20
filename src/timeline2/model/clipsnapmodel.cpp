@@ -34,8 +34,8 @@ void ClipSnapModel::addPoint(int position)
     if (position <= m_inPoint || position >= m_outPoint) {
         return;
     }
-    if (auto ptr = m_registeredSnap.lock()) {        
-        ptr->addPoint(m_position + position - m_inPoint);
+    if (auto ptr = m_registeredSnap.lock()) {
+        ptr->addPoint(m_speed < 0 ? m_outPoint + m_position + (position - m_inPoint) / m_speed : m_position + (position - m_inPoint) / m_speed);
     }
 }
 
@@ -46,7 +46,7 @@ void ClipSnapModel::removePoint(int position)
         return;
     }
     if (auto ptr = m_registeredSnap.lock()) {
-        ptr->removePoint(m_position + position - m_inPoint);
+        ptr->removePoint(m_speed < 0 ? m_outPoint + m_position + (position - m_inPoint) / m_speed : m_position + (position - m_inPoint) / m_speed);
     }
 }
 
@@ -66,14 +66,14 @@ void ClipSnapModel::updateSnapModelInOut(std::pair<int, int> newInOut)
     m_inPoint = newInOut.first;
     m_outPoint = newInOut.second;
     addAllSnaps();
-}  
+}
 
 void ClipSnapModel::addAllSnaps()
 {
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
-            if (snap >= m_inPoint && snap < m_outPoint) {
-                ptr->addPoint(m_position + snap - m_inPoint);
+            if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
+                ptr->addPoint(m_speed < 0 ? m_outPoint + m_position + (snap - m_inPoint) / m_speed : m_position + (snap - m_inPoint) / m_speed);
             }
         }
     }
@@ -83,18 +83,19 @@ void ClipSnapModel::removeAllSnaps()
 {
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
-            if (snap >= m_inPoint && snap < m_outPoint) {
-                ptr->removePoint(m_position + snap - m_inPoint);
+            if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
+                ptr->removePoint(m_speed < 0 ? m_outPoint + m_position + (snap - m_inPoint) / m_speed : m_position + (snap - m_inPoint) / m_speed);
             }
         }
     }
 }
 
-void ClipSnapModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out)
+void ClipSnapModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out, double speed)
 {
     // make sure ptr is valid
     m_inPoint = in;
     m_outPoint = out;
+    m_speed = speed;
     m_position = qMax(0, position);
     m_registeredSnap = snapModel;
     addAllSnaps();
@@ -107,9 +108,10 @@ void ClipSnapModel::deregisterSnapModel()
     m_registeredSnap.reset();
 }
 
-void ClipSnapModel::setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel)
+void ClipSnapModel::setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel, double speed)
 {
     m_parentModel = markerModel;
+    m_speed = speed;
     if (auto ptr = m_parentModel.lock()) {
         ptr->registerSnapModel(std::static_pointer_cast<SnapInterface>(shared_from_this()));
     }

@@ -46,11 +46,11 @@ public:
     /* @brief Removes a snappoint from given position */
     void removePoint(int position) override;
 
-    void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out);
+    void registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out, double speed = 1.);
     void deregisterSnapModel();
-    
-    void setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel);
-    
+
+    void setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel, double speed);
+
     void updateSnapModelPos(int newPos);
     void updateSnapModelInOut(std::pair<int, int> newInOut);
 
@@ -62,6 +62,7 @@ private:
     int m_inPoint;
     int m_outPoint;
     int m_position;
+    double m_speed{1.};
     void addAllSnaps();
     void removeAllSnaps();
 
