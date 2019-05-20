@@ -1150,66 +1150,6 @@ QVariant ProjectClip::getData(DataType type) const
     }
 }
 
-void ProjectClip::slotExtractImage(const QList<int> &frames)
-{
-    QMutexLocker lock(&m_thumbMutex);
-    for (int i = 0; i < frames.count(); i++) {
-        if (!m_requestedThumbs.contains(frames.at(i))) {
-            m_requestedThumbs << frames.at(i);
-        }
-    }
-    qSort(m_requestedThumbs);
-    if (!m_thumbThread.isRunning()) {
-        m_thumbThread = QtConcurrent::run(this, &ProjectClip::doExtractImage);
-    }
-}
-
-void ProjectClip::doExtractImage()
-{
-    // TODO refac: we can probably move that into a ThumbJob
-    std::shared_ptr<Mlt::Producer> prod = thumbProducer();
-    if (prod == nullptr || !prod->is_valid()) {
-        return;
-    }
-    int frameWidth = 150 * prod->profile()->dar() + 0.5;
-    bool ok = false;
-    auto ptr = m_model.lock();
-    Q_ASSERT(ptr);
-    QDir thumbFolder = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
-    int max = prod->get_length();
-    while (!m_requestedThumbs.isEmpty()) {
-        m_thumbMutex.lock();
-        int pos = m_requestedThumbs.takeFirst();
-        m_thumbMutex.unlock();
-        if (ok && thumbFolder.exists(hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png"))) {
-            emit thumbReady(pos, QImage(thumbFolder.absoluteFilePath(hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png"))));
-            continue;
-        }
-        if (pos >= max) {
-            pos = max - 1;
-        }
-        const QString path = url() + QLatin1Char('_') + QString::number(pos);
-        QImage img;
-        if (ThumbnailCache::get()->hasThumbnail(clipId(), pos, true)) {
-            img = ThumbnailCache::get()->getThumbnail(clipId(), pos, true);
-        }
-        if (!img.isNull()) {
-            emit thumbReady(pos, img);
-            continue;
-        }
-        prod->seek(pos);
-        Mlt::Frame *frame = prod->get_frame();
-        frame->set("deinterlace_method", "onefield");
-        frame->set("top_field_first", -1);
-        if (frame->is_valid()) {
-            img = KThumb::getFrame(frame, frameWidth, 150, !qFuzzyCompare(prod->profile()->sar(), 1));
-            ThumbnailCache::get()->storeThumbnail(clipId(), pos, img, false);
-            emit thumbReady(pos, img);
-        }
-        delete frame;
-    }
-}
-
 int ProjectClip::audioChannels() const
 {
     if (!audioInfo()) {

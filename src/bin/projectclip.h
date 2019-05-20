@@ -243,8 +243,6 @@ public slots:
     /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
     void updateAudioThumbnail(QList<double> audioLevels);
-    /** @brief Extract image thumbnails for timeline. */
-    void slotExtractImage(const QList<int> &frames);
     /** @brief Delete the proxy file */
     void deleteProxy();
 
@@ -262,7 +260,6 @@ private:
     QFuture<void> m_thumbThread;
     QList<int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
-    void doExtractImage();
 
     // This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled
     void createDisabledMasterProducer();
