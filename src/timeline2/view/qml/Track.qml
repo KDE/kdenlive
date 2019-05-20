@@ -202,6 +202,12 @@ Column{
                 }
                 Binding {
                     target: loader.item
+                    property: "maxDuration"
+                    value: model.maxDuration
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                }
+                Binding {
+                    target: loader.item
                     property: "forceReloadThumb"
                     value: model.reloadThumb
                     when: loader.status == Loader.Ready && isClip(model.clipType)

@@ -618,6 +618,11 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     int kfrCount = (int)m_keyframeList.size() - 1;
+    if (kfrCount <= 0) {
+        // Nothing to do
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        return true;
+    }
     // we trigger only one global remove/insertrow event
     Fun update_redo_start = [this, kfrCount]() {
         beginRemoveRows(QModelIndex(), 1, kfrCount);
@@ -736,7 +741,7 @@ QString KeyframeModel::getRotoProperty() const
 {
     QJsonDocument doc;
     if (auto ptr = m_model.lock()) {
-        int in = 0; //ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        int in = 0; // ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         int out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         QMap<QString, QVariant> map;
         for (const auto &keyframe : m_keyframeList) {
@@ -1198,7 +1203,7 @@ const QString KeyframeModel::getAnimationStringWithOffset(std::shared_ptr<AssetP
     (void)mlt_prop.anim_get_rect("key", 0);
     Mlt::Animation anim = mlt_prop.get_animation("key");
     if (offset > 0) {
-        for (int i = anim.key_count() - 1; i >=0 ; --i) {
+        for (int i = anim.key_count() - 1; i >= 0; --i) {
             int pos = anim.key_get_frame(i) + offset;
             anim.key_set_frame(i, pos);
         }

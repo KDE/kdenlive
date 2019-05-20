@@ -1140,7 +1140,6 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
     int tid2 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
 
-
     int length = 20;
     int nclips = timeline->m_allClips.size();
 
@@ -1756,8 +1755,6 @@ TEST_CASE("Snapping", "[Snapping]")
     int cid1 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);
     int tid2 = TrackModel::construct(timeline);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
-    int cid3 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
-
 
     int length = timeline->getClipPlaytime(cid1);
     int length2 = timeline->getClipPlaytime(cid2);
@@ -1838,6 +1835,240 @@ TEST_CASE("Snapping", "[Snapping]")
                 REQUIRE(timeline->checkConsistency());
             }
         }
+    }
+    binModel->clean();
+    pCore->m_projectManager = nullptr;
+    Logger::print_trace();
+}
+
+TEST_CASE("Operations under locked tracks", "[Locked]")
+{
+    Logger::clear();
+
+    QString aCompo;
+    // Look for a compo
+    QVector<QPair<QString, QString>> transitions = TransitionsRepository::get()->getNames();
+    for (const auto &trans : transitions) {
+        if (TransitionsRepository::get()->isComposition(trans.first)) {
+            aCompo = trans.first;
+            break;
+        }
+    }
+    REQUIRE(!aCompo.isEmpty());
+
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    std::shared_ptr<MarkerListModel> guideModel = std::make_shared<MarkerListModel>(undoStack);
+
+    // Here we do some trickery to enable testing.
+    // We mock the project class so that the undoStack function returns our undoStack
+
+    Mock<ProjectManager> pmMock;
+    When(Method(pmMock, undoStack)).AlwaysReturn(undoStack);
+
+    ProjectManager &mocked = pmMock.get();
+    pCore->m_projectManager = &mocked;
+
+    // We also mock timeline object to spy few functions and mock others
+    TimelineItemModel tim(&profile_model, undoStack);
+    Mock<TimelineItemModel> timMock(tim);
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    TimelineItemModel::finishConstruct(timeline, guideModel);
+
+    Fake(Method(timMock, adjustAssetRange));
+
+    // This is faked to allow to count calls
+    Fake(Method(timMock, _resetView));
+    Fake(Method(timMock, _beginInsertRows));
+    Fake(Method(timMock, _beginRemoveRows));
+    Fake(Method(timMock, _endInsertRows));
+    Fake(Method(timMock, _endRemoveRows));
+
+    QString binId = createProducer(profile_model, "red", binModel);
+    QString binId3 = createProducerWithSound(profile_model, binModel);
+
+    int tid1, tid2, tid3;
+    REQUIRE(timeline->requestTrackInsertion(-1, tid1));
+    REQUIRE(timeline->requestTrackInsertion(-1, tid2));
+    REQUIRE(timeline->requestTrackInsertion(-1, tid3));
+
+    Verify(Method(timMock, _resetView)).Exactly(3_Times);
+    RESET(timMock);
+
+    SECTION("Locked track can't receive insertion")
+    {
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->getClipsCount() == 0);
+        REQUIRE(timeline->checkConsistency());
+        int cid1 = -1;
+        REQUIRE_FALSE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        REQUIRE(timeline->getClipsCount() == 0);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(cid1 == -1);
+
+        // now unlock and check that insertion becomes possible again
+        timeline->setTrackLockedState(tid1, false);
+        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->getClipsCount() == 0);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 2);
+    }
+    SECTION("Can't move clip on locked track")
+    {
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 2);
+        // not yet locked, move should work
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 4));
+        REQUIRE(timeline->getClipPosition(cid1) == 4);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 4);
+
+        REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, 6));
+
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 4);
+
+        // unlock, move should work again
+        timeline->setTrackLockedState(tid1, false);
+        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 6));
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+        REQUIRE(timeline->getClipPosition(cid1) == 6);
+        REQUIRE(timeline->checkConsistency());
+    }
+    SECTION("Can't move composition on locked track")
+    {
+        int compo = CompositionModel::construct(timeline, aCompo);
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+
+        REQUIRE(timeline->getCompositionTrackId(compo) == -1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
+        int pos = 10;
+        REQUIRE_FALSE(timeline->requestCompositionMove(compo, tid1, pos));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionTrackId(compo) == -1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 0);
+
+        // unlock to be able to insert
+        timeline->setTrackLockedState(tid1, false);
+        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->requestCompositionMove(compo, tid1, pos));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionTrackId(compo) == tid1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
+        REQUIRE(timeline->getCompositionPosition(compo) == pos);
+
+        // relock
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->requestCompositionMove(compo, tid1, pos + 10));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getCompositionTrackId(compo) == tid1);
+        REQUIRE(timeline->getTrackCompositionsCount(tid1) == 1);
+        REQUIRE(timeline->getCompositionPosition(compo) == pos);
+    }
+    SECTION("Can't resize clip on locked track")
+    {
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        REQUIRE(timeline->getClipsCount() == 1);
+
+        auto check = [&](int l) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipTrackId(cid1) == tid1);
+            REQUIRE(timeline->getClipPosition(cid1) == 2);
+            REQUIRE(timeline->getClipPlaytime(cid1) == l);
+        };
+        check(20);
+
+        // not yet locked, resize should work
+        REQUIRE(timeline->requestItemResize(cid1, 18, true) == 18);
+        check(18);
+
+        // lock
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        check(18);
+        REQUIRE(timeline->requestItemResize(cid1, 17, true) == -1);
+        check(18);
+        REQUIRE(timeline->requestItemResize(cid1, 17, false) == -1);
+        check(18);
+        REQUIRE(timeline->requestItemResize(cid1, 19, true) == -1);
+        check(18);
+        REQUIRE(timeline->requestItemResize(cid1, 19, false) == -1);
+        check(18);
+
+        // unlock, resize should work again
+        timeline->setTrackLockedState(tid1, false);
+        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        check(18);
+        REQUIRE(timeline->requestItemResize(cid1, 17, true) == 17);
+        check(17);
+    }
+    SECTION("Can't resize composition on locked track")
+    {
+        int compo = CompositionModel::construct(timeline, aCompo);
+        REQUIRE(timeline->requestCompositionMove(compo, tid1, 2));
+        REQUIRE(timeline->requestItemResize(compo, 20, true) == 20);
+
+        auto check = [&](int l) {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getCompositionsCount() == 1);
+            REQUIRE(timeline->getCompositionTrackId(compo) == tid1);
+            REQUIRE(timeline->getCompositionPosition(compo) == 2);
+            REQUIRE(timeline->getCompositionPlaytime(compo) == l);
+        };
+        check(20);
+
+        // not yet locked, resize should work
+        REQUIRE(timeline->requestItemResize(compo, 18, true) == 18);
+        check(18);
+
+        // lock
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE(timeline->getTrackById(tid1)->isLocked());
+        check(18);
+        REQUIRE(timeline->requestItemResize(compo, 17, true) == -1);
+        check(18);
+        REQUIRE(timeline->requestItemResize(compo, 17, false) == -1);
+        check(18);
+        REQUIRE(timeline->requestItemResize(compo, 19, true) == -1);
+        check(18);
+        REQUIRE(timeline->requestItemResize(compo, 19, false) == -1);
+        check(18);
+
+        // unlock, resize should work again
+        timeline->setTrackLockedState(tid1, false);
+        REQUIRE_FALSE(timeline->getTrackById(tid1)->isLocked());
+        check(18);
+        REQUIRE(timeline->requestItemResize(compo, 17, true) == 17);
+        check(17);
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;

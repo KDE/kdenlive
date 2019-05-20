@@ -104,6 +104,9 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     std::function<bool(void)> track_reverse = []() { return true; };
     if (m_currentTrackId != -1) {
         if (auto ptr = m_parent.lock()) {
+            if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
+                return false;
+            }
             track_operation = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, in, out, logUndo);
         } else {
             qDebug() << "Error : Moving composition failed because parent timeline is not available anymore";

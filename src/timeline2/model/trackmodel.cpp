@@ -166,6 +166,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     if (target_clip >= count && isBlankAt(position)) {
         // In that case, we append after, in the first playlist
         return [this, position, clipId, end_function, finalMove]() {
+            if (isLocked()) return false;
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                 m_playlists[0].lock();
@@ -192,6 +193,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         }
         if (blank_end >= position + length) {
             return [this, position, clipId, end_function]() {
+                if (isLocked()) return false;
                 if (auto ptr = m_parent.lock()) {
                     // Lock MLT playlist so that we don't end up with an invalid frame being displayed
                     m_playlists[0].lock();
@@ -285,6 +287,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     int old_in = clip_position;
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
     return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, this]() {
+        if (isLocked()) return false;
         auto clip_loc = getClipIndexAt(clip_position);
         if (updateView) {
             int old_clip_index = getRowfromClip(clipId);
@@ -476,7 +479,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         checkRefresh = true;
     }
 
-    auto update_snaps = [old_in, old_out, clipId, checkRefresh, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, checkRefresh, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
@@ -500,6 +503,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     // qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta;
     if (delta > 0) { // we shrink clip
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
+            if (isLocked()) return false;
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
             // insert blank to space that is going to be empty
@@ -531,6 +535,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         if (target_clip == m_playlists[target_track].count() - 1 && other_blank_end >= out) {
             // clip is last, it can always be extended
             return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
+                if (isLocked()) return false;
                 // color, image and title clips can have unlimited resize
                 QScopedPointer<Mlt::Producer> clip(m_playlists[target_track].get_clip(target_clip));
                 if (out >= clip->get_length()) {
@@ -565,6 +570,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         int blank_length = m_playlists[target_track].clip_length(blank);
         if (blank_length + delta >= 0 && other_blank_end >= out) {
             return [blank_length, blank, right, clipId, delta, update_snaps, this, in, out, target_clip, target_track]() {
+                if (isLocked()) return false;
                 int target_clip_mutable = target_clip;
                 int err = 0;
                 if (blank_length + delta == 0) {
@@ -1008,6 +1014,7 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
     }
 
     return [in, out, compoId, update_snaps, this]() {
+        if (isLocked()) return false;
         m_compoPos.erase(m_allCompositions[compoId]->getPosition());
         m_allCompositions[compoId]->setInOut(in, out);
         update_snaps(in, out + 1);
@@ -1059,6 +1066,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, 
     int old_in = clip_position;
     int old_out = old_in + m_allCompositions[compoId]->getPlaytime();
     return [compoId, old_in, old_out, updateView, finalMove, this]() {
+        if (isLocked()) return false;
         int old_clip_index = getRowfromComposition(compoId);
         auto ptr = m_parent.lock();
         if (updateView) {
@@ -1106,6 +1114,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
     }
     if (!intersecting) {
         return [compoId, this, position, updateView, finalMove]() {
+            if (isLocked()) return false;
             if (auto ptr = m_parent.lock()) {
                 std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(compoId);
                 m_allCompositions[composition->getId()] = composition; // store clip

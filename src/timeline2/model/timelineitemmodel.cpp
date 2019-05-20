@@ -197,6 +197,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[FakePositionRole] = "fakePosition";
     roles[StartRole] = "start";
     roles[DurationRole] = "duration";
+    roles[MaxDurationRole] = "maxDuration";
     roles[MarkersRole] = "markers";
     roles[KeyframesRole] = "keyframeModel";
     roles[ShowKeyframesRole] = "showKeyframes";
@@ -314,6 +315,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getPosition();
         case DurationRole:
             return clip->getPlaytime();
+        case MaxDurationRole:
+            return clip->getMaxDuration();
         case GroupedRole:
             return m_groups->isInGroup(id);
         case EffectNamesRole:

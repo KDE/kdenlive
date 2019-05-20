@@ -36,6 +36,7 @@ Rectangle {
     property int inPoint: 0
     property int outPoint: 0
     property int clipDuration: 0
+    property int maxDuration: 0
     property bool isAudio: false
     property int audioChannels
     property bool showKeyframes: false
@@ -160,7 +161,7 @@ Rectangle {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
-        if (parentTrack && parentTrack.isAudio) {
+        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             thumbsLoader.item.reload();
         }
     }
@@ -409,7 +410,7 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: parent.height
-                        x: (model.frame - clipRoot.inPoint) * timeScale;
+                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (model.frame - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale / clipRoot.speed : (model.frame - clipRoot.inPoint) * timeScale / clipRoot.speed;
                         color: model.color
                     }
                     Rectangle {
