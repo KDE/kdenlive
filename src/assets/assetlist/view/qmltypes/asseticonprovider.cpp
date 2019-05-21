@@ -44,13 +44,8 @@ QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSi
     }
 
     if (m_effect && EffectsRepository::get()->exists(id)) {
-        if (EffectsRepository::get()->getType(id) == EffectType::Custom) {
-            QIcon folder_icon = QIcon::fromTheme(QStringLiteral("folder"));
-            result = folder_icon.pixmap(30, 30).toImage();
-        } else {
-            QString name = EffectsRepository::get()->getName(id);
-            result = makeIcon(id, name, requestedSize);
-        }
+        QString name = EffectsRepository::get()->getName(id);
+        result = makeIcon(id, name, requestedSize);
         if (size) {
             *size = result.size();
         }
@@ -80,23 +75,32 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     QString t = QStringLiteral("#") + QString::number(hex, 16).toUpper().left(6);
     QColor col(t);
     bool isAudio = false;
+    bool isCustom = false;
     if (m_effect) {
         isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+        isCustom = EffectsRepository::get()->getType(effectId) == EffectType::Custom;
     } else {
         auto type = TransitionsRepository::get()->getType(effectId);
         isAudio = (type == TransitionType::AudioComposition) || (type == TransitionType::AudioTransition);
     }
-    if (isAudio) {
+    QPainter p;
+    if (isCustom) {
         pix.fill(Qt::transparent);
-    } else {
-        pix.fill(col);
-    }
-    QPainter p(&pix);
-    if (isAudio) {
+        p.begin(&pix);
+        p.setPen(Qt::NoPen);
+        p.setBrush(Qt::red);
+        p.drawRoundedRect(pix.rect(), 4, 4);
+        p.setPen(QPen());
+    } else if (isAudio) {
+        pix.fill(Qt::transparent);
+        p.begin(&pix);
         p.setPen(Qt::NoPen);
         p.setBrush(col);
         p.drawEllipse(pix.rect());
         p.setPen(QPen());
+    } else {
+        pix.fill(col);
+        p.begin(&pix);
     }
     p.setFont(ft);
     p.drawText(pix.rect(), Qt::AlignCenter, effectName.at(0));
