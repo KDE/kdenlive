@@ -1,5 +1,6 @@
 #include "speeddialog.h"
 #include "ui_speeddialog_ui.h"
+#include <QPushButton>
 
 SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double maxSpeed, bool reversed)
     : QDialog(parent)
@@ -11,9 +12,13 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double 
     ui->doubleSpinBox->setMinimum(minSpeed);
     ui->doubleSpinBox->setMaximum(maxSpeed);
     ui->doubleSpinBox->setValue(speed);
+    ui->doubleSpinBox->selectAll();
     if (reversed) {
         ui->checkBox->setChecked(true);
     }
+    connect(ui->doubleSpinBox, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&] (double value) {
+        ui->buttonBox->button((QDialogButtonBox::Ok))->setEnabled(!qFuzzyIsNull(value));
+    });
 }
 
 SpeedDialog::~SpeedDialog()
