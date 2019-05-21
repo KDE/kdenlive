@@ -2019,10 +2019,15 @@ void TimelineController::updateClipActions()
             act->setEnabled(false);
         }
         emit timelineClipSelected(false);
+        // nothing selected
+        emit showItemEffectStack(QString(), nullptr, QSize(), false);
         return;
     }
     std::shared_ptr<ClipModel> clip(nullptr);
     int item = *m_model->getCurrentSelection().begin();
+    if (m_model->getCurrentSelection().size() == 1 && (m_model->isClip(item) || m_model->isComposition(item))) {
+        showAsset(item);
+    }
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
     }
