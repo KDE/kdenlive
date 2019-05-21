@@ -125,7 +125,7 @@ void EffectTreeModel::reloadEffect(const QString &path)
         return;
     }
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
-    QList<QVariant> data {asset.second, asset.first, QVariant::fromValue(EffectType::Custom), isFav};
+    QList<QVariant> data {asset.first, asset.first, QVariant::fromValue(EffectType::Custom), isFav};
     m_customCategory->appendChild(data);
 }
 
