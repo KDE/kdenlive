@@ -31,22 +31,22 @@ ClipSnapModel::ClipSnapModel() = default;
 void ClipSnapModel::addPoint(int position)
 {
     m_snapPoints.insert(position);
-    if (position <= m_inPoint || position >= m_outPoint) {
+    if (position <= m_inPoint * m_speed || position >= m_outPoint * m_speed) {
         return;
     }
     if (auto ptr = m_registeredSnap.lock()) {
-        ptr->addPoint(m_speed < 0 ? m_outPoint + m_position + (position - m_inPoint) / m_speed : m_position + (position - m_inPoint) / m_speed);
+        ptr->addPoint(m_speed < 0 ? m_outPoint + m_position + position / m_speed - m_inPoint : m_position + position / m_speed - m_inPoint);
     }
 }
 
 void ClipSnapModel::removePoint(int position)
 {
     m_snapPoints.erase(position);
-    if (position <= m_inPoint || position >= m_outPoint) {
+    if (position <= m_inPoint * m_speed || position >= m_outPoint * m_speed) {
         return;
     }
     if (auto ptr = m_registeredSnap.lock()) {
-        ptr->removePoint(m_speed < 0 ? m_outPoint + m_position + (position - m_inPoint) / m_speed : m_position + (position - m_inPoint) / m_speed);
+        ptr->removePoint(m_speed < 0 ? m_outPoint + m_position + position / m_speed - m_inPoint : m_position + position / m_speed - m_inPoint);
     }
 }
 
@@ -73,7 +73,7 @@ void ClipSnapModel::addAllSnaps()
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
-                ptr->addPoint(m_speed < 0 ? m_outPoint + m_position + (snap - m_inPoint) / m_speed : m_position + (snap - m_inPoint) / m_speed);
+                ptr->addPoint(m_speed < 0 ? m_outPoint + m_position + snap / m_speed - m_inPoint : m_position + snap / m_speed- m_inPoint);
             }
         }
     }
@@ -84,7 +84,7 @@ void ClipSnapModel::removeAllSnaps()
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
-                ptr->removePoint(m_speed < 0 ? m_outPoint + m_position + (snap - m_inPoint) / m_speed : m_position + (snap - m_inPoint) / m_speed);
+                ptr->removePoint(m_speed < 0 ? m_outPoint + m_position + snap / m_speed - m_inPoint : m_position + snap / m_speed- m_inPoint);
             }
         }
     }
