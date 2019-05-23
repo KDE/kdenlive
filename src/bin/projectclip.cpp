@@ -622,7 +622,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Mlt::Properties original(m_masterProducer->get_properties());
         Mlt::Properties cloneProps(warpProducer->get_properties());
         cloneProps.pass_list(original, ClipController::getPassPropertiesList(false));
-        warpProducer->set("length", double(original_length) / std::abs(speed));
+        warpProducer->set("length", (int) (original_length / std::abs(speed) + 0.5));
     }
 
     qDebug() << "warp LENGTH" << warpProducer->get_length();
