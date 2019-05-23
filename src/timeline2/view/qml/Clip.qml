@@ -410,7 +410,7 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: parent.height
-                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (model.frame / clipRoot.speed - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale : (model.frame / clipRoot.speed - clipRoot.inPoint) * timeScale;
+                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (Math.round(model.frame / clipRoot.speed) - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale;
                         color: model.color
                     }
                     Rectangle {
@@ -430,7 +430,7 @@ Rectangle {
                             acceptedButtons: Qt.LeftButton
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, clipRoot.modelStart + model.frame - clipRoot.inPoint)
+                            onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
                             onClicked: timeline.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
                         }
                     }

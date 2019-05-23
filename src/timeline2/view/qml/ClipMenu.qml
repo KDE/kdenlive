@@ -70,19 +70,19 @@ Menu {
             title: i18n('Markers')
             MenuItem {
                 text: i18n('Add Marker')
-                onTriggered: timeline.addMarker(clipId, timeline.position)
+                onTriggered: timeline.addMarker(clipId)
             }
             MenuItem {
                 text: i18n('Add Marker/Guide quickly')
-                onTriggered: timeline.addQuickMarker(clipId, timeline.position)
+                onTriggered: timeline.addQuickMarker(clipId)
             }
             MenuItem {
                 text: i18n('Edit Marker')
-                onTriggered: timeline.editMarker(clipId, timeline.position)
+                onTriggered: timeline.editMarker(clipId)
             }
             MenuItem {
                 text: i18n('Delete Marker')
-                onTriggered: timeline.deleteMarker(clipId, timeline.position)
+                onTriggered: timeline.deleteMarker(clipId)
             }
             MenuItem {
                 text: i18n('Delete All Markers')
