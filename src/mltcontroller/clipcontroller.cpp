@@ -346,7 +346,7 @@ const QString ClipController::getStringDuration()
         if (playtime > 0) {
             return QString(m_properties->frames_to_time(playtime, mlt_time_smpte_df));
         }
-        return m_masterProducer->get_length_time(mlt_time_smpte_df);
+        return m_properties->frames_to_time(m_masterProducer->get_length(), mlt_time_smpte_df);
     }
     return i18n("Unknown");
 }
