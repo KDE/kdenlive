@@ -109,7 +109,8 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         REQUIRE(timeline->getClipPlaytime(cid3) == 1);
 
         // This is the higher than the limit, should not work
-        REQUIRE_FALSE(timeline->requestClipTimeWarp(cid3, double(curLength) + 0.1, undo2, redo2));
+        // (we have some error margin in duration rounding, multiply by 10)
+        REQUIRE_FALSE(timeline->requestClipTimeWarp(cid3, double(curLength) * 10, undo2, redo2));
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
