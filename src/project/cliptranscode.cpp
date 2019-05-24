@@ -66,6 +66,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
         }
         urls_list->setHidden(true);
         connect(source_url, SIGNAL(textChanged(QString)), this, SLOT(slotUpdateParams()));
+        ffmpeg_params->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     } else {
         label_source->setHidden(true);
         source_url->setHidden(true);
@@ -76,6 +77,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
         for (int i = 0; i < m_urls.count(); ++i) {
             urls_list->addItem(m_urls.at(i));
         }
+        urls_list->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     }
     if (!params.isEmpty()) {
         label_profile->setHidden(true);
@@ -112,7 +114,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
     connect(&m_transcodeProcess, &QProcess::readyReadStandardOutput, this, &ClipTranscode::slotShowTranscodeInfo);
     connect(&m_transcodeProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &ClipTranscode::slotTranscodeFinished);
 
-    ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
+    //ffmpeg_params->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
 
     adjustSize();
 }
