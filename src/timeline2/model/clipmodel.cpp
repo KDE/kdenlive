@@ -415,7 +415,7 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
     std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
     int oldDuration = getPlaytime();
-    int newDuration = int(double(oldDuration) * std::abs(previousSpeed / speed));
+    int newDuration = int(double(oldDuration) * std::abs(previousSpeed / speed) + 0.5);
     int oldOut = getOut();
     int oldIn = getIn();
     auto operation = useTimewarpProducer_lambda(speed);
@@ -432,7 +432,8 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
     }
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
-        bool res = requestResize(newDuration, true, local_undo, local_redo, true);
+        // When calculating duration, result can be a few frames longer than possible duration so adjust
+        bool res = requestResize(qMin(newDuration, getMaxDuration()), true, local_undo, local_redo, true);
         if (!res) {
             local_undo();
             return false;

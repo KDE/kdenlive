@@ -3012,7 +3012,8 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         }
         if (result) {
             result = requestClipTimeWarp(clipId, speed / 100.0, undo, redo);
-        } else {
+        }
+        if (!result) {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
             undo();
             TRACE_RES(false);

@@ -908,30 +908,11 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                     parentId = QStringLiteral("-1");
                 }
                 qDebug() << "clip id" << id;
-                if (id.contains(QLatin1Char('_'))) {
-                    // TODO refac ?
-                    /*
-                    // This is a track producer
-                    QString mainId = id.section(QLatin1Char('_'), 0, 0);
-                    // QString track = id.section(QStringLiteral("_"), 1, 1);
-                    if (m_clipList.contains(mainId)) {
-                        // The controller for this track producer already exists
-                    } else {
-                        // Create empty controller for this clip
-                        requestClipInfo info;
-                        info.imageHeight = 0;
-                        info.clipId = id;
-                        info.replaceProducer = true;
-                        emit slotProducerReady(info, ClipController::mediaUnavailable);
-                    }
-                    */
-                } else {
-                    QString newId = isIdFree(id) ? id : QString::number(getFreeClipId());
-                    producer->set("_kdenlive_processed", 1);
-                    requestAddBinClip(newId, producer, parentId, undo, redo);
-                    binIdCorresp[id] = newId;
-                    qDebug() << "Loaded clip " << id << "under id" << newId;
-                }
+                QString newId = isIdFree(id) ? id : QString::number(getFreeClipId());
+                producer->set("_kdenlive_processed", 1);
+                requestAddBinClip(newId, producer, parentId, undo, redo);
+                binIdCorresp[id] = newId;
+                qDebug() << "Loaded clip " << id << "under id" << newId;
             }
         }
     }

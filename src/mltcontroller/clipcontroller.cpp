@@ -56,9 +56,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
         return;
     }
-    if (m_masterProducer) {
-        checkAudioVideo();
-    }
     if (m_properties) {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_service = m_properties->get("mlt_service");
@@ -69,14 +66,17 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
             path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
                 path.prepend(pCore->currentDoc()->documentRoot());
+                m_properties->set("resource", path.toUtf8().constData());
             }
             m_usesProxy = true;
         } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
                    path != QLatin1String("<producer>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
+            m_properties->set("resource", path.toUtf8().constData());
         }
         m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
+        checkAudioVideo();
     } else {
         m_producerLock.lock();
     }
@@ -589,9 +589,13 @@ void ClipController::checkAudioVideo()
         return;
     }
     QScopedPointer<Mlt::Frame> frame(m_masterProducer->get_frame());
-    // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
-    m_hasAudio = frame->get_int("test_audio") == 0;
-    m_hasVideo = frame->get_int("test_image") == 0;
+    if (frame->is_valid()) {
+        // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
+        m_hasAudio = frame->get_int("test_audio") == 0;
+        m_hasVideo = frame->get_int("test_image") == 0;
+    } else {
+        qDebug()<<"* * * *ERROR INVALID FRAME On test";
+    }
 }
 bool ClipController::hasVideo() const
 {

@@ -660,45 +660,58 @@ void TimelineController::setOutPoint()
 void TimelineController::editMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
-        position = timelinePosition();
+        // Calculate marker position relative to timeline cursor
+        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = position * speed;
     }
-    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
+    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
-    clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
+    if (clip->getMarkerModel()->hasMarker(position)) {
+        GenTime pos(position, pCore->getCurrentFps());
+        clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), false, clip.get());
+    } else {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
+    }
 }
 
 void TimelineController::addMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
-        position = timelinePosition();
+        // Calculate marker position relative to timeline cursor
+        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = position * speed;
     }
-    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
-        pCore->displayMessage(i18n("Cannot find clip to add marker"), InformationMessage, 500);
+    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
+    GenTime pos(position, pCore->getCurrentFps());
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
 }
 
 void TimelineController::addQuickMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
-        position = timelinePosition();
+        // Calculate marker position relative to timeline cursor
+        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = position * speed;
     }
-    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
-        pCore->displayMessage(i18n("Cannot find clip to add marker"), InformationMessage, 500);
+    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
+    GenTime pos(position, pCore->getCurrentFps());
     CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
     clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
 }
@@ -706,15 +719,18 @@ void TimelineController::addQuickMarker(int cid, int position)
 void TimelineController::deleteMarker(int cid, int position)
 {
     Q_ASSERT(m_model->isClip(cid));
+    double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
-        position = timelinePosition();
+        // Calculate marker position relative to timeline cursor
+        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = position * speed;
     }
-    if (position < m_model->getClipPosition(cid) || position > (m_model->getClipPosition(cid) + m_model->getClipPlaytime(cid))) {
-        pCore->displayMessage(i18n("Cannot find clip to remove marker"), InformationMessage, 500);
+    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
+        pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
         return;
     }
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
-    GenTime pos((position - m_model->getClipPosition(cid) + m_model->getClipIn(cid)) * m_model->getClipSpeed(cid), pCore->getCurrentFps());
+    GenTime pos(position, pCore->getCurrentFps());
     clip->getMarkerModel()->removeMarker(pos);
 }
 
@@ -1425,14 +1441,14 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         // this is the max speed so that the clip is at least one frame long
         double maxSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId));
         // this is the min speed so that the clip doesn't bump into the next one on track
-        double minSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId)) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)) - 1);
+        double minSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId)) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)));
 
         // if there is a split partner, we must also take it into account
         int partner = m_model->getClipSplitPartner(clipId);
         if (partner != -1) {
             double duration2 = m_model->getItemPlaytime(partner);
             double maxSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner));
-            double minSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner)) / (duration2 + double(m_model->getBlankSizeNearClip(partner, true)) - 1);
+            double minSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner)) / (duration2 + double(m_model->getBlankSizeNearClip(partner, true)));
             minSpeed = std::max(minSpeed, minSpeed2);
             maxSpeed = std::min(maxSpeed, maxSpeed2);
         }
