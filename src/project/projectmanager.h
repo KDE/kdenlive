@@ -158,7 +158,7 @@ public slots:
 private slots:
     void slotRevert();
     /** @brief Open the project's backupdialog. */
-    void slotOpenBackup(const QUrl &url = QUrl());
+    bool slotOpenBackup(const QUrl &url = QUrl());
     /** @brief Start autosaving the document. */
     void slotAutoSave();
     /** @brief Report progress of folder move operation. */
@@ -170,7 +170,7 @@ signals:
     //     void projectOpened(Project *project);
 
 protected:
-    void updateTimeline(int pos = -1, int scrollPos = -1);
+    bool updateTimeline(int pos = -1, int scrollPos = -1);
 
 private:
     /** @brief Checks that the Kdenlive MIME type is correctly installed.

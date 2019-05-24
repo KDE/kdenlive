@@ -553,7 +553,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
 
-    updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt());
+    if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt())) {
+        delete m_progressDialog;
+        m_progressDialog = nullptr;
+        return;
+    }
     pCore->window()->connectDocument();
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
@@ -598,7 +602,7 @@ KdenliveDoc *ProjectManager::current()
     return m_project;
 }
 
-void ProjectManager::slotOpenBackup(const QUrl &url)
+bool ProjectManager::slotOpenBackup(const QUrl &url)
 {
     QUrl projectFile;
     QUrl projectFolder;
@@ -612,7 +616,7 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
-
+    bool result = false;
     QPointer<BackupWidget> dia = new BackupWidget(projectFile, projectFolder, projectId, pCore->window());
     if (dia->exec() == QDialog::Accepted) {
         QString requestedBackup = dia->selectedFile();
@@ -623,9 +627,11 @@ void ProjectManager::slotOpenBackup(const QUrl &url)
             m_project->setUrl(projectFile);
             m_project->setModified(true);
             pCore->window()->setWindowTitle(m_project->description());
+            result = true;
         }
     }
     delete dia;
+    return result;
 }
 
 KRecentFilesAction *ProjectManager::recentFilesAction()
@@ -832,7 +838,7 @@ void ProjectManager::slotMoveFinished(KJob *job)
     }
 }
 
-void ProjectManager::updateTimeline(int pos, int scrollPos)
+bool ProjectManager::updateTimeline(int pos, int scrollPos)
 {
     Q_UNUSED(scrollPos);
     pCore->jobManager()->slotCancelJobs();
@@ -847,6 +853,21 @@ void ProjectManager::updateTimeline(int pos, int scrollPos)
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
+    if (tractor.count() == 0) {
+        // Wow we have a project file with empty tractor, probably corrupted, propose to open a recovery file
+        KMessageBox::ButtonCode res = KMessageBox::warningContinueCancel(qApp->activeWindow(), i18n("Project file is corrupted (no tracks). Try to find a backup file?"));
+        pCore->window()->getMainTimeline()->loading = false;
+        m_project->setModified(false);
+        if (res == KMessageBox::Continue) {
+            // Try opening backup
+            if (!slotOpenBackup(m_project->url())) {
+                newFile(false);
+            }
+        } else {
+            newFile(false);
+        }
+        return false;
+    }
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
     if (!constructTimelineFromMelt(m_mainTimelineModel, tractor)) {
@@ -868,6 +889,7 @@ void ProjectManager::updateTimeline(int pos, int scrollPos)
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
+    return true;
 }
 
 void ProjectManager::adjustProjectDuration()
