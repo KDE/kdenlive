@@ -1441,14 +1441,14 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         // this is the max speed so that the clip is at least one frame long
         double maxSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId));
         // this is the min speed so that the clip doesn't bump into the next one on track
-        double minSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId)) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)) - 1);
+        double minSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId)) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)));
 
         // if there is a split partner, we must also take it into account
         int partner = m_model->getClipSplitPartner(clipId);
         if (partner != -1) {
             double duration2 = m_model->getItemPlaytime(partner);
             double maxSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner));
-            double minSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner)) / (duration2 + double(m_model->getBlankSizeNearClip(partner, true)) - 1);
+            double minSpeed2 = 100. * duration2 * qAbs(m_model->getClipSpeed(partner)) / (duration2 + double(m_model->getBlankSizeNearClip(partner, true)));
             minSpeed = std::max(minSpeed, minSpeed2);
             maxSpeed = std::min(maxSpeed, maxSpeed2);
         }
