@@ -22,6 +22,7 @@
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
+#include "effects/effectsrepository.hpp"
 
 #include "utils/thememanager.h"
 #ifdef USE_V4L
@@ -108,6 +109,24 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     if (autoClose) {
         // This is a first run instance, check HW encoders
         testHwEncoders();
+    } else {
+        QPair<QStringList, QStringList> conversion = EffectsRepository::get()->fixDeprecatedEffects();
+        if (conversion.first.count() > 0) {
+            QLabel *lab = new QLabel(this);
+            lab->setText(i18n("Converting old custom effects successful:"));
+            m_startLayout->addWidget(lab);
+            QListWidget *list = new QListWidget(this);
+            m_startLayout->addWidget(list);
+            list->addItems(conversion.first);
+        }
+        if (conversion.second.count() > 0) {
+            QLabel *lab = new QLabel(this);
+            lab->setText(i18n("Converting old custom effects failed:"));
+            m_startLayout->addWidget(lab);
+            QListWidget *list = new QListWidget(this);
+            m_startLayout->addWidget(list);
+            list->addItems(conversion.second);
+        }
     }
     if (!m_errors.isEmpty() || !m_warnings.isEmpty() || (!m_infos.isEmpty() && !appImageCheck)) {
         QLabel *lab = new QLabel(this);

@@ -54,6 +54,10 @@ public:
     /* @brief Returns whether this belongs to main effects */
     bool isPreferred(const QString &effectId) const;
 
+    /* @brief Check custom effects (older custom effects need an update to default and current values
+    *  returns a list of effects that were incorrectly converted */
+    QPair<QStringList, QStringList> fixDeprecatedEffects();
+
 protected:
     // Constructor is protected because class is a Singleton
     EffectsRepository();
@@ -78,6 +82,8 @@ protected:
 
     /* @brief Returns the metadata associated with the given asset*/
     Mlt::Properties *getMetadata(const QString &assetId) override;
+    
+    QPair <QString, QString> fixCustomAssetFile(const QString &path);
 
     static std::unique_ptr<EffectsRepository> instance;
     static std::once_flag m_onceFlag; // flag to create the repository only once;
