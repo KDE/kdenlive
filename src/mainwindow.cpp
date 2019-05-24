@@ -3322,6 +3322,10 @@ void MainWindow::slotArchiveProject()
 {
     KdenliveDoc *doc = pCore->currentDoc();
     QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
+    if (xmlDoc.isNull()) {
+        KMessageBox::error(this, i18n("Project file could not be saved for archiving."));
+        return;
+    }
     QPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), xmlDoc, getMainTimeline()->controller()->extractCompositionLumas(), this));
     if (d->exec() != 0) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);

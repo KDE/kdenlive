@@ -486,20 +486,28 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
     QDomElement mlt = sceneList.firstChildElement(QStringLiteral("mlt"));
     if (mlt.isNull() || !mlt.hasChildNodes()) {
         // scenelist is corrupted
-        return sceneList;
+        return QDomDocument();
     }
 
     // Set playlist audio volume to 100%
-    QDomElement tractor = mlt.firstChildElement(QStringLiteral("tractor"));
-    if (!tractor.isNull()) {
-        QDomNodeList props = tractor.elementsByTagName(QStringLiteral("property"));
-        for (int i = 0; i < props.count(); ++i) {
-            if (props.at(i).toElement().attribute(QStringLiteral("name")) == QLatin1String("meta.volume")) {
-                props.at(i).firstChild().setNodeValue(QStringLiteral("1"));
-                break;
+    QDomNodeList tractors = mlt.elementsByTagName(QStringLiteral("tractor"));
+    for (int i = 0; i < tractors.count(); ++i) {
+        if (tractors.at(i).toElement().hasAttribute(QStringLiteral("global_feed"))) {
+            // This is our main tractor
+            QDomElement tractor = tractors.at(i).toElement();
+            if (Xml::hasXmlProperty(tractor, QLatin1String("meta.volume"))) {
+                Xml::setXmlProperty(tractor, QStringLiteral("meta.volume"), QStringLiteral("1"));
             }
+            break;
         }
     }
+    QDomNodeList tracks = mlt.elementsByTagName(QStringLiteral("track"));
+    if (tracks.isEmpty()) {
+        // Something is very wrong, inform user.
+        qDebug()<<" = = = =  = =  CORRUPTED DOC\n"<<scene;
+        return QDomDocument();
+    }
+    
     QDomNodeList pls = mlt.elementsByTagName(QStringLiteral("playlist"));
     QDomElement mainPlaylist;
     for (int i = 0; i < pls.count(); ++i) {
