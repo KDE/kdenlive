@@ -83,21 +83,28 @@ bool TranscodeJob::startJob()
         // change FFmpeg params to MLT format
         m_isFfmpegJob = false;
         // insert transcoded filename
-        m_transcodeParams.replace(QStringLiteral("%1"), QString("-consumer avformat:%1").arg(m_destUrl));
+        m_transcodeParams.replace(QStringLiteral("%1"), QString("-consumer %1"));
         // Convert param style
         QStringList params = m_transcodeParams.split(QLatin1Char('-'), QString::SkipEmptyParts);
-        bool skipNext = false;
         QStringList mltParameters;
         for (const QString &s : params) {
             QString t = s.simplified();
-            if (skipNext) {
-                skipNext = false;
-                continue;
-            }
             if (t.count(QLatin1Char(' ')) == 0) {
                 t.append(QLatin1String("=1"));
             } else {
-                t.replace(QLatin1Char(' '), QLatin1String("="));
+                if (t.contains(QLatin1String("%1"))) {
+                    // file name
+                    mltParameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QString("avformat:%1").arg(m_destUrl)));
+                    mltParameters.prepend(QStringLiteral("-consumer"));
+                    continue;
+                }
+                if (t.startsWith(QLatin1String("aspect "))) {
+                    // Fix aspect ratio calculation
+                    t.replace(QLatin1Char(' '), QLatin1String("=@"));
+                    t.replace(QLatin1Char(':'), QLatin1String("/"));
+                } else {
+                    t.replace(QLatin1Char(' '), QLatin1String("="));
+                }
             }
             mltParameters << t;
         }
@@ -111,8 +118,8 @@ bool TranscodeJob::startJob()
         mltParameters.append(QStringLiteral("threads=%1").arg(threadCount));
 
         // Ask for progress reporting
-        mltParameters << QStringLiteral("progress=1") << QStringLiteral("-consumer")<<QString("avformat:%1").arg(m_destUrl);
-
+        mltParameters << QStringLiteral("progress=1");
+        mltParameters.prepend(source);
         m_jobProcess = new QProcess;
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(this, &TranscodeJob::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
@@ -134,12 +141,15 @@ bool TranscodeJob::startJob()
         parameters << QStringLiteral("-stats") << QStringLiteral("-i") << source;
         // Only output error data
         parameters << QStringLiteral("-v") << QStringLiteral("error");
-        m_transcodeParams.replace(QStringLiteral("%1"), m_destUrl);
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
         QStringList finalParams{QStringLiteral("-i"),source};
         for (const QString &s : params) {
             QString t = s.simplified();
-            parameters << t;
+            if (t.startsWith(QLatin1String("%1"))) {
+                parameters << t.replace(QLatin1String("%1"), m_destUrl);
+            } else {
+                parameters << t;
+            }
         }
         qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;

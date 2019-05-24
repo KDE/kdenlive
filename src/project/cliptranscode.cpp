@@ -157,11 +157,8 @@ void ClipTranscode::slotStartTransCode()
     }
     QString extension = params.section(QStringLiteral("%1"), 1, 1).section(QLatin1Char(' '), 0, 0);
     QString s_url = source_url->url().toLocalFile();
-    if (params.contains(QLatin1String("-i "))) {
-        // Filename must be inserted later
-    } else {
-        parameters << QStringLiteral("-i") << s_url;
-    }
+    bool mltEncoding = s_url.endsWith(QLatin1String(".mlt")) || s_url.endsWith(QLatin1String(".kdenlive"));
+    
     if (QFile::exists(destination + extension)) {
         if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", destination + extension)) == KMessageBox::No) {
             // Abort operation
@@ -172,7 +169,48 @@ void ClipTranscode::slotStartTransCode()
             }
             return;
         }
-        parameters << QStringLiteral("-y");
+        if (!mltEncoding) {
+            parameters << QStringLiteral("-y");
+        }
+    }
+    
+    if (mltEncoding) {
+        params.replace(QStringLiteral("%1"), QString("-consumer %1"));
+        const QStringList splitted = params.split(QLatin1Char('-'), QString::SkipEmptyParts);
+        for (const QString &s : splitted) {
+            QString t = s.simplified();
+            if (t.count(QLatin1Char(' ')) == 0) {
+                t.append(QLatin1String("=1"));
+            } else {
+                if (t.contains(QLatin1String("%1"))) {
+                    // file name
+                    parameters.prepend(t.section(QLatin1Char(' '), 1).replace(QLatin1String("%1"), QString("avformat:%1").arg(destination)));
+                    parameters.prepend(QStringLiteral("-consumer"));
+                    continue;
+                }
+                if (t.startsWith(QLatin1String("aspect "))) {
+                    // Fix aspect ratio calculation
+                    t.replace(QLatin1Char(' '), QLatin1String("=@"));
+                    t.replace(QLatin1Char(':'), QLatin1String("/"));
+                } else {
+                    t.replace(QLatin1Char(' '), QLatin1String("="));
+                }
+            }
+            parameters << t;
+        }
+        parameters.prepend(s_url);
+        buttonBox->button(QDialogButtonBox::Abort)->setText(i18n("Abort"));
+        m_destination = destination + extension;
+        m_transcodeProcess.start(KdenliveSettings::rendererpath(), parameters);
+        source_url->setEnabled(false);
+        dest_url->setEnabled(false);
+        button_start->setEnabled(false);
+        return;
+    }
+    if (params.contains(QLatin1String("-i "))) {
+        // Filename must be inserted later
+    } else {
+        parameters << QStringLiteral("-i") << s_url;
     }
 
     bool replaceVfParams = false;

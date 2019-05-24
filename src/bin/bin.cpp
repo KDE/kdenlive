@@ -1519,7 +1519,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_inTimelineAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     if (m_transcodeAction) {
         m_transcodeAction->setEnabled(enableClipActions);
-        m_transcodeAction->menuAction()->setVisible(itemType != AbstractProjectItem::FolderItem && clipService.contains(QStringLiteral("avformat")));
+        m_transcodeAction->menuAction()->setVisible(itemType != AbstractProjectItem::FolderItem && (type == ClipType::Playlist || ClipType::Text || clipService.contains(QStringLiteral("avformat"))));
     }
     m_clipsActionsMenu->menuAction()->setVisible(
         itemType != AbstractProjectItem::FolderItem &&
