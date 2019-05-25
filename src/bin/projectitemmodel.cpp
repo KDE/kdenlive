@@ -649,9 +649,11 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         new_clip->importEffects(producer);
-        int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
-        pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), 150, -1, true);
-        pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
+        if (new_clip->sourceExists()) {
+            int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
+            pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), 150, -1, true);
+            pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
+        }
     }
     return res;
 }

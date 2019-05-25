@@ -2226,7 +2226,7 @@ void DocumentValidator::checkOrphanedProducers()
     int max = producers.count();
     QStringList allProducers;
     for (int i = 0; i < max; ++i) {
-        QDomElement prod = producers.at(i).toElement();
+        QDomElement prod = producers.item(i).toElement();
         if (prod.isNull()) {
             continue;
         }
@@ -2235,8 +2235,8 @@ void DocumentValidator::checkOrphanedProducers()
 
     QDomDocumentFragment frag = m_doc.createDocumentFragment();
     QDomDocumentFragment trackProds = m_doc.createDocumentFragment();
-    for (int i = 0; i < max; ++i) {
-        QDomElement prod = producers.at(i).toElement();
+    for (int i = 0; i < producers.count(); ++i) {
+        QDomElement prod = producers.item(i).toElement();
         if (prod.isNull()) {
             continue;
         }
@@ -2258,9 +2258,9 @@ void DocumentValidator::checkOrphanedProducers()
                 distinctiveTag = QStringLiteral("xmldata");
             }
             QString orphanValue = Xml::getXmlProperty(prod, distinctiveTag);
-            for (int j = 0; j < max; j++) {
+            for (int j = 0; j < producers.count(); j++) {
                 // Search for a similar producer
-                QDomElement binProd = producers.at(j).toElement();
+                QDomElement binProd = producers.item(j).toElement();
                 binId = binProd.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0);
                 if (service != QLatin1String("timewarp") && (binId.startsWith(QLatin1String("slowmotion")) || !binProducers.contains(binId))) {
                     continue;
@@ -2274,7 +2274,9 @@ void DocumentValidator::checkOrphanedProducers()
                 if (binValue == orphanValue) {
                     // Found probable source producer, replace
                     frag.appendChild(prod);
-                    i--;
+                    if (i > 0) {
+                        i--;
+                    }
                     QDomNodeList entries = m_doc.elementsByTagName(QStringLiteral("entry"));
                     for (int k = 0; k < entries.count(); k++) {
                         QDomElement entry = entries.at(k).toElement();

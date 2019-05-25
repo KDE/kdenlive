@@ -65,6 +65,9 @@ public:
 
     /** @brief Returns true if the master producer is valid */
     bool isValid();
+    
+    /** @brief Returns true if the source file exists */
+    bool sourceExists() const;
 
     /** @brief Stores the file's creation time */
     QDateTime date;
