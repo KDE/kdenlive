@@ -42,6 +42,7 @@
 #include "kdenlive_debug.h"
 #include <KDBusService>
 #include <KIconTheme>
+#include <QResource>
 #include <QApplication>
 #include <QCommandLineOption>
 #include <QCommandLineParser>
@@ -98,6 +99,25 @@ int main(int argc, char *argv[])
         KConfigGroup cg(config, "UiSettings");
         cg.writeEntry("ColorScheme", "Breeze Dark");
     }
+#ifdef Q_OS_WIN
+    const QStringList themes {"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
+    for(const QString theme : themes ) {
+        const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
+        if (!themePath.isEmpty()) {
+            const QString iconSubdir = theme.left(theme.lastIndexOf('/'));
+            if (QResource::registerResource(themePath, iconSubdir)) {
+                if (QFileInfo::exists(QLatin1Char(':') + iconSubdir + QStringLiteral("/index.theme"))) {
+                    qDebug() << "Loaded icon theme:" << theme;
+                } else {
+                    qWarning() << "No index.theme found in" << theme;
+                    QResource::unregisterResource(themePath, iconSubdir);
+                }
+            } else {
+                qWarning() << "Invalid rcc file" << theme;
+            }
+        }
+    }
+#endif
 
     // Init DBus services
     KDBusService programDBusService;

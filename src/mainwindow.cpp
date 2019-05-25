@@ -640,11 +640,10 @@ void MainWindow::slotThemeChanged(const QString &name)
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
 
-#if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
+#if (KXMLGUI_VERSION < QT_VERSION_CHECK(5, 23, 0)) || defined(Q_OS_WIN)
     // Not required anymore with auto colored icons since KF5 5.23
-    QColor background = plt.window().color();
-    bool useDarkIcons = background.value() < 100;
     if (m_themeInitialized && useDarkIcons != m_isDarkTheme) {
+        QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         if (pCore->bin()) {
             pCore->bin()->refreshIcons();
         }
