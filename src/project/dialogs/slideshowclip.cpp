@@ -377,8 +377,8 @@ QString SlideshowClip::selectedPath(const QUrl &url, bool isMime, QString extens
     QString folder;
     if (isMime) {
         folder = url.toLocalFile();
-        if (!folder.endsWith(QDir::separator())) {
-            folder.append(QDir::separator());
+        if (!folder.endsWith(QLatin1Char('/'))) {
+            folder.append(QLatin1Char('/'));
         }
         // Check how many files we have
         QDir dir(folder);
