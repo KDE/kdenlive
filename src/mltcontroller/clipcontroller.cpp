@@ -488,6 +488,18 @@ const QString ClipController::clipUrl() const
     return m_path;
 }
 
+bool ClipController::sourceExists() const
+{
+    if (m_clipType == ClipType::Color || m_clipType == ClipType::Text) {
+        return true;
+    }
+    if (m_clipType == ClipType::SlideShow) {
+        //TODO
+        return true;
+    }
+    return QFile::exists(m_path);
+}
+
 QString ClipController::clipName() const
 {
     QString name = getProducerProperty(QStringLiteral("kdenlive:clipname"));
