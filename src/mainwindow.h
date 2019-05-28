@@ -465,7 +465,7 @@ private slots:
     void setTrimMode(const QString &mode);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
-    void slotChangeSpeed(int speed);
+    void slotEditItemSpeed();
     void updateAction();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();

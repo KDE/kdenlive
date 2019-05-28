@@ -1442,6 +1442,13 @@ void TimelineController::invalidateZone(int in, int out)
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
 {
+    if (clipId == -1) {
+        clipId = getMainSelectedItem(false, true);
+    }
+    if (clipId == -1) {
+        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        return;
+    }
     if (qFuzzyCompare(speed, -1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
         double duration = m_model->getItemPlaytime(clipId);

@@ -306,7 +306,6 @@ void MainWindow::init()
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
-    connect(m_assetPanel, &AssetPanel::changeSpeed, this, &MainWindow::slotChangeSpeed);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, [&] () {
         m_effectStackDock->raise();
@@ -1283,6 +1282,10 @@ void MainWindow::setupActions()
 
     QAction *act = addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()),
                              QIcon::fromTheme(QStringLiteral("measure")), QKeySequence(), clipActionCategory);
+    act->setEnabled(false);
+
+    act = addAction(QStringLiteral("edit_item_speed"), i18n("Change Speed"), this, SLOT(slotEditItemSpeed()),
+                             QIcon::fromTheme(QStringLiteral("speedometer")), QKeySequence(), clipActionCategory);
     act->setEnabled(false);
 
     act = addAction(QStringLiteral("clip_in_project_tree"), i18n("Clip in Project Bin"), this, SLOT(slotClipInProjectTree()),
@@ -3739,12 +3742,11 @@ void MainWindow::resetTimelineTracks()
     }
 }
 
-void MainWindow::slotChangeSpeed(int speed)
+void MainWindow::slotEditItemSpeed()
 {
-    ObjectId owner = m_assetPanel->effectStackOwner();
-    // TODO: manage bin clips / tracks
-    if (owner.first == ObjectType::TimelineClip) {
-        getCurrentTimeline()->controller()->changeItemSpeed(owner.second, speed);
+    TimelineWidget *current = getCurrentTimeline();
+    if (current) {
+        current->controller()->changeItemSpeed(-1, -1);
     }
 }
 
