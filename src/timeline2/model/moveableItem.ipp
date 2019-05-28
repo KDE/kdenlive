@@ -100,8 +100,3 @@ template <typename Service> bool MoveableItem<Service>::isGrabbed() const
     return m_grabbed;
 }
 
-template <typename Service> void MoveableItem<Service>::setGrab(bool grab)
-{
-    QWriteLocker locker(&m_lock);
-    m_grabbed = grab;
-}

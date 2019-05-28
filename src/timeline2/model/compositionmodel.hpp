@@ -95,6 +95,7 @@ public:
 
     /* @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);
+    void setGrab(bool grab) override;
 
 protected:
     Mlt::Transition *service() const override;

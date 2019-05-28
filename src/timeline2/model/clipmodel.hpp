@@ -99,6 +99,7 @@ public:
     void setFakeTrackId(int fid);
     int getFakePosition() const;
     void setFakePosition(int fid);
+    void setGrab(bool grab) override;
 
     /* @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);

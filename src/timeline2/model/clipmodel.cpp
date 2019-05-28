@@ -730,6 +730,16 @@ void ClipModel::setOffset(int offset)
     }
 }
 
+void ClipModel::setGrab(bool grab)
+{
+    QWriteLocker locker(&m_lock);
+    m_grabbed = grab;
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+    }
+}
+
 void ClipModel::clearOffset()
 {
     if (m_positionOffset != 0) {

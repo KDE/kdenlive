@@ -3118,11 +3118,27 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
             for (auto &id : items) {
                 if (isClip(id)) {
                     m_allClips[id]->clearOffset();
+                    if (m_allClips[id]->isGrabbed()) {
+                        m_allClips[id]->setGrab(false);
+                    }
+                } else if (isComposition(id)) {
+                    if (m_allCompositions[id]->isGrabbed()) {
+                        m_allCompositions[id]->setGrab(false);
+                    }
                 }
             }
             m_groups->destructGroupItem(m_currentSelection);
         }
     } else {
+        if (isClip(m_currentSelection)) {
+            if (m_allClips[m_currentSelection]->isGrabbed()) {
+                m_allClips[m_currentSelection]->setGrab(false);
+            }
+        } else if (isComposition(m_currentSelection)) {
+            if (m_allCompositions[m_currentSelection]->isGrabbed()) {
+                m_allCompositions[m_currentSelection]->setGrab(false);
+            }
+        }
         Q_ASSERT(onDeletion || isClip(m_currentSelection) || isComposition(m_currentSelection));
     }
     m_currentSelection = -1;
