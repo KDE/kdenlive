@@ -457,12 +457,16 @@ void TimelineController::copyItem()
     m_model->requestSetSelection(selectedIds);
 }
 
-bool TimelineController::pasteItem()
+bool TimelineController::pasteItem(int position, int tid)
 {
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
-    int tid = getMouseTrack();
-    int position = getMousePos();
+    if (tid == -1) {
+        tid = getMouseTrack();
+    }
+    if (position == -1) {
+        position = getMousePos();
+    }
     if (tid == -1) {
         tid = m_activeTrack;
     }
@@ -1438,6 +1442,13 @@ void TimelineController::invalidateZone(int in, int out)
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
 {
+    if (clipId == -1) {
+        clipId = getMainSelectedItem(false, true);
+    }
+    if (clipId == -1) {
+        pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
+        return;
+    }
     if (qFuzzyCompare(speed, -1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
         double duration = m_model->getItemPlaytime(clipId);
@@ -2096,17 +2107,9 @@ void TimelineController::grabCurrent()
     if (m_model->isClip(id)) {
         std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
         clip->setGrab(!clip->isGrabbed());
-        QModelIndex ix = m_model->makeClipIndexFromID(id);
-        if (ix.isValid()) {
-            m_model->dataChanged(ix, ix, {TimelineItemModel::GrabbedRole});
-        }
     } else if (m_model->isComposition(id)) {
         std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
         clip->setGrab(!clip->isGrabbed());
-        QModelIndex ix = m_model->makeCompositionIndexFromID(id);
-        if (ix.isValid()) {
-            m_model->dataChanged(ix, ix, {TimelineItemModel::GrabbedRole});
-        }
     }
 }
 

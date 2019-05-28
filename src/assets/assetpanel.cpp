@@ -330,12 +330,6 @@ ObjectId AssetPanel::effectStackOwner()
     return m_effectStackWidget->stackOwner();
 }
 
-void AssetPanel::parameterChanged(QString name, int value)
-{
-    Q_UNUSED(name)
-    emit changeSpeed(value);
-}
-
 bool AssetPanel::addEffect(const QString &effectId)
 {
     if (!m_effectStackWidget->isVisible()) {

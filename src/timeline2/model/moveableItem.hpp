@@ -62,6 +62,9 @@ public:
     virtual int getIn() const;
     virtual int getOut() const;
 
+    /* Set grab status */
+    virtual void setGrab(bool grab) = 0;
+
     friend class TrackModel;
     friend class TimelineModel;
     /* Implicit conversion operator to access the underlying producer
@@ -78,7 +81,6 @@ public:
 
     /* Set if the item is in grab state */
     bool isGrabbed() const;
-    void setGrab(bool grab);
 
 protected:
     /* @brief Returns a pointer to the service. It may be used but do NOT store it*/

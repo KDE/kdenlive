@@ -250,6 +250,16 @@ void CompositionModel::setInOut(int in, int out)
     setPosition(in);
 }
 
+void CompositionModel::setGrab(bool grab)
+{
+    QWriteLocker locker(&m_lock);
+    m_grabbed = grab;
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+    }
+}
+
 void CompositionModel::setCurrentTrackId(int tid, bool finalMove)
 {
     Q_UNUSED(finalMove);

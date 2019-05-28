@@ -104,6 +104,7 @@
             <Action name="cut_timeline_clip" />
             <Action name="delete_timeline_clip" />
             <Action name="edit_item_duration" />
+            <Action name="edit_item_speed" />
             <Action name="clip_split" />
             <Action name="clip_disable" />
             <Action name="clip_in_project_tree" />

@@ -118,6 +118,8 @@ struct TimelineFunctions
     /** @brief returns an offset track id
      */
     static int getOffsetTrackId(const std::shared_ptr<TimelineItemModel> &timeline, int startTrack, int offset, bool audioOffset);
+    /** @brief returns a list of ids for all audio tracks and all video tracks
+     */
     static QPair<QList<int>, QList<int>> getAVTracksIds(const std::shared_ptr<TimelineItemModel> &timeline);
 
     /** @brief This function breaks group is an item in the zone is grouped with an item outside of selected tracks
