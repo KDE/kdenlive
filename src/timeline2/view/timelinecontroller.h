@@ -181,7 +181,7 @@ public:
      */
     Q_INVOKABLE QList<int> insertClips(int tid, int position, const QStringList &binIds, bool logUndo, bool refreshView);
     Q_INVOKABLE void copyItem();
-    Q_INVOKABLE bool pasteItem();
+    Q_INVOKABLE bool pasteItem(int position = -1, int tid = -1);
     /* @brief Request inserting a new composition in timeline (dragged from compositions list)
        @param tid is the destination track
        @param position is the timeline position

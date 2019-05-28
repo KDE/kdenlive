@@ -1119,6 +1119,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     }
     container.setAttribute(QStringLiteral("offset"), offset);
     if (audioCopy) {
+        container.setAttribute(QStringLiteral("masterAudioTrack"), masterTrack);
         int masterMirror = timeline->getMirrorVideoTrackId(masterTid);
         if (masterMirror == -1) {
             QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(timeline);
@@ -1222,13 +1223,16 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     std::sort(videoTracks.begin(), videoTracks.end());
     std::sort(audioTracks.begin(), audioTracks.end());
     std::sort(singleAudioTracks.begin(), singleAudioTracks.end());
+    //qDebug()<<"== GOT WANTED TKS\n VIDEO: "<<videoTracks<<"\n AUDIO TKS: "<<audioTracks<<"\n SINGLE AUDIO: "<<singleAudioTracks;
     int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
+    int requestedSingleAudioTracks = singleAudioTracks.isEmpty() ? 0 : singleAudioTracks.last() - singleAudioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
         pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
         return false;
     }
 
+    // Find destination master track
     // Check we have enough tracks above/below
     if (requestedVideoTracks > 0) {
         qDebug() << "MASTERSTK: " << masterSourceTrack << ", VTKS: " << videoTracks;
@@ -1246,25 +1250,67 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.second.size() - tracksAbove);
             trackId = projectTracks.second.at(projectTracks.second.size() - tracksAbove - 1);
         }
+    } else {
+        // Audio only
+        masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterAudioTrack")).toInt();
+        int tracksBelow = masterSourceTrack - audioTracks.first();
+        int tracksAbove = audioTracks.last() - masterSourceTrack;
+        if (projectTracks.first.indexOf(trackId) < tracksBelow) {
+            qDebug() << "// UPDATING BELOW TID IX TO: " << tracksBelow;
+            // not enough tracks below, try to paste on upper track
+            trackId = projectTracks.first.at(tracksBelow);
+        } else if ((projectTracks.first.size() - (projectTracks.first.indexOf(trackId) + 1)) < tracksAbove) {
+            // not enough tracks above, try to paste on lower track
+            qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.first.size() - tracksAbove);
+            trackId = projectTracks.first.at(projectTracks.first.size() - tracksAbove - 1);
+        }
     }
     QMap<int, int> tracksMap;
+    bool audioMaster = false;
     int masterIx = projectTracks.second.indexOf(trackId);
+    if (masterIx == -1) {
+        masterIx = projectTracks.first.indexOf(trackId);
+        audioMaster = true;
+    }
     qDebug() << "/// PROJECT VIDEO TKS: " << projectTracks.second << ", MASTER: " << trackId;
     qDebug() << "/// PASTE VIDEO TKS: " << videoTracks << " / MASTER: " << masterSourceTrack;
     qDebug() << "/// MASTER PASTE: " << masterIx;
     for (int tk : videoTracks) {
-        tracksMap.insert(tk, projectTracks.second.at(masterIx + tk - masterSourceTrack));
-        qDebug() << "// TK MAP: " << tk << " => " << tracksMap[tk];
+        int newPos = masterIx + tk - masterSourceTrack;
+        if (newPos < 0 || newPos >= projectTracks.second.size()) {
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+        }
+        tracksMap.insert(tk, projectTracks.second.at(newPos));
     }
+    bool audioOffsetCalculated = false;
+    int audioOffset = 0;
     for (const auto &mirror : audioMirrors) {
         int videoIx = tracksMap.value(mirror.second);
-        // qDebug()<<"// TK AUDIO MAP: "<<it.key()<<" => "<<videoIx<<" ; AUDIO MIRROR: "<<timeline->getMirrorAudioTrackId(videoIx);
         tracksMap.insert(mirror.first, timeline->getMirrorAudioTrackId(videoIx));
+        if (!audioOffsetCalculated) {
+            int oldPosition = mirror.first;
+            int currentPosition = timeline->getTrackPosition(tracksMap.value(oldPosition));
+            audioOffset = currentPosition - oldPosition;
+            audioOffsetCalculated = true;
+        }
     }
+    if (!audioOffsetCalculated && audioMaster) {
+        audioOffset = masterIx - masterSourceTrack;
+        audioOffsetCalculated = true;
+    }
+
     for (int i = 0; i < singleAudioTracks.size(); i++) {
-        tracksMap.insert(singleAudioTracks.at(i), projectTracks.first.at(i));
+        int oldPos = singleAudioTracks.at(i);
+        if (tracksMap.contains(oldPos)) {
+            continue;
+        }
+        int offsetId = oldPos + audioOffset;
+        if (offsetId < 0 || offsetId >= projectTracks.first.size()) {
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            return false;
+        }
+        tracksMap.insert(oldPos, projectTracks.first.at(offsetId));
     }
-    qDebug() << "++++++++++++++++++++++++++\n\n\n// TRACK MAP: " << tracksMap;
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
@@ -1364,9 +1410,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         undo();
         return false;
     }
-    const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
     // Rebuild groups
-    timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
+    const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
+    if (!groupsData.isEmpty()) {
+        timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
+    }
     // unsure to clear selection in undo/redo too.
     Fun unselect = [&]() {
         qDebug() << "starting undo or redo. Selection " << timeline->m_currentSelection;

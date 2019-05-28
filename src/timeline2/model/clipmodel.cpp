@@ -661,11 +661,16 @@ QDomElement ClipModel::toXml(QDomDocument &document)
         container.setAttribute(QStringLiteral("track"), trackId);
         if (ptr->isAudioTrack(getCurrentTrackId())) {
             container.setAttribute(QStringLiteral("audioTrack"), 1);
-            int mirrorId = ptr->getMirrorVideoTrackId(m_currentTrackId);
-            if (mirrorId > -1) {
-                mirrorId = ptr->getTrackPosition(mirrorId);
+            int partner = ptr->getClipSplitPartner(m_id);
+            if (partner != -1) {
+                int mirrorId = ptr->getMirrorVideoTrackId(m_currentTrackId);
+                if (mirrorId > -1) {
+                    mirrorId = ptr->getTrackPosition(mirrorId);
+                }
+                container.setAttribute(QStringLiteral("mirrorTrack"), mirrorId);
+            } else {
+                container.setAttribute(QStringLiteral("mirrorTrack"), QStringLiteral("-1"));
             }
-            container.setAttribute(QStringLiteral("mirrorTrack"), mirrorId);
         }
     }
     container.setAttribute(QStringLiteral("speed"), m_speed);

@@ -457,12 +457,16 @@ void TimelineController::copyItem()
     m_model->requestSetSelection(selectedIds);
 }
 
-bool TimelineController::pasteItem()
+bool TimelineController::pasteItem(int position, int tid)
 {
     QClipboard *clipboard = QApplication::clipboard();
     QString txt = clipboard->text();
-    int tid = getMouseTrack();
-    int position = getMousePos();
+    if (tid == -1) {
+        tid = getMouseTrack();
+    }
+    if (position == -1) {
+        position = getMousePos();
+    }
     if (tid == -1) {
         tid = m_activeTrack;
     }

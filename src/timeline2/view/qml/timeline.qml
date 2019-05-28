@@ -485,7 +485,9 @@ Rectangle {
             iconName: 'edit-paste'
             visible: copiedClip != -1
             onTriggered: {
-                timeline.pasteItem()
+                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
+                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                timeline.pasteItem(frame, track)
             }
         }
         OLD.MenuItem {
