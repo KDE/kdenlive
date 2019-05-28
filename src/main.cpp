@@ -66,40 +66,18 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #endif
 
-#ifdef Q_OS_WIN
-    qputenv("KDE_FORK_SLAVES", "1");
-    QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
-    qputenv("PATH", path.toUtf8().constData());
-#endif
-
     Logger::init();
     QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
-    KSharedConfigPtr config = KSharedConfig::openConfig();
-    KConfigGroup grp(config, "unmanaged");
-    KConfigGroup initialGroup(config, "version");
-    if (!initialGroup.exists()) {
-        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP")) && env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde")) {
-            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
-        } else {
-            // We are not on a KDE desktop, force breeze icon theme
-            // Check if breeze theme is available
-            QStringList iconThemes = KIconTheme::list();
-            if (iconThemes.contains(QStringLiteral("breeze"))) {
-                grp.writeEntry("force_breeze", true);
-                grp.writeEntry("use_dark_breeze", true);
-                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
-            }
-        }
-        // Set breeze dark as default on first opening
-        KConfigGroup cg(config, "UiSettings");
-        cg.writeEntry("ColorScheme", "Breeze Dark");
-    }
+
 #ifdef Q_OS_WIN
+    qputenv("KDE_FORK_SLAVES", "1");
+    QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
+    qputenv("PATH", path.toUtf8().constData());
+
     const QStringList themes {"/icons/breeze/breeze-icons.rcc", "/icons/breeze-dark/breeze-icons-dark.rcc"};
     for(const QString theme : themes ) {
         const QString themePath = QStandardPaths::locate(QStandardPaths::AppDataLocation, theme);
@@ -118,10 +96,29 @@ int main(int argc, char *argv[])
         }
     }
 #endif
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KConfigGroup grp(config, "unmanaged");
+    if (!grp.exists()) {
+        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+        if (env.contains(QStringLiteral("XDG_CURRENT_DESKTOP")) && env.value(QStringLiteral("XDG_CURRENT_DESKTOP")).toLower() == QLatin1String("kde")) {
+            qCDebug(KDENLIVE_LOG) << "KDE Desktop detected, using system icons";
+        } else {
+            // We are not on a KDE desktop, force breeze icon theme
+            // Check if breeze theme is available
+            QStringList iconThemes = KIconTheme::list();
+            if (iconThemes.contains(QStringLiteral("breeze"))) {
+                grp.writeEntry("force_breeze", true);
+                grp.writeEntry("use_dark_breeze", true);
+                qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
+            }
+        }
+        // Set breeze dark as default on first opening
+        KConfigGroup cg(config, "UiSettings");
+        cg.writeEntry("ColorScheme", "Breeze Dark");
+    }
 
     // Init DBus services
     KDBusService programDBusService;
-
     bool forceBreeze = grp.readEntry("force_breeze", QVariant(false)).toBool();
     if (forceBreeze) {
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
