@@ -162,14 +162,16 @@ void MainWindow::init()
     QStringList availableStyles = QStyleFactory::keys();
     if (KdenliveSettings::widgetstyle().isEmpty()) {
         // First run
-        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("windowsxp")};
+        QStringList incompatibleStyles = {QStringLiteral("GTK+"), QStringLiteral("windowsvista"), QStringLiteral("Windows")};
 
         if (incompatibleStyles.contains(desktopStyle, Qt::CaseInsensitive)) {
             if (availableStyles.contains(QStringLiteral("breeze"), Qt::CaseInsensitive)) {
                 // Auto switch to Breeze theme
                 KdenliveSettings::setWidgetstyle(QStringLiteral("Breeze"));
+		QApplication::setStyle(QStyleFactory::create(QStringLiteral("Breeze")));
             } else if (availableStyles.contains(QStringLiteral("fusion"), Qt::CaseInsensitive)) {
                 KdenliveSettings::setWidgetstyle(QStringLiteral("Fusion"));
+		QApplication::setStyle(QStyleFactory::create(QStringLiteral("Fusion")));
             }
         } else {
             KdenliveSettings::setWidgetstyle(QStringLiteral("Default"));
