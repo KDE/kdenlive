@@ -116,7 +116,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
-            text: clipRoot.clipName + ' (' + timeline.timecode(clipRoot.inPoint) + '-' + timeline.timecode(clipRoot.outPoint) + ')'
+            text: label.text + ' (' + timeline.timecode(clipRoot.inPoint) + '-' + timeline.timecode(clipRoot.outPoint) + ')'
         }
     }
 
