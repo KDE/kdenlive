@@ -1096,7 +1096,6 @@ Rectangle {
                                 drag.minimumX: 0
                                 property int dragFrame
                                 property bool shiftClick: false
-                                cursorShape: pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
                                 enabled: root.activeTool == 0
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
@@ -1473,8 +1472,7 @@ Rectangle {
         onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
-            //cornerstone.selected = timeline.isMultitrackSelected()
-            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
+            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem) || timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
                 endDrag()
             }
         }
