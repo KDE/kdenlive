@@ -33,6 +33,7 @@ class Menu;
 #endif
 
 #include "definitions.h"
+#include "bin/model/markerlistmodel.hpp"
 #include "ui_renderwidget_ui.h"
 
 class QDomElement;
@@ -120,7 +121,7 @@ class RenderWidget : public QDialog
 public:
     explicit RenderWidget(bool enableProxy, QWidget *parent = nullptr);
     ~RenderWidget() override;
-    void setGuides(const QList<CommentedTime> &guidesList, double duration);
+    void setGuides(std::weak_ptr<MarkerListModel> guidesModel);
     void focusFirstVisibleItem(const QString &profile = QString());
     void setRenderJob(const QString &dest, int progress = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
@@ -155,6 +156,7 @@ public slots:
     void slotAbortCurrentJob();
     void slotPrepareExport(bool scriptExport = false, const QString &scriptPath = QString());
     void adjustViewToProfile();
+    void reloadGuides();
 
 private slots:
     void slotUpdateButtons(const QUrl &url);
@@ -212,6 +214,7 @@ private:
     KMessageWidget *m_infoMessage;
     KMessageWidget *m_jobInfoMessage;
     QMap<int, QString> m_errorMessages;
+    std::weak_ptr<MarkerListModel> m_guidesModel;
 
 #ifdef KF5_USE_PURPOSE
     Purpose::Menu *m_shareMenu;

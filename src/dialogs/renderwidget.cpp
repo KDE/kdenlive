@@ -465,28 +465,48 @@ void RenderWidget::slotCheckEndGuidePosition()
     }
 }
 
-void RenderWidget::setGuides(const QList<CommentedTime> &guidesList, double duration)
+void RenderWidget::setGuides(std::weak_ptr<MarkerListModel> guidesModel)
 {
+    m_guidesModel = std::move(guidesModel);
+    reloadGuides();
+    if (auto ptr = m_guidesModel.lock()) {
+        connect(ptr.get(), &MarkerListModel::modelChanged, this, &RenderWidget::reloadGuides);
+    }
+}
+
+void RenderWidget::reloadGuides()
+{
+    double projectDuration = GenTime(pCore->projectDuration() - TimelineModel::seekDuration - 2, pCore->getCurrentFps()).ms() / 1000;
+    QVariant startData = m_view.guide_start->currentData();
+    QVariant endData = m_view.guide_end->currentData();
     m_view.guide_start->clear();
     m_view.guide_end->clear();
-    if (!guidesList.isEmpty()) {
-        m_view.guide_start->addItem(i18n("Beginning"), "0");
-        m_view.render_guide->setEnabled(true);
-        m_view.create_chapter->setEnabled(true);
+    if (auto ptr = m_guidesModel.lock()) {
+        QList<CommentedTime> markers = ptr->getAllMarkers();
+        double fps = pCore->getCurrentProfile()->fps();
+        m_view.render_guide->setEnabled(!markers.isEmpty());
+        if (!markers.isEmpty()) {
+            m_view.guide_start->addItem(i18n("Beginning"), "0");
+            m_view.create_chapter->setEnabled(true);
+            for (auto marker : markers) {
+                GenTime pos = marker.time();
+                const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
+                m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
+                m_view.guide_end->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
+            }
+            m_view.guide_end->addItem(i18n("End"), QString::number(projectDuration));
+            if (!startData.isNull()) {
+                int ix = qMax(0, m_view.guide_start->findData(startData));
+                m_view.guide_start->setCurrentIndex(ix);
+            }
+            if (!endData.isNull()) {
+                int ix = qMax(m_view.guide_start->currentIndex() + 1, m_view.guide_end->findData(endData));
+                m_view.guide_end->setCurrentIndex(ix);
+            }
+        }
     } else {
         m_view.render_guide->setEnabled(false);
         m_view.create_chapter->setEnabled(false);
-    }
-    double fps = pCore->getCurrentProfile()->fps();
-    for (int i = 0; i < guidesList.count(); i++) {
-        const CommentedTime &c = guidesList.at(i);
-        GenTime pos = c.time();
-        const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
-        m_view.guide_start->addItem(c.comment() + QLatin1Char('/') + guidePos, pos.seconds());
-        m_view.guide_end->addItem(c.comment() + QLatin1Char('/') + guidePos, pos.seconds());
-    }
-    if (!guidesList.isEmpty()) {
-        m_view.guide_end->addItem(i18n("End"), QString::number(duration));
     }
 }
 
