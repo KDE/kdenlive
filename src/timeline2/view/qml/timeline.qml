@@ -1099,7 +1099,12 @@ Rectangle {
                                 enabled: root.activeTool == 0
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
-                                    if (mouse.modifiers & Qt.ControlModifier || !(controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
+                                    if (mouse.modifiers & Qt.ControlModifier) {
+                                        mouse.accepted = false
+                                        return
+                                    }
+                                    if (!timeline.exists(dragProxy.draggedItem)) {
+                                        endDrag()
                                         mouse.accepted = false
                                         return
                                     }
@@ -1174,7 +1179,11 @@ Rectangle {
                                 }
                                 onPositionChanged: {
                                     // we have to check item validity in the controller, because they could have been deleted since the beginning of the drag
-                                    if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
+                                    if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
+                                        endDrag()
+                                        return
+                                    }
+                                    if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         continuousScrolling(mouse.x + parent.x)
                                         var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
@@ -1472,7 +1481,7 @@ Rectangle {
         onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
-            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem) || timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+            if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
             }
         }
