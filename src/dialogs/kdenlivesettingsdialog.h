@@ -131,7 +131,7 @@ signals:
     // Screengrab method changed between fullsceen and region, update rec monitor
     void updateFullScreenGrab();
     /** @brief A settings changed that requires a Kdenlive restart, trigger it */
-    void restartKdenlive();
+    void restartKdenlive(bool resetConfig = false);
     void checkTabPosition();
     /** @brief Switch between merged / separate channels for audio thumbs */
     void audioThumbFormatChanged();

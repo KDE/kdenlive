@@ -368,7 +368,7 @@ void MainWindow::init()
     iconAction->setChecked(KdenliveSettings::force_breeze());
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
-
+    
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
@@ -1135,6 +1135,13 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("media-record")));
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
+    
+    
+    QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("reload")), i18n("Reset configuration"), this);
+    addAction(QStringLiteral("reset_config"), resetAction);
+    connect(resetAction, &QAction::triggered, [&]() {
+        slotRestart(true);
+    });
 
     addAction("project_adjust_profile", i18n("Adjust Profile to Current Clip"), pCore->bin(), SLOT(adjustProjectProfileToItem()));
 
@@ -2137,9 +2144,14 @@ void MainWindow::slotCheckTabPosition()
     }
 }
 
-void MainWindow::slotRestart()
+void MainWindow::slotRestart(bool clean)
 {
-    m_exitCode = EXIT_RESTART;
+    if (clean) {
+        if (KMessageBox::questionYesNo(this, i18n("This will deleted Kdenlive's configuration file and restart the application. Do you want to proceed ?")) != KMessageBox::Yes) {
+            return;
+        }
+    }
+    m_exitCode = clean ? EXIT_CLEAN_RESTART : EXIT_RESTART;
     QApplication::closeAllWindows();
 }
 

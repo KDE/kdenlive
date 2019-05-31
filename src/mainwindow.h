@@ -434,7 +434,7 @@ private slots:
 
     void slotThemeChanged(const QString &name);
     /** @brief Close Kdenlive and try to restart it */
-    void slotRestart();
+    void slotRestart(bool clean = false);
     void triggerKey(QKeyEvent *ev);
     /** @brief Update monitor overlay actions on monitor switch */
     void slotUpdateMonitorOverlays(int id, int code);

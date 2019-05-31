@@ -220,10 +220,25 @@ int main(int argc, char *argv[])
     int result = app.exec();
     Core::clean();
 
-    if (EXIT_RESTART == result) {
+    if (result == EXIT_RESTART || result == EXIT_CLEAN_RESTART) {
         qCDebug(KDENLIVE_LOG) << "restarting app";
+        if (result == EXIT_CLEAN_RESTART) {
+            // Delete config file
+            KSharedConfigPtr config = KSharedConfig::openConfig();
+            if (config->name().contains(QLatin1String("kdenlive"))) {
+                // Make sure we delete our config file
+                QFile f(QStandardPaths::locate(QStandardPaths::ConfigLocation, config->name(), QStandardPaths::LocateFile));
+                if (f.exists()) {
+                    qDebug()<<" = = = =\nGOT Deleted file: "<<f.fileName();
+                    f.remove();
+                }
+            }
+        }
+        QStringList progArgs = QString(*argv).split(QLatin1Char(' '), QString::SkipEmptyParts);
+        // Remove app name
+        progArgs.takeFirst();
         auto *restart = new QProcess;
-        restart->start(app.applicationFilePath(), QStringList());
+        restart->start(app.applicationFilePath(), progArgs);
         restart->waitForReadyRead();
         restart->waitForFinished(1000);
         result = EXIT_SUCCESS;

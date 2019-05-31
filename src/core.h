@@ -40,6 +40,7 @@ class Profile;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
+#define EXIT_CLEAN_RESTART (43)
 #define pCore Core::self()
 
 /**

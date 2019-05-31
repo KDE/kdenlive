@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="160" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="161" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -221,6 +221,9 @@
       <Action name="force_icon_theme" />
       <Action name="themes_menu" />
       <Action name="styles_menu" />
+    </Menu>
+    <Menu name="help" >
+      <Action name="reset_config" />
     </Menu>
   </MenuBar>
   <ToolBar name="timelineToolBar" fullWidth="true" newline="true" noMerge="1" position="bottom">
