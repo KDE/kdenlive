@@ -2230,7 +2230,7 @@ void TimelineModel::updateDuration()
     }
     if (duration != current) {
         // update black track length
-        m_blackClip->set_in_and_out(0, duration + TimelineModel::seekDuration);
+        m_blackClip->set("out", duration + TimelineModel::seekDuration);
         emit durationUpdated();
     }
 }

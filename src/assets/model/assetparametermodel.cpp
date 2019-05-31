@@ -94,7 +94,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             int val = value.toInt();
             if (val < 0) {
                 int in = pCore->getItemIn(m_ownerId);
-                int out = in + pCore->getItemDuration(m_ownerId);
+                int out = in + pCore->getItemDuration(m_ownerId) - 1;
                 val += out;
                 value = QString::number(val);
             }

@@ -41,7 +41,8 @@ GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> mode
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString().simplified();
     int start = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int end = start + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-    Mlt::Geometry geometry(value.toUtf8().data(), end, frameSize.width(), frameSize.height());
+    QSize profileSize = pCore->getCurrentFrameSize();
+    Mlt::Geometry geometry(value.toUtf8().data(), end, profileSize.width(), profileSize.height());
     Mlt::GeometryItem item;
     QRect rect;
     if (geometry.fetch(&item, 0) == 0) {

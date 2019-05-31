@@ -175,6 +175,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     layout->addLayout(horLayout2);
     slotUpdateGeometryRect(rect);
     adjustSizeValue();
+    slotAdjustRectKeyframeValue();
 }
 
 void GeometryWidget::slotAdjustToSource()
@@ -377,9 +378,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     m_monitor->setUpEffectGeometry(r);
-    // slotAdjustRectKeyframeValue();
     emit valueChanged(getValue());
-    // setupMonitor();
 }
 
 void GeometryWidget::setValue(const QRect r, double opacity)

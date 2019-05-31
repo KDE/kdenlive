@@ -87,7 +87,7 @@ void MediaCapture::recordAudio(bool record)
         connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
 
         QAudioEncoderSettings audioSettings;
-        audioSettings.setCodec("audio/x-flac");
+        //audioSettings.setCodec("audio/x-flac");
         audioSettings.setBitRate(48000);   // Bit rate is set to 48,0000
         audioSettings.setChannelCount(2);
         m_audioRecorder->setEncodingSettings(audioSettings);
@@ -143,7 +143,8 @@ void MediaCapture::setCaptureOutputLocation()
     if (m_videoRecorder.get() != nullptr) {
         extension = QStringLiteral(".mpeg");
     } else if (m_audioRecorder.get() != nullptr) {
-        extension = QStringLiteral(".flac");
+        //extension = QStringLiteral(".flac");
+        extension = QStringLiteral(".wav");
     }
 
     QString path = captureFolder.absoluteFilePath("capture0000" + extension);

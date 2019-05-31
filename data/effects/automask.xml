@@ -3,7 +3,7 @@
 	<name>Auto Mask</name>
 	<description>Hide a selected zone and follow its movements</description>
 	<author>Zachary Drew</author>
-	<parameter type="geometry" name="geometry" default="50%,50%:50%x50%" fixed="1" opacity="false">
+	<parameter type="geometry" name="geometry" default="50% 50% 50% 50%" fixed="1" opacity="false">
 		<name>Geometry</name>
 	</parameter>
 	<parameter type="constant" name="motion_est.macroblock_width" max="100" min="1" default="16" suffix="pixels">

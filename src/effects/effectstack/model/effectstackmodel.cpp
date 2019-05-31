@@ -394,8 +394,16 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         int inFades = 0;
         int outFades = 0;
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
+            int duration = effect->filter().get_length() - 1;
+            int in = pCore->getItemIn(m_ownerId);
+            effect->filter().set("in", in);
+            effect->filter().set("out", in + duration);
             inFades++;
         } else if (effectId == QLatin1String("fadeout") || effectId == QLatin1String("fade_to_black")) {
+            /*int duration = effect->filter().get_length() - 1;
+            int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
+            effect->filter().set("in", out - duration);
+            effect->filter().set("out", out);*/
             outFades++;
         }
         QString effectName = EffectsRepository::get()->getName(effectId);
