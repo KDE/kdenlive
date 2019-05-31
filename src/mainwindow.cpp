@@ -1784,8 +1784,7 @@ void MainWindow::slotRenderProject()
             connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
             connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
             connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-            double projectDuration = GenTime(getMainTimeline()->controller()->duration(), pCore->getCurrentFps()).ms() / 1000;
-            m_renderWidget->setGuides(project->getGuideModel()->getAllMarkers(), projectDuration);
+            m_renderWidget->setGuides(project->getGuideModel());
             m_renderWidget->updateDocumentPath();
             m_renderWidget->setRenderProfile(project->getRenderProperties());
         }
@@ -2013,7 +2012,7 @@ void MainWindow::connectDocument()
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
-        // m_renderWidget->setGuides(pCore->projectManager()->currentTimeline()->projectView()->guidesData(), project->projectDuration());
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
         m_renderWidget->updateDocumentPath();
         m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
@@ -2057,8 +2056,7 @@ void MainWindow::slotZoneMoved(int start, int end)
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) {
-        double projectDuration = GenTime(getMainTimeline()->controller()->duration() - TimelineModel::seekDuration - 2, pCore->getCurrentFps()).ms() / 1000;
-        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel()->getAllMarkers(), projectDuration);
+        m_renderWidget->setGuides(pCore->currentDoc()->getGuideModel());
     }
 }
 
