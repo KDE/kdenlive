@@ -2145,7 +2145,7 @@ void MainWindow::slotCheckTabPosition()
 void MainWindow::slotRestart(bool clean)
 {
     if (clean) {
-        if (KMessageBox::questionYesNo(this, i18n("This will deleted Kdenlive's configuration file and restart the application. Do you want to proceed ?")) != KMessageBox::Yes) {
+        if (KMessageBox::questionYesNo(this, i18n("This will delete Kdenlive's configuration file and restart the application. Do you want to proceed?")) != KMessageBox::Yes) {
             return;
         }
     }
