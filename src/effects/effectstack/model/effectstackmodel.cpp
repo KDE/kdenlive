@@ -216,6 +216,13 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
             sub.setAttribute(QStringLiteral("in"), filterIn);
             sub.setAttribute(QStringLiteral("out"), filterOut);
         }
+        QStringList passProps {QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
+        for (const QString &param : passProps) {
+            int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
+            if (paramVal > 0) {
+                Xml::setXmlProperty(sub, param, QString::number(paramVal));
+            }
+        }
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
         QLocale locale;
         for (const auto &param : params) {
@@ -247,7 +254,11 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         } else if (state != PlaylistState::VideoOnly) {
             continue;
         }
-        auto effect = EffectItemModel::construct(effectId, shared_from_this());
+        bool effectEnabled = true;
+        if (Xml::hasXmlProperty(node, QLatin1String("disable"))) {
+            effectEnabled = Xml::getXmlProperty(node, QLatin1String("disable")).toInt() != 1;
+        }
+        auto effect = EffectItemModel::construct(effectId, shared_from_this(), effectEnabled);
         const QString in = node.attribute(QStringLiteral("in"));
         const QString out = node.attribute(QStringLiteral("out"));
         if (!out.isEmpty()) {
@@ -323,8 +334,12 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
-    auto effect = EffectItemModel::construct(effectId, shared_from_this());
+    bool enabled = sourceEffect->isEnabled();
+    auto effect = EffectItemModel::construct(effectId, shared_from_this(), enabled);
     effect->setParameters(sourceEffect->getAllParameters());
+    if (!enabled) {
+        effect->filter().set("disable", 1);
+    }
     effect->filter().set("in", sourceEffect->filter().get_int("in"));
     effect->filter().set("out", sourceEffect->filter().get_int("out"));
     Fun local_undo = removeItem_lambda(effect->getId());

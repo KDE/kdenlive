@@ -37,7 +37,7 @@ public:
     /* This construct an effect of the given id
        @param is a ptr to the model this item belongs to. This is required to send update signals
      */
-    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack);
+    static std::shared_ptr<EffectItemModel> construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, bool effectEnabled = true);
     /* This construct an effect with an already existing filter
        Only used when loading an existing clip
      */

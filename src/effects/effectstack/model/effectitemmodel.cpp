@@ -46,7 +46,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
 }
 
 // static
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effectId, std::shared_ptr<AbstractTreeModel> stack, bool effectEnabled)
 {
     Q_ASSERT(EffectsRepository::get()->exists(effectId));
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
@@ -57,7 +57,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     QList<QVariant> data;
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, true));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, effectEnabled));
 
     baseFinishConstruct(self);
     return self;
