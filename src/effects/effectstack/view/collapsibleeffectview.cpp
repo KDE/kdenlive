@@ -331,7 +331,10 @@ void CollapsibleEffectView::slotActivateEffect(QModelIndex ix)
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
 {
     m_dragStart = e->globalPos();
-    emit activateEffect(m_model);
+    if (!decoframe->property("active").toBool()) {
+        // Activate effect if not already active
+        emit activateEffect(m_model);
+    }
     QWidget::mousePressEvent(e);
 }
 

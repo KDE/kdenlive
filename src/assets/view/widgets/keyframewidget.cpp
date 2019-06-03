@@ -477,7 +477,7 @@ void KeyframeWidget::slotImportKeyframes()
         return;
     }
     import->importSelectedData();
-    
+
     /*m_model->getKeyframeModel()->getKeyModel()->dataChanged(QModelIndex(), QModelIndex());*/
     /*m_model->modelChanged();
     qDebug()<<"//// UPDATING KEYFRAMES CORE---------";
@@ -487,5 +487,6 @@ void KeyframeWidget::slotImportKeyframes()
 
 void KeyframeWidget::slotRemoveNextKeyframes()
 {
-    m_keyframes->removeNextKeyframes(GenTime(m_time->getValue(), pCore->getCurrentFps()));
+    int pos = m_time->getValue() + m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
+    m_keyframes->removeNextKeyframes(GenTime(pos, pCore->getCurrentFps()));
 }
