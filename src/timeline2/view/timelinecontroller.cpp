@@ -2443,7 +2443,12 @@ void TimelineController::finishRecording(const QString &recordedFile)
         bool res = false;
         if (m_recordStart.second > 0) {
             // Limited space on track
-            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(m_recordStart.second - 1);
+            std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+            if (!clip) {
+                return;
+            }
+            int out = qMin((int)clip->frameDuration() - 1, m_recordStart.second - 1);
+            QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(out);
             res = m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
         } else {
             res = m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);

@@ -6,16 +6,16 @@
 	<parameter type="simplekeyframe" name="transition.rotate_x" max="1800" min="-1800" default="0" factor="10">
 		<name>Rotate X</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="transition.rotate_y" max="1800" min="-1800" default="0" factor="10">
+	<parameter type="simplekeyframe" name="transition.rotate_y" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
 		<name>Rotate Y</name>
 	</parameter>
-	<parameter type="simplekeyframe" name="transition.rotate_z" max="1800" min="-1800" default="0" factor="10">
+	<parameter type="simplekeyframe" name="transition.rotate_z" max="1800" min="-1800" default="0" factor="10" notintimeline="1">
 		<name>Rotate Z</name>
 	</parameter>
-        <parameter type="simplekeyframe" name="transition.ox" max="32000" min="-32000" default="0">
+        <parameter type="simplekeyframe" name="transition.ox" max="32000" min="-32000" default="0" notintimeline="1">
                 <name>Offset X</name>
         </parameter>
-        <parameter type="simplekeyframe" name="transition.oy" max="32000" min="-32000" default="0">
+        <parameter type="simplekeyframe" name="transition.oy" max="32000" min="-32000" default="0" notintimeline="1">
                 <name>Offset Y</name>
         </parameter>
 	<parameter type="color" name="background" default="colour:0x00000000" alpha="1" paramprefix="colour:">

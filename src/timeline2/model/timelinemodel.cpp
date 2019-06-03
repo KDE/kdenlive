@@ -174,7 +174,7 @@ int TimelineModel::getTrackIndexFromPosition(int pos) const
 {
     Q_ASSERT(pos >= 0 && pos < (int)m_allTracks.size());
     READ_LOCK();
-    auto it = m_allTracks.begin();
+    auto it = m_allTracks.cbegin();
     while (pos > 0) {
         it++;
         pos--;
@@ -312,7 +312,7 @@ int TimelineModel::getTrackPosition(int trackId) const
 {
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
-    auto it = m_allTracks.begin();
+    auto it = m_allTracks.cbegin();
     int pos = (int)std::distance(it, (decltype(it))m_iteratorTable.at(trackId));
     return pos;
 }
@@ -329,7 +329,7 @@ int TimelineModel::getTrackSortValue(int trackId, bool separated) const
     if (separated) {
         return getTrackPosition(trackId) + 1;
     }
-    auto it = m_allTracks.end();
+    auto it = m_allTracks.cend();
     int aCount = 0;
     int vCount = 0;
     bool isAudio = false;
@@ -365,7 +365,7 @@ QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
     Q_ASSERT(isTrack(trackId));
     QList<int> results;
     auto it = m_iteratorTable.at(trackId);
-    while (it != m_allTracks.begin()) {
+    while (it != m_allTracks.cbegin()) {
         --it;
         if (type == TrackType::AnyTrack) {
             results << (*it)->getId();
@@ -386,13 +386,13 @@ int TimelineModel::getPreviousVideoTrackIndex(int trackId) const
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
-    while (it != m_allTracks.begin()) {
+    while (it != m_allTracks.cbegin()) {
         --it;
-        if (it != m_allTracks.begin() && !(*it)->isAudioTrack()) {
-            break;
+        if (!(*it)->isAudioTrack()) {
+            return (*it)->getId();
         }
     }
-    return it == m_allTracks.begin() ? 0 : (*it)->getId();
+    return 0;
 }
 
 int TimelineModel::getPreviousVideoTrackPos(int trackId) const
@@ -400,13 +400,13 @@ int TimelineModel::getPreviousVideoTrackPos(int trackId) const
     READ_LOCK();
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
-    while (it != m_allTracks.begin()) {
+    while (it != m_allTracks.cbegin()) {
         --it;
-        if (it != m_allTracks.begin() && !(*it)->isAudioTrack()) {
-            break;
+        if (!(*it)->isAudioTrack()) {
+            return getTrackMltIndex((*it)->getId());
         }
     }
-    return it == m_allTracks.begin() ? 0 : getTrackMltIndex((*it)->getId());
+    return 0;
 }
 
 int TimelineModel::getMirrorVideoTrackId(int trackId) const
@@ -419,10 +419,10 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         return -1;
     }
     int count = 0;
-    if (it != m_allTracks.end()) {
+    if (it != m_allTracks.cend()) {
         ++it;
     }
-    while (it != m_allTracks.end()) {
+    while (it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack()) {
             count++;
         } else {
@@ -433,7 +433,7 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         }
         ++it;
     }
-    if (it != m_allTracks.end() && !(*it)->isAudioTrack() && count == 0) {
+    if (it != m_allTracks.cend() && !(*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
     }
     return -1;
@@ -457,10 +457,8 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
         return -1;
     }
     int count = 0;
-    if (it != m_allTracks.begin()) {
+    while (it != m_allTracks.cbegin()) {
         --it;
-    }
-    while (it != m_allTracks.begin()) {
         if (!(*it)->isAudioTrack()) {
             count++;
         } else {
@@ -469,7 +467,6 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
             }
             count--;
         }
-        --it;
     }
     if ((*it)->isAudioTrack() && count == 0) {
         return (*it)->getId();
@@ -3037,9 +3034,9 @@ const QString TimelineModel::getTrackTagById(int trackId) const
     bool isAudio = getTrackById_const(trackId)->isAudioTrack();
     int count = 1;
     int totalAudio = 2;
-    auto it = m_allTracks.begin();
+    auto it = m_allTracks.cbegin();
     bool found = false;
-    while ((isAudio || !found) && it != m_allTracks.end()) {
+    while ((isAudio || !found) && it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack()) {
             totalAudio++;
             if (isAudio && !found) {
@@ -3079,13 +3076,13 @@ int TimelineModel::getPreviousTrackId(int trackId)
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
     bool audioWanted = (*it)->isAudioTrack();
-    while (it != m_allTracks.begin()) {
+    while (it != m_allTracks.cbegin()) {
         --it;
-        if (it != m_allTracks.begin() && (*it)->isAudioTrack() == audioWanted) {
-            break;
+        if ((*it)->isAudioTrack() == audioWanted) {
+            return (*it)->getId();
         }
     }
-    return it == m_allTracks.begin() ? trackId : (*it)->getId();
+    return trackId;
 }
 
 int TimelineModel::getNextTrackId(int trackId)
@@ -3094,13 +3091,13 @@ int TimelineModel::getNextTrackId(int trackId)
     Q_ASSERT(isTrack(trackId));
     auto it = m_iteratorTable.at(trackId);
     bool audioWanted = (*it)->isAudioTrack();
-    while (it != m_allTracks.end()) {
+    while (it != m_allTracks.cend()) {
         ++it;
-        if (it != m_allTracks.end() && (*it)->isAudioTrack() == audioWanted) {
+        if (it != m_allTracks.cend() && (*it)->isAudioTrack() == audioWanted) {
             break;
         }
     }
-    return it == m_allTracks.end() ? trackId : (*it)->getId();
+    return it == m_allTracks.cend() ? trackId : (*it)->getId();
 }
 
 bool TimelineModel::requestClearSelection(bool onDeletion)
