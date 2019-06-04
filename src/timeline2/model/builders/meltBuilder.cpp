@@ -61,6 +61,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     bool ok = true;
     qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////";
+    QList <int> videoTracksIndexes;
+    // Black track index
+    videoTracksIndexes << 0;
     for (int i = 0; i < tractor.count() && ok; i++) {
         std::unique_ptr<Mlt::Producer> track(tractor.track(i));
         QString playlist_name = track->get("id");
@@ -76,6 +79,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             // that is a double track
             int tid;
             bool audioTrack = track->get_int("kdenlive:audio_track") == 1;
+            if (!audioTrack) {
+                videoTracksIndexes << i;
+            }
             ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
             int lockState = track->get_int("kdenlive:locked_track");
             Mlt::Tractor local_tractor(*track);
@@ -94,6 +100,9 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             Mlt::Playlist local_playlist(*track);
             const QString trackName = local_playlist.get("kdenlive:track_name");
             bool audioTrack = local_playlist.get_int("kdenlive:audio_track") == 1;
+            if (!audioTrack) {
+                videoTracksIndexes << i;
+            }
             ok = timeline->requestTrackInsertion(-1, tid, trackName, audioTrack, undo, redo, false);
             int muteState = track->get_int("hide");
             if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
@@ -138,7 +147,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() > b->get_b_track(); });
         while (!compositions.isEmpty()) {
             QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
-            auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
             QString id(t->get("kdenlive_id"));
             int compoId;
             int aTrack = t->get_a_track();
@@ -147,7 +155,16 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                                        t->get_in(), t->get_a_track());
                 continue;
             }
-
+            if (t->get_int("force_track") == 0) {
+                // This is an automatic composition, check that we composite with lower track or warn
+                int pos = videoTracksIndexes.indexOf(t->get_b_track());
+                if (pos > 0 && videoTracksIndexes.at(pos - 1) != aTrack) {
+                    t->set("force_track", 1);
+                    m_errorMessage << i18n("Incorrect composition %1 found on track %2 at %3, compositing with track %4 was set to forced track.", t->get("id"), t->get_b_track(),
+                                       t->get_in(), t->get_a_track());
+                }
+            }
+            auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
             compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
                                                                   t->get_length(), std::move(transProps), compoId, undo, redo);
             if (!compositionOk) {
