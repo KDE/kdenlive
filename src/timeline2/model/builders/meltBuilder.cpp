@@ -134,31 +134,28 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     }
     // Sort compositions and insert
     bool compositionOk = true;
-    if (!compositions.isEmpty()) {
-        std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() > b->get_b_track(); });
-        while (!compositions.isEmpty()) {
-            QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
-            auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
-            QString id(t->get("kdenlive_id"));
-            int compoId;
-            int aTrack = t->get_a_track();
-            if (aTrack > tractor.count()) {
-                m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
+    while (!compositions.isEmpty()) {
+        QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
+        auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
+        QString id(t->get("kdenlive_id"));
+        int compoId;
+        int aTrack = t->get_a_track();
+        if (aTrack > tractor.count()) {
+            m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3, compositing with track %4.", t->get("id"), t->get_b_track(),
                                        t->get_in(), t->get_a_track());
-                continue;
-            }
-
-            compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
-                                                                  t->get_length(), std::move(transProps), compoId, undo, redo);
-            if (!compositionOk) {
-                qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in() << ", ID: " << id
-                         << ", MLT ID: " << t->get("id");
-                // timeline->requestItemDeletion(compoId, false);
-                m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
-                continue;
-            }
-            qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in() << "/" << t->get_out();
+            continue;
         }
+
+        compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(),
+                                                                  t->get_length(), std::move(transProps), compoId, undo, redo);
+        if (!compositionOk) {
+            qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in() << ", ID: " << id
+                         << ", MLT ID: " << t->get("id");
+            // timeline->requestItemDeletion(compoId, false);
+            m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
+            continue;
+        }
+        qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in() << "/" << t->get_out();
     }
 
     // build internal track compositing
