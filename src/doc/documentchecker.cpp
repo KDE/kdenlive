@@ -95,10 +95,11 @@ bool DocumentChecker::hasErrorInClips()
     // Check if strorage folder for temp files exists
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    QString documentid;
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
     for (int i = 0; i < playlists.count(); ++i) {
         if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == BinPlaylist::binPlaylistId) {
-            QString documentid = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
+            documentid = Xml::getXmlProperty(playlists.at(i).toElement(), QStringLiteral("kdenlive:docproperties.documentid"));
             if (documentid.isEmpty()) {
                 // invalid document id, recreate one
                 documentid = QString::number(QDateTime::currentMSecsSinceEpoch());
@@ -177,12 +178,11 @@ bool DocumentChecker::hasErrorInClips()
                         } else {
                             Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
                         }
-                        
                     }
                 }
                 continue;
             }
-            
+
             checkMissingImagesAndFonts(QStringList(), QStringList(Xml::getXmlProperty(e, QStringLiteral("family"))), e.attribute(QStringLiteral("id")),
                                        e.attribute(QStringLiteral("name")));
             continue;
@@ -264,9 +264,13 @@ bool DocumentChecker::hasErrorInClips()
             resource = QFileInfo(resource).absolutePath();
         }
         if (!QFile::exists(resource)) {
-            // Missing clip found
-            m_missingClips.append(e);
-            missingPaths.append(resource);
+            // Missing clip found, make sure to omit timeline preview
+            if (QFileInfo(resource).absolutePath().endsWith(QString("/%1/preview").arg(documentid))) {
+                // This is a timeline preview missing chunk, ignore
+            } else {
+                m_missingClips.append(e);
+                missingPaths.append(resource);
+            }
         }
         // Make sure we don't query same path twice
         verifiedPaths.append(resource);
