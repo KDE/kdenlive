@@ -1480,6 +1480,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
 void TimelineController::switchCompositing(int mode)
 {
     // m_model->m_tractor->lock();
+    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(mode));    
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
     Mlt::Field *field = m_model->m_tractor->field();
     field->lock();
@@ -1499,7 +1500,7 @@ void TimelineController::switchCompositing(int mode)
             QStringLiteral("0=0/0:%1x%2").arg(m_model->m_tractor->profile()->width()).arg(m_model->m_tractor->profile()->height());
 
         // Loop through tracks
-        for (int track = 1; track < m_model->getTracksCount(); track++) {
+        for (int track = 0; track < m_model->getTracksCount(); track++) {
             if (m_model->getTrackById(m_model->getTrackIndexFromPosition(track))->getProperty("kdenlive:audio_track").toInt() == 0) {
                 // This is a video track
                 Mlt::Transition t(*m_model->m_tractor->profile(),
