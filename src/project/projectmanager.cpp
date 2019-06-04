@@ -875,6 +875,12 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         qDebug()<<"// Project failed to load!!";
     }
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
+    // update track compositing
+    int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
+    pCore->currentDoc()->updateCompositionMode(compositing);
+    if (compositing < 2) {
+        pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
+    }
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
