@@ -2572,7 +2572,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
 
 bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 {
-    // We ensure that the compositions are planted in a decreasing order of b_track.
+    // We ensure that the compositions are planted in a decreasing order of a_track, and increasing order of b_track.
     // For that, there is no better option than to disconnect every composition and then reinsert everything in the correct order.
     std::vector<std::pair<int, int>> compos;
     for (const auto &compo : m_allCompositions) {
@@ -2588,7 +2588,13 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         }
     }
     // sort by decreasing b_track
-    std::sort(compos.begin(), compos.end(), [](const std::pair<int, int> &a, const std::pair<int, int> &b) { return a.first > b.first; });
+    std::sort(compos.begin(), compos.end(), [&](const std::pair<int, int> &a, const std::pair<int, int> &b) { 
+        if (m_allCompositions[a.second]->getATrack() == m_allCompositions[b.second]->getATrack()) {
+            return a.first < b.first;
+        }
+        return m_allCompositions[a.second]->getATrack() > m_allCompositions[b.second]->getATrack();
+        
+    });
     // replant
     QScopedPointer<Mlt::Field> field(m_tractor->field());
     field->lock();
