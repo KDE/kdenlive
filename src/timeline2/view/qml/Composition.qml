@@ -202,14 +202,13 @@ Item {
             Rectangle {
                 // text background
                 id: labelRect
-                color: compositionRoot.aTrack >= 0 ? 'yellow' : 'lightgray'
-                opacity: 0.7
+                color: compositionRoot.aTrack > -1 ? 'yellow' : 'lightgray'
                 anchors.top: container.top
                 width: label.width + 2
                 height: label.height
                 Text {
                     id: label
-                    text: clipName + (compositionRoot.aTrack >= 0 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
+                    text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
                     font.pixelSize: root.baseUnit
                     anchors {
                         top: labelRect.top

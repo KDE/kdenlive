@@ -150,13 +150,13 @@ Column{
                     target: loader.item
                     property: "aTrack"
                     value: model.a_track
-                    when: loader.status == Loader.Ready && loader.item.clipType == ProducerType.Composition
+                    when: loader.status == Loader.Ready && model.clipType == ProducerType.Composition
                 }
                 Binding {
                     target: loader.item
                     property: "trackHeight"
                     value: root.trackHeight
-                    when: loader.status == Loader.Ready && loader.item.clipType == ProducerType.Composition
+                    when: loader.status == Loader.Ready && model.clipType == ProducerType.Composition
                 }
                 Binding {
                     target: loader.item
