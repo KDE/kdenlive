@@ -3198,7 +3198,6 @@ void MainWindow::slotTranscodeClip()
 void MainWindow::slotSetDocumentRenderProfile(const QMap<QString, QString> &props)
 {
     KdenliveDoc *project = pCore->currentDoc();
-
     bool modified = false;
     QMapIterator<QString, QString> i(props);
     while (i.hasNext()) {
