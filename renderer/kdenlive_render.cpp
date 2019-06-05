@@ -113,18 +113,24 @@ int main(int argc, char **argv)
         }
         int in = -1;
         int out = -1;
-        if (LIBMLT_VERSION_INT < 396544) {
-            // older MLT version, does not support consumer in/out, so read it manually
-            QFile f(playlist);
-            QDomDocument doc;
-            doc.setContent(&f, false);
-            f.close();
-            QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
-            if (!consumer.isNull()) {
-                in = consumer.attribute("in").toInt();
-                out = consumer.attribute("out").toInt();
+        
+        // older MLT version, does not support embeded consumer in/out in xml, and current 
+        // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
+        QFile f(playlist);
+        QDomDocument doc;
+        doc.setContent(&f, false);
+        f.close();
+        QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
+        if (!consumer.isNull()) {
+            in = consumer.attribute("in").toInt();
+            out = consumer.attribute("out").toInt();
+            if (consumer.hasAttribute(QLatin1String("s")) || consumer.hasAttribute(QLatin1String("r"))) {
+                // Workaround MLT embeded consumer resize (MLT issue #453)
+                playlist.prepend(QStringLiteral("xml:"));
+                playlist.append(QStringLiteral("?multi=1"));
             }
         }
+        
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out);
         rJob->start();
         return app.exec();
