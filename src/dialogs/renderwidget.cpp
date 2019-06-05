@@ -62,6 +62,7 @@
 #include <QTreeWidgetItem>
 #include <qglobal.h>
 #include <qstring.h>
+#include <QMenu>
 
 #ifdef KF5_USE_PURPOSE
 #include <Purpose/AlternativesModel>
