@@ -3115,22 +3115,27 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         return true;
     }
     if (isGroup(m_currentSelection)) {
-        if (m_groups->getType(m_currentSelection) == GroupType::Selection) {
-            // Reset offset display on clips
-            std::unordered_set<int> items = getCurrentSelection();
-            for (auto &id : items) {
-                if (isClip(id)) {
-                    m_allClips[id]->clearOffset();
-                    if (m_allClips[id]->isGrabbed()) {
-                        m_allClips[id]->setGrab(false);
-                    }
-                } else if (isComposition(id)) {
-                    if (m_allCompositions[id]->isGrabbed()) {
-                        m_allCompositions[id]->setGrab(false);
-                    }
+        // Reset offset display on clips
+        std::unordered_set<int> items = getCurrentSelection();
+        for (auto &id : items) {
+            if (isGroup(id)) {
+                std::unordered_set<int> children = m_groups->getLeaves(id);
+                for (int c : children) {
+                    items.insert(c);
+                }
+            } else if (isClip(id)) {
+                m_allClips[id]->clearOffset();
+                if (m_allClips[id]->isGrabbed()) {
+                    m_allClips[id]->setGrab(false);
+                }
+            } else if (isComposition(id)) {
+                if (m_allCompositions[id]->isGrabbed()) {
+                    m_allCompositions[id]->setGrab(false);
                 }
             }
-            m_groups->destructGroupItem(m_currentSelection);
+            if (m_groups->getType(m_currentSelection) == GroupType::Selection) {
+                m_groups->destructGroupItem(m_currentSelection);
+            }
         }
     } else {
         if (isClip(m_currentSelection)) {

@@ -255,10 +255,12 @@ Rectangle {
         }
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
         Keys.onLeftPressed: {
-            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - 1, true, true, true);
+            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true);
         }
         Keys.onRightPressed: {
-            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + 1, true, true, true);
+            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+            controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart + offset, true, true, true);
         }
         Keys.onUpPressed: {
             controller.requestClipMove(clipRoot.clipId, controller.getNextTrackId(clipRoot.trackId), clipRoot.modelStart, true, true, true);
