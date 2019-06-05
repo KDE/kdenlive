@@ -122,10 +122,12 @@ Item {
         hoverEnabled: true
         Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
         Keys.onLeftPressed: {
-            controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - 1, true, true)
+            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+            controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
         }
         Keys.onRightPressed: {
-            controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + 1, true, true)
+            var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
+            controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart + offset, true, true)
         }
         Keys.onUpPressed: {
             controller.requestCompositionMove(compositionRoot.clipId, controller.getNextTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
