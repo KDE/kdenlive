@@ -203,6 +203,8 @@ private slots:
     void slotProxyWarn(bool enableProxy);
     /** @brief User shared a rendered file, give feedback. */
     void slotShareActionFinished(const QJsonObject &output, int error, const QString &message);
+    /** @brief running jobs menu. */
+    void prepareMenu(const QPoint &pos);
 
 private:
     Ui::RenderWidget_UI m_view;

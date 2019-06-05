@@ -19,6 +19,7 @@
 
 #include "renderwidget.h"
 #include "bin/projectitemmodel.h"
+#include "bin/bin.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -264,6 +265,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     parseProfiles();
     parseScriptFiles();
     m_view.running_jobs->setUniformRowHeights(false);
+    m_view.running_jobs->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_view.running_jobs, &QTreeWidget::customContextMenuRequested, this, &RenderWidget::prepareMenu);
     m_view.scripts_list->setUniformRowHeights(false);
     connect(m_view.start_script, &QAbstractButton::clicked, this, &RenderWidget::slotStartScript);
     connect(m_view.delete_script, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteScript);
@@ -3453,4 +3456,27 @@ void RenderWidget::checkCodecs()
 void RenderWidget::slotProxyWarn(bool enableProxy)
 {
     errorMessage(ProxyWarning, enableProxy ? i18n("Rendering using low quality proxy") : QString());
+}
+
+void RenderWidget::prepareMenu(const QPoint &pos)
+{
+    QTreeWidgetItem *nd = m_view.running_jobs->itemAt( pos );
+    RenderJobItem *renderItem = nullptr;
+    if (nd) {
+        renderItem = static_cast<RenderJobItem *>(nd);
+    }
+    if (!renderItem) {
+        return;
+    }
+    if (renderItem->status() != FINISHEDJOB) {
+        return;
+    }
+    QMenu menu(this);
+    QAction *newAct = new QAction(i18n("Add to current project"), this);
+    connect(newAct, &QAction::triggered, [&, renderItem]() {
+        pCore->bin()->slotAddClipToProject(QUrl::fromLocalFile(renderItem->text(1)));
+    });
+    menu.addAction(newAct);
+    
+    menu.exec(m_view.running_jobs->mapToGlobal(pos));
 }
