@@ -926,6 +926,7 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended
     QString message;
+    bool saveInTempFile = false;
     if (m_project && m_project->isModified()) {
         switch (
             KMessageBox::warningYesNoCancel(pCore->window(), i18n("The project <b>\"%1\"</b> has been changed.\nDo you want to save your changes?",
@@ -937,23 +938,54 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
                 return;
             }
             break;
-        default:
+        case KMessageBox::Cancel:
             pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
             return;
+            break;
+        default:
+            saveInTempFile = true;
             break;
         }
     }
 
-    if (!m_project || m_project->isModified()) {
+    if (!m_project) {
         pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
         return;
     }
-    const QString currentFile = m_project->url().toLocalFile();
+    QString currentFile = m_project->url().toLocalFile();
 
     // Now update to new profile
     auto &newProfile = ProfileRepository::get()->getProfile(updatedProfile);
     QString convertedFile = currentFile.section(QLatin1Char('.'), 0, -2);
     convertedFile.append(QString("-%1.kdenlive").arg((int)(newProfile->fps() * 100)));
+    QString saveFolder = m_project->url().adjusted(QUrl::RemoveFilename |   QUrl::StripTrailingSlash).toLocalFile();
+    QTemporaryFile tmpFile(saveFolder + "/kdenlive-XXXXXX.mlt");
+    if (saveInTempFile) {
+        // Save current playlist in tmp file
+        if (!tmpFile.open()) {
+            // Something went wrong
+            pCore->displayBinMessage(i18n("Project profile change aborted"), KMessageWidget::Information);
+            return;
+        }
+        prepareSave();
+        QString scene = projectSceneList(saveFolder);
+        if (!m_replacementPattern.isEmpty()) {
+            QMapIterator<QString, QString> i(m_replacementPattern);
+            while (i.hasNext()) {
+                i.next();
+                scene.replace(i.key(), i.value());
+            }
+        }
+        tmpFile.write(scene.toUtf8());
+        if (tmpFile.error() != QFile::NoError) {
+            tmpFile.close();
+            return;
+        }
+        tmpFile.close();
+        currentFile = tmpFile.fileName();
+        // Don't ask again to save
+        m_project->setModified(false);
+    }
 
     QFile f(currentFile);
     QDomDocument doc;
