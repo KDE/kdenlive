@@ -208,7 +208,6 @@ private:
     QAction *m_loopClipAction;
     QAction *m_sceneVisibilityAction;
     QAction *m_zoomVisibilityAction;
-    QAction *m_multitrackView;
     QMenu *m_contextMenu;
     QMenu *m_configMenu;
     QMenu *m_playMenu;

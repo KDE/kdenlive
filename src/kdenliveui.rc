@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="160" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="161" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -182,6 +182,7 @@
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
+      <Action name="monitor_multitrack" />
       <Action name="monitor_zoomin" />
       <Action name="monitor_zoomout" />
       <Menu name="monitor_config_overlay" ><text>Current Monitor Overlay</text>

@@ -136,7 +136,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_recManager(nullptr)
     , m_loopClipAction(nullptr)
     , m_sceneVisibilityAction(nullptr)
-    , m_multitrackView(nullptr)
     , m_contextMenu(nullptr)
     , m_markerMenu(nullptr)
     , m_loopClipTransition(true)
@@ -490,10 +489,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
 
     if (m_id == Kdenlive::ProjectMonitor) {
-        m_multitrackView =
-            m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this, SIGNAL(multitrackView(bool)));
-        m_multitrackView->setCheckable(true);
-        m_configMenu->addAction(m_multitrackView);
+        m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("monitor_multitrack")));
     } else if (m_id == Kdenlive::ClipMonitor) {
         QAction *setThumbFrame =
             m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
@@ -1447,9 +1443,6 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     }
     slotActivateMonitor();
     // render->prepareProfileReset(tc.fps());
-    if (m_multitrackView) {
-        m_multitrackView->setChecked(false);
-    }
     // TODO: this is a temporary profile for DVD preview, it should not alter project profile
     // pCore->setCurrentProfile(profile);
     m_glMonitor->reloadProfile();
