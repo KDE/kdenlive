@@ -1736,8 +1736,7 @@ void MainWindow::slotEditProjectSettings()
                 pCore->projectManager()->slotResetProfiles();
                 slotUpdateDocumentState(true);
             }
-        }
-        if (modified) {
+        } else if (modified) {
             project->setModified();
         }
     }
