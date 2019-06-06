@@ -626,6 +626,7 @@ void TimelineController::setInPoint()
 
     int cursorPos = timelinePosition();
     const auto selection = m_model->getCurrentSelection();
+    bool selectionFound = false;
     if (!selection.empty()) {
         for (int id : selection) {
             int start = m_model->getItemPosition(id);
@@ -634,6 +635,26 @@ void TimelineController::setInPoint()
             }
             int size = start + m_model->getItemPlaytime(id) - cursorPos;
             m_model->requestItemResize(id, size, false, true, 0, false);
+            selectionFound = true;
+        }
+    }
+    if (!selectionFound) {
+        if (m_activeTrack >= 0) {
+            int cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+            if (cid < 0) {
+                // Check first item after timeline position
+                int maximumSpace = m_model->getTrackById_const(m_activeTrack)->getBlankEnd(cursorPos);
+                if (maximumSpace < INT_MAX) {
+                    cid = m_model->getClipByPosition(m_activeTrack, maximumSpace + 1);
+                }
+            }
+            if (cid >= 0) {
+                int start = m_model->getItemPosition(cid);
+                if (start != cursorPos) {
+                    int size = start + m_model->getItemPlaytime(cid) - cursorPos;
+                    m_model->requestItemResize(cid, size, false, true, 0, false);
+                }
+            }
         }
     }
 }
@@ -652,6 +673,7 @@ void TimelineController::setOutPoint()
     }
     int cursorPos = timelinePosition();
     const auto selection = m_model->getCurrentSelection();
+    bool selectionFound = false;
     if (!selection.empty()) {
         for (int id : selection) {
             int start = m_model->getItemPosition(id);
@@ -660,6 +682,24 @@ void TimelineController::setOutPoint()
             }
             int size = cursorPos - start;
             m_model->requestItemResize(id, size, true, true, 0, false);
+            selectionFound = true;
+        }
+    }
+    if (!selectionFound) {
+        if (m_activeTrack >= 0) {
+            int cid = m_model->getClipByPosition(m_activeTrack, cursorPos);
+            if (cid < 0) {
+                // Check first item after timeline position
+                int minimumSpace = m_model->getTrackById_const(m_activeTrack)->getBlankStart(cursorPos);
+                cid = m_model->getClipByPosition(m_activeTrack, qMax(0, minimumSpace - 1));
+            }
+            if (cid >= 0) {
+                int start = m_model->getItemPosition(cid);
+                if (start + m_model->getItemPlaytime(cid) != cursorPos) {
+                    int size = cursorPos - start;
+                    m_model->requestItemResize(cid, size, true, true, 0, false);
+                }
+            }
         }
     }
 }

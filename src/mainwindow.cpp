@@ -1310,13 +1310,11 @@ void MainWindow::setupActions()
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
-    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, Qt::Key_1, clipActionCategory);
-    resizeStart->setEnabled(false);
+    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, Qt::Key_1);
     connect(resizeStart, &QAction::triggered, this, &MainWindow::slotResizeItemStart);
 
     QAction *resizeEnd = new QAction(QIcon(), i18n("Resize Item End"), this);
-    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, Qt::Key_2, clipActionCategory);
-    resizeEnd->setEnabled(false);
+    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, Qt::Key_2);
     connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
     QAction *pasteEffects = addAction(QStringLiteral("paste_effects"), i18n("Paste Effects"), this, SLOT(slotPasteEffects()),
