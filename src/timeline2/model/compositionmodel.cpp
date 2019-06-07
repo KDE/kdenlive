@@ -253,10 +253,26 @@ void CompositionModel::setInOut(int in, int out)
 void CompositionModel::setGrab(bool grab)
 {
     QWriteLocker locker(&m_lock);
+    if (grab == m_grabbed) {
+        return;
+    }
     m_grabbed = grab;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
         ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+    }
+}
+
+void CompositionModel::setSelected(bool sel)
+{
+    QWriteLocker locker(&m_lock);
+    if (sel == selected) {
+        return;
+    }
+    selected = sel;
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
     }
 }
 

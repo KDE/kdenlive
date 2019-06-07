@@ -244,8 +244,9 @@ void TimelineController::selectCurrentItem(ObjectType type, bool select, bool ad
 QList<int> TimelineController::selection() const
 {
     if (!m_root) return QList<int>();
+    std::unordered_set<int> sel = m_model->getCurrentSelection();
     QList<int> items;
-    for (int id : m_model->getCurrentSelection()) {
+    for (int id : sel) {
         items << id;
     }
     return items;

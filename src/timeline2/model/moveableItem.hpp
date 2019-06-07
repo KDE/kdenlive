@@ -81,6 +81,11 @@ public:
 
     /* Set if the item is in grab state */
     bool isGrabbed() const;
+    
+    /* True if item is selected in timeline */
+    bool selected {false};
+    /* Set selected status */
+    virtual void setSelected(bool sel) = 0;
 
 protected:
     /* @brief Returns a pointer to the service. It may be used but do NOT store it*/

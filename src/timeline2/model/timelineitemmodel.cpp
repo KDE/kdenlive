@@ -231,6 +231,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[EffectNamesRole] = "effectNames";
     roles[EffectsEnabledRole] = "isStackEnabled";
     roles[GrabbedRole] = "isGrabbed";
+    roles[SelectedRole] = "selected";
     return roles;
 }
 
@@ -339,6 +340,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->getSpeed();
         case GrabbedRole:
             return clip->isGrabbed();
+        case SelectedRole:
+            return clip->selected;
         default:
             break;
         }
@@ -428,6 +431,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case GrabbedRole:
             return compo->isGrabbed();
+        case SelectedRole:
+            return compo->selected;
         default:
             break;
         }

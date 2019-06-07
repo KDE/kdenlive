@@ -85,7 +85,12 @@ Fun GroupsModel::groupItems_lambda(int gid, const std::unordered_set<int> &ids, 
             auto ptr = m_parent.lock();
             if (!ptr) Q_ASSERT(false);
             for (int id : roots) {
-                setGroup(getRootId(id), gid, type != GroupType::Selection);
+                if (type != GroupType::Selection) {
+                    setGroup(getRootId(id), gid, true);
+                } else {
+                    setGroup(getRootId(id), gid, false);
+                    ptr->setSelected(id, true);
+                }
             }
         }
         return true;

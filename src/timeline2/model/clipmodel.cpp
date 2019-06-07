@@ -548,8 +548,9 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
         }
     }
 
-    if (finalMove && tid != -1) {
+    if (finalMove && tid != -1 && m_lastTrackId != m_currentTrackId) {
         refreshProducerFromBin(m_currentState);
+        m_lastTrackId = m_currentTrackId;
     }
 }
 
@@ -733,10 +734,26 @@ void ClipModel::setOffset(int offset)
 void ClipModel::setGrab(bool grab)
 {
     QWriteLocker locker(&m_lock);
+    if (grab == m_grabbed) {
+        return;
+    }
     m_grabbed = grab;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
         ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+    }
+}
+
+void ClipModel::setSelected(bool sel)
+{
+    QWriteLocker locker(&m_lock);
+    if (sel == selected) {
+        return;
+    }
+    selected = sel;
+    if (auto ptr = m_parent.lock()) {
+        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+        ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
     }
 }
 

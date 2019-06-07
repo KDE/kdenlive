@@ -99,4 +99,3 @@ template <typename Service> bool MoveableItem<Service>::isGrabbed() const
     READ_LOCK();
     return m_grabbed;
 }
-
