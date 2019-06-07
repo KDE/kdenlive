@@ -119,7 +119,7 @@ int TrackModel::getClipsCount()
     return count;
 }
 
-Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove)
+Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove)
 {
     QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
@@ -165,7 +165,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     };
     if (target_clip >= count && isBlankAt(position)) {
         // In that case, we append after, in the first playlist
-        return [this, position, clipId, end_function, finalMove]() {
+        return [this, position, clipId, end_function, finalMove, groupMove]() {
             if (isLocked()) return false;
             if (auto ptr = m_parent.lock()) {
                 // Lock MLT playlist so that we don't end up with an invalid frame being displayed
@@ -175,7 +175,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 int index = m_playlists[0].insert_at(position, *clip, 1);
                 m_playlists[0].consolidate_blanks();
                 m_playlists[0].unlock();
-                if (finalMove) {
+                if (finalMove && !groupMove) {
                     ptr->updateDuration();
                 }
                 return index != -1 && end_function(0);
@@ -212,7 +212,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     return []() { return false; };
 }
 
-bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo)
+bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
@@ -236,10 +236,10 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
         if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
             res = res && ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         }
-        auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove);
+        auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove, groupMove);
         res = res && operation();
         if (res) {
-            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove);
+            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove);
             UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
@@ -278,7 +278,7 @@ void TrackModel::replugClip(int clipId)
     m_playlists[target_track].unlock();
 }
 
-Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove)
+Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove)
 {
     QWriteLocker locker(&m_lock);
     // Find index of clip
@@ -286,7 +286,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     bool audioOnly = m_allClips[clipId]->isAudioOnly();
     int old_in = clip_position;
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
-    return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, this]() {
+    return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, groupMove, this]() {
         if (isLocked()) return false;
         auto clip_loc = getClipIndexAt(clip_position);
         if (updateView) {
@@ -316,7 +316,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                     if (!audioOnly && !isAudioTrack()) {
                         ptr->invalidateZone(old_in, old_out);
                     }
-                    if (target_clip >= m_playlists[target_track].count()) {
+                    if (!groupMove && target_clip >= m_playlists[target_track].count()) {
                         // deleted last clip in playlist
                         ptr->updateDuration();
                     }
@@ -333,7 +333,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     };
 }
 
-bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo)
+bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allClips.count(clipId) > 0);
@@ -343,9 +343,9 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
     // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
-    auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove);
+    auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove);
     if (operation()) {
-        auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove);
+        auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove, groupMove);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }

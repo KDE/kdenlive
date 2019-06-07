@@ -82,6 +82,7 @@ public:
     QPoint zone() const;
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
+    Q_INVOKABLE double fps() const;
     void setClipHasAV(bool hasAV);
 
 signals:

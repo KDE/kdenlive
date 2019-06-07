@@ -183,6 +183,7 @@
       <Action name="mark_out" />
       <Separator />
       <Action name="monitor_fullscreen" />
+      <Action name="monitor_multitrack" />
       <Action name="monitor_zoomin" />
       <Action name="monitor_zoomout" />
       <Menu name="monitor_config_overlay" ><text>Current Monitor Overlay</text>

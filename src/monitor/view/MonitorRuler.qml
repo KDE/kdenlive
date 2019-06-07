@@ -24,15 +24,19 @@ Rectangle {
 
     function updateRuler()
     {
+        var projectFps = controller.fps()
         root.timeScale = width / root.duration
-        if (root.duration < 200) {
-            root.frameSize = 5 * root.timeScale
-        } else if (duration < 2500) {
-            frameSize = 25 * root.timeScale
-        } else if (duration < 10000) {
-            root.frameSize = 50 * root.timeScale
+        if (root.duration < 10 * projectFps) {
+            root.frameSize = projectFps * root.timeScale * 0.2
+        } else if (duration < 100 * projectFps) {
+            frameSize = projectFps * root.timeScale
+        } else if (duration < 400 * projectFps) {
+            root.frameSize = projectFps * root.timeScale * 2
         } else {
-            root.frameSize = 100 * root.timeScale
+            root.frameSize = projectFps * root.timeScale * 4
+            while (root.frameSize < 10) {
+                root.frameSize *= 4
+            }
         }
     }
 

@@ -239,6 +239,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
     pCore->window()->getMainTimeline()->controller()->prepareClose();
     if (m_mainTimelineModel) {
@@ -542,6 +543,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
+    m_progressDialog->setMaximum(doc->clipsCount());
 
     // TODO refac delete this
     pCore->bin()->setDocument(doc);
@@ -870,7 +872,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     }
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor)) {
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
@@ -884,7 +886,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
-
+    connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());

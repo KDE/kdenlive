@@ -407,6 +407,15 @@ void MonitorManager::setupActions()
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
     pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL + Qt::Key_Home);
 
+    QAction *multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
+    multiTrack->setCheckable(true);
+    connect(multiTrack, &QAction::triggered, [&](bool checked) {
+        if (m_projectMonitor) {
+            m_projectMonitor->multitrackView(checked);
+        }
+    });
+    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), multiTrack);
+
     QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
     pCore->window()->addAction(QStringLiteral("seek_end"), projectEnd, Qt::CTRL + Qt::Key_End);
