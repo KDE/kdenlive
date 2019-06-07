@@ -155,6 +155,7 @@ public:
         EffectNamesRole,    // track and clip only
         EffectsEnabledRole, // track and clip only
         GrabbedRole,        /// clip+composition only
+        SelectedRole,       /// clip+composition only
         TrackActiveRole,    /// track only
         AudioRecordRole     /// track only
     };
@@ -404,6 +405,9 @@ protected:
        @param state: The desired clip state (original, audio/video only).
      */
     bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo);
+    
+    /* @brief Switch item selection status */
+    void setSelected(int itemId, bool sel);
 
 public:
     /* @brief Deletes the given clip or composition from the timeline.

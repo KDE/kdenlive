@@ -100,6 +100,7 @@ public:
     int getFakePosition() const;
     void setFakePosition(int fid);
     void setGrab(bool grab) override;
+    void setSelected(bool sel) override;
 
     /* @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);
@@ -233,6 +234,9 @@ protected:
     int m_positionOffset;
 
     int m_subPlaylistIndex; // Tracks have two sub playlists to enable same track transitions, we store in which one this clip is.
+
+    // Remember last set track, so that we don't unnecessarily refresh the producer when deleting and re-adding a clip on same track
+    int m_lastTrackId = -1;
 };
 
 #endif

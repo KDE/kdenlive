@@ -77,7 +77,7 @@ Column{
                 Binding {
                     target: loader.item
                     property: "selected"
-                    value: loader.item ? root.timelineSelection.indexOf(loader.item.clipId) !== -1 : false
+                    value: model.selected
                     when: loader.status == Loader.Ready && model.clipType != ProducerType.Track
                 }
                 Binding {
