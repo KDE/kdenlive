@@ -542,6 +542,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         stale->setParent(doc);
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
+    m_progressDialog->setMaximum(doc->clipsCount());
 
     // TODO refac delete this
     pCore->bin()->setDocument(doc);
@@ -870,7 +871,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     }
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor)) {
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }

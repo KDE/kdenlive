@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KLocalizedString>
 #include <QIcon>
 #include <QMimeData>
+#include <QProgressDialog>
 #include <mlt++/Mlt.h>
 #include <queue>
 #include <qvarlengtharray.h>
@@ -868,7 +869,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp)
+void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -896,7 +897,13 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
             Fun redo = []() { return true; };
             qDebug() << "Found " << playlist.count() << "clips";
             int max = playlist.count();
+            if (progressDialog) {
+                progressDialog->setMaximum(progressDialog->maximum() + max);
+            }
             for (int i = 0; i < max; i++) {
+                if (progressDialog) {
+                    progressDialog->setValue(i);
+                }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
                 qDebug() << "dealing with bin clip" << i;

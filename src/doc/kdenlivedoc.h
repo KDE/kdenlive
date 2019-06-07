@@ -65,14 +65,12 @@ public:
     friend class LoadJob;
     /** @brief Get current document's producer. */
     const QByteArray getProjectXml();
-    QDomNodeList producersList();
     double fps() const;
     int width() const;
     int height() const;
     QUrl url() const;
     KAutoSaveFile *m_autosave;
     Timecode timecode() const;
-    QDomDocument toXml();
     std::shared_ptr<DocUndoStack> commandStack();
 
     int getFramePos(const QString &duration);
@@ -159,10 +157,13 @@ public:
     bool updatePreviewSettings(const QString &profile);
     /** @brief Returns the recommended proxy profile parameters */
     QString getAutoProxyProfile();
+    /** @brief Returns the number of clips in this project (useful to show loading progress) */
+    int clipsCount() const;
 
 private:
     QUrl m_url;
     QDomDocument m_document;
+    int m_clipsCount;
     /** @brief MLT's root (base path) that is stripped from urls in saved xml */
     QString m_documentRoot;
     Timecode m_timecode;

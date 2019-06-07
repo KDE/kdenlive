@@ -76,6 +76,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
+    , m_clipsCount(0)
     , m_commandStack(std::make_shared<DocUndoStack>(undoGroup))
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
@@ -252,6 +253,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
         pCore->setCurrentProfile(profileName);
         m_document = createEmptyDocument(tracks.x(), tracks.y());
         updateProjectProfile(false);
+    } else {
+        m_clipsCount = m_document.elementsByTagName(QLatin1String("entry")).size();
     }
 
     if (!m_projectFolder.isEmpty()) {
@@ -303,9 +306,18 @@ KdenliveDoc::~KdenliveDoc()
     }
 }
 
+int KdenliveDoc::clipsCount() const
+{
+    return m_clipsCount;
+}
+
+
 const QByteArray KdenliveDoc::getProjectXml()
 {
-    return m_document.toString().toUtf8();
+    const QByteArray result = m_document.toString().toUtf8();
+    // We don't need the xml data anymore, throw away
+    m_document.clear();
+    return result;
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
@@ -723,19 +735,9 @@ int KdenliveDoc::getFramePos(const QString &duration)
     return m_timecode.getFrameCount(duration);
 }
 
-QDomDocument KdenliveDoc::toXml()
-{
-    return m_document;
-}
-
 Timecode KdenliveDoc::timecode() const
 {
     return m_timecode;
-}
-
-QDomNodeList KdenliveDoc::producersList()
-{
-    return m_document.elementsByTagName(QStringLiteral("producer"));
 }
 
 int KdenliveDoc::width() const

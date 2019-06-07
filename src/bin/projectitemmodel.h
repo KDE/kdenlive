@@ -39,6 +39,7 @@ class FileWatcher;
 class MarkerListModel;
 class ProjectClip;
 class ProjectFolder;
+class QProgressDialog;
 
 namespace Mlt {
 class Producer;
@@ -107,7 +108,7 @@ public:
     bool loadFolders(Mlt::Properties &folders);
 
     /* @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp);
+    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);
