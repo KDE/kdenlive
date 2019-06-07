@@ -63,7 +63,6 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked, Qt::DirectConnection);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-    connect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
 
     connect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     connect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);

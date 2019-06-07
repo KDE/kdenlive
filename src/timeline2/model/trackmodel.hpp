@@ -137,9 +137,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
+    bool requestClipInsertion(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove);
+    Fun requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove = false);
 
     /* @brief Performs an deletion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -150,9 +150,9 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo);
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove);
+    Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove = false);
 
     /* @brief Performs an insertion of the given composition.
        Returns true if the operation succeeded, and otherwise, the track is not modified.

@@ -203,6 +203,11 @@ void MonitorProxy::resetZone()
     m_zoneOut = -1;
 }
 
+double MonitorProxy::fps() const
+{
+    return pCore->getCurrentFps();
+}
+
 QPoint MonitorProxy::zone() const
 {
     return {m_zoneIn, m_zoneOut};

@@ -239,6 +239,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
     pCore->window()->getMainTimeline()->controller()->prepareClose();
     if (m_mainTimelineModel) {
@@ -885,7 +886,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     if (!groupsData.isEmpty()) {
         m_mainTimelineModel->loadGroups(groupsData);
     }
-
+    connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());

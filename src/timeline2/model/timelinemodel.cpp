@@ -513,7 +513,7 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     return false;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
     if (trackId == -1) {
@@ -557,14 +557,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
         }
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo, groupMove);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
             return false;
         }
     }
-    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo);
+    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -1369,7 +1369,10 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
 
-    Fun update_model = []() { return true; };
+    Fun update_model = [this]() { 
+        updateDuration();
+        return true;
+    };
 
     // Check if there is a track move
     bool updatePositionOnly = false;
@@ -1388,6 +1391,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 }
                 notifyChange(modelIndex, modelIndex, roles);
             }
+            updateDuration();
             return true;
         };
     }
@@ -1400,7 +1404,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         if (old_trackId != -1) {
             bool updateThisView = allowViewRefresh;
             if (isClip(item)) {
-                ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo);
+                ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo, true);
                 old_position[item] = m_allClips[item]->getPosition();
             } else {
                 // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, finalMove, local_undo, local_redo);
@@ -1441,7 +1445,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int target_track = (*it)->getId();
             int target_position = old_position[item] + delta_pos;
             if (isClip(item)) {
-                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, finalMove, local_undo, local_redo);
+                ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
             } else {
                 ok = ok &&
                      requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, finalMove, local_undo, local_redo);
@@ -1456,6 +1460,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             return false;
         }
     }
+    updateDuration();
     if (updatePositionOnly) {
         update_model();
         PUSH_LAMBDA(update_model, local_redo);
