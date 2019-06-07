@@ -698,25 +698,25 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     int start = timeline->getItemPosition(cid);
     int end = start + timeline->getItemPlaytime(cid);
     Fun local_redo = [timeline, cid, aTrack, autoTrack, start, end]() {
+        timeline->unplantComposition(cid);
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(!autoTrack);
         timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
         field->unlock();
-        QModelIndex modelIndex = timeline->makeCompositionIndexFromID(cid);
-        timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});
+        timeline->replantCompositions(cid, true);
         timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
         return true;
     };
     Fun local_undo = [timeline, cid, previousATrack, previousAutoTrack, start, end]() {
+        timeline->unplantComposition(cid);
         QScopedPointer<Mlt::Field> field(timeline->m_tractor->field());
         field->lock();
         timeline->getCompositionPtr(cid)->setForceTrack(previousAutoTrack == 0);
         timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
         field->unlock();
-        QModelIndex modelIndex = timeline->makeCompositionIndexFromID(cid);
-        timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ItemATrack});
+        timeline->replantCompositions(cid, true);
         timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
         return true;
