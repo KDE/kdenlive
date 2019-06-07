@@ -1369,8 +1369,10 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
 
-    Fun update_model = [this]() { 
-        updateDuration();
+    Fun update_model = [this, finalMove]() { 
+        if (finalMove) {
+            updateDuration();
+        }
         return true;
     };
 
@@ -1380,7 +1382,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         updateView = false;
         allowViewRefresh = false;
         updatePositionOnly = true;
-        update_model = [sorted_clips, this]() {
+        update_model = [sorted_clips, finalMove, this]() {
             QModelIndex modelIndex;
             QVector<int> roles{StartRole};
             for (int item : sorted_clips) {
@@ -1391,7 +1393,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 }
                 notifyChange(modelIndex, modelIndex, roles);
             }
-            updateDuration();
+            if (finalMove) {
+                updateDuration();
+            }
             return true;
         };
     }
@@ -1460,7 +1464,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             return false;
         }
     }
-    updateDuration();
     if (updatePositionOnly) {
         update_model();
         PUSH_LAMBDA(update_model, local_redo);
