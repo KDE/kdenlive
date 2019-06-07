@@ -756,7 +756,11 @@ Rectangle {
                         parent.anchors.horizontalCenter = fadeOutCanvas.left
                     else
                         parent.anchors.right = fadeOutCanvas.right
-                    timeline.adjustFade(clipRoot.clipId, 'fadeout', clipRoot.fadeOut, startFadeOut)
+                    var duration = clipRoot.fadeOut
+                    if (duration > 0) {
+                        duration += 1
+                    }
+                    timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
                     bubbleHelp.hide()
                 }
                 onPositionChanged: {
