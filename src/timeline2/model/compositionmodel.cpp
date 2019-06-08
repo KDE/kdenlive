@@ -271,8 +271,10 @@ void CompositionModel::setSelected(bool sel)
     }
     selected = sel;
     if (auto ptr = m_parent.lock()) {
-        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+        if (m_currentTrackId != -1) {
+            QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+            ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+        }
     }
 }
 
