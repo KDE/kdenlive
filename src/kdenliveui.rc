@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="160" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="162" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -149,8 +149,8 @@
 		<Action name="show_markers" />
 		<Action name="snap" />
 	  <Separator />
-		<Action name="zoom_in" />
-		<Action name="zoom_out" />		
+		<Action name="view_zoom_in" />
+		<Action name="view_zoom_out" />
 		<Action name="zoom_fit" />
     </Menu>
     <Menu name="monitor" ><text>Monitor</text>
@@ -202,7 +202,7 @@
       <Action name="insert_project_tree" />
       <Action name="insert_timeline" />
     </Menu>
-    <Menu name="dockwindows" ><text>View</text>
+    <Menu name="view" noMerge="1" ><text>View</text>
       <Menu name="layout_save_as" ><text>Save Layout As</text>
 	<Action name="save_layout1" />
 	<Action name="save_layout2" />
