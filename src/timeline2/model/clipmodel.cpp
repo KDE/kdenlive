@@ -752,8 +752,10 @@ void ClipModel::setSelected(bool sel)
     }
     selected = sel;
     if (auto ptr = m_parent.lock()) {
-        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+        if (m_currentTrackId != -1) {
+            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+            ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+        }
     }
 }
 
