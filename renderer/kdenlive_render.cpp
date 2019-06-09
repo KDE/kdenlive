@@ -122,8 +122,11 @@ int main(int argc, char **argv)
         f.close();
         QDomElement consumer = doc.documentElement().firstChildElement(QStringLiteral("consumer"));
         if (!consumer.isNull()) {
-            in = consumer.attribute("in").toInt();
-            out = consumer.attribute("out").toInt();
+            if (LIBMLT_VERSION_INT < 397568) {
+                // Previous MLT versions did not correctly pass in and out
+                in = consumer.attribute("in").toInt();
+                out = consumer.attribute("out").toInt();
+            }
             if (consumer.hasAttribute(QLatin1String("s")) || consumer.hasAttribute(QLatin1String("r"))) {
                 // Workaround MLT embeded consumer resize (MLT issue #453)
                 playlist.prepend(QStringLiteral("xml:"));
