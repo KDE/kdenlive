@@ -169,7 +169,6 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             clips.insert(cid);
         }
     }
-    timeline->requestClearSelection();
     std::unordered_set<int> topElements;
     std::transform(clips.begin(), clips.end(), std::inserter(topElements, topElements.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
 

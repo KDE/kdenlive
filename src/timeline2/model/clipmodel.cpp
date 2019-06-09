@@ -560,6 +560,8 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
     return [this, state]() {
         if (auto ptr = m_parent.lock()) {
             m_currentState = state;
+            // Enforce producer reload
+            m_lastTrackId = -1;
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
                 refreshProducerFromBin(m_currentState);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);

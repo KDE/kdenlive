@@ -86,6 +86,9 @@ template <typename Service> void MoveableItem<Service>::setCurrentTrackId(int ti
     Q_UNUSED(finalMove);
     QWriteLocker locker(&m_lock);
     m_currentTrackId = tid;
+    if (tid == -1) {
+        selected = false;
+    }
 }
 
 template <typename Service> void MoveableItem<Service>::setInOut(int in, int out)
