@@ -133,6 +133,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
 
 void TimelineModel::prepareClose()
 {
+    requestClearSelection(true);
     QWriteLocker locker(&m_lock);
     // Unlock all tracks to allow delting clip from tracks
     m_closing = true;
