@@ -2189,7 +2189,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     int currentTrack = m_model->m_allClips[clipId]->getCurrentTrackId();
     bool res = true;
     if (currentTrack > -1) {
-        res = res && m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo);
+        res = res && m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo, false, false);
     }
     if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
         res = res && TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
@@ -2274,7 +2274,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 int duration = m_model->m_allClips[item]->getPlaytime();
                 min = min < 0 ? old_position[item] + delta_pos : qMin(min, old_position[item] + delta_pos);
                 max = max < 0 ? old_position[item] + delta_pos + duration : qMax(max, old_position[item] + delta_pos + duration);
-                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, undo, redo);
+                ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, undo, redo, false, false);
             } else {
                 // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
                 old_position[item] = m_model->m_allCompositions[item]->getPosition();

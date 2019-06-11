@@ -149,10 +149,12 @@ protected:
        @param finalMove if the move is finished (not while dragging), so we invalidate timeline preview / check project duration
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
+       @param groupMove If true, this is part of a larger operation and some operations like checking track duration will not be performed and have to be performed separately
+       @param finalDeletion If true, the clip will be deselected (should be false if this is a clip move doing delte/insert)
     */
-    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
+    bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove = false);
+    Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove);
 
     /* @brief Performs an insertion of the given composition.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -168,7 +170,7 @@ protected:
     /* @brief This function returns a lambda that performs the requested operation */
     Fun requestCompositionInsertion_lambda(int compoId, int position, bool updateView, bool finalMove = false);
 
-    bool requestCompositionDeletion(int compoId, bool updateView, bool finalMove, Fun &undo, Fun &redo);
+    bool requestCompositionDeletion(int compoId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool finalDeletion);
     Fun requestCompositionDeletion_lambda(int compoId, bool updateView, bool finalMove = false);
     Fun requestCompositionResize_lambda(int compoId, int in, int out = -1, bool logUndo = false);
 

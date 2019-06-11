@@ -191,7 +191,7 @@ Item {
         anchors.topMargin: displayHeight * 1.2
         height: displayHeight * 1.3
         color: selected ? 'mediumpurple' : Qt.darker('mediumpurple')
-        border.color: selected ? activePalette.highlight : grouped ? root.groupColor : borderColor
+        border.color: selected ? root.selectionColor : grouped ? root.groupColor : borderColor
         border.width: isGrabbed ? 8 : 1.5
         opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.5 : 1.0
         Item {

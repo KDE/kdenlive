@@ -558,7 +558,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
         }
-        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo, groupMove);
+        ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo, groupMove, false);
         if (!ok) {
             bool undone = local_undo();
             Q_ASSERT(undone);
@@ -1123,7 +1123,7 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 {
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo);
+        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo, false, true);
         if (!res) {
             undo();
             return false;
@@ -1149,7 +1149,7 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
 {
     int trackId = getCompositionTrackId(compositionId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, true, undo, redo);
+        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, true, undo, redo, true);
         if (!res) {
             undo();
             return false;
@@ -1406,7 +1406,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
     // First, remove clips
-    
     if (delta_track != 0) {
         // We delete our clips only if changing track
         for (int item : sorted_clips) {
@@ -1415,7 +1414,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             if (old_trackId != -1) {
                 bool updateThisView = allowViewRefresh;
                 if (isClip(item)) {
-                    ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo, true);
+                    ok = ok && getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, local_undo, local_redo, true, false);
                     old_position[item] = m_allClips[item]->getPosition();
                 } else {
                     // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, finalMove, local_undo, local_redo);
@@ -2556,7 +2555,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int composi
                 PUSH_LAMBDA(update_model, local_undo);
             }
             UPDATE_UNDO_REDO(delete_operation, delete_reverse, local_undo, local_redo);
-            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, finalMove, local_undo, local_redo);
+            ok = getTrackById(old_trackId)->requestCompositionDeletion(compoId, updateView, finalMove, local_undo, local_redo, false);
         }
         if (!ok) {
             qDebug() << "Move failed because of first deletion request";
@@ -2975,7 +2974,7 @@ void TimelineModel::requestClipReload(int clipId)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
     bool refreshView = oldOut > (int)binClip->frameDuration();
     if (old_trackId != -1) {
-        getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo);
+        getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
     }
     if (old_trackId != -1) {
         m_allClips[clipId]->refreshProducerFromBin();
@@ -3013,7 +3012,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun
     bool success = true;
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo);
+        success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
     if (success) {
         success = m_allClips[clipId]->useTimewarpProducer(speed, local_undo, local_redo);
@@ -3147,7 +3146,7 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
     }
     if (isGroup(m_currentSelection)) {
         // Reset offset display on clips
-        std::unordered_set<int> items = getCurrentSelection();
+        std::unordered_set<int> items = m_groups->getLeaves(m_currentSelection);
         for (auto &id : items) {
             if (isGroup(id)) {
                 std::unordered_set<int> children = m_groups->getLeaves(id);
@@ -3206,6 +3205,7 @@ std::unordered_set<int> TimelineModel::getCurrentSelection() const
         return {m_currentSelection};
     }
 }
+
 void TimelineModel::requestAddToSelection(int itemId, bool clear)
 {
     QWriteLocker locker(&m_lock);
