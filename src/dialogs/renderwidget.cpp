@@ -1452,7 +1452,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         QMap<QString, QString> metadata = project->metadata();
         QMap<QString, QString>::const_iterator i = metadata.constBegin();
         while (i != metadata.constEnd()) {
-            consumer.setAttribute(i.key(), QString(QUrl::toPercentEncoding(i.value())));
+            consumer.setAttribute(i.key(), i.value());
             ++i;
         }
     }
