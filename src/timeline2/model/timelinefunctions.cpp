@@ -598,7 +598,7 @@ bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel>
     // For the state change to work, we need to unplant/replant the clip
     bool result = true;
     if (track > -1) {
-        result = timeline->getTrackById(track)->requestClipDeletion(clipId, true, invalidate, local_undo, local_redo);
+        result = timeline->getTrackById(track)->requestClipDeletion(clipId, true, invalidate, local_undo, local_redo, false, false);
     }
     result = timeline->m_allClips[clipId]->setClipState(status, local_undo, local_redo);
     if (result && track > -1) {

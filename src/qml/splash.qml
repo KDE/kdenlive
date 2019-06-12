@@ -76,19 +76,19 @@ Window {
             spacing: 100
             Text {
                 color: "white"
-                text: i18n('Website')
+                text: i18n("Website")
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
             Text {
                 color: "white"
-                text: i18n('Donate')
+                text: i18n("Donate")
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
             Text {
                 color: "white"
-                text: i18n('Forum')
+                text: i18n("Forum")
                 font.bold: true
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             }
@@ -107,7 +107,7 @@ Window {
             Text {
                 id:txtProject
                 color: "#f38577"
-                text: i18n('Recent Projects')
+                text: i18n("Recent Projects")
                 anchors.top: parent.top
                 anchors.left: parent.left
                 anchors.topMargin: 50
@@ -177,7 +177,7 @@ Window {
                         }
                     }
                     label: Text {
-                        text: i18n('Hide on startup')
+                        text: i18n("Hide on startup")
                         color: "white"
                     }
                 }
@@ -189,14 +189,14 @@ Window {
                 visible: !splashing
                 Button {
                     iconSource:"image://icon/document-new"
-                    text:i18n('New')
+                    text:i18n("New")
                     //style: CustomButton {
                     //    backColor: splashContent.color
                    // }
                 }
                 Button {
                     iconSource:"image://icon/document-open"
-                    text:i18n('Open')
+                    text:i18n("Open")
                     //style: CustomButton {
                     //    backColor: splashContent.color
                    // }
