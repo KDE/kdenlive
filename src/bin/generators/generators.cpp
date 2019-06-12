@@ -58,7 +58,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("generator")) {
         QString generatorTag = base.attribute(QStringLiteral("tag"));
-        setWindowTitle(base.firstChildElement(QStringLiteral("name")).text());
+        setWindowTitle(i18n(base.firstChildElement(QStringLiteral("name")).text().toUtf8().data()));
         auto *lay = new QVBoxLayout(this);
         m_preview = new QLabel;
         m_preview->setMinimumSize(1, 1);
@@ -127,7 +127,7 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
         for (const QString &fname : filesnames) {
             QPair<QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
             if (!result.first.isEmpty()) {
-                QAction *action = menu->addAction(result.first);
+                QAction *action = menu->addAction(i18n(result.first.toUtf8().data()));
                 action->setData(result.second);
             }
         }
