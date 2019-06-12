@@ -1154,18 +1154,34 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
             undo();
             return false;
         } else {
-            unplantComposition(compositionId);
+            Fun unplant_op = [this, compositionId]() {
+                unplantComposition(compositionId);
+                return true;
+            };
+            unplant_op();
+            PUSH_LAMBDA(unplant_op, redo);
         }
     }
     Fun operation = deregisterComposition_lambda(compositionId);
     auto composition = m_allCompositions[compositionId];
-    Fun reverse = [this, composition]() {
+    int new_in = composition->getPosition();
+    int new_out = new_in + composition->getPlaytime();
+    Fun reverse = [this, composition, compositionId, trackId, new_in, new_out]() {
         // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it
         // back it is sufficient to register it.
         registerComposition(composition);
+        composition->setCurrentTrackId(trackId, true);
+        replantCompositions(compositionId, false);
+        checkRefresh(new_in, new_out);
         return true;
     };
     if (operation()) {
+        Fun update_monitor = [this, new_in, new_out]() {
+            checkRefresh(new_in, new_out);
+            return true;
+        };
+        update_monitor();
+        PUSH_LAMBDA(update_monitor, operation);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
     }
@@ -1228,8 +1244,6 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
 
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
     // This way, we ensure that no conflict will arise with clips inside the group being moved
-
-    Fun update_model = []() { return true; };
 
     // Check if there is a track move
 
@@ -2623,7 +2637,6 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
             return a.first < b.first;
         }
         return m_allCompositions[a.second]->getATrack() > m_allCompositions[b.second]->getATrack();
-        
     });
     // replant
     QScopedPointer<Mlt::Field> field(m_tractor->field());
@@ -2659,11 +2672,12 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         int aTrack = m_allCompositions[compo.second]->getATrack();
         Q_ASSERT(aTrack != -1 && aTrack < m_tractor->count());
 
-        int ret = field->plant_transition(*m_allCompositions[compo.second].get(), aTrack, compo.first);
+        Mlt::Transition &transition = *m_allCompositions[compo.second].get();
+
+        int ret = field->plant_transition(transition, aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
                  << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;
 
-        Mlt::Transition &transition = *m_allCompositions[compo.second].get();
         transition.set_tracks(aTrack, compo.first);
         mlt_service consumer = mlt_service_consumer(transition.get_service());
         Q_ASSERT(consumer != nullptr);
