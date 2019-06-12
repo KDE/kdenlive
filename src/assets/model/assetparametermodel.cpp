@@ -528,6 +528,9 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             return p.get_double("eval");
         }
     } else if (type == ParamType::Double || type == ParamType::Hidden) {
+        if (attribute == QLatin1String("default")) {
+            return content.toDouble();
+        }
         QLocale locale;
         locale.setNumberOptions(QLocale::OmitGroupSeparator);
         return locale.toDouble(content);
