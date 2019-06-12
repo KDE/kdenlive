@@ -359,7 +359,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            text: i18n('Offset') + (positionOffset < 0 ? ( ': -' + timeline.timecode(-positionOffset)) : ': ' + timeline.timecode(positionOffset))
+                            text: i18n("Offset") + (positionOffset < 0 ? ( ': -' + timeline.timecode(-positionOffset)) : ': ' + timeline.timecode(positionOffset))
                         }
                     }
                     Text {
@@ -538,7 +538,7 @@ Rectangle {
                     }
                     contentItem: Label {
                         color: activePalette.text
-                        text: i18n('Click to add composition')
+                        text: i18n("Click to add composition")
                     }
                 }
             }
@@ -589,7 +589,7 @@ Rectangle {
                     }
                     contentItem: Label {
                         color: activePalette.text
-                        text: i18n('Click to add composition')
+                        text: i18n("Click to add composition")
                     }
                 }
             }
@@ -923,11 +923,11 @@ Rectangle {
 
         /*MenuItem {
             id: mergeItem
-            text: i18n('Merge with next clip')
+            text: i18n("Merge with next clip")
             onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
         }
         MenuItem {
-            text: i18n('Rebuild Audio Waveform')
+            text: i18n("Rebuild Audio Waveform")
             onTriggered: timeline.remakeAudioLevels(trackIndex, index)
         }*/
         /*onPopupVisibleChanged: {

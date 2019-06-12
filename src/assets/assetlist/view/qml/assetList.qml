@@ -67,7 +67,7 @@ Rectangle {
                 id: searchList
                 iconName: "edit-find"
                 checkable: true
-                tooltip: isEffectList ? i18n('Find effect') : i18n('Find composition')
+                tooltip: isEffectList ? i18n("Find effect") : i18n("Find composition")
                 onCheckedChanged: {
                     searchInput.visible = searchList.checked
                     searchInput.focus = searchList.checked
@@ -83,7 +83,7 @@ Rectangle {
                 checkable: true
                 checked: true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Main %1', assetType())
+                tooltip: i18n("Main %1", assetType())
                 onClicked: {
                     assetlist.setFilterType("")
                 }
@@ -95,7 +95,7 @@ Rectangle {
                 iconSource: 'qrc:///pics/kdenlive-show-video.svgz'
                 checkable:true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Show all video effects')
+                tooltip: i18n("Show all video effects")
                 onClicked: {
                     assetlist.setFilterType("video")
                 }
@@ -107,7 +107,7 @@ Rectangle {
                 iconSource: 'qrc:///pics/kdenlive-show-audio.svgz'
                 checkable:true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Show all audio effects')
+                tooltip: i18n("Show all audio effects")
                 onClicked: {
                     assetlist.setFilterType("audio")
                 }
@@ -118,7 +118,7 @@ Rectangle {
                 iconName: "kdenlive-custom-effect"
                 checkable:true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Show all custom effects')
+                tooltip: i18n("Show all custom effects")
                 onClicked: {
                     assetlist.setFilterType("custom")
                 }
@@ -128,7 +128,7 @@ Rectangle {
                 iconName: "favorite"
                 checkable:true
                 exclusiveGroup: filterGroup
-                tooltip: i18n('Show favorite items')
+                tooltip: i18n("Show favorite items")
                 onClicked: {
                     assetlist.setFilterType("favorites")
                 }
@@ -137,7 +137,7 @@ Rectangle {
                 id: downloadTransitions
                 visible: !isEffectList
                 iconName: "edit-download"
-                tooltip: i18n('Download New Wipes...')
+                tooltip: i18n("Download New Wipes...")
                 onClicked: {
                     assetlist.downloadNewLumas()
                 }
@@ -152,7 +152,7 @@ Rectangle {
                 id: showDescription
                 iconName: "help-about"
                 checkable:true
-                tooltip: i18n('Show/hide description of the ') + assetType()
+                tooltip: i18n("Show/hide description of the %1", assetType())
                 onCheckedChanged:{
                     assetlist.showDescription = checked
                 }

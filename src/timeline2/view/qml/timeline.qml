@@ -481,7 +481,7 @@ Rectangle {
             editGuideMenu.visible = false
         }
         OLD.MenuItem {
-            text: i18n('Paste')
+            text: i18n("Paste")
             iconName: 'edit-paste'
             visible: copiedClip != -1
             onTriggered: {
@@ -491,7 +491,7 @@ Rectangle {
             }
         }
         OLD.MenuItem {
-            text: i18n('Insert Space')
+            text: i18n("Insert Space")
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
@@ -499,7 +499,7 @@ Rectangle {
             }
         }
         OLD.MenuItem {
-            text: i18n('Remove Space On Active Track')
+            text: i18n("Remove Space On Active Track")
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
@@ -507,7 +507,7 @@ Rectangle {
             }
         }
         OLD.MenuItem {
-            text: i18n('Remove Space')
+            text: i18n("Remove Space")
             onTriggered: {
                 var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
                 var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
@@ -516,13 +516,13 @@ Rectangle {
         }
         OLD.MenuItem {
             id: addGuideMenu
-            text: i18n('Add Guide')
+            text: i18n("Add Guide")
             onTriggered: {
                 timeline.switchGuide(timeline.position);
             }
         }
         GuidesMenu {
-            title: i18n('Go to guide...')
+            title: i18n("Go to guide...")
             menuModel: guidesModel
             enabled: guidesDelegateModel.count > 0
             onGuideSelected: {
@@ -532,14 +532,14 @@ Rectangle {
         }
         OLD.MenuItem {
             id: editGuideMenu
-            text: i18n('Edit Guide')
+            text: i18n("Edit Guide")
             visible: false
             onTriggered: {
                 timeline.editGuide(timeline.position);
             }
         }
         AssetMenu {
-            title: i18n('Insert a composition...')
+            title: i18n("Insert a composition...")
             menuModel: transitionModel
             isTransition: true
             onAssetSelected: {
@@ -554,10 +554,10 @@ Rectangle {
         onAboutToShow: {
             if (guidesModel.hasMarker(timeline.position)) {
                 // marker at timeline position
-                addGuideMenu.text = i18n('Remove Guide')
+                addGuideMenu.text = i18n("Remove Guide")
                 editGuideMenu.visible = true
             } else {
-                addGuideMenu.text = i18n('Add Guide')
+                addGuideMenu.text = i18n("Add Guide")
             }
             console.log("pop menu")
         }
@@ -572,13 +572,13 @@ Rectangle {
         }
         OLD.MenuItem {
             id: addGuideMenu2
-            text: i18n('Add Guide')
+            text: i18n("Add Guide")
             onTriggered: {
                 timeline.switchGuide(timeline.position);
             }
         }
         GuidesMenu {
-            title: i18n('Go to guide...')
+            title: i18n("Go to guide...")
             menuModel: guidesModel
             enabled: guidesDelegateModel.count > 0
             onGuideSelected: {
@@ -588,7 +588,7 @@ Rectangle {
         }
         OLD.MenuItem {
             id: editGuideMenu2
-            text: i18n('Edit Guide')
+            text: i18n("Edit Guide")
             visible: false
             onTriggered: {
                 timeline.editGuide(timeline.position);
@@ -596,7 +596,7 @@ Rectangle {
         }
         OLD.MenuItem {
             id: addProjectNote
-            text: i18n('Add Project Note')
+            text: i18n("Add Project Note")
             onTriggered: {
                 timeline.triggerAction('add_project_note')
             }
@@ -604,10 +604,10 @@ Rectangle {
         onAboutToShow: {
             if (guidesModel.hasMarker(timeline.position)) {
                 // marker at timeline position
-                addGuideMenu2.text = i18n('Remove Guide')
+                addGuideMenu2.text = i18n("Remove Guide")
                 editGuideMenu2.visible = true
             } else {
-                addGuideMenu2.text = i18n('Add Guide')
+                addGuideMenu2.text = i18n("Add Guide")
             }
             console.log("pop menu")
         }
@@ -629,13 +629,13 @@ Rectangle {
             timeline.ungrabHack()
         }
         OLD.MenuItem {
-            text: i18n('Add Track')
+            text: i18n("Add Track")
             onTriggered: {
                 timeline.addTrack(timeline.activeTrack)
             }
         }
         OLD.MenuItem {
-            text: i18n('Delete Track')
+            text: i18n("Delete Track")
             onTriggered: {
                 timeline.deleteTrack(timeline.activeTrack)
             }
@@ -643,7 +643,7 @@ Rectangle {
         OLD.MenuItem {
             visible: headerMenu.audioTrack
             id: showRec
-            text: "Show Record Controls"
+            text: i18n("Show Record Controls")
             onTriggered: {
                 controller.setTrackProperty(headerMenu.trackId, "kdenlive:audio_rec", showRec.checked ? '1' : '0')
             }
@@ -653,24 +653,24 @@ Rectangle {
         OLD.MenuItem {
             visible: headerMenu.audioTrack
             id: configRec
-            text: "Configure Recording"
+            text: i18n("Configure Recording")
             onTriggered: {
                 timeline.showConfig(4,2)
             }
         }
         OLD.Menu {
-            title: i18n('Track thumbnails')
+            title: i18n("Track thumbnails")
             visible: !headerMenu.audioTrack
                     OLD.ExclusiveGroup { id: thumbStyle }
                     OLD.MenuItem {
-                        text: "In frame"
+                        text: i18n("In frame")
                         id: inFrame
                         onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 2)
                         checkable: true
                         exclusiveGroup: thumbStyle
                     }
                     OLD.MenuItem {
-                        text: "In / out frames"
+                        text: i18n("In / out frames")
                         id: inOutFrame
                         onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 0)
                         checkable: true
@@ -678,14 +678,14 @@ Rectangle {
                         exclusiveGroup: thumbStyle
                     }
                     OLD.MenuItem {
-                        text: "All frames"
+                        text: i18n("All frames")
                         id: allFrame
                         onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 1)
                         checkable: true
                         exclusiveGroup: thumbStyle
                     }
                     OLD.MenuItem {
-                        text: "No thumbnails"
+                        text: i18n("No thumbnails")
                         id: noFrame
                         onTriggered:controller.setTrackProperty(headerMenu.trackId, "kdenlive:thumbs_format", 3)
                         checkable: true

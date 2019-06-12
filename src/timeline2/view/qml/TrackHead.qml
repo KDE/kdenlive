@@ -149,7 +149,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            text: i18n('Click to toggle track as target. Target tracks will receive the inserted clips')
+                            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
                         }
                     }
                 state:  'normalTarget'
@@ -197,7 +197,7 @@ Rectangle {
                 onClicked: {
                     trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
                 }
-                tooltip: trackLabel.visible? i18n('Minimize') : i18n('Expand')
+                tooltip: trackLabel.visible? i18n("Minimize") : i18n("Expand")
             }
             Item {
                 width: trackTag.contentWidth + 4
@@ -236,7 +236,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            text: i18n('Click to make track active/inactive. Active tracks will react to insert/remove operations')
+                            text: i18n("Click to make track active/inactive. Active tracks will react to insert/remove operations")
                         }
                     }
                     state:  'normalled'
@@ -305,7 +305,7 @@ Rectangle {
                 iconName: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
                 iconSource: isAudio ? (isDisabled ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz') : (isDisabled ? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz')
                 onClicked: controller.setTrackProperty(trackId, "hide", isDisabled ? (isAudio ? '1' : '2') : '3')
-                tooltip: isAudio ? (isDisabled? i18n('Unmute') : i18n('Mute')) : (isDisabled? i18n('Show') : i18n('Hide'))
+                tooltip: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
             }
 
             ToolButton {
@@ -315,7 +315,7 @@ Rectangle {
                 iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
                 iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
-                tooltip: isLocked? i18n('Unlock track') : i18n('Lock track')
+                tooltip: isLocked? i18n("Unlock track") : i18n("Lock track")
 
                  SequentialAnimation {
                     id: flashLock
@@ -395,7 +395,7 @@ Rectangle {
                     id: placeHolder
                     visible: false
                     enabled: false
-                    text: i18n('Edit track name')
+                    text: i18n("Edit track name")
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.left: parent.left
                     anchors.leftMargin: 4
