@@ -113,7 +113,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             continue;
         }
         currentRow.value = value;
-        QString title = currentParameter.firstChildElement(QStringLiteral("name")).text();
+        QString title = i18n(currentParameter.firstChildElement(QStringLiteral("name")).text().toUtf8().data());
         currentRow.name = title.isEmpty() ? name : title;
         m_params[name] = currentRow;
         m_rows.push_back(name);
