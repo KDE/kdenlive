@@ -171,7 +171,7 @@ Item {
                 color: root.dropped ? "red" : "white"
                 style: Text.Outline;
                 styleColor: "black"
-                text: root.fps + "fps"
+                text: i18n("%1 fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
@@ -237,13 +237,13 @@ Item {
             ToolButton {
                 id: videoDragButton
                 iconName: "kdenlive-show-video"
-                tooltip: "Video only drag"
+                tooltip: i18n("Video only drag")
                 enabled: false
             }
             ToolButton {
                 id: audioDragButton
                 iconName: "audio-volume-medium"
-                tooltip: "Audio only drag"
+                tooltip: i18n("Audio only drag")
                 enabled: false
             }
             }

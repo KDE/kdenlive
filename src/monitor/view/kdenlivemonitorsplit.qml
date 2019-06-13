@@ -72,7 +72,7 @@ Item {
         color: "red"
         visible: false
         Text {
-            text: 'Effect'
+            text: i18n("Effect")
             color: "red"
             anchors {
                 right: parent.left

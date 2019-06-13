@@ -20,7 +20,7 @@ Item {
         border.width: 1
         color: trimmode == 1 ? "darkRed" : "darkBlue"
         Text {
-            text: 'Ripple'
+            text: i18n("Ripple")
             color: "white"
             anchors.centerIn: parent
         }
@@ -40,7 +40,7 @@ Item {
         border.width: 1
         color: trimmode == 2 ? "darkRed" : "darkBlue"
         Text {
-            text: 'Rolling'
+            text: i18n("Rolling")
             color: "white"
             anchors.centerIn: parent
         }
@@ -60,7 +60,7 @@ Item {
         border.width: 1
         color: trimmode == 3 ? "darkRed" : "darkBlue"
         Text {
-            text: 'Slip'
+            text: i18n("Slip")
             color: "white"
             anchors.centerIn: parent
         }
@@ -80,7 +80,7 @@ Item {
         border.width: 1
         color: trimmode == 4 ? "darkRed" : "darkBlue"
         Text {
-            text: 'Slide'
+            text: i18n("Slide")
             color: "white"
             anchors.centerIn: parent
         }
@@ -114,7 +114,7 @@ Item {
         height: root.height / 2 - info.height
         color: "darkGreen"
         Text {
-            text: 'close'
+            text: i18n("close")
             color: "white"
             anchors.centerIn: parent
         }

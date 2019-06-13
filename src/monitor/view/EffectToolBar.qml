@@ -18,7 +18,7 @@ Rectangle {
             id: fullscreenButton
             objectName: "fullScreen"
             iconName: "view-fullscreen"
-            tooltip: "Switch Full Screen"
+            tooltip: i18n("Switch Full Screen")
             onClicked: controller.triggerAction('monitor_fullscreen')
         }
         ToolButton {
@@ -30,23 +30,23 @@ Rectangle {
         ToolButton {
             objectName: "prevKeyframe"
             iconName: "go-previous"
-            tooltip: "Go to Previous Keyframe"
+            tooltip: i18n("Go to Previous Keyframe")
             onClicked: controller.seekPreviousKeyframe()
         }
         ToolButton {
             objectName: "addKeyframe"
             iconName: "list-add"
-            tooltip: "Add/Remove Keyframe"
+            tooltip: i18n("Add/Remove Keyframe")
             onClicked: controller.addRemoveKeyframe()
         }
         ToolButton {
             iconName: "zoom-in"
-            tooltip: "Zoom in"
+            tooltip: i18n("Zoom in")
             onClicked: controller.triggerAction('monitor_zoomin')
         }
         ToolButton {
             iconName: "zoom-out"
-            tooltip: "Zoom out"
+            tooltip: i18n("Zoom out")
             onClicked: controller.triggerAction('monitor_zoomout')
         }
     }
