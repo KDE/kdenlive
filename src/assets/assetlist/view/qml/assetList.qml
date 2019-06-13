@@ -31,10 +31,6 @@ Rectangle {
     SystemPalette { id: activePalette }
     color: activePalette.window
 
-    function assetType(){
-        return isEffectList ? i18n("effects") : i18n("compositions");
-    }
-
     function expandNodes(indexes)  {
         for(var i = 0; i < indexes.length; i++) {
             if (indexes[i].valid) {
@@ -83,7 +79,7 @@ Rectangle {
                 checkable: true
                 checked: true
                 exclusiveGroup: filterGroup
-                tooltip: i18n("Main %1", assetType())
+                tooltip: isEffectList ? i18n("Main effects") : i18n("Main compositions")
                 onClicked: {
                     assetlist.setFilterType("")
                 }
@@ -152,7 +148,7 @@ Rectangle {
                 id: showDescription
                 iconName: "help-about"
                 checkable:true
-                tooltip: i18n("Show/hide description of the %1", assetType())
+                tooltip: isEffectList ? i18n("Show/hide description of the effects") : i18n("Show/hide description of the compositions")
                 onCheckedChanged:{
                     assetlist.showDescription = checked
                 }
@@ -345,7 +341,7 @@ Rectangle {
                 }
             }
 
-            TableViewColumn { role: "identifier"; title: ш18т("Name"); }
+            TableViewColumn { role: "identifier"; title: i18n("Name"); }
             model: assetListModel
 
             Keys.onDownPressed: {

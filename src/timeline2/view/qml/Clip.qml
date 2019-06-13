@@ -359,7 +359,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            text: i18n("Offset") + (positionOffset < 0 ? ( ': -' + timeline.timecode(-positionOffset)) : ': ' + timeline.timecode(positionOffset))
+                            text: positionOffset < 0 ? i18n("Offset: -%1", timeline.timecode(-positionOffset)) : i18n("Offset: %1", timeline.timecode(positionOffset))
                         }
                     }
                     Text {
