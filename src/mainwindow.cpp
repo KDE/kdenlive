@@ -3447,6 +3447,12 @@ void MainWindow::slotChangeStyle(QAction *a)
     QString style = a->data().toString();
     KdenliveSettings::setWidgetstyle(style);
     doChangeStyle();
+    // Monitor refresh is necessary
+    if (pCore->monitorManager()->isActive(Kdenlive::ClipMonitor)) {
+        m_clipMonitorDock->raise();
+    } else {
+        m_projectMonitorDock->raise();
+    }
 }
 
 void MainWindow::doChangeStyle()
