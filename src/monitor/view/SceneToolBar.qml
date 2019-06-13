@@ -19,7 +19,7 @@ Rectangle {
             id: fullscreenButton
             objectName: "fullScreen"
             iconName: "view-fullscreen"
-            tooltip: "Switch Full Screen"
+            tooltip: i18n("Switch Full Screen")
             onClicked: {
                 controller.activateClipMonitor(root.isClipMonitor)
                 controller.triggerAction('monitor_fullscreen')
@@ -28,14 +28,14 @@ Rectangle {
         ToolButton {
             objectName: "switchOverlay"
             iconName: "view-grid"
-            tooltip: "Change Overlay"
+            tooltip: i18n("Change Overlay")
             onClicked: {
                 root.switchOverlay()
             }
         }
         ToolButton {
             iconName: "zoom-in"
-            tooltip: "Zoom in"
+            tooltip: i18n("Zoom in")
             onClicked: {
                 controller.activateClipMonitor(root.isClipMonitor)
                 controller.triggerAction('monitor_zoomin')
@@ -43,7 +43,7 @@ Rectangle {
         }
         ToolButton {
             iconName: "zoom-out"
-            tooltip: "Zoom out"
+            tooltip: i18n("Zoom out")
             onClicked: {
                 controller.activateClipMonitor(root.isClipMonitor)
                 controller.triggerAction('monitor_zoomout')
@@ -52,7 +52,7 @@ Rectangle {
         ToolButton {
             objectName: "addMarker"
             iconName: "list-add"
-            tooltip: root.isClipMonitor ? "Add Marker" : "Add Guide"
+            tooltip: root.isClipMonitor ? i18n("Add Marker") : i18n("Add Guide")
             onClicked: {
                 controller.activateClipMonitor(root.isClipMonitor)
                 controller.triggerAction('add_marker_guide_quickly')
@@ -61,7 +61,7 @@ Rectangle {
         ToolButton {
             objectName: "removeMarker"
             iconName: "list-remove"
-            tooltip: root.isClipMonitor ? "Remove Marker" : "Remove Guide"
+            tooltip: root.isClipMonitor ? i18n("Remove Marker") : i18n("Remove Guide")
             onClicked: {
                 controller.activateClipMonitor(root.isClipMonitor)
                 root.isClipMonitor ? controller.triggerAction('delete_clip_marker') : controller.triggerAction('delete_guide')

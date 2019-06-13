@@ -331,7 +331,7 @@ Rectangle {
                 property bool isDisplayed: false
                 MenuItem {
                     id: favMenu
-                    text: assetContextMenu.isItemFavorite ? "Remove from favorites" : "Add to favorites"
+                    text: assetContextMenu.isItemFavorite ? i18n("Remove from favorites") : i18n("Add to favorites")
                     property url thumbSource
                     onTriggered: {
                         assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
@@ -345,7 +345,7 @@ Rectangle {
                 }
             }
 
-            TableViewColumn { role: "identifier"; title: "Name"; }
+            TableViewColumn { role: "identifier"; title: ш18т("Name"); }
             model: assetListModel
 
             Keys.onDownPressed: {

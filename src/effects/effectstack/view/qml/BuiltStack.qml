@@ -27,7 +27,7 @@ Rectangle {
         EffectSlider {
             id: slider1
             sliderIcon: 'speedometer'
-            sliderLabel: 'Speed'
+            sliderLabel: i18n("Speed")
             paramName: 'speed'
             slider_max: 300
             slider_def: 100

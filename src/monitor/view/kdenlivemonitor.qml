@@ -135,7 +135,7 @@ Item {
                 color: root.dropped ? "red" : "white"
                 style: Text.Outline;
                 styleColor: "black"
-                text: root.fps + "fps"
+                text: i18n("%1 fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
