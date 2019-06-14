@@ -135,9 +135,11 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         //resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
-        qDebug() << "////// ERROR, INCOMPATIBLE PROFILE: " << resource;
-        return nullptr;
-        // path.prepend(QStringLiteral("consumer:"));
+        m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
+        QString loader = resource;
+        loader.prepend(QStringLiteral("consumer:"));
+        pCore->getCurrentProfile()->set_explicit(1);
+        return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), loader.toUtf8().constData());
     }
     pCore->getCurrentProfile()->set_explicit(1);
     return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), "xml", resource.toUtf8().constData());
@@ -269,6 +271,10 @@ bool LoadJob::startJob()
         break;
     case ClipType::Playlist: {
         m_producer = loadPlaylist(m_resource);
+        if (!m_errorMessage.isEmpty()) {
+            QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, m_errorMessage),
+                                  Q_ARG(int, (int)KMessageWidget::Warning));
+        }
         if (m_resource.endsWith(QLatin1String(".kdenlive"))) {
             QFile f(m_resource);
             QDomDocument doc;
@@ -283,12 +289,14 @@ bool LoadJob::startJob()
                 if (!offsetData.isEmpty()) {
                     bool ok = false;
                     int offset = offsetData.toInt(&ok);
-                    qDebug()<<" / / /GET OFFSET DATA: "<<offset;
                     if (ok) {
+                        qDebug()<<" / / / FIXING OFFSET DATA: "<<offset;
                         offset = m_producer->get_playtime() - offset - 1;
-                        m_producer->set("out", offset - 1);
-                        m_producer->set("length", offset);
+                        m_producer->parent().set("out", offset - 1);
+                        m_producer->parent().set("length", offset);
                     }
+                } else {
+                    qDebug()<<"// NO OFFSET DAT FOUND\n\n";
                 }
             } else {
                 qDebug()<<":_______\n______<nEMPTY PLAYLIST\n----";
