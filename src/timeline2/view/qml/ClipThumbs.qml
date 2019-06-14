@@ -24,7 +24,7 @@ Row {
         // container.width / thumbRow.thumbWidth will display all frames showThumbnails
         // 1: only show first thumbnail
         // 0: will disable thumbnails
-        model: parentTrack.trackThumbsFormat == 0 ? 2 : parentTrack.trackThumbsFormat == 1 ? container.width / thumbRow.thumbWidth : parentTrack.trackThumbsFormat == 2 ? 1 : 0
+        model: parentTrack.trackThumbsFormat == 0 ? 2 : parentTrack.trackThumbsFormat == 1 ? Math.ceil(container.width / thumbRow.thumbWidth) : parentTrack.trackThumbsFormat == 2 ? 1 : 0
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
