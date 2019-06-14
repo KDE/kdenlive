@@ -1515,7 +1515,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         speed = d->getValue();
         qDebug() << "requesting speed " << speed;
     }
-    m_model->requestClipTimeWarp(clipId, speed);
+    m_model->requestClipTimeWarp(clipId, speed, true);
 }
 
 void TimelineController::switchCompositing(int mode)

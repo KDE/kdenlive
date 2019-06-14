@@ -183,7 +183,7 @@ protected:
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
     */
-    bool useTimewarpProducer(double speed, Fun &undo, Fun &redo);
+    bool useTimewarpProducer(double speed, bool changeDuration, Fun &undo, Fun &redo);
     // @brief Lambda that merely changes the speed (in and out are untouched)
     Fun useTimewarpProducer_lambda(double speed);
 

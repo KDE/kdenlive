@@ -466,6 +466,8 @@ public:
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
     Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);
 
+    Q_INVOKABLE int requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed);
+
     /* @brief Group together a set of ids
        The ids are either a group ids or clip ids. The involved clip must already be inserted in a track
        This action is undoable
@@ -536,6 +538,11 @@ protected:
        @returns best snap position or -1 if no snap point is near
      */
     int getBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
+
+    /* @brief Returns the best possible size for a clip on resize
+     */
+    int requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance);
+
     /* @brief Returns a list of in/out of all items in the group of itemId
      */
     const std::vector<int> getBoundaries(int itemId);
@@ -621,10 +628,10 @@ public:
     This functions create an undo object and also apply the effect to the corresponding audio if there is any.
     Returns true on success, false otherwise (and nothing is modified)
     */
-    bool requestClipTimeWarp(int clipId, double speed);
+    Q_INVOKABLE bool requestClipTimeWarp(int clipId, double speed, bool changeDuration);
     /* @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
-    bool requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo);
+    bool requestClipTimeWarp(int clipId, double speed, bool changeDuration, Fun &undo, Fun &redo);
 
     void replugClip(int clipId);
 

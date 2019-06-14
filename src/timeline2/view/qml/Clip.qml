@@ -75,11 +75,11 @@ Rectangle {
     width : clipDuration * timeScale;
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
-    signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim)
-    signal trimmedIn(var clip, bool shiftTrim)
+    signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
+    signal trimmedIn(var clip, bool shiftTrim, bool controlTrim)
     signal initGroupTrim(var clip)
-    signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim)
-    signal trimmedOut(var clip, bool shiftTrim)
+    signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
+    signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
     onIsGrabbedChanged: {
         if (clipRoot.isGrabbed) {
@@ -815,6 +815,7 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property bool shiftTrim: false
+            property bool controlTrim: false
             property bool sizeChanged: false
             cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             onPressed: {
@@ -823,6 +824,7 @@ Rectangle {
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                controlTrim = mouse.modifiers & Qt.ControlModifier
                 if (!shiftTrim && clipRoot.grouped) {
                     clipRoot.initGroupTrim(clipRoot)
                 }
@@ -832,7 +834,7 @@ Rectangle {
                 root.stopScrolling = false
                 parent.anchors.left = clipRoot.left
                 if (sizeChanged) {
-                    clipRoot.trimmedIn(clipRoot, shiftTrim)
+                    clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                     sizeChanged = false
                 }
             }
@@ -845,7 +847,7 @@ Rectangle {
                         }
                         var newDuration =  clipDuration - delta
                         sizeChanged = true
-                        clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim)
+                        clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
                     }
                 }
             }
@@ -877,6 +879,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             property bool shiftTrim: false
+            property bool controlTrim: false
             property bool sizeChanged: false
             cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             drag.target: parent
@@ -888,6 +891,7 @@ Rectangle {
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                controlTrim = mouse.modifiers & Qt.ControlModifier
                 if (!shiftTrim && clipRoot.grouped) {
                     clipRoot.initGroupTrim(clipRoot)
                 }
@@ -897,7 +901,7 @@ Rectangle {
                 root.stopScrolling = false
                 parent.anchors.right = clipRoot.right
                 if (sizeChanged) {
-                    clipRoot.trimmedOut(clipRoot, shiftTrim)
+                    clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                     sizeChanged = false
                 }
             }
@@ -906,7 +910,7 @@ Rectangle {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
                     if (newDuration != clipDuration) {
                         sizeChanged = true
-                        clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim)
+                        clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
                     }
                 }
             }

@@ -96,7 +96,7 @@ RTTR_REGISTRATION
         // .method("requestCompositionInsertion", select_overload<bool(const QString &, int, int, int, std::unique_ptr<Mlt::Properties>, int &, bool)>(
         //                                            &TimelineModel::requestCompositionInsertion))(
         //     parameter_names("transitionId", "trackId", "position", "length", "transProps", "id", "logUndo"))
-        .method("requestClipTimeWarp", select_overload<bool(int, double)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed"));
+        .method("requestClipTimeWarp", select_overload<bool(int, double,bool)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed","changeDuration"));
 }
 
 int TimelineModel::next_id = 0;
@@ -1665,20 +1665,83 @@ const std::vector<int> TimelineModel::getBoundaries(int itemId)
     return boundaries;
 }
 
-int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
+int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed)
 {
-    if (logUndo) {
-        qDebug() << "---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
-    }
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
-    Q_ASSERT(isItem(itemId));
+    TRACE(itemId, size, right, true, snapDistance, allowSingleResize);
+    Q_ASSERT(isClip(itemId));
     if (size <= 0) {
         TRACE_RES(-1);
         return -1;
     }
     int in = getItemPosition(itemId);
     int out = in + getItemPlaytime(itemId);
+    //size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    std::unordered_set<int> all_items;
+    if (!allowSingleResize && m_groups->isInGroup(itemId)) {
+        int groupId = m_groups->getRootId(itemId);
+        std::unordered_set<int> items;
+        if (m_groups->getType(groupId) == GroupType::AVSplit) {
+            // Only resize group elements if it is an avsplit
+            items = m_groups->getLeaves(groupId);
+        } else {
+            all_items.insert(itemId);
+        }
+        for (int id : items) {
+            if (id == itemId) {
+                all_items.insert(id);
+                continue;
+            }
+            int start = getItemPosition(id);
+            int end = in + getItemPlaytime(id);
+            if (right) {
+                if (out == end) {
+                    all_items.insert(id);
+                }
+            } else if (start == in) {
+                all_items.insert(id);
+            }
+        }
+    } else {
+        all_items.insert(itemId);
+    }
+    bool result = true;
+    for (int id : all_items) {
+        int tid = getItemTrackId(id);
+        if (tid > -1 && getTrackById_const(tid)->isLocked()) {
+            continue;
+        }
+        // First delete clip, then timewarp, resize and reinsert
+        int pos = getItemPosition(id);
+        if (!right) {
+            pos += getItemPlaytime(id) - size;
+        }
+        result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, true);
+        result = result && requestClipTimeWarp(id, speed, false, undo, redo);
+        result = result && requestItemResize(id, size, true, true, undo, redo);
+        result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo);
+        if (!result) {
+            break;
+        }
+    }
+    if (!result) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+        TRACE_RES(-1);
+        return -1;
+    }
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Resize clip speed"));
+    }
+    int res = result ? size : -1;
+    TRACE_RES(res);
+    return res;
+}
+
+int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, bool right, int snapDistance)
+{
     if (snapDistance > 0 && getItemTrackId(itemId) != -1) {
         Fun temp_undo = []() { return true; };
         Fun temp_redo = []() { return true; };
@@ -1713,6 +1776,24 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             }
         }
     }
+    return size;
+}
+
+int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
+{
+    if (logUndo) {
+        qDebug() << "---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
+    }
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
+    Q_ASSERT(isItem(itemId));
+    if (size <= 0) {
+        TRACE_RES(-1);
+        return -1;
+    }
+    int in = getItemPosition(itemId);
+    int out = in + getItemPlaytime(itemId);
+    size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
@@ -3013,7 +3094,7 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDuration, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed())) {
@@ -3029,7 +3110,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
     if (success) {
-        success = m_allClips[clipId]->useTimewarpProducer(speed, local_undo, local_redo);
+        success = m_allClips[clipId]->useTimewarpProducer(speed, changeDuration, local_undo, local_redo);
     }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
@@ -3042,7 +3123,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, Fun &undo, Fun
     return success;
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDuration)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, speed);
@@ -3055,10 +3136,10 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         // Check if clip has a split partner
         int splitId = m_groups->getSplitPartner(clipId);
         if (splitId > -1) {
-            result = requestClipTimeWarp(splitId, speed / 100.0, undo, redo);
+            result = requestClipTimeWarp(splitId, speed / 100.0, changeDuration, undo, redo);
         }
         if (result) {
-            result = requestClipTimeWarp(clipId, speed / 100.0, undo, redo);
+            result = requestClipTimeWarp(clipId, speed / 100.0, changeDuration, undo, redo);
         }
         if (!result) {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
@@ -3068,7 +3149,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed)
         }
     } else {
         // If clip is not inserted on a track, we just change the producer
-        result = m_allClips[clipId]->useTimewarpProducer(speed, undo, redo);
+        result = m_allClips[clipId]->useTimewarpProducer(speed, changeDuration, undo, redo);
     }
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));

@@ -152,11 +152,13 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     int out = m_producer->get_out();
     int old_in = in, old_out = out;
     // check if there is enough space on the chosen side
-    if (!right && in + delta < 0 && !m_endlessResize) {
-        return false;
-    }
-    if (!m_endlessResize && right && (out - delta >= m_producer->get_length())) {
-        return false;
+    if (!m_endlessResize) {
+        if (!right && in + delta < 0) {
+            return false;
+        }
+        if (right && (out - delta >= m_producer->get_length())) {
+            return false;
+        }
     }
     if (right) {
         out -= delta;
@@ -212,28 +214,30 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         return false;
     };
     if (operation()) {
-        // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-        if (m_currentTrackId != -1) {
-            if (auto ptr = m_parent.lock()) {
-                track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
-            }
-        }
-        Fun reverse = [this, old_in, old_out, track_reverse, roles]() {
-            if (track_reverse()) {
-                setInOut(old_in, old_out);
-                if (m_currentTrackId > -1) {
-                    if (auto ptr = m_parent.lock()) {
-                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                        ptr->dataChanged(ix, ix, roles);
-                    }
-                }
-                return true;
-            }
-            return false;
-        };
-        qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
-                 << m_producer->get_playtime();
+        Fun reverse = []() { return true; };
         if (logUndo) {
+            // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
+            if (m_currentTrackId != -1) {
+                if (auto ptr = m_parent.lock()) {
+                    track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
+                }
+            }
+            reverse = [this, old_in, old_out, track_reverse, roles]() {
+                if (track_reverse()) {
+                    setInOut(old_in, old_out);
+                    if (m_currentTrackId > -1) {
+                        if (auto ptr = m_parent.lock()) {
+                            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                            ptr->dataChanged(ix, ix, roles);
+                        }
+                    }
+                    return true;
+                }
+                return false;
+            };
+            qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
+                 << m_producer->get_playtime();
+
             adjustEffectLength(right, old_in, inPoint, old_out - old_in, m_producer->get_playtime(), offset, reverse, operation, logUndo);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -411,7 +415,7 @@ void ClipModel::refreshProducerFromBin()
     refreshProducerFromBin(m_currentState);
 }
 
-bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
+bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo, Fun &redo)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers
@@ -430,7 +434,7 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
     int oldIn = getIn();
     auto operation = useTimewarpProducer_lambda(speed);
     auto reverse = useTimewarpProducer_lambda(previousSpeed);
-    if (oldOut >= newDuration) {
+    if (changeDuration && oldOut >= newDuration) {
         // in that case, we are going to shrink the clip when changing the producer. We must undo that when reloading the old producer
         reverse = [reverse, oldIn, oldOut, this]() {
             bool res = reverse();
@@ -443,10 +447,12 @@ bool ClipModel::useTimewarpProducer(double speed, Fun &undo, Fun &redo)
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         // When calculating duration, result can be a few frames longer than possible duration so adjust
-        bool res = requestResize(qMin(newDuration, getMaxDuration()), true, local_undo, local_redo, true);
-        if (!res) {
-            local_undo();
-            return false;
+        if (changeDuration) {
+            bool res = requestResize(qMin(newDuration, getMaxDuration()), true, local_undo, local_redo, true);
+            if (!res) {
+                local_undo();
+                return false;
+            }
         }
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;

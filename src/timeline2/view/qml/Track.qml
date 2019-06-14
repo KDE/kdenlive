@@ -270,6 +270,15 @@ Column{
                 clip.groupTrimData = controller.getGroupData(clip.clipId)
             }
             onTrimmingIn: {
+                if (controlTrim) {
+                    newDuration = Math.max(1, newDuration)
+                    speedController.x = clip.x + clip.width - newDuration * trackRoot.timeScale
+                    speedController.width = newDuration * trackRoot.timeScale
+                    speedController.lastValidDuration = newDuration
+                    speedController.speedText = (100 * clip.originalDuration * clip.speed / speedController.lastValidDuration).toFixed(2) + '%'
+                    speedController.visible = true
+                    return
+                }
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, false, false, root.snapping, shiftTrim)
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
@@ -285,10 +294,18 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                if (shiftTrim || clip.groupTrimData == undefined) {
+                if (controlTrim) {
+                    speedController.visible = false
+                }
+                if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
                     // We only resize one element
                     controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
-                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                    if (controlTrim) {
+                        // Update speed
+                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * clip.speed / speedController.lastValidDuration)
+                    } else {
+                        controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
+                    }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
                     controller.processGroupResize(clip.groupTrimData, updatedGroupData, false)
@@ -296,6 +313,15 @@ Column{
                 clip.groupTrimData = undefined
             }
             onTrimmingOut: {
+                if (controlTrim) {
+                    speedController.x = clip.x
+                    newDuration = Math.max(1, newDuration)
+                    speedController.width = newDuration * trackRoot.timeScale
+                    speedController.lastValidDuration = newDuration
+                    speedController.speedText = (100 * clip.originalDuration * clip.speed / speedController.lastValidDuration).toFixed(2) + '%'
+                    speedController.visible = true
+                    return
+                }
                 var new_duration = controller.requestItemResize(clip.clipId, newDuration, true, false, root.snapping, shiftTrim)
                 if (new_duration > 0) {
                     clip.lastValidDuration = new_duration
@@ -310,9 +336,17 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                if (shiftTrim || clip.groupTrimData == undefined) {
+                if (controlTrim) {
+                    speedController.visible = false
+                }
+                if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
                     controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
-                    controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                    if (controlTrim) {
+                        // Update speed
+                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * clip.speed / speedController.lastValidDuration)
+                    } else {
+                        controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
+                    }
                 } else {
                     var updatedGroupData = controller.getGroupData(clip.clipId)
                     controller.processGroupResize(clip.groupTrimData, updatedGroupData, true)
@@ -364,6 +398,25 @@ Column{
                 controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, root.snapping)
                 controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, root.snapping)
             }
+        }
+    }
+    Rectangle {
+        id: speedController
+        color: '#aaff0000'
+        visible: false
+        height: root.baseUnit * 3
+        property int lastValidDuration: 0
+        property string speedText: '100%'
+        Text {
+            id: speedLabel
+            text: i18n("Adjusting speed:\n") + speedController.speedText
+            font.pixelSize: root.baseUnit * 1.2
+            anchors.fill: parent
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            color: 'white'
+            style: Text.Outline
+            styleColor: 'black'
         }
     }
 }
