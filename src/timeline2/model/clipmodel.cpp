@@ -190,23 +190,30 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             m_producer->set("length", outPoint + 1);
         }
     }
-    Fun operation = [this, inPoint, outPoint, track_operation]() {
+    QVector<int> roles{TimelineModel::DurationRole};
+    if (!right) {
+        roles.push_back(TimelineModel::StartRole);
+        roles.push_back(TimelineModel::InPointRole);
+    } else {
+        roles.push_back(TimelineModel::OutPointRole);
+    }
+    
+    Fun operation = [this, inPoint, outPoint, roles, track_operation]() {
         if (track_operation()) {
             setInOut(inPoint, outPoint);
+            if (m_currentTrackId > -1) {
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                    ptr->dataChanged(ix, ix, roles);
+                }
+            }
             return true;
         }
         return false;
     };
     if (operation()) {
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-        QVector<int> roles{TimelineModel::DurationRole};
         if (m_currentTrackId != -1) {
-            if (!right) {
-                roles.push_back(TimelineModel::StartRole);
-                roles.push_back(TimelineModel::InPointRole);
-            } else {
-                roles.push_back(TimelineModel::OutPointRole);
-            }
             if (auto ptr = m_parent.lock()) {
                 track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
             }
@@ -214,9 +221,11 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         Fun reverse = [this, old_in, old_out, track_reverse, roles]() {
             if (track_reverse()) {
                 setInOut(old_in, old_out);
-                if (auto ptr = m_parent.lock()) {
-                    QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                    ptr->dataChanged(ix, ix, roles);
+                if (m_currentTrackId > -1) {
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                        ptr->dataChanged(ix, ix, roles);
+                    }
                 }
                 return true;
             }

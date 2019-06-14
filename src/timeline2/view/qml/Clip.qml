@@ -94,12 +94,6 @@ Rectangle {
         controller.requestAddToSelection(clipRoot.clipId)
     }
 
-    onInPointChanged: {
-        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload()
-        }
-    }
-
     onClipResourceChanged: {
         if (itemType == ProducerType.Color) {
             color: Qt.darker(getColor(), 1.5)
@@ -129,6 +123,10 @@ Rectangle {
 
     onClipDurationChanged: {
         width = clipDuration * timeScale;
+        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
+            // Duration changed, we may need a different number of repeaters
+            thumbsLoader.item.reload()
+        }
     }
 
     onModelStartChanged: {
