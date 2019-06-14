@@ -2112,6 +2112,11 @@ void Monitor::removeSnapPoint(int pos)
     m_snaps->removePoint(pos);
 }
 
+void Monitor::slotSetScreen(int screenIndex)
+{
+    emit screenChanged(screenIndex);
+}
+
 void Monitor::slotZoomIn()
 {
     m_glMonitor->slotZoom(true);

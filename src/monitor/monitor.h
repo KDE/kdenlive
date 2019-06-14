@@ -273,6 +273,7 @@ private slots:
     void removeSnapPoint(int pos);
 
 public slots:
+    void slotSetScreen(int screenIndex);
     void slotOpenDvdFile(const QString &);
     // void slotSetClipProducer(DocClipBase *clip, QPoint zone = QPoint(), bool forceUpdate = false, int position = -1);
     void updateClipProducer(const std::shared_ptr<Mlt::Producer> &prod);
@@ -325,6 +326,7 @@ public slots:
     void refreshMonitorIfActive(bool directUpdate = false) override;
 
 signals:
+    void screenChanged(int screenIndex);
     void seekPosition(int pos);
     void updateScene();
     /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */

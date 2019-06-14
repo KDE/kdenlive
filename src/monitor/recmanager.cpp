@@ -46,6 +46,7 @@ RecManager::RecManager(Monitor *parent)
     , m_recToolbar(new QToolBar(parent))
     , m_checkAudio(false)
     , m_checkVideo(false)
+    , m_screenIndex(-1)
 {
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -65,17 +66,6 @@ RecManager::RecManager(Monitor *parent)
     m_recAudio->setChecked(KdenliveSettings::v4l_captureaudio());
     m_recVideo->setChecked(KdenliveSettings::v4l_capturevideo());
 
-    // Check number of monitors for FFmpeg screen capture
-    int screens = QApplication::desktop()->screenCount();
-    if (screens > 1) {
-        m_screenCombo = new QComboBox(parent);
-        for (int ix = 0; ix < screens; ix++) {
-            m_screenCombo->addItem(i18n("Monitor %1", ix));
-        }
-        m_recToolbar->addWidget(m_screenCombo);
-        // Update screen grab monitor choice in case we changed from fullscreen
-        m_screenCombo->setEnabled(KdenliveSettings::grab_capture_type() == 0);
-    }
     QWidget *spacer = new QWidget(parent);
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_recToolbar->addWidget(spacer);
@@ -135,6 +125,7 @@ RecManager::RecManager(Monitor *parent)
     connect(m_switchRec, &QAction::toggled, m_monitor, &Monitor::slotSwitchRec);
     m_recToolbar->setVisible(false);
     slotVideoDeviceChanged();
+    connect(m_monitor, &Monitor::screenChanged, this, &RecManager::slotSetScreen);
 }
 
 RecManager::~RecManager() = default;
@@ -236,12 +227,7 @@ void RecManager::slotRecord(bool record)
     }
     m_captureFile = QUrl::fromLocalFile(path);
     QString captureSize;
-    int screen = -1;
-    if (m_screenCombo) {
-        // Multi monitor setup, capture monitor selected by user
-        screen = m_screenCombo->currentIndex();
-    }
-    QRect screenSize = QApplication::desktop()->screenGeometry(screen);
+    QRect screenSize = QApplication::desktop()->screenGeometry(m_screenIndex);
     QStringList captureArgs;
 #ifdef Q_OS_WIN
     captureArgs << QStringLiteral("-f") << QStringLiteral("gdigrab");
@@ -407,6 +393,11 @@ Mlt::Producer *RecManager::createV4lProducer()
         delete tractor;
     }
     return prod;
+}
+
+void RecManager::slotSetScreen(int screenIndex)
+{
+    m_screenIndex = screenIndex;
 }
 
 void RecManager::slotPreview(bool preview)

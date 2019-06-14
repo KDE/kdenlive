@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QComboBox>
 #include <QDBusAbstractAdaptor>
 #include <QDockWidget>
 #include <QEvent>
