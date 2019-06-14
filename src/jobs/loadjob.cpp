@@ -292,8 +292,9 @@ bool LoadJob::startJob()
                     if (ok) {
                         qDebug()<<" / / / FIXING OFFSET DATA: "<<offset;
                         offset = m_producer->get_playtime() - offset - 1;
-                        m_producer->parent().set("out", offset - 1);
-                        m_producer->parent().set("length", offset);
+                        m_producer->set("out", offset - 1);
+                        m_producer->set("length", offset);
+                        m_producer->set("kdenlive:duration", offset);
                     }
                 } else {
                     qDebug()<<"// NO OFFSET DAT FOUND\n\n";
