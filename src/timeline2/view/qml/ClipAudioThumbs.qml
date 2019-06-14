@@ -51,10 +51,8 @@ Row {
             isFirstChunk: index == 0
             showItem: waveform.visible && (index * width) < waveform.scrollEnd && (index * width + width) > waveform.scrollStart
             format: timeline.audioThumbFormat
-            inPoint: clipRoot.speed < 0 ? (Math.round(clipRoot.outPoint - (index * waveform.maxWidth / clipRoot.timeScale) * Math.abs(clipRoot.speed)) * channels) : (Math.round(clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale) * clipRoot.speed) * channels)
-            outPoint: clipRoot.speed < 0 ? (inPoint - Math.ceil(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels) : (inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels)
-            /*inPoint: Math.round((clipFrameStart * Math.abs(clipRoot.timeScale)) + (index * waveform.maxWidth / clipRoot.timeScale) * clipRoot.speed) * channels
-            outPoint: inPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels*/
+            waveInPoint: clipRoot.speed < 0 ? (Math.round(clipRoot.outPoint - (index * waveform.maxWidth / clipRoot.timeScale) * Math.abs(clipRoot.speed)) * channels) : (Math.round(clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale) * clipRoot.speed) * channels)
+            waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels) : (waveInPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels)
             fillColor: activePalette.text
             onShowItemChanged: {
                 if (showItem) {

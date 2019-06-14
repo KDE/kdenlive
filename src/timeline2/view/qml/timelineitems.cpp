@@ -79,10 +79,10 @@ class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
-    Q_PROPERTY(int inPoint MEMBER m_inPoint NOTIFY propertyChanged)
+    Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
-    Q_PROPERTY(int outPoint MEMBER m_outPoint NOTIFY outPointChanged)
+    Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem MEMBER m_showItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
@@ -200,7 +200,6 @@ signals:
     void levelsChanged();
     void propertyChanged();
     void inPointChanged();
-    void outPointChanged();
     void showItemChanged();
     void audioChannelsChanged();
 
