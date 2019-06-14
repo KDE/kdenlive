@@ -77,7 +77,6 @@ private:
     QAction *m_playAction;
     QAction *m_showLogAction;
     QToolBar *m_recToolbar;
-    QComboBox *m_screenCombo{nullptr};
     QToolButton *m_audioCaptureButton;
     QComboBox *m_device_selector;
     QComboBox *m_audio_device;
@@ -87,8 +86,10 @@ private:
     bool m_checkAudio;
     bool m_checkVideo;
     Mlt::Producer *createV4lProducer();
+    int m_screenIndex;
 
 private slots:
+    void slotSetScreen(int ScreenIndex);
     void slotRecord(bool record);
     void slotPreview(bool record);
     void slotProcessStatus(int exitCode, QProcess::ExitStatus exitStatus);

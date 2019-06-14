@@ -107,6 +107,7 @@
 #include <QUndoGroup>
 
 #include <KConfigGroup>
+#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QScreen>
@@ -284,6 +285,18 @@ void MainWindow::init()
     QToolBar *recToolbar = new QToolBar(grabWidget);
     grabLayout->addWidget(recToolbar);
     grabLayout->addStretch(10);
+    // Check number of monitors for FFmpeg screen capture
+    int screens = QApplication::desktop()->screenCount();
+    if (screens > 1) {
+        QComboBox *screenCombo = new QComboBox(recToolbar);
+        for (int ix = 0; ix < screens; ix++) {
+            screenCombo->addItem(i18n("Monitor %1", ix));
+        }
+        connect(screenCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), m_clipMonitor, &Monitor::slotSetScreen);
+        recToolbar->addWidget(screenCombo);
+        // Update screen grab monitor choice in case we changed from fullscreen
+        screenCombo->setEnabled(KdenliveSettings::grab_capture_type() == 0);
+    }
     QAction *recAction = m_clipMonitor->recAction();
     addAction(QStringLiteral("screengrab_record"), recAction);
     recToolbar->addAction(recAction);
