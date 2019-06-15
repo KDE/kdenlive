@@ -169,11 +169,12 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             clips.insert(cid);
         }
     }
+    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
+    timeline->requestClearSelection();
+
     std::unordered_set<int> topElements;
     std::transform(clips.begin(), clips.end(), std::inserter(topElements, topElements.begin()), [&](int id) { return timeline->m_groups->getRootId(id); });
 
-    // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
-    timeline->requestClearSelection();
     int count = 0;
     QList<int> newIds;
     int mainId = -1;
@@ -210,6 +211,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
         bool res = true;
         for (const int topId : topElements) {
+            qDebug()<<"// CHECKING REGROUP ELMENT: "<<topId<<", ISCLIP: "<<timeline->isClip(topId)<<timeline->isGroup(topId);
             res = res && timeline->m_groups->split(topId, criterion, undo, redo);
         }
         if (!res) {
