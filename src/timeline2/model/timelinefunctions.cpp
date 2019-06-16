@@ -164,6 +164,9 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     // Remove locked items
     std::unordered_set<int> clips;
     for (int cid : clipselect) {
+        if (!timeline->isClip(cid)) {
+            continue;
+        }
         int tk = timeline->getClipTrackId(cid);
         if (tk != -1 && !timeline->getTrackById_const(tk)->isLocked()) {
             clips.insert(cid);
@@ -180,6 +183,9 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     int mainId = -1;
     QList<int> clipsToCut;
     for (int cid : clips) {
+        if (!timeline->isClip(cid)) {
+            continue;
+        }
         int start = timeline->getClipPosition(cid);
         int duration = timeline->getClipPlaytime(cid);
         if (start < position && (start + duration) > position) {
