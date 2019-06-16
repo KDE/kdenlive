@@ -322,7 +322,7 @@ bool LoadJob::startJob()
         if (m_producer) {
             m_producer.reset();
         }
-        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, i18n("Cannot open file %1", m_resource)),
+        QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, i18n("Cannot open file %1. If you are running kdenlive for the first time, try to restart it, or run as Administrator", m_resource)),
                                   Q_ARG(int, (int)KMessageWidget::Warning));
         m_errorMessage.append(i18n("ERROR: Could not load clip %1: producer is invalid", m_resource));
         return false;
