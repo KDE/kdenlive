@@ -16,11 +16,13 @@ Rectangle {
     color: activePalette.window
     property bool validMenu: false
     property color textColor: activePalette.text
+    property bool dragInProgress: dragProxyArea.pressed || dragProxyArea.drag.active
 
     signal clipClicked()
     signal mousePosChanged(int position)
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
+    signal processingDrag(bool dragging)
 
     FontMetrics {
         id: fontMetrics
@@ -31,6 +33,10 @@ Rectangle {
     }
     CompositionMenu {
         id: compositionMenu
+    }
+
+    onDragInProgressChanged: {
+        processingDrag(!root.dragInProgress)
     }
 
     function fitZoom() {
@@ -164,7 +170,7 @@ Rectangle {
     }
 
     function isDragging() {
-        return dragProxy.draggedItem > -1 && dragProxyArea.pressed
+        return dragInProgress
     }
 
     function initDrag(itemObject, itemCoord, itemId, itemPos, itemTrack, isComposition) {
