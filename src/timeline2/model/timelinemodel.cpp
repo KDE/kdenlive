@@ -2011,6 +2011,10 @@ bool TimelineModel::requestTrackDeletion(int trackId)
 bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
 {
     Q_ASSERT(isTrack(trackId));
+    if (m_allTracks.size() < 2) {
+        pCore->displayMessage(i18n("Cannot delete last track in timeline"), InformationMessage, 500);
+        return false;
+    }
     std::vector<int> clips_to_delete;
     for (const auto &it : getTrackById(trackId)->m_allClips) {
         clips_to_delete.push_back(it.first);
