@@ -88,8 +88,8 @@ void MediaCapture::recordAudio(bool record)
 
         QAudioEncoderSettings audioSettings;
         //audioSettings.setCodec("audio/x-flac");
-        audioSettings.setBitRate(48000);   // Bit rate is set to 48,0000
-        audioSettings.setChannelCount(2);
+        audioSettings.setSampleRate(KdenliveSettings::audiocapturesamplerate());
+        audioSettings.setChannelCount(KdenliveSettings::audiocapturechannels());
         m_audioRecorder->setEncodingSettings(audioSettings);
         m_audioRecorder->setOutputLocation(m_path);
         m_audioRecorder->record();

@@ -85,6 +85,8 @@ private slots:
     void slotReloadBlackMagic();
     void slotReloadShuttleDevices();
     void loadExternalProxyProfiles();
+    void slotUpdateAudioCaptureChannels(int index);
+    void slotUpdateAudioCaptureSampleRate(int index);
 
 private:
     KPageWidgetItem *m_page1;
