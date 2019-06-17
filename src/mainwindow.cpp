@@ -1428,10 +1428,22 @@ void MainWindow::setupActions()
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
+    connect(this, &MainWindow::enableUndo, [this, undo] (bool enable) {
+        if (enable) {
+            enable = m_commandStack->activeStack()->canUndo();
+        }
+        undo->setEnabled(enable);
+    });
 
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
+    connect(this, &MainWindow::enableUndo, [this, redo] (bool enable) {
+        if (enable) {
+            enable = m_commandStack->activeStack()->canRedo();
+        }
+        redo->setEnabled(enable);
+    });
 
     auto *addClips = new QMenu(this);
 
