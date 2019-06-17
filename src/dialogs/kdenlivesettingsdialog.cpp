@@ -298,6 +298,28 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
             &KdenliveSettingsDialog::slotUpdateGrabProfile);
     connect(m_configCapture.grab_showprofileinfo, &QAbstractButton::clicked, m_configCapture.grab_parameters, &QWidget::setVisible);
 
+    // audio capture channels
+    m_configCapture.audiocapturechannels->clear();
+    m_configCapture.audiocapturechannels->addItem(i18n("Mono (1 channel)"), 1);
+    m_configCapture.audiocapturechannels->addItem(i18n("Stereo (2 channels)"), 2);
+
+    int channelsIndex = m_configCapture.audiocapturechannels->findData(KdenliveSettings::audiocapturechannels());
+    m_configCapture.audiocapturechannels->setCurrentIndex(qMax(channelsIndex, 0));
+    connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateAudioCaptureChannels);
+
+    // audio capture sample rate
+    m_configCapture.audiocapturesamplerate->clear();
+    m_configCapture.audiocapturesamplerate->addItem(i18n("44100 Hz"), 44100);
+    m_configCapture.audiocapturesamplerate->addItem(i18n("48000 Hz"), 48000);
+
+    int sampleRateIndex = m_configCapture.audiocapturesamplerate->findData(KdenliveSettings::audiocapturesamplerate());
+    m_configCapture.audiocapturesamplerate->setCurrentIndex(qMax(sampleRateIndex, 0));
+    connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
+            &KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate);
+
+    m_configCapture.labelNoAudioDevices->setVisible(false);
+
     // Timeline preview
     act = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure profiles"), this);
     act->setData(1);
@@ -398,6 +420,10 @@ bool KdenliveSettingsDialog::getBlackMagicDeviceList(QComboBox *devicelist, bool
 bool KdenliveSettingsDialog::initAudioRecDevice()
 {
     QStringList audioDevices = pCore->getAudioCaptureDevices();
+
+    //show a hint to the user to know what to check for in case the device list are empty (common issue)
+    m_configCapture.labelNoAudioDevices->setVisible(audioDevices.empty());
+
     m_configCapture.kcfg_defaultaudiocapture->addItems(audioDevices);
     connect(m_configCapture.kcfg_defaultaudiocapture, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&]() {
         QString currentDevice = m_configCapture.kcfg_defaultaudiocapture->currentText();
@@ -1583,4 +1609,14 @@ void KdenliveSettingsDialog::slotReloadShuttleDevices()
     KdenliveSettings::setShuttledevicepaths(devPathList);
     QTimer::singleShot(200, this, SLOT(slotUpdateShuttleDevice()));
 #endif // USE_JOGSHUTTLE
+}
+
+void KdenliveSettingsDialog::slotUpdateAudioCaptureChannels(int index)
+{
+    KdenliveSettings::setAudiocapturechannels(m_configCapture.audiocapturechannels->itemData(index).toInt());
+}
+
+void KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate(int index)
+{
+    KdenliveSettings::setAudiocapturesamplerate(m_configCapture.audiocapturesamplerate->itemData(index).toInt());
 }

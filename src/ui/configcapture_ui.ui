@@ -639,14 +639,44 @@
        <string>Audio</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_5">
          <property name="text">
-          <string>Audio Capture Volume </string>
+          <string>Sample Rate</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Capture Volume </string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>661</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Channels</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="audiocapturesamplerate"/>
+       </item>
+       <item row="3" column="1">
         <widget class="QSlider" name="kcfg_audiocapturevolume">
          <property name="maximum">
           <number>100</number>
@@ -671,28 +701,30 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_33">
-         <property name="text">
-          <string>Detected devices</string>
-         </property>
-        </widget>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="audiocapturechannels"/>
        </item>
        <item row="1" column="1">
         <widget class="QComboBox" name="kcfg_defaultaudiocapture"/>
        </item>
-       <item row="2" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_33">
+         <property name="text">
+          <string>Device</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>661</height>
-          </size>
+        </widget>
+       </item>
+       <item row="2" column="0" colspan="2">
+        <widget class="QLabel" name="labelNoAudioDevices">
+         <property name="font">
+          <font>
+           <pointsize>10</pointsize>
+          </font>
          </property>
-        </spacer>
+         <property name="text">
+          <string>Make sure you have audio plugins installed on your system</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
