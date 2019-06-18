@@ -482,16 +482,24 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         checkRefresh = true;
     }
 
-    auto update_snaps = [old_in, old_out, checkRefresh, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, checkRefresh, right, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (checkRefresh) {
-                ptr->checkRefresh(old_in, old_out);
-                ptr->checkRefresh(new_in, new_out);
-                // ptr->adjustAssetRange(clipId, m_allClips[clipId]->getIn(), m_allClips[clipId]->getOut());
+                if (right) {
+                    if (old_out < new_out) {
+                        ptr->checkRefresh(old_out, new_out);
+                    } else {
+                        ptr->checkRefresh(old_in, old_out);
+                    }
+                } else if (old_in < new_in) {
+                    ptr->checkRefresh(old_in, new_in);
+                } else {
+                    ptr->checkRefresh(new_in, old_in);
+                }
             }
         } else {
             qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
