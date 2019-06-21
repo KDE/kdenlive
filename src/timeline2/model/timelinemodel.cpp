@@ -1781,15 +1781,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    Fun update_model = [itemId, right, logUndo, this]() {
-        Q_ASSERT(isItem(itemId));
-        if (getItemTrackId(itemId) != -1) {
-            qDebug() << "++++++++++\nRESIZING ITEM: " << itemId << "\n+++++++";
-            QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
-            notifyChange(modelIndex, modelIndex, !right, true, logUndo);
-        }
-        return true;
-    };
     bool result = false;
     if (isClip(itemId)) {
         result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
@@ -1798,11 +1789,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     }
     if (result) {
-        if (!blockUndo) {
-            PUSH_LAMBDA(update_model, local_undo);
-        }
-        PUSH_LAMBDA(update_model, local_redo);
-        update_model();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
     return result;
