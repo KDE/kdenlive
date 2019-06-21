@@ -39,7 +39,7 @@
 #include "transitions/transitionsrepository.hpp"
 
 using namespace fakeit;
-#define RESET(mock)                                                                                                                                            \
+#define RESET(mock)                                                                                                                                         \
     mock.Reset();                                                                                                                                              \
     Fake(Method(mock, adjustAssetRange));                                                                                                                      \
     Spy(Method(mock, _resetView));                                                                                                                             \
@@ -56,8 +56,8 @@ using namespace fakeit;
     VerifyNoOtherInvocations(Method(timMock, _beginInsertRows));                                                                                               \
     VerifyNoOtherInvocations(Method(timMock, _endRemoveRows));                                                                                                 \
     VerifyNoOtherInvocations(Method(timMock, _endInsertRows));                                                                                                 \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                       \
-    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                   \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool)));                      \
+    VerifyNoOtherInvocations(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &)));                       \
     RESET(timMock);
 
 #define CHECK_MOVE(times)                                                                                                                                      \
@@ -74,7 +74,7 @@ using namespace fakeit;
     NO_OTHERS();
 
 #define CHECK_RESIZE(times)                                                                                                                                    \
-    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, bool, bool, bool))).Exactly(times);                          \
+    Verify(OverloadedMethod(timMock, notifyChange, void(const QModelIndex &, const QModelIndex &, const QVector<int> &))).Exactly(times);                                                                \
     NO_OTHERS();
 
 #define CHECK_UPDATE(role)                                                                                                                                     \

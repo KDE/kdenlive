@@ -482,16 +482,24 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         checkRefresh = true;
     }
 
-    auto update_snaps = [old_in, old_out, checkRefresh, this](int new_in, int new_out) {
+    auto update_snaps = [old_in, old_out, checkRefresh, right, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             ptr->m_snaps->removePoint(old_in);
             ptr->m_snaps->removePoint(old_out);
             ptr->m_snaps->addPoint(new_in);
             ptr->m_snaps->addPoint(new_out);
             if (checkRefresh) {
-                ptr->checkRefresh(old_in, old_out);
-                ptr->checkRefresh(new_in, new_out);
-                // ptr->adjustAssetRange(clipId, m_allClips[clipId]->getIn(), m_allClips[clipId]->getOut());
+                if (right) {
+                    if (old_out < new_out) {
+                        ptr->checkRefresh(old_out, new_out);
+                    } else {
+                        ptr->checkRefresh(old_in, old_out);
+                    }
+                } else if (old_in < new_in) {
+                    ptr->checkRefresh(old_in, new_in);
+                } else {
+                    ptr->checkRefresh(new_in, old_in);
+                }
             }
         } else {
             qDebug() << "Error : clip resize failed because parent timeline is not available anymore";
@@ -510,6 +518,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             int target_clip_mutable = target_clip;
             int blank_index = right ? (target_clip_mutable + 1) : target_clip_mutable;
             // insert blank to space that is going to be empty
+            m_playlists[target_track].lock();
             // The second is parameter is delta - 1 because this function expects an out time, which is basically size - 1
             m_playlists[target_track].insert_blank(blank_index, delta - 1);
             if (!right) {
@@ -520,6 +529,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             int err = m_playlists[target_track].resize_clip(target_clip_mutable, in, out);
             // make sure to do this after, to avoid messing the indexes
             m_playlists[target_track].consolidate_blanks();
+            m_playlists[target_track].unlock();
             if (err == 0) {
                 update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 if (right && m_playlists[target_track].count() - 1 == target_clip_mutable) {
@@ -576,6 +586,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 if (isLocked()) return false;
                 int target_clip_mutable = target_clip;
                 int err = 0;
+                m_playlists[target_track].lock();
                 if (blank_length + delta == 0) {
                     err = m_playlists[target_track].remove(blank);
                     if (!right) {
@@ -600,6 +611,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     update_snaps(m_allClips[clipId]->getPosition(), m_allClips[clipId]->getPosition() + out - in + 1);
                 }
                 m_playlists[target_track].consolidate_blanks();
+                m_playlists[target_track].unlock();
                 return err == 0;
             };
         }

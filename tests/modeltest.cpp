@@ -84,10 +84,11 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
-    REQUIRE(timeline->requestTrackDeletion(id2));
+    // We are not allowed to delete the last track
+    REQUIRE_FALSE(timeline->requestTrackDeletion(id2));
     REQUIRE(timeline->checkConsistency());
-    REQUIRE(timeline->getTracksCount() == 0);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
+    REQUIRE(timeline->getTracksCount() == 1);
+    Verify(Method(timMock, _resetView)).Exactly(0);
     RESET(timMock);
 
     SECTION("Delete a track with groups")
@@ -106,7 +107,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
         REQUIRE(timeline->requestClipInsertion(binId, tid2, 2 * length, cid4));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipsCount() == 4);
-        REQUIRE(timeline->getTracksCount() == 2);
+        REQUIRE(timeline->getTracksCount() == 3);
 
         auto g1 = std::unordered_set<int>({cid1, cid3});
         auto g2 = std::unordered_set<int>({cid2, cid4});
@@ -118,7 +119,7 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
 
         REQUIRE(timeline->requestTrackDeletion(tid1));
         REQUIRE(timeline->getClipsCount() == 3);
-        REQUIRE(timeline->getTracksCount() == 1);
+        REQUIRE(timeline->getTracksCount() == 2);
         REQUIRE(timeline->checkConsistency());
     }
     binModel->clean();
@@ -2070,6 +2071,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         REQUIRE(timeline->requestItemResize(compo, 17, true) == 17);
         check(17);
     }
+    
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();

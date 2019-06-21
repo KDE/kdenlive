@@ -116,28 +116,38 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         // Perform resize only
         setInOut(in, out);
     }
-    Fun operation = [track_operation]() {
+    QVector<int> roles{TimelineModel::DurationRole};
+    if (!right) {
+        roles.push_back(TimelineModel::StartRole);
+    }
+    Fun operation = [this, track_operation, roles]() {
         if (track_operation()) {
+            // we send a list of roles to be updated
+            if (m_currentTrackId != -1) {
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+                    ptr->notifyChange(ix, ix, roles);
+                }
+            }
             return true;
         }
         return false;
     };
     if (operation()) {
         // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
-        auto ptr = m_parent.lock();
-        // we send a list of roles to be updated
-        QVector<int> roles{TimelineModel::DurationRole};
-        if (!right) {
-            roles.push_back(TimelineModel::StartRole);
+        if (m_currentTrackId != -1) {
+            if (auto ptr = m_parent.lock()) {
+                track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
+            }
         }
-        if (m_currentTrackId != -1 && ptr) {
-            QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-            // TODO: integrate in undo
-            ptr->dataChanged(ix, ix, roles);
-            track_reverse = ptr->getTrackById(m_currentTrackId)->requestCompositionResize_lambda(m_id, old_in, old_out, logUndo);
-        }
-        Fun reverse = [track_reverse]() {
+        Fun reverse = [this, track_reverse, roles]() {
             if (track_reverse()) {
+                if (m_currentTrackId != -1) {
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, roles);
+                    }
+                }
                 return true;
             }
             return false;

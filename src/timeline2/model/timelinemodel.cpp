@@ -37,6 +37,7 @@
 #include "trackmodel.hpp"
 
 #include <QDebug>
+#include <QThread>
 #include <QModelIndex>
 #include <klocalizedstring.h>
 #include <mlt++/MltConsumer.h>
@@ -1861,15 +1862,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    Fun update_model = [itemId, right, logUndo, this]() {
-        Q_ASSERT(isItem(itemId));
-        if (getItemTrackId(itemId) != -1) {
-            qDebug() << "++++++++++\nRESIZING ITEM: " << itemId << "\n+++++++";
-            QModelIndex modelIndex = isClip(itemId) ? makeClipIndexFromID(itemId) : makeCompositionIndexFromID(itemId);
-            notifyChange(modelIndex, modelIndex, !right, true, logUndo);
-        }
-        return true;
-    };
     bool result = false;
     if (isClip(itemId)) {
         result = m_allClips[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
@@ -1878,11 +1870,6 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
         result = m_allCompositions[itemId]->requestResize(size, right, local_undo, local_redo, logUndo);
     }
     if (result) {
-        if (!blockUndo) {
-            PUSH_LAMBDA(update_model, local_undo);
-        }
-        PUSH_LAMBDA(update_model, local_redo);
-        update_model();
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
     return result;
@@ -2158,6 +2145,8 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
+    int cache = QThread::idealThreadCount() + (m_allTracks.size() + 1) * 2;
+    mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
 }
 
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer)
@@ -2190,6 +2179,8 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         if (updateView) {
             _resetView();
         }
+        int cache = QThread::idealThreadCount() + (m_allTracks.size() + 1) * 2;
+        mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
         return true;
     };
 }
@@ -3455,3 +3446,4 @@ std::unordered_set<int> TimelineModel::getAllTracksIds() const
     std::transform(m_iteratorTable.begin(), m_iteratorTable.end(), std::inserter(result, result.begin()), [&](const auto &track) { return track.first; });
     return result;
 }
+
