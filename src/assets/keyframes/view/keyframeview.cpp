@@ -294,6 +294,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
      */
     for (const auto &keyframe : *m_model.get()) {
         int pos = keyframe.first.frames(pCore->getCurrentFps()) - offset;
+        if (pos < 0) continue;
         if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colSelected);
         } else {
