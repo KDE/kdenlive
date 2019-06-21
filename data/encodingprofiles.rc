@@ -32,4 +32,4 @@ DNxHD 1080p 60fps=r=60 s=1920x1080 vb=90M threads=0 vcodec=dnxhd progressive=1;m
 ProRes=vcodec=prores_ks vb=0 g=1 bf=0 vprofile=0 vendor=ap10 qscale=4 s=800x450;mov
 MJPEG=f=avi vcodec=mjpeg progressive=1 qscale=1;avi
 x264-nvenc=vcodec=h264_nvenc g=1 bf=0 profile=0;mkv
-x264-vaapi=vcodec=h264_vaapi g=1 bf=0 profile=0;mkv
+x264-vaapi=vcodec=h264_vaapi g=1 bf=0 profile=578;mkv

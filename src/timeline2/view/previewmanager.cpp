@@ -385,7 +385,9 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     bool hasPreview = m_previewTrack != nullptr;
     for (const auto &ix : m_renderedChunks) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
-        m_dirtyChunks << ix;
+        if (!m_dirtyChunks.contains(ix)) {
+            m_dirtyChunks << ix;
+        }
         if (!hasPreview) {
             continue;
         }
@@ -419,7 +421,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     for (int i = startChunk; i <= endChunk; i++) {
         int frame = i * chunkSize;
         if (add) {
-            if (!m_renderedChunks.contains(frame)) {
+            if (!m_renderedChunks.contains(frame) && !m_dirtyChunks.contains(frame)) {
                 m_dirtyChunks << frame;
             }
         } else {
@@ -547,6 +549,7 @@ void PreviewManager::doPreviewRender(const QString &scene)
                      QStringLiteral("-split"),
                      chunks.join(QLatin1Char(',')),
                      QString::number(chunkSize - 1),
+                     pCore->getCurrentProfilePath(),
                      m_extension,
                      m_consumerParams.join(QLatin1Char(' '))};
     qDebug() << " -  - -STARTING PREVIEW JOBS: " << args;
@@ -628,9 +631,12 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             }
             Mlt::Producer *prod = m_previewTrack->replace_with_blank(ix);
             delete prod;
-            m_renderedChunks.removeAll(QVariant(i));
-            m_dirtyChunks << QVariant(i);
-            chunksChanged = true;
+            QVariant val(i);
+            m_renderedChunks.removeAll(val);
+            if (!m_dirtyChunks.contains(val)) {
+                m_dirtyChunks << val;
+                chunksChanged = true;
+            }
         }
     }
     if (chunksChanged) {
@@ -716,8 +722,10 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
     }
     emit previewRender(0, m_errorLog, -1);
     m_cacheDir.remove(fileName);
-    m_dirtyChunks << frame;
-    qSort(m_dirtyChunks);
+    if (!m_dirtyChunks.contains(frame)) {
+        m_dirtyChunks << frame;
+        qSort(m_dirtyChunks);
+    }
 }
 
 int PreviewManager::setOverlayTrack(Mlt::Playlist *overlay)

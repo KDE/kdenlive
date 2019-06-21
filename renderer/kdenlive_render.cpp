@@ -63,6 +63,9 @@ int main(int argc, char **argv)
             // chunk size in frames
             int chunkSize = args.at(0).toInt();
             args.removeFirst();
+            // chunk size in frames
+            QString profilePath = args.at(0);
+            args.removeFirst();
             // rendered file extension
             QString extension = args.at(0);
             args.removeFirst();
@@ -71,13 +74,13 @@ int main(int argc, char **argv)
             args.removeFirst();
             QDir baseFolder(target);
             Mlt::Factory::init();
-            Mlt::Profile profile;
+            Mlt::Profile profile(profilePath.toUtf8().constData());
+            profile.set_explicit(1);
             Mlt::Producer prod(profile, nullptr, playlist.toUtf8().constData());
             if (!prod.is_valid()) {
                 fprintf(stderr, "INVALID playlist: %s \n", playlist.toUtf8().constData());
+                return 1;
             }
-            profile.from_producer(prod);
-            profile.set_explicit(1);
             const char *localename = prod.get_lcnumeric();
             QLocale::setDefault(QLocale(localename));
             for (const QString &frame : chunks) {
@@ -98,6 +101,7 @@ int main(int argc, char **argv)
                 }
                 if (!cons->is_valid()) {
                     fprintf(stderr, " = =  = INVALID CONSUMER\n\n");
+                    return 1;
                 }
                 cons->set("terminate_on_pause", 1);
                 cons->connect(*playlst);
@@ -113,7 +117,7 @@ int main(int argc, char **argv)
         }
         int in = -1;
         int out = -1;
-        
+
         // older MLT version, does not support embeded consumer in/out in xml, and current 
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
         QFile f(playlist);
@@ -133,7 +137,7 @@ int main(int argc, char **argv)
                 playlist.append(QStringLiteral("?multi=1"));
             }
         }
-        
+
         auto *rJob = new RenderJob(render, playlist, target, pid, in, out);
         rJob->start();
         return app.exec();
