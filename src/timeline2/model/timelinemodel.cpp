@@ -37,6 +37,7 @@
 #include "trackmodel.hpp"
 
 #include <QDebug>
+#include <QThread>
 #include <QModelIndex>
 #include <klocalizedstring.h>
 #include <mlt++/MltConsumer.h>
@@ -2077,6 +2078,8 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
+    int cache = QThread::idealThreadCount() + (m_allTracks.size() + 1) * 2;
+    mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
 }
 
 void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool registerProducer)
@@ -2109,6 +2112,8 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         if (updateView) {
             _resetView();
         }
+        int cache = QThread::idealThreadCount() + (m_allTracks.size() + 1) * 2;
+        mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
         return true;
     };
 }

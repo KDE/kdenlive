@@ -53,6 +53,7 @@ Core::Core()
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
+    QThreadPool::globalInstance()->clear();
 }
 
 Core::~Core()
@@ -195,6 +196,7 @@ void Core::initGUI(const QUrl &Url)
     }
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
+    QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
 }
 
 std::unique_ptr<Core> &Core::self()
