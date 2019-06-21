@@ -204,7 +204,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             if (m_currentTrackId > -1) {
                 if (auto ptr = m_parent.lock()) {
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                    ptr->dataChanged(ix, ix, roles);
+                    ptr->notifyChange(ix, ix, roles);
                 }
             }
             return true;
@@ -224,7 +224,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                 if (m_currentTrackId > -1) {
                     if (auto ptr = m_parent.lock()) {
                         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                        ptr->dataChanged(ix, ix, roles);
+                        ptr->notifyChange(ix, ix, roles);
                     }
                 }
                 return true;

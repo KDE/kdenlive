@@ -3365,3 +3365,4 @@ std::unordered_set<int> TimelineModel::getAllTracksIds() const
     std::transform(m_iteratorTable.begin(), m_iteratorTable.end(), std::inserter(result, result.begin()), [&](const auto &track) { return track.first; });
     return result;
 }
+

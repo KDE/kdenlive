@@ -123,9 +123,11 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
     Fun operation = [this, track_operation, roles]() {
         if (track_operation()) {
             // we send a list of roles to be updated
-            if (auto ptr = m_parent.lock()) {
-                QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-                ptr->dataChanged(ix, ix, roles);
+            if (m_currentTrackId != -1) {
+                if (auto ptr = m_parent.lock()) {
+                    QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+                    ptr->notifyChange(ix, ix, roles);
+                }
             }
             return true;
         }
@@ -140,9 +142,11 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
         }
         Fun reverse = [this, track_reverse, roles]() {
             if (track_reverse()) {
-                if (auto ptr = m_parent.lock()) {
-                    QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-                    ptr->dataChanged(ix, ix, roles);
+                if (m_currentTrackId != -1) {
+                    if (auto ptr = m_parent.lock()) {
+                        QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
+                        ptr->notifyChange(ix, ix, roles);
+                    }
                 }
                 return true;
             }

@@ -463,7 +463,8 @@ TEST_CASE("FuzzBug1")
         REQUIRE(timeline_0->checkConsistency());
         {
             bool res = timeline_0->requestTrackDeletion(1);
-            REQUIRE(res == true);
+            // Cannot delete last track
+            REQUIRE(res == false);
         }
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
