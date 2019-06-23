@@ -35,6 +35,7 @@
 #include <QInputDialog>
 #include <QScopedPointer>
 
+#include <KIO/RenameDialog>
 #include <mlt++/Mlt.h>
 
 SpeedJob::SpeedJob(const QString &binId, double speed, QString destUrl)
@@ -83,6 +84,17 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
         auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
         // Filter several clips, destination points to a folder
         QString mltfile = QFileInfo(binClip->url()).absoluteFilePath() + QStringLiteral(".mlt");
+        if (QFile::exists(mltfile)) {
+            KIO::RenameDialog renameDialog(qApp->activeWindow(), QString(), /*i18n("File already exists"), */QUrl::fromLocalFile(mltfile), QUrl::fromLocalFile(mltfile), KIO::RenameDialog_Option::RenameDialog_Overwrite );
+            if (renameDialog.exec() == QDialog::Accepted) {
+                QUrl final = renameDialog.newDestUrl();
+                if (final.isValid()) {
+                    mltfile = final.toLocalFile();
+                }
+            } else {
+                return -1;
+            }
+        }
         destinations[binId] = mltfile;
     }
     // Now we have to create the jobs objects. This is trickier than usual, since the parameters are different for each job (each clip has its own

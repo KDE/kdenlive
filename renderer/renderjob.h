@@ -33,7 +33,7 @@ class RenderJob : public QObject
     Q_OBJECT
 
 public:
-    RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1);
+    RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid = -1, int in = -1, int out = -1, QObject *parent = nullptr);
     ~RenderJob();
     void setLocale(const QString &locale);
 

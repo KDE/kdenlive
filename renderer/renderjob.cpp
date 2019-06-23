@@ -32,8 +32,8 @@ public:
     static void msleep(unsigned long msecs) { QThread::msleep(msecs); }
 };
 
-RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out)
-    : QObject()
+RenderJob::RenderJob(const QString &render, const QString &scenelist, const QString &target, int pid, int in, int out, QObject *parent)
+    : QObject(parent)
     , m_scenelist(scenelist)
     , m_dest(std::move(target))
     , m_progress(0)
@@ -73,6 +73,8 @@ RenderJob::RenderJob(const QString &render, const QString &scenelist, const QStr
 
 RenderJob::~RenderJob()
 {
+    delete m_jobUiserver;
+    delete m_kdenliveinterface;
     delete m_renderProcess;
     m_logfile.close();
 }
@@ -256,7 +258,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
 {
     if (m_jobUiserver) {
         m_jobUiserver->call(QStringLiteral("setDescriptionField"), (uint)1, tr("Rendered file"), m_dest);
-        // m_jobUiserver->call(QStringLiteral("terminate"), QString());
+        m_jobUiserver->call(QStringLiteral("terminate"), QString());
     }
     if (!isWritable) {
         QString error = tr("Cannot write to %1, check permissions.").arg(m_dest);
@@ -265,9 +267,10 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             m_dbusargs.append(error);
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
-        QProcess::startDetached(QStringLiteral("kdialog"), QStringList() << QStringLiteral("--error") << error);
+        QProcess::startDetached(QStringLiteral("kdialog"), {QStringLiteral("--error"), error});
         m_logstream << error << endl;
-        qApp->quit();
+        emit renderingFinished();
+        //qApp->quit();
     }
     if (m_erase) {
         QFile(m_scenelist).remove();
@@ -284,7 +287,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         args << QStringLiteral("--error") << error;
         m_logstream << error << endl;
         QProcess::startDetached(QStringLiteral("kdialog"), args);
-        qApp->quit();
+        emit renderingFinished();
     } else {
         if (!m_dualpass && (m_kdenliveinterface != nullptr)) {
             m_dbusargs[1] = (int)-1;
@@ -302,11 +305,10 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         }
         m_logstream.flush();
         if (m_dualpass) {
-            emit renderingFinished();
             deleteLater();
         } else {
             m_logfile.remove();
-            qApp->quit();
         }
     }
+    emit renderingFinished();
 }
