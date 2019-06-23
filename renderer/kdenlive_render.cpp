@@ -28,6 +28,7 @@
 #include <QString>
 #include <QStringList>
 #include <QUrl>
+#include <QObject>
 #include <cstdio>
 
 int main(int argc, char **argv)
@@ -138,8 +139,12 @@ int main(int argc, char **argv)
             }
         }
 
-        auto *rJob = new RenderJob(render, playlist, target, pid, in, out);
+        auto *rJob = new RenderJob(render, playlist, target, pid, in, out, qApp);
         rJob->start();
+        QObject::connect(rJob, &RenderJob::renderingFinished, [&, rJob]() {
+            rJob->deleteLater();
+            app.quit();
+        }); 
         return app.exec();
     } else {
         fprintf(stderr,
