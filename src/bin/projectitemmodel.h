@@ -99,7 +99,7 @@ public:
     /** @brief Convenience method to access root folder */
     std::shared_ptr<ProjectFolder> getRootFolder() const;
 
-    void loadSubClips(const QString &id, const stringMap &dataMap, Fun &undo, Fun &redo);
+    void loadSubClips(const QString &id, const QString &dataMap, Fun &undo, Fun &redo);
 
     /* @brief Convenience method to retrieve a pointer to an element given its index */
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
@@ -231,7 +231,7 @@ public slots:
     /** @brief Create the subclips defined in the parent clip.
     @param id is the id of the parent clip
     @param data is a definition of the subclips (keys are subclips' names, value are "in:out")*/
-    void loadSubClips(const QString &id, const stringMap &clipData);
+    void loadSubClips(const QString &id, const QString &clipData);
 
 private:
     /** @brief Return reference to column specific data */

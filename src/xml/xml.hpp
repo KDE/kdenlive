@@ -82,6 +82,8 @@ void removeMetaProperties(QDomElement producer);
 
 void renameXmlProperty(const QDomElement &effect, const QString &oldName, const QString &newName);
 
+QMap<QString, QString> getXmlPropertyByWildcard(QDomElement element, const QString &propertyName);
+
 } // namespace Xml
 
 #endif

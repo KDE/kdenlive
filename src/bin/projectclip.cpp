@@ -111,7 +111,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
-    QMetaObject::invokeMethod(model.get(), "loadSubClips", Qt::QueuedConnection, Q_ARG(const QString&, id), Q_ARG(const stringMap&, self->getPropertiesFromPrefix(QStringLiteral("kdenlive:clipzone."))));
+    QMetaObject::invokeMethod(model.get(), "loadSubClips", Qt::QueuedConnection, Q_ARG(const QString&, id), Q_ARG(const QString&, self->getProducerProperty(QStringLiteral("kdenlive:clipzones"))));
     return self;
 }
 
@@ -1367,4 +1367,27 @@ void ProjectClip::updateTimelineClips(const QVector<int> &roles)
             return;
         }
     }
+}
+
+void ProjectClip::updateZones()
+{
+    int zonesCount = childCount();
+    if (zonesCount == 0) {
+        resetProducerProperty(QStringLiteral("kdenlive:clipzones"));
+        return;
+    }
+    QJsonArray list;
+    for (int i = 0; i < zonesCount; ++i) {
+        std::shared_ptr<AbstractProjectItem> clip = std::static_pointer_cast<AbstractProjectItem>(child(i));
+        if (clip) {
+            QJsonObject currentZone;
+            currentZone.insert(QLatin1String("name"), QJsonValue(clip->name()));
+            QPoint zone = clip->zone();
+            currentZone.insert(QLatin1String("in"), QJsonValue(zone.x()));
+            currentZone.insert(QLatin1String("out"), QJsonValue(zone.y()));
+            list.push_back(currentZone);
+        }
+    }
+    QJsonDocument json(list);
+    setProducerProperty(QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
 }

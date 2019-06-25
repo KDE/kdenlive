@@ -22,6 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectsubclip.h"
 #include "projectclip.h"
 #include "projectitemmodel.h"
+#include "core.h"
+#include "doc/kdenlivedoc.h"
+#include "doc/docundostack.hpp"
+#include "bincommands.h"
 
 #include <KLocalizedString>
 #include <QDomElement>
@@ -47,7 +51,6 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     }
     m_clipStatus = StatusReady;
     // Save subclip in MLT
-    parent->setProducerProperty("kdenlive:clipzone." + m_name, QString::number(in) + QLatin1Char(';') + QString::number(out));
     connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }
 
@@ -70,13 +73,6 @@ void ProjectSubClip::gotThumb(int pos, const QImage &img)
     if (pos == m_inPoint) {
         setThumbnail(img);
         disconnect(m_masterClip.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
-    }
-}
-
-void ProjectSubClip::discard()
-{
-    if (m_masterClip) {
-        m_masterClip->resetProducerProperty("kdenlive:clipzone." + m_name);
     }
 }
 
@@ -155,7 +151,8 @@ bool ProjectSubClip::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    // if (auto ptr = m_model.lock()) std::static_pointer_cast<ProjectItemModel>(ptr)->bin()->renameSubClipCommand(m_binId, name, m_name, m_in, m_out);
+    auto *command = new RenameBinSubClipCommand(pCore->bin(), m_masterClip->clipId(), name, m_name, m_inPoint, m_out);
+    pCore->currentDoc()->commandStack()->push(command);
     return true;
 }
 

@@ -1939,7 +1939,33 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         }
         Xml::setXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:docproperties.groups"), groupsData);
     }
-
+    if (version < 0.99) {
+        // rename main bin playlist, create extra tracks for old type AV clips, port groups to JSon
+        QDomNodeList masterProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        for (int i = 0; i < masterProducers.count(); i++) {
+            QMap<QString, QString> map = Xml::getXmlPropertyByWildcard(masterProducers.at(i).toElement(), QLatin1String("kdenlive:clipzone."));
+            if (map.isEmpty()) {
+                continue;
+            }
+            QJsonArray list;
+            QMapIterator<QString, QString> j(map);
+            while (j.hasNext()) {
+                j.next();
+                Xml::removeXmlProperty(masterProducers.at(i).toElement(), j.key());
+                QJsonObject currentZone;
+                currentZone.insert(QLatin1String("name"), QJsonValue(j.key().section(QLatin1Char('.'),1)));
+                if (!j.value().contains(QLatin1Char(';'))) {
+                    // invalid zone
+                    continue;
+                }
+                currentZone.insert(QLatin1String("in"), QJsonValue(j.value().section(QLatin1Char(';'), 0, 0).toInt()));
+                currentZone.insert(QLatin1String("out"), QJsonValue(j.value().section(QLatin1Char(';'), 1, 1).toInt()));
+                list.push_back(currentZone);
+            }
+            QJsonDocument json(list);
+            Xml::setXmlProperty(masterProducers.at(i).toElement(), QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
+        }
+    }
     m_modified = true;
     return true;
 }

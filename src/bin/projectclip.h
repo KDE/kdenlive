@@ -217,6 +217,9 @@ public:
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
     void updateTimelineClips(const QVector<int> &roles);
+    /** @brief Saves the subclips data as json
+     */
+    void updateZones();
 
 protected:
     friend class ClipModel;

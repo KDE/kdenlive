@@ -458,7 +458,7 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getRootFolder() const
     return std::static_pointer_cast<ProjectFolder>(rootItem);
 }
 
-void ProjectItemModel::loadSubClips(const QString &id, const stringMap &clipData)
+void ProjectItemModel::loadSubClips(const QString &id, const QString &clipData)
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };
@@ -466,7 +466,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const stringMap &clipData
     loadSubClips(id, clipData, undo, redo);
 }
 
-void ProjectItemModel::loadSubClips(const QString &id, const stringMap &dataMap, Fun &undo, Fun &redo)
+void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
@@ -474,23 +474,35 @@ void ProjectItemModel::loadSubClips(const QString &id, const stringMap &dataMap,
         qDebug()<<" = = = = = CLIP NOT LOADED";
         return;
     }
-    QMapIterator<QString, QString> i(dataMap);
-    QList<int> missingThumbs;
+    auto json = QJsonDocument::fromJson(dataMap.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error loading zones : Json file should be an array";
+        return;
+    }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
-    while (i.hasNext()) {
-        i.next();
-        if (!i.value().contains(QLatin1Char(';'))) {
-            // Problem, the zone has no in/out points
+    auto list = json.array();
+    for (const auto &entry : list) {
+        if (!entry.isObject()) {
+            qDebug() << "Warning : Skipping invalid marker data";
             continue;
         }
-        int in = i.value().section(QLatin1Char(';'), 0, 0).toInt();
-        int out = i.value().section(QLatin1Char(';'), 1, 1).toInt();
+        auto entryObj = entry.toObject();
+        if (!entryObj.contains(QLatin1String("name"))) {
+            qDebug() << "Warning : Skipping invalid zone(does not contain name)";
+            continue;
+        }
+        int in = entryObj[QLatin1String("in")].toInt();
+        int out = entryObj[QLatin1String("out")].toInt();
+        QString name = entryObj[QLatin1String("name")].toString(i18n("Zone"));
+        if (in >= out) {
+            qDebug() << "Warning : Invalid zone: "<<name<<", "<<in<<"-"<<out;
+            continue;
+        }
         if (maxFrame > 0) {
             out = qMin(out, maxFrame);
         }
-
         QString subId;
-        requestAddBinSubClip(subId, in, out, i.key(), id, undo, redo);
+        requestAddBinSubClip(subId, in, out, name, id, undo, redo);
     }
 }
 
@@ -506,13 +518,31 @@ bool ProjectItemModel::requestBinClipDeletion(const std::shared_ptr<AbstractProj
     Q_ASSERT(clip);
     if (!clip) return false;
     int parentId = -1;
-    if (auto ptr = clip->parent()) parentId = ptr->getId();
+    QString binId;
+    if (auto ptr = clip->parent()) {
+        parentId = ptr->getId();
+        binId = ptr->clipId();
+    }
+    bool isSubClip = clip->itemType() == AbstractProjectItem::SubClipItem;
     clip->selfSoftDelete(undo, redo);
     int id = clip->getId();
     Fun operation = removeItem_lambda(id);
     Fun reverse = addItem_lambda(clip, parentId);
     bool res = operation();
     if (res) {
+        if (isSubClip) {
+            Fun update_doc = [this, binId]() {
+                std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(binId);
+                if (parentItem && parentItem->itemType() == AbstractProjectItem::ClipItem) {
+                    auto clipItem = std::static_pointer_cast<ProjectClip>(parentItem);
+                    clipItem->updateZones();
+                }
+                return true;
+            };
+            update_doc();
+            PUSH_LAMBDA(update_doc, operation);
+            PUSH_LAMBDA(update_doc, reverse);
+        }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
     }
     return res;
@@ -689,6 +719,17 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     Fun redo = []() { return true; };
     bool res = requestAddBinSubClip(id, in, out, zoneName, parentId, undo, redo);
     if (res) {
+        Fun update_doc = [this, parentId]() {
+            std::shared_ptr<AbstractProjectItem> parentItem = getItemByBinId(parentId);
+            if (parentItem && parentItem->itemType() == AbstractProjectItem::ClipItem) {
+                auto clipItem = std::static_pointer_cast<ProjectClip>(parentItem);
+                clipItem->updateZones();
+            }
+            return true;
+        };
+        update_doc();
+        PUSH_LAMBDA(update_doc, undo);
+        PUSH_LAMBDA(update_doc, redo);
         pCore->pushUndo(undo, redo, i18n("Add a sub clip"));
     }
     return res;

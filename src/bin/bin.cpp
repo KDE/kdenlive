@@ -2396,8 +2396,7 @@ void Bin::renameSubClip(const QString &id, const QString &newName, const QString
         return;
     }
     sub->setName(newName);
-    clip->setProducerProperty("kdenlive:clipzone." + oldName, QString());
-    clip->setProducerProperty("kdenlive:clipzone." + newName, QString::number(in) + QLatin1Char(';') + QString::number(out));
+    clip->updateZones();
     emit itemUpdated(sub);
 }
 

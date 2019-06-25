@@ -69,7 +69,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.98;
+const double DOCUMENTVERSION = 0.99;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent)
@@ -833,11 +833,6 @@ QString KdenliveDoc::searchFileRecursively(const QDir &dir, const QString &match
     return foundFileName;
 }
 
-// TODO refac : delete
-std::shared_ptr<ProjectClip> KdenliveDoc::getBinClip(const QString &clipId)
-{
-    return pCore->bin()->getBinClip(clipId);
-}
 
 QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
 {

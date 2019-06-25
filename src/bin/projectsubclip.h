@@ -74,8 +74,6 @@ public:
     void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
 
-    /** @brief Remove reference to this subclip in the master clip, to be done before a subclip is deleted. */
-    void discard();
     QPoint zone() const override;
     QString getToolTip() const override;
     bool rename(const QString &name, int column) override;

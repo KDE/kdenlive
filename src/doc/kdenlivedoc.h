@@ -74,8 +74,6 @@ public:
     std::shared_ptr<DocUndoStack> commandStack();
 
     int getFramePos(const QString &duration);
-    /** @brief Get a bin's clip from its id. */
-    std::shared_ptr<ProjectClip> getBinClip(const QString &clipId);
     /** @brief Get a list of all clip ids that are inside a folder. */
     QStringList getBinFolderClipIds(const QString &folderId) const;
 
