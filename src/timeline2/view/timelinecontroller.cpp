@@ -344,10 +344,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         }
     }
     position = qMin(minimum + clip_duration - 1, position);
-    int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
-    if (duration == 0) {
-        duration = m_model->getTrackById_const(tid)->suggestCompositionLength(position);
-    }
+    int duration = qMin(pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()), m_model->getTrackById_const(tid)->suggestCompositionLength(position));
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
     bool revert = offset > clip_duration / 2;
     if (lowerVideoTrackId > 0) {

@@ -505,7 +505,7 @@ Rectangle {
             border.width: 2
             border.color: 'green'
             opacity: 0
-            enabled: !clipRoot.isAudio && dragProxy.draggedItem == clipRoot.clipId
+            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId
             visible: clipRoot.width > 4 * width
             MouseArea {
                 id: compInArea
@@ -520,7 +520,6 @@ Rectangle {
                 }
                 onPressed: {
                     timeline.addCompositionToClip('', clipRoot.clipId, 0)
-                    endDrag()
                 }
                 onReleased: {
                     parent.opacity = 0
@@ -571,7 +570,6 @@ Rectangle {
                 }
                 onPressed: {
                     timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
-                    endDrag()
                 }
                 onReleased: {
                     parent.opacity = 0
