@@ -454,6 +454,7 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
                 return false;
             }
         }
+        adjustEffectLength(false, oldIn, getIn(), oldOut - oldIn, m_producer->get_playtime(), 0, local_undo, local_redo, true);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
