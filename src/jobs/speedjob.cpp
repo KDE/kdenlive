@@ -32,10 +32,15 @@
 #include "project/clipstabilize.h"
 #include "ui_scenecutdialog_ui.h"
 
-#include <QInputDialog>
+#include <QApplication>
+#include <QDialogButtonBox>
+#include <QLabel>
+#include <QDialog>
+#include <QDoubleSpinBox>
 #include <QScopedPointer>
 
 #include <KIO/RenameDialog>
+#include <KUrlRequester>
 #include <mlt++/Mlt.h>
 
 SpeedJob::SpeedJob(const QString &binId, double speed, QString destUrl)
@@ -74,16 +79,60 @@ void SpeedJob::configureFilter() {}
 int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vector<QString> &binIds, int parentId, QString undoString)
 {
     // Show config dialog
-    bool ok;
-    int speed = QInputDialog::getInt(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), 100, -100000, 100000, 1, &ok);
-    if (!ok) {
+    QDialog d(qApp->activeWindow());
+    d.setWindowTitle(i18n("Clip Speed"));
+    QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    QLabel labUrl(&d);
+    KUrlRequester fileUrl(&d);
+    auto binClip = pCore->projectItemModel()->getClipByBinID(binIds.front());
+    QDir folder = QFileInfo(binClip->url()).absoluteDir();
+    folder.mkpath(i18n("Speed Change"));
+    folder.cd(i18n("Speed Change"));
+    if (binIds.size() > 1) {
+        labUrl.setText(i18n("Destination Folder"));
+        fileUrl.setMode(KFile::Directory);
+        fileUrl.setUrl(QUrl::fromLocalFile(folder.absolutePath()));
+    } else {
+        labUrl.setText(i18n("Destination File"));
+        fileUrl.setMode(KFile::File);
+        QString filePath = QFileInfo(binClip->url()).fileName().section(QLatin1Char('.'), 0, -2);
+        filePath.append(QStringLiteral(".mlt"));
+        fileUrl.setUrl(QUrl::fromLocalFile(folder.absoluteFilePath(filePath)));
+    }
+    QLabel lab(&d);
+    lab.setText(i18n("Percentage"));
+    
+    QDoubleSpinBox speedInput(&d);
+    speedInput.setRange(-100000, 100000);
+    speedInput.setValue(100);
+    speedInput.setSuffix(QLatin1String("%"));
+    l->addWidget(&labUrl);
+    l->addWidget(&fileUrl);
+    l->addWidget(&lab);
+    l->addWidget(&speedInput);
+    l->addWidget(&buttonBox);
+    d.connect(&buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(&buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    if (d.exec() != QDialog::Accepted) {
         return -1;
     }
+    double speed = speedInput.value();
     std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
     for (const auto &binId : binIds) {
-        auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
+        QString mltfile;
+        if (binIds.size() == 1) {
+            // converting only 1 clip
+            mltfile = fileUrl.url().toLocalFile();
+        } else {
+            QDir dir(fileUrl.url().toLocalFile());
+            binClip = pCore->projectItemModel()->getClipByBinID(binId);
+            mltfile = QFileInfo(binClip->url()).fileName().section(QLatin1Char('.'), 0, -2);
+            mltfile.append(QString("-%1.mlt").arg(QString::number((int)speed)));
+            mltfile = dir.absoluteFilePath(mltfile);
+        }
         // Filter several clips, destination points to a folder
-        QString mltfile = QFileInfo(binClip->url()).absoluteFilePath() + QStringLiteral(".mlt");
         if (QFile::exists(mltfile)) {
             KIO::RenameDialog renameDialog(qApp->activeWindow(), QString(), /*i18n("File already exists"), */QUrl::fromLocalFile(mltfile), QUrl::fromLocalFile(mltfile), KIO::RenameDialog_Option::RenameDialog_Overwrite );
             if (renameDialog.exec() == QDialog::Accepted) {
