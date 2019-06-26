@@ -319,7 +319,8 @@ bool ClipModel::addEffect(const QString &effectId)
 bool ClipModel::copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId)
 {
     QWriteLocker locker(&m_lock);
-    m_effectStack->copyEffect(stackModel->getEffectStackRow(rowId), m_currentState);
+    QDomDocument doc;
+    m_effectStack->copyXmlEffect(stackModel->rowToXml(rowId, doc));
     return true;
 }
 
@@ -792,3 +793,4 @@ int ClipModel::getMaxDuration() const
     }
     return m_producer->get_length();
 }
+
