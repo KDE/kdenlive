@@ -16,7 +16,7 @@
       <Action name="add_slide_clip" />
       <Action name="add_text_clip" />
       <Action name="add_text_template_clip" />
-      <Action name="add_folder" />
+      <Action name="create_folder" />
       <Action name="download_resource" /> 
       <Menu name="generators" ><text>Generators</text>
       </Menu>
