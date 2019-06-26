@@ -1445,82 +1445,11 @@ void MainWindow::setupActions()
         redo->setEnabled(enable);
     });
 
-    auto *addClips = new QMenu(this);
-
-    QAction *addClip =
-        addAction(QStringLiteral("add_clip"), i18n("Add Clip"), pCore->bin(), SLOT(slotAddClip()), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
-    addClips->addAction(addClip);
-    QAction *action = addAction(QStringLiteral("add_color_clip"), i18n("Add Color Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                                QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
-    action->setData((int)ClipType::Color);
-    addClips->addAction(action);
-    action = addAction(QStringLiteral("add_slide_clip"), i18n("Add Slideshow Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                       QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
-    action->setData((int)ClipType::SlideShow);
-    addClips->addAction(action);
-    action = addAction(QStringLiteral("add_text_clip"), i18n("Add Title Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                       QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-    action->setData((int)ClipType::Text);
-    addClips->addAction(action);
-    action = addAction(QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), pCore->bin(), SLOT(slotCreateProjectClip()),
-                       QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-    action->setData((int)ClipType::TextTemplate);
-    addClips->addAction(action);
-    /*action = addAction(QStringLiteral("add_qtext_clip"), i18n("Add Simple Text Clip"), pCore->bin(), SLOT(slotCreateProjectClip()),
-    QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
-    action->setData((int) QText);
-    addClips->addAction(action);*/
-
-    QAction *addFolder =
-        addAction(QStringLiteral("add_folder"), i18n("Create Folder"), pCore->bin(), SLOT(slotAddFolder()), QIcon::fromTheme(QStringLiteral("folder-new")));
-    addClips->addAction(addAction(QStringLiteral("download_resource"), i18n("Online Resources"), this, SLOT(slotDownloadResources()),
-                                  QIcon::fromTheme(QStringLiteral("edit-download"))));
-
-    QAction *clipProperties = addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), pCore->bin(), SLOT(slotSwitchClipProperties()),
-                                        QIcon::fromTheme(QStringLiteral("document-edit")));
-    clipProperties->setData("clip_properties");
-
-    QAction *openClip =
-        addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), pCore->bin(), SLOT(slotOpenClip()), QIcon::fromTheme(QStringLiteral("document-open")));
-    openClip->setData("edit_clip");
-    openClip->setEnabled(false);
-
-    QAction *deleteClip =
-        addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), pCore->bin(), SLOT(slotDeleteClip()), QIcon::fromTheme(QStringLiteral("edit-delete")));
-    deleteClip->setData("delete_clip");
-    deleteClip->setEnabled(false);
-
-    QAction *renameClip =
-        addAction(QStringLiteral("rename_clip"), i18n("Rename Clip"), pCore->bin(), SLOT(slotRenameItem()), QIcon::fromTheme(QStringLiteral("document-edit")));
-    renameClip->setData("rename_clip");
-    renameClip->setEnabled(false);
-
-    QAction *reloadClip =
-        addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), pCore->bin(), SLOT(slotReloadClip()), QIcon::fromTheme(QStringLiteral("view-refresh")));
-    reloadClip->setData("reload_clip");
-    reloadClip->setEnabled(false);
-
     QAction *disableEffects = addAction(QStringLiteral("disable_timeline_effects"), i18n("Disable Timeline Effects"), pCore->projectManager(),
                                         SLOT(slotDisableTimelineEffects(bool)), QIcon::fromTheme(QStringLiteral("favorite")));
     disableEffects->setData("disable_timeline_effects");
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
-
-    QAction *locateClip =
-        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), pCore->bin(), SLOT(slotLocateClip()), QIcon::fromTheme(QStringLiteral("edit-file")));
-    locateClip->setData("locate_clip");
-    locateClip->setEnabled(false);
-
-    QAction *duplicateClip = addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), pCore->bin(), SLOT(slotDuplicateClip()),
-                                       QIcon::fromTheme(QStringLiteral("edit-copy")));
-    duplicateClip->setData("duplicate_clip");
-    duplicateClip->setEnabled(false);
-
-    QAction *proxyClip = new QAction(i18n("Proxy Clip"), this);
-    addAction(QStringLiteral("proxy_clip"), proxyClip);
-    proxyClip->setData(QStringList() << QString::number((int)AbstractClipJob::PROXYJOB));
-    proxyClip->setCheckable(true);
-    proxyClip->setChecked(false);
 
     addAction(QStringLiteral("switch_track_lock"), i18n("Toggle Track Lock"), pCore->projectManager(), SLOT(slotSwitchTrackLock()), QIcon(),
               Qt::SHIFT + Qt::Key_L);
@@ -1533,17 +1462,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark")));
 
-    QHash<QString, QAction *> actions({{QStringLiteral("locate"), locateClip},
-                                       {QStringLiteral("reload"), reloadClip},
-                                       {QStringLiteral("duplicate"), duplicateClip},
-                                       {QStringLiteral("proxy"), proxyClip},
-                                       {QStringLiteral("properties"), clipProperties},
-                                       {QStringLiteral("open"), openClip},
-                                       {QStringLiteral("rename"), renameClip},
-                                       {QStringLiteral("delete"), deleteClip},
-                                       {QStringLiteral("folder"), addFolder}});
-
-    pCore->bin()->setupMenu(addClips, addClip, actions);
+    pCore->bin()->setupMenu();
 
     // Setup effects and transitions actions.
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());

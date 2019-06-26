@@ -279,6 +279,8 @@ public slots:
     void slotZoomOut(bool zoomOnMouse = false);
     /** @brief Enable or disable the use of timeline zone for edits. */
     void slotSwitchTimelineZone(bool toggled);
+    /** @brief Open the online services search dialog. */
+    void slotDownloadResources();
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -425,8 +427,6 @@ private slots:
     void slotUpdateProxySettings();
     /** @brief Disable proxies for this project. */
     void slotDisableProxies();
-    /** @brief Open the online services search dialog. */
-    void slotDownloadResources();
 
     /** @brief Process keyframe data sent from a clip to effect / transition stack. */
     void slotProcessImportKeyframes(GraphicsRectItem type, const QString &tag, const QString &keyframes);

@@ -235,6 +235,13 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
         if (mType.inherits(QLatin1String("inode/directory"))) {
             // user dropped a folder, import its files
             QDir dir(file.path());
+            QString folderId;
+            Fun local_undo = []() { return true; };
+            Fun local_redo = []() { return true; };
+            bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+            if (!folderCreated) {
+                continue;
+            }
             QStringList result = dir.entryList(QDir::Files);
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
             QList<QUrl> folderFiles;
@@ -257,9 +264,6 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                     folderFiles.append(url);
                 }
             }
-            QString folderId;
-            Fun local_undo = []() { return true; };
-            Fun local_redo = []() { return true; };
             if (folderFiles.isEmpty()) {
                 QList<QUrl> sublist;
                 for (const QString &sub : subfolders) {
@@ -270,46 +274,44 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                 }
                 if (!sublist.isEmpty()) {
                     // load subfolders
-                    created = created || createClipsFromList(sublist, checkRemovable, parentFolder, model, undo, redo, false);
+                    created = created || createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
                 }
             } else {
-                bool ok = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
-                if (ok) {
-                    ok = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
-                    created = true;
-                    if (!ok) {
-                        local_undo();
-                    } else {
-                        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
-                    }
-                    // Check subfolders
-                    QList<QUrl> sublist;
-                    for (const QString &sub : subfolders) {
-                        QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
-                        if (!list.contains(url)) {
-                            sublist << url;
-                        }
-                    }
-                    if (!sublist.isEmpty()) {
-                        // load subfolders
-                        createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
+                bool clipsCreated = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
+                created = true;
+                if (!clipsCreated) {
+                    local_undo();
+                } else {
+                    UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo)
+                }
+                // Check subfolders
+                QList<QUrl> sublist;
+                for (const QString &sub : subfolders) {
+                    QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
+                    if (!list.contains(url)) {
+                        sublist << url;
                     }
                 }
+                if (!sublist.isEmpty()) {
+                    // load subfolders
+                    createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
+                }
             }
-            continue;
-        }
-        if (checkRemovable && isOnRemovableDevice(file) && !isOnRemovableDevice(pCore->currentDoc()->projectDataFolder())) {
-            int answer = KMessageBox::warningContinueCancel(
-                QApplication::activeWindow(),
-                i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position. You "
-                     "may want to copy it first to your hard-drive. Would you like to add it anyways?",
-                     file.path()),
-                i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("confirm_removable_device"));
+        } else {
+            // file is not a directory
+            if (checkRemovable && isOnRemovableDevice(file) && !isOnRemovableDevice(pCore->currentDoc()->projectDataFolder())) {
+                int answer = KMessageBox::warningContinueCancel(
+                    QApplication::activeWindow(),
+                    i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position. You "
+                         "may want to copy it first to your hard-drive. Would you like to add it anyways?",
+                         file.path()),
+                    i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("confirm_removable_device"));
 
-            if (answer == KMessageBox::Cancel) continue;
+                if (answer == KMessageBox::Cancel) continue;
+            }
+            QString id = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
+            created = created || (id != QStringLiteral("-1"));
         }
-        QString id = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
-        created = created || (id != QStringLiteral("-1"));
     }
     qDebug() << "/////////// creatclipsfromlist return" << created;
     return created;

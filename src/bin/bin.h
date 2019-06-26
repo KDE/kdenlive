@@ -198,7 +198,7 @@ public:
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);
 
-    void setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString, QAction *> &actions);
+    void setupMenu();
 
     /** @brief The source file was modified, we will reload it soon, disable item in the meantime */
     void setWaitingStatus(const QString &id);
@@ -322,7 +322,7 @@ public slots:
     void slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip);
     void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */
-    QString slotAddFolder(const QString &folderName = QString());
+    void slotAddFolder();
     void slotCreateProjectClip();
     void slotEditClipCommand(const QString &id, const QMap<QString, QString> &oldProps, const QMap<QString, QString> &newProps);
     /** @brief Start a filter job requested by a filter applied in timeline */
@@ -432,6 +432,8 @@ private:
     long m_processedAudio;
     /** @brief Indicates whether audio thumbnail creation is running. */
     QFuture<void> m_audioThumbsThread;
+    QAction *addAction(const QString &name, const QString &text, const QIcon &icon);
+    void setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon);
     void showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh = false);
     /** @brief Get the QModelIndex value for an item in the Bin. */
     QModelIndex getIndexForId(const QString &id, bool folderWanted) const;

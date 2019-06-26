@@ -1146,21 +1146,17 @@ void Bin::createClip(const QDomElement &xml)
     parentFolder->appendChild(newClip);
 }
 
-QString Bin::slotAddFolder(const QString &folderName)
+void Bin::slotAddFolder()
 {
     auto parentFolder = m_itemModel->getFolderByBinId(getCurrentFolder());
     qDebug() << "pranteforder id" << parentFolder->clipId();
     QString newId;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    m_itemModel->requestAddFolder(newId, folderName.isEmpty() ? i18n("Folder") : folderName, parentFolder->clipId(), undo, redo);
+    m_itemModel->requestAddFolder(newId, i18n("Folder"), parentFolder->clipId(), undo, redo);
     pCore->pushUndo(undo, redo, i18n("Create bin folder"));
 
     // Edit folder name
-    if (!folderName.isEmpty()) {
-        // We already have a name, no need to edit
-        return newId;
-    }
     auto folder = m_itemModel->getFolderByBinId(newId);
     auto ix = m_itemModel->getIndexFromItem(folder);
     qDebug() << "selecting" << ix;
@@ -1176,7 +1172,6 @@ QString Bin::slotAddFolder(const QString &folderName)
         }
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
     }
-    return newId;
 }
 
 QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
@@ -1669,6 +1664,24 @@ void Bin::doRefreshPanel(const QString &id)
     }
 }
 
+QAction *Bin::addAction(const QString &name, const QString &text, const QIcon &icon)
+{
+    auto *action = new QAction(text, this);
+    if (!icon.isNull()) {
+        action->setIcon(icon);
+    }
+    pCore->window()->addAction(name, action);
+    return action;
+}
+
+void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, const QString &name, const QString &text, const QIcon &icon)
+{
+    QAction *action = addAction(name, text, icon);
+    action->setData(static_cast<QVariant>(type));
+    addClipMenu->addAction(action);
+    connect(action, &QAction::triggered, this, &Bin::slotCreateProjectClip);
+}
+
 void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
 {
     if ((clip == nullptr) || !clip->isReady()) {
@@ -1879,35 +1892,91 @@ void Bin::setupGeneratorMenu()
     m_menu->insertSeparator(m_deleteAction);
 }
 
-void Bin::setupMenu(QMenu *addMenu, QAction *defaultAction, const QHash<QString, QAction *> &actions)
+void Bin::setupMenu()
 {
+    auto *addClipMenu = new QMenu(this);
+
+    QAction *addClip =
+        addAction(QStringLiteral("add_clip"), i18n("Add Clip or Folder"), QIcon::fromTheme(QStringLiteral("kdenlive-add-clip")));
+    addClipMenu->addAction(addClip);
+    connect(addClip, &QAction::triggered, this, &Bin::slotAddClip);
+
+    setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
+    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Slideshow Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
+    setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+    setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
+
+    QAction *downloadResourceAction =
+        addAction(QStringLiteral("download_resource"), i18n("Online Resources"), QIcon::fromTheme(QStringLiteral("edit-download")));
+    addClipMenu->addAction(downloadResourceAction);
+    connect(downloadResourceAction, &QAction::triggered, pCore->window(), &MainWindow::slotDownloadResources);
+
+    m_locateAction =
+        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), QIcon::fromTheme(QStringLiteral("edit-file")));
+    m_locateAction->setData("locate_clip");
+    m_locateAction->setEnabled(false);
+    connect(m_locateAction, &QAction::triggered, this, &Bin::slotLocateClip);
+
+    m_reloadAction =
+        addAction(QStringLiteral("reload_clip"), i18n("Reload Clip"), QIcon::fromTheme(QStringLiteral("view-refresh")));
+    m_reloadAction->setData("reload_clip");
+    m_reloadAction->setEnabled(false);
+    connect(m_reloadAction, &QAction::triggered, this, &Bin::slotReloadClip);
+
+    m_duplicateAction =
+        addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_duplicateAction->setData("duplicate_clip");
+    m_duplicateAction->setEnabled(false);
+    connect(m_duplicateAction, &QAction::triggered, this, &Bin::slotDuplicateClip);
+
+    m_proxyAction = new QAction(i18n("Proxy Clip"), pCore->window());
+    pCore->window()->addAction(QStringLiteral("proxy_clip"), m_proxyAction);
+    m_proxyAction->setData(QStringList() << QString::number(static_cast<int>(AbstractClipJob::PROXYJOB)));
+    m_proxyAction->setCheckable(true);
+    m_proxyAction->setChecked(false);
+
+    m_editAction =
+        addAction(QStringLiteral("clip_properties"), i18n("Clip Properties"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_editAction->setData("clip_properties");
+    connect(m_editAction, &QAction::triggered, this, static_cast<void (Bin::*)()>(&Bin::slotSwitchClipProperties));
+
+    m_openAction =
+        addAction(QStringLiteral("edit_clip"), i18n("Edit Clip"), QIcon::fromTheme(QStringLiteral("document-open")));
+    m_openAction->setData("edit_clip");
+    m_openAction->setEnabled(false);
+    connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClip);
+
+    m_renameAction =
+        addAction(QStringLiteral("rename_clip"), i18n("Rename Clip"), QIcon::fromTheme(QStringLiteral("document-edit")));
+    m_renameAction->setData("rename_clip");
+    m_renameAction->setEnabled(false);
+    connect(m_renameAction, &QAction::triggered, this, &Bin::slotRenameItem);
+
+    m_deleteAction =
+        addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
+    m_deleteAction->setData("delete_clip");
+    m_deleteAction->setEnabled(false);
+    connect(m_deleteAction, &QAction::triggered, this, &Bin::slotDeleteClip);
+
+    QAction *createFolder =
+        addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
+    connect(createFolder, &QAction::triggered, this, &Bin::slotAddFolder);
+
     // Setup actions
     QAction *first = m_toolbar->actions().at(0);
-    m_deleteAction = actions.value(QStringLiteral("delete"));
     m_toolbar->insertAction(first, m_deleteAction);
-
-    QAction *folder = actions.value(QStringLiteral("folder"));
-    m_toolbar->insertAction(m_deleteAction, folder);
-
-    m_editAction = actions.value(QStringLiteral("properties"));
-    m_openAction = actions.value(QStringLiteral("open"));
-    m_reloadAction = actions.value(QStringLiteral("reload"));
-    m_duplicateAction = actions.value(QStringLiteral("duplicate"));
-    m_locateAction = actions.value(QStringLiteral("locate"));
-    m_proxyAction = actions.value(QStringLiteral("proxy"));
-    m_renameAction = actions.value(QStringLiteral("rename"));
+    m_toolbar->insertAction(m_deleteAction, createFolder);
 
     auto *m = new QMenu(this);
-    m->addActions(addMenu->actions());
+    m->addActions(addClipMenu->actions());
     m_addButton = new QToolButton(this);
     m_addButton->setMenu(m);
-    m_addButton->setDefaultAction(defaultAction);
+    m_addButton->setDefaultAction(addClip);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->insertWidget(folder, m_addButton);
+    m_toolbar->insertWidget(createFolder, m_addButton);
     m_menu = new QMenu(this);
     m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
     m_propertiesDock->close();
-    // m_menu->addActions(addMenu->actions());
 }
 
 const QString Bin::getDocumentProperty(const QString &key)
