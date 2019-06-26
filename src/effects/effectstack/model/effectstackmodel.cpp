@@ -190,15 +190,13 @@ void EffectStackModel::removeEffect(const std::shared_ptr<EffectItemModel> &effe
     }
 }
 
-bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo)
+bool EffectStackModel::copyXmlEffect(QDomElement effect)
 {
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool result = copyEffect(sourceItem, state, undo, redo);
-    if (result && logUndo) {
-        std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
-        QString effectName = EffectsRepository::get()->getName(sourceEffect->getAssetId());
-        PUSH_UNDO(undo, redo, i18n("Copy effect %1", effectName));
+    bool result = fromXml(effect, undo, redo);
+    if (result) {
+        PUSH_UNDO(undo, redo, i18n("Copy effect"));
     }
     return result;
 }
@@ -206,6 +204,8 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 QDomElement EffectStackModel::toXml(QDomDocument &document)
 {
     QDomElement container = document.createElement(QStringLiteral("effects"));
+    int currentIn = pCore->getItemIn(m_ownerId);
+    container.setAttribute(QStringLiteral("parentIn"), currentIn);
     for (int i = 0; i < rootItem->childCount(); ++i) {
         std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         QDomElement sub = document.createElement(QStringLiteral("effect"));
@@ -237,10 +237,48 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
     return container;
 }
 
+QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
+{
+    QDomElement container = document.createElement(QStringLiteral("effects"));
+    if (row < 0 || row >= rootItem->childCount()) {
+        return container;
+    }
+    int currentIn = pCore->getItemIn(m_ownerId);
+    container.setAttribute(QStringLiteral("parentIn"), currentIn);
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(row));
+    QDomElement sub = document.createElement(QStringLiteral("effect"));
+    sub.setAttribute(QStringLiteral("id"), sourceEffect->getAssetId());
+    int filterIn = sourceEffect->filter().get_int("in");
+    int filterOut = sourceEffect->filter().get_int("out");
+    if (filterOut > filterIn) {
+        sub.setAttribute(QStringLiteral("in"), filterIn);
+        sub.setAttribute(QStringLiteral("out"), filterOut);
+    }
+    QStringList passProps {QStringLiteral("disable"), QStringLiteral("kdenlive:collapsed")};
+    for (const QString &param : passProps) {
+        int paramVal = sourceEffect->filter().get_int(param.toUtf8().constData());
+        if (paramVal > 0) {
+            Xml::setXmlProperty(sub, param, QString::number(paramVal));
+        }
+    }
+    QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
+    QLocale locale;
+    for (const auto &param : params) {
+        if (param.second.type() == QVariant::Double) {
+            Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
+        } else {
+            Xml::setXmlProperty(sub, param.first, param.second.toString());
+        }
+    }
+    container.appendChild(sub);
+    return container;
+}
+
 bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo)
 {
     QDomNodeList nodeList = effectsXml.elementsByTagName(QStringLiteral("effect"));
     int parentIn = effectsXml.attribute(QStringLiteral("parentIn")).toInt();
+    qDebug()<<"// GOT PREVIOUS PARENTIN: "<<parentIn<<"\n\n=======\n=======\n\n";
     int currentIn = pCore->getItemIn(m_ownerId);
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
     for (int i = 0; i < nodeList.count(); ++i) {
@@ -316,7 +354,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     return true;
 }
 
-bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo)
+bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state)
 {
     QWriteLocker locker(&m_lock);
     if (sourceItem->childCount() > 0) {
@@ -370,10 +408,6 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
             emit dataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
-        update();
-        PUSH_LAMBDA(update, local_redo);
-        PUSH_LAMBDA(update, local_undo);
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
     return res;
 }
@@ -790,24 +824,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
         // NO undo. this should only be used on project opening
-        if (copyEffect(item, state, false)) {
-            found = true;
-        }
-    }
-    if (found) {
-        modelChanged();
-    }
-    return found;
-}
-
-bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo)
-{
-    QWriteLocker locker(&m_lock);
-    // TODO: manage fades, keyframes if clips don't have same size / in point
-    bool found = false;
-    for (int i = 0; i < sourceStack->rowCount(); i++) {
-        auto item = sourceStack->getEffectStackRow(i);
-        if (copyEffect(item, state, undo, redo)) {
+        if (copyEffect(item, state)) {
             found = true;
         }
     }

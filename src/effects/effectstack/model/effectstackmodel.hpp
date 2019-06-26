@@ -61,18 +61,12 @@ public:
     /* @brief Add an effect at the bottom of the stack */
     bool appendEffect(const QString &effectId, bool makeCurrent = false);
     /* @brief Copy an existing effect and append it at the bottom of the stack
-       @param logUndo: if true, an undo/redo is created
      */
-    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, bool logUndo = true);
-    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state, Fun &undo, Fun &redo);
+    bool copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state);
+    bool copyXmlEffect(QDomElement effect);
     /* @brief Import all effects from the given effect stack
      */
     bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state);
-    /* @brief Import all effects attached to a given service
-       @param alreadyExist: if true, the effect should be already attached to the service owned by this effectstack (it means we are in the process of loading).
-       In that case, we need to build the stack but not replant the effects
-     */
-    bool importEffects(const std::shared_ptr<EffectStackModel> &sourceStack, PlaylistState::ClipState state, Fun &undo, Fun &redo);
     void importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist = false);
     bool removeFade(bool fromStart);
 
@@ -136,6 +130,8 @@ public:
 
     /* @brief Returns an XML representation of the effect stack with all parameters */
     QDomElement toXml(QDomDocument &document);
+    /* @brief Returns an XML representation of one of the effect in the stack with all parameters */
+    QDomElement rowToXml(int row, QDomDocument &document);
     /* @brief Load an effect stack from an XML representation */
     bool fromXml(const QDomElement &effectsXml, Fun &undo, Fun &redo);
     /* @brief Delete active effect from stack */
