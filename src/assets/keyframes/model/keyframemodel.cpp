@@ -768,6 +768,8 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         ptr->passProperties(mlt_prop);
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+    } else  {
+        qDebug()<<"###################\n\n/// ERROR LOCKING MODEL!!! ";
     }
     mlt_prop.set("key", prop.toUtf8().constData());
     // This is a fake query to force the animation to be parsed

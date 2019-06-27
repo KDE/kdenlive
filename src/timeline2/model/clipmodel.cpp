@@ -111,9 +111,9 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     }
     auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
-    clip->setClipState_lambda(state)();
-    clip->m_effectStack->importEffects(producer, state, result.second);
+    clip->setClipState_lambda(state);
     parent->registerClip(clip);
+    clip->m_effectStack->importEffects(producer, state, result.second);
     clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
     return id;
 }

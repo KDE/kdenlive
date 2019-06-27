@@ -397,6 +397,8 @@ int Core::getItemIn(const ObjectId &id)
     case ObjectType::TimelineClip:
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipIn(id.second);
+        } else {
+            qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
         }
         break;
     case ObjectType::TimelineComposition:
