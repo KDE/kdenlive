@@ -41,6 +41,7 @@
 
 #include <KIO/RenameDialog>
 #include <KUrlRequester>
+#include <KLineEdit>
 #include <mlt++/Mlt.h>
 
 SpeedJob::SpeedJob(const QString &binId, double speed, QString destUrl)
@@ -101,13 +102,16 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
         filePath.append(QStringLiteral(".mlt"));
         fileUrl.setUrl(QUrl::fromLocalFile(folder.absoluteFilePath(filePath)));
     }
+    QFontMetrics fm = fileUrl.lineEdit()->fontMetrics();
+    fileUrl.setMinimumWidth(fm.boundingRect(fileUrl.text().left(50)).width() * 1.4);
     QLabel lab(&d);
     lab.setText(i18n("Percentage"));
-    
     QDoubleSpinBox speedInput(&d);
     speedInput.setRange(-100000, 100000);
     speedInput.setValue(100);
     speedInput.setSuffix(QLatin1String("%"));
+    speedInput.setFocus();
+    speedInput.selectAll();
     l->addWidget(&labUrl);
     l->addWidget(&fileUrl);
     l->addWidget(&lab);
@@ -135,7 +139,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
         // Filter several clips, destination points to a folder
         if (QFile::exists(mltfile)) {
             KIO::RenameDialog renameDialog(qApp->activeWindow(), QString(), /*i18n("File already exists"), */QUrl::fromLocalFile(mltfile), QUrl::fromLocalFile(mltfile), KIO::RenameDialog_Option::RenameDialog_Overwrite );
-            if (renameDialog.exec() == QDialog::Accepted) {
+            if (renameDialog.exec() != QDialog::Rejected) {
                 QUrl final = renameDialog.newDestUrl();
                 if (final.isValid()) {
                     mltfile = final.toLocalFile();
@@ -191,7 +195,11 @@ bool SpeedJob::commitResult(Fun &undo, Fun &redo)
         // if it was not found, we create it
         pCore->projectItemModel()->requestAddFolder(folderId, folderName, binClip->parent()->clipId(), undo, redo);
     }
-
+    QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(m_destUrl));
+    if (!ids.isEmpty()) {
+        // CLip was already inserted in bin, will be reloaded automatically, don't add twice
+        return true;
+    }
     auto id = ClipCreator::createClipFromFile(m_destUrl, folderId, pCore->projectItemModel(), undo, redo);
     return id != QStringLiteral("-1");
 }
