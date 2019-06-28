@@ -298,6 +298,7 @@ bool DocumentChecker::hasErrorInClips()
 
     QMap<QString, QString> autoFixLuma;
     QString lumaPath;
+    QString lumaMltPath;
     // Check existence of luma files
     for (const QString &lumafile : filesToCheck) {
         filePath = lumafile;
@@ -315,14 +316,27 @@ bool DocumentChecker::hasErrorInClips()
                 autoFixLuma.insert(filePath, fixedLuma);
                 continue;
             }
-            // Check MLT folder
+            // Check Kdenlive folder
             if (lumaPath.isEmpty()) {
                 QDir dir(QCoreApplication::applicationDirPath());
                 dir.cdUp();
                 dir.cd(QStringLiteral("share/kdenlive/lumas/"));
-                lumaPath = dir.absolutePath();
+                lumaPath = dir.absolutePath() + QStringLiteral("/");
             }
+            lumaName = filePath.section(QLatin1Char('/'), -2);
             lumaName.prepend(lumaPath);
+            if (QFile::exists(lumaName)) {
+                autoFixLuma.insert(filePath, lumaName);
+                continue;
+            }
+            // Check MLT folder
+            if (lumaMltPath.isEmpty()) {
+                QDir dir(KdenliveSettings::mltpath());
+                dir.cd(QStringLiteral("../lumas/"));
+                lumaMltPath = dir.absolutePath() + QStringLiteral("/");
+            }
+            lumaName = filePath.section(QLatin1Char('/'), -2);
+            lumaName.prepend(lumaMltPath);
             if (QFile::exists(lumaName)) {
                 autoFixLuma.insert(filePath, lumaName);
                 continue;
