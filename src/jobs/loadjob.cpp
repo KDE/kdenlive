@@ -86,7 +86,7 @@ void processProducerProperties(const std::shared_ptr<Mlt::Producer> &prod, const
     QString value;
     QStringList internalProperties;
     internalProperties << QStringLiteral("bypassDuplicate") << QStringLiteral("resource") << QStringLiteral("mlt_service") << QStringLiteral("audio_index")
-                       << QStringLiteral("video_index") << QStringLiteral("mlt_type");
+                       << QStringLiteral("video_index") << QStringLiteral("mlt_type") << QStringLiteral("length");
     QDomNodeList props;
 
     if (xml.tagName() == QLatin1String("producer")) {
