@@ -85,15 +85,11 @@ cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 # Step 2: Relocate x64 binaries from the architecture specific directory as required for Appimages
 
 if [ -d $APPDIR/usr/lib/x86_64-linux-gnu/plugins ] ; then
-    mv $APPDIR/usr/lib/x86_64-linux-gnu/plugins/*  $APPDIR/usr/lib/plugins
+    mv $APPDIR/usr/lib/x86_64-linux-gnu/plugins/*  $APPDIR/usr/plugins
     rm -rf $APPDIR/usr/lib/x86_64-linux-gnu/
 fi
 
 # Step 3: Update the rpath in the various plugins we have to make sure they'll be loadable in an Appimage context
-#for lib in $PLUGINS/*.so*; do
-#  patchelf --set-rpath '$ORIGIN/../lib' $lib;
-#done
-
 for lib in $APPIMAGEPLUGINS/*.so*; do
   patchelf --set-rpath '$ORIGIN/../lib' $lib;
 done
@@ -118,6 +114,25 @@ for lib in $APPDIR/usr/lib/mlt/*.so*; do
   patchelf --set-rpath '$ORIGIN/..' $lib;
 done
 
+### GSTREAMER
+# Requires gstreamer1.0-plugins-good
+#GST_PLUGIN_SRC_DIR=/usr/lib/x86_64-linux-gnu/
+#mkdir -p $APPDIR/usr/lib/x86_64-linux-gnu
+#GST_LIB_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0
+#mkdir -p $GST_LIB_DEST_DIR
+#GST_PLUGIN_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0
+#mkdir -p $GST_PLUGIN_DEST_DIR
+#cp $GST_PLUGIN_SRC_DIR/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner $GST_PLUGIN_DEST_DIR
+#cp $GST_PLUGIN_SRC_DIR/gstreamer-1.0/* $GST_LIB_DEST_DIR
+
+#rm $GST_LIB_DEST_DIR/libgstegl* || true
+
+#for p in $GST_LIB_DEST_DIR/libgst*.so*; do
+#  patchelf --set-rpath '$ORIGIN/../..' $p;
+#done
+
+### end of GSTREAMER STUFF
+
 # Step 4: Move plugins to loadable location in AppImage
 
 # Make sure our plugin directory already exists
@@ -129,28 +144,6 @@ fi
 
 # copy icon
 cp $APPDIR/usr/share/icons/breeze/apps/48/kdenlive.svg $APPDIR
-
-# GSTREAMER
-# Requires gstreamer1.0-plugins-good
-#GST_PLUGIN_SRC_DIR=/usr/lib/x86_64-linux-gnu/
-#mkdir -p $APPDIR/usr/lib/x86_64-linux-gnu
-#GST_LIB_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0
-#mkdir -p $GST_LIB_DEST_DIR
-#GST_PLUGIN_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0
-#mkdir -p $GST_PLUGIN_DEST_DIR
-#cp $GST_PLUGIN_SRC_DIR/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner #$GST_PLUGIN_DEST_DIR
-##cp $GST_PLUGIN_SRC_DIR/gstreamer-1.0/* $GST_LIB_DEST_DIR
-#for p in $GST_PLUGIN_SRC_DIR/libgst*.so*; do
-#  cp $p $GST_LIB_DEST_DIR
-#done
-
-#rm $GST_LIB_DEST_DIR/libgstegl*
-
-#for p in $GST_LIB_DEST_DIR/libgst*.so*; do
-#  patchelf --set-rpath '$ORIGIN/../..' $p;
-#done
-
-
 
 # Step 5: Build the image!!!
 #linuxdeployqt $APPDIR/usr/bin/ffmpeg
@@ -202,7 +195,6 @@ export SDL_AUDIODRIVER=pulseaudio
 export XDG_CURRENT_DESKTOP=
 export GST_PLUGIN_SCANNER=\$DIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner
 export GST_PLUGIN_PATH=\$DIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/
-
 
 kdenlive --config kdenlive-appimagerc \$@
 EOF
