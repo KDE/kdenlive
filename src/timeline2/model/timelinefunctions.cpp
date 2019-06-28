@@ -330,7 +330,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
 }
 
 bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
-                                   bool overwrite)
+                                   bool overwrite, bool useTargets)
 {
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
@@ -373,7 +373,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         if (!trackIds.isEmpty()) {
             int newId = -1;
             QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
-            result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, true, undo, redo);
+            result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo);
         }
         if (result) {
             pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));

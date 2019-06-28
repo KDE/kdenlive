@@ -421,22 +421,16 @@ int TimelineModel::getMirrorVideoTrackId(int trackId) const
         return -1;
     }
     int count = 0;
-    if (it != m_allTracks.cend()) {
-        ++it;
-    }
     while (it != m_allTracks.cend()) {
         if ((*it)->isAudioTrack()) {
             count++;
         } else {
+            count--;
             if (count == 0) {
                 return (*it)->getId();
             }
-            count--;
         }
         ++it;
-    }
-    if (it != m_allTracks.cend() && !(*it)->isAudioTrack() && count == 0) {
-        return (*it)->getId();
     }
     return -1;
 }
@@ -456,21 +450,22 @@ int TimelineModel::getMirrorAudioTrackId(int trackId) const
     auto it = m_iteratorTable.at(trackId);
     if ((*it)->isAudioTrack()) {
         // we expected a video track...
+        qDebug()<<"++++++++\n+++++++ ERROR RQSTNG AUDIO MIRROR FOR AUDIO";
         return -1;
     }
     int count = 0;
     while (it != m_allTracks.cbegin()) {
-        --it;
         if (!(*it)->isAudioTrack()) {
             count++;
         } else {
+            count--;
             if (count == 0) {
                 return (*it)->getId();
             }
-            count--;
         }
+        --it;
     }
-    if ((*it)->isAudioTrack() && count == 0) {
+    if ((*it)->isAudioTrack() && count == 1) {
         return (*it)->getId();
     }
     return -1;

@@ -1639,7 +1639,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     if (aTrack > -1) {
         target_tracks << aTrack;
     }
-    return TimelineFunctions::insertZone(m_model, target_tracks, binId, position, QPoint(in, out), m_model->m_editMode == TimelineMode::OverwriteEdit);
+    return TimelineFunctions::insertZone(m_model, target_tracks, binId, position, QPoint(in, out), m_model->m_editMode == TimelineMode::OverwriteEdit, false);
 }
 
 int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
