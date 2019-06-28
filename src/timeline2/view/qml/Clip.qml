@@ -798,7 +798,7 @@ Rectangle {
         anchors.leftMargin: 0
         height: parent.height
         enabled: !isLocked
-        width: 5
+        width: root.baseUnit / 3
         color: isAudio? 'green' : 'lawngreen'
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
@@ -864,7 +864,7 @@ Rectangle {
         anchors.right: clipRoot.right
         anchors.rightMargin: 0
         height: parent.height
-        width: 5
+        width: root.baseUnit / 3
         color: 'red'
         opacity: 0
         enabled: !isLocked

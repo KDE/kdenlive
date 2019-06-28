@@ -259,7 +259,7 @@ Item {
         anchors.left: displayRect.left
         anchors.leftMargin: 0
         height: displayRect.height
-        width: 5
+        width: root.baseUnit / 3
         color: isAudio? 'green' : 'lawngreen'
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
@@ -309,7 +309,7 @@ Item {
         anchors.right: displayRect.right
         anchors.rightMargin: 0
         height: displayRect.height
-        width: 5
+        width: root.baseUnit / 3
         color: 'red'
         opacity: 0
         Drag.active: trimOutMouseArea.drag.active
