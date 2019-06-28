@@ -755,6 +755,9 @@ QString Core::getTimelineClipBinId(int cid)
 
 int Core::getDurationFromString(const QString &time)
 {
+    if (!m_guiConstructed) {
+        return 0;
+    }
     const QString duration = currentDoc()->timecode().reformatSeparators(time);
     return currentDoc()->timecode().getFrameCount(duration);
 }
