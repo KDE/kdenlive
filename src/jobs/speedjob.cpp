@@ -86,7 +86,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
         QString mltfile = QFileInfo(binClip->url()).absoluteFilePath() + QStringLiteral(".mlt");
         if (QFile::exists(mltfile)) {
             KIO::RenameDialog renameDialog(qApp->activeWindow(), QString(), /*i18n("File already exists"), */QUrl::fromLocalFile(mltfile), QUrl::fromLocalFile(mltfile), KIO::RenameDialog_Option::RenameDialog_Overwrite );
-            if (renameDialog.exec() == QDialog::Accepted) {
+            if (renameDialog.exec() != QDialog::Rejected) {
                 QUrl final = renameDialog.newDestUrl();
                 if (final.isValid()) {
                     mltfile = final.toLocalFile();
