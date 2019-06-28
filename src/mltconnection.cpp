@@ -176,7 +176,6 @@ std::unique_ptr<Mlt::Repository> &MltConnection::getMltRepository()
 void MltConnection::refreshLumas()
 {
     // Check for Kdenlive installed luma files, add empty string at start for no luma
-    QStringList imagefiles;
     QStringList fileFilters;
     MainWindow::m_lumaFiles.clear();
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
@@ -187,9 +186,10 @@ void MltConnection::refreshLumas()
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
         QString format;
         for (const QString &f : folders) {
+            QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
-            if (f == QLatin1String("16_9")) {
-                format = QStringLiteral("HD");
+            if (f == QLatin1String("HD")) {
+                format = QStringLiteral("16_9");
             } else {
                 format = f;
             }
