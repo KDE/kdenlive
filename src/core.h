@@ -195,6 +195,8 @@ public:
     QString getProjectFolderName();
     /** @brief Returns a timeline clip's bin id */
     QString getTimelineClipBinId(int cid);
+    /** @brief Returns a frame duration from a timecode */
+    int getDurationFromString(const QString &time);
 
 private:
     explicit Core();

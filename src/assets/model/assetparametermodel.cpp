@@ -513,13 +513,14 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         int height = profile->height();
         int in = pCore->getItemIn(owner);
         int out = in + pCore->getItemDuration(owner);
-
+        int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
         // replace symbols in the double parameter
         content.replace(QLatin1String("%maxWidth"), QString::number(width))
             .replace(QLatin1String("%maxHeight"), QString::number(height))
             .replace(QLatin1String("%width"), QString::number(width))
             .replace(QLatin1String("%height"), QString::number(height))
-            .replace(QLatin1String("%out"), QString::number(out));
+            .replace(QLatin1String("%out"), QString::number(out))
+            .replace(QLatin1String("%fade"), QString::number(frame_duration));
 
         if (type == ParamType::Double || type == ParamType::Hidden) {
             // Use a Mlt::Properties to parse mathematical operators

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>546</height>
+    <width>714</width>
+    <height>771</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -94,6 +94,16 @@
          <string>Transitions</string>
         </property>
        </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Fades</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="kcfg_fade_duration"/>
       </item>
      </layout>
     </widget>

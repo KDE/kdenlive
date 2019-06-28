@@ -6,7 +6,7 @@
 	<parameter type="fixed" name="in" max="0" min="0" default="0">
 		<name></name>
 	</parameter>
-	<parameter type="position" name="out" max="90000" min="0" default="75">
+	<parameter type="position" name="out" max="90000" min="0" default="%fade">
 		<name>Duration</name>
 	</parameter>
 	<parameter type="fixed" name="gain" max="0" min="0" default="0">
