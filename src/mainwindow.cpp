@@ -957,7 +957,14 @@ void MainWindow::setupActions()
     tlsettings->addAction(m_compositeAction);
     tlsettings->addAction(mixedView);
     tlsettings->addAction(splitView);
-    addAction(QStringLiteral("timeline_settings"), tlsettings->menuAction());
+
+    QToolButton *timelineSett = new QToolButton(this);
+    timelineSett->setPopupMode(QToolButton::InstantPopup);
+    timelineSett->setMenu(tlsettings);
+    timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    auto *tlButtonAction = new QWidgetAction(this);
+    tlButtonAction->setDefaultWidget(timelineSett);
+    addAction(QStringLiteral("timeline_settings"), tlButtonAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
