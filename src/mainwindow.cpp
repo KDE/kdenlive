@@ -952,17 +952,24 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_view_split"), splitView);
     splitView->setData(QVariant::fromValue(1));
     splitView->setCheckable(true);
-    splitView->setChecked(KdenliveSettings::audiotracksbelow());
+    splitView->setChecked(KdenliveSettings::audiotracksbelow() == 1);
+
+    QAction *splitView2 = new QAction(QIcon::fromTheme(QStringLiteral("view-split-top-bottom")), i18n("Split Audio Tracks (reverse)"), this);
+    addAction(QStringLiteral("timeline_view_split_reverse"), splitView2);
+    splitView2->setData(QVariant::fromValue(2));
+    splitView2->setCheckable(true);
+    splitView2->setChecked(KdenliveSettings::audiotracksbelow() == 2);
 
     QAction *mixedView = new QAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Mixed Audio tracks"), this);
     addAction(QStringLiteral("timeline_mixed_view"), mixedView);
     mixedView->setData(QVariant::fromValue(0));
     mixedView->setCheckable(true);
-    mixedView->setChecked(!KdenliveSettings::audiotracksbelow());
+    mixedView->setChecked(KdenliveSettings::audiotracksbelow() == 0);
 
     auto *clipTypeGroup = new QActionGroup(this);
     clipTypeGroup->addAction(mixedView);
     clipTypeGroup->addAction(splitView);
+    clipTypeGroup->addAction(splitView2);
     connect(clipTypeGroup, &QActionGroup::triggered, this, &MainWindow::slotUpdateTimelineView);
 
     auto tlsettings = new QMenu(this);
@@ -970,6 +977,7 @@ void MainWindow::setupActions()
     tlsettings->addAction(m_compositeAction);
     tlsettings->addAction(mixedView);
     tlsettings->addAction(splitView);
+    tlsettings->addAction(splitView2);
 
     QToolButton *timelineSett = new QToolButton(this);
     timelineSett->setPopupMode(QToolButton::InstantPopup);
@@ -2954,7 +2962,7 @@ void MainWindow::slotUpdateClipType(QAction *action)
 void MainWindow::slotUpdateTimelineView(QAction *action)
 {
     int viewMode = action->data().toInt();
-    KdenliveSettings::setAudiotracksbelow(viewMode == 1);
+    KdenliveSettings::setAudiotracksbelow(viewMode);
     getMainTimeline()->controller()->getModel()->_resetView();
 }
 

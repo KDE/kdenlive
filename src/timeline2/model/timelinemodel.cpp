@@ -326,10 +326,35 @@ int TimelineModel::getTrackMltIndex(int trackId) const
     return getTrackPosition(trackId) + 1;
 }
 
-int TimelineModel::getTrackSortValue(int trackId, bool separated) const
+int TimelineModel::getTrackSortValue(int trackId, int separated) const
 {
-    if (separated) {
+    if (separated == 1) {
         return getTrackPosition(trackId) + 1;
+    }
+    if (separated == 2) {
+        // Count audio/video tracks
+        auto it = m_allTracks.cbegin();
+        int aCount = 0;
+        int vCount = 0;
+        int refPos = 0;
+        bool isVideo = true;
+        while (it != m_allTracks.cend()) {
+            if ((*it)->isAudioTrack()) {
+                if ((*it)->getId() == trackId) {
+                    refPos = aCount;
+                    isVideo = false;
+                }
+                aCount++;
+            } else {
+                // video track
+                if ((*it)->getId() == trackId) {
+                    refPos = vCount;
+                }
+                vCount++;
+            }
+            ++it;
+        }
+        return isVideo ? aCount + refPos + 1 : aCount - refPos;
     }
     auto it = m_allTracks.cend();
     int aCount = 0;

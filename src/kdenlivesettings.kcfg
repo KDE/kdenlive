@@ -278,9 +278,9 @@
       <default>0</default>
     </entry>
 
-    <entry name="audiotracksbelow" type="Bool">
+    <entry name="audiotracksbelow" type="Int">
         <label>Display audio tracks grouped below video tracks.</label>
-        <default>true</default>
+        <default>1</default>
     </entry>
 
     <entry name="raisepropsclips" type="Bool">

@@ -305,7 +305,7 @@ public:
      * @param separated: if true, the tracks will be sorted like: V2,V1,A1,A2
      * Otherwise, the tracks will be sorted like V2,A2,V1,A1
      */
-    int getTrackSortValue(int trackId, bool separated) const;
+    int getTrackSortValue(int trackId, int separated) const;
 
     /* @brief Returns the ids of the tracks below the given track in the order of the tracks
        Returns an empty list if no track available
