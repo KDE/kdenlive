@@ -277,8 +277,19 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 if (clipId.isEmpty()) {
                     clipId = clip->get("kdenlive:id");
                 }
-                Q_ASSERT(!clipId.isEmpty() && binIdCorresp.count(clipId) > 0);
-                binId = binIdCorresp.at(clipId);
+                if (binIdCorresp.count(clipId) == 0) {
+                    QStringList ids = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
+                    if (!ids.isEmpty()) {
+                        binId = ids.first();
+                        m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"), position);
+                    } else {
+                        qWarning()<<"Warning, clip in timeline has no parent in bin: "<<clip->parent().get("id");
+                        m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"), position);
+                    }
+                } else {
+                    binId = binIdCorresp.at(clipId);
+                }
+                Q_ASSERT(!clipId.isEmpty() && !binId.isEmpty());
                 clip->parent().set("kdenlive:id", binId.toUtf8().constData());
                 clip->parent().set("_kdenlive_processed", 1);
             }
@@ -298,7 +309,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 break;
             }
             qDebug() << "Inserted clip in track" << tid << "at " << position;
-
             break;
         }
         case tractor_type: {
