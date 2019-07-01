@@ -326,7 +326,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 break;
             }
             qDebug() << "Inserted clip in track" << tid << "at " << position;
-
             break;
         }
         case tractor_type: {
