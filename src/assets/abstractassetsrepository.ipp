@@ -42,10 +42,10 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     setlocale(LC_NUMERIC_MASK, nullptr);
 #endif
 
-    // Parse effects blacklist
+    // Parse blacklist
     parseAssetList(assetBlackListPath(), m_blacklist);
 
-    // Parse preferred effects' list
+    // Parse preferred list
     parseAssetList(assetPreferredListPath(), m_preferred_list);
 
     // Retrieve the list of MLT's available assets.
@@ -113,6 +113,8 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAssetList(const QString &filePath, QSet<QString> &destination)
 {
+    if (filePath.isEmpty())
+        return;
     QFile assetFile(filePath);
     if (assetFile.open(QIODevice::ReadOnly)) {
         QTextStream stream(&assetFile);
@@ -123,7 +125,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::parseAss
                 destination.insert(line);
             }
         }
-        assetFile.close();
     }
 }
 
