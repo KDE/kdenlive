@@ -324,6 +324,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
         if (!xml.isNull()) {
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
             m_thumbsProducer.reset();
+            xml.removeAttribute("out");
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), 150, -1, true, true);
