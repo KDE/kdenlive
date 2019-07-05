@@ -345,7 +345,7 @@ public:
        @param updateView if set to false, no signal is sent to qml
        @param logUndo if set to false, no undo object is stored
     */
-    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
+    Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
 
     /* @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
@@ -357,7 +357,7 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
+    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /* When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
@@ -378,7 +378,7 @@ public:
        @param dontRefreshMasterClip when false, no view refresh is attempted
         */
     Q_INVOKABLE int suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
-    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1);
+    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true);
     Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
@@ -432,8 +432,8 @@ public:
        @param logUndo if set to true, an undo object is created
        @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
     */
-    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView = true, bool logUndo = true);
-    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
+    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true);
+    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool moveMirrorTracks = true, 
                           bool allowViewRefresh = true);
 
     /* @brief Deletes all clips inside the group that contains the given clip.

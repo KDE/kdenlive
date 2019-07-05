@@ -1765,7 +1765,7 @@ void TimelineController::setAudioRef(int clipId)
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
     connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, [&](int cid, int shift) {
         int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
-        bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true);
+        bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true, true);
         if (!result) {
             pCore->displayMessage(i18n("Cannot move clip to frame %1.", (pos + shift)), InformationMessage, 500);
         }
@@ -1792,7 +1792,7 @@ void TimelineController::alignAudio(int clipId)
         // easy, same clip.
         int newPos = m_model->getClipPosition(m_audioRef) - m_model->getClipIn(m_audioRef) + m_model->getClipIn(clipId);
         if (newPos) {
-            bool result = m_model->requestClipMove(clipId, m_model->getClipTrackId(clipId), newPos, true, true);
+            bool result = m_model->requestClipMove(clipId, m_model->getClipTrackId(clipId), newPos, true, true, true);
             if (!result) {
                 pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), InformationMessage, 500);
             }
@@ -2028,9 +2028,9 @@ void TimelineController::editItemDuration(int id)
         bool result = true;
         if (newPos < start) {
             if (!isComposition) {
-                result = m_model->requestClipMove(id, trackId, newPos, true, true, true, undo, redo);
+                result = m_model->requestClipMove(id, trackId, newPos, true, true, true, true, undo, redo);
                 if (result && partner > -1) {
-                    result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, true, undo, redo);
+                    result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, true, true, undo, redo);
                 }
             } else {
                 result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, true, undo, redo);
@@ -2063,9 +2063,9 @@ void TimelineController::editItemDuration(int id)
             }
             if (start != newPos || newIn != in) {
                 if (!isComposition) {
-                    result = result && m_model->requestClipMove(id, trackId, newPos, true, true, true, undo, redo);
+                    result = result && m_model->requestClipMove(id, trackId, newPos, true, true, true, true, undo, redo);
                     if (result && partner > -1) {
-                        result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, true, undo, redo);
+                        result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, true, true, undo, redo);
                     }
                 } else {
                     result = result &&
@@ -2316,7 +2316,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
         if (m_model->isClip(item)) {
             int target_track = new_track_ids[item];
             int target_position = old_position[item] + delta_pos;
-            ok = ok && m_model->requestClipMove(item, target_track, target_position, updateView, finalMove, finalMove, undo, redo);
+            ok = ok && m_model->requestClipMove(item, target_track, target_position, true, updateView, finalMove, finalMove, undo, redo);
         } else {
             // ok = ok && requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, local_undo, local_redo);
         }

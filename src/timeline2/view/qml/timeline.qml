@@ -1102,6 +1102,7 @@ Rectangle {
                                 drag.minimumX: 0
                                 property int dragFrame
                                 property bool shiftClick: false
+                                property bool moveMirrorTracks: true
                                 enabled: root.activeTool == 0
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
@@ -1115,6 +1116,7 @@ Rectangle {
                                         return
                                     }
                                     dragFrame = -1
+                                    moveMirrorTracks = true
                                     timeline.activeTrack = dragProxy.sourceTrack
                                     if (mouse.modifiers & Qt.ShiftModifier) {
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
@@ -1189,6 +1191,9 @@ Rectangle {
                                         endDrag()
                                         return
                                     }
+                                    if (moveMirrorTracks && mouse.modifiers & Qt.ShiftModifier) {
+                                        moveMirrorTracks = false
+                                    }
                                     if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         continuousScrolling(mouse.x + parent.x)
                                         var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
@@ -1213,7 +1218,7 @@ Rectangle {
                                                 dragProxy.masterObject.y = pos.y
                                                 //console.log('bringing item to front')
                                             }
-                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping), moveMirrorTracks)
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
@@ -1237,8 +1242,8 @@ Rectangle {
                                             controller.requestCompositionMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
                                         } else {
                                             if (controller.normalEdit()) {
-                                                controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false, false)
-                                                controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , true, true, true)
+                                                controller.requestClipMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, moveMirrorTracks, true, false, false)
+                                                controller.requestClipMove(dragProxy.draggedItem, tId, dragFrame , moveMirrorTracks, true, true, true)
                                             } else {
                                                 // Fake move, only process final move
                                                 timeline.endFakeMove(dragProxy.draggedItem, dragFrame, true, true, true)

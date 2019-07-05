@@ -62,15 +62,15 @@ RTTR_REGISTRATION
     using namespace rttr;
     registration::class_<TimelineModel>("TimelineModel")
         .method("setTrackLockedState", &TimelineModel::setTrackLockedState)(parameter_names("trackId", "lock"))
-        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool)>(&TimelineModel::requestClipMove))(
-            parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
+        .method("requestClipMove", select_overload<bool(int, int, int, bool, bool, bool, bool)>(&TimelineModel::requestClipMove))(
+            parameter_names("clipId", "trackId", "position", "moveMirrorTracks", "updateView", "logUndo", "invalidateTimeline"))
         .method("requestCompositionMove", select_overload<bool(int, int, int, bool, bool)>(&TimelineModel::requestCompositionMove))(
             parameter_names("compoId", "trackId", "position", "updateView", "logUndo"))
         .method("requestClipInsertion", select_overload<bool(const QString &, int, int, int &, bool, bool, bool)>(&TimelineModel::requestClipInsertion))(
             parameter_names("binClipId", "trackId", "position", "id", "logUndo", "refreshView", "useTargets"))
         .method("requestItemDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestItemDeletion))(parameter_names("clipId", "logUndo"))
-        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestGroupMove))(
-            parameter_names("itemId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
+        .method("requestGroupMove", select_overload<bool(int, int, int, int, bool, bool, bool)>(&TimelineModel::requestGroupMove))(
+            parameter_names("itemId", "groupId", "delta_track", "delta_pos", "moveMirrorTracks", "updateView", "logUndo"))
         .method("requestGroupDeletion", select_overload<bool(int, bool)>(&TimelineModel::requestGroupDeletion))(parameter_names("clipId", "logUndo"))
         .method("requestItemResize", select_overload<int(int, int, bool, bool, int, bool)>(&TimelineModel::requestItemResize))(
             parameter_names("itemId", "size", "right", "logUndo", "snapDistance", "allowSingleResize"))
@@ -89,7 +89,7 @@ RTTR_REGISTRATION
             parameter_names("clipId", "trackId", "position", "updateView", "logUndo", "invalidateTimeline"))
         .method("requestFakeGroupMove", select_overload<bool(int, int, int, int, bool, bool)>(&TimelineModel::requestFakeGroupMove))(
             parameter_names("clipId", "groupId", "delta_track", "delta_pos", "updateView", "logUndo"))
-        .method("suggestClipMove", &TimelineModel::suggestClipMove)(parameter_names("clipId", "trackId", "position", "cursorPosition", "snapDistance"))
+        .method("suggestClipMove", &TimelineModel::suggestClipMove)(parameter_names("clipId", "trackId", "position", "cursorPosition", "snapDistance", "moveMirrorTracks"))
         .method("suggestCompositionMove",
                 &TimelineModel::suggestCompositionMove)(parameter_names("compoId", "trackId", "position", "cursorPosition", "snapDistance"))
         // .method("addSnap", &TimelineModel::addSnap)(parameter_names("pos"))
@@ -535,7 +535,7 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     return false;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
     if (trackId == -1) {
@@ -632,7 +632,7 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     return res;
 }
 
-bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
+bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool logUndo, bool invalidateTimeline)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline);
@@ -649,11 +649,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allClips[clipId]->getPosition();
-        return requestGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo);
+        return requestGroupMove(clipId, groupId, delta_track, delta_pos, moveMirrorTracks, updateView, logUndo);
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestClipMove(clipId, trackId, position, updateView, invalidateTimeline, logUndo, undo, redo);
+    bool res = requestClipMove(clipId, trackId, position, moveMirrorTracks, updateView, invalidateTimeline, logUndo, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move clip"));
     }
@@ -681,7 +681,7 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
         int delta_pos = position - m_allClips[clipId]->getPosition();
         res = requestGroupMove(clipId, groupId, delta_track, delta_pos, false, false, undo, redo, false);
     } else {
-        res = requestClipMove(clipId, trackId, position, false, false, false, undo, redo);
+        res = requestClipMove(clipId, trackId, position, true, false, false, false, undo, redo);
     }
     if (res) {
         undo();
@@ -697,7 +697,7 @@ int TimelineModel::suggestItemMove(int itemId, int trackId, int position, int cu
     return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance);
 }
 
-int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance)
+int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool moveMirrorTracks)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, trackId, position, cursorPosition, snapDistance);
@@ -739,7 +739,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         }
     }
     // we check if move is possible
-    bool possible = m_editMode == TimelineMode::NormalEdit ? requestClipMove(clipId, trackId, position, true, false, false)
+    bool possible = m_editMode == TimelineMode::NormalEdit ? requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false)
                                                            : requestFakeClipMove(clipId, trackId, position, true, false, false);
     /*} else {
         possible = requestClipMoveAttempt(clipId, trackId, position);
@@ -759,7 +759,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         if (trackId != sourceTrackId && sourceTrackId != -1) {
             qDebug() << "// TESTING SAME TRACVK MOVE: " << trackId << " = " << sourceTrackId;
             trackId = sourceTrackId;
-            possible = requestClipMove(clipId, trackId, position, true, false, false);
+            possible = requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false);
             if (!possible) {
                 qDebug() << "CANNOT MOVE CLIP : " << clipId << " ON TK: " << trackId << ", AT POS: " << position;
             } else {
@@ -780,7 +780,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             TRACE_RES(currentPos);
             return currentPos;
         }
-        possible = requestClipMove(clipId, trackId, position, true, false, false);
+        possible = requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false);
         TRACE_RES(possible ? position : currentPos);
         return possible ? position : currentPos;
     }
@@ -835,7 +835,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
     }
     if (blank_length != 0) {
         int updatedPos = currentPos + (after ? blank_length : -blank_length);
-        possible = requestClipMove(clipId, trackId, updatedPos, true, false, false);
+        possible = requestClipMove(clipId, trackId, updatedPos, moveMirrorTracks, true, false, false);
         if (possible) {
             TRACE_RES(updatedPos);
             return updatedPos;
@@ -1019,7 +1019,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
-        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, logUndo, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
         int target_track;
         if (audioDrop) {
             target_track = m_videoTarget == -1 ? -1 : getTrackById_const(m_videoTarget)->isLocked() ? -1 : m_videoTarget;
@@ -1055,7 +1055,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     bool move = false;
                     while (!move && !possibleTracks.isEmpty()) {
                         int newTrack = possibleTracks.takeFirst();
-                        move = requestClipMove(newId, newTrack, position, true, true, true, audio_undo, audio_redo);
+                        move = requestClipMove(newId, newTrack, position, true, true, true, true, audio_undo, audio_redo);
                     }
                     // use lazy evaluation to group only if move was successful
                     res = res && move && requestClipsGroup({id, newId}, audio_undo, audio_redo, GroupType::AVSplit);
@@ -1086,7 +1086,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             normalisedBinId.remove(0, 1);
         }
         res = requestClipCreation(normalisedBinId, id, dropType, 1.0, local_undo, local_redo);
-        res = res && requestClipMove(id, trackId, position, refreshView, logUndo, logUndo, local_undo, local_redo);
+        res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
     }
     if (!res) {
         bool undone = local_undo();
@@ -1341,13 +1341,13 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     return true;
 }
 
-bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool logUndo)
+bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks, bool updateView, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     TRACE(itemId, groupId, delta_track, delta_pos, updateView, logUndo);
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
+    bool res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, moveMirrorTracks);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move group"));
     }
@@ -1355,7 +1355,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     return res;
 }
 
-bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
+bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool moveMirrorTracks,
                                      bool allowViewRefresh)
 {
     QWriteLocker locker(&m_lock);
@@ -1463,11 +1463,20 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 }
             }
         }
-        if (getTrackById(old_track_ids[itemId])->isAudioTrack()) {
-            // Master clip is audio, so reverse delta for video clips
-            video_delta = -delta_track;
+        if (!moveMirrorTracks) {
+            if (getTrackById(old_track_ids[itemId])->isAudioTrack()) {
+                // Master clip is audio, so reverse delta for video clips
+                video_delta = 0;
+            } else {
+                audio_delta = 0;
+            }
         } else {
-            audio_delta = -delta_track;
+            if (getTrackById(old_track_ids[itemId])->isAudioTrack()) {
+                // Master clip is audio, so reverse delta for video clips
+                video_delta = -delta_track;
+            } else {
+                audio_delta = -delta_track;
+            }
         }
     }
 
@@ -1480,7 +1489,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         int current_track_id = getItemTrackId(item);
         int target_position = getItemPosition(item) + delta_pos;
             if (isClip(item)) {
-                ok = ok && requestClipMove(item, current_track_id, target_position, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
+                ok = ok && requestClipMove(item, current_track_id, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
             } else {
                 ok = ok &&
                      requestCompositionMove(item, current_track_id, m_allCompositions[item]->getForcedTrack(), target_position, updateThisView, finalMove, local_undo, local_redo);
@@ -1505,7 +1514,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 int target_track = (*it)->getId();
                 int target_position = old_position[item] + delta_pos;
                 if (isClip(item)) {
-                    ok = ok && requestClipMove(item, target_track, target_position, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
+                    ok = ok && requestClipMove(item, target_track, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
                 } else {
                     ok = ok &&
                      requestCompositionMove(item, target_track, old_forced_track[item], target_position, updateThisView, finalMove, local_undo, local_redo);
