@@ -384,7 +384,8 @@ void Wizard::slotUpdateCaptureParameters()
 void Wizard::checkMltComponents()
 {
     m_brokenModule = false;
-    Mlt::Repository *repository = Mlt::Factory::init();
+    
+    std::unique_ptr<Mlt::Repository> repository(Mlt::Factory::init());
     if (!repository) {
         m_errors.append(i18n("<li>Cannot start MLT backend, check your installation</li>"));
         m_systemCheckIsOk = false;
