@@ -3269,9 +3269,7 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         for (auto &id : items) {
             if (isGroup(id)) {
                 std::unordered_set<int> children = m_groups->getLeaves(id);
-                for (int c : children) {
-                    items.insert(c);
-                }
+                items.insert(children.begin(), children.end());
             } else if (isClip(id)) {
                 m_allClips[id]->clearOffset();
                 m_allClips[id]->setGrab(false);

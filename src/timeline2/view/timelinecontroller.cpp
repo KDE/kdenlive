@@ -1705,6 +1705,9 @@ void TimelineController::showCompositionKeyframes(int clipId, bool value)
 
 void TimelineController::switchEnableState(int clipId)
 {
+    if (clipId == -1) {
+        clipId = getMainSelectedItem(false, false);
+    }
     TimelineFunctions::switchEnableState(m_model, clipId);
 }
 
@@ -2120,6 +2123,11 @@ void TimelineController::updateClipActions()
             if (enableAction && actionData == QLatin1Char('S')) {
                 act->setText(clip->clipState() == PlaylistState::AudioOnly ? i18n("Split video") : i18n("Split audio"));
             }
+        } else if (actionData == QLatin1Char('W')) {
+            enableAction = clip != nullptr;
+            if (enableAction) {
+                act->setText(clip->clipState() == PlaylistState::Disabled ? i18n("Enable clip") : i18n("Disable clip"));
+            }
         } else if (actionData == QLatin1Char('C') && clip == nullptr) {
             enableAction = false;
         }
@@ -2139,16 +2147,24 @@ void TimelineController::grabCurrent()
         // TODO: error displayMessage
         return;
     }
-    int id = *m_model->getCurrentSelection().begin();
-    while (m_model->isGroup(id)) {
-        id = *m_model->m_groups->getLeaves(id).begin();
+    std::unordered_set<int> ids = m_model->getCurrentSelection();
+    std::unordered_set<int> items_list;
+    for (int i : ids) {
+        if (m_model->isGroup(i)) {
+            std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
+            items_list.insert(children.begin(), children.end());
+        } else {
+            items_list.insert(i);
+        }
     }
-    if (m_model->isClip(id)) {
-        std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
-        clip->setGrab(!clip->isGrabbed());
-    } else if (m_model->isComposition(id)) {
-        std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
-        clip->setGrab(!clip->isGrabbed());
+    for (int id : items_list) {
+        if (m_model->isClip(id)) {
+            std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
+            clip->setGrab(!clip->isGrabbed());
+        } else if (m_model->isComposition(id)) {
+            std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
+            clip->setGrab(!clip->isGrabbed());
+        }
     }
 }
 

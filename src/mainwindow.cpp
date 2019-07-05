@@ -1164,8 +1164,7 @@ void MainWindow::setupActions()
               QIcon::fromTheme(QStringLiteral("media-record")));
 
     addAction(QStringLiteral("project_clean"), i18n("Clean Project"), this, SLOT(slotCleanProject()), QIcon::fromTheme(QStringLiteral("edit-clear")));
-    
-    
+
     QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("reload")), i18n("Reset configuration"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
     connect(resetAction, &QAction::triggered, [&]() {
@@ -1305,6 +1304,12 @@ void MainWindow::setupActions()
     // "S" will be handled specifically to change the action name depending on current selection
     splitAudio->setData('S');
     splitAudio->setEnabled(false);
+
+    QAction *switchEnable = addAction(QStringLiteral("clip_switch"), i18n("Disable Clip"), this, SLOT(slotSwitchClip()),
+                                    QIcon(), QKeySequence(), clipActionCategory);
+    // "S" will be handled specifically to change the action name depending on current selection
+    switchEnable->setData('W');
+    switchEnable->setEnabled(false);
 
     QAction *setAudioAlignReference = addAction(QStringLiteral("set_audio_align_ref"), i18n("Set Audio Reference"), this, SLOT(slotSetAudioAlignReference()),
                                                 QIcon(), QKeySequence(), clipActionCategory);
@@ -2931,6 +2936,11 @@ void MainWindow::slotSplitAV()
     getMainTimeline()->controller()->splitAV();
 }
 
+void MainWindow::slotSwitchClip()
+{
+    getMainTimeline()->controller()->switchEnableState();
+}
+
 void MainWindow::slotSetAudioAlignReference()
 {
     // TODO refac
@@ -3509,6 +3519,7 @@ void MainWindow::configureToolbars()
 void MainWindow::rebuildTimlineToolBar()
 {
     // Timeline toolbar settings changed, we can now re-add our toolbar to custom location
+    return;
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     removeToolBar(m_timelineToolBar);
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);

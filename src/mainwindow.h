@@ -394,6 +394,7 @@ private slots:
     void slotClipInProjectTree();
     // void slotClipToProjectTree();
     void slotSplitAV();
+    void slotSwitchClip();
     void slotSetAudioAlignReference();
     void slotAlignAudio();
     void slotUpdateClipType(QAction *action);
