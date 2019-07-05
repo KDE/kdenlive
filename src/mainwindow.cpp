@@ -1529,6 +1529,9 @@ bool MainWindow::readOptions()
     if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
         // First run, check if user is on a KDE Desktop
         firstRun = true;
+        //Define default video location for first run
+        KRecentDirs::add(QStringLiteral(":KdenliveClipFolder"), QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+
         // this is our first run, show Wizard
         QPointer<Wizard> w = new Wizard(true, false);
         if (w->exec() == QDialog::Accepted && w->isOk()) {
