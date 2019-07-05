@@ -985,6 +985,7 @@ void MainWindow::setupActions()
     timelineSett->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     auto *tlButtonAction = new QWidgetAction(this);
     tlButtonAction->setDefaultWidget(timelineSett);
+    tlButtonAction->setText(i18n("Track menu"));
     addAction(QStringLiteral("timeline_settings"), tlButtonAction);
 
     m_timeFormatButton = new KSelectAction(QStringLiteral("00:00:00:00 / 00:00:00:00"), this);
