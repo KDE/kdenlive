@@ -384,9 +384,7 @@ void Wizard::slotUpdateCaptureParameters()
 void Wizard::checkMltComponents()
 {
     m_brokenModule = false;
-    
-    std::unique_ptr<Mlt::Repository> repository(Mlt::Factory::init());
-    if (!repository) {
+    if (!pCore->getMltRepository()) {
         m_errors.append(i18n("<li>Cannot start MLT backend, check your installation</li>"));
         m_systemCheckIsOk = false;
     } else {
@@ -398,7 +396,7 @@ void Wizard::checkMltComponents()
             m_systemCheckIsOk = false;
         }
         // Retrieve the list of available transitions.
-        Mlt::Properties *producers = repository->producers();
+        Mlt::Properties *producers = pCore->getMltRepository()->producers();
         QStringList producersItemList;
         producersItemList.reserve(producers->count());
         for (int i = 0; i < producers->count(); ++i) {
@@ -407,7 +405,7 @@ void Wizard::checkMltComponents()
         delete producers;
 
         // Check that we have the frei0r effects installed
-        Mlt::Properties *filters = repository->filters();
+        Mlt::Properties *filters = pCore->getMltRepository()->filters();
         bool hasFrei0r = false;
         QString filterName;
         for (int i = 0; i < filters->count(); ++i) {
@@ -444,18 +442,18 @@ void Wizard::checkMltComponents()
         }
 #endif
 
-        Mlt::Properties *consumers = repository->consumers();
+        Mlt::Properties *consumers = pCore->getMltRepository()->consumers();
         QStringList consumersItemList;
         consumersItemList.reserve(consumers->count());
         for (int i = 0; i < consumers->count(); ++i) {
             consumersItemList << consumers->get_name(i);
         }
         delete consumers;
-        if (consumersItemList.contains(QStringLiteral("sdl2"))) {
+        if (consumersItemList.contains(QStringLiteral("sdl2_audio"))) {
             // MLT >= 6.6.0 and SDL2 module
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl2_audio"));
             KdenliveSettings::setAudiobackend(QStringLiteral("sdl2_audio"));
-        } else if (consumersItemList.contains(QStringLiteral("sdl"))) {
+        } else if (consumersItemList.contains(QStringLiteral("sdl_audio"))) {
             // MLT < 6.6.0
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl_audio"));
             KdenliveSettings::setAudiobackend(QStringLiteral("sdl_audio"));
