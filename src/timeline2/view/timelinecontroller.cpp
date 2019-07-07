@@ -2135,19 +2135,37 @@ const QString TimelineController::getAssetName(const QString &assetId, bool isTr
 
 void TimelineController::grabCurrent()
 {
-    if (m_model->getCurrentSelection().empty()) {
+    std::unordered_set<int> selection = m_model->getCurrentSelection();
+    if (selection.empty()) {
         // TODO: error displayMessage
         return;
     }
-    int id = *m_model->getCurrentSelection().begin();
-    while (m_model->isGroup(id)) {
-        id = *m_model->m_groups->getLeaves(id).begin();
+    std::unordered_set<int> items;
+    for (int i : selection) {
+        if (m_model->isGroup(i)) {
+            auto children = m_model->m_groups->getLeaves(i);
+            items.insert(children.begin(), children.end());
+        } else {
+            items.insert(i);
+        }
     }
-    if (m_model->isClip(id)) {
-        std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
+    int mainId = 0;
+    if (m_activeTrack > 0) {
+        for (int i : items) {
+            if (m_model->getItemTrackId(i) == m_activeTrack) {
+                mainId = i;
+                break;
+            }
+        }
+    }
+    if (mainId == 0) {
+        mainId = *items.begin();
+    }
+    if (m_model->isClip(mainId)) {
+        std::shared_ptr<ClipModel> clip = m_model->getClipPtr(mainId);
         clip->setGrab(!clip->isGrabbed());
-    } else if (m_model->isComposition(id)) {
-        std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
+    } else if (m_model->isComposition(mainId)) {
+        std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(mainId);
         clip->setGrab(!clip->isGrabbed());
     }
 }
