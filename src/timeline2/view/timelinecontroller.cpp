@@ -2143,10 +2143,6 @@ const QString TimelineController::getAssetName(const QString &assetId, bool isTr
 
 void TimelineController::grabCurrent()
 {
-    if (m_model->getCurrentSelection().empty()) {
-        // TODO: error displayMessage
-        return;
-    }
     std::unordered_set<int> ids = m_model->getCurrentSelection();
     std::unordered_set<int> items_list;
     int mainId = -1;
