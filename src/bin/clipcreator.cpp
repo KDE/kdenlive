@@ -116,18 +116,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
                     }
                 }
             }
-            prod.setAttribute(QStringLiteral("in"), 0);
-            int duration = 0;
-            if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
-                duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
-            } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
-                duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
-            }
-            if (duration <= 0) {
-                duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration()) - 1;
-            }
-            prod = createProducer(xml, ClipType::Text, path, QString(), duration, QString());
-            txtdoc.documentElement().setAttribute(QStringLiteral("kdenlive:duration"), duration);
+            prod = createProducer(xml, ClipType::Text, path, QString(), -1, QString());
             QString titleData = txtdoc.toString();
             prod.setAttribute(QStringLiteral("xmldata"), titleData);
         } else {

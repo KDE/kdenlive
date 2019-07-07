@@ -57,6 +57,7 @@ signals:
 private slots:
     void slotUrlModified(const QString &path);
     void slotUrlMissing(const QString &path);
+    void slotUrlAdded(const QString &path);
     void slotProcessModifiedUrls();
 
 private:

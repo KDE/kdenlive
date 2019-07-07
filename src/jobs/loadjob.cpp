@@ -253,6 +253,7 @@ bool LoadJob::startJob()
     }
     pCore->getMonitor(Kdenlive::ClipMonitor)->resetPlayOrLoopZone(m_clipId);
     m_resource = Xml::getXmlProperty(m_xml, QStringLiteral("resource"));
+    int duration = 0;
     ClipType::ProducerType type = static_cast<ClipType::ProducerType>(m_xml.attribute(QStringLiteral("type")).toInt());
     QString service = Xml::getXmlProperty(m_xml, QStringLiteral("mlt_service"));
     if (type == ClipType::Unknown) {
@@ -263,8 +264,25 @@ bool LoadJob::startJob()
         m_producer = loadResource(m_resource, QStringLiteral("color:"));
         break;
     case ClipType::Text:
-    case ClipType::TextTemplate:
-        m_producer = loadResource(m_resource, QStringLiteral("kdenlivetitle:"));
+    case ClipType::TextTemplate: {
+            QFile txtfile(m_resource);
+            QDomDocument txtdoc(QStringLiteral("titledocument"));
+            if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
+                txtfile.close();
+                if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
+                    duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
+                } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
+                    duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
+                }
+            }
+            m_producer = loadResource(m_resource, QStringLiteral("kdenlivetitle:"));
+            if (duration <= 0) {
+                duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration()) - 1;
+            }
+            m_producer->set("length", duration);
+            m_producer->set("kdenlive:duration", duration);
+            m_producer->set("out", duration - 1);
+        }
         break;
     case ClipType::QText:
         m_producer = loadResource(m_resource, QStringLiteral("qtext:"));
@@ -337,13 +355,13 @@ bool LoadJob::startJob()
     if (!groupId.isEmpty()) {
         m_producer->set("kdenlive:folderid", groupId.toUtf8().constData());
     }
-    int clipOut = 0, duration = 0;
+    int clipOut = 0;
     if (m_xml.hasAttribute(QStringLiteral("out"))) {
         clipOut = m_xml.attribute(QStringLiteral("out")).toInt();
     }
     // setup length here as otherwise default length (currently 15000 frames in MLT) will be taken even if outpoint is larger
-    if (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
-        type == ClipType::SlideShow) {
+    if (duration == 0 && (type == ClipType::Color || type == ClipType::Text || type == ClipType::TextTemplate || type == ClipType::QText || type == ClipType::Image ||
+        type == ClipType::SlideShow)) {
         int length;
         if (m_xml.hasAttribute(QStringLiteral("length"))) {
             length = m_xml.attribute(QStringLiteral("length")).toInt();
@@ -383,7 +401,6 @@ bool LoadJob::startJob()
     if (m_xml.hasAttribute(QStringLiteral("templatetext"))) {
         m_producer->set("templatetext", m_xml.attribute(QStringLiteral("templatetext")).toUtf8().constData());
     }
-    duration = duration > 0 ? duration : m_producer->get_playtime();
     if (type == ClipType::SlideShow) {
         processSlideShow();
     }
