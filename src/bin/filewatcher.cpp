@@ -32,6 +32,7 @@ FileWatcher::FileWatcher(QObject *parent)
     m_modifiedTimer.setInterval(1500);
     connect(m_fileWatcher.get(), &KDirWatch::dirty, this, &FileWatcher::slotUrlModified);
     connect(m_fileWatcher.get(), &KDirWatch::deleted, this, &FileWatcher::slotUrlMissing);
+    connect(m_fileWatcher.get(), &KDirWatch::created, this, &FileWatcher::slotUrlAdded);
     connect(&m_modifiedTimer, &QTimer::timeout, this, &FileWatcher::slotProcessModifiedUrls);
 }
 
@@ -79,9 +80,15 @@ void FileWatcher::slotUrlModified(const QString &path)
     }
 }
 
+void FileWatcher::slotUrlAdded(const QString &path)
+{
+    for (const QString &id : m_occurences[path]) {
+        emit binClipModified(id);
+    }
+}
+
 void FileWatcher::slotUrlMissing(const QString &path)
 {
-    // TODO handle missing clips by replacing producer with an invalid producer
     for (const QString &id : m_occurences[path]) {
         emit binClipMissing(id);
     }

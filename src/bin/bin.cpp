@@ -2670,6 +2670,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
                                            KGuiItem(i18n("Save in project only"))) == KMessageBox::Yes) {
                 // save to external file
                 dia_ui.saveTitle(QUrl::fromLocalFile(path));
+                return;
             } else {
                 newprops.insert(QStringLiteral("resource"), QString());
             }
