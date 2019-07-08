@@ -129,13 +129,16 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         qDebug() << "////// ERROR, CANNOT LOAD SELECTED PLAYLIST: " << resource;
         return nullptr;
     }
-    if (pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
+    std::unique_ptr<ProfileInfo> prof(new ProfileParam(xmlProfile.get()));
+    if (static_cast<ProfileInfo*>(pCore->getCurrentProfile().get()) == prof.get()) {
         // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
         // Beware that "consumer" currently crashes on audio mixes!
         //resource.prepend(QStringLiteral("xml:"));
     } else {
         // This is currently crashing so I guess we'd better reject it for now
-        m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
+        if (!pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
+            m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
+        }
         QString loader = resource;
         loader.prepend(QStringLiteral("consumer:"));
         pCore->getCurrentProfile()->set_explicit(1);
