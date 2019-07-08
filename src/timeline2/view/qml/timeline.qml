@@ -1102,6 +1102,7 @@ Rectangle {
                                 drag.minimumX: 0
                                 property int dragFrame
                                 property bool shiftClick: false
+                                cursorShape: root.activeTool == 0 ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
                                 enabled: root.activeTool == 0
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')

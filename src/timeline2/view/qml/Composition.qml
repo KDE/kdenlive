@@ -135,7 +135,7 @@ Item {
         Keys.onDownPressed: {
             controller.requestCompositionMove(compositionRoot.clipId, controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
         }
-        cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+        cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
         onPressed: {
                 root.stopScrolling = true
