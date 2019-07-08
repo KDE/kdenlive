@@ -253,7 +253,7 @@ bool DocumentChecker::hasErrorInClips()
             if (!QFile::exists(original)) {
                 // clip has proxy but original clip is missing
                 missingSources.append(e);
-                missingPaths.append(resource);
+                missingPaths.append(original);
             }
             verifiedPaths.append(resource);
             continue;
@@ -564,7 +564,7 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         QDomElement e = missingProxies.at(i).toElement();
         QString realPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
-        QString id = e.attribute(QStringLiteral("id"));
+        QString id = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
         m_missingProxyIds << id;
         // Tell Kdenlive to recreate proxy
         e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
@@ -574,7 +574,7 @@ bool DocumentChecker::hasErrorInClips()
         for (int j = 0; j < prodsCount; ++j) {
             mltProd = documentProducers.at(j).toElement();
             QString prodId = mltProd.attribute(QStringLiteral("id"));
-            QString parentId = prodId;
+            QString parentId = Xml::getXmlProperty(mltProd, QStringLiteral("kdenlive:id"));
             bool slowmotion = false;
             if (parentId.startsWith(QLatin1String("slowmotion"))) {
                 slowmotion = true;
@@ -586,14 +586,15 @@ bool DocumentChecker::hasErrorInClips()
             if (parentId == id) {
                 // Hit, we must replace url
                 QString suffix;
-                QString resource = Xml::getXmlProperty(mltProd, QStringLiteral("resource"));
                 if (slowmotion) {
+                    QString resource = Xml::getXmlProperty(mltProd, QStringLiteral("resource"));
                     suffix = QLatin1Char('?') + resource.section(QLatin1Char('?'), -1);
                 }
                 Xml::setXmlProperty(mltProd, QStringLiteral("resource"), realPath + suffix);
-                if (prodId == id) {
-                    // Only set proxy property on master producer
-                    Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                Xml::setXmlProperty(mltProd, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
+                if (missingPaths.contains(realPath)) {
+                    // Proxy AND source missing
+                    setProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
                 }
             }
         }

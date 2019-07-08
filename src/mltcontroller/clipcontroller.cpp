@@ -700,8 +700,12 @@ void ClipController::backupOriginalProperties()
     }
     int propsCount = m_properties->count();
     // store original props
+    QStringList doNotPass {QStringLiteral("kdenlive:proxy"),QStringLiteral("kdenlive:originalurl"),QStringLiteral("kdenlive:clipname")};
     for (int j = 0; j < propsCount; j++) {
         QString propName = m_properties->get_name(j);
+        if (doNotPass.contains(propName)) {
+            continue;
+        } 
         if (!propName.startsWith(QLatin1Char('_'))) {
             propName.prepend(QStringLiteral("kdenlive:original."));
             m_properties->set(propName.toUtf8().constData(), m_properties->get(j));
@@ -750,8 +754,12 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
             props.inherit(sourceProps);
             int propsCount = sourceProps.count();
             // store original props
+            QStringList doNotPass {QStringLiteral("kdenlive:proxy"),QStringLiteral("kdenlive:originalurl"),QStringLiteral("kdenlive:clipname")};
             for (int i = 0; i < propsCount; i++) {
                 QString propName = sourceProps.get_name(i);
+                if (doNotPass.contains(propName)) {
+                    continue;
+                }
                 if (!propName.startsWith(QLatin1Char('_'))) {
                     propName.prepend(QStringLiteral("kdenlive:original."));
                     m_properties->set(propName.toUtf8().constData(), sourceProps.get(i));
