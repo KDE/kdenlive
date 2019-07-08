@@ -238,7 +238,7 @@ Rectangle {
         anchors.fill: clipRoot
         acceptedButtons: Qt.RightButton
         hoverEnabled: root.activeTool === 0
-        cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+        cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: {
             root.stopScrolling = true
             if (mouse.button == Qt.RightButton) {

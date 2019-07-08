@@ -143,7 +143,7 @@ Item {
         Keys.onEscapePressed: {
             timeline.grabCurrent()
         }
-        cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+        cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
         onPressed: {
                 root.stopScrolling = true
