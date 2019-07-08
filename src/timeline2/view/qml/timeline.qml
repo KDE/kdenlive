@@ -1144,11 +1144,13 @@ Rectangle {
                                         var x = controller.getItemPosition(dragProxy.draggedItem)
                                         var posx = Math.round((parent.x)/ root.timeScale)
                                         var clickAccepted = true
-                                        if (controller.normalEdit() && (tk != Logic.getTrackIdFromPos(parent.y) || x != posx)) {
+                                        var currentMouseTrack = Logic.getTrackIdFromPos(parent.y)
+                                        if (controller.normalEdit() && (tk != currentMouseTrack || x != posx)) {
                                             console.log('INCORRECT DRAG, Trying to recover item: ', parent.y,' XPOS: ',x,'=',posx,'on track: ',tk ,'\n!!!!!!!!!!')
                                             // Try to find correct item
-                                            var tentativeClip = getItemAtPos(tk, mouseX + parent.x, dragProxy.isComposition)
+                                            var tentativeClip = getItemAtPos(currentMouseTrack, mouseX + parent.x, dragProxy.isComposition)
                                             if (tentativeClip && tentativeClip.clipId) {
+                                                console.log('FOUND MISSING ITSM: ', tentativeClip.clipId)
                                                 clickAccepted = true
                                                 dragProxy.draggedItem = tentativeClip.clipId
                                                 dragProxy.x = tentativeClip.x
@@ -1160,6 +1162,7 @@ Rectangle {
                                                 dragProxy.sourceFrame = tentativeClip.modelStart
                                                 dragProxy.isComposition = tentativeClip.isComposition
                                             } else {
+                                                console.log('COULD NOT FIND ITSM ')
                                                 clickAccepted = false
                                                 mouse.accepted = false
                                                 dragProxy.draggedItem = -1
@@ -1248,6 +1251,9 @@ Rectangle {
                                                 // Fake move, only process final move
                                                 timeline.endFakeMove(dragProxy.draggedItem, dragFrame, true, true, true)
                                             }
+                                        }
+                                        if (dragProxy.masterObject && dragProxy.masterObject.isGrabbed) {
+                                            dragProxy.masterObject.grabItem()
                                         }
                                         dragProxy.x = controller.getItemPosition(dragProxy.draggedItem) * timeline.scaleFactor
                                         dragProxy.sourceFrame = dragFrame

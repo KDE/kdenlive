@@ -83,10 +83,15 @@ Item {
 
     onIsGrabbedChanged: {
         if (compositionRoot.isGrabbed) {
-            compositionRoot.forceActiveFocus();
-            mouseArea.focus = true
+            grabItem()
         }
     }
+
+    function grabItem() {
+        compositionRoot.forceActiveFocus()
+        mouseArea.focus = true
+    }
+
     onTrackIdChanged: {
         compositionRoot.parentTrack = Logic.getTrackById(trackId)
         compositionRoot.y = compositionRoot.originalTrackId == -1 || trackId == originalTrackId ? 0 : parentTrack.y - Logic.getTrackById(compositionRoot.originalTrackId).y;

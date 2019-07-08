@@ -83,9 +83,13 @@ Rectangle {
 
     onIsGrabbedChanged: {
         if (clipRoot.isGrabbed) {
-            clipRoot.forceActiveFocus();
-            mouseArea.focus = true
+            grabItem()
         }
+    }
+
+    function grabItem() {
+        clipRoot.forceActiveFocus()
+        mouseArea.focus = true
     }
 
     function clearAndMove(offset) {

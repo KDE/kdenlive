@@ -2149,6 +2149,7 @@ void TimelineController::grabCurrent()
     }
     std::unordered_set<int> ids = m_model->getCurrentSelection();
     std::unordered_set<int> items_list;
+    int mainId = -1;
     for (int i : ids) {
         if (m_model->isGroup(i)) {
             std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
@@ -2158,11 +2159,24 @@ void TimelineController::grabCurrent()
         }
     }
     for (int id : items_list) {
+        if (mainId == -1 && m_model->getItemTrackId(id) == m_activeTrack) {
+            mainId = id;
+            continue;
+        }
         if (m_model->isClip(id)) {
             std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
             clip->setGrab(!clip->isGrabbed());
         } else if (m_model->isComposition(id)) {
             std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(id);
+            clip->setGrab(!clip->isGrabbed());
+        }
+    }
+    if (mainId > -1) {
+        if (m_model->isClip(mainId)) {
+            std::shared_ptr<ClipModel> clip = m_model->getClipPtr(mainId);
+            clip->setGrab(!clip->isGrabbed());
+        } else if (m_model->isComposition(mainId)) {
+            std::shared_ptr<CompositionModel> clip = m_model->getCompositionPtr(mainId);
             clip->setGrab(!clip->isGrabbed());
         }
     }
