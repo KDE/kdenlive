@@ -447,7 +447,7 @@ public:
     /** @brief Return asset's display name from it's id (effect or composition) */
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */
-    void grabCurrent();
+    Q_INVOKABLE void grabCurrent();
     /** @brief Returns keys for all used thumbnails */
     QStringList getThumbKeys();
     /** @brief Returns true if a drag operation is currently running in timeline */

@@ -125,7 +125,7 @@ Item {
         anchors.fill: displayRect
         acceptedButtons: Qt.RightButton
         hoverEnabled: true
-        Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
+        Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
             controller.requestCompositionMove(compositionRoot.clipId, compositionRoot.originalTrackId, compositionRoot.modelStart - offset, true, true)
@@ -139,6 +139,9 @@ Item {
         }
         Keys.onDownPressed: {
             controller.requestCompositionMove(compositionRoot.clipId, controller.getPreviousTrackId(compositionRoot.originalTrackId), compositionRoot.modelStart, true, true)
+        }
+        Keys.onEscapePressed: {
+            timeline.grabCurrent()
         }
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
 

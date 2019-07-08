@@ -255,7 +255,7 @@ Rectangle {
                 clipMenu.popup()
             }
         }
-        Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down)
+        Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
             controller.requestClipMove(clipRoot.clipId, clipRoot.trackId, clipRoot.modelStart - offset, true, true, true);
@@ -269,6 +269,9 @@ Rectangle {
         }
         Keys.onDownPressed: {
             controller.requestClipMove(clipRoot.clipId, controller.getPreviousTrackId(clipRoot.trackId), clipRoot.modelStart, true, true, true);
+        }
+        Keys.onEscapePressed: {
+            timeline.grabCurrent()
         }
         onPositionChanged: {
             var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x
