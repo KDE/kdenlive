@@ -271,7 +271,7 @@ Column{
             }
             onTrimmingIn: {
                 if (controlTrim) {
-                    newDuration = Math.max(1, newDuration)
+                    newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
                     speedController.x = clip.x + clip.width - newDuration * trackRoot.timeScale
                     speedController.width = newDuration * trackRoot.timeScale
                     speedController.lastValidDuration = newDuration
@@ -315,7 +315,7 @@ Column{
             onTrimmingOut: {
                 if (controlTrim) {
                     speedController.x = clip.x
-                    newDuration = Math.max(1, newDuration)
+                    newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, true, root.snapping)
                     speedController.width = newDuration * trackRoot.timeScale
                     speedController.lastValidDuration = newDuration
                     speedController.speedText = (100 * clip.originalDuration * clip.speed / speedController.lastValidDuration).toFixed(2) + '%'

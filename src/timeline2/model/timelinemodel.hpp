@@ -462,6 +462,8 @@ public:
     /* Same function, but accumulates undo and redo and doesn't deal with snapping*/
     bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
 
+    /* Returns a proposed size for clip resize, checking for collisions */
+    Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
     /* Returns a list of {id, position duration} for all elements in the group*/
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
     Q_INVOKABLE void processGroupResize(QVariantList startPos, QVariantList endPos, bool right);

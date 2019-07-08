@@ -1809,6 +1809,41 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
     return size;
 }
 
+int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int snapDistance)
+{
+    Q_ASSERT(isClip(itemId));
+    QWriteLocker locker(&m_lock);
+    TRACE(itemId, size, right, snapDistance);
+    Q_ASSERT(isItem(itemId));
+    if (size <= 0) {
+        TRACE_RES(-1);
+        return -1;
+    }
+    int in = getItemPosition(itemId);
+    int out = in + getItemPlaytime(itemId);
+    
+    if (right && size > out - in) {
+        int targetPos = in + size - 1;
+        int trackId = getItemTrackId(itemId);
+        if (!getTrackById_const(trackId)->isBlankAt(targetPos) || !getItemsInRange(trackId, out + 1, targetPos, false).empty()) {
+            size = getTrackById_const(trackId)->getBlankEnd(out + 1) - in;
+        }
+    } else if (!right && size > (out - in)) {
+        int targetPos = out - size;
+        int trackId = getItemTrackId(itemId);
+        if (!getTrackById_const(trackId)->isBlankAt(targetPos) || !getItemsInRange(trackId, targetPos, in - 1, false).empty()) {
+            size = out - getTrackById_const(trackId)->getBlankStart(in - 1);
+        }
+    }
+    int timelinePos = pCore->getTimelinePosition();
+    m_snaps->addPoint(timelinePos);
+    int proposed_size = m_snaps->proposeSize(in, out, getBoundaries(itemId), size, right, snapDistance);
+    m_snaps->removePoint(timelinePos);
+    qDebug()<<"==== RESIZE REQUEST: "<<size<<"*, RESULKT: "<<proposed_size;
+    return proposed_size > 0 ? proposed_size : size;
+}
+
+
 int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
     if (logUndo) {
