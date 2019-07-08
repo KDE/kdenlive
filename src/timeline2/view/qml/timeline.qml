@@ -1151,7 +1151,7 @@ Rectangle {
                                             // Try to find correct item
                                             var tentativeClip = getItemAtPos(currentMouseTrack, mouseX + parent.x, dragProxy.isComposition)
                                             if (tentativeClip && tentativeClip.clipId) {
-                                                console.log('FOUND MISSING ITSM: ', tentativeClip.clipId)
+                                                console.log('FOUND MISSING ITEM: ', tentativeClip.clipId)
                                                 clickAccepted = true
                                                 dragProxy.draggedItem = tentativeClip.clipId
                                                 dragProxy.x = tentativeClip.x
@@ -1163,7 +1163,7 @@ Rectangle {
                                                 dragProxy.sourceFrame = tentativeClip.modelStart
                                                 dragProxy.isComposition = tentativeClip.isComposition
                                             } else {
-                                                console.log('COULD NOT FIND ITSM ')
+                                                console.log('COULD NOT FIND ITEM ')
                                                 clickAccepted = false
                                                 mouse.accepted = false
                                                 dragProxy.draggedItem = -1
