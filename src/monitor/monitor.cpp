@@ -34,6 +34,8 @@
 #include "project/projectmanager.h"
 #include "qmlmanager.h"
 #include "recmanager.h"
+#include "jobs/jobmanager.h"
+#include "jobs/cutclipjob.h"
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -1005,7 +1007,9 @@ void Monitor::slotExtractCurrentZone()
     if (m_controller == nullptr) {
         return;
     }
-    emit extractZone(m_controller->AbstractProjectItem::clipId());
+    GenTime inPoint(getZoneStart(), pCore->getCurrentFps());
+    GenTime outPoint(getZoneEnd(), pCore->getCurrentFps());
+    pCore->jobManager()->startJob<CutClipJob>({m_controller->clipId()}, -1, QString(), inPoint, outPoint);
 }
 
 std::shared_ptr<ProjectClip> Monitor::currentController() const

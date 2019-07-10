@@ -10,7 +10,7 @@ set(kdenlive_SRCS
   jobs/stabilizejob.cpp
   jobs/thumbjob.cpp
   jobs/transcodeclipjob.cpp
-#  jobs/cutclipjob.cpp
+  jobs/cutclipjob.cpp
   jobs/filterclipjob.cpp
   jobs/proxyclipjob.cpp
   PARENT_SCOPE)

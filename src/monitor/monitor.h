@@ -338,8 +338,6 @@ signals:
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);
-    /** @brief Request a zone extraction (ffmpeg transcoding). */
-    void extractZone(const QString &id);
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
     void addRemoveKeyframe();

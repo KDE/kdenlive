@@ -259,9 +259,6 @@ void MainWindow::init()
     connect(m_projectList, SIGNAL(refreshClip(QString,bool)), pCore->monitorManager(), SLOT(slotRefreshCurrentMonitor(QString)));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), m_projectList, SLOT(slotUpdateClipCut(QPoint)));*/
 
-    // TODO refac : reimplement ?
-    // connect(m_clipMonitor, &Monitor::extractZone, pCore->bin(), &Bin::slotStartCutJob);
-
     connect(m_clipMonitor, &Monitor::passKeyPress, this, &MainWindow::triggerKey);
 
     m_projectMonitor = new Monitor(Kdenlive::ProjectMonitor, pCore->monitorManager(), this);
