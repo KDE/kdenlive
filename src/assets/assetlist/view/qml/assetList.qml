@@ -276,7 +276,7 @@ Rectangle {
                     Label {
                         id: assetText
                         font.bold : assetThumb.isFavorite
-                        text: assetlist.getName(styleData.index)
+                        text: i18n(assetlist.getName(styleData.index))
                     }
                 }
                 MouseArea {
