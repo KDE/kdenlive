@@ -484,6 +484,15 @@ QString TimelineController::timecode(int frames)
     return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
 }
 
+QString TimelineController::simplifiedTC(int frames)
+{
+    if (KdenliveSettings::frametimecode()) {
+        return QString::number(frames);
+    }
+    QString s = m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
+    return s.startsWith(QLatin1String("00:")) ? s.remove(0, 3) : s;
+}
+
 bool TimelineController::showThumbnails() const
 {
     return KdenliveSettings::videothumbnails();

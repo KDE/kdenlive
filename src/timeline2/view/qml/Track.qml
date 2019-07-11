@@ -285,10 +285,11 @@ Column{
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = new_duration - clip.originalDuration
-                    var s = timeline.timecode(Math.abs(delta))
-                    s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
+                    var s = timeline.simplifiedTC(Math.abs(delta))
+                    s = '%1%2\n%3:%4'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
-                        .arg(timeline.timecode(clipDuration))
+                        .arg(i18n("In"))
+                        .arg(timeline.simplifiedTC(clip.inPoint))
                     bubbleHelp.show(clip.x - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
@@ -327,10 +328,11 @@ Column{
                     clip.lastValidDuration = new_duration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = clip.originalDuration - new_duration
-                    var s = timeline.timecode(Math.abs(delta))
-                    s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
+                    var s = timeline.simplifiedTC(Math.abs(delta))
+                    s = '%1%2\n%3:%4'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
-                        .arg(timeline.timecode(new_duration))
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(new_duration))
                     bubbleHelp.show(clip.x + clip.width - 20, trackRoot.y + trackRoot.height, s)
                 }
             }
@@ -368,10 +370,10 @@ Column{
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
-                    var s = timeline.timecode(Math.abs(delta))
-                    s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
+                    var s = timeline.simplifiedTC(Math.abs(delta))
+                    s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
-                        .arg(timeline.timecode(clipDuration))
+                        .arg(timeline.simplifiedTC(clipDuration))
                     bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
@@ -386,10 +388,10 @@ Column{
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
                     var delta = newDuration - clip.originalDuration
-                    var s = timeline.timecode(Math.abs(delta))
-                    s = '%1%2 = %3'.arg((delta < 0)? '+' : (delta > 0)? '-' : '')
+                    var s = timeline.simplifiedTC(Math.abs(delta))
+                    s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
-                        .arg(timeline.timecode(clipDuration))
+                        .arg(timeline.simplifiedTC(clipDuration))
                     bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }

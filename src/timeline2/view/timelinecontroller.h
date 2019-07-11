@@ -164,6 +164,7 @@ public:
     Q_INVOKABLE bool ripple();
     Q_INVOKABLE bool scrub();
     Q_INVOKABLE QString timecode(int frames);
+    Q_INVOKABLE QString simplifiedTC(int frames);
     /* @brief Request inserting a new clip in timeline (dragged from bin or monitor)
        @param tid is the destination track
        @param position is the timeline position

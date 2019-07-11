@@ -114,7 +114,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
-            text: label.text + ' (' + timeline.timecode(clipRoot.inPoint) + '-' + timeline.timecode(clipRoot.outPoint) + ')'
+            text: label.text + ' (' + timeline.simplifiedTC(clipRoot.inPoint) + '-' + timeline.simplifiedTC(clipRoot.outPoint) + ')'
         }
     }
 
@@ -364,7 +364,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            text: positionOffset < 0 ? i18n("Offset: -%1", timeline.timecode(-positionOffset)) : i18n("Offset: %1", timeline.timecode(positionOffset))
+                            text: positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
                         }
                     }
                     Text {
@@ -673,7 +673,7 @@ Rectangle {
                         if (duration != clipRoot.fadeIn) {
                             timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                             // Show fade duration as time in a "bubble" help.
-                            var s = timeline.timecode(Math.max(duration, 0))
+                            var s = timeline.simplifiedTC(Math.max(duration, 0))
                             bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s)
                         }
                     }
@@ -774,7 +774,7 @@ Rectangle {
                         if (clipRoot.fadeOut != duration) {
                             timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
                             // Show fade duration as time in a "bubble" help.
-                            var s = timeline.timecode(Math.max(duration, 0))
+                            var s = timeline.simplifiedTC(Math.max(duration, 0))
                             bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s)
                         }
                     }
@@ -811,6 +811,21 @@ Rectangle {
         Drag.active: trimInMouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction
         visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
+
+        ToolTip {
+            visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
+            font.pixelSize: root.baseUnit
+            delay: 1000
+            timeout: 5000
+            background: Rectangle {
+                color: activePalette.alternateBase
+                border.color: activePalette.light
+            }
+            contentItem: Label {
+                color: activePalette.text
+                text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+            }
+        }
 
         MouseArea {
             id: trimInMouseArea
@@ -879,6 +894,21 @@ Rectangle {
         Drag.proposedAction: Qt.MoveAction
         visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
 
+        ToolTip {
+            visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
+            font.pixelSize: root.baseUnit
+            delay: 1000
+            timeout: 5000
+            background: Rectangle {
+                color: activePalette.alternateBase
+                border.color: activePalette.light
+            }
+            contentItem: Label {
+                color: activePalette.text
+                text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
+            }
+        }
+        
         MouseArea {
             id: trimOutMouseArea
             anchors.fill: parent

@@ -1227,12 +1227,9 @@ Rectangle {
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
                                         if (delta != 0) {
-                                            var s = timeline.timecode(Math.abs(delta))
-                                            // remove leading zeroes
-                                            if (s.substring(0, 3) === '00:')
-                                                s = s.substring(3)
-                                            s = ((delta < 0)? '-' : (delta > 0)? '+' : '') + s
-                                            bubbleHelp.show(parent.x, ruler.height, s)
+                                            var s = timeline.simplifiedTC(Math.abs(delta))
+                                            s = ((delta < 0)? '-' : '+') + s + i18n("\nPosition:%1", timeline.simplifiedTC(dragFrame))
+                                            bubbleHelp.show(parent.x + mouseX, Math.max(ruler.height, Logic.getTrackYFromId(timeline.activeTrack)), s)
                                         } else bubbleHelp.hide()
                                     }
                                 }
