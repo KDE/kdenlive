@@ -3194,7 +3194,7 @@ void Bin::showBinFrame(QModelIndex ix, int frame)
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (item && item->itemType() == AbstractProjectItem::ClipItem) {
         auto clip = std::static_pointer_cast<ProjectClip>(item);
-        if (clip) {
+        if (clip && (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video)) {
             clip->getThumbFromPercent(frame);
         }
     }
