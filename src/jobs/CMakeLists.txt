@@ -3,6 +3,7 @@ set(kdenlive_SRCS
   jobs/abstractclipjob.cpp
   jobs/audiothumbjob.cpp
   jobs/jobmanager.cpp
+  jobs/cachejob.cpp
   jobs/loadjob.cpp
   jobs/meltjob.cpp
   jobs/scenesplitjob.cpp

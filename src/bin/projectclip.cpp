@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
+#include "jobs/cachejob.hpp"
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "mltcontroller/clipcontroller.h"
@@ -1401,12 +1402,20 @@ void ProjectClip::getThumbFromPercent(int percent)
 {
     // extract a maximum of 25 frames for bin preview
     percent /= 4;
-    int framePos = getFramePlaytime() * percent / 25;
+    int duration = getFramePlaytime();
+    int framePos = duration * percent / 25;
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos));
     } else {
         // Generate percent thumbs
-        //TODO: Generate bin cache whithout creating a job for each thumb
-        pCore->jobManager()->startJob<ThumbJob>({m_binId}, -1, QString(), 150, framePos, true, false);
+        int id;
+        if (pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
+        } else {
+            std::set<int>frames;
+            for (int i = 1; i <= 100; ++i) {
+                frames.insert(duration * i / 25);
+            }
+            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 150, frames);
+        }
     }
 }

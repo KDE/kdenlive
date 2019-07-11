@@ -51,7 +51,8 @@ public:
         ANALYSECLIPJOB = 7,
         LOADJOB = 8,
         AUDIOTHUMBJOB = 9,
-        SPEEDJOB = 10
+        SPEEDJOB = 10,
+        CACHEJOB = 11
     };
     AbstractClipJob(JOBTYPE type, QString id, QObject *parent = nullptr);
     ~AbstractClipJob() override;
