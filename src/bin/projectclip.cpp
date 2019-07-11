@@ -1395,3 +1395,18 @@ void ProjectClip::updateZones()
     QJsonDocument json(list);
     setProducerProperty(QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
 }
+
+
+void ProjectClip::getThumbFromPercent(int percent)
+{
+    // extract a maximum of 25 frames for bin preview
+    percent /= 4;
+    int framePos = getFramePlaytime() * percent / 25;
+    if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
+        setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos));
+    } else {
+        // Generate percent thumbs
+        //TODO: Generate bin cache whithout creating a job for each thumb
+        pCore->jobManager()->startJob<ThumbJob>({m_binId}, -1, QString(), 150, framePos, true, false);
+    }
+}

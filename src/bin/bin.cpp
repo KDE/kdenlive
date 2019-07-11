@@ -205,6 +205,7 @@ public:
                     decoWidth += r.width() + textMargin;
                     r.setWidth(r.height() * pix.width() / pix.height());
                     painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
+                    m_thumbRect = r;
                 }
                 int mid = (int)((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
@@ -305,11 +306,20 @@ public:
             QStyledItemDelegate::paint(painter, option, index);
         }
     }
+    int getFrame(QModelIndex index, int mouseX)
+    {
+        int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if (type != AbstractProjectItem::ClipItem || mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+            return 0;
+        }
+        return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
+    }
 
 private:
     mutable bool m_editorOpen{false};
     mutable QRect m_audioDragRect;
     mutable QRect m_videoDragRect;
+    mutable QRect m_thumbRect;
     double m_dar{1.778};
 
 public:
@@ -373,6 +383,13 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         int distance = (event->pos() - m_startPos).manhattanLength();
         if (distance >= QApplication::startDragDistance()) {
             dragged = performDrag();
+        }
+    } else if (event->modifiers() == Qt::ShiftModifier) {
+        QModelIndex index = indexAt(event->pos());
+        if (index.isValid()) {
+            QAbstractItemDelegate *del = itemDelegate(index);
+            int frame = static_cast<BinItemDelegate *>(del)->getFrame(index, event->pos().x());
+            emit displayBinFrame(index, frame);
         }
     }
     if (!dragged) {
@@ -1375,6 +1392,7 @@ void Bin::slotInitView(QAction *action)
         view->setWordWrap(true);
         connect(m_proxyModel, &QAbstractItemModel::layoutAboutToBeChanged, this, &Bin::slotSetSorting);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
+        connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         m_proxyModel->setDynamicSortFilter(true);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
@@ -3167,6 +3185,17 @@ void Bin::adjustProjectProfileToItem()
         if (clip) {
             QDomDocument doc;
             LoadJob::checkProfile(clip->clipId(), clip->toXml(doc, false), clip->originalProducer());
+        }
+    }
+}
+
+void Bin::showBinFrame(QModelIndex ix, int frame)
+{
+    std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+    if (item && item->itemType() == AbstractProjectItem::ClipItem) {
+        auto clip = std::static_pointer_cast<ProjectClip>(item);
+        if (clip) {
+            clip->getThumbFromPercent(frame);
         }
     }
 }

@@ -220,6 +220,9 @@ public:
     /** @brief Saves the subclips data as json
      */
     void updateZones();
+    /** @brief Display Bin thumbnail given a percent
+     */
+    void getThumbFromPercent(int percent);
 
 protected:
     friend class ClipModel;

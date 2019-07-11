@@ -108,6 +108,7 @@ private:
 signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
+    void displayBinFrame(QModelIndex ix, int frame);
 };
 
 class SmallJobLabel : public QPushButton
@@ -312,6 +313,9 @@ private slots:
      *  this is a workaround foq Qt bug 54676
      */
     void showClearButton(bool show);
+    /** @brief Display a defined frame in bin clip thumbnail
+     */
+    void showBinFrame(QModelIndex ix, int frame);
 
 public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
