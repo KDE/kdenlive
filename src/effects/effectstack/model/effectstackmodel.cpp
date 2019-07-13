@@ -313,7 +313,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
                 continue;
             }
             if (keyframeParams.contains(pName)) {
-                // This is a keyframable parameter, fix offest
+                // This is a keyframable parameter, fix offset
                 QString pValue = KeyframeModel::getAnimationStringWithOffset(effect, pnode.text(), currentIn - parentIn);
                 parameters.append(QPair<QString, QVariant>(pName, QVariant(pValue)));
             } else {
