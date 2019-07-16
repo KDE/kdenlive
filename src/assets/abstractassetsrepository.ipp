@@ -301,7 +301,6 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
     if (!description.isEmpty()) {
         res.description = description;
-        res.description.append(QString(" (%1)").arg(tag));
     }
 
     // Update name if the xml provide one
