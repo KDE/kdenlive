@@ -2352,7 +2352,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
                 if (exportFile.endsWith(QLatin1String("customprofiles.xml"))) {
                     childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("favorite")));
                 } else {
-                    childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("applications-internet")));
+                    childitem->setIcon(0, QIcon::fromTheme(QStringLiteral("internet-services")));
                 }
             }
             groupItem->addChild(childitem);
