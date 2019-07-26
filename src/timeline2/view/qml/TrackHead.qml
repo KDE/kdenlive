@@ -236,7 +236,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            text: i18n("Click to make track active/inactive. Active tracks will react to insert/remove operations")
+                            text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
                         }
                     }
                     state:  'normalled'
