@@ -145,7 +145,12 @@ ki18n_install(po)
 
 include(GNUInstallDirs)
 install(FILES AUTHORS COPYING README.md DESTINATION ${CMAKE_INSTALL_DOCDIR})
-install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR})
+
+if (ECM_VERSION VERSION_GREATER_EQUAL "5.59.0")
+    install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+else()
+    install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_CONFDIR})
+endif()
 
 ############################
 # Tests
