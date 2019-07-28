@@ -107,8 +107,12 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 
 void TimelineController::setTargetTracks(QPair<int, int> targets)
 {
-    setVideoTarget(targets.first >= 0 && targets.first < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.first) : -1);
-    setAudioTarget(targets.second >= 0 && targets.second < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.second) : -1);
+    //setVideoTarget(targets.first >= 0 && targets.first < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.first) : -1);
+    //setAudioTarget(targets.second >= 0 && targets.second < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.second) : -1);
+    m_hasVideoTarget = targets.first >= 0;
+    m_hasAudioTarget = targets.second >= 0;
+    setVideoTarget(targets.first);
+    setAudioTarget(targets.second);
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -1578,11 +1582,9 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     auto it = m_model->m_allTracks.cbegin();
     while (it != m_model->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (target_track != audioTarget() && target_track != videoTarget() && !m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-            ++it;
-            continue;
+        if (m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            tracks << target_track;
         }
-        tracks << target_track;
         ++it;
     }
     if (m_zone == QPoint()) {
@@ -1868,6 +1870,16 @@ int TimelineController::audioTarget() const
 int TimelineController::videoTarget() const
 {
     return m_model->m_videoTarget;
+}
+
+bool TimelineController::hasAudioTarget() const
+{
+    return m_hasAudioTarget;
+}
+
+bool TimelineController::hasVideoTarget() const
+{
+    return m_hasVideoTarget;
 }
 
 void TimelineController::resetTrackHeight()
@@ -2231,7 +2243,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
             // There is a clip, cut
             res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, false);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo);
     }
     res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
@@ -2345,7 +2357,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 res = res && TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
             }
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo, false);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo);
     }
     for (int item : sorted_clips) {
         if (m_model->isClip(item)) {

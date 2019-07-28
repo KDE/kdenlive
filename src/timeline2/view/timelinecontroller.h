@@ -67,6 +67,8 @@ class TimelineController : public QObject
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
     Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
+    Q_PROPERTY(bool hasAudioTarget READ hasAudioTarget)
+    Q_PROPERTY(bool hasVideoTarget READ hasVideoTarget)
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
@@ -142,6 +144,8 @@ public:
     Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
     Q_INVOKABLE int audioTarget() const;
     Q_INVOKABLE int videoTarget() const;
+    Q_INVOKABLE bool hasAudioTarget() const;
+    Q_INVOKABLE bool hasVideoTarget() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
@@ -494,6 +498,8 @@ private:
     int m_videoTarget;
     int m_activeTrack;
     int m_audioRef;
+    bool m_hasAudioTarget {false};
+    bool m_hasVideoTarget {false};
     QPair<int, int> m_recordStart;
     int m_recordTrack;
     QPoint m_zone;

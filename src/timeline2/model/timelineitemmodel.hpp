@@ -86,6 +86,7 @@ public:
     /** @brief returns the lower video track index in timeline.
      **/
     int getFirstVideoTrackIndex() const;
+    int getFirstAudioTrackIndex() const;
     const QString getTrackFullName(int tid) const;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, bool start, bool duration, bool updateThumb) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;

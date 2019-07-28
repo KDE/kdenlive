@@ -313,7 +313,6 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
-    
     result = breakAffectedGroups(timeline, tracks, zone, undo, redo);
     
     for (int &trackId : tracks) {
@@ -323,7 +322,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
         result = result && TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
     }
     if (result && !liftOnly) {
-        result = TimelineFunctions::removeSpace(timeline, -1, zone, undo, redo);
+        result = TimelineFunctions::removeSpace(timeline, -1, zone, undo, redo, tracks);
     }
     pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
     return result;
@@ -340,15 +339,15 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     auto it = timeline->m_allTracks.cbegin();
     while (it != timeline->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (!trackIds.contains(target_track) && !timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-            ++it;
-            continue;
+        if (timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            affectedTracks << target_track;
+        } else if (trackIds.contains(target_track)) {
+            // Track is marked as target but not active, remove it
+            trackIds.removeAll(target_track);
         }
-        affectedTracks << target_track;
         ++it;
     }
     result = breakAffectedGroups(timeline, affectedTracks, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
-    
     if (overwrite) {
         // Cut all tracks
         for (int target_track : affectedTracks) {
@@ -367,13 +366,14 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
                 result = result && TimelineFunctions::requestClipCut(timeline, startClipId, insertFrame, undo, redo);
             }
         }
-        result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
+        result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, affectedTracks);
     }
+
     if (result) {
         if (!trackIds.isEmpty()) {
             int newId = -1;
             QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
-            result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo);
+            result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
         }
         if (result) {
             pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
@@ -414,7 +414,7 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     return true;
 }
 
-bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
+bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks)
 {
     Q_UNUSED(trackId)
 
@@ -422,58 +422,46 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
     auto it = timeline->m_allTracks.cbegin();
     while (it != timeline->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (timeline->m_videoTarget == target_track || timeline->m_audioTarget == target_track ||
-            timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+        if (timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
             std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.y() - 1, -1, true);
             clips.insert(subs.begin(), subs.end());
         }
         ++it;
     }
     bool result = false;
-    if (!clips.empty()) {
-        int clipId = *clips.begin();
-        if (clips.size() > 1) {
-            int clipsGroup = timeline->m_groups->getRootId(clipId);
-            int res = timeline->requestClipsGroup(clips, undo, redo);
-            if (res > -1) {
-                result = timeline->requestGroupMove(clipId, res, 0, zone.x() - zone.y(), true, true, undo, redo);
-                if (result && res != clipsGroup) {
-                    // Only ungroup if a group was created
-                    result = timeline->requestClipUngroup(clipId, undo, redo);
-                }
-                if (!result) {
-                    undo();
-                }
-            }
-        } else {
-            // only 1 clip to be moved
-            int clipStart = timeline->getItemPosition(clipId);
-            result = timeline->requestClipMove(clipId, timeline->getItemTrackId(clipId), clipStart - (zone.y() - zone.x()), true, true, true, true, undo, redo);
-        }
+    timeline->requestSetSelection(clips);
+    int itemId = *clips.begin();
+    int targetTrackId = timeline->getItemTrackId(itemId);
+    int targetPos = timeline->getItemPosition(itemId) + zone.x() - zone.y();
+
+    if (timeline->m_groups->isInGroup(itemId)) {
+        result = timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.x() - zone.y(), true, true, undo, redo, true, true, allowedTracks);
+    } else if (timeline->isClip(itemId)) {
+        result = timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, undo, redo);
+    } else {
+        result = timeline->requestCompositionMove(itemId, targetTrackId, timeline->m_allCompositions[itemId]->getForcedTrack(), targetPos, true, true, undo, redo);
+    }
+    timeline->requestClearSelection();
+    if (!result) {
+        undo();
     }
     return result;
 }
 
-bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, bool followTargets)
+bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks)
 {
     timeline->requestClearSelection();
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     std::unordered_set<int> items;
-    if (!followTargets) {
+    if (allowedTracks.isEmpty()) {
         // Select clips in all tracks
         items = timeline->getItemsInRange(-1, zone.x(), -1, true);
     } else {
         // Select clips in target and active tracks only
-        auto it = timeline->m_allTracks.cbegin();
-        while (it != timeline->m_allTracks.cend()) {
-            int target_track = (*it)->getId();
-            if (timeline->m_videoTarget == target_track || timeline->m_audioTarget == target_track ||
-                timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-                std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.x(), -1, true);
-                items.insert(subs.begin(), subs.end());
-            }
-            ++it;
+        for (int target_track : allowedTracks) {
+            std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.x(), -1, true);
+            items.insert(subs.begin(), subs.end());
         }
     }
     if (items.empty()) {
@@ -488,7 +476,7 @@ bool TimelineFunctions::requestInsertSpace(const std::shared_ptr<TimelineItemMod
     // TODO the three move functions should be unified in a "requestItemMove" function
     if (timeline->m_groups->isInGroup(itemId)) {
         result =
-            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo);
+            result && timeline->requestGroupMove(itemId, timeline->m_groups->getRootId(itemId), 0, zone.y() - zone.x(), true, true, local_undo, local_redo, true, true, allowedTracks);
     } else if (timeline->isClip(itemId)) {
         result = result && timeline->requestClipMove(itemId, targetTrackId, targetPos, true, true, true, true, local_undo, local_redo);
     } else {

@@ -1718,6 +1718,8 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         delete w;
     }
     m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
+    // Setup timeline targets
+    emit setupTargets(clip->hasVideo(), clip->hasAudio());
     auto *lay = static_cast<QVBoxLayout *>(m_propertiesPanel->layout());
     if (lay == nullptr) {
         lay = new QVBoxLayout(m_propertiesPanel);

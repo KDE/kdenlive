@@ -37,6 +37,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     int tid1 = TrackModel::construct(timeline);
     int tid2 = TrackModel::construct(timeline);
     int tid3 = TrackModel::construct(timeline);
+
     // Add an audio track
     int tid4 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int cid2 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
@@ -619,6 +620,9 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
         timeline->m_audioTarget = tid2;
         timeline->m_videoTarget = tid1;
+        // Make tracks active
+        timeline->setTrackProperty(tid1, QStringLiteral("kdenlive:timeline_active"), QStringLiteral("1"));
+        timeline->setTrackProperty(tid2, QStringLiteral("kdenlive:timeline_active"), QStringLiteral("1"));
         REQUIRE(TimelineFunctions::insertZone(timeline, {tid1, tid2}, binId, 3 + 2, {l / 4, 3 * l / 4}, false));
         timeline->m_audioTarget = -1;
         timeline->m_videoTarget = -1;

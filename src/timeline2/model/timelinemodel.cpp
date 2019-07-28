@@ -973,7 +973,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 }
 
 bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets,
-                                         Fun &undo, Fun &redo)
+                                         Fun &undo, Fun &redo, QVector<int> allowedTracks)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -1003,17 +1003,21 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (m_audioTarget >= 0 && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget;
-            if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
+            if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
                 trackId = -1;
             }
-        } else if (useTargets && getTrackById_const(trackId)->isLocked()) {
+        } else if (useTargets && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
             // Video target set but locked
             trackId = m_audioTarget;
-            if (trackId > -1 && getTrackById_const(trackId)->isLocked()) {
+            if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
                 trackId = -1;
             }
         }
         if (trackId == -1) {
+            if (!allowedTracks.isEmpty()) {
+                // No active tracks, aborting
+                return true;
+            }
             pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
             return false;
         }
@@ -1025,6 +1029,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             target_track = m_videoTarget == -1 ? -1 : getTrackById_const(m_videoTarget)->isLocked() ? -1 : m_videoTarget;
         } else {
             target_track = m_audioTarget == -1 ? -1 : getTrackById_const(m_audioTarget)->isLocked() ? -1 : m_audioTarget;
+        }
+        if (useTargets && !allowedTracks.contains(target_track)) {
+            target_track = -1;
         }
         qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
         int mirror = getMirrorTrackId(trackId);
@@ -1356,7 +1363,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 }
 
 bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool moveMirrorTracks,
-                                     bool allowViewRefresh)
+                                     bool allowViewRefresh, QVector<int> allowedTracks)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_allGroups.count(groupId) > 0);
@@ -1486,13 +1493,16 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     if (delta_track == 0) {
         // Special case, we are moving on same track, avoid too many calculations
         for (int item : sorted_clips) {
-        int current_track_id = getItemTrackId(item);
-        int target_position = getItemPosition(item) + delta_pos;
+            int current_track_id = getItemTrackId(item);
+            if (!allowedTracks.isEmpty() && !allowedTracks.contains(current_track_id)) {
+                continue;
+            }
+            int target_position = getItemPosition(item) + delta_pos;
             if (isClip(item)) {
                 ok = ok && requestClipMove(item, current_track_id, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
             } else {
                 ok = ok &&
-                     requestCompositionMove(item, current_track_id, m_allCompositions[item]->getForcedTrack(), target_position, updateThisView, finalMove, local_undo, local_redo);
+                    requestCompositionMove(item, current_track_id, m_allCompositions[item]->getForcedTrack(), target_position, updateThisView, finalMove, local_undo, local_redo);
             }
         }
         if (!ok) {

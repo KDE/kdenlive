@@ -251,6 +251,10 @@ void MainWindow::init()
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
 
     connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
+    connect(pCore->bin(), &Bin::setupTargets, this, [&] (bool hasVideo, bool hasAudio) {
+            getCurrentTimeline()->controller()->setTargetTracks({hasVideo ? getCurrentTimeline()->model()->getFirstVideoTrackIndex() : -1, hasAudio ? getCurrentTimeline()->model()->getFirstAudioTrackIndex() : -1});
+        }
+    );
 
     // TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));

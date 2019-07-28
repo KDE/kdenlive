@@ -395,7 +395,7 @@ public:
                               bool useTargets = true);
     /* Same function, but accumulates undo and redo*/
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
-                              Fun &redo);
+                              Fun &redo, QVector<int> allowedTracks = QVector<int>());
 
 protected:
     /* @brief Creates a new clip instance without inserting it.
@@ -434,7 +434,7 @@ public:
     */
     bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true);
     bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool moveMirrorTracks = true, 
-                          bool allowViewRefresh = true);
+                          bool allowViewRefresh = true, QVector<int> allowedTracks = QVector<int>());
 
     /* @brief Deletes all clips inside the group that contains the given clip.
        This action is undoable
