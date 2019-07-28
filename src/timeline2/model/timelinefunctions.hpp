@@ -83,12 +83,12 @@ struct TimelineFunctions
     static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, bool liftOnly);
     static bool liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
-    static bool removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo);
+    static bool removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks = QVector<int>());
 
     /** @brief This function will insert a blank space starting at zone.x, and ending at zone.y. This will affect all the tracks
         @returns true on success, false otherwise
     */
-    static bool requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, bool followTargets = true);
+    static bool requestInsertSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks = QVector<int> ());
     static bool insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
                            bool overwrite, bool useTargets = true);
 

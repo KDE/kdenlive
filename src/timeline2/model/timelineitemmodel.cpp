@@ -504,6 +504,19 @@ int TimelineItemModel::getFirstVideoTrackIndex() const
     return trackId;
 }
 
+int TimelineItemModel::getFirstAudioTrackIndex() const
+{
+    int trackId = -1;
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->isAudioTrack()) {
+            trackId = (*it)->getId();
+        }
+        ++it;
+    }
+    return trackId;
+}
+
 const QString TimelineItemModel::getTrackFullName(int tid) const
 {
     QString tag = getTrackTagById(tid);

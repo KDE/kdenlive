@@ -1256,7 +1256,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 showClipProperties(clip, false);
                 m_deleteAction->setText(i18n("Delete Clip"));
                 m_proxyAction->setText(i18n("Proxy Clip"));
-                emit findInTimeline(clip->clipId(), clip->timelineInstances());
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
                 m_openAction->setEnabled(false);
@@ -1276,7 +1275,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
             }
             m_deleteAction->setEnabled(true);
         } else {
-            emit findInTimeline(QString());
             m_reloadAction->setEnabled(false);
             m_locateAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
@@ -1288,7 +1286,6 @@ void Bin::selectProxyModel(const QModelIndex &id)
         m_openAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
         showClipProperties(nullptr);
-        emit findInTimeline(QString());
         emit requestClipShow(nullptr);
         // clear effect stack
         emit requestShowEffectStack(QString(), nullptr, QSize(), false);
@@ -1441,8 +1438,6 @@ void Bin::rebuildMenu()
     m_menu->insertMenu(m_reloadAction, m_extractAudioAction);
     m_menu->insertMenu(m_reloadAction, m_transcodeAction);
     m_menu->insertMenu(m_reloadAction, m_clipsActionsMenu);
-    m_inTimelineAction =
-        m_menu->insertMenu(m_reloadAction, static_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_in_timeline"), pCore->window())));
 }
 
 void Bin::contextMenuEvent(QContextMenuEvent *event)
@@ -1507,7 +1502,9 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                         }
                     }
                     m_proxyAction->blockSignals(false);
-                } else if (itemType == AbstractProjectItem::SubClipItem) {
+                } else {
+                    // Disable find in timeline option
+                    emit findInTimeline(QString());
                 }
             }
         }
@@ -1721,6 +1718,8 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         delete w;
     }
     m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
+    // Setup timeline targets
+    emit setupTargets(clip->hasVideo(), clip->hasAudio());
     auto *lay = static_cast<QVBoxLayout *>(m_propertiesPanel->layout());
     if (lay == nullptr) {
         lay = new QVBoxLayout(m_propertiesPanel);
@@ -1882,7 +1881,6 @@ void Bin::setupGeneratorMenu()
     addMenu = qobject_cast<QMenu *>(pCore->window()->factory()->container(QStringLiteral("clip_in_timeline"), pCore->window()));
     if (addMenu) {
         m_inTimelineAction = m_menu->addMenu(addMenu);
-        m_inTimelineAction->setEnabled(!addMenu->isEmpty());
     }
 
     if (m_locateAction) {

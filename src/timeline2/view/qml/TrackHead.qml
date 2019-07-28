@@ -126,13 +126,13 @@ Rectangle {
                         if (trackHeadRoot.isAudio) {
                             if (trackHeadRoot.trackId == timeline.audioTarget) {
                                 timeline.audioTarget = -1;
-                            } else {
+                            } else if (timeline.hasAudioTarget) {
                                 timeline.audioTarget = trackHeadRoot.trackId;
                             }
                         } else {
                             if (trackHeadRoot.trackId == timeline.videoTarget) {
                                 timeline.videoTarget = -1;
-                            } else {
+                            } else if (timeline.hasVideoTarget) {
                                 timeline.videoTarget = trackHeadRoot.trackId;
                             }
                         }

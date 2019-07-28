@@ -250,7 +250,11 @@ void MainWindow::init()
     connect(m_clipMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
 
-    connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline);
+    connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
+    connect(pCore->bin(), &Bin::setupTargets, this, [&] (bool hasVideo, bool hasAudio) {
+            getCurrentTimeline()->controller()->setTargetTracks({hasVideo ? getCurrentTimeline()->model()->getFirstVideoTrackIndex() : -1, hasAudio ? getCurrentTimeline()->model()->getFirstAudioTrackIndex() : -1});
+        }
+    );
 
     // TODO deprecated, replace with Bin methods if necessary
     /*connect(m_projectList, SIGNAL(loadingIsOver()), this, SLOT(slotElapsedTime()));
@@ -2739,7 +2743,6 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
 {
     Q_UNUSED(clipId)
     QMenu *inTimelineMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("clip_in_timeline"), this));
-
     QList<QAction *> actionList;
     for (int i = 0; i < ids.count(); ++i) {
         QString track = getMainTimeline()->controller()->getTrackNameFromIndex(pCore->getItemTrack(ObjectId(ObjectType::TimelineClip, ids.at(i))));
