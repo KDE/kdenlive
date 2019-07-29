@@ -1400,10 +1400,10 @@ void ProjectClip::updateZones()
 
 void ProjectClip::getThumbFromPercent(int percent)
 {
-    // extract a maximum of 25 frames for bin preview
-    percent /= 4;
+    // extract a maximum of 50 frames for bin preview
+    percent += percent%2;
     int duration = getFramePlaytime();
-    int framePos = duration * percent / 25;
+    int framePos = duration * percent / 100;
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos));
     } else {
@@ -1411,11 +1411,7 @@ void ProjectClip::getThumbFromPercent(int percent)
         int id;
         if (pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
         } else {
-            std::set<int>frames;
-            for (int i = 1; i <= 100; ++i) {
-                frames.insert(duration * i / 25);
-            }
-            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 150, frames);
+            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 150, 50);
         }
     }
 }

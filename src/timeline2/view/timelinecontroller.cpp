@@ -483,12 +483,17 @@ void TimelineController::triggerAction(const QString &name)
     pCore->triggerAction(name);
 }
 
-QString TimelineController::timecode(int frames)
+QString TimelineController::timecode(int frames) const
 {
     return KdenliveSettings::frametimecode() ? QString::number(frames) : m_model->tractor()->frames_to_time(frames, mlt_time_smpte_df);
 }
 
-QString TimelineController::simplifiedTC(int frames)
+QString TimelineController::framesToClock(int frames) const
+{
+    return m_model->tractor()->frames_to_time(frames, mlt_time_clock);
+}
+
+QString TimelineController::simplifiedTC(int frames) const
 {
     if (KdenliveSettings::frametimecode()) {
         return QString::number(frames);

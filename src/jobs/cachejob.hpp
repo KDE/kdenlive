@@ -24,7 +24,6 @@
 #include "abstractclipjob.h"
 
 #include <memory>
-#include <set>
 
 /* @brief This class represents the job that corresponds to computing the thumb of a clip
  */
@@ -43,7 +42,7 @@ public:
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */
-    CacheJob(const QString &binId, int imageHeight, std::set<int> frames);
+    CacheJob(const QString &binId, int imageHeight, int thumbsCount = 10);
 
     const QString getDescription() const override;
 
@@ -54,7 +53,6 @@ public:
     bool commitResult(Fun &undo, Fun &redo) override;
 
 private:
-    std::set<int> m_frames;
     int m_fullWidth;
     int m_imageHeight;
 
@@ -62,6 +60,7 @@ private:
     std::shared_ptr<Mlt::Producer> m_prod;
 
     bool m_done{false};
+    int m_thumbsCount;
     bool m_inCache{false};
     bool m_subClip{false}; // true if we operate on a subclip
 };

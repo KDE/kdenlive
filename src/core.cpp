@@ -667,8 +667,8 @@ Mlt::Profile *Core::thumbProfile()
     QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
-        m_thumbProfile->set_height(200);
-        int width = 200 * m_thumbProfile->dar();
+        m_thumbProfile->set_height(144);
+        int width = 144 * m_thumbProfile->dar() + 0.5;
         if (width % 8 > 0) {
             width += 8 - width % 8;
         }
