@@ -1015,6 +1015,15 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
             break;
         }
     }
+    QDomNodeList producers = doc.documentElement().elementsByTagName(QStringLiteral("producer"));
+    for (int i = 0; i < producers.count(); ++i) {
+        QDomElement e = producers.at(i).toElement();
+        int length = Xml::getXmlProperty(e, QStringLiteral("length")).toInt();
+        if (length > 0) {
+            // calculate updated length
+            Xml::setXmlProperty(e, QStringLiteral("length"), pCore->window()->getMainTimeline()->controller()->framesToClock(length));
+        }
+    }
     QFile file(convertedFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         return;

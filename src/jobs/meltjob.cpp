@@ -107,20 +107,19 @@ bool MeltJob::startJob()
     int fps_den = projectProfile->frame_rate_den();
 
     m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
+
     if (m_producer && m_useProducerProfile) {
         m_profile->from_producer(*m_producer.get());
         m_profile->set_explicit(1);
-    }
-    if (m_useProducerProfile) {
         configureProfile();
+        if (!qFuzzyCompare(m_profile->fps(), fps)) {
+            // Reload producer
+            // Force same fps as projec profile or the resulting .mlt will not load in our project
+            qDebug()<<"/// FORCING FRAME RATE TO: "<<fps_num<<"\n-------------------";
+            m_profile->set_frame_rate(fps_num, fps_den);
+            m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
+        }
     }
-    if (!qFuzzyCompare(m_profile->fps(), fps) && m_useProducerProfile) {
-        // Reload producer
-        // Force same fps as projec profile or the resulting .mlt will not load in our project
-        m_profile->set_frame_rate(fps_num, fps_den);
-        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
-    }
-
     if ((m_producer == nullptr) || !m_producer->is_valid()) {
         // Clip was removed or something went wrong, Notify user?
         m_errorMessage.append(i18n("Invalid clip"));
