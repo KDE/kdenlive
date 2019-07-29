@@ -32,12 +32,14 @@
 #include <QScopedPointer>
 #include <mlt++/MltProducer.h>
 
-CacheJob::CacheJob(const QString &binId, int imageHeight, std::set<int> frames)
+#include <set>
+
+CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount)
     : AbstractClipJob(CACHEJOB, binId)
-    , m_frames(frames)
     , m_fullWidth(imageHeight * pCore->getCurrentDar() + 0.5)
     , m_imageHeight(imageHeight)
     , m_done(false)
+    , m_thumbsCount(thumbsCount)
 
 {
     if (m_fullWidth % 8 > 0) {
@@ -45,7 +47,7 @@ CacheJob::CacheJob(const QString &binId, int imageHeight, std::set<int> frames)
     }
     m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
-    Q_ASSERT(item->itemType() == AbstractProjectItem::ClipItem);
+    Q_ASSERT(item != nullptr && item->itemType() == AbstractProjectItem::ClipItem);
 }
 
 const QString CacheJob::getDescription() const
@@ -57,8 +59,9 @@ bool CacheJob::startJob()
 {
     // We reload here, because things may have changed since creation of this job
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
-    if (m_binClip->clipType() != ClipType::Video && m_binClip->clipType() != ClipType::AV) {
+    if (m_binClip->clipType() != ClipType::Video && m_binClip->clipType() != ClipType::AV && m_binClip->clipType() != ClipType::Playlist) {
         // Don't create thumbnail for audio clips
+        qDebug()<<"!!!!!!!!!!!\n\n WRONG CLIP TYPE\n\n!!!!!!!!!!";
         m_done = false;
         return true;
     }
@@ -67,7 +70,16 @@ bool CacheJob::startJob()
         qDebug() << "********\nCOULD NOT READ THUMB PRODUCER\n********";
         return false;
     }
-    for (int i : m_frames) {
+    int duration = m_binClip->frameDuration();
+    std::set<int> frames;
+    for (int i = 1; i <= m_thumbsCount; ++i) {
+        frames.insert(duration * i / m_thumbsCount);
+    }
+    int size = frames.size();
+    int count = 0;
+    for (int i : frames) {
+        emit jobProgress(100 * count / size);
+        count++;
         if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), i)) {
             continue;
         }

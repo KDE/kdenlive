@@ -31,6 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/jobmanager.h"
 #include "jobs/loadjob.hpp"
 #include "jobs/thumbjob.hpp"
+#include "jobs/cachejob.hpp"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
@@ -648,7 +649,8 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     qDebug() << "/////////// added " << res;
     if (res) {
         int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
-        pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 150, 0, true);
+        int thumbJob = pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 150, 0, true);
+        pCore->jobManager()->startJob<CacheJob>({id}, thumbJob, QString(), 150);
         pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
     }
     return res;
