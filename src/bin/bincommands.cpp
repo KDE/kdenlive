@@ -77,12 +77,12 @@ RenameBinSubClipCommand::RenameBinSubClipCommand(Bin *bin, QString clipId, QStri
 // virtual
 void RenameBinSubClipCommand::undo()
 {
-    m_bin->renameSubClip(m_clipId, m_oldName, m_newName, m_in, m_out);
+    m_bin->renameSubClip(m_clipId, m_oldName, m_in, m_out);
 }
 // virtual
 void RenameBinSubClipCommand::redo()
 {
-    m_bin->renameSubClip(m_clipId, m_newName, m_oldName, m_in, m_out);
+    m_bin->renameSubClip(m_clipId, m_newName, m_in, m_out);
 }
 
 EditClipCommand::EditClipCommand(Bin *bin, QString id, QMap<QString, QString> oldparams, QMap<QString, QString> newparams, bool doIt, QUndoCommand *parent)

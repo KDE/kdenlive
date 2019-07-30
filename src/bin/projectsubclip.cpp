@@ -37,10 +37,11 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
                                const QString &timecode, const QString &name)
     : AbstractProjectItem(AbstractProjectItem::SubClipItem, id, model)
     , m_masterClip(parent)
-    , m_out(out)
 {
     m_inPoint = in;
+    m_outPoint = out;
     m_duration = timecode;
+    m_parentDuration = m_masterClip->frameDuration();
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
@@ -103,7 +104,7 @@ GenTime ProjectSubClip::duration() const
 
 QPoint ProjectSubClip::zone() const
 {
-    return {m_inPoint, m_out};
+    return {m_inPoint, m_outPoint};
 }
 
 std::shared_ptr<ProjectClip> ProjectSubClip::clipAt(int ix)
@@ -117,13 +118,13 @@ QDomElement ProjectSubClip::toXml(QDomDocument &document, bool, bool)
     QDomElement sub = document.createElement(QStringLiteral("subclip"));
     sub.setAttribute(QStringLiteral("id"), m_masterClip->AbstractProjectItem::clipId());
     sub.setAttribute(QStringLiteral("in"), m_inPoint);
-    sub.setAttribute(QStringLiteral("out"), m_out);
+    sub.setAttribute(QStringLiteral("out"), m_outPoint);
     return sub;
 }
 
 std::shared_ptr<ProjectSubClip> ProjectSubClip::subClip(int in, int out)
 {
-    if (m_inPoint == in && m_out == out) {
+    if (m_inPoint == in && m_outPoint == out) {
         return std::static_pointer_cast<ProjectSubClip>(shared_from_this());
     }
     return std::shared_ptr<ProjectSubClip>();
@@ -151,7 +152,7 @@ bool ProjectSubClip::rename(const QString &name, int column)
         return false;
     }
     // Rename folder
-    auto *command = new RenameBinSubClipCommand(pCore->bin(), m_masterClip->clipId(), name, m_name, m_inPoint, m_out);
+    auto *command = new RenameBinSubClipCommand(pCore->bin(), m_masterClip->clipId(), name, m_name, m_inPoint, m_outPoint);
     pCore->currentDoc()->commandStack()->push(command);
     return true;
 }

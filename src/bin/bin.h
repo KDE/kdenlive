@@ -223,7 +223,7 @@ public:
     /** @brief Build a rename subclip command. */
     void renameSubClipCommand(const QString &id, const QString &newName, const QString &oldName, int in, int out);
     /** @brief Rename a clip zone (subclip). */
-    void renameSubClip(const QString &id, const QString &newName, const QString &oldName, int in, int out);
+    void renameSubClip(const QString &id, const QString &newName, int in, int out);
     /** @brief Returns current project's timecode. */
     Timecode projectTimecode() const;
     /** @brief Trigger timecode format refresh where needed. */
