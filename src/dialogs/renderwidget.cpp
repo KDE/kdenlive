@@ -1086,6 +1086,10 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
 void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scriptPath)
 {
     Q_UNUSED(scriptPath);
+    if (pCore->projectDuration() < 2) {
+        // Empty project, dont attempt to render
+        return;
+    }
     if (!QFile::exists(KdenliveSettings::rendererpath())) {
         KMessageBox::sorry(this, i18n("Cannot find the melt program required for rendering (part of Mlt)"));
         return;
@@ -1116,7 +1120,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
 void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapterFile)
 {
     KdenliveDoc *project = pCore->currentDoc();
-    
+
     // Save rendering profile to document
     QMap<QString, QString> renderProps;
     renderProps.insert(QStringLiteral("rendercategory"), m_view.formats->currentItem()->parent()->text(0));
@@ -1149,7 +1153,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
     renderProps.insert(QStringLiteral("renderspeed"), QString::number(m_view.speed->value()));
 
     emit selectedRenderProfile(renderProps);
-    
+
     QString playlistPath;
     QString mltSuffix(QStringLiteral(".mlt"));
     QList<QString> playlistPaths;

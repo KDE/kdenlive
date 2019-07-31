@@ -251,7 +251,13 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
             tmpProd->attach(converter);
             // TODO: paste effects
             // Clip(*tmpProd).addEffects(*q->m_producer);
-            tmpProd->seek(q->m_producer->position());
+            double projectFps = pCore->getCurrentFps();
+            double currentFps = tmpProfile->fps();
+            if (qFuzzyCompare(projectFps, currentFps)) {
+                tmpProd->seek(q->m_producer->position());
+            } else {
+                tmpProd->seek(q->m_producer->position() * currentFps / projectFps);
+            }
             frame = tmpProd->get_frame();
             img = KThumb::getFrame(frame, width, height);
             delete frame;
