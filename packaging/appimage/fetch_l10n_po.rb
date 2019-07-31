@@ -46,6 +46,8 @@ end
 ##########################################################################################
 # EXTRACT TRANSLATED APPLICATION FILES
 
+Dir.chdir( "../.." )
+
 if !(File.exists?("po") && File.directory?("po"))
     Dir.mkdir( "po" )
 end
