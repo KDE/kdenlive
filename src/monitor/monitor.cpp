@@ -1036,7 +1036,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
 
     QString framesFolder = KRecentDirs::dir(QStringLiteral(":KdenliveFramesFolder"));
     if (framesFolder.isEmpty()) {
-        framesFolder = QDir::homePath();
+        framesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     }
     QScopedPointer<QDialog> dlg(new QDialog(this));
     QScopedPointer<KFileWidget> fileWidget(new KFileWidget(QUrl::fromLocalFile(framesFolder), dlg.data()));
@@ -1096,7 +1096,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
 
             if (addToProject) {
                 QString folderInfo = pCore->bin()->getCurrentFolder();
-                pCore->bin()->droppedUrls(QList<QUrl>() << QUrl::fromLocalFile(selectedFile), folderInfo);
+                pCore->bin()->droppedUrls(QList<QUrl> {QUrl::fromLocalFile(selectedFile)}, folderInfo);
             }
         }
     }
