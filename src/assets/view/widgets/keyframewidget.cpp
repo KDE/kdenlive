@@ -46,13 +46,13 @@
 #include <klocalizedstring.h>
 #include <utility>
 
-KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
+KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
+    , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
-
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(2, 2, 2, 0);
     m_lay->setSpacing(0);
@@ -335,7 +335,6 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         m_neededScene = MonitorSceneType::MonitorSceneGeometry;
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
-        QSize frameSize = pCore->getCurrentFrameSize();
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
         QRect rect;
         double opacity = 0;
@@ -348,7 +347,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         }
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         bool integerOpacity = m_model->getAssetId() != QLatin1String("qtblend");
-        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, frameSize, false,
+        GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), integerOpacity, this);
         connect(geomWidget, &GeometryWidget::valueChanged,
                 [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
