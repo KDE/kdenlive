@@ -43,7 +43,7 @@ class KeyframeWidget : public AbstractParamWidget
     Q_OBJECT
 
 public:
-    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent = nullptr);
+    explicit KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent = nullptr);
     ~KeyframeWidget() override;
 
     /* @brief Add a new parameter to be managed using the same keyframe viewer */
@@ -94,6 +94,7 @@ private:
     KSelectAction *m_selectType;
     TimecodeDisplay *m_time;
     MonitorSceneType m_neededScene;
+    QSize m_sourceFrameSize;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
 

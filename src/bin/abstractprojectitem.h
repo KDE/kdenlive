@@ -121,10 +121,14 @@ public:
         IconOverlay,
         // item type (clip, subclip, folder)
         ItemTypeRole,
-        // Duration of the clip
+        // Duration of the clip as displayabe string
         DataDuration,
+        // Duration of the clip in frames
+        ParentDuration,
         // Inpoint of the subclip (0 for clips)
         DataInPoint,
+        // Outpoint of the subclip (0 for clips)
+        DataOutPoint,
         // If there is a running job, which type
         JobType,
         // Current progress of the job
@@ -201,7 +205,9 @@ protected:
     QString m_description;
     QIcon m_thumbnail;
     QString m_duration;
+    int m_parentDuration;
     int m_inPoint;
+    int m_outPoint;
     QDateTime m_date;
     QString m_binId;
     uint m_usage;

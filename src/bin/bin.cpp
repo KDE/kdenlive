@@ -285,6 +285,17 @@ public:
                         QIcon warning = QIcon::fromTheme(QStringLiteral("process-stop"));
                         warning.paint(painter, r2);
                     }
+                } else {
+                    // Subclip, overlay zone rect
+                    QRect zoneRect = m_thumbRect;
+                    int duration = index.data(AbstractProjectItem::ParentDuration).toInt();
+                    double factor = ((double) m_thumbRect.width()) / duration;
+                    int zoneIn = index.data(AbstractProjectItem::DataInPoint).toInt();
+                    int zoneOut = index.data(AbstractProjectItem::DataOutPoint).toInt() - duration;
+                    zoneRect.adjust(0, zoneRect.height() * 0.96, 0, 0);
+                    painter->fillRect(zoneRect, Qt::darkGreen);
+                    zoneRect.adjust(zoneIn * factor, 0, zoneOut * factor, 0);
+                    painter->fillRect(zoneRect, Qt::green);
                 }
             } else {
                 // Folder or Folder Up items
@@ -2470,7 +2481,7 @@ void Bin::renameSubClipCommand(const QString &id, const QString &newName, const 
     m_doc->commandStack()->push(command);
 }
 
-void Bin::renameSubClip(const QString &id, const QString &newName, const QString &oldName, int in, int out)
+void Bin::renameSubClip(const QString &id, const QString &newName, int in, int out)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (!clip) {

@@ -86,7 +86,6 @@ public:
 
 private:
     std::shared_ptr<ProjectClip> m_masterClip;
-    int m_out;
 
 private slots:
     void gotThumb(int pos, const QImage &img);
