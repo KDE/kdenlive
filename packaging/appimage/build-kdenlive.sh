@@ -23,6 +23,35 @@ export PATH=$DEPS_INSTALL_PREFIX/bin:$DEPS_INSTALL_PREFIX/openssl/bin:$PATH
 export PKG_CONFIG_PATH=$DEPS_INSTALL_PREFIX/share/pkgconfig:$DEPS_INSTALL_PREFIX/lib/pkgconfig:$DEPS_INSTALL_PREFIX/openssl/lib/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
 export CMAKE_PREFIX_PATH=$DEPS_INSTALL_PREFIX:${DEPS_INSTALL_PREFIX}/openssl:$CMAKE_PREFIX_PATH
 
+# Build MLT
+
+# Make sure our downloads directory exists
+if [ ! -d $DOWNLOADS_DIR ] ; then
+    mkdir -p $DOWNLOADS_DIR
+fi
+
+# Make sure our build directory exists
+if [ ! -d $BUILD_PREFIX/deps-build/ ] ; then
+    mkdir -p $BUILD_PREFIX/deps-build/
+fi
+
+# The 3rdparty dependency handling in Kdenlive also requires the install directory to be pre-created
+if [ ! -d $DEPS_INSTALL_PREFIX ] ; then
+    mkdir -p $DEPS_INSTALL_PREFIX
+fi
+
+# Switch to our build directory as we're basically ready to start building...
+cd $BUILD_PREFIX/deps-build/
+
+cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$DEPS_INSTALL_PREFIX -DEXT_INSTALL_DIR=$DEPS_INSTALL_PREFIX -DEXT_DOWNLOAD_DIR=$DOWNLOADS_DIR -DEXT_BUILD_DIR=$BUILD_PREFIX
+
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
+
+cmake --build . --target ext_mlt
+
+# Build Kdenlive
+
 # Make sure our build directory exists
 if [ ! -d $BUILD_PREFIX/kdenlive-build/ ] ; then
     mkdir -p $BUILD_PREFIX/kdenlive-build/
@@ -34,9 +63,6 @@ ruby fetch_l10n_po.rb --enable-kdenlive
 
 # Now switch to it
 cd $BUILD_PREFIX/kdenlive-build/
-
-export CC=/usr/bin/gcc-6
-export CXX=/usr/bin/g++-6
 
 # Determine how many CPUs we have
 CPU_COUNT=`grep processor /proc/cpuinfo | wc -l`
