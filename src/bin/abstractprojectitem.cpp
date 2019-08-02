@@ -131,7 +131,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
         data = QVariant(m_thumbnail);
         break;
     case DataId:
-        data = QVariant(m_id);
+        data = QVariant(m_binId);
         break;
     case DataDuration:
         data = QVariant(m_duration);
