@@ -44,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class AbstractProjectItem;
 class BinItemDelegate;
+class BinListItemDelegate;
 class ClipController;
 class EffectStackModel;
 class InvalidDialog;
@@ -76,9 +77,11 @@ public:
 
 protected:
     void focusInEvent(QFocusEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 signals:
     void focusView();
     void updateDragMode(ClipType::ProducerType type);
+    void displayBinFrame(QModelIndex ix, int frame);
 };
 
 class MyTreeView : public QTreeView
@@ -383,7 +386,8 @@ private:
     /** @brief An "Up" item that is inserted in bin when using icon view so that user can navigate up */
     std::shared_ptr<ProjectFolderUp> m_folderUp;
     BinItemDelegate *m_binTreeViewDelegate;
-    ProjectSortProxyModel *m_proxyModel;
+    BinListItemDelegate *m_binListViewDelegate;
+    std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
     QToolBar *m_toolbar;
     KdenliveDoc *m_doc;
     QLineEdit *m_searchLine;

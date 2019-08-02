@@ -285,17 +285,6 @@ public:
                         QIcon warning = QIcon::fromTheme(QStringLiteral("process-stop"));
                         warning.paint(painter, r2);
                     }
-                } else {
-                    // Subclip, overlay zone rect
-                    QRect zoneRect = m_thumbRect;
-                    int duration = index.data(AbstractProjectItem::ParentDuration).toInt();
-                    double factor = ((double) m_thumbRect.width()) / duration;
-                    int zoneIn = index.data(AbstractProjectItem::DataInPoint).toInt();
-                    int zoneOut = index.data(AbstractProjectItem::DataOutPoint).toInt() - duration;
-                    zoneRect.adjust(0, zoneRect.height() * 0.96, 0, 0);
-                    painter->fillRect(zoneRect, Qt::darkGreen);
-                    zoneRect.adjust(zoneIn * factor, 0, zoneOut * factor, 0);
-                    painter->fillRect(zoneRect, Qt::green);
                 }
             } else {
                 // Folder or Folder Up items
@@ -317,10 +306,11 @@ public:
             QStyledItemDelegate::paint(painter, option, index);
         }
     }
+
     int getFrame(QModelIndex index, int mouseX)
     {
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if (type != AbstractProjectItem::ClipItem || mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem) || mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
             return 0;
         }
         return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
@@ -337,13 +327,63 @@ public:
     PlaylistState::ClipState dragType{PlaylistState::Disabled};
 };
 
+/**
+ * @class BinListItemDelegate
+ * @brief This class is responsible for drawing items in the QListView.
+ */
+
+class BinListItemDelegate : public QStyledItemDelegate
+{
+public:
+    explicit BinListItemDelegate(QObject *parent = nullptr)
+        : QStyledItemDelegate(parent)
+
+    {
+        connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
+    }
+    void setDar(double dar) { m_dar = dar; }
+
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
+    {
+        if (!index.data().isNull()) {
+            QStyleOptionViewItem opt = option;
+            initStyleOption(&opt, index);
+
+            int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
+            QRect rect(0, 0, opt.rect.width(), opt.rect.height());
+            m_thumbRect = adjust > 0 && adjust < rect.width() ? rect.adjusted(adjust, 0, -adjust, 0) : rect;
+            QStyledItemDelegate::paint(painter, option, index);
+        }
+    }
+
+    int getFrame(QModelIndex index, int mouseX)
+    {
+        int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+        if ((type != AbstractProjectItem::ClipItem && type != AbstractProjectItem::SubClipItem)|| mouseX < m_thumbRect.x() || mouseX > m_thumbRect.right()) {
+            return 0;
+        }
+        return 100 * (mouseX - m_thumbRect.x()) / m_thumbRect.width();
+    }
+
+private:
+    mutable bool m_editorOpen{false};
+    mutable QRect m_audioDragRect;
+    mutable QRect m_videoDragRect;
+    mutable QRect m_thumbRect;
+    double m_dar{1.778};
+
+public:
+    PlaylistState::ClipState dragType{PlaylistState::Disabled};
+};
+
+
 MyListView::MyListView(QWidget *parent)
     : QListView(parent)
 {
     setViewMode(QListView::IconMode);
     setMovement(QListView::Static);
     setResizeMode(QListView::Adjust);
-    setUniformItemSizes(true);
+    setWordWrap(true);
     setDragDropMode(QAbstractItemView::DragDrop);
     setAcceptDrops(true);
     setDragEnabled(true);
@@ -356,6 +396,26 @@ void MyListView::focusInEvent(QFocusEvent *event)
     if (event->reason() == Qt::MouseFocusReason) {
         emit focusView();
     }
+}
+
+void MyListView::mouseMoveEvent(QMouseEvent *event)
+{
+    bool dragged = false;
+    if (event->modifiers() == Qt::ShiftModifier) {
+        QModelIndex index = indexAt(event->pos());
+        if (index.isValid()) {
+            QAbstractItemDelegate *del = itemDelegate(index);
+            if (del) {
+                auto delegate = static_cast<BinListItemDelegate *>(del);
+                QRect vRect = visualRect(index);
+                int frame = delegate->getFrame(index, event->pos().x() - vRect.x());
+                emit displayBinFrame(index, frame);
+            } else {
+                qDebug()<<"<<< NO DELEGATE!!!";
+            }
+        }
+    }
+    QListView::mouseMoveEvent(event);
 }
 
 MyTreeView::MyTreeView(QWidget *parent)
@@ -631,14 +691,11 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_layout->setSpacing(0);
     m_layout->setContentsMargins(0, 0, 0, 0);
     // Search line
-    m_proxyModel = new ProjectSortProxyModel(this);
-    m_proxyModel->setDynamicSortFilter(true);
     m_searchLine = new QLineEdit(this);
     m_searchLine->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
-    connect(m_searchLine, &QLineEdit::textChanged, m_proxyModel, &ProjectSortProxyModel::slotSetSearchString);
 
     auto *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
@@ -653,10 +710,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_itemModel.get(), &ProjectItemModel::updateTimelineProducers, this, &Bin::updateTimelineProducers);
     connect(m_itemModel.get(), &ProjectItemModel::emitMessage, this, &Bin::emitMessage);
 
-    // Connect models
-    m_proxyModel->setSourceModel(m_itemModel.get());
-    connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel, &ProjectSortProxyModel::slotDataChanged);
-    connect(m_proxyModel, &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
             static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
@@ -769,6 +822,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_toolbar->addWidget(m_searchLine);
 
     m_binTreeViewDelegate = new BinItemDelegate(this);
+    m_binListViewDelegate = new BinListItemDelegate(this);
     // connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
     m_propertiesPanel = new QScrollArea(this);
@@ -830,7 +884,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             if (view) {
                 QModelIndex idx = view->indexAt(mouseEvent->pos());
                 m_gainedFocus = false;
-                if (idx.isValid()) {
+                if (idx.isValid() && m_proxyModel) {
                     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
                     editMasterEffect(item);
                 } else {
@@ -1112,7 +1166,9 @@ void Bin::setMonitor(Monitor *monitor)
 void Bin::setDocument(KdenliveDoc *project)
 {
     blockSignals(true);
-    m_proxyModel->selectionModel()->blockSignals(true);
+    if (m_proxyModel) {
+        m_proxyModel->selectionModel()->blockSignals(true);
+    }
     setEnabled(false);
 
     // Cleanup previous project
@@ -1124,7 +1180,9 @@ void Bin::setDocument(KdenliveDoc *project)
     m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
     setEnabled(true);
     blockSignals(false);
-    m_proxyModel->selectionModel()->blockSignals(false);
+    if (m_proxyModel) {
+        m_proxyModel->selectionModel()->blockSignals(false);
+    }
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
 
     // connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
@@ -1204,9 +1262,9 @@ void Bin::slotAddFolder()
 
 QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
 {
-    QModelIndexList items = m_itemModel->match(m_itemModel->index(0, 0), AbstractProjectItem::DataId, QVariant::fromValue(id), 2, Qt::MatchRecursive);
+    QModelIndexList items = m_itemModel->match(m_itemModel->index(0, 0), AbstractProjectItem::DataId, QVariant::fromValue(id), 1, Qt::MatchRecursive);
     for (int i = 0; i < items.count(); i++) {
-        auto *currentItem = static_cast<AbstractProjectItem *>(items.at(i).internalPointer());
+        std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(items.at(i));
         AbstractProjectItem::PROJECTITEMTYPE type = currentItem->itemType();
         if (folderWanted && type == AbstractProjectItem::FolderItem) {
             // We found our folder
@@ -1340,7 +1398,9 @@ QList<std::shared_ptr<ProjectClip>> Bin::selectedClips()
 void Bin::slotInitView(QAction *action)
 {
     if (action) {
-        m_proxyModel->selectionModel()->clearSelection();
+        if (m_proxyModel) {
+            m_proxyModel->selectionModel()->clearSelection();
+        }
         int viewType = action->data().toInt();
         KdenliveSettings::setBinMode(viewType);
         if (viewType == m_listType) {
@@ -1388,8 +1448,17 @@ void Bin::slotInitView(QAction *action)
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
     m_binTreeViewDelegate->setDar(pCore->getCurrentDar());
-    m_itemView->setModel(m_proxyModel);
+    m_binListViewDelegate->setDar(pCore->getCurrentDar());
+    m_proxyModel.reset(new ProjectSortProxyModel(this));
+    // Connect models
+    m_proxyModel->setSourceModel(m_itemModel.get());
+    connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotDataChanged);
+    connect(m_proxyModel.get(), &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
+    connect(m_proxyModel.get(), &QAbstractItemModel::layoutAboutToBeChanged, this, &Bin::slotSetSorting);
+    connect(m_searchLine, &QLineEdit::textChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotSetSearchString);
+    m_itemView->setModel(m_proxyModel.get());
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
+    m_proxyModel->setDynamicSortFilter(true);
     m_layout->insertWidget(1, m_itemView);
 
     // setup some default view specific parameters
@@ -1398,10 +1467,8 @@ void Bin::slotInitView(QAction *action)
         auto *view = static_cast<MyTreeView *>(m_itemView);
         view->setSortingEnabled(true);
         view->setWordWrap(true);
-        connect(m_proxyModel, &QAbstractItemModel::layoutAboutToBeChanged, this, &Bin::slotSetSorting);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
-        m_proxyModel->setDynamicSortFilter(true);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
         } else {
@@ -1416,8 +1483,11 @@ void Bin::slotInitView(QAction *action)
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
         connect(view, &MyTreeView::focusView, this, &Bin::slotGotFocus);
     } else if (m_listType == BinIconView) {
+        m_itemView->setItemDelegate(m_binListViewDelegate);
         auto *view = static_cast<MyListView *>(m_itemView);
+        view->setGridSize(QSize(zoom.width() * 1.2, zoom.width()));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
+        connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
     }
     m_itemView->setEditTriggers(QAbstractItemView::NoEditTriggers); // DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -1436,6 +1506,10 @@ void Bin::slotSetIconSize(int size)
     QSize zoom = m_iconSize;
     zoom = zoom * (size / 4.0);
     m_itemView->setIconSize(zoom);
+    if (m_listType == BinIconView) {
+        auto *view = static_cast<MyListView *>(m_itemView);
+        view->setGridSize(QSize(zoom.width() * 1.2, zoom.width()));
+    }
     QPixmap pix(zoom);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
@@ -1568,14 +1642,15 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos)
         }
         if (item == m_folderUp) {
             std::shared_ptr<AbstractProjectItem> parentItem = item->parent();
-            QModelIndex parent = getIndexForId(parentItem->parent()->clipId(), parentItem->parent()->itemType() == AbstractProjectItem::FolderItem);
             if (parentItem->parent() != m_itemModel->getRootFolder()) {
                 // We are entering a parent folder
+                QModelIndex parentId = getIndexForId(parentItem->parent()->clipId(), parentItem->parent()->itemType() == AbstractProjectItem::FolderItem);
                 m_folderUp->changeParent(std::static_pointer_cast<TreeItem>(parentItem->parent()));
+                m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentId));
             } else {
                 m_folderUp->changeParent(std::shared_ptr<TreeItem>());
+                m_itemView->setRootIndex(QModelIndex());
             }
-            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parent));
             return;
         }
     } else {
@@ -2790,6 +2865,10 @@ void Bin::emitMessage(const QString &text, int progress, MessageType type)
 
 void Bin::slotSetSorting()
 {
+    if (m_listType == BinIconView) {
+        m_proxyModel->setFilterKeyColumn(0);
+        return;
+    }
     auto *view = qobject_cast<QTreeView *>(m_itemView);
     if (view) {
         int ix = view->header()->sortIndicatorSection();
@@ -3201,10 +3280,17 @@ void Bin::adjustProjectProfileToItem()
 void Bin::showBinFrame(QModelIndex ix, int frame)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-    if (item && item->itemType() == AbstractProjectItem::ClipItem) {
-        auto clip = std::static_pointer_cast<ProjectClip>(item);
-        if (clip && (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Playlist)) {
-            clip->getThumbFromPercent(frame);
+    if (item) {
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            auto clip = std::static_pointer_cast<ProjectClip>(item);
+            if (clip && (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Playlist)) {
+                clip->getThumbFromPercent(frame);
+            }
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            auto clip = std::static_pointer_cast<ProjectSubClip>(item);
+            if (clip && (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Playlist)) {
+                clip->getThumbFromPercent(frame);
+            }
         }
     }
 }

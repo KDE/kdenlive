@@ -58,7 +58,6 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
 # Qt
 set(QT_MIN_VERSION 5.7.0)
 find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick Concurrent QuickWidgets Multimedia)
-find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(DEFAULT_CXX_FLAGS "${DEFAULT_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
 
@@ -78,6 +77,7 @@ if(WIN32)
     set(MLT_PREFIX "..")
 else()
     set(MLT_PREFIX ${MLT_ROOT_DIR})
+    find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
 endif()
 
 # Optional deps status

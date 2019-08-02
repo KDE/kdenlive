@@ -26,9 +26,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "doc/kdenlivedoc.h"
 #include "doc/docundostack.hpp"
 #include "bincommands.h"
+#include "jobs/jobmanager.h"
+#include "jobs/cachejob.hpp"
+#include "utils/thumbnailcache.hpp"
 
 #include <KLocalizedString>
 #include <QDomElement>
+#include <QPainter>
 #include <utility>
 
 class ClipController;
@@ -42,6 +46,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_outPoint = out;
     m_duration = timecode;
     m_parentDuration = m_masterClip->frameDuration();
+    m_parentClipId = m_masterClip->clipId();
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
@@ -79,7 +84,7 @@ void ProjectSubClip::gotThumb(int pos, const QImage &img)
 
 QString ProjectSubClip::getToolTip() const
 {
-    return QStringLiteral("test");
+    return QString("%1-%2").arg(m_inPoint).arg(m_outPoint);
 }
 
 std::shared_ptr<ProjectClip> ProjectSubClip::clip(const QString &id)
@@ -133,6 +138,17 @@ std::shared_ptr<ProjectSubClip> ProjectSubClip::subClip(int in, int out)
 void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
+    int duration = m_parentDuration;
+    m_outPoint - m_inPoint;
+    double factor = ((double) thumb.width()) / duration;
+    int zoneOut = m_outPoint - duration;
+    QRect zoneRect(0, 0, thumb.width(), thumb.height());
+    zoneRect.adjust(0, zoneRect.height() * 0.9, 0, -zoneRect.height() * 0.05);
+    QPainter painter(&thumb);
+    painter.fillRect(zoneRect, Qt::darkGreen);
+    zoneRect.adjust(m_inPoint * factor, 0, zoneOut * factor, 0);
+    painter.fillRect(zoneRect, Qt::green);
+    painter.end();
     m_thumbnail = QIcon(thumb);
     if (auto ptr = m_model.lock())
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectSubClip>(shared_from_this()),
@@ -170,4 +186,21 @@ ClipType::ProducerType ProjectSubClip::clipType() const
 bool ProjectSubClip::hasAudioAndVideo() const
 {
     return m_masterClip->hasAudioAndVideo();
+}
+
+void ProjectSubClip::getThumbFromPercent(int percent)
+{
+    // extract a maximum of 50 frames for bin preview
+    percent += percent%2;
+    int framePos = (m_outPoint - m_inPoint) * percent / 100;
+    if (ThumbnailCache::get()->hasThumbnail(m_parentClipId, m_inPoint + framePos)) {
+        setThumbnail(ThumbnailCache::get()->getThumbnail(m_parentClipId, m_inPoint + framePos));
+    } else {
+        // Generate percent thumbs
+        int id;
+        if (pCore->jobManager()->hasPendingJob(m_parentClipId, AbstractClipJob::CACHEJOB, &id)) {
+        } else {
+            pCore->jobManager()->startJob<CacheJob>({m_parentClipId}, -1, QString(), 150, 25, m_inPoint, m_outPoint);
+        }
+    }
 }

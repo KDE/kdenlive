@@ -34,12 +34,14 @@
 
 #include <set>
 
-CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount)
+CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount, int inPoint, int outPoint)
     : AbstractClipJob(CACHEJOB, binId)
     , m_fullWidth(imageHeight * pCore->getCurrentDar() + 0.5)
     , m_imageHeight(imageHeight)
     , m_done(false)
     , m_thumbsCount(thumbsCount)
+    , m_inPoint(inPoint)
+    , m_outPoint(outPoint)
 
 {
     if (m_fullWidth % 8 > 0) {
@@ -70,10 +72,13 @@ bool CacheJob::startJob()
         qDebug() << "********\nCOULD NOT READ THUMB PRODUCER\n********";
         return false;
     }
-    int duration = m_binClip->frameDuration();
+    int duration = m_outPoint > 0 ? m_outPoint - m_inPoint : m_binClip->frameDuration();
+    if (m_thumbsCount * 5 > duration) {
+        m_thumbsCount = duration / 10;
+    }
     std::set<int> frames;
     for (int i = 1; i <= m_thumbsCount; ++i) {
-        frames.insert(duration * i / m_thumbsCount);
+        frames.insert(m_inPoint + (duration * i / m_thumbsCount));
     }
     int size = frames.size();
     int count = 0;

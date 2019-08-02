@@ -73,6 +73,8 @@ public:
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
+    /** @brief Sets a seeking thumbnail for this subclip. */
+    void getThumbFromPercent(int percent);
 
     QPoint zone() const override;
     QString getToolTip() const override;
@@ -86,6 +88,7 @@ public:
 
 private:
     std::shared_ptr<ProjectClip> m_masterClip;
+    QString m_parentClipId;
 
 private slots:
     void gotThumb(int pos, const QImage &img);

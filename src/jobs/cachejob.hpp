@@ -42,7 +42,7 @@ public:
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */
-    CacheJob(const QString &binId, int imageHeight, int thumbsCount = 10);
+    CacheJob(const QString &binId, int imageHeight, int thumbsCount = 10, int inPoint = 0, int outPoint = 0);
 
     const QString getDescription() const override;
 
@@ -61,6 +61,8 @@ private:
 
     bool m_done{false};
     int m_thumbsCount;
+    int m_inPoint;
+    int m_outPoint;
     bool m_inCache{false};
     bool m_subClip{false}; // true if we operate on a subclip
 };
