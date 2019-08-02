@@ -874,12 +874,13 @@ Rectangle {
             }
             onPressed: {
                 focus = true
-                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier)) {
+                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !(mouse.modifiers & Qt.ShiftModifier))) {
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
                 if (root.activeTool === 0 && mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height) {
+                        console.log('1111111111111\nREAL SHIFT PRESSED\n111111111111\n')
                         // rubber selection
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
@@ -934,7 +935,7 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
-                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier))) {
+                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !(mouse.modifiers & Qt.ShiftModifier)))) {
                     var newScroll = Math.min(scrollView.flickableItem.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
                     var vertScroll = Math.min(scrollView.flickableItem.contentY - (mouseY - clickY), trackHeaders.height - scrollView.height + scrollView.__horizontalScrollBar.height)
                     scrollView.flickableItem.contentX = Math.max(newScroll, 0)
@@ -948,10 +949,6 @@ Rectangle {
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         timeline.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
                     }
-                }
-                if (dragProxy.draggedItem > -1) {
-                    mouse.accepted = false
-                    return
                 }
                 var mousePos = Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
                 root.mousePosChanged(mousePos)
@@ -1010,9 +1007,21 @@ Rectangle {
                     }
                     rubberSelect.y = -1
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
-                    // Shift click, process seek
-                    timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
-                    timeline.position = timeline.seekPosition
+                    if (root.activeTool == 1) {
+                        // Shift click, process seek
+                        timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        timeline.position = timeline.seekPosition
+                    } else if (dragProxy.draggedItem > -1){
+                        // Select item
+                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                            console.log('ADD SELECTION: ', dragProxy.draggedItem)
+                            controller.requestAddToSelection(dragProxy.draggedItem)
+                        } else {
+                            console.log('REMOVE SELECTION: ', dragProxy.draggedItem)
+                            controller.requestRemoveFromSelection(dragProxy.draggedItem)
+                        }
+                    }
+                    return
                 }
                 if (spacerGroup > -1) {
                     var frame = controller.getItemPosition(spacerGroup)
@@ -1101,14 +1110,14 @@ Rectangle {
                                 drag.smoothed: false
                                 drag.minimumX: 0
                                 property int dragFrame
-                                property bool shiftClick: false
                                 property bool moveMirrorTracks: true
                                 cursorShape: root.activeTool == 0 ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
                                 enabled: root.activeTool == 0
                                 onPressed: {
                                     console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
-                                    if (mouse.modifiers & Qt.ControlModifier) {
+                                    if (mouse.modifiers & Qt.ControlModifier || mouse.modifiers & Qt.ShiftModifier) {
                                         mouse.accepted = false
+                                        console.log('+++++++++++++++++++ Shift abort+++++++++++++')
                                         return
                                     }
                                     if (!timeline.exists(dragProxy.draggedItem)) {
@@ -1117,25 +1126,10 @@ Rectangle {
                                         return
                                     }
                                     dragFrame = -1
-                                    moveMirrorTracks = true
+                                    moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier)
                                     timeline.activeTrack = dragProxy.sourceTrack
-                                    if (mouse.modifiers & Qt.ShiftModifier) {
-                                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
-                                            console.log('ADD SELECTION: ', dragProxy.draggedItem)
-                                            controller.requestAddToSelection(dragProxy.draggedItem)
-                                        } else {
-                                            console.log('REMOVE SELECTION: ', dragProxy.draggedItem)
-                                            controller.requestRemoveFromSelection(dragProxy.draggedItem)
-                                            //endDrag()
-                                            shiftClick = true
-                                            return
-                                        }
-                                        shiftClick = true
-                                    } else {
-                                        if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
-                                            controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
-                                        }
-                                        shiftClick = false
+                                    if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
+                                        controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                     }
                                     timeline.showAsset(dragProxy.draggedItem)
                                     root.stopScrolling = true
@@ -1195,10 +1189,7 @@ Rectangle {
                                         endDrag()
                                         return
                                     }
-                                    if (moveMirrorTracks && mouse.modifiers & Qt.ShiftModifier) {
-                                        moveMirrorTracks = false
-                                    }
-                                    if (!shiftClick && dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
+                                    if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         continuousScrolling(mouse.x + parent.x)
                                         var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
@@ -1236,7 +1227,7 @@ Rectangle {
                                 onReleased: {
                                     clipBeingMovedId = -1
                                     root.stopScrolling = false
-                                    if (!shiftClick && dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
+                                    if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                         if (dragProxy.isComposition) {
                                             controller.requestCompositionMove(dragProxy.draggedItem, dragProxy.sourceTrack, dragProxy.sourceFrame, true, false, false)
