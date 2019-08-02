@@ -217,7 +217,10 @@
       <label>Enables nvenc hw accel in encoders.</label>
       <default>false</default>
     </entry>
-
+    <entry name="nvScalingEnabled" type="Bool">
+      <label>Enables nvenc hw accel scaling.</label>
+      <default>false</default>
+    </entry>
     </group>
 
   <group name="timeline">

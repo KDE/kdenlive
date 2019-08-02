@@ -270,6 +270,10 @@
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
     <screenshot type="source">
+      <caption>Kdenlive 19.08</caption>
+      <image>https://cdn.kde.org/screenshots/kdenlive/19-08.png</image>
+    </screenshot>
+    <screenshot type="source">
       <caption>Kdenlive 18.08</caption>
       <caption xml:lang="ca">Kdenlive 18.08</caption>
       <caption xml:lang="ca-valencia">Kdenlive 18.08</caption>

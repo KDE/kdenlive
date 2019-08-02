@@ -1165,6 +1165,9 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         renderName = QFileInfo(pCore->currentDoc()->url().toLocalFile()).fileName();
         if (renderName.isEmpty()) {
             renderName = i18n("export") + QStringLiteral(".mlt");
+        } else {
+            renderName = renderName.section(QLatin1Char('.'), 0, -2);
+            renderName.append(QStringLiteral(".mlt"));
         }
         QDir projectFolder(pCore->currentDoc()->projectDataFolder());
         projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
