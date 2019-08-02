@@ -209,17 +209,15 @@ bool ProxyJob::startJob()
         return true;
     } else {
         m_isFfmpegJob = true;
-        QStringList parameters;
         if (KdenliveSettings::ffmpegpath().isEmpty()) {
             // FFmpeg not detected, cannot process the Job
             m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
             m_done = true;
             return false;
         }
-        m_jobDuration = (int)binClip->duration().seconds();
-        parameters << QStringLiteral("-y") << QStringLiteral("-stats");
         // Only output error data
-        parameters << QStringLiteral("-v") << QStringLiteral("error");
+        QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"), QStringLiteral("error")};
+        m_jobDuration = (int)binClip->duration().seconds();
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
         if (proxyParams.isEmpty()) {
             // Automatic setting, decide based on hw support
@@ -235,7 +233,7 @@ bool ProxyJob::startJob()
             QStringList supportedPixFmts{QStringLiteral("yuv420p"), QStringLiteral("yuyv422"), QStringLiteral("rgb24"),
                                          QStringLiteral("bgr24"),   QStringLiteral("yuv422p"), QStringLiteral("yuv444p"),
                                          QStringLiteral("rgb32"),   QStringLiteral("yuv410p"), QStringLiteral("yuv411p")};
-            bool supported = supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
+            bool supported = KdenliveSettings::nvScalingEnabled() && supportedCodecs.contains(codec) && supportedPixFmts.contains(pix_fmt);
             if (supported) {
                 // Full hardware decoding supported
                 codec.append(QStringLiteral("_cuvid"));
@@ -243,6 +241,7 @@ bool ProxyJob::startJob()
             } else {
                 proxyParams = proxyParams.section(QStringLiteral("-i"), 1);
                 proxyParams.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
+                proxyParams.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
                 if (!supportedPixFmts.contains(pix_fmt)) {
                     proxyParams.prepend(QStringLiteral("-pix_fmt yuv420p"));
                 }
@@ -259,7 +258,7 @@ bool ProxyJob::startJob()
             parameters << QStringLiteral("-i") << source;
         }
         QString params = proxyParams;
-        for (const QString &s : params.split(QLatin1Char(' '))) {
+        for (const QString &s : params.split(QLatin1Char(' '), QString::SkipEmptyParts)) {
             QString t = s.simplified();
             if (t != QLatin1String("-noautorotate")) {
                 parameters << t;
@@ -271,7 +270,7 @@ bool ProxyJob::startJob()
 
         // Make sure we don't block when proxy file already exists
         parameters << dest;
-        // qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
+         qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);

@@ -955,7 +955,7 @@ void Wizard::testHwEncoders()
     tmp.close();
 
     // VAAPI testing
-    QStringList args{"-y",
+    QStringList args{"-hide_banner", "-y",
                      "-vaapi_device",
                      "/dev/dri/renderD128",
                      "-f",
@@ -996,7 +996,7 @@ void Wizard::testHwEncoders()
         return;
     }
     tmp2.close();
-    QStringList args2{"-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",           "smptebars=duration=5:size=1280x720:rate=25",
+    QStringList args2{"-hide_banner", "-y",   "-hwaccel",   "cuvid", "-f", "lavfi", "-i",           "smptebars=duration=5:size=1280x720:rate=25",
                       "-c:v", "h264_nvenc", "-an",   "-f", "mp4",   tmp2.fileName()};
     qDebug() << "// FFMPEG ARGS: " << args2;
     hwEncoders.start(KdenliveSettings::ffmpegpath(), args2);
@@ -1016,6 +1016,23 @@ void Wizard::testHwEncoders()
         }
     }
     KdenliveSettings::setNvencEnabled(nvencSupported);
+
+    // Testing NVIDIA SCALER
+    QStringList args3{"-hide_banner",   "-filters"};
+    qDebug() << "// FFMPEG ARGS: " << args3;
+    hwEncoders.start(KdenliveSettings::ffmpegpath(), args3);
+    bool nvScalingSupported = false;
+    if (hwEncoders.waitForFinished()) {
+        QByteArray output = hwEncoders.readAll();
+        hwEncoders.close();
+        if (output.contains(QByteArray("scale_npp"))) {
+            qDebug() << "/// ++ SCALE_NPP YES SUPPORTED ::::::";
+            nvScalingSupported = true;
+        } else {
+            qDebug() << "/// ++ SCALE_NPP NOT SUPPORTED";
+        }
+    }
+    KdenliveSettings::setNvScalingEnabled(nvScalingSupported);
 }
 
 void Wizard::updateHwStatus()
