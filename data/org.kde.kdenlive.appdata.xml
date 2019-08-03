@@ -271,6 +271,11 @@
   <screenshots>
     <screenshot type="source">
       <caption>Kdenlive 19.08</caption>
+      <caption xml:lang="ca">Kdenlive 19.08</caption>
+      <caption xml:lang="nl">Kdenlive 19.08</caption>
+      <caption xml:lang="sv">Kdenlive 19.08</caption>
+      <caption xml:lang="uk">Kdenlive 19.08</caption>
+      <caption xml:lang="x-test">xxKdenlive 19.08xx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/19-08.png</image>
     </screenshot>
     <screenshot type="source">
