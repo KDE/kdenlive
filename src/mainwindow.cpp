@@ -3519,7 +3519,6 @@ void MainWindow::configureToolbars()
 void MainWindow::rebuildTimlineToolBar()
 {
     // Timeline toolbar settings changed, we can now re-add our toolbar to custom location
-    return;
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
     removeToolBar(m_timelineToolBar);
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
