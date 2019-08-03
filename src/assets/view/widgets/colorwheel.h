@@ -71,7 +71,7 @@ private:
     QSize m_initialSize;
     QImage m_image;
     bool m_isMouseDown;
-    QPoint m_lastPoint;
+    QPointF m_lastPoint;
     int m_margin;
     int m_sliderWidth;
     QRegion m_wheelRegion;
@@ -87,7 +87,9 @@ private:
     qreal m_zeroShift = 0;
 
     int wheelSize() const;
-    NegQColor colorForPoint(const QPoint &point);
+    NegQColor colorForPoint(const QPointF &point);
+    QPointF pointForColor();
+    double yForColor();
     void drawWheel();
     void drawWheelDot(QPainter &painter);
     void drawSliderBar(QPainter &painter);

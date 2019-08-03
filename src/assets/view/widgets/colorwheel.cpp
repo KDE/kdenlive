@@ -21,6 +21,8 @@
 #include "colorwheel.h"
 #include <qmath.h>
 #include <utility>
+#include <QDebug>
+
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 {
     NegQColor color;
@@ -119,9 +121,9 @@ int ColorWheel::wheelSize() const
     return qMin(width() - m_sliderWidth, height() - m_unitSize);
 }
 
-NegQColor ColorWheel::colorForPoint(const QPoint &point)
+NegQColor ColorWheel::colorForPoint(const QPointF &point)
 {
-    if (!m_image.valid(point)) {
+    if (!m_image.valid(point.toPoint())) {
         return NegQColor();
     }
     if (m_isInWheel) {
@@ -160,8 +162,26 @@ QSize ColorWheel::minimumSizeHint() const
 
 void ColorWheel::mousePressEvent(QMouseEvent *event)
 {
-    m_lastPoint = event->pos();
-    if (m_wheelRegion.contains(m_lastPoint)) {
+    if (event->modifiers() & Qt::ShiftModifier) {
+        QPoint clicked = event->pos();
+        if (m_wheelRegion.contains(clicked)) {
+            QPointF current = pointForColor();
+            QPointF diff = clicked - current;
+            double factor = fabs(diff.x()) > fabs(diff.y()) ? fabs(diff.x()) : fabs(diff.y());
+            diff /= factor;
+            m_lastPoint = current + diff;
+        } else if (m_sliderRegion.contains(clicked)) {
+            double y = yForColor();
+            int offset = clicked.y() > y ? 1 : -1;
+            m_lastPoint = QPointF(clicked.x(), y + offset);
+        } else {
+            return;
+        }
+        
+    } else {
+        m_lastPoint = event->pos();
+    }
+    if (m_wheelRegion.contains(m_lastPoint.toPoint())) {
         m_isInWheel = true;
         m_isInSquare = false;
         if (event->button() == Qt::LeftButton) {
@@ -175,7 +195,7 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
             max = qMax(max, g);
             changeColor(NegQColor::fromRgbF(max, max, max));
         }
-    } else if (m_sliderRegion.contains(m_lastPoint)) {
+    } else if (m_sliderRegion.contains(m_lastPoint.toPoint())) {
         m_isInWheel = false;
         m_isInSquare = true;
         if (event->button() == Qt::LeftButton) {
@@ -191,14 +211,29 @@ void ColorWheel::mousePressEvent(QMouseEvent *event)
 
 void ColorWheel::mouseMoveEvent(QMouseEvent *event)
 {
-    m_lastPoint = event->pos();
     if (!m_isMouseDown) {
         return;
     }
-    if (m_wheelRegion.contains(m_lastPoint) && m_isInWheel) {
+    if (event->modifiers() & Qt::ShiftModifier) {
+        if (m_isInWheel) {
+            QPointF diff = event->pos() - m_lastPoint;
+            double factor = fabs(diff.x()) > fabs(diff.y()) ? fabs(diff.x()) : fabs(diff.y());
+            diff /= factor;
+            m_lastPoint += diff;
+        } else if (m_isInSquare) {
+            double y = yForColor();
+            int offset = event->pos().y() > y ? 1 : -1;
+            m_lastPoint = QPointF(event->pos().x(), y + offset);
+        } else {
+            return;
+        }
+    } else {
+        m_lastPoint = event->pos();
+    }
+    if (m_wheelRegion.contains(m_lastPoint.toPoint()) && m_isInWheel) {
         const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
-    } else if (m_sliderRegion.contains(m_lastPoint) && m_isInSquare) {
+    } else if (m_sliderRegion.contains(m_lastPoint.toPoint()) && m_isInSquare) {
         const NegQColor color = colorForPoint(m_lastPoint);
         changeColor(color);
     }
@@ -312,6 +347,28 @@ void ColorWheel::drawWheelDot(QPainter &painter)
     painter.drawEllipse(QPointF(m_color.saturationF() * r, 0.0), 4, 4);
     painter.resetTransform();
 }
+
+QPointF ColorWheel::pointForColor()
+{
+    int r = wheelSize() / 2;
+    QTransform transform;
+    transform.translate(r, r);
+    transform.rotate(255 - m_color.hue());
+    transform.translate(m_color.saturationF() * r, 0);
+    return transform.map(QPointF(0, 0));
+}
+
+double ColorWheel::yForColor()
+{
+    qreal value = 1.0 - m_color.valueF();
+    if (m_id == QLatin1String("lift")) {
+        value -= m_zeroShift;
+    }
+    int ws = wheelSize();
+    int h = ws - m_margin * 2;
+    return m_margin + value * h;
+}
+
 
 void ColorWheel::drawSliderBar(QPainter &painter)
 {
