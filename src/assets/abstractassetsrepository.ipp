@@ -148,6 +148,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             QDomElement eff = doc.createElement(QStringLiteral("effect"));
             eff.setAttribute(QStringLiteral("tag"), id);
             eff.setAttribute(QStringLiteral("id"), id);
+            QLocale locale;
             ////qCDebug(KDENLIVE_LOG)<<"Effect: "<<id;
 
             Mlt::Properties param_props((mlt_properties)metadata->get_data("parameters"));
@@ -165,15 +166,25 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     // Do not expose readonly parameters
                     continue;
                 }
-
-                if (paramdesc.get("maximum")) {
-                    params.setAttribute(QStringLiteral("max"), paramdesc.get("maximum"));
-                }
-                if (paramdesc.get("minimum")) {
-                    params.setAttribute(QStringLiteral("min"), paramdesc.get("minimum"));
-                }
-
                 QString paramType = paramdesc.get("type");
+
+                if (paramType == QLatin1String("float")) {
+                    // Float must be converted using correct locale
+                    if (paramdesc.get("maximum")) {
+                        params.setAttribute(QStringLiteral("max"), locale.toString(paramdesc.get_double("maximum")));
+                    }
+                    if (paramdesc.get("minimum")) {
+                        params.setAttribute(QStringLiteral("min"), locale.toString(paramdesc.get_double("minimum")));
+                    }
+                } else {
+                    if (paramdesc.get("maximum")) {
+                        params.setAttribute(QStringLiteral("max"), paramdesc.get("maximum"));
+                    }
+                    if (paramdesc.get("minimum")) {
+                        params.setAttribute(QStringLiteral("min"), paramdesc.get("minimum"));
+                    }
+                }
+
                 if (paramType == QLatin1String("integer")) {
                     if (params.attribute(QStringLiteral("min")) == QLatin1String("0") && params.attribute(QStringLiteral("max")) == QLatin1String("1")) {
                         params.setAttribute(QStringLiteral("type"), QStringLiteral("bool"));
@@ -206,13 +217,25 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     }
                 }
                 if (!params.hasAttribute(QStringLiteral("value"))) {
-                    if (paramdesc.get("default")) {
-                        params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
-                    }
-                    if (paramdesc.get("value")) {
-                        params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
+                    if (paramType == QLatin1String("float")) {
+                        // floats have to be converted using correct locale
+                        if (paramdesc.get("default")) {
+                            params.setAttribute(QStringLiteral("default"), locale.toString(paramdesc.get_double("default")));
+                        }
+                        if (paramdesc.get("value")) {
+                            params.setAttribute(QStringLiteral("value"), locale.toString(paramdesc.get_double("value")));
+                        } else {
+                            params.setAttribute(QStringLiteral("value"), locale.toString(paramdesc.get_double("default")));
+                        }
                     } else {
-                        params.setAttribute(QStringLiteral("value"), paramdesc.get("default"));
+                        if (paramdesc.get("default")) {
+                            params.setAttribute(QStringLiteral("default"), paramdesc.get("default"));
+                        }
+                        if (paramdesc.get("value")) {
+                            params.setAttribute(QStringLiteral("value"), paramdesc.get("value"));
+                        } else {
+                            params.setAttribute(QStringLiteral("value"), paramdesc.get("default"));
+                        }
                     }
                 }
                 QString paramName = paramdesc.get("title");
