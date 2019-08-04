@@ -347,6 +347,9 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
         ++it;
     }
+    if (affectedTracks.isEmpty()) {
+        return false;
+    }
     result = breakAffectedGroups(timeline, affectedTracks, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     if (overwrite) {
         // Cut all tracks
@@ -369,11 +372,15 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, affectedTracks);
     }
 
+    bool clipInserted = false;
     if (result) {
         if (!trackIds.isEmpty()) {
             int newId = -1;
             QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
             result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
+            if (result) {
+                clipInserted = true;
+            }
         }
         if (result) {
             pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
@@ -383,7 +390,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         qDebug() << "// REQUESTING SPACE FAILED";
         undo();
     }
-    return result;
+    return clipInserted;
 }
 
 bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
