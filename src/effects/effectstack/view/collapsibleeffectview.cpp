@@ -57,7 +57,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     , m_regionEffect(false)
 {
     QString effectId = effectModel->getAssetId();
-    QString effectName = EffectsRepository::get()->getName(effectId);
+    QString effectName = i18n(EffectsRepository::get()->getName(effectId).toUtf8().data());
     if (effectId == QLatin1String("region")) {
         m_regionEffect = true;
         decoframe->setObjectName(QStringLiteral("decoframegroup"));

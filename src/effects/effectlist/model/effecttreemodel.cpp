@@ -138,7 +138,7 @@ void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effec
             effectsMenu->addMenu(catMenu);
             for (int j = 0; j < item->childCount(); j++) {
                 std::shared_ptr<TreeItem> child = item->child(j);
-                QAction *a = new QAction(child->dataColumn(nameCol).toString(), catMenu);
+                QAction *a = new QAction(i18n(child->dataColumn(nameCol).toString().toUtf8().data()), catMenu);
                 const QString id = child->dataColumn(idCol).toString();
                 a->setData(id);
                 catMenu->addAction(a);
