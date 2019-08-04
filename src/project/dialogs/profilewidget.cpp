@@ -116,9 +116,9 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     if (ix > -1) {
         m_fpsFilt->setCurrentIndex(ix);
     }
-    m_scanningFilt->addItem("Any", -1);
-    m_scanningFilt->addItem("Interlaced", 0);
-    m_scanningFilt->addItem("Progressive", 1);
+    m_scanningFilt->addItem(i18n("Any"), -1);
+    m_scanningFilt->addItem(i18n("Interlaced"), 0);
+    m_scanningFilt->addItem(i18n("Progressive"), 1);
 
     auto updateScanning = [&]() {
         int current = m_scanningFilt->currentData().toInt();
@@ -147,7 +147,7 @@ void ProfileWidget::refreshFpsCombo()
     }
     m_fpsFilt->clear();
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    m_fpsFilt->addItem("Any", -1);
+    m_fpsFilt->addItem(i18n("Any"), -1);
     auto all_fps = ProfileRepository::get()->getAllFps();
     for (double fps : all_fps) {
         m_fpsFilt->addItem(locale.toString(fps), fps);
