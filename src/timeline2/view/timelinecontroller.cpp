@@ -76,6 +76,8 @@ TimelineController::TimelineController(QObject *parent)
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
+    connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
+    connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
 }
@@ -111,8 +113,8 @@ void TimelineController::setTargetTracks(QPair<int, int> targets)
     //setAudioTarget(targets.second >= 0 && targets.second < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.second) : -1);
     m_hasVideoTarget = targets.first >= 0;
     m_hasAudioTarget = targets.second >= 0;
-    setVideoTarget(targets.first);
-    setAudioTarget(targets.second);
+    setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : targets.first);
+    setAudioTarget(m_hasAudioTarget && (m_lastAudioTarget > -1) ? m_lastAudioTarget : targets.second);
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -915,18 +917,27 @@ void TimelineController::setPosition(int position)
 
 void TimelineController::setAudioTarget(int track)
 {
+    if (track > -1 && !m_model->isTrack(track)) {
+        return;
+    }
     m_model->m_audioTarget = track;
     emit audioTargetChanged();
 }
 
 void TimelineController::setVideoTarget(int track)
 {
+    if (track > -1 && !m_model->isTrack(track)) {
+        return;
+    }
     m_model->m_videoTarget = track;
     emit videoTargetChanged();
 }
 
 void TimelineController::setActiveTrack(int track)
 {
+    if (track > -1 && !m_model->isTrack(track)) {
+        return;
+    }
     m_activeTrack = track;
     emit activeTrackChanged();
 }
@@ -2549,5 +2560,26 @@ void TimelineController::finishRecording(const QString &recordedFile)
         ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
     if (binId != QStringLiteral("-1")) {
         pCore->pushUndo(undo, redo, i18n("Record audio"));
+    }
+}
+
+
+void TimelineController::updateVideoTarget()
+{
+    if (videoTarget() > -1) {
+        m_lastVideoTarget = videoTarget();
+        m_videoTargetActive = true;
+    } else {
+        m_videoTargetActive = false;
+    }
+}
+
+void TimelineController::updateAudioTarget()
+{
+    if (audioTarget() > -1) {
+        m_lastAudioTarget = audioTarget();
+        m_audioTargetActive = true;
+    } else {
+        m_audioTargetActive = false;
     }
 }

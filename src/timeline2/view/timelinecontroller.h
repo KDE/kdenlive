@@ -483,6 +483,8 @@ public slots:
 
 private slots:
     void updateClipActions();
+    void updateVideoTarget();
+    void updateAudioTarget();
 
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
@@ -501,6 +503,10 @@ private:
     int m_audioRef;
     bool m_hasAudioTarget {false};
     bool m_hasVideoTarget {false};
+    int m_lastVideoTarget {-1};
+    int m_lastAudioTarget {-1};
+    bool m_videoTargetActive {true};
+    bool m_audioTargetActive {true};
     QPair<int, int> m_recordStart;
     int m_recordTrack;
     QPoint m_zone;
