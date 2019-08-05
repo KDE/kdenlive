@@ -82,7 +82,13 @@ bool CacheJob::startJob()
     }
     int size = frames.size();
     int count = 0;
+    connect(this, &CacheJob::jobCanceled, [&] () {
+        m_done = true;
+    });
     for (int i : frames) {
+        if (m_done) {
+            break;
+        }
         emit jobProgress(100 * count / size);
         count++;
         if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), i)) {
@@ -93,7 +99,7 @@ bool CacheJob::startJob()
         frame->set("deinterlace_method", "onefield");
         frame->set("top_field_first", -1);
         frame->set("rescale.interp", "nearest");
-        if ((frame != nullptr) && frame->is_valid()) {
+        if (!m_done && (frame != nullptr) && frame->is_valid()) {
             QImage result = KThumb::getFrame(frame.data());
             ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), i, result, true);
         }
