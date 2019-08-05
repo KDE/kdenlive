@@ -1791,6 +1791,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
         }
         m_propertiesPanel->setProperty("clipId", QString());
         m_propertiesPanel->setEnabled(false);
+        emit setupTargets(false, false);
         return;
     }
     m_propertiesPanel->setEnabled(true);

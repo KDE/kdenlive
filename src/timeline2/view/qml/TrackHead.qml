@@ -103,13 +103,14 @@ Rectangle {
     }
     ColumnLayout {
         id: targetColumn
-        width: root.baseUnit / 1.2
+        width: root.baseUnit / 1.3
         height: trackHeadRoot.height
         Item {
             width: parent.width
             Layout.fillHeight: true
-            Layout.topMargin: 4
-            Layout.bottomMargin: 4
+            Layout.topMargin: 1
+            Layout.bottomMargin: 1
+            Layout.leftMargin: 1
             Layout.alignment: Qt.AlignVCenter
             Rectangle {
                 id: trackTarget
@@ -117,6 +118,7 @@ Rectangle {
                 anchors.fill: parent
                 width: height
                 border.width: 0
+                visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget : timeline.hasVideoTarget
                 MouseArea {
                     id: targetArea
                     anchors.fill: parent
@@ -163,11 +165,20 @@ Rectangle {
                         }
                     },
                     State {
+                        name: 'inactiveTarget'
+                        when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastAudioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastVideoTarget)
+                        PropertyChanges {
+                            target: trackTarget
+                            opacity: 0.3
+                            color: activePalette.text
+                        }
+                    },
+                    State {
                         name: 'noTarget'
                         when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
                         PropertyChanges {
                             target: trackTarget
-                            color: 'grey'
+                            color: activePalette.base
                         }
                     }
                 ]
@@ -202,12 +213,14 @@ Rectangle {
             Item {
                 width: trackTag.contentWidth + 4
                 height: width
+                Layout.topMargin: 1
                 Rectangle {
                     id: trackLed
                     color: Qt.darker(trackHeadRoot.color, 0.45)
                     anchors.fill: parent
                     width: height
                     border.width: 0
+                    radius: 2
                     Text {
                         id: trackTag
                         text: trackHeadRoot.trackTag
