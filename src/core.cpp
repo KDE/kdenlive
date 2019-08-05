@@ -627,8 +627,11 @@ void Core::invalidateItem(ObjectId itemId)
     case ObjectType::TimelineTrack:
         // TODO: invalidate all clips in track
         break;
+    case ObjectType::BinClip:
+        m_binWidget->invalidateClip(QString::number(itemId.second));
+        break;
     default:
-        // bin clip should automatically be reloaded, compositions should not have effects
+        // compositions should not have effects
         break;
     }
 }
