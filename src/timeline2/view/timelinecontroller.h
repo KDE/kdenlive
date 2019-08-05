@@ -67,8 +67,12 @@ class TimelineController : public QObject
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
     Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
-    Q_PROPERTY(bool hasAudioTarget READ hasAudioTarget)
-    Q_PROPERTY(bool hasVideoTarget READ hasVideoTarget)
+    
+    Q_PROPERTY(int lastAudioTarget MEMBER m_lastAudioTarget NOTIFY lastAudioTargetChanged)
+    Q_PROPERTY(int lastVideoTarget MEMBER m_lastVideoTarget NOTIFY lastVideoTargetChanged)
+    
+    Q_PROPERTY(bool hasAudioTarget READ hasAudioTarget NOTIFY hasAudioTargetChanged)
+    Q_PROPERTY(bool hasVideoTarget READ hasVideoTarget NOTIFY hasVideoTargetChanged)
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
@@ -533,6 +537,10 @@ signals:
     void seekPositionChanged();
     void audioTargetChanged();
     void videoTargetChanged();
+    void hasAudioTargetChanged();
+    void hasVideoTargetChanged();
+    void lastAudioTargetChanged();
+    void lastVideoTargetChanged();
     void activeTrackChanged();
     void colorsChanged();
     void showThumbnailsChanged();

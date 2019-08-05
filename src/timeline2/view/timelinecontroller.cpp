@@ -109,12 +109,16 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 
 void TimelineController::setTargetTracks(QPair<int, int> targets)
 {
-    //setVideoTarget(targets.first >= 0 && targets.first < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.first) : -1);
-    //setAudioTarget(targets.second >= 0 && targets.second < m_model->getTracksCount() ? m_model->getTrackIndexFromPosition(targets.second) : -1);
     m_hasVideoTarget = targets.first >= 0;
     m_hasAudioTarget = targets.second >= 0;
-    setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : targets.first);
-    setAudioTarget(m_hasAudioTarget && (m_lastAudioTarget > -1) ? m_lastAudioTarget : targets.second);
+    emit hasAudioTargetChanged();
+    emit hasVideoTargetChanged();
+    if (m_videoTargetActive) {
+        setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : targets.first);
+    }
+    if (m_audioTargetActive) {
+        setAudioTarget(m_hasAudioTarget && (m_lastAudioTarget > -1) ? m_lastAudioTarget : targets.second);
+    }
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -574,6 +578,14 @@ void TimelineController::deleteTrack(int tid)
         if (m_model->m_videoTarget == selectedTrackIx) {
             setVideoTarget(-1);
         }
+        if (m_lastAudioTarget == selectedTrackIx) {
+            m_lastAudioTarget = -1;
+            emit lastAudioTargetChanged();
+        }
+        if (m_lastVideoTarget == selectedTrackIx) {
+            m_lastVideoTarget = -1;
+            emit lastVideoTargetChanged();
+        }
         m_model->requestTrackDeletion(selectedTrackIx);
         m_model->buildTrackCompositing(true);
         if (m_activeTrack == -1) {
@@ -917,7 +929,7 @@ void TimelineController::setPosition(int position)
 
 void TimelineController::setAudioTarget(int track)
 {
-    if (track > -1 && !m_model->isTrack(track)) {
+    if (track > -1 && !m_model->isTrack(track) || !m_hasAudioTarget) {
         return;
     }
     m_model->m_audioTarget = track;
@@ -926,7 +938,7 @@ void TimelineController::setAudioTarget(int track)
 
 void TimelineController::setVideoTarget(int track)
 {
-    if (track > -1 && !m_model->isTrack(track)) {
+    if (track > -1 && !m_model->isTrack(track) || !m_hasVideoTarget) {
         return;
     }
     m_model->m_videoTarget = track;
@@ -2569,6 +2581,7 @@ void TimelineController::updateVideoTarget()
     if (videoTarget() > -1) {
         m_lastVideoTarget = videoTarget();
         m_videoTargetActive = true;
+        emit lastVideoTargetChanged();
     } else {
         m_videoTargetActive = false;
     }
@@ -2579,6 +2592,7 @@ void TimelineController::updateAudioTarget()
     if (audioTarget() > -1) {
         m_lastAudioTarget = audioTarget();
         m_audioTargetActive = true;
+        emit lastAudioTargetChanged();
     } else {
         m_audioTargetActive = false;
     }
