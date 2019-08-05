@@ -266,6 +266,8 @@ public:
     QString getCurrentFolder();
     /** @brief Save a clip zone as MLT playlist */
     void saveZone(const QStringList &info, const QDir &dir);
+    /** @brief A bin clip changed (its effects), invalidate preview */
+    void invalidateClip(const QString &binId);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();

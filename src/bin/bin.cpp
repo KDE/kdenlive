@@ -3295,3 +3295,14 @@ void Bin::showBinFrame(QModelIndex ix, int frame)
         }
     }
 }
+
+void Bin::invalidateClip(const QString &binId)
+{
+    std::shared_ptr<ProjectClip> clip = getBinClip(binId);
+    if (clip) {
+        QList<int> ids = clip->timelineInstances();
+        for (int i : ids) {
+            pCore->invalidateItem({ObjectType::TimelineClip,i});
+        }
+    }
+}
