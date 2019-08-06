@@ -8,6 +8,7 @@ import QtQuick 2.4
 Rectangle {
     id: ruler
     color: activePalette.window
+    property bool containsMouse: rulerMouseArea.containsMouse
 
     Timer {
         id: zoneToolTipTimer
