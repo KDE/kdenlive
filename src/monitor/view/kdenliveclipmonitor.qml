@@ -119,7 +119,7 @@ Item {
             QmlAudioThumb {
                 id: audioThumb
                 objectName: "audiothumb"
-                property bool stateVisible: true
+                property bool stateVisible: (barOverArea.mouseY >= root.height * 0.7 || dragOverArea.containsMouse || clipMonitorRuler.containsMouse)
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -128,15 +128,6 @@ Item {
                 //font.pixelSize * 3
                 width: parent.width
                 visible: root.showAudiothumb
-
-                MouseArea {
-                    id: mouseOverArea
-                    hoverEnabled: true
-                    onExited: audioThumb.stateVisible = false
-                    onEntered: audioThumb.stateVisible = true
-                    acceptedButtons: Qt.NoButton
-                    anchors.fill: parent
-                }
 
                 states: [
                     State { when: audioThumb.stateVisible;
