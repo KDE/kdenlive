@@ -392,6 +392,15 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
+    bool revertSpeed = false;
+    if (speed < 0) {
+        if (m_speed > 0) {
+            revertSpeed = true;
+        }
+    } else if (m_speed < 0) {
+        revertSpeed = true;
+    }
+
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyCompare(speed, 0.)) {
         in = in * std::abs(m_speed / speed);
         out = in + getPlaytime() - 1;
@@ -399,6 +408,11 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
         out = std::min(out, int(double(m_producer->get_length()) * std::abs(m_speed / speed)) - 1);
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
+    }
+    if (revertSpeed) {
+        int duration = out - in;
+        in = m_producer->get_length() * std::fabs(m_speed) - out;
+        out = in + duration;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id, state, m_speed);

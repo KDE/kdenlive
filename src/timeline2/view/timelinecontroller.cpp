@@ -1545,7 +1545,6 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             minSpeed = std::max(minSpeed, minSpeed2);
             maxSpeed = std::min(maxSpeed, maxSpeed2);
         }
-        // speed = QInputDialog::getDouble(QApplication::activeWindow(), i18n("Clip Speed"), i18n("Percentage"), speed, minSpeed, maxSpeed, 2, &ok);
         QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), minSpeed, maxSpeed, speed < 0));
         if (d->exec() != QDialog::Accepted) {
             return;
