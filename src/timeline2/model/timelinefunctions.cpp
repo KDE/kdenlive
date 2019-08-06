@@ -314,7 +314,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
     std::function<bool(void)> redo = []() { return true; };
     bool result = true;
     result = breakAffectedGroups(timeline, tracks, zone, undo, redo);
-    
+
     for (int &trackId : tracks) {
         if (timeline->getTrackById_const(trackId)->isLocked()) {
             continue;
@@ -424,7 +424,6 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
 bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks)
 {
     Q_UNUSED(trackId)
-
     std::unordered_set<int> clips;
     auto it = timeline->m_allTracks.cbegin();
     while (it != timeline->m_allTracks.cend()) {
@@ -434,6 +433,10 @@ bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &ti
             clips.insert(subs.begin(), subs.end());
         }
         ++it;
+    }
+    if (clips.size() == 0) {
+        // TODO: inform user no change will be performed
+        return true;
     }
     bool result = false;
     timeline->requestSetSelection(clips);
