@@ -1281,24 +1281,30 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
 void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
 {
     if (m_monitor->activeClipId() == clipId) {
-        if (frame > -1) {
-            m_monitor->slotSeek(frame);
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(clipId);
+        if (clip) {
+            QModelIndex ix = m_itemModel->getIndexFromItem(clip);
+            int row = ix.row();
+            const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+            const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
+            if (id.isValid() && id2.isValid()) {
+                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
+            }
+            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
         }
-        if (!zone.isNull()) {
-            m_monitor->slotLoadClipZone(zone);
+    } else {
+        m_proxyModel->selectionModel()->clearSelection();
+        std::shared_ptr<ProjectClip> clip = getBinClip(clipId);
+        if (clip == nullptr) {
+            return;
         }
-        return;
-    }
-    m_proxyModel->selectionModel()->clearSelection();
-    std::shared_ptr<ProjectClip> clip = getBinClip(clipId);
-    if (clip) {
         selectClip(clip);
-        if (frame > -1) {
-            m_monitor->slotSeek(frame);
-        }
-        if (!zone.isNull()) {
-            m_monitor->slotLoadClipZone(zone);
-        }
+    }
+    if (frame > -1) {
+        m_monitor->slotSeek(frame);
+    }
+    if (!zone.isNull()) {
+        m_monitor->slotLoadClipZone(zone);
     }
 }
 
@@ -1896,9 +1902,9 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
     const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
     if (id.isValid() && id2.isValid()) {
-        m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::Select);
+        m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
     }
-    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix));
+    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
 }
 
 void Bin::slotOpenCurrent()
