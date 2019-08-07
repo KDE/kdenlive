@@ -142,9 +142,11 @@ void AssetParameterView::resetValues()
     const QVector<QPair<QString, QVariant>> values = getDefaultValues();
     auto *command = new AssetUpdateCommand(m_model, values);
     pCore->pushUndo(command);
-    /*if (m_mainKeyframeWidget) {
-        m_mainKeyframeWidget->resetKeyframes();
-    }*/
+    // Unselect preset if any
+    QAction *ac = m_presetGroup->checkedAction();
+    if (ac) {
+        ac->setChecked(false);;
+    }
 }
 
 void AssetParameterView::commitChanges(const QModelIndex &index, const QString &value, bool storeUndo)
