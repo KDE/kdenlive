@@ -476,6 +476,7 @@ public slots:
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
     void invalidateItem(int cid);
+    void invalidateTrack(int tid);
     void invalidateZone(int in, int out);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
