@@ -601,7 +601,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
             QJsonObject currentParam;
             QModelIndex ix = index(m_rows.indexOf(fixed.first), 0);
             currentParam.insert(QLatin1String("name"), QJsonValue(fixed.first));
-            currentParam.insert(QLatin1String("value"), fixed.second.toString());
+            currentParam.insert(QLatin1String("value"), fixed.second.type() == QVariant::Double ? QJsonValue(fixed.second.toDouble()) : QJsonValue(fixed.second.toString()));
             int type = data(ix, AssetParameterModel::TypeRole).toInt();
             double min = data(ix, AssetParameterModel::MinRole).toDouble();
             double max = data(ix, AssetParameterModel::MaxRole).toDouble();
@@ -628,7 +628,7 @@ QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
         QJsonObject currentParam;
         QModelIndex ix = index(m_rows.indexOf(param.first), 0);
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
-        currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toString()));
+        currentParam.insert(QLatin1String("value"), param.second.value.type() == QVariant::Double ? QJsonValue(param.second.value.toDouble()) : QJsonValue(param.second.value.toString()));
         int type = data(ix, AssetParameterModel::TypeRole).toInt();
         double min = data(ix, AssetParameterModel::MinRole).toDouble();
         double max = data(ix, AssetParameterModel::MaxRole).toDouble();
