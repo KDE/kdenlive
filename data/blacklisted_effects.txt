@@ -15,7 +15,7 @@ frei0r.perspective
 #Effects not usable with a simple GUI
 #ladspa
 jackrack
-luma
+#luma
 data_show
 gtkrescale
 watermark
