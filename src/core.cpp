@@ -379,6 +379,7 @@ int Core::getItemPosition(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
+    case ObjectType::TimelineTrack:
         return 0;
         break;
     default:
@@ -402,9 +403,8 @@ int Core::getItemIn(const ObjectId &id)
         }
         break;
     case ObjectType::TimelineComposition:
-        return 0;
-        break;
     case ObjectType::BinClip:
+    case ObjectType::TimelineTrack:
         return 0;
         break;
     default:
@@ -454,6 +454,8 @@ int Core::getItemDuration(const ObjectId &id)
     case ObjectType::BinClip:
         return (int)m_binWidget->getClipDuration(id.second);
         break;
+    case ObjectType::TimelineTrack:
+        return m_mainWindow->getCurrentTimeline()->controller()->duration();
     default:
         qDebug() << "ERROR: unhandled object type";
     }
@@ -625,7 +627,7 @@ void Core::invalidateItem(ObjectId itemId)
         m_mainWindow->getCurrentTimeline()->controller()->invalidateItem(itemId.second);
         break;
     case ObjectType::TimelineTrack:
-        // TODO: invalidate all clips in track
+        m_mainWindow->getCurrentTimeline()->controller()->invalidateTrack(itemId.second);
         break;
     case ObjectType::BinClip:
         m_binWidget->invalidateClip(QString::number(itemId.second));

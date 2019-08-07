@@ -1511,6 +1511,16 @@ void TimelineController::invalidateItem(int cid)
     m_timelinePreview->invalidatePreview(start, end);
 }
 
+void TimelineController::invalidateTrack(int tid)
+{
+    if (!m_timelinePreview || !m_model->isTrack(tid)) {
+        return;
+    }
+    for (auto clp : m_model->getTrackById_const(tid)->m_allClips) {
+        invalidateItem(clp.first);
+    }
+}
+
 void TimelineController::invalidateZone(int in, int out)
 {
     if (!m_timelinePreview) {

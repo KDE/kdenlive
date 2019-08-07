@@ -442,6 +442,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     if (res) {
         int inFades = 0;
         int outFades = 0;
+
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
             int duration = effect->filter().get_length() - 1;
             int in = pCore->getItemIn(m_ownerId);
@@ -454,6 +455,8 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
             effect->filter().set("in", out - duration);
             effect->filter().set("out", out);*/
             outFades++;
+        } else if (m_ownerId.first == ObjectType::TimelineTrack) {
+            effect->filter().set("out", pCore->getItemDuration(m_ownerId));
         }
         QString effectName = EffectsRepository::get()->getName(effectId);
         Fun update = [this, inFades, outFades]() {
@@ -1155,6 +1158,9 @@ bool EffectStackModel::addEffectKeyFrame(int frame, double normalisedVal)
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    if (m_ownerId.first == ObjectType::TimelineTrack) {
+        sourceEffect->filter().set("out", pCore->getItemDuration(m_ownerId));
+    }
     return listModel->addKeyframe(frame, normalisedVal);
 }
 
@@ -1185,5 +1191,8 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    if (m_ownerId.first == ObjectType::TimelineTrack) {
+        sourceEffect->filter().set("out", pCore->getItemDuration(m_ownerId));
+    }
     return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), std::move(normalisedVal));
 }
