@@ -392,15 +392,6 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
-    bool revertSpeed = false;
-    if (speed < 0) {
-        if (m_speed > 0) {
-            revertSpeed = true;
-        }
-    } else if (m_speed < 0) {
-        revertSpeed = true;
-    }
-
     if (!qFuzzyCompare(speed, m_speed) && !qFuzzyCompare(speed, 0.)) {
         in = in * std::abs(m_speed / speed);
         out = in + getPlaytime() - 1;
@@ -408,11 +399,6 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
         out = std::min(out, int(double(m_producer->get_length()) * std::abs(m_speed / speed)) - 1);
         m_speed = speed;
         qDebug() << "changing speed" << in << out << m_speed;
-    }
-    if (revertSpeed) {
-        int duration = out - in;
-        in = m_producer->get_length() * std::fabs(m_speed) - out;
-        out = in + duration;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id, state, m_speed);
@@ -447,9 +433,17 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
     int newDuration = int(double(oldDuration) * std::abs(previousSpeed / speed) + 0.5);
     int oldOut = getOut();
     int oldIn = getIn();
+    bool revertSpeed = false;
+    if (speed < 0) {
+        if (previousSpeed > 0) {
+            revertSpeed = true;
+        }
+    } else if (previousSpeed < 0) {
+        revertSpeed = true;
+    }
     auto operation = useTimewarpProducer_lambda(speed);
     auto reverse = useTimewarpProducer_lambda(previousSpeed);
-    if (changeDuration && oldOut >= newDuration) {
+    if (revertSpeed || (changeDuration && oldOut >= newDuration)) {
         // in that case, we are going to shrink the clip when changing the producer. We must undo that when reloading the old producer
         reverse = [reverse, oldIn, oldOut, this]() {
             bool res = reverse();
@@ -458,6 +452,21 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
             }
             return res;
         };
+    }
+    if (revertSpeed) {
+        int in = getIn();
+        int out = getOut();
+        int duration = out - in;
+        in = m_producer->get_length() * std::fabs(m_speed) - out;
+        out = in + duration;
+        operation = [operation, in, out, this]() {
+            bool res = operation();
+            if (res) {
+                setInOut(in, out);
+            }
+            return res;
+        };
+
     }
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
