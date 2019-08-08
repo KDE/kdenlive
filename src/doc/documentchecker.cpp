@@ -375,6 +375,9 @@ bool DocumentChecker::hasErrorInClips()
     for (int i = 0; i < max; ++i) {
         QDomElement transition = effs.at(i).toElement();
         QString service = getProperty(transition, QStringLiteral("kdenlive_id"));
+        if (service.isEmpty()) {
+            service = getProperty(transition, QStringLiteral("mlt_service"));
+        }
         filters << service;
     }
     QStringList processed;

@@ -268,21 +268,40 @@ bool LoadJob::startJob()
         break;
     case ClipType::Text:
     case ClipType::TextTemplate: {
-            QFile txtfile(m_resource);
-            QDomDocument txtdoc(QStringLiteral("titledocument"));
-            if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
-                txtfile.close();
-                if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
-                    duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
-                } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
-                    duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
+            m_producer = loadResource(m_resource, QStringLiteral("kdenlivetitle:"));
+            bool ok;
+            QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
+            int producerLength = pLength.toInt(&ok);
+            if (!ok) {
+                producerLength = m_producer->time_to_frames(pLength.toUtf8().constData());
+            }
+            if (!m_resource.isEmpty()) {
+                // Title from .kdenlivetitle file
+                QFile txtfile(m_resource);
+                QDomDocument txtdoc(QStringLiteral("titledocument"));
+                if (txtfile.open(QIODevice::ReadOnly) && txtdoc.setContent(&txtfile)) {
+                    txtfile.close();
+                    if (txtdoc.documentElement().hasAttribute(QStringLiteral("duration"))) {
+                        duration = txtdoc.documentElement().attribute(QStringLiteral("duration")).toInt();
+                    } else if (txtdoc.documentElement().hasAttribute(QStringLiteral("out"))) {
+                        duration = txtdoc.documentElement().attribute(QStringLiteral("out")).toInt();
+                    }
+                }
+            } else {
+                QString xmlDuration = Xml::getXmlProperty(m_xml, QStringLiteral("kdenlive:duration"));
+                duration = xmlDuration.toInt(&ok);
+                if (!ok) {
+                    // timecode duration
+                    duration = m_producer->time_to_frames(xmlDuration.toUtf8().constData());
                 }
             }
-            m_producer = loadResource(m_resource, QStringLiteral("kdenlivetitle:"));
             if (duration <= 0) {
-                duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration()) - 1;
+                duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
             }
-            m_producer->set("length", duration);
+            if (producerLength <= 0) {
+                producerLength = duration;
+            }
+            m_producer->set("length", producerLength);
             m_producer->set("kdenlive:duration", duration);
             m_producer->set("out", duration - 1);
         }

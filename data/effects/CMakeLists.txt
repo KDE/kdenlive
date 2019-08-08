@@ -20,6 +20,7 @@ grain.xml
 greyscale.xml
 invert.xml
 loudness.xml
+luma.xml
 mirror.xml
 mute.xml
 normalise.xml

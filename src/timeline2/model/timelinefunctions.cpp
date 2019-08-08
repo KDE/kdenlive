@@ -1408,6 +1408,12 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             in = 0;
             timeline->m_allClips[newId]->m_producer->set("length", out + 1);
         }
+        if (speed < 0) {
+            // on negative speed clips, in/out are inverted
+            int length = out - in;
+            in = timeline->m_allClips[newId]->getMaxDuration() - out;
+            out = in + length;
+        }
         timeline->m_allClips[newId]->setInOut(in, out);
         int targetId = prod.attribute(QStringLiteral("id")).toInt();
         correspondingIds[targetId] = newId;
