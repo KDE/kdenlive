@@ -327,7 +327,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
             m_thumbsProducer.reset();
             ClipType::ProducerType type = clipType();
-            if (type != ClipType::Color && type != ClipType::Image) {
+            if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
