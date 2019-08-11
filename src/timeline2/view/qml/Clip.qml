@@ -669,7 +669,7 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         var delta = Math.round(parent.x / timeScale) - startX
                         var duration = Math.max(0, startFadeIn + delta)
-                        duration = Math.min(duration, clipRoot.clipDuration)
+                        duration = Math.min(duration, clipRoot.clipDuration - 1)
                         if (duration != clipRoot.fadeIn) {
                             timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
                             // Show fade duration as time in a "bubble" help.

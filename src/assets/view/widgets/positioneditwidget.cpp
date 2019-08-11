@@ -115,8 +115,8 @@ void PositionEditWidget::slotRefresh()
             }
         }
     }
-    m_slider->setRange(0, max - min);
-    m_display->setRange(0, max - min);
+    m_slider->setRange(0, max - min - 1);
+    m_display->setRange(0, max - min - 1);
     if (!m_inverted && !m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
         val -= min;
     }
