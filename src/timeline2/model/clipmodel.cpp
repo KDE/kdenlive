@@ -457,7 +457,7 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
         int in = getIn();
         int out = getOut();
         int duration = out - in;
-        in = m_producer->get_length() * std::fabs(m_speed) - out;
+        in = qMax(0, (int)(m_producer->get_length() * std::fabs(m_speed) - out - 1));
         out = in + duration;
         operation = [operation, in, out, this]() {
             bool res = operation();
