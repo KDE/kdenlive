@@ -133,7 +133,7 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     clear();
     QString transitionId = transitionModel->getAssetId();
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
-    m_assetTitle->setText(i18n("%1 properties", transitionName));
+    m_assetTitle->setText(i18n("%1 properties").arg(i18n(transitionName.toUtf8().data())));
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
