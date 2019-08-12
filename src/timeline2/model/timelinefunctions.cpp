@@ -339,7 +339,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     auto it = timeline->m_allTracks.cbegin();
     while (it != timeline->m_allTracks.cend()) {
         int target_track = (*it)->getId();
-        if (timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+        if (!useTargets || timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
             affectedTracks << target_track;
         } else if (trackIds.contains(target_track)) {
             // Track is marked as target but not active, remove it

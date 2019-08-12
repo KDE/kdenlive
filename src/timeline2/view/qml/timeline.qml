@@ -402,8 +402,12 @@ Rectangle {
                     } else {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
-                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
-                        fakeTrack = timeline.activeTrack
+                        if (clipBeingDroppedId > -1) {
+                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                            fakeTrack = timeline.activeTrack
+                        } else {
+                            drag.accepted = false
+                        }
                     }
                     continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                 } else {
