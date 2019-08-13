@@ -1611,7 +1611,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     for (int clip : all_items) {
         bool res = requestClipDeletion(clip, undo, redo);
         if (!res) {
-            undo();
+            // Undo is processed in requestClipDeletion
             return false;
         }
     }
