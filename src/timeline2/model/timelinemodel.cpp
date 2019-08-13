@@ -606,8 +606,9 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     QWriteLocker locker(&m_lock);
     TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline)
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
+    if (m_allClips[clipId]->getPosition() == position && m_allClips[clipId]->getFakeTrackId() == trackId) {
         TRACE_RES(true);
+        qDebug()<<"........\nABORTING MOVE; SAME POS/TRACK\n..........";
         return true;
     }
     if (m_groups->isInGroup(clipId)) {
@@ -709,7 +710,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         // Trying move on incompatible track type, stay on same track
         trackId = sourceTrackId;
     }
-    if (currentPos == position && sourceTrackId == trackId) {
+    if (currentPos == position && m_editMode == TimelineMode::NormalEdit && sourceTrackId == trackId) {
         TRACE_RES(position);
         return position;
     }
@@ -739,7 +740,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         }
     }
     // we check if move is possible
-    bool possible = m_editMode == TimelineMode::NormalEdit ? requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false)
+    bool possible = (m_editMode == TimelineMode::NormalEdit) ? requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false)
                                                            : requestFakeClipMove(clipId, trackId, position, true, false, false);
     /*} else {
         possible = requestClipMoveAttempt(clipId, trackId, position);

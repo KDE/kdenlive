@@ -2239,7 +2239,10 @@ void TimelineController::grabCurrent()
 int TimelineController::getItemMovingTrack(int itemId) const
 {
     if (m_model->isClip(itemId)) {
-        int trackId = m_model->m_allClips[itemId]->getFakeTrackId();
+        int trackId = -1;
+        if (m_model->m_editMode != TimelineMode::NormalEdit) {
+            trackId = m_model->m_allClips[itemId]->getFakeTrackId();
+        }
         return trackId < 0 ? m_model->m_allClips[itemId]->getCurrentTrackId() : trackId;
     }
     return m_model->m_allCompositions[itemId]->getCurrentTrackId();
@@ -2284,6 +2287,10 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     }
     res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
+        // Terminate fake move
+        if (m_model->isClip(clipId)) {
+            m_model->m_allClips[clipId]->setFakeTrackId(-1);
+        }
         if (logUndo) {
             pCore->pushUndo(undo, redo, i18n("Move item"));
         }
@@ -2300,6 +2307,10 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     std::function<bool(void)> redo = []() { return true; };
     bool res = endFakeGroupMove(clipId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo);
     if (res && logUndo) {
+        // Terminate fake move
+        if (m_model->isClip(clipId)) {
+            m_model->m_allClips[clipId]->setFakeTrackId(-1);
+        }
         pCore->pushUndo(undo, redo, i18n("Move group"));
     }
     return res;
