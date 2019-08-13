@@ -1136,7 +1136,7 @@ const QString EffectStackModel::effectNames() const
 {
     QStringList effects;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        effects.append(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()));
+        effects.append(i18n(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()).toUtf8().data()));
     }
     return effects.join(QLatin1Char('/'));
 }
