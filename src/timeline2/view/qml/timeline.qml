@@ -1201,7 +1201,7 @@ Rectangle {
                                         var posy = Math.min(Math.max(0, mouse.y + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                         var tId = Logic.getTrackIdFromPos(posy)
                                         if (dragProxy.masterObject && tId == dragProxy.masterObject.trackId) {
-                                            if (posx == dragFrame) {
+                                            if (posx == dragFrame && controller.normalEdit()) {
                                                 return
                                             }
                                         }
