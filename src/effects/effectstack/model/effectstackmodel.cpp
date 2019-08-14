@@ -474,7 +474,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         update();
         PUSH_LAMBDA(update, redo);
         PUSH_LAMBDA(update, undo);
-        PUSH_UNDO(undo, redo, i18n("Add effect %1", effectName));
+        PUSH_UNDO(undo, redo, i18n("Add effect %1").arg(i18n(effectName.toUtf8().data())));
     } else if (makeCurrent) {
         if (auto srvPtr = m_masterService.lock()) {
             srvPtr->set("kdenlive:activeeffect", currentActive);
@@ -749,7 +749,7 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
         UPDATE_UNDO_REDO(update, update, undo, redo);
         auto effectId = std::static_pointer_cast<EffectItemModel>(item)->getAssetId();
         QString effectName = EffectsRepository::get()->getName(effectId);
-        PUSH_UNDO(undo, redo, i18n("Move effect %1", effectName));
+        PUSH_UNDO(undo, redo, i18n("Move effect %1").arg(i18n(effectName.toUtf8().data())));
     }
 }
 

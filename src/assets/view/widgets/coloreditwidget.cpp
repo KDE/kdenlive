@@ -93,7 +93,6 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
     bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
     QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
 
     auto *layout = new QHBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
