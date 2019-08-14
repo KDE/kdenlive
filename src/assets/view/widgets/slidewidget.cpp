@@ -27,7 +27,6 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
     setupUi(this);
     QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
-    setToolTip(comment);
 
     slotRefresh();
     connect(end_up, &QAbstractButton::clicked, this, &SlideWidget::updateValue);
