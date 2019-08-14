@@ -337,15 +337,24 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     bool result = true;
     QVector<int> affectedTracks;
     auto it = timeline->m_allTracks.cbegin();
-    while (it != timeline->m_allTracks.cend()) {
-        int target_track = (*it)->getId();
-        if (!useTargets || timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-            affectedTracks << target_track;
-        } else if (trackIds.contains(target_track)) {
-            // Track is marked as target but not active, remove it
-            trackIds.removeAll(target_track);
+    if (!useTargets && overwrite) {
+        // Timeline drop in overwrite mode
+        for (int target_track : trackIds) {
+            if (!timeline->getTrackById_const(target_track)->isLocked()) {
+                affectedTracks << target_track;
+            }
         }
-        ++it;
+    } else {
+        while (it != timeline->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (!useTargets || timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+                affectedTracks << target_track;
+            } else if (trackIds.contains(target_track)) {
+                // Track is marked as target but not active, remove it
+                trackIds.removeAll(target_track);
+            }
+            ++it;
+        }
     }
     if (affectedTracks.isEmpty()) {
         return false;
@@ -371,12 +380,16 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
         result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, affectedTracks);
     }
-
     bool clipInserted = false;
     if (result) {
         if (!trackIds.isEmpty()) {
             int newId = -1;
-            QString binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+            QString binClipId;
+            if (binId.contains(QLatin1Char('/'))) {
+                binClipId = QString("%1/%2/%3").arg(binId.section(QLatin1Char('/'), 0, 0)).arg(zone.x()).arg(zone.y() - 1);
+            } else {
+                binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
+            }
             result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
             if (result) {
                 clipInserted = true;
