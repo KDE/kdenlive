@@ -89,7 +89,7 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
     : AbstractParamWidget(std::move(model), index, parent)
 {
     // setup the comment
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
+    QString name = m_model->data(m_index, Qt::DisplayRole).toString();
     bool alphaEnabled = m_model->data(m_index, AssetParameterModel::AlphaRole).toBool();
     QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
