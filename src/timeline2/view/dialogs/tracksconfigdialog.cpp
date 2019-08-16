@@ -204,7 +204,7 @@ void TracksConfigDialog::slotDelete()
         return;
     }
     m_deletedRows.append(trackToDelete);
-    qSort(m_deletedRows);
+    std::sort(m_deletedRows.begin(), m_deletedRows.end());
     for (int i = 0; i < table->columnCount(); ++i) {
         QTableWidgetItem *item = table->item(row, i);
         item->setFlags(Qt::NoItemFlags);

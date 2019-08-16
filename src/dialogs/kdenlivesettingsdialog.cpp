@@ -129,7 +129,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     // Mime types
     QStringList mimes = ClipCreationDialog::getExtensions();
-    qSort(mimes);
+    std::sort(mimes.begin(), mimes.end());
     m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
 
     m_page2 = addPage(p2, i18n("Environment"));
@@ -531,7 +531,7 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
 
     // qCDebug(KDENLIVE_LOG) << "::::::::::::::::";
 
-    qSort(action_names);
+    std::sort(action_names.begin(), action_names.end());
     iter = action_names.begin();
     while (iter != action_names.end()) {
         // qCDebug(KDENLIVE_LOG) << *iter;
@@ -787,7 +787,7 @@ void KdenliveSettingsDialog::updateWidgets()
 
     // Revert jog shuttle buttons
     QList<QString> action_names = m_mappable_actions.keys();
-    qSort(action_names);
+    std::sort(action_names.begin(), action_names.end());
     QStringList actions_map = JogShuttleConfig::actionMap(KdenliveSettings::shuttlebuttons());
     QMap<QString, int> action_pos;
     for (const QString &action_id : actions_map) {
@@ -1030,7 +1030,7 @@ void KdenliveSettingsDialog::updateSettings()
         // Update list
         KdenliveSettings::setAddedExtensions(m_configEnv.kcfg_addedExtensions->text());
         QStringList mimes = ClipCreationDialog::getExtensions();
-        qSort(mimes);
+        std::sort(mimes.begin(), mimes.end());
         m_configEnv.supportedmimes->setPlainText(mimes.join(QLatin1Char(' ')));
     }
 

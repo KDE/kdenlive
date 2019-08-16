@@ -3553,7 +3553,7 @@ void MainWindow::showTimelineToolbarMenu(const QPoint &pos)
         avSizes = theme->querySizes(KIconLoader::Toolbar);
     }
 
-    qSort(avSizes);
+    std::sort(avSizes.begin(), avSizes.end());
 
     if (avSizes.count() < 10) {
         // Fixed or threshold type icons

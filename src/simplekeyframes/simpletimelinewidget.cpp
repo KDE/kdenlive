@@ -46,7 +46,7 @@ SimpleTimelineWidget::SimpleTimelineWidget(QWidget *parent)
 void SimpleTimelineWidget::setKeyframes(const QList<int> &keyframes)
 {
     m_keyframes = keyframes;
-    qSort(m_keyframes);
+    std::sort(m_keyframes.begin(), m_keyframes.end());
     m_currentKeyframe = m_currentKeyframeOriginal = -1;
     emit atKeyframe(m_keyframes.contains(m_position));
     update();
@@ -68,7 +68,7 @@ void SimpleTimelineWidget::slotAddKeyframe(int pos, int select)
     }
 
     m_keyframes.append(pos);
-    qSort(m_keyframes);
+    std::sort(m_keyframes.begin(), m_keyframes.end());
     if (select != 0) {
         m_currentKeyframe = m_currentKeyframeOriginal = pos;
     }
@@ -220,7 +220,7 @@ void SimpleTimelineWidget::mouseReleaseEvent(QMouseEvent *event)
     Q_UNUSED(event)
 
     if (m_currentKeyframe >= 0) {
-        qSort(m_keyframes);
+        std::sort(m_keyframes.begin(), m_keyframes.end());
         emit keyframeMoved(m_currentKeyframeOriginal, m_currentKeyframe);
     }
 }
@@ -245,7 +245,7 @@ void SimpleTimelineWidget::mouseDoubleClickEvent(QMouseEvent *event)
 
         // add new keyframe
         m_keyframes.append(pos);
-        qSort(m_keyframes);
+        std::sort(m_keyframes.begin(), m_keyframes.end());
         emit keyframeAdded(pos);
         if (pos == m_position) {
             emit atKeyframe(true);
