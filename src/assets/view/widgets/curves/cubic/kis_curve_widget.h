@@ -27,13 +27,9 @@
 #include "colortools.h"
 #include "kis_cubic_curve.h"
 
-class QEvent;
 class QMouseEvent;
-class QObject;
 class QPaintEvent;
-class QPixmap;
 
-class QSpinBox;
 
 /**
  * KisCurveWidget is a widget that shows a single curve that can be edited

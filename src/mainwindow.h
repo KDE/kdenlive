@@ -48,11 +48,9 @@
 
 class AssetPanel;
 class AudioGraphSpectrum;
-class EffectStackView2;
 class EffectBasket;
 class EffectListWidget;
 class TransitionListWidget;
-class EffectStackView;
 class KIconLoader;
 class KdenliveDoc;
 class Monitor;

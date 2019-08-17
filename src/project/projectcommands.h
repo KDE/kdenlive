@@ -26,7 +26,6 @@
 #include <QUndoCommand>
 
 class ProjectList;
-class ProjectClip;
 
 class AddClipCutCommand : public QUndoCommand
 {

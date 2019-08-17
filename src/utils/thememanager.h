@@ -32,7 +32,6 @@
 // KDE includes
 #include <KColorSchemeManager>
 
-class KActionMenu;
 
 class ThemeManager : public QAction
 {

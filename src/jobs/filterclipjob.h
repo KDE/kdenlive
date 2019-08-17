@@ -27,10 +27,6 @@
 #include <unordered_map>
 #include <unordered_set>
 
-class QTemporaryFile;
-class Bin;
-class ProjectClip;
-class QProcess;
 
 class FilterClipJob : public MeltJob
 {

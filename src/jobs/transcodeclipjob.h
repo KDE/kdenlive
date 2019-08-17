@@ -23,9 +23,6 @@
 
 #include "abstractclipjob.h"
 
-class QTemporaryFile;
-class Bin;
-class ProjectClip;
 class QProcess;
 
 class TranscodeJob : public AbstractClipJob

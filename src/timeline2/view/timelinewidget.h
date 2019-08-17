@@ -28,8 +28,6 @@
 #include <QQuickWidget>
 
 class ThumbnailProvider;
-class KActionCollection;
-class AssetParameterModel;
 class TimelineController;
 class QSortFilterProxyModel;
 

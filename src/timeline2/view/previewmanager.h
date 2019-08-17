@@ -34,7 +34,6 @@ namespace Mlt {
 class Tractor;
 class Playlist;
 class Producer;
-class Profile;
 } // namespace Mlt
 
 /**

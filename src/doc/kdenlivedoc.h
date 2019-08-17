@@ -41,12 +41,10 @@
 class MainWindow;
 class TrackInfo;
 class ProjectClip;
-class ClipController;
 class MarkerListModel;
 class Render;
 class ProfileParam;
 
-class QTextEdit;
 class QUndoGroup;
 class QUndoCommand;
 class DocUndoStack;

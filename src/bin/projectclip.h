@@ -33,13 +33,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <memory>
 
-class AudioStreamInfo;
 class ClipPropertiesController;
-class MarkerListModel;
 class ProjectFolder;
 class ProjectSubClip;
 class QDomElement;
-class QUndoCommand;
 
 namespace Mlt {
 class Producer;

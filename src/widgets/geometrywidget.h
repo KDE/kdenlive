@@ -26,8 +26,6 @@
 #include <kselectaction.h>
 
 class QAction;
-class QMenu;
-class KSelectAction;
 class DragValue;
 class Monitor;
 

@@ -34,7 +34,6 @@
 
 class KJob;
 class KArchive;
-class ClipController;
 
 /**
  * @class ArchiveWidget

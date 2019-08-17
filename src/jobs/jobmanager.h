@@ -60,11 +60,6 @@ struct Job_t
     bool m_failed = false;    // flag that we set to true when a problem occurred
 };
 
-class AudioThumbJob;
-class LoadJob;
-class SceneSplitJob;
-class StabilizeJob;
-class ThumbJob;
 
 class JobManager : public QAbstractListModel, public enable_shared_from_this_virtual<JobManager>
 {

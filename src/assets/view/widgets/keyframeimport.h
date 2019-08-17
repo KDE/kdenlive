@@ -34,10 +34,8 @@ class PositionWidget;
 class QComboBox;
 class QCheckBox;
 class QSpinBox;
-class KeyframeView;
 
 namespace Mlt {
-class Properties;
 }
 
 class KeyframeImport : public QDialog
