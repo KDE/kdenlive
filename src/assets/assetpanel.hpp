@@ -22,8 +22,8 @@
 #ifndef ASSETPANEL_H
 #define ASSETPANEL_H
 
-#include <QScrollArea>
 #include <QVBoxLayout>
+#include <QWidget>
 #include <memory>
 
 #include "definitions.h"

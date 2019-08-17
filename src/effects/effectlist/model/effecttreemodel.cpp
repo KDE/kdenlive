@@ -26,7 +26,6 @@
 #include <KLocalizedString>
 #include <QDomDocument>
 #include <QFile>
-#include <QVector>
 #include <array>
 #include <vector>
 

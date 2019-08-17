@@ -29,7 +29,7 @@
 
 #include <KMessageWidget>
 #include <QPushButton>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)

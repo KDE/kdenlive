@@ -26,10 +26,10 @@
 #include "core.h"
 
 #include <QPushButton>
-#include <QHBoxLayout>
 #include <QClipboard>
 #include <QLabel>
 #include <QApplication>
+#include <QVBoxLayout>
 
 ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)

@@ -28,9 +28,8 @@
 
 #include <KLocalizedString>
 #include <QProcess>
-#include <QScopedPointer>
 #include <QStandardPaths>
-#include <QtConcurrent>
+#include <QCollator>
 
 PreviewManager::PreviewManager(TimelineController *controller, Mlt::Tractor *tractor)
     : QObject()

@@ -32,7 +32,6 @@
 #include <klocalizedstring.h>
 
 #include <QColor>
-#include <QDir>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>

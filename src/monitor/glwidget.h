@@ -19,9 +19,7 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QApplication>
 #include <QFont>
-#include <QFontMetrics>
 #include <QMutex>
 #include <QOffscreenSurface>
 #include <QOpenGLContext>

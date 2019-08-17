@@ -30,10 +30,9 @@
 #include "lib/audio/audioStreamInfo.h"
 #include "macros.hpp"
 #include "utils/thumbnailcache.hpp"
-#include <QDir>
-#include <QFile>
 #include <QScopedPointer>
 #include <QTemporaryFile>
+#include <QProcess>
 #include <memory>
 #include <mlt++/MltProducer.h>
 

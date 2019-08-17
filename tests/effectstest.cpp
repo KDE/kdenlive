@@ -2,8 +2,6 @@
 #include "doc/docundostack.hpp"
 #include "test_utils.hpp"
 
-#include <QColor>
-#include <QDebug>
 #include <QString>
 #include <cmath>
 #include <iostream>

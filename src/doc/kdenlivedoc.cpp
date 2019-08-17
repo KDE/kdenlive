@@ -56,7 +56,6 @@
 #include <QDomImplementation>
 #include <QFile>
 #include <QFileDialog>
-#include <QTimer>
 #include <QUndoGroup>
 #include <QUndoStack>
 

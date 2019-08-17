@@ -28,16 +28,13 @@
 
 // Qt includes.
 
-#include <QEvent>
 #include <QMouseEvent>
 #include <QPaintEvent>
 #include <QPainter>
 #include <QPen>
-#include <QPixmap>
 #include <QPoint>
 #include <QRect>
 
-#include <QSpinBox>
 
 #define bounds(x, a, b) (x < a ? a : (x > b ? b : x))
 #define MOUSE_AWAY_THRES 15

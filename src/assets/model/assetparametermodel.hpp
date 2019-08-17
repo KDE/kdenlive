@@ -27,7 +27,6 @@
 #include <QAbstractListModel>
 #include <QDomElement>
 #include <QJsonDocument>
-#include <QUndoCommand>
 #include <unordered_map>
 
 #include <memory>

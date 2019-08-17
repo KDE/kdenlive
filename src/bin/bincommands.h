@@ -20,7 +20,6 @@
 #ifndef BINCOMMANDS_H
 #define BINCOMMANDS_H
 
-#include <QDomElement>
 #include <QMap>
 #include <QUndoCommand>
 

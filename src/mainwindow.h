@@ -34,7 +34,6 @@
 #include <KColorSchemeManager>
 #include <KSelectAction>
 #include <KXmlGuiWindow>
-#include <QTabWidget>
 #include <kautosavefile.h>
 #include <utility>
 

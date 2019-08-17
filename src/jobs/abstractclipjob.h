@@ -22,7 +22,6 @@
 #define ABSTRACTCLIPJOB
 
 #include <QObject>
-#include <QProcess>
 
 #include "definitions.h"
 #include "undohelper.hpp"

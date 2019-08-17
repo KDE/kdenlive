@@ -25,7 +25,6 @@
 
 #include <QDebug>
 #include <QFont>
-#include <QIcon>
 #include <QPainter>
 
 AssetIconProvider::AssetIconProvider(bool effect)

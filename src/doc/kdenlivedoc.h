@@ -28,7 +28,6 @@
 #include <QDir>
 #include <QList>
 #include <QMap>
-#include <QTimer>
 #include <memory>
 #include <qdom.h>
 

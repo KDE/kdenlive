@@ -18,7 +18,7 @@
 
 class QDockWidget;
 class AbstractMonitor;
-
+class QSignalMapper;
 /**
   \brief Manages communication between Scopes and Renderer
 

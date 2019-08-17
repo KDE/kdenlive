@@ -20,7 +20,6 @@
 
 #include "abstractparamwidget.hpp"
 #include "timecode.h"
-#include <QString>
 #include <QWidget>
 
 class QSlider;

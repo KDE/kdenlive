@@ -27,6 +27,8 @@
 #include "rotoscoping/bpoint.h"
 #include "rotoscoping/rotohelper.hpp"
 
+#include <QSize>
+#include <QLineF>
 #include <QDebug>
 #include <QJsonDocument>
 #include <mlt++/Mlt.h>

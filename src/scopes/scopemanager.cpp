@@ -24,6 +24,7 @@
 
 #include "klocalizedstring.h"
 #include <QDockWidget>
+#include <QSignalMapper>
 
 //#define DEBUG_SM
 #ifdef DEBUG_SM

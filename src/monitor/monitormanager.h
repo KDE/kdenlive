@@ -24,6 +24,7 @@
 
 #include "timecode.h"
 #include <QDir>
+#include <QMutex>
 
 class KdenliveDoc;
 class KDualAction;

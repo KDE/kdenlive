@@ -23,10 +23,8 @@
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "xml/xml.hpp"
-#include <QDir>
 #include <QFile>
 #include <QStandardPaths>
-#include <QTextStream>
 
 #include "profiles/profilemodel.hpp"
 #include <mlt++/Mlt.h>

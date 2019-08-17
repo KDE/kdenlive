@@ -36,9 +36,7 @@
 #include <QLabel>
 #include <QMenu>
 #include <QMimeData>
-#include <QPainter>
 #include <QProgressBar>
-#include <QPropertyAnimation>
 #include <QSpinBox>
 #include <QStandardPaths>
 #include <QVBoxLayout>

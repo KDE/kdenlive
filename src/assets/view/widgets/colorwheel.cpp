@@ -21,7 +21,6 @@
 #include "colorwheel.h"
 #include <qmath.h>
 #include <utility>
-#include <QDebug>
 
 NegQColor NegQColor::fromHsvF(qreal h, qreal s, qreal l, qreal a)
 {

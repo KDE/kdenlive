@@ -21,7 +21,6 @@
 
 #include "devices.hpp"
 
-#include <QDebug>
 #include <QStorageInfo>
 #include <solid/block.h>
 #include <solid/device.h>

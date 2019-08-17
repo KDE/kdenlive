@@ -89,7 +89,6 @@
 #include <KShortcutsDialog>
 #include <KStandardAction>
 #include <KToolBar>
-#include <KUrlRequesterDialog>
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 #include <kns3/downloaddialog.h>
@@ -103,7 +102,6 @@
 #include <QMenuBar>
 #include <QStatusBar>
 #include <QStyleFactory>
-#include <QTemporaryFile>
 #include <QUndoGroup>
 
 #include <KConfigGroup>

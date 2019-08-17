@@ -23,7 +23,6 @@
 #include <QObject>
 #include <QStringList>
 
-#include <KUrl>
 
 #include "interfaces.h"
 

@@ -21,7 +21,6 @@
 
 #include "filewatcher.hpp"
 
-#include <QDebug>
 #include <QFileInfo>
 
 FileWatcher::FileWatcher(QObject *parent)

@@ -1,7 +1,5 @@
 #include "catch.hpp"
 
-#include <QColor>
-#include <QDebug>
 #include <QString>
 #include <cmath>
 #include <iostream>

@@ -36,9 +36,7 @@
 #include <KSelectAction>
 #include <QApplication>
 #include <QClipboard>
-#include <QJsonArray>
 #include <QJsonDocument>
-#include <QJsonObject>
 #include <QMenu>
 #include <QPointer>
 #include <QToolButton>

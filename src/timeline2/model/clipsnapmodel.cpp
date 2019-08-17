@@ -21,7 +21,6 @@
 
 #include "bin/model/markerlistmodel.hpp"
 #include "clipsnapmodel.hpp"
-#include <QDebug>
 #include <climits>
 #include <cstdlib>
 #include <memory>

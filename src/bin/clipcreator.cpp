@@ -36,7 +36,6 @@
 #include <QDomDocument>
 #include <QMimeDatabase>
 #include <QProgressDialog>
-#include <QWindow>
 #include <utility>
 
 namespace {

@@ -22,7 +22,6 @@
 #include "bpoint.h"
 
 #include <QList>
-#include <QObject>
 #include <QString>
 
 class CubicBezierSpline

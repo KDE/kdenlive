@@ -20,7 +20,6 @@
 
 #include "mltpreview.h"
 
-#include <QFile>
 #include <QImage>
 #include <QVarLengthArray>
 

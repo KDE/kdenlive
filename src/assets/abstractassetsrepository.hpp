@@ -23,7 +23,6 @@
 #define ASSETSREPOSITORY_H
 
 #include "definitions.h"
-#include <QObject>
 #include <QSet>
 #include <memory>
 #include <mlt++/Mlt.h>

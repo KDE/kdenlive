@@ -27,9 +27,7 @@
 #include "scopes/sharedframe.h"
 #include "timecodedisplay.h"
 
-#include <QDomElement>
 #include <QElapsedTimer>
-#include <QMutex>
 #include <QToolBar>
 
 #include <memory>

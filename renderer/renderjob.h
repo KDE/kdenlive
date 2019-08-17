@@ -24,8 +24,8 @@
 #include <QObject>
 #include <QProcess>
 #include <QTime>
+#include <QFile>
 // Testing
-#include <QTemporaryFile>
 #include <QTextStream>
 
 class RenderJob : public QObject

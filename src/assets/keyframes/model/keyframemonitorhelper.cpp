@@ -23,7 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "assets/model/assetparametermodel.hpp"
 #include "monitor/monitor.h"
 
-#include <QSize>
 #include <utility>
 KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<AssetParameterModel> model, const QPersistentModelIndex &index, QObject *parent)
     : QObject(parent)

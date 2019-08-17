@@ -28,7 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDateTime>
 #include <QDir>
 #include <QMutex>
-#include <QObject>
 #include <QString>
 #include <memory>
 #include <mlt++/Mlt.h>

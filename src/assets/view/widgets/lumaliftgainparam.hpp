@@ -21,9 +21,9 @@
 #define LUMALIFTGAINPARAMWIDGET_H
 
 #include "abstractparamwidget.hpp"
-#include <QDomNodeList>
 #include <QLocale>
 #include <QWidget>
+#include <QDomElement>
 
 class ColorWheel;
 

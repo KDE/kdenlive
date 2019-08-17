@@ -39,6 +39,7 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTransition.h>
+#include <QApplication>
 
 static QStringList m_errorMessage;
 

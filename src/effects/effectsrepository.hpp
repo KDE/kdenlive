@@ -24,8 +24,6 @@
 
 #include "assets/abstractassetsrepository.hpp"
 #include "definitions.h"
-#include <QObject>
-#include <QSet>
 #include <memory>
 #include <mutex>
 #include <unordered_map>

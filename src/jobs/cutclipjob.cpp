@@ -34,7 +34,6 @@
 
 #include <klocalizedstring.h>
 #include <KIO/RenameDialog>
-#include <KUrlRequester>
 #include <KLineEdit>
 
 #include "kdenlive_debug.h"

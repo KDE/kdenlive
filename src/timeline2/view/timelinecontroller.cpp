@@ -49,12 +49,9 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "transitions/transitionsrepository.hpp"
 
-#include <KActionCollection>
 #include <KColorScheme>
-#include <KMessageBox>
 #include <QApplication>
 #include <QClipboard>
-#include <QInputDialog>
 #include <QQuickItem>
 #include <memory>
 #include <unistd.h>

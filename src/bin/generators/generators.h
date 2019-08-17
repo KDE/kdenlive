@@ -23,7 +23,6 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/assetparameterview.hpp"
 #include <QDialog>
-#include <QDomElement>
 #include <QMenu>
 #include <QPair>
 #include <QPixmap>

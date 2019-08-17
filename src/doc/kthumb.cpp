@@ -27,8 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <mlt++/Mlt.h>
 
 #include <QImage>
-#include <QPainter>
-
+#include <QPixmap>
 // static
 QPixmap KThumb::getImage(const QUrl &url, int width, int height)
 {

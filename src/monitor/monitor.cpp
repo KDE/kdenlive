@@ -43,7 +43,6 @@
 #include "klocalizedstring.h"
 #include <KDualAction>
 #include <KFileWidget>
-#include <KMessageBox>
 #include <KMessageWidget>
 #include <KRecentDirs>
 #include <KSelectAction>
@@ -53,7 +52,6 @@
 #include "kdenlive_debug.h"
 #include <QDesktopWidget>
 #include <QDrag>
-#include <QFileDialog>
 #include <QMenu>
 #include <QMimeData>
 #include <QMouseEvent>

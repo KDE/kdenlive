@@ -23,7 +23,6 @@
 #define GEOMEDITWIDGET_H
 
 #include "timecode.h"
-#include <QString>
 #include <QWidget>
 
 #include "abstractparamwidget.hpp"

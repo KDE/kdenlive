@@ -24,7 +24,6 @@
 
 #include "assets/assetlist/model/assetfilter.hpp"
 #include "effects/effectsrepository.hpp"
-#include <QSortFilterProxyModel>
 #include <memory>
 
 /* @brief This class is used as a proxy model to filter the effect tree based on given criterion (name, type).

@@ -25,7 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "bin/projectitemmodel.h"
 #include <QPainter>
 #include <QPainterPath>
-#include <QPalette>
 #include <QQuickPaintedItem>
 #include <cmath>
 

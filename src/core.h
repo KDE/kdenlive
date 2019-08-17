@@ -16,10 +16,9 @@ the Free Software Foundation, either version 3 of the License, or
 #include "undohelper.hpp"
 #include <QMutex>
 #include <QObject>
-#include <QTabWidget>
 #include <QUrl>
 #include <memory>
-
+#include <QPoint>
 class Bin;
 class DocUndoStack;
 class EffectStackModel;

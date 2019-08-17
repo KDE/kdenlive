@@ -36,7 +36,6 @@
 #include <KColorScheme>
 #include <KIO/DesktopExecParser>
 #include <KMessageBox>
-#include <KMimeTypeTrader>
 #include <KNotification>
 #include <KRun>
 #include <kio_version.h>
@@ -58,7 +57,6 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QThread>
-#include <QTimer>
 #include <QTreeWidgetItem>
 #include <qglobal.h>
 #include <qstring.h>

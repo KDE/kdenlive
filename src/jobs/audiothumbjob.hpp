@@ -32,7 +32,7 @@ class ProjectClip;
 namespace Mlt {
 class Producer;
 }
-
+class QProcess;
 class AudioThumbJob : public AbstractClipJob
 {
     Q_OBJECT

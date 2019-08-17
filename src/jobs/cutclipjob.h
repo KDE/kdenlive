@@ -22,7 +22,7 @@
 #define CUTCLIPJOB
 
 #include "abstractclipjob.h"
-
+#include <QProcess>
 
 /**
  * @class CutClipJob

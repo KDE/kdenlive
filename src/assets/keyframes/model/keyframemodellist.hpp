@@ -27,7 +27,6 @@
 #include "keyframemodel.hpp"
 #include "undohelper.hpp"
 
-#include <QAbstractListModel>
 #include <QReadWriteLock>
 
 #include <QObject>

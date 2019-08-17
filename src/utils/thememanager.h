@@ -25,7 +25,6 @@
 // Qt includes
 
 #include <QAction>
-#include <QApplication>
 #include <QObject>
 #include <QString>
 

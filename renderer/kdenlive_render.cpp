@@ -21,13 +21,10 @@
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
 #include <QApplication>
-#include <QDebug>
 #include <QDir>
 #include <QDomDocument>
-#include <QFileInfo>
 #include <QString>
 #include <QStringList>
-#include <QUrl>
 #include <QObject>
 #include <cstdio>
 

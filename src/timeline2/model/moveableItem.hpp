@@ -24,7 +24,6 @@
 
 #include "timelinemodel.hpp"
 #include "undohelper.hpp"
-#include <QObject>
 #include <QReadWriteLock>
 #include <memory>
 

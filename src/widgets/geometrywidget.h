@@ -19,9 +19,6 @@
 #ifndef GEOMETRYWIDGET2_H
 #define GEOMETRYWIDGET2_H
 
-#include <QDoubleSpinBox>
-#include <QLayout>
-#include <QSpinBox>
 #include <QWidget>
 #include <kselectaction.h>
 

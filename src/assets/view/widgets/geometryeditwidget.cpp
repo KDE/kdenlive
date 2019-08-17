@@ -28,10 +28,7 @@
 #include "timecodedisplay.h"
 #include "widgets/geometrywidget.h"
 #include <mlt++/MltGeometry.h>
-
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QSlider>
+#include <QVBoxLayout>
 
 GeometryEditWidget::GeometryEditWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QSize frameSize, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)

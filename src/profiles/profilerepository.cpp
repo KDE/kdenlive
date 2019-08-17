@@ -25,7 +25,6 @@
 #include "profilemodel.hpp"
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMessageWidget>
 #include <QDir>
 #include <QStandardPaths>
 #include <algorithm>

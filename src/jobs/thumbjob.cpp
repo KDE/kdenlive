@@ -28,7 +28,6 @@
 #include "klocalizedstring.h"
 #include "macros.hpp"
 #include "utils/thumbnailcache.hpp"
-#include <QDir>
 #include <QPainter>
 #include <QScopedPointer>
 #include <mlt++/MltProducer.h>

@@ -59,7 +59,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMenu>
 #include <QMimeData>
 #include <QMimeDatabase>
-#include <QPixmap>
 #include <QProcess>
 #include <QScrollArea>
 #include <QTextEdit>

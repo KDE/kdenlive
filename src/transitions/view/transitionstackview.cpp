@@ -30,7 +30,6 @@
 #include <QDebug>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <klocalizedstring.h>
 
 TransitionStackView::TransitionStackView(QWidget *parent)

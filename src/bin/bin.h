@@ -28,16 +28,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <KMessageWidget>
 
-#include <QApplication>
 #include <QDir>
 #include <QDomElement>
 #include <QFuture>
 #include <QLineEdit>
 #include <QListView>
 #include <QMutex>
-#include <QPainter>
 #include <QPushButton>
-#include <QStyledItemDelegate>
 #include <QTreeView>
 #include <QUrl>
 #include <QWidget>

@@ -23,14 +23,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MEDIACAPTURE_H
 
 #include <QAudioBuffer>
-#include <QAudioEncoderSettings>
 #include <QAudioRecorder>
 #include <QCamera>
-#include <QCameraInfo>
 #include <QMediaRecorder>
 #include <QStringList>
 #include <QUrl>
-#include <QVideoEncoderSettings>
 #include <QTimer>
 #include <QMutex>
 #include <memory>

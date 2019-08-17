@@ -26,8 +26,6 @@
 #include "kdenlivesettings.h"
 #include "macros.hpp"
 
-#include <QProcess>
-#include <QTemporaryFile>
 #include <QThread>
 
 #include <klocalizedstring.h>

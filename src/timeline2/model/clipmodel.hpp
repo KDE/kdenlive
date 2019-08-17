@@ -24,7 +24,6 @@
 
 #include "moveableItem.hpp"
 #include "undohelper.hpp"
-#include <QObject>
 #include <memory>
 
 namespace Mlt {

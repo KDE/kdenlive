@@ -13,7 +13,6 @@
 
 #include <QString>
 #include <QWidget>
-#include <QtCore>
 
 #include "../abstractscopewidget.h"
 

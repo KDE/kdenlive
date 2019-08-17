@@ -32,7 +32,6 @@
 #include <QDir>
 #include <QFontDatabase>
 #include <QInputDialog>
-#include <QLabel>
 #include <QMenu>
 #include <QStandardPaths>
 #include <QVBoxLayout>

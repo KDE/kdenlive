@@ -29,7 +29,6 @@
 #include <QDialog>
 #include <QDomDocument>
 #include <QFuture>
-#include <QList>
 #include <memory>
 
 class KJob;

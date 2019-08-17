@@ -37,7 +37,6 @@
 #include <QLabel>
 #include <QDialog>
 #include <QDoubleSpinBox>
-#include <QScopedPointer>
 
 #include <KIO/RenameDialog>
 #include <KUrlRequester>

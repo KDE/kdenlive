@@ -65,7 +65,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlive_debug.h"
 #include <QCryptographicHash>
 #include <QDesktopServices>
-#include <QDialogButtonBox>
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
@@ -74,7 +73,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
-#include <QtConcurrent>
 #include <utility>
 /**
  * @class BinItemDelegate

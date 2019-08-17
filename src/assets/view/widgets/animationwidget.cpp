@@ -31,7 +31,6 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QDir>
-#include <QDomElement>
 #include <QLineEdit>
 #include <QMenu>
 #include <QStandardPaths>

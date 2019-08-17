@@ -45,6 +45,7 @@
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QTemporaryFile>
+#include <QStyledItemDelegate>
 
 class NoEditDelegate : public QStyledItemDelegate
 {

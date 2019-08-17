@@ -37,12 +37,10 @@
 #include <KDualAction>
 #include <KSqueezedTextLabel>
 #include <QApplication>
-#include <QDebug>
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QToolBar>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QScrollArea>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
