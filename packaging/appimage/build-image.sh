@@ -60,7 +60,10 @@ if [ -d $DEPS_INSTALL_PREFIX/share/icons/breeze ] ; then
 fi
 
 cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
-#cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
+
+# TO remove once we switch to the newer Qt5.12 Appimage dependency
+cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
+
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
@@ -162,7 +165,7 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
 #  -appimage \
 
 rm $APPDIR/usr/lib/libGL.so.1 || true
-# rm $APPDIR/usr/lib/libasound.so.2 || true
+rm $APPDIR/usr/lib/libasound.so.2 || true
 
 
 # libxcb should be removed
