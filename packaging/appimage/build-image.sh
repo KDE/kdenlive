@@ -60,7 +60,7 @@ if [ -d $DEPS_INSTALL_PREFIX/share/icons/breeze ] ; then
 fi
 
 cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
-cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
+#cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
 cp -r $DEPS_INSTALL_PREFIX/lib/libmlt*  $APPDIR/usr/lib
@@ -116,20 +116,20 @@ done
 
 ### GSTREAMER
 # Requires gstreamer1.0-plugins-good
-#GST_PLUGIN_SRC_DIR=/usr/lib/x86_64-linux-gnu/
-#mkdir -p $APPDIR/usr/lib/x86_64-linux-gnu
-#GST_LIB_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0
-#mkdir -p $GST_LIB_DEST_DIR
-#GST_PLUGIN_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0
-#mkdir -p $GST_PLUGIN_DEST_DIR
-#cp $GST_PLUGIN_SRC_DIR/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner $GST_PLUGIN_DEST_DIR
-#cp $GST_PLUGIN_SRC_DIR/gstreamer-1.0/* $GST_LIB_DEST_DIR
+GST_PLUGIN_SRC_DIR=/usr/lib/x86_64-linux-gnu/
+mkdir -p $APPDIR/usr/lib/x86_64-linux-gnu
+GST_LIB_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0
+mkdir -p $GST_LIB_DEST_DIR
+GST_PLUGIN_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0
+mkdir -p $GST_PLUGIN_DEST_DIR
+cp $GST_PLUGIN_SRC_DIR/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner $GST_PLUGIN_DEST_DIR
+cp $GST_PLUGIN_SRC_DIR/gstreamer-1.0/* $GST_LIB_DEST_DIR
 
-#rm $GST_LIB_DEST_DIR/libgstegl* || true
+rm $GST_LIB_DEST_DIR/libgstegl* || true
 
-#for p in $GST_LIB_DEST_DIR/libgst*.so*; do
-#  patchelf --set-rpath '$ORIGIN/../..' $p;
-#done
+for p in $GST_LIB_DEST_DIR/libgst*.so*; do
+  patchelf --set-rpath '$ORIGIN/../..' $p;
+done
 
 ### end of GSTREAMER STUFF
 
@@ -162,7 +162,7 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
 #  -appimage \
 
 rm $APPDIR/usr/lib/libGL.so.1 || true
-rm $APPDIR/usr/lib/libasound.so.2 || true
+# rm $APPDIR/usr/lib/libasound.so.2 || true
 
 
 # libxcb should be removed

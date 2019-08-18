@@ -8,5 +8,5 @@ ExternalProject_Add(
   BUILD_COMMAND $(MAKE)
   INSTALL_COMMAND $(MAKE) install
 
-  DEPENDS ext_iconv ext_xml ext_ncurses
+  DEPENDS ext_xml ext_ncurses
 )

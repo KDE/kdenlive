@@ -67,7 +67,6 @@ cmake $KDENLIVE_SOURCES/packaging/appimage/3rdparty -DCMAKE_INSTALL_PREFIX=$DEPS
 
 # Now start building everything we need, in the appropriate order
 
-cmake --build . --target ext_iconv
 cmake --build . --target ext_lzma
 cmake --build . --target ext_xml
 cmake --build . --target ext_gettext
@@ -75,6 +74,9 @@ cmake --build . --target ext_xslt
 cmake --build . --target ext_png
 
   # cmake --build . --target ext_jpeg #this causes build failures in Qt 5.10
+
+export CC=/usr/bin/gcc-6
+export CXX=/usr/bin/g++-6
 
 cmake --build . --target ext_qt
 cmake --build . --target ext_boost
@@ -134,4 +136,3 @@ cmake --build . --target ext_breezeicons
 cmake --build . --target ext_kcrash
 cmake --build . --target ext_breeze
 cmake --build . --target ext_ruby
-#cmake --build . --target ext_mlt
