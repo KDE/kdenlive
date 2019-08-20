@@ -262,7 +262,7 @@
     </ul>
   </description>
   <releases>
-    <release date="2019-03-26" version="19.07.70"/>
+    <release date="2019-08-15" version="19.11.0"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
@@ -287,6 +287,7 @@
       <caption xml:lang="sv">Kdenlive 19.08</caption>
       <caption xml:lang="uk">Kdenlive 19.08</caption>
       <caption xml:lang="x-test">xxKdenlive 19.08xx</caption>
+      <caption xml:lang="zh-TW">Kdenlive 19.08</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/19-08.png</image>
     </screenshot>
     <screenshot type="source">
