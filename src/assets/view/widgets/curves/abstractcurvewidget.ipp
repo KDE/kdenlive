@@ -54,7 +54,7 @@ template <typename Curve_t> void AbstractCurveWidget<Curve_t>::paintBackground(Q
     /*
      * Background
      */
-    p->fillRect(rect().translated(-offsetX, -offsetY), palette().background());
+    p->fillRect(rect().translated(-offsetX, -offsetY), palette().window());
     if (!m_pixmap.isNull()) {
         if (m_pixmapIsDirty || !m_pixmapCache) {
             m_pixmapCache = std::make_shared<QPixmap>(m_wWidth + 1, m_wHeight + 1);

@@ -301,7 +301,7 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotShow
             m_edit->setPixmap(QPixmap());
         } else {
             auto color = modeToColorsRGB(m_mode);
-            m_edit->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit->size(), color, 1, palette().background().color().rgb())));
+            m_edit->setPixmap(QPixmap::fromImage(ColorTools::rgbCurvePlane(m_edit->size(), color, 1, palette().window().color().rgb())));
         }
     } else {
         m_edit->setPixmap(QPixmap());
