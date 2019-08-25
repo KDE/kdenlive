@@ -100,7 +100,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             targetCategory = audioCategory;
         }
 
-        if (type == EffectType::Custom) {
+        if (type == EffectType::Custom || type == EffectType::CustomAudio) {
             targetCategory = self->m_customCategory;
         }
 
