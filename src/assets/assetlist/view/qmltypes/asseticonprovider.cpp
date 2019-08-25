@@ -77,8 +77,9 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     bool isAudio = false;
     bool isCustom = false;
     if (m_effect) {
-        isAudio = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
-        isCustom = EffectsRepository::get()->getType(effectId) == EffectType::Custom;
+        EffectType type = EffectsRepository::get()->getType(effectId);
+        isAudio = type == EffectType::Audio || type == EffectType::CustomAudio;
+        isCustom = type == EffectType::CustomAudio || type == EffectType::Custom;
     } else {
         auto type = TransitionsRepository::get()->getType(effectId);
         isAudio = (type == TransitionType::AudioComposition) || (type == TransitionType::AudioTransition);

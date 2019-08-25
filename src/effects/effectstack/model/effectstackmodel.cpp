@@ -284,7 +284,8 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
         const QString effectId = node.attribute(QStringLiteral("id"));
-        bool isAudioEffect = EffectsRepository::get()->getType(effectId) == EffectType::Audio;
+        EffectType type = EffectsRepository::get()->getType(effectId);
+        bool isAudioEffect = type == EffectType::Audio || type == EffectType::CustomAudio;
         if (isAudioEffect) {
             if (state != PlaylistState::AudioOnly) {
                 continue;

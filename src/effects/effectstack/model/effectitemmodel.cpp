@@ -216,5 +216,6 @@ bool EffectItemModel::isCollapsed()
 
 bool EffectItemModel::isAudio() const
 {
-    return EffectsRepository::get()->getType(getAssetId()) == EffectType::Audio;
+    EffectType type = EffectsRepository::get()->getType(getAssetId());
+    return  type == EffectType::Audio || type == EffectType::CustomAudio;
 }
