@@ -111,14 +111,19 @@ QImage RGBParade::renderHUD(uint)
         // Make the value stick to the line unless it is at the top/bottom of the scope
         const int top = 30;
         const int bottom = 20 + RGBParadeGenerator::distBottom;
+
         int valY = y + 5;
         if (valY < top) {
             valY = top;
         } else if (valY > scopeRect().height() - bottom) {
             valY = scopeRect().height() - bottom;
         }
-        int val = 255 * (int)(1. - ((float)y / (float)(scopeRect().height() - RGBParadeGenerator::distBottom)));
-        davinci.drawText(x, valY, QVariant(val).toString());
+
+	int val = 255 + int(255. * (1. - (float)y) / ((float)scopeRect().height() - RGBParadeGenerator::distBottom));
+	if((val >= 0) && (val <= 255)) {
+        	davinci.drawText(x, valY, QVariant(val).toString());
+	}
+
     }
 
     emit signalHUDRenderingFinished(1, 1);
