@@ -233,6 +233,7 @@ Item {
             MouseArea {
               property int oldMouseX
               property int oldMouseY
+              property double handleRatio: 1
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -252,15 +253,16 @@ Item {
                   oldMouseY = mouseY
                   effectsize.visible = true
                   tlhandle.color = '#ffff00'
+                  handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
                 if (pressed) {
-                  if (root.lockratio > 0) {
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(mouseX - oldMouseX, mouseY - oldMouseY)
                       var newwidth = framerect.width - delta
                       adjustedFrame = framesize
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / root.lockratio)
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                       adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
                       adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width;
                       framesize = adjustedFrame
@@ -276,6 +278,7 @@ Item {
               onReleased: {
                   effectsize.visible = false
                   tlhandle.color = '#ff0000'
+                  handleRatio = 1
               }
             }
             Text {
@@ -303,6 +306,7 @@ Item {
             MouseArea {
               property int oldMouseX
               property int oldMouseY
+              property double handleRatio: 1
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -322,15 +326,16 @@ Item {
                   oldMouseY = mouseY
                   effectsize.visible = true
                   trhandle.color = '#ffff00'
+                  handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
                 if (pressed) {
-                  if (root.lockratio > 0) {
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(oldMouseX - mouseX, mouseY - oldMouseY)
                       var newwidth = framerect.width - delta
                       adjustedFrame = framesize
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
-                      adjustedFrame.height = Math.round(adjustedFrame.width / root.lockratio)
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                       adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
                       framesize = adjustedFrame
                   } else {
@@ -344,6 +349,7 @@ Item {
               onReleased: {
                   effectsize.visible = false
                   trhandle.color = '#ff0000'
+                  handleRatio = 1
               }
             }
         }
@@ -360,6 +366,7 @@ Item {
             MouseArea {
               property int oldMouseX
               property int oldMouseY
+              property double handleRatio: 1
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -379,15 +386,16 @@ Item {
                   oldMouseY = mouseY
                   effectsize.visible = true
                   blhandle.color = '#ffff00'
+                  handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
                 if (pressed) {
-                  if (root.lockratio > 0) {
+                  if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(mouseX - oldMouseX, oldMouseY - mouseY)
                       var newwidth = framerect.width - delta
                       framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
                       framesize.width = Math.round(newwidth / root.scalex);
-                      framesize.height = Math.round(framesize.width / root.lockratio)
+                      framesize.height = Math.round(framesize.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                   } else {
                     framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
                     framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
@@ -399,6 +407,7 @@ Item {
               onReleased: {
                   effectsize.visible = false
                   blhandle.color = '#ff0000'
+                  handleRatio = 1
               }
             }
         }
@@ -415,6 +424,7 @@ Item {
             MouseArea {
               property int oldMouseX
               property int oldMouseY
+              property double handleRatio: 1
               width: parent.width; height: parent.height
               anchors.centerIn: parent
               hoverEnabled: true
@@ -434,14 +444,15 @@ Item {
                   oldMouseY = mouseY
                   effectsize.visible = true
                   brhandle.color = '#ffff00'
+                  handleRatio = framesize.width / framesize.height
               }
               onPositionChanged: {
                 if (pressed) {
-                   if (root.lockratio > 0) {
+                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(oldMouseX - mouseX, oldMouseY - mouseY)
                       var newwidth = framerect.width - delta
                       framesize.width = Math.round(newwidth / root.scalex);
-                      framesize.height = Math.round(framesize.width / root.lockratio)
+                      framesize.height = Math.round(framesize.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                   } else {
                     framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
                     framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
@@ -452,6 +463,7 @@ Item {
               onReleased: {
                   effectsize.visible = false
                   brhandle.color = '#ff0000'
+                  handleRatio = 1
               }
             }
             Text {
