@@ -257,21 +257,25 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
+                  adjustedFrame = framesize
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(mouseX - oldMouseX, mouseY - oldMouseY)
                       var newwidth = framerect.width - delta
-                      adjustedFrame = framesize
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
                       adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                       adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
                       adjustedFrame.x = (framerect.x - frame.x) / root.scalex + framesize.width - adjustedFrame.width;
-                      framesize = adjustedFrame
                   } else {
-                    framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                    framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
-                    framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
-                    framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                    adjustedFrame.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                    adjustedFrame.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                    adjustedFrame.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
+                    adjustedFrame.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
                   }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
+                      adjustedFrame.height -= (framesize.height - adjustedFrame.height)
+                  }
+                  framesize = adjustedFrame
                   root.effectChanged()
                 }
               }
@@ -330,19 +334,25 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
+                  adjustedFrame = framesize
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(oldMouseX - mouseX, mouseY - oldMouseY)
                       var newwidth = framerect.width - delta
-                      adjustedFrame = framesize
                       adjustedFrame.width = Math.round(newwidth / root.scalex);
                       adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                       adjustedFrame.y = (framerect.y - frame.y) / root.scaley + framesize.height - adjustedFrame.height;
-                      framesize = adjustedFrame
                   } else {
-                      framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
-                      framesize.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
-                      framesize.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
+                      adjustedFrame.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
+                      adjustedFrame.y = (framerect.y + (mouseY - oldMouseY) - frame.y) / root.scaley;
+                      adjustedFrame.height = (framerect.height - (mouseY - oldMouseY)) / root.scaley;
                   }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      var xOffset = framesize.width - adjustedFrame.width
+                      adjustedFrame.x += xOffset
+                      adjustedFrame.width -= xOffset
+                      adjustedFrame.height -= (framesize.height - adjustedFrame.height)
+                  }
+                  framesize = adjustedFrame
                   root.effectChanged()
                 }
               }
@@ -390,17 +400,25 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
+                  adjustedFrame = framesize
                   if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(mouseX - oldMouseX, oldMouseY - mouseY)
                       var newwidth = framerect.width - delta
-                      framesize.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
-                      framesize.width = Math.round(newwidth / root.scalex);
-                      framesize.height = Math.round(framesize.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
+                      adjustedFrame.x = (framerect.x + (framerect.width - newwidth) - frame.x) / root.scalex;
+                      adjustedFrame.width = Math.round(newwidth / root.scalex);
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                   } else {
-                    framesize.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
-                    framesize.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
-                    framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                    adjustedFrame.x = (framerect.x + (mouseX - oldMouseX) - frame.x) / root.scalex;
+                    adjustedFrame.width = (framerect.width - (mouseX - oldMouseX)) / root.scalex;
+                    adjustedFrame.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
                   }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      adjustedFrame.width -= (framesize.width - adjustedFrame.width)
+                      var yOffset = framesize.height - adjustedFrame.height
+                      adjustedFrame.y += yOffset
+                      adjustedFrame.height -= yOffset
+                  }
+                  framesize = adjustedFrame
                   root.effectChanged()
                 }
               }
@@ -448,15 +466,25 @@ Item {
               }
               onPositionChanged: {
                 if (pressed) {
+                   adjustedFrame = framesize
                    if (root.lockratio > 0 || mouse.modifiers & Qt.ShiftModifier) {
                       var delta = Math.max(oldMouseX - mouseX, oldMouseY - mouseY)
                       var newwidth = framerect.width - delta
-                      framesize.width = Math.round(newwidth / root.scalex);
-                      framesize.height = Math.round(framesize.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
+                      adjustedFrame.width = Math.round(newwidth / root.scalex);
+                      adjustedFrame.height = Math.round(adjustedFrame.width / (root.lockratio > 0 ?root.lockratio : handleRatio))
                   } else {
-                    framesize.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
-                    framesize.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
+                    adjustedFrame.width = (framerect.width + (mouseX - oldMouseX)) / root.scalex;
+                    adjustedFrame.height = (framerect.height + (mouseY - oldMouseY)) / root.scaley;
                   }
+                  if (mouse.modifiers & Qt.ControlModifier) {
+                      var xOffset = framesize.width - adjustedFrame.width
+                      adjustedFrame.x += xOffset
+                      adjustedFrame.width -= xOffset
+                      var yOffset = framesize.height - adjustedFrame.height
+                      adjustedFrame.y += yOffset
+                      adjustedFrame.height -= yOffset
+                  }
+                  framesize = adjustedFrame
                   root.effectChanged()
                 }
               }
