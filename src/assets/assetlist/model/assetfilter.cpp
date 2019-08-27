@@ -62,7 +62,7 @@ bool AssetFilter::filterName(const std::shared_ptr<TreeItem> &item) const
     if (!m_name_enabled) {
         return true;
     }
-    QString itemText = item->dataColumn(AssetTreeModel::nameCol).toString();
+    QString itemText = i18n(item->dataColumn(AssetTreeModel::nameCol).toString().toUtf8().constData());
     itemText = itemText.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
     QString patt = m_name_value.normalized(QString::NormalizationForm_D).remove(QRegExp(QStringLiteral("[^a-zA-Z0-9\\s]")));
 
