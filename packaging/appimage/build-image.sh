@@ -62,7 +62,7 @@ fi
 cp -r $DEPS_INSTALL_PREFIX/translations $APPDIR/usr/
 
 # TO remove once we switch to the newer Qt5.12 Appimage dependency
-cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
+# cp -r $DEPS_INSTALL_PREFIX/openssl/lib/*  $APPDIR/usr/lib
 
 cp -r $DEPS_INSTALL_PREFIX/share/mlt  $APPDIR/usr/share
 cp -r $DEPS_INSTALL_PREFIX/lib/mlt  $APPDIR/usr/lib
