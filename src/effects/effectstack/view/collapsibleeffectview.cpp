@@ -433,7 +433,7 @@ void CollapsibleEffectView::slotSaveEffect()
     effect.removeAttribute(QStringLiteral("kdenlive_ix"));
     effect.setAttribute(QStringLiteral("id"), name);
     QString masterType = effect.attribute(QLatin1String("type"));
-    effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("custom"));
+    effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
     /*
     if (m_paramWidget) {
         int in = m_paramWidget->range().x();

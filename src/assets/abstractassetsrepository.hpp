@@ -84,7 +84,7 @@ protected:
     bool parseInfoFromMlt(const QString &assetId, Info &res);
 
     /* @brief Returns the metadata associated with the given asset*/
-    virtual Mlt::Properties *getMetadata(const QString &assetId) = 0;
+    virtual Mlt::Properties *getMetadata(const QString &assetId) const = 0;
 
     /* @brief Parse one asset from its XML content
        @param res data structure to fill
