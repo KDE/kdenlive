@@ -58,7 +58,7 @@ Mlt::Properties *TransitionsRepository::retrieveListFromMlt() const
     return pCore->getMltRepository()->transitions();
 }
 
-Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId)
+Mlt::Properties *TransitionsRepository::getMetadata(const QString &assetId) const
 {
     return pCore->getMltRepository()->metadata(transition_type, assetId.toLatin1().data());
 }

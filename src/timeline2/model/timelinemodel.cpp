@@ -769,7 +769,7 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             }
         }
 
-        int blank_length = getTrackById(trackId)->getBlankSizeNearClip(clipId, after);
+        int blank_length = getTrackById_const(trackId)->getBlankSizeNearClip(clipId, after);
         qDebug() << "Found blank" << blank_length;
         if (blank_length < INT_MAX) {
             if (after) {
@@ -783,6 +783,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         }
         possible = requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false);
         TRACE_RES(possible ? position : currentPos);
+        return possible ? position : currentPos;
+    }
+    if (trackId != sourceTrackId) {
+        // Try same track move
+        possible = requestClipMove(clipId, sourceTrackId, position, moveMirrorTracks, true, false, false);
         return possible ? position : currentPos;
     }
     // find best pos for groups
@@ -814,25 +819,33 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             trackPosition.insert(clipTrack, after ? in + getItemPlaytime(current_clipId) - 1 : in);
         }
     }
+
     // Now check space on each track
     QMapIterator<int, int> i(trackPosition);
-    int blank_length = -1;
+    int blank_length = 0;
     while (i.hasNext()) {
         i.next();
         int track_space;
         if (!after) {
             // Check space before the position
-            track_space = i.value() - getTrackById(i.key())->getBlankStart(i.value() - 1);
-            if (blank_length == -1 || blank_length > track_space) {
+            track_space = i.value() - getTrackById_const(i.key())->getBlankStart(i.value() - 1);
+            if (blank_length == 0 || blank_length > track_space) {
                 blank_length = track_space;
             }
         } else {
             // Check space after the position
             track_space = getTrackById(i.key())->getBlankEnd(i.value() + 1) - i.value() - 1;
-            if (blank_length == -1 || blank_length > track_space) {
+            if (blank_length == 0 || blank_length > track_space) {
                 blank_length = track_space;
             }
         }
+    }
+    if (snapDistance > 0) {
+        if (blank_length > 10 * snapDistance) {
+            blank_length = 0;
+        }
+    } else if (blank_length / m_profile->fps() > 5) {
+        blank_length = 0;
     }
     if (blank_length != 0) {
         int updatedPos = currentPos + (after ? blank_length : -blank_length);

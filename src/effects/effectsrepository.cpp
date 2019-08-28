@@ -61,7 +61,7 @@ Mlt::Properties *EffectsRepository::retrieveListFromMlt() const
     return pCore->getMltRepository()->filters();
 }
 
-Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId)
+Mlt::Properties *EffectsRepository::getMetadata(const QString &effectId) const
 {
     return pCore->getMltRepository()->metadata(filter_type, effectId.toLatin1().data());
 }
@@ -121,12 +121,31 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
             result.type = EffectType::Audio;
-        } else if (type == QLatin1String("custom")) {
+        } else if (type == QLatin1String("customVideo")) {
             result.type = EffectType::Custom;
         } else if (type == QLatin1String("customAudio")) {
             result.type = EffectType::CustomAudio;
         } else if (type == QLatin1String("hidden")) {
             result.type = EffectType::Hidden;
+        } else if (type == QLatin1String("custom")) {
+            // Old type effect, update to customVideo / customAudio
+            const QString effectTag = currentEffect.attribute(QStringLiteral("tag"));
+            QScopedPointer<Mlt::Properties> metadata(getMetadata(effectTag));
+            if (metadata && metadata->is_valid()) {
+                Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
+                if (QString(tags.get(0)) == QLatin1String("Audio")) {
+                    result.type = EffectType::CustomAudio;
+                    currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
+                } else {
+                    result.type = EffectType::Custom;
+                    currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customVideo"));
+                }
+                QFile effectFile(file_name);
+                if (effectFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                    effectFile.write(doc.toString().toUtf8());
+                }
+                file.close();
+            }
         } else {
             result.type = EffectType::Video;
         }

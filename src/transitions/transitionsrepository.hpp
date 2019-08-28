@@ -77,7 +77,7 @@ protected:
     void parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res) override;
 
     /* @brief Returns the metadata associated with the given asset*/
-    Mlt::Properties *getMetadata(const QString &assetId) override;
+    Mlt::Properties *getMetadata(const QString &assetId) const override;
 
     /* @brief Returns all transitions that can be represented as Single Track Transitions*/
     static QSet<QString> getSingleTrackTransitions();
