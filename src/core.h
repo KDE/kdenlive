@@ -237,6 +237,7 @@ signals:
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(int, int);
     void finalizeRecording(const QString &captureFile);
+    void autoScrollChanged();
 };
 
 #endif
