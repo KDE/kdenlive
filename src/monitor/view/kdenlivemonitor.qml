@@ -1,5 +1,4 @@
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
 import QtQuick 2.4
@@ -148,6 +147,21 @@ Item {
                 font: fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
+                text: controller.markerComment
+                width: textMetrics.width + 10
+                horizontalAlignment: TextInput.AlignHCenter
+                background: Rectangle {
+                        color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
+                }
+                color: "white"
+                leftPadding:0
+                rightPadding:0
+
+                TextMetrics {
+                    id: textMetrics
+                    font: marker.font
+                    text: controller.markerComment
+                }
                 onEditingFinished: {
                     root.markerText = marker.displayText
                     marker.focus = false
@@ -158,15 +172,7 @@ Item {
                     bottom: parent.bottom
                 }
                 visible: root.showMarkers && text != ""
-                text: controller.markerComment
-                maximumLength: 20
-                style: TextFieldStyle {
-                    textColor: "white"
-                    background: Rectangle {
-                        color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
-                        width: marker.width
-                    }
-                }
+                maximumLength: 25
             }
         }
     }

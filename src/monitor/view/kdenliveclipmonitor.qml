@@ -1,5 +1,4 @@
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
 import QtQuick 2.6
@@ -186,14 +185,21 @@ Item {
                 }
                 visible: root.showMarkers && text != ""
                 text: controller.markerComment
-                maximumLength: 20
-                style: TextFieldStyle {
-                    textColor: "white"
-                    background: Rectangle {
+                width: textMetrics.width + 10
+                horizontalAlignment: TextInput.AlignHCenter
+                background: Rectangle {
                         color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
-                        width: marker.width
-                    }
                 }
+                color: "white"
+                leftPadding:0
+                rightPadding:0
+
+                TextMetrics {
+                    id: textMetrics
+                    font: marker.font
+                    text: controller.markerComment
+                }
+                maximumLength: 20
             }
         }
         MouseArea {
@@ -227,14 +233,12 @@ Item {
             Row {
             ToolButton {
                 id: videoDragButton
-                iconName: "kdenlive-show-video"
-                tooltip: i18n("Video only drag")
+                icon.name: "kdenlive-show-video"
                 enabled: false
             }
             ToolButton {
                 id: audioDragButton
-                iconName: "audio-volume-medium"
-                tooltip: i18n("Audio only drag")
+                icon.name: "audio-volume-medium"
                 enabled: false
             }
             }
