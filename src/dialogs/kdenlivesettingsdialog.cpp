@@ -1025,6 +1025,11 @@ void KdenliveSettingsDialog::updateSettings()
         emit resetView();
     }
 
+    if (m_configTimeline.kcfg_autoscroll->isChecked() != KdenliveSettings::autoscroll()) {
+        KdenliveSettings::setAutoscroll(m_configTimeline.kcfg_autoscroll->isChecked());
+        pCore->autoScrollChanged();
+    }
+
     // Mimes
     if (m_configEnv.kcfg_addedExtensions->text() != KdenliveSettings::addedExtensions()) {
         // Update list

@@ -103,7 +103,6 @@
 #include <QStatusBar>
 #include <QStyleFactory>
 #include <QUndoGroup>
-
 #include <KConfigGroup>
 #include <QDesktopWidget>
 #include <QDialogButtonBox>
@@ -2008,6 +2007,7 @@ void MainWindow::connectDocument()
     m_buttonSelectTool->setChecked(true);
     connect(m_projectMonitorDock, &QDockWidget::visibilityChanged, m_projectMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
     connect(m_clipMonitorDock, &QDockWidget::visibilityChanged, m_clipMonitor, &Monitor::slotRefreshMonitor, Qt::UniqueConnection);
+    getMainTimeline()->focusTimeline();
 }
 
 void MainWindow::slotZoneMoved(int start, int end)

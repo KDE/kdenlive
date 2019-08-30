@@ -57,7 +57,7 @@ Rectangle {
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
     }
-
+    
     function moveSelectedTrack(offset) {
         var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
         var newTrack = cTrack + offset
@@ -211,13 +211,19 @@ Rectangle {
         }
         return tentativeClip
     }
+    Keys.onDownPressed: {
+        root.moveSelectedTrack(1)
+    }
+    Keys.onUpPressed: {
+        root.moveSelectedTrack(-1)
+    }
 
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
-    property bool stopScrolling: false
+    property bool autoScrolling: timeline.autoScroll
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
     property color videoColor: timeline.videoColor
@@ -822,10 +828,10 @@ Rectangle {
                             drag.smoothed: false
 
                             onPressed: {
-                                root.stopScrolling = true
+                                root.autoScrolling = false
                             }
                             onReleased: {
-                                root.stopScrolling = false
+                                root.autoScrolling = timeline.autoScroll
                                 parent.opacity = 0
                             }
                             onEntered: parent.opacity = 0.5
@@ -848,12 +854,6 @@ Rectangle {
             property real clickY
             width: root.width - headerWidth
             height: root.height
-            Keys.onDownPressed: {
-                root.moveSelectedTrack(1)
-            }
-            Keys.onUpPressed: {
-                root.moveSelectedTrack(-1)
-            }
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton
@@ -1136,7 +1136,7 @@ Rectangle {
                                         controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
                                     }
                                     timeline.showAsset(dragProxy.draggedItem)
-                                    root.stopScrolling = true
+                                    root.autoScrolling = false
                                     clipBeingMovedId = dragProxy.draggedItem
                                     if (dragProxy.draggedItem > -1) {
                                         var tk = controller.getItemTrackId(dragProxy.draggedItem)
@@ -1230,7 +1230,7 @@ Rectangle {
                                 }
                                 onReleased: {
                                     clipBeingMovedId = -1
-                                    root.stopScrolling = false
+                                    root.autoScrolling = timeline.autoScroll
                                     if (dragProxy.draggedItem > -1 && dragFrame > -1 && (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         var tId = controller.getItemTrackId(dragProxy.draggedItem)
                                         if (dragProxy.isComposition) {
@@ -1488,7 +1488,7 @@ Rectangle {
 
     Connections {
         target: timeline
-        onPositionChanged: if (!stopScrolling) Logic.scrollIfNeeded()
+        onPositionChanged: if (autoScrolling) Logic.scrollIfNeeded()
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {

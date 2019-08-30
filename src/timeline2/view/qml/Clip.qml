@@ -84,6 +84,8 @@ Rectangle {
     onIsGrabbedChanged: {
         if (clipRoot.isGrabbed) {
             grabItem()
+        } else {
+            mouseArea.focus = false
         }
     }
 
@@ -272,6 +274,7 @@ Rectangle {
         }
         Keys.onEscapePressed: {
             timeline.grabCurrent()
+            //focus = false
         }
         onPositionChanged: {
             var mapped = parentTrack.mapFromItem(clipRoot, mouse.x, mouse.y).x

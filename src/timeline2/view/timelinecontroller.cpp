@@ -77,6 +77,7 @@ TimelineController::TimelineController(QObject *parent)
     connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
+    connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
 }
 
 TimelineController::~TimelineController()
@@ -1914,6 +1915,11 @@ bool TimelineController::hasAudioTarget() const
 bool TimelineController::hasVideoTarget() const
 {
     return m_hasVideoTarget;
+}
+
+bool TimelineController::autoScroll() const
+{
+    return KdenliveSettings::autoscroll();
 }
 
 void TimelineController::resetTrackHeight()

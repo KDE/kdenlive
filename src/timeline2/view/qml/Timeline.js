@@ -17,8 +17,8 @@
  */
 
 function scrollIfNeeded() {
-    var x = timeline.position * timeline.scaleFactor;
     if (!scrollView) return;
+    var x = timeline.position * timeline.scaleFactor;
     if (x > scrollView.flickableItem.contentX + scrollView.width - 50)
         scrollView.flickableItem.contentX = x - scrollView.width + 50;
     else if (x < 50)

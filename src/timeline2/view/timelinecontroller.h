@@ -67,12 +67,13 @@ class TimelineController : public QObject
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
     Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
-    
+
     Q_PROPERTY(int lastAudioTarget MEMBER m_lastAudioTarget NOTIFY lastAudioTargetChanged)
     Q_PROPERTY(int lastVideoTarget MEMBER m_lastVideoTarget NOTIFY lastVideoTargetChanged)
-    
+
     Q_PROPERTY(bool hasAudioTarget READ hasAudioTarget NOTIFY hasAudioTargetChanged)
     Q_PROPERTY(bool hasVideoTarget READ hasVideoTarget NOTIFY hasVideoTargetChanged)
+    Q_PROPERTY(bool autoScroll READ autoScroll NOTIFY autoScrollChanged)
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
@@ -150,6 +151,7 @@ public:
     Q_INVOKABLE int videoTarget() const;
     Q_INVOKABLE bool hasAudioTarget() const;
     Q_INVOKABLE bool hasVideoTarget() const;
+    Q_INVOKABLE bool autoScroll() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
@@ -541,6 +543,7 @@ signals:
     void hasAudioTargetChanged();
     void hasVideoTargetChanged();
     void lastAudioTargetChanged();
+    void autoScrollChanged();
     void lastVideoTargetChanged();
     void activeTrackChanged();
     void colorsChanged();
