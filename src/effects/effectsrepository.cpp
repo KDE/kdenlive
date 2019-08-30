@@ -118,6 +118,8 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         result.xml = currentEffect;
 
         // Parse type information.
+        // Video effect by default
+        result.type = EffectType::Video;
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
             result.type = EffectType::Audio;
@@ -146,10 +148,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 }
                 file.close();
             }
-        } else {
-            result.type = EffectType::Video;
         }
-
         customAssets[result.id] = result;
     }
 }
