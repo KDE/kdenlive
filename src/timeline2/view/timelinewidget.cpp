@@ -224,3 +224,11 @@ int TimelineWidget::zoomForScale(double value) const
     }
     return ix;
 }
+
+void TimelineWidget::focusTimeline()
+{
+    setFocus();
+    if (rootObject()) {
+        rootObject()->setFocus(true);
+    }
+}

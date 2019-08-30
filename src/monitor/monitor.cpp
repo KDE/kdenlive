@@ -1130,7 +1130,7 @@ void Monitor::checkOverlay(int pos)
         pos = m_timePos->getValue();
     }
     QPoint zone = m_glMonitor->getControllerProxy()->zone();
-    std::shared_ptr<MarkerListModel> model;
+    std::shared_ptr<MarkerListModel> model(nullptr);
     if (m_id == Kdenlive::ClipMonitor && m_controller) {
         model = m_controller->getMarkerModel();
     } else if (m_id == Kdenlive::ProjectMonitor && pCore->currentDoc()) {

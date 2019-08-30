@@ -57,7 +57,7 @@ Rectangle {
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
     }
-
+    
     function moveSelectedTrack(offset) {
         var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
         var newTrack = cTrack + offset
@@ -210,6 +210,12 @@ Rectangle {
             }
         }
         return tentativeClip
+    }
+    Keys.onDownPressed: {
+        root.moveSelectedTrack(1)
+    }
+    Keys.onUpPressed: {
+        root.moveSelectedTrack(-1)
     }
 
     property int headerWidth: timeline.headerWidth()
@@ -848,12 +854,6 @@ Rectangle {
             property real clickY
             width: root.width - headerWidth
             height: root.height
-            Keys.onDownPressed: {
-                root.moveSelectedTrack(1)
-            }
-            Keys.onUpPressed: {
-                root.moveSelectedTrack(-1)
-            }
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton

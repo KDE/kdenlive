@@ -52,6 +52,8 @@ public:
     QPoint getTracksCount() const;
     /* @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;
+    /* @brief Give keyboard focus to timeline qml */
+    void focusTimeline();
     bool loading;
 
 protected:
