@@ -641,6 +641,28 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             });
             hlay->addWidget(audioStream);
             vbox->addLayout(hlay);
+            
+            // Audio sync
+            hlay = new QHBoxLayout;
+            hlay->addWidget(new QLabel(i18n("Audio sync")));
+            auto *spinSync = new QSpinBox(this);
+            spinSync->setSuffix(i18n("ms"));
+            spinSync->setRange(-1000, 1000);
+            spinSync->setValue(qRound(1000 * m_sourceProperties.get_double("video_delay")));
+            spinSync->setObjectName(QStringLiteral("video_delay"));
+            if (spinSync->value() != 0) {
+                m_originalProperties.insert(QStringLiteral("video_delay"), locale.toString(m_sourceProperties.get_double("video_delay")));
+            }
+            //QObject::connect(spinSync, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this, spinSync]() {
+            QObject::connect(spinSync, &QSpinBox::editingFinished, [this, spinSync, locale]() {
+                QMap<QString, QString> properties;
+                properties.insert(QStringLiteral("video_delay"), locale.toString(spinSync->value() / 1000.));
+                emit updateClipProperties(m_id, m_originalProperties, properties);
+                m_originalProperties = properties;
+            });
+            hlay->addWidget(spinSync);
+            vbox->addLayout(hlay);
+            
         }
 
         // Colorspace

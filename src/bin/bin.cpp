@@ -705,7 +705,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
     connect(m_itemModel.get(), &ProjectItemModel::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
     connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
-    connect(m_itemModel.get(), &ProjectItemModel::updateTimelineProducers, this, &Bin::updateTimelineProducers);
     connect(m_itemModel.get(), &ProjectItemModel::emitMessage, this, &Bin::emitMessage);
 
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
@@ -2957,15 +2956,6 @@ void Bin::slotUpdateClipProperties(const QString &id, const QMap<QString, QStrin
     if (clip) {
         clip->setProperties(properties, refreshPropertiesPanel);
     }
-}
-
-void Bin::updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties)
-{
-    Q_UNUSED(id)
-    Q_UNUSED(passProperties)
-    // TODO REFAC
-    // pCore->projectManager()->currentTimeline()->updateClipProperties(id, passProperties);
-    // m_doc->renderer()->updateSlowMotionProducers(id, passProperties);
 }
 
 void Bin::showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip)

@@ -251,7 +251,6 @@ signals:
     void refreshAudioThumbs(const QString &id);
     void refreshClip(const QString &id);
     void emitMessage(const QString &, int, MessageType);
-    void updateTimelineProducers(const QString &id, const QMap<QString, QString> &passProperties);
     void refreshPanel(const QString &id);
     void requestAudioThumbs(const QString &id, long duration);
     // TODO

@@ -949,7 +949,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     // Some properties also need to be passed to track producers
     QStringList timelineProperties{
         QStringLiteral("force_aspect_ratio"), QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),         QStringLiteral("threads"),
-        QStringLiteral("force_colorspace"),   QStringLiteral("force_tff"),           QStringLiteral("force_progressive"),
+        QStringLiteral("force_colorspace"), QStringLiteral("force_tff"),           QStringLiteral("force_progressive"), QStringLiteral("video_delay")
     };
     QStringList forceReloadProperties{QStringLiteral("autorotate"),  QStringLiteral("templatetext"),   QStringLiteral("resource"),
                                       QStringLiteral("force_fps"),   QStringLiteral("set.test_image"), QStringLiteral("set.test_audio"),
@@ -1055,7 +1055,27 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
     }
     if (!passProperties.isEmpty() && (!reload || refreshOnly)) {
-        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->updateTimelineProducers(m_binId, passProperties);
+        for (auto &p : m_audioProducers) {
+            QMapIterator<QString, QString> pr(passProperties);
+            while (pr.hasNext()) {
+                pr.next();
+                p.second->set(pr.key().toUtf8().constData(), pr.value().toUtf8().constData());
+            }
+        }
+        for (auto &p : m_videoProducers) {
+            QMapIterator<QString, QString> pr(passProperties);
+            while (pr.hasNext()) {
+                pr.next();
+                p.second->set(pr.key().toUtf8().constData(), pr.value().toUtf8().constData());
+            }
+        }
+        for (auto &p : m_timewarpProducers) {
+            QMapIterator<QString, QString> pr(passProperties);
+            while (pr.hasNext()) {
+                pr.next();
+                p.second->set(pr.key().toUtf8().constData(), pr.value().toUtf8().constData());
+            }
+        }
     }
 }
 
