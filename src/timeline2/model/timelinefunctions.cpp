@@ -581,20 +581,30 @@ void TimelineFunctions::showCompositionKeyframes(const std::shared_ptr<TimelineI
     timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
-bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId)
+bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection)
 {
-    PlaylistState::ClipState oldState = timeline->getClipPtr(clipId)->clipState();
-    PlaylistState::ClipState state = PlaylistState::Disabled;
-    bool disable = true;
-    if (oldState == PlaylistState::Disabled) {
-        state = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType();
-        disable = false;
-    }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = changeClipState(timeline, clipId, state, undo, redo);
+    bool result = false;
+    bool disable = true;
+    for (int clipId : selection) {
+        if (!timeline->isClip(clipId)) {
+            continue;
+        }
+        PlaylistState::ClipState oldState = timeline->getClipPtr(clipId)->clipState();
+        PlaylistState::ClipState state = PlaylistState::Disabled;
+        disable = true;
+        if (oldState == PlaylistState::Disabled) {
+            state = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType();
+            disable = false;
+        }
+        result = changeClipState(timeline, clipId, state, undo, redo);
+        if (!result) {
+            break;
+        }
+    }
     if (result) {
-        pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
+            pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
     }
     return result;
 }
