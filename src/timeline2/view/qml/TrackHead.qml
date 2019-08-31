@@ -466,12 +466,12 @@ Rectangle {
                 drag.smoothed: false
 
                 onPressed: {
-                    root.stopScrolling = true
+                    root.autoScrolling = false
                     startY = mapToItem(null, x, y).y
                     originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
                 }
                 onReleased: {
-                    root.stopScrolling = false
+                    root.autoScrolling = timeline.autoScroll
                     if (!trimInMouseArea.containsMouse) {
                         parent.opacity = 0
                     }
