@@ -1752,12 +1752,13 @@ void TimelineController::showCompositionKeyframes(int clipId, bool value)
     TimelineFunctions::showCompositionKeyframes(m_model, clipId, value);
 }
 
-void TimelineController::switchEnableState(int clipId)
+void TimelineController::switchEnableState(std::unordered_set<int> selection)
 {
-    if (clipId == -1) {
-        clipId = getMainSelectedItem(false, false);
+    if (selection.empty()) {
+        selection = m_model->getCurrentSelection();
+        //clipId = getMainSelectedItem(false, false);
     }
-    TimelineFunctions::switchEnableState(m_model, clipId);
+    TimelineFunctions::switchEnableState(m_model, selection);
 }
 
 void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)

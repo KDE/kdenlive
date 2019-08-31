@@ -332,7 +332,7 @@ public:
     Q_INVOKABLE void removeSpace(int trackId = -1, int frame = -1, bool affectAllTracks = false);
     /* @brief If clip is enabled, disable, otherwise enable
      */
-    Q_INVOKABLE void switchEnableState(int clipId = -1);
+    Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
     Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId, int offset);
     Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId);
 

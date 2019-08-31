@@ -102,7 +102,7 @@ struct TimelineFunctions
      * @param status: target status of the clip
      This function creates an undo object and returns true on success
      */
-    static bool switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId);
+    static bool switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection);
     /* @brief change the clip state and accumulates for undo/redo
      */
     static bool changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);
