@@ -146,7 +146,7 @@ Item {
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
 
         onPressed: {
-                root.stopScrolling = true
+                root.autoScrolling = false
                 compositionRoot.forceActiveFocus();
                 if (mouse.button == Qt.RightButton) {
                     if (timeline.selection.indexOf(compositionRoot.clipId) == -1) {
@@ -159,7 +159,7 @@ Item {
                 }
             }
         onReleased: {
-            root.stopScrolling = false
+            root.autoScrolling = timeline.autoScroll
         }
         onEntered: {
             var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
@@ -285,13 +285,13 @@ Item {
             drag.smoothed: false
 
             onPressed: {
-                root.stopScrolling = true
+                root.autoScrolling = false
                 compositionRoot.originalX = compositionRoot.x
                 compositionRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
             }
             onReleased: {
-                root.stopScrolling = false
+                root.autoScrolling = timeline.autoScroll
                 parent.anchors.left = displayRect.left
                 compositionRoot.trimmedIn(compositionRoot)
                 parent.opacity = 0
@@ -335,12 +335,12 @@ Item {
             drag.smoothed: false
 
             onPressed: {
-                root.stopScrolling = true
+                root.autoScrolling = false
                 compositionRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
             }
             onReleased: {
-                root.stopScrolling = false
+                root.autoScrolling = timeline.autoScroll
                 parent.anchors.right = displayRect.right
                 compositionRoot.trimmedOut(compositionRoot)
             }

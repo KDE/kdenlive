@@ -242,7 +242,7 @@ Rectangle {
         hoverEnabled: root.activeTool === 0
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: {
-            root.stopScrolling = true
+            root.autoScrolling = false
             if (mouse.button == Qt.RightButton) {
                 if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
@@ -647,7 +647,7 @@ Rectangle {
                     }
                 }
                 onPressed: {
-                    root.stopScrolling = true
+                    root.autoScrolling = false
                     startX = Math.round(parent.x / timeScale)
                     startFadeIn = clipRoot.fadeIn
                     parent.anchors.left = undefined
@@ -657,7 +657,7 @@ Rectangle {
                     // parentTrack.clipSelected(clipRoot, parentTrack) TODO
                 }
                 onReleased: {
-                    root.stopScrolling = false
+                    root.autoScrolling = timeline.autoScroll
                     fadeInTriangle.opacity = 0.3
                     parent.opacity = 0
                     if (fadeInTriangle.width > parent.radius)
@@ -746,7 +746,7 @@ Rectangle {
                 }
                 drag.smoothed: false
                 onPressed: {
-                    root.stopScrolling = true
+                    root.autoScrolling = false
                     startX = Math.round(parent.x / timeScale)
                     startFadeOut = clipRoot.fadeOut
                     parent.anchors.right = undefined
@@ -757,7 +757,7 @@ Rectangle {
                 onReleased: {
                     fadeOutCanvas.opacity = 0.3
                     parent.opacity = 0
-                    root.stopScrolling = false
+                    root.autoScrolling = timeline.autoScroll
                     if (fadeOutCanvas.width > parent.radius)
                         parent.anchors.horizontalCenter = fadeOutCanvas.left
                     else
@@ -842,7 +842,7 @@ Rectangle {
             property bool sizeChanged: false
             cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
             onPressed: {
-                root.stopScrolling = true
+                root.autoScrolling = false
                 clipRoot.originalX = clipRoot.x
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.left = undefined
@@ -854,7 +854,7 @@ Rectangle {
                 parent.opacity = 0
             }
             onReleased: {
-                root.stopScrolling = false
+                root.autoScrolling = timeline.autoScroll
                 parent.anchors.left = clipRoot.left
                 if (sizeChanged) {
                     clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
@@ -925,7 +925,7 @@ Rectangle {
             drag.smoothed: false
 
             onPressed: {
-                root.stopScrolling = true
+                root.autoScrolling = false
                 clipRoot.originalDuration = clipDuration
                 parent.anchors.right = undefined
                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
@@ -936,7 +936,7 @@ Rectangle {
                 parent.opacity = 0
             }
             onReleased: {
-                root.stopScrolling = false
+                root.autoScrolling = timeline.autoScroll
                 parent.anchors.right = clipRoot.right
                 if (sizeChanged) {
                     clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)

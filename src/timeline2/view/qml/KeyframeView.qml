@@ -120,7 +120,7 @@ Rectangle
                 drag.smoothed: false
                 drag.axis: Drag.XAxis
                 onReleased: {
-                    root.stopScrolling = false
+                    root.autoScrolling = timeline.autoScroll
                     dragPos = -1
                     var newPos = Math.round(parent.x / timeScale) + inPoint
                     if (frame != inPoint && newPos != frame) {
@@ -178,7 +178,7 @@ Rectangle
                         keyframeContainer.focus = true
                     }
                     onReleased: {
-                        root.stopScrolling = false
+                        root.autoScrolling = timeline.autoScroll
                         var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
                         if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
                             var pos = masterObject.modelStart + frame - inPoint
