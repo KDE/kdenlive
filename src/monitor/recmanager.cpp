@@ -234,6 +234,30 @@ void RecManager::slotRecord(bool record)
     // fps
     captureArgs << QStringLiteral("-framerate") << QString::number(KdenliveSettings::grab_fps());
     captureSize = QStringLiteral("desktop");
+    captureArgs << QStringLiteral("-i") << captureSize;
+    if (KdenliveSettings::grab_parameters().contains(QLatin1String("alsa"))) {
+        // Add audio device
+        QString params = KdenliveSettings::grab_parameters().simplified();
+        // Use Windows dshow for audio capture
+        params.replace(QLatin1String("alsa"), QStringLiteral("dshow"));
+        // Remove vorbis codec
+        params.replace(QLatin1String("-acodec libvorbis"), QString());
+        
+        // Find first audio device
+        QProcess tst;
+        tst.start(KdenliveSettings::ffmpegpath(), {"-hide_banner","-list_devices","true","-f","dshow","-i","dummy"});
+        tst.waitForFinished(4000);
+        QString dshowOutput = QString::fromUtf8(tst.readAll());
+        if (dshowOutput.contains(QLatin1String("audio devices"))) {
+            dshowOutput = dshowOutput.section(QLatin1String("audio devices"), 1);
+            dshowOutput = dshowOutput.section(QLatin1Char('"'), 1, 1);
+            params.replace(QLatin1String("default"), QString("audio=\"%1\"").arg(dshowOutput));
+        }
+        captureArgs << params.split(QLatin1Char(' '));
+    } else if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
+        captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
+    }
+    qDebug()<<"== STARTING WIN CAPTURE: "<<captureArgs<<"\n___________";
 #else
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
     if (KdenliveSettings::grab_follow_mouse()) {
@@ -259,11 +283,12 @@ void RecManager::slotRecord(bool record)
     }
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
-#endif
     captureArgs << QStringLiteral("-i") << captureSize;
     if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
     }
+    qDebug()<<"== STARTING X11 CAPTURE: "<<captureArgs<<"\n___________";
+#endif
     captureArgs << path;
     m_captureProcess->start(KdenliveSettings::ffmpegpath(), captureArgs);
     if (!m_captureProcess->waitForStarted()) {
