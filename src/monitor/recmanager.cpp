@@ -245,13 +245,16 @@ void RecManager::slotRecord(bool record)
         
         // Find first audio device
         QProcess tst;
+        tst.setProcessChannelMode(QProcess::MergedChannels);
         tst.start(KdenliveSettings::ffmpegpath(), {"-hide_banner","-list_devices","true","-f","dshow","-i","dummy"});
-        tst.waitForFinished(4000);
-        QString dshowOutput = QString::fromUtf8(tst.readAll());
+        tst.waitForFinished();
+        QString dshowOutput = QString::fromUtf8(tst.readAllStandardOutput());
         if (dshowOutput.contains(QLatin1String("audio devices"))) {
             dshowOutput = dshowOutput.section(QLatin1String("audio devices"), 1);
             dshowOutput = dshowOutput.section(QLatin1Char('"'), 1, 1);
             params.replace(QLatin1String("default"), QString("audio=\"%1\"").arg(dshowOutput));
+        } else {
+            qDebug()<<KdenliveSettings::ffmpegpath()<<"=== GOT DSHOW DEVICES: "<<dshowOutput;
         }
         captureArgs << params.split(QLatin1Char(' '));
     } else if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
