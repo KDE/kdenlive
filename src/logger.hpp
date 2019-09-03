@@ -63,7 +63,7 @@ public:
      * better to call the macro TRACE_RES */
     static void log_res(rttr::variant result);
 
-    // log whenever an undo/redo occured
+    // log whenever an undo/redo occurred
     static void log_undo(bool undo);
 
     /// @brief Notify that we are done with our function. Must not be called if start_logging returned false.

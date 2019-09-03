@@ -1085,7 +1085,7 @@ void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scrip
 {
     Q_UNUSED(scriptPath);
     if (pCore->projectDuration() < 2) {
-        // Empty project, dont attempt to render
+        // Empty project, don't attempt to render
         return;
     }
     if (!QFile::exists(KdenliveSettings::rendererpath())) {

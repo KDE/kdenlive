@@ -280,7 +280,7 @@ public:
     */
     Q_INVOKABLE void showAsset(int id);
     Q_INVOKABLE void showTrackAsset(int trackId);
-    /* @brief Adjust height of all simlar (audio or video) tracks
+    /* @brief Adjust height of all similar (audio or video) tracks
     */
     Q_INVOKABLE void adjustAllTrackHeight(int trackId, int height);
 

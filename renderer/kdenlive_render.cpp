@@ -116,7 +116,7 @@ int main(int argc, char **argv)
         int in = -1;
         int out = -1;
 
-        // older MLT version, does not support embeded consumer in/out in xml, and current 
+        // older MLT version, does not support embedded consumer in/out in xml, and current 
         // MLT (6.16) does not pass it onto the multi / movit consumer, so read it manually and enforce
         QFile f(playlist);
         QDomDocument doc;
@@ -130,7 +130,7 @@ int main(int argc, char **argv)
                 out = consumer.attribute("out").toInt();
             }
             if (consumer.hasAttribute(QLatin1String("s")) || consumer.hasAttribute(QLatin1String("r"))) {
-                // Workaround MLT embeded consumer resize (MLT issue #453)
+                // Workaround MLT embedded consumer resize (MLT issue #453)
                 playlist.prepend(QStringLiteral("xml:"));
                 playlist.append(QStringLiteral("?multi=1"));
             }

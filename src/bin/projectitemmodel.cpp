@@ -861,7 +861,7 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
         qDebug() << "Found folder " << folderId << "name = " << folderName << "parent=" << parentId;
     }
 
-    // In case there are some non-existant parent, we fall back to root
+    // In case there are some non-existent parent, we fall back to root
     for (const auto &f : downLinks) {
         if (upLinks.count(f.first) == 0) {
             upLinks[f.first] = -1;

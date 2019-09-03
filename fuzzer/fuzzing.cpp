@@ -269,7 +269,7 @@ void fuzz(const std::string &input)
         } else if (Logger::back_translation_table.count(c) > 0) {
             // std::cout << "found=" << c;
             c = Logger::back_translation_table[c];
-            // std::cout << " tranlated=" << c << std::endl;
+            // std::cout << " translated=" << c << std::endl;
             if (c == "constr_TimelineModel") {
                 all_timelines.emplace_back(TimelineItemModel::construct(&profile, guideModel, undoStack));
             } else if (c == "constr_ClipModel") {
