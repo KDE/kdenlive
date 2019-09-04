@@ -813,6 +813,19 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_infoLabel->setMenu(m_jobsMenu);
     m_infoLabel->setAction(infoAction);
 
+    connect(m_discardCurrentClipJobs, &QAction::triggered, [&]() {
+        const QString currentId = m_monitor->activeClipId();
+        if (!currentId.isEmpty()) {
+            pCore->jobManager()->discardJobs(currentId);
+        }
+    });
+    connect(m_cancelJobs, &QAction::triggered, [&]() {
+        pCore->jobManager()->slotCancelJobs();
+    });
+    connect(m_discardPendingJobs, &QAction::triggered, [&]() {
+        pCore->jobManager()->slotCancelPendingJobs();
+    });
+
     // Hack, create toolbar spacer
     QWidget *spacer = new QWidget();
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
