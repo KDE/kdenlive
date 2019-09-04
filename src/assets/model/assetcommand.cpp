@@ -37,9 +37,11 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     m_name = m_model->data(index, AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(i18n("Edit %1").arg(i18n(EffectsRepository::get()->getName(id).toUtf8().data())));
+        QString effectName = EffectsRepository::get()->getName(id);
+        setText(i18n("Edit %1", i18n(effectName.toUtf8().data())));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(i18n("Edit %1").arg(i18n(TransitionsRepository::get()->getName(id).toUtf8().data())));
+        QString compoName = TransitionsRepository::get()->getName(id);
+        setText(i18n("Edit %1", i18n(compoName.toUtf8().data())));
     }
     QVariant previousVal = m_model->data(index, AssetParameterModel::ValueRole);
     m_oldValue = previousVal.type() == QVariant::Double ? locale.toString(previousVal.toDouble()) : previousVal.toString();
@@ -86,9 +88,11 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     m_name = m_model->data(indexes.first(), AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(i18n("Edit %1").arg(i18n(EffectsRepository::get()->getName(id).toUtf8().data())));
+        QString effectName = EffectsRepository::get()->getName(id);
+        setText(i18n("Edit %1", i18n(effectName.toUtf8().data())));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(i18n("Edit %1").arg(i18n(TransitionsRepository::get()->getName(id).toUtf8().data())));
+        QString compoName = TransitionsRepository::get()->getName(id);
+        setText(i18n("Edit %1", i18n(compoName.toUtf8().data())));
     }
     for (QModelIndex ix : m_indexes) {
         QVariant previousVal = m_model->data(ix, AssetParameterModel::ValueRole);
@@ -146,9 +150,11 @@ AssetKeyframeCommand::AssetKeyframeCommand(const std::shared_ptr<AssetParameterM
 {
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(i18n("Edit %1 keyframe", EffectsRepository::get()->getName(id)));
+        QString effectName = EffectsRepository::get()->getName(id);
+        setText(i18n("Edit %1 keyframe", i18n(effectName.toUtf8().data())));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(i18n("Edit %1 keyframe", TransitionsRepository::get()->getName(id)));
+        QString compoName = TransitionsRepository::get()->getName(id);
+        setText(i18n("Edit %1 keyframe", i18n(compoName.toUtf8().data())));
     }
     m_oldValue = m_model->getKeyframeModel()->getKeyModel(m_index)->getInterpolatedValue(m_pos);
 }
@@ -188,9 +194,11 @@ AssetUpdateCommand::AssetUpdateCommand(const std::shared_ptr<AssetParameterModel
 {
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
-        setText(i18n("Update %1", EffectsRepository::get()->getName(id)));
+        QString effectName = EffectsRepository::get()->getName(id);
+        setText(i18n("Update %1", i18n(effectName.toUtf8().data())));
     } else if (TransitionsRepository::get()->exists(id)) {
-        setText(i18n("Update %1", TransitionsRepository::get()->getName(id)));
+        QString compoName = TransitionsRepository::get()->getName(id);
+        setText(i18n("Update %1", i18n(compoName.toUtf8().data())));
     }
     m_oldValue = m_model->getAllParameters();
 }
