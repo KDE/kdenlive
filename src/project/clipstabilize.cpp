@@ -63,17 +63,25 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
         dest_url->setUrl(QUrl(firstUrl).adjusted(QUrl::RemoveFilename));
     }
     m_vbox = new QVBoxLayout(optionsbox);
-    if (m_filtername == QLatin1String("vidstab") || m_filtername == QLatin1String("videostab2")) {
-        AssetParameterView *view = new AssetParameterView(this);
+    if (m_filtername == QLatin1String("vidstab")) {
+        m_view.reset(new AssetParameterView(this));
+        qDebug()<<"// Fetching effect: "<<m_filtername;
         std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(m_filtername);
         auto prop = std::make_unique<Mlt::Properties>(asset->get_properties());
         QDomElement xml = EffectsRepository::get()->getXml(m_filtername);
         m_assetModel.reset(new AssetParameterModel(std::move(prop), xml, m_filtername, {ObjectType::NoItem, -1}));
-        view->setModel(m_assetModel, QSize(1920, 1080));
-        m_vbox->addWidget(view);
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+        const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
+        const QVector<QPair<QString, QVariant>> params = m_assetModel->loadPreset(presetFile, QStringLiteral("lastsetting"));
+        if (!params.isEmpty()) {
+            m_assetModel->setParameters(params);
+        }
+        m_view->setModel(m_assetModel, QSize(1920, 1080));
+        m_vbox->addWidget(m_view.get());
     }
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
+    connect(button_reset, &QPushButton::clicked, this, &ClipStabilize::resetValues);
     adjustSize();
 }
 
@@ -151,5 +159,23 @@ void ClipStabilize::slotValidate()
             }
         }
     }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+    }
+    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
+    m_assetModel->savePreset(presetFile, QStringLiteral("lastsetting"));
     accept();
+}
+
+void ClipStabilize::resetValues()
+{
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    if (dir.exists()) {
+        const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
+        m_assetModel->deletePreset(presetFile, QStringLiteral("lastsetting"));
+    }
+    m_view->resetValues();
+    /*const QVector<QPair<QString, QVariant>> values = m_view->getDefaultValues();
+    m_assetModel->setParameters(values);*/
 }

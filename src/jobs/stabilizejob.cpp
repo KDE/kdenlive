@@ -76,7 +76,7 @@ void StabilizeJob::configureFilter()
 // static
 std::unordered_set<QString> StabilizeJob::supportedFilters()
 {
-    return {QLatin1String("vidstab"), QLatin1String("videostab2"), QLatin1String("videostab")};
+    return {QLatin1String("vidstab")};
 }
 
 // static
@@ -84,7 +84,7 @@ int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::
                              const QString &filterName)
 {
     Q_ASSERT(supportedFilters().count(filterName) > 0);
-    if (filterName == QLatin1String("vidstab") || filterName == QLatin1String("videostab2") || filterName == QLatin1String("videostab")) {
+    if (filterName == QLatin1String("vidstab")) {
         // vidstab
         QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, filterName, 100000));
         if (d->exec() == QDialog::Accepted) {

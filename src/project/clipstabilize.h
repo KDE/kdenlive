@@ -28,6 +28,7 @@
 #include <unordered_map>
 
 class AssetParameterModel;
+class AssetParameterView;
 
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 {
@@ -49,13 +50,15 @@ public:
     QString filterName() const;
 private slots:
     void slotValidate();
+    void resetValues();
 
 private:
     QString m_filtername;
     std::vector<QString> m_binIds;
     QVBoxLayout *m_vbox;
     Timecode m_tc;
-    std::shared_ptr<AssetParameterModel>m_assetModel;
+    std::shared_ptr<AssetParameterModel> m_assetModel;
+    std::unique_ptr<AssetParameterView> m_view;
 
 signals:
     void addClip(const QUrl &url);

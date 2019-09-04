@@ -3048,7 +3048,7 @@ void MainWindow::buildDynamicActions()
 
     Mlt::Profile profile;
     std::unique_ptr<Mlt::Filter> filter;
-    for (const QString &stab : {QStringLiteral("vidstab"), QStringLiteral("videostab2"), QStringLiteral("videostab")}) {
+    for (const QString &stab : {QStringLiteral("vidstab")}) {
         filter = std::make_unique<Mlt::Filter>(profile, stab.toUtf8().constData());
         if ((filter != nullptr) && filter->is_valid()) {
             QAction *action = new QAction(i18n("Stabilize (%1)", stab), m_extraFactory->actionCollection());
