@@ -140,7 +140,12 @@ void AssetParameterView::resetValues()
 {
     const QVector<QPair<QString, QVariant>> values = getDefaultValues();
     auto *command = new AssetUpdateCommand(m_model, values);
-    pCore->pushUndo(command);
+    if (m_model->getOwnerId().second != -1) {
+        pCore->pushUndo(command);
+    } else {
+        command->redo();
+        delete command;
+    }
     // Unselect preset if any
     QAction *ac = m_presetGroup->checkedAction();
     if (ac) {
