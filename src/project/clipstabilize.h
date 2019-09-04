@@ -27,6 +27,8 @@
 #include <QUrl>
 #include <unordered_map>
 
+class AssetParameterModel;
+
 class ClipStabilize : public QDialog, public Ui::ClipStabilize_UI
 {
     Q_OBJECT
@@ -46,17 +48,14 @@ public:
     /* Return the name of the actual mlt filter used */
     QString filterName() const;
 private slots:
-    void slotUpdateParams();
     void slotValidate();
 
 private:
     QString m_filtername;
     std::vector<QString> m_binIds;
-    QHash<QString, QHash<QString, QString>> m_ui_params;
     QVBoxLayout *m_vbox;
-    void fillParameters(QStringList);
-    std::unordered_map<QString, QString> m_fixedParams;
     Timecode m_tc;
+    std::shared_ptr<AssetParameterModel>m_assetModel;
 
 signals:
     void addClip(const QUrl &url);

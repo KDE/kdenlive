@@ -24,6 +24,9 @@
 #include "core.h"
 #include "widgets/doublewidget.h"
 #include "widgets/positionwidget.h"
+#include "assets/view/assetparameterview.hpp"
+#include "assets/model/assetparametermodel.hpp"
+#include "effects/effectsrepository.hpp"
 
 #include "kdenlivesettings.h"
 #include <KMessageBox>
@@ -35,6 +38,7 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     , m_filtername(std::move(filterName))
     , m_binIds(binIds)
     , m_vbox(nullptr)
+    , m_assetModel(nullptr)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -58,62 +62,18 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
         dest_url->setMode(KFile::Directory | KFile::ExistingOnly);
         dest_url->setUrl(QUrl(firstUrl).adjusted(QUrl::RemoveFilename));
     }
-
+    m_vbox = new QVBoxLayout(optionsbox);
     if (m_filtername == QLatin1String("vidstab") || m_filtername == QLatin1String("videostab2")) {
-        m_fixedParams[QStringLiteral("algo")] = QStringLiteral("1");
-        m_fixedParams[QStringLiteral("relative")] = QStringLiteral("1");
-        fillParameters(
-            QStringList() << QStringLiteral("accuracy,type,int,value,8,min,1,max,10,tooltip,Accuracy of Shakiness detection")
-                          << QStringLiteral("shakiness,type,int,value,4,min,1,max,10,tooltip,How shaky is the Video")
-                          << QStringLiteral("stepsize,type,int,value,6,min,0,max,100,tooltip,Stepsize of Detection process minimum around")
-                          << QStringLiteral("mincontrast,type,double,value,0.3,min,0,max,1,factor,1,decimals,2,tooltip,Below this Contrast Field is discarded")
-                          << QStringLiteral("smoothing,type,int,value,10,min,0,max,100,tooltip,number of frames for lowpass filtering")
-                          << QStringLiteral("maxshift,type,int,value,-1,min,-1,max,1000,tooltip,max number of pixels to shift")
-                          << QStringLiteral("maxangle,type,double,value,-1,min,-1,max,3.14,decimals,2,tooltip,max angle to rotate (in rad)")
-                          << QStringLiteral("crop,type,bool,value,0,min,0,max,1,tooltip,0 = keep border  1 = black background")
-                          << QStringLiteral("zoom,type,int,value,0,min,-500,max,500,tooltip,additional zoom during transform")
-                          << QStringLiteral("optzoom,type,bool,value,1,min,0,max,1,tooltip,use optimal zoom (calculated from transforms)")
-                          << QStringLiteral("sharpen,type,double,value,0.8,min,0,max,1,decimals,1,tooltip,sharpen transformed image")
-                          << QStringLiteral("tripod,type,position,value,0,min,0,max,100000,tooltip,reference frame"));
-
-    } else if (m_filtername == QLatin1String("videostab")) {
-        fillParameters(QStringList(QStringLiteral("shutterangle,type,int,value,0,min,0,max,180,tooltip,Angle that Images could be maximum rotated")));
+        AssetParameterView *view = new AssetParameterView(this);
+        std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(m_filtername);
+        auto prop = std::make_unique<Mlt::Properties>(asset->get_properties());
+        QDomElement xml = EffectsRepository::get()->getXml(m_filtername);
+        m_assetModel.reset(new AssetParameterModel(std::move(prop), xml, m_filtername, {ObjectType::NoItem, -1}));
+        view->setModel(m_assetModel, QSize(1920, 1080));
+        m_vbox->addWidget(view);
     }
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
-
-    m_vbox = new QVBoxLayout(optionsbox);
-    QHashIterator<QString, QHash<QString, QString>> hi(m_ui_params);
-    m_tc.setFormat(KdenliveSettings::project_fps());
-    while (hi.hasNext()) {
-        hi.next();
-        QHash<QString, QString> val = hi.value();
-        if (val[QStringLiteral("type")] == QLatin1String("int") || val[QStringLiteral("type")] == QLatin1String("double")) {
-            DoubleWidget *dbl = new DoubleWidget(hi.key() /*name*/, val[QStringLiteral("value")].toDouble(), val[QStringLiteral("min")].toDouble(),
-                                                 val[QStringLiteral("max")].toDouble(), val[QStringLiteral("value")].toDouble(), 1,
-                                                 /*default*/
-                                                 QString(),           /*comment*/
-                                                 0 /*id*/, QString(), /*suffix*/
-                                                 val[QStringLiteral("decimals")] != QString() ? val[QStringLiteral("decimals")].toInt() : 0, this);
-            dbl->setObjectName(hi.key());
-            dbl->setToolTip(val[QStringLiteral("tooltip")]);
-            connect(dbl, &DoubleWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
-            m_vbox->addWidget(dbl);
-        } else if (val[QStringLiteral("type")] == QLatin1String("bool")) {
-            auto *ch = new QCheckBox(hi.key(), this);
-            ch->setCheckState(val[QStringLiteral("value")] == QLatin1String("0") ? Qt::Unchecked : Qt::Checked);
-            ch->setObjectName(hi.key());
-            connect(ch, &QCheckBox::stateChanged, this, &ClipStabilize::slotUpdateParams);
-            ch->setToolTip(val[QStringLiteral("tooltip")]);
-            m_vbox->addWidget(ch);
-        } else if (val[QStringLiteral("type")] == QLatin1String("position")) {
-            PositionWidget *posedit = new PositionWidget(hi.key(), 0, 0, out, m_tc, QString(), this);
-            posedit->setToolTip(val[QStringLiteral("tooltip")]);
-            posedit->setObjectName(hi.key());
-            m_vbox->addWidget(posedit);
-            connect(posedit, &PositionWidget::valueChanged, this, &ClipStabilize::slotUpdateParams);
-        }
-    }
     adjustSize();
 }
 
@@ -127,16 +87,16 @@ ClipStabilize::~ClipStabilize()
 
 std::unordered_map<QString, QString> ClipStabilize::filterParams() const
 {
+    QVector<QPair<QString, QVariant>> result = m_assetModel->getAllParameters();
     std::unordered_map<QString, QString> params;
+    QLocale locale;
 
-    for (const auto &it : m_fixedParams) {
-        params[it.first] = it.second;
-    }
-
-    QHashIterator<QString, QHash<QString, QString>> it(m_ui_params);
-    while (it.hasNext()) {
-        it.next();
-        params[it.key()] = it.value().value(QStringLiteral("value"));
+    for (const auto &it : result) {
+        if (it.second.type() == QVariant::Double) {
+            params[it.first] = locale.toString(it.second.toDouble());
+        } else {
+            params[it.first] = it.second.toString();
+        }
     }
     return params;
 }
@@ -160,48 +120,9 @@ QString ClipStabilize::desc() const
     return i18n("Stabilize clip");
 }
 
-void ClipStabilize::slotUpdateParams()
-{
-    for (int i = 0; i < m_vbox->count(); ++i) {
-        QWidget *w = m_vbox->itemAt(i)->widget();
-        QString name = w->objectName();
-        if (!name.isEmpty() && m_ui_params.contains(name)) {
-            if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("int") || m_ui_params[name][QStringLiteral("type")] == QLatin1String("double")) {
-                auto *dbl = static_cast<DoubleWidget *>(w);
-                m_ui_params[name][QStringLiteral("value")] = QString::number((double)(dbl->getValue()));
-            } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("bool")) {
-                auto *ch = (QCheckBox *)w;
-                m_ui_params[name][QStringLiteral("value")] = ch->checkState() == Qt::Checked ? QStringLiteral("1") : QStringLiteral("0");
-            } else if (m_ui_params[name][QStringLiteral("type")] == QLatin1String("position")) {
-                auto *pos = (PositionWidget *)w;
-                m_ui_params[name][QStringLiteral("value")] = QString::number(pos->getPosition());
-            }
-        }
-    }
-}
-
 bool ClipStabilize::autoAddClip() const
 {
     return auto_add->isChecked();
-}
-
-void ClipStabilize::fillParameters(QStringList lst)
-{
-
-    m_ui_params.clear();
-    while (!lst.isEmpty()) {
-        QString vallist = lst.takeFirst();
-        QStringList cont = vallist.split(QLatin1Char(','));
-        QString name = cont.takeFirst();
-        while (!cont.isEmpty()) {
-            QString valname = cont.takeFirst();
-            QString val;
-            if (!cont.isEmpty()) {
-                val = cont.takeFirst();
-            }
-            m_ui_params[name][valname] = val;
-        }
-    }
 }
 
 void ClipStabilize::slotValidate()

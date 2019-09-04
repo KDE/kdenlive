@@ -153,7 +153,7 @@ void AssetParameterView::commitChanges(const QModelIndex &index, const QString &
 {
     // Warning: please note that some widgets (for example keyframes) do NOT send the valueChanged signal and do modifications on their own
     auto *command = new AssetCommand(m_model, index, value);
-    if (storeUndo) {
+    if (storeUndo && m_model->getOwnerId().second != -1) {
         pCore->pushUndo(command);
     } else {
         command->redo();

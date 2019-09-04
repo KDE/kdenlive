@@ -128,9 +128,9 @@ rotoscoping.xml
 speed.xml
 swapchannels.xml
 tcolor.xml
-vignette.xml
 tracker.xml
-
+vignette.xml
+vidstab.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 
