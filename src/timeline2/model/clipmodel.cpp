@@ -431,7 +431,7 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
     std::function<bool(void)> local_redo = []() { return true; };
     double previousSpeed = getSpeed();
     int oldDuration = getPlaytime();
-    int newDuration = int(double(oldDuration) * std::abs(previousSpeed / speed) + 0.5);
+    int newDuration = qRound(oldDuration * std::fabs(m_speed / speed));
     int oldOut = getOut();
     int oldIn = getIn();
     bool revertSpeed = false;
@@ -457,13 +457,13 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
     if (revertSpeed) {
         int in = getIn();
         int out = getOut();
-        int duration = out - in;
-        in = qMax(0, (int)((m_producer->get_length() * std::fabs(m_speed/speed)) - 1 - (out * std::fabs(m_speed/speed))));
+        in = qMax(0, qRound((m_producer->get_length() - 1 - out)* std::fabs(m_speed/speed) + 0.5));
         out = in + newDuration;
         operation = [operation, in, out, this]() {
             bool res = operation();
             if (res) {
                 setInOut(in, out);
+            } else {
             }
             return res;
         };
@@ -473,10 +473,14 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         // When calculating duration, result can be a few frames longer than possible duration so adjust
         if (changeDuration) {
-            bool res = requestResize(qMin(newDuration, getMaxDuration()), true, local_undo, local_redo, true);
-            if (!res) {
-                local_undo();
-                return false;
+            int requestedDuration = qMin(newDuration, getMaxDuration() - getIn());
+            if (requestedDuration != getPlaytime()) {
+                bool res = requestResize(requestedDuration, true, local_undo, local_redo, true);
+                if (!res) {
+                    qDebug()<<"==== CLIP WARP UPDATE DURATION FAILED!!!!";
+                    local_undo();
+                    return false;
+                }
             }
         }
         adjustEffectLength(false, oldIn, getIn(), oldOut - oldIn, m_producer->get_playtime(), 0, local_undo, local_redo, true);
