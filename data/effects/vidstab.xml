@@ -1,8 +1,8 @@
 <!DOCTYPE kpartgui>
 <effect tag="vidstab" id="vidstab" type="hidden" version="0.2">
 	<name>Stabilize</name>
-	<description>Adjust audio volume with keyframes</description>
-	<author>Dan Dennedy</author>
+	<description>Stabilize Video (for wiggly/rolling video)</description>
+	<author>Marco Gittler</author>
 	<parameter type="constant" name="accuracy" default="8" max="10" min="1">
 		<name>Accuracy</name>
         <comment>Accuracy of Shakiness detection</comment>

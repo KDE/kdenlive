@@ -30,6 +30,9 @@ Row {
         property int startFrame: clipRoot.inPoint
         property int endFrame: clipRoot.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, container.width / thumbRepeater.count)
+        property int thumbStartFrame: (clipRoot.speed >= 0) ? Math.round(clipRoot.inPoint * clipRoot.speed) : Math.round((clipRoot.maxDuration - clipRoot.inPoint) * -clipRoot.speed - 1)
+        property int thumbEndFrame: (clipRoot.speed >= 0) ? Math.round(clipRoot.outPoint * clipRoot.speed) : Math.round((clipRoot.maxDuration - clipRoot.outPoint) * -clipRoot.speed - 1)
+
         Image {
             width: thumbRepeater.imageWidth
             height: container.height
@@ -38,7 +41,7 @@ Row {
             cache: enableCache
             property int currentFrame: Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
-            source: thumbRepeater.count < 3 ? (index == 0 ? clipRoot.baseThumbPath + Math.floor(clipRoot.inPoint * clipRoot.speed) : clipRoot.baseThumbPath + Math.floor(clipRoot.outPoint * clipRoot.speed)) : (index * width < thumbRow.scrollStart - width || index * width > thumbRow.scrollEnd) ? '' : clipRoot.baseThumbPath + currentFrame
+            source: thumbRepeater.count < 3 ? (index == 0 ? clipRoot.baseThumbPath + thumbRepeater.thumbStartFrame : clipRoot.baseThumbPath + thumbRepeater.thumbEndFrame) : (index * width < thumbRow.scrollStart - width || index * width > thumbRow.scrollEnd) ? '' : clipRoot.baseThumbPath + currentFrame
         }
     }
 }
