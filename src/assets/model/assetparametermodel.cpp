@@ -689,6 +689,7 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
     if (!loadFile.open(QIODevice::WriteOnly)) {
         // TODO: error message
     }
+    //TODO: delete file if there are no more presets in it
     loadFile.write(QJsonDocument(array).toJson());
 }
 

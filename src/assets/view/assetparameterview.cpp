@@ -302,13 +302,20 @@ void AssetParameterView::slotDeletePreset()
     if (!ac) {
         return;
     }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
+    slotDeletePreset(ac->data().toString());
+}
+
+void AssetParameterView::slotDeletePreset(const QString &presetName)
+{
+    if (presetName.isEmpty()) {
+        return;
     }
-    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
-    m_model->deletePreset(presetFile, ac->data().toString());
-    emit updatePresets();
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+    if (dir.exists()) {
+        const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_model->getAssetId()));
+        m_model->deletePreset(presetFile, presetName);
+        emit updatePresets();
+    }
 }
 
 void AssetParameterView::slotUpdatePreset()

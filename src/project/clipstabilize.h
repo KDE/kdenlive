@@ -50,7 +50,6 @@ public:
     QString filterName() const;
 private slots:
     void slotValidate();
-    void resetValues();
 
 private:
     QString m_filtername;

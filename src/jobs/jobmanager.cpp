@@ -42,7 +42,7 @@ JobManager::JobManager(QObject *parent)
 
 JobManager::~JobManager()
 {
-    slotCancelJobs();
+    //slotCancelJobs();
 }
 
 int JobManager::getBlockingJobId(const QString &id, AbstractClipJob::JOBTYPE type)
