@@ -77,6 +77,7 @@ public slots:
     void slotLoadPreset();
     void slotUpdatePreset();
     void slotDeletePreset();
+    void slotDeletePreset(const QString &presetName);
 
 protected:
     /** @brief This is a handler for the dataChanged slot of the model.

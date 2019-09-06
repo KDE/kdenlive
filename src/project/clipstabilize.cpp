@@ -72,16 +72,19 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
         m_assetModel.reset(new AssetParameterModel(std::move(prop), xml, m_filtername, {ObjectType::NoItem, -1}));
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
         const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
-        const QVector<QPair<QString, QVariant>> params = m_assetModel->loadPreset(presetFile, QStringLiteral("lastsetting"));
+        const QVector<QPair<QString, QVariant>> params = m_assetModel->loadPreset(presetFile, i18n("Last setting"));
         if (!params.isEmpty()) {
             m_assetModel->setParameters(params);
         }
         m_view->setModel(m_assetModel, QSize(1920, 1080));
         m_vbox->addWidget(m_view.get());
+        // Presets
+        preset_button->setIcon(QIcon::fromTheme(QStringLiteral("adjustlevels")));
+        preset_button->setMenu(m_view->presetMenu());
+        preset_button->setToolTip(i18n("Presets"));
     }
 
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &ClipStabilize::slotValidate);
-    connect(button_reset, &QPushButton::clicked, this, &ClipStabilize::resetValues);
     adjustSize();
 }
 
@@ -159,23 +162,7 @@ void ClipStabilize::slotValidate()
             }
         }
     }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-    }
-    const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
-    m_assetModel->savePreset(presetFile, QStringLiteral("lastsetting"));
+    m_view->slotSavePreset(i18n("Last setting"));
     accept();
 }
 
-void ClipStabilize::resetValues()
-{
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
-    if (dir.exists()) {
-        const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(m_assetModel->getAssetId()));
-        m_assetModel->deletePreset(presetFile, QStringLiteral("lastsetting"));
-    }
-    m_view->resetValues();
-    /*const QVector<QPair<QString, QVariant>> values = m_view->getDefaultValues();
-    m_assetModel->setParameters(values);*/
-}

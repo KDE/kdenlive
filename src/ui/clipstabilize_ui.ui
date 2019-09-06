@@ -14,10 +14,7 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="1" colspan="2">
-    <widget class="KUrlRequester" name="dest_url"/>
-   </item>
-   <item row="1" column="0" colspan="3">
+   <item row="1" column="0" colspan="4">
     <widget class="QLabel" name="label_3">
      <property name="text">
       <string>Options</string>
@@ -31,13 +28,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QWidget" name="optionsbox" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="4" column="0" colspan="4">
+    <widget class="QCheckBox" name="auto_add">
+     <property name="text">
+      <string>Add clip to project</string>
      </property>
     </widget>
    </item>
@@ -54,14 +48,40 @@
      </property>
     </spacer>
    </item>
-   <item row="5" column="0">
-    <widget class="QPushButton" name="button_reset">
-     <property name="text">
-      <string>Reset</string>
+   <item row="0" column="2" colspan="2">
+    <widget class="KUrlRequester" name="dest_url"/>
+   </item>
+   <item row="5" column="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
+   <item row="2" column="0" colspan="4">
+    <widget class="QWidget" name="optionsbox" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QToolButton" name="preset_button">
+     <property name="text">
+      <string>...</string>
+     </property>
+     <property name="popupMode">
+      <enum>QToolButton::InstantPopup</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1" colspan="2">
     <spacer name="horizontalSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -73,23 +93,6 @@
       </size>
      </property>
     </spacer>
-   </item>
-   <item row="5" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="auto_add">
-     <property name="text">
-      <string>Add clip to project</string>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>
