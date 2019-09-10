@@ -329,9 +329,11 @@ int TimelineModel::getTrackMltIndex(int trackId) const
 int TimelineModel::getTrackSortValue(int trackId, int separated) const
 {
     if (separated == 1) {
+        // This will be A2, A1, V1, V2
         return getTrackPosition(trackId) + 1;
     }
     if (separated == 2) {
+        // This will be A1, A2, V1, V2
         // Count audio/video tracks
         auto it = m_allTracks.cbegin();
         int aCount = 0;
@@ -356,6 +358,7 @@ int TimelineModel::getTrackSortValue(int trackId, int separated) const
         }
         return isVideo ? aCount + refPos + 1 : aCount - refPos;
     }
+    // This will be A1, V1, A2, V2
     auto it = m_allTracks.cend();
     int aCount = 0;
     int vCount = 0;
@@ -374,16 +377,14 @@ int TimelineModel::getTrackSortValue(int trackId, int separated) const
             trackPos = audioTrack ? aCount : vCount;
         }
     }
-    int trackDiff = aCount - vCount;
+    int trackDiff = qMax(0, aCount - vCount);
     if (trackDiff > 0) {
-        // more audio tracks
-        if (!isAudio) {
-            trackPos -= trackDiff;
-        } else if (trackPos > vCount) {
+        // more audio tracks, keep them below
+        if (isAudio && trackPos > vCount) {
             return -trackPos;
         }
     }
-    return isAudio ? ((aCount * trackPos) - 1) : (vCount + 1 - trackPos) * 2;
+    return isAudio ? 2 * trackPos : 2 * (vCount + 1 - trackPos) + 1;//((aCount * trackPos) - 1) : (vCount + 1 - trackPos) * 2;
 }
 
 QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
