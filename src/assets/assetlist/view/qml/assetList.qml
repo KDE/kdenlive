@@ -145,7 +145,6 @@ Rectangle {
                 id: downloadTransitions
                 visible: !isEffectList
                 icon.name: "edit-download"
-                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: i18n("Download New Wipes...")
                 onClicked: {
