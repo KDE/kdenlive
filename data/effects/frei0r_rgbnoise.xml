@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="frei0r.rgbnoise" id="frei0r.rgbnoise">
+	  <name>RGB Noise</name>
+	  <description>Adds RGB noise to image</description>
+	  <author>Janne Liljeblad</author>
+    <parameter type="animated" name="noise" default="0.2" min="0" max="100" factor="100">
+      <name>Noise</name>
+      <comment>Amount of noise added.</comment>
+    </parameter>
+  </effect>
+</group>

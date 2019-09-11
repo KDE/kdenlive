@@ -1,5 +1,6 @@
 INSTALL (FILES 
 
+audiospectrum.xml
 audiowave.xml
 audiowaveform.xml
 automask.xml
@@ -56,6 +57,7 @@ frei0r_cluster.xml
 frei0r_colgate.xml
 frei0r_coloradj_rgb.xml
 frei0r_colordistance.xml
+frei0r_colorize.xml
 frei0r_colortap.xml
 frei0r_contrast0r.xml
 frei0r_c0rners.xml
@@ -65,7 +67,9 @@ frei0r_defish0r.xml
 frei0r_delay0r.xml
 frei0r_delaygrab.xml
 frei0r_distort0r.xml
+frei0r_dither.xml
 frei0r_edgeglow.xml
+frei0r_emboss.xml
 frei0r_equaliz0r.xml
 frei0r_flippo.xml
 frei0r_glow.xml
@@ -86,13 +90,16 @@ frei0r_pixeliz0r.xml
 frei0r_pr0be.xml
 frei0r_pr0file.xml
 frei0r_primaries.xml
+frei0r_rgbnoise.xml
 frei0r_rgbparade.xml
 frei0r_saturat0r.xml
 frei0r_scale0tilt.xml
 frei0r_scanline0r.xml
 frei0r_select0r.xml
 frei0r_sharpness.xml
+frei0r_sigmoidaltransfer.xml
 frei0r_sobel.xml
+frei0r_softglow.xml
 frei0r_sopsat.xml
 frei0r_squareblur.xml
 frei0r_tehroxx0r.xml

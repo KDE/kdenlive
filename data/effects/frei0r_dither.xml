@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="frei0r.dither" id="frei0r.dither">
+	  <name>Dither</name>
+	  <description>Dithers the image and reduces the number of available colors</description>
+	  <author>Janne Liljeblad</author>
+    <parameter type="animated" name="levels" default="0.1042" min="2" max="50" factor="48">
+      <name>Levels</name>
+      <comment>Number of values per channel.</comment>
+    </parameter>
+    <parameter type="animated" name="matrixid" default="1" min="0" max="9" factor="9">
+      <name>Matrix Id.</name>
+      <comment>Id of matrix used for dithering.</comment>
+    </parameter>
+  </effect>
+</group>
