@@ -1,0 +1,20 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="frei0r.colorize" id="frei0r.colorize">
+	  <name>Colorize</name>
+	  <description>Colorizes image to selected hue, saturation and lightness</description>
+	  <author>Janne Liljeblad</author>
+    <parameter type="animated" name="hue" default="0.5" min="0" max="360" factor="360">
+      <name>Hue</name>
+      <comment>Color shade of the colorized image.</comment>
+    </parameter>
+    <parameter type="animated" name="saturation" default="0.5" min="0" max="360" factor="360">
+      <name>Saturation</name>
+      <comment>Amount of color in the colorized image.</comment>
+    </parameter>
+    <parameter type="animated" name="lightness" default="0.5" min="0" max="360" factor="360">
+      <name>Lightness</name>
+      <comment>Lightness of the colorized image.</comment>
+    </parameter>
+  </effect>
+</group>

@@ -1,0 +1,69 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="audiospectrum" id="audiospectrum">
+	  <name>Audio Spectrum Filter</name>
+	  <description>An audio visualization filter that draws an audio spectrum on the image.</description>
+	  <author>Brian Matherly</author>
+    <parameter type="list" name="type" default="line" paramlist="line;bar">
+        <paramlistdisplay>Line,Bar</paramlistdisplay>
+        <name>Graph type</name>
+        <comment>The type of graph to display the spectrum.</comment>
+    </parameter>
+    <parameter type="color" name="bgcolor" default="0x00000000" alpha="1">
+        <name>Background Color</name>
+        <comment>The background color to be applied to the entire frame. The default color is transparent.</comment>
+    </parameter>
+    <parameter type="color" name="color.1" default="0xffffffff" alpha="1">
+        <name>Foreground color</name>
+        <comment>The color of the waveform.</comment>
+    </parameter>
+    <parameter type="constant" name="thickness" default="0" min="0" max="20">
+      <name>Line Thickness</name>
+      <comment>The thickness of the line used to draw the waveform for line graph. The thickness of the bar for bar graph.</comment>
+    </parameter>
+    <parameter type="constant" name="angle" default="0" min="0" max="360">
+      <name>Angle</name>
+      <comment>The rotation angle to be applied to the waveform.</comment>
+    </parameter>
+    <parameter type="geometry" name="rect" default="0 0:100% 100%" fixed="1" opacity="false">
+        <name>Rectangle</name>
+        <comment>Defines the rectangle that the waveform(s) should be drawn in.</comment>
+    </parameter>
+    <parameter type="bool" name="fill" default="0">
+        <name>Fill</name>
+        <comment>Whether the area under the waveform should be filled in. Only applies to line graph type.</comment>
+    </parameter>
+    <parameter type="bool" name="mirror" default="0">
+        <name>Mirror</name>
+        <comment>Mirror the spectrum about the center of the rectangle.</comment>
+    </parameter>
+    <parameter type="bool" name="reverse" default="0">
+        <name>Reverse</name>
+        <comment>Draw the points starting with the highest frequency first.</comment>
+    </parameter>
+    <parameter type="animated" name="tension" default="0.4" min="-200" max="200" factor="100">
+      <name>Line Tension</name>
+      <comment>Affects the amount of curve in the line interpolating between points. 0.0 = a straight line between points. 100 = very curved lines between points. Values &lt; 0 and &gt; 100 will cause loops in the lines. Only applies to line graph type.</comment>
+    </parameter>
+    <parameter type="constant" name="bands" default="31" min="0" max="1000">
+      <name>Points</name>
+      <comment>The number of bands to draw in the spectrum. Each band shows up as a data point in the graph.</comment>
+    </parameter>
+    <parameter type="constant" name="frequency_low" default="20" min="0" max="30000">
+      <name>Low Frequency</name>
+      <comment>The low end of the frequency range to be used for the graph.</comment>
+    </parameter>
+    <parameter type="constant" name="frequency_high" default="20000" min="0" max="30000">
+      <name>High Frequency</name>
+      <comment>The high end of the frequency range to be used for the graph.</comment>
+    </parameter>
+    <parameter type="constant" name="threshold" default="-30" min="-100" max="0" suffix="dB">
+      <name>Level Threshold</name>
+      <comment>The minimum amplitude of sound that must occur within the frequency range to cause the value to be applied.</comment>
+    </parameter>
+    <parameter type="constant" name="window_size" default="2048" min="1" max="4000">
+      <name>Window Size</name>
+      <comment>The number of samples that the FFT will be performed on. If window size is less than the number of samples in a frame, extra samples will be ignored. If window size is more than the number of samples in a frame, samples will be buffered from previous frames to fill the window. The buffering is performed as a sliding window so that the most recent samples are always transformed.</comment>
+    </parameter>
+  </effect>
+</group>

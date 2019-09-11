@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<group>
+  <effect tag="frei0r.sigmoidaltransfer" id="frei0r.sigmoidaltransfer">
+	  <name>Sigmoidal Transfer</name>
+	  <description>Desaturates image and creates a particular look that could be called Stamp, Newspaper or Photocopy</description>
+	  <author>Janne Liljeblad</author>
+    <parameter type="animated" name="brightness" default="0.75" min="0" max="100" factor="100">
+      <name>Brightness</name>
+      <comment>Brightness of image.</comment>
+    </parameter>
+    <parameter type="animated" name="sharpness" default="0.85" min="0" max="100" factor="100">
+      <name>Sharpness</name>
+      <comment>Sharpness of transfer.</comment>
+    </parameter>
+  </effect>
+</group>
