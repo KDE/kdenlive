@@ -55,7 +55,12 @@ Rectangle {
         anchors.fill: parent
         spacing: 0
 
+        ButtonGroup {
+            id: radioGroup
+        }
+
         RowLayout {
+            id: row
             Layout.fillWidth: true
             Layout.fillHeight: false
             spacing: 4
@@ -80,6 +85,7 @@ Rectangle {
                 icon.name: "show-all-effects"
                 checkable: true
                 checked: true
+                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: isEffectList ? i18n("Main effects") : i18n("Main compositions")
                 onClicked: {
@@ -92,6 +98,7 @@ Rectangle {
                 icon.name: "kdenlive-show-video"
                 icon.source: 'qrc:///pics/kdenlive-show-video.svgz'
                 checkable:true
+                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: i18n("Show all video effects")
                 onClicked: {
@@ -104,6 +111,7 @@ Rectangle {
                 icon.name: "kdenlive-show-audio"
                 icon.source: 'qrc:///pics/kdenlive-show-audio.svgz'
                 checkable:true
+                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: i18n("Show all audio effects")
                 onClicked: {
@@ -115,6 +123,7 @@ Rectangle {
                 visible: isEffectList
                 icon.name: "kdenlive-custom-effect"
                 checkable:true
+                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: i18n("Show all custom effects")
                 onClicked: {
@@ -125,6 +134,7 @@ Rectangle {
                 id: showFavorites
                 icon.name: "favorite"
                 checkable:true
+                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: i18n("Show favorite items")
                 onClicked: {
@@ -135,6 +145,7 @@ Rectangle {
                 id: downloadTransitions
                 visible: !isEffectList
                 icon.name: "edit-download"
+                ButtonGroup.group: radioGroup
                 ToolTip.visible: hovered
                 ToolTip.text: i18n("Download New Wipes...")
                 onClicked: {
