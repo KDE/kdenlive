@@ -21,7 +21,7 @@
 
 import QtQuick 2.7
 import QtQuick.Layouts 1.3
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.8
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
 import QtQml.Models 2.2
@@ -65,21 +65,6 @@ Rectangle {
             Layout.fillHeight: false
             spacing: 4
 
-            ToolButton {
-                id: searchList
-                icon.name: "edit-find"
-                checkable: true
-                ToolTip.visible: hovered
-                ToolTip.text: isEffectList ? i18n("Find effect") : i18n("Find composition")
-                onCheckedChanged: {
-                    searchInput.visible = searchList.checked
-                    searchInput.focus = searchList.checked
-                    if (!searchList.checked) {
-                        searchInput.text = ''
-                        listView.focus = true
-                    }
-                }
-            }
             ToolButton {
                 id: showAll
                 icon.name: "show-all-effects"
@@ -170,10 +155,11 @@ Rectangle {
             }
 
         }
+
         TextField {
             id: searchInput
             Layout.fillWidth:true
-            visible: false
+
             Image {
                 id: clear
                 source: 'image://icon/edit-clear'
@@ -186,6 +172,7 @@ Rectangle {
                     onClicked: { searchInput.text = ''; searchInput.focus = true; searchList.checked = false; }
                 }
             }
+
             states: State {
                 name: "hasText"; when: searchInput.text != ''
                 PropertyChanges { target: clear; opacity: 1 }
@@ -235,6 +222,7 @@ Rectangle {
                 }
             }
         }
+
         ItemSelectionModel {
             id: sel
             model: assetListModel
@@ -243,7 +231,7 @@ Rectangle {
             }
         }
 
-        Column {
+        ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
@@ -376,8 +364,8 @@ Rectangle {
 
             TextArea {
                 id: assetDescription
-                width: parent.width
-                height: Math.max(parent.height / 2, 50)
+                Layout.fillWidth: true
+                Layout.minimumHeight: 50
                 text: ""
                 visible: showDescription.checked
                 readOnly: true
