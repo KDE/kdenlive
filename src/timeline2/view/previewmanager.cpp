@@ -343,7 +343,7 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
             }
         }
         if (!foundChunks.isEmpty()) {
-            qSort(foundChunks);
+            std::sort(foundChunks.begin(), foundChunks.end());
             m_controller->dirtyChunksChanged();
             m_controller->renderedChunksChanged();
             reloadChunks(foundChunks);
@@ -530,7 +530,7 @@ void PreviewManager::receivedStderr()
 void PreviewManager::doPreviewRender(const QString &scene)
 {
     // initialize progress bar
-    qSort(m_dirtyChunks);
+    std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     if (m_dirtyChunks.isEmpty()) {
         return;
     }
@@ -617,7 +617,7 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     int start = startFrame - startFrame % chunkSize;
     int end = endFrame - endFrame % chunkSize + chunkSize;
 
-    qSort(m_renderedChunks);
+    std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
     m_previewGatherTimer.stop();
     abortRendering();
     m_tractor->lock();
@@ -724,7 +724,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
     m_cacheDir.remove(fileName);
     if (!m_dirtyChunks.contains(frame)) {
         m_dirtyChunks << frame;
-        qSort(m_dirtyChunks);
+        std::sort(m_dirtyChunks.begin(), m_dirtyChunks.end());
     }
 }
 

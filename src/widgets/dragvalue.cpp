@@ -407,7 +407,7 @@ CustomLabel::CustomLabel(const QString &label, bool showSlider, int range, QWidg
         setRange(0, range);
         QSize sh;
         const QFontMetrics &fm = fontMetrics();
-        sh.setWidth(fm.width(QLatin1Char(' ') + label + QLatin1Char(' ')));
+        sh.setWidth(fm.horizontalAdvance(QLatin1Char(' ') + label + QLatin1Char(' ')));
         setMaximumWidth(sh.width());
         setObjectName(QStringLiteral("dragOnly"));
     }

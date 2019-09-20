@@ -930,7 +930,7 @@ void TimelineController::setPosition(int position)
 
 void TimelineController::setAudioTarget(int track)
 {
-    if (track > -1 && !m_model->isTrack(track) || !m_hasAudioTarget) {
+    if ((track > -1 && !m_model->isTrack(track)) || !m_hasAudioTarget) {
         return;
     }
     m_model->m_audioTarget = track;
@@ -939,7 +939,7 @@ void TimelineController::setAudioTarget(int track)
 
 void TimelineController::setVideoTarget(int track)
 {
-    if (track > -1 && !m_model->isTrack(track) || !m_hasVideoTarget) {
+    if ((track > -1 && !m_model->isTrack(track)) || !m_hasVideoTarget) {
         return;
     }
     m_model->m_videoTarget = track;
@@ -1666,7 +1666,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     int vTrack = -1;
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(bid);
     if (out <= in) {
-        out = clip->frameDuration() - 1;
+        out = (int)clip->frameDuration() - 1;
     }
     if (dropType == PlaylistState::VideoOnly) {
         vTrack = tid;
@@ -2581,7 +2581,6 @@ void TimelineController::finishRecording(const QString &recordedFile)
             return;
         }
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
-        bool res = false;
         if (m_recordStart.second > 0) {
             // Limited space on track
             std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
@@ -2590,9 +2589,9 @@ void TimelineController::finishRecording(const QString &recordedFile)
             }
             int out = qMin((int)clip->frameDuration() - 1, m_recordStart.second - 1);
             QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(out);
-            res = m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
+            m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);
         } else {
-            res = m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);
+            m_model->requestClipInsertion(binId, m_recordTrack, m_recordStart.first, id, true, true, false);
         }
     };
     QString binId =

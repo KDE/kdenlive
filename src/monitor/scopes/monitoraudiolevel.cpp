@@ -153,7 +153,7 @@ void MonitorAudioLevel::drawBackground(int channels)
     for (int i = 0; i < dbLabelCount; i++) {
         int value = dbscale.at(i);
         QString label = QString().sprintf("%d", value);
-        int labelWidth = fontMetrics().width(label);
+        int labelWidth = fontMetrics().horizontalAdvance(label);
         double xf = pow(10.0, (double)dbscale.at(i) / 50.0) * m_pixmap.width() * 40.0 / 42;
         if (xf + labelWidth / 2 > m_pixmap.width()) {
             xf = width() - labelWidth / 2;

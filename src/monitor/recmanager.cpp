@@ -31,7 +31,7 @@
 #include <KMessageBox>
 
 #include <QComboBox>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QDir>
 #include <QFile>
 #include <QMenu>
@@ -227,7 +227,6 @@ void RecManager::slotRecord(bool record)
     }
     m_captureFile = QUrl::fromLocalFile(path);
     QString captureSize;
-    QRect screenSize = QApplication::desktop()->screenGeometry(m_screenIndex);
     QStringList captureArgs;
 #ifdef Q_OS_WIN
     captureArgs << QStringLiteral("-f") << QStringLiteral("gdigrab");
@@ -245,6 +244,7 @@ void RecManager::slotRecord(bool record)
     captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
+        QRect screenSize = QApplication::screens()[m_screenIndex]->geometry();
         captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {

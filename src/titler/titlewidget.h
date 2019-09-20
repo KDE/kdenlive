@@ -151,9 +151,6 @@ private:
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
 
-    // See http://doc.trolltech.com/4.5/signalsandslots.html#advanced-signals-and-slots-usage.
-    QSignalMapper *m_signalMapper;
-
     enum ValueType { ValueWidth = 1, ValueHeight = 2, ValueX = 4, ValueY = 8 };
 
     /** @brief Sets the font weight value in the combo box. (#909) */

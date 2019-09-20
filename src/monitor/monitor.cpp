@@ -52,6 +52,7 @@
 
 #include "kdenlive_debug.h"
 #include <QDesktopWidget>
+#include <QScreen>
 #include <QDrag>
 #include <QFileDialog>
 #include <QMenu>
@@ -530,7 +531,7 @@ void Monitor::slotForceSize(QAction *a)
     int profileHeight = 200;
     if (resizeType > 0) {
         // calculate size
-        QRect r = QApplication::desktop()->screenGeometry();
+        QRect r = QApplication::primaryScreen()->geometry();
         profileHeight = m_glMonitor->profileSize().height() * resizeType / 100;
         profileWidth = pCore->getCurrentProfile()->dar() * profileHeight;
         if (profileWidth > r.width() * 0.8 || profileHeight > r.height() * 0.7) {
@@ -778,22 +779,18 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
-        // Check if we have a multiple monitor setup
-        int monitors = QApplication::desktop()->screenCount();
-        int screen = -1;
-        if (monitors > 1) {
-            QRect screenres;
-            // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget
-            // int currentScreen = QApplication::desktop()->screenNumber(this);
-            for (int i = 0; screen == -1 && i < QApplication::desktop()->screenCount(); i++) {
-                if (i != QApplication::desktop()->screenNumber(this->parentWidget()->parentWidget())) {
-                    screen = i;
+        // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
+        if (qApp->screens().count() > 1) {
+            for (auto screen : qApp->screens()) {
+                if (screen != qApp->screenAt(this->parentWidget()->pos())) {
+                    m_glWidget->setParent(qApp->desktop()->screen(qApp->screens().indexOf(screen)));
+                    break;
                 }
             }
+        } else {
+            m_glWidget->setParent(qApp->desktop()->screen(0));
         }
         m_qmlManager->enableAudioThumbs(false);
-        m_glWidget->setParent(QApplication::desktop()->screen(screen));
-        m_glWidget->move(QApplication::desktop()->screenGeometry(screen).bottomLeft());
         m_glWidget->showFullScreen();
     } else {
         m_glWidget->showNormal();
@@ -877,7 +874,7 @@ void Monitor::slotStartDrag()
     /*QPixmap pix = m_currentClip->thumbnail();
     drag->setPixmap(pix);
     drag->setHotSpot(QPoint(0, 50));*/
-    drag->start(Qt::MoveAction);
+    drag->exec(Qt::MoveAction);
 }
 
 void Monitor::enterEvent(QEvent *event)
@@ -916,7 +913,7 @@ void Monitor::mouseMoveEvent(QMouseEvent *event)
         clipData.append(list.join(QLatin1Char(';')).toUtf8());
         mimeData->setData(QStringLiteral("kdenlive/clip"), clipData);
         drag->setMimeData(mimeData);
-        drag->start(Qt::MoveAction);
+        drag->exec(Qt::MoveAction);
     }
     event->accept();
 }

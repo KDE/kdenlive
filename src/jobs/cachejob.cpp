@@ -72,7 +72,7 @@ bool CacheJob::startJob()
         qDebug() << "********\nCOULD NOT READ THUMB PRODUCER\n********";
         return false;
     }
-    int duration = m_outPoint > 0 ? m_outPoint - m_inPoint : m_binClip->frameDuration();
+    int duration = m_outPoint > 0 ? m_outPoint - m_inPoint : (int)m_binClip->frameDuration();
     if (m_thumbsCount * 5 > duration) {
         m_thumbsCount = duration / 10;
     }
@@ -80,7 +80,7 @@ bool CacheJob::startJob()
     for (int i = 1; i <= m_thumbsCount; ++i) {
         frames.insert(m_inPoint + (duration * i / m_thumbsCount));
     }
-    int size = frames.size();
+    int size = (int)frames.size();
     int count = 0;
     connect(this, &CacheJob::jobCanceled, [&] () {
         m_clipId.clear();
@@ -111,6 +111,8 @@ bool CacheJob::startJob()
 
 bool CacheJob::commitResult(Fun &undo, Fun &redo)
 {
+    Q_UNUSED(undo)
+    Q_UNUSED(redo)
     Q_ASSERT(!m_resultConsumed);
     m_resultConsumed = true;
     return m_done;

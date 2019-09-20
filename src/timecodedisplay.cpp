@@ -64,7 +64,7 @@ TimecodeDisplay::TimecodeDisplay(const Timecode &t, QWidget *parent)
     setPalette(palette);
     setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
     setValue(m_minimum);
-    setMinimumWidth(fm.width(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() -
+    setMinimumWidth(fm.horizontalAdvance(QStringLiteral("88:88:88:88")) + contentsMargins().right() + contentsMargins().left() + frameSize().width() -
                     lineEdit()->contentsRect().width() + (int)QStyle::PM_SpinBoxFrameWidth + 6);
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);

@@ -34,12 +34,9 @@ ScopeManager::ScopeManager(QObject *parent)
     : QObject(parent)
 
 {
-    m_signalMapper = new QSignalMapper(this);
-
     connect(pCore->monitorManager(), &MonitorManager::checkColorScopes, this, &ScopeManager::slotUpdateActiveRenderer);
     connect(pCore->monitorManager(), &MonitorManager::clearScopes, this, &ScopeManager::slotClearColorScopes);
     connect(pCore->monitorManager(), &MonitorManager::checkScopes, this, &ScopeManager::slotCheckActiveScopes);
-    connect(m_signalMapper, SIGNAL(mapped(QString)), SLOT(slotRequestFrame(QString)));
 
     slotUpdateActiveRenderer();
 
@@ -63,8 +60,6 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << audioScope->widgetName();
 #endif
 
-        m_signalMapper->setMapping(audioScopeWidget, QString(audioScope->widgetName()));
-
         AudioScopeData asd;
         asd.scope = audioScope;
         m_audioScopes.append(asd);
@@ -72,7 +67,7 @@ bool ScopeManager::addScope(AbstractAudioScopeWidget *audioScope, QDockWidget *a
         connect(audioScope, &AbstractScopeWidget::requestAutoRefresh, this, &ScopeManager::slotCheckActiveScopes);
         if (audioScopeWidget != nullptr) {
             connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
-            connect(audioScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
+            connect(audioScopeWidget, &QDockWidget::visibilityChanged, this, [this, audioScope](){slotRequestFrame(QString(audioScope->widgetName()));});
         }
 
         added = true;
@@ -94,8 +89,6 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         qCDebug(KDENLIVE_LOG) << "Adding scope to scope manager: " << colorScope->widgetName();
 #endif
 
-        m_signalMapper->setMapping(colorScopeWidget, QString(colorScope->widgetName()));
-
         GfxScopeData gsd;
         gsd.scope = colorScope;
         m_colorScopes.append(gsd);
@@ -105,7 +98,7 @@ bool ScopeManager::addScope(AbstractGfxScopeWidget *colorScope, QDockWidget *col
         connect(colorScope, &AbstractScopeWidget::signalScopeRenderingFinished, this, &ScopeManager::slotScopeReady);
         if (colorScopeWidget != nullptr) {
             connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, &ScopeManager::slotCheckActiveScopes);
-            connect(colorScopeWidget, SIGNAL(visibilityChanged(bool)), m_signalMapper, SLOT(map()));
+            connect(colorScopeWidget, &QDockWidget::visibilityChanged, this, [this, colorScope](){slotRequestFrame(QString(colorScope->widgetName()));});
         }
 
         added = true;

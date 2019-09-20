@@ -95,7 +95,7 @@ void DvdWizardChapters::slotAddChapter()
     for (int i = 0; i < currentChaps.count(); ++i) {
         chapterTimes.append(currentChaps.at(i).toInt());
     }
-    qSort(chapterTimes);
+    std::sort(chapterTimes.begin(), chapterTimes.end());
 
     // rebuild chapters
     QStringList chaptersString;

@@ -33,7 +33,7 @@
 #include <QFontDatabase>
 #include <mlt++/Mlt.h>
 
-ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterName, int out, QWidget *parent)
+ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterName, QWidget *parent)
     : QDialog(parent)
     , m_filtername(std::move(filterName))
     , m_binIds(binIds)

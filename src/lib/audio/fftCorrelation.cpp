@@ -48,13 +48,13 @@ void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const 
     qint64 maxLeft = 1;
     qint64 maxRight = 1;
     for (size_t i = 0; i < leftSize; ++i) {
-        if (labs(left[i]) > maxLeft) {
-            maxLeft = labs(left[i]);
+        if (qAbs(left[i]) > maxLeft) {
+            maxLeft = qAbs(left[i]);
         }
     }
     for (size_t i = 0; i < rightSize; ++i) {
-        if (labs(right[i]) > maxRight) {
-            maxRight = labs(right[i]);
+        if (qAbs(right[i]) > maxRight) {
+            maxRight = qAbs(right[i]);
         }
     }
 

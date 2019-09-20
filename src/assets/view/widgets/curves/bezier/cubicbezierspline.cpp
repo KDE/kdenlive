@@ -156,7 +156,7 @@ void CubicBezierSpline::validatePoints()
 
 void CubicBezierSpline::keepSorted()
 {
-    qSort(m_points.begin(), m_points.end(), pointLessThan);
+    std::sort(m_points.begin(), m_points.end(), pointLessThan);
 }
 
 int CubicBezierSpline::indexOf(const BPoint &p)

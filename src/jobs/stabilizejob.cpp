@@ -86,7 +86,7 @@ int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::
     Q_ASSERT(supportedFilters().count(filterName) > 0);
     if (filterName == QLatin1String("vidstab")) {
         // vidstab
-        QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, filterName, 100000));
+        QScopedPointer<ClipStabilize> d(new ClipStabilize(binIds, filterName));
         if (d->exec() == QDialog::Accepted) {
             std::unordered_map<QString, QString> filterParams = d->filterParams();
             QString destination = d->destination();
