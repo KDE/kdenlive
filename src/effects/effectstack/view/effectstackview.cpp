@@ -189,7 +189,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
 void EffectStackView::loadEffects()
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects: ";
-    QMutexLocker lock(&m_mutex);
+    //QMutexLocker lock(&m_mutex);
     int max = m_model->rowCount();
     if (max == 0) {
         // blank stack
@@ -242,13 +242,17 @@ void EffectStackView::updateTreeHeight()
 {
     // For some reason, the treeview height does not update correctly, so enforce it
     int totalHeight = 0;
+    m_mutex.lock();
     for (int j = 0; j < m_model->rowCount(); j++) {
         std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item2);
         QModelIndex idx = m_model->getIndexFromItem(eff);
         auto w = m_effectsTree->indexWidget(idx);
-        totalHeight += w->height();
+        if (w) {
+            totalHeight += w->height();
+        }
     }
+    m_mutex.unlock();
     setMinimumHeight(totalHeight);
 }
 
@@ -288,11 +292,13 @@ void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<Ef
 void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height)
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: " << height;
-    QMutexLocker lock(&m_mutex);
+    //QMutexLocker lock(&m_mutex);
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-    del->setHeight(ix, height);
-    updateTreeHeight();
+    if (del) {
+        del->setHeight(ix, height);
+        updateTreeHeight();
+    }
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";
 }
 

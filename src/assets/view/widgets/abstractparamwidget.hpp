@@ -62,6 +62,7 @@ signals:
     void disableCurrentFilter(bool);
 
     void seekToPos(int);
+    void updateHeight();
 
 public slots:
     /** @brief Toggle the comments on or off

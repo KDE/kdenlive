@@ -36,6 +36,7 @@ SwitchParamWidget::SwitchParamWidget(std::shared_ptr<AssetParameterModel> model,
 
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    setMinimumHeight(m_labelName->sizeHint().height());
 
     // set check state
     slotRefresh();

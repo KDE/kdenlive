@@ -49,8 +49,10 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     , m_monitorHelper(nullptr)
     , m_neededScene(MonitorSceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
+    , m_baseHeight(0)
+    , m_addedHeight(0)
 {
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(2, 2, 2, 0);
     m_lay->setSpacing(0);
@@ -168,6 +170,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
+    m_baseHeight = m_keyframeview->minimumHeight() + m_toolbar->sizeHint().height() + 2;
+    setFixedHeight(m_baseHeight);
     addParameter(index);
 
     connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
@@ -386,6 +390,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
     if (paramWidget) {
         m_parameters[index] = paramWidget;
         m_lay->addWidget(paramWidget);
+        m_addedHeight += paramWidget->minimumHeight();
+        setFixedHeight(m_baseHeight + m_addedHeight);
     }
 }
 
@@ -446,8 +452,12 @@ bool KeyframeWidget::keyframesVisible() const
 
 void KeyframeWidget::showKeyframes(bool enable)
 {
+    if (enable && m_toolbar->isVisible()) {
+        return;
+    }
     m_toolbar->setVisible(enable);
     m_keyframeview->setVisible(enable);
+    setFixedHeight(m_addedHeight + (enable ? m_baseHeight : 0));
 }
 
 void KeyframeWidget::slotCopyKeyframes()

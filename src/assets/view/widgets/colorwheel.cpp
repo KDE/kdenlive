@@ -89,10 +89,10 @@ ColorWheel::ColorWheel(QString id, QString name, NegQColor color, QWidget *paren
 {
     QFontInfo info(font());
     m_unitSize = info.pixelSize();
-    m_initialSize = QSize(m_unitSize * 11.5, m_unitSize * 11);
+    m_initialSize = QSize(m_unitSize * 11, m_unitSize * 11);
     m_sliderWidth = m_unitSize * 1.5;
     resize(m_initialSize);
-    setMinimumSize(100, 100);
+    setMinimumSize(m_initialSize * .4);
     setMaximumSize(m_initialSize);
     setCursor(Qt::CrossCursor);
 }
@@ -152,11 +152,11 @@ NegQColor ColorWheel::colorForPoint(const QPointF &point)
 
 QSize ColorWheel::sizeHint() const
 {
-    return {width(), height()};
+    return m_initialSize * .8;
 }
 QSize ColorWheel::minimumSizeHint() const
 {
-    return {100, 100};
+    return m_initialSize * .4;
 }
 
 void ColorWheel::mousePressEvent(QMouseEvent *event)

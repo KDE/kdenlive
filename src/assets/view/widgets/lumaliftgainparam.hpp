@@ -26,6 +26,7 @@
 #include <QDomElement>
 
 class ColorWheel;
+class FlowLayout;
 
 /**
  * @class LumaLiftGainParam
@@ -49,6 +50,10 @@ private:
     ColorWheel *m_lift;
     ColorWheel *m_gamma;
     ColorWheel *m_gain;
+    FlowLayout *m_flowLayout;
+
+protected:
+    void resizeEvent(QResizeEvent *ev) override;
 
 signals:
     /** @brief Emitted whenever a different color was chosen. */

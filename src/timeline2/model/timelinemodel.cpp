@@ -384,7 +384,7 @@ int TimelineModel::getTrackSortValue(int trackId, int separated) const
             return -trackPos;
         }
     }
-    return isAudio ? 2 * trackPos : 2 * (vCount + 1 - trackPos) + 1;//((aCount * trackPos) - 1) : (vCount + 1 - trackPos) * 2;
+    return isAudio ? 2 * trackPos : 2 * (vCount + 1 - trackPos) + 1;
 }
 
 QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const

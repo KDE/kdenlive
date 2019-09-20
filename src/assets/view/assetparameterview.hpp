@@ -109,6 +109,7 @@ signals:
     void initKeyframeView(bool active);
     /** @brief clear and refill the effect presets */
     void updatePresets(const QString &presetName = QString());
+    void updateHeight();
 };
 
 #endif

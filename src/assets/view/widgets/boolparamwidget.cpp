@@ -26,7 +26,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     : AbstractParamWidget(std::move(model), index, parent)
 {
     setupUi(this);
-
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     // setup the comment
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
@@ -35,6 +35,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
 
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    setMinimumHeight(m_labelName->sizeHint().height());
 
     // set check state
     slotRefresh();

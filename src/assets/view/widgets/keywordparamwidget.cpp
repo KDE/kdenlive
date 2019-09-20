@@ -50,6 +50,7 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     comboboxwidget->setCurrentIndex(0);
     // set check state
     slotRefresh();
+    setMinimumHeight(comboboxwidget->sizeHint().height());
 
     // emit the signal of the base class when appropriate
     connect(lineeditwidget, &QLineEdit::editingFinished, [this]() { 

@@ -32,11 +32,8 @@ static const double GAIN_FACTOR = 4.0;
 LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    auto *flowLayout = new FlowLayout(this, 2, 2, 2);
-    /*QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
-    layout->setSpacing(0);
-*/
+    m_flowLayout = new FlowLayout(this, 2, 2, 2);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), NegQColor(), this);
     m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
@@ -54,10 +51,10 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
         indexes.insert(name, local_index);
     }
 
-    flowLayout->addWidget(m_lift);
-    flowLayout->addWidget(m_gamma);
-    flowLayout->addWidget(m_gain);
-    setLayout(flowLayout);
+    m_flowLayout->addWidget(m_lift);
+    m_flowLayout->addWidget(m_gamma);
+    m_flowLayout->addWidget(m_gain);
+    setLayout(m_flowLayout);
     slotRefresh();
 
     connect(this, &LumaLiftGainParam::liftChanged, [this, indexes]() {
@@ -111,11 +108,17 @@ void LumaLiftGainParam::updateEffect(QDomElement &effect)
     }
 }
 
+void LumaLiftGainParam::resizeEvent(QResizeEvent *ev)
+{
+    setFixedHeight(m_flowLayout->miniHeight());
+    QWidget::resizeEvent(ev);
+    emit updateHeight();
+}
+
 void LumaLiftGainParam::slotShowComment(bool) {}
 
 void LumaLiftGainParam::slotRefresh()
 {
-    qDebug() << "//REFRESHING WIDGET START--------------__";
     QMap<QString, double> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex local_index = m_model->index(i, 0);
@@ -131,9 +134,7 @@ void LumaLiftGainParam::slotRefresh()
     NegQColor gain = NegQColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR, values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
                                          values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
 
-    qDebug() << "//REFRESHING WIDGET START 2--------------__";
     m_lift->setColor(lift);
     m_gamma->setColor(gamma);
     m_gain->setColor(gain);
-    qDebug() << "//REFRESHING WIDGET START DONE--------------__";
 }

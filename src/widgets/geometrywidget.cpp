@@ -39,7 +39,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     , m_opacityFactor(percentOpacity ? 1. : 100.)
 {
     Q_UNUSED(useRatioLock)
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
@@ -176,6 +176,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     slotUpdateGeometryRect(rect);
     adjustSizeValue();
     slotAdjustRectKeyframeValue();
+    setMinimumHeight(m_spinX->minimumHeight() + alignButton->sizeHint().height() + m_spinSize->minimumHeight());
 }
 
 void GeometryWidget::slotAdjustToSource()

@@ -54,6 +54,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     unsetModel();
     QMutexLocker lock(&m_lock);
     m_model = model;
+    setSizePolicy(QSizePolicy::Preferred, addSpacer ? QSizePolicy::Preferred : QSizePolicy::Fixed);
     const QString paramTag = model->getAssetId();
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(paramTag));
@@ -87,8 +88,13 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
+        connect(w, &AbstractParamWidget::updateHeight, [&, w]() {
+            setFixedHeight(w->height() + m_lay->contentsMargins().bottom());
+            emit updateHeight();
+        });
         m_widgets.push_back(w);
     } else {
+        int minHeight = 0;
         for (int i = 0; i < model->rowCount(); ++i) {
             QModelIndex index = model->index(i, 0);
             auto type = model->data(index, AssetParameterModel::TypeRole).value<ParamType>();
@@ -100,15 +106,18 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             } else {
                 auto w = AbstractParamWidget::construct(model, index, frameSize, this);
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
-                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
-                    m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
-                }
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 m_lay->addWidget(w);
+                if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
+                    m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
+                } else {
+                    minHeight += w->minimumHeight();
+                }
                 m_widgets.push_back(w);
             }
         }
+        setMinimumHeight(m_mainKeyframeWidget ? m_mainKeyframeWidget->minimumHeight() + minHeight : minHeight);
     }
     if (addSpacer) {
         m_lay->addStretch();
@@ -293,6 +302,8 @@ void AssetParameterView::toggleKeyframes(bool enable)
 {
     if (m_mainKeyframeWidget) {
         m_mainKeyframeWidget->showKeyframes(enable);
+        setFixedHeight(contentHeight());
+        emit updateHeight();
     }
 }
 

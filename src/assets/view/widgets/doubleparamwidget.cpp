@@ -48,6 +48,7 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     // Construct object
     m_doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals, this);
     m_lay->addWidget(m_doubleWidget);
+    setMinimumHeight(m_doubleWidget->height());
 
     // Connect signal
     connect(m_doubleWidget, &DoubleWidget::valueChanged, [this, locale](double val) { emit valueChanged(m_index, locale.toString(val), true); });
