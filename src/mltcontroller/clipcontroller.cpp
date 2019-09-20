@@ -62,11 +62,14 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         QString proxy = m_properties->get("kdenlive:proxy");
         QString path = m_properties->get("resource");
         if (proxy.length() > 2) {
+            if (QFileInfo(path).isRelative()) {
+                path.prepend(pCore->currentDoc()->documentRoot());
+                m_properties->set("resource", path.toUtf8().constData());
+            }
             // This is a proxy producer, read original url from kdenlive property
             path = m_properties->get("kdenlive:originalurl");
             if (QFileInfo(path).isRelative()) {
                 path.prepend(pCore->currentDoc()->documentRoot());
-                m_properties->set("resource", path.toUtf8().constData());
             }
             m_usesProxy = true;
         } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
