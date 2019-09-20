@@ -43,6 +43,7 @@ ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParame
     m_label = new QLabel(this);
     m_label->setWordWrap(true);
     layout->addWidget(m_label);
+    setMinimumHeight(m_label->sizeHint().height());
     connect(m_label, &QLabel::linkActivated, [&](const QString &result) {
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(result);

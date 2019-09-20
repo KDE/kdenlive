@@ -45,6 +45,8 @@ FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent)
     , m_hSpace(hSpacing)
     , m_vSpace(vSpacing)
+    , m_mini(0)
+    , m_triggerLayout(false)
 {
     setContentsMargins(margin, margin, margin, margin);
 }
@@ -138,6 +140,9 @@ QSize FlowLayout::minimumSize() const
     }
 
     size += QSize(2 * margin(), 2 * margin());
+    if (m_mini > 0) {
+        size.setHeight(m_mini);
+    }
     return size;
 }
 
@@ -149,29 +154,39 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int x = effectiveRect.x();
     int y = effectiveRect.y();
     int lineHeight = 0;
+    int hPos = 0;
+    int itemCount = 0;
+    int allowedWidth = effectiveRect.width();
 
     for (QLayoutItem *item : m_itemList) {
+        // We consider all items have the same dimensions
         QWidget *wid = item->widget();
         int spaceX = horizontalSpacing();
-        if (spaceX == -1) spaceX = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Horizontal);
+        if (spaceX == -1) spaceX = wid->style()->layoutSpacing(QSizePolicy::Frame, QSizePolicy::Frame, Qt::Horizontal);
         int spaceY = verticalSpacing();
-        if (spaceY == -1) spaceY = wid->style()->layoutSpacing(QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Vertical);
-        int nextX = x + item->sizeHint().width() + spaceX;
-        if (nextX - spaceX > effectiveRect.right() && lineHeight > 0) {
-            x = effectiveRect.x();
-            y = y + lineHeight + spaceY;
-            nextX = x + item->sizeHint().width() + spaceX;
-            lineHeight = 0;
-        }
-
+        if (spaceY == -1) spaceY = wid->style()->layoutSpacing(QSizePolicy::Frame, QSizePolicy::Frame, Qt::Vertical);
+        int optimumItemWidth = item->sizeHint().width() + spaceX;
+        int horizontalCount = qMin(count(), qMax(1, qRound((double)allowedWidth / optimumItemWidth)));
+        //QSize hint = item->sizeHint();
+        QSize hint = QSize(qMin(wid->maximumWidth(), allowedWidth / horizontalCount), qMin(wid->maximumWidth(), allowedWidth / horizontalCount));
         if (!testOnly) {
-            item->setGeometry(QRect(QPoint(x, y), item->sizeHint()));
+            item->setGeometry(QRect(QPoint(x, y), hint));
         }
-
-        x = nextX;
-        lineHeight = qMax(lineHeight, item->sizeHint().height());
+        hPos ++;
+        itemCount++;
+        if (itemCount < count()) {
+            hPos = hPos % horizontalCount;
+            if (hPos == 0 && itemCount > 0) {
+                y += lineHeight + spaceY;
+                x = effectiveRect.x();
+            } else {
+                x += hint.width();
+            }
+        }
+        lineHeight = qMax(lineHeight, hint.height());
     }
-    return y + lineHeight - rect.y() + bottom;
+    m_mini = y + lineHeight - rect.y() + bottom;
+    return m_mini;
 }
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {
@@ -185,3 +200,9 @@ int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
     }
     return static_cast<QLayout *>(parent)->spacing();
 }
+
+int FlowLayout::miniHeight() const
+{
+    return m_mini;
+}
+

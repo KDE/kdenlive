@@ -43,6 +43,7 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     // setup the name
     label->setText(m_model->data(m_index, Qt::DisplayRole).toString());
+    setMinimumHeight(urlwidget->sizeHint().height());
 
     // set check state
     slotRefresh();

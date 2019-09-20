@@ -41,7 +41,7 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
 {
     setMouseTracking(true);
     setMinimumSize(QSize(150, 20));
-    setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum));
+    setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred));
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QPalette p = palette();
     KColorScheme scheme(p.currentColorGroup(), KColorScheme::Window);

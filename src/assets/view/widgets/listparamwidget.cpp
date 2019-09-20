@@ -37,8 +37,9 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     setToolTip(comment);
     m_labelComment->setText(comment);
     m_widgetComment->setHidden(true);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_list->setIconSize(QSize(50, 30));
+    setMinimumHeight(m_list->sizeHint().height());
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     slotRefresh();

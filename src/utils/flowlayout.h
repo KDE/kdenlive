@@ -63,14 +63,19 @@ public:
     void setGeometry(const QRect &rect) override;
     QSize sizeHint() const override;
     QLayoutItem *takeAt(int index) override;
+    int miniHeight() const;
 
 private:
     int doLayout(const QRect &rect, bool testOnly) const;
     int smartSpacing(QStyle::PixelMetric pm) const;
-
     QList<QLayoutItem *> m_itemList;
     int m_hSpace;
     int m_vSpace;
+
+protected:
+    mutable int m_mini;
+    mutable bool m_triggerLayout;
+
 };
 
 #endif // FLOWLAYOUT_H

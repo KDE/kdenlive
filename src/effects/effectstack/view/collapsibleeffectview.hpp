@@ -90,10 +90,10 @@ public slots:
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
     void slotActivateEffect(QModelIndex ix);
+    void updateHeight();
 
 private slots:
     void setWidgetHeight(qreal value);
-    void animationFinished();
     void enableView(bool enabled);
 
 private slots:
@@ -108,7 +108,6 @@ private slots:
     /** @brief A sub effect parameter was changed */
     void slotUpdateRegionEffectParams(const QDomElement & /*old*/, const QDomElement & /*e*/, int /*ix*/);
     void prepareImportClipKeyframes();
-    void animationChanged(const QVariant &geom);
 
 private:
     AssetParameterView *m_view;

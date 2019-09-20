@@ -127,6 +127,7 @@ ColorEditWidget::ColorEditWidget(std::shared_ptr<AssetParameterModel> model, QMo
 
     // setup comment
     setToolTip(comment);
+    setMinimumHeight(m_button->sizeHint().height());
 }
 
 void ColorEditWidget::slotShowComment(bool) {}

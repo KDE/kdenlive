@@ -44,6 +44,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     layout->addWidget(m_display);
     m_inverted = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt() < 0;
     slotRefresh();
+    setMinimumHeight(m_display->sizeHint().height());
 
     connect(m_slider, &QAbstractSlider::valueChanged, m_display, static_cast<void (TimecodeDisplay::*)(int)>(&TimecodeDisplay::setValue));
     connect(m_display, &TimecodeDisplay::timeCodeEditingFinished, m_slider, &QAbstractSlider::setValue);

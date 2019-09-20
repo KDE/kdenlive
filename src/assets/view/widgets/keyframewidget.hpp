@@ -97,6 +97,8 @@ private:
     QSize m_sourceFrameSize;
     void connectMonitor(bool active);
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
+    int m_baseHeight;
+    int m_addedHeight;
 
 signals:
     void addIndex(QPersistentModelIndex ix);
