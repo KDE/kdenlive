@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMutex>
 #include <QObject>
 #include <QString>
+#include <QReadWriteLock>
 #include <memory>
 #include <mlt++/Mlt.h>
 
@@ -65,7 +66,7 @@ public:
 
     /** @brief Returns true if the master producer is valid */
     bool isValid();
-    
+
     /** @brief Returns true if the source file exists */
     bool sourceExists() const;
 
@@ -233,7 +234,10 @@ protected:
     bool m_hasVideo;
 
 private:
-    QMutex m_producerLock;
+    /** @brief Mutex to protect the producer properties on read/write */
+    mutable QReadWriteLock m_producerLock;
+    /** @brief Temporarily store clip properties until producer is available */
+    QMap <QString, QVariant> m_tempProps;
     QString m_controllerBinId;
 };
 

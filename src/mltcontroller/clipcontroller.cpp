@@ -51,6 +51,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_hasAudio(false)
     , m_hasVideo(false)
     , m_controllerBinId(clipId)
+    , m_producerLock(QReadWriteLock::Recursive)
 {
     if (m_masterProducer && !m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
@@ -81,7 +82,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
         getInfoForProducer();
         checkAudioVideo();
     } else {
-        m_producerLock.lock();
+        m_producerLock.lockForWrite();
     }
 }
 
@@ -107,15 +108,31 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     QString documentRoot = pCore->currentDoc()->documentRoot();
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
+    m_producerLock.unlock();
+    // Pass temporary properties
+    QMapIterator<QString, QVariant> i(m_tempProps);
+    while (i.hasNext()) {
+        i.next();
+        switch(i.value().type()) {
+            case QVariant::Int:
+                setProducerProperty(i.key(), i.value().toInt());
+                break;
+            case QVariant::Double:
+                setProducerProperty(i.key(), i.value().toDouble());
+                break;
+            default:
+                setProducerProperty(i.key(), i.value().toString());
+                break;
+        }
+    }
+    m_tempProps.clear();
     int id = m_controllerBinId.toInt();
     m_effectStack = EffectStackModel::construct(producer, {ObjectType::BinClip, id}, pCore->undoStack());
     if (!m_masterProducer->is_valid()) {
         m_masterProducer = ClipController::mediaUnavailable;
-        m_producerLock.unlock();
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         checkAudioVideo();
-        m_producerLock.unlock();
         QString proxy = m_properties->get("kdenlive:proxy");
         m_service = m_properties->get("mlt_service");
         QString path = m_properties->get("resource");
@@ -182,6 +199,7 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
 
 void ClipController::getInfoForProducer()
 {
+    QReadLocker lock(&m_producerLock);
     date = QFileInfo(m_path).lastModified();
     m_videoIndex = -1;
     int audioIndex = -1;
@@ -260,7 +278,7 @@ void ClipController::forceLimitedDuration()
 
 std::shared_ptr<Mlt::Producer> ClipController::originalProducer()
 {
-    QMutexLocker lock(&m_producerLock);
+    QReadLocker lock(&m_producerLock);
     return m_masterProducer;
 }
 
@@ -290,6 +308,7 @@ const char *ClipController::getPassPropertiesList(bool passLength)
 
 QMap<QString, QString> ClipController::getPropertiesFromPrefix(const QString &prefix, bool withPrefix)
 {
+    QReadLocker lock(&m_producerLock);
     Mlt::Properties subProperties;
     subProperties.pass_values(*m_properties, prefix.toUtf8().constData());
     QMap<QString, QString> subclipsData;
@@ -307,6 +326,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
         // producer has not been initialized
         return addMasterProducer(producer);
     }
+    m_producerLock.lockForWrite();
     Mlt::Properties passProperties;
     // Keep track of necessary properties
     QString proxy = producer->get("kdenlive:proxy");
@@ -323,8 +343,9 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     passProperties.pass_list(*m_properties, passList);
     delete m_properties;
     *m_masterProducer = producer.get();
-    checkAudioVideo();
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
+    m_producerLock.unlock();
+    checkAudioVideo();
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, passList);
     if (!m_masterProducer->is_valid()) {
@@ -344,6 +365,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
 
 const QString ClipController::getStringDuration()
 {
+    QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime > 0) {
@@ -356,6 +378,7 @@ const QString ClipController::getStringDuration()
 
 int ClipController::getProducerDuration() const
 {
+    QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
         int playtime = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
         if (playtime <= 0) {
@@ -368,6 +391,7 @@ int ClipController::getProducerDuration() const
 
 char *ClipController::framesToTime(int frames) const
 {
+    QReadLocker lock(&m_producerLock);
     if (m_masterProducer) {
         return m_masterProducer->frames_to_time(frames, mlt_time_clock);
     }
@@ -376,6 +400,7 @@ char *ClipController::framesToTime(int frames) const
 
 GenTime ClipController::getPlaytime() const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return GenTime();
     }
@@ -389,6 +414,7 @@ GenTime ClipController::getPlaytime() const
 
 int ClipController::getFramePlaytime() const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_masterProducer || !m_masterProducer->is_valid()) {
         return 0;
     }
@@ -401,7 +427,8 @@ int ClipController::getFramePlaytime() const
 
 QString ClipController::getProducerProperty(const QString &name) const
 {
-    if (!m_properties) {
+    QReadLocker lock(&m_producerLock);
+    if (m_properties == nullptr) {
         return QString();
     }
     if (m_usesProxy && name.startsWith(QLatin1String("meta."))) {
@@ -413,6 +440,7 @@ QString ClipController::getProducerProperty(const QString &name) const
 
 int ClipController::getProducerIntProperty(const QString &name) const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_properties) {
         return 0;
     }
@@ -425,6 +453,7 @@ int ClipController::getProducerIntProperty(const QString &name) const
 
 qint64 ClipController::getProducerInt64Property(const QString &name) const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_properties) {
         return 0;
     }
@@ -433,6 +462,7 @@ qint64 ClipController::getProducerInt64Property(const QString &name) const
 
 double ClipController::getProducerDoubleProperty(const QString &name) const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_properties) {
         return 0;
     }
@@ -441,6 +471,7 @@ double ClipController::getProducerDoubleProperty(const QString &name) const
 
 QColor ClipController::getProducerColorProperty(const QString &name) const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_properties) {
         return {};
     }
@@ -461,6 +492,7 @@ QMap<QString, QString> ClipController::currentProperties(const QMap<QString, QSt
 
 double ClipController::originalFps() const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_properties) {
         return 0;
     }
@@ -470,6 +502,7 @@ double ClipController::originalFps() const
 
 QString ClipController::videoCodecProperty(const QString &property) const
 {
+    QReadLocker lock(&m_producerLock);
     if (!m_properties) {
         return QString();
     }
@@ -479,6 +512,7 @@ QString ClipController::videoCodecProperty(const QString &property) const
 
 const QString ClipController::codec(bool audioCodec) const
 {
+    QReadLocker lock(&m_producerLock);
     if ((m_properties == nullptr) || (m_clipType != ClipType::AV && m_clipType != ClipType::Video && m_clipType != ClipType::Audio)) {
         return QString();
     }
@@ -532,22 +566,32 @@ QString ClipController::serviceName() const
 
 void ClipController::setProducerProperty(const QString &name, int value)
 {
-    if (!m_masterProducer) return;
-    // TODO: also set property on all track producers
+    if (!m_masterProducer) {
+        m_tempProps.insert(name, value);
+        return;
+    }
+    QWriteLocker lock(&m_producerLock);
     m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
 void ClipController::setProducerProperty(const QString &name, double value)
 {
-    if (!m_masterProducer) return;
-    // TODO: also set property on all track producers
+    if (!m_masterProducer) {
+        m_tempProps.insert(name, value);
+        return;
+    }
+    QWriteLocker lock(&m_producerLock);
     m_masterProducer->parent().set(name.toUtf8().constData(), value);
 }
 
 void ClipController::setProducerProperty(const QString &name, const QString &value)
 {
-    if (!m_masterProducer) return;
-    // TODO: also set property on all track producers
+    if (!m_masterProducer) {
+        m_tempProps.insert(name, value);
+        return;
+    }
+
+    QWriteLocker lock(&m_producerLock);
     if (value.isEmpty()) {
         m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
     } else {
@@ -557,8 +601,12 @@ void ClipController::setProducerProperty(const QString &name, const QString &val
 
 void ClipController::resetProducerProperty(const QString &name)
 {
-    // TODO: also set property on all track producers
-    if (!m_masterProducer) return;
+    if (!m_masterProducer) {
+        m_tempProps.insert(name, QString());
+        return;
+    }
+
+    QWriteLocker lock(&m_producerLock);
     m_masterProducer->parent().set(name.toUtf8().constData(), (char *)nullptr);
 }
 
@@ -569,6 +617,7 @@ ClipType::ProducerType ClipController::clipType() const
 
 const QSize ClipController::getFrameSize() const
 {
+    QReadLocker lock(&m_producerLock);
     if (m_masterProducer == nullptr) {
         return QSize();
     }
@@ -589,6 +638,7 @@ bool ClipController::hasAudio() const
 }
 void ClipController::checkAudioVideo()
 {
+    QReadLocker lock(&m_producerLock);
     m_masterProducer->seek(0);
     if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
         // This is a placeholder file, try to guess from its properties
@@ -630,6 +680,7 @@ PlaylistState::ClipState ClipController::defaultState() const
 QPixmap ClipController::pixmap(int framePosition, int width, int height)
 {
     // TODO refac this should use the new thumb infrastructure
+    QReadLocker lock(&m_producerLock);
     m_masterProducer->seek(framePosition);
     Mlt::Frame *frame = m_masterProducer->get_frame();
     if (frame == nullptr || !frame->is_valid()) {
@@ -692,12 +743,14 @@ const QString ClipController::getClipHash() const
 
 Mlt::Properties &ClipController::properties()
 {
+    QReadLocker lock(&m_producerLock);
     return *m_properties;
 }
 
 
 void ClipController::backupOriginalProperties()
 {
+    QReadLocker lock(&m_producerLock);
     if (m_properties->get_int("kdenlive:original.backup") == 1) {
         return;
     }
@@ -719,6 +772,7 @@ void ClipController::backupOriginalProperties()
 
 void ClipController::clearBackupProperties()
 {
+    QReadLocker lock(&m_producerLock);
     if (m_properties->get_int("kdenlive:original.backup") == 0) {
         return;
     }
@@ -739,6 +793,7 @@ void ClipController::clearBackupProperties()
 
 void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
 {
+    QReadLocker lock(&m_producerLock);
     if (m_usesProxy && QFileInfo(m_properties->get("resource")).fileName() == QFileInfo(m_properties->get("kdenlive:proxy")).fileName()) {
         // This is a proxy, we need to use the real source properties
         if (m_properties->get_int("kdenlive:original.backup") == 0) {
@@ -857,6 +912,7 @@ void ClipController::moveEffect(int oldPos, int newPos)
 int ClipController::effectsCount()
 {
     int count = 0;
+    QReadLocker lock(&m_producerLock);
     Mlt::Service service(m_masterProducer->parent());
     for (int ix = 0; ix < service.filter_count(); ++ix) {
         QScopedPointer<Mlt::Filter> effect(service.filter(ix));
@@ -941,6 +997,7 @@ void ClipController::saveZone(QPoint zone, const QDir &dir)
     }
     Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), ("xml:" + dir.absoluteFilePath(path)).toUtf8().constData());
     xmlConsumer.set("terminate_on_pause", 1);
+    QReadLocker lock(&m_producerLock);
     Mlt::Producer prod(m_masterProducer->get_producer());
     Mlt::Producer *prod2 = prod.cut(zone.x(), zone.y());
     Mlt::Playlist list(pCore->getCurrentProfile()->profile());
@@ -976,6 +1033,7 @@ std::shared_ptr<MarkerListModel> ClipController::getMarkerModel() const
 void ClipController::refreshAudioInfo()
 {
     if (m_audioInfo && m_masterProducer) {
+        QReadLocker lock(&m_producerLock);
         m_audioInfo->setAudioIndex(m_masterProducer, m_properties->get_int("audio_index"));
     }
 }
