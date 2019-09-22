@@ -68,9 +68,8 @@ void SpeedJob::configureConsumer()
 void SpeedJob::configureProducer()
 {
     if (!qFuzzyCompare(m_speed, 1.0)) {
-        QLocale locale;
         QString resource = m_producer->get("resource");
-        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(locale.toString(m_speed)).arg(resource).toUtf8().constData());
+        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(QString::fromStdString(std::to_string(m_speed))).arg(resource).toUtf8().constData());
     }
 }
 

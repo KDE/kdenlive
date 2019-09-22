@@ -614,12 +614,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         }
     }
     if (!warpProducer) {
-        QLocale locale;
         QString resource(originalProducer()->get("resource"));
         if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
             resource = m_service;
         }
-        QString url = QString("timewarp:%1:%2").arg(locale.toString(speed)).arg(resource);
+        QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed))).arg(resource);
         warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
         qDebug() << "new producer: " << url;
         qDebug() << "warp LENGTH before" << warpProducer->get_length();
