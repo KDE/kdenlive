@@ -42,15 +42,15 @@ ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParame
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
     auto *layout = new QHBoxLayout(this);
-    QToolButton *tb = new QToolButton(this);
-    tb->setAutoRaise(true);
-    tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_tb = new QToolButton(this);
+    m_tb->setCursor(Qt::PointingHandCursor);
+    m_tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_label = new QLabel(this);
     m_label->setWordWrap(true);
-    layout->addWidget(tb);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->addWidget(m_tb);
     layout->addWidget(m_label);
-    setMinimumHeight(tb->sizeHint().height());
-    connect(tb, &QToolButton::clicked, [&]() {
+    connect(m_tb, &QToolButton::clicked, [&]() {
         QClipboard *clipboard = QApplication::clipboard();
         QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
         clipboard->setText(value);
@@ -75,6 +75,8 @@ void ClickableLabelParamWidget::slotRefresh()
     QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     m_label->setText(QStringLiteral("<a href=\"%1\">").arg(value) + m_displayName + QStringLiteral("</a>"));
     setVisible(!value.isEmpty());
+    setMinimumHeight(value.isEmpty() ? 0 : m_tb->sizeHint().height());
+    emit updateHeight();
 }
 
 bool ClickableLabelParamWidget::getValue()

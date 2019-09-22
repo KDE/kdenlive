@@ -26,6 +26,7 @@
 #include <QWidget>
 
 class QPushButton;
+class QToolButton;
 class QLabel;
 
 /** @brief This class represents a parameter that requires
@@ -58,6 +59,7 @@ public slots:
 
 private:
     QLabel *m_label;
+    QToolButton *m_tb;
     QString m_displayName;
 };
 
