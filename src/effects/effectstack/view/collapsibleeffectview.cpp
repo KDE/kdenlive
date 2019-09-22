@@ -103,7 +103,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     auto *l = static_cast<QHBoxLayout *>(frame->layout());
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
-    m_colorIcon->setFixedSize(icon.size());
+    m_colorIcon->setFixedSize(collapseButton->sizeHint());
     title = new QLabel(this);
     l->insertWidget(2, title);
 
@@ -128,9 +128,10 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     }
 
     // Color thumb
+    m_colorIcon->setScaledContents(true);
     m_colorIcon->setPixmap(QPixmap::fromImage(icon));
     title->setText(effectName);
-    frame->setMinimumHeight(title->sizeHint().height());
+    frame->setMinimumHeight(collapseButton->sizeHint().height());
 
     m_view = new AssetParameterView(this);
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
