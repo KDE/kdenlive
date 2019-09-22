@@ -391,25 +391,36 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             Keyframe kf = getKeyframe(old_in, &ok);
             KeyframeType type = kf.second;
             getKeyframe(new_in, &ok2);
-            // Check keyframes after last position
-            if (ok && !ok2 && oldIn != 0) {
-                positions << old_in;
-            } else if (in == 0 && oldIn != 0 && ok && ok2) {
-                // We moved start to 0. As the 0 keyframe is always here, simply remove old position
+            if (!ok2) {
+                // Add new in point
+                for (const auto &param : m_parameters) {
+                    QVariant value = param.second->getInterpolatedValue(new_in);
+                    param.second->addKeyframe(new_in, type, value, true, undo, redo);
+                }
+            }
+            if (ok) {
+                // Remove previous in point
                 for (const auto &param : m_parameters) {
                     param.second->removeKeyframe(old_in, undo, redo);
                 }
             }
-            // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
-            if (ok && !ok2) {
-                for (const auto &param : m_parameters) {
-                    QVariant value = param.second->getInterpolatedValue(new_in);
-                    param.second->addKeyframe(new_in, type, value, true, undo, redo);
-                    for (auto frame : positions) {
-                        param.second->removeKeyframe(frame, undo, redo);
+            // Remove all keyframes before in
+            bool nextOk = false;
+            kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &nextOk);
+            GenTime pos;
+            while (nextOk) {
+                pos = kf.first;
+                if (pos < new_in) {
+                    for (const auto &param : m_parameters) {
+                        param.second->removeKeyframe(pos, undo, redo);
                     }
+                    kf = m_parameters.begin()->second->getNextKeyframe(pos, &nextOk);
+                } else {
+                    break;
                 }
             }
+            
+            // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         }
     } else {
         GenTime old_out(oldOut, pCore->getCurrentFps());

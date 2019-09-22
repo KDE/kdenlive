@@ -451,7 +451,7 @@ Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
         qDebug() << "delete lambda" << pos.frames(pCore->getCurrentFps()) << notify;
         qDebug() << "before" << getAnimProperty();
         Q_ASSERT(m_keyframeList.count(pos) > 0);
-        Q_ASSERT(pos != GenTime()); // cannot delete initial point
+        //Q_ASSERT(pos != GenTime()); // cannot delete initial point
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         if (notify) beginRemoveRows(QModelIndex(), row, row);
         m_keyframeList.erase(pos);
