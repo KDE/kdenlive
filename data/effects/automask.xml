@@ -27,6 +27,10 @@
 	<parameter type="bool" name="obscure" default="1">
 		<name>Obscure</name>
 	</parameter>
+    <parameter type="readonly" name="motion_vector_list" value="">
+        <name>Tracking data</name>
+        <comment>Click to copy to clipboard</comment>
+    </parameter>
 	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0" consumer="null" consumerparams="all=1 terminate_on_pause=1">
         <name>Analyse</name>
 		<jobparam name="storedata" />
