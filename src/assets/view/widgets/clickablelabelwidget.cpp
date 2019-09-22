@@ -28,6 +28,8 @@
 #include <QPushButton>
 #include <QClipboard>
 #include <QLabel>
+#include <QIcon>
+#include <QToolButton>
 #include <QApplication>
 #include <QVBoxLayout>
 
@@ -39,11 +41,20 @@ ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParame
     QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
-    auto *layout = new QVBoxLayout(this);
+    auto *layout = new QHBoxLayout(this);
+    QToolButton *tb = new QToolButton(this);
+    tb->setAutoRaise(true);
+    tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
     m_label = new QLabel(this);
     m_label->setWordWrap(true);
+    layout->addWidget(tb);
     layout->addWidget(m_label);
-    setMinimumHeight(m_label->sizeHint().height());
+    setMinimumHeight(tb->sizeHint().height());
+    connect(tb, &QToolButton::clicked, [&]() {
+        QClipboard *clipboard = QApplication::clipboard();
+        QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
+        clipboard->setText(value);
+    });
     connect(m_label, &QLabel::linkActivated, [&](const QString &result) {
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(result);
@@ -63,7 +74,7 @@ void ClickableLabelParamWidget::slotRefresh()
 {
     QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     m_label->setText(QStringLiteral("<a href=\"%1\">").arg(value) + m_displayName + QStringLiteral("</a>"));
-    m_label->setVisible(!value.isEmpty());
+    setVisible(!value.isEmpty());
 }
 
 bool ClickableLabelParamWidget::getValue()

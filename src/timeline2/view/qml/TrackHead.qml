@@ -382,6 +382,7 @@ Rectangle {
                         nameEdit.selectAll()
                     }
                     onClicked: {
+                        timeline.showTrackAsset(trackId)
                         trackHeadRoot.clicked()
                         trackHeadRoot.focus = true
                     }

@@ -139,7 +139,6 @@ void ProjectSubClip::setThumbnail(const QImage &img)
 {
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     int duration = m_parentDuration;
-    m_outPoint - m_inPoint;
     double factor = ((double) thumb.width()) / duration;
     int zoneOut = m_outPoint - duration;
     QRect zoneRect(0, 0, thumb.width(), thumb.height());

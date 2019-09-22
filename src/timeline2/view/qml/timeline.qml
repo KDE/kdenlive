@@ -796,7 +796,6 @@ Rectangle {
                             onClicked: {
                                 timeline.activeTrack = tracksRepeater.itemAt(index).trackInternalId
                                 console.log('track name: ',index, ' = ', model.name,'/',tracksRepeater.itemAt(index).trackInternalId)
-                                //timeline.selectTrackHead(currentTrack)
                             }
                         }
                     }
