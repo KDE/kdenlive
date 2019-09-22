@@ -613,7 +613,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         }
     }
     if (!warpProducer) {
-        QLocale locale;
         QString resource(originalProducer()->get("resource"));
         if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
             resource = m_service;
