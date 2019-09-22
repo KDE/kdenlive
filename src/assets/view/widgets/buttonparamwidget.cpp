@@ -72,11 +72,11 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         layout->addWidget(m_label);
         m_label->setVisible(m_displayConditional);
     }
-    //layout->setContentsMargins(0, 0, 0, 2);
-    //layout->setSpacing(0);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
     m_button = new QPushButton(m_displayConditional ? m_buttonName : m_alternatebuttonName, this);
     layout->addWidget(m_button);
-    setMinimumHeight(m_button->sizeHint().height());
+    setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
 
     // emit the signal of the base class when appropriate
     connect(this->m_button, &QPushButton::clicked, [&, filterData, filterAddedParams]() {
