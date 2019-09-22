@@ -108,6 +108,10 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+                connect(w, &AbstractParamWidget::updateHeight, [&, w]() {
+                    setFixedHeight(contentHeight());
+                    emit updateHeight();
+                });
                 m_lay->addWidget(w);
                 if (type == ParamType::KeyframeParam || type == ParamType::AnimatedRect || type == ParamType::Roto_spline) {
                     m_mainKeyframeWidget = static_cast<KeyframeWidget *>(w);
