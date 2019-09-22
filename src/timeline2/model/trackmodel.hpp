@@ -182,6 +182,10 @@ protected:
     int getBlankSizeNearComposition(int compoId, bool after);
     int getBlankStart(int position);
     int getBlankSizeAtPos(int frame);
+    /* @brief Returns true if clip at position is the last on playlist
+     * @param position the position in playlist
+    */
+    bool isLastClip(int position);
 
     /*@brief Returns the best composition duration depending on clips on the track */
     int suggestCompositionLength(int position);
@@ -248,7 +252,7 @@ protected:
      * This is used when some properties of the clip have changed, and we need this to refresh it */
     void replugClip(int clipId);
 
-    int trackDuration();
+    int trackDuration() const;
 
     /* @brief Returns the list of the ids of the clips that intersect the given range */
     std::unordered_set<int> getClipsInRange(int position, int end = -1);

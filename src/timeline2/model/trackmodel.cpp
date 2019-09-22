@@ -177,6 +177,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 m_playlists[0].unlock();
                 if (finalMove && !groupMove) {
                     ptr->updateDuration();
+                    
                 }
                 return index != -1 && end_function(0);
             }
@@ -236,9 +237,14 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
         if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
             res = res && ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         }
+        int duration = trackDuration();
         auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove, groupMove);
         res = res && operation();
         if (res) {
+            if (finalMove && duration != trackDuration()) {
+                // A clip move changed the track duration, update track effects
+                m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
+            }
             auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove);
             UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
@@ -346,8 +352,13 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     if (finalDeletion) {
         m_allClips[clipId]->selected = false;
     }
+    int duration = trackDuration();
     auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove);
     if (operation()) {
+        if (finalMove && duration != trackDuration()) {
+            // A clip move changed the track duration, update track effects
+            m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
+        }
         auto reverse = requestClipInsertion_lambda(clipId, old_position, updateView, finalMove, groupMove);
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
@@ -921,6 +932,17 @@ std::pair<int, int> TrackModel::getClipIndexAt(int position)
     return {-1, -1};
 }
 
+bool TrackModel::isLastClip(int position)
+{
+    READ_LOCK();
+    for (int j = 0; j < 2; j++) {
+        if (!m_playlists[j].is_blank_at(position)) {
+            return m_playlists[j].get_clip_index_at(position) == m_playlists[j].count() - 1;
+        }
+    }
+    return false;
+}
+
 bool TrackModel::isBlankAt(int position)
 {
     READ_LOCK();
@@ -1205,7 +1227,7 @@ void TrackModel::setEffectStackEnabled(bool enable)
     m_effectStack->setEffectStackEnabled(enable);
 }
 
-int TrackModel::trackDuration()
+int TrackModel::trackDuration() const
 {
     return m_track->get_length();
 }
