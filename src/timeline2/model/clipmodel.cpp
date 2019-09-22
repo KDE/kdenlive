@@ -171,6 +171,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     int outPoint = out;
     int inPoint = in;
     int offset = 0;
+    int trackDuration = 0;
     if (m_endlessResize) {
         offset = inPoint;
         outPoint = out - in;
@@ -180,6 +181,9 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         if (auto ptr = m_parent.lock()) {
             if (ptr->getTrackById(m_currentTrackId)->isLocked()) {
                 return false;
+            }
+            if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
+                trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
             }
             track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right);
         } else {
@@ -219,6 +223,14 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
             if (m_currentTrackId != -1) {
                 if (auto ptr = m_parent.lock()) {
+                    if (trackDuration > 0) {
+                        // Operation changed parent track duration, update effect stack
+                        int newDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
+                        if (logUndo || trackDuration != newDuration) {
+                            // A clip move changed the track duration, update track effects
+                            ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
+                        }
+                    }
                     track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
                 }
             }
