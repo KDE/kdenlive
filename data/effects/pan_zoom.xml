@@ -12,7 +12,7 @@
 	<parameter type="bool" name="use_normalised" default="0">
 		<name>Normalise</name>
 	</parameter>
-	<parameter type="color" name="background" default="colour:0x00000000" alpha="1" paramprefix="colour:">
+	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
 		<name>Background Color</name>
 	</parameter>
 </effect>
