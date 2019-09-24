@@ -671,23 +671,16 @@ void ProjectManager::slotAutoSave()
 
 QString ProjectManager::projectSceneList(const QString &outputFolder)
 {
-    // TODO: re-implement overlay and all
-    // TODO refac: repair this
-    return pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
-    /*bool multitrackEnabled = m_trackView->multitrackView;
-    if (multitrackEnabled) {
-        // Multitrack view was enabled, disable for auto save
-        m_trackView->slotMultitrackView(false);
+    // Disable multitrack view
+    bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
+    if (isMultiTrack) {
+        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(false, false);
     }
-    m_trackView->connectOverlayTrack(false);
     QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
-    m_trackView->connectOverlayTrack(true);
-    if (multitrackEnabled) {
-        // Multitrack view was enabled, re-enable for auto save
-        m_trackView->slotMultitrackView(true);
+    if (isMultiTrack) {
+        pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
     }
     return scene;
-    */
 }
 
 void ProjectManager::setDocumentNotes(const QString &notes)

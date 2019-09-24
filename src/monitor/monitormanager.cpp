@@ -407,14 +407,14 @@ void MonitorManager::setupActions()
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
     pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL + Qt::Key_Home);
 
-    QAction *multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
-    multiTrack->setCheckable(true);
-    connect(multiTrack, &QAction::triggered, [&](bool checked) {
+    m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
+    m_multiTrack->setCheckable(true);
+    connect(m_multiTrack, &QAction::triggered, [&](bool checked) {
         if (m_projectMonitor) {
-            m_projectMonitor->multitrackView(checked);
+            m_projectMonitor->multitrackView(checked, true);
         }
     });
-    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), multiTrack);
+    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
 
     QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
@@ -629,4 +629,12 @@ void MonitorManager::slotZoomOut()
     if (m_activeMonitor) {
         static_cast<Monitor *>(m_activeMonitor)->slotZoomOut();
     }
+}
+
+bool MonitorManager::isMultiTrack() const
+{
+    if (m_multiTrack) {
+        return m_multiTrack->isChecked();
+    }
+    return false;
 }

@@ -68,6 +68,8 @@ public:
     void refreshIcons();
     void resetDisplay();
     QDir getCacheFolder(CacheType type);
+    /** @brief Returns true if multitrack view is enabled in project monitor. */
+    bool isMultiTrack() const;
 
 public slots:
 
@@ -135,6 +137,7 @@ private:
     AbstractMonitor *m_activeMonitor{nullptr};
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
+    QAction *m_multiTrack{nullptr};
 
 signals:
     /** @brief When the monitor changed, update the visible color scopes */
