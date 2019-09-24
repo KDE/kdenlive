@@ -3131,8 +3131,10 @@ void Bin::reloadAllProducers()
         // Make sure we reload clip length
         xml.removeAttribute(QStringLiteral("out"));
         Xml::removeXmlProperty(xml, QStringLiteral("length"));
-        clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
-        clip->resetProducerProperty(QStringLiteral("length"));
+        if (clip->isValid()) {
+            clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
+            clip->resetProducerProperty(QStringLiteral("length"));
+        }
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();
