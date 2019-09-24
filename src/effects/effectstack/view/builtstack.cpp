@@ -28,6 +28,7 @@
 #include <KDeclarative/KDeclarative>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <kdeclarative_version.h>
 
 BuiltStack::BuiltStack(AssetPanel *parent)
     : QQuickWidget(parent)

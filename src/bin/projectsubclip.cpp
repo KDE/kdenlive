@@ -45,7 +45,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_inPoint = in;
     m_outPoint = out;
     m_duration = timecode;
-    m_parentDuration = m_masterClip->frameDuration();
+    m_parentDuration = (int)m_masterClip->frameDuration();
     m_parentClipId = m_masterClip->clipId();
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);

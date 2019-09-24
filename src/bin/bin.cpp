@@ -166,7 +166,7 @@ public:
         QString line1 = index.data(Qt::DisplayRole).toString();
         QString line2 = index.data(Qt::UserRole).toString();
 
-        int textW = qMax(option.fontMetrics.width(line1), option.fontMetrics.width(line2));
+        int textW = qMax(option.fontMetrics.horizontalAdvance(line1), option.fontMetrics.horizontalAdvance(line2));
         QSize iconSize = icon.actualSize(option.decorationSize);
         return {qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4};
     }
@@ -398,7 +398,6 @@ void MyListView::focusInEvent(QFocusEvent *event)
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
-    bool dragged = false;
     if (event->modifiers() == Qt::ShiftModifier) {
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
@@ -3120,8 +3119,10 @@ void Bin::reloadAllProducers()
         // Make sure we reload clip length
         xml.removeAttribute(QStringLiteral("out"));
         Xml::removeXmlProperty(xml, QStringLiteral("length"));
-        clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
-        clip->resetProducerProperty(QStringLiteral("length"));
+        if (clip->isValid()) {
+            clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
+            clip->resetProducerProperty(QStringLiteral("length"));
+        }
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             clip->discardAudioThumb();

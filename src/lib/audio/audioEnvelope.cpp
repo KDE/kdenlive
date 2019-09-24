@@ -32,7 +32,7 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
         m_offset = 0;
         m_producer->set_in_and_out((int) offset, (int) (offset + length));
     }
-    m_envelopeSize = m_producer->get_playtime();
+    m_envelopeSize = (size_t)m_producer->get_playtime();
 
     m_producer->set("set.test_image", 1);
     connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { envelopeReady(this); });

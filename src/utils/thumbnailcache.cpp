@@ -155,10 +155,10 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
             } else {
                 m_storedVolatile[binId].push_back(pos);
             }
-            m_volatileCache->insert(key, img, img.byteCount());
+            m_volatileCache->insert(key, img, (int)img.sizeInBytes());
         }
     } else {
-        m_volatileCache->insert(key, img, img.byteCount());
+        m_volatileCache->insert(key, img, (int)img.sizeInBytes());
         m_storedVolatile[binId].push_back(pos);
     }
 }

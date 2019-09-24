@@ -284,7 +284,7 @@ void MainWindow::init()
     grabLayout->addWidget(recToolbar);
     grabLayout->addStretch(10);
     // Check number of monitors for FFmpeg screen capture
-    int screens = QApplication::desktop()->screenCount();
+    int screens = QApplication::screens().count();
     if (screens > 1) {
         QComboBox *screenCombo = new QComboBox(recToolbar);
         for (int ix = 0; ix < screens; ix++) {

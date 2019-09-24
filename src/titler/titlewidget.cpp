@@ -214,20 +214,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
 
     // Position and size
-    m_signalMapper = new QSignalMapper(this);
-    m_signalMapper->setMapping(value_w, ValueWidth);
-    m_signalMapper->setMapping(value_h, ValueHeight);
-    m_signalMapper->setMapping(value_x, ValueX);
-    m_signalMapper->setMapping(value_y, ValueY);
-    connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
-            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(value_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
-            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(value_x, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
-            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(value_y, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), m_signalMapper,
-            static_cast<void (QSignalMapper::*)()>(&QSignalMapper::map));
-    connect(m_signalMapper, SIGNAL(mapped(int)), this, SLOT(slotValueChanged(int)));
+    connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){slotValueChanged(ValueWidth);});
+    connect(value_h, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){slotValueChanged(ValueHeight);});
+    connect(value_x, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){slotValueChanged(ValueX);});
+    connect(value_y, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){slotValueChanged(ValueY);});
 
     connect(buttonFitZoom, &QAbstractButton::clicked, this, &TitleWidget::slotAdjustZoom);
     connect(buttonRealSize, &QAbstractButton::clicked, this, &TitleWidget::slotZoomOneToOne);
@@ -586,7 +576,6 @@ TitleWidget::~TitleWidget()
     delete m_startViewport;
     delete m_endViewport;
     delete m_scene;
-    delete m_signalMapper;
 }
 
 // static

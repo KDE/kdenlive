@@ -115,7 +115,7 @@ uint MltPreview::imageVariance(const QImage &image)
     }
     uint delta = 0;
     uint avg = 0;
-    uint bytes = image.byteCount();
+    uint bytes = image.sizeInBytes();
     uint STEPS = bytes / 2;
     if (STEPS < 1) {
         return 0;

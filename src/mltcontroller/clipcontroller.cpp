@@ -50,8 +50,8 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
-    , m_controllerBinId(clipId)
     , m_producerLock(QReadWriteLock::Recursive)
+    , m_controllerBinId(clipId)
 {
     if (m_masterProducer && !m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";

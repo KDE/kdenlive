@@ -336,7 +336,7 @@ std::vector<size_t> MarkerListModel::getSnapPoints() const
     READ_LOCK();
     std::vector<size_t> markers;
     for (const auto &marker : m_markerList) {
-        markers.push_back(marker.first.frames(pCore->getCurrentFps()));
+        markers.push_back((size_t)marker.first.frames(pCore->getCurrentFps()));
     }
     return markers;
 }

@@ -562,6 +562,8 @@ void KdenliveSettingsDialog::setupJogshuttleBtns(const QString &device)
             button->setCurrentIndex(action_pos[actions_map[i]]);
         }
     }
+#else
+    Q_UNUSED(device)
 #endif
 }
 
@@ -757,6 +759,8 @@ void KdenliveSettingsDialog::slotCheckShuttle(int state)
     if (state != 0) {
         setupJogshuttleBtns(m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString());
     }
+#else
+    Q_UNUSED(state)
 #endif /* USE_JOGSHUTTLE */
 }
 
@@ -767,6 +771,8 @@ void KdenliveSettingsDialog::slotUpdateShuttleDevice(int ix)
     // KdenliveSettings::setShuttledevice(device);
     setupJogshuttleBtns(device);
     m_configShuttle.kcfg_shuttledevice->setText(device);
+#else
+    Q_UNUSED(ix)
 #endif /* USE_JOGSHUTTLE */
 }
 

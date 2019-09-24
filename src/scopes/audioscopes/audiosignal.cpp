@@ -76,7 +76,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     int dbsize = 20;
     if (!horiz) {
         // calculate actual width of lowest=longest db scale mark based on drawing font
-        dbsize = p.fontMetrics().width(QString().sprintf("%d", m_dbscale.at(m_dbscale.size() - 1)));
+        dbsize = p.fontMetrics().horizontalAdvance(QString().sprintf("%d", m_dbscale.at(m_dbscale.size() - 1)));
     }
     bool showdb = width() > (dbsize + 40);
     // valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample

@@ -180,7 +180,6 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
 
     int count = 0;
     QList<int> newIds;
-    int mainId = -1;
     QList<int> clipsToCut;
     for (int cid : clips) {
         if (!timeline->isClip(cid)) {
@@ -203,9 +202,6 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             bool undone = undo();
             Q_ASSERT(undone);
             return false;
-        }
-        if (cid == clipId) {
-            mainId = newId;
         }
         // splitted elements go temporarily in the same group as original ones.
         timeline->m_groups->setInGroupOf(newId, cid, undo, redo);
@@ -613,14 +609,12 @@ bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel>
 {
     int track = timeline->getClipTrackId(clipId);
     int start = -1;
-    int end = -1;
     bool invalidate = false;
     if (track > -1) {
         if (!timeline->getTrackById_const(track)->isAudioTrack()) {
             invalidate = true;
         }
         start = timeline->getItemPosition(clipId);
-        end = start + timeline->getItemPlaytime(clipId);
     }
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
@@ -1283,7 +1277,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     //qDebug()<<"== GOT WANTED TKS\n VIDEO: "<<videoTracks<<"\n AUDIO TKS: "<<audioTracks<<"\n SINGLE AUDIO: "<<singleAudioTracks;
     int requestedVideoTracks = videoTracks.isEmpty() ? 0 : videoTracks.last() - videoTracks.first() + 1;
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
-    int requestedSingleAudioTracks = singleAudioTracks.isEmpty() ? 0 : singleAudioTracks.last() - singleAudioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
         pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
         return false;

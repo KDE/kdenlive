@@ -138,7 +138,7 @@ AudioGraphWidget::AudioGraphWidget(QWidget *parent)
         m_freqLabels << BAND_TAB[i].label;
     }
     m_maxDb = 0;
-    setMinimumWidth(2 * m_freqLabels.size() + fontMetrics().width(QStringLiteral("888")) + 2);
+    setMinimumWidth(2 * m_freqLabels.size() + fontMetrics().horizontalAdvance(QStringLiteral("888")) + 2);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setMinimumHeight(100);
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
@@ -159,14 +159,14 @@ void AudioGraphWidget::drawDbLabels(QPainter &p, const QRect &rect)
         return;
     }
 
-    int maxWidth = fontMetrics().width(QStringLiteral("-45"));
+    int maxWidth = fontMetrics().horizontalAdvance(QStringLiteral("-45"));
     // dB scale is vertical along the left side
     int prevY = height();
     QColor textCol = palette().text().color();
     p.setPen(textCol);
     for (int i = 0; i < dbLabelCount; i++) {
         QString label = QString::number(m_dbLabels.at(i));
-        int x = rect.left() + maxWidth - fontMetrics().width(label);
+        int x = rect.left() + maxWidth - fontMetrics().horizontalAdvance(label);
         int yline = rect.bottom() - pow(10.0, (double)m_dbLabels.at(i) / 50.0) * rect.height() * 40.0 / 42;
         int y = yline + textHeight / 2;
         if (y - textHeight < 0) {
@@ -196,7 +196,7 @@ void AudioGraphWidget::drawChanLabels(QPainter &p, const QRect &rect, int barWid
     // Find the widest channel label
     int chanLabelWidth = 0;
     for (int i = 0; i < chanLabelCount; i++) {
-        int width = fontMetrics().width(m_freqLabels.at(i)) + 2;
+        int width = fontMetrics().horizontalAdvance(m_freqLabels.at(i)) + 2;
         chanLabelWidth = width > chanLabelWidth ? width : chanLabelWidth;
     }
     int length = rect.width();
@@ -208,10 +208,10 @@ void AudioGraphWidget::drawChanLabels(QPainter &p, const QRect &rect, int barWid
     int y = rect.bottom();
     for (int i = 0; i < chanLabelCount; i += stride) {
         QString label = m_freqLabels.at(i);
-        int x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().width(label) / 2;
+        int x = rect.left() + (2 * i) + i * barWidth + barWidth / 2 - fontMetrics().horizontalAdvance(label) / 2;
         if (x > prevX) {
             p.drawText(x, y, label);
-            prevX = x + fontMetrics().width(label);
+            prevX = x + fontMetrics().horizontalAdvance(label);
         }
     }
 }
@@ -237,7 +237,7 @@ void AudioGraphWidget::drawBackground()
     QRect rect(0, 0, width() - 3, height());
     p.setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     p.setOpacity(0.6);
-    int offset = fontMetrics().width(QStringLiteral("888")) + 2;
+    int offset = fontMetrics().horizontalAdvance(QStringLiteral("888")) + 2;
     if (rect.width() - offset > 10) {
         drawDbLabels(p, rect);
         rect.adjust(offset, 0, 0, 0);

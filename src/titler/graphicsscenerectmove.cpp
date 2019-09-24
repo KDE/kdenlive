@@ -189,10 +189,10 @@ void MyTextItem::updateGeometry(int, int, int)
             linePath.addText(0, linePos, font(), line);
             linePos += lineSpacing;
             if (m_alignment == Qt::AlignHCenter) {
-                double offset = (bounding.width() - metrics.width(line)) / 2;
+                double offset = (bounding.width() - metrics.horizontalAdvance(line)) / 2;
                 linePath.translate(offset, 0);
             } else if (m_alignment == Qt::AlignRight) {
-                double offset = bounding.width() - metrics.width(line);
+                double offset = bounding.width() - metrics.horizontalAdvance(line);
                 linePath.translate(offset, 0);
             }
             m_path.addPath(linePath);

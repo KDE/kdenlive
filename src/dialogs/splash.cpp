@@ -26,6 +26,7 @@
 #include <QQuickItem>
 #include <QQuickWindow>
 #include <QStandardPaths>
+#include <kdeclarative_version.h>
 
 Splash::Splash(QObject *parent)
     : QObject(parent)

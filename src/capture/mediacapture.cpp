@@ -30,9 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
-    , m_volume(1.)
     , currentState(-1)
     , m_audioDevice("default:")
+    , m_volume(1.)
     , m_path(QUrl())
     , m_recordState(0)
 {

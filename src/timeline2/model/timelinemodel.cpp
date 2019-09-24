@@ -105,6 +105,7 @@ int TimelineModel::seekDuration = 30000;
 
 TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> undo_stack)
     : QAbstractItemModel_shared_from_this()
+    , m_blockRefresh(false)
     , m_tractor(new Mlt::Tractor(*profile))
     , m_snaps(new SnapModel())
     , m_undoStack(std::move(undo_stack))
@@ -117,7 +118,6 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_audioTarget(-1)
     , m_videoTarget(-1)
     , m_editMode(TimelineMode::NormalEdit)
-    , m_blockRefresh(false)
     , m_closing(false)
 {
     // Create black background track
@@ -2234,7 +2234,7 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
-    int cache = QThread::idealThreadCount() + (m_allTracks.size() + 1) * 2;
+    int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
     mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
 }
 
@@ -2268,7 +2268,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         if (updateView) {
             _resetView();
         }
-        int cache = QThread::idealThreadCount() + (m_allTracks.size() + 1) * 2;
+        int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
         mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
         return true;
     };

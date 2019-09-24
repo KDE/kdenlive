@@ -211,7 +211,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
         if (clips.count() == 1) {
             out = clips.constFirst()->duration().frames(KdenliveSettings::project_fps());
         }
-        QPointer<ClipStabilize> d = new ClipStabilize(sources, filterName, out);
+        QPointer<ClipStabilize> d = new ClipStabilize(sources, filterName);
         if (d->exec() == QDialog::Accepted) {
             QMap<QString, QString> producerParams = d->producerParams();
             QMap<QString, QString> filterParams = d->filterParams();
