@@ -9,7 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "fftCorrelation.h"
-
+#include <QElapsedTimer>
 extern "C" {
 #include "../external/kiss_fft/tools/kiss_fftr.h"
 }
@@ -35,7 +35,7 @@ void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const 
 
 void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const qint64 *right, const size_t rightSize, float *out_correlated)
 {
-    QTime t;
+    QElapsedTimer t;
     t.start();
 
     auto *leftF = new float[leftSize];

@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTime>
 #include <QTimer>
 #include <QUrl>
+#include <QElapsedTimer>
 
 #include "timeline2/model/timelineitemmodel.hpp"
 
@@ -182,7 +183,7 @@ private:
 
     KdenliveDoc *m_project{nullptr};
     std::shared_ptr<TimelineItemModel> m_mainTimelineModel;
-    QTime m_lastSave;
+    QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;
     QUrl m_startUrl;
     QString m_loadClipsOnOpen;

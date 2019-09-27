@@ -409,7 +409,7 @@ void UnicodeWidget::slotPrevUnicode()
 void UnicodeWidget::wheelEvent(QWheelEvent *event)
 {
     if (frame->underMouse()) {
-        if (event->delta() > 0) {
+        if (event->angleDelta().y() > 0) {
             slotNextUnicode();
         } else {
             slotPrevUnicode();

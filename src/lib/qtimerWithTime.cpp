@@ -25,7 +25,7 @@ void QTimerWithTime::start(int msec)
     m_time.start();
 }
 
-int QTimerWithTime::elapsed() const
+qint64 QTimerWithTime::elapsed() const
 {
     return m_time.elapsed();
 }

@@ -20,7 +20,7 @@
 #ifndef QTIMERWITHTIME_H
 #define QTIMERWITHTIME_H
 
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 
 class QTimerWithTime : public QTimer
@@ -28,9 +28,9 @@ class QTimerWithTime : public QTimer
     Q_OBJECT
 public:
     virtual void start(int msec);
-    int elapsed() const;
+    qint64 elapsed() const;
 
 private:
-    QTime m_time;
+    QElapsedTimer m_time;
 };
 #endif

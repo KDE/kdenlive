@@ -14,6 +14,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
 #include <QTime>
+#include <QElapsedTimer>
 #include <cmath>
 #include <iostream>
 
@@ -128,7 +129,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
 
     */
 
-    QTime t;
+    QElapsedTimer t;
     t.start();
     for (int shift = -(int)sizeSub; shift <= (int)sizeMain; ++shift) {
 

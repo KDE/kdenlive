@@ -23,6 +23,7 @@
 #include <QStringList>
 #include <QThread>
 #include <QtDBus>
+#include <QElapsedTimer>
 #include <utility>
 // Can't believe I need to do this to sleep.
 class SleepThread : QThread
@@ -165,7 +166,7 @@ void RenderJob::start()
             qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
             if (QProcess::startDetached(QStringLiteral("kuiserver"))) {
                 // Give it a couple of seconds to start
-                QTime t;
+                QElapsedTimer t;
                 t.start();
                 while (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer")) && t.elapsed() < 3000) {
                     SleepThread::msleep(100); // Sleep 100 ms

@@ -222,7 +222,7 @@ public:
                     // Draw usage counter
                     int usage = index.data(AbstractProjectItem::UsageCount).toInt();
                     if (usage > 0) {
-                        subText.append(QString().sprintf(" [%d]", usage));
+                        subText.append(QString::asprintf(" [%d]", usage));
                     }
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
 

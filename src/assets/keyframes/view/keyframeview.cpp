@@ -267,14 +267,14 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
 void KeyframeView::wheelEvent(QWheelEvent *event)
 {
     if (event->modifiers() & Qt::AltModifier) {
-        if (event->delta() > 0) {
+        if (event->angleDelta().y() > 0) {
             slotGoToPrev();
         } else {
             slotGoToNext();
         }
         return;
     }
-    int change = event->delta() > 0 ? -1 : 1;
+    int change = event->angleDelta().y() > 0 ? -1 : 1;
     int pos = qBound(0, m_position + change, m_duration - 1);
     emit seekToPos(pos);
 }
