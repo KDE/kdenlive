@@ -779,7 +779,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
 }
 
-void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable)
+void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)
 {
     QList<int> videoTracks;
     for (const auto &track : timeline->m_iteratorTable) {
@@ -930,7 +930,9 @@ void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemM
         }
     }
     field->unlock();
-    timeline->requestMonitorRefresh();
+    if (refresh) {
+        timeline->requestMonitorRefresh();
+    }
 }
 
 void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection,

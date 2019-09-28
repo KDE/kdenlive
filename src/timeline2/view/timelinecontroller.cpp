@@ -2451,9 +2451,9 @@ bool TimelineController::exists(int itemId)
     return m_model->isClip(itemId) || m_model->isComposition(itemId);
 }
 
-void TimelineController::slotMultitrackView(bool enable)
+void TimelineController::slotMultitrackView(bool enable, bool refresh)
 {
-    TimelineFunctions::enableMultitrackView(m_model, enable);
+    TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
 }
 
 void TimelineController::saveTimelineSelection(const QDir &targetDir)

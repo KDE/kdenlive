@@ -111,8 +111,6 @@ public:
     Timecode timecode() const;
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
-    /** @brief Get current project's folder */
-    const QString projectFolder() const;
     int getZoneStart();
     int getZoneEnd();
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
@@ -347,7 +345,7 @@ signals:
     void addMasterEffect(QString, const QStringList &);
     void passKeyPress(QKeyEvent *);
     /** @brief Enable / disable project monitor multitrack view (split view with one track in each quarter). */
-    void multitrackView(bool);
+    void multitrackView(bool, bool);
     void timeCodeUpdated(const QString &);
     void addMarker();
     void deleteMarker(bool deleteGuide = true);

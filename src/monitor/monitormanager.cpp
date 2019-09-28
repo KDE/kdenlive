@@ -43,11 +43,6 @@ Timecode MonitorManager::timecode() const
     return m_timecode;
 }
 
-void MonitorManager::setDocument(KdenliveDoc *doc)
-{
-    m_document = doc;
-}
-
 QAction *MonitorManager::getAction(const QString &name)
 {
     return pCore->window()->action(name.toUtf8().constData());
@@ -351,15 +346,6 @@ void MonitorManager::slotSwitchFullscreen()
     }
 }
 
-QString MonitorManager::getProjectFolder() const
-{
-    if (m_document == nullptr) {
-        // qCDebug(KDENLIVE_LOG)<<" + + +nullptr DOC!!";
-        return QString();
-    }
-    return m_document->projectDataFolder() + QDir::separator();
-}
-
 void MonitorManager::setupActions()
 {
     KDualAction *playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
@@ -407,14 +393,14 @@ void MonitorManager::setupActions()
     connect(projectStart, &QAction::triggered, this, &MonitorManager::slotStart);
     pCore->window()->addAction(QStringLiteral("seek_start"), projectStart, Qt::CTRL + Qt::Key_Home);
 
-    QAction *multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
-    multiTrack->setCheckable(true);
-    connect(multiTrack, &QAction::triggered, [&](bool checked) {
+    m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
+    m_multiTrack->setCheckable(true);
+    connect(m_multiTrack, &QAction::triggered, [&](bool checked) {
         if (m_projectMonitor) {
-            m_projectMonitor->multitrackView(checked);
+            m_projectMonitor->multitrackView(checked, true);
         }
     });
-    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), multiTrack);
+    pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
 
     QAction *projectEnd = new QAction(QIcon::fromTheme(QStringLiteral("go-last")), i18n("Go to Project End"), this);
     connect(projectEnd, &QAction::triggered, this, &MonitorManager::slotEnd);
@@ -594,15 +580,6 @@ void MonitorManager::slotSetOutPoint()
     }
 }
 
-QDir MonitorManager::getCacheFolder(CacheType type)
-{
-    bool ok = false;
-    if (m_document) {
-        return m_document->getCacheDir(type, &ok);
-    }
-    return QDir();
-}
-
 void MonitorManager::slotExtractCurrentFrame()
 {
     if (m_activeMonitor) {
@@ -629,4 +606,12 @@ void MonitorManager::slotZoomOut()
     if (m_activeMonitor) {
         static_cast<Monitor *>(m_activeMonitor)->slotZoomOut();
     }
+}
+
+bool MonitorManager::isMultiTrack() const
+{
+    if (m_multiTrack) {
+        return m_multiTrack->isChecked();
+    }
+    return false;
 }

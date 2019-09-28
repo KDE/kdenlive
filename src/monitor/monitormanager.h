@@ -55,10 +55,6 @@ public:
     AbstractMonitor *monitor(Kdenlive::MonitorId monitorName);
     void updateScopeSource();
     void clearScopeSource();
-    /** @brief Returns current project's folder. */
-    QString getProjectFolder() const;
-    /** @brief Sets current document for later reference. */
-    void setDocument(KdenliveDoc *doc);
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
     /** @brief Return a mainwindow action from its id name. */
@@ -69,6 +65,8 @@ public:
     void refreshIcons();
     void resetDisplay();
     QDir getCacheFolder(CacheType type);
+    /** @brief Returns true if multitrack view is enabled in project monitor. */
+    bool isMultiTrack() const;
 
 public slots:
 
@@ -129,13 +127,13 @@ private:
     QMutex m_switchMutex;
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
-    KdenliveDoc *m_document{nullptr};
     Monitor *m_clipMonitor{nullptr};
     Monitor *m_projectMonitor{nullptr};
     Timecode m_timecode;
     AbstractMonitor *m_activeMonitor{nullptr};
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
+    QAction *m_multiTrack{nullptr};
 
 signals:
     /** @brief When the monitor changed, update the visible color scopes */

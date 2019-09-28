@@ -482,7 +482,7 @@ public slots:
     void invalidateZone(int in, int out);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
-    void slotMultitrackView(bool enable);
+    void slotMultitrackView(bool enable, bool refresh = true);
     /** @brief Save timeline selected clips to target folder. */
     void saveTimelineSelection(const QDir &targetDir);
     /** @brief Restore timeline scroll pos on open. */

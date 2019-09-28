@@ -744,7 +744,10 @@ MediaCapture *Core::getAudioDevice()
 
 QString Core::getProjectFolderName()
 {
-    return m_monitorManager->getProjectFolder();
+    if (currentDoc()) {
+        return currentDoc()->projectDataFolder() + QDir::separator();
+    }
+    return QString();
 }
 
 QString Core::getTimelineClipBinId(int cid)
