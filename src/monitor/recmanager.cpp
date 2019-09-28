@@ -233,6 +233,51 @@ void RecManager::slotRecord(bool record)
     // fps
     captureArgs << QStringLiteral("-framerate") << QString::number(KdenliveSettings::grab_fps());
     captureSize = QStringLiteral("desktop");
+    captureArgs << QStringLiteral("-i") << captureSize;
+    if (KdenliveSettings::grab_parameters().contains(QLatin1String("alsa"))) {
+        // Add audio device
+        QString params = captureArgs.join(QLatin1Char(' '));
+        params.append(QStringLiteral(" ") +  KdenliveSettings::grab_parameters().simplified());
+        // Use Windows dshow for audio capture
+        params.replace(QLatin1String("alsa"), QStringLiteral("dshow"));
+        // Remove vorbis codec
+        params.replace(QLatin1String("-acodec libvorbis"), QString());
+
+        // Find first audio device
+        QProcess tst;
+        tst.setProcessChannelMode(QProcess::MergedChannels);
+        tst.start(KdenliveSettings::ffmpegpath(), {"-hide_banner","-list_devices","true","-f","dshow","-i","dummy"});
+        tst.waitForStarted();
+        tst.waitForFinished();
+        QString dshowOutput = QString::fromUtf8(tst.readAllStandardOutput());
+        //KMessageBox::information(QApplication::activeWindow(), dshowOutput);
+        if (dshowOutput.contains(QLatin1String("DirectShow audio devices"))) {
+            dshowOutput = dshowOutput.section(QLatin1String("DirectShow audio devices"), 1);
+            qDebug()<<"GOT FILTERED DSOW1: "<<dshowOutput;
+            //dshowOutput = dshowOutput.section(QLatin1Char('"'), 3, 3);
+            if (dshowOutput.contains(QLatin1Char('"'))) {
+                dshowOutput = QString("audio=\"%1\"").arg(dshowOutput.section(QLatin1Char('"'), 1, 1));
+                qDebug().noquote()<<"GOT FILTERED DSOW2: "<<dshowOutput;
+            //captureArgs << params.split(QLatin1Char(' '));
+            //captureArgs.replace(captureArgs.indexOf(QLatin1String("default")), dshowOutput);
+                params.replace(QLatin1String("default"), dshowOutput);
+            }
+        } else {
+            qDebug()<<KdenliveSettings::ffmpegpath()<<"=== GOT DSHOW DEVICES: "<<dshowOutput;
+            captureArgs << params.split(QLatin1Char(' '));
+        }
+        params.replace(QStringLiteral("\\\\"), QStringLiteral("\\"));
+        params.replace(QStringLiteral("\\\""), QStringLiteral("\""));
+        qDebug().noquote()<<"== STARTING WIN CAPTURE: "<<params<<"\n___________";
+        params.append(QStringLiteral(" ") + path);
+        qDebug().noquote()<<"== STARTING WIN CAPTURE: "<<params<<"\n___________";
+        m_captureProcess->setNativeArguments(params);
+        m_captureProcess->start(KdenliveSettings::ffmpegpath());
+    } else if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
+        captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
+        captureArgs << path;
+        m_captureProcess->start(KdenliveSettings::ffmpegpath());
+    }
 #else
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
     if (KdenliveSettings::grab_follow_mouse()) {
@@ -244,7 +289,11 @@ void RecManager::slotRecord(bool record)
     captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
-        QRect screenSize = QApplication::screens()[m_screenIndex]->geometry();
+        QList <QScreen*>screens = QApplication::screens();
+        if (m_screenIndex < 0 || m_screenIndex >= screens.count()) {
+            m_screenIndex = 0;
+        }
+        QRect screenSize = screens[m_screenIndex]->geometry();
         captureArgs << QStringLiteral("-s") << QString::number(screenSize.width()) + QLatin1Char('x') + QString::number(screenSize.height());
         captureSize.append(QLatin1Char('+') + QString::number(screenSize.left()) + QLatin1Char('.') + QString::number(screenSize.top()));
     } else {
@@ -259,13 +308,15 @@ void RecManager::slotRecord(bool record)
     }
     // fps
     captureArgs << QStringLiteral("-r") << QString::number(KdenliveSettings::grab_fps());
-#endif
     captureArgs << QStringLiteral("-i") << captureSize;
     if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
     }
+    qDebug()<<"== STARTING X11 CAPTURE: "<<captureArgs<<"\n___________";
     captureArgs << path;
     m_captureProcess->start(KdenliveSettings::ffmpegpath(), captureArgs);
+#endif
+
     if (!m_captureProcess->waitForStarted()) {
         // Problem launching capture app
         emit warningMessage(i18n("Failed to start the capture application:\n%1", KdenliveSettings::ffmpegpath()));
