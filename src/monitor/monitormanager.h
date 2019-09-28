@@ -54,10 +54,6 @@ public:
     AbstractMonitor *monitor(Kdenlive::MonitorId monitorName);
     void updateScopeSource();
     void clearScopeSource();
-    /** @brief Returns current project's folder. */
-    QString getProjectFolder() const;
-    /** @brief Sets current document for later reference. */
-    void setDocument(KdenliveDoc *doc);
     /** @brief Change an MLT consumer property for both monitors. */
     void setConsumerProperty(const QString &name, const QString &value);
     /** @brief Return a mainwindow action from its id name. */
@@ -130,7 +126,6 @@ private:
     QMutex m_switchMutex;
     /** @brief Sets up all the actions and attaches them to the collection of MainWindow. */
     void setupActions();
-    KdenliveDoc *m_document{nullptr};
     Monitor *m_clipMonitor{nullptr};
     Monitor *m_projectMonitor{nullptr};
     Timecode m_timecode;

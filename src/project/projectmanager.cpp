@@ -256,7 +256,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             delete m_project;
             m_project = nullptr;
         }
-        pCore->monitorManager()->setDocument(m_project);
     }
     /*  // Make sure to reset locale to system's default
         QString requestedLocale = QLocale::system().name();

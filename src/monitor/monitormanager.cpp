@@ -43,11 +43,6 @@ Timecode MonitorManager::timecode() const
     return m_timecode;
 }
 
-void MonitorManager::setDocument(KdenliveDoc *doc)
-{
-    m_document = doc;
-}
-
 QAction *MonitorManager::getAction(const QString &name)
 {
     return pCore->window()->action(name.toUtf8().constData());
@@ -351,15 +346,6 @@ void MonitorManager::slotSwitchFullscreen()
     }
 }
 
-QString MonitorManager::getProjectFolder() const
-{
-    if (m_document == nullptr) {
-        // qCDebug(KDENLIVE_LOG)<<" + + +nullptr DOC!!";
-        return QString();
-    }
-    return m_document->projectDataFolder() + QDir::separator();
-}
-
 void MonitorManager::setupActions()
 {
     KDualAction *playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
@@ -592,15 +578,6 @@ void MonitorManager::slotSetOutPoint()
         // it selects frame at current cursor position.
         m_projectMonitor->slotSetZoneEnd();
     }
-}
-
-QDir MonitorManager::getCacheFolder(CacheType type)
-{
-    bool ok = false;
-    if (m_document) {
-        return m_document->getCacheDir(type, &ok);
-    }
-    return QDir();
 }
 
 void MonitorManager::slotExtractCurrentFrame()

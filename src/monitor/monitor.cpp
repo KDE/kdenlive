@@ -1720,19 +1720,17 @@ QString Monitor::getMarkerThumb(GenTime pos)
         return QString();
     }
     if (!m_controller->getClipHash().isEmpty()) {
-        QString url = m_monitorManager->getCacheFolder(CacheThumbs)
-                          .absoluteFilePath(m_controller->getClipHash() + QLatin1Char('#') +
+        bool ok = false;
+        QDir dir = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
+        if (ok) {
+            QString url = dir.absoluteFilePath(m_controller->getClipHash() + QLatin1Char('#') +
                                             QString::number((int)pos.frames(m_monitorManager->timecode().fps())) + QStringLiteral(".png"));
-        if (QFile::exists(url)) {
-            return url;
+            if (QFile::exists(url)) {
+                return url;
+            }
         }
     }
     return QString();
-}
-
-const QString Monitor::projectFolder() const
-{
-    return m_monitorManager->getProjectFolder();
 }
 
 void Monitor::setPalette(const QPalette &p)
