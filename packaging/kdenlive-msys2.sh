@@ -68,9 +68,12 @@ function wget_extract {
 function cmake_ninja {
     PKG=$1; shift; CMAKE_ARGS="$@"
     [ -n "$PREFIX" ] && CMAKE_ARGS+=" -DCMAKE_INSTALL_PREFIX:PATH=$PREFIX"
-    mkdir -p $SRC/$PKG/build
+    if [ ! -f $SRC/$PKG/build/CMakeCache.txt ] ; then
+        mkdir -p $SRC/$PKG/build
+        cd $SRC/$PKG/build
+        cmake .. -G Ninja $CMAKE_ARGS
+    fi
     cd $SRC/$PKG/build
-    cmake .. -G Ninja $CMAKE_ARGS
     ninja install
 }
 
@@ -86,7 +89,6 @@ function configure_make {
 
 
 #### DOWNLOAD DEPS
-
 if pacman -Suy ; then
     # MSYS tools
     pacman -Sy --needed tar git automake1.16
@@ -98,14 +100,15 @@ if pacman -Suy ; then
          kcrash kjobwidgets kauth kcodecs kconfigwidgets kiconthemes \
          solid sonnet attica kservice kglobalaccel ktextwidgets \
          kxmlgui kbookmarks knotifications kio knewstuff \
-         kpackage kdeclarative)
+         kpackage kdeclarative kirigami2 \
+	 kcmutils plasma-framework)
     pacman_install $DEPS $TOOLS ${KF5[@]/%/-qt5}
 fi
 
 #### BUILD EXTRA KF5
 
 KF5_VERSION=$(pacman -Ss $MINGW_PACKAGE_PREFIX-extra-cmake-modules | sed -n 's/.* \(5\..*\)-.*/\1/p')
-for FRAMEWORK in knotifyconfig purpose ; do
+for FRAMEWORK in knotifyconfig purpose frameworkintegration ; do
     #git_pull git://anongit.kde.org/$FRAMEWORK v$KF5_VERSION
     wget_extract https://download.kde.org/stable/frameworks/${KF5_VERSION%.*}/$FRAMEWORK-$KF5_VERSION.tar.xz
     cmake_ninja $FRAMEWORK-$KF5_VERSION \
@@ -121,10 +124,11 @@ for FRAMEWORK in knotifyconfig purpose ; do
         #-DECM_MKSPECS_INSTALL_DIR=$MINGW_PREFIX/share/qt5/mkspecs/modules \
         #-DECM_DIR=$MINGW_PREFIX/share/ECM \
 done
-mkdir -p $MINGW_PREFIX/bin/data/color-schemes
-cd $MINGW_PREFIX/bin/data/color-schemes
-wget https://cgit.kde.org/breeze.git/plain/colors/{Breeze,BreezeDark,BreezeHighContrast,BreezeLight}.colors
-wget https://cgit.kde.org/plasma-desktop.git/plain/kcms/colors/schemes/{Honeycomb,Norway,ObsidianCoast,Oxygen,OxygenCold,Steel,WontonSoup,Zion,ZionReversed}.colors
+wget_extract https://download.kde.org/stable/plasma/5.16.5/kdecoration-5.16.5.tar.xz
+cmake_ninja kdecoration-5.16.5 -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON
+wget_extract https://download.kde.org/stable/plasma/5.16.5/breeze-5.16.5.tar.xz || true # symlink errors
+cmake_ninja breeze-5.16.5 -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON
+
 #### BUILD MULTIMEDIA DEPS
 
 if false ; then # Still Failing
@@ -142,13 +146,17 @@ if false ; then # Still Failing
 fi
 
 git_pull https://github.com/dyne/frei0r.git
-cmake_ninja frei0r
+cmake_ninja frei0r -DWITHOUT_OPENCV=ON
 
 git_pull https://github.com/mltframework/mlt.git
-configure_make mlt --enable-gpl --enable-gpl3
-mv $PREFIX/{melt.exe,libmlt*.dll} $PREFIX/bin
+configure_make mlt --enable-gpl --enable-gpl3 --disable-windeploy
 
 #### BUILD KDENLIVE
+
+wget_extract https://github.com/rttrorg/rttr/archive/v0.9.6.tar.gz
+cmake_ninja rttr-0.9.6 \
+	-DBUILD_EXAMPLES=OFF -DBUILD_DOCUMENTATION=OFF \
+	-DBUILD_UNIT_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_STATIC=ON
 
 git_pull https://anongit.kde.org/kdenlive.git
 #git_pull https://anongit.kde.org/releaseme.git
