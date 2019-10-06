@@ -703,7 +703,7 @@ QString KeyframeModel::getAnimProperty() const
     }
     int ix = 0;
     bool first = true;
-    std::shared_ptr<Mlt::Animation> anim;
+    std::shared_ptr<Mlt::Animation> anim(nullptr);
     for (const auto &keyframe : m_keyframeList) {
         if (first) {
             switch (m_paramType) {
@@ -731,9 +731,12 @@ QString KeyframeModel::getAnimProperty() const
         anim->key_set_type(ix, convertToMltType(keyframe.second.first));
         ix++;
     }
-    char *cut = anim->serialize_cut();
-    QString ret(cut);
-    free(cut);
+    QString ret;
+    if (anim) {
+        char *cut = anim->serialize_cut();
+        ret = QString(cut);
+        free(cut);
+    }
     return ret;
 }
 
