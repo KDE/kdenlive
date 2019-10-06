@@ -384,7 +384,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     }
                 }
             }
-        } else {
+        } else if (oldIn != in) {
             GenTime old_in(oldIn, pCore->getCurrentFps());
             GenTime new_in(in, pCore->getCurrentFps());
             Keyframe kf = getKeyframe(old_in, &ok);
@@ -418,7 +418,6 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     break;
                 }
             }
-            
             // qDebug()<<"/// \n\nKEYS TO DELETE: "<<positions<<"\n------------------------";
         }
     } else {
