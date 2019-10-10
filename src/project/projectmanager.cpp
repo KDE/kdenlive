@@ -50,6 +50,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QMimeType>
 #include <QProgressDialog>
 #include <QTimeZone>
+#include <audiomixer/mixermanager.hpp>
 
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
@@ -202,6 +203,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     updateTimeline(0);
     pCore->window()->connectDocument();
+    pCore->mixer()->setModel(m_mainTimelineModel);
     bool disabled = m_project->getDocumentProperty(QStringLiteral("disabletimelineeffects")) == QLatin1String("1");
     QAction *disableEffects = pCore->window()->actionCollection()->action(QStringLiteral("disable_timeline_effects"));
     if (disableEffects) {
@@ -561,6 +563,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         return;
     }
     pCore->window()->connectDocument();
+    pCore->mixer()->setModel(m_mainTimelineModel);
     QDateTime documentDate = QFileInfo(m_project->url().toLocalFile()).lastModified();
     pCore->window()->getMainTimeline()->controller()->loadPreview(m_project->getDocumentProperty(QStringLiteral("previewchunks")),
                                                                   m_project->getDocumentProperty(QStringLiteral("dirtypreviewchunks")), documentDate,

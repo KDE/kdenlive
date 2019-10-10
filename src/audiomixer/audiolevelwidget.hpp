@@ -19,10 +19,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MONITORAUDIOLEVEL_H
-#define MONITORAUDIOLEVEL_H
+#ifndef AUDIOLEVELWIDGET_H
+#define AUDIOLEVELWIDGET_H
 
-#include "scopewidget.h"
 #include <QWidget>
 #include <memory>
 
@@ -30,12 +29,12 @@ namespace Mlt {
 class Filter;
 } // namespace Mlt
 
-class MonitorAudioLevel : public ScopeWidget
+class AudioLevelWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit MonitorAudioLevel(int height, QWidget *parent = nullptr);
-    ~MonitorAudioLevel() override;
+    explicit AudioLevelWidget(int width, QWidget *parent = nullptr);
+    ~AudioLevelWidget() override;
     void refreshPixmap();
     int audioChannels;
     bool isValid;
@@ -47,15 +46,15 @@ protected:
 
 private:
     std::unique_ptr<Mlt::Filter> m_filter;
-    int m_height;
+    int m_width;
+    int m_offset;
     QPixmap m_pixmap;
     QVector<int> m_peaks;
     QVector<int> m_values;
-    int m_channelHeight;
+    int m_channelWidth;
     int m_channelDistance;
-    int m_channelFillHeight;
+    int m_channelFillWidth;
     void drawBackground(int channels = 2);
-    void refreshScope(const QSize &size, bool full) override;
 
 public slots:
     void setAudioValues(const QVector<int> &values);

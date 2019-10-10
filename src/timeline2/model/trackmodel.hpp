@@ -95,6 +95,7 @@ public:
     /* @brief Returns true if track is an audio track
      */
     bool isAudioTrack() const;
+    std::shared_ptr<Mlt::Tractor> getTrackService();
     /* @brief Returns the track type (audio / video)
      */
     PlaylistState::ClipState trackType() const;

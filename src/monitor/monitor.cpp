@@ -184,6 +184,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_horizontalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetX);
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
     connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed);
+    connect(m_glMonitor, &GLWidget::frameRendered, manager, &MonitorManager::frameRendered, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::mouseSeek, this, &Monitor::slotMouseSeek);
     connect(m_glMonitor, &GLWidget::monitorPlay, this, &Monitor::slotPlay);
     connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
@@ -211,6 +212,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
+    } else if (id == Kdenlive::ProjectMonitor) {
+        connect(manager, &MonitorManager::connectMixerRenderer, m_glMonitor, &GLWidget::connectMixerRenderer);
+        connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::pauseTriggered);
     }
 
     if (id != Kdenlive::DvdMonitor) {

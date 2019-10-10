@@ -42,6 +42,7 @@
 #include "kdenlivesettings.h"
 #include "layoutmanagement.h"
 #include "library/librarywidget.h"
+#include "audiomixer/mixermanager.hpp"
 #include "mainwindowadaptor.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
@@ -239,6 +240,8 @@ void MainWindow::init()
     setupActions();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
+    
+    QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -1876,6 +1879,13 @@ void MainWindow::connectDocument()
             Qt::UniqueConnection);
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
             Qt::UniqueConnection);
+    connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
+        pCore->mixer()->updateLevels(frame.get_position());
+        //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
+    });
+    connect(pCore->monitorManager(), &MonitorManager::frameRendered, [&](int pos) {
+        pCore->mixer()->renderPosition = pos;
+    });
 
     // TODO REFAC: reconnect to new timeline
     /*

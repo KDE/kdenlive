@@ -1346,6 +1346,15 @@ float GLWidget::zoom() const
     return m_zoom;
 }
 
+void GLWidget::connectMixerRenderer(bool doConnect)
+{
+    if (doConnect) {
+        m_renderEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener)on_frame_render);
+    } else {
+        delete m_renderEvent;
+    }
+}
+
 float GLWidget::scale() const
 {
     return (double)m_rect.width() / pCore->getCurrentProfile()->width() * m_zoom;
@@ -1522,6 +1531,7 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
 void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
+    //qDebug()<<"== SHOWING FRAME: "<<frame.get_position();
     if (frame.get_int("rendered") != 0) {
         auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
@@ -1529,6 +1539,11 @@ void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
             QMetaObject::invokeMethod(widget->m_frameRenderer, "showFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
         }
     }
+}
+
+void GLWidget::on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame_ptr)
+{
+    widget->frameRendered(mlt_frame_get_position(frame_ptr));
 }
 
 void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
@@ -1546,6 +1561,7 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
 void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
+    qDebug()<<"== SHOWING GL FRAME: "<<frame.get_position();
     if (frame.get_int("rendered") != 0) {
         auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
@@ -1821,6 +1837,7 @@ void GLWidget::switchPlay(bool play, double speed)
         m_consumer->start();
         m_consumer->set("refresh", 1);
     } else {
+        emit paused();
         m_producer->set_speed(0);
         m_producer->seek(m_consumer->position() + 1);
         m_consumer->purge();

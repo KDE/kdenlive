@@ -50,7 +50,7 @@ MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
     , m_channelFillHeight(m_channelHeight)
 {
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "audiolevel");
+    m_filter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "audiolevel"));
     if (!m_filter->is_valid()) {
         isValid = false;
         return;
@@ -61,7 +61,6 @@ MonitorAudioLevel::MonitorAudioLevel(int height, QWidget *parent)
 
 MonitorAudioLevel::~MonitorAudioLevel()
 {
-    delete m_filter;
 }
 
 void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
@@ -167,7 +166,7 @@ void MonitorAudioLevel::drawBackground(int channels)
             prevX = xf;
         }
     }
-    p.setOpacity(1);
+    p.setOpacity(isEnabled() ? 1 : 0.5);
     p.setPen(palette().dark().color());
     // Clear space between the 2 channels
     p.setCompositionMode(QPainter::CompositionMode_Source);
