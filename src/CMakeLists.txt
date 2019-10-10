@@ -41,6 +41,7 @@ endif()
 ### Find source files
 add_subdirectory(abstractmodel)
 add_subdirectory(assets)
+add_subdirectory(audiomixer)
 add_subdirectory(bin)
 add_subdirectory(capture)
 add_subdirectory(dialogs)

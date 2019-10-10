@@ -1255,6 +1255,11 @@ bool TrackModel::isAudioTrack() const
     return m_track->get_int("kdenlive:audio_track") == 1;
 }
 
+std::shared_ptr<Mlt::Tractor> TrackModel::getTrackService()
+{
+    return m_track;
+}
+
 PlaylistState::ClipState TrackModel::trackType() const
 {
     return (m_track->get_int("kdenlive:audio_track") == 1 ? PlaylistState::AudioOnly : PlaylistState::VideoOnly);

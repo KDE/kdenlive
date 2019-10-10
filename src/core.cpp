@@ -18,6 +18,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
+#include "audiomixer/mixermanager.hpp"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
@@ -171,9 +172,12 @@ void Core::initGUI(const QUrl &Url)
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
+    m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     m_monitorManager = new MonitorManager(this);
+    connect(m_mixerWidget, &MixerManager::connectMixerRenderer, m_monitorManager, &MonitorManager::connectMixerRenderer);
+    connect(m_monitorManager, &MonitorManager::pauseTriggered, m_mixerWidget, &MixerManager::resetAudioValues);
     // Producer queue, creating MLT::Producers on request
     /*
     m_producerQueue = new ProducerQueue(m_binController);
@@ -248,6 +252,11 @@ std::shared_ptr<JobManager> Core::jobManager()
 LibraryWidget *Core::library()
 {
     return m_library;
+}
+
+MixerManager *Core::mixer()
+{
+    return m_mixerWidget;
 }
 
 void Core::initLocale()
@@ -584,10 +593,10 @@ std::shared_ptr<DocUndoStack> Core::undoStack()
     return projectManager()->undoStack();
 }
 
-QMap<int, QString> Core::getVideoTrackNames()
+QMap<int, QString> Core::getTrackNames(bool videoOnly)
 {
     if (!m_guiConstructed) return QMap<int, QString>();
-    return m_mainWindow->getCurrentTimeline()->controller()->getTrackNames(true);
+    return m_mainWindow->getCurrentTimeline()->controller()->getTrackNames(videoOnly);
 }
 
 QPair<int, int> Core::getCompositionATrack(int cid) const

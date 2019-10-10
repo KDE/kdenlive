@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 #include "timelineitemmodel.hpp"
-
+#include "audiomixer/mixermanager.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
 #include "clipmodel.hpp"
@@ -467,6 +467,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);
+        qDebug()<<"=== EMITTING MODEL CHANGE: "<<roles;
         emit dataChanged(ix, ix, roles);
     }
 }
@@ -578,23 +579,25 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         }
     }
     QString composite = TransitionsRepository::get()->getCompositingTransition();
+    pCore->mixer()->cleanup();
     while (it != m_allTracks.cend()) {
-        int trackId = getTrackMltIndex((*it)->getId());
+        int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
             // video track, add composition
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
-            field->plant_transition(*transition, 0, trackId);
-            transition->set_tracks(0, trackId);
+            field->plant_transition(*transition, 0, trackPos);
+            transition->set_tracks(0, trackPos);
         } else if ((*it)->isAudioTrack()) {
             // audio mix
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             transition->set("sum", 1);
-            field->plant_transition(*transition, 0, trackId);
-            transition->set_tracks(0, trackId);
+            field->plant_transition(*transition, 0, trackPos);
+            transition->set_tracks(0, trackPos);
+            pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()));
         }
         ++it;
     }

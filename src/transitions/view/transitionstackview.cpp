@@ -47,7 +47,7 @@ void TransitionStackView::refreshTracks()
     m_trackBox->clear();
     QPair<int, int> aTrack = pCore->getCompositionATrack(m_model->getOwnerId().second);
     m_trackBox->addItem(i18n("Automatic"), -1);
-    QMapIterator<int, QString> i(pCore->getVideoTrackNames());
+    QMapIterator<int, QString> i(pCore->getTrackNames(true));
     i.toBack();
     while (i.hasPrevious()) {
         i.previous();

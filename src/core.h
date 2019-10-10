@@ -27,6 +27,7 @@ class KdenliveDoc;
 class LibraryWidget;
 class MainWindow;
 class MediaCapture;
+class MixerManager;
 class Monitor;
 class MonitorManager;
 class ProfileModel;
@@ -104,6 +105,8 @@ public:
     std::shared_ptr<JobManager> jobManager();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
+    /** @brief Returns a pointer to the audio mixer. */
+    MixerManager *mixer();
 
     /** @brief Returns a pointer to MLT's repository */
     std::unique_ptr<Mlt::Repository> &getMltRepository();
@@ -157,7 +160,7 @@ public:
     /** @brief Returns the capabilities of a clip: AudioOnly, VideoOnly or Disabled if both are allowed */
     PlaylistState::ClipState getItemState(const ObjectId &id);
     /** @brief Get a list of video track names with indexes */
-    QMap<int, QString> getVideoTrackNames();
+    QMap<int, QString> getTrackNames(bool videoOnly);
     /** @brief Returns the composition A track (MLT index / Track id) */
     QPair<int, int> getCompositionATrack(int cid) const;
     void setCompositionATrack(int cid, int aTrack);
@@ -211,6 +214,7 @@ private:
     std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
+    MixerManager *m_mixerWidget{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;
 
