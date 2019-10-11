@@ -52,7 +52,6 @@ public:
     SharedFrame(const SharedFrame &other);
     ~SharedFrame();
     SharedFrame &operator=(const SharedFrame &other);
-    Mlt::Frame &get_frame() const;
 
     bool is_valid() const;
     Mlt::Frame clone(bool audio = false, bool image = false, bool alpha = false) const;

@@ -201,7 +201,3 @@ const int16_t *SharedFrame::get_audio() const
     return (int16_t *)d->f.get_audio(format, frequency, channels, samples);
 }
 
-Mlt::Frame &SharedFrame::get_frame() const
-{
-    return d->f;
-}
