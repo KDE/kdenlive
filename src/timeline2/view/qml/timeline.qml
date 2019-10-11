@@ -542,8 +542,7 @@ Rectangle {
             menuModel: guidesModel
             enabled: guidesDelegateModel.count > 0
             onGuideSelected: {
-                timeline.seekPosition = assetFrame
-                timeline.position = timeline.seekPosition
+                timeline.position = assetFrame
             }
         }
         OLD.MenuItem {
@@ -598,8 +597,7 @@ Rectangle {
             menuModel: guidesModel
             enabled: guidesDelegateModel.count > 0
             onGuideSelected: {
-                timeline.seekPosition = assetFrame
-                timeline.position = timeline.seekPosition
+                timeline.position = assetFrame
             }
         }
         OLD.MenuItem {
@@ -868,11 +866,10 @@ Rectangle {
                 } else {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
                     if (timeline.seekPosition > -1) {
-                        timeline.seekPosition = Math.min(timeline.seekPosition - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
+                        timeline.position = Math.min(timeline.seekPosition - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
                     } else {
-                        timeline.seekPosition = Math.min(timeline.position - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
+                        timeline.position = Math.min(timeline.position - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
                     }
-                    timeline.position = timeline.seekPosition
                 }
             }
             onPressed: {
@@ -918,8 +915,7 @@ Rectangle {
                         if (mouse.y > ruler.height) {
                             controller.requestClearSelection();
                         }
-                        timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
-                        timeline.position = timeline.seekPosition
+                        timeline.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
@@ -979,8 +975,7 @@ Rectangle {
                     }
                 } else if (mouse.buttons === Qt.LeftButton) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
-                        timeline.seekPosition = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
-                        timeline.position = timeline.seekPosition
+                        timeline.position = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
@@ -1012,8 +1007,7 @@ Rectangle {
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     if (root.activeTool == 1) {
                         // Shift click, process seek
-                        timeline.seekPosition = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
-                        timeline.position = timeline.seekPosition
+                        timeline.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1){
                         // Select item
                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
