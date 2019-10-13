@@ -864,7 +864,13 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     m_loadingExisting = alreadyExist;
     if (auto ptr = service.lock()) {
         for (int i = 0; i < ptr->filter_count(); i++) {
-            std::unique_ptr<Mlt::Service> filter(ptr->filter(i));
+            std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
+            if (filter->get_int("internal_added") > 0) {
+                if (auto ms = m_masterService.lock()) {
+                    ms->attach(*filter.get());
+                }
+                continue;
+            }
             if (filter->get("kdenlive_id") == nullptr) {
                 // don't consider internal MLT stuff
                 continue;

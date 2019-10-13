@@ -129,7 +129,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_monitorFilter = fl;
         } else if (filterService == QLatin1String("volume")) {
             m_levelFilter = fl;
-            m_volumeSlider->setValue(m_levelFilter->get_int("level"));
+            int volume = m_levelFilter->get_int("level");
+            m_volumeSpin->setValue(volume);
+            m_volumeSlider->setValue(volume);
         } else if (filterService == QLatin1String("panner")) {
             m_balanceFilter = fl;
             m_balanceSpin->setValue(m_balanceFilter->get_double("start") * 100 + 50);
@@ -139,12 +141,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     if (m_levelFilter == nullptr) {
         m_levelFilter.reset(new Mlt::Filter(service->get_profile(), "volume"));
         if (m_levelFilter->is_valid()) {
+            m_levelFilter->set("internal_added", 237);
             service->attach(*m_levelFilter.get());
         }
     }
     if (m_balanceFilter == nullptr) {
         m_balanceFilter.reset(new Mlt::Filter(service->get_profile(), "panner"));
         if (m_balanceFilter->is_valid()) {
+            m_balanceFilter->set("internal_added", 237);
             service->attach(*m_balanceFilter.get());
         }
     }
@@ -196,6 +200,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     }
 
     connect(m_volumeSlider, &QSlider::valueChanged, [&](int value) {
+        QSignalBlocker bk(m_volumeSpin);
         m_volumeSpin->setValue(value);
         if (m_levelFilter != nullptr) {
             m_levelFilter->set("level", value);

@@ -67,6 +67,7 @@ private:
     std::shared_ptr<Mlt::Tractor> m_masterService;
     std::shared_ptr<TimelineItemModel> m_model;
     QHBoxLayout *m_box;
+    QHBoxLayout *m_masterBox;
     QTimer m_timer;
     int m_lastFrame;
     int m_connectedWidgets;

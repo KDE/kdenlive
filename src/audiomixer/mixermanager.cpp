@@ -45,8 +45,10 @@ MixerManager::MixerManager(QWidget *parent)
     , renderPosition(0)
     , m_connectedWidgets(0)
 {
+    m_masterBox = new QHBoxLayout;
     m_box = new QHBoxLayout;
     m_box->addStretch(10);
+    m_box->addLayout(m_masterBox);
     setLayout(m_box);
     m_timer.setSingleShot(true);
     m_timer.setInterval(100);
@@ -117,7 +119,12 @@ void MixerManager::resetAudioValues()
 void MixerManager::cleanup()
 {
     for (auto item : m_mixers) {
-        m_box->removeWidget(item.second.get());
+        if (item.first > -1) {
+            m_box->removeWidget(item.second.get());
+        }
+    }
+    while (!m_masterBox->isEmpty()) {
+        m_masterBox->takeAt(0);
     }
     m_mixers.clear();
     m_connectedWidgets = 0;
@@ -142,7 +149,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     Mlt::Tractor *service = model->tractor();
     if (m_mixers.count(tid) > 0) {
         // delete previous master mixer
-        m_box->removeWidget(m_mixers[tid].get());
+        m_masterBox->removeWidget(m_mixers[tid].get());
         m_mixers.erase(tid);
     }
     std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, i18n("Master"), this));
@@ -152,6 +159,6 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     });
     connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     m_mixers[tid] = mixer;
-    m_box->insertWidget(0, mixer.get());
+    m_masterBox->addWidget(mixer.get());
 }
 
