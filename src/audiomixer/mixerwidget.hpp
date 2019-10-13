@@ -84,7 +84,6 @@ private:
     int m_lastVolume;
 
 signals:
-    void updateConnection(int, bool);
     void gotLevels(QPair <double, double>);
     void muteTrack(int tid, bool mute);
     void toggleSolo(int m_tid, bool toggled);

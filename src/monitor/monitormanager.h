@@ -149,8 +149,6 @@ signals:
     void frameDisplayed(const SharedFrame &);
     /** @brief A frame was processed in the consumer queue */
     void frameRendered(int);
-    /** @brief Connect the frame rendering to audio mixer */
-    void connectMixerRenderer(bool connect);
     /** @brief Triggered when the project monitor is paused (used to reset stored audiomixer data */
     void pauseTriggered();
 };

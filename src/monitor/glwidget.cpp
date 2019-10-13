@@ -1346,15 +1346,6 @@ float GLWidget::zoom() const
     return m_zoom;
 }
 
-void GLWidget::connectMixerRenderer(bool doConnect)
-{
-    if (doConnect) {
-        m_renderEvent = m_consumer->listen("consumer-frame-render", this, (mlt_listener)on_frame_render);
-    } else {
-        delete m_renderEvent;
-    }
-}
-
 float GLWidget::scale() const
 {
     return (double)m_rect.width() / pCore->getCurrentProfile()->width() * m_zoom;

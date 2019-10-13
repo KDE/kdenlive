@@ -213,7 +213,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
     } else if (id == Kdenlive::ProjectMonitor) {
-        connect(manager, &MonitorManager::connectMixerRenderer, m_glMonitor, &GLWidget::connectMixerRenderer);
         connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::pauseTriggered);
     }
 

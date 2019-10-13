@@ -161,8 +161,6 @@ public slots:
     void initializeGL();
     void releaseAnalyse();
     void switchPlay(bool play, double speed = 1.0);
-    /** @brief Connect the frame rendering to audio mixer */
-    void connectMixerRenderer(bool connect);
 
 signals:
     void frameDisplayed(const SharedFrame &frame);

@@ -176,7 +176,6 @@ void Core::initGUI(const QUrl &Url)
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     m_monitorManager = new MonitorManager(this);
-    connect(m_mixerWidget, &MixerManager::connectMixerRenderer, m_monitorManager, &MonitorManager::connectMixerRenderer);
     connect(m_monitorManager, &MonitorManager::pauseTriggered, m_mixerWidget, &MixerManager::resetAudioValues);
     // Producer queue, creating MLT::Producers on request
     /*

@@ -228,7 +228,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     if (service->get_int("hide") > 1) {
         setMute(true);
     }
-    QMetaObject::invokeMethod(this, "updateConnection", Qt::QueuedConnection, Q_ARG(int, m_tid), Q_ARG(bool, true));
     m_monitorFilter->listen("property-changed", this, (mlt_listener)property_changed);
 }
 
