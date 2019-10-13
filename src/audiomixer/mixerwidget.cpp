@@ -49,10 +49,17 @@ static inline int levelToDB(double level)
     return 100 * (1.0 - log10(level) * log_factor);
 }
 
-void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char * /*name*/ )
+void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *name )
 {
-    if (!widget->m_levels.contains(widget->m_manager->renderPosition)) {
-        widget->m_levels[widget->m_manager->renderPosition] = {levelToDB(mlt_properties_get_double(MLT_FILTER_PROPERTIES(widget->m_monitorFilter->get_filter()), "_audio_level.0")), levelToDB(mlt_properties_get_double(MLT_FILTER_PROPERTIES(widget->m_monitorFilter->get_filter()), "_audio_level.1"))};
+    //if (!widget->m_levels.contains(widget->m_manager->renderPosition)) {
+    if (!strcmp(name, "_position")) {
+        mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
+        int pos = mlt_properties_get_int(filter_props, "_position");
+        if (!widget->m_levels.contains(pos)) {
+        widget->m_levels[pos] = {levelToDB(mlt_properties_get_double(filter_props, "_audio_level.0")), levelToDB(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+        }
+        //widget->m_levels[widget->m_manager->renderPosition] = {levelToDB(mlt_properties_get_double(filter_props, "_audio_level.0")), levelToDB(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+    //}
     }
 }
 
