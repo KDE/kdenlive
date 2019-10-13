@@ -38,6 +38,7 @@
 #include <mlt++/MltPlaylist.h>
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
+#include <mlt++/MltFilter.h>
 #include <mlt++/MltTransition.h>
 #include <QApplication>
 
@@ -62,6 +63,15 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                                  QLatin1String("black_track")};
     bool ok = true;
     qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////";
+    
+    // Import master track effects
+    for (int i = 0; i < tractor.filter_count(); i++) {
+        std::unique_ptr<Mlt::Filter> filter(tractor.filter(i));
+        if (filter->get_int("internal_added") > 0) {
+            timeline->tractor()->attach(*filter.get());
+        }
+    }
+    
     QList <int> videoTracksIndexes;
     // Black track index
     videoTracksIndexes << 0;
