@@ -27,7 +27,6 @@
 #include <unordered_map>
 
 #include <QWidget>
-#include <QTimer>
 
 namespace Mlt {
     class Tractor;
@@ -62,13 +61,13 @@ public:
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
+    std::shared_ptr<MixerWidget> m_masterMixer;
 
 private:
     std::shared_ptr<Mlt::Tractor> m_masterService;
     std::shared_ptr<TimelineItemModel> m_model;
     QHBoxLayout *m_box;
     QHBoxLayout *m_masterBox;
-    QTimer m_timer;
     int m_lastFrame;
     int m_connectedWidgets;
     QVector <int> m_soloMuted;

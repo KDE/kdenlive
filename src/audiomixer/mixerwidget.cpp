@@ -23,6 +23,7 @@
 
 #include "mlt++/MltFilter.h"
 #include "mlt++/MltTractor.h"
+#include "mlt++/MltEvent.h"
 #include "mlt++/MltProfile.h"
 #include "mixerwidget.hpp"
 #include "mixermanager.hpp"
@@ -34,6 +35,7 @@
 #include <QToolButton>
 #include <QCheckBox>
 #include <QSlider>
+#include <QDial>
 #include <QSpinBox>
 #include <QDial>
 #include <QLabel>
@@ -52,7 +54,7 @@ static inline int levelToDB(double level)
 void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *name )
 {
     //if (!widget->m_levels.contains(widget->m_manager->renderPosition)) {
-    if (!strcmp(name, "_position")) {
+    if (widget && !strcmp(name, "_position")) {
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
@@ -72,6 +74,7 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_balanceFilter(nullptr)
     , m_solo(nullptr)
     , m_lastVolume(0)
+    , m_listener(nullptr)
 {
     buildUI(service.get(), trackTag);
 }
@@ -85,8 +88,16 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_balanceFilter(nullptr)
     , m_solo(nullptr)
     , m_lastVolume(0)
+    , m_listener(nullptr)
 {
     buildUI(service, trackTag);
+}
+
+MixerWidget::~MixerWidget()
+{
+    if (m_listener) {
+        delete m_listener;
+    }
 }
 
 void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
@@ -111,6 +122,10 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_volumeSlider->setValue(val);
     });
 
+    m_balanceDial = new QDial(this);
+    m_balanceDial->setRange(-50, 50);
+    m_balanceDial->setValue(0);
+
     m_balanceSpin = new QSpinBox(this);
     m_balanceSpin->setRange(-50, 50);
     m_balanceSpin->setValue(0);
@@ -134,7 +149,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_volumeSlider->setValue(volume);
         } else if (filterService == QLatin1String("panner")) {
             m_balanceFilter = fl;
-            m_balanceSpin->setValue(m_balanceFilter->get_double("start") * 100 + 50);
+            int val = m_balanceFilter->get_double("start") * 100 - 50;
+            m_balanceSpin->setValue(val);
+            m_balanceDial->setValue(val);
         }
     }
     // Build default filters if not found
@@ -149,6 +166,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_balanceFilter.reset(new Mlt::Filter(service->get_profile(), "panner"));
         if (m_balanceFilter->is_valid()) {
             m_balanceFilter->set("internal_added", 237);
+            m_balanceFilter->set("start", 0.5);
             service->attach(*m_balanceFilter.get());
         }
     }
@@ -165,6 +183,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_muteAction = new KDualAction(i18n("Mute track"), i18n("Unmute track"), this);
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
+
+    connect(m_balanceDial, &QDial::valueChanged, m_balanceSpin, &QSpinBox::setValue);
 
     connect(m_muteAction, &KDualAction::activeChangedByUser, [&](bool active) {
         if (m_tid == -1) {
@@ -207,6 +227,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         }
     });
     connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int value) {
+        QSignalBlocker bk(m_balanceDial);
+        m_balanceDial->setValue(value);
         if (m_balanceFilter != nullptr) {
             m_balanceFilter->set("start", (value + 50) / 100.);
         }
@@ -222,6 +244,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         buttonslay->addWidget(m_solo);
     }
     lay->addLayout(buttonslay);
+    lay->addWidget(m_balanceDial);
     lay->addWidget(m_balanceSpin);
     QHBoxLayout *hlay = new QHBoxLayout;
     hlay->addWidget(m_audioMeterWidget.get());
@@ -233,7 +256,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     if (service->get_int("hide") > 1) {
         setMute(true);
     }
-    m_monitorFilter->listen("property-changed", this, (mlt_listener)property_changed);
+    m_listener = m_monitorFilter->listen("property-changed", this, (mlt_listener)property_changed);
 }
 
 void MixerWidget::setMute(bool mute)

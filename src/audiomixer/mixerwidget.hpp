@@ -23,7 +23,6 @@
 #define MIXERWIDGET_H
 
 #include "definitions.h"
-
 #include "mlt++/MltService.h"
 
 #include <memory>
@@ -34,12 +33,14 @@
 class KDualAction;
 class AudioLevelWidget;
 class QSlider;
+class QDial;
 class QSpinBox;
 class QToolButton;
 class MixerManager;
 
 namespace Mlt {
     class Tractor;
+    class Event;
 }
 
 class MixerWidget : public QWidget
@@ -49,6 +50,7 @@ class MixerWidget : public QWidget
 public:
     MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent = nullptr);
     MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent = nullptr);
+    virtual ~MixerWidget();
     void buildUI(Mlt::Tractor *service, const QString &trackTag);
     /** @brief discard stored audio values and reset vu-meter to 0 if requested */
     void clear(bool reset = false);
@@ -74,6 +76,7 @@ protected:
     QMap<int, QPair<int, int>> m_levels;
     KDualAction *m_muteAction;
     QSpinBox *m_balanceSpin;
+    QDial *m_balanceDial;
     QSpinBox *m_volumeSpin;
 
 private:
@@ -82,6 +85,7 @@ private:
     QToolButton *m_solo;
     QMutex m_storeMutex;
     int m_lastVolume;
+    Mlt::Event *m_listener;
 
 signals:
     void gotLevels(QPair <double, double>);
