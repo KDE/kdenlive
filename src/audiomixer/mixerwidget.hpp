@@ -35,6 +35,7 @@ class AudioLevelWidget;
 class QSlider;
 class QDial;
 class QSpinBox;
+class QLabel;
 class QToolButton;
 class MixerManager;
 
@@ -88,6 +89,7 @@ private:
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
     QToolButton *m_record;
+    QLabel *m_recLabel;
     QMutex m_storeMutex;
     int m_lastVolume;
     Mlt::Event *m_listener;

@@ -42,6 +42,7 @@
 #include <QSpinBox>
 #include <QDial>
 #include <QLabel>
+#include <QStyle>
 #include <QFontDatabase>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
@@ -77,6 +78,7 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_balanceFilter(nullptr)
     , m_solo(nullptr)
     , m_record(nullptr)
+    , m_recLabel(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
@@ -93,6 +95,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_balanceFilter(nullptr)
     , m_solo(nullptr)
     , m_record(nullptr)
+    , m_recLabel(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
@@ -110,7 +113,6 @@ MixerWidget::~MixerWidget()
 void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    //setSizePolicy(QSizePolicy::Maximum, QSizePolicy::MinimumExpanding);
     // Build audio meter widget
     m_audioMeterWidget.reset(new AudioLevelWidget(width(), this));
     // intialize for stereo display
@@ -125,6 +127,12 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_volumeSpin->setRange(-100, 60);
     m_volumeSpin->setSuffix(i18n("dB"));
     m_volumeSpin->setFrame(false);
+
+    // Adjust size
+    QFontMetrics fm(font());
+    const int textMargin = style()->pixelMetric(QStyle::QStyle::PM_ButtonMargin) * 2 + 1;
+    setMaximumWidth(qMax(fm.boundingRect(i18n("Recording")).width() + textMargin, m_volumeSlider->sizeHint().width() * 4));
+
     connect(m_volumeSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int val) {
         m_volumeSlider->setValue(val);
     });
@@ -225,12 +233,17 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             emit toggleSolo(m_tid, toggled);
         });
         m_record = new QToolButton(this);
-        m_record->setCheckable(true);
         m_record->setIcon(QIcon::fromTheme("media-record"));
         m_record->setAutoRaise(true);
-        connect(m_record, &QToolButton::toggled, [&](bool toggled) {
+        connect(m_record, &QToolButton::clicked, [&]() {
             m_manager->recordAudio(m_tid);
         });
+        m_recLabel = new QLabel(i18n("Recording"), this);
+        QPalette pal = m_recLabel->palette();
+        pal.setColor(QPalette::Window, Qt::red);
+        m_recLabel->setPalette(pal);
+        m_recLabel->setAutoFillBackground(true);
+        m_recLabel->setVisible(false);
     }
 
     connect(m_volumeSlider, &QSlider::valueChanged, [&](int value) {
@@ -264,6 +277,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         buttonslay->addWidget(m_record);
     }
     lay->addLayout(buttonslay);
+    lay->addWidget(m_recLabel);
     lay->addWidget(m_balanceDial);
     lay->addWidget(m_balanceSpin);
     QHBoxLayout *hlay = new QHBoxLayout;
@@ -271,7 +285,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     hlay->addWidget(m_volumeSlider);
     lay->addLayout(hlay);
     lay->addWidget(m_volumeSpin);
-    lay->setStretch(3, 10);
+    lay->setStretch(4, 10);
     setLayout(lay);
     if (service->get_int("hide") > 1) {
         setMute(true);
@@ -347,12 +361,18 @@ void MixerWidget::setRecordState(bool recording)
     QSignalBlocker bk2(m_volumeSlider);
     if (m_recording) {
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
+        m_recLabel->setVisible(true);
+        m_balanceDial->setVisible(false);
+        m_balanceSpin->setVisible(false);
         m_volumeSlider->setRange(0, 100);
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
         m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
     } else {
+        m_recLabel->setVisible(false);
+        m_balanceDial->setVisible(true);
+        m_balanceSpin->setVisible(true);
         int level = m_levelFilter->get_int("level");
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         m_volumeSlider->setRange(-100, 60);
