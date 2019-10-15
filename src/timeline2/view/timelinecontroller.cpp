@@ -48,6 +48,7 @@
 #include "timeline2/view/dialogs/clipdurationdialog.h"
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "transitions/transitionsrepository.hpp"
+#include "audiomixer/mixermanager.hpp"
 
 #include <KColorScheme>
 #include <QApplication>
@@ -78,6 +79,7 @@ TimelineController::TimelineController(QObject *parent)
     m_disablePreview->setEnabled(false);
     connect(pCore.get(), &Core::finalizeRecording, this, &TimelineController::finishRecording);
     connect(pCore.get(), &Core::autoScrollChanged, this, &TimelineController::autoScrollChanged);
+    connect(pCore->mixer(), &MixerManager::recordAudio, this, &TimelineController::switchRecording);
 }
 
 TimelineController::~TimelineController()
@@ -2556,10 +2558,10 @@ void TimelineController::switchRecording(int trackId)
             }
         }
         pCore->monitorManager()->slotSwitchMonitors(false);
-        pCore->startMediaCapture(true, false);
+        pCore->startMediaCapture(trackId, true, false);
         pCore->monitorManager()->slotPlay();
     } else {
-        pCore->stopMediaCapture(true, false);
+        pCore->stopMediaCapture(trackId, true, false);
         pCore->monitorManager()->slotPause();
     }
 }

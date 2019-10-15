@@ -25,9 +25,12 @@
 #include "mlt++/MltTractor.h"
 #include "mlt++/MltEvent.h"
 #include "mlt++/MltProfile.h"
+#include "core.h"
+#include "kdenlivesettings.h"
 #include "mixerwidget.hpp"
 #include "mixermanager.hpp"
 #include "audiolevelwidget.hpp"
+#include "capture/mediacapture.h"
 
 #include <klocalizedstring.h>
 #include <KDualAction>
@@ -73,8 +76,10 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_solo(nullptr)
+    , m_record(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
+    , m_recording(false)
 {
     buildUI(service.get(), trackTag);
 }
@@ -87,8 +92,10 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_solo(nullptr)
+    , m_record(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
+    , m_recording(false)
 {
     buildUI(service, trackTag);
 }
@@ -209,7 +216,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     mute->setAutoRaise(true);
 
     if (m_tid > -1) {
-        // No solo button on master
+        // No solo / rec button on master
         m_solo = new QToolButton(this);
         m_solo->setCheckable(true);
         m_solo->setIcon(QIcon::fromTheme("headphones"));
@@ -217,12 +224,22 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         connect(m_solo, &QToolButton::toggled, [&](bool toggled) {
             emit toggleSolo(m_tid, toggled);
         });
+        m_record = new QToolButton(this);
+        m_record->setCheckable(true);
+        m_record->setIcon(QIcon::fromTheme("media-record"));
+        m_record->setAutoRaise(true);
+        connect(m_record, &QToolButton::toggled, [&](bool toggled) {
+            m_manager->recordAudio(m_tid);
+        });
     }
 
     connect(m_volumeSlider, &QSlider::valueChanged, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
         m_volumeSpin->setValue(value);
-        if (m_levelFilter != nullptr) {
+        if (m_recording) {
+            KdenliveSettings::setAudiocapturevolume(value);
+            //TODO update capture volume
+        } else if (m_levelFilter != nullptr) {
             m_levelFilter->set("level", value);
         }
     });
@@ -242,6 +259,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     buttonslay->addWidget(mute);
     if (m_solo) {
         buttonslay->addWidget(m_solo);
+    }
+    if (m_record) {
+        buttonslay->addWidget(m_record);
     }
     lay->addLayout(buttonslay);
     lay->addWidget(m_balanceDial);
@@ -305,3 +325,42 @@ void MixerWidget::unSolo()
     }
 }
 
+void MixerWidget::gotRecLevels(QVector<qreal>levels)
+{
+    switch (levels.size()) {
+        case 0:
+            m_audioMeterWidget->setAudioValues({-100, -100});
+            break;
+        case 1:
+            m_audioMeterWidget->setAudioValues({levelToDB(levels[0]), -100});
+            break;
+        default:
+            m_audioMeterWidget->setAudioValues({levelToDB(levels[0]), levelToDB(levels[1])});
+            break;
+    }
+}
+
+void MixerWidget::setRecordState(bool recording)
+{
+    m_recording = recording;
+    QSignalBlocker bk(m_volumeSpin);
+    QSignalBlocker bk2(m_volumeSlider);
+    if (m_recording) {
+        connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
+        m_volumeSlider->setRange(0, 100);
+        m_volumeSpin->setRange(0, 100);
+        m_volumeSpin->setSuffix(QStringLiteral("%"));
+        m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
+        m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
+    } else {
+        int level = m_levelFilter->get_int("level");
+        disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
+        m_volumeSlider->setRange(-100, 60);
+        m_volumeSpin->setRange(-100, 60);
+        m_volumeSpin->setSuffix(i18n("dB"));
+        m_volumeSpin->setValue(level);
+        m_volumeSlider->setValue(level);
+    }
+    QSignalBlocker bk3(m_record);
+    m_record->setChecked(recording);
+}

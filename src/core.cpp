@@ -175,6 +175,7 @@ void Core::initGUI(const QUrl &Url)
     m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
+    connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
     m_monitorManager = new MonitorManager(this);
     connect(m_monitorManager, &MonitorManager::pauseTriggered, m_mixerWidget, &MixerManager::resetAudioValues);
     // Producer queue, creating MLT::Producers on request
@@ -711,22 +712,22 @@ void Core::clean()
     m_self.reset();
 }
 
-void Core::startMediaCapture(bool checkAudio, bool checkVideo)
+void Core::startMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
     if (checkAudio && checkVideo) {
-        m_capture->recordVideo(true);
+        m_capture->recordVideo(tid, true);
     } else if (checkAudio) {
-        m_capture->recordAudio(true);
+        m_capture->recordAudio(tid, true);
     }
     m_mediaCaptureFile = m_capture->getCaptureOutputLocation();
 }
 
-void Core::stopMediaCapture(bool checkAudio, bool checkVideo)
+void Core::stopMediaCapture(int tid, bool checkAudio, bool checkVideo)
 {
     if (checkAudio && checkVideo) {
-        m_capture->recordVideo(false);
+        m_capture->recordVideo(tid, false);
     } else if (checkAudio) {
-        m_capture->recordAudio(false);
+        m_capture->recordAudio(tid, false);
     }
 }
 

@@ -187,8 +187,8 @@ public:
     /** @brief Returns current timeline cursor position  */
     int getTimelinePosition() const;
     /** @brief Handles audio and video capture **/
-    void startMediaCapture(bool, bool);
-    void stopMediaCapture(bool, bool);
+    void startMediaCapture(int tid, bool, bool);
+    void stopMediaCapture(int tid, bool, bool);
     QStringList getAudioCaptureDevices();
     int getMediaCaptureState();
     bool isMediaCapturing();

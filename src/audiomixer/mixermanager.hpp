@@ -50,11 +50,13 @@ public:
 
 public slots:
     void resetAudioValues();
+    void recordStateChanged(int tid, bool recording);
 
 signals:
     void updateLevels(int);
     void connectMixerRenderer(bool);
     void triggerUpdate();
+    void recordAudio(int tid);
 
 public:
     int renderPosition;

@@ -128,7 +128,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     // Insert master mixer
     m_model = model;
-    connect(m_model.get(), &TimelineItemModel::dataChanged, [&](const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles) {
+    connect(m_model.get(), &TimelineItemModel::dataChanged, [&](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles) {
         if (roles.contains(TimelineModel::IsDisabledRole)) {
             int id = (int) topLeft.internalId();
             if (m_mixers.count(id) > 0) {
@@ -153,3 +153,9 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     m_masterBox->addWidget(m_masterMixer.get());
 }
 
+void MixerManager::recordStateChanged(int tid, bool recording)
+{
+    if (m_mixers.count(tid) > 0) {
+        m_mixers[tid]->setRecordState(recording);
+    }
+}

@@ -151,7 +151,7 @@ void RecManager::stopCapture()
         slotRecord(false);
     } else if (pCore->getMediaCaptureState() == 1 && (m_checkAudio || m_checkVideo)) {
         // QMediaRecorder::RecordingState value is 1
-        pCore->stopMediaCapture(m_checkAudio, m_checkVideo);
+        pCore->stopMediaCapture(-1, m_checkAudio, m_checkVideo);
         m_monitor->slotOpenClip(nullptr);
     }
 }
@@ -242,7 +242,7 @@ void RecManager::slotRecord(bool record)
         params.replace(QLatin1String("alsa"), QStringLiteral("dshow"));
         // Remove vorbis codec
         params.replace(QLatin1String("-acodec libvorbis"), QString());
-        
+
         // Find first audio device
         QProcess tst;
         tst.setProcessChannelMode(QProcess::MergedChannels);

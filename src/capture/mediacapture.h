@@ -44,8 +44,8 @@ class MediaCapture : public QObject
 public:
     MediaCapture(QObject *parent);
     ~MediaCapture() override;
-    void recordAudio(bool /*record*/);
-    void recordVideo(bool /*record*/);
+    void recordAudio(int tid, bool /*record*/);
+    void recordVideo(int tid, bool /*record*/);
     /** @brief Returns true if a recording is in progress **/
     bool isRecording() const;
     /** @brief Sets m_path to selected output location **/
@@ -86,8 +86,9 @@ private slots:
 
 signals:
     void levelsChanged();
-    void recordStateChanged();
+    void recordStateChanged(int tid, bool recording);
     void recordDone();
+    void audioLevels(QVector<qreal> levels);
 };
 
 #endif

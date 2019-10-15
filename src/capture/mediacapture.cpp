@@ -59,21 +59,22 @@ void MediaCapture::resetIfUnused()
     }
 }
 
-void MediaCapture::recordAudio(bool record)
+void MediaCapture::recordAudio(int tid, bool record)
 {
     QMutexLocker lk(&m_recMutex);
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
         m_probe->setSource(m_audioRecorder.get());
-        connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, [&] (QMediaRecorder::State state) {
+        connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, [&, tid] (QMediaRecorder::State state) {
             m_recordState = state;
             if (m_recordState == QMediaRecorder::StoppedState) {
                 m_resetTimer.start();
                 m_levels.clear();
+                emit audioLevels(m_levels);
                 emit levelsChanged();
                 pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
             }
-            emit recordStateChanged();
+            emit recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
         });
     }
 
@@ -101,7 +102,7 @@ void MediaCapture::recordAudio(bool record)
     }
 }
 
-void MediaCapture::recordVideo(bool record)
+void MediaCapture::recordVideo(int tid, bool record)
 {
     // TO DO - fix video capture
     if (!m_videoRecorder) {
@@ -317,13 +318,13 @@ QVector<qreal> getBufferLevels(const QAudioBuffer &buffer)
         }
         break;
     }
-
     return values;
 }
 
 void MediaCapture::processBuffer(const QAudioBuffer &buffer)
 {
     m_levels = getBufferLevels(buffer);
+    emit audioLevels(m_levels);
     emit levelsChanged();
 }
 

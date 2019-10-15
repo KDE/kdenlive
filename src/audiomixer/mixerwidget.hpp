@@ -66,6 +66,10 @@ public:
 public slots:
     void updateAudioLevel(int pos);
     void setAudioLevel(const QVector<int> vol);
+    void setRecordState(bool recording);
+
+private slots:
+    void gotRecLevels(QVector<qreal>levels);
 
 protected:
     MixerManager *m_manager;
@@ -83,14 +87,16 @@ private:
     std::shared_ptr<AudioLevelWidget> m_audioMeterWidget;
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
+    QToolButton *m_record;
     QMutex m_storeMutex;
     int m_lastVolume;
     Mlt::Event *m_listener;
+    bool m_recording;
 
 signals:
     void gotLevels(QPair <double, double>);
     void muteTrack(int tid, bool mute);
-    void toggleSolo(int m_tid, bool toggled);
+    void toggleSolo(int tid, bool toggled);
 };
 
 #endif
