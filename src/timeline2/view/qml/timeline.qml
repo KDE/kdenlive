@@ -1071,7 +1071,6 @@ Rectangle {
                         MouseArea {
                             anchors.fill: parent
                             acceptedButtons: Qt.NoButton
-                            onWheel: zoomByWheel(wheel)
                             cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
                         }
                     }
