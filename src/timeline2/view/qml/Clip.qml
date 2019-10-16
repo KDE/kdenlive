@@ -614,7 +614,6 @@ Rectangle {
         }
         Rectangle {
             id: fadeInControl
-            anchors.left: fadeInTriangle.width > radius? undefined : fadeInTriangle.left
             anchors.horizontalCenter: fadeInTriangle.width > radius? fadeInTriangle.right : undefined
             anchors.top: fadeInTriangle.top
             anchors.topMargin: -10
@@ -713,7 +712,6 @@ Rectangle {
         }
         Rectangle {
             id: fadeOutControl
-            anchors.right: fadeOutCanvas.width > radius? undefined : fadeOutCanvas.right
             anchors.horizontalCenter: fadeOutCanvas.width > radius? fadeOutCanvas.left : undefined
             anchors.top: fadeOutCanvas.top
             anchors.topMargin: -10
