@@ -61,9 +61,11 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
-        widget->m_levels[pos] = {levelToDB(mlt_properties_get_double(filter_props, "_audio_level.0")), levelToDB(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+            widget->m_levels[pos] = {levelToDB(mlt_properties_get_double(filter_props, "_audio_level.0")), levelToDB(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+            if (widget->m_levels.size() > 50) {
+                widget->m_levels.erase(widget->m_levels.begin());
+            }   
         }
-        //widget->m_levels[widget->m_manager->renderPosition] = {levelToDB(mlt_properties_get_double(filter_props, "_audio_level.0")), levelToDB(mlt_properties_get_double(filter_props, "_audio_level.1"))};
     }
 }
 
@@ -254,6 +256,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         } else if (m_levelFilter != nullptr) {
             m_levelFilter->set("level", value);
             m_levelFilter->set("disable", value == 0 ? 1 : 0);
+            m_levels.clear();
             m_manager->purgeCache();
         }
     });
@@ -263,6 +266,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         if (m_balanceFilter != nullptr) {
             m_balanceFilter->set("start", (value + 50) / 100.);
             m_balanceFilter->set("disable", value == 0 ? 1 : 0);
+            m_levels.clear();
             m_manager->purgeCache();
         }
     });
