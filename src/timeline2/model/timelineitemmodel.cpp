@@ -467,7 +467,6 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     }
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);
-        qDebug()<<"=== EMITTING MODEL CHANGE: "<<roles;
         emit dataChanged(ix, ix, roles);
     }
 }

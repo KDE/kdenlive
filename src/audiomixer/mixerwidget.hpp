@@ -64,6 +64,9 @@ public:
      * */
     void unSolo();
 
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+
 public slots:
     void updateAudioLevel(int pos);
     void setAudioLevel(const QVector<int> vol);
@@ -89,11 +92,13 @@ private:
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
     QToolButton *m_record;
-    QLabel *m_recLabel;
+    QLabel *m_trackLabel;
     QMutex m_storeMutex;
     int m_lastVolume;
     Mlt::Event *m_listener;
     bool m_recording;
+    /** @Update track label to reflect state */
+    void updateLabel();
 
 signals:
     void gotLevels(QPair <double, double>);

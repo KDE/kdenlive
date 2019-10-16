@@ -72,6 +72,14 @@ void AudioLevelWidget::refreshPixmap()
     drawBackground(m_peaks.size());
 }
 
+void AudioLevelWidget::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::EnabledChange) {
+        drawBackground(m_peaks.size());
+    }
+    QWidget::changeEvent(event);
+}
+
 void AudioLevelWidget::drawBackground(int channels)
 {
     if (height() == 0) {
@@ -106,7 +114,7 @@ void AudioLevelWidget::drawBackground(int channels)
     }
     QRect rect(m_offset, 0, newSize.width(), newSize.height());
     QPainter p(&m_pixmap);
-    p.setOpacity(0.4);
+    p.setOpacity(isEnabled() ? 0.4 : 0.2);
     p.setFont(font());
     p.fillRect(rect, QBrush(gradient));
 
