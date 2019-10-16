@@ -614,7 +614,8 @@ Rectangle {
         }
         Rectangle {
             id: fadeInControl
-            anchors.horizontalCenter: fadeInTriangle.width > radius? fadeInTriangle.right : undefined
+            anchors.left: fadeInTriangle.right
+            anchors.leftMargin: fadeInTriangle.width > root.baseUnit ? -root.baseUnit : 0
             anchors.top: fadeInTriangle.top
             anchors.topMargin: -10
             width: root.baseUnit * 2
@@ -650,7 +651,6 @@ Rectangle {
                     startX = Math.round(parent.x / timeScale)
                     startFadeIn = clipRoot.fadeIn
                     parent.anchors.left = undefined
-                    parent.anchors.horizontalCenter = undefined
                     parent.opacity = 1
                     fadeInTriangle.opacity = 0.5
                     // parentTrack.clipSelected(clipRoot, parentTrack) TODO
@@ -659,10 +659,7 @@ Rectangle {
                     root.autoScrolling = timeline.autoScroll
                     fadeInTriangle.opacity = 0.3
                     parent.opacity = 0
-                    if (fadeInTriangle.width > parent.radius)
-                        parent.anchors.horizontalCenter = fadeInTriangle.right
-                    else
-                        parent.anchors.left = fadeInTriangle.left
+                    parent.anchors.left = fadeInTriangle.right
                     console.log('released fade: ', clipRoot.fadeIn)
                     timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                     bubbleHelp.hide()
@@ -712,7 +709,8 @@ Rectangle {
         }
         Rectangle {
             id: fadeOutControl
-            anchors.horizontalCenter: fadeOutCanvas.width > radius? fadeOutCanvas.left : undefined
+            anchors.right: fadeOutCanvas.left
+            anchors.rightMargin: fadeOutCanvas.width > root.baseUnit ? -root.baseUnit : 0
             anchors.top: fadeOutCanvas.top
             anchors.topMargin: -10
             width: root.baseUnit * 2
@@ -748,7 +746,6 @@ Rectangle {
                     startX = Math.round(parent.x / timeScale)
                     startFadeOut = clipRoot.fadeOut
                     parent.anchors.right = undefined
-                    parent.anchors.horizontalCenter = undefined
                     parent.opacity = 1
                     fadeOutCanvas.opacity = 0.5
                 }
@@ -756,10 +753,7 @@ Rectangle {
                     fadeOutCanvas.opacity = 0.3
                     parent.opacity = 0
                     root.autoScrolling = timeline.autoScroll
-                    if (fadeOutCanvas.width > parent.radius)
-                        parent.anchors.horizontalCenter = fadeOutCanvas.left
-                    else
-                        parent.anchors.right = fadeOutCanvas.right
+                    parent.anchors.right = fadeOutCanvas.left
                     var duration = clipRoot.fadeOut
                     if (duration > 0) {
                         duration += 1
@@ -806,7 +800,7 @@ Rectangle {
         anchors.leftMargin: 0
         height: parent.height
         enabled: !isLocked
-        width: root.baseUnit / 3
+        width: root.baseUnit / 2
         color: isAudio? 'green' : 'lawngreen'
         opacity: 0
         Drag.active: trimInMouseArea.drag.active
@@ -887,7 +881,7 @@ Rectangle {
         anchors.right: clipRoot.right
         anchors.rightMargin: 0
         height: parent.height
-        width: root.baseUnit / 3
+        width: root.baseUnit / 2
         color: 'red'
         opacity: 0
         enabled: !isLocked
