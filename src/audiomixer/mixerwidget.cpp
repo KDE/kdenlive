@@ -229,6 +229,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_solo = new QToolButton(this);
         m_solo->setCheckable(true);
         m_solo->setIcon(QIcon::fromTheme("headphones"));
+        m_solo->setToolTip(i18n("Solo mode"));
         m_solo->setAutoRaise(true);
         connect(m_solo, &QToolButton::toggled, [&](bool toggled) {
             emit toggleSolo(m_tid, toggled);
@@ -236,6 +237,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         });
         m_record = new QToolButton(this);
         m_record->setIcon(QIcon::fromTheme("media-record"));
+        m_record->setToolTip(i18n("Record"));
         m_record->setCheckable(true);
         m_record->setAutoRaise(true);
         connect(m_record, &QToolButton::clicked, [&]() {
@@ -252,6 +254,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         } else if (m_levelFilter != nullptr) {
             m_levelFilter->set("level", value);
             m_levelFilter->set("disable", value == 0 ? 1 : 0);
+            m_manager->purgeCache();
         }
     });
     connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int value) {
@@ -260,6 +263,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         if (m_balanceFilter != nullptr) {
             m_balanceFilter->set("start", (value + 50) / 100.);
             m_balanceFilter->set("disable", value == 0 ? 1 : 0);
+            m_manager->purgeCache();
         }
     });
     QVBoxLayout *lay = new QVBoxLayout;

@@ -2131,3 +2131,8 @@ void Monitor::setConsumerProperty(const QString &name, const QString &value)
 {
     m_glMonitor->setConsumerProperty(name, value);
 }
+
+void Monitor::purgeCache()
+{
+    m_glMonitor->purgeCache();
+}

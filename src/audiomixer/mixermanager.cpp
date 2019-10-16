@@ -146,7 +146,6 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     }
     m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), this));
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
-        qDebug()<<"=== SETTING MUITE";
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
     connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);

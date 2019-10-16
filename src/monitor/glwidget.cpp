@@ -1421,6 +1421,15 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
     setCursor(Qt::ArrowCursor);
 }
 
+void GLWidget::purgeCache()
+{
+    if (m_consumer) {
+        m_consumer->purge();
+        m_producer->seek(m_proxy->position() + 1);
+    }
+}
+
+
 void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
     QQuickView::mouseDoubleClickEvent(event);

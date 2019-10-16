@@ -1886,6 +1886,7 @@ void MainWindow::connectDocument()
     connect(pCore->monitorManager(), &MonitorManager::frameRendered, [&](int pos) {
         pCore->mixer()->renderPosition = pos;
     });
+    connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 
     // TODO REFAC: reconnect to new timeline
     /*

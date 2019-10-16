@@ -141,6 +141,8 @@ public:
     int duration() const;
     /** @brief Set a property on the MLT consumer */
     void setConsumerProperty(const QString &name, const QString &value);
+    /** @brief Clear consumer cache */
+    void purgeCache();
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
