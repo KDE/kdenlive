@@ -854,7 +854,7 @@ Rectangle {
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton
-            cursorShape: tracksArea.mouseY < ruler.height || root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
+            cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
                 if (wheel.modifiers & Qt.AltModifier) {
                     // Alt + wheel = seek to next snap point
@@ -892,7 +892,9 @@ Rectangle {
                     if (root.activeTool === 1) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.flickableItem.contentY
-                        timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
+                        if (y >= 0) {
+                            timeline.cutClipUnderCursor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
+                        }
                     }
                     if (dragProxy.draggedItem > -1) {
                         mouse.accepted = false
@@ -1065,8 +1067,7 @@ Rectangle {
                         MouseArea {
                             anchors.fill: parent
                             acceptedButtons: Qt.NoButton
-                            onWheel: zoomByWheel(wheel)
-                            cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
+                            cursorShape: ruler.resizeActive ? Qt.SizeHorCursor : dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
                         }
                     }
                 }

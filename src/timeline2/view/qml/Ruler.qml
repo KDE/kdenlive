@@ -34,6 +34,7 @@ Rectangle {
     property int labelMod: 1
     property bool useTimelineRuler : timeline.useRuler
     property bool showZoneLabels: false
+    property bool resizeActive: false // Used to decide which mouse cursor we should display
 
     function adjustStepSize() {
         if (timeline.scaleFactor > 19) {
@@ -151,15 +152,24 @@ Rectangle {
                 anchors.fill: parent
                 property double startX
                 hoverEnabled: true
-                cursorShape: Qt.SizeHorCursor
                 drag.target: zone
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
                 onPressed: {
                     startX = zone.x
                 }
+                onEntered: {
+                    resizeActive = true
+                }
+                onExited: {
+                    resizeActive = false
+                }
+                onReleased: {
+                    resizeActive = false
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
+                        resizeActive = true
                         var offset = Math.round(zone.x/ timeline.scaleFactor) - timeline.zoneIn
                         if (offset != 0) {
                             var newPos = Math.max(0, controller.suggestSnapPoint(timeline.zoneIn + offset,root.snapping))
@@ -232,20 +242,28 @@ Rectangle {
                     id: trimInMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    cursorShape: Qt.SizeHorCursor
                     drag.target: parent
                     drag.axis: Drag.XAxis
                     drag.smoothed: false
-
+                    onEntered: {
+                        resizeActive = true
+                        parent.opacity = 1
+                    }
+                    onExited: {
+                        resizeActive = false
+                        parent.opacity = 0
+                    }
                     onPressed: {
                         parent.anchors.left = undefined
                         parent.opacity = 1
                     }
                     onReleased: {
+                        resizeActive = false
                         parent.anchors.left = zone.left
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
+                            resizeActive = true
                             var newPos = controller.suggestSnapPoint(timeline.zoneIn + Math.round(trimIn.x / timeline.scaleFactor), root.snapping)
                             if (newPos < 0) {
                                 newPos = 0
@@ -253,8 +271,6 @@ Rectangle {
                             timeline.zoneIn = timeline.zoneOut > -1 ? Math.min(newPos, timeline.zoneOut - 1) : newPos
                         }
                     }
-                    onEntered: parent.opacity = 1
-                    onExited: parent.opacity = 0
                 }
             }
             Rectangle {
@@ -272,25 +288,31 @@ Rectangle {
                     id: trimOutMouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    cursorShape: Qt.SizeHorCursor
                     drag.target: parent
                     drag.axis: Drag.XAxis
                     drag.smoothed: false
-
+                    onEntered: {
+                        resizeActive = true
+                        parent.opacity = 1
+                    }
+                    onExited: {
+                        resizeActive = false
+                        parent.opacity = 0
+                    }
                     onPressed: {
                         parent.anchors.right = undefined
                         parent.opacity = 1
                     }
                     onReleased: {
+                        resizeActive = false
                         parent.anchors.right = zone.right
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
+                            resizeActive = true
                             timeline.zoneOut = Math.max(controller.suggestSnapPoint(timeline.zoneIn + Math.round((trimOut.x + trimOut.width) / timeline.scaleFactor), root.snapping), timeline.zoneIn + 1)
                         }
                     }
-                    onEntered: parent.opacity = 1
-                    onExited: parent.opacity = 0
                 }
             }
     }
