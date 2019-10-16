@@ -321,6 +321,7 @@ void MixerWidget::setMute(bool mute)
     m_volumeSpin->setEnabled(!mute);
     m_audioMeterWidget->setEnabled(!mute);
     m_balanceSpin->setEnabled(!mute);
+    m_balanceDial->setEnabled(!mute);
     updateLabel();
 }
 
