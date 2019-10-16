@@ -1326,8 +1326,10 @@ int GLWidget::reconfigure(bool reload)
         m_consumer->set("audio_buffer", 512);
 #endif
         */
-        m_consumer->set("buffer", 25);
-        m_consumer->set("prefill", 1);
+        int fps = qRound(pCore->getCurrentProfile()->profile().fps());
+        m_consumer->set("buffer", qMax(25, fps));
+        m_consumer->set("prefill", qMax(1, fps / 25));
+        m_consumer->set("drop_max", fps / 4);
         m_consumer->set("scrub_audio", 1);
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
