@@ -277,7 +277,7 @@ void MainWindow::init()
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
-    
+
     // Screen grab widget
     QWidget *grabWidget = new QWidget(this);
     QVBoxLayout *grabLayout = new QVBoxLayout;
@@ -3388,15 +3388,18 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
-    connect(dockWidget, &QDockWidget::dockLocationChanged, this, [this](Qt::DockWidgetArea dockLocationArea) {
-        if (dockLocationArea == Qt::NoDockWidgetArea) {
-            updateDockTitleBars(false);
-        } else {
-            updateDockTitleBars(true);
-        }
-    });
+    connect(dockWidget, &QDockWidget::dockLocationChanged, this, &MainWindow::slotUpdateDockLocation);
     connect(dockWidget, &QDockWidget::topLevelChanged, this, &MainWindow::updateDockTitleBars);
     return dockWidget;
+}
+
+void MainWindow::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
+{
+    if (dockLocationArea == Qt::NoDockWidgetArea) {
+        updateDockTitleBars(false);
+    } else {
+        updateDockTitleBars(true);
+    }
 }
 
 void MainWindow::slotUpdateMonitorOverlays(int id, int code)
@@ -3453,11 +3456,13 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     if (!KdenliveSettings::showtitlebars() || !isTopLevel) {
         return;
     }
-    QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
+    QList<QDockWidget *> docks = findChildren<QDockWidget *>();
+    //qDebug()<<"=== FOUND DOCKS: "<<docks.count();
     for (int i = 0; i < docks.count(); ++i) {
         QDockWidget *dock = docks.at(i);
         QWidget *bar = dock->titleBarWidget();
         if (dock->isFloating()) {
+            //qDebug()<<"==== FOUND FLOATING: "<<dock->objectName();
             if (bar) {
                 dock->setTitleBarWidget(nullptr);
                 delete bar;
