@@ -436,6 +436,7 @@ void MainWindow::init()
     toolButtonAction->setDefaultWidget(basketButton);
     addAction(QStringLiteral("favorite_effects"), toolButtonAction);
     connect(toolButtonAction, &QAction::triggered, basketButton, &QToolButton::showMenu);
+    connect(m_effectBasket, &EffectBasket::activateAsset, menu, &QMenu::close);
 
     // Render button
     ProgressButton *timelineRender = new ProgressButton(i18n("Render"), 100, this);
