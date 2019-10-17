@@ -283,6 +283,8 @@ private slots:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
     void loadDockActions();
+    /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
+    void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();
