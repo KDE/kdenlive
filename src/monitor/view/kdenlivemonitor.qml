@@ -73,8 +73,9 @@ Item {
             top: parent.top
             topMargin: 4
             rightMargin: 4
+            leftMargin: 4
         }
-        visible: barOverArea.mouseX >= x - 10
+        visible: sceneToolBar.rightSide ? barOverArea.mouseX >= x - 10 : barOverArea.mouseX < x + width + 10
     }
 
     Item {

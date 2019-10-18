@@ -8,6 +8,7 @@ Rectangle {
     objectName: "scenetoolbar"
     width: fullscreenButton.width
     height: childrenRect.height
+    property bool rightSide: true
     SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
     color: Qt.rgba(myPalette.window.r, myPalette.window.g, myPalette.window.b, 0.7)
     radius: 4
@@ -65,6 +66,22 @@ Rectangle {
             onClicked: {
                 controller.activateClipMonitor(root.isClipMonitor)
                 root.isClipMonitor ? controller.triggerAction('delete_clip_marker') : controller.triggerAction('delete_guide')
+            }
+        }
+        ToolButton {
+            objectName: "moveBar"
+            iconName: "transform-move-horizontal"
+            tooltip: i18n("Move Toolbar")
+            onClicked: {
+                if (scenetoolbar.rightSide) {
+                    scenetoolbar.anchors.right = undefined
+                    scenetoolbar.anchors.left = scenetoolbar.parent.left
+                    scenetoolbar.rightSide = false
+                } else {
+                    scenetoolbar.anchors.left = undefined
+                    scenetoolbar.anchors.right = scenetoolbar.parent.right
+                    scenetoolbar.rightSide = true
+                }
             }
         }
     }

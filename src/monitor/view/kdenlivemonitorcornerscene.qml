@@ -203,8 +203,9 @@ Item {
             top: parent.top
             topMargin: 4
             rightMargin: 4
+            leftMargin: 4
         }
-        visible: global.mouseX >= x - 10
+        visible: effectToolBar.rightSide ? global.mouseX >= x - 10 : global.mouseX < x + width + 10
     }
     MonitorRuler {
         id: clipMonitorRuler
