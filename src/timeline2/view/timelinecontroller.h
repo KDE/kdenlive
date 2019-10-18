@@ -130,6 +130,10 @@ public:
      */
     Q_INVOKABLE void showConfig(int page, int tab);
 
+    /* @brief Returns true if we have at least one active track
+     */
+    Q_INVOKABLE bool hasActiveTracks() const;
+
     /* @brief returns current timeline's zoom factor
      */
     Q_INVOKABLE double scaleFactor() const;

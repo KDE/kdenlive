@@ -11,6 +11,7 @@ Menu {
         property bool grouped
         property bool canBeAudio
         property bool canBeVideo
+        property bool hasActiveTrack
         property bool canBeGrouped: timeline.isInSelection(clipId)
 
         onAboutToHide: {
@@ -18,6 +19,7 @@ Menu {
         }
         onAboutToShow: {
             canBeGrouped = timeline.isInSelection(clipId)
+            hasActiveTrack = timeline.hasActiveTracks()
         }
 
         MenuItem {
@@ -105,8 +107,10 @@ Menu {
             onTriggered: timeline.triggerAction('delete_timeline_clip')
         }
         MenuItem {
+            enabled: hasActiveTrack
             visible: true
-            text: i18n("Extract")
+            text: i18n("Extract Clip")
+            iconName: 'timeline-extract'
             onTriggered: timeline.extract(clipId)
         }
         MenuSeparator {

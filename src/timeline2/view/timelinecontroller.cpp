@@ -2622,3 +2622,16 @@ void TimelineController::updateAudioTarget()
         m_audioTargetActive = false;
     }
 }
+
+bool TimelineController::hasActiveTracks() const
+{
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (m_model->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            return true;
+        }
+        ++it;
+    }
+    return false;
+}
