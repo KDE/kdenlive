@@ -2127,9 +2127,6 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     id = trackId;
     Fun local_undo = deregisterTrack_lambda(trackId, true);
     TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
-    if (updateView) {
-        _resetView();
-    }
     auto track = getTrackById(trackId);
     Fun local_redo = [track, position, updateView, this]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
@@ -2141,6 +2138,9 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         return true;
     };
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    if (updateView) {
+        _resetView();
+    }
     return true;
 }
 
@@ -2234,6 +2234,8 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
+    beginInsertRows(QModelIndex(), pos, pos);
+    endInsertRows();
     int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
     mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
 }
@@ -2265,6 +2267,8 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         // send update to the model
         m_allTracks.erase(it);     // actual deletion of object
         m_iteratorTable.erase(id); // clean table
+        beginRemoveRows(QModelIndex(), index, index);
+        endInsertRows();
         if (updateView) {
             _resetView();
         }
