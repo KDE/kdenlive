@@ -259,7 +259,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     if (iconName == nullptr) {
         m_pixmap->setVisible(false);
     } else {
-        m_pixmap->setPixmap(SmallIcon(iconName));
+        m_pixmap->setPixmap(QIcon::fromTheme(iconName).pixmap(KIconLoader::SizeSmall));
         m_pixmap->setVisible(true);
     }
     m_queueSemaphore.release();
