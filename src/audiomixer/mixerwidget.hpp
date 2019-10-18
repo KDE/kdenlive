@@ -35,6 +35,7 @@ class AudioLevelWidget;
 class QSlider;
 class QDial;
 class QSpinBox;
+class QDoubleSpinBox;
 class QLabel;
 class QToolButton;
 class MixerManager;
@@ -69,7 +70,6 @@ protected:
 
 public slots:
     void updateAudioLevel(int pos);
-    void setAudioLevel(const QVector<int> vol);
     void setRecordState(bool recording);
 
 private slots:
@@ -81,11 +81,11 @@ protected:
     std::shared_ptr<Mlt::Filter> m_levelFilter;
     std::shared_ptr<Mlt::Filter> m_monitorFilter;
     std::shared_ptr<Mlt::Filter> m_balanceFilter;
-    QMap<int, QPair<int, int>> m_levels;
+    QMap<int, QPair<double, double>> m_levels;
     KDualAction *m_muteAction;
     QSpinBox *m_balanceSpin;
     QDial *m_balanceDial;
-    QSpinBox *m_volumeSpin;
+    QDoubleSpinBox *m_volumeSpin;
 
 private:
     std::shared_ptr<AudioLevelWidget> m_audioMeterWidget;

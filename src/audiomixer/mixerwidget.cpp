@@ -39,18 +39,44 @@
 #include <QSlider>
 #include <QDial>
 #include <QSpinBox>
+#include <QDoubleSpinBox>
 #include <QLabel>
 #include <QStyle>
 #include <QFontDatabase>
 
-const double log_factor = 1.0 / log10(1.0 / 127);
-
-static inline int levelToDB(double level)
+static inline double IEC_Scale(double dB)
 {
-    if (level <= 0) {
-        return -100;
+    dB = log10(dB) * 20.0;
+    double fScale = 1.0f;
+
+    if (dB < -70.0f)
+        fScale = 0.0f;
+    else if (dB < -60.0f)
+        fScale = (dB + 70.0f) * 0.0025f;
+    else if (dB < -50.0f)
+        fScale = (dB + 60.0f) * 0.005f + 0.025f;
+    else if (dB < -40.0)
+        fScale = (dB + 50.0f) * 0.0075f + 0.075f;
+    else if (dB < -30.0f)
+        fScale = (dB + 40.0f) * 0.015f + 0.15f;
+    else if (dB < -20.0f)
+        fScale = (dB + 30.0f) * 0.02f + 0.3f;
+    else if (dB < -0.001f || dB > 0.001f)  /* if (dB < 0.0f) */
+        fScale = (dB + 20.0f) * 0.025f + 0.5f;
+
+    return fScale;
+}
+
+static inline int fromDB(double level)
+{
+    int value = 80;
+    if (level > 0.) {
+        // increase volume
+        value = 100 - ((pow(10, 1. - level/24) - 1) / .47);
+    } else if (level < 0.) {
+        value = (10 - pow(10, 1. - level/-50)) / -0.11395 + 79;
     }
-    return 100 * (1.0 - log10(level) * log_factor);
+    return value;
 }
 
 void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *name )
@@ -59,10 +85,10 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
-            widget->m_levels[pos] = {levelToDB(mlt_properties_get_double(filter_props, "_audio_level.0")), levelToDB(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+            widget->m_levels[pos] = {IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.0")), IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.1"))};
             if (widget->m_levels.size() > 50) {
                 widget->m_levels.erase(widget->m_levels.begin());
-            }   
+            }
         }
     }
 }
@@ -116,16 +142,16 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
 
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);
-    m_volumeSlider->setRange(-100, 60);
-    m_volumeSlider->setValue(0);
+    m_volumeSlider->setRange(0, 100);
+    m_volumeSlider->setValue(80);
     m_volumeSlider->setToolTip(i18n("Volume"));
-    m_volumeSpin = new QSpinBox(this);
-    m_volumeSpin->setRange(-100, 60);
+    m_volumeSpin = new QDoubleSpinBox(this);
+    m_volumeSpin->setRange(-50, 24);
     m_volumeSpin->setSuffix(i18n("dB"));
     m_volumeSpin->setFrame(false);
 
-    connect(m_volumeSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int val) {
-        m_volumeSlider->setValue(val);
+    connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double val) {
+        m_volumeSlider->setValue(fromDB(val));
     });
 
     m_balanceDial = new QDial(this);
@@ -152,7 +178,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_levelFilter = fl;
             int volume = m_levelFilter->get_int("level");
             m_volumeSpin->setValue(volume);
-            m_volumeSlider->setValue(volume);
+            m_volumeSlider->setValue(fromDB(volume));
         } else if (filterService == QLatin1String("panner")) {
             m_balanceFilter = fl;
             int val = m_balanceFilter->get_double("start") * 100 - 50;
@@ -247,13 +273,21 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
 
     connect(m_volumeSlider, &QSlider::valueChanged, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
-        m_volumeSpin->setValue(value);
         if (m_recording) {
+            m_volumeSpin->setValue(value);
             KdenliveSettings::setAudiocapturevolume(value);
             //TODO update capture volume
         } else if (m_levelFilter != nullptr) {
-            m_levelFilter->set("level", value);
-            m_levelFilter->set("disable", value == 0 ? 1 : 0);
+            double dbValue = 0;
+            if (value > 80) {
+                // increase volume
+                dbValue = 24 * (1 - log10((100 - value)*0.47 + 1));
+            } else if (value < 80) {
+                dbValue = -50 * (1 - log10(10 - (value - 79)*(-0.11395)));
+            }
+            m_volumeSpin->setValue(dbValue);
+            m_levelFilter->set("level", dbValue);
+            m_levelFilter->set("disable", value == 80 ? 1 : 0);
             m_levels.clear();
             m_manager->purgeCache();
         }
@@ -305,7 +339,7 @@ void MixerWidget::mousePressEvent(QMouseEvent *event)
         if (child == m_balanceDial) {
             m_balanceSpin->setValue(0);
         } else if (child == m_volumeSlider) {
-            m_volumeSlider->setValue(0);
+            m_volumeSlider->setValue(80);
         }
     } else {
         QWidget::mousePressEvent(event);
@@ -341,11 +375,6 @@ void MixerWidget::updateLabel()
         QPalette pal = palette();
         m_trackLabel->setPalette(pal);
     }
-}
-
-void MixerWidget::setAudioLevel(const QVector<int> vol)
-{
-    m_audioMeterWidget->setAudioValues(vol);
 }
 
 void MixerWidget::updateAudioLevel(int pos)
@@ -387,10 +416,10 @@ void MixerWidget::gotRecLevels(QVector<qreal>levels)
             m_audioMeterWidget->setAudioValues({-100, -100});
             break;
         case 1:
-            m_audioMeterWidget->setAudioValues({levelToDB(levels[0]), -100});
+            m_audioMeterWidget->setAudioValues({IEC_Scale(levels[0]), -100});
             break;
         default:
-            m_audioMeterWidget->setAudioValues({levelToDB(levels[0]), levelToDB(levels[1])});
+            m_audioMeterWidget->setAudioValues({IEC_Scale(levels[0]), IEC_Scale(levels[1])});
             break;
     }
 }
@@ -405,7 +434,6 @@ void MixerWidget::setRecordState(bool recording)
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
         m_balanceDial->setEnabled(false);
         m_balanceSpin->setEnabled(false);
-        m_volumeSlider->setRange(0, 100);
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
@@ -415,11 +443,10 @@ void MixerWidget::setRecordState(bool recording)
         m_balanceSpin->setEnabled(true);
         int level = m_levelFilter->get_int("level");
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
-        m_volumeSlider->setRange(-100, 60);
         m_volumeSpin->setRange(-100, 60);
         m_volumeSpin->setSuffix(i18n("dB"));
         m_volumeSpin->setValue(level);
-        m_volumeSlider->setValue(level);
+        m_volumeSlider->setValue(fromDB(level));
     }
     updateLabel();
 }

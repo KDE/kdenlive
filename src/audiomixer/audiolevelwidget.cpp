@@ -32,16 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QFontDatabase>
 
-const double log_factor = 1.0 / log10(1.0 / 127);
-
-static inline double levelToDB(double level)
-{
-    if (level <= 0) {
-        return -100;
-    }
-    return 100 * (1.0 - log10(level) * log_factor);
-}
-
 AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     : QWidget(parent)
     , audioChannels(2)
@@ -163,7 +153,7 @@ void AudioLevelWidget::drawBackground(int channels)
 }
 
 // cppcheck-suppress unusedFunction
-void AudioLevelWidget::setAudioValues(const QVector<int> &values)
+void AudioLevelWidget::setAudioValues(const QVector<double> &values)
 {
     m_values = values;
     if (m_peaks.size() != m_values.size()) {
@@ -213,7 +203,8 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
         if (m_values.at(i) >= 100) {
             continue;
         }
-        int val = (50 + m_values.at(i)) / 150.0 * rect.height();
+        //int val = (50 + m_values.at(i)) / 150.0 * rect.height();
+        int val = m_values.at(i) * rect.height();
         p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - val, palette().dark());
         p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - (50 + m_peaks.at(i)) / 150.0 * rect.height(), m_channelFillWidth, 1, palette().text());
     }

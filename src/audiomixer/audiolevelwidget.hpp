@@ -50,15 +50,15 @@ private:
     int m_width;
     int m_offset;
     QPixmap m_pixmap;
-    QVector<int> m_peaks;
-    QVector<int> m_values;
+    QVector<double> m_peaks;
+    QVector<double> m_values;
     int m_channelWidth;
     int m_channelDistance;
     int m_channelFillWidth;
     void drawBackground(int channels = 2);
 
 public slots:
-    void setAudioValues(const QVector<int> &values);
+    void setAudioValues(const QVector<double> &values);
 };
 
 #endif
