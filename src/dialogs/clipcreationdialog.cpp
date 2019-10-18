@@ -46,7 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KRecentDirs>
 #include <KWindowConfig>
 
-#include "kdenlive_debug.h"
 #include <QDialog>
 #include <QDir>
 #include <QMimeDatabase>

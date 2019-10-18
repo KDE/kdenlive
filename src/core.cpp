@@ -37,8 +37,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QInputDialog>
 #include <QDir>
 
-#include <mlt++/MltRepository.h>
-
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>

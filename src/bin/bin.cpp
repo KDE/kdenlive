@@ -55,14 +55,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
 
-#include "xml/xml.hpp"
-
 #include <KColorScheme>
 #include <KMessageBox>
 #include <KXMLGUIFactory>
 #include <QToolBar>
 
-#include "kdenlive_debug.h"
 #include <QCryptographicHash>
 #include <QDesktopServices>
 #include <QDrag>

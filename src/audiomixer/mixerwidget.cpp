@@ -27,7 +27,6 @@
 #include "mlt++/MltProfile.h"
 #include "core.h"
 #include "kdenlivesettings.h"
-#include "mixerwidget.hpp"
 #include "mixermanager.hpp"
 #include "audiolevelwidget.hpp"
 #include "capture/mediacapture.h"
@@ -40,7 +39,6 @@
 #include <QSlider>
 #include <QDial>
 #include <QSpinBox>
-#include <QDial>
 #include <QLabel>
 #include <QStyle>
 #include <QFontDatabase>

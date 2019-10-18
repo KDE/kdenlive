@@ -36,7 +36,6 @@
 #include <KIO/RenameDialog>
 #include <KLineEdit>
 
-#include "kdenlive_debug.h"
 #include <QApplication>
 #include <QDialog>
 #include <QPointer>
