@@ -68,6 +68,11 @@ Item {
     }
     SceneToolBar {
         id: sceneToolBar
+        barContainsMouse: sceneToolBar.rightSide ? barOverArea.mouseX >= x - 10 : barOverArea.mouseX < x + width + 10
+        onBarContainsMouseChanged: {
+            sceneToolBar.opacity = 1
+            sceneToolBar.visible = sceneToolBar.barContainsMouse
+        }
         anchors {
             right: parent.right
             top: parent.top
@@ -75,7 +80,6 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
-        visible: sceneToolBar.rightSide ? barOverArea.mouseX >= x - 10 : barOverArea.mouseX < x + width + 10
     }
 
     Item {

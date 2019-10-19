@@ -1,7 +1,7 @@
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Layouts 1.3
-import QtQuick 2.0
+import QtQuick 2.7
 
 Rectangle {
     id: scenetoolbar
@@ -9,11 +9,35 @@ Rectangle {
     width: fullscreenButton.width
     height: childrenRect.height
     property bool rightSide: true
+    property bool barContainsMouse
     SystemPalette { id: myPalette; colorGroup: SystemPalette.Active }
     color: Qt.rgba(myPalette.window.r, myPalette.window.g, myPalette.window.b, 0.7)
     radius: 4
     border.color : Qt.rgba(0, 0, 0, 0.3)
     border.width: 1
+    Timer {
+        id: fadeTimer
+        interval: 2000; running: false;
+        onTriggered: {
+            scenetoolbar.visible = false
+            scenetoolbar.opacity = 1
+        }
+    }
+    OpacityAnimator {
+        id: animator
+        target: scenetoolbar;
+        from: 1;
+        to: 0;
+        duration: 2000
+        running: false
+    }
+
+    function fadeBar()
+    {
+        scenetoolbar.visible = true
+        animator.start()
+        fadeTimer.start()
+    }
 
     Column {
         ToolButton {
@@ -77,10 +101,12 @@ Rectangle {
                     scenetoolbar.anchors.right = undefined
                     scenetoolbar.anchors.left = scenetoolbar.parent.left
                     scenetoolbar.rightSide = false
+                    fadeBar()
                 } else {
                     scenetoolbar.anchors.left = undefined
                     scenetoolbar.anchors.right = scenetoolbar.parent.right
                     scenetoolbar.rightSide = true
+                    fadeBar()
                 }
             }
         }

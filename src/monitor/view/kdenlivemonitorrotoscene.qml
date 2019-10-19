@@ -359,6 +359,11 @@ Item {
 }
     EffectToolBar {
         id: effectToolBar
+        barContainsMouse: effectToolBar.rightSide ? global.mouseX >= x - 10 : global.mouseX < x + width + 10
+        onBarContainsMouseChanged: {
+            effectToolBar.opacity = 1
+            effectToolBar.visible = effectToolBar.barContainsMouse
+        }
         anchors {
             right: parent.right
             top: parent.top
@@ -366,7 +371,6 @@ Item {
             rightMargin: 4
             leftMargin: 4
         }
-        visible: effectToolBar.rightSide ? global.mouseX >= x - 10 : global.mouseX < x + width + 10
     }
     MonitorRuler {
         id: clipMonitorRuler
