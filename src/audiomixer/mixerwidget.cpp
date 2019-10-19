@@ -367,7 +367,7 @@ void MixerWidget::updateLabel()
         QPalette pal = m_trackLabel->palette();
         pal.setColor(QPalette::Window, QColor("#ff8c00"));
         m_trackLabel->setPalette(pal);
-    } else if (m_solo->isChecked()) {
+    } else if (m_solo && m_solo->isChecked()) {
         QPalette pal = m_trackLabel->palette();
         pal.setColor(QPalette::Window, Qt::darkGreen);
         m_trackLabel->setPalette(pal);
