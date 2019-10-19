@@ -1044,15 +1044,17 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
     const auto selection = m_model->getCurrentSelection();
-    for (int cid : selection) {
-        if (m_model->isClip(cid)) {
-            if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
-                foundClip = true;
-                // Cutting clips in the selection group is handled in TimelineFunctions
-                break;
+    if (track == -1) {
+        for (int cid : selection) {
+            if (m_model->isClip(cid)) {
+                if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
+                    foundClip = true;
+                    // Cutting clips in the selection group is handled in TimelineFunctions
+                    break;
+                }
+            } else {
+                qDebug() << "//// TODO: COMPOSITION CUT!!!";
             }
-        } else {
-            qDebug() << "//// TODO: COMPOSITION CUT!!!";
         }
     }
     if (!foundClip) {
