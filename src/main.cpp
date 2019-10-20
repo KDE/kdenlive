@@ -64,6 +64,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
+#elif defined(Q_OS_WIN)
+    QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
 #endif
 
     Logger::init();
