@@ -17,7 +17,7 @@ Rectangle {
     border.width: 1
     Timer {
         id: fadeTimer
-        interval: 2000; running: false;
+        interval: 2500; running: false;
         onTriggered: {
             scenetoolbar.visible = false
             scenetoolbar.opacity = 1
@@ -28,7 +28,7 @@ Rectangle {
         target: scenetoolbar;
         from: 1;
         to: 0;
-        duration: 2000
+        duration: 2500
         running: false
     }
 

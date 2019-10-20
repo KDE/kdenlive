@@ -14,10 +14,10 @@ Rectangle {
     radius: 4
     border.color : Qt.rgba(0, 0, 0, 0.3)
     border.width: 1
-    
+
     Timer {
         id: fadeTimer
-        interval: 2000; running: false;
+        interval: 2500; running: false;
         onTriggered: {
             effecttoolbar.visible = false
             effecttoolbar.opacity = 1
@@ -28,7 +28,7 @@ Rectangle {
         target: effecttoolbar;
         from: 1;
         to: 0;
-        duration: 2000
+        duration: 2500
         running: false
     }
 
