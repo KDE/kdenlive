@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="165" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="166" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -248,6 +248,7 @@
     <Action name="favorite_effects" />
     <Separator />
     <Action name="timeline_preview_button" />
+    <Action name="audiomixer_button" />
   </ToolBar>
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>

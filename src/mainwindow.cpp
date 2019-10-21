@@ -241,6 +241,17 @@ void MainWindow::init()
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
     QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), i18n("Audio Mixer"), this);
+    showMixer->setCheckable(true);
+    addAction(QStringLiteral("audiomixer_button"), showMixer);
+    connect(mixerDock, &QDockWidget::visibilityChanged, showMixer, &QAction::setChecked);
+    connect(showMixer, &QAction::triggered, [&, mixerDock]() {
+        if (mixerDock->isVisible()) {
+            mixerDock->close();
+        } else {
+            mixerDock->show();
+        }
+    });
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -381,7 +392,7 @@ void MainWindow::init()
     iconAction->setChecked(KdenliveSettings::force_breeze());
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
-    
+
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
