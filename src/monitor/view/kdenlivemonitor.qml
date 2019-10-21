@@ -147,36 +147,83 @@ Item {
                     rightMargin: 10
                 }
             }
+            Label {
+                id: inPoint
+                font: fixedFont
+                anchors {
+                    left: parent.left
+                    bottom: parent.bottom
+                }
+                visible: root.showMarkers && controller.position == controller.zoneIn
+                text: i18n("In Point")
+                color: "white"
+                background: Rectangle {
+                    color: "#228b22"
+                }
+                height: marker.height
+                width: textMetricsIn.width + 10
+                leftPadding:0
+                rightPadding:0
+                horizontalAlignment: TextInput.AlignHCenter
+                TextMetrics {
+                    id: textMetricsIn
+                    font: inPoint.font
+                    text: inPoint.text
+                }
+            }
+            Label {
+                id: outPoint
+                font: fixedFont
+                anchors {
+                    left: inPoint.visible ? inPoint.right : parent.left
+                    bottom: parent.bottom
+                }
+                visible: root.showMarkers && controller.position + 1 == controller.zoneOut
+                text: i18n("Out Point")
+                color: "white"
+                background: Rectangle {
+                    color: "#ff4500"
+                }
+                width: textMetricsOut.width + 10
+                height: marker.height
+                leftPadding:0
+                rightPadding:0
+                horizontalAlignment: TextInput.AlignHCenter
+                TextMetrics {
+                    id: textMetricsOut
+                    font: outPoint.font
+                    text: outPoint.text
+                }
+            }
             TextField {
                 id: marker
                 font: fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
-                text: controller.markerComment
-                width: textMetrics.width + 10
-                horizontalAlignment: TextInput.AlignHCenter
-                background: Rectangle {
-                        color: controller.position == controller.zoneIn ? "#9900ff00" : controller.position == controller.zoneOut ? "#99ff0000" : "#990000ff"
-                }
-                color: "white"
-                leftPadding:0
-                rightPadding:0
-
-                TextMetrics {
-                    id: textMetrics
-                    font: marker.font
-                    text: controller.markerComment
-                }
                 onEditingFinished: {
                     root.markerText = marker.displayText
                     marker.focus = false
                     root.editCurrentMarker()
                 }
                 anchors {
-                    left: parent.left
+                    left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
                 }
                 visible: root.showMarkers && text != ""
+                text: controller.markerComment
+                width: textMetrics.width + 10
+                horizontalAlignment: TextInput.AlignHCenter
+                background: Rectangle {
+                        color: "#990000ff"
+                }
+                color: "white"
+                padding:0
+
+                TextMetrics {
+                    id: textMetrics
+                    font: marker.font
+                    text: controller.markerComment
+                }
                 maximumLength: 25
             }
         }
