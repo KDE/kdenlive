@@ -41,9 +41,8 @@ AudioLevelWidget::AudioLevelWidget(int width, QWidget *parent)
     , m_channelFillWidth(m_channelWidth)
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    QFont ft = font();
-    ft.setPointSizeF(font().pointSize() * 0.8);
+    QFont ft(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    ft.setPointSizeF(ft.pointSize() * 0.8);
     setFont(ft);
     setMinimumWidth(4);
 }

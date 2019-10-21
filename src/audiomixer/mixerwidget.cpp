@@ -242,10 +242,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     });
 
     QToolButton *mute = new QToolButton(this);
-    mute->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     mute->setDefaultAction(m_muteAction);
     mute->setAutoRaise(true);
-    
+
     // Setup default width
     QFontMetrics fm(font());
     setMaximumWidth(3 * mute->sizeHint().width());
