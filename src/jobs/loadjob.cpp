@@ -112,7 +112,7 @@ void processProducerProperties(const std::shared_ptr<Mlt::Producer> &prod, const
 } // namespace
 
 // static
-std::shared_ptr<Mlt::Producer> LoadJob::loadResource(QString &resource, const QString &type)
+std::shared_ptr<Mlt::Producer> LoadJob::loadResource(QString resource, const QString &type)
 {
     if (!resource.startsWith(type)) {
         resource.prepend(type);
@@ -268,14 +268,20 @@ bool LoadJob::startJob()
         break;
     case ClipType::Text:
     case ClipType::TextTemplate: {
-            m_producer = loadResource(m_resource, QStringLiteral("kdenlivetitle:"));
             bool ok;
+            int producerLength = 0;
             QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
-            int producerLength = pLength.toInt(&ok);
-            if (!ok) {
-                producerLength = m_producer->time_to_frames(pLength.toUtf8().constData());
+            if (pLength.isEmpty()) {
+                producerLength = m_xml.attribute(QStringLiteral("length")).toInt();
+            } else {
+                producerLength = pLength.toInt(&ok);
             }
+            m_producer = loadResource(m_resource, QStringLiteral("kdenlivetitle:"));
+
             if (!m_resource.isEmpty()) {
+                if (!ok) {
+                    producerLength = m_producer->time_to_frames(pLength.toUtf8().constData());
+                }
                 // Title from .kdenlivetitle file
                 QFile txtfile(m_resource);
                 QDomDocument txtdoc(QStringLiteral("titledocument"));
@@ -295,8 +301,13 @@ bool LoadJob::startJob()
                     duration = m_producer->time_to_frames(xmlDuration.toUtf8().constData());
                 }
             }
+            qDebug()<<"===== GOT PRODUCER DURATION: "<<duration<<"; PROD: "<<producerLength;
             if (duration <= 0) {
-                duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
+                if (producerLength > 0) {
+                    duration = producerLength;
+                } else {
+                    duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
+                }
             }
             if (producerLength <= 0) {
                 producerLength = duration;

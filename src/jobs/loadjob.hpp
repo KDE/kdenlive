@@ -59,7 +59,7 @@ public:
 protected:
     // helper to load some kind of resources such as color. This will modify resource if needs be (for eg., in the case of color, it will prepend "color:" if
     // needed)
-    static std::shared_ptr<Mlt::Producer> loadResource(QString &resource, const QString &type);
+    static std::shared_ptr<Mlt::Producer> loadResource(QString resource, const QString &type);
 
     std::shared_ptr<Mlt::Producer> loadPlaylist(QString &resource);
 
