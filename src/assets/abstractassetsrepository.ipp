@@ -239,6 +239,9 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     }
                 }
                 QString paramName = paramdesc.get("title");
+                if (paramName.isEmpty()) {
+                    paramName = paramdesc.get("identifier");
+                }
                 if (!paramName.isEmpty()) {
                     QDomElement pname = doc.createElement(QStringLiteral("name"));
                     pname.appendChild(doc.createTextNode(paramName));
