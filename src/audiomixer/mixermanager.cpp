@@ -42,8 +42,8 @@ static inline double levelToDB(double level)
 
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
-    , renderPosition(0)
-    , m_connectedWidgets(0)
+    , m_masterMixer(nullptr)
+    , m_connectedWidgets(false)
 {
     m_masterBox = new QHBoxLayout;
     m_box = new QHBoxLayout;
@@ -62,6 +62,9 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     connect(mixer.get(), &MixerWidget::muteTrack, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
+    if (m_connectedWidgets) {
+        mixer->connectMixer(true);
+    }
     connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(mixer.get(), &MixerWidget::toggleSolo, [&](int trid, bool solo) {
         if (!solo) {
@@ -121,7 +124,6 @@ void MixerManager::cleanup()
     if (m_masterMixer) {
         m_masterMixer->clear(true);
     }
-    m_connectedWidgets = 0;
 }
 
 void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
@@ -148,6 +150,9 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
+    if (m_connectedWidgets) {
+        m_masterMixer->connectMixer(true);
+    }
     connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);
     m_masterBox->addWidget(m_masterMixer.get());
 }
@@ -156,5 +161,16 @@ void MixerManager::recordStateChanged(int tid, bool recording)
 {
     if (m_mixers.count(tid) > 0) {
         m_mixers[tid]->setRecordState(recording);
+    }
+}
+
+void MixerManager::connectMixer(bool connect)
+{
+    m_connectedWidgets = connect;
+    for (auto item : m_mixers) {
+        item.second->connectMixer(m_connectedWidgets);
+    }
+    if (m_masterMixer != nullptr) {
+        m_masterMixer->connectMixer(m_connectedWidgets);
     }
 }

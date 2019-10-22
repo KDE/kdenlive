@@ -42,11 +42,13 @@ class MixerManager : public QWidget
 
 public:
     MixerManager(QWidget *parent);
-    /* @brief Shows the parameters of the given transition model */
+    /** @brief Shows the parameters of the given transition model */
     void registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag);
     void deregisterTrack(int tid);
     void setModel(std::shared_ptr<TimelineItemModel> model);
     void cleanup();
+    /** @brief Connect the mixer widgets to the correspondant filters */
+    void connectMixer(bool connect);
 
 public slots:
     void resetAudioValues();
@@ -56,9 +58,6 @@ signals:
     void updateLevels(int);
     void recordAudio(int tid);
     void purgeCache();
-
-public:
-    int renderPosition;
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
@@ -70,7 +69,7 @@ private:
     QHBoxLayout *m_box;
     QHBoxLayout *m_masterBox;
     int m_lastFrame;
-    int m_connectedWidgets;
+    bool m_connectedWidgets;
     QVector <int> m_soloMuted;
 
 };

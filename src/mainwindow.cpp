@@ -244,7 +244,10 @@ void MainWindow::init()
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
-    connect(mixerDock, &QDockWidget::visibilityChanged, showMixer, &QAction::setChecked);
+    connect(mixerDock, &QDockWidget::visibilityChanged, [&, showMixer](bool visible) {
+        pCore->mixer()->connectMixer(visible);
+        showMixer->setChecked(visible);
+    });
     connect(showMixer, &QAction::triggered, [&, mixerDock]() {
         if (mixerDock->isVisible()) {
             mixerDock->close();
@@ -1893,9 +1896,6 @@ void MainWindow::connectDocument()
     connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
         pCore->mixer()->updateLevels(frame.get_position());
         //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
-    });
-    connect(pCore->monitorManager(), &MonitorManager::frameRendered, [&](int pos) {
-        pCore->mixer()->renderPosition = pos;
     });
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
 

@@ -126,7 +126,6 @@ void ProjectManager::newFile(bool showProjectSettings)
 
 void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 {
-    // fix mantis#3160
     QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     if (checkForBackupFile(startFile, true)) {
         return;

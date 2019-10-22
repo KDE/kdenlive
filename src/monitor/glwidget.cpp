@@ -1543,11 +1543,6 @@ void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
     }
 }
 
-void GLWidget::on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame_ptr)
-{
-    widget->frameRendered(mlt_frame_get_position(frame_ptr));
-}
-
 void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);

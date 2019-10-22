@@ -64,6 +64,8 @@ public:
     /** @brief Uncheck the solo button
      * */
     void unSolo();
+    /** @brief Connect the mixer widgets to the correspondant filters */
+    void connectMixer(bool connect);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

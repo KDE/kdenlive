@@ -328,7 +328,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     if (service->get_int("hide") > 1) {
         setMute(true);
     }
-    m_listener = m_monitorFilter->listen("property-changed", this, (mlt_listener)property_changed);
 }
 
 void MixerWidget::mousePressEvent(QMouseEvent *event)
@@ -448,4 +447,16 @@ void MixerWidget::setRecordState(bool recording)
         m_volumeSlider->setValue(fromDB(level));
     }
     updateLabel();
+}
+
+void MixerWidget::connectMixer(bool connect)
+{
+    if (connect) {
+        if (m_listener == nullptr) {
+            m_listener = m_monitorFilter->listen("property-changed", this, (mlt_listener)property_changed);
+        }
+    } else {
+        delete m_listener;
+        m_listener = nullptr;
+    }
 }
