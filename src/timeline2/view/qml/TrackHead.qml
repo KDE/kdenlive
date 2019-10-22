@@ -297,6 +297,17 @@ Rectangle {
             }
             Item {
                 // Spacer
+                width:2
+            }
+            Label {
+                text: trackHeadRoot.trackName
+                font.pixelSize: root.baseUnit
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTag.width + (5 * muteButton.width)
+            }
+            Item {
+                // Spacer
                 Layout.fillWidth: true
             }
             ToolButton {
