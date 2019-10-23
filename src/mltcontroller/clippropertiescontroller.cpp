@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "profiles/profilerepository.hpp"
 #include "project/projectmanager.h"
 #include "timecodedisplay.h"
-
+#include <audio/audioStreamInfo.h>
 #include "widgets/choosecolorwidget.h"
 
 #include <KDualAction>
@@ -608,7 +608,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             hlay->addWidget(tbv);
             hlay->addWidget(new QLabel(i18n("Audio stream")));
             auto *audioStream = new QComboBox(this);
-            int ix = 1;
             QMapIterator<int, QString> i(m_audioStreams);
             while (i.hasNext()) {
                 i.next();
@@ -642,7 +641,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             });
             hlay->addWidget(audioStream);
             vbox->addLayout(hlay);
-            
+
             // Audio sync
             hlay = new QHBoxLayout;
             hlay->addWidget(new QLabel(i18n("Audio sync")));
@@ -663,7 +662,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             });
             hlay->addWidget(spinSync);
             vbox->addLayout(hlay);
-            
         }
 
         // Colorspace
@@ -976,7 +974,8 @@ void ClipPropertiesController::fillProperties()
         // Find maximum stream index values
         m_videoStreams.clear();
         m_audioStreams.clear();
-        for (int ix = 0; ix < m_sourceProperties.get_int("meta.media.nb_streams"); ++ix) {
+        int aStreams = m_sourceProperties.get_int("meta.media.nb_streams");
+        for (int ix = 0; ix < aStreams; ++ix) {
             char property[200];
             snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
             QString type = m_sourceProperties.get(property);
@@ -1065,6 +1064,8 @@ void ClipPropertiesController::fillProperties()
             propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
         }
         if (default_audio > -1) {
+            propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioInfo()->streams())});
+
             QString codecInfo = QString("meta.media.%1.codec.").arg(default_audio);
             QString property = codecInfo + QStringLiteral("long_name");
             QString codec = m_sourceProperties.get(property.toUtf8().constData());

@@ -21,6 +21,16 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
     , m_channels(2)
     , m_bitRate(0)
 {
+    // Fetch audio streams
+    int streams = producer->get_int("meta.media.nb_streams");
+    for (int ix = 0; ix < streams; ix++) {
+        char property[200];
+        snprintf(property, sizeof(property), "meta.media.%d.stream.type", ix);
+        QString type = producer->get(property);
+        if (type == QLatin1String("audio")) {
+            m_audioStreams << ix;
+        }
+    }
     if (audioStreamIndex > -1) {
         QByteArray key;
         key = QStringLiteral("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
@@ -49,6 +59,11 @@ int AudioStreamInfo::samplingRate() const
 int AudioStreamInfo::channels() const
 {
     return m_channels;
+}
+
+int AudioStreamInfo::streams() const
+{
+    return m_audioStreams.count();
 }
 
 int AudioStreamInfo::bitrate() const
