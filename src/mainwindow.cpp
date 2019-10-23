@@ -335,6 +335,10 @@ void MainWindow::init()
     m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
+    connect(m_assetPanel, &AssetPanel::switchCurrentComposition, [&](int cid, const QString &compositionId) {
+        getMainTimeline()->controller()->getModel()->switchComposition(cid, compositionId);
+    });
+
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, [&] () {
         m_effectStackDock->raise();

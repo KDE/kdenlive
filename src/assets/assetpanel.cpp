@@ -41,6 +41,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QMenu>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
@@ -56,6 +57,26 @@ AssetPanel::AssetPanel(QWidget *parent)
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     buttonToolbar->setIconSize(iconSize);
+    // Edit composition button
+    m_switchCompoButton = new QToolButton(this);
+    QMenu *compoMenu = new QMenu(this);
+    auto allTransitions = TransitionsRepository::get()->getNames();
+    for (const auto &transition : allTransitions) {
+        auto *transAction = new QAction(transition.second, this);
+        transAction->setData(transition.first);
+        transAction->setIconVisibleInMenu(false);
+        compoMenu->addAction(transAction);
+    }
+    connect(compoMenu, &QMenu::triggered, [&](QAction *ac) {
+        if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
+            emit switchCurrentComposition(m_transitionWidget->stackOwner().second, ac->data().toString());
+        }
+    });
+    m_switchCompoButton->setMenu(compoMenu);
+    m_switchCompoButton->setPopupMode(QToolButton::InstantPopup);
+    m_switchCompoButton->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
+    m_switchCompoButton->setToolTip(i18n("Change composition type"));
+    buttonToolbar->addWidget(m_switchCompoButton);
 
     // spacer
     QWidget *empty = new QWidget();
@@ -129,6 +150,7 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
         return;
     }
     clear();
+    m_switchCompoButton->setVisible(true);
     QString transitionId = transitionModel->getAssetId();
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
     m_assetTitle->setText(i18n("%1 properties", i18n(transitionName.toUtf8().data())));
@@ -216,6 +238,7 @@ void AssetPanel::clearAssetPanel(int itemId)
 
 void AssetPanel::clear()
 {
+    m_switchCompoButton->setVisible(false);
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);

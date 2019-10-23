@@ -3534,3 +3534,33 @@ std::unordered_set<int> TimelineModel::getAllTracksIds() const
     return result;
 }
 
+void TimelineModel::switchComposition(int cid, const QString &compoId)
+{
+    Q_ASSERT(isComposition(cid));
+    std::shared_ptr<CompositionModel> compo = m_allCompositions.at(cid);
+    int currentPos = compo->getPosition();
+    int duration = compo->getPlaytime();
+    int currentTrack = compo->getCurrentTrackId();
+    int a_track = compo->getATrack();
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestCompositionDeletion(cid, undo, redo);
+    int newId;
+    res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, nullptr, newId, undo, redo);
+    if (res) {
+        Fun local_redo = [newId, this]() {
+            requestSetSelection({newId});
+            return true;
+        };
+        Fun local_undo = [cid, this]() {
+            requestSetSelection({cid});
+            return true;
+        };
+        local_redo();
+        PUSH_LAMBDA(local_redo, redo);
+        PUSH_LAMBDA(local_undo, undo);
+        PUSH_UNDO(undo, redo, i18n("Change composition"));
+    } else {
+        undo();
+    }
+}

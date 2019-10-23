@@ -397,6 +397,12 @@ public:
     bool requestClipInsertion(const QString &binClipId, int trackId, int position, int &id, bool logUndo, bool refreshView, bool useTargets, Fun &undo,
                               Fun &redo, QVector<int> allowedTracks = QVector<int>());
 
+    /** @brief Switch current composition type
+     *  @param cid the id of the composition we want to change
+     *  @param compoId the name of the new composition we want to insert
+     */
+    void switchComposition(int cid, const QString &compoId);
+
 protected:
     /* @brief Creates a new clip instance without inserting it.
        This action is undoable, returns true on success
@@ -405,7 +411,7 @@ protected:
        @param state: The desired clip state (original, audio/video only).
      */
     bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo);
-    
+
     /* @brief Switch item selection status */
     void setSelected(int itemId, bool sel);
 

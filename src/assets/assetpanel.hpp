@@ -82,6 +82,7 @@ protected:
 
 private:
     QToolButton *m_switchBuiltStack;
+    QToolButton *m_switchCompoButton;
     KDualAction *m_splitButton;
     KDualAction *m_enableStackButton;
     KDualAction *m_timelineButton;
@@ -98,6 +99,7 @@ signals:
     void doSplitBinEffect(bool);
     void seekToPos(int);
     void reloadEffect(const QString &path);
+    void switchCurrentComposition(int tid, const QString &compoId);
 };
 
 #endif
