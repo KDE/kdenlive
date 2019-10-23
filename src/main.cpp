@@ -60,16 +60,24 @@ int main(int argc, char *argv[])
 #endif
     // Force QDomDocument to use a deterministic XML attribute order
     qSetGlobalQHashSeed(0);
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
-    QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
-#elif defined(Q_OS_WIN)
-    QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
-#endif
 
     Logger::init();
     QApplication app(argc, argv);
+
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+    QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
+#elif defined(Q_OS_WIN)
+    KConfigGroup grp1(config, "misc");
+    if (grp1.exists()) {
+        int glMode = grp1.readEntry("opengl_backend", 0);
+        if (glMode > 0) {
+            QCoreApplication::setAttribute((Qt::ApplicationAttribute)glMode, true);
+        }
+    }
+#endif
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
@@ -98,7 +106,6 @@ int main(int argc, char *argv[])
         }
     }
 #endif
-    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();

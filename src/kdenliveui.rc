@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="166" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="167" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -218,8 +218,13 @@
       <ActionList name="dock_actions" />
     </Menu>
     <Menu name="settings" >
-      <Action name="get_new_mlt_profiles" />
       <Action name="run_wizard" />
+      <Menu name="qt_opengl" ><text>OpenGL Backend</text>
+        <Action name="opengl_auto" />
+        <Action name="opengl_desktop" />
+        <Action name="opengl_es" />
+        <Action name="opengl_software" />
+      </Menu>
       <Action name="force_icon_theme" />
       <Action name="themes_menu" />
       <Action name="styles_menu" />

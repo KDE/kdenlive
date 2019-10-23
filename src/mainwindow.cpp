@@ -501,7 +501,20 @@ void MainWindow::init()
     loadGenerators();
     loadDockActions();
     loadClipActions();
-
+    QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
+#if defined(Q_OS_WIN)
+    connect(openGLMenu, &QMenu::triggered, [&](QAction *ac) {
+        KdenliveSettings::setOpengl_backend(ac->data().toInt());
+        if (KMessageBox::questionYesNo(this, i18n("Kdenlive needs to be restarted to change this setting. Do you want to proceed?")) != KMessageBox::Yes) {
+            return;
+        }
+        slotRestart(false);
+    });
+#else
+    if (openGLMenu) {
+        delete openGLMenu;
+    }
+#endif
     // Connect monitor overlay info menu.
     QMenu *monitorOverlay = static_cast<QMenu *>(factory()->container(QStringLiteral("monitor_config_overlay"), this));
     connect(monitorOverlay, &QMenu::triggered, this, &MainWindow::slotSwitchMonitorOverlay);
@@ -1171,6 +1184,33 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
     addAction(QStringLiteral("snap"), m_buttonSnap);
     addAction(QStringLiteral("zoom_fit"), m_buttonFitZoom);
+
+#if defined(Q_OS_WIN)
+    int glBackend = KdenliveSettings::opengl_backend();
+    QAction *openGLAuto = new QAction(i18n("Auto"), this);
+    openGLAuto->setData(0);
+    openGLAuto->setCheckable(true);
+    openGLAuto->setChecked(glBackend == 0);
+
+    QAction *openGLDesktop = new QAction(i18n("Desktop OpenGL"), this);
+    openGLDesktop->setData(Qt::AA_UseDesktopOpenGL);
+    openGLDesktop->setCheckable(true);
+    openGLDesktop->setChecked(glBackend == Qt::AA_UseDesktopOpenGL);
+
+    QAction *openGLES = new QAction(i18n("OpenGLES"), this);
+    openGLES->setData(Qt::AA_UseOpenGLES);
+    openGLES->setCheckable(true);
+    openGLES->setChecked(glBackend == Qt::AA_UseOpenGLES);
+
+    QAction *openGLSoftware = new QAction(i18n("Software OpenGL"), this);
+    openGLSoftware->setData(Qt::AA_UseSoftwareOpenGL);
+    openGLSoftware->setCheckable(true);
+    openGLSoftware->setChecked(glBackend == Qt::AA_UseSoftwareOpenGL);
+    addAction(QStringLiteral("opengl_auto"), openGLAuto);
+    addAction(QStringLiteral("opengl_desktop"), openGLDesktop);
+    addAction(QStringLiteral("opengl_es"), openGLES);
+    addAction(QStringLiteral("opengl_software"), openGLSoftware);
+#endif
 
     addAction(QStringLiteral("run_wizard"), i18n("Run Config Wizard"), this, SLOT(slotRunWizard()), QIcon::fromTheme(QStringLiteral("tools-wizard")));
     addAction(QStringLiteral("project_settings"), i18n("Project Settings"), this, SLOT(slotEditProjectSettings()),
@@ -3098,6 +3138,7 @@ void MainWindow::buildDynamicActions()
         connect(action, &QAction::triggered,
                 [&]() { pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(), {}, i18n("Change clip speed")); });
     }
+
     // TODO refac reimplement analyseclipjob
     /*
     QAction *action = new QAction(i18n("Analyse keyframes"), m_extraFactory->actionCollection());
