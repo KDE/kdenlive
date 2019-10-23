@@ -609,16 +609,17 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             hlay->addWidget(new QLabel(i18n("Audio stream")));
             auto *audioStream = new QComboBox(this);
             int ix = 1;
-            for (int stream : m_audioStreams) {
-                audioStream->addItem(i18n("Audio stream %1", ix), stream);
-                ix++;
+            QMapIterator<int, QString> i(m_audioStreams);
+            while (i.hasNext()) {
+                i.next();
+                audioStream->addItem(QString("%1: %2").arg(i.key()).arg(i.value()), i.key());
             }
             if (!vix.isEmpty() && vix.toInt() > -1) {
                 audioStream->setCurrentIndex(audioStream->findData(QVariant(vix)));
             }
             ac->setActive(vix.toInt() == -1);
             audioStream->setEnabled(vix.toInt() > -1);
-            audioStream->setVisible(m_audioStreams.size() > 1);
+            audioStream->setVisible(m_audioStreams.size() > 0);
             connect(ac, &KDualAction::activeChanged, [this, audioStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
@@ -982,7 +983,36 @@ void ClipPropertiesController::fillProperties()
             if (type == QLatin1String("video")) {
                 m_videoStreams << ix;
             } else if (type == QLatin1String("audio")) {
-                m_audioStreams << ix;
+                memset(property, 0, 200);
+                snprintf(property, sizeof(property), "meta.media.%d.codec.channels", ix);
+                int chan = m_sourceProperties.get_int(property);
+                QString channelDescription;
+                switch (chan) {
+                    case 1:
+                        channelDescription = i18n("Mono ");
+                        break;
+                    case 2:
+                        channelDescription = i18n("Stereo ");
+                        break;
+                    default:
+                        channelDescription = i18n("%1 channels ", chan);
+                        break;
+                }
+                // Frequency
+                memset(property, 0, 200);
+                snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", ix);
+                QString frequency(m_sourceProperties.get(property));
+                if (frequency.endsWith(QLatin1String("000"))) {
+                    frequency.chop(3);
+                    frequency.append(i18n("kHz "));
+                } else {
+                    frequency.append(i18n("Hz "));
+                }
+                channelDescription.append(frequency);
+                memset(property, 0, 200);
+                snprintf(property, sizeof(property), "meta.media.%d.codec.name", ix);
+                channelDescription.append(m_sourceProperties.get(property));
+                m_audioStreams.insert(ix, channelDescription);
             }
         }
         m_clipProperties.insert(QStringLiteral("default_video"), QString::number(vindex));

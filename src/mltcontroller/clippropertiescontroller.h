@@ -102,7 +102,7 @@ private:
     QMap<QString, QString> m_originalProperties;
     QMap<QString, QString> m_clipProperties;
     QList<int> m_videoStreams;
-    QList<int> m_audioStreams;
+    QMap<int, QString> m_audioStreams;
     QTreeWidget *m_propertiesTree;
     QWidget *m_propertiesPage;
     QWidget *m_markersPage;
