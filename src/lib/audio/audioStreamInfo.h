@@ -35,6 +35,7 @@ public:
     int ffmpeg_audio_index() const;
     void dumpInfo() const;
     void setAudioIndex(const std::shared_ptr<Mlt::Producer> &producer, int ix);
+    QMap<int, QString> streamInfo(Mlt::Properties sourceProperties);
 
 private:
     int m_audioStreamIndex;

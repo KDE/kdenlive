@@ -593,7 +593,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         }
 
         // Audio index
-        if (!m_audioStreams.isEmpty()) {
+        QMap<int, QString> audioStreamsInfo;
+        if (m_controller->audioInfo()) {
+            m_controller->audioInfo()->streamInfo(m_sourceProperties);
+        }
+        if (!audioStreamsInfo.isEmpty()) {
             QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
             hlay = new QHBoxLayout;
@@ -608,7 +612,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             hlay->addWidget(tbv);
             hlay->addWidget(new QLabel(i18n("Audio stream")));
             auto *audioStream = new QComboBox(this);
-            QMapIterator<int, QString> i(m_audioStreams);
+            QMapIterator<int, QString> i(audioStreamsInfo);
             while (i.hasNext()) {
                 i.next();
                 audioStream->addItem(QString("%1: %2").arg(i.key()).arg(i.value()), i.key());
@@ -618,7 +622,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             }
             ac->setActive(vix.toInt() == -1);
             audioStream->setEnabled(vix.toInt() > -1);
-            audioStream->setVisible(m_audioStreams.size() > 0);
+            audioStream->setVisible(audioStreamsInfo.size() > 0);
             connect(ac, &KDualAction::activeChanged, [this, audioStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
@@ -973,7 +977,6 @@ void ClipPropertiesController::fillProperties()
 
         // Find maximum stream index values
         m_videoStreams.clear();
-        m_audioStreams.clear();
         int aStreams = m_sourceProperties.get_int("meta.media.nb_streams");
         for (int ix = 0; ix < aStreams; ++ix) {
             char property[200];
@@ -981,37 +984,6 @@ void ClipPropertiesController::fillProperties()
             QString type = m_sourceProperties.get(property);
             if (type == QLatin1String("video")) {
                 m_videoStreams << ix;
-            } else if (type == QLatin1String("audio")) {
-                memset(property, 0, 200);
-                snprintf(property, sizeof(property), "meta.media.%d.codec.channels", ix);
-                int chan = m_sourceProperties.get_int(property);
-                QString channelDescription;
-                switch (chan) {
-                    case 1:
-                        channelDescription = i18n("Mono ");
-                        break;
-                    case 2:
-                        channelDescription = i18n("Stereo ");
-                        break;
-                    default:
-                        channelDescription = i18n("%1 channels ", chan);
-                        break;
-                }
-                // Frequency
-                memset(property, 0, 200);
-                snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", ix);
-                QString frequency(m_sourceProperties.get(property));
-                if (frequency.endsWith(QLatin1String("000"))) {
-                    frequency.chop(3);
-                    frequency.append(i18n("kHz "));
-                } else {
-                    frequency.append(i18n("Hz "));
-                }
-                channelDescription.append(frequency);
-                memset(property, 0, 200);
-                snprintf(property, sizeof(property), "meta.media.%d.codec.name", ix);
-                channelDescription.append(m_sourceProperties.get(property));
-                m_audioStreams.insert(ix, channelDescription);
             }
         }
         m_clipProperties.insert(QStringLiteral("default_video"), QString::number(vindex));
