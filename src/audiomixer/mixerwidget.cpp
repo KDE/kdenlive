@@ -391,6 +391,7 @@ void MixerWidget::clear(bool reset)
     if (reset) {
         m_audioMeterWidget->setAudioValues({-100, -100});
     }
+    QMutexLocker lk(&m_storeMutex);
     m_levels.clear();
 }
 
