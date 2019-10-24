@@ -32,12 +32,14 @@
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QHBoxLayout>
+#include <QIcon>
 #include <QLabel>
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QProgressBar>
 #include <QPropertyAnimation>
 #include <QPushButton>
+#include <QStyle>
 #include <QTextEdit>
 
 FlashLabel::FlashLabel(QWidget *parent)
@@ -259,7 +261,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
     if (iconName == nullptr) {
         m_pixmap->setVisible(false);
     } else {
-        m_pixmap->setPixmap(SmallIcon(iconName));
+        m_pixmap->setPixmap(QIcon::fromTheme(iconName).pixmap(style()->pixelMetric(QStyle::PM_SmallIconSize)));
         m_pixmap->setVisible(true);
     }
     m_queueSemaphore.release();
