@@ -595,7 +595,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Audio index
         QMap<int, QString> audioStreamsInfo;
         if (m_controller->audioInfo()) {
-            m_controller->audioInfo()->streamInfo(m_sourceProperties);
+            audioStreamsInfo = m_controller->audioInfo()->streamInfo(m_sourceProperties);
         }
         if (!audioStreamsInfo.isEmpty()) {
             QString vix = m_sourceProperties.get("audio_index");
