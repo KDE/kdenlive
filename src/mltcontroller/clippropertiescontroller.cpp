@@ -1036,7 +1036,7 @@ void ClipPropertiesController::fillProperties()
             propertyMap.append({i18n("Colorspace"), ProfileRepository::getColorspaceDescription(colorspace)});
         }
         if (default_audio > -1) {
-            propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioInfo()->streams())});
+            propertyMap.append({i18n("Audio streams"), QString::number(m_controller->audioStreamsCount())});
 
             QString codecInfo = QString("meta.media.%1.codec.").arg(default_audio);
             QString property = codecInfo + QStringLiteral("long_name");

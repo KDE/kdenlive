@@ -3542,12 +3542,16 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     int duration = compo->getPlaytime();
     int currentTrack = compo->getCurrentTrackId();
     int a_track = compo->getATrack();
+    int forcedTrack = compo->getForcedTrack();
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     bool res = requestCompositionDeletion(cid, undo, redo);
     int newId;
     res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, nullptr, newId, undo, redo);
     if (res) {
+        if (forcedTrack > -1 && isComposition(newId)) {
+            m_allCompositions[newId]->setForceTrack(true);
+        }
         Fun local_redo = [newId, this]() {
             requestSetSelection({newId});
             return true;

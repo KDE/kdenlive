@@ -62,9 +62,9 @@ int AudioStreamInfo::channels() const
     return m_channels;
 }
 
-int AudioStreamInfo::streams() const
+QList <int> AudioStreamInfo::streams() const
 {
-    return m_audioStreams.count();
+    return m_audioStreams;
 }
 
 int AudioStreamInfo::bitrate() const

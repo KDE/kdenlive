@@ -68,7 +68,7 @@ class TimelineController : public QObject
     Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
 
-    Q_PROPERTY(int lastAudioTarget MEMBER m_lastAudioTarget NOTIFY lastAudioTargetChanged)
+    //Q_PROPERTY(int lastAudioTarget MEMBER m_lastAudioTarget NOTIFY lastAudioTargetChanged)
     Q_PROPERTY(int lastVideoTarget MEMBER m_lastVideoTarget NOTIFY lastVideoTargetChanged)
 
     Q_PROPERTY(bool hasAudioTarget READ hasAudioTarget NOTIFY hasAudioTargetChanged)
@@ -459,7 +459,7 @@ public:
     /** @brief timeline preview params changed, reset */
     void resetPreview();
     /** @brief Set target tracks (video, audio) */
-    void setTargetTracks(QPair<int, int> targets);
+    void setTargetTracks(bool hasVideo, QList <int> audioTargets);
     /** @brief Return asset's display name from it's id (effect or composition) */
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */
@@ -475,6 +475,7 @@ public slots:
     void resetView();
     Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE void setAudioTarget(int track);
+    void setIntAudioTarget(QList <int> tracks);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
     void onSeeked(int position);
@@ -515,7 +516,7 @@ private:
     bool m_hasAudioTarget {false};
     bool m_hasVideoTarget {false};
     int m_lastVideoTarget {-1};
-    int m_lastAudioTarget {-1};
+    QList <int> m_lastAudioTarget;
     bool m_videoTargetActive {true};
     bool m_audioTargetActive {true};
     QPair<int, int> m_recordStart;

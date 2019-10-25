@@ -89,9 +89,6 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     auto allEffects = EffectsRepository::get()->getNames();
     QString favCategory = QStringLiteral("kdenlive:favorites");
     for (const auto &effect : allEffects) {
-        if (!KdenliveSettings::gpu_accel() && effect.first.contains(QLatin1String("movit."))) {
-            continue;
-        }
         auto targetCategory = miscCategory;
         EffectType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {

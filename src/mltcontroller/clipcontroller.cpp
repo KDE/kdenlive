@@ -1037,3 +1037,19 @@ void ClipController::refreshAudioInfo()
         m_audioInfo->setAudioIndex(m_masterProducer, m_properties->get_int("audio_index"));
     }
 }
+
+QList <int> ClipController::audioStreams() const
+{
+    if (m_audioInfo) {
+        return m_audioInfo->streams();
+    }
+    return {};
+}
+
+int ClipController::audioStreamsCount() const
+{
+    if (m_audioInfo) {
+        return m_audioInfo->streams().count();
+    }
+    return 0;
+}

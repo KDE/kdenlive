@@ -107,17 +107,37 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
 }
 
-void TimelineController::setTargetTracks(QPair<int, int> targets)
+void TimelineController::setTargetTracks(bool hasVideo, QList <int> audioTargets)
 {
-    m_hasVideoTarget = targets.first >= 0;
-    m_hasAudioTarget = targets.second >= 0;
+    int videoTrack = -1;
+    QList <int> audioTracks;
+    m_hasVideoTarget = hasVideo;
+    m_hasAudioTarget = !audioTargets.isEmpty();
+    if (m_hasVideoTarget) {
+        videoTrack = m_model->getFirstVideoTrackIndex();
+    }
+    if (m_hasAudioTarget) {
+        QList <int> tracks;
+        auto it = m_model->m_allTracks.cbegin();
+        while (it != m_model->m_allTracks.cend()) {
+            if ((*it)->isAudioTrack()) {
+                tracks << (*it)->getId();
+            }
+            ++it;
+        }
+        int i = 0;
+        while (i < audioTargets.size() && !tracks.isEmpty()) {
+            audioTracks << tracks.takeLast();
+            i++;
+        }
+    }
     emit hasAudioTargetChanged();
     emit hasVideoTargetChanged();
     if (m_videoTargetActive) {
-        setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : targets.first);
+        setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : videoTrack);
     }
     if (m_audioTargetActive) {
-        setAudioTarget(m_hasAudioTarget && (m_lastAudioTarget > -1) ? m_lastAudioTarget : targets.second);
+        setIntAudioTarget((m_hasAudioTarget && (m_lastAudioTarget.size() == audioTargets.size())) ? m_lastAudioTarget : audioTracks);
     }
 }
 
@@ -578,8 +598,8 @@ void TimelineController::deleteTrack(int tid)
         if (m_model->m_videoTarget == selectedTrackIx) {
             setVideoTarget(-1);
         }
-        if (m_lastAudioTarget == selectedTrackIx) {
-            m_lastAudioTarget = -1;
+        if (m_lastAudioTarget.contains(selectedTrackIx)) {
+            m_lastAudioTarget.removeAll(selectedTrackIx);
             emit lastAudioTargetChanged();
         }
         if (m_lastVideoTarget == selectedTrackIx) {
@@ -933,6 +953,16 @@ void TimelineController::setAudioTarget(int track)
         return;
     }
     m_model->m_audioTarget = track;
+    emit audioTargetChanged();
+}
+
+void TimelineController::setIntAudioTarget(QList <int> tracks)
+{
+    if ((!tracks.isEmpty() && !m_model->isTrack(tracks.first())) || !m_hasAudioTarget) {
+        return;
+    }
+    qDebug()<<"/// GOT AUDIO TRACKS: "<<tracks;
+    m_model->m_audioTarget = tracks.isEmpty() ? -1 : tracks.first();
     emit audioTargetChanged();
 }
 
@@ -2617,7 +2647,7 @@ void TimelineController::updateVideoTarget()
 void TimelineController::updateAudioTarget()
 {
     if (audioTarget() > -1) {
-        m_lastAudioTarget = audioTarget();
+        m_lastAudioTarget = {audioTarget()};
         m_audioTargetActive = true;
         emit lastAudioTargetChanged();
     } else {

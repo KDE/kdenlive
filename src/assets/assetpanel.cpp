@@ -41,7 +41,8 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QScrollArea>
-#include <QMenu>
+#include <QComboBox>
+#include <QFontDatabase>
 #include <klocalizedstring.h>
 
 AssetPanel::AssetPanel(QWidget *parent)
@@ -58,25 +59,20 @@ AssetPanel::AssetPanel(QWidget *parent)
     QSize iconSize(size, size);
     buttonToolbar->setIconSize(iconSize);
     // Edit composition button
-    m_switchCompoButton = new QToolButton(this);
-    QMenu *compoMenu = new QMenu(this);
+    m_switchCompoButton = new QComboBox(this);
+    m_switchCompoButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : allTransitions) {
-        auto *transAction = new QAction(transition.second, this);
-        transAction->setData(transition.first);
-        transAction->setIconVisibleInMenu(false);
-        compoMenu->addAction(transAction);
+        m_switchCompoButton->addItem(transition.second, transition.first);
     }
-    connect(compoMenu, &QMenu::triggered, [&](QAction *ac) {
+    connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
-            emit switchCurrentComposition(m_transitionWidget->stackOwner().second, ac->data().toString());
+            emit switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         }
     });
-    m_switchCompoButton->setMenu(compoMenu);
-    m_switchCompoButton->setPopupMode(QToolButton::InstantPopup);
-    m_switchCompoButton->setIcon(QIcon::fromTheme(QStringLiteral("go-down")));
     m_switchCompoButton->setToolTip(i18n("Change composition type"));
-    buttonToolbar->addWidget(m_switchCompoButton);
+    m_switchAction = buttonToolbar->addWidget(m_switchCompoButton);
+    m_switchAction->setVisible(false);
 
     // spacer
     QWidget *empty = new QWidget();
@@ -150,10 +146,11 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
         return;
     }
     clear();
-    m_switchCompoButton->setVisible(true);
     QString transitionId = transitionModel->getAssetId();
+    m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionId));
+    m_switchAction->setVisible(true);
     QString transitionName = TransitionsRepository::get()->getName(transitionId);
-    m_assetTitle->setText(i18n("%1 properties", i18n(transitionName.toUtf8().data())));
+    m_assetTitle->setText(i18n("Properties for"));
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
@@ -238,7 +235,7 @@ void AssetPanel::clearAssetPanel(int itemId)
 
 void AssetPanel::clear()
 {
-    m_switchCompoButton->setVisible(false);
+    m_switchAction->setVisible(false);
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
     m_effectStackWidget->setVisible(false);

@@ -28,7 +28,7 @@ public:
 
     int samplingRate() const;
     int channels() const;
-    int streams() const;
+    QList <int> streams() const;
     int bitrate() const;
     const QString &samplingFormat() const;
     int audio_index() const;

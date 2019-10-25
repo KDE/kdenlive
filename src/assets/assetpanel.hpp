@@ -31,6 +31,7 @@
 class KSqueezedTextLabel;
 class KDualAction;
 class QToolButton;
+class QComboBox;
 
 /** @brief This class is the widget that provides interaction with the asset currently selected.
     That is, it either displays an effectStack or the parameters of a transition
@@ -82,7 +83,8 @@ protected:
 
 private:
     QToolButton *m_switchBuiltStack;
-    QToolButton *m_switchCompoButton;
+    QComboBox *m_switchCompoButton;
+    QAction *m_switchAction;
     KDualAction *m_splitButton;
     KDualAction *m_enableStackButton;
     KDualAction *m_timelineButton;

@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "xml/xml.hpp"
+#include "kdenlivesettings.h"
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
@@ -273,6 +274,10 @@ template <typename AssetType> QVector<QPair<QString, QString>> AbstractAssetsRep
     QVector<QPair<QString, QString>> res;
     res.reserve((int)m_assets.size());
     for (const auto &asset : m_assets) {
+        if (!KdenliveSettings::gpu_accel() && asset.first.contains(QLatin1String("movit."))) {
+            // Hide GPU effects/compositions when movit disabled
+            continue;
+        }
         res.push_back({asset.first, asset.second.name});
     }
     std::sort(res.begin(), res.end(), [](const QPair<QString, QString> &a, const QPair<QString, QString> &b) { return a.second < b.second; });

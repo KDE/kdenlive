@@ -204,6 +204,11 @@ public:
     /** @brief Append an effect to this producer's effect list */
     bool addEffect(const QString &effectId);
 
+    /** @brief Returns the list of audio streams indexes for this clip */
+    QList <int> audioStreams() const;
+    /** @brief Returns the count of audio streams for this clip */
+    int audioStreamsCount() const;
+
 protected:
     virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};
     virtual void connectEffectStack(){};

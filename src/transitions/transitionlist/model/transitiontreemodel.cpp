@@ -49,10 +49,6 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
     // We parse transitions
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : allTransitions) {
-        if (!KdenliveSettings::gpu_accel() && transition.first.contains(QLatin1String("movit."))) {
-            // Hide GPU compositions when movit disabled
-            continue;
-        }
         std::shared_ptr<TreeItem> targetCategory = compoCategory;
         TransitionType type = TransitionsRepository::get()->getType(transition.first);
         if (type == TransitionType::AudioTransition || type == TransitionType::VideoTransition) {
