@@ -62,10 +62,9 @@ int main(int argc, char *argv[])
     qSetGlobalQHashSeed(0);
 
     Logger::init();
-    QApplication app(argc, argv);
-
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
+    QApplication app(argc, argv);
     KSharedConfigPtr config = KSharedConfig::openConfig();
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
