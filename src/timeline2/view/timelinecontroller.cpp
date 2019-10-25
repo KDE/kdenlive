@@ -364,8 +364,10 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     int minimum = m_model->getClipPosition(clipId);
     int clip_duration = m_model->getClipPlaytime(clipId);
     int position = minimum;
+    bool adjustOffset = false;
     if (offset > clip_duration / 2) {
         position += offset;
+        adjustOffset = true;
     } else {
         // Check if we have a composition at beginning
         std::unordered_set<int> existing = m_model->getTrackById_const(tid)->getCompositionsInRange(minimum, minimum + offset);
@@ -394,9 +396,12 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
             } else if (position > bottom.first) {
                 int test_duration = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
                 if (test_duration > 0) {
-                    duration = test_duration;
+                    duration = qMin(test_duration, clip_duration);
                 }
             }
+        } else if (!adjustOffset) {
+            // No clip below, keep original drop position
+            position += offset;
         }
         int duration2 = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
         if (duration2 > 0) {
