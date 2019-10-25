@@ -84,6 +84,7 @@ protected:
 private:
     QToolButton *m_switchBuiltStack;
     QComboBox *m_switchCompoButton;
+    QAction *m_titleAction;
     QAction *m_switchAction;
     KDualAction *m_splitButton;
     KDualAction *m_enableStackButton;

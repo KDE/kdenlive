@@ -54,13 +54,13 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_effectStackWidget(new EffectStackView(this))
 {
     auto *buttonToolbar = new QToolBar(this);
-    buttonToolbar->addWidget(m_assetTitle);
+    m_titleAction = buttonToolbar->addWidget(m_assetTitle);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     buttonToolbar->setIconSize(iconSize);
     // Edit composition button
     m_switchCompoButton = new QComboBox(this);
-    m_switchCompoButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : allTransitions) {
         m_switchCompoButton->addItem(transition.second, transition.first);
@@ -149,8 +149,8 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     QString transitionId = transitionModel->getAssetId();
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionId));
     m_switchAction->setVisible(true);
-    QString transitionName = TransitionsRepository::get()->getName(transitionId);
-    m_assetTitle->setText(i18n("Properties for"));
+    m_titleAction->setVisible(false);
+    m_assetTitle->clear();
     m_transitionWidget->setVisible(true);
     m_timelineButton->setVisible(true);
     m_enableStackButton->setVisible(false);
@@ -200,6 +200,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
         break;
     }
     m_assetTitle->setText(title);
+    m_titleAction->setVisible(true);
     m_splitButton->setVisible(showSplit);
     m_enableStackButton->setVisible(id.first != ObjectType::TimelineComposition);
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
