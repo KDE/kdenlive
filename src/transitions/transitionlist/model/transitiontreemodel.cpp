@@ -102,14 +102,11 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
     }
     item->setData(AssetTreeModel::favCol, favorite);
     auto id = item->dataColumn(AssetTreeModel::idCol).toString();
-    QStringList favs = KdenliveSettings::favorite_effects();
+    QStringList favs = KdenliveSettings::favorite_transitions();
     if (favorite) {
         favs << id;
     } else {
         favs.removeAll(id);
     }
-    KdenliveSettings::setFavorite_effects(favs);
-    /*if (TransitionsRepository::get()->exists(id)) {
-        TransitionsRepository::get()->setFavorite(id, favorite);
-    }*/
+    KdenliveSettings::setFavorite_transitions(favs);
 }
