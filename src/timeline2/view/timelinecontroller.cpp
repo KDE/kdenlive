@@ -381,12 +381,20 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         int bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
         if (bottomId > 0) {
             QPair<int, int> bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
-            if (bottom.first > minimum && position > bottom.first) {
-                int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
+            if (bottom.first > minimum) {
+                // Lower clip is after top clip
+                if (position > bottom.first) {
+                    int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
+                    if (test_duration > 0) {
+                        position = bottom.first;
+                        duration = test_duration;
+                        revert = position > minimum;
+                    }
+                }
+            } else if (position > bottom.first) {
+                int test_duration = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
                 if (test_duration > 0) {
-                    position = bottom.first;
                     duration = test_duration;
-                    revert = position > minimum;
                 }
             }
         }
