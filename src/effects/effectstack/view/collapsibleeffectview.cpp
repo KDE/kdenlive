@@ -91,6 +91,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
     m_collapse->setActiveIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
     collapseButton->setDefaultAction(m_collapse);
+    m_collapse->setActive(m_model->isCollapsed());
     connect(m_collapse, &KDualAction::activeChanged, this, &CollapsibleEffectView::slotSwitch);
     if (effectModel->rowCount() == 0) {
         // Effect has no paramerter
@@ -209,8 +210,10 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    m_collapse->setActive(m_model->isCollapsed());
-    QMetaObject::invokeMethod(this, "slotSwitch", Qt::QueuedConnection, Q_ARG(bool, m_model->isCollapsed()));
+    if (m_model->isCollapsed()) {
+        widgetFrame->setFixedHeight(0);
+        setFixedHeight(widgetFrame->height() + frame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
+    }
 }
 
 CollapsibleEffectView::~CollapsibleEffectView()
