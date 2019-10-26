@@ -164,9 +164,9 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     }
 }
 
-void MixerManager::connectMixer(bool connect)
+void MixerManager::connectMixer(bool doConnect)
 {
-    m_connectedWidgets = connect;
+    m_connectedWidgets = doConnect;
     for (auto item : m_mixers) {
         item.second->connectMixer(m_connectedWidgets);
     }
