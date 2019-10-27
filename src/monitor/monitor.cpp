@@ -778,25 +778,29 @@ void Monitor::setZoom()
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?
-    if (!m_glWidget->isFullScreen() && !minimizeOnly) {
+    if (!m_videoWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
             for (auto screen : qApp->screens()) {
-                if (screen != qApp->screenAt(this->parentWidget()->pos())) {
-                    m_glWidget->setParent(qApp->desktop()->screen(qApp->screens().indexOf(screen)));
+                if (screen != qApp->screenAt(this->parentWidget()->mapToGlobal(QPoint()))) {
+                    QRect rect = screen->availableGeometry();
+                    m_videoWidget->setParent(nullptr);
+                    m_videoWidget->move(this->parentWidget()->mapFromGlobal(rect.topLeft()));
                     break;
                 }
             }
         } else {
-            m_glWidget->setParent(qApp->desktop()->screen(0));
+            m_videoWidget->setParent(qApp->desktop()->screen(0));
         }
         m_qmlManager->enableAudioThumbs(false);
-        m_glWidget->showFullScreen();
+        m_videoWidget->showFullScreen();
     } else {
-        m_glWidget->showNormal();
+        m_videoWidget->setParent(m_glWidget);
+        //m_videoWidget->move(this->pos());
+        m_videoWidget->showNormal();
         m_qmlManager->enableAudioThumbs(true);
-        auto *lay = (QVBoxLayout *)layout();
-        lay->insertWidget(0, m_glWidget, 10);
+        auto *lay = (QGridLayout *)m_glWidget->layout();
+        lay->addWidget(m_videoWidget, 0, 0);
     }
 }
 
