@@ -351,8 +351,9 @@ int probe_device(struct media_ctrl *mc)
 void find_first_device(struct media_ctrl *mc)
 {
     char buf[256];
+    int i;
 
-    for (int i = 0; i < 32; i++) {
+    for (i = 0; i < 32; i++) {
         sprintf(buf, "/dev/input/event%d", i);
         int fd = open(buf, O_RDONLY);
         if (fd < 0) {
