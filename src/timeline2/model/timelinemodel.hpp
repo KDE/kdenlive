@@ -767,6 +767,8 @@ signals:
 
     /* @brief Signal sent whenever the selection changes */
     void selectionChanged();
+    /* @brief Signal when a track is deleted so we make sure we don't store its id */
+    void checkTrackDeletion(int tid);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

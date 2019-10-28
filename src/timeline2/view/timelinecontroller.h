@@ -470,6 +470,8 @@ public:
     bool dragOperationRunning();
     /** @brief Disconnect some stuff before closing project */
     void prepareClose();
+    /** @brief Check that we don't keep a deleted track id */
+    void checkTrackDeletion(int selectedTrackIx);
 
 public slots:
     void resetView();

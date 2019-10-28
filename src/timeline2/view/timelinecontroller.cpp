@@ -105,6 +105,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
+    connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
 void TimelineController::setTargetTracks(bool hasVideo, QList <int> audioTargets)
@@ -601,7 +602,17 @@ void TimelineController::deleteTrack(int tid)
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
         int selectedTrackIx = d->selectedTrackId();
-        if (m_activeTrack == selectedTrackIx) {
+        m_model->requestTrackDeletion(selectedTrackIx);
+        m_model->buildTrackCompositing(true);
+        if (m_activeTrack == -1) {
+            setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
+        }
+    }
+}
+
+void TimelineController::checkTrackDeletion(int selectedTrackIx)
+{
+    if (m_activeTrack == selectedTrackIx) {
             // Make sure we don't keep an index on a deleted track
             m_activeTrack = -1;
         }
@@ -619,12 +630,6 @@ void TimelineController::deleteTrack(int tid)
             m_lastVideoTarget = -1;
             emit lastVideoTargetChanged();
         }
-        m_model->requestTrackDeletion(selectedTrackIx);
-        m_model->buildTrackCompositing(true);
-        if (m_activeTrack == -1) {
-            setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
-        }
-    }
 }
 
 void TimelineController::showConfig(int page, int tab)

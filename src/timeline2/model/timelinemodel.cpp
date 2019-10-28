@@ -2123,6 +2123,10 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     if (position < 0 || position > (int)m_allTracks.size()) {
         return false;
     }
+    int previousId = -1;
+    if (position < (int)m_allTracks.size()) {
+        previousId = getTrackIndexFromPosition(position);
+    }
     int trackId = TimelineModel::getNextId();
     id = trackId;
     Fun local_undo = deregisterTrack_lambda(trackId, true);
@@ -2130,11 +2134,24 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     if (updateView) {
         _resetView();
     }
+    // Adjust compositions that were affecting track at previous pos
+    Fun local_update = [previousId, position, this]() {
+        if (previousId > -1) {
+            for (auto &compo : m_allCompositions) {
+                if (compo.second->getATrack() == position && !compo.second->getForcedTrack() > -1) {
+                    compo.second->setATrack(position + 1, previousId);
+                }
+            }
+        }
+        return true;
+    };
+    local_update();
     auto track = getTrackById(trackId);
-    Fun local_redo = [track, position, updateView, this]() {
+    Fun local_redo = [track, position, updateView, local_update, this]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
         registerTrack(track, position, true);
+        local_update();
         if (updateView) {
             _resetView();
         }
@@ -2259,6 +2276,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
 {
     return [this, id, updateView]() {
         // qDebug() << "DEREGISTER TRACK" << id;
+        emit checkTrackDeletion(id);
         auto it = m_iteratorTable[id];                        // iterator to the element
         int index = getTrackPosition(id);                     // compute index in list
         m_tractor->remove_track(static_cast<int>(index + 1)); // melt operation, add 1 to account for black background track
