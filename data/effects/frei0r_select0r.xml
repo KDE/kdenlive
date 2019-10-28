@@ -1,8 +1,8 @@
 <!DOCTYPE kpartgui>
 <group>
     <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r">
-            <name>Chroma-Key</name>
-            <description>Color based alpha selection</description>
+            <name>Chroma Key: Advanced (Color Selection)</name>
+		    <description>Chroma Key with more advanced options (e.g. different color models). Use if basic chroma key is not working effectively.</description>
             <author>Marko Cebokli</author>
         
             <parameter type="color" name="Color to select" default="0x00ff00ff">
@@ -14,25 +14,25 @@
             </parameter>    
         
             <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Delta R / A / Hue</name>
+                    <name>Red / Hue Delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Delta G / B / Chroma</name>
+                    <name>Green / Chroma Delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Delta B / I / I</name>
+                    <name>Blue / Intensity Delta</name>
             </parameter>
         
             <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
                     <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
-                    <name>Selection subspace</name>
+                    <name>Color Model</name>
             </parameter>
         
             <parameter type="list" name="Subspace shape" default="0.5" paramlist="0.0;0.5;1.0">
                     <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
-                    <name>Subspace shape</name>
+                    <name>Shape</name>
             </parameter>
         
             <parameter type="list" name="Edge mode" default="0.0" paramlist="0.0;0.35;0.60;1.0">
@@ -48,8 +48,8 @@
 
 
     <effect LC_NUMERIC="C" tag="frei0r.select0r" id="frei0r.select0r" version="0.4">
-            <name>Chroma-Key</name>
-            <description>Color based alpha selection</description>
+            <name>Chroma Key: Advanced (Color Selection)</name>
+		    <description>Chroma Key with more advanced options (e.g. different color models). Use if basic chroma key is not working effectively.</description>
             <author>Marko Cebokli</author>
         
             <parameter type="color" name="Color to select" default="0x00ff00ff">
@@ -62,12 +62,12 @@
 
             <parameter type="list" name="Selection subspace" default="0.0" paramlist="0.0;0.5;1.0">
                     <paramlistdisplay>RGB,ABI,HCI</paramlistdisplay>
-                    <name>Selection subspace</name>
+                    <name>Color Model</name>
             </parameter>
         
             <parameter type="list" name="Subspace shape" default="0.5" paramlist="0.0;0.5;1.0">
                     <paramlistdisplay>Box,Ellipsoid,Diamond</paramlistdisplay>
-                    <name>Subspace shape</name>
+                    <name>Shape</name>
             </parameter>
         
             <parameter type="list" name="Edge mode" default="0.9" paramlist="0.0;0.35;0.60;0.7;0.9">
@@ -76,19 +76,19 @@
             </parameter>
         
             <parameter type="animated" name="Delta R / A / Hue" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Delta R / A / Hue</name>
+                    <name>Red / Hue Delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta G / B / Chroma" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Delta G / B / Chroma</name>
+                    <name>Green / Chroma Delta</name>
             </parameter>
         
             <parameter type="animated" name="Delta B / I / I" default="0.2" min="0" max="1000" factor="1000">
-                    <name>Delta B / I / I</name>
+                    <name>Blue / Intensity Delta</name>
             </parameter>
         
             <parameter type="animated" name="Slope" default="0" min="0" max="1000" factor="1000">
-                    <name>Slope</name>
+                    <name>Soften</name>
             </parameter>
         
             <parameter type="list" name="Operation" default="0.5" paramlist="0.0;0.3;0.5;0.7;1.0">
