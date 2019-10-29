@@ -65,7 +65,7 @@ void MyQGraphicsEffect::draw(QPainter *painter)
 
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     : QGraphicsTextItem(txt, parent)
-    , m_alignment(Qt::AlignLeft)
+    , m_alignment(qApp->isLeftToRight() ? Qt::AlignRight : Qt::AlignLeft)
 {
     setCacheMode(QGraphicsItem::ItemCoordinateCache);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);

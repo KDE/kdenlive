@@ -265,7 +265,11 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     buttonAlignRight->setToolTip(i18n("Align right"));
     buttonAlignLeft->setToolTip(i18n("Align left"));
     buttonAlignCenter->setToolTip(i18n("Align center"));
-    buttonAlignLeft->setChecked(true);
+    if (qApp->isLeftToRight()) {
+        buttonAlignRight->setChecked(true);
+    } else {
+        buttonAlignLeft->setChecked(true);
+    }
 
     m_unicodeAction = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-insert-unicode")), QString(), this);
     m_unicodeAction->setShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_U);
@@ -1663,7 +1667,7 @@ void TitleWidget::slotUpdateText()
                 item->setAlignment(Qt::AlignLeft);
             }
         } else {
-            item->setAlignment(Qt::AlignLeft);
+            item->setAlignment(qApp->isLeftToRight() ? Qt::AlignRight : Qt::AlignLeft);
         }
 
         // Set font properties
