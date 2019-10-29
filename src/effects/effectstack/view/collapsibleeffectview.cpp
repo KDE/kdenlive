@@ -210,10 +210,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    if (m_model->isCollapsed()) {
-        widgetFrame->setFixedHeight(0);
-        setFixedHeight(widgetFrame->height() + frame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
-    }
+    QMetaObject::invokeMethod(this, "slotSwitch", Qt::QueuedConnection, Q_ARG(bool, false));
 }
 
 CollapsibleEffectView::~CollapsibleEffectView()

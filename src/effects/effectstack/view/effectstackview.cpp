@@ -293,6 +293,9 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: " << height;
     //QMutexLocker lock(&m_mutex);
+    if (!m_model) {
+        return;
+    }
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     if (del) {
