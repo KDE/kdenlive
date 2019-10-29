@@ -73,6 +73,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     }
 
     QList <int> videoTracksIndexes;
+    QList <int> lockedTracksIndexes;
     // Black track index
     videoTracksIndexes << 0;
     for (int i = 0; i < tractor.count() && ok; i++) {
@@ -94,15 +95,14 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                 videoTracksIndexes << i;
             }
             ok = timeline->requestTrackInsertion(-1, tid, QString(), audioTrack, undo, redo, false);
-            int lockState = track->get_int("kdenlive:locked_track");
+            if (track->get_int("kdenlive:locked_track") > 0) {
+                lockedTracksIndexes << tid;
+            }
             Mlt::Tractor local_tractor(*track);
             ok = ok && constructTrackFromMelt(timeline, tid, local_tractor, binIdCorresp, undo, redo, audioTrack, progressDialog);
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), track->get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
-            if (lockState > 0) {
-                timeline->setTrackLockedState(tid, true);
-            }
             break;
         }
         case playlist_type: {
@@ -120,14 +120,14 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             if (muteState > 0 && (!audioTrack || (audioTrack && muteState != 1))) {
                 timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
             }
-            int lockState = local_playlist.get_int("kdenlive:locked_track");
+
             ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo, audioTrack, progressDialog);
+            if (local_playlist.get_int("kdenlive:locked_track") > 0) {
+                lockedTracksIndexes << tid;
+            }
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:thumbs_format"), local_playlist.get("kdenlive:thumbs_format"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), track->get("kdenlive:audio_rec"));
             timeline->setTrackProperty(tid, QStringLiteral("kdenlive:timeline_active"), track->get("kdenlive:timeline_active"));
-            if (lockState > 0) {
-                timeline->setTrackLockedState(tid, true);
-            }
             break;
         }
         default:
@@ -189,7 +189,11 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     // build internal track compositing
     timeline->buildTrackCompositing();
-    //timeline->updateDuration();
+
+    // load locked state as last step
+    for (int tid : lockedTracksIndexes) {
+        timeline->setTrackLockedState(tid, true);
+    }
 
     if (!ok) {
         // TODO log error
