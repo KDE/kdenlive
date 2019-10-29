@@ -210,7 +210,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    QMetaObject::invokeMethod(this, "slotSwitch", Qt::QueuedConnection, Q_ARG(bool, false));
+    QMetaObject::invokeMethod(this, "slotSwitch", Qt::QueuedConnection, Q_ARG(bool, m_model->isCollapsed()));
 }
 
 CollapsibleEffectView::~CollapsibleEffectView()
