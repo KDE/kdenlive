@@ -34,10 +34,10 @@
 
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
+#include <KIO/DesktopExecParser>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <KOpenWithDialog>
-#include <KRun>
 #include <KService>
 #include <QAction>
 #include <QDir>
@@ -725,7 +725,7 @@ void KdenliveSettingsDialog::slotEditAudioApplication()
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default audio editor"), m_configEnv.kcfg_defaultaudioapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         service = dlg->service();
-        m_configEnv.kcfg_defaultaudioapp->setText(KRun::binaryName(service->exec(), false));
+        m_configEnv.kcfg_defaultaudioapp->setText(KIO::DesktopExecParser::executablePath(service->exec()));
     }
 
     delete dlg;
@@ -736,7 +736,7 @@ void KdenliveSettingsDialog::slotEditImageApplication()
     QPointer<KOpenWithDialog> dlg = new KOpenWithDialog(QList<QUrl>(), i18n("Select default image editor"), m_configEnv.kcfg_defaultimageapp->text(), this);
     if (dlg->exec() == QDialog::Accepted) {
         KService::Ptr service = dlg->service();
-        m_configEnv.kcfg_defaultimageapp->setText(KRun::binaryName(service->exec(), false));
+        m_configEnv.kcfg_defaultimageapp->setText(KIO::DesktopExecParser::executablePath(service->exec()));
     }
     delete dlg;
 }
