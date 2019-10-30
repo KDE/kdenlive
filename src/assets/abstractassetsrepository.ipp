@@ -274,7 +274,7 @@ template <typename AssetType> QVector<QPair<QString, QString>> AbstractAssetsRep
     QVector<QPair<QString, QString>> res;
     res.reserve((int)m_assets.size());
     for (const auto &asset : m_assets) {
-        if (!KdenliveSettings::gpu_accel() && asset.first.contains(QLatin1String("movit."))) {
+        if (((int) (asset.second.type) == -1) || (!KdenliveSettings::gpu_accel() && asset.first.contains(QLatin1String("movit.")))) {
             // Hide GPU effects/compositions when movit disabled
             continue;
         }
