@@ -395,12 +395,12 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
                     }
                 }
             } else if (position >= bottom.first) {
+                if (adjustOffset) {
+                    position -= offset;
+                }
                 int test_duration = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
                 if (test_duration > 0) {
                     duration = qMin(test_duration, clip_duration);
-                    if (adjustOffset) {
-                        position -= offset;
-                    }
                 }
             }
         } else if (!adjustOffset) {
