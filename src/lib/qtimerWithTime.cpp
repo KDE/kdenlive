@@ -29,3 +29,8 @@ qint64 QTimerWithTime::elapsed() const
 {
     return m_time.elapsed();
 }
+
+bool QTimerWithTime::isValid() const
+{
+    return m_time.isValid();
+}

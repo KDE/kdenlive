@@ -149,10 +149,9 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
             int delay = 800 * static_cast<int>(m_currentMessage.type == ErrorMessage || m_currentMessage.type == MltError);
             m_queueTimer.start(delay);
         } else {
-
             // Message with normal priority
             m_messageQueue.push_back(item);
-            if (m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
+            if (!m_queueTimer.isValid() || m_queueTimer.elapsed() >= m_currentMessage.timeoutMillis) {
                 m_queueTimer.start(0);
             }
         }

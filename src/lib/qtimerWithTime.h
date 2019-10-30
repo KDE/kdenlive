@@ -29,6 +29,7 @@ class QTimerWithTime : public QTimer
 public:
     virtual void start(int msec);
     qint64 elapsed() const;
+    bool isValid() const;
 
 private:
     QElapsedTimer m_time;
