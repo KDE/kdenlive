@@ -3563,6 +3563,13 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     int forcedTrack = compo->getForcedTrack();
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    // Clear selection
+    requestClearSelection(true);
+    if (m_groups->isInGroup(cid)) {
+        pCore->displayMessage(i18n("Cannot operate on grouped composition, please ungroup"), ErrorMessage);
+        return;
+    }
+
     bool res = requestCompositionDeletion(cid, undo, redo);
     int newId;
     res = res && requestCompositionInsertion(compoId, currentTrack, a_track, currentPos, duration, nullptr, newId, undo, redo);
