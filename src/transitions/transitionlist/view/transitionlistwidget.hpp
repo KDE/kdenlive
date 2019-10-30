@@ -78,6 +78,8 @@ public:
 
     Q_INVOKABLE void setFilterName(const QString &pattern) { q->setFilterName(pattern); }
     Q_INVOKABLE QString getMimeType(const QString &assetId) const { return q->getMimeType(assetId); }
+    Q_INVOKABLE bool showSearchBar(bool isEffectList) const { return q->showSearchBar(isEffectList); }
+    Q_INVOKABLE void setShowSearchBar(bool isEffectList, bool show) { q->setShowSearchBar(isEffectList, show); }
     Q_INVOKABLE void downloadNewLumas() { q->downloadNewLumas(); }
     bool showDescription() const { return KdenliveSettings::showeffectinfo(); }
 

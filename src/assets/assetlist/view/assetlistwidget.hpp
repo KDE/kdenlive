@@ -68,6 +68,10 @@ public:
 
     /* @brief Rebuild the view by resetting the source. Is there a better way? */
     void reset();
+    
+    /* @brief Show search bar on opening */
+    bool showSearchBar(bool isEffectList) const;
+    void setShowSearchBar(bool isEffectList, bool show);
 
 protected:
     void setup();

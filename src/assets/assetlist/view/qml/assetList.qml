@@ -63,8 +63,10 @@ Rectangle {
                 id: searchList
                 iconName: "edit-find"
                 checkable: true
+                checked: assetlist.showSearchBar(isEffectList)
                 tooltip: isEffectList ? i18n("Find effect") : i18n("Find composition")
                 onCheckedChanged: {
+                    assetlist.setShowSearchBar(isEffectList, searchList.checked)
                     searchInput.visible = searchList.checked
                     searchInput.focus = searchList.checked
                     if (!searchList.checked) {
@@ -169,7 +171,7 @@ Rectangle {
                 opacity: 0
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { searchInput.text = ''; searchInput.focus = true; searchList.checked = false; }
+                    onClicked: { searchInput.text = ''; searchInput.focus = true; /*searchList.checked = false;*/ }
                 }
             }
             states: State {
@@ -217,7 +219,7 @@ Rectangle {
             Keys.onReturnPressed: {
                 if (sel.hasSelection) {
                     assetlist.activate(sel.currentIndex)
-                    searchList.checked = false
+                    treeView.focus = true
                 }
             }
         }
