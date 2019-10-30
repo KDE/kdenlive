@@ -512,7 +512,7 @@ void MainWindow::init()
     });
 #else
     if (openGLMenu) {
-        delete openGLMenu;
+        openGLMenu->menuAction()->setVisible(false);;
     }
 #endif
     // Connect monitor overlay info menu.
