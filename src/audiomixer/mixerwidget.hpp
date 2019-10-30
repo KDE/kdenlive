@@ -65,7 +65,7 @@ public:
      * */
     void unSolo();
     /** @brief Connect the mixer widgets to the correspondant filters */
-    void connectMixer(bool connect);
+    void connectMixer(bool doConnect);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

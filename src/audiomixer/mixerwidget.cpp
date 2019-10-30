@@ -69,12 +69,12 @@ static inline double IEC_Scale(double dB)
 
 static inline int fromDB(double level)
 {
-    int value = 80;
+    int value = 60;
     if (level > 0.) {
         // increase volume
-        value = 100 - ((pow(10, 1. - level/24) - 1) / .47);
+        value = 100 - ((pow(10, 1. - level/24) - 1) / .225);
     } else if (level < 0.) {
-        value = (10 - pow(10, 1. - level/-50)) / -0.11395 + 79;
+        value = (10 - pow(10, 1. - level/-50)) / -0.11395 + 59;
     }
     return value;
 }
@@ -143,7 +143,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);
     m_volumeSlider->setRange(0, 100);
-    m_volumeSlider->setValue(80);
+    m_volumeSlider->setValue(60);
     m_volumeSlider->setToolTip(i18n("Volume"));
     m_volumeSpin = new QDoubleSpinBox(this);
     m_volumeSpin->setRange(-50, 24);
@@ -278,15 +278,15 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             //TODO update capture volume
         } else if (m_levelFilter != nullptr) {
             double dbValue = 0;
-            if (value > 80) {
+            if (value > 60) {
                 // increase volume
-                dbValue = 24 * (1 - log10((100 - value)*0.47 + 1));
-            } else if (value < 80) {
-                dbValue = -50 * (1 - log10(10 - (value - 79)*(-0.11395)));
+                dbValue = 24 * (1 - log10((100 - value)*0.225 + 1));
+            } else if (value < 60) {
+                dbValue = -50 * (1 - log10(10 - (value - 59)*(-0.11395)));
             }
             m_volumeSpin->setValue(dbValue);
             m_levelFilter->set("level", dbValue);
-            m_levelFilter->set("disable", value == 80 ? 1 : 0);
+            m_levelFilter->set("disable", value == 60 ? 1 : 0);
             m_levels.clear();
             m_manager->purgeCache();
         }
@@ -337,7 +337,7 @@ void MixerWidget::mousePressEvent(QMouseEvent *event)
         if (child == m_balanceDial) {
             m_balanceSpin->setValue(0);
         } else if (child == m_volumeSlider) {
-            m_volumeSlider->setValue(80);
+            m_volumeSlider->setValue(60);
         }
     } else {
         QWidget::mousePressEvent(event);
@@ -450,9 +450,9 @@ void MixerWidget::setRecordState(bool recording)
     updateLabel();
 }
 
-void MixerWidget::connectMixer(bool connect)
+void MixerWidget::connectMixer(bool doConnect)
 {
-    if (connect) {
+    if (doConnect) {
         if (m_listener == nullptr) {
             m_listener = m_monitorFilter->listen("property-changed", this, (mlt_listener)property_changed);
         }
