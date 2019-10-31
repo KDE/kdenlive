@@ -430,6 +430,21 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
         bool ok3;
         Keyframe toDel = getNextKeyframe(new_out, &ok3);
         if (ok && !ok2) {
+            // Check if we have only 2 keyframes (in/out), in which case we move the out keyframe to new position
+            bool ok4;
+            kf = getPrevKeyframe(old_out, &ok4);
+            if (ok4) {
+                GenTime current_in(oldIn, pCore->getCurrentFps());
+                qDebug()<<" = = = = = = = \n\nGOT 2 KF SITUATION: "<<current_in.frames(25)<<" = "<<kf.first.frames(25);
+                if (kf.first == current_in) {
+                    // We have a 2 keyframes situation, move last one to new out
+                    for (const auto &param : m_parameters) {
+                        param.second->moveKeyframe(old_out, new_out, QVariant(), undo, redo);
+                    }
+                    return;
+                }
+            }
+            
             positions << old_out;
         }
         if (toDel.first == GenTime()) {
