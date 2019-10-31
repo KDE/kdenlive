@@ -171,7 +171,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
 
     auto *monitorEventEater = new QuickMonitorEventEater(this);
-    m_glWidget->installEventFilter(monitorEventEater);
+    m_videoWidget->installEventFilter(monitorEventEater);
     connect(monitorEventEater, &QuickMonitorEventEater::doKeyPressEvent, this, &Monitor::doKeyPressEvent);
 
     glayout->addWidget(m_videoWidget, 0, 0);
@@ -778,6 +778,7 @@ void Monitor::setZoom()
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?
+    pause();
     if (!m_videoWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
@@ -802,15 +803,6 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         auto *lay = (QGridLayout *)m_glWidget->layout();
         lay->addWidget(m_videoWidget, 0, 0);
     }
-}
-
-void Monitor::reparent()
-{
-    m_glWidget->setParent(nullptr);
-    m_glWidget->showMinimized();
-    m_glWidget->showNormal();
-    auto *lay = (QVBoxLayout *)layout();
-    lay->insertWidget(0, m_glWidget, 10);
 }
 
 // virtual
@@ -963,7 +955,7 @@ void Monitor::keyPressEvent(QKeyEvent *event)
         event->accept();
         return;
     }
-    if (m_glWidget->isFullScreen()) {
+    if (m_videoWidget->isFullScreen()) {
         event->ignore();
         emit passKeyPress(event);
         return;

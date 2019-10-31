@@ -128,7 +128,6 @@ public:
     void switchDropFrames(bool drop);
     void updateMonitorGamma();
     void mute(bool, bool updateIconOnly = false) override;
-    void reparent();
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();
     void refreshIcons();
