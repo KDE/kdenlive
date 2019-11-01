@@ -203,6 +203,7 @@ Rectangle {
                 if (sel.hasSelection && (event.key === Qt.Key_Return || event.key === Qt.Key_Enter )) {
                     assetlist.activate(sel.currentIndex)
                     treeView.focus = true
+                    event.accepted = true
                     searchInput.text = '';
                 }
             }
