@@ -64,12 +64,12 @@ int main(int argc, char *argv[])
     Logger::init();
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
-    QApplication app(argc, argv);
-    KSharedConfigPtr config = KSharedConfig::openConfig();
+
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
     QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
 #elif defined(Q_OS_WIN)
-    KConfigGroup grp1(config, "misc");
+    KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
+    KConfigGroup grp1(configWin, "misc");
     if (grp1.exists()) {
         int glMode = grp1.readEntry("opengl_backend", 0);
         if (glMode > 0) {
@@ -77,11 +77,11 @@ int main(int argc, char *argv[])
         }
     }
 #endif
+    QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("kdenlive"));
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
-
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
@@ -105,6 +105,7 @@ int main(int argc, char *argv[])
         }
     }
 #endif
+    KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup grp(config, "unmanaged");
     if (!grp.exists()) {
         QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
