@@ -49,8 +49,12 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
     slotRefresh();
 
     // emit the signal of the base class when appropriate
-    connect(this->urlwidget, &KUrlRequester::urlSelected, [this](QUrl url) { emit valueChanged(m_index, url.toLocalFile(), true); });
-    connect(this->urlwidget, QOverload<>::of(&KUrlRequester::returnPressed), [this]() { emit valueChanged(m_index, this->urlwidget->url().toLocalFile(), true); });
+    connect(this->urlwidget, &KUrlRequester::textChanged, [this]() {
+        QFileInfo info(urlwidget->url().toLocalFile());
+        if (info.exists() && info.isFile()) {
+            emit valueChanged(m_index, this->urlwidget->url().toLocalFile(), true);
+        }
+    });
 }
 
 void UrlParamWidget::slotShowComment(bool show)
