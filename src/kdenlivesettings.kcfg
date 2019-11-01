@@ -123,17 +123,16 @@
       <label>Default OpenGL backend.</label>
       <default>0</default>
     </entry>
-    
+
     <entry name="showEffectSearchBar" type="Bool">
       <label>Show effect search bar by default.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="showCompoSearchBar" type="Bool">
       <label>Show composition search bar by default.</label>
       <default>true</default>
     </entry>
-    
 
   </group>
 

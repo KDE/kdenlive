@@ -2485,6 +2485,7 @@ void MainWindow::slotInsertClipInsert()
     const QString &binId = m_clipMonitor->activeClipId();
     if (binId.isEmpty()) {
         // No clip in monitor
+        pCore->displayMessage(i18n("No clip selected in project bin"), InformationMessage);
         return;
     }
     int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);

@@ -353,6 +353,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
     }
     if (affectedTracks.isEmpty()) {
+        pCore->displayMessage(i18n("Please activate a track by clicking on a track's label"), InformationMessage);
         return false;
     }
     result = breakAffectedGroups(timeline, affectedTracks, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);

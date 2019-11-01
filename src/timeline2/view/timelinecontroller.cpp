@@ -1677,6 +1677,9 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
         }
         ++it;
     }
+    if (tracks.isEmpty()) {
+        pCore->displayMessage(i18n("Please activate a track for this operation by clicking on its label"), InformationMessage);
+    }
     if (m_zone == QPoint()) {
         // Use current timeline position and clip zone length
         zone.setY(timelinePosition() + zone.y() - zone.x());
@@ -1740,6 +1743,7 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     if (aTrack > -1) {
         target_tracks << aTrack;
     }
+
     return TimelineFunctions::insertZone(m_model, target_tracks, binId, position, QPoint(in, out + 1), m_model->m_editMode == TimelineMode::OverwriteEdit, false);
 }
 
@@ -1781,6 +1785,10 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     }
     if (aTrack > -1) {
         target_tracks << aTrack;
+    }
+    if (target_tracks.isEmpty()) {
+        pCore->displayMessage(i18n("Please select a target track by clicking on a track's target zone"), InformationMessage);
+        return -1;
     }
     return TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() - sourceZone.x())
                                                                                                             : -1;
