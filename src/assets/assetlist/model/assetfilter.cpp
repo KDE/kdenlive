@@ -51,9 +51,6 @@ bool AssetFilter::lessThan(const QModelIndex &left,
 {
     QString leftData = sourceModel()->data(left).toString();
     QString rightData = sourceModel()->data(right).toString();
-    if (rightData == i18n("Favorites")) {
-        return false;
-    }
     return QString::localeAwareCompare(leftData, rightData) < 0;
 }
 

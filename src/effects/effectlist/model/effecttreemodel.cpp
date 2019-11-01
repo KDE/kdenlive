@@ -56,11 +56,6 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
         doc.setContent(&file, false);
         file.close();
         QDomNodeList groups = doc.documentElement().elementsByTagName(QStringLiteral("group"));
-        // Create favorite group
-        auto groupFav = self->rootItem->appendChild(QList<QVariant>{i18n("Favorites"), QStringLiteral("root"), -1});
-        
-        effectCategory[QStringLiteral("kdenlive:favorites")] = groupFav;
-
         auto groupLegacy = self->rootItem->appendChild(QList<QVariant>{i18n("Legacy"), QStringLiteral("root")});
 
         for (int i = 0; i < groups.count(); i++) {
@@ -159,19 +154,10 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
         qDebug()<<"Trying to reparent unknown asset: "<<id;
         return;
     }
-    int max = rootItem->childCount();
     QStringList favs = KdenliveSettings::favorite_effects();
     if (!favorite) {
-        int ix = item->dataColumn(4).toInt();
-        item->changeParent(rootItem->child(ix));
         favs.removeAll(id);
     } else {
-        for (int i = 0; i < max; i++) {
-            if (rootItem->child(i)->dataColumn(2).toInt() == -1) {
-                item->changeParent(rootItem->child(i));
-                break;
-            }
-        }
         favs << id;
     }
     KdenliveSettings::setFavorite_effects(favs);

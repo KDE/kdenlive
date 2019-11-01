@@ -70,9 +70,7 @@ void EffectListWidget::setFilterType(const QString &type)
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Video);
     } else if (type == "audio") {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Audio);
-    } else if (type == "customAudio") {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::CustomAudio);
-    } else if (type == "customVideo") {
+    } else if (type == "custom") {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Custom);
     } else if (type == "favorites") {
         static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Favorites);

@@ -59,6 +59,9 @@ bool EffectFilter::filterType(const std::shared_ptr<TreeItem> &item) const
     if (m_type_value == EffectType::Preferred) {
         return item->dataColumn(AssetTreeModel::preferredCol).toBool();
     }
+    if (m_type_value == EffectType::Custom) {
+        return itemType == m_type_value || itemType == EffectType::CustomAudio;
+    }
     return itemType == m_type_value;
 }
 

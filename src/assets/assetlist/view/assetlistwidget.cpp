@@ -76,7 +76,6 @@ bool AssetListWidget::isFavorite(const QModelIndex &index) const
 void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite, bool isEffect)
 {
     m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect);
-    m_proxyModel->sort(0);
 }
 
 QString AssetListWidget::getDescription(const QModelIndex &index) const
@@ -109,16 +108,3 @@ void AssetListWidget::activate(const QModelIndex &ix)
     emit activateAsset(getMimeData(assetId));
 }
 
-bool AssetListWidget::showSearchBar(bool isEffectList) const
-{
-    return isEffectList ? KdenliveSettings::showEffectSearchBar() : KdenliveSettings::showCompoSearchBar();
-}
-
-void AssetListWidget::setShowSearchBar(bool isEffectList, bool show)
-{
-    if (isEffectList) {
-        KdenliveSettings::setShowEffectSearchBar(show);
-    } else {
-        KdenliveSettings::setShowCompoSearchBar(show);
-    }
-}

@@ -60,22 +60,6 @@ Rectangle {
             spacing: 4
             ExclusiveGroup { id: filterGroup}
             ToolButton {
-                id: searchList
-                iconName: "edit-find"
-                checkable: true
-                checked: assetlist.showSearchBar(isEffectList)
-                tooltip: isEffectList ? i18n("Find effect") : i18n("Find composition")
-                onCheckedChanged: {
-                    assetlist.setShowSearchBar(isEffectList, searchList.checked)
-                    searchInput.visible = searchList.checked
-                    searchInput.focus = searchList.checked
-                    if (!searchList.checked) {
-                        searchInput.text = ''
-                        treeView.focus = true
-                    }
-                }
-            }
-            ToolButton {
                 id: showAll
                 iconName: "show-all-effects"
                 checkable: true
@@ -161,7 +145,6 @@ Rectangle {
         TextField {
             id: searchInput
             Layout.fillWidth:true
-            visible: false
             Image {
                 id: clear
                 source: 'image://icon/edit-clear'
@@ -171,7 +154,7 @@ Rectangle {
                 opacity: 0
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { searchInput.text = ''; searchInput.focus = true; /*searchList.checked = false;*/ }
+                    onClicked: { searchInput.text = ''; searchInput.focus = true; }
                 }
             }
             states: State {
@@ -216,10 +199,11 @@ Rectangle {
                 treeView.expand(sel.currentIndex.parent)
                 treeView.__listView.positionViewAtIndex(rowPosition(assetListModel, sel.currentIndex), ListView.Visible)
             }
-            Keys.onReturnPressed: {
-                if (sel.hasSelection) {
+            Keys.onPressed: {
+                if (sel.hasSelection && (event.key === Qt.Key_Return || event.key === Qt.Key_Enter )) {
                     assetlist.activate(sel.currentIndex)
                     treeView.focus = true
+                    searchInput.text = '';
                 }
             }
         }
