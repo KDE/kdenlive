@@ -65,10 +65,14 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("view-refresh")), i18n("Reset Effect"), this, SLOT(resetValues()));
         // Save preset
         m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Save preset"), this, SLOT(slotSavePreset()));
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, SLOT(slotUpdatePreset()));
-        m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, SLOT(slotDeletePreset()));
+        QAction *updatePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save-as-template")), i18n("Update current preset"), this, SLOT(slotUpdatePreset()));
+        QAction *deletePreset = m_presetMenu->addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18n("Delete preset"), this, SLOT(slotDeletePreset()));
         m_presetMenu->addSeparator();
         QStringList presets = m_model->getPresetList(presetFile);
+        if (presetName.isEmpty() || presets.isEmpty()) {
+            updatePreset->setEnabled(false);
+            deletePreset->setEnabled(false);
+        }
         for (const QString &pName : presets) {
             QAction *ac = m_presetMenu->addAction(pName, this, SLOT(slotLoadPreset()));
             m_presetGroup->addAction(ac);
@@ -78,6 +82,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 ac->setChecked(true);
             }
         }
+        
     });
     emit updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
@@ -370,6 +375,7 @@ void AssetParameterView::slotLoadPreset()
     const QVector<QPair<QString, QVariant>> params = m_model->loadPreset(presetFile, presetName);
     auto *command = new AssetUpdateCommand(m_model, params);
     pCore->pushUndo(command);
+    emit updatePresets(presetName);
 }
 
 QMenu *AssetParameterView::presetMenu()
