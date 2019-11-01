@@ -94,26 +94,10 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType type, QVariant value, 
 
 bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
 {
-    if (auto ptr = m_model.lock()) {
-        Q_ASSERT(m_index.isValid());
-        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
-        double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
-        double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
-        int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
-        double realValue;
-        if (logRole == -1) {
-            // Logarythmic scale for lower than norm values
-            if (normalizedValue >= 0.5) {
-                realValue = norm + (2 * (normalizedValue - 0.5) * (max / factor - norm));
-            } else {
-                realValue = norm - pow(2 * (0.5 - normalizedValue), 10.0 / 6) * (norm - min / factor);
-            }
-        } else {
-            realValue = (normalizedValue * (max - min) + min) / factor;
-        }
+    QVariant result = getNormalizedValue(normalizedValue);
+    if (result.isValid()) {
         // TODO: Use default configurable kf type
-        return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, realValue);
+        return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, result);
     }
     return false;
 }
@@ -188,24 +172,8 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
         }
         double realValue = newVal.toDouble();
         // Calculate real value from normalized
-        if (auto ptr = m_model.lock()) {
-            double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-            double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
-            double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
-            double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
-            int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
-            if (logRole == -1) {
-                // Logarythmic scale for lower than norm values
-                if (realValue >= 0.5) {
-                    realValue = norm + (2 * (realValue - 0.5) * (max / factor - norm));
-                } else {
-                    realValue = norm - pow(2 * (0.5 - realValue), 10.0 / 6) * (norm - min / factor);
-                }
-            } else {
-                realValue = (realValue * (max - min) + min) / factor;
-            }
-        }
-        return updateKeyframe(pos, realValue);
+        QVariant result = getNormalizedValue(newVal.toDouble());
+        return updateKeyframe(pos, result);
     }
     if (oldPos != pos && hasKeyframe(pos)) {
         return false;
@@ -226,24 +194,9 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
             }
             res = addKeyframe(pos, oldType, newVal, true, local_undo, local_redo);
         } else if (newVal.isValid()) {
-            if (auto ptr = m_model.lock()) {
-                double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-                double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
-                double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
-                double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
-                int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
-                double realValue = newVal.toDouble();
-                if (logRole == -1) {
-                    // Logarythmic scale for lower than norm values
-                    if (newVal >= 0.5) {
-                        realValue = norm + (2 * (realValue - 0.5) * (max / factor - norm));
-                    } else {
-                        realValue = norm - pow(2 * (0.5 - realValue), 10.0 / 6) * (norm - min / factor);
-                    }
-                } else {
-                    realValue = (realValue * (max - min) + min) / factor;
-                }
-                res = addKeyframe(pos, oldType, realValue, true, local_undo, local_redo);
+            QVariant result = getNormalizedValue(newVal.toDouble());
+            if (result.isValid()) {
+                res = addKeyframe(pos, oldType, result, true, local_undo, local_redo);
             }
         } else {
             res = addKeyframe(pos, oldType, oldValue, true, local_undo, local_redo);

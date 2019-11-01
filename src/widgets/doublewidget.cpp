@@ -32,7 +32,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    m_dragVal = new DragValue(name, defaultValue, decimals, min, max, id, suffix, true, this);
+    m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, true, this);
     layout->addWidget(m_dragVal);
     setMinimumHeight(m_dragVal->height());
 
