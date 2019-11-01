@@ -159,7 +159,6 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
 
 void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
-    m_splitButton->setActive(false);
     if (effectsModel == nullptr) {
         // Item is not ready
         m_splitButton->setVisible(false);
@@ -170,6 +169,11 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     ObjectId id = effectsModel->getOwnerId();
     if (m_effectStackWidget->stackOwner() == id) {
         // already on this effect stack, do nothing
+        // Disable split effect in case clip was moved
+        if (id.first == ObjectType::TimelineClip && m_splitButton->isActive()) {
+            m_splitButton->setActive(false);
+            processSplitEffect(false);
+        }
         return;
     }
     clear();
@@ -236,6 +240,10 @@ void AssetPanel::clearAssetPanel(int itemId)
 
 void AssetPanel::clear()
 {
+    if (m_splitButton->isActive()) {
+        m_splitButton->setActive(false);
+        processSplitEffect(false);
+    }
     m_switchAction->setVisible(false);
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
