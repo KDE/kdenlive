@@ -75,6 +75,7 @@ protected:
     void slotUpdatePointH2(double /*value*/, bool final);
     void slotSetHandlesLinked(bool linked);
     void slotShowAllHandles(bool show);
+    void resizeEvent(QResizeEvent *event) override;
 
 public slots:
     /** @brief Toggle the comments on or off

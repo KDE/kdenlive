@@ -426,3 +426,9 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setMaxPo
 {
     m_edit->setMaxPoints(max);
 }
+
+template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::resizeEvent(QResizeEvent *e)
+{
+    QWidget::resizeEvent(e);
+    emit updateHeight();
+}
