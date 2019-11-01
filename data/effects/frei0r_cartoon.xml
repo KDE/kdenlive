@@ -6,7 +6,7 @@
 	<parameter type="animated" name="triplevel" max="100000" min="0" default="0.9999" factor="100000">
 		<name>Level of trip</name>
 	</parameter>
-	<parameter type="animated" name="diffspace" max="256" min="0" default="0" factor="256">
+	<parameter type="animated" name="diffspace" max="256" min="0" default="0.00390625" factor="256">
 		<name>Difference space</name>
 	</parameter>
 </effect>
