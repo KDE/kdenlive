@@ -1664,7 +1664,7 @@ void Monitor::updateAudioForAnalysis()
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
     m_monitorManager->frameDisplayed(frame);
-    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration + 1)) {
+    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration)) {
         m_playAction->setActive(false);
     }
     checkDrops(m_glMonitor->droppedFrames());
@@ -2088,7 +2088,7 @@ void Monitor::slotEnd()
     if (m_id == Kdenlive::ClipMonitor) {
         m_glMonitor->seek(m_glMonitor->duration());
     } else {
-        m_glMonitor->seek(pCore->projectDuration());
+        m_glMonitor->seek(pCore->projectDuration() - 1);
     }
 }
 
