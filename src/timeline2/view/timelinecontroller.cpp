@@ -157,17 +157,6 @@ Mlt::Tractor *TimelineController::tractor()
     return m_model->tractor();
 }
 
-int TimelineController::getCurrentItem()
-{
-    // TODO: if selection is empty, return topmost clip under timeline cursor
-    auto selection = m_model->getCurrentSelection();
-    if (selection.empty()) {
-        return -1;
-    }
-    // TODO: if selection contains more than 1 clip, return topmost clip under timeline cursor in selection
-    return *(selection.begin());
-}
-
 double TimelineController::scaleFactor() const
 {
     return m_scale;
@@ -1275,12 +1264,11 @@ void TimelineController::setHeaderWidth(int width)
     KdenliveSettings::setHeaderwidth(width);
 }
 
-bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
+bool TimelineController::createSplitOverlay(int clipId, std::shared_ptr<Mlt::Filter> filter)
 {
     if (m_timelinePreview && m_timelinePreview->hasOverlayTrack()) {
         return true;
     }
-    int clipId = getCurrentItem();
     if (clipId == -1) {
         pCore->displayMessage(i18n("Select a clip to compare effect"), InformationMessage, 500);
         return false;
@@ -1303,7 +1291,7 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
     play2.append(*binProd);
     trac.set_track(play, 0);
     trac.set_track(play2, 1);
-    play2.attach(*filter);
+    play2.attach(*filter.get());
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
     Mlt::Transition t(*m_model->m_tractor->profile(), splitTransition.toUtf8().constData());
     t.set("always_active", 1);
@@ -1327,7 +1315,7 @@ bool TimelineController::createSplitOverlay(Mlt::Filter *filter)
 
 void TimelineController::removeSplitOverlay()
 {
-    if (m_timelinePreview && !m_timelinePreview->hasOverlayTrack()) {
+    if (!m_timelinePreview || !m_timelinePreview->hasOverlayTrack()) {
         return;
     }
     // disconnect
@@ -1411,6 +1399,22 @@ void TimelineController::initializePreview()
     m_disablePreview->blockSignals(true);
     m_disablePreview->setChecked(false);
     m_disablePreview->blockSignals(false);
+}
+
+bool TimelineController::hasPreviewTrack() const
+{
+    return (m_timelinePreview  && m_timelinePreview->hasOverlayTrack());
+}
+
+void TimelineController::updatePreviewConnection(bool enable)
+{
+    if (m_timelinePreview) {
+        if (enable) {
+            m_timelinePreview->reconnectTrack();
+        } else {
+            m_timelinePreview->disconnectTrack();
+        }
+    }
 }
 
 void TimelineController::disablePreview(bool disable)

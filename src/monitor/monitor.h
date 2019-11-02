@@ -188,7 +188,7 @@ private:
     QmlManager *m_qmlManager;
     std::shared_ptr<SnapModel> m_snaps;
 
-    Mlt::Filter *m_splitEffect;
+    std::shared_ptr<Mlt::Filter> m_splitEffect;
     std::shared_ptr<Mlt::Producer> m_splitProducer;
     int m_length;
     bool m_dragStarted;
@@ -352,7 +352,7 @@ signals:
     void deleteMarker(bool deleteGuide = true);
     void seekToPreviousSnap();
     void seekToNextSnap();
-    void createSplitOverlay(Mlt::Filter *);
+    void createSplitOverlay(std::shared_ptr<Mlt::Filter>);
     void removeSplitOverlay();
     void acceptRipple(bool);
     void switchTrimMode(int);

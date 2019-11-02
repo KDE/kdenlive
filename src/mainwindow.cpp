@@ -883,10 +883,14 @@ void MainWindow::slotConnectMonitors()
     connect(m_projectMonitor, &Monitor::removeSplitOverlay, this, &MainWindow::removeSplitOverlay, Qt::DirectConnection);
 }
 
-void MainWindow::createSplitOverlay(Mlt::Filter *filter)
-{
-    getMainTimeline()->controller()->createSplitOverlay(filter);
-    m_projectMonitor->activateSplit();
+void MainWindow::createSplitOverlay(std::shared_ptr<Mlt::Filter> filter)
+{    
+    if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineClip) {
+        getMainTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().second, filter);
+        m_projectMonitor->activateSplit();
+    } else {
+        pCore->displayMessage(i18n("Select a clip to compare effect"), InformationMessage);
+    }
 }
 
 void MainWindow::removeSplitOverlay()

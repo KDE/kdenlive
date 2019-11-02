@@ -442,7 +442,7 @@ private slots:
     /** @brief Update widget style */
     void slotChangeStyle(QAction *a);
     /** @brief Create temporary top track to preview an effect */
-    void createSplitOverlay(Mlt::Filter *filter);
+    void createSplitOverlay(std::shared_ptr<Mlt::Filter> filter);
     void removeSplitOverlay();
     /** @brief Create a generator's setup dialog */
     void buildGenerator(QAction *action);

@@ -672,14 +672,21 @@ void ProjectManager::slotAutoSave()
 
 QString ProjectManager::projectSceneList(const QString &outputFolder)
 {
-    // Disable multitrack view
+    // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
+    bool hasPreview = pCore->window()->getMainTimeline()->controller()->hasPreviewTrack();
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(false, false);
+    }
+    if (hasPreview) {
+        pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(false);
     }
     QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
+    }
+    if (hasPreview) {
+        pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(true);
     }
     return scene;
 }

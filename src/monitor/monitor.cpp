@@ -368,7 +368,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
 Monitor::~Monitor()
 {
-    delete m_splitEffect;
     delete m_audioMeterWidget;
     delete m_glMonitor;
     delete m_videoWidget;
@@ -1782,7 +1781,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 // Split scene is already active
                 return;
             }
-            m_splitEffect = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad");
+            m_splitEffect.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad"));
             if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
                 m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
                 m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1797,15 +1796,13 @@ void Monitor::slotSwitchCompare(bool enable)
         }
         // Delete temp track
         emit removeSplitOverlay();
-        delete m_splitEffect;
-        m_splitEffect = nullptr;
+        m_splitEffect.reset();
         loadQmlScene(MonitorSceneDefault);
         if (isActive()) {
             m_glMonitor->requestRefresh();
         } else if (slotActivateMonitor()) {
             start();
         }
-
         return;
     }
     if (m_controller == nullptr || !m_controller->hasEffects()) {
@@ -1827,9 +1824,8 @@ void Monitor::slotSwitchCompare(bool enable)
     } else if (m_splitEffect) {
         // TODO
         m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), position());
-        delete m_splitEffect;
+        m_splitEffect.reset();
         m_splitProducer.reset();
-        m_splitEffect = nullptr;
         loadQmlScene(MonitorSceneDefault);
     }
     slotActivateMonitor();
@@ -1837,7 +1833,7 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    m_splitEffect = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad");
+    m_splitEffect.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad"));
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
         m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1850,7 +1846,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
     Mlt::Transition t(pCore->getCurrentProfile()->profile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
-        delete m_splitEffect;
+        m_splitEffect.reset();
         pCore->displayMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
@@ -1874,7 +1870,7 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
     }
     trac.set_track(*original, 0);
     trac.set_track(*clone.get(), 1);
-    clone.get()->attach(*m_splitEffect);
+    clone.get()->attach(*m_splitEffect.get());
     t.set("always_active", 1);
     trac.plant_transition(t, 0, 1);
     delete original;

@@ -408,7 +408,7 @@ public:
     void focusItem(int itemId);
     /* @brief Create and display a split clip view to compare effect
      */
-    bool createSplitOverlay(Mlt::Filter *filter);
+    bool createSplitOverlay(int clipId, std::shared_ptr<Mlt::Filter> filter);
     /* @brief Delete the split clip view to compare effect
      */
     void removeSplitOverlay();
@@ -472,6 +472,9 @@ public:
     void prepareClose();
     /** @brief Check that we don't keep a deleted track id */
     void checkTrackDeletion(int selectedTrackIx);
+    /** @brief Return true if an overlay track is used */
+    bool hasPreviewTrack() const;
+    void updatePreviewConnection(bool enable);
 
 public slots:
     void resetView();
@@ -531,7 +534,6 @@ private:
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
 
-    int getCurrentItem();
     void initializePreview();
     bool darkBackground() const;
 
