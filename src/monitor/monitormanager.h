@@ -148,7 +148,7 @@ signals:
     /** @brief info is available for audio spectrum widget */
     void frameDisplayed(const SharedFrame &);
     /** @brief Triggered when the project monitor is paused (used to reset stored audiomixer data */
-    void pauseTriggered();
+    void cleanMixer();
 };
 
 #endif

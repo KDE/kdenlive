@@ -175,7 +175,7 @@ void Core::initGUI(const QUrl &Url)
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
     m_monitorManager = new MonitorManager(this);
-    connect(m_monitorManager, &MonitorManager::pauseTriggered, m_mixerWidget, &MixerManager::resetAudioValues);
+    connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::resetAudioValues);
     // Producer queue, creating MLT::Producers on request
     /*
     m_producerQueue = new ProducerQueue(m_binController);

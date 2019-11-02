@@ -212,7 +212,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
     } else if (id == Kdenlive::ProjectMonitor) {
-        connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::pauseTriggered);
+        connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
 
     if (id != Kdenlive::DvdMonitor) {
@@ -1109,6 +1109,7 @@ void Monitor::slotSeek(int pos)
 {
     slotActivateMonitor();
     m_glMonitor->seek(pos);
+    m_monitorManager->cleanMixer();
 }
 
 void Monitor::checkOverlay(int pos)
@@ -2052,6 +2053,7 @@ void Monitor::panView(QPoint diff)
 void Monitor::requestSeek(int pos)
 {
     m_glMonitor->seek(pos);
+    m_monitorManager->cleanMixer();
 }
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
