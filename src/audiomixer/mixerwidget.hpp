@@ -88,6 +88,7 @@ protected:
     QSpinBox *m_balanceSpin;
     QDial *m_balanceDial;
     QDoubleSpinBox *m_volumeSpin;
+    int m_maxLevels;
 
 private:
     std::shared_ptr<AudioLevelWidget> m_audioMeterWidget;

@@ -86,7 +86,7 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
             widget->m_levels[pos] = {IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.0")), IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.1"))};
-            if (widget->m_levels.size() > 50) {
+            if (widget->m_levels.size() > widget->m_maxLevels) {
                 widget->m_levels.erase(widget->m_levels.begin());
             }
         }
@@ -105,6 +105,7 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
+    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
 {
     buildUI(service.get(), trackTag);
 }
@@ -121,6 +122,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
+    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
 {
     buildUI(service, trackTag);
 }
