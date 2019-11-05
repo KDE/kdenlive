@@ -160,7 +160,7 @@ void AudioLevelWidget::setAudioValues(const QVector<double> &values)
         drawBackground(values.size());
     } else {
         for (int i = 0; i < m_values.size(); i++) {
-            m_peaks[i]--;
+            m_peaks[i] -= .003;
             if (m_values.at(i) > m_peaks.at(i)) {
                 m_peaks[i] = m_values.at(i);
             }
@@ -197,14 +197,12 @@ void AudioLevelWidget::paintEvent(QPaintEvent *pe)
     p.drawPixmap(rect, m_pixmap);
     p.setPen(palette().dark().color());
     p.setOpacity(0.9);
-    int width = m_channelDistance == 1 ? rect.width() : rect.width() - 1;
     for (int i = 0; i < m_values.count(); i++) {
         if (m_values.at(i) >= 100) {
             continue;
         }
         //int val = (50 + m_values.at(i)) / 150.0 * rect.height();
-        int val = m_values.at(i) * rect.height();
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - val, palette().dark());
-        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - (50 + m_peaks.at(i)) / 150.0 * rect.height(), m_channelFillWidth, 1, palette().text());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, 0, m_channelFillWidth, height() - (m_values.at(i) * rect.height()), palette().dark());
+        p.fillRect(m_offset + i * (m_channelWidth + m_channelDistance) + 1, height() - (m_peaks.at(i) * rect.height()), m_channelFillWidth, 1, palette().text());
     }
 }
