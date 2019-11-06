@@ -42,7 +42,12 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
-    Q_PROPERTY(bool clipHasAV READ clipHasAV NOTIFY clipHasAVChanged)
+    /** @brief: Returns true if current clip in monitor has Audio and Video
+     * */
+    Q_PROPERTY(bool clipHasAV MEMBER m_hasAV NOTIFY clipHasAVChanged)
+    /** @brief: Contains the name of clip currently displayed in monitor
+     * */
+    Q_PROPERTY(QString clipName MEMBER m_clipName NOTIFY clipNameChanged)
 
 public:
     MonitorProxy(GLWidget *parent);
@@ -54,9 +59,6 @@ public:
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
-    /** brief: Returns true if current clip in monitor has Audio and Video
-     * */
-    bool clipHasAV() const;
     QString markerComment() const;
     Q_INVOKABLE void requestSeekPosition(int pos);
     /** brief: Returns seek position or consumer position when not seeking
@@ -83,7 +85,7 @@ public:
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE double fps() const;
-    void setClipHasAV(bool hasAV);
+    void setClipProperties(bool hasAV, const QString clipName);
 
 signals:
     void positionChanged();
@@ -102,6 +104,7 @@ signals:
     void addRemoveKeyframe();
     void seekToKeyframe();
     void clipHasAVChanged();
+    void clipNameChanged();
 
 private:
     GLWidget *q;
@@ -111,6 +114,7 @@ private:
     int m_zoneOut;
     bool m_hasAV;
     QString m_markerComment;
+    QString m_clipName;
 };
 
 #endif

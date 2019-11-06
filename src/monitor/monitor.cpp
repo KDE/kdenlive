@@ -1388,14 +1388,14 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
         m_glMonitor->setAudioThumb(controller->audioChannels(), controller->audioFrameCache);
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
-        m_glMonitor->getControllerProxy()->setClipHasAV(controller->hasAudioAndVideo());
+        m_glMonitor->getControllerProxy()->setClipProperties(controller->hasAudioAndVideo(), controller->clipName());
         // hasEffects =  controller->hasEffects();
     } else {
         loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive());
         m_glMonitor->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
-        m_glMonitor->getControllerProxy()->setClipHasAV(false);
+        m_glMonitor->getControllerProxy()->setClipProperties(false, QString());
     }
     if (slotActivateMonitor()) {
         start();

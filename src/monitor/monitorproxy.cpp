@@ -292,13 +292,16 @@ QString MonitorProxy::toTimecode(int frames) const
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
 }
 
-bool MonitorProxy::clipHasAV() const
+void MonitorProxy::setClipProperties(bool hasAV, const QString clipName)
 {
-    return m_hasAV;
-}
-
-void MonitorProxy::setClipHasAV(bool hasAV)
-{
-    m_hasAV = hasAV;
-    emit clipHasAVChanged();
+    if (m_hasAV != hasAV) {
+        m_hasAV = hasAV;
+        emit clipHasAVChanged();
+    }
+    if (clipName == clipName) {
+        m_clipName.clear();
+        emit clipNameChanged();
+    }
+    m_clipName = clipName;
+    emit clipNameChanged();
 }

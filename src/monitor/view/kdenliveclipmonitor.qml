@@ -26,6 +26,7 @@ Item {
     property bool showAudiothumb
     property bool showToolbar: false
     property bool hasAV: controller.clipHasAV
+    property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0
@@ -50,6 +51,11 @@ Item {
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
     }
+    onClipNameChanged: {
+        // Animate clip name
+        clipNameLabel.opacity = 1
+        showAnimate.restart()
+    }
 
     function updatePalette() {
         clipMonitorRuler.forceRepaint()
@@ -62,6 +68,37 @@ Item {
             controller.overlayType = controller.overlayType + 1;
         }
         root.overlayType = controller.overlayType
+    }
+
+    Label {
+        id: clipNameLabel
+        font: fixedFont
+        anchors {
+            top: parent.top
+            horizontalCenter: parent.horizontalCenter
+        }
+        color: "white"
+        text: clipName
+        background: Rectangle {
+            color: "#222277"
+        }
+        opacity: 0
+        visible: clipName != ""
+        height: marker.height
+        width: textMetricsName.width + 10
+        padding:10
+        horizontalAlignment: TextInput.AlignHCenter
+        TextMetrics {
+            id: textMetricsName
+            font: clipNameLabel.font
+            text: clipNameLabel.text
+        }
+        SequentialAnimation {
+            id: showAnimate
+            running: false
+            NumberAnimation { target: clipNameLabel; duration: 3000 }
+            NumberAnimation { target: clipNameLabel; property: "opacity"; to: 0; duration: 1000 }
+        }
     }
     MouseArea {
         id: barOverArea
@@ -123,7 +160,7 @@ Item {
             QmlAudioThumb {
                 id: audioThumb
                 objectName: "audiothumb"
-                property bool stateVisible: (barOverArea.mouseY >= root.height * 0.7 || dragOverArea.containsMouse || clipMonitorRuler.containsMouse)
+                property bool stateVisible: (barOverArea.mouseY >= root.height * 0.7 || clipMonitorRuler.containsMouse)
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -254,46 +291,60 @@ Item {
                 maximumLength: 20
             }
         }
-        MouseArea {
-            id: dragOverArea
-            hoverEnabled: true
-            acceptedButtons: Qt.LeftButton
-            x: 0
-            width: parent.width
-            height: 2 * audioDragButton.height
-            y: parent.height - height
-            propagateComposedEvents: true
-            onPressed: {
-                // First found child is the Column
-                var clickedChild = childAt(mouseX,mouseY) ? childAt(mouseX,mouseY).childAt(mouseX,mouseY).childAt(mouseX,mouseY) : ""
-                if (clickedChild == audioDragButton) {
-                    dragType = 1
-                } else if (clickedChild == videoDragButton) {
-                    dragType = 2
-                } else {
-                    dragType = 0
-                }
-                mouse.accepted = false
-            }
-            Rectangle {
-                x: 5
-                width: childrenRect.width
-                height: childrenRect.height
-                color: Qt.rgba(activePalette.window.r, activePalette.window.g, activePalette.window.b, 0.5)
-                radius: 4
-                visible: root.hasAV && dragOverArea.containsMouse
+        
+        Rectangle {
+            // Audio or video only drag zone
+            x: 5
+            y: parent.height - height - 5
+            width: childrenRect.width
+            height: childrenRect.height
+            color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
+            radius: 4
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse /*|| dragOverArea.pressed */|| (barOverArea.containsMouse && barOverArea.mouseY >= y)) ? 1 : 0
+            visible: root.hasAV
             Row {
-            ToolButton {
-                id: videoDragButton
-                icon.name: "kdenlive-show-video"
-                enabled: false
-            }
-            ToolButton {
-                id: audioDragButton
-                icon.name: "audio-volume-medium"
-                enabled: false
-            }
-            }
+                id: dragRow
+                ToolButton {
+                    id: videoDragButton
+                    icon.name: "kdenlive-show-video"
+                    MouseArea {
+                        id: dragVideoArea
+                        hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton
+                        anchors.fill: parent
+                        propagateComposedEvents: true
+                        cursorShape: Qt.PointingHand
+                        onPressed: {
+                            parent.enabled = false
+                            mouse.accepted = false
+                            dragType = 2
+                        }
+                        onExited: {
+                            parent.enabled = true
+                            parent.clicked()
+                        }
+                    }
+                }
+                ToolButton {
+                    id: audioDragButton
+                    icon.name: "audio-volume-medium"
+                    MouseArea {
+                        id: dragAudioArea
+                        hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton
+                        anchors.fill: parent
+                        propagateComposedEvents: true
+                        cursorShape: Qt.PointingHand
+                        onPressed: {
+                            parent.enabled = false
+                            mouse.accepted = false
+                            dragType = 1
+                        }
+                        onExited: {
+                            parent.enabled = true
+                        }
+                    }
+                }
             }
         }
     }
