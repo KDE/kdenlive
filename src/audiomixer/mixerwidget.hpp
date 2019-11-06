@@ -95,6 +95,7 @@ private:
     QSlider *m_volumeSlider;
     QToolButton *m_solo;
     QToolButton *m_record;
+    QToolButton *m_collapse;
     QLabel *m_trackLabel;
     QMutex m_storeMutex;
     int m_lastVolume;

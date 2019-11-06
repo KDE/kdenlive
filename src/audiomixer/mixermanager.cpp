@@ -29,6 +29,8 @@
 #include <klocalizedstring.h>
 #include <QHBoxLayout>
 #include <QModelIndex>
+#include <QScrollArea>
+#include <QTimer>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
@@ -44,10 +46,27 @@ MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
     , m_masterMixer(nullptr)
     , m_connectedWidgets(false)
+    , m_expandedWidth(-1)
 {
     m_masterBox = new QHBoxLayout;
+    m_channelsBox = new QScrollArea(this);
     m_box = new QHBoxLayout;
-    m_box->addStretch(10);
+    m_box->setSpacing(0);
+    auto *channelsBoxContainer = new QWidget;
+    channelsBoxContainer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_channelsBox->setWidget(channelsBoxContainer);
+    m_channelsBox->setWidgetResizable(true);
+    m_channelsBox->setFrameShape(QFrame::NoFrame);
+    m_box->addWidget(m_channelsBox);
+    m_channelsLayout = new QHBoxLayout;
+    m_channelsLayout->setContentsMargins(0, 0, 0, 0);
+    m_channelsLayout->setSpacing(0);
+    channelsBoxContainer->setLayout(m_channelsLayout);
+    m_channelsLayout->addStretch(10);
+    m_line = new QFrame(this);
+    m_line->setFrameShape(QFrame::VLine);
+    m_line->setFrameShadow(QFrame::Sunken);
+    m_box->addWidget(m_line);
     m_box->addLayout(m_masterBox);
     setLayout(m_box);
 }
@@ -95,7 +114,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         }
     });
     m_mixers[tid] = mixer;
-    m_box->insertWidget(0, mixer.get());
+    m_channelsLayout->insertWidget(0, mixer.get());
 }
 
 void MixerManager::deregisterTrack(int tid)
@@ -118,7 +137,7 @@ void MixerManager::resetAudioValues()
 void MixerManager::cleanup()
 {
     for (auto item : m_mixers) {
-        m_box->removeWidget(item.second.get());
+        m_channelsLayout->removeWidget(item.second.get());
     }
     m_mixers.clear();
     if (m_masterMixer) {
@@ -173,4 +192,28 @@ void MixerManager::connectMixer(bool doConnect)
     if (m_masterMixer != nullptr) {
         m_masterMixer->connectMixer(m_connectedWidgets);
     }
+}
+
+void MixerManager::collapseMixers(bool collapse)
+{
+    if (collapse) {
+        m_expandedWidth = width();
+        m_channelsBox->setMaximumWidth(0);
+        m_line->setMaximumWidth(0);
+        setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+    } else {
+        m_line->setMaximumWidth(QWIDGETSIZE_MAX);
+        m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
+        setMaximumWidth(QWIDGETSIZE_MAX);
+        if (m_expandedWidth > 0) {
+            setFixedWidth(m_expandedWidth);
+        }
+        QTimer::singleShot(500, this, &MixerManager::resetSizePolicy);
+    }
+}
+
+void MixerManager::resetSizePolicy()
+{
+    setMaximumWidth(QWIDGETSIZE_MAX);
+    setMinimumWidth(0);
 }

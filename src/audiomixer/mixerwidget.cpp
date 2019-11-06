@@ -100,12 +100,13 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_levelFilter(nullptr)
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
+    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
+    , m_collapse(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
-    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
 {
     buildUI(service.get(), trackTag);
 }
@@ -117,12 +118,13 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_levelFilter(nullptr)
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
+    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
+    , m_collapse(nullptr)
     , m_lastVolume(0)
     , m_listener(nullptr)
     , m_recording(false)
-    , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
 {
     buildUI(service, trackTag);
 }
@@ -249,7 +251,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
 
     // Setup default width
     QFontMetrics fm(font());
-    setMaximumWidth(3 * mute->sizeHint().width());
+    setFixedWidth(3 * mute->sizeHint().width());
 
     if (m_tid > -1) {
         // No solo / rec button on master
@@ -269,6 +271,15 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_record->setAutoRaise(true);
         connect(m_record, &QToolButton::clicked, [&]() {
             m_manager->recordAudio(m_tid);
+        });
+    } else {
+        m_collapse = new QToolButton(this);
+        m_collapse->setIcon(QIcon::fromTheme("arrow-left"));
+        m_collapse->setToolTip(i18n("Show Channels"));
+        m_collapse->setCheckable(true);
+        m_collapse->setAutoRaise(true);
+        connect(m_collapse, &QToolButton::clicked, [&]() {
+            m_manager->collapseMixers(m_collapse->isChecked());
         });
     }
 
@@ -310,6 +321,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     QHBoxLayout *buttonslay = new QHBoxLayout;
     buttonslay->setSpacing(0);
     buttonslay->setContentsMargins(0, 0, 0, 0);
+    if (m_collapse) {
+        buttonslay->addWidget(m_collapse);
+    }
     buttonslay->addWidget(mute);
     if (m_solo) {
         buttonslay->addWidget(m_solo);

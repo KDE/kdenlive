@@ -35,6 +35,8 @@ namespace Mlt {
 class MixerWidget;
 class QHBoxLayout;
 class TimelineItemModel;
+class QScrollArea;
+class QFrame;
 
 class MixerManager : public QWidget
 {
@@ -49,10 +51,14 @@ public:
     void cleanup();
     /** @brief Connect the mixer widgets to the correspondant filters */
     void connectMixer(bool doConnect);
+    void collapseMixers(bool collapse);
 
 public slots:
     void resetAudioValues();
     void recordStateChanged(int tid, bool recording);
+
+private slots:
+    void resetSizePolicy();
 
 signals:
     void updateLevels(int);
@@ -68,8 +74,12 @@ private:
     std::shared_ptr<TimelineItemModel> m_model;
     QHBoxLayout *m_box;
     QHBoxLayout *m_masterBox;
+    QHBoxLayout *m_channelsLayout;
+    QScrollArea *m_channelsBox;
+    QFrame *m_line;
     int m_lastFrame;
     bool m_connectedWidgets;
+    int m_expandedWidth;
     QVector <int> m_soloMuted;
 
 };
