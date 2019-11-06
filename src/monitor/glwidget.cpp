@@ -138,6 +138,8 @@ GLWidget::GLWidget(int id, QObject *parent)
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
 
+    connect(this, &GLWidget::buildAudioThumb, this, &GLWidget::setAudioThumb);
+
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
     connect(m_proxy, &MonitorProxy::seekRequestChanged, this, &GLWidget::requestSeek);
@@ -1800,7 +1802,6 @@ void GLWidget::setAudioThumb(int channels, const QList <double>&audioCache)
         }
         painter.end();
     }
-
     audioThumbDisplay->setImage(img);
 }
 

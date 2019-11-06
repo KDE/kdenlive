@@ -279,7 +279,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_collapse->setCheckable(true);
         m_collapse->setAutoRaise(true);
         connect(m_collapse, &QToolButton::clicked, [&]() {
-            m_manager->collapseMixers(m_collapse->isChecked());
+            KdenliveSettings::setMixerCollapse(m_collapse->isChecked());
+            m_manager->collapseMixers();
         });
     }
 

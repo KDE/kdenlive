@@ -22,6 +22,7 @@
 #include "mixermanager.hpp"
 #include "mixerwidget.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
+#include "kdenlivesettings.h"
 
 #include "mlt++/MltService.h"
 #include "mlt++/MltTractor.h"
@@ -174,6 +175,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     }
     connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);
     m_masterBox->addWidget(m_masterMixer.get());
+    collapseMixers();
 }
 
 void MixerManager::recordStateChanged(int tid, bool recording)
@@ -183,31 +185,34 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     }
 }
 
-void MixerManager::connectMixer(bool doConnect)
+void MixerManager::connectMixer(bool doConnect, bool channelsOnly)
 {
     m_connectedWidgets = doConnect;
     for (auto item : m_mixers) {
         item.second->connectMixer(m_connectedWidgets);
     }
-    if (m_masterMixer != nullptr) {
+    if (!channelsOnly && m_masterMixer != nullptr) {
         m_masterMixer->connectMixer(m_connectedWidgets);
     }
 }
 
-void MixerManager::collapseMixers(bool collapse)
+void MixerManager::collapseMixers()
 {
-    if (collapse) {
+    if (KdenliveSettings::mixerCollapse()) {
         m_expandedWidth = width();
-        m_channelsBox->setMaximumWidth(0);
+        m_channelsBox->setFixedWidth(0);
         m_line->setMaximumWidth(0);
+        connectMixer(false, true);
         setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
     } else {
         m_line->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
+        m_channelsBox->setMinimumWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
         setMaximumWidth(QWIDGETSIZE_MAX);
         if (m_expandedWidth > 0) {
             setFixedWidth(m_expandedWidth);
         }
+        connectMixer(true, true);
         QTimer::singleShot(500, this, &MixerManager::resetSizePolicy);
     }
 }

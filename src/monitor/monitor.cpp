@@ -1994,7 +1994,7 @@ void Monitor::slotEditInlineMarker()
 
 void Monitor::prepareAudioThumb(int channels, const QList <double>&audioCache)
 {
-    m_glMonitor->setAudioThumb(channels, audioCache);
+    m_glMonitor->buildAudioThumb(channels, audioCache);
 }
 
 void Monitor::slotSwitchAudioMonitor()

@@ -810,6 +810,11 @@
       <default>true</default>
     </entry>
 
+    <entry name="mixerCollapse" type="Bool">
+      <label>Collapse audio mixer (only show master channel).</label>
+      <default>false</default>
+    </entry>
+
     <entry name="producerslist" type="StringList">
       <label>List of available MLT producers.</label>
       <default></default>

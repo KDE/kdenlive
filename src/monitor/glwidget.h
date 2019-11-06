@@ -189,6 +189,7 @@ signals:
     void seekPosition(int);
     void consumerPosition(int);
     void activateMonitor();
+    void buildAudioThumb(int channels = 0, const QList <double>&audioCache = QList<double>());
 
 protected:
     Mlt::Filter *m_glslManager;

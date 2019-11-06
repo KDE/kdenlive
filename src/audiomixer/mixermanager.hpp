@@ -50,8 +50,8 @@ public:
     void setModel(std::shared_ptr<TimelineItemModel> model);
     void cleanup();
     /** @brief Connect the mixer widgets to the correspondant filters */
-    void connectMixer(bool doConnect);
-    void collapseMixers(bool collapse);
+    void connectMixer(bool doConnect, bool channelsOnly = false);
+    void collapseMixers();
 
 public slots:
     void resetAudioValues();

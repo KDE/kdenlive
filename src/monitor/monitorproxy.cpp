@@ -42,6 +42,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_zoneIn(0)
     , m_zoneOut(-1)
     , m_hasAV(false)
+    , m_clipType(0)
 {
 }
 
@@ -293,16 +294,18 @@ QString MonitorProxy::toTimecode(int frames) const
 
 void MonitorProxy::setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName)
 {
-    if (m_hasAV != hasAV) {
+    if (hasAV != m_hasAV) {
         m_hasAV = hasAV;
         emit clipHasAVChanged();
     }
-    if (clipName == clipName) {
+    if (clipName == m_clipName) {
         m_clipName.clear();
         emit clipNameChanged();
     }
     m_clipName = clipName;
     emit clipNameChanged();
-    m_clipType = type;
-    emit clipTypeChanged();
+    if (type != m_clipType) {
+        m_clipType = type;
+        emit clipTypeChanged();
+    }
 }
