@@ -1762,7 +1762,7 @@ void GLWidget::setAudioThumb(int channels, const QList <double>&audioCache)
 
     if (!audioThumbDisplay) return;
 
-    QImage img(width(), height() / 6, QImage::Format_ARGB32_Premultiplied);
+    QImage img(width(), height() / 2, QImage::Format_ARGB32_Premultiplied);
     img.fill(Qt::transparent);
 
     if (!audioCache.isEmpty() && channels > 0) {

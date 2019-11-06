@@ -3,6 +3,7 @@ import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
 import QtQuick 2.6
 import AudioThumb 1.0
+import com.enums 1.0
 
 Item {
     id: root
@@ -13,6 +14,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     property string markerText
+    property int itemType: 0
     property point profile
     property double zoom
     property double scalex
@@ -25,7 +27,6 @@ Item {
     property bool showSafezone
     property bool showAudiothumb
     property bool showToolbar: false
-    property bool hasAV: controller.clipHasAV
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
@@ -160,20 +161,20 @@ Item {
             QmlAudioThumb {
                 id: audioThumb
                 objectName: "audiothumb"
-                property bool stateVisible: (barOverArea.mouseY >= root.height * 0.7 || clipMonitorRuler.containsMouse)
+                property bool stateVisible: (clipMonitorRuler.containsMouse || barOverArea.mouseY >= root.height * 0.7)
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
                 }
-                height: parent.height / 6
+                height: controller.clipType == ProducerType.Audio ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
                 visible: root.showAudiothumb
 
                 states: [
-                    State { when: audioThumb.stateVisible;
+                    State { when: audioThumb.stateVisible || controller.clipType == ProducerType.Audio;
                         PropertyChanges {   target: audioThumb; opacity: 1.0    } },
-                    State { when: !audioThumb.stateVisible;
+                    State { when: !audioThumb.stateVisible && controller.clipType != ProducerType.Audio;
                         PropertyChanges {   target: audioThumb; opacity: 0.0    } }
                 ]
                 transitions: [ Transition {
@@ -291,7 +292,7 @@ Item {
                 maximumLength: 20
             }
         }
-        
+
         Rectangle {
             // Audio or video only drag zone
             x: 5
@@ -301,7 +302,7 @@ Item {
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
             opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse /*|| dragOverArea.pressed */|| (barOverArea.containsMouse && barOverArea.mouseY >= y)) ? 1 : 0
-            visible: root.hasAV
+            visible: controller.clipHasAV
             Row {
                 id: dragRow
                 ToolButton {

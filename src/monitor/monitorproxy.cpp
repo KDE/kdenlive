@@ -21,7 +21,6 @@
 
 #include "monitorproxy.h"
 #include "core.h"
-#include "definitions.h"
 #include "doc/kthumb.h"
 #include "glwidget.h"
 #include "kdenlivesettings.h"
@@ -292,7 +291,7 @@ QString MonitorProxy::toTimecode(int frames) const
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
 }
 
-void MonitorProxy::setClipProperties(bool hasAV, const QString clipName)
+void MonitorProxy::setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName)
 {
     if (m_hasAV != hasAV) {
         m_hasAV = hasAV;
@@ -304,4 +303,6 @@ void MonitorProxy::setClipProperties(bool hasAV, const QString clipName)
     }
     m_clipName = clipName;
     emit clipNameChanged();
+    m_clipType = type;
+    emit clipTypeChanged();
 }

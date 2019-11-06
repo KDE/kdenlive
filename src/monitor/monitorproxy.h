@@ -26,6 +26,7 @@
 #ifndef MONITORPROXY_H
 #define MONITORPROXY_H
 
+#include "definitions.h"
 #include <QImage>
 #include <QObject>
 
@@ -48,6 +49,9 @@ class MonitorProxy : public QObject
     /** @brief: Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(QString clipName MEMBER m_clipName NOTIFY clipNameChanged)
+    /** @brief: Contains the name of clip currently displayed in monitor
+     * */
+    Q_PROPERTY(int clipType MEMBER m_clipType NOTIFY clipTypeChanged)
 
 public:
     MonitorProxy(GLWidget *parent);
@@ -85,7 +89,7 @@ public:
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE double fps() const;
-    void setClipProperties(bool hasAV, const QString clipName);
+    void setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName);
 
 signals:
     void positionChanged();
@@ -105,6 +109,7 @@ signals:
     void seekToKeyframe();
     void clipHasAVChanged();
     void clipNameChanged();
+    void clipTypeChanged();
 
 private:
     GLWidget *q;
@@ -115,6 +120,7 @@ private:
     bool m_hasAV;
     QString m_markerComment;
     QString m_clipName;
+    int m_clipType;
 };
 
 #endif
