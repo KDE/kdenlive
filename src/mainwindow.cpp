@@ -1277,6 +1277,13 @@ void MainWindow::setupActions()
     overlayAudioInfo->setCheckable(true);
     overlayAudioInfo->setData(0x10);
 
+    connect(overlayInfo, &QAction::toggled, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo](bool toggled) {
+        overlayTCInfo->setEnabled(toggled);
+        overlayFpsInfo->setEnabled(toggled);
+        overlayMarkerInfo->setEnabled(toggled);
+        overlayAudioInfo->setEnabled(toggled);
+    });
+
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
     dropFrames->setChecked(KdenliveSettings::monitor_dropframes());

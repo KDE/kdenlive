@@ -1386,7 +1386,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         }
         m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-        m_glMonitor->setAudioThumb(controller->audioChannels(), controller->audioFrameCache);
+        if (KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+            m_glMonitor->setAudioThumb(controller->audioChannels(), controller->audioFrameCache);
+        }
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
         m_glMonitor->getControllerProxy()->setClipProperties(controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
         // hasEffects =  controller->hasEffects();
