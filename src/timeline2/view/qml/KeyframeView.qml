@@ -86,151 +86,155 @@ Rectangle
             event.accepted = false
         }
     }
-    Repeater {
-        id: keyframes
-        model: kfrModel
-        Rectangle {
-            id: keyframe
-            property int frame : model.frame
-            property int frameType : model.type
-            x: (model.frame - inPoint) * timeScale
-            height: parent.height
-            property int value: parent.height * model.normalizedValue
-            property int tmpVal : keyframeVal.y + root.baseUnit / 2
-            property int tmpPos : x + keyframeVal.x + root.baseUnit / 2
-            property int dragPos : -1
-            anchors.bottom: parent.bottom
-            onFrameTypeChanged: {
-                keyframecanvas.requestPaint()
-            }
-            onValueChanged: {
-                keyframecanvas.requestPaint()
-            }
-            width: Math.max(1, timeScale)
-            color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
-            visible: keyframeContainer.selected
-            MouseArea {
-                id: kfMouseArea
-                anchors.fill: parent
-                anchors.leftMargin: - root.baseUnit/3
-                anchors.rightMargin: - root.baseUnit/3
-                hoverEnabled: true
-                cursorShape: Qt.SizeHorCursor
-                drag.target: parent
-                drag.smoothed: false
-                drag.axis: Drag.XAxis
-                onReleased: {
-                    root.autoScrolling = timeline.autoScroll
-                    dragPos = -1
-                    var newPos = Math.round(parent.x / timeScale) + inPoint
-                    if (frame != inPoint && newPos != frame) {
-                        if (mouse.modifiers & Qt.ShiftModifier) {
-                            // offset all subsequent keyframes
-                            // TODO: rewrite using timeline to ensure all kf parameters are updated
-                            timeline.offsetKeyframes(masterObject.clipId, frame, newPos)
-                        } else {
-                            timeline.updateEffectKeyframe(masterObject.clipId, frame, newPos)
-                        }
-                    }
-                }
-                onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
-                        if (frame == inPoint) {
-                            parent.x = inPoint * timeScale
-                            return
-                        }
-                        var newPos = Math.min(Math.round(parent.x / timeScale), Math.round(keyframeContainer.width / timeScale) - 1)
-                        if (newPos < 1) {
-                            newPos = 1
-                        }
-                        if (newPos != dragPos) {
-                            dragPos = newPos
-                            parent.x = newPos * timeScale
-                            keyframecanvas.requestPaint()
-                        } else {
-                            parent.x = dragPos * timeScale
-                        }
-                    }
-                }
-            }
+    Item {
+        // Keyframes container
+        anchors.fill: parent
+        visible: keyframeContainer.selected && keyframeContainer.width > root.baseUnit * 3 && (kfrCount < (keyframeContainer.width / root.baseUnit))
+        Repeater {
+            id: keyframes
+            model: kfrModel
             Rectangle {
-                id: keyframeVal
-                x: - root.baseUnit / 2
-                y: keyframeContainer.height - keyframe.value - root.baseUnit / 2
-                width: root.baseUnit
-                height: width
-                radius: width / 2
-                color: keyframeContainer.activeFrame == keyframe.frame ? 'red' : kf1MouseArea.containsMouse || kf1MouseArea.pressed ? root.textColor : root.videoColor
-                border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : root.textColor
+                id: keyframe
+                property int frame : model.frame
+                property int frameType : model.type
+                x: (model.frame - inPoint) * timeScale
+                height: parent.height
+                property int value: parent.height * model.normalizedValue
+                property int tmpVal : keyframeVal.y + root.baseUnit / 2
+                property int tmpPos : x + keyframeVal.x + root.baseUnit / 2
+                property int dragPos : -1
+                anchors.bottom: parent.bottom
+                onFrameTypeChanged: {
+                    keyframecanvas.requestPaint()
+                }
+                onValueChanged: {
+                    keyframecanvas.requestPaint()
+                }
+                width: Math.max(1, timeScale)
+                color: kfMouseArea.containsMouse ? 'darkred' : 'transparent'
                 MouseArea {
-                    id: kf1MouseArea
+                    id: kfMouseArea
                     anchors.fill: parent
+                    anchors.leftMargin: - root.baseUnit/3
+                    anchors.rightMargin: - root.baseUnit/3
                     hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
+                    cursorShape: Qt.SizeHorCursor
                     drag.target: parent
                     drag.smoothed: false
-                    onPressed: {
-                        drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
-                    }
-                    onClicked: {
-                        keyframeContainer.activeFrame = frame
-                        keyframeContainer.activeIndex = index
-                        keyframeContainer.focus = true
-                    }
+                    drag.axis: Drag.XAxis
                     onReleased: {
                         root.autoScrolling = timeline.autoScroll
-                        var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
-                        if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
-                            var pos = masterObject.modelStart + frame - inPoint
-                            if (timeline.position != pos) {
-                                timeline.seekPosition = pos
-                                timeline.position = timeline.seekPosition
+                        dragPos = -1
+                        var newPos = Math.round(parent.x / timeScale) + inPoint
+                        if (frame != inPoint && newPos != frame) {
+                            if (mouse.modifiers & Qt.ShiftModifier) {
+                                // offset all subsequent keyframes
+                                // TODO: rewrite using timeline to ensure all kf parameters are updated
+                                timeline.offsetKeyframes(masterObject.clipId, frame, newPos)
+                            } else {
+                                timeline.updateEffectKeyframe(masterObject.clipId, frame, newPos)
                             }
-                            return
                         }
-                        var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
-                        if (newVal > 1.5 || newVal < -0.5) {
-                            if (frame != inPoint) {
-                                timeline.removeEffectKeyframe(masterObject.clipId, frame);
+                    }
+                    onPositionChanged: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            if (frame == inPoint) {
+                                parent.x = inPoint * timeScale
+                                return
+                            }
+                            var newPos = Math.min(Math.round(parent.x / timeScale), Math.round(keyframeContainer.width / timeScale) - 1)
+                            if (newPos < 1) {
+                                newPos = 1
+                            }
+                            if (newPos != dragPos) {
+                                dragPos = newPos
+                                parent.x = newPos * timeScale
+                                keyframecanvas.requestPaint()
+                            } else {
+                                parent.x = dragPos * timeScale
+                            }
+                        }
+                    }
+                }
+                Rectangle {
+                    id: keyframeVal
+                    x: - root.baseUnit / 2
+                    y: keyframeContainer.height - keyframe.value - root.baseUnit / 2
+                    width: root.baseUnit
+                    height: width
+                    radius: width / 2
+                    color: keyframeContainer.activeFrame == keyframe.frame ? 'red' : kf1MouseArea.containsMouse || kf1MouseArea.pressed ? root.textColor : root.videoColor
+                    border.color: kf1MouseArea.containsMouse || kf1MouseArea.pressed ? activePalette.highlight : root.textColor
+                    MouseArea {
+                        id: kf1MouseArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        drag.target: parent
+                        drag.smoothed: false
+                        onPressed: {
+                            drag.axis = (mouse.modifiers & Qt.ShiftModifier) ? Drag.YAxis : Drag.XAndYAxis
+                        }
+                        onClicked: {
+                            keyframeContainer.activeFrame = frame
+                            keyframeContainer.activeIndex = index
+                            keyframeContainer.focus = true
+                        }
+                        onReleased: {
+                            root.autoScrolling = timeline.autoScroll
+                            var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
+                            if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
+                                var pos = masterObject.modelStart + frame - inPoint
+                                if (timeline.position != pos) {
+                                    timeline.seekPosition = pos
+                                    timeline.position = timeline.seekPosition
+                                }
+                                return
+                            }
+                            var newVal = (keyframeContainer.height - (parent.y + mouse.y)) / keyframeContainer.height
+                            if (newVal > 1.5 || newVal < -0.5) {
+                                if (frame != inPoint) {
+                                    timeline.removeEffectKeyframe(masterObject.clipId, frame);
+                                } else {
+                                    if (newVal < 0) {
+                                        newVal = 0;
+                                    } else if (newVal > 1) {
+                                        newVal = 1;
+                                    }
+                                    timeline.updateEffectKeyframe(masterObject.clipId, frame, frame, newVal)
+                                }
                             } else {
                                 if (newVal < 0) {
                                     newVal = 0;
                                 } else if (newVal > 1) {
                                     newVal = 1;
                                 }
-                                timeline.updateEffectKeyframe(masterObject.clipId, frame, frame, newVal)
+                                timeline.updateEffectKeyframe(masterObject.clipId, frame, frame == inPoint ? frame : newPos, newVal)
                             }
-                        } else {
-                            if (newVal < 0) {
-                                newVal = 0;
-                            } else if (newVal > 1) {
-                                newVal = 1;
-                            }
-                            timeline.updateEffectKeyframe(masterObject.clipId, frame, frame == inPoint ? frame : newPos, newVal)
                         }
-                    }
-                    onPositionChanged: {
-                        if (mouse.buttons === Qt.LeftButton) {
-                            if (frame == inPoint) {
-                                parent.x = - root.baseUnit / 2
-                            } else {
-                                var newPos = Math.min(Math.round((parent.x + root.baseUnit / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + inPoint - 1)
-                                if (frame + newPos <= inPoint) {
-                                    newPos = inPoint + 1 - frame
-                                }
-                                if (newPos != dragPos) {
-                                    dragPos = newPos
-                                    parent.x = newPos * timeScale - root.baseUnit / 2
-                                    keyframecanvas.requestPaint()
+                        onPositionChanged: {
+                            if (mouse.buttons === Qt.LeftButton) {
+                                if (frame == inPoint) {
+                                    parent.x = - root.baseUnit / 2
                                 } else {
-                                    parent.x = dragPos * timeScale - root.baseUnit / 2
+                                    var newPos = Math.min(Math.round((parent.x + root.baseUnit / 2) / timeScale), Math.round(keyframeContainer.width / timeScale) - frame + inPoint - 1)
+                                    if (frame + newPos <= inPoint) {
+                                        newPos = inPoint + 1 - frame
+                                    }
+                                    if (newPos != dragPos) {
+                                        dragPos = newPos
+                                        parent.x = newPos * timeScale - root.baseUnit / 2
+                                        keyframecanvas.requestPaint()
+                                    } else {
+                                        parent.x = dragPos * timeScale - root.baseUnit / 2
+                                    }
                                 }
+                                keyframecanvas.requestPaint()
                             }
-                            keyframecanvas.requestPaint()
                         }
-                    }
-                    onDoubleClicked: {
-                        timeline.removeEffectKeyframe(masterObject.clipId, frame);
+                        onDoubleClicked: {
+                            timeline.removeEffectKeyframe(masterObject.clipId, frame);
+                        }
                     }
                 }
             }
