@@ -122,7 +122,7 @@ bool AudioThumbJob::computeWithFFMPEG()
             m_ffmpegProcess->kill();
             m_done = true;
             m_successful = false;
-        }
+        });
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
