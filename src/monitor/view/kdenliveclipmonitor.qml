@@ -70,36 +70,6 @@ Item {
         root.overlayType = controller.overlayType
     }
 
-    Label {
-        id: clipNameLabel
-        font: fixedFont
-        anchors {
-            top: parent.top
-            horizontalCenter: parent.horizontalCenter
-        }
-        color: "white"
-        text: clipName
-        background: Rectangle {
-            color: "#222277"
-        }
-        opacity: 0
-        visible: clipName != ""
-        height: marker.height
-        width: textMetricsName.width + 10
-        padding:10
-        horizontalAlignment: TextInput.AlignHCenter
-        TextMetrics {
-            id: textMetricsName
-            font: clipNameLabel.font
-            text: clipNameLabel.text
-        }
-        SequentialAnimation {
-            id: showAnimate
-            running: false
-            NumberAnimation { target: clipNameLabel; duration: 3000 }
-            NumberAnimation { target: clipNameLabel; property: "opacity"; to: 0; duration: 1000 }
-        }
-    }
     MouseArea {
         id: barOverArea
         hoverEnabled: true
@@ -201,6 +171,35 @@ Item {
                     width: 1
                     height: parent.height
                     x: controller.position * timeScale
+                }
+            }
+            Label {
+                id: clipNameLabel
+                font: fixedFont
+                anchors {
+                    top: parent.top
+                    horizontalCenter: parent.horizontalCenter
+                }
+                color: "white"
+                text: clipName
+                background: Rectangle {
+                    color: "#222277"
+                }
+                visible: clipName != ""
+                height: marker.height
+                width: textMetricsName.width + 10
+                padding:10
+                horizontalAlignment: TextInput.AlignHCenter
+                TextMetrics {
+                    id: textMetricsName
+                    font: clipNameLabel.font
+                    text: clipNameLabel.text
+                }
+                SequentialAnimation {
+                    id: showAnimate
+                    running: false
+                    NumberAnimation { target: clipNameLabel; duration: 3000 }
+                    NumberAnimation { target: clipNameLabel; property: "opacity"; to: 0; duration: 1000 }
                 }
             }
 
