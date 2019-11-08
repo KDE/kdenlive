@@ -119,7 +119,9 @@ bool AudioThumbJob::computeWithFFMPEG()
         args << m_binClip->getAudioThumbPath(true);
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
         connect(this, &AudioThumbJob::jobCanceled, [&] () {
-            m_ffmpegProcess->kill();
+            if (m_ffmpegProcess) {
+                m_ffmpegProcess->kill();
+            }
             m_done = true;
             m_successful = false;
         });
@@ -243,6 +245,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         }
     }
     QString err = m_ffmpegProcess->readAllStandardError();
+    m_ffmpegProcess.reset();
     // m_errorMessage += err;
     // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
     qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
