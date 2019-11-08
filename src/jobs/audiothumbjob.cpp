@@ -117,7 +117,12 @@ bool AudioThumbJob::computeWithFFMPEG()
         args << QString("showwavespic=s=%1x%2:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_thumbSize.width()).arg(m_thumbSize.height());
         args << QStringLiteral("-frames:v") << QStringLiteral("1");
         args << m_binClip->getAudioThumbPath(true);
-        connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
+        connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
+        connect(this, &AudioThumbJob::jobCanceled, [&] () {
+            m_ffmpegProcess->kill();
+            m_done = true;
+            m_successful = false;
+        }
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
@@ -126,12 +131,12 @@ bool AudioThumbJob::computeWithFFMPEG()
                 m_done = true;
                 return true;
             } else {
-                // Next Processinĝ step can be long, already display audio thumb in monitor
+                // Next Processing step can be long, already display audio thumb in monitor
                 m_binClip->audioThumbReady();
             }
         }
     }
-    if (!m_dataInCache) {
+    if (!m_dataInCache && !m_done) {
         m_audioLevels.clear();
         std::vector<std::unique_ptr<QTemporaryFile>> channelFiles;
         for (int i = 0; i < m_channels; i++) {
@@ -176,6 +181,9 @@ bool AudioThumbJob::computeWithFFMPEG()
                  << QStringLiteral("-f") << QStringLiteral("data") << channelFiles[size_t(i)]->fileName();
             }
         }
+        m_ffmpegProcess.reset(new QProcess);
+        connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
+        connect(this, &AudioThumbJob::jobCanceled, m_ffmpegProcess.get(), &QProcess::kill, Qt::DirectConnection);
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
@@ -262,7 +270,6 @@ bool AudioThumbJob::startJob()
     }
     m_dataInCache = false;
     m_thumbInCache = false;
-    m_thumbSize = QSize(1000, 1000 / pCore->getCurrentDar());
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (m_binClip->audioChannels() == 0 || m_binClip->audioThumbCreated()) {
         // nothing to do
@@ -270,6 +277,7 @@ bool AudioThumbJob::startJob()
         m_successful = true;
         return true;
     }
+    m_thumbSize = QSize(1000, 1000 / pCore->getCurrentDar());
     m_prod = m_binClip->originalProducer();
 
     m_frequency = m_binClip->audioInfo()->samplingRate();
