@@ -269,6 +269,10 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
+    <screenshot type="default">
+      <caption>Kdenlive timeline</caption>
+      <image type="source">https://cdn.kde.org/screenshots/kdenlive/kdenlive-screenshot-19-08-series.png</image>
+    </screenshot>
     <screenshot type="source">
       <caption>Kdenlive 19.08</caption>
       <caption xml:lang="ca">Kdenlive 19.08</caption>
