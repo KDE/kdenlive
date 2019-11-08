@@ -190,6 +190,8 @@ protected:
 
     /*@brief Returns the best composition duration depending on clips on the track */
     int suggestCompositionLength(int position);
+    /*@brief Returns the best composition duration depending on compositions on the track */
+    QPair <int, int> validateCompositionLength(int pos, int offset, int duration, int endPos);
 
     /*@brief Returns the (unique) construction id of the track*/
     int getId() const;

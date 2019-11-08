@@ -351,65 +351,54 @@ int TimelineController::insertNewComposition(int tid, int position, const QStrin
 int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
 {
     int id;
-    int minimum = m_model->getClipPosition(clipId);
+    int minimumPos = m_model->getClipPosition(clipId);
     int clip_duration = m_model->getClipPlaytime(clipId);
-    int position = minimum;
-    bool adjustOffset = false;
-    if (offset > clip_duration / 2) {
-        position += offset;
-        adjustOffset = true;
-    } else {
-        // Check if we have a composition at beginning
-        std::unordered_set<int> existing = m_model->getTrackById_const(tid)->getCompositionsInRange(minimum, minimum + offset);
-        if (existing.size() > 0) {
-            position += offset;
-        }
-    }
-    position = qMin(minimum + clip_duration - 1, position);
+    int endPos = minimumPos + clip_duration;
+    int position = minimumPos;
     int duration = qMin(pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()), m_model->getTrackById_const(tid)->suggestCompositionLength(position));
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
     bool revert = offset > clip_duration / 2;
     if (lowerVideoTrackId > 0) {
-        int bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+        int bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position + offset);
         if (bottomId > 0) {
             QPair<int, int> bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
-            if (bottom.first > minimum) {
+            if (bottom.first > minimumPos) {
                 // Lower clip is after top clip
-                if (position > bottom.first) {
+                if (position + offset > bottom.first) {
                     int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
                     if (test_duration > 0) {
+                        offset -= (bottom.first - position);
                         position = bottom.first;
                         duration = test_duration;
-                        revert = position > minimum;
+                        revert = position > minimumPos;
                     }
                 }
             } else if (position >= bottom.first) {
-                if (adjustOffset) {
-                    position -= offset;
-                }
+                // Lower clip is before or at same pos as top clip
                 int test_duration = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
                 if (test_duration > 0) {
                     duration = qMin(test_duration, clip_duration);
                 }
             }
-        } else if (!adjustOffset) {
-            // No clip below, keep original drop position
-            position += offset;
+        } else {
+            qDebug()<<"///// NO CLIP FOUND BELOW!!!";
         }
-        int duration2 = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
-        if (duration2 > 0) {
-            duration = (duration > 0) ? qMin(duration, duration2) : duration2;
-        }
+    } else {
+        qDebug()<<"///// NO TRACK FOUND BELOW!!!";
     }
     if (duration < 0) {
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
     } else if (duration <= 1) {
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
-        if (minimum + clip_duration - position < 3) {
-            position = minimum + clip_duration - duration;
+        if (minimumPos + clip_duration - position < 3) {
+            position = minimumPos + clip_duration - duration;
         }
     }
+    QPair<int, int> finalPos = m_model->getTrackById_const(tid)->validateCompositionLength(position, offset, duration, endPos);
+    position = finalPos.first;
+    duration = finalPos.second;
+
     std::unique_ptr<Mlt::Properties> props(nullptr);
     if (revert) {
         props = std::make_unique<Mlt::Properties>();

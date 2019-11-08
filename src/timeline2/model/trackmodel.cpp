@@ -398,22 +398,44 @@ int TrackModel::suggestCompositionLength(int position)
     if (other_index < m_playlists[other_track].count()) {
         end_pos = std::min(end_pos, m_playlists[other_track].clip_start(other_index) + m_playlists[other_track].clip_length(other_index));
     }
-    int min = -1;
-    std::unordered_set<int> existing = getCompositionsInRange(position, end_pos);
-    if (existing.size() > 0) {
-        for (int id : existing) {
-            if (min < 0) {
-                min = m_allCompositions[id]->getPosition();
-            } else {
-                min = qMin(min, m_allCompositions[id]->getPosition());
-            }
+    return end_pos - position;
+}
+
+QPair <int, int> TrackModel::validateCompositionLength(int pos, int offset, int duration, int endPos)
+{
+    int startPos = pos;
+    bool startingFromOffset = false;
+    if (duration < offset) {
+        startPos += offset;
+        startingFromOffset = true;
+        if (startPos + duration > endPos) {
+            startPos = endPos - duration;
         }
     }
-    if (min >= 0) {
-        // An existing composition is limiting the space
-        end_pos = min;
+    
+    int compsitionEnd = startPos + duration;
+    std::unordered_set<int> existing;
+    if (startingFromOffset) {
+        existing = getCompositionsInRange(startPos, compsitionEnd);
+        for (int id : existing) {
+            if (m_allCompositions[id]->getPosition() < startPos) {
+                int end = m_allCompositions[id]->getPosition() + m_allCompositions[id]->getPlaytime();
+                startPos = qMax(startPos, end);
+            }
+        }
+    } else if (offset > 0) {
+        existing = getCompositionsInRange(startPos, startPos + offset);
+        for (int id : existing) {
+            int end = m_allCompositions[id]->getPosition() + m_allCompositions[id]->getPlaytime();
+            startPos = qMax(startPos, end);
+        }
     }
-    return end_pos - position;
+    existing = getCompositionsInRange(startPos, compsitionEnd);
+    for (int id : existing) {
+        int start = m_allCompositions[id]->getPosition();
+        compsitionEnd = qMin(compsitionEnd, start);
+    }
+    return {startPos, compsitionEnd - startPos};
 }
 
 int TrackModel::getBlankSizeNearClip(int clipId, bool after)
@@ -727,6 +749,7 @@ std::unordered_set<int> TrackModel::getCompositionsInRange(int position, int end
             continue;
         }
         if (pos >= position || pos + length - 1 >= position) {
+            
             ids.insert(compo.first);
         }
     }
