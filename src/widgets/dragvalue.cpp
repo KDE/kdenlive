@@ -35,7 +35,7 @@
 #include <QStyle>
 #include <klocalizedstring.h>
 
-DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider,
+DragValue::DragValue(const QString &label, double defaultValue, int decimals, double min, double max, int id, const QString &suffix, bool showSlider, bool oddOnly, 
                      QWidget *parent)
     : QWidget(parent)
     , m_maximum(max)
@@ -63,7 +63,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
     setMinimumHeight(m_label->sizeHint().height());
     if (decimals == 0) {
         m_label->setMaximum(max - min);
-        m_label->setStep(1);
+        m_label->setStep(oddOnly ? 2 : 1);
         m_intEdit = new QSpinBox(this);
         m_intEdit->setObjectName(QStringLiteral("dragBox"));
         m_intEdit->setFocusPolicy(Qt::StrongFocus);
@@ -76,6 +76,9 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         m_intEdit->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
         m_intEdit->setRange((int)m_minimum, (int)m_maximum);
         m_intEdit->setValue((int)m_default);
+        if (oddOnly) {
+            m_intEdit->setSingleStep(2);
+        }
         l->addWidget(m_intEdit);
         connect(m_intEdit, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this,
                 static_cast<void (DragValue::*)(int)>(&DragValue::slotSetValue));
@@ -456,7 +459,13 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
             } else {
                 double nv = minimum() + ((double)maximum() - minimum()) / width() * e->pos().x();
                 if (!qFuzzyCompare(nv, value())) {
-                    setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+                    if (m_step > 1) {
+                        int current = (int) value();
+                        int diff = (nv - current) / m_step;
+                        setNewValue(current + diff * m_step, true);
+                    } else {
+                        setNewValue(nv, KdenliveSettings::dragvalue_directupdate());
+                    }
                 }
             }
             m_dragLastPosition = e->pos();
@@ -483,7 +492,14 @@ void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     } else if (m_showSlider) {
-        setNewValue((double)maximum() * e->pos().x() / width(), true);
+        if (m_step > 1) {
+            int current = (int) value();
+            int newVal = (double)maximum() * e->pos().x() / width();
+            int diff = (newVal - current) / m_step;
+            setNewValue(current + diff * m_step, true);
+        } else {
+            setNewValue((double)maximum() * e->pos().x() / width(), true);
+        }
         m_dragLastPosition = m_dragStartPosition;
         e->accept();
     }

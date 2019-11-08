@@ -84,6 +84,7 @@ public:
         DefaultRole,
         SuffixRole,
         DecimalsRole,
+        OddRole,
         ValueRole,
         AlphaRole,
         ListValuesRole,

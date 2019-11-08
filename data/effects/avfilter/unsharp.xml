@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.unsharp">
+	<name>Unsharp (avfilter)</name>
+	<description>Sharpen or blur your video</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.lx" max="23" min="3" default="5" odd="1">
+		<name>Luma horizontal matrix</name>
+	</parameter>
+    <parameter type="constant" name="av.ly" max="23" min="3" default="5" odd="1">
+		<name>Luma vertical matrix</name>
+	</parameter>
+    <parameter type="constant" name="av.la" max="1.5" min="-1.5" default="1" decimals="2">
+		<name>Luma strength</name>
+	</parameter>
+    <parameter type="constant" name="av.cx" max="23" min="3" default="5" odd="1">
+		<name>Chroma horizontal matrix</name>
+	</parameter>
+    <parameter type="constant" name="av.cy" max="23" min="3" default="5" odd="1">
+		<name>Chroma vertical matrix</name>
+	</parameter>
+    <parameter type="constant" name="av.ca" max="1.5" min="-1.5" default="0" decimals="2">
+		<name>Chroma strength</name>
+	</parameter>
+</effect>

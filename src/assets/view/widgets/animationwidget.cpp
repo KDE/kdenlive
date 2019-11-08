@@ -791,7 +791,7 @@ void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
     DoubleWidget *doubleparam = new DoubleWidget(
         paramName, 0, m_model->data(ix, AssetParameterModel::MinRole).toDouble(), m_model->data(ix, AssetParameterModel::MaxRole).toDouble(),
         m_model->data(ix, AssetParameterModel::FactorRole).toDouble() m_model->data(ix, AssetParameterModel::DefaultRole).toDouble(), comment, index,
-        m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), this);
+        m_model->data(ix, AssetParameterModel::SuffixRole).toString(), m_model->data(ix, AssetParameterModel::DecimalsRole).toInt(), m_model->data(ix, AssetParameterModel::OddRole).toBool(), this);
     doubleparam->setObjectName(paramTag);
     doubleparam->setProperty("index", ix);
     connect(doubleparam, &DoubleWidget::valueChanged, this, &AnimationWidget::slotAdjustKeyframeValue);
@@ -816,16 +816,16 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, QModelIndex ix)
     }
 
     auto *horLayout = new QHBoxLayout;
-    m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, this);
+    m_spinX = new DragValue(i18nc("x axis position", "X"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
     connect(m_spinX, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinX);
     m_spinX->setProperty("index", ix);
 
-    m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, this);
+    m_spinY = new DragValue(i18nc("y axis position", "Y"), 0, 0, -99000, 99000, -1, QString(), false, false, this);
     connect(m_spinY, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
     horLayout->addWidget(m_spinY);
 
-    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitorSize.width(), 0, 1, 99000, -1, QString(), false, this);
+    m_spinWidth = new DragValue(i18nc("Frame width", "W"), m_monitorSize.width(), 0, 1, 99000, -1, QString(), false, false, this);
     connect(m_spinWidth, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectWidth);
     horLayout->addWidget(m_spinWidth);
 
@@ -837,18 +837,18 @@ void AnimationWidget::buildRectWidget(const QString &paramTag, QModelIndex ix)
     ratioButton->setDefaultAction(m_lockRatio);
     horLayout->addWidget(ratioButton);
 
-    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitorSize.height(), 0, 1, 99000, -1, QString(), false, this);
+    m_spinHeight = new DragValue(i18nc("Frame height", "H"), m_monitorSize.height(), 0, 1, 99000, -1, QString(), false, false, this);
     connect(m_spinHeight, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectHeight);
     horLayout->addWidget(m_spinHeight);
     horLayout->addStretch(10);
 
     auto *horLayout2 = new QHBoxLayout;
-    m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, this);
+    m_spinSize = new DragValue(i18n("Size"), 100, 2, 1, 99000, -1, i18n("%"), false, false, this);
     m_spinSize->setStep(10);
     connect(m_spinSize, &DragValue::valueChanged, this, &AnimationWidget::slotResize);
     horLayout2->addWidget(m_spinSize);
     if (m_model->data(ix, AssetParameterModel::OpacityRole).toBool()) {
-        m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, this);
+        m_spinOpacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, false, this);
         connect(m_spinOpacity, &DragValue::valueChanged, this, &AnimationWidget::slotAdjustRectKeyframeValue);
         horLayout2->addWidget(m_spinOpacity);
     }

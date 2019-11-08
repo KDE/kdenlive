@@ -84,7 +84,7 @@ public:
      * @param showSlider If disabled, user can still drag on the label but no progress bar is shown
      */
     explicit DragValue(const QString &label, double defaultValue, int decimals, double min = 0, double max = 100, int id = -1,
-                       const QString &suffix = QString(), bool showSlider = true, QWidget *parent = nullptr);
+                       const QString &suffix = QString(), bool showSlider = true, bool oddOnly = false, QWidget *parent = nullptr);
     ~DragValue() override;
 
     /** @brief Returns the precision = number of decimals */

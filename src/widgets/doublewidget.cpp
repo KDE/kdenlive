@@ -23,7 +23,7 @@
 #include <QVBoxLayout>
 
 DoubleWidget::DoubleWidget(const QString &name, double value, double min, double max, double factor, double defaultValue, const QString &comment, int id,
-                           const QString &suffix, int decimals, QWidget *parent)
+                           const QString &suffix, int decimals, bool oddOnly, QWidget *parent)
     : QWidget(parent)
     , m_factor(factor)
 {
@@ -32,7 +32,7 @@ DoubleWidget::DoubleWidget(const QString &name, double value, double min, double
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
-    m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, true, this);
+    m_dragVal = new DragValue(name, defaultValue * m_factor, decimals, min, max, id, suffix, true, oddOnly, this);
     layout->addWidget(m_dragVal);
     setMinimumHeight(m_dragVal->height());
 

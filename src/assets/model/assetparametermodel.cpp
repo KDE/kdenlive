@@ -339,6 +339,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(m_ownerId, QStringLiteral("scale"), element, 0);
     case DecimalsRole:
         return parseAttribute(m_ownerId, QStringLiteral("decimals"), element);
+    case OddRole:
+        return element.attribute(QStringLiteral("odd")) == QLatin1String("1");
     case DefaultRole:
         return parseAttribute(m_ownerId, QStringLiteral("default"), element);
     case FilterRole:
