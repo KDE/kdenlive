@@ -134,16 +134,16 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
     return QImage();
 }
 
-const QString ThumbnailCache::getAudioThumbPath(const QString &binId) const
+const QUrl ThumbnailCache::getAudioThumbPath(const QString &binId) const
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
     auto key = getAudioKey(binId, &ok);
     QDir thumbFolder = getDir(true, &ok);
     if (ok && thumbFolder.exists(key)) {
-        return QStringLiteral("file://") + thumbFolder.absoluteFilePath(key);
+        return QUrl::fromLocalFile(thumbFolder.absoluteFilePath(key));
     }
-    return QString();
+    return QUrl();
 }
 
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const

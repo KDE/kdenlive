@@ -23,6 +23,7 @@
 
 #include "definitions.h"
 #include <QDir>
+#include <QUrl>
 #include <QImage>
 #include <QMutex>
 #include <memory>
@@ -60,7 +61,7 @@ public:
     */
     QImage getThumbnail(const QString &binId, int pos, bool volatileOnly = false) const;
     QImage getAudioThumbnail(const QString &binId, bool volatileOnly = false) const;
-    const QString getAudioThumbPath(const QString &binId) const;
+    const QUrl getAudioThumbPath(const QString &binId) const;
 
     /* @brief Get a given thumbnail from the cache
        @param binId is the id of the queried clip
