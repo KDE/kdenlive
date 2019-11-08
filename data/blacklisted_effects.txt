@@ -7,6 +7,7 @@ frei0r.bluescreen0r
 frei0r.bw0r
 frei0r.gamma
 frei0r.invert0r
+burningtv
 
 # unusable effects
 frei0r.3dflippo
