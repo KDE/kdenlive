@@ -5,6 +5,7 @@ boxblur
 brightness
 charcoal
 crop
+chroma
 frei0r.alphagrad
 frei0r.bezier_curves
 frei0r.c0rners
