@@ -185,7 +185,7 @@ public:
     /** @brief Delete cached audio thumb - needs to be recreated */
     void discardAudioThumb();
     /** @brief Get path for this clip's audio thumbnail */
-    const QString getAudioThumbPath();
+    const QString getAudioThumbPath(bool miniThumb = false);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 
@@ -283,6 +283,7 @@ signals:
     void thumbReady(int, const QImage &);
     /** @brief Clip is ready, load properties. */
     void loadPropertiesPanel();
+    void audioThumbReady();
 };
 
 #endif

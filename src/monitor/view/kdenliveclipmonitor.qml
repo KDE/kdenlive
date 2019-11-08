@@ -2,7 +2,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
 import QtQuick 2.6
-import AudioThumb 1.0
 import com.enums 1.0
 
 Item {
@@ -158,10 +157,9 @@ Item {
             id: monitorOverlay
             anchors.fill: parent
 
-            QmlAudioThumb {
+            Item {
                 id: audioThumb
-                objectName: "audiothumb"
-                property bool stateVisible: (clipMonitorRuler.containsMouse || barOverArea.mouseY >= root.height * 0.7)
+                property bool stateVisible: (clipMonitorRuler.containsMouse || (barOverArea.containsMouse && barOverArea.mouseY >= root.height * 0.7))
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -180,6 +178,30 @@ Item {
                 transitions: [ Transition {
                     NumberAnimation { property: "opacity"; duration: 500}
                 } ]
+                Rectangle {
+                    color: "black"
+                    opacity: 0.5
+                    anchors.fill: parent
+                }
+                Rectangle {
+                    color: "yellow"
+                    opacity: 0.3
+                    height: parent.height
+                    x: controller.zoneIn * timeScale
+                    width: (controller.zoneOut - controller.zoneIn) * timeScale
+                    visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
+                }
+                Image {
+                    anchors.fill: parent
+                    source: controller.audioThumb
+                    asynchronous: true
+                }
+                Rectangle {
+                    color: "red"
+                    width: 1
+                    height: parent.height
+                    x: controller.position * timeScale
+                }
             }
 
             Text {

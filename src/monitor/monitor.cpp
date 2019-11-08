@@ -39,6 +39,7 @@
 #include "scopes/monitoraudiolevel.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "utils/thumbnailcache.hpp"
 
 #include "klocalizedstring.h"
 #include <KDualAction>
@@ -502,12 +503,6 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_contextMenu->addMenu(overlayMenu);
     }
 
-    QAction *overlayAudio = m_contextMenu->addAction(QIcon(), i18n("Overlay audio waveform"));
-    overlayAudio->setCheckable(true);
-    connect(overlayAudio, &QAction::toggled, m_glMonitor, &GLWidget::slotSwitchAudioOverlay);
-    overlayAudio->setChecked(KdenliveSettings::displayAudioOverlay());
-    m_configMenu->addAction(overlayAudio);
-
     QAction *switchAudioMonitor = m_configMenu->addAction(i18n("Show Audio Levels"), this, SLOT(slotSwitchAudioMonitor()));
     switchAudioMonitor->setCheckable(true);
     switchAudioMonitor->setChecked((KdenliveSettings::monitoraudio() & m_id) != 0);
@@ -792,13 +787,11 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         } else {
             m_videoWidget->setParent(qApp->desktop()->screen(0));
         }
-        m_qmlManager->enableAudioThumbs(false);
         m_videoWidget->showFullScreen();
     } else {
         m_videoWidget->setParent(m_glWidget);
         //m_videoWidget->move(this->pos());
         m_videoWidget->showNormal();
-        m_qmlManager->enableAudioThumbs(true);
         auto *lay = (QGridLayout *)m_glWidget->layout();
         lay->addWidget(m_videoWidget, 0, 0);
     }
@@ -870,18 +863,6 @@ void Monitor::slotStartDrag()
     drag->setPixmap(pix);
     drag->setHotSpot(QPoint(0, 50));*/
     drag->exec(Qt::MoveAction);
-}
-
-void Monitor::enterEvent(QEvent *event)
-{
-    m_qmlManager->enableAudioThumbs(true);
-    QWidget::enterEvent(event);
-}
-
-void Monitor::leaveEvent(QEvent *event)
-{
-    m_qmlManager->enableAudioThumbs(false);
-    QWidget::leaveEvent(event);
 }
 
 // virtual
@@ -1349,6 +1330,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
 {
     if (m_controller) {
         m_glMonitor->resetZoneMode();
+        disconnect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                    SLOT(checkOverlay()));
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
@@ -1358,6 +1340,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        connect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
         connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                 SLOT(checkOverlay()));
         connect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
@@ -1384,18 +1367,18 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
         }
-        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-        if (KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-            m_glMonitor->setAudioThumb(controller->audioChannels(), controller->audioFrameCache);
+        if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+            m_glMonitor->getControllerProxy()->setAudioThumb(ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
         }
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
         m_glMonitor->getControllerProxy()->setClipProperties(controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
+        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         // hasEffects =  controller->hasEffects();
     } else {
         loadQmlScene(MonitorSceneDefault);
         m_glMonitor->setProducer(nullptr, isActive());
-        m_glMonitor->setAudioThumb();
+        m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(ClipType::Unknown, false, QString());
     }
@@ -1994,9 +1977,11 @@ void Monitor::slotEditInlineMarker()
     }
 }
 
-void Monitor::prepareAudioThumb(int channels, const QList <double>&audioCache)
+void Monitor::prepareAudioThumb()
 {
-    m_glMonitor->buildAudioThumb(channels, audioCache);
+    if (m_controller) {
+        m_glMonitor->getControllerProxy()->setAudioThumb(ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
+    }
 }
 
 void Monitor::slotSwitchAudioMonitor()

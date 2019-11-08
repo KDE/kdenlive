@@ -309,3 +309,9 @@ void MonitorProxy::setClipProperties(ClipType::ProducerType type, bool hasAV, co
         emit clipTypeChanged();
     }
 }
+
+void MonitorProxy::setAudioThumb(const QString thumbPath)
+{
+    m_audioThumb = thumbPath;
+    emit audioThumbChanged();
+}

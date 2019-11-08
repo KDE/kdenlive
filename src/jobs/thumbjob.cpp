@@ -81,9 +81,9 @@ bool ThumbJob::startJob()
         return true;
     }
     m_inCache = false;
-    if (ThumbnailCache::get()->hasThumbnail(m_binClip->clipId(), m_frameNumber, !m_persistent)) {
+    if (ThumbnailCache::get()->hasThumbnail(m_clipId, m_frameNumber, !m_persistent)) {
         m_done = true;
-        m_result = ThumbnailCache::get()->getThumbnail(m_binClip->clipId(), m_frameNumber);
+        m_result = ThumbnailCache::get()->getThumbnail(m_clipId, m_frameNumber);
         m_inCache = true;
         return true;
     }
@@ -129,7 +129,7 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
             p.setPen(Qt::white);
             p.drawText(0, 0, m_fullWidth, m_imageHeight, Qt::AlignCenter, i18n("Invalid"));
         } else {
-            ThumbnailCache::get()->storeThumbnail(m_binClip->clipId(), m_frameNumber, m_result, m_persistent);
+            ThumbnailCache::get()->storeThumbnail(m_clipId, m_frameNumber, m_result, m_persistent);
         }
     }
     m_resultConsumed = true;

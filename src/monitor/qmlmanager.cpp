@@ -20,25 +20,17 @@
  ***************************************************************************/
 
 #include "qmlmanager.h"
-#include "qml/qmlaudiothumb.h"
 
 #include <QFontDatabase>
 #include <QQmlContext>
 #include <QQuickView>
+#include <QQuickItem>
 
 QmlManager::QmlManager(QQuickView *view)
     : QObject(view)
     , m_view(view)
     , m_sceneType(MonitorSceneNone)
 {
-}
-
-void QmlManager::enableAudioThumbs(bool enable)
-{
-    auto *audioThumbDisplay = m_view->rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
-    if (audioThumbDisplay) {
-        audioThumbDisplay->setProperty("stateVisible", enable);
-    }
 }
 
 MonitorSceneType QmlManager::sceneType() const

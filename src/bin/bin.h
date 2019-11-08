@@ -304,9 +304,6 @@ private slots:
     /** @brief Rename a Bin Item. */
     void slotRenameItem();
     void doRefreshPanel(const QString &id);
-    /** @brief Send audio thumb data to monitor for display. */
-    void slotSendAudioThumb(const QString &id);
-    void doRefreshAudioThumbs(const QString &id);
     /** @brief Enable item view and hide message */
     void slotMessageActionTriggered();
     /** @brief Request editing of title or slideshow clip */

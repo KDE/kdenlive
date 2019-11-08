@@ -114,7 +114,6 @@ public:
     void lockMonitor();
     void releaseMonitor();
     int realTime() const;
-    void setAudioThumb(int channels = 0, const QList <double>&audioCache = QList<double>());
     int droppedFrames() const;
     void resetDrops();
     bool checkFrameNumber(int pos, int offset);
@@ -158,7 +157,6 @@ public slots:
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);
-    void slotSwitchAudioOverlay(bool enable);
     void slotZoom(bool zoomIn);
     void initializeGL();
     void releaseAnalyse();
@@ -189,7 +187,6 @@ signals:
     void seekPosition(int);
     void consumerPosition(int);
     void activateMonitor();
-    void buildAudioThumb(int channels = 0, const QList <double>&audioCache = QList<double>());
 
 protected:
     Mlt::Filter *m_glslManager;
@@ -230,16 +227,13 @@ private:
     bool m_isZoneMode;
     bool m_isLoopMode;
     QPoint m_offset;
-    bool m_audioWaveDisplayed;
     MonitorProxy *m_proxy;
     std::shared_ptr<Mlt::Producer> m_blackClip;
     static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
+    static void on_audio_frame_show(mlt_consumer, void *self, mlt_frame frame);
     static void on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
     static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
-    void createAudioOverlay(bool isAudio);
-    void removeAudioOverlay();
-    void adjustAudioOverlay(bool isAudio);
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
     void resetZoneMode();
@@ -315,6 +309,7 @@ public:
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
+    Q_INVOKABLE void showAudioFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLNoSyncFrame(Mlt::Frame frame);
 

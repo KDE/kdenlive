@@ -197,9 +197,6 @@ void ProjectClip::updateAudioThumbnail(QList<double> audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
-    if (auto ptr = m_model.lock()) {
-        emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshAudioThumbs(m_binId);
-    }
 }
 
 bool ProjectClip::audioThumbCreated() const
@@ -1195,7 +1192,7 @@ void ProjectClip::discardAudioThumb()
     pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
 }
 
-const QString ProjectClip::getAudioThumbPath()
+const QString ProjectClip::getAudioThumbPath(bool miniThumb)
 {
     if (audioInfo() == nullptr) {
         return QString();
@@ -1211,6 +1208,10 @@ const QString ProjectClip::getAudioThumbPath()
         return QString();
     }
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
+    if (miniThumb) {
+        audioPath.append(QStringLiteral(".png"));
+        return audioPath;
+    }
     if (audioStream > 0) {
         audioPath.append(QLatin1Char('_') + QString::number(audioInfo()->audio_index()));
     }

@@ -42,6 +42,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
+    Q_PROPERTY(QString audioThumb MEMBER m_audioThumb NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     /** @brief: Returns true if current clip in monitor has Audio and Video
      * */
@@ -90,6 +91,7 @@ public:
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE double fps() const;
     void setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName);
+    void setAudioThumb(const QString thumbPath = QString());
 
 signals:
     void positionChanged();
@@ -110,6 +112,7 @@ signals:
     void clipHasAVChanged();
     void clipNameChanged();
     void clipTypeChanged();
+    void audioThumbChanged();
 
 private:
     GLWidget *q;
@@ -118,6 +121,7 @@ private:
     int m_zoneIn;
     int m_zoneOut;
     bool m_hasAV;
+    QString m_audioThumb;
     QString m_markerComment;
     QString m_clipName;
     int m_clipType;

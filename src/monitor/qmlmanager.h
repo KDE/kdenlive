@@ -39,8 +39,6 @@ class QmlManager : public QObject
 public:
     explicit QmlManager(QQuickView *view);
 
-    /** @brief Show / hide audio thumbnail preview */
-    void enableAudioThumbs(bool enable);
     /** @brief return current active scene type */
     MonitorSceneType sceneType() const;
     /** @brief Set a property on the root item */

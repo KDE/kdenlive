@@ -104,15 +104,46 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = getKey(binId, pos, &ok);
+    auto key = pos < 0 ? getAudioKey(binId, &ok) : getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
         return true;
     }
     if (!ok || volatileOnly) {
         return false;
     }
-    QDir thumbFolder = getDir(&ok);
+    QDir thumbFolder = getDir(pos < 0, &ok);
     return ok && thumbFolder.exists(key);
+}
+
+QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly) const
+{
+    QMutexLocker locker(&m_mutex);
+    bool ok = false;
+    auto key = getAudioKey(binId, &ok);
+    if (ok && m_volatileCache->contains(key)) {
+        return m_volatileCache->get(key);
+    }
+    if (!ok || volatileOnly) {
+        return QImage();
+    }
+    QDir thumbFolder = getDir(true, &ok);
+    if (ok && thumbFolder.exists(key)) {
+        m_storedOnDisk[binId].push_back(-1);
+        return QImage(thumbFolder.absoluteFilePath(key));
+    }
+    return QImage();
+}
+
+const QString ThumbnailCache::getAudioThumbPath(const QString &binId) const
+{
+    QMutexLocker locker(&m_mutex);
+    bool ok = false;
+    auto key = getAudioKey(binId, &ok);
+    QDir thumbFolder = getDir(true, &ok);
+    if (ok && thumbFolder.exists(key)) {
+        return QStringLiteral("file://") + thumbFolder.absoluteFilePath(key);
+    }
+    return QString();
 }
 
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
@@ -126,7 +157,7 @@ QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatile
     if (!ok || volatileOnly) {
         return QImage();
     }
-    QDir thumbFolder = getDir(&ok);
+    QDir thumbFolder = getDir(false, &ok);
     if (ok && thumbFolder.exists(key)) {
         m_storedOnDisk[binId].push_back(pos);
         return QImage(thumbFolder.absoluteFilePath(key));
@@ -143,7 +174,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
         return;
     }
     if (persistent) {
-        QDir thumbFolder = getDir(&ok);
+        QDir thumbFolder = getDir(false, &ok);
         if (ok) {
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
                 qDebug() << ".............\nAAAAAAAAAAAARGH ERROR SAVING THUMB";
@@ -166,7 +197,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
 void ThumbnailCache::saveCachedThumbs(QStringList keys)
 {
     bool ok;
-    QDir thumbFolder = getDir(&ok);
+    QDir thumbFolder = getDir(false, &ok);
     if (!ok) {
         return;
     }
@@ -195,17 +226,26 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
         m_storedVolatile.erase(binId);
     }
     bool ok = false;
-    QDir thumbFolder = getDir(&ok);
+    // Video thumbs
+    QDir thumbFolder = getDir(false, &ok);
+    QDir audioThumbFolder = getDir(true, &ok);
     if (ok && m_storedOnDisk.find(binId) != m_storedOnDisk.end()) {
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {
-            auto key = getKey(binId, pos, &ok);
-            if (ok) {
-                QFile::remove(thumbFolder.absoluteFilePath(key));
+            if (pos < 0) {
+                auto key = getAudioKey(binId, &ok);
+                if (ok) {
+                    QFile::remove(audioThumbFolder.absoluteFilePath(key));
+                }
+            } else {
+                auto key = getKey(binId, pos, &ok);
+                if (ok) {
+                    QFile::remove(thumbFolder.absoluteFilePath(key));
+                }
             }
         }
         m_storedOnDisk.erase(binId);
-    }
+    }    
 }
 
 // static
@@ -217,7 +257,15 @@ QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
 }
 
 // static
-QDir ThumbnailCache::getDir(bool *ok)
+QString ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 {
-    return pCore->currentDoc()->getCacheDir(CacheThumbs, ok);
+    auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
+    *ok = binClip != nullptr;
+    return *ok ? binClip->hash() + QStringLiteral(".png") : QString();
+}
+
+// static
+QDir ThumbnailCache::getDir(bool audio, bool *ok)
+{
+    return pCore->currentDoc()->getCacheDir(audio ? CacheAudio : CacheThumbs, ok);
 }

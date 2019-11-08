@@ -35,7 +35,6 @@
 #include "kdenlivesettings.h"
 #include "monitorproxy.h"
 #include "profiles/profilemodel.hpp"
-#include "qml/qmlaudiothumb.h"
 #include "timeline2/view/qml/timelineitems.h"
 #include <mlt++/Mlt.h>
 
@@ -95,7 +94,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
     , m_offset(QPoint(0, 0))
-    , m_audioWaveDisplayed(false)
     , m_fbo(nullptr)
     , m_shareContext(nullptr)
     , m_openGLSync(false)
@@ -114,7 +112,6 @@ GLWidget::GLWidget(int id, QObject *parent)
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
 
-    qmlRegisterType<QmlAudioThumb>("AudioThumb", 1, 0, "QmlAudioThumb");
     setPersistentOpenGLContext(true);
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
@@ -137,8 +134,6 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
-
-    connect(this, &GLWidget::buildAudioThumb, this, &GLWidget::setAudioThumb);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -928,20 +923,6 @@ static void onThreadStopped(mlt_properties owner, GLWidget *self)
     self->stopGlsl();
 }
 
-void GLWidget::slotSwitchAudioOverlay(bool enable)
-{
-    KdenliveSettings::setDisplayAudioOverlay(enable);
-    if (m_audioWaveDisplayed && !enable) {
-        if (m_producer && m_producer->get_int("video_index") != -1) {
-            // We have a video producer, disable filter
-            removeAudioOverlay();
-        }
-    }
-    if (enable && !m_audioWaveDisplayed && m_producer) {
-        createAudioOverlay(m_producer->get_int("video_index") == -1);
-    }
-}
-
 int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position)
 {
     int error = 0;
@@ -953,9 +934,6 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     } else {
         if (currentId == QLatin1String("black")) {
             return 0;
-        }
-        if (m_audioWaveDisplayed) {
-            removeAudioOverlay();
         }
         m_producer = m_blackClip;
         // Reset markersModel
@@ -983,27 +961,6 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         return error;
     }
     consumerPosition = m_consumer->position();
-    if (m_producer->get_int("video_index") == -1) {
-        // This is an audio only clip, attach visualization filter. Currently, the filter crashes MLT when Movit accel is used
-        if (!m_audioWaveDisplayed) {
-            createAudioOverlay(true);
-        } else if (m_consumer) {
-            if (KdenliveSettings::gpu_accel()) {
-                removeAudioOverlay();
-            } else {
-                adjustAudioOverlay(true);
-            }
-        }
-    } else if (m_audioWaveDisplayed && (m_consumer != nullptr)) {
-        // This is not an audio clip, hide wave
-        if (KdenliveSettings::displayAudioOverlay()) {
-            adjustAudioOverlay(m_producer->get_int("video_index") == -1);
-        } else {
-            removeAudioOverlay();
-        }
-    } else if (KdenliveSettings::displayAudioOverlay()) {
-        createAudioOverlay(false);
-    }
     if (position == -1 && m_producer->parent().get("kdenlive:id") == currentId) {
         position = consumerPosition;
     }
@@ -1023,74 +980,6 @@ void GLWidget::resetDrops()
 {
     if (m_consumer) {
         m_consumer->set("drop_count", 0);
-    }
-}
-
-void GLWidget::createAudioOverlay(bool isAudio)
-{
-    if (!m_consumer) {
-        return;
-    }
-    if (isAudio && KdenliveSettings::gpu_accel()) {
-        // Audiowaveform filter crashes on Movit + audio clips)
-        return;
-    }
-    Mlt::Filter f(pCore->getCurrentProfile()->profile(), "audiowaveform");
-    if (f.is_valid()) {
-        // f.set("show_channel", 1);
-        f.set("color.1", "0xffff0099");
-        f.set("fill", 1);
-        if (isAudio) {
-            // Fill screen
-            f.set("rect", "0,0,100%,100%");
-        } else {
-            // Overlay on lower part of the screen
-            f.set("rect", "0,80%,100%,20%");
-        }
-        m_consumer->attach(f);
-        m_audioWaveDisplayed = true;
-    }
-}
-
-void GLWidget::removeAudioOverlay()
-{
-    Mlt::Service sourceService(m_consumer->get_service());
-    // move all effects to the correct producer
-    int ct = 0;
-    Mlt::Filter *filter = sourceService.filter(ct);
-    while (filter != nullptr) {
-        QString srv = filter->get("mlt_service");
-        if (srv == QLatin1String("audiowaveform")) {
-            sourceService.detach(*filter);
-            delete filter;
-            break;
-        } else {
-            ct++;
-        }
-        filter = sourceService.filter(ct);
-    }
-    m_audioWaveDisplayed = false;
-}
-
-void GLWidget::adjustAudioOverlay(bool isAudio)
-{
-    Mlt::Service sourceService(m_consumer->get_service());
-    // move all effects to the correct producer
-    int ct = 0;
-    Mlt::Filter *filter = sourceService.filter(ct);
-    while (filter != nullptr) {
-        QString srv = filter->get("mlt_service");
-        if (srv == QLatin1String("audiowaveform")) {
-            if (isAudio) {
-                filter->set("rect", "0,0,100%,100%");
-            } else {
-                filter->set("rect", "0,80%,100%,20%");
-            }
-            break;
-        } else {
-            ct++;
-        }
-        filter = sourceService.filter(ct);
     }
 }
 
@@ -1273,6 +1162,7 @@ int GLWidget::reconfigure(bool reload)
             m_consumer->connect(*m_producer.get());
             // m_producer->set_speed(0.0);
         }
+
         int dropFrames = realTime();
         if (!KdenliveSettings::monitor_dropframes()) {
             dropFrames = -dropFrames;
@@ -1296,7 +1186,12 @@ int GLWidget::reconfigure(bool reload)
 
         delete m_displayEvent;
         // C & D
-        if (m_glslManager) {
+        if (m_proxy->property("clipType").toInt() == ClipType::Audio) {
+            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_audio_frame_show);
+            m_sharedFrame = SharedFrame();
+            m_texture[0] = 0;
+            
+        } else if (m_glslManager) {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
         } else {
             // A & B
@@ -1532,6 +1427,19 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
 }
 
 // MLT consumer-frame-show event handler
+void GLWidget::on_audio_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
+{
+    Mlt::Frame frame(frame_ptr);
+    //qDebug()<<"== SHOWING FRAME: "<<frame.get_position();
+    if (frame.get_int("rendered") != 0) {
+        auto *widget = static_cast<GLWidget *>(self);
+        int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
+        if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
+            QMetaObject::invokeMethod(widget->m_frameRenderer, "showAudioFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
+        }
+    }
+}
+
 void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
@@ -1636,6 +1544,14 @@ FrameRenderer::~FrameRenderer()
 {
     delete m_context;
     delete m_gl32;
+}
+
+void FrameRenderer::showAudioFrame(Mlt::Frame frame)
+{
+    // Save this frame for future use and to keep a reference to the GL Texture.
+    m_displayFrame = SharedFrame(frame);
+    emit frameDisplayed(m_displayFrame);
+    m_semaphore.release();
 }
 
 void FrameRenderer::showFrame(Mlt::Frame frame)
@@ -1754,55 +1670,6 @@ void FrameRenderer::pipelineSyncToFrame(Mlt::Frame &frame)
         check_error(m_context->functions());
     }
 #endif // Q_OS_WIN
-}
-
-void GLWidget::setAudioThumb(int channels, const QList <double>&audioCache)
-{
-    if (!rootObject()) return;
-
-    auto *audioThumbDisplay = rootObject()->findChild<QmlAudioThumb *>(QStringLiteral("audiothumb"));
-
-    if (!audioThumbDisplay) return;
-
-    QImage img(width(), height() / 2, QImage::Format_ARGB32_Premultiplied);
-    img.fill(Qt::transparent);
-
-    if (!audioCache.isEmpty() && channels > 0) {
-        int audioLevelCount = audioCache.count() - 1;
-        // simplified audio
-        QPainter painter(&img);
-        QRectF mappedRect(0, 0, img.width(), img.height());
-        int channelHeight = mappedRect.height();
-        double value;
-        double scale = (double)width() / (audioLevelCount / channels);
-        if (scale < 1) {
-            painter.setPen(QColor(80, 80, 150, 200));
-            for (int i = 0; i < img.width(); i++) {
-                int framePos = i / scale;
-                value = audioCache.at(qMin(framePos * channels, audioLevelCount)) / 256;
-                for (int channel = 1; channel < channels; channel++) {
-                    value = qMax(value, audioCache.at(qMin(framePos * channels + channel, audioLevelCount)) / 256);
-                }
-                painter.drawLine(i, mappedRect.bottom() - (value * channelHeight), i, mappedRect.bottom());
-            }
-        } else {
-            QPainterPath positiveChannelPath;
-            positiveChannelPath.moveTo(0, mappedRect.bottom());
-            for (int i = 0; i < audioLevelCount / channels; i++) {
-                value = audioCache.at(qMin(i * channels, audioLevelCount)) / 256;
-                for (int channel = 1; channel < channels; channel++) {
-                    value = qMax(value, audioCache.at(qMin(i * channels + channel, audioLevelCount)) / 256);
-                }
-                positiveChannelPath.lineTo(i * scale, mappedRect.bottom() - (value * channelHeight));
-            }
-            positiveChannelPath.lineTo(mappedRect.right(), mappedRect.bottom());
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(QBrush(QColor(80, 80, 150, 200)));
-            painter.drawPath(positiveChannelPath);
-        }
-        painter.end();
-    }
-    audioThumbDisplay->setImage(img);
 }
 
 void GLWidget::refreshSceneLayout()

@@ -71,6 +71,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 #include <utility>
+
 /**
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
@@ -699,7 +700,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     setFocusPolicy(Qt::ClickFocus);
 
     connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
-    connect(m_itemModel.get(), &ProjectItemModel::refreshAudioThumbs, this, &Bin::doRefreshAudioThumbs);
     connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
     connect(m_itemModel.get(), &ProjectItemModel::emitMessage, this, &Bin::emitMessage);
 
@@ -2197,13 +2197,6 @@ void Bin::refreshClip(const QString &id)
     }
 }
 
-void Bin::doRefreshAudioThumbs(const QString &id)
-{
-    if (m_monitor->activeClipId() == id) {
-        slotSendAudioThumb(id);
-    }
-}
-
 void Bin::slotCreateProjectClip()
 {
     auto *act = qobject_cast<QAction *>(sender());
@@ -3083,16 +3076,6 @@ QStringList Bin::getProxyHashList()
         }
     }
     return list;
-}
-
-void Bin::slotSendAudioThumb(const QString &id)
-{
-    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
-    if ((clip != nullptr) && clip->audioThumbCreated()) {
-        m_monitor->prepareAudioThumb(clip->audioChannels(), clip->audioFrameCache);
-    } else {
-        m_monitor->prepareAudioThumb(0);
-    }
 }
 
 bool Bin::isEmpty() const

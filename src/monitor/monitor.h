@@ -132,7 +132,7 @@ public:
     QAction *recAction();
     void refreshIcons();
     /** @brief Send audio thumb data to qml for on monitor display */
-    void prepareAudioThumb(int channels, const QList <double>&audioCache = QList <double>());
+    void prepareAudioThumb();
     void connectAudioSpectrum(bool activate);
     /** @brief Set a property on the Qml scene **/
     void setQmlProperty(const QString &name, const QVariant &value);
@@ -168,8 +168,6 @@ protected:
      * Ctrl + wheel moves by a second, without Ctrl it moves by a single frame. */
     void wheelEvent(QWheelEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
-    void enterEvent(QEvent *event) override;
-    void leaveEvent(QEvent *event) override;
     virtual QStringList mimeTypes() const;
 
 private:
