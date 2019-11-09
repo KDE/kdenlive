@@ -63,8 +63,7 @@ bool CacheJob::startJob()
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (m_binClip->clipType() != ClipType::Video && m_binClip->clipType() != ClipType::AV && m_binClip->clipType() != ClipType::Playlist) {
         // Don't create thumbnail for audio clips
-        qDebug()<<"!!!!!!!!!!!\n\n WRONG CLIP TYPE\n\n!!!!!!!!!!";
-        m_done = false;
+        m_done = true;
         return true;
     }
     m_prod = m_binClip->thumbProducer();

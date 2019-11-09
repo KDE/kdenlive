@@ -349,8 +349,9 @@ void JobManager::slotManageFinishedJob(int id)
             bid = it.first;
             break;
         }
-        qDebug() << "ERROR: Job " << id << " failed, BID: " << bid;
+        qDebug() << "ERROR: Job " << id << " failed, BID: " << bid<<", TYPE: "<<m_jobs.at(id)->m_type;
         QPair<QString, QString> message = getJobMessageForClip(id, bid);
+        qDebug()<<"MESSAGE LOG: "<<message;
         if (!message.first.isEmpty()) {
             if (!message.second.isEmpty()) {
                 pCore->displayBinLogMessage(message.first, KMessageWidget::Warning, message.second);

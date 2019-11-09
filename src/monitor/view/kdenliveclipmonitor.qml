@@ -172,6 +172,16 @@ Item {
                     height: parent.height
                     x: controller.position * timeScale
                 }
+                MouseArea {
+                    id: thumbMouseArea
+                    anchors.fill: parent
+                    onPressed: {
+                        if (mouse.buttons === Qt.LeftButton) {
+                            var pos = Math.max(mouseX, 0)
+                            controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
+                        }
+                    }
+                }
             }
             Label {
                 id: clipNameLabel
