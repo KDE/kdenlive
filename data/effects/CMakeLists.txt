@@ -33,6 +33,7 @@ rotation.xml
 rotation_keyframable.xml
 scratchlines.xml
 sepia.xml
+shape.xml
 sox_bass.xml
 sox_gain.xml
 sox_phaser.xml

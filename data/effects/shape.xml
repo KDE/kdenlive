@@ -1,0 +1,29 @@
+<!DOCTYPE kpartgui>
+<effect tag="shape" id="shape">
+	<name>Shape Alpha</name>
+	<description>Create an alpha channel (transparency) based on another resource</description>
+	<author>Charles Yates</author>
+	<parameter type="url" name="resource" filter="*|Video files">
+		<name>Image or video resource</name>
+	</parameter>
+	<parameter type="constant" name="mix" max="100" min="0" default="100" suffix="%">
+		<name>Threshold</name>
+        <comment>Convert alpha or luma values below this level as opaque and above this level as transparent. This is mostly useful for luma wipe images.</comment>
+	</parameter>
+    <parameter type="constant" name="softness" max="1" min="0" default="0.1" decimals="2">
+		<name>Softness</name>
+        <comment>When using mix (threshold) how soft to make the edge around the threshold. 0.0 = no softness, 1.0 = too soft.</comment>
+	</parameter>
+    <parameter type="bool" name="invert" default="0" min="0" max="1">
+		<name>Invert</name>
+        <comment>Use the inverse of the alpha or luma value.</comment>
+	</parameter>
+    <parameter type="bool" name="use_luminance" default="0" min="0" max="1">
+		<name>Use Luma</name>
+        <comment>Use the image luma instead of the alpha channel.</comment>
+	</parameter>
+    <parameter type="bool" name="use_mix" default="1" min="0" max="1">
+		<name>Use Threshold</name>
+        Whether to apply a threshold filter to the luma or alpha or not. If not, luma or alpha value of the resource (File) is <comment>copied to the alpha channel.</comment>
+	</parameter>
+</effect>
