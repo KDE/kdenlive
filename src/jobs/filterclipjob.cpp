@@ -31,7 +31,7 @@
 #include <klocalizedstring.h>
 
 FilterClipJob::FilterClipJob(const QString &binId, int cid, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, const QString &filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData)
-    : MeltJob(binId, FILTERCLIPJOB, true, in, out)
+    : MeltJob(binId, FILTERCLIPJOB, false, in, out)
     , m_model(model)
     , m_filterName(filterName)
     , m_timelineClipId(cid)
