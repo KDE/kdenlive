@@ -289,6 +289,10 @@ void DragValue::setValueFromProgress(double value, bool final)
 void DragValue::setValue(double value, bool final)
 {
     value = qBound(m_minimum, value, m_maximum);
+    if (m_intEdit && m_intEdit->singleStep() > 1) {
+        int div = (value - m_minimum) / m_intEdit->singleStep();
+        value = m_minimum + (div * m_intEdit->singleStep());
+    }
     m_label->setProgressValue((value - m_minimum) / (m_maximum - m_minimum) * m_label->maximum());
     if (m_intEdit) {
         m_intEdit->blockSignals(true);
@@ -334,12 +338,17 @@ void DragValue::focusInEvent(QFocusEvent *e)
 void DragValue::slotEditingFinished()
 {
     if (m_intEdit) {
-        int value = m_intEdit->value();
+        int newValue = m_intEdit->value();
         m_intEdit->blockSignals(true);
+        if (m_intEdit->singleStep() > 1) {
+            int div = (newValue - m_minimum) / m_intEdit->singleStep();
+            newValue = m_minimum + (div * m_intEdit->singleStep());
+            m_intEdit->setValue(newValue);
+        }
         m_intEdit->clearFocus();
         m_intEdit->blockSignals(false);
         if (!KdenliveSettings::dragvalue_directupdate()) {
-            emit valueChanged((double)value, true);
+            emit valueChanged((double)newValue, true);
         }
     } else {
         double value = m_doubleEdit->value();
