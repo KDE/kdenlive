@@ -32,7 +32,7 @@
         <comment>Click to copy to clipboard</comment>
     </parameter>
 	<parameter type="filterjob" filtertag="autotrack_rectangle" filterparams="_serialize=1 motion_vector_list=0" consumer="null" consumerparams="all=1 terminate_on_pause=1">
-        <name>Analyse</name>
+        <name conditional="Reset">Analyse</name>
 		<jobparam name="storedata" />
 		<jobparam name="projecttreefilter" />
 		<jobparam name="key">motion_vector_list</jobparam>
