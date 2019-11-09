@@ -196,15 +196,7 @@ Item {
                     color: "#222277"
                 }
                 visible: clipName != ""
-                height: marker.height
-                width: textMetricsName.width + 10
-                padding:10
-                horizontalAlignment: TextInput.AlignHCenter
-                TextMetrics {
-                    id: textMetricsName
-                    font: clipNameLabel.font
-                    text: clipNameLabel.text
-                }
+                padding :4
                 SequentialAnimation {
                     id: showAnimate
                     running: false
