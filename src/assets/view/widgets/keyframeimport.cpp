@@ -64,6 +64,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     l1->addWidget(m_dataCombo);
     l1->addStretch(10);
     lay->addLayout(l1);
+    int in = -1;
+    int out = -1;
     // Set  up data
     auto json = QJsonDocument::fromJson(animData.toUtf8());
     if (!json.isArray()) {
@@ -73,6 +75,13 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
         QJsonObject currentParam;
         currentParam.insert(QLatin1String("name"), QStringLiteral("data"));
         currentParam.insert(QLatin1String("value"), animData);
+        bool ok;
+        QString firstFrame = animData.section(QLatin1Char('='), 0, 0);
+        in = firstFrame.toInt(&ok);
+        if (!ok) {
+            firstFrame.chop(1);
+            in = firstFrame.toInt(&ok);
+        }
         QString first = animData.section(QLatin1Char('='), 1, 1);
         if (!first.isEmpty()) {
             int spaces = first.count(QLatin1Char(' '));
@@ -96,8 +105,6 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     auto list = json.array();
     int ix = 0;
-    int in = -1;
-    int out = -1;
     for (const auto &entry : list) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
@@ -134,7 +141,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     // Zone in / out
     in = qMax(0, in);
     if (out <= 0) {
-        out = m_model->data(indexes.first(), AssetParameterModel::ParentDurationRole).toInt();
+        out = in + m_model->data(indexes.first(), AssetParameterModel::ParentDurationRole).toInt();
     }
     m_inPoint = new PositionWidget(i18n("In"), in, 0, out, pCore->currentDoc()->timecode(), QString(), this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
