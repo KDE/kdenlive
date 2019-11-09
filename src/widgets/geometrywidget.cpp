@@ -174,7 +174,6 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     layout->addLayout(alignLayout);
     layout->addLayout(horLayout2);
     slotUpdateGeometryRect(rect);
-    adjustSizeValue();
     slotAdjustRectKeyframeValue();
     setMinimumHeight(m_spinX->minimumHeight() + alignButton->sizeHint().height() + m_spinSize->minimumHeight());
 }
@@ -379,6 +378,7 @@ void GeometryWidget::slotUpdateGeometryRect(const QRect r)
     m_spinWidth->blockSignals(false);
     m_spinHeight->blockSignals(false);
     m_monitor->setUpEffectGeometry(r);
+    adjustSizeValue();
     emit valueChanged(getValue());
 }
 
