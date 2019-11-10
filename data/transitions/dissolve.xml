@@ -2,6 +2,13 @@
 <transition tag="luma" id="dissolve">
     <name>Dissolve</name>
     <description>Fade out one video while fading in the other video.</description>
+    <parameter type="list" name="resource" default="" paramlist="%lumaPaths" optional="1">
+        <paramlistdisplay>%lumaNames</paramlistdisplay>
+        <name>Luma Map</name>
+    </parameter>
+    <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
+            <name>Softness</name>
+    </parameter>
     <parameter type="bool" name="reverse" default="0">
         <name>Reverse</name>
     </parameter>
