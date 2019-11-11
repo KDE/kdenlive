@@ -68,20 +68,20 @@ bool AssetTreeModel::isFavorite(const QModelIndex &index) const
     return item->dataColumn(AssetTreeModel::favCol).toBool();
 }
 
-QString AssetTreeModel::getDescription(const QModelIndex &index) const
+QString AssetTreeModel::getDescription(bool isEffect, const QModelIndex &index) const
 {
     if (!index.isValid()) {
         return QString();
     }
     std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
-    if (item->depth() == 1) {
+    if (isEffect && item->depth() == 1) {
         return QString();
     }
     auto id = item->dataColumn(AssetTreeModel::idCol).toString();
-    if (EffectsRepository::get()->exists(id)) {
+    if (isEffect && EffectsRepository::get()->exists(id)) {
         return EffectsRepository::get()->getDescription(id);
     }
-    if (TransitionsRepository::get()->exists(id)) {
+    if (!isEffect && TransitionsRepository::get()->exists(id)) {
         return TransitionsRepository::get()->getDescription(id);
     }
     return QString();

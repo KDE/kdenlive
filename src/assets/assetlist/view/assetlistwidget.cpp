@@ -78,9 +78,9 @@ void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite, bool 
     m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect);
 }
 
-QString AssetListWidget::getDescription(const QModelIndex &index) const
+QString AssetListWidget::getDescription(bool isEffect, const QModelIndex &index) const
 {
-    return m_model->getDescription(m_proxyModel->mapToSource(index));
+    return m_model->getDescription(isEffect, m_proxyModel->mapToSource(index));
 }
 
 void AssetListWidget::setFilterName(const QString &pattern)
