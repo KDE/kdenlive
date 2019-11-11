@@ -491,8 +491,7 @@ void KeyframeModelList::checkConsistency()
         for (auto &time : fullList) {
             if (!list.contains(time)) {
                 qDebug()<<" = = = \n\n = = = = \n\nWARNING; MISSING KF DETECTED AT: "<<time.seconds()<<"\n\n= = = \n\n= = =";
-                //TODO: add better error message after string freeze
-                pCore->displayMessage(i18n("Keyframe interpolation"), ErrorMessage);
+                pCore->displayMessage(i18n("Missing keyframe detected at %1, automatically re-added", time.seconds()), ErrorMessage);
                 QVariant missingVal = param.second->getInterpolatedValue(time);
                 local_update = param.second->addKeyframe_lambda(time, type, missingVal, false);
                 local_update();

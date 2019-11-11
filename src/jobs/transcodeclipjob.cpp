@@ -47,7 +47,7 @@ TranscodeJob::TranscodeJob(const QString &binId, QString params)
 const QString TranscodeJob::getDescription() const
 {
     //TODO: add better description after string freeze
-    return i18n("Transcode");
+    return i18n("Transcode Clip");
 }
 
 bool TranscodeJob::startJob()

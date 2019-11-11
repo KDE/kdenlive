@@ -44,7 +44,7 @@ FilterClipJob::FilterClipJob(const QString &binId, int cid, std::weak_ptr<AssetP
 const QString FilterClipJob::getDescription() const
 {
     //TODO: add better description after string freeze
-    return i18n("Analyse clip");
+    return i18n("Apply Filter on Clip");
 }
 
 void FilterClipJob::configureConsumer()

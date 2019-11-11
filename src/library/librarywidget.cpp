@@ -365,7 +365,7 @@ void LibraryWidget::slotAddFolder()
     }
     QDir dir(parentFolder);
     if (dir.exists(name)) {
-        // TODO: warn user
+        showMessage(i18n("Folder %1 already exists", name));
         return;
     }
     if (!dir.mkdir(name)) {
