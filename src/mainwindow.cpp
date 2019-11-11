@@ -3529,7 +3529,7 @@ bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 
 void MainWindow::updateDockTitleBars(bool isTopLevel)
 {
-    if (!KdenliveSettings::showtitlebars() || !isTopLevel) {
+    if (!KdenliveSettings::showtitlebars() && !isTopLevel) {
         return;
     }
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
