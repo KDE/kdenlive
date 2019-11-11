@@ -272,9 +272,11 @@
     <screenshot type="default">
       <caption>Kdenlive timeline</caption>
       <caption xml:lang="ca">Línia del temps del Kdenlive</caption>
+      <caption xml:lang="en-GB">Kdenlive timeline</caption>
       <caption xml:lang="nl">Kdenlive tijdlijn</caption>
       <caption xml:lang="pt">Linha temporal do Kdenlive</caption>
       <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
+      <caption xml:lang="sv">Kdenlive tidslinje</caption>
       <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive timelinexx</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/kdenlive-screenshot-19-08-series.png</image>
