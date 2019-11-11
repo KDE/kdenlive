@@ -137,7 +137,7 @@ Item {
                 height: controller.clipType == ProducerType.Audio ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: root.showAudiothumb
+                visible: root.showAudiothumb && (controller.clipType == ProducerType.Audio || controller.clipType == ProducerType.AV)
 
                 states: [
                     State { when: audioThumb.stateVisible || controller.clipType == ProducerType.Audio;
