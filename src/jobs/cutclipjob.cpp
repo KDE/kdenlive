@@ -55,8 +55,7 @@ CutClipJob::CutClipJob(const QString &binId, const QString sourcePath, GenTime i
 
 const QString CutClipJob::getDescription() const
 {
-    //TODO: add better description after string freeze
-    return i18n("Extract Zone");
+    return i18n("Extract Clip Zone");
 }
 
 // static

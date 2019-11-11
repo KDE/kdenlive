@@ -26,6 +26,7 @@
 #include "klocalizedstring.h"
 #include "profiles/profilemodel.hpp"
 #include <QDebug>
+#include <QDir>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QLocale>
@@ -661,7 +662,6 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
             QByteArray saveData = loadFile.readAll();
             QJsonDocument loadDoc(QJsonDocument::fromJson(saveData));
             if (loadDoc.isArray()) {
-                qDebug() << " * * ** JSON IS AN ARRAY, DELETING: " << presetName;
                 array = loadDoc.array();
                 QList<int> toDelete;
                 for (int i = 0; i < array.size(); i++) {
@@ -684,15 +684,21 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                 array.append(obj);
             }
             loadFile.close();
-        } else if (!loadFile.open(QIODevice::ReadWrite)) {
-            // TODO: error message
         }
     }
     if (!loadFile.open(QIODevice::WriteOnly)) {
-        // TODO: error message
+        pCore->displayMessage(i18n("Cannot open preset file %1", presetFile), ErrorMessage);
+        return;
     }
-    //TODO: delete file if there are no more presets in it
-    loadFile.write(QJsonDocument(array).toJson());
+    if (array.isEmpty()) {
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
+        if (dir.exists(presetFile)) {
+            // Ensure we don't delete an unwanted file
+            loadFile.remove();
+        }
+    } else {
+        loadFile.write(QJsonDocument(array).toJson());
+    }
 }
 
 void AssetParameterModel::savePreset(const QString &presetFile, const QString &presetName)
@@ -725,12 +731,11 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
                 array.append(obj);
             }
             loadFile.close();
-        } else if (!loadFile.open(QIODevice::ReadWrite)) {
-            // TODO: error message
         }
     }
     if (!loadFile.open(QIODevice::WriteOnly)) {
-        // TODO: error message
+        pCore->displayMessage(i18n("Cannot open preset file %1", presetFile), ErrorMessage);
+        return;
     }
     object[presetName] = doc.array();
     array.append(object);
