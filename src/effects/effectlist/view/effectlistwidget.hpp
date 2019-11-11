@@ -77,7 +77,7 @@ public:
         q->setFavorite(index, favorite, true);
         q->updateFavorite(index);
     }
-    Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(index); }
+    Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(true, index); }
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }
 
     Q_INVOKABLE void activate(const QModelIndex &ix) { q->activate(ix); }

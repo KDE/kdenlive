@@ -53,7 +53,7 @@ public:
     void setFavorite(const QModelIndex &index, bool favorite = true, bool isEffect = true);
 
     /* @brief Returns the description of the asset given its model index */
-    QString getDescription(const QModelIndex &index) const;
+    QString getDescription(bool isEffect, const QModelIndex &index) const;
 
     /* @brief Sets the pattern against which the assets' names are filtered */
     void setFilterName(const QString &pattern);

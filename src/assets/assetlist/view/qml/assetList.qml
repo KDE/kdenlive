@@ -212,7 +212,7 @@ Rectangle {
             id: sel
             model: assetListModel
             onSelectionChanged: {
-                assetDescription.text = i18n(assetlist.getDescription(sel.currentIndex))
+                assetDescription.text = assetlist.getDescription(sel.currentIndex)
             }
         }
         SplitView {

@@ -21,11 +21,13 @@
 
 #include "xml/xml.hpp"
 #include "kdenlivesettings.h"
+
 #include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
+#include <KLocalizedString>
 
 #include <locale>
 #ifdef Q_OS_MAC
@@ -137,8 +139,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             QString id = metadata->get("identifier");
             res.name = metadata->get("title");
             res.name[0] = res.name[0].toUpper();
-            res.description = metadata->get("description");
-            res.description.append(QString(" (%1)").arg(id));
+            res.description = i18n(metadata->get("description")) + QString(" (%1)").arg(id);
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
             res.version = ceil(100 * metadata->get_double("version"));
@@ -331,7 +332,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Update description if the xml provide one
     QString description = Xml::getSubTagContent(currentAsset, QStringLiteral("description"));
     if (!description.isEmpty()) {
-        res.description = description;
+        res.description = i18n(description.toUtf8().constData()) + QString(" (%1)").arg(res.id);
     }
 
     // Update name if the xml provide one
