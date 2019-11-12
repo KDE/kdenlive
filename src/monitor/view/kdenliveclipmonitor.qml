@@ -129,7 +129,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (clipMonitorRuler.containsMouse || (barOverArea.containsMouse && barOverArea.mouseY >= root.height * 0.7))
+                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse)
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
@@ -149,8 +149,8 @@ Item {
                     NumberAnimation { property: "opacity"; duration: 500}
                 } ]
                 Rectangle {
-                    color: "black"
-                    opacity: 0.5
+                    color: activePalette.base
+                    opacity: 0.6
                     anchors.fill: parent
                 }
                 Rectangle {
@@ -175,8 +175,10 @@ Item {
                 MouseArea {
                     id: thumbMouseArea
                     anchors.fill: parent
-                    onPressed: {
-                        if (mouse.buttons === Qt.LeftButton) {
+                    acceptedButtons: Qt.NoButton
+                    hoverEnabled: true
+                    onPositionChanged: {
+                        if (mouse.modifiers & Qt.ShiftModifier) {
                             var pos = Math.max(mouseX, 0)
                             controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
                         }
@@ -324,7 +326,7 @@ Item {
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
-            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse /*|| dragOverArea.pressed */|| (barOverArea.containsMouse && barOverArea.mouseY >= y)) ? 1 : 0
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || (barOverArea.containsMouse && barOverArea.mouseY >= y)) ? 1 : 0
             visible: controller.clipHasAV
             Row {
                 id: dragRow
