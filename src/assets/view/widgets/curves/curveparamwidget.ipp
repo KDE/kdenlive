@@ -208,9 +208,9 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::deleteIr
 
 template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setupLayoutPoint()
 {
-    m_pX = new DragValue(i18n("In"), 0, 3, 0, 1, -1, QString(), false, this);
+    m_pX = new DragValue(i18n("In"), 0, 3, 0, 1, -1, QString(), false, false, this);
     m_pX->setStep(0.001);
-    m_pY = new DragValue(i18n("Out"), 0, 3, 0, 1, -1, QString(), false, this);
+    m_pY = new DragValue(i18n("Out"), 0, 3, 0, 1, -1, QString(), false, false, this);
     m_pY->setStep(0.001);
     m_ui.layoutP->addWidget(m_pX);
     m_ui.layoutP->addWidget(m_pY);
@@ -220,13 +220,13 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::setupLay
 
 template <> void CurveParamWidget<BezierSplineEditor>::setupLayoutHandles()
 {
-    m_h1X = new DragValue(i18n("X"), 0, 3, -2, 2, -1, QString(), false, this);
+    m_h1X = new DragValue(i18n("X"), 0, 3, -2, 2, -1, QString(), false, false, this);
     m_h1X->setStep(0.001);
-    m_h1Y = new DragValue(i18n("Y"), 0, 3, -2, 2, -1, QString(), false, this);
+    m_h1Y = new DragValue(i18n("Y"), 0, 3, -2, 2, -1, QString(), false, false, this);
     m_h1Y->setStep(0.001);
-    m_h2X = new DragValue(i18n("X"), 0, 3, -2, 2, -1, QString(), false, this);
+    m_h2X = new DragValue(i18n("X"), 0, 3, -2, 2, -1, QString(), false, false, this);
     m_h2X->setStep(0.001);
-    m_h2Y = new DragValue(i18n("Y"), 0, 3, -2, 2, -1, QString(), false, this);
+    m_h2Y = new DragValue(i18n("Y"), 0, 3, -2, 2, -1, QString(), false, false, this);
     m_h2Y->setStep(0.001);
     m_ui.layoutH1->addWidget(new QLabel(i18n("Handle 1:")));
     m_ui.layoutH1->addWidget(m_h1X);
