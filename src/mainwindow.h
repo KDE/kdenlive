@@ -269,6 +269,8 @@ public slots:
     /** @brief Reload project profile in config dialog if changed. */
     void slotRefreshProfiles();
     void updateDockTitleBars(bool isTopLevel = true);
+    /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
+    void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     void configureToolbars() override;
     /** @brief Decreases the timeline zoom level by 1. */
     void slotZoomIn(bool zoomOnMouse = false);
@@ -283,8 +285,6 @@ private slots:
     /** @brief Shows the shortcut dialog. */
     void slotEditKeys();
     void loadDockActions();
-    /** @brief Add/remove Dock tile bar depending on state (tabbed, floating, ...) */
-    void slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea);
     /** @brief Reflects setting changes to the GUI. */
     void updateConfiguration();
     void slotConnectMonitors();

@@ -3216,8 +3216,7 @@ void MainWindow::buildDynamicActions()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (int j = 0; j < docks.count(); ++j) {
-        QDockWidget *dock = docks.at(j);
+    for (auto dock : docks) {
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;
@@ -3464,13 +3463,12 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     dockWidget->setObjectName(objectName);
     dockWidget->setWidget(widget);
     addDockWidget(area, dockWidget);
-    connect(dockWidget, &QDockWidget::dockLocationChanged, this, &MainWindow::slotUpdateDockLocation);
-    connect(dockWidget, &QDockWidget::topLevelChanged, this, &MainWindow::updateDockTitleBars);
     return dockWidget;
 }
 
 void MainWindow::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
 {
+    qDebug()<<"== UPDATING DOCK LOCATION FOR: "<<dockLocationArea;
     if (dockLocationArea == Qt::NoDockWidgetArea) {
         updateDockTitleBars(false);
     } else {
@@ -3519,8 +3517,8 @@ void MainWindow::doChangeStyle()
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (int i = 0; i < tabbed.count(); i++) {
-        if (tabbed.at(i)->objectName() == otherWidget) {
+    for (auto tab : tabbed) {
+        if (tab->objectName() == otherWidget) {
             return true;
         }
     }
@@ -3534,11 +3532,9 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     }
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
     //qDebug()<<"=== FOUND DOCKS: "<<docks.count();
-    for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget *dock = docks.at(i);
+    for (QDockWidget *dock : docks) {
         QWidget *bar = dock->titleBarWidget();
         if (dock->isFloating()) {
-            //qDebug()<<"==== FOUND FLOATING: "<<dock->objectName();
             if (bar) {
                 dock->setTitleBarWidget(nullptr);
                 delete bar;
@@ -3555,7 +3551,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
         }
         bool hasVisibleDockSibling = false;
         for (QDockWidget *sub : docked) {
-            if (sub->toggleViewAction()->isChecked()) {
+            if (sub->toggleViewAction()->isChecked() && !sub->isTopLevel()) {
                 // we have another docked widget, so tabs are visible and can be used instead of title bars
                 hasVisibleDockSibling = true;
                 break;

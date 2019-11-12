@@ -28,10 +28,17 @@ HideTitleBars::HideTitleBars(QObject *parent)
 
 void HideTitleBars::slotInstallRightClick()
 {
+    // install right click
     QList<QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
-    for (int i = 0; i < tabs.count(); ++i) {
-        tabs.at(i)->setContextMenuPolicy(Qt::CustomContextMenu);
-        connect(tabs.at(i), &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
+    for (QTabBar *tab : tabs) {
+        tab->setContextMenuPolicy(Qt::CustomContextMenu);
+        connect(tab, &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
+    }
+    // connect
+    QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
+    for (QDockWidget *dock : docks) {
+        connect(dock, &QDockWidget::dockLocationChanged, pCore->window(), &MainWindow::slotUpdateDockLocation);
+        connect(dock, &QDockWidget::topLevelChanged, pCore->window(), &MainWindow::updateDockTitleBars);
     }
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 }
@@ -39,10 +46,8 @@ void HideTitleBars::slotInstallRightClick()
 void HideTitleBars::slotShowTitleBars(bool show)
 {
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
-    for (int i = 0; i < docks.count(); ++i) {
-        QDockWidget *dock = docks.at(i);
+    for (QDockWidget *dock : docks) {
         QWidget *bar = dock->titleBarWidget();
-
         auto handleRemoveBar = [&dock, &bar]() -> void {
             if (bar) {
                 dock->setTitleBarWidget(nullptr);
@@ -51,7 +56,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
         };
 
         if (!show) {
-            if (!dock->isFloating() && (bar == nullptr)) {
+            if (!dock->isFloating() && bar == nullptr) {
                 dock->setTitleBarWidget(new QWidget());
             }
             continue;
@@ -69,8 +74,7 @@ void HideTitleBars::slotShowTitleBars(bool show)
         }
 
         const bool hasVisibleDockSibling =
-            std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) { return sub->toggleViewAction()->isChecked(); }) != std::end(docked);
-        ;
+            std::find_if(std::begin(docked), std::end(docked), [](QDockWidget *sub) { return sub->toggleViewAction()->isChecked() && !sub->isTopLevel(); }) != std::end(docked);
 
         if (!hasVisibleDockSibling) {
             handleRemoveBar();
