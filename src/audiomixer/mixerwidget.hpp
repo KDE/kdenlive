@@ -55,7 +55,9 @@ public:
     virtual ~MixerWidget();
     void buildUI(Mlt::Tractor *service, const QString &trackTag);
     /** @brief discard stored audio values and reset vu-meter to 0 if requested */
-    void clear(bool reset = false);
+    void reset();
+    /** @brief discard stored audio values */
+    void clear();
     static void property_changed( mlt_service , MixerWidget *self, char *name );
     void setMute(bool mute);
     /** @brief Returs true if track is muted
