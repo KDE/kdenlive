@@ -86,6 +86,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         mixer->connectMixer(true);
     }
     connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
+    connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
     connect(mixer.get(), &MixerWidget::toggleSolo, [&](int trid, bool solo) {
         if (!solo) {
             // unmute
@@ -122,17 +123,6 @@ void MixerManager::deregisterTrack(int tid)
 {
     Q_ASSERT(m_mixers.count(tid) > 0);
     m_mixers.erase(tid);
-}
-
-void MixerManager::resetAudioValues()
-{
-    qDebug()<<"======\n\nRESTTING AUDIO VALUES\n\n------------------_";
-    for (auto item : m_mixers) {
-        item.second.get()->clear();
-    }
-    if (m_masterMixer) {
-        m_masterMixer->clear();
-    }
 }
 
 void MixerManager::cleanup()
@@ -174,6 +164,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         m_masterMixer->connectMixer(true);
     }
     connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);
+    connect(this, &MixerManager::clearMixers, m_masterMixer.get(), &MixerWidget::clear);
     m_masterBox->addWidget(m_masterMixer.get());
     collapseMixers();
 }

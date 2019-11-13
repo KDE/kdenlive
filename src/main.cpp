@@ -53,6 +53,16 @@
 #include <QUrl> //new
 #include <klocalizedstring.h>
 
+#ifdef Q_OS_WIN
+extern "C"
+{
+    // Inform the driver we could make use of the discrete gpu
+    __declspec(dllexport) DWORD NvOptimusEnablement = 0x00000001;
+    __declspec(dllexport) int AmdPowerXpressRequestHighPerformance = 1;
+}
+#endif
+
+
 int main(int argc, char *argv[])
 {
 #ifdef USE_DRMINGW
@@ -63,6 +73,7 @@ int main(int argc, char *argv[])
 
     Logger::init();
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    //TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)

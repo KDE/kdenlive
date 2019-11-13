@@ -99,7 +99,6 @@ public:
     QRect rect() const { return m_rect; }
     QRect effectRect() const { return m_effectRect; }
     float zoom() const;
-    float scale() const;
     QPoint offset() const;
     std::shared_ptr<Mlt::Consumer> consumer();
     Mlt::Producer *producer();
@@ -223,6 +222,9 @@ private:
     int m_textureLocation[3];
     QTimer m_refreshTimer;
     float m_zoom;
+    QSize m_profileSize;
+    int m_colorSpace;
+    double m_dar;
     bool m_sendFrame;
     bool m_isZoneMode;
     bool m_isLoopMode;

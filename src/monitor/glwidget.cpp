@@ -90,6 +90,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_texCoordLocation(0)
     , m_colorspaceLocation(0)
     , m_zoom(1.0f)
+    , m_profileSize(1920, 1080)
+    , m_colorSpace(601)
+    , m_dar(1.78)
     , m_sendFrame(false)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
@@ -122,7 +125,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(50);
-    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:black"));
+    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
@@ -213,8 +216,6 @@ void GLWidget::initializeGL()
     m_frameRenderer->sendAudioForAnalysis = KdenliveSettings::monitor_audio();
 
     openglContext()->makeCurrent(this);
-    // openglContext()->blockSignals(false);
-    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
     connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
 
@@ -229,29 +230,28 @@ void GLWidget::resizeGL(int width, int height)
     int x, y, w, h;
     height -= m_rulerHeight;
     double this_aspect = (double)width / height;
-    double video_aspect = pCore->getCurrentProfile()->dar();
 
     // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
-    if ((int)(this_aspect * 1000) == (int)(video_aspect * 1000)) {
+    if ((int)(this_aspect * 1000) == (int)(m_dar * 1000)) {
         w = width;
         h = height;
     }
     // Use OpenGL to normalise sample aspect ratio
-    else if (height * video_aspect > width) {
+    else if (height * m_dar > width) {
         w = width;
-        h = width / video_aspect;
+        h = width / m_dar;
     } else {
-        w = height * video_aspect;
+        w = height * m_dar;
         h = height;
     }
     x = (width - w) / 2;
     y = (height - h) / 2;
     m_rect.setRect(x, y, w, h);
-    double scalex = (double)m_rect.width() / pCore->getCurrentProfile()->width() * m_zoom;
+    double scalex = (double)m_rect.width() / m_profileSize.width() * m_zoom;
     double scaley = (double)m_rect.width() /
-                    ((double)pCore->getCurrentProfile()->height() * pCore->getCurrentProfile()->dar() / pCore->getCurrentProfile()->width()) /
-                    pCore->getCurrentProfile()->width() * m_zoom;
+                    ((double)m_profileSize.height() * m_dar / m_profileSize.width()) /
+                    m_profileSize.width() * m_zoom;
     QPoint center = m_rect.center();
     QQuickItem *rootQml = rootObject();
     if (rootQml) {
@@ -448,7 +448,7 @@ void GLWidget::bindShaderProgram()
         m_shader->setUniformValue(m_textureLocation[0], 0);
         m_shader->setUniformValue(m_textureLocation[1], 1);
         m_shader->setUniformValue(m_textureLocation[2], 2);
-        m_shader->setUniformValue(m_colorspaceLocation, pCore->getCurrentProfile()->colorspace());
+        m_shader->setUniformValue(m_colorspaceLocation, m_colorSpace);
     }
 }
 
@@ -588,17 +588,15 @@ void GLWidget::paintGL()
 
     if (m_sendFrame && m_analyseSem.tryAcquire(1)) {
         // Render RGB frame for analysis
-        int fullWidth = pCore->getCurrentProfile()->width();
-        int fullHeight = pCore->getCurrentProfile()->height();
-        if ((m_fbo == nullptr) || m_fbo->size() != QSize(fullWidth, fullHeight)) {
+        if ((m_fbo == nullptr) || m_fbo->size() != m_profileSize) {
             delete m_fbo;
             QOpenGLFramebufferObjectFormat fmt;
             fmt.setSamples(1);
             fmt.setInternalTextureFormat(GL_RGB);                             // GL_RGBA32F);  // which one is the fastest ?
-            m_fbo = new QOpenGLFramebufferObject(fullWidth, fullHeight, fmt); // GL_TEXTURE_2D);
+            m_fbo = new QOpenGLFramebufferObject(m_profileSize.height(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
         }
         m_fbo->bind();
-        glViewport(0, 0, fullWidth, fullHeight);
+        glViewport(0, 0, m_profileSize.width(), m_profileSize.height());
 
         QMatrix4x4 projection2;
         projection2.scale(2.0f / (float)width, 2.0f / (float)height);
@@ -1093,7 +1091,7 @@ int GLWidget::reconfigure(bool reload)
     // use SDL for audio, OpenGL for video
     QString serviceName = property("mlt_service").toString();
     if (reload) {
-        m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:black"));
+        m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
         m_blackClip->set("kdenlive:id", "black");
         reloadProfile();
         return error;
@@ -1114,6 +1112,9 @@ int GLWidget::reconfigure(bool reload)
                 if (KdenliveSettings::external_display()) {
                     m_consumer->set("terminate_on_pause", 0);
                 }
+                m_profileSize = pCore->getCurrentFrameSize();
+                m_colorSpace = pCore->getCurrentProfile()->colorspace();
+                m_dar = pCore->getCurrentDar();
             } else {
                 // Warning, audio backend unavailable on system
                 m_consumer.reset();
@@ -1190,7 +1191,6 @@ int GLWidget::reconfigure(bool reload)
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_audio_frame_show);
             m_sharedFrame = SharedFrame();
             m_texture[0] = 0;
-            
         } else if (m_glslManager) {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
         } else {
@@ -1245,11 +1245,6 @@ float GLWidget::zoom() const
     return m_zoom;
 }
 
-float GLWidget::scale() const
-{
-    return (double)m_rect.width() / pCore->getCurrentProfile()->width() * m_zoom;
-}
-
 void GLWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
@@ -1266,7 +1261,7 @@ void GLWidget::reloadProfile()
 
 QSize GLWidget::profileSize() const
 {
-    return {pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()};
+    return m_profileSize;
 }
 
 QRect GLWidget::displayRect() const
@@ -1276,8 +1271,8 @@ QRect GLWidget::displayRect() const
 
 QPoint GLWidget::offset() const
 {
-    return {m_offset.x() - ((int)((float)pCore->getCurrentProfile()->width() * m_zoom) - width()) / 2,
-            m_offset.y() - ((int)((float)pCore->getCurrentProfile()->height() * m_zoom) - height()) / 2};
+    return {m_offset.x() - ((int)((float)m_profileSize.width() * m_zoom) - width()) / 2,
+            m_offset.y() - ((int)((float)m_profileSize.height() * m_zoom) - height()) / 2};
 }
 
 void GLWidget::setZoom(float zoom)
@@ -1302,6 +1297,7 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_sendFrame = sendFrameForAnalysis;
     m_contextSharedAccess.unlock();
     update();
+    emit frameDisplayed(frame);
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -1677,12 +1673,12 @@ void GLWidget::refreshSceneLayout()
     if (!rootObject()) {
         return;
     }
-    rootObject()->setProperty("profile", QPoint(pCore->getCurrentProfile()->width(), pCore->getCurrentProfile()->height()));
+    rootObject()->setProperty("profile", QPoint(m_profileSize.width(), m_profileSize.height()));
     rootObject()->setProperty("scalex", (double)m_rect.width() / pCore->getCurrentProfile()->width() * m_zoom);
     rootObject()->setProperty("scaley",
                               (double)m_rect.width() /
-                                  (((double)pCore->getCurrentProfile()->height() * pCore->getCurrentProfile()->dar() / pCore->getCurrentProfile()->width())) /
-                                  pCore->getCurrentProfile()->width() * m_zoom);
+                                  (((double)m_profileSize.height() * m_dar / m_profileSize.width())) /
+                                  m_profileSize.width() * m_zoom);
 }
 
 void GLWidget::switchPlay(bool play, double speed)

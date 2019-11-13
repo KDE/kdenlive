@@ -54,7 +54,6 @@ public:
     void collapseMixers();
 
 public slots:
-    void resetAudioValues();
     void recordStateChanged(int tid, bool recording);
 
 private slots:
@@ -64,6 +63,7 @@ signals:
     void updateLevels(int);
     void recordAudio(int tid);
     void purgeCache();
+    void clearMixers();
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
