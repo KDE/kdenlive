@@ -219,6 +219,7 @@ void ClipController::getInfoForProducer()
             }
             if (m_service == QLatin1String("avformat")) {
                 m_properties->set("mlt_service", "avformat-novalidate");
+                m_properties->set("mute_on_pause", 0);
             }
         }
     } else if (m_service == QLatin1String("qimage") || m_service == QLatin1String("pixbuf")) {

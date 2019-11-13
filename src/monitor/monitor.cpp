@@ -184,7 +184,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_horizontalScroll->hide();
     connect(m_horizontalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetX);
     connect(m_verticalScroll, &QAbstractSlider::valueChanged, this, &Monitor::setOffsetY);
-    connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed);
+    connect(m_glMonitor, &GLWidget::frameDisplayed, this, &Monitor::onFrameDisplayed, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::mouseSeek, this, &Monitor::slotMouseSeek);
     connect(m_glMonitor, &GLWidget::monitorPlay, this, &Monitor::slotPlay);
     connect(m_glMonitor, &GLWidget::startDrag, this, &Monitor::slotStartDrag);
@@ -1648,10 +1648,10 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
-    m_monitorManager->frameDisplayed(frame);
     if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration)) {
         m_playAction->setActive(false);
     }
+    m_monitorManager->frameDisplayed(frame);
     checkDrops(m_glMonitor->droppedFrames());
 }
 

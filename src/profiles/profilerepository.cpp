@@ -113,7 +113,6 @@ std::unique_ptr<ProfileModel> &ProfileRepository::getProfile(const QString &path
         }
         return m_profiles.at(default_profile);
     }
-
     return m_profiles.at(path);
 }
 
