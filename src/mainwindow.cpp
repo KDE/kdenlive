@@ -361,6 +361,7 @@ void MainWindow::init()
         case ObjectType::TimelineTrack:
         case ObjectType::TimelineClip:
         case ObjectType::TimelineComposition:
+        case ObjectType::Master:
             getCurrentTimeline()->controller()->setPosition(pos);
             break;
         case ObjectType::BinClip:
@@ -2644,7 +2645,7 @@ void MainWindow::addEffect(const QString &effectId)
         QVariantMap effectData;
         effectData.insert(QStringLiteral("kdenlive/effect"), effectId);
         pCore->window()->getMainTimeline()->controller()->addAsset(effectData);
-    } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip) {
+    } else if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineTrack || m_assetPanel->effectStackOwner().first == ObjectType::BinClip || m_assetPanel->effectStackOwner().first == ObjectType::Master) {
         if (!m_assetPanel->addEffect(effectId)) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
         }
