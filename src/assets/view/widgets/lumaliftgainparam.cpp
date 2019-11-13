@@ -126,15 +126,7 @@ void LumaLiftGainParam::slotRefresh()
         double val = m_locale.toDouble(m_model->data(local_index, AssetParameterModel::ValueRole).toString());
         values.insert(name, val);
     }
-
-    NegQColor lift = NegQColor::fromRgbF(values.value(QStringLiteral("lift_r")) / LIFT_FACTOR, values.value(QStringLiteral("lift_g")) / LIFT_FACTOR,
-                                         values.value(QStringLiteral("lift_b")) / LIFT_FACTOR);
-    NegQColor gamma = NegQColor::fromRgbF(values.value(QStringLiteral("gamma_r")) / GAMMA_FACTOR, values.value(QStringLiteral("gamma_g")) / GAMMA_FACTOR,
-                                          values.value(QStringLiteral("gamma_b")) / GAMMA_FACTOR);
-    NegQColor gain = NegQColor::fromRgbF(values.value(QStringLiteral("gain_r")) / GAIN_FACTOR, values.value(QStringLiteral("gain_g")) / GAIN_FACTOR,
-                                         values.value(QStringLiteral("gain_b")) / GAIN_FACTOR);
-
-    m_lift->setColor(lift);
-    m_gamma->setColor(gamma);
-    m_gain->setColor(gain);
+    m_lift->setColor({values.value(QStringLiteral("lift_r")), values.value(QStringLiteral("lift_g")), values.value(QStringLiteral("lift_b"))});
+    m_gamma->setColor({values.value(QStringLiteral("gamma_r")), values.value(QStringLiteral("gamma_g")), values.value(QStringLiteral("gamma_b"))});
+    m_gain->setColor({values.value(QStringLiteral("gain_r")), values.value(QStringLiteral("gain_g")), values.value(QStringLiteral("gain_b"))});
 }
