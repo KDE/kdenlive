@@ -1,6 +1,7 @@
 import QtQuick 2.6
 import QtQml.Models 2.2
-import QtQuick.Controls 1.4 as OLD
+import QtQuick.Controls 1.5 as OLD
+import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
@@ -738,6 +739,13 @@ Rectangle {
                 border.color: selected? 'red' : 'transparent'
                 border.width: selected? 1 : 0
                 z: 1
+                OLD.ToolButton {
+                    iconName: "kdenlive-composite"
+                    tooltip: i18n("Show master effects")
+                    onClicked: {
+                        timeline.showMasterEffects()
+                    }
+                }
             }
             Flickable {
                 // Non-slider scroll area for the track headers.

@@ -1572,7 +1572,7 @@ void TimelineController::invalidateZone(int in, int out)
     if (!m_timelinePreview) {
         return;
     }
-    m_timelinePreview->invalidatePreview(in, out);
+    m_timelinePreview->invalidatePreview(in, out == -1 ? m_duration : out);
 }
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
@@ -2689,3 +2689,9 @@ bool TimelineController::hasActiveTracks() const
     }
     return false;
 }
+
+void TimelineController::showMasterEffects()
+{
+    emit showItemEffectStack(i18n("Master effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
+}
+
