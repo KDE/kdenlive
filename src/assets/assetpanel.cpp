@@ -317,6 +317,12 @@ const QString AssetPanel::getStyleSheet()
                        "border: 1px solid %1;} QAbstractSpinBox:hover#dragBox {border: 1px solid %2;} ")
             .arg(hover_bg.name(), selected_bg.name()));
 
+    // minimal double edit
+    stylesheet.append(
+        QStringLiteral("QAbstractSpinBox#dragMinimal {border: 0px "
+                       ";padding-right:0px; background-color:transparent} QAbstractSpinBox::down-button#dragMinimal {width:0px;padding:0px;} QAbstractSpinBox:disabled#dragMinimal {border: 0px;; background-color:transparent "
+                       ";} QAbstractSpinBox::up-button#dragMinimal {width:0px;padding:0px;}")
+            );
     // group editable labels
     stylesheet.append(QStringLiteral("MyEditableLabel { background-color: transparent; color: palette(bright-text); border-radius: 2px;border: 1px solid "
                                      "transparent;} MyEditableLabel:hover {border: 1px solid palette(highlight);} "));

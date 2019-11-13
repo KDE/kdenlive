@@ -107,6 +107,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     : QAbstractItemModel_shared_from_this()
     , m_blockRefresh(false)
     , m_tractor(new Mlt::Tractor(*profile))
+    , m_masterStack(nullptr)
     , m_snaps(new SnapModel())
     , m_undoStack(std::move(undo_stack))
     , m_profile(profile)
@@ -3139,6 +3140,26 @@ std::shared_ptr<EffectStackModel> TimelineModel::getTrackEffectStackModel(int tr
     Q_ASSERT(isTrack(trackId));
     return getTrackById(trackId)->m_effectStack;
 }
+
+std::shared_ptr<EffectStackModel> TimelineModel::getMasterEffectStackModel()
+{
+    READ_LOCK();
+    if (m_masterStack == nullptr) {
+        m_masterService.reset(new Mlt::Service(*m_tractor.get()));
+        m_masterStack = EffectStackModel::construct(m_masterService, {ObjectType::Master, 0}, m_undoStack);
+    }
+    return m_masterStack;
+}
+
+void TimelineModel::importMasterEffects(std::weak_ptr<Mlt::Service> service)
+{
+    READ_LOCK();
+    if (m_masterStack == nullptr) {
+        getMasterEffectStackModel();
+    }
+    m_masterStack->importEffects(std::move(service), PlaylistState::Disabled);
+}
+
 
 QStringList TimelineModel::extractCompositionLumas() const
 {

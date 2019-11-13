@@ -475,6 +475,8 @@ public:
     /** @brief Return true if an overlay track is used */
     bool hasPreviewTrack() const;
     void updatePreviewConnection(bool enable);
+    /** @brief Display project master effects */
+    Q_INVOKABLE void showMasterEffects();
 
 public slots:
     void resetView();

@@ -23,6 +23,9 @@
 #include <QResizeEvent>
 #include <QWidget>
 
+class QDoubleSpinBox;
+class QLabel;
+
 class NegQColor
 {
 public:
@@ -32,37 +35,45 @@ public:
     QColor qcolor;
     static NegQColor fromHsvF(qreal h, qreal s, qreal l, qreal a = 1.0);
     static NegQColor fromRgbF(qreal r, qreal g, qreal b, qreal a = 1.0);
-    qreal redF();
-    qreal greenF();
-    qreal blueF();
-    qreal valueF();
-    int hue();
-    qreal hueF();
-    qreal saturationF();
+    qreal redF() const;
+    qreal greenF() const;
+    qreal blueF() const;
+    qreal valueF() const;
+    int hue() const;
+    qreal hueF() const;
+    qreal saturationF() const;
+    void setRedF(qreal val);
+    void setGreenF(qreal val);
+    void setBlueF(qreal val);
+    void setValueF(qreal val);
 };
 
-class ColorWheel : public QWidget
+class WheelContainer : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ColorWheel(QString id, QString name, NegQColor color, QWidget *parent = nullptr);
-
+    explicit WheelContainer(QString id, QString name, NegQColor color, int unitSize, QWidget *parent = nullptr);
     QSize sizeHint() const override;
     QSize minimumSizeHint() const override;
     NegQColor color() const;
-    void setColor(const NegQColor &color);
+    void setColor(QList <double> values);
     void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
-
-signals:
-    void colorChange(const NegQColor &color);
+    const QList <double> getNiceParamValues() const;
+    void setRedColor(double value);
+    void setGreenColor(double value);
+    void setBlueColor(double value);
 
 public slots:
     void changeColor(const NegQColor &color);
+
+signals:
+    void colorChange(const NegQColor &color);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
+    void wheelEvent(QWheelEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 
@@ -94,7 +105,27 @@ private:
     void drawWheelDot(QPainter &painter);
     void drawSliderBar(QPainter &painter);
     void drawSlider();
-    QString getParamValues();
+    const QString getParamValues() const;
+};
+
+class ColorWheel : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit ColorWheel(QString id, QString name, NegQColor color, QWidget *parent = nullptr);
+    NegQColor color() const;
+    void setColor(QList <double> values);
+    void setFactorDefaultZero(qreal factor, qreal defvalue, qreal zero);
+
+private:
+    WheelContainer *m_container;
+    QLabel *m_wheelName;
+    QDoubleSpinBox *m_redEdit;
+    QDoubleSpinBox *m_greenEdit;
+    QDoubleSpinBox *m_blueEdit;
+
+signals:
+    void colorChange(const NegQColor &color);
 };
 
 #endif // COLORWHEEL_H

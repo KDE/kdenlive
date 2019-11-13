@@ -629,6 +629,7 @@ public:
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
     std::shared_ptr<EffectStackModel> getTrackEffectStackModel(int trackId);
+    std::shared_ptr<EffectStackModel> getMasterEffectStackModel();
 
     /** @brief Add slowmotion effect to clip in timeline.
      @param clipId id of the target clip
@@ -671,6 +672,8 @@ public:
 
     /** @brief Do some cleanup before closing */
     void prepareClose();
+    /** @brief Import project's master effects */
+    void importMasterEffects(std::weak_ptr<Mlt::Service> service);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -772,7 +775,8 @@ signals:
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;
-
+    std::shared_ptr<EffectStackModel> m_masterStack;
+    std::shared_ptr<Mlt::Service> m_masterService;
     std::list<std::shared_ptr<TrackModel>> m_allTracks;
 
     std::unordered_map<int, std::list<std::shared_ptr<TrackModel>>::iterator>

@@ -387,6 +387,7 @@ int Core::getItemPosition(const ObjectId &id)
         break;
     case ObjectType::BinClip:
     case ObjectType::TimelineTrack:
+    case ObjectType::Master:
         return 0;
         break;
     default:
@@ -412,6 +413,7 @@ int Core::getItemIn(const ObjectId &id)
     case ObjectType::TimelineComposition:
     case ObjectType::BinClip:
     case ObjectType::TimelineTrack:
+    case ObjectType::Master:
         return 0;
         break;
     default:
@@ -437,6 +439,9 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
         break;
     case ObjectType::TimelineTrack:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->isAudioTrack(id.second) ? PlaylistState::AudioOnly : PlaylistState::VideoOnly;
+    case ObjectType::Master:
+        return PlaylistState::Disabled;
+        break;
     default:
         qDebug() << "ERROR: unhandled object type";
         break;
@@ -462,6 +467,7 @@ int Core::getItemDuration(const ObjectId &id)
         return (int)m_binWidget->getClipDuration(id.second);
         break;
     case ObjectType::TimelineTrack:
+    case ObjectType::Master:
         return m_mainWindow->getCurrentTimeline()->controller()->duration();
     default:
         qDebug() << "ERROR: unhandled object type";
@@ -504,6 +510,9 @@ void Core::refreshProjectItem(const ObjectId &id)
         break;
     case ObjectType::BinClip:
         m_monitorManager->refreshClipMonitor();
+        break;
+    case ObjectType::Master:
+        requestMonitorRefresh();
         break;
     default:
         qDebug() << "ERROR: unhandled object type";
@@ -581,6 +590,8 @@ std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int ite
         break;
     case (int)ObjectType::BinClip:
         return m_binWidget->getClipEffectStack(itemId);
+    case (int)ObjectType::Master:
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMasterEffectStackModel();
     default:
         return nullptr;
     }
@@ -638,6 +649,9 @@ void Core::invalidateItem(ObjectId itemId)
         break;
     case ObjectType::BinClip:
         m_binWidget->invalidateClip(QString::number(itemId.second));
+        break;
+    case ObjectType::Master:
+        m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(0, -1);
         break;
     default:
         // compositions should not have effects
