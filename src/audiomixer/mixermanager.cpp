@@ -132,7 +132,7 @@ void MixerManager::cleanup()
     }
     m_mixers.clear();
     if (m_masterMixer) {
-        m_masterMixer->clear(true);
+        m_masterMixer->reset();
     }
 }
 

@@ -240,7 +240,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             }
         } else {
             emit muteTrack(m_tid, !active);
-            clear(true);
+            reset();
         }
         updateLabel();
     });
@@ -403,14 +403,20 @@ void MixerWidget::updateAudioLevel(int pos)
     }
 }
 
-void MixerWidget::clear(bool reset)
+
+void MixerWidget::reset()
 {
-    if (reset) {
-        m_audioMeterWidget->setAudioValues({-100, -100});
-    }
+    QMutexLocker lk(&m_storeMutex);
+    m_levels.clear();
+    m_audioMeterWidget->setAudioValues({-100, -100});
+}
+
+void MixerWidget::clear()
+{
     QMutexLocker lk(&m_storeMutex);
     m_levels.clear();
 }
+
 
 bool MixerWidget::isMute() const
 {
