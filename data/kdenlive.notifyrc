@@ -1,5 +1,6 @@
 [Global]
 IconName=kdenlive
+DesktopEntry=org.kde.kdenlive
 Comment=Kdenlive
 Comment[ar]=كدينلايڤ
 Comment[bs]=Kdenlive
