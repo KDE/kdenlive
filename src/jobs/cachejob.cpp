@@ -50,6 +50,10 @@ CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount, int i
     m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
     Q_ASSERT(item != nullptr && item->itemType() == AbstractProjectItem::ClipItem);
+    connect(this, &CacheJob::jobCanceled, [&] () {
+        m_clipId.clear();
+        m_done = true;
+    });
 }
 
 const QString CacheJob::getDescription() const
@@ -81,10 +85,6 @@ bool CacheJob::startJob()
     }
     int size = (int)frames.size();
     int count = 0;
-    connect(this, &CacheJob::jobCanceled, [&] () {
-        m_clipId.clear();
-        m_done = true;
-    });
     for (int i : frames) {
         if (m_done) {
             break;
