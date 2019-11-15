@@ -1,0 +1,9 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.subtitles">
+	<name>Subtitles</name>
+	<description>Render subtitles onto the video</description>
+	<author>libavfilter</author>
+    <parameter type="url" name="av.f" filter="*.ass *.srt">
+		<name>Subtitle file to apply</name>
+	</parameter>
+</effect>

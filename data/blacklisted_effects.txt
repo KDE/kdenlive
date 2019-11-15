@@ -72,7 +72,6 @@ avfilter.removelogo
 avfilter.reverse
 avfilter.showinfo
 avfilter.stereo3d
-avfilter.subtitles
 avfilter.super2xsai
 avfilter.swapuv
 avfilter.vectorscope
