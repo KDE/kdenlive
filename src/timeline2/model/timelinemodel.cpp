@@ -1407,7 +1407,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 
     // Sort clips first
     std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_pos](int clipId1, int clipId2) {
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_pos](const int clipId1, const int clipId2) {
         int p1 = m_allClips[clipId1]->getPosition();
         int p2 = m_allClips[clipId2]->getPosition();
         return delta_pos > 0 ? p2 <= p1 : p1 <= p2;
@@ -1415,7 +1415,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
 
     // Sort compositions. We need to delete in the move direction from top to bottom
     std::vector<int> sorted_compositions(all_compositions.begin(), all_compositions.end());
-    std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](int clipId1, int clipId2) {
+    std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](const int clipId1, const int clipId2) {
         int p1 = delta_track < 0
                      ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
                      : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : m_allCompositions[clipId1]->getPosition();

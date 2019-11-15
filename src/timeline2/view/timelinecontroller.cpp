@@ -1104,12 +1104,16 @@ void TimelineController::cutClipUnderCursor(int position, int track)
 
 int TimelineController::requestSpacerStartOperation(int trackId, int position)
 {
-    return TimelineFunctions::requestSpacerStartOperation(m_model, trackId, position);
+    QMutexLocker lk(&m_metaMutex);
+    int itemId = TimelineFunctions::requestSpacerStartOperation(m_model, trackId, position);
+    return itemId;
 }
 
 bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition)
 {
-    return TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition);
+    QMutexLocker lk(&m_metaMutex);
+    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition);
+    return result;
 }
 
 void TimelineController::seekCurrentClip(bool seekToEnd)
@@ -2387,7 +2391,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
 
     // Sort clips. We need to delete from right to left to avoid confusing the view
     std::vector<int> sorted_clips(all_items.begin(), all_items.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](int clipId1, int clipId2) {
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](const int clipId1, const int clipId2) {
         int p1 = m_model->isClip(clipId1) ? m_model->m_allClips[clipId1]->getPosition() : m_model->m_allCompositions[clipId1]->getPosition();
         int p2 = m_model->isClip(clipId2) ? m_model->m_allClips[clipId2]->getPosition() : m_model->m_allCompositions[clipId2]->getPosition();
         return p2 <= p1;
