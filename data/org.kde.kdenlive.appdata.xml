@@ -272,6 +272,7 @@
     <screenshot type="default">
       <caption>Kdenlive timeline</caption>
       <caption xml:lang="ca">Línia del temps del Kdenlive</caption>
+      <caption xml:lang="cs">Časová osa Kdenlive</caption>
       <caption xml:lang="en-GB">Kdenlive timeline</caption>
       <caption xml:lang="et">Kdenlive ajatelg</caption>
       <caption xml:lang="nl">Kdenlive tijdlijn</caption>
