@@ -37,7 +37,7 @@ set(MLT_MIN_PATCH_VERSION 0)
 set(MLT_MIN_VERSION ${MLT_MIN_MAJOR_VERSION}.${MLT_MIN_MINOR_VERSION}.${MLT_MIN_PATCH_VERSION})
 
 # KDE Frameworks
-find_package(ECM 5.18.0 REQUIRED CONFIG)
+find_package(ECM 5.45.0 REQUIRED CONFIG)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
@@ -56,7 +56,7 @@ find_package(KF5 REQUIRED COMPONENTS Archive Bookmarks CoreAddons Config ConfigW
                  OPTIONAL_COMPONENTS DocTools FileMetaData Crash Purpose)
 
 # Qt
-set(QT_MIN_VERSION 5.7.0)
+set(QT_MIN_VERSION 5.11.0)
 find_package(Qt5 REQUIRED COMPONENTS Core DBus Widgets Svg Quick Concurrent QuickWidgets Multimedia)
 add_definitions(-DQT_NO_CAST_TO_ASCII -DQT_NO_URL_CAST_FROM_STRING)
 set(DEFAULT_CXX_FLAGS "${DEFAULT_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
@@ -78,15 +78,6 @@ if(WIN32)
 else()
     set(MLT_PREFIX ${MLT_ROOT_DIR})
     find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
-endif()
-
-# Optional deps status
-find_package(KF5 5.23.0 OPTIONAL_COMPONENTS XmlGui QUIET)
-if(KF5XmlGui_FOUND)
-  message(STATUS "Found KF5 >= 5.23.0 enabling icon coloring")
-else()
-  message(STATUS "KF5 < 5.23.0 Disable icon coloring")
-  set(KF5_ICON_COMPATIBILITY TRUE)
 endif()
 
 if(KF5FileMetaData_FOUND)

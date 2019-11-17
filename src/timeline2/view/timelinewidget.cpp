@@ -56,12 +56,8 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 45, 0)
     kdeclarative.setupEngine(engine());
     kdeclarative.setupContext();
-#else
-    kdeclarative.setupBindings();
-#endif
     setClearColor(palette().window().color());
     registerTimelineItems();
     // Build transition model for context menu

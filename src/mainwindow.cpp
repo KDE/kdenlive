@@ -686,40 +686,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
-
-#if (KXMLGUI_VERSION < QT_VERSION_CHECK(5, 23, 0)) || defined(Q_OS_WIN)
-    // Not required anymore with auto colored icons since KF5 5.23
-    if (m_themeInitialized && useDarkIcons != m_isDarkTheme) {
-        QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
-        if (pCore->bin()) {
-            pCore->bin()->refreshIcons();
-        }
-        if (m_clipMonitor) {
-            m_clipMonitor->refreshIcons();
-        }
-        if (m_projectMonitor) {
-            m_projectMonitor->refreshIcons();
-        }
-        if (pCore->monitorManager()) {
-            pCore->monitorManager()->refreshIcons();
-        }
-
-        for (QAction *action : actionCollection()->actions()) {
-            QIcon icon = action->icon();
-            if (icon.isNull()) {
-                continue;
-            }
-            QString iconName = icon.name();
-            QIcon newIcon = QIcon::fromTheme(iconName);
-            if (newIcon.isNull()) {
-                continue;
-            }
-            action->setIcon(newIcon);
-        }
-    }
-    m_themeInitialized = true;
-    m_isDarkTheme = useDarkIcons;
-#endif
 }
 
 void MainWindow::updateActionsToolTip()

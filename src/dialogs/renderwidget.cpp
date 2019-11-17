@@ -307,11 +307,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     // m_view.splitter->setStretchFactor(0, 2);
 
     m_view.out_file->setMode(KFile::File);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
     m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
-#elif !defined(KIOWIDGETS_DEPRECATED)
-    m_view.out_file->fileDialog()->setAcceptMode(QFileDialog::AcceptSave);
-#endif
 
     m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
@@ -2526,9 +2522,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
         QString notif = i18n("Rendering of %1 finished in %2", item->text(1), est);
         KNotification *notify = new KNotification(QStringLiteral("RenderFinished"));
         notify->setText(notif);
-#if KNOTIFICATIONS_VERSION >= QT_VERSION_CHECK(5, 29, 0)
         notify->setUrls({QUrl::fromLocalFile(dest)});
-#endif
         notify->sendEvent();
         QString itemGroup = item->data(0, Qt::UserRole).toString();
         if (itemGroup == QLatin1String("dvd")) {

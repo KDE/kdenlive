@@ -180,15 +180,6 @@ QUrl Generators::getSavedClip(QString clipFolder)
     QUrl url = fd.selectedUrls().constFirst();
 
     if (url.isValid()) {
-#if KXMLGUI_VERSION_MINOR < 23 && KXMLGUI_VERSION_MAJOR == 5
-        // Since Plasma 5.7 (release at same time as KF 5.23,
-        // the file dialog manages the overwrite check
-        if (QFile::exists(url.toLocalFile())) {
-            if (KMessageBox::warningYesNo(this, i18n("Output file already exists. Do you want to overwrite it?")) != KMessageBox::Yes) {
-                return getSavedClip(url.toLocalFile());
-            }
-        }
-#endif
         Mlt::Tractor trac(*m_producer->profile());
         m_producer->set("length", m_timePos->getValue());
         m_producer->set_in_and_out(0, m_timePos->getValue() - 1);

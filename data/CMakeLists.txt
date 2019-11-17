@@ -7,10 +7,6 @@ add_subdirectory(man)
 add_subdirectory(titles)
 add_subdirectory(profiles)
 
-if (KF5_ICON_COMPATIBILITY)
-  add_subdirectory(pics)
-endif()
-
 install(FILES
   banner.png
   encodingprofiles.rc

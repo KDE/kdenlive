@@ -35,12 +35,8 @@ Splash::Splash(QObject *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(m_engine);
-#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 45, 0)
     kdeclarative.setupEngine(m_engine);
     kdeclarative.setupContext();
-#else
-    kdeclarative.setupBindings();
-#endif
     component = new QQmlComponent(m_engine);
     QQuickWindow::setDefaultAlphaBuffer(true);
     component->loadUrl(QUrl(QStringLiteral("qrc:/qml/splash.qml")));
