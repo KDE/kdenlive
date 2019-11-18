@@ -221,7 +221,7 @@ void MainWindow::init()
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
     setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition)KdenliveSettings::tabposition());
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
-    m_timelineToolBarContainer = new QWidget(this);
+    m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
@@ -236,7 +236,6 @@ void MainWindow::init()
     fr->setMaximumHeight(1);
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
-    setCentralWidget(m_timelineToolBarContainer);
     setupActions();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
@@ -291,6 +290,7 @@ void MainWindow::init()
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
+    setCentralWidget(m_timelineToolBarContainer);
 
     // Screen grab widget
     QWidget *grabWidget = new QWidget(this);
@@ -686,40 +686,6 @@ void MainWindow::slotThemeChanged(const QString &name)
         QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
         KdenliveSettings::setUse_dark_breeze(useDarkIcons);
     }
-
-#if (KXMLGUI_VERSION < QT_VERSION_CHECK(5, 23, 0)) || defined(Q_OS_WIN)
-    // Not required anymore with auto colored icons since KF5 5.23
-    if (m_themeInitialized && useDarkIcons != m_isDarkTheme) {
-        QIcon::setThemeName(useDarkIcons ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
-        if (pCore->bin()) {
-            pCore->bin()->refreshIcons();
-        }
-        if (m_clipMonitor) {
-            m_clipMonitor->refreshIcons();
-        }
-        if (m_projectMonitor) {
-            m_projectMonitor->refreshIcons();
-        }
-        if (pCore->monitorManager()) {
-            pCore->monitorManager()->refreshIcons();
-        }
-
-        for (QAction *action : actionCollection()->actions()) {
-            QIcon icon = action->icon();
-            if (icon.isNull()) {
-                continue;
-            }
-            QString iconName = icon.name();
-            QIcon newIcon = QIcon::fromTheme(iconName);
-            if (newIcon.isNull()) {
-                continue;
-            }
-            action->setIcon(newIcon);
-        }
-    }
-    m_themeInitialized = true;
-    m_isDarkTheme = useDarkIcons;
-#endif
 }
 
 void MainWindow::updateActionsToolTip()

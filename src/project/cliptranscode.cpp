@@ -56,9 +56,7 @@ ClipTranscode::ClipTranscode(QStringList urls, const QString &params, QStringLis
         QString fileName = m_urls.constFirst();
         source_url->setUrl(QUrl::fromLocalFile(fileName));
         dest_url->setMode(KFile::File);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
         dest_url->setAcceptMode(QFileDialog::AcceptSave);
-#endif
         if (!params.isEmpty()) {
             QString newFile = params.section(QLatin1Char(' '), -1).replace(QLatin1String("%1"), fileName);
             QUrl dest = QUrl::fromLocalFile(newFile);

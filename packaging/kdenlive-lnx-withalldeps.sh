@@ -139,8 +139,8 @@ wget_extract https://download.gnome.org/sources/gdk-pixbuf/2.32/gdk-pixbuf-2.32.
 configure_make gdk-pixbuf-2.32.3
 wget_extract https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.32.tar.xz
 configure_make gtk+-2.24.32
-wget_extract https://download.qt.io/official_releases/qt/5.10/5.10.1/single/qt-everywhere-src-5.10.1.tar.xz
-pushd $SRC_DIR/qt-everywhere-src-5.10.1
+wget_extract https://download.qt.io/official_releases/qt/5.13/5.13.1/single/qt-everywhere-src-5.13.1.tar.xz
+pushd $SRC_DIR/qt-everywhere-src-5.13.1
 ./configure -prefix $WLD -opensource -confirm-license -release -shared \
     -nomake examples -nomake tests -no-pch \
     -qt-zlib -qt-pcre -qt-harfbuzz -openssl \
@@ -151,7 +151,7 @@ popd
 
 # libxcb-keysyms1-dev
 # KDE Frameworks
-KF5_VERSION=5.44.0
+KF5_VERSION=5.62.0
 for FRAMEWORK in \
         extra-cmake-modules breeze-icons karchive kconfig kcoreaddons kdbusaddons kguiaddons \
         ki18n kitemviews kwidgetsaddons kcompletion kwindowsystem \
@@ -163,33 +163,6 @@ for FRAMEWORK in \
     wget_extract https://download.kde.org/stable/frameworks/${KF5_VERSION%.*}/$FRAMEWORK-$KF5_VERSION.tar.xz
     if [ "$FRAMEWORK" = "breeze-icons" ]; then
         cmake_make $FRAMEWORK-$KF5_VERSION -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON -DBUILD_TESTING:BOOL=OFF -DBINARY_ICONS_RESOURCE=1
-    elif [ "$FRAMEWORK" = "knotifications" ]; then
-        cd $FRAMEWORK-$KF5_VERSION
-        cat | patch -p1 << EOF
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0104c73..de44e9a 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -59,11 +59,11 @@ find_package(KF5Config \${KF5_DEP_VERSION} REQUIRED)
- find_package(KF5Codecs \${KF5_DEP_VERSION} REQUIRED)
- find_package(KF5CoreAddons \${KF5_DEP_VERSION} REQUIRED)
-
--find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
--set_package_properties(Phonon4Qt5 PROPERTIES
--   DESCRIPTION "Qt-based audio library"
--   TYPE REQUIRED
--   PURPOSE "Required to build audio notification support")
-+#find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
-+#set_package_properties(Phonon4Qt5 PROPERTIES
-+#   DESCRIPTION "Qt-based audio library"
-+#   TYPE REQUIRED
-+#   PURPOSE "Required to build audio notification support")
- if (Phonon4Qt5_FOUND)
-   add_definitions(-DHAVE_PHONON4QT5)
- endif()
-EOF
-
-        cmake_make $FRAMEWORK-$KF5_VERSION -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON -DBUILD_TESTING:BOOL=OFF
     else
         cmake_make $FRAMEWORK-$KF5_VERSION -DKDE_INSTALL_USE_QT_SYS_PATHS:BOOL=ON -DBUILD_TESTING:BOOL=OFF
     fi

@@ -57,6 +57,7 @@ class Render;
 class RenderWidget;
 class TimelineTabs;
 class TimelineWidget;
+class TimelineContainer;
 class Transition;
 
 class MltErrorEvent : public QEvent
@@ -224,7 +225,7 @@ private:
     QString m_theme;
     KIconLoader *m_iconLoader;
     KToolBar *m_timelineToolBar;
-    QWidget *m_timelineToolBarContainer;
+    TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
 
     /** @brief initialize startup values, return true if first run. */

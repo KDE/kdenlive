@@ -31,6 +31,17 @@
 class TimelineWidget;
 class AssetParameterModel;
 class EffectStackModel;
+
+class TimelineContainer : public QWidget
+{
+
+public:
+    TimelineContainer(QWidget *parent);
+protected:
+    QSize sizeHint() const override;
+};
+
+
 class TimelineTabs : public QTabWidget
 {
     Q_OBJECT
@@ -49,6 +60,7 @@ public:
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
     void connectTimeline(TimelineWidget *timeline);
+    QSize sizeHint() const override;
 
 signals:
     /** @brief Request repaint of audio thumbs

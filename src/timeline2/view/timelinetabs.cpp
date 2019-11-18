@@ -29,6 +29,16 @@
 #include "timelinecontroller.h"
 #include "timelinewidget.h"
 
+TimelineContainer::TimelineContainer(QWidget *parent)
+    :QWidget(parent)
+{
+}
+
+QSize TimelineContainer::sizeHint() const
+{
+    return QSize(800, 200);
+}
+
 TimelineTabs::TimelineTabs(QWidget *parent)
     : QTabWidget(parent)
     , m_mainTimeline(new TimelineWidget(this))
@@ -89,4 +99,9 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     delete timeline;
+}
+
+QSize TimelineTabs::sizeHint() const
+{
+    return QSize(800, 300);
 }

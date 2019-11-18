@@ -104,12 +104,8 @@ GLWidget::GLWidget(int id, QObject *parent)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
-#if KDECLARATIVE_VERSION >= QT_VERSION_CHECK(5, 45, 0)
     kdeclarative.setupEngine(engine());
     kdeclarative.setupContext();
-#else
-    kdeclarative.setupBindings();
-#endif
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");

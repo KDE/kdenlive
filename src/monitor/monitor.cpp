@@ -1035,11 +1035,7 @@ void Monitor::slotExtractCurrentFrame(QString frameName, bool addToProject)
     fileWidget->setOperationMode(KFileWidget::Saving);
     QUrl relativeUrl;
     relativeUrl.setPath(frameName);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 33, 0)
     fileWidget->setSelectedUrl(relativeUrl);
-#else
-    fileWidget->setSelection(relativeUrl.toString());
-#endif
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     QWindow *handle = dlg->windowHandle();
     if ((handle != nullptr) && conf->hasGroup("FileDialogSize")) {
