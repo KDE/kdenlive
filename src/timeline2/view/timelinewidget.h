@@ -56,6 +56,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    QSize sizeHint() const override;
 
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);

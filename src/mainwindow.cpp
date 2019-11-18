@@ -221,7 +221,7 @@ void MainWindow::init()
     setDockOptions(dockOptions() | QMainWindow::GroupedDragging);
     setTabPosition(Qt::AllDockWidgetAreas, (QTabWidget::TabPosition)KdenliveSettings::tabposition());
     m_timelineToolBar = toolBar(QStringLiteral("timelineToolBar"));
-    m_timelineToolBarContainer = new QWidget(this);
+    m_timelineToolBarContainer = new TimelineContainer(this);
     auto *ctnLay = new QVBoxLayout;
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
@@ -236,7 +236,6 @@ void MainWindow::init()
     fr->setMaximumHeight(1);
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
-    setCentralWidget(m_timelineToolBarContainer);
     setupActions();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
@@ -291,6 +290,7 @@ void MainWindow::init()
 
     m_timelineTabs = new TimelineTabs(this);
     ctnLay->addWidget(m_timelineTabs);
+    setCentralWidget(m_timelineToolBarContainer);
 
     // Screen grab widget
     QWidget *grabWidget = new QWidget(this);
