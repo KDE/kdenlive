@@ -1,6 +1,6 @@
 <!DOCTYPE kpartgui>
 <effect tag="volume" id="normalise" type="audio">
-	<name>Normalise</name>
+	<name>Normalise (deprecated)</name>
 	<description>Dynamically normalise the audio volume</description>
 	<author>Dan Dennedy</author>
 	<parameter type="constant" name="normalise" max="1000" min="0" factor="400" default="1" suffix="%">

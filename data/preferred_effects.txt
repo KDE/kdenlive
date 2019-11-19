@@ -42,7 +42,8 @@ invert
 lift_gamma_gain
 mirror
 mute
-normalise
+loudness
+dynamic_loudness
 oldfilm
 qtblend
 rotoscoping
