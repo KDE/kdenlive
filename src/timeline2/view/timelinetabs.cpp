@@ -36,7 +36,7 @@ TimelineContainer::TimelineContainer(QWidget *parent)
 
 QSize TimelineContainer::sizeHint() const
 {
-    return QSize(800, 200);
+    return QSize(800, pCore->window()->height() / 2);
 }
 
 TimelineTabs::TimelineTabs(QWidget *parent)
