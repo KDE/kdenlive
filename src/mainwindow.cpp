@@ -105,7 +105,6 @@
 #include <QStyleFactory>
 #include <QUndoGroup>
 #include <KConfigGroup>
-#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QScreen>

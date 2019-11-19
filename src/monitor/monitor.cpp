@@ -51,7 +51,6 @@
 #include <kio_version.h>
 
 #include "kdenlive_debug.h"
-#include <QDesktopWidget>
 #include <QScreen>
 #include <QDrag>
 #include <QMenu>
@@ -785,7 +784,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                 }
             }
         } else {
-            m_videoWidget->setParent(qApp->desktop()->screen(0));
+            m_videoWidget->setParent(nullptr);
         }
         m_videoWidget->showFullScreen();
     } else {
