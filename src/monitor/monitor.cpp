@@ -777,10 +777,10 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
             for (auto screen : qApp->screens()) {
-                if (screen != qApp->screenAt(this->parentWidget()->mapToGlobal(QPoint()))) {
+                if (screen != qApp->screenAt(pCore->window()->geometry().center())) {
                     QRect rect = screen->availableGeometry();
                     m_videoWidget->setParent(nullptr);
-                    m_videoWidget->move(this->parentWidget()->mapFromGlobal(rect.topLeft()));
+                    m_videoWidget->move(this->parentWidget()->mapFromGlobal(rect.center()));
                     break;
                 }
             }
