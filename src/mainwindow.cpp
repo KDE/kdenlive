@@ -1562,10 +1562,7 @@ bool MainWindow::readOptions()
         QStyle *style = qApp->style();
         trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) +
                        style->pixelMetric(QStyle::PM_ToolBarItemSpacing) + 2;
-        KdenliveSettings::setTrackheight(trackHeight);
-    }
-    if (KdenliveSettings::trackheight() == 0) {
-        KdenliveSettings::setTrackheight(50);
+        KdenliveSettings::setTrackheight(trackHeight == 0 ? 50 : trackHeight);
     }
     bool firstRun = false;
     KConfigGroup initialGroup(config, "version");

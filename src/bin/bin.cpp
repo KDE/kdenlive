@@ -3301,5 +3301,5 @@ void Bin::invalidateClip(const QString &binId)
 
 QSize Bin::sizeHint() const
 {
-    return QSize(350, 800);
+    return QSize(350, pCore->window()->height() / 2);
 }
