@@ -49,10 +49,9 @@ const QString FilterClipJob::getDescription() const
 
 void FilterClipJob::configureConsumer()
 {
-    m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "null");
+    m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "xml");
     m_consumer->set("all", 1);
     m_consumer->set("terminate_on_pause", 1);
-    m_consumer->set("real_time", -KdenliveSettings::mltthreads());
 }
 
 void FilterClipJob::configureFilter()

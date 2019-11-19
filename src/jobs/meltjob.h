@@ -53,8 +53,7 @@ public:
     MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile = false, int in = -1, int out = -1);
     bool startJob() override;
 
-    /* @brief this is public for convenience reason, but it should not be called directly */
-    void mltFrameCallback(int frame);
+    int length;
 
 protected:
     // @brief extra configuration of the profile (eg: resize the profile)
@@ -83,7 +82,6 @@ protected:
     QString m_filterName;
     bool m_useProducerProfile;
     int m_in, m_out;
-    int m_length;
     // @brief Does this job require a filter
     bool m_requiresFilter;
 };

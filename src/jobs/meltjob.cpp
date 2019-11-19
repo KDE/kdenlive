@@ -34,8 +34,7 @@
 #include <mlt++/Mlt.h>
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
-    Mlt::Frame frame(frame_ptr);
-    self->mltFrameCallback((int)frame.get_position());
+    self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
 }
 
 MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, int in, int out)
@@ -238,15 +237,14 @@ bool MeltJob::startJob()
     m_consumer->connect(tractor);
     m_producer->set_speed(0);
     m_producer->seek(0);
-    m_length = m_producer->get_playtime();
-    if (m_length == 0) {
-        m_length = m_producer->get_length();
+    length = m_producer->get_playtime();
+    if (length == 0) {
+        length = m_producer->get_length();
     }
     if (m_filter) {
         m_producer->attach(*m_filter.get());
     }
-    m_showFrameEvent.reset(m_consumer->listen("consumer-frame-render", this, (mlt_listener)consumer_frame_render));
-    m_producer->set_speed(1);
+    m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, (mlt_listener)consumer_frame_render));
     connect(this, &MeltJob::jobCanceled, [&] () {
         m_consumer->stop();
         return false;
@@ -268,11 +266,4 @@ bool MeltJob::startJob()
     */
     m_successful = m_done = true;
     return true;
-}
-
-void MeltJob::mltFrameCallback(int pos)
-{
-    if (m_length > 0) {
-        emit jobProgress((int)(100 * pos / m_length));
-    }
 }
