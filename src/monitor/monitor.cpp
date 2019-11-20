@@ -157,8 +157,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::slotSeekPosition, Qt::DirectConnection);
-
+    connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -304,7 +303,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
-    connect(m_glMonitor, &GLWidget::audioSamplesSignal, this, &Monitor::audioSamplesSignal);
 
     if (id != Kdenlive::ClipMonitor) {
         // TODO: reimplement

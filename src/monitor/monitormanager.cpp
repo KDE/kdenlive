@@ -123,10 +123,10 @@ void MonitorManager::refreshClipMonitor()
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
 {
-    if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
+    if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
         return false;
     }
-    if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
+    if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
         return false;
     }
     QMutexLocker locker(&m_switchMutex);
