@@ -60,7 +60,6 @@ public:
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
     void connectTimeline(TimelineWidget *timeline);
-    QSize sizeHint() const override;
 
 signals:
     /** @brief Request repaint of audio thumbs

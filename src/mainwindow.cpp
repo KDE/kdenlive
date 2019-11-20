@@ -238,21 +238,6 @@ void MainWindow::init()
     setupActions();
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
-    QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
-    QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), i18n("Audio Mixer"), this);
-    showMixer->setCheckable(true);
-    addAction(QStringLiteral("audiomixer_button"), showMixer);
-    connect(mixerDock, &QDockWidget::visibilityChanged, [&, showMixer](bool visible) {
-        pCore->mixer()->connectMixer(visible);
-        showMixer->setChecked(visible);
-    });
-    connect(showMixer, &QAction::triggered, [&, mixerDock]() {
-        if (mixerDock->isVisible()) {
-            mixerDock->close();
-        } else {
-            mixerDock->show();
-        }
-    });
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -400,16 +385,31 @@ void MainWindow::init()
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
+    QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), i18n("Audio Mixer"), this);
+    showMixer->setCheckable(true);
+    addAction(QStringLiteral("audiomixer_button"), showMixer);
+    connect(mixerDock, &QDockWidget::visibilityChanged, [&, showMixer](bool visible) {
+        pCore->mixer()->connectMixer(visible);
+        showMixer->setChecked(visible);
+    });
+    connect(showMixer, &QAction::triggered, [&, mixerDock]() {
+        if (mixerDock->isVisible()) {
+            mixerDock->close();
+        } else {
+            mixerDock->show();
+        }
+    });
+
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
 
     /// Tabify Widgets
+    tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
+    tabifyDockWidget(mixerDock, m_transitionListDock);
     tabifyDockWidget(m_transitionListDock, m_effectListDock);
     tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
-    // tabifyDockWidget(m_effectListDock, m_effectStackDock);
-
-    tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
     bool firstRun = readOptions();
 
     // Build effects menu

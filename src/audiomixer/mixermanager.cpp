@@ -31,6 +31,8 @@
 #include <QHBoxLayout>
 #include <QModelIndex>
 #include <QScrollArea>
+#include <QApplication>
+#include <QScreen>
 #include <QTimer>
 
 const double log_factor = 1.0 / log10(1.0 / 127);
@@ -48,6 +50,7 @@ MixerManager::MixerManager(QWidget *parent)
     , m_masterMixer(nullptr)
     , m_connectedWidgets(false)
     , m_expandedWidth(-1)
+    , m_recommandedWidth(300)
 {
     m_masterBox = new QHBoxLayout;
     m_channelsBox = new QScrollArea(this);
@@ -117,6 +120,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     });
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
+    m_recommandedWidth = mixer->minimumWidth() * (m_mixers.size() + 1);
 }
 
 void MixerManager::deregisterTrack(int tid)
@@ -207,6 +211,13 @@ void MixerManager::collapseMixers()
         QTimer::singleShot(500, this, &MixerManager::resetSizePolicy);
     }
 }
+
+/*QSize MixerManager::sizeHint() const
+{
+    QSize sz = QApplication::primaryScreen()->availableSize();
+    return QSize(m_masterMixer ? m_masterMixer->width() * (m_mixers.size() + 1) : sz.width() / 5, sz.height() / 3);
+}*/
+
 
 void MixerManager::resetSizePolicy()
 {
