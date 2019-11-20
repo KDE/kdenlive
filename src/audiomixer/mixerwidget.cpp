@@ -274,12 +274,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         });
     } else {
         m_collapse = new QToolButton(this);
-        m_collapse->setIcon(QIcon::fromTheme("arrow-left"));
+        m_collapse->setIcon(KdenliveSettings::mixerCollapse() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
         m_collapse->setToolTip(i18n("Show Channels"));
         m_collapse->setCheckable(true);
         m_collapse->setAutoRaise(true);
+        m_collapse->setChecked(KdenliveSettings::mixerCollapse() );
         connect(m_collapse, &QToolButton::clicked, [&]() {
             KdenliveSettings::setMixerCollapse(m_collapse->isChecked());
+            m_collapse->setIcon(m_collapse->isChecked() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
             m_manager->collapseMixers();
         });
     }
