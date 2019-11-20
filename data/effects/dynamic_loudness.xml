@@ -7,7 +7,7 @@
 		<name>Target Program Loudness</name>
 	</parameter>
 	<parameter type="constant" name="window" max="500" min="1" default="3" suffix="s">
-		<name>Measurment Window</name>
+		<name>Measurement Window</name>
 	</parameter>
     <parameter type="constant" name="max_gain" max="30" min="0" default="15" suffix="dB">
 		<name>Maximum Gain Increase</name>
