@@ -354,6 +354,7 @@ Rectangle {
             visible: showDescription.checked
             readOnly: true
             Layout.fillWidth: true
+            height: font.pixelSize * 5
             states: State {
                 name: "hasDescription"; when: assetDescription.text != '' && showDescription.checked
                 PropertyChanges { target: assetDescription; visible: true}
