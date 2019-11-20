@@ -151,7 +151,7 @@ Item {
                 } ]
                 Rectangle {
                     color: activePalette.base
-                    opacity: isAudioClip ? 1 : 0.6
+                    opacity: audioThumb.isAudioClip ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {
