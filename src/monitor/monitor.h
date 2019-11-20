@@ -169,6 +169,7 @@ protected:
     void wheelEvent(QWheelEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     virtual QStringList mimeTypes() const;
+    void updateBgColor();
 
 private:
     std::shared_ptr<ProjectClip> m_controller;

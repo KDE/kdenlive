@@ -74,6 +74,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_producer(nullptr)
     , m_id(id)
     , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.7)
+    , m_bgColor(KdenliveSettings::window_background())
     , m_shader(nullptr)
     , m_initSem(0)
     , m_analyseSem(1)
@@ -520,8 +521,7 @@ void GLWidget::paintGL()
     f->glDepthMask(GL_FALSE);
     f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
     check_error(f);
-    QColor color(KdenliveSettings::window_background());
-    f->glClearColor(color.redF(), color.greenF(), color.blueF(), color.alphaF());
+    f->glClearColor(m_bgColor.redF(), m_bgColor.greenF(), m_bgColor.blueF(), 0);
     f->glClear(GL_COLOR_BUFFER_BIT);
     check_error(f);
 
@@ -1183,11 +1183,7 @@ int GLWidget::reconfigure(bool reload)
 
         delete m_displayEvent;
         // C & D
-        if (m_proxy->property("clipType").toInt() == ClipType::Audio) {
-            m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_audio_frame_show);
-            m_sharedFrame = SharedFrame();
-            m_texture[0] = 0;
-        } else if (m_glslManager) {
+        if (m_glslManager) {
             m_displayEvent = m_consumer->listen("consumer-frame-show", this, (mlt_listener)on_gl_frame_show);
         } else {
             // A & B
@@ -1418,24 +1414,9 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
     // update();
 }
 
-// MLT consumer-frame-show event handler
-void GLWidget::on_audio_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
-{
-    Mlt::Frame frame(frame_ptr);
-    //qDebug()<<"== SHOWING FRAME: "<<frame.get_position();
-    if (frame.get_int("rendered") != 0) {
-        auto *widget = static_cast<GLWidget *>(self);
-        int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
-        if ((widget->m_frameRenderer != nullptr) && widget->m_frameRenderer->semaphore()->tryAcquire(1, timeout)) {
-            QMetaObject::invokeMethod(widget->m_frameRenderer, "showAudioFrame", Qt::QueuedConnection, Q_ARG(Mlt::Frame, frame));
-        }
-    }
-}
-
 void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    //qDebug()<<"== SHOWING FRAME: "<<frame.get_position();
     if (frame.get_int("rendered") != 0) {
         auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
@@ -1536,14 +1517,6 @@ FrameRenderer::~FrameRenderer()
 {
     delete m_context;
     delete m_gl32;
-}
-
-void FrameRenderer::showAudioFrame(Mlt::Frame frame)
-{
-    // Save this frame for future use and to keep a reference to the GL Texture.
-    m_displayFrame = SharedFrame(frame);
-    emit frameDisplayed(m_displayFrame);
-    m_semaphore.release();
 }
 
 void FrameRenderer::showFrame(Mlt::Frame frame)

@@ -2106,3 +2106,8 @@ void Monitor::purgeCache()
 {
     m_glMonitor->purgeCache();
 }
+
+void Monitor::updateBgColor()
+{
+    m_glMonitor->m_bgColor = KdenliveSettings::window_background();
+}

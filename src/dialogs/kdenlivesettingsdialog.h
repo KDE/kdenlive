@@ -139,6 +139,8 @@ signals:
     void audioThumbFormatChanged();
     /** @brief An important timeline property changed, prepare for a reset */
     void resetView();
+    /** @brief Monitor background color changed, update monitors */
+    void updateMonitorBg();
 };
 
 #endif
