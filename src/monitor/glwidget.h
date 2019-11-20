@@ -178,7 +178,6 @@ signals:
     void mouseSeek(int eventDelta, uint modifiers);
     void startDrag();
     void analyseFrame(const QImage &);
-    void audioSamplesSignal(const audioShortVector &, int, int, int);
     void showContextMenu(const QPoint &);
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
@@ -320,7 +319,6 @@ public slots:
 signals:
     void textureReady(GLuint yName, GLuint uName = 0, GLuint vName = 0);
     void frameDisplayed(const SharedFrame &frame);
-    void audioSamplesSignal(const audioShortVector &, int, int, int);
 
 private:
     QSemaphore m_semaphore;

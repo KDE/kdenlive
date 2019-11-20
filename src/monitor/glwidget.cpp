@@ -46,19 +46,12 @@
 #endif
 #endif
 
-#ifdef QT_NO_DEBUG
-#define check_error(fn)                                                                                                                                        \
-    {                                                                                                                                                          \
-    }
+#if 1
+#define check_error(fn) {}
 #else
-#define check_error(fn)                                                                                                                                        \
-    {                                                                                                                                                          \
-        uint err = fn->glGetError();                                                                                                                           \
-        if (err != GL_NO_ERROR) {                                                                                                                              \
-            qCCritical(KDENLIVE_LOG) << "GL error" << hex << err << dec << "at" << __FILE__ << ":" << __LINE__;                                                \
-        }                                                                                                                                                      \
-    }
+#define check_error(fn) { int err = fn->glGetError(); if (err != GL_NO_ERROR) { qCritical(KDENLIVE_LOG) << "GL error"  << hex << err << dec << "at" << __FILE__ << ":" << __LINE__; } }
 #endif
+
 
 #ifndef GL_TIMEOUT_IGNORED
 #define GL_TIMEOUT_IGNORED 0xFFFFFFFFFFFFFFFFull
@@ -215,8 +208,7 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(this);
     connect(m_frameRenderer, &FrameRenderer::textureReady, this, &GLWidget::updateTexture, Qt::DirectConnection);
     connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::onFrameDisplayed, Qt::QueuedConnection);
-
-    connect(m_frameRenderer, &FrameRenderer::audioSamplesSignal, this, &GLWidget::audioSamplesSignal, Qt::QueuedConnection);
+    connect(m_frameRenderer, &FrameRenderer::frameDisplayed, this, &GLWidget::frameDisplayed, Qt::QueuedConnection);
     m_initSem.release();
     m_isInitialized = true;
     reconfigure();
@@ -673,7 +665,6 @@ void GLWidget::requestSeek()
 void GLWidget::seek(int pos)
 {
     if (!m_proxy->seeking()) {
-        m_proxy->setSeekPosition(pos);
         m_producer->seek(pos);
         if (m_consumer->is_stopped()) {
             m_consumer->start();
@@ -681,9 +672,8 @@ void GLWidget::seek(int pos)
             m_consumer->purge();
             m_consumer->set("refresh", 1);
         }
-    } else {
-        m_proxy->setSeekPosition(pos);
     }
+    m_proxy->setSeekPosition(pos);
 }
 
 void GLWidget::requestRefresh()
@@ -1289,7 +1279,6 @@ void GLWidget::onFrameDisplayed(const SharedFrame &frame)
     m_sendFrame = sendFrameForAnalysis;
     m_contextSharedAccess.unlock();
     update();
-    emit frameDisplayed(frame);
 }
 
 void GLWidget::mouseReleaseEvent(QMouseEvent *event)
@@ -1410,8 +1399,6 @@ void GLWidget::updateTexture(GLuint yName, GLuint uName, GLuint vName)
     m_texture[0] = yName;
     m_texture[1] = uName;
     m_texture[2] = vName;
-    m_sendFrame = sendFrameForAnalysis;
-    // update();
 }
 
 void GLWidget::on_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
