@@ -196,6 +196,7 @@ protected:
     std::shared_ptr<Mlt::Producer> m_producer;
     int m_id;
     int m_rulerHeight;
+    QColor m_bgColor;
 
 private:
     QRect m_rect;
@@ -232,7 +233,6 @@ private:
     MonitorProxy *m_proxy;
     std::shared_ptr<Mlt::Producer> m_blackClip;
     static void on_frame_show(mlt_consumer, void *self, mlt_frame frame);
-    static void on_audio_frame_show(mlt_consumer, void *self, mlt_frame frame);
     static void on_frame_render(mlt_consumer, GLWidget *widget, mlt_frame frame);
     static void on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
     static void on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr);
@@ -311,7 +311,6 @@ public:
     QSemaphore *semaphore() { return &m_semaphore; }
     QOpenGLContext *context() const { return m_context; }
     Q_INVOKABLE void showFrame(Mlt::Frame frame);
-    Q_INVOKABLE void showAudioFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLFrame(Mlt::Frame frame);
     Q_INVOKABLE void showGLNoSyncFrame(Mlt::Frame frame);
 

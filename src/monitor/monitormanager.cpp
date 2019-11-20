@@ -615,3 +615,13 @@ bool MonitorManager::isMultiTrack() const
     }
     return false;
 }
+
+void MonitorManager::updateBgColor()
+{
+    if (m_projectMonitor) {
+        m_projectMonitor->updateBgColor();
+    }
+    if (m_clipMonitor) {
+        m_clipMonitor->updateBgColor();
+    }
+}

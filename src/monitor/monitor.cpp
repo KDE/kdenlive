@@ -51,7 +51,6 @@
 #include <kio_version.h>
 
 #include "kdenlive_debug.h"
-#include <QDesktopWidget>
 #include <QScreen>
 #include <QDrag>
 #include <QMenu>
@@ -785,7 +784,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
                 }
             }
         } else {
-            m_videoWidget->setParent(qApp->desktop()->screen(0));
+            m_videoWidget->setParent(nullptr);
         }
         m_videoWidget->showFullScreen();
     } else {
@@ -2106,4 +2105,9 @@ void Monitor::setConsumerProperty(const QString &name, const QString &value)
 void Monitor::purgeCache()
 {
     m_glMonitor->purgeCache();
+}
+
+void Monitor::updateBgColor()
+{
+    m_glMonitor->m_bgColor = KdenliveSettings::window_background();
 }

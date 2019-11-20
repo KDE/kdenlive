@@ -20,7 +20,7 @@
 #include "colorpickerwidget.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
+#include <QScreen>
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMouseEvent>
@@ -215,7 +215,7 @@ QColor ColorPickerWidget::grabColor(const QPoint &p, bool destroyImage)
      return from QPixmap::grabWindow in the case where the application is using
      an argb visual
     */
-    if (!qApp->desktop()->geometry().contains(p)) {
+    if (!QApplication::primaryScreen()->geometry().contains(p)) {
         return QColor();
     }
     unsigned long xpixel;

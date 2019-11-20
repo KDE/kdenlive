@@ -105,7 +105,6 @@
 #include <QStyleFactory>
 #include <QUndoGroup>
 #include <KConfigGroup>
-#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QScreen>
@@ -2131,6 +2130,9 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
     connect(dialog, &KdenliveSettingsDialog::audioThumbFormatChanged, m_timelineTabs, &TimelineTabs::audioThumbFormatChanged);
     connect(dialog, &KdenliveSettingsDialog::resetView, this, &MainWindow::resetTimelineTracks);
+    connect(dialog, &KdenliveSettingsDialog::updateMonitorBg, [&]() {
+        pCore->monitorManager()->updateBgColor();
+    });
 
     dialog->show();
     if (page != -1) {

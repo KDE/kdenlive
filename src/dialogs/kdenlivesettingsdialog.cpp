@@ -978,6 +978,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
+        emit updateMonitorBg();
         resetProfile = true;
     }
 

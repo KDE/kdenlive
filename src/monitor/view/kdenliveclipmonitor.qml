@@ -130,27 +130,28 @@ Item {
             Item {
                 id: audioThumb
                 property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse)
+                property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
                 }
-                height: controller.clipType == ProducerType.Audio ? parent.height : parent.height / 6
+                height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: root.showAudiothumb && (controller.clipType == ProducerType.Audio || controller.clipType == ProducerType.AV)
+                visible: root.showAudiothumb && (isAudioClip || controller.clipType == ProducerType.AV)
 
                 states: [
-                    State { when: audioThumb.stateVisible || controller.clipType == ProducerType.Audio;
+                    State { when: audioThumb.stateVisible || isAudioClip;
                         PropertyChanges {   target: audioThumb; opacity: 1.0    } },
-                    State { when: !audioThumb.stateVisible && controller.clipType != ProducerType.Audio;
+                    State { when: !audioThumb.stateVisible && isAudioClip;
                         PropertyChanges {   target: audioThumb; opacity: 0.0    } }
                 ]
                 transitions: [ Transition {
-                    NumberAnimation { property: "opacity"; duration: 500}
+                    NumberAnimation { property: "opacity"; duration: isAudioClip ? 0 : 500}
                 } ]
                 Rectangle {
                     color: activePalette.base
-                    opacity: 0.6
+                    opacity: isAudioClip ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {

@@ -108,6 +108,8 @@ public slots:
     void slotExtractCurrentFrame();
     /** @brief Export the current monitor's frame to image file and add it to the current project */
     void slotExtractCurrentFrameToProject();
+    /** @brief Refresh monitor background color */
+    void updateBgColor();
 
 private slots:
     /** @brief Set MLT's consumer deinterlace method */

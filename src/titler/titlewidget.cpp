@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include "titlewidget.h"
-#include "KoSliderCombo.h"
 #include "core.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
