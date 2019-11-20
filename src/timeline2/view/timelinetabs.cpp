@@ -100,8 +100,3 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     delete timeline;
 }
-
-QSize TimelineTabs::sizeHint() const
-{
-    return QSize(800, 300);
-}

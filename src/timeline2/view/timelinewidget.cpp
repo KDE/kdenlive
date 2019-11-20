@@ -233,7 +233,3 @@ void TimelineWidget::focusTimeline()
     }
 }
 
-QSize TimelineWidget::sizeHint() const
-{
-    return QSize(800, 300);
-}

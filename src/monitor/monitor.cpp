@@ -297,7 +297,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     }
     m_audioButton->setIcon(icon);*/
 
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     setLayout(layout);
     setMinimumHeight(200);
 
@@ -552,7 +552,7 @@ void Monitor::slotForceSize(QAction *a)
         m_videoWidget->setMinimumSize(profileWidth, profileHeight);
         m_videoWidget->setMaximumSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
         setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
-        setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
         break;
     }
     m_forceSizeFactor = resizeType;
