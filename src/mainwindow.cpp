@@ -394,20 +394,21 @@ void MainWindow::init()
         showMixer->setChecked(visible);
     });
     connect(showMixer, &QAction::triggered, [&, mixerDock]() {
-        if (mixerDock->isVisible()) {
+        if (mixerDock->isVisible() && !mixerDock->visibleRegion().isEmpty()) {
             mixerDock->close();
         } else {
             mixerDock->show();
+            mixerDock->raise();
         }
     });
 
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
+    mixerDock->close();
 
     /// Tabify Widgets
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
-    tabifyDockWidget(mixerDock, m_transitionListDock);
     tabifyDockWidget(m_transitionListDock, m_effectListDock);
     tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
     bool firstRun = readOptions();

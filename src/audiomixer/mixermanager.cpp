@@ -212,15 +212,14 @@ void MixerManager::collapseMixers()
     }
 }
 
-/*QSize MixerManager::sizeHint() const
-{
-    QSize sz = QApplication::primaryScreen()->availableSize();
-    return QSize(m_masterMixer ? m_masterMixer->width() * (m_mixers.size() + 1) : sz.width() / 5, sz.height() / 3);
-}*/
-
-
 void MixerManager::resetSizePolicy()
 {
     setMaximumWidth(QWIDGETSIZE_MAX);
     setMinimumWidth(0);
+}
+
+QSize MixerManager::sizeHint() const
+{
+    QSize sz = QApplication::primaryScreen()->availableSize();
+    return QSize(m_recommandedWidth, 0);
 }

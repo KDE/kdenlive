@@ -68,7 +68,7 @@ signals:
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
     std::shared_ptr<MixerWidget> m_masterMixer;
-    //QSize sizeHint() const override;
+    QSize sizeHint() const override;
 
 private:
     std::shared_ptr<Mlt::Tractor> m_masterService;
