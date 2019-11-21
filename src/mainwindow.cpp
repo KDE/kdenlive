@@ -386,7 +386,7 @@ void MainWindow::init()
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
     QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
-    QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("adjustlevels")), i18n("Audio Mixer"), this);
+    QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
     connect(mixerDock, &QDockWidget::visibilityChanged, [&, showMixer](bool visible) {
