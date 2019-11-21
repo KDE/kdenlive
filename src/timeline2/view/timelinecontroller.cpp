@@ -2568,8 +2568,8 @@ QColor TimelineController::videoColor() const
 
 QColor TimelineController::audioColor() const
 {
-    KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Complementary);
-    return scheme.foreground(KColorScheme::ActiveText).color();
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.foreground(KColorScheme::PositiveText).color();
 }
 
 QColor TimelineController::lockedColor() const
