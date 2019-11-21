@@ -105,6 +105,7 @@ void MediaCapture::recordAudio(int tid, bool record)
 void MediaCapture::recordVideo(int tid, bool record)
 {
     // TO DO - fix video capture
+    Q_UNUSED(tid)
     if (!m_videoRecorder) {
         QList<QCameraInfo> availableCameras = QCameraInfo::availableCameras();
         foreach (const QCameraInfo &cameraInfo, availableCameras) {

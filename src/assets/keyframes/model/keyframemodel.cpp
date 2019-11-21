@@ -170,7 +170,6 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
         if (m_paramType == ParamType::AnimatedRect) {
             return updateKeyframe(pos, newVal);
         }
-        double realValue = newVal.toDouble();
         // Calculate real value from normalized
         QVariant result = getNormalizedValue(newVal.toDouble());
         return updateKeyframe(pos, result);

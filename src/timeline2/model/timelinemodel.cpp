@@ -540,6 +540,7 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
 
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
+    Q_UNUSED(moveMirrorTracks)
     // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
     if (trackId == -1) {
         return false;
@@ -1877,10 +1878,10 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         qDebug() << "---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
     }
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isItem(itemId));
     if (size <= 0) {
-        TRACE_RES(-1);
+        TRACE_RES(-1)
         return -1;
     }
     int in = getItemPosition(itemId);
@@ -1934,23 +1935,24 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     if (!result || resizedCount == 0) {
         bool undone = undo();
         Q_ASSERT(undone);
-        TRACE_RES(-1);
+        TRACE_RES(-1)
         return -1;
     }
     if (result && logUndo) {
         if (isClip(itemId)) {
-            PUSH_UNDO(undo, redo, i18n("Resize clip"));
+            PUSH_UNDO(undo, redo, i18n("Resize clip"))
         } else {
-            PUSH_UNDO(undo, redo, i18n("Resize composition"));
+            PUSH_UNDO(undo, redo, i18n("Resize composition"))
         }
     }
     int res = result ? size : -1;
-    TRACE_RES(res);
+    TRACE_RES(res)
     return res;
 }
 
 bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo)
 {
+    Q_UNUSED(blockUndo)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     bool result = false;
