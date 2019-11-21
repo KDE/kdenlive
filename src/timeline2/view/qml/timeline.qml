@@ -740,6 +740,10 @@ Rectangle {
                 OLD.ToolButton {
                     iconName: "kdenlive-composite"
                     tooltip: i18n("Show master effects")
+                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.leftMargin: 2
+                    implicitWidth: Math.min(ruler.height, root.baseUnit * 2)
+                    implicitHeight: implicitWidth
                     onClicked: {
                         timeline.showMasterEffects()
                     }
