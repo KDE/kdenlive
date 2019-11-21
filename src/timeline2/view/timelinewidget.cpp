@@ -173,6 +173,8 @@ void TimelineWidget::slotFitZoom()
         scrollPos = 0;
     }
     m_proxy->setScaleFactorOnMouse(scale, false);
+    // Update zoom slider
+    m_proxy->updateZoom(scale);
     QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
 }
 
