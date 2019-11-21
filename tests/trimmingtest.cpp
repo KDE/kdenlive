@@ -27,7 +27,7 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET(timMock);
+    RESET(timMock)
 
     QString binId = createProducer(profile_trimming, "red", binModel);
     QString binId2 = createProducer(profile_trimming, "blue", binModel);
@@ -554,10 +554,10 @@ TEST_CASE("Insert/delete", "[Trimming2]")
 
     QString binId = createProducerWithSound(profile_trimming, binModel);
 
-    int tid2b = TrackModel::construct(timeline, -1, -1, QString(), true);
+    TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid1 = TrackModel::construct(timeline);
-    int tid1b = TrackModel::construct(timeline);
+    TrackModel::construct(timeline);
 
     SECTION("Remove Space should preserve groups")
     {
@@ -698,6 +698,7 @@ TEST_CASE("Copy/paste", "[CP]")
 
     Mock<KdenliveDoc> docMock;
     When(Method(docMock, getDocumentProperty)).AlwaysDo([](const QString &name, const QString &defaultValue) {
+        Q_UNUSED(name) Q_UNUSED(defaultValue)
         qDebug() << "Intercepted call";
         return QStringLiteral("dummyId");
     });
@@ -718,7 +719,7 @@ TEST_CASE("Copy/paste", "[CP]")
     auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
     TimelineItemModel::finishConstruct(timeline, guideModel);
 
-    RESET(timMock);
+    RESET(timMock)
 
     QString binId = createProducerWithSound(profile_trimming, binModel);
     QString binId2 = createProducer(profile_trimming, "red", binModel);
@@ -978,7 +979,7 @@ TEST_CASE("Copy/paste", "[CP]")
         state0();
         int cid1 = -1;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 3, cid1, true, true, false));
-        int l = timeline->getClipPlaytime(cid1);
+        timeline->getClipPlaytime(cid1);
         int cid2 = timeline->m_groups->getSplitPartner(cid1);
 
         auto state = [&]() {

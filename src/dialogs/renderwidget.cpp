@@ -136,6 +136,7 @@ void RenderJobItem::setStatus(int status)
         setData(1, Qt::UserRole, i18n("Rendering aborted"));
         setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-cancel")));
         setData(1, ProgressRole, 100);
+        break;
     default:
         break;
     }
@@ -1079,7 +1080,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
 
 void RenderWidget::slotPrepareExport(bool delayedRendering, const QString &scriptPath)
 {
-    Q_UNUSED(scriptPath);
+    Q_UNUSED(scriptPath)
     if (pCore->projectDuration() < 2) {
         // Empty project, don't attempt to render
         return;
@@ -1345,44 +1346,15 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         doc.documentElement().insertAfter(consumer, profiles.at(profiles.length() - 1));
     }
 
-    // Check for fps change
-    double forcedfps = 0;
-    if (renderArgs.startsWith(QLatin1String("r="))) {
-        QString sub = renderArgs.section(QLatin1Char(' '), 0, 0).toLower();
-        sub = sub.section(QLatin1Char('='), 1, 1);
-        forcedfps = sub.toDouble();
-    } else if (renderArgs.contains(QStringLiteral(" r="))) {
-        QString sub = renderArgs.section(QStringLiteral(" r="), 1, 1);
-        sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
-        forcedfps = sub.toDouble();
-    } else if (renderArgs.contains(QStringLiteral("mlt_profile="))) {
-        QString sub = renderArgs.section(QStringLiteral("mlt_profile="), 1, 1);
-        sub = sub.section(QLatin1Char(' '), 0, 0).toLower();
-        forcedfps = ProfileRepository::get()->getProfile(sub)->fps();
-    }
-
-    bool resizeProfile = false;
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
     if (renderArgs.contains(QLatin1String("%dv_standard"))) {
         QString dvstd;
-        if (fmod((double)profile->frame_rate_num() / profile->frame_rate_den(), 30.01) > 27) {
+        if (fmod(double(profile->frame_rate_num() / profile->frame_rate_den()), 30.01) > 27) {
             dvstd = QStringLiteral("ntsc");
-            if (!(profile->frame_rate_num() == 30000 && profile->frame_rate_den() == 1001)) {
-                forcedfps = 30000.0 / 1001;
-            }
-            if (!(profile->width() == 720 && profile->height() == 480)) {
-                resizeProfile = true;
-            }
         } else {
             dvstd = QStringLiteral("pal");
-            if (!(profile->frame_rate_num() == 25 && profile->frame_rate_den() == 1)) {
-                forcedfps = 25;
-            }
-            if (!(profile->width() == 720 && profile->height() == 576)) {
-                resizeProfile = true;
-            }
         }
-        if ((double)profile->display_aspect_num() / profile->display_aspect_den() > 1.5) {
+        if (double(profile->display_aspect_num() / profile->display_aspect_den()) > 1.5) {
             dvstd += QLatin1String("_wide");
         }
         renderArgs.replace(QLatin1String("%dv_standard"), dvstd);
@@ -1423,8 +1395,8 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         double fps = profile->fps();
         double guideStart = m_view.guide_start->itemData(m_view.guide_start->currentIndex()).toDouble();
         double guideEnd = m_view.guide_end->itemData(m_view.guide_end->currentIndex()).toDouble();
-        consumer.setAttribute(QStringLiteral("in"), (int)GenTime(guideStart).frames(fps));
-        consumer.setAttribute(QStringLiteral("out"), (int)GenTime(guideEnd).frames(fps));
+        consumer.setAttribute(QStringLiteral("in"), int(GenTime(guideStart).frames(fps)));
+        consumer.setAttribute(QStringLiteral("out"), int(GenTime(guideEnd).frames(fps)));
     } else {
         consumer.setAttribute(QStringLiteral("in"), in);
         consumer.setAttribute(QStringLiteral("out"), out);
@@ -1444,12 +1416,6 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     }
     if (!subsize.isEmpty()) {
         consumer.setAttribute(QStringLiteral("s"), subsize);
-    }
-
-    // Check if we need to embed the playlist into the producer consumer
-    // That is required if PAR != 1
-    if (profile->sample_aspect_num() != profile->sample_aspect_den() && subsize.isEmpty()) {
-        resizeProfile = true;
     }
 
     // Project metadata
@@ -1819,7 +1785,7 @@ void RenderWidget::refreshView()
 
     // We borrow a reference to the profile's pointer to query it more easily
     std::unique_ptr<ProfileModel> &profile = pCore->getCurrentProfile();
-    double project_framerate = (double)profile->frame_rate_num() / profile->frame_rate_den();
+    double project_framerate = double(profile->frame_rate_num()) / profile->frame_rate_den();
     for (int i = 0; i < m_view.formats->topLevelItemCount(); ++i) {
         QTreeWidgetItem *group = m_view.formats->topLevelItem(i);
         for (int j = 0; j < group->childCount(); ++j) {
@@ -1841,8 +1807,8 @@ void RenderWidget::refreshView()
                 QString profile_str = params.section(QStringLiteral("mlt_profile="), 1, 1).section(QLatin1Char(' '), 0, 0);
                 std::unique_ptr<ProfileModel> &target_profile = ProfileRepository::get()->getProfile(profile_str);
                 if (target_profile->frame_rate_den() > 0) {
-                    double profile_rate = (double)target_profile->frame_rate_num() / target_profile->frame_rate_den();
-                    if ((int)(1000.0 * profile_rate) != (int)(1000.0 * project_framerate)) {
+                    double profile_rate = double(target_profile->frame_rate_num()) / target_profile->frame_rate_den();
+                    if (int(1000.0 * profile_rate) != int(1000.0 * project_framerate)) {
                         item->setData(0, ErrorRole, i18n("Frame rate (%1) not compatible with project profile (%2)", profile_rate, project_framerate));
                         item->setIcon(0, brokenIcon);
                         item->setForeground(0, disabled);
@@ -3025,14 +2991,14 @@ void RenderWidget::adjustAVQualities(int quality)
 {
     // calculate video/audio quality indexes from the general quality cursor
     // taking into account decreasing/increasing video/audio quality parameter
-    double q = (double)quality / m_view.quality->maximum();
+    double q = double(quality) / m_view.quality->maximum();
 
-    int dq = q * (m_view.video->maximum() - m_view.video->minimum());
+    int dq = int(q * (m_view.video->maximum() - m_view.video->minimum()));
     // prevent video spinbox to update quality cursor (loop)
     m_view.video->blockSignals(true);
     m_view.video->setValue(m_view.video->property("decreasing").toBool() ? m_view.video->maximum() - dq : m_view.video->minimum() + dq);
     m_view.video->blockSignals(false);
-    dq = q * (m_view.audio->maximum() - m_view.audio->minimum());
+    dq = int(q * (m_view.audio->maximum() - m_view.audio->minimum()));
     dq -= dq % m_view.audio->singleStep(); // keep a 32 pitch  for bitrates
     m_view.audio->setValue(m_view.audio->property("decreasing").toBool() ? m_view.audio->maximum() - dq : m_view.audio->minimum() + dq);
 }
@@ -3065,19 +3031,19 @@ void RenderWidget::checkCodecs()
         consumer->set("f", "list");
         consumer->start();
         vcodecsList.clear();
-        Mlt::Properties vcodecs((mlt_properties)consumer->get_data("vcodec"));
+        Mlt::Properties vcodecs(mlt_properties(consumer->get_data("vcodec")));
         vcodecsList.reserve(vcodecs.count());
         for (int i = 0; i < vcodecs.count(); ++i) {
             vcodecsList << QString(vcodecs.get(i));
         }
         acodecsList.clear();
-        Mlt::Properties acodecs((mlt_properties)consumer->get_data("acodec"));
+        Mlt::Properties acodecs(mlt_properties(consumer->get_data("acodec")));
         acodecsList.reserve(acodecs.count());
         for (int i = 0; i < acodecs.count(); ++i) {
             acodecsList << QString(acodecs.get(i));
         }
         supportedFormats.clear();
-        Mlt::Properties formats((mlt_properties)consumer->get_data("f"));
+        Mlt::Properties formats(mlt_properties(consumer->get_data("f")));
         supportedFormats.reserve(formats.count());
         for (int i = 0; i < formats.count(); ++i) {
             supportedFormats << QString(formats.get(i));

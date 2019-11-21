@@ -120,7 +120,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     });
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
-    m_recommandedWidth = mixer->minimumWidth() * (m_mixers.size() + 1);
+    m_recommandedWidth = mixer->minimumWidth() * (int(m_mixers.size()) + 1);
 }
 
 void MixerManager::deregisterTrack(int tid)

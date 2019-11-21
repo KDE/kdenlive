@@ -1174,7 +1174,7 @@ TEST_CASE("FuzzBug9")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         {
-            int res = timeline_0->suggestClipMove(2, 1, -34, 0, 0);
+            timeline_0->suggestClipMove(2, 1, -34, 0, 0);
         }
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1220,7 +1220,7 @@ TEST_CASE("FuzzBug10")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         {
-            int res = timeline_0->requestItemResize(1, 12, false, true, 1, false);
+            timeline_0->requestItemResize(1, 12, false, true, 1, false);
         }
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -1304,7 +1304,7 @@ TEST_CASE("FuzzBug11")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         {
-            bool res = timeline_0->requestSetSelection({4});
+            timeline_0->requestSetSelection({4});
         }
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();

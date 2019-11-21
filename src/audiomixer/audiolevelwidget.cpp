@@ -53,6 +53,7 @@ AudioLevelWidget::~AudioLevelWidget()
 
 void AudioLevelWidget::resizeEvent(QResizeEvent *event)
 {
+    Q_UNUSED(event)
     drawBackground(m_peaks.size());
 }
 
