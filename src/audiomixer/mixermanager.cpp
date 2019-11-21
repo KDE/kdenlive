@@ -48,7 +48,7 @@ static inline double levelToDB(double level)
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
     , m_masterMixer(nullptr)
-    , m_connectedWidgets(false)
+    , m_visibleMixerManager(false)
     , m_expandedWidth(-1)
     , m_recommandedWidth(300)
 {
@@ -85,8 +85,8 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     connect(mixer.get(), &MixerWidget::muteTrack, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
-    if (m_connectedWidgets) {
-        mixer->connectMixer(true);
+    if (m_visibleMixerManager) {
+        mixer->connectMixer(!KdenliveSettings::mixerCollapse());
     }
     connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
@@ -164,7 +164,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
-    if (m_connectedWidgets) {
+    if (m_visibleMixerManager) {
         m_masterMixer->connectMixer(true);
     }
     connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);
@@ -180,24 +180,24 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     }
 }
 
-void MixerManager::connectMixer(bool doConnect, bool channelsOnly)
+void MixerManager::connectMixer(bool doConnect)
 {
-    m_connectedWidgets = doConnect;
+    m_visibleMixerManager = doConnect;
     for (auto item : m_mixers) {
-        item.second->connectMixer(m_connectedWidgets);
+        item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse());
     }
-    if (!channelsOnly && m_masterMixer != nullptr) {
-        m_masterMixer->connectMixer(m_connectedWidgets);
+    if (m_masterMixer != nullptr) {
+        m_masterMixer->connectMixer(m_visibleMixerManager);
     }
 }
 
 void MixerManager::collapseMixers()
 {
+    connectMixer(m_visibleMixerManager);
     if (KdenliveSettings::mixerCollapse()) {
         m_expandedWidth = width();
         m_channelsBox->setFixedWidth(0);
         m_line->setMaximumWidth(0);
-        connectMixer(false, true);
         setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
     } else {
         m_line->setMaximumWidth(QWIDGETSIZE_MAX);
@@ -207,7 +207,6 @@ void MixerManager::collapseMixers()
         if (m_expandedWidth > 0) {
             setFixedWidth(m_expandedWidth);
         }
-        connectMixer(true, true);
         QTimer::singleShot(500, this, &MixerManager::resetSizePolicy);
     }
 }
@@ -220,6 +219,5 @@ void MixerManager::resetSizePolicy()
 
 QSize MixerManager::sizeHint() const
 {
-    QSize sz = QApplication::primaryScreen()->availableSize();
     return QSize(m_recommandedWidth, 0);
 }

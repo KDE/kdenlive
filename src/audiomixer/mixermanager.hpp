@@ -50,7 +50,7 @@ public:
     void setModel(std::shared_ptr<TimelineItemModel> model);
     void cleanup();
     /** @brief Connect the mixer widgets to the correspondant filters */
-    void connectMixer(bool doConnect, bool channelsOnly = false);
+    void connectMixer(bool doConnect);
     void collapseMixers();
 
 public slots:
@@ -79,7 +79,7 @@ private:
     QScrollArea *m_channelsBox;
     QFrame *m_line;
     int m_lastFrame;
-    bool m_connectedWidgets;
+    bool m_visibleMixerManager;
     int m_expandedWidth;
     QVector <int> m_soloMuted;
     int m_recommandedWidth;
