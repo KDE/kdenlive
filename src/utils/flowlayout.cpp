@@ -40,13 +40,14 @@
 
 #include "flowlayout.h"
 #include <QWidget>
+#include <QDebug>
+#include <QtMath>
 
 FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent)
     , m_hSpace(hSpacing)
     , m_vSpace(vSpacing)
-    , m_mini(0)
-    , m_triggerLayout(false)
+    , m_minimumSize(200, 200)
 {
     setContentsMargins(margin, margin, margin, margin);
 }
@@ -123,27 +124,18 @@ int FlowLayout::heightForWidth(int width) const
 
 void FlowLayout::setGeometry(const QRect &rect)
 {
-    QLayout::setGeometry(rect);
     doLayout(rect, false);
+    QLayout::setGeometry(rect);
 }
 
 QSize FlowLayout::sizeHint() const
 {
-    return minimumSize();
+    return m_minimumSize;
 }
 
 QSize FlowLayout::minimumSize() const
 {
-    QSize size;
-    for (QLayoutItem *item : m_itemList) {
-        size = size.expandedTo(item->minimumSize());
-    }
-
-    size += QSize(2 * margin(), 2 * margin());
-    if (m_mini > 0) {
-        size.setHeight(m_mini);
-    }
-    return size;
+    return m_minimumSize;
 }
 
 int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
@@ -153,40 +145,31 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     QRect effectiveRect = rect.adjusted(+left, +top, -right, -bottom);
     int x = effectiveRect.x();
     int y = effectiveRect.y();
-    int lineHeight = 0;
-    int hPos = 0;
     int itemCount = 0;
-    int allowedWidth = effectiveRect.width();
-
+    if (m_itemList.isEmpty() || effectiveRect.width() <= 0 || effectiveRect.height() <= 0) {
+        return 0;
+    }
+    
+    QWidget *wid = m_itemList.at(0)->widget();
+    QSize min = wid->minimumSize();
+    int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
+    int realWidth = rect.width() / columns - horizontalSpacing();
+    int totalHeight = y - rect.y() + bottom + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
+    m_minimumSize = QSize(rect.width(), totalHeight);
+    if (testOnly) {
+        return totalHeight;
+    }
     for (QLayoutItem *item : m_itemList) {
         // We consider all items have the same dimensions
-        QWidget *wid = item->widget();
-        int spaceX = horizontalSpacing();
-        if (spaceX == -1) spaceX = wid->style()->layoutSpacing(QSizePolicy::Frame, QSizePolicy::Frame, Qt::Horizontal);
-        int spaceY = verticalSpacing();
-        if (spaceY == -1) spaceY = wid->style()->layoutSpacing(QSizePolicy::Frame, QSizePolicy::Frame, Qt::Vertical);
-        int optimumItemWidth = item->sizeHint().width() + spaceX;
-        int horizontalCount = qMin(count(), qMax(1, qRound((double)allowedWidth / optimumItemWidth)));
-        //QSize hint = item->sizeHint();
-        QSize hint = QSize(qMin(wid->maximumWidth(), allowedWidth / horizontalCount), qMin(wid->maximumWidth(), allowedWidth / horizontalCount));
-        if (!testOnly) {
-            item->setGeometry(QRect(QPoint(x, y), hint));
-        }
-        hPos ++;
+        wid = item->widget();
+        QSize hint = QSize(qMin(wid->maximumWidth(), realWidth), qMin(wid->maximumWidth(), realWidth));
+        item->setGeometry(QRect(QPoint(x, y), hint));
         itemCount++;
-        if (itemCount < count()) {
-            hPos = hPos % horizontalCount;
-            if (hPos == 0 && itemCount > 0) {
-                y += lineHeight + spaceY;
-                x = effectiveRect.x();
-            } else {
-                x += hint.width();
-            }
-        }
-        lineHeight = qMax(lineHeight, hint.height());
+        //qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
+        x = effectiveRect.x() + (itemCount % columns) * (realWidth + horizontalSpacing());
+        y = effectiveRect.y() + qFloor((double) itemCount / columns) * (realWidth + verticalSpacing());
     }
-    m_mini = y + lineHeight - rect.y() + bottom;
-    return m_mini;
+    return totalHeight;
 }
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {
@@ -203,6 +186,6 @@ int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 
 int FlowLayout::miniHeight() const
 {
-    return m_mini;
+    return m_minimumSize.height();
 }
 

@@ -44,6 +44,7 @@ class WidgetDelegate : public QStyledItemDelegate
 public:
     explicit WidgetDelegate(QObject *parent = nullptr);
     void setHeight(const QModelIndex &index, int height);
+    int height(const QModelIndex &index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
@@ -89,7 +90,6 @@ private:
      */
     QSize m_sourceFrameSize;
     const QString getStyleSheet();
-    void updateTreeHeight();
 
 private slots:
     void refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
@@ -97,6 +97,7 @@ private slots:
     void slotStartDrag(const QPixmap &pix, const std::shared_ptr<EffectItemModel> &effectModel);
     void slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel);
     void loadEffects();
+    void updateTreeHeight();
 
     //    void switchBuiltStack(bool show);
 

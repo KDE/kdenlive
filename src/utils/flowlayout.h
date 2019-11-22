@@ -44,6 +44,8 @@
 #include <QLayout>
 #include <QRect>
 #include <QStyle>
+#include <QMutex>
+
 class FlowLayout : public QLayout
 {
 public:
@@ -73,9 +75,7 @@ private:
     int m_vSpace;
 
 protected:
-    mutable int m_mini;
-    mutable bool m_triggerLayout;
-
+    mutable  QSize m_minimumSize;
 };
 
 #endif // FLOWLAYOUT_H
