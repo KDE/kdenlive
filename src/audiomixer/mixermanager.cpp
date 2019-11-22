@@ -53,17 +53,19 @@ MixerManager::MixerManager(QWidget *parent)
     , m_recommandedWidth(300)
 {
     m_masterBox = new QHBoxLayout;
+    setContentsMargins(0, 0, 0, 0);
     m_channelsBox = new QScrollArea(this);
+    m_channelsBox->setContentsMargins(0, 0, 0, 0);
     m_box = new QHBoxLayout;
     m_box->setSpacing(0);
-    auto *channelsBoxContainer = new QWidget;
-    channelsBoxContainer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    auto *channelsBoxContainer = new QWidget(this);
     m_channelsBox->setWidget(channelsBoxContainer);
     m_channelsBox->setWidgetResizable(true);
     m_channelsBox->setFrameShape(QFrame::NoFrame);
     m_box->addWidget(m_channelsBox);
     m_channelsLayout = new QHBoxLayout;
     m_channelsLayout->setContentsMargins(0, 0, 0, 0);
+    m_masterBox->setContentsMargins(0, 0, 0, 0);
     m_channelsLayout->setSpacing(0);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
@@ -120,7 +122,8 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     });
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
-    m_recommandedWidth = mixer->minimumWidth() * (int(m_mixers.size()) + 1);
+    m_recommandedWidth = mixer->minimumWidth() * (qMin(2, int(m_mixers.size())));
+    m_channelsBox->setMinimumWidth(m_recommandedWidth);
 }
 
 void MixerManager::deregisterTrack(int tid)
@@ -170,7 +173,9 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(this, &MixerManager::updateLevels, m_masterMixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, m_masterMixer.get(), &MixerWidget::clear);
     m_masterBox->addWidget(m_masterMixer.get());
-    collapseMixers();
+    if (KdenliveSettings::mixerCollapse()) {
+        collapseMixers();
+    }
 }
 
 void MixerManager::recordStateChanged(int tid, bool recording)
@@ -202,12 +207,9 @@ void MixerManager::collapseMixers()
     } else {
         m_line->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
-        m_channelsBox->setMinimumWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
-        setMaximumWidth(QWIDGETSIZE_MAX);
-        if (m_expandedWidth > 0) {
-            setFixedWidth(m_expandedWidth);
-        }
-        QTimer::singleShot(500, this, &MixerManager::resetSizePolicy);
+        m_channelsBox->setMinimumWidth(m_recommandedWidth);
+        setFixedWidth(m_expandedWidth);
+        QMetaObject::invokeMethod(this, "resetSizePolicy", Qt::QueuedConnection);
     }
 }
 
