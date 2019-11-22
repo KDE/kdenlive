@@ -1428,6 +1428,13 @@ void MainWindow::setupActions()
     QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
+    
+    QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
+    connect(masterEffectStack, &QAction::triggered, [&]() {
+        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+        getCurrentTimeline()->controller()->showMasterEffects();
+    });
+    timelineActions->addAction(QStringLiteral("master_effects"), masterEffectStack);
 
     QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
