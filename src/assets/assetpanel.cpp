@@ -41,6 +41,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include <QScrollBar>
 #include <QComboBox>
 #include <QFontDatabase>
 #include <klocalizedstring.h>
@@ -118,19 +119,20 @@ AssetPanel::AssetPanel(QWidget *parent)
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_transitionWidget);
     lay->addWidget(m_effectStackWidget);
-    auto *sc = new QScrollArea;
-    sc->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    sc->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    sc->setFrameStyle(QFrame::NoFrame);
-    sc->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
+    m_sc = new QScrollArea;
+    m_sc->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_sc->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_sc->setFrameStyle(QFrame::NoFrame);
+    m_sc->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
     m_container->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding));
-    sc->setWidgetResizable(true);
+    m_sc->setWidgetResizable(true);
 
-    m_lay->addWidget(sc);
-    sc->setWidget(m_container);
+    m_lay->addWidget(m_sc);
+    m_sc->setWidget(m_container);
     m_transitionWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
     updatePalette();
+    connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -384,4 +386,16 @@ void AssetPanel::deleteCurrentEffect()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->removeCurrentEffect();
     }
+}
+
+void AssetPanel::slotCheckWheelEventFilter()
+{
+    // If the effect stack widget has no scrollbar, we will not filter the
+    // mouse wheel events, so that user can easily adjust effect params
+    bool blockWheel = false;
+    if (m_sc->verticalScrollBar() && m_sc->verticalScrollBar()->isVisible()) {
+        // widget has scroll bar,
+        blockWheel = true;
+    }
+    m_effectStackWidget->blockWheenEvent(blockWheel);
 }

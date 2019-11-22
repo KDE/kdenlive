@@ -227,7 +227,8 @@ void WheelContainer::wheelEvent(QWheelEvent *event)
         }
         m_color.setValueF(qBound(-m_zeroShift, y, 1. - m_zeroShift)); 
         changeColor(m_color);
-        
+    } else {
+        QWidget::wheelEvent(event);
     }
 }
 

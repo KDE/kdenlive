@@ -26,6 +26,7 @@
 #include <QMutex>
 #include <QStyledItemDelegate>
 #include <QWidget>
+#include <QTimer>
 #include <memory>
 
 class QVBoxLayout;
@@ -76,6 +77,7 @@ public:
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
     void dropEvent(QDropEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     QMutex m_mutex;
@@ -85,6 +87,7 @@ private:
     std::shared_ptr<EffectStackModel> m_model;
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
+    QTimer m_scrollTimer;
 
     /** @brief the frame size of the original clip this effect is applied on
      */
@@ -107,6 +110,8 @@ signals:
     void reloadEffect(const QString &path);
     void updateEnabledState();
     void removeCurrentEffect();
+    void blockWheenEvent(bool block);
+    void checkScrollBar();
 };
 
 #endif

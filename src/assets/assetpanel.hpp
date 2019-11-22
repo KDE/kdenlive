@@ -32,6 +32,7 @@ class KSqueezedTextLabel;
 class KDualAction;
 class QToolButton;
 class QComboBox;
+class QScrollArea;
 
 /** @brief This class is the widget that provides interaction with the asset currently selected.
     That is, it either displays an effectStack or the parameters of a transition
@@ -71,6 +72,7 @@ public slots:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
     void deleteCurrentEffect();
+    void slotCheckWheelEventFilter();
 
 protected:
     /** @brief Return the stylesheet used to display the panel (based on current palette). */
@@ -89,6 +91,7 @@ private:
     KDualAction *m_splitButton;
     KDualAction *m_enableStackButton;
     KDualAction *m_timelineButton;
+    QScrollArea *m_sc;
 
 private slots:
     void processSplitEffect(bool enable);

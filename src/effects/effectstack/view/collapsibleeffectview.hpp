@@ -69,8 +69,6 @@ public:
     QString infoString() const;
     bool isActive() const;
     bool isEnabled() const;
-    /** @brief Should the wheel event be sent to parent widget for scrolling. */
-    bool filterWheelEvent;
     /** @brief Show / hide up / down buttons. */
     void adjustButtons(int ix, int max);
     /** @brief Returns this effect's monitor scene type if any is needed. */
@@ -91,6 +89,8 @@ public slots:
     void importKeyframes(const QString &keyframes);
     void slotActivateEffect(QModelIndex ix);
     void updateHeight();
+    /** @brief Should we block wheel event (if parent is a view with scrollbar) */
+    void blockWheenEvent(bool block);
 
 private slots:
     void setWidgetHeight(qreal value);
@@ -123,6 +123,7 @@ private:
     bool m_isMovable;
     /** @brief True if this is a region effect, which behaves in a special way, like a group. */
     bool m_regionEffect;
+    bool m_blockWheel;
     /** @brief The add group action. */
     QAction *m_groupAction;
     KDualAction *m_enabledButton;
