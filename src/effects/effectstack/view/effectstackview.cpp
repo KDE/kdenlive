@@ -291,18 +291,15 @@ void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<Ef
 
 void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height)
 {
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! adjustdelegate: " << height;
-    //QMutexLocker lock(&m_mutex);
     if (!m_model) {
         return;
     }
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     if (del) {
+        //QMutexLocker lock(&m_mutex);
         del->setHeight(ix, height);
-        updateTreeHeight();
     }
-    qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! adjustdelegate";
 }
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)

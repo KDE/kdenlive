@@ -93,8 +93,8 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
-        connect(w, &AbstractParamWidget::updateHeight, [&, w]() {
-            setFixedHeight(w->height() + m_lay->contentsMargins().bottom());
+        connect(w, &AbstractParamWidget::updateHeight, [&, w](int h) {
+            setFixedHeight(h + m_lay->contentsMargins().bottom());
             emit updateHeight();
         });
         m_widgets.push_back(w);
@@ -382,3 +382,4 @@ QMenu *AssetParameterView::presetMenu()
 {
     return m_presetMenu;
 }
+

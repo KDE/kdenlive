@@ -87,7 +87,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     // checkAll->setToolTip(i18n("Enable/Disable all effects"));
     // buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
     // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
-
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
     m_collapse->setActiveIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
     collapseButton->setDefaultAction(m_collapse);

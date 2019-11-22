@@ -33,7 +33,7 @@ LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model,
     : AbstractParamWidget(std::move(model), index, parent)
 {
     m_flowLayout = new FlowLayout(this, 2, 2, 2);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), NegQColor(), this);
     m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
@@ -110,9 +110,10 @@ void LumaLiftGainParam::updateEffect(QDomElement &effect)
 
 void LumaLiftGainParam::resizeEvent(QResizeEvent *ev)
 {
-    setFixedHeight(m_flowLayout->miniHeight());
     QWidget::resizeEvent(ev);
-    emit updateHeight();
+    if (height() != m_flowLayout->miniHeight()) {
+        emit updateHeight(m_flowLayout->miniHeight());
+    }
 }
 
 void LumaLiftGainParam::slotShowComment(bool) {}
