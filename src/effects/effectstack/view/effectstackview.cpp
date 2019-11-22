@@ -36,6 +36,7 @@
 #include <QFontDatabase>
 #include <QMimeData>
 #include <QMutexLocker>
+#include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
 #include <utility>
@@ -97,6 +98,11 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_effectsTree->setVisible(!KdenliveSettings::showbuiltstack());
     m_lay->addWidget(m_effectsTree);
     m_lay->addStretch(10);
+    
+    m_scrollTimer.setSingleShot(true);
+    m_scrollTimer.setInterval(250);
+    connect(&m_scrollTimer, &QTimer::timeout, this, &EffectStackView::checkScrollBar);
+
 }
 
 EffectStackView::~EffectStackView()
@@ -164,6 +170,8 @@ void EffectStackView::dropEvent(QDropEvent *event)
         }
         if (!added) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+        } else {
+            m_scrollTimer.start();
         }
     }
 }
@@ -185,6 +193,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     m_mutex.unlock();
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! setmodel";
     loadEffects();
+    m_scrollTimer.start();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
     connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::updateEnabledState);
     connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
@@ -222,6 +231,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
+        connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
         connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
@@ -259,6 +269,7 @@ void EffectStackView::updateTreeHeight()
     }
     m_effectsTree->setFixedHeight(totalHeight);
     m_mutex.unlock();
+    m_scrollTimer.start();
 }
 
 void EffectStackView::slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel)
@@ -306,6 +317,13 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
         QMetaObject::invokeMethod(this, "updateTreeHeight", Qt::QueuedConnection);
     }
 }
+
+void EffectStackView::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    m_scrollTimer.start();
+}
+
 
 void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {

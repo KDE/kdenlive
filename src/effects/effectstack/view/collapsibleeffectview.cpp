@@ -21,6 +21,7 @@
 
 #include "collapsibleeffectview.hpp"
 #include "assets/view/assetparameterview.hpp"
+#include "assets/view/widgets/colorwheel.h"
 #include "core.h"
 #include "dialogs/clipcreationdialog.h"
 #include "effects/effectsrepository.hpp"
@@ -41,8 +42,9 @@
 #include <QStandardPaths>
 #include <QVBoxLayout>
 #include <QWheelEvent>
+#include <QPointer>
 
-#include <KComboBox>
+#include <QComboBox>
 #include <KDualAction>
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -53,6 +55,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     , m_view(nullptr)
     , m_model(effectModel)
     , m_regionEffect(false)
+    , m_blockWheel(false)
 {
     QString effectId = effectModel->getAssetId();
     QString effectName = i18n(EffectsRepository::get()->getName(effectId).toUtf8().data());
@@ -60,7 +63,6 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         m_regionEffect = true;
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
     }
-    filterWheelEvent = true;
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     // decoframe->setProperty("active", true);
     // m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
@@ -198,15 +200,23 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     connect(buttonDown, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotEffectDown);
     connect(buttonDel, &QAbstractButton::clicked, this, &CollapsibleEffectView::slotDeleteEffect);
 
-    Q_FOREACH (QSpinBox *sp, findChildren<QSpinBox *>()) {
+    for (QSpinBox *sp : findChildren<QSpinBox *>()) {
         sp->installEventFilter(this);
         sp->setFocusPolicy(Qt::StrongFocus);
     }
-    Q_FOREACH (KComboBox *cb, findChildren<KComboBox *>()) {
+    for (QComboBox *cb : findChildren<QComboBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
-    Q_FOREACH (QProgressBar *cb, findChildren<QProgressBar *>()) {
+    for (QProgressBar *cb : findChildren<QProgressBar *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(Qt::StrongFocus);
+    }
+    for (WheelContainer *cb : findChildren<WheelContainer *>()) {
+        cb->installEventFilter(this);
+        cb->setFocusPolicy(Qt::StrongFocus);
+    }
+    for (QDoubleSpinBox *cb : findChildren<QDoubleSpinBox *>()) {
         cb->installEventFilter(this);
         cb->setFocusPolicy(Qt::StrongFocus);
     }
@@ -260,17 +270,20 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
     }
     if (e->type() == QEvent::Wheel) {
         auto *we = static_cast<QWheelEvent *>(e);
-        if (!filterWheelEvent || we->modifiers() != Qt::NoModifier) {
+        if (!m_blockWheel || we->modifiers() != Qt::NoModifier) {
             e->accept();
             return false;
         }
         if (qobject_cast<QAbstractSpinBox *>(o)) {
-            // if (qobject_cast<QAbstractSpinBox *>(o)->focusPolicy() == Qt::WheelFocus) {
+            if (!qobject_cast<QAbstractSpinBox *>(o)->hasFocus()) {
+                e->ignore();
+                return true;
+            }
             e->accept();
             return false;
         }
-        if (qobject_cast<KComboBox *>(o)) {
-            if (qobject_cast<KComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
+        if (qobject_cast<QComboBox *>(o)) {
+            if (qobject_cast<QComboBox *>(o)->focusPolicy() == Qt::WheelFocus) {
                 e->accept();
                 return false;
             }
@@ -278,7 +291,18 @@ bool CollapsibleEffectView::eventFilter(QObject *o, QEvent *e)
             return true;
         }
         if (qobject_cast<QProgressBar *>(o)) {
-            // if (qobject_cast<QProgressBar *>(o)->focusPolicy() == Qt::WheelFocus)*/ {
+            if (!qobject_cast<QProgressBar *>(o)->hasFocus()) {
+                e->ignore();
+                return true;
+            }
+            e->accept();
+            return false;
+        }
+        if (qobject_cast<WheelContainer *>(o)) {
+            if (!qobject_cast<WheelContainer *>(o)->hasFocus()) {
+                e->ignore();
+                return true;
+            }
             e->accept();
             return false;
         }
@@ -803,3 +827,9 @@ void CollapsibleEffectView::enableView(bool enabled)
         widgetFrame->setEnabled(true);
     }
 }
+
+void CollapsibleEffectView::blockWheenEvent(bool block)
+{
+    m_blockWheel = block;
+}
+
