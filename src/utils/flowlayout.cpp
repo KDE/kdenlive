@@ -47,7 +47,7 @@ FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent)
     , m_hSpace(hSpacing)
     , m_vSpace(vSpacing)
-    , m_minimumSize(300, 200)
+    , m_minimumSize(200, 200)
 {
     setContentsMargins(margin, margin, margin, margin);
 }
@@ -113,7 +113,13 @@ Qt::Orientations FlowLayout::expandingDirections() const
 
 bool FlowLayout::hasHeightForWidth() const
 {
-    return false;
+    return true;
+}
+
+int FlowLayout::heightForWidth(int width) const
+{
+    int height = doLayout(QRect(0, 0, width, 0), true);
+    return height;
 }
 
 void FlowLayout::setGeometry(const QRect &rect)
@@ -140,7 +146,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int x = effectiveRect.x();
     int y = effectiveRect.y();
     int itemCount = 0;
-    if (m_itemList.isEmpty()) {
+    if (m_itemList.isEmpty() || effectiveRect.width() <= 0 || effectiveRect.height() <= 0) {
         return 0;
     }
     
@@ -149,20 +155,20 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
     int realWidth = rect.width() / columns - horizontalSpacing();
     int totalHeight = y - rect.y() + bottom + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
-
+    m_minimumSize = QSize(rect.width(), totalHeight);
+    if (testOnly) {
+        return totalHeight;
+    }
     for (QLayoutItem *item : m_itemList) {
         // We consider all items have the same dimensions
         wid = item->widget();
         QSize hint = QSize(qMin(wid->maximumWidth(), realWidth), qMin(wid->maximumWidth(), realWidth));
-        if (!testOnly) {
-            item->setGeometry(QRect(QPoint(x, y), hint));
-        }
+        item->setGeometry(QRect(QPoint(x, y), hint));
         itemCount++;
         //qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
         x = effectiveRect.x() + (itemCount % columns) * (realWidth + horizontalSpacing());
         y = effectiveRect.y() + qFloor((double) itemCount / columns) * (realWidth + verticalSpacing());
     }
-    m_minimumSize = QSize(rect.width(), totalHeight);
     return totalHeight;
 }
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const

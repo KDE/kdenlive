@@ -477,8 +477,8 @@ void CollapsibleEffectView::slotSwitch(bool collapse)
 {
     widgetFrame->setFixedHeight(collapse ? 0 : m_view->height());
     setFixedHeight(widgetFrame->height() + frame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
-    emit switchHeight(m_model, height());
     m_model->setCollapsed(collapse);
+    emit switchHeight(m_model, height());
 }
 
 void CollapsibleEffectView::setGroupIndex(int ix)

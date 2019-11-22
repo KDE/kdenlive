@@ -59,6 +59,11 @@ void WidgetDelegate::setHeight(const QModelIndex &index, int height)
     emit sizeHintChanged(index);
 }
 
+int WidgetDelegate::height(const QModelIndex &index) const
+{
+    return m_height.value(index);
+}
+
 void WidgetDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItem opt(option);
@@ -72,18 +77,18 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     , m_model(nullptr)
     , m_thumbnailer(new AssetIconProvider(true))
 {
-    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(0);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     setAcceptDrops(true);
     /*m_builtStack = new BuiltStack(parent);
     m_builtStack->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     m_lay->addWidget(m_builtStack);
     m_builtStack->setVisible(KdenliveSettings::showbuiltstack());*/
     m_effectsTree = new QTreeView(this);
-    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setRootIsDecorated(false);
     QString style = QStringLiteral("QTreeView {border: none;}");
@@ -91,7 +96,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_effectsTree->setStyleSheet(style);
     m_effectsTree->setVisible(!KdenliveSettings::showbuiltstack());
     m_lay->addWidget(m_effectsTree);
-    m_lay->setStretch(1, 10);
+    m_lay->addStretch(10);
 }
 
 EffectStackView::~EffectStackView()
@@ -241,8 +246,8 @@ void EffectStackView::loadEffects()
 void EffectStackView::updateTreeHeight()
 {
     // For some reason, the treeview height does not update correctly, so enforce it
-    int totalHeight = 0;
     m_mutex.lock();
+    int totalHeight = 0;
     for (int j = 0; j < m_model->rowCount(); j++) {
         std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
         std::shared_ptr<EffectItemModel> eff = std::static_pointer_cast<EffectItemModel>(item2);
@@ -252,8 +257,8 @@ void EffectStackView::updateTreeHeight()
             totalHeight += w->height();
         }
     }
+    m_effectsTree->setFixedHeight(totalHeight);
     m_mutex.unlock();
-    setMinimumHeight(totalHeight);
 }
 
 void EffectStackView::slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel)
@@ -289,7 +294,7 @@ void EffectStackView::slotStartDrag(const QPixmap &pix, const std::shared_ptr<Ef
     drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction);
 }
 
-void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int height)
+void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> &effectModel, int newHeight)
 {
     if (!m_model) {
         return;
@@ -297,8 +302,8 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
     if (del) {
-        //QMutexLocker lock(&m_mutex);
-        del->setHeight(ix, height);
+        del->setHeight(ix, newHeight);
+        QMetaObject::invokeMethod(this, "updateTreeHeight", Qt::QueuedConnection);
     }
 }
 
