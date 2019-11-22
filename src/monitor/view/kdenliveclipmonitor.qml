@@ -147,7 +147,7 @@ Item {
                         PropertyChanges {   target: audioThumb; opacity: 0.0    } }
                 ]
                 transitions: [ Transition {
-                    NumberAnimation { property: "opacity"; duration: isAudioClip ? 0 : 500}
+                    NumberAnimation { property: "opacity"; duration: audioThumb.isAudioClip ? 0 : 500}
                 } ]
                 Rectangle {
                     color: activePalette.base
