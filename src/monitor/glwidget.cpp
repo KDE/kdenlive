@@ -168,7 +168,7 @@ void GLWidget::updateAudioForAnalysis()
 
 void GLWidget::initializeGL()
 {
-    if (m_isInitialized || !isVisible() || (openglContext() == nullptr)) return;
+    if (m_isInitialized) return;
 
     openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
