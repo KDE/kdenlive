@@ -42,6 +42,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         m_playlists[1].set_profile(*ptr->getProfile());
         m_track->insert_track(m_playlists[0], 0);
         m_track->insert_track(m_playlists[1], 1);
+        m_mainPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[0]);
         if (!trackName.isEmpty()) {
             m_track->set("kdenlive:track_name", trackName.toUtf8().constData());
         }
@@ -52,7 +53,11 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
             }
         }
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
-        m_effectStack = EffectStackModel::construct(m_track, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
+        m_effectStack = EffectStackModel::construct(m_mainPlaylist, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
+        // TODO
+        // When we use the second playlist, register it's stask as child of main playlist effectstack
+        // m_subPlaylist = std::make_shared<Mlt::Producer>(&m_playlists[1]);
+        // m_effectStack->addService(m_subPlaylist);
         QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
