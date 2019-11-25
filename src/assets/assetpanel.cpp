@@ -229,6 +229,11 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
 
 void AssetPanel::clearAssetPanel(int itemId)
 {
+    if (itemId == -1) {
+        // closing project, reset panel
+        clear();
+        return;
+    }
     ObjectId id = m_effectStackWidget->stackOwner();
     if (id.first == ObjectType::TimelineClip && id.second == itemId) {
         clear();
