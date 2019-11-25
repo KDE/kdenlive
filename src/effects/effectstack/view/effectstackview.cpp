@@ -98,7 +98,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_effectsTree->setVisible(!KdenliveSettings::showbuiltstack());
     m_lay->addWidget(m_effectsTree);
     m_lay->addStretch(10);
-    
+
     m_scrollTimer.setSingleShot(true);
     m_scrollTimer.setInterval(250);
     connect(&m_scrollTimer, &QTimer::timeout, this, &EffectStackView::checkScrollBar);
