@@ -277,6 +277,7 @@ private:
 
     // We fake two playlists to allow same track transitions.
     std::shared_ptr<Mlt::Tractor> m_track;
+    std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
 
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
