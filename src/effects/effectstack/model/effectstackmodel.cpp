@@ -845,11 +845,24 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
     bool found = false;
+    bool effectEnabled = false;
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
         // NO undo. this should only be used on project opening
         if (copyEffect(item, state)) {
             found = true;
+            if (item->isEnabled()) {
+                effectEnabled = true;
+            }
+        }
+    }
+    m_effectStackEnabled = effectEnabled;
+    if (!m_effectStackEnabled) {
+        // Mark all effects as disabled by stack
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            sourceEffect->setEffectStackEnabled(false);
+            sourceEffect->setEnabled(true);
         }
     }
     if (found) {
@@ -862,6 +875,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
+    bool effectEnabled = false;
     if (auto ptr = service.lock()) {
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
@@ -876,6 +890,9 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             const QString effectId = qstrdup(filter->get("kdenlive_id"));
+            if (filter->get_int("disable") == 0) {
+                effectEnabled = true;
+            }
             // The MLT filter already exists, use it directly to create the effect
             std::shared_ptr<EffectItemModel> effect;
             if (alreadyExist) {
@@ -921,6 +938,15 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                     }
                 }
             }
+        }
+    }
+    m_effectStackEnabled = effectEnabled;
+    if (!m_effectStackEnabled) {
+        // Mark all effects as disabled by stack
+        for (int i = 0; i < rootItem->childCount(); ++i) {
+            std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
+            sourceEffect->setEffectStackEnabled(false);
+            sourceEffect->setEnabled(true);
         }
     }
     m_loadingExisting = false;
