@@ -742,6 +742,10 @@ Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
+                    ToolTip.delay: 1000
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+                    ToolTip.text: i18n("Show master effects")
                     TextMetrics {
                         id: metrics
                         text: i18n("Master")
