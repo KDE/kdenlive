@@ -2699,3 +2699,22 @@ void TimelineController::showMasterEffects()
     emit showItemEffectStack(i18n("Master effects"), m_model->getMasterEffectStackModel(), pCore->getCurrentFrameSize(), false);
 }
 
+bool TimelineController::refreshIfVisible(int cid)
+{
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (m_model->getTrackById_const(target_track)->isAudioTrack() || m_model->getTrackById_const(target_track)->isHidden()) {
+            ++it;
+            continue;
+        }
+        int child = m_model->getClipByPosition(target_track, timelinePosition());
+        if (child > 0) {
+            if (m_model->m_allClips[child]->binId().toInt() == cid) {
+                return true;
+            }
+        }
+        ++it;
+    }
+    return false;
+}

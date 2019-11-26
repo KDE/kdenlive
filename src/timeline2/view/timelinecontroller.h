@@ -477,6 +477,8 @@ public:
     void updatePreviewConnection(bool enable);
     /** @brief Display project master effects */
     Q_INVOKABLE void showMasterEffects();
+    /** @brief Return true if an instance of this bin clip is currently undet timeline cursor */
+    bool refreshIfVisible(int cid);
 
 public slots:
     void resetView();

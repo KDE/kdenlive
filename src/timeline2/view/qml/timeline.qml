@@ -737,13 +737,19 @@ Rectangle {
                 border.color: selected? 'red' : 'transparent'
                 border.width: selected? 1 : 0
                 z: 1
-                OLD.ToolButton {
-                    iconName: "kdenlive-composite"
-                    tooltip: i18n("Show master effects")
-                    anchors.verticalCenter: parent.verticalCenter
-                    Layout.leftMargin: 2
-                    implicitWidth: Math.min(ruler.height, root.baseUnit * 2)
-                    implicitHeight: implicitWidth
+                Button {
+                    text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : "M"
+                    anchors.fill: parent
+                    anchors.leftMargin: 2
+                    anchors.rightMargin: 2
+                    ToolTip.delay: 1000
+                    ToolTip.timeout: 5000
+                    ToolTip.visible: hovered
+                    ToolTip.text: i18n("Show master effects")
+                    TextMetrics {
+                        id: metrics
+                        text: i18n("Master")
+                    }
                     onClicked: {
                         timeline.showMasterEffects()
                     }
