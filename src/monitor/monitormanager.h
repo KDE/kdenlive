@@ -25,6 +25,7 @@
 #include "timecode.h"
 #include <QDir>
 #include <QMutex>
+#include <QTimer>
 
 class KdenliveDoc;
 class KDualAction;
@@ -67,6 +68,9 @@ public:
     QDir getCacheFolder(CacheType type);
     /** @brief Returns true if multitrack view is enabled in project monitor. */
     bool isMultiTrack() const;
+    /** @brief Returns true if the project monitor is visible (and not tabbed under another dock. */
+    bool projectMonitorVisible() const;
+    QTimer refreshTimer;
 
 public slots:
 
@@ -122,6 +126,8 @@ private slots:
     void slotZoomIn();
     /** @brief Zoom out active monitor */
     void slotZoomOut();
+    /** @brief Trigger refresh of both monitors */
+    void forceProjectMonitorRefresh();
 
 private:
     /** @brief Make sure 2 monitors cannot be activated simultaneously*/

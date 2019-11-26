@@ -36,6 +36,9 @@ MonitorManager::MonitorManager(QObject *parent)
 
 {
     setupActions();
+    refreshTimer.setSingleShot(true);
+    refreshTimer.setInterval(200);
+    connect(&refreshTimer, &QTimer::timeout, this, &MonitorManager::forceProjectMonitorRefresh);
 }
 
 Timecode MonitorManager::timecode() const
@@ -119,6 +122,16 @@ void MonitorManager::refreshProjectMonitor()
 void MonitorManager::refreshClipMonitor()
 {
     m_clipMonitor->refreshMonitorIfActive();
+}
+
+void MonitorManager::forceProjectMonitorRefresh()
+{
+    m_projectMonitor->forceMonitorRefresh();
+}
+
+bool MonitorManager::projectMonitorVisible() const
+{
+    return (m_projectMonitor->isVisible() && !m_projectMonitor->visibleRegion().isEmpty());
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)

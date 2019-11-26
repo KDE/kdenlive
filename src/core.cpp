@@ -509,7 +509,11 @@ void Core::refreshProjectItem(const ObjectId &id)
         }
         break;
     case ObjectType::BinClip:
+        m_monitorManager->activateMonitor(Kdenlive::ClipMonitor);
         m_monitorManager->refreshClipMonitor();
+        if (m_monitorManager->projectMonitorVisible() && m_mainWindow->getCurrentTimeline()->controller()->refreshIfVisible(id.second)) {
+            m_monitorManager->refreshTimer.start();
+        }
         break;
     case ObjectType::Master:
         requestMonitorRefresh();

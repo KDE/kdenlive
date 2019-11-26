@@ -1231,6 +1231,12 @@ void Monitor::slotRefreshMonitor(bool visible)
     }
 }
 
+void Monitor::forceMonitorRefresh()
+{
+    slotActivateMonitor();
+    m_glMonitor->refresh();
+}
+
 void Monitor::refreshMonitorIfActive(bool directUpdate)
 {
     if (isActive()) {
