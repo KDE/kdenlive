@@ -266,7 +266,6 @@ Rectangle {
     }
 
     onConsumerPositionChanged: {
-        console.log('CONSUMER POS CHANGED')
         if (autoScrolling) Logic.scrollIfNeeded()
     }
 
