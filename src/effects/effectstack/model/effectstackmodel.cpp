@@ -845,7 +845,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
     bool found = false;
-    bool effectEnabled = false;
+    bool effectEnabled = sourceStack->rowCount() == 0;
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
         // NO undo. this should only be used on project opening
@@ -875,9 +875,11 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
-    bool effectEnabled = false;
+    bool effectEnabled = true;
     if (auto ptr = service.lock()) {
-        for (int i = 0; i < ptr->filter_count(); i++) {
+        int max = ptr->filter_count();
+        effectEnabled = max == 0;
+        for (int i = 0; i < max; i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
             if (filter->get_int("internal_added") > 0) {
                 if (auto ms = m_masterService.lock()) {
