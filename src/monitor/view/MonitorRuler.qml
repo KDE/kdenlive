@@ -62,7 +62,7 @@ Rectangle {
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
-                controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
+                controller.position = Math.min(pos / root.timeScale, root.duration);
             }
         }
         onPositionChanged: {
@@ -70,7 +70,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = pos
                 if (pressed) {
-                    controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
+                    controller.position = Math.min(pos / root.timeScale, root.duration);
                 }
             }
         }
@@ -232,14 +232,14 @@ Rectangle {
                     hoverEnabled: true
                     //onDoubleClicked: timeline.editMarker(clipRoot.binId, model.frame)
                     onClicked: {
-                        controller.requestSeekPosition(model.frame)
+                        controller.position = model.frame
                     }
                 }
             }
         }
     }
 
-    Rectangle {
+    /*Rectangle {
         id: seekCursor
         visible: controller.seekPosition > -1
         color: activePalette.highlight
@@ -248,5 +248,5 @@ Rectangle {
         opacity: 0.5
         x: controller.seekPosition * root.timeScale
         y: 0
-    }
+    }*/
 }

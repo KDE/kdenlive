@@ -48,12 +48,8 @@ class TimelineController : public QObject
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(int fullDuration READ fullDuration NOTIFY durationChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
-    /* @brief holds the current timeline position
-     */
-    Q_PROPERTY(int position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
-    Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
     Q_PROPERTY(bool scrub READ scrub NOTIFY scrubChanged)
     Q_PROPERTY(bool snap READ snap NOTIFY snapChanged)
@@ -147,10 +143,8 @@ public:
     Q_INVOKABLE int fullDuration() const;
     /* @brief Returns the current cursor position (frame currently displayed by MLT)
      */
-    Q_INVOKABLE int position() const { return m_position; }
     /* @brief Returns the seek request position (-1 = no seek pending)
      */
-    Q_INVOKABLE int seekPosition() const { return m_seekPosition; }
     Q_INVOKABLE int audioTarget() const;
     Q_INVOKABLE int videoTarget() const;
     Q_INVOKABLE bool hasAudioTarget() const;
@@ -452,8 +446,6 @@ public:
     void updateClip(int clipId, const QVector<int> &roles);
     void showClipKeyframes(int clipId, bool value);
     void showCompositionKeyframes(int clipId, bool value);
-    /** @brief Returns last usable timeline position (seek request or current pos) */
-    int timelinePosition() const;
     /** @brief Adjust all timeline tracks height */
     void resetTrackHeight();
     /** @brief timeline preview params changed, reset */
@@ -482,12 +474,10 @@ public:
 
 public slots:
     void resetView();
-    Q_INVOKABLE void setSeekPosition(int position);
     Q_INVOKABLE void setAudioTarget(int track);
     void setIntAudioTarget(QList <int> tracks);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
-    void onSeeked(int position);
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
@@ -516,8 +506,6 @@ private:
     KActionCollection *m_actionCollection;
     std::shared_ptr<TimelineItemModel> m_model;
     bool m_usePreview;
-    int m_position;
-    int m_seekPosition;
     int m_audioTarget;
     int m_videoTarget;
     int m_activeTrack;
@@ -549,8 +537,6 @@ signals:
     void scaleFactorChanged();
     void audioThumbFormatChanged();
     void durationChanged();
-    void positionChanged();
-    void seekPositionChanged();
     void audioTargetChanged();
     void videoTargetChanged();
     void hasAudioTargetChanged();

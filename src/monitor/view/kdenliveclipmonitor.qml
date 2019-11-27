@@ -181,7 +181,7 @@ Item {
                     onPositionChanged: {
                         if (mouse.modifiers & Qt.ShiftModifier) {
                             var pos = Math.max(mouseX, 0)
-                            controller.requestSeekPosition(Math.min(pos / root.timeScale, root.duration));
+                            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                         }
                     }
                 }

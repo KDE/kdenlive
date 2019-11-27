@@ -156,7 +156,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_glMonitor = new GLWidget((int)id);
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
-    connect(m_glMonitor, &GLWidget::seekPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
+    connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
@@ -614,20 +615,20 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
 void Monitor::slotSeekToPreviousSnap()
 {
     if (m_controller) {
-        m_glMonitor->seek(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
+        m_glMonitor->getControllerProxy()->setPosition(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
     }
 }
 
 void Monitor::slotSeekToNextSnap()
 {
     if (m_controller) {
-        m_glMonitor->seek(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
+        m_glMonitor->getControllerProxy()->setPosition(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
     }
 }
 
 int Monitor::position()
 {
-    return m_glMonitor->getCurrentPos();
+    return m_glMonitor->getControllerProxy()->getPosition();
 }
 
 GenTime Monitor::getSnapForPos(bool previous)
@@ -947,7 +948,7 @@ void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
         if (eventDelta > 0) {
             delta = 0 - delta;
         }
-        m_glMonitor->seek(m_glMonitor->getCurrentPos() - delta);
+        m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() - delta);
     } else if ((modifiers & Qt::AltModifier) != 0u) {
         if (eventDelta >= 0) {
             emit seekToPreviousSnap();
@@ -1082,7 +1083,7 @@ void Monitor::slotSeek()
 void Monitor::slotSeek(int pos)
 {
     slotActivateMonitor();
-    m_glMonitor->seek(pos);
+    m_glMonitor->getControllerProxy()->setPosition(pos);
     m_monitorManager->cleanMixer();
 }
 
@@ -1128,13 +1129,13 @@ int Monitor::getZoneEnd()
 void Monitor::slotZoneStart()
 {
     slotActivateMonitor();
-    m_glMonitor->getControllerProxy()->pauseAndSeek(m_glMonitor->getControllerProxy()->zoneIn());
+    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneIn());
 }
 
 void Monitor::slotZoneEnd()
 {
     slotActivateMonitor();
-    m_glMonitor->getControllerProxy()->pauseAndSeek(m_glMonitor->getControllerProxy()->zoneOut() - 1);
+    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneOut() - 1);
 }
 
 void Monitor::slotRewind(double speed)
@@ -1170,13 +1171,13 @@ void Monitor::slotForward(double speed)
 void Monitor::slotRewindOneFrame(int diff)
 {
     slotActivateMonitor();
-    m_glMonitor->seek(m_glMonitor->getCurrentPos() - diff);
+    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() - diff);
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
     slotActivateMonitor();
-    m_glMonitor->seek(m_glMonitor->getCurrentPos() + diff);
+    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() + diff);
 }
 
 void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel)
@@ -2036,10 +2037,16 @@ void Monitor::panView(QPoint diff)
     }
 }
 
+void Monitor::processSeek(int pos)
+{
+    pause();
+    m_glMonitor->requestSeek(pos);
+    m_monitorManager->cleanMixer();
+}
+
 void Monitor::requestSeek(int pos)
 {
-    m_glMonitor->seek(pos);
-    m_monitorManager->cleanMixer();
+    m_glMonitor->getControllerProxy()->setPosition(pos);
 }
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
@@ -2062,7 +2069,7 @@ void Monitor::slotStart()
 {
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
-    m_glMonitor->seek(0);
+    m_glMonitor->getControllerProxy()->setPosition(0);
 }
 
 void Monitor::slotEnd()
@@ -2070,9 +2077,9 @@ void Monitor::slotEnd()
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
     if (m_id == Kdenlive::ClipMonitor) {
-        m_glMonitor->seek(m_glMonitor->duration());
+        m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->duration());
     } else {
-        m_glMonitor->seek(pCore->projectDuration() - 1);
+        m_glMonitor->getControllerProxy()->setPosition(pCore->projectDuration() - 1);
     }
 }
 
@@ -2114,4 +2121,9 @@ void Monitor::purgeCache()
 void Monitor::updateBgColor()
 {
     m_glMonitor->m_bgColor = KdenliveSettings::window_background();
+}
+
+MonitorProxy *Monitor::getControllerProxy()
+{
+    return m_glMonitor->getControllerProxy();
 }

@@ -713,8 +713,8 @@ Mlt::Profile *Core::thumbProfile()
 
 int Core::getTimelinePosition() const
 {
-    if (m_mainWindow && m_guiConstructed) {
-        return m_mainWindow->getCurrentTimeline()->controller()->timelinePosition();
+    if (m_guiConstructed) {
+        return m_monitorManager->projectMonitor()->position();
     }
     return 0;
 }

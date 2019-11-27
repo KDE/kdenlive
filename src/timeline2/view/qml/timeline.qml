@@ -56,7 +56,7 @@ Rectangle {
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
     }
-    
+
     function moveSelectedTrack(offset) {
         var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
         var newTrack = cTrack + offset
@@ -234,6 +234,7 @@ Rectangle {
     property int droppedPosition: -1
     property int droppedTrack: -1
     property int clipBeingMovedId: -1
+    property int consumerPosition: proxy.position
     property int spacerGroup: -1
     property int spacerFrame: -1
     property int spacerClickFrame: -1
@@ -253,7 +254,7 @@ Rectangle {
             scrollView.flickableItem.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
             root.zoomOnMouse = -1
         } else {
-            scrollView.flickableItem.contentX = Math.max(0, (timeline.seekPosition > -1 ? timeline.seekPosition : timeline.position) * timeline.scaleFactor - (scrollView.width / 2))
+            scrollView.flickableItem.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
         }
         //root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
@@ -261,6 +262,11 @@ Rectangle {
             // update dragged item pos
             dragProxy.masterObject.updateDrag()
         }
+    }
+
+    onConsumerPositionChanged: {
+        console.log('CONSUMER POS CHANGED')
+        if (autoScrolling) Logic.scrollIfNeeded()
     }
 
     onViewActiveTrackChanged: {
@@ -408,7 +414,7 @@ Rectangle {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
                         if (clipBeingDroppedId > -1) {
-                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         } else {
                             drag.accepted = false
@@ -433,7 +439,7 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0){
-                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -444,7 +450,7 @@ Rectangle {
                         } else {
                             // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                             clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
-                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, timeline.position, Math.floor(root.snapping))
+                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         }
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -533,7 +539,7 @@ Rectangle {
             id: addGuideMenu
             text: i18n("Add Guide")
             onTriggered: {
-                timeline.switchGuide(timeline.position);
+                timeline.switchGuide(root.consumerPosition);
             }
         }
         GuidesMenu {
@@ -541,7 +547,7 @@ Rectangle {
             menuModel: guidesModel
             enabled: guidesDelegateModel.count > 0
             onGuideSelected: {
-                timeline.position = assetFrame
+                proxy.position = assetFrame
             }
         }
         OLD.MenuItem {
@@ -549,7 +555,7 @@ Rectangle {
             text: i18n("Edit Guide")
             visible: false
             onTriggered: {
-                timeline.editGuide(timeline.position);
+                timeline.editGuide(root.consumerPosition);
             }
         }
         AssetMenu {
@@ -566,7 +572,7 @@ Rectangle {
             }
         }
         onAboutToShow: {
-            if (guidesModel.hasMarker(timeline.position)) {
+            if (guidesModel.hasMarker(root.consumerPosition)) {
                 // marker at timeline position
                 addGuideMenu.text = i18n("Remove Guide")
                 editGuideMenu.visible = true
@@ -588,7 +594,7 @@ Rectangle {
             id: addGuideMenu2
             text: i18n("Add Guide")
             onTriggered: {
-                timeline.switchGuide(timeline.position);
+                timeline.switchGuide(root.consumerPosition);
             }
         }
         GuidesMenu {
@@ -596,7 +602,7 @@ Rectangle {
             menuModel: guidesModel
             enabled: guidesDelegateModel.count > 0
             onGuideSelected: {
-                timeline.position = assetFrame
+                proxy.position = assetFrame
             }
         }
         OLD.MenuItem {
@@ -604,7 +610,7 @@ Rectangle {
             text: i18n("Edit Guide")
             visible: false
             onTriggered: {
-                timeline.editGuide(timeline.position);
+                timeline.editGuide(root.consumerPosition);
             }
         }
         OLD.MenuItem {
@@ -615,7 +621,7 @@ Rectangle {
             }
         }
         onAboutToShow: {
-            if (guidesModel.hasMarker(timeline.position)) {
+            if (guidesModel.hasMarker(root.consumerPosition)) {
                 // marker at timeline position
                 addGuideMenu2.text = i18n("Remove Guide")
                 editGuideMenu2.visible = true
@@ -881,11 +887,7 @@ Rectangle {
                     }
                 } else {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
-                    if (timeline.seekPosition > -1) {
-                        timeline.position = Math.min(timeline.seekPosition - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
-                    } else {
-                        timeline.position = Math.min(timeline.position - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
-                    }
+                    proxy.position = Math.min(root.consumerPosition - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
                 }
             }
             onPressed: {
@@ -933,7 +935,7 @@ Rectangle {
                         if (mouse.y > ruler.height) {
                             controller.requestClearSelection();
                         }
-                        timeline.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        proxy.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     menu.clickedX = mouse.x
@@ -964,7 +966,7 @@ Rectangle {
                 if (!pressed && !rubberSelect.visible && root.activeTool === 1) {
                     cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
-                        timeline.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
+                        proxy.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
                     }
                 }
                 var mousePos = Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
@@ -993,12 +995,12 @@ Rectangle {
                     }
                 } else if (mouse.buttons === Qt.LeftButton) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
-                        timeline.position = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
+                        proxy.position = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, timeline.position, Math.floor(root.snapping))
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, Math.floor(root.snapping))
                         continuousScrolling(mouse.x + scrollView.flickableItem.contentX)
                     }
                     scim = true
@@ -1025,7 +1027,7 @@ Rectangle {
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     if (root.activeTool == 1) {
                         // Shift click, process seek
-                        timeline.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        proxy.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1){
                         // Select item
                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
@@ -1062,23 +1064,22 @@ Rectangle {
                         id: ruler
                         width: rulercontainer.contentWidth
                         height: parent.height
-                        Rectangle {
+                        /*Rectangle {
                             id: seekCursor
-                            visible: timeline.seekPosition > -1
+                            visible: proxy.seekPosition > -1
                             color: activePalette.highlight
                             width: 4
                             height: ruler.height
                             opacity: 0.5
-                            x: timeline.seekPosition * timeline.scaleFactor
-                        }
+                            x: proxy.seekPosition * timeline.scaleFactor
+                        }*/
                         TimelinePlayhead {
                             id: playhead
-                            visible: timeline.position > -1
                             height: baseUnit
                             width: baseUnit * 1.5
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
-                            x: timeline.position * timeline.scaleFactor - (width / 2)
+                            x: root.consumerPosition * timeline.scaleFactor - (width / 2)
                         }
                         MouseArea {
                             anchors.fill: parent
@@ -1216,7 +1217,7 @@ Rectangle {
                                             }
                                         }
                                         if (dragProxy.isComposition) {
-                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping))
+                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, Math.floor(root.snapping))
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         } else {
                                             if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
@@ -1227,7 +1228,7 @@ Rectangle {
                                                 dragProxy.masterObject.y = pos.y
                                                 //console.log('bringing item to front')
                                             }
-                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, timeline.position, Math.floor(root.snapping), moveMirrorTracks)
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, Math.floor(root.snapping), moveMirrorTracks)
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
@@ -1305,12 +1306,12 @@ Rectangle {
                         }
                         Rectangle {
                             id: cursor
-                            visible: timeline.position > -1
+                            visible: root.consumerPosition > -1
                             color: root.textColor
                             width: Math.max(1, 1 * timeline.scaleFactor)
                             opacity: (width > 2) ? 0.5 : 1
                             height: parent.height
-                            x: timeline.position * timeline.scaleFactor
+                            x: root.consumerPosition * timeline.scaleFactor
                         }
                     }
                 }
@@ -1338,7 +1339,7 @@ Rectangle {
                 opacity: (width > 2) ? 0.5 : 1
                 height: root.height - scrollView.__horizontalScrollBar.height - ruler.height
                 x: 0
-                //x: timeline.position * timeline.scaleFactor - scrollView.flickableItem.contentX
+                //x: root.consumerPosition * timeline.scaleFactor - scrollView.flickableItem.contentX
                 y: ruler.height
             }
         }
@@ -1480,7 +1481,7 @@ Rectangle {
                             timeline.editGuide(model.frame)
                             drag.target = undefined
                         }
-                        onClicked: timeline.position = guideBase.x / timeline.scaleFactor
+                        onClicked: proxy.position = guideBase.x / timeline.scaleFactor
                     }
                 }
                 Text {
@@ -1498,7 +1499,6 @@ Rectangle {
 
     Connections {
         target: timeline
-        onPositionChanged: if (autoScrolling) Logic.scrollIfNeeded()
         onFrameFormatChanged: ruler.adjustFormat()
         onSelectionChanged: {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {

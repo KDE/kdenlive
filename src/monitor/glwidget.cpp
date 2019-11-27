@@ -130,7 +130,6 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
-    connect(m_proxy, &MonitorProxy::seekRequestChanged, this, &GLWidget::requestSeek);
     rootContext()->setContextProperty("controller", m_proxy);
 }
 
@@ -645,42 +644,20 @@ void GLWidget::wheelEvent(QWheelEvent *event)
     event->accept();
 }
 
-void GLWidget::requestSeek()
+void GLWidget::requestSeek(int position)
 {
-    if (!m_producer) {
-        return;
+    m_producer->seek(position);
+    if (!qFuzzyIsNull(m_producer->get_speed())) {
+        m_consumer->purge();
     }
-    if (m_proxy->seeking()) {
-        m_producer->seek(m_proxy->seekPosition());
-        if (!qFuzzyIsNull(m_producer->get_speed())) {
-            m_consumer->purge();
-        }
-        if (m_consumer->is_stopped()) {
-            m_consumer->start();
-        }
-        m_consumer->set("refresh", 1);
+    if (m_consumer->is_stopped()) {
+        m_consumer->start();
     }
-}
-
-void GLWidget::seek(int pos)
-{
-    if (!m_proxy->seeking()) {
-        m_producer->seek(pos);
-        if (m_consumer->is_stopped()) {
-            m_consumer->start();
-        } else {
-            m_consumer->purge();
-            m_consumer->set("refresh", 1);
-        }
-    }
-    m_proxy->setSeekPosition(pos);
+    m_consumer->set("refresh", 1);
 }
 
 void GLWidget::requestRefresh()
 {
-    if (m_proxy->seeking()) {
-        return;
-    }
     if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
         m_refreshTimer.start();
     }
@@ -694,9 +671,6 @@ QString GLWidget::frameToTime(int frames) const
 void GLWidget::refresh()
 {
     m_refreshTimer.stop();
-    if (m_proxy->seeking()) {
-        return;
-    }
     QMutexLocker locker(&m_mltMutex);
     if (m_consumer->is_stopped()) {
         m_consumer->start();
@@ -707,19 +681,10 @@ void GLWidget::refresh()
 bool GLWidget::checkFrameNumber(int pos, int offset)
 {
     emit consumerPosition(pos);
-    if (!m_proxy->setPosition(pos)) {
-        emit seekPosition(m_proxy->seekOrCurrentPosition());
-    }
     const double speed = m_producer->get_speed();
-    if (m_proxy->seeking()) {
-        m_producer->set_speed(0);
-        m_producer->seek(m_proxy->seekPosition());
-        if (qFuzzyIsNull(speed)) {
-            m_consumer->set("refresh", 1);
-        } else {
-            m_producer->set_speed(speed);
-        }
-        return true;
+    bool isPlaying = !qFuzzyIsNull(speed);
+    if (isPlaying) {
+        m_proxy->positionFromConsumer(pos);
     }
     int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
@@ -951,7 +916,7 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     if (isActive) {
         startConsumer();
     }
-    m_proxy->requestSeekPosition(position > 0 ? position : m_producer->position());
+    m_proxy->setPosition(position > 0 ? position : m_producer->position());
     return error;
 }
 
@@ -1301,7 +1266,7 @@ void GLWidget::purgeCache()
 {
     if (m_consumer) {
         m_consumer->purge();
-        m_producer->seek(m_proxy->position() + 1);
+        m_producer->seek(m_proxy->getPosition() + 1);
     }
 }
 
@@ -1639,7 +1604,6 @@ void GLWidget::refreshSceneLayout()
 
 void GLWidget::switchPlay(bool play, double speed)
 {
-    m_proxy->setSeekPosition(-1);
     if (!m_producer || !m_consumer) {
         return;
     }
@@ -1668,7 +1632,6 @@ bool GLWidget::playZone(bool loop)
         pCore->displayMessage(i18n("Select a zone to play"), InformationMessage, 500);
         return false;
     }
-    m_proxy->setSeekPosition(-1);
     m_producer->seek(m_proxy->zoneIn());
     m_producer->set_speed(0);
     m_consumer->purge();
@@ -1689,7 +1652,6 @@ bool GLWidget::loopClip()
         pCore->displayMessage(i18n("Select a zone to play"), InformationMessage, 500);
         return false;
     }
-    m_proxy->setSeekPosition(-1);
     m_producer->seek(0);
     m_producer->set_speed(0);
     m_consumer->purge();
@@ -1721,7 +1683,7 @@ MonitorProxy *GLWidget::getControllerProxy()
 
 int GLWidget::getCurrentPos() const
 {
-    return m_proxy->seeking() ? m_proxy->seekPosition() : m_consumer->position();
+    return m_consumer->position();
 }
 
 void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model)
@@ -1756,7 +1718,6 @@ void GLWidget::startConsumer()
 void GLWidget::stop()
 {
     m_refreshTimer.stop();
-    m_proxy->setSeekPosition(-1);
     // why this lock?
     QMutexLocker locker(&m_mltMutex);
     if (m_producer) {

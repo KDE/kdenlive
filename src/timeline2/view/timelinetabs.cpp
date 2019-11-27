@@ -69,11 +69,7 @@ TimelineWidget *TimelineTabs::getCurrentTimeline() const
 
 void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 {
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline->controller(), &TimelineController::setPosition, Qt::DirectConnection);
-    connect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek, Qt::DirectConnection);
-    connect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked, Qt::DirectConnection);
     connect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
-
     connect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     connect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
     connect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);
@@ -86,12 +82,8 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
 {
-    disconnect(pCore->monitorManager()->projectMonitor(), &Monitor::seekTimeline, timeline->controller(), &TimelineController::setPosition);
-    disconnect(timeline->controller(), &TimelineController::seeked, pCore->monitorManager()->projectMonitor(), &Monitor::requestSeek);
-    disconnect(pCore->monitorManager()->projectMonitor(), &Monitor::seekPosition, timeline->controller(), &TimelineController::onSeeked);
     disconnect(timeline, &TimelineWidget::focusProjectMonitor, pCore->monitorManager(), &MonitorManager::focusProjectMonitor);
     disconnect(timeline->controller(), &TimelineController::durationChanged, pCore->projectManager(), &ProjectManager::adjustProjectDuration);
-
     disconnect(this, &TimelineTabs::audioThumbFormatChanged, timeline->controller(), &TimelineController::audioThumbFormatChanged);
     disconnect(this, &TimelineTabs::showThumbnailsChanged, timeline->controller(), &TimelineController::showThumbnailsChanged);
     disconnect(this, &TimelineTabs::showAudioThumbnailsChanged, timeline->controller(), &TimelineController::showAudioThumbnailsChanged);

@@ -346,7 +346,7 @@ void MainWindow::init()
         case ObjectType::TimelineClip:
         case ObjectType::TimelineComposition:
         case ObjectType::Master:
-            getCurrentTimeline()->controller()->setPosition(pos);
+            m_projectMonitor->requestSeek(pos);
             break;
         case ObjectType::BinClip:
             m_clipMonitor->requestSeek(pos);

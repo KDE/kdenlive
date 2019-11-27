@@ -45,6 +45,7 @@ class RecManager;
 class QmlManager;
 class GLWidget;
 class MonitorAudioLevel;
+class MonitorProxy;
 
 namespace Mlt {
 class Profile;
@@ -153,6 +154,8 @@ public:
     void setConsumerProperty(const QString &name, const QString &value);
     /** @brief Play or Loop zone sets a fake "out" on the producer. It is necessary to reset this before reloading the producer */
     void resetPlayOrLoopZone(const QString &binId);
+    /** @brief Returns a pointer to monitor proxy, allowing to manage seek and consumer position */
+    MonitorProxy *getControllerProxy();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -263,6 +266,8 @@ private slots:
     void slotSeekPosition(int);
     void addSnapPoint(int pos);
     void removeSnapPoint(int pos);
+    /** @brief Pause monitor and process seek */
+    void processSeek(int pos);
 
 public slots:
     void slotSetScreen(int screenIndex);
@@ -324,8 +329,6 @@ signals:
     void screenChanged(int screenIndex);
     void seekPosition(int pos);
     void updateScene();
-    /** @brief Request a timeline seeking if diff is true, position is a relative offset, otherwise an absolute position */
-    void seekTimeline(int position);
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);

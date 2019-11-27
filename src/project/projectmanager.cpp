@@ -862,7 +862,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         return false;
     }
     m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
-    pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel);
+    pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
@@ -878,6 +878,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         m_mainTimelineModel->loadGroups(groupsData);
     }
     connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
+    pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());

@@ -33,6 +33,7 @@
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
 #include "project/projectmanager.h"
+#include "monitor/monitorproxy.h"
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
@@ -87,7 +88,6 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
     setVisible(false);
     setFocusPolicy(Qt::StrongFocus);
-    // connect(&*m_model, SIGNAL(seeked(int)), this, SLOT(onSeeked(int)));
 }
 
 TimelineWidget::~TimelineWidget()
@@ -114,7 +114,7 @@ const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isT
     return sortedItems.values();
 }
 
-void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model)
+void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
     m_thumbnailer->resetProject();
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
@@ -126,6 +126,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model)
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
+    rootContext()->setContextProperty("proxy", proxy);
     rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); // m_transitionProxyModel.get());
     // rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
     rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
@@ -137,11 +138,11 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model)
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
+    connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
     m_proxy->checkDuration();
-    m_proxy->positionChanged();
 }
 
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
