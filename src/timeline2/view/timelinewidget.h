@@ -30,6 +30,7 @@
 class ThumbnailProvider;
 class TimelineController;
 class QSortFilterProxyModel;
+class MonitorProxy;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -39,7 +40,7 @@ public:
     TimelineWidget(QWidget *parent = Q_NULLPTR);
     ~TimelineWidget() override;
     /* @brief Sets the model shown by this widget */
-    void setModel(const std::shared_ptr<TimelineItemModel> &model);
+    void setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy);
 
     /* @brief Return the project's tractor
      */

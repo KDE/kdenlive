@@ -63,8 +63,6 @@ TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
     , m_root(nullptr)
     , m_usePreview(false)
-    , m_position(0)
-    , m_seekPosition(-1)
     , m_activeTrack(0)
     , m_audioRef(-1)
     , m_zone(-1, -1)
@@ -248,8 +246,8 @@ int TimelineController::selectedTrack() const
 void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
 {
     QList<int> toSelect;
-    int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, timelinePosition())
-                                                       : m_model->getCompositionByPosition(m_activeTrack, timelinePosition());
+    int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition())
+                                                       : m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
     if (currentClip == -1) {
         pCore->displayMessage(i18n("No item under timeline cursor in active track"), InformationMessage, 500);
         return;
@@ -316,7 +314,7 @@ int TimelineController::insertClip(int tid, int position, const QString &data_st
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = timelinePosition();
+        position = pCore->getTimelinePosition();
     }
     if (!m_model->requestClipInsertion(data_str, tid, position, id, logUndo, refreshView, useTargets)) {
         id = -1;
@@ -331,7 +329,7 @@ QList<int> TimelineController::insertClips(int tid, int position, const QStringL
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = timelinePosition();
+        position = pCore->getTimelinePosition();
     }
     TimelineFunctions::requestMultipleClipsInsertion(m_model, binIds, tid, position, clipIds, logUndo, refreshView);
     // we don't need to check the return value of the above function, in case of failure it will return an empty list of ids.
@@ -456,7 +454,7 @@ int TimelineController::getMainSelectedItem(bool restrictToCurrentPos, bool allo
         }
     }
     if (m_model->isClip(itemId)) {
-        int position = timelinePosition();
+        int position = pCore->getTimelinePosition();
         int start = m_model->getClipPosition(itemId);
         int end = start + m_model->getClipPlaytime(itemId);
         if (position >= start && position <= end) {
@@ -494,7 +492,7 @@ bool TimelineController::pasteItem(int position, int tid)
         tid = m_activeTrack;
     }
     if (position == -1) {
-        position = timelinePosition();
+        position = pCore->getTimelinePosition();
     }
     return TimelineFunctions::pasteClips(m_model, txt, tid, position);
 }
@@ -620,16 +618,16 @@ void TimelineController::showConfig(int page, int tab)
 
 void TimelineController::gotoNextSnap()
 {
-    int nextSnap = m_model->getNextSnapPos(timelinePosition());
-    if (nextSnap > timelinePosition()) {
+    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition());
+    if (nextSnap > pCore->getTimelinePosition()) {
         setPosition(nextSnap);
     }
 }
 
 void TimelineController::gotoPreviousSnap()
 {
-    if (timelinePosition() > 0) {
-        setPosition(m_model->getPreviousSnapPos(timelinePosition()));
+    if (pCore->getTimelinePosition() > 0) {
+        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition()));
     }
 }
 
@@ -673,7 +671,7 @@ void TimelineController::setInPoint()
         return;
     }
 
-    int cursorPos = timelinePosition();
+    int cursorPos = pCore->getTimelinePosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
     if (!selection.empty()) {
@@ -708,11 +706,6 @@ void TimelineController::setInPoint()
     }
 }
 
-int TimelineController::timelinePosition() const
-{
-    return m_seekPosition >= 0 ? m_seekPosition : m_position;
-}
-
 void TimelineController::setOutPoint()
 {
     if (dragOperationRunning()) {
@@ -720,7 +713,7 @@ void TimelineController::setOutPoint()
         qDebug() << "Cannot operate while dragging";
         return;
     }
-    int cursorPos = timelinePosition();
+    int cursorPos = pCore->getTimelinePosition();
     const auto selection = m_model->getCurrentSelection();
     bool selectionFound = false;
     if (!selection.empty()) {
@@ -759,7 +752,7 @@ void TimelineController::editMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -781,7 +774,7 @@ void TimelineController::addMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -799,7 +792,7 @@ void TimelineController::addQuickMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -818,7 +811,7 @@ void TimelineController::deleteMarker(int cid, int position)
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = timelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
         position = position * speed;
     }
     if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
@@ -840,7 +833,7 @@ void TimelineController::deleteAllMarkers(int cid)
 void TimelineController::editGuide(int frame)
 {
     if (frame == -1) {
-        frame = timelinePosition();
+        frame = pCore->getTimelinePosition();
     }
     auto guideModel = pCore->projectManager()->current()->getGuideModel();
     GenTime pos(frame, pCore->getCurrentFps());
@@ -859,7 +852,7 @@ void TimelineController::switchGuide(int frame, bool deleteOnly)
 {
     bool markerFound = false;
     if (frame == -1) {
-        frame = timelinePosition();
+        frame = pCore->getTimelinePosition();
     }
     CommentedTime marker = pCore->projectManager()->current()->getGuideModel()->getMarker(GenTime(frame, pCore->getCurrentFps()), &markerFound);
     if (!markerFound) {
@@ -942,7 +935,7 @@ void TimelineController::adjustAllTrackHeight(int trackId, int height)
 
 void TimelineController::setPosition(int position)
 {
-    setSeekPosition(position);
+    // Process seek request
     emit seeked(position);
 }
 
@@ -981,22 +974,6 @@ void TimelineController::setActiveTrack(int track)
     }
     m_activeTrack = track;
     emit activeTrackChanged();
-}
-
-void TimelineController::setSeekPosition(int position)
-{
-    m_seekPosition = position;
-    emit seekPositionChanged();
-}
-
-void TimelineController::onSeeked(int position)
-{
-    m_position = position;
-    emit positionChanged();
-    if (m_seekPosition > -1 && position == m_seekPosition) {
-        m_seekPosition = -1;
-        emit seekPositionChanged();
-    }
 }
 
 void TimelineController::setZone(const QPoint &zone)
@@ -1060,7 +1037,7 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
 void TimelineController::requestClipCut(int clipId, int position)
 {
     if (position == -1) {
-        position = timelinePosition();
+        position = pCore->getTimelinePosition();
     }
     TimelineFunctions::requestClipCut(m_model, clipId, position);
 }
@@ -1068,7 +1045,7 @@ void TimelineController::requestClipCut(int clipId, int position)
 void TimelineController::cutClipUnderCursor(int position, int track)
 {
     if (position == -1) {
-        position = timelinePosition();
+        position = pCore->getTimelinePosition();
     }
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
@@ -1163,10 +1140,11 @@ int TimelineController::getMouseTrack()
 void TimelineController::refreshItem(int id)
 {
     int in = m_model->getItemPosition(id);
-    if (in > m_position || (m_model->isClip(id) && m_model->m_allClips[id]->isAudioOnly())) {
+    int position = pCore->getTimelinePosition();
+    if (in > position || (m_model->isClip(id) && m_model->m_allClips[id]->isAudioOnly())) {
         return;
     }
-    if (m_position <= in + m_model->getItemPlaytime(id)) {
+    if (position <= in + m_model->getItemPlaytime(id)) {
         pCore->requestMonitorRefresh();
     }
 }
@@ -1190,7 +1168,7 @@ void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
     QList<int> activeClips;
     for (int track = m_model->getTracksCount() - 1; track >= 0; track--) {
         int trackIx = m_model->getTrackIndexFromPosition(track);
-        int cid = m_model->getClipByPosition(trackIx, timelinePosition());
+        int cid = m_model->getClipByPosition(trackIx, pCore->getTimelinePosition());
         if (cid > -1) {
             activeClips << cid;
         }
@@ -1497,7 +1475,7 @@ QMap<QString, QString> TimelineController::documentProperties()
     props.insert(QStringLiteral("audioTarget"), QString::number(audioTarget));
     props.insert(QStringLiteral("videoTarget"), QString::number(videoTarget));
     props.insert(QStringLiteral("activeTrack"), QString::number(activeTrack));
-    props.insert(QStringLiteral("position"), QString::number(timelinePosition()));
+    props.insert(QStringLiteral("position"), QString::number(pCore->getTimelinePosition()));
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getScrollPos", Q_RETURN_ARG(QVariant, returnedValue));
     int scrollPos = returnedValue.toInt();
@@ -1516,7 +1494,7 @@ QMap<QString, QString> TimelineController::documentProperties()
 void TimelineController::insertSpace(int trackId, int frame)
 {
     if (frame == -1) {
-        frame = timelinePosition();
+        frame = pCore->getTimelinePosition();
     }
     if (trackId == -1) {
         trackId = m_activeTrack;
@@ -1540,7 +1518,7 @@ void TimelineController::insertSpace(int trackId, int frame)
 void TimelineController::removeSpace(int trackId, int frame, bool affectAllTracks)
 {
     if (frame == -1) {
-        frame = timelinePosition();
+        frame = pCore->getTimelinePosition();
     }
     if (trackId == -1) {
         trackId = m_activeTrack;
@@ -1679,8 +1657,8 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
     }
     if (m_zone == QPoint()) {
         // Use current timeline position and clip zone length
-        zone.setY(timelinePosition() + zone.y() - zone.x());
-        zone.setX(timelinePosition());
+        zone.setY(pCore->getTimelinePosition() + zone.y() - zone.x());
+        zone.setX(pCore->getTimelinePosition());
     }
     TimelineFunctions::extractZone(m_model, tracks, m_zone == QPoint() ? zone : m_zone, liftOnly);
 }
@@ -1773,7 +1751,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         sourceZone = QPoint(zone.x(), zone.x() + m_zone.y() - m_zone.x());
     } else {
         // Use current timeline pos and clip zone for in/out
-        insertPoint = timelinePosition();
+        insertPoint = pCore->getTimelinePosition();
         sourceZone = zone;
     }
     QList<int> target_tracks;
@@ -2601,7 +2579,7 @@ void TimelineController::switchRecording(int trackId)
             pCore->displayMessage(i18n("Impossible to capture on a locked track"), ErrorMessage, 500);
             return;
         }
-        m_recordStart.first = timelinePosition();
+        m_recordStart.first = pCore->getTimelinePosition();
         m_recordTrack = trackId;
         int maximumSpace = m_model->getTrackById_const(trackId)->getBlankEnd(m_recordStart.first);
         if (maximumSpace == INT_MAX) {
@@ -2708,7 +2686,7 @@ bool TimelineController::refreshIfVisible(int cid)
             ++it;
             continue;
         }
-        int child = m_model->getClipByPosition(target_track, timelinePosition());
+        int child = m_model->getClipByPosition(target_track, pCore->getTimelinePosition());
         if (child > 0) {
             if (m_model->m_allClips[child]->binId().toInt() == cid) {
                 return true;

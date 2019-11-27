@@ -185,9 +185,8 @@ Rectangle
                             var newPos = frame == inPoint ? inPoint : Math.round((keyframe.x + parent.x + root.baseUnit / 2) / timeScale) + inPoint
                             if (newPos == frame && keyframe.value == keyframe.height - parent.y - root.baseUnit / 2) {
                                 var pos = masterObject.modelStart + frame - inPoint
-                                if (timeline.position != pos) {
-                                    timeline.seekPosition = pos
-                                    timeline.position = timeline.seekPosition
+                                if (proxy.position != pos) {
+                                    proxy.position = pos
                                 }
                                 return
                             }

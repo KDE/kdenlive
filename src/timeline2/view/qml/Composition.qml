@@ -176,7 +176,7 @@ Item {
                     var yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
                     keyframeModel.addKeyframe(xPos + compositionRoot.inPoint, yPos)
                 } else {
-                    timeline.position = compositionRoot.x / timeline.scaleFactor
+                    proxy.position = compositionRoot.x / timeline.scaleFactor
                 }
             } else {
                 timeline.editItemDuration(clipId)

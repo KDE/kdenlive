@@ -37,8 +37,7 @@ class MonitorProxy : public QObject
 {
     Q_OBJECT
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
-    Q_PROPERTY(int position READ position NOTIFY positionChanged)
-    Q_PROPERTY(int seekPosition READ seekPosition WRITE setSeekPosition NOTIFY seekPositionChanged)
+    Q_PROPERTY(int position MEMBER m_position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
@@ -57,26 +56,19 @@ class MonitorProxy : public QObject
 
 public:
     MonitorProxy(GLWidget *parent);
-    int seekPosition() const;
     /** brief: Returns true if we are still in a seek operation
      * */
-    bool seeking() const;
-    int position() const;
     int rulerHeight() const;
     int overlayType() const;
     void setOverlayType(int ix);
     QString markerComment() const;
-    Q_INVOKABLE void requestSeekPosition(int pos);
-    /** brief: Returns seek position or consumer position when not seeking
-     * */
-    int seekOrCurrentPosition() const;
     /** brief: update position and end seeking if we reached the requested seek position.
      *  returns true if the position was unchanged, false otherwise
      * */
-    bool setPosition(int pos);
+    int getPosition() const;
+    Q_INVOKABLE bool setPosition(int pos);
+    void positionFromConsumer(int pos);
     void setMarkerComment(const QString &comment);
-    void setSeekPosition(int pos);
-    void pauseAndSeek(int pos);
     int zoneIn() const;
     int zoneOut() const;
     void setZoneIn(int pos);
@@ -96,8 +88,7 @@ public:
 
 signals:
     void positionChanged();
-    void seekPositionChanged();
-    void seekRequestChanged();
+    void requestSeek(int pos);
     void zoneChanged();
     void saveZone();
     void markerCommentChanged();
@@ -118,7 +109,6 @@ signals:
 private:
     GLWidget *q;
     int m_position;
-    int m_seekPosition;
     int m_zoneIn;
     int m_zoneOut;
     bool m_hasAV;

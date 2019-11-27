@@ -151,8 +151,8 @@ protected:
     QString frameToTime(int frames) const;
 
 public slots:
-    void seek(int pos);
-    void requestSeek();
+    //void seek(int pos);
+    void requestSeek(int position);
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
     void setOffsetY(int y, int max);
@@ -182,7 +182,6 @@ signals:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
-    void seekPosition(int);
     void consumerPosition(int);
     void activateMonitor();
 

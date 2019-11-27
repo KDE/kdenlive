@@ -32,13 +32,10 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 
-#define SEEK_INACTIVE (-1)
-
 MonitorProxy::MonitorProxy(GLWidget *parent)
     : QObject(parent)
     , q(parent)
     , m_position(0)
-    , m_seekPosition(-1)
     , m_zoneIn(0)
     , m_zoneOut(-1)
     , m_hasAV(false)
@@ -46,17 +43,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
 {
 }
 
-int MonitorProxy::seekPosition() const
-{
-    return m_seekPosition;
-}
-
-bool MonitorProxy::seeking() const
-{
-    return m_seekPosition != SEEK_INACTIVE;
-}
-
-int MonitorProxy::position() const
+int MonitorProxy::getPosition() const
 {
     return m_position;
 }
@@ -85,32 +72,21 @@ QString MonitorProxy::markerComment() const
     return m_markerComment;
 }
 
-void MonitorProxy::requestSeekPosition(int pos)
-{
-    q->activateMonitor();
-    m_seekPosition = pos;
-    emit seekPositionChanged();
-    emit seekRequestChanged();
-}
-
-int MonitorProxy::seekOrCurrentPosition() const
-{
-    return m_seekPosition == SEEK_INACTIVE ? m_position : m_seekPosition;
-}
-
 bool MonitorProxy::setPosition(int pos)
 {
-    if (m_seekPosition == pos) {
-        m_position = pos;
-        m_seekPosition = SEEK_INACTIVE;
-        emit seekPositionChanged();
-    } else if (m_position == pos) {
+    if (m_position == pos) {
         return true;
-    } else {
-        m_position = pos;
     }
+    m_position = pos;
+    emit requestSeek(pos);
     emit positionChanged();
     return false;
+}
+
+void MonitorProxy::positionFromConsumer(int pos)
+{
+    m_position = pos;
+    emit positionChanged();
 }
 
 void MonitorProxy::setMarkerComment(const QString &comment)
@@ -120,18 +96,6 @@ void MonitorProxy::setMarkerComment(const QString &comment)
     }
     m_markerComment = comment;
     emit markerCommentChanged();
-}
-
-void MonitorProxy::setSeekPosition(int pos)
-{
-    m_seekPosition = pos;
-    emit seekPositionChanged();
-}
-
-void MonitorProxy::pauseAndSeek(int pos)
-{
-    q->switchPlay(false);
-    requestSeekPosition(pos);
 }
 
 int MonitorProxy::zoneIn() const
