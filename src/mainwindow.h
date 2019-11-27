@@ -252,7 +252,6 @@ private:
     void updateActionsToolTip();
 
 public slots:
-    void slotGotProgressInfo(const QString &message, int progress, MessageType type = DefaultMessage);
     void slotReloadEffects(const QStringList &paths);
     Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
@@ -481,6 +480,7 @@ signals:
     void setPreviewProgress(int);
     void setRenderProgress(int);
     void displayMessage(const QString &, MessageType, int);
+    void displayProgressMessage(const QString &, MessageType, int);
     /** @brief Project profile changed, update render widget accordingly. */
     void updateRenderWidgetProfile();
     /** @brief Clear asset view if itemId is displayed. */

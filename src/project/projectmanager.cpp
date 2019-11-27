@@ -491,7 +491,7 @@ void ProjectManager::openFile(const QUrl &url)
     if (checkForBackupFile(url)) {
         return;
     }
-    pCore->window()->slotGotProgressInfo(i18n("Opening file %1", url.toLocalFile()), 100, InformationMessage);
+    pCore->displayMessage(i18n("Opening file %1", url.toLocalFile()), OperationCompletedMessage, 100);
     doOpenFile(url, nullptr);
 }
 
@@ -558,7 +558,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
                                                                   m_project->getDocumentProperty(QStringLiteral("disablepreview")).toInt());
 
     emit docOpened(m_project);
-    pCore->window()->slotGotProgressInfo(QString(), 100);
+    pCore->displayMessage(QString(), OperationCompletedMessage, 100);
     if (openBackup) {
         slotOpenBackup(url);
     }
@@ -805,13 +805,13 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
 {
-    pCore->window()->slotGotProgressInfo(i18n("Moving project folder"), static_cast<int>(progress), ProcessingJobMessage);
+    pCore->displayMessage(i18n("Moving project folder"), ProcessingJobMessage, static_cast<int>(progress));
 }
 
 void ProjectManager::slotMoveFinished(KJob *job)
 {
     if (job->error() == 0) {
-        pCore->window()->slotGotProgressInfo(QString(), 100, InformationMessage);
+        pCore->displayMessage(QString(), OperationCompletedMessage, 100);
         auto *copyJob = static_cast<KIO::CopyJob *>(job);
         QString newFolder = copyJob->destUrl().toLocalFile();
         // Check if project folder is inside document folder, in which case, paths will be relative

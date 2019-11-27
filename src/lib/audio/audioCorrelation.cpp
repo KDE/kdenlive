@@ -40,7 +40,7 @@ AudioCorrelation::~AudioCorrelation()
 
 void AudioCorrelation::slotAnnounceEnvelope()
 {
-    emit displayMessage(i18n("Audio analysis finished"), OperationCompletedMessage, 500);
+    emit displayMessage(i18n("Audio analysis finished"), OperationCompletedMessage, 300);
 }
 
 void AudioCorrelation::addChild(AudioEnvelope *envelope)
