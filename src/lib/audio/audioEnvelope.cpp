@@ -17,9 +17,11 @@
 #include <QImage>
 #include <QTime>
 #include <QtConcurrent>
+#include <KLocalizedString>
 #include <algorithm>
 #include <cmath>
 #include <memory>
+
 AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, size_t length, size_t startPos)
     : m_offset(offset)
     , m_clipId(clipId)
@@ -107,7 +109,8 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
     QTime t;
     t.start();
     m_producer->seek(0);
-    for (size_t i = 0; i < summary.audioAmplitudes.size(); ++i) {
+    size_t max = summary.audioAmplitudes.size();
+    for (size_t i = 0; i < max; ++i) {
         std::unique_ptr<Mlt::Frame> frame(m_producer->get_frame((int)i));
         qint64 position = mlt_frame_get_position(frame->get_frame());
         int samples = mlt_sample_calculator(m_producer->get_fps(), samplingRate, position);
@@ -117,6 +120,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
         for (int k = 0; k < samples; ++k) {
             summary.audioAmplitudes[i] += abs(data[k]);
         }
+        pCore->displayMessage(i18n("Processing data analysis"), ProcessingJobMessage, (int) (100 * i / max));
     }
     qCDebug(KDENLIVE_LOG) << "Calculating the envelope (" << m_envelopeSize << " frames) took " << t.elapsed() << " ms.";
     qCDebug(KDENLIVE_LOG) << "Normalizing envelope ...";
@@ -125,10 +129,11 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
 
     // Normalize the envelope.
     summary.amplitudeMax = 0;
-    for (size_t i = 0; i < summary.audioAmplitudes.size(); ++i) {
+    for (size_t i = 0; i < max; ++i) {
         summary.audioAmplitudes[i] -= meanBeforeNormalization;
         summary.amplitudeMax = std::max(summary.amplitudeMax, qAbs(summary.audioAmplitudes[i]));
     }
+    pCore->displayMessage(i18n("Audio analysis finished"), OperationCompletedMessage, 300);
     return summary;
 }
 

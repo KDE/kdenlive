@@ -851,7 +851,7 @@ void MainWindow::slotConnectMonitors()
 }
 
 void MainWindow::createSplitOverlay(std::shared_ptr<Mlt::Filter> filter)
-{    
+{
     if (m_assetPanel->effectStackOwner().first == ObjectType::TimelineClip) {
         getMainTimeline()->controller()->createSplitOverlay(m_assetPanel->effectStackOwner().second, filter);
         m_projectMonitor->activateSplit();
@@ -1133,6 +1133,7 @@ void MainWindow::setupActions()
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
     connect(this, &MainWindow::displayMessage, m_messageLabel, &StatusBarMessageLabel::setMessage);
+    connect(this, &MainWindow::displayProgressMessage, m_messageLabel, &StatusBarMessageLabel::setProgressMessage);
     statusBar()->addWidget(m_messageLabel, 0);
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -2019,7 +2020,6 @@ void MainWindow::connectDocument()
     connect(m_projectMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(m_clipMonitor, SIGNAL(zoneUpdated(QPoint)), project, SLOT(setModified()));
     connect(project, &KdenliveDoc::docModified, this, &MainWindow::slotUpdateDocumentState);
-    connect(pCore->bin(), SIGNAL(displayMessage(QString, int, MessageType)), m_messageLabel, SLOT(setProgressMessage(QString, int, MessageType)));
 
     if (m_renderWidget) {
         slotCheckRenderStatus();
@@ -2680,11 +2680,6 @@ void MainWindow::slotUpdateZoomSliderToolTip(int zoomlevel)
 {
     int max = m_zoomSlider->maximum() + 1;
     m_zoomSlider->setToolTip(i18n("Zoom Level: %1/%2", max - zoomlevel, max));
-}
-
-void MainWindow::slotGotProgressInfo(const QString &message, int progress, MessageType type)
-{
-    m_messageLabel->setProgressMessage(message, progress, type);
 }
 
 void MainWindow::customEvent(QEvent *e)

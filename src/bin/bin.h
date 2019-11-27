@@ -232,8 +232,6 @@ public:
     void editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip);
     /** @brief An effect setting was changed, update stack if displayed. */
     void updateMasterEffect(ClipController *ctl);
-    /** @brief Display a message about an operation in status bar. */
-    void emitMessage(const QString &, int, MessageType);
     void rebuildMenu();
     void refreshIcons();
 
@@ -459,7 +457,6 @@ signals:
     /** @brief Request that the given clip is displayed in the clip monitor */
     void requestClipShow(std::shared_ptr<ProjectClip>);
     void displayBinMessage(const QString &, KMessageWidget::MessageType);
-    void displayMessage(const QString &, int, MessageType);
     void requesteInvalidRemoval(const QString &, const QString &, const QString &);
     /** @brief Analysis data changed, refresh panel. */
     void updateAnalysisData(const QString &);

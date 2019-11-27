@@ -98,7 +98,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 public slots:
-    void setProgressMessage(const QString &text, int progress = 100, MessageType type = ProcessingJobMessage, int timeoutMS = 0);
+    void setProgressMessage(const QString &text, MessageType type = ProcessingJobMessage, int progress = 100);
     void setMessage(const QString &text, MessageType type = DefaultMessage, int timeoutMS = 0);
 
 private slots:

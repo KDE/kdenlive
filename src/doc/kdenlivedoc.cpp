@@ -200,13 +200,13 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
                 }
             } else {
                 qCDebug(KDENLIVE_LOG) << " // / processing file open: validate";
-                parent->slotGotProgressInfo(i18n("Validating"), 100);
+                pCore->displayMessage(i18n("Validating"), OperationCompletedMessage, 100);
                 qApp->processEvents();
                 DocumentValidator validator(m_document, url);
                 success = validator.isProject();
                 if (!success) {
                     // It is not a project file
-                    parent->slotGotProgressInfo(i18n("File %1 is not a Kdenlive project file", m_url.toLocalFile()), 100);
+                    pCore->displayMessage(i18n("File %1 is not a Kdenlive project file", m_url.toLocalFile()), OperationCompletedMessage, 100);
                     if (KMessageBox::warningContinueCancel(
                             parent, i18n("File %1 is not a valid project file.\nDo you want to open a backup file?", m_url.toLocalFile()),
                             i18n("Error opening file"), KGuiItem(i18n("Open Backup"))) == KMessageBox::Continue) {

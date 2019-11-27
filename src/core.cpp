@@ -562,7 +562,11 @@ void Core::pushUndo(QUndoCommand *command)
 void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {
-        m_mainWindow->displayMessage(message, type, timeout);
+        if (type == ProcessingJobMessage || type == OperationCompletedMessage) {
+            m_mainWindow->displayProgressMessage(message, type, timeout);
+        } else {
+            m_mainWindow->displayMessage(message, type, timeout);
+        }
     } else {
         qDebug() << message;
     }

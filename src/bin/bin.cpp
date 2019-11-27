@@ -701,7 +701,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
 
     connect(m_itemModel.get(), &ProjectItemModel::refreshPanel, this, &Bin::refreshPanel);
     connect(m_itemModel.get(), &ProjectItemModel::refreshClip, this, &Bin::refreshClip);
-    connect(m_itemModel.get(), &ProjectItemModel::emitMessage, this, &Bin::emitMessage);
 
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QStringList &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
             static_cast<void (Bin::*)(const QStringList &, const QModelIndex &)>(&Bin::slotItemDropped));
@@ -1113,7 +1112,7 @@ void Bin::slotLocateClip()
                 qCDebug(KDENLIVE_LOG) << "  / / " + url.toString();
             } else {
                 if (!exists) {
-                    emitMessage(i18n("Could not locate %1", url.toString()), 100, ErrorMessage);
+                    pCore->displayMessage(i18n("Could not locate %1", url.toString()), ErrorMessage, 300);
                 }
                 return;
             }
@@ -2864,10 +2863,6 @@ void Bin::slotResetInfoMessage()
     }
 }
 
-void Bin::emitMessage(const QString &text, int progress, MessageType type)
-{
-    emit displayMessage(text, progress, type);
-}
 
 void Bin::slotSetSorting()
 {

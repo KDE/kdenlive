@@ -96,7 +96,7 @@ void StatusBarMessageLabel::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void StatusBarMessageLabel::setProgressMessage(const QString &text, int progress, MessageType type, int timeoutMS)
+void StatusBarMessageLabel::setProgressMessage(const QString &text, MessageType type, int progress)
 {
     if (type == ProcessingJobMessage) {
         m_progress->setValue(progress);
@@ -107,7 +107,7 @@ void StatusBarMessageLabel::setProgressMessage(const QString &text, int progress
     if (text == m_currentMessage.text) {
         return;
     }
-    setMessage(text, type, timeoutMS);
+    setMessage(text, type, 0);
 }
 
 void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, int timeoutMS)
@@ -122,7 +122,7 @@ void StatusBarMessageLabel::setMessage(const QString &text, MessageType type, in
 
     m_queueSemaphore.acquire();
     if (!m_messageQueue.contains(item)) {
-        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage) {
+        if (item.type == ErrorMessage || item.type == MltError || item.type == ProcessingJobMessage || item.type == OperationCompletedMessage) {
             qCDebug(KDENLIVE_LOG) << item.text;
 
             // Put the new error message at first place and immediately show it
