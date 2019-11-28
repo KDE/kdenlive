@@ -64,6 +64,10 @@ const QString CacheJob::getDescription() const
 bool CacheJob::startJob()
 {
     // We reload here, because things may have changed since creation of this job
+    if (m_done) {
+        // Job aborted
+        return false;
+    }
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (m_binClip->clipType() != ClipType::Video && m_binClip->clipType() != ClipType::AV && m_binClip->clipType() != ClipType::Playlist) {
         // Don't create thumbnail for audio clips
