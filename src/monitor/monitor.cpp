@@ -149,6 +149,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     layout->setSpacing(0);
     // Create container widget
     m_glWidget = new QWidget;
+    m_glWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     auto *glayout = new QGridLayout(m_glWidget);
     glayout->setSpacing(0);
     glayout->setContentsMargins(0, 0, 0, 0);
@@ -162,7 +163,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
-    m_videoWidget->installEventFilter(leventEater);
+    m_glWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
 
     m_qmlManager = new QmlManager(m_glMonitor);
@@ -770,27 +771,25 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?
     pause();
-    if (!m_videoWidget->isFullScreen() && !minimizeOnly) {
+    if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
             for (auto screen : qApp->screens()) {
                 if (screen != qApp->screenAt(pCore->window()->geometry().center())) {
                     QRect rect = screen->availableGeometry();
-                    m_videoWidget->setParent(nullptr);
-                    m_videoWidget->move(this->parentWidget()->mapFromGlobal(rect.center()));
+                    m_glWidget->setParent(nullptr);
+                    m_glWidget->move(this->parentWidget()->mapFromGlobal(rect.center()));
                     break;
                 }
             }
         } else {
-            m_videoWidget->setParent(nullptr);
+            m_glWidget->setParent(nullptr);
         }
-        m_videoWidget->showFullScreen();
+        m_glWidget->showFullScreen();
     } else {
-        m_videoWidget->setParent(m_glWidget);
-        //m_videoWidget->move(this->pos());
-        m_videoWidget->showNormal();
-        auto *lay = (QGridLayout *)m_glWidget->layout();
-        lay->addWidget(m_videoWidget, 0, 0);
+        m_glWidget->showNormal();
+        auto *lay = (QVBoxLayout *)layout();
+        lay->insertWidget(0, m_glWidget, 10);
     }
 }
 
@@ -932,7 +931,7 @@ void Monitor::keyPressEvent(QKeyEvent *event)
         event->accept();
         return;
     }
-    if (m_videoWidget->isFullScreen()) {
+    if (m_glWidget->isFullScreen()) {
         event->ignore();
         emit passKeyPress(event);
         return;
