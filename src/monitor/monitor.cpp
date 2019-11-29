@@ -2041,6 +2041,7 @@ void Monitor::panView(QPoint diff)
 
 void Monitor::processSeek(int pos)
 {
+    slotActivateMonitor();
     pause();
     m_glMonitor->requestSeek(pos);
     m_monitorManager->cleanMixer();
