@@ -219,8 +219,8 @@ Rectangle {
 
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
-    property real baseUnit: fontMetrics.font.pointSize
-    property real fontUnit: baseUnit * 0.8
+    property real baseUnit: fontMetrics.font.pixelSize
+    property real fontUnit: fontMetrics.font.pointSize * 0.8
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
     property bool autoScrolling: timeline.autoScroll
@@ -1055,7 +1055,7 @@ Rectangle {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
                     width: root.width - headerWidth
-                    height: fontMetrics.font.pixelSize * 2
+                    height: root.baseUnit * 2
                     contentX: scrollView.flickableItem.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
@@ -1075,8 +1075,9 @@ Rectangle {
                         }*/
                         TimelinePlayhead {
                             id: playhead
-                            height: baseUnit
-                            width: baseUnit * 1.5
+                            visible: timeline.position > -1
+                            height: baseUnit * .8
+                            width: baseUnit * 1.2
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
                             x: root.consumerPosition * timeline.scaleFactor - (width / 2)
@@ -1373,7 +1374,7 @@ Rectangle {
             id: bubbleHelpLabel
             color: activePalette.text //application.toolTipTextColor
             anchors.centerIn: parent
-            font.pixelSize: root.baseUnit
+            font.pointSize: root.fontUnit
         }
         function show(x, y, text) {
             bubbleHelp.x = x + tracksArea.x - scrollView.flickableItem.contentX - bubbleHelpLabel.width
@@ -1488,7 +1489,7 @@ Rectangle {
                     id: mlabel
                     visible: timeline.showMarkers
                     text: model.comment
-                    font.pixelSize: root.baseUnit
+                    font.pointSize: root.fontUnit
                     x: guideBase.x + 2
                     y: scrollView.flickableItem.contentY
                     color: 'white'

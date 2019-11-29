@@ -28,7 +28,6 @@ Rectangle {
     property real labelSpacing: labelSize
     // The space we want between each ticks in the ruler
     property real tickSpacing: timeline.scaleFactor
-    property real fontUnit: root.baseUnit * 0.8
     property alias rulerZone : zone
     property int workingPreview : timeline.workingPreview
     property int labelMod: 1
@@ -43,11 +42,11 @@ Rectangle {
             // labelSpacing cannot be smaller than 1 frame
             rulerRoot.labelSpacing = timeline.scaleFactor > rulerRoot.labelSize * 1.3 ? timeline.scaleFactor : Math.floor(rulerRoot.labelSize/timeline.scaleFactor) * timeline.scaleFactor
         } else {
-            rulerRoot.tickSpacing = Math.floor(3 * rulerRoot.fontUnit / timeline.scaleFactor) * timeline.scaleFactor
+            rulerRoot.tickSpacing = Math.floor(3 * root.fontUnit / timeline.scaleFactor) * timeline.scaleFactor
             rulerRoot.labelSpacing = (Math.floor(rulerRoot.labelSize/rulerRoot.tickSpacing) + 1) * rulerRoot.tickSpacing
         }
-        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing))
-        //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + rulerRoot.fontUnit) / rulerRoot.tickSpacing)))
+        rulerRoot.labelMod = Math.max(1, Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing))
+        //console.log('LABELMOD: ', Math.ceil((rulerRoot.labelSize + root.fontUnit) / rulerRoot.tickSpacing)))
     }
 
     function adjustFormat() {
@@ -120,7 +119,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: 2
                 text: timeline.timecode(parent.realPos)
-                font.pointSize: rulerRoot.fontUnit
+                font.pointSize: root.fontUnit
                 color: activePalette.windowText
             }
         }
@@ -191,7 +190,7 @@ Rectangle {
                 id: inLabel
                 anchors.fill: parent
                 text: timeline.timecode(timeline.zoneIn)
-                font.pointSize: rulerRoot.fontUnit
+                font.pointSize: root.fontUnit
                 color: activePalette.highlightedText
             }
         }
@@ -206,7 +205,7 @@ Rectangle {
                 id: outLabel
                 anchors.fill: parent
                 text: timeline.timecode(timeline.zoneOut)
-                font.pointSize: rulerRoot.fontUnit
+                font.pointSize: root.fontUnit
                 color: activePalette.highlightedText
             }
         }
@@ -223,7 +222,7 @@ Rectangle {
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 text: timeline.timecode(timeline.zoneOut - timeline.zoneIn)
-                font.pointSize: rulerRoot.fontUnit
+                font.pointSize: root.fontUnit
                 color: activePalette.highlightedText
             }
         }

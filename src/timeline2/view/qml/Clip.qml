@@ -107,7 +107,6 @@ Rectangle {
     }
     ToolTip {
         visible: mouseArea.containsMouse && !dragProxyArea.pressed
-        font.pointSize: root.fontUnit
         delay: 1000
         timeout: 5000
         background: Rectangle {
@@ -116,6 +115,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
+            font.pointSize: root.fontUnit
             text: label.text + ' (' + timeline.simplifiedTC(clipRoot.inPoint) + '-' + timeline.simplifiedTC(clipRoot.outPoint) + ')'
         }
     }
@@ -358,7 +358,6 @@ Rectangle {
                     }
                     ToolTip {
                         visible: offsetArea.containsMouse
-                        font.pointSize: root.fontUnit
                         delay: 1000
                         timeout: 5000
                         background: Rectangle {
@@ -367,6 +366,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
+                            font.pointSize: root.fontUnit
                             text: positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
                         }
                     }
@@ -536,7 +536,6 @@ Rectangle {
                 }
                 ToolTip {
                     visible: compInArea.containsMouse && !dragProxyArea.pressed
-                    font.pointSize: root.fontUnit
                     delay: 1000
                     timeout: 5000
                     background: Rectangle {
@@ -545,6 +544,7 @@ Rectangle {
                     }
                     contentItem: Label {
                         color: activePalette.text
+                        font.pointSize: root.fontUnit
                         text: i18n("Click to add composition")
                     }
                 }
@@ -586,7 +586,6 @@ Rectangle {
                 }
                 ToolTip {
                     visible: compOutArea.containsMouse && !dragProxyArea.pressed
-                    font.pointSize: root.fontUnit
                     delay: 1000
                     timeout: 5000
                     background: Rectangle {
@@ -595,6 +594,7 @@ Rectangle {
                     }
                     contentItem: Label {
                         color: activePalette.text
+                        font.pointSize: root.fontUnit
                         text: i18n("Click to add composition")
                     }
                 }
@@ -809,7 +809,6 @@ Rectangle {
 
         ToolTip {
             visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
-            font.pointSize: root.fontUnit
             delay: 1000
             timeout: 5000
             background: Rectangle {
@@ -818,6 +817,7 @@ Rectangle {
             }
             contentItem: Label {
                 color: activePalette.text
+                font.pointSize: root.fontUnit
                 text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
             }
         }
@@ -891,7 +891,6 @@ Rectangle {
 
         ToolTip {
             visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
-            font.pointSize: root.fontUnit
             delay: 1000
             timeout: 5000
             background: Rectangle {
@@ -900,10 +899,11 @@ Rectangle {
             }
             contentItem: Label {
                 color: activePalette.text
+                font.pointSize: root.fontUnit
                 text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
             }
         }
-        
+
         MouseArea {
             id: trimOutMouseArea
             anchors.fill: parent
