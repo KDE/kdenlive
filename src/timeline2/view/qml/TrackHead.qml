@@ -225,7 +225,7 @@ Rectangle {
                         id: trackTagLabel
                         text: trackHeadRoot.trackTag
                         anchors.fill: parent
-                        font.pointSize: rulerRoot.fontUnit
+                        font.pointSize: root.fontUnit
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                     }
