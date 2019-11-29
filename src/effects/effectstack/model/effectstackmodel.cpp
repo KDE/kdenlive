@@ -843,7 +843,8 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     QWriteLocker locker(&m_lock);
     // TODO: manage fades, keyframes if clips don't have same size / in point
     bool found = false;
-    bool effectEnabled = sourceStack->rowCount() == 0;
+    bool effectEnabled = rootItem->childCount() > 0;
+    int imported = 0;
     for (int i = 0; i < sourceStack->rowCount(); i++) {
         auto item = sourceStack->getEffectStackRow(i);
         // NO undo. this should only be used on project opening
@@ -852,7 +853,11 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
             if (item->isEnabled()) {
                 effectEnabled = true;
             }
+            imported++;
         }
+    }
+    if (!effectEnabled && imported == 0) {
+        effectEnabled = true;
     }
     m_effectStackEnabled = effectEnabled;
     if (!m_effectStackEnabled) {
@@ -876,7 +881,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
     bool effectEnabled = true;
     if (auto ptr = service.lock()) {
         int max = ptr->filter_count();
-        effectEnabled = max == 0;
+        int imported = 0;
         for (int i = 0; i < max; i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
             if (filter->get_int("internal_added") > 0) {
@@ -913,6 +918,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 // Don't import effect
                 continue;
             }
+            imported++;
             connect(effect.get(), &AssetParameterModel::modelChanged, this, &EffectStackModel::modelChanged);
             connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
             Fun redo = addItem_lambda(effect, rootItem->getId());
@@ -938,6 +944,9 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                     }
                 }
             }
+        }
+        if (imported == 0) {
+            effectEnabled = true;
         }
     }
     m_effectStackEnabled = effectEnabled;

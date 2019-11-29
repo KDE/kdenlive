@@ -685,8 +685,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
             }
             if (state == PlaylistState::VideoOnly) {
                 // good, we found a master video producer, and we didn't have any
-                m_videoProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
-                m_effectStack->loadService(m_videoProducers[clipId]);
+                if (m_clipType != ClipType::Color && m_clipType != ClipType::Image && m_clipType != ClipType::Text) {
+                    // Color, image and text clips always use master producer in timeline
+                    m_videoProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
+                    m_effectStack->loadService(m_videoProducers[clipId]);
+                }
                 return {master, true};
             }
             if (state == PlaylistState::Disabled) {
