@@ -103,7 +103,7 @@ Rectangle {
     }
     ColumnLayout {
         id: targetColumn
-        width: root.baseUnit / 1.3
+        width: trackTagLabel.width * .3
         height: trackHeadRoot.height
         Item {
             width: parent.width
@@ -211,7 +211,7 @@ Rectangle {
                 tooltip: trackLabel.visible? i18n("Minimize") : i18n("Expand")
             }
             Item {
-                width: trackTag.contentWidth + 4
+                width: trackTagLabel.contentWidth + 4
                 height: width
                 Layout.topMargin: 1
                 Rectangle {
@@ -222,10 +222,10 @@ Rectangle {
                     border.width: 0
                     radius: 2
                     Text {
-                        id: trackTag
+                        id: trackTagLabel
                         text: trackHeadRoot.trackTag
                         anchors.fill: parent
-                        font.pixelSize: root.baseUnit * 1.5
+                        font.pointSize: rulerRoot.fontUnit
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                     }
@@ -304,7 +304,7 @@ Rectangle {
                 font.pixelSize: root.baseUnit
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
-                visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTag.width + (5 * muteButton.width)
+                visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTagLabel.width + (5 * muteButton.width)
             }
             Item {
                 // Spacer
