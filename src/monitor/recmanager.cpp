@@ -46,7 +46,7 @@ RecManager::RecManager(Monitor *parent)
     , m_recToolbar(new QToolBar(parent))
     , m_checkAudio(false)
     , m_checkVideo(false)
-    , m_screenIndex(-1)
+    , m_screenIndex(0)
 {
     m_playAction = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Preview"));
     m_playAction->setCheckable(true);
@@ -226,14 +226,11 @@ void RecManager::slotRecord(bool record)
         ++i;
     }
     m_captureFile = QUrl::fromLocalFile(path);
-    QString captureSize;
     QStringList captureArgs;
 #ifdef Q_OS_WIN
-    captureArgs << QStringLiteral("-f") << QStringLiteral("gdigrab");
-    // fps
-    captureArgs << QStringLiteral("-framerate") << QString::number(KdenliveSettings::grab_fps());
-    captureSize = QStringLiteral("desktop");
-    captureArgs << QStringLiteral("-i") << captureSize;
+    captureArgs << QStringLiteral("-f") << QStringLiteral("gdigrab")
+                << QStringLiteral("-framerate") << QString::number(KdenliveSettings::grab_fps())
+                << QStringLiteral("-i") << QStringLiteral("desktop");
     if (KdenliveSettings::grab_parameters().contains(QLatin1String("alsa"))) {
         // Add audio device
         QString params = captureArgs.join(QLatin1Char(' '));
@@ -276,7 +273,7 @@ void RecManager::slotRecord(bool record)
     } else if (!KdenliveSettings::grab_parameters().simplified().isEmpty()) {
         captureArgs << KdenliveSettings::grab_parameters().simplified().split(QLatin1Char(' '));
         captureArgs << path;
-        m_captureProcess->start(KdenliveSettings::ffmpegpath());
+        m_captureProcess->start(KdenliveSettings::ffmpegpath(), captureArgs);
     }
 #else
     captureArgs << QStringLiteral("-f") << QStringLiteral("x11grab");
@@ -286,7 +283,7 @@ void RecManager::slotRecord(bool record)
     if (!KdenliveSettings::grab_hide_frame()) {
         captureArgs << QStringLiteral("-show_region") << QStringLiteral("1");
     }
-    captureSize = QStringLiteral(":0.0");
+    QString captureSize = QStringLiteral(":0.0");
     if (KdenliveSettings::grab_capture_type() == 0) {
         // Full screen capture
         QRect screenSize = QApplication::screens()[m_screenIndex]->geometry();
