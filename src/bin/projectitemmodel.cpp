@@ -651,10 +651,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         int thumbJob = pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 150, 0, true);
         ClipType::ProducerType type = new_clip->clipType();
-        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist) {
+        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
             pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
         }
-        if (type == ClipType::AV || type == ClipType::Video || type == ClipType::Playlist) {
+        if (type == ClipType::AV || type == ClipType::Video || type == ClipType::Playlist || type == ClipType::Unknown) {
             pCore->jobManager()->startJob<CacheJob>({id}, thumbJob, QString(), 150);
         }
     }
