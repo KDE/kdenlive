@@ -137,7 +137,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     if (metadata && metadata->is_valid()) {
         if (metadata->get("title") && metadata->get("identifier") && strlen(metadata->get("title")) > 0) {
             QString id = metadata->get("identifier");
-            res.name = metadata->get("title");
+            res.name = i18n(metadata->get("title"));
             res.name[0] = res.name[0].toUpper();
             res.description = i18n(metadata->get("description")) + QString(" (%1)").arg(id);
             res.author = metadata->get("creator");
@@ -338,7 +338,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     // Update name if the xml provide one
     QString name = Xml::getSubTagContent(currentAsset, QStringLiteral("name"));
     if (!name.isEmpty()) {
-        res.name = name;
+        res.name = i18n(name.toUtf8().constData());
     }
     return true;
 }
