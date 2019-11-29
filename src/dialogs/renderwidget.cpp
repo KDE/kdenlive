@@ -1498,6 +1498,8 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     int threadCount = QThread::idealThreadCount();
     if (threadCount < 2 || !m_view.parallel_process->isChecked() || !m_view.parallel_process->isEnabled()) {
         threadCount = 1;
+    } else {
+        threadCount = qMin(4, threadCount - 1);
     }
 
     // Set the thread counts

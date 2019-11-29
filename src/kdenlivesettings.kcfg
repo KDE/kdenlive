@@ -420,7 +420,7 @@
 
     <entry name="encodethreads" type="Int">
       <label>FFmpeg encoding thread count.</label>
-      <default>1</default>
+      <default>0</default>
     </entry>
 
     <entry name="currenttmpfolder" type="Path">
