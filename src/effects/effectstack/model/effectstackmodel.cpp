@@ -459,7 +459,6 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         } else if (m_ownerId.first == ObjectType::TimelineTrack) {
             effect->filter().set("out", pCore->getItemDuration(m_ownerId));
         }
-        QString effectName = EffectsRepository::get()->getName(effectId);
         Fun update = [this, inFades, outFades]() {
             // TODO: only update if effect is fade or keyframe
             QVector<int> roles = {TimelineModel::EffectNamesRole};
@@ -475,7 +474,7 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
         update();
         PUSH_LAMBDA(update, redo);
         PUSH_LAMBDA(update, undo);
-        PUSH_UNDO(undo, redo, i18n("Add effect %1", i18n(effectName.toUtf8().data())));
+        PUSH_UNDO(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
     } else if (makeCurrent) {
         if (auto srvPtr = m_masterService.lock()) {
             srvPtr->set("kdenlive:activeeffect", currentActive);
@@ -769,8 +768,7 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
         update();
         UPDATE_UNDO_REDO(update, update, undo, redo);
         auto effectId = std::static_pointer_cast<EffectItemModel>(item)->getAssetId();
-        QString effectName = EffectsRepository::get()->getName(effectId);
-        PUSH_UNDO(undo, redo, i18n("Move effect %1").arg(i18n(effectName.toUtf8().data())));
+        PUSH_UNDO(undo, redo, i18n("Move effect %1").arg(EffectsRepository::get()->getName(effectId)));
     }
 }
 
@@ -1191,7 +1189,7 @@ const QString EffectStackModel::effectNames() const
 {
     QStringList effects;
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        effects.append(i18n(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()).toUtf8().data()));
+        effects.append(EffectsRepository::get()->getName(std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId()));
     }
     return effects.join(QLatin1Char('/'));
 }

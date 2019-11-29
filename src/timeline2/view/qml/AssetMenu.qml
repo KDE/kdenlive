@@ -35,7 +35,7 @@ Menu {
         onObjectAdded: menuRoot.insertItem( index, object )
         onObjectRemoved: menuRoot.removeItem( object )
         delegate: MenuItem {
-            text: i18n(timeline.getAssetName(modelData, isTransition)) //name
+            text: timeline.getAssetName(modelData, isTransition) //name
             property string assetId: modelData //identifier
             onTriggered: {
                 console.log(assetId)

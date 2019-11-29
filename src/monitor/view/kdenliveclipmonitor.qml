@@ -141,9 +141,9 @@ Item {
                 visible: root.showAudiothumb && (isAudioClip || controller.clipType == ProducerType.AV)
 
                 states: [
-                    State { when: audioThumb.stateVisible || isAudioClip;
+                    State { when: audioThumb.stateVisible || audioThumb.isAudioClip;
                         PropertyChanges {   target: audioThumb; opacity: 1.0    } },
-                    State { when: !audioThumb.stateVisible && isAudioClip;
+                    State { when: !audioThumb.stateVisible && !audioThumb.isAudioClip;
                         PropertyChanges {   target: audioThumb; opacity: 0.0    } }
                 ]
                 transitions: [ Transition {

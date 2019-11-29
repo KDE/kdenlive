@@ -7,8 +7,13 @@ import QtQuick 2.4
     // Monitor ruler
 Rectangle {
     id: ruler
-    color: activePalette.window
+    color: activePalette.base
     property bool containsMouse: rulerMouseArea.containsMouse
+    Rectangle {
+        color: activePalette.light
+        width: parent.width
+        height: 1
+    }
 
     Timer {
         id: zoneToolTipTimer
@@ -16,7 +21,7 @@ Rectangle {
     }
     function forceRepaint()
     {
-        ruler.color = activePalette.window
+        ruler.color = activePalette.base
         // Enforce repaint
         rulerTicks.model = 0
         rulerTicks.model = ruler.width / frameSize + 2
