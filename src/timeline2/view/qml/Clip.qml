@@ -107,7 +107,7 @@ Rectangle {
     }
     ToolTip {
         visible: mouseArea.containsMouse && !dragProxyArea.pressed
-        font.pixelSize: root.baseUnit
+        font.pointSize: root.fontUnit
         delay: 1000
         timeout: 5000
         background: Rectangle {
@@ -327,7 +327,7 @@ Rectangle {
                 Text {
                     id: label
                     text: clipName + (clipRoot.speed != 1.0 ? ' [' + Math.round(clipRoot.speed*100) + '%]': '')
-                    font.pixelSize: root.baseUnit * 1.2
+                    font.pointSize: root.fontUnit
                     anchors {
                         top: labelRect.top
                         left: labelRect.left
@@ -358,7 +358,7 @@ Rectangle {
                     }
                     ToolTip {
                         visible: offsetArea.containsMouse
-                        font.pixelSize: root.baseUnit
+                        font.pointSize: root.fontUnit
                         delay: 1000
                         timeout: 5000
                         background: Rectangle {
@@ -373,7 +373,7 @@ Rectangle {
                     Text {
                         id: offsetLabel
                         text: positionOffset
-                        font.pixelSize: root.baseUnit * 1.2
+                        font.pointSize: root.fontUnit
                         anchors {
                             horizontalCenter: parent.horizontalCenter
                             topMargin: 1
@@ -397,7 +397,7 @@ Rectangle {
                 Text {
                     id: effectLabel
                     text: clipRoot.effectNames
-                    font.pixelSize: root.baseUnit * 1.2
+                    font.pointSize: root.fontUnit
                     anchors {
                         top: effectsRect.top
                         left: effectsRect.left
@@ -448,7 +448,7 @@ Rectangle {
                         id: mlabel
                         visible: timeline.showMarkers && parent.width > width * 1.5
                         text: model.comment
-                        font.pixelSize: root.baseUnit
+                        font.pointSize: root.fontUnit
                         x: markerBase.x
                         anchors {
                             bottom: parent.verticalCenter
@@ -536,7 +536,7 @@ Rectangle {
                 }
                 ToolTip {
                     visible: compInArea.containsMouse && !dragProxyArea.pressed
-                    font.pixelSize: root.baseUnit
+                    font.pointSize: root.fontUnit
                     delay: 1000
                     timeout: 5000
                     background: Rectangle {
@@ -586,7 +586,7 @@ Rectangle {
                 }
                 ToolTip {
                     visible: compOutArea.containsMouse && !dragProxyArea.pressed
-                    font.pixelSize: root.baseUnit
+                    font.pointSize: root.fontUnit
                     delay: 1000
                     timeout: 5000
                     background: Rectangle {
@@ -809,7 +809,7 @@ Rectangle {
 
         ToolTip {
             visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
-            font.pixelSize: root.baseUnit
+            font.pointSize: root.fontUnit
             delay: 1000
             timeout: 5000
             background: Rectangle {
@@ -891,7 +891,7 @@ Rectangle {
 
         ToolTip {
             visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
-            font.pixelSize: root.baseUnit
+            font.pointSize: root.fontUnit
             delay: 1000
             timeout: 5000
             background: Rectangle {

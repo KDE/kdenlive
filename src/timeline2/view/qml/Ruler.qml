@@ -28,7 +28,7 @@ Rectangle {
     property real labelSpacing: labelSize
     // The space we want between each ticks in the ruler
     property real tickSpacing: timeline.scaleFactor
-    property real fontUnit: root.baseUnit * 0.9
+    property real fontUnit: root.baseUnit * 0.8
     property alias rulerZone : zone
     property int workingPreview : timeline.workingPreview
     property int labelMod: 1

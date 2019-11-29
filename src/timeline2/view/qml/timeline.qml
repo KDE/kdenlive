@@ -56,7 +56,7 @@ Rectangle {
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
     }
-    
+
     function moveSelectedTrack(offset) {
         var cTrack = Logic.getTrackIndexFromId(timeline.activeTrack)
         var newTrack = cTrack + offset
@@ -220,6 +220,7 @@ Rectangle {
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pointSize
+    property real fontUnit: baseUnit * 0.8
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
     property bool autoScrolling: timeline.autoScroll

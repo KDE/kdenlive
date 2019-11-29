@@ -219,7 +219,7 @@ Item {
                 Text {
                     id: label
                     text: clipName + (compositionRoot.aTrack > -1 ? ' > ' + timeline.getTrackNameFromMltIndex(compositionRoot.aTrack) : '')
-                    font.pixelSize: root.baseUnit
+                    font.pointSize: root.fontUnit
                     anchors {
                         top: labelRect.top
                         left: labelRect.left
