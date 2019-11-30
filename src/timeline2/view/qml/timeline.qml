@@ -1075,9 +1075,8 @@ Rectangle {
                         }*/
                         TimelinePlayhead {
                             id: playhead
-                            visible: timeline.position > -1
-                            height: baseUnit * .8
-                            width: baseUnit * 1.2
+                            height: root.baseUnit * .8
+                            width: root.baseUnit * 1.2
                             fillColor: activePalette.windowText
                             anchors.bottom: parent.bottom
                             x: root.consumerPosition * timeline.scaleFactor - (width / 2)
