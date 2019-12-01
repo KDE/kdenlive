@@ -212,7 +212,7 @@ void ThumbnailCache::saveCachedThumbs(QStringList keys)
     }
 }
 
-void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
+void ThumbnailCache::invalidateThumbsForClip(const QString &binId, bool reloadAudio)
 {
     QMutexLocker locker(&m_mutex);
     if (m_storedVolatile.find(binId) != m_storedVolatile.end()) {
@@ -233,9 +233,11 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId)
         // Remove persistent cache
         for (int pos : m_storedOnDisk.at(binId)) {
             if (pos < 0) {
-                auto key = getAudioKey(binId, &ok);
-                if (ok) {
-                    QFile::remove(audioThumbFolder.absoluteFilePath(key));
+                if (reloadAudio) {
+                    auto key = getAudioKey(binId, &ok);
+                    if (ok) {
+                        QFile::remove(audioThumbFolder.absoluteFilePath(key));
+                    }
                 }
             } else {
                 auto key = getKey(binId, pos, &ok);

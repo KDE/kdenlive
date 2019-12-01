@@ -207,7 +207,7 @@ public:
     const QString getDocumentProperty(const QString &key);
 
     /** @brief Ask MLT to reload this clip's producer  */
-    void reloadClip(const QString &id);
+    void reloadClip(const QString &id, bool reloadAudio = true);
 
     /** @brief refresh monitor (if clip changed)  */
     void reloadMonitorIfActive(const QString &id);

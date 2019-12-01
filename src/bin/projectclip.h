@@ -81,7 +81,7 @@ protected:
 public:
     ~ProjectClip() override;
 
-    void reloadProducer(bool refreshOnly = false, bool audioStreamChanged = false);
+    void reloadProducer(bool refreshOnly = false, bool audioStreamChanged = false, bool reloadAudio = true);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     // virtual void hash() = 0;
