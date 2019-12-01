@@ -71,7 +71,7 @@ public:
     void storeThumbnail(const QString &binId, int pos, const QImage &img, bool persistent = false);
 
     /* @brief Removes all the thumbnails for a given clip */
-    void invalidateThumbsForClip(const QString &binId);
+    void invalidateThumbsForClip(const QString &binId, bool reloadAudio);
 
     /* @brief Save all cached thumbs to disk */
     void saveCachedThumbs(QStringList keys);

@@ -295,7 +295,7 @@ size_t ProjectClip::frameDuration() const
     return (size_t)d.frames(pCore->getCurrentFps());
 }
 
-void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
+void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool reloadAudio)
 {
     // we find if there are some loading job on that clip
     int loadjobId = -1;
@@ -305,7 +305,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
-        ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+        ThumbnailCache::get()->invalidateThumbsForClip(clipId(), false);
         pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         m_thumbsProducer.reset();
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
@@ -326,7 +326,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged)
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
             }
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
+            ThumbnailCache::get()->invalidateThumbsForClip(clipId(), reloadAudio);
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), 150, -1, true, true);
             if (audioStreamChanged) {
@@ -1199,12 +1199,7 @@ void ProjectClip::discardAudioThumb()
 
 const QString ProjectClip::getAudioThumbPath(bool miniThumb)
 {
-    if (audioInfo() == nullptr) {
-        return QString();
-    }
-    int audioStream = audioInfo()->ffmpeg_audio_index();
-    QString clipHash = hash();
-    if (clipHash.isEmpty()) {
+    if (audioInfo() == nullptr && !miniThumb) {
         return QString();
     }
     bool ok = false;
@@ -1212,11 +1207,16 @@ const QString ProjectClip::getAudioThumbPath(bool miniThumb)
     if (!ok) {
         return QString();
     }
+    const QString clipHash = hash();
+    if (clipHash.isEmpty()) {
+        return QString();
+    }
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     if (miniThumb) {
         audioPath.append(QStringLiteral(".png"));
         return audioPath;
     }
+    int audioStream = audioInfo()->ffmpeg_audio_index();
     if (audioStream > 0) {
         audioPath.append(QLatin1Char('_') + QString::number(audioInfo()->audio_index()));
     }

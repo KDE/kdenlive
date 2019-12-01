@@ -1839,13 +1839,13 @@ void Bin::slotEditClipCommand(const QString &id, const QMap<QString, QString> &o
     m_doc->commandStack()->push(command);
 }
 
-void Bin::reloadClip(const QString &id)
+void Bin::reloadClip(const QString &id, bool reloadAudio)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
-    clip->reloadProducer();
+    clip->reloadProducer(false, false, reloadAudio);
 }
 
 void Bin::reloadMonitorIfActive(const QString &id)
