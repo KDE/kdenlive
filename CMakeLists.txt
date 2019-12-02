@@ -163,7 +163,7 @@ if(BUILD_TESTING)
     add_executable(runTests ${Tests_SRCS})
     set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
     target_link_libraries(runTests kdenliveLib)
-    add_test(runTests runTests -d yes)
+    add_test(NAME runTests COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/runTests -d yes)
 endif()
 
 if(BUILD_FUZZING)
