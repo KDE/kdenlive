@@ -15,7 +15,4 @@
         <parameter tag="deinterlace" default="0" type="bool" name="deinterlace" >
             <name>Force Deinterlace Overlay</name>
         </parameter>
-        <parameter tag="invert" default="0" type="bool" name="invert" >
-            <name>Invert</name>
-        </parameter>
 </transition>
