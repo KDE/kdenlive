@@ -50,7 +50,7 @@ class AbstractProjectItem : public QObject, public TreeItem
     Q_OBJECT
 
 public:
-    enum PROJECTITEMTYPE { FolderUpItem = 0, FolderItem = 1, ClipItem = 2, SubClipItem = 3 };
+    enum PROJECTITEMTYPE { FolderItem, ClipItem, SubClipItem };
 
     /**
      * @brief Constructor.

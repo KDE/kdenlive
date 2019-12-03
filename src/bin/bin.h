@@ -49,7 +49,6 @@ class KdenliveDoc;
 class Monitor;
 class ProjectClip;
 class ProjectFolder;
-class ProjectFolderUp;
 class ProjectItemModel;
 class ProjectSortProxyModel;
 class QDockWidget;
@@ -266,6 +265,7 @@ public:
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();
+
 private slots:
     void slotAddClip();
     void slotReloadClip();
@@ -274,7 +274,8 @@ private slots:
     /** @brief Show/hide date column */
     void slotShowDateColumn(bool show);
     void slotShowDescColumn(bool show);
-
+    /** @brief Go to parent folder */
+    void slotBack();
     /** @brief Setup the bin view type (icon view, tree view, ...).
      * @param action The action whose data defines the view type or nullptr to keep default view */
     void slotInitView(QAction *action);
@@ -376,8 +377,6 @@ protected:
 private:
     std::shared_ptr<ProjectItemModel> m_itemModel;
     QAbstractItemView *m_itemView;
-    /** @brief An "Up" item that is inserted in bin when using icon view so that user can navigate up */
-    std::shared_ptr<ProjectFolderUp> m_folderUp;
     BinItemDelegate *m_binTreeViewDelegate;
     BinListItemDelegate *m_binListViewDelegate;
     std::unique_ptr<ProjectSortProxyModel> m_proxyModel;
@@ -416,6 +415,7 @@ private:
     QAction *m_cancelJobs;
     QAction *m_discardCurrentClipJobs;
     QAction *m_discardPendingJobs;
+    QAction *m_upAction;
     SmallJobLabel *m_infoLabel;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;

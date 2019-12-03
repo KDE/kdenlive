@@ -10,7 +10,6 @@ set(kdenlive_SRCS
   bin/model/markerlistmodel.cpp
   bin/projectclip.cpp
   bin/projectfolder.cpp
-  bin/projectfolderup.cpp
   bin/projectitemmodel.cpp
   bin/projectsortproxymodel.cpp
   bin/projectsubclip.cpp
