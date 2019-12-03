@@ -140,8 +140,8 @@ TEST_CASE("Marker model", "[MarkerListModel]")
         checkStates(undoStack, model, {{}, state1, state2, state3, state4, state5, state6, state7, state8, state9}, snaps);
 
         // try spurious model registration
-        std::shared_ptr<SnapInterface> spurious;
-        REQUIRE(ABORTS(&MarkerListModel::registerSnapModel, model, spurious));
+        // std::shared_ptr<SnapInterface> spurious;
+        // REQUIRE(ABORTS(&MarkerListModel::registerSnapModel, model, spurious));
 
         // try real model registration
         std::shared_ptr<SnapModel> other_snaps = std::make_shared<SnapModel>();
