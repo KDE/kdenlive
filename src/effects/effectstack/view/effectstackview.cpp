@@ -373,7 +373,7 @@ ObjectId EffectStackView::stackOwner() const
 bool EffectStackView::addEffect(const QString &effectId)
 {
     if (m_model) {
-        return m_model->appendEffect(effectId);
+        return m_model->appendEffect(effectId, true);
     }
     return false;
 }
