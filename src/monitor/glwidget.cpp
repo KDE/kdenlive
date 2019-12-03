@@ -646,6 +646,7 @@ void GLWidget::wheelEvent(QWheelEvent *event)
 
 void GLWidget::requestSeek(int position)
 {
+    m_consumer->set("scrub_audio", 1);
     m_producer->seek(position);
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
@@ -659,6 +660,7 @@ void GLWidget::requestSeek(int position)
 void GLWidget::requestRefresh()
 {
     if (m_producer && qFuzzyIsNull(m_producer->get_speed())) {
+        m_consumer->set("scrub_audio", 0);
         m_refreshTimer.start();
     }
 }
@@ -1616,6 +1618,7 @@ void GLWidget::switchPlay(bool play, double speed)
         }
         m_producer->set_speed(speed);
         m_consumer->start();
+        m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
     } else {
         emit paused();
@@ -1640,6 +1643,7 @@ bool GLWidget::playZone(bool loop)
     if (m_consumer->is_stopped()) {
         m_consumer->start();
     }
+    m_consumer->set("scrub_audio", 0);
     m_consumer->set("refresh", 1);
     m_isZoneMode = true;
     m_isLoopMode = loop;
@@ -1660,6 +1664,7 @@ bool GLWidget::loopClip()
     if (m_consumer->is_stopped()) {
         m_consumer->start();
     }
+    m_consumer->set("scrub_audio", 0);
     m_consumer->set("refresh", 1);
     m_isZoneMode = true;
     m_isLoopMode = true;
