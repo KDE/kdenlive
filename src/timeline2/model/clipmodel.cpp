@@ -329,7 +329,7 @@ bool ClipModel::addEffect(const QString &effectId)
     } else if (m_currentState == PlaylistState::AudioOnly) {
         return false;
     }
-    m_effectStack->appendEffect(effectId);
+    m_effectStack->appendEffect(effectId, true);
     return true;
 }
 
