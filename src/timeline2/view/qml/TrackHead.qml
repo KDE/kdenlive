@@ -37,10 +37,10 @@ Rectangle {
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
-    property int collapsedHeight: nameEdit.height + 2
     property int iconSize: root.baseUnit * 2
     property string trackTag
     property int thumbsFormat: 0
+    property int collapsedHeight: expandButton.height
     border.width: 1
     border.color: root.frameColor
     signal clicked()
@@ -414,7 +414,7 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
-                    font.pointSize: root.baseUnit * 0.9
+                    font.pointSize: root.fontUnit
                 }
                 Label {
                     id: placeHolder
@@ -425,14 +425,14 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
-                    font.pointSize: root.baseUnit * 0.9
+                    font.pointSize: root.fontUnit
                 }
                 TextField {
                     id: nameEdit
                     visible: false
                     width: parent.width
                     text: trackName
-                    font.pointSize: root.baseUnit * 0.9
+                    font.pointSize: root.fontUnit
                     style: TextFieldStyle {
                         padding.top:0
                         padding.bottom: 0
@@ -497,7 +497,7 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         parent.opacity = 0.5
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
-                        newHeight =  Math.max(collapsedHeight, newHeight)
+                        newHeight =  Math.max(trackHeadRoot.collapsedHeight, newHeight)
                         trackHeadRoot.myTrackHeight = newHeight
                     }
                 }
