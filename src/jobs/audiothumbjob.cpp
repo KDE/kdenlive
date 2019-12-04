@@ -374,7 +374,7 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_successful) {
         return false;
     }
-    QList <double>old = m_binClip->audioFrameCache;
+    QVector <double>old = m_binClip->audioFrameCache;
     QImage oldImage = m_binClip->thumbnail(m_thumbSize.width(), m_thumbSize.height()).toImage();
     QImage result = ThumbnailCache::get()->getAudioThumbnail(m_clipId);
 

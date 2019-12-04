@@ -113,9 +113,6 @@ public:
      */
     int getPlaytime() const override;
 
-    /** @brief Returns audio cache data from bin clip to display audio thumbs */
-    QVariant getAudioWaveform();
-
     /** @brief Returns the bin clip's id */
     const QString &binId() const;
 

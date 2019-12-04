@@ -517,16 +517,6 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed)
     };
 }
 
-QVariant ClipModel::getAudioWaveform()
-{
-    READ_LOCK();
-    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    if (binClip) {
-        return QVariant::fromValue(binClip->audioFrameCache);
-    }
-    return QVariant();
-}
-
 const QString &ClipModel::binId() const
 {
     return m_binClipId;
