@@ -193,7 +193,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(QList<double> audioLevels)
+void ProjectClip::updateAudioThumbnail(const QVector<double> audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;

@@ -203,7 +203,7 @@ signals:
     void audioChannelsChanged();
 
 private:
-    QList<double> m_audioLevels;
+    QVector<double> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
     QString m_binId;
