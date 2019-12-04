@@ -76,6 +76,9 @@ public:
     /* @brief Save all cached thumbs to disk */
     void saveCachedThumbs(QStringList keys);
 
+    /* @brief Reset cache (discarding all thumbs stored in memory) */
+    void clearCache();
+
 protected:
     // Constructor is protected because class is a Singleton
     ThumbnailCache();

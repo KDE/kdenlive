@@ -32,7 +32,6 @@ public:
     explicit ThumbnailProvider();
     ~ThumbnailProvider() override;
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
-    void resetProject();
 
 private:
     QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);

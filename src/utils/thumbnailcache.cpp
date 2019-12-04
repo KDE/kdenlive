@@ -80,6 +80,12 @@ public:
         m_cache[key] = m_data.emplace(m_data.begin(), std::move(data)); // reinsert without copy and store iterator
         return result;
     }
+    void clear()
+    {
+        m_data.clear();
+        m_cache.clear();
+        m_currentCost = 0;
+    }
 
 protected:
     int m_maxCost;
@@ -247,12 +253,24 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId, bool reloadAu
             }
         }
         m_storedOnDisk.erase(binId);
-    }    
+    }
+}
+
+void ThumbnailCache::clearCache()
+{
+    QMutexLocker locker(&m_mutex);
+    m_volatileCache->clear();
+    m_storedVolatile.clear();
+    m_storedOnDisk.clear();
 }
 
 // static
 QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
 {
+    if (binId.isEmpty()) {
+        *ok = false;
+        return QString();
+    }
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
     *ok = binClip != nullptr;
     return *ok ? binClip->hash() + QLatin1Char('#') + QString::number(pos) + QStringLiteral(".png") : QString();

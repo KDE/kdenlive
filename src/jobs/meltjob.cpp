@@ -246,6 +246,7 @@ bool MeltJob::startJob()
     }
     m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, (mlt_listener)consumer_frame_render));
     connect(this, &MeltJob::jobCanceled, [&] () {
+        m_showFrameEvent.reset();
         m_consumer->stop();
         return false;
     });

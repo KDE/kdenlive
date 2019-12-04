@@ -185,7 +185,11 @@ bool AudioThumbJob::computeWithFFMPEG()
         }
         m_ffmpegProcess.reset(new QProcess);
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
-        connect(this, &AudioThumbJob::jobCanceled, m_ffmpegProcess.get(), &QProcess::kill, Qt::DirectConnection);
+        connect(this, &AudioThumbJob::jobCanceled, [&]() {
+            if (m_ffmpegProcess) {
+                m_ffmpegProcess->kill();
+            }
+        });
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {

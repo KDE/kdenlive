@@ -47,6 +47,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
+#include <QUuid>
 #include <QSortFilterProxyModel>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
@@ -111,7 +112,6 @@ const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isT
 
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
-    m_thumbnailer->resetProject();
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
@@ -122,6 +122,9 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("controller", model.get());
     rootContext()->setContextProperty("timeline", m_proxy);
     rootContext()->setContextProperty("proxy", proxy);
+    // Create a unique id for this timeline to prevent thumbnails 
+    // leaking from one project to another because of qml's image caching
+    rootContext()->setContextProperty("documentId", QUuid::createUuid());
     rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); // m_transitionProxyModel.get());
     // rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
     rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));

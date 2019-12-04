@@ -1204,7 +1204,7 @@ Rectangle {
                                     }
                                     if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         continuousScrolling(mouse.x + parent.x)
-                                        var mapped = tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x
+                                        var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x)
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
                                         var posx = Math.round((parent.x)/ root.timeScale)
                                         var posy = Math.min(Math.max(0, mouse.y + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
