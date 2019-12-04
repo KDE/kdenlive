@@ -159,7 +159,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::slotSeekPosition);
+    connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);

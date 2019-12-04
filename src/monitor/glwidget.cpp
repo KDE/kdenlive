@@ -682,15 +682,12 @@ void GLWidget::refresh()
 
 bool GLWidget::checkFrameNumber(int pos, int offset)
 {
-    emit consumerPosition(pos);
     const double speed = m_producer->get_speed();
     bool isPlaying = !qFuzzyIsNull(speed);
-    if (isPlaying) {
-        m_proxy->positionFromConsumer(pos);
-    }
+    m_proxy->positionFromConsumer(pos, isPlaying);
     int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
-        if (qFuzzyIsNull(speed) && pos >= maxPos) {
+        if (!isPlaying && pos >= maxPos) {
             m_consumer->purge();
             if (!m_isLoopMode) {
                 return false;
@@ -701,7 +698,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset)
             return true;
         }
         return true;
-    } else if (!qFuzzyIsNull(speed)) {
+    } else if (isPlaying) {
         maxPos -= offset;
         if (pos >= (maxPos - 1) && speed > 0.) {
             // Playing past last clip, pause
@@ -918,6 +915,7 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     if (isActive) {
         startConsumer();
     }
+    m_consumer->set("scrub_audio", 0);
     m_proxy->setPosition(position > 0 ? position : m_producer->position());
     return error;
 }
@@ -1688,7 +1686,7 @@ MonitorProxy *GLWidget::getControllerProxy()
 
 int GLWidget::getCurrentPos() const
 {
-    return m_consumer->position();
+    return m_proxy->getPosition();
 }
 
 void GLWidget::setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model)
