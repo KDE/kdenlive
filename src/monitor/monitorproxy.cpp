@@ -40,6 +40,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_zoneOut(-1)
     , m_hasAV(false)
     , m_clipType(0)
+    , m_seekFinished(true)
 {
 }
 
@@ -79,14 +80,29 @@ bool MonitorProxy::setPosition(int pos)
     }
     m_position = pos;
     emit requestSeek(pos);
-    emit positionChanged();
+    if (m_seekFinished) {
+        m_seekFinished = false;
+        emit seekFinishedChanged();
+    }
+    emit positionChanged(pos);
     return false;
 }
 
-void MonitorProxy::positionFromConsumer(int pos)
+void MonitorProxy::positionFromConsumer(int pos, bool playing)
 {
-    m_position = pos;
-    emit positionChanged();
+    if (playing) {
+        m_position = pos;
+        emit positionChanged(pos);
+        if (!m_seekFinished) {
+            m_seekFinished = true;
+            emit seekFinishedChanged();
+        }
+    } else {
+        if (!m_seekFinished && m_position == pos) {
+            m_seekFinished = true;
+            emit seekFinishedChanged();
+        }
+    }
 }
 
 void MonitorProxy::setMarkerComment(const QString &comment)

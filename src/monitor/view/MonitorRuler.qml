@@ -9,10 +9,14 @@ Rectangle {
     id: ruler
     color: activePalette.base
     property bool containsMouse: rulerMouseArea.containsMouse
+    property bool seekingFinished : controller.seekFinished
     Rectangle {
         color: activePalette.light
         width: parent.width
         height: 1
+    }
+    onSeekingFinishedChanged : {
+        playhead.opacity = seekingFinished ? 1 : 0.5
     }
 
     Timer {
@@ -103,7 +107,7 @@ Rectangle {
         visible: controller.position > -1
         height: ruler.height * 0.5
         width: ruler.height * 1
-        opacity: 0.8
+        opacity: 1
         anchors.top: ruler.top
         fillColor: activePalette.windowText
         x: controller.position * root.timeScale - (width / 2)

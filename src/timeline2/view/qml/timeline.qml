@@ -248,6 +248,12 @@ Rectangle {
     property int viewActiveTrack: timeline.activeTrack
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
+    property bool seekingFinished : proxy.seekFinished
+
+
+    onSeekingFinishedChanged : {
+        playhead.opacity = seekingFinished ? 1 : 0.5
+    }
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
