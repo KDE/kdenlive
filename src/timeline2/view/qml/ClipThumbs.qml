@@ -15,8 +15,8 @@ Row {
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
 
     function reload() {
-        clipRoot.baseThumbPath =''
-        clipRoot.baseThumbPath = clipRoot.variableThumbs ? '' : 'image://thumbnail/' + clipRoot.binId + '/' + (clipRoot.isImage ? '#0' : '#')
+        console.log('+++++\n\ntriggered ML thumb reload\n\n++++++++++++++')
+        clipRoot.baseThumbPath = clipRoot.variableThumbs ? '' : 'image://thumbnail/' + clipRoot.binId + '/' + Math.random() + '/' + (clipRoot.isImage ? '#0' : '#')
     }
 
     Repeater {

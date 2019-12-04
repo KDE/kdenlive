@@ -849,6 +849,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
 
 Bin::~Bin()
 {
+    pCore->jobManager()->slotCancelJobs();
     blockSignals(true);
     m_proxyModel->selectionModel()->blockSignals(true);
     setEnabled(false);
@@ -1181,6 +1182,7 @@ void Bin::setDocument(KdenliveDoc *project)
     delete m_itemView;
     m_itemView = nullptr;
     m_doc = project;
+    m_infoLabel->slotSetJobCount(0);
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
     m_iconSize = QSize(iconHeight * pCore->getCurrentDar(), iconHeight);
     setEnabled(true);

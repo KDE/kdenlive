@@ -36,11 +36,6 @@ ThumbnailProvider::ThumbnailProvider()
 
 ThumbnailProvider::~ThumbnailProvider() = default;
 
-void ThumbnailProvider::resetProject()
-{
-    // m_producers.clear();
-}
-
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QImage result;

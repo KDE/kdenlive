@@ -66,7 +66,6 @@ Rectangle {
     property bool hasAudio
     property bool canBeAudio
     property bool canBeVideo
-    property string hash: 'ccc' //TODO
     property double speed: 1.0
     property color borderColor: 'black'
     property bool forceReloadThumb
@@ -207,9 +206,7 @@ Rectangle {
 */
     property bool variableThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
     property bool isImage: itemType == ProducerType.Image
-    property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + (isImage ? '#0' : '#')
-    property string inThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(inPoint * speed)
-    property string outThumbPath: (variableThumbs || isImage ) ? baseThumbPath : baseThumbPath + Math.floor(outPoint * speed)
+    property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/' + (isImage ? '#0' : '#')
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot

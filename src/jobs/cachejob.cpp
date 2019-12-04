@@ -51,8 +51,8 @@ CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount, int i
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
     Q_ASSERT(item != nullptr && item->itemType() == AbstractProjectItem::ClipItem);
     connect(this, &CacheJob::jobCanceled, [&] () {
-        m_clipId.clear();
         m_done = true;
+        m_clipId.clear();
     });
 }
 
@@ -103,7 +103,7 @@ bool CacheJob::startJob()
         frame->set("deinterlace_method", "onefield");
         frame->set("top_field_first", -1);
         frame->set("rescale.interp", "nearest");
-        if (!m_done && (frame != nullptr) && frame->is_valid()) {
+        if (frame != nullptr && frame->is_valid()) {
             QImage result = KThumb::getFrame(frame.data());
             ThumbnailCache::get()->storeThumbnail(m_clipId, i, result, true);
         }

@@ -197,6 +197,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
                                        &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
+    ThumbnailCache::get()->clearCache();
     pCore->bin()->setDocument(doc);
     m_project = doc;
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
@@ -501,6 +502,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_fileRevert->setEnabled(true);
 
     delete m_progressDialog;
+    ThumbnailCache::get()->clearCache();
     pCore->monitorManager()->resetDisplay();
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     m_progressDialog = new QProgressDialog(pCore->window());

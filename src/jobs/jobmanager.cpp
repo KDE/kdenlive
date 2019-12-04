@@ -212,6 +212,7 @@ void JobManager::slotCancelJobs()
 {
     QWriteLocker locker(&m_lock);
     for (const auto &j : m_jobs) {
+        j.second->m_processed = true;
         for (const std::shared_ptr<AbstractClipJob> &job : j.second->m_job) {
             job->jobCanceled();
         }
@@ -249,7 +250,9 @@ void JobManager::createJob(const std::shared_ptr<Job_t> &job)
         auto binId = it.first;
         connect(job->m_job[i].get(), &AbstractClipJob::jobProgress, [job, i, binId](int p) {
             job->m_progress[i] = std::max(job->m_progress[i], p);
-            pCore->projectItemModel()->onItemUpdated(binId, AbstractProjectItem::JobProgress);
+            if (pCore) {
+                pCore->projectItemModel()->onItemUpdated(binId, AbstractProjectItem::JobProgress);
+            }
         });
     }
     connect(&job->m_future, &QFutureWatcher<bool>::started, this, &JobManager::updateJobCount);
@@ -367,7 +370,9 @@ void JobManager::slotManageFinishedJob(int id)
     if (m_jobsByParents.count(id) > 0) {
         std::vector<int> children = m_jobsByParents[id];
         for (int cid : children) {
-            QtConcurrent::run(this, &JobManager::createJob, m_jobs[cid]);
+            if (!m_jobs[cid]->m_processed) {
+                QtConcurrent::run(this, &JobManager::createJob, m_jobs[cid]);
+            }
         }
         m_jobsByParents.erase(id);
     }
