@@ -90,7 +90,7 @@ Rectangle {
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
             // Vertical scroll
-            var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + scrollView.__horizontalScrollBar.height + cornerstone.height)
+            var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + scrollView.__horizontalScrollBar.height + ruler.height)
             scrollView.flickableItem.contentY = Math.max(newScroll, 0)
         } else {
             // Horizontal scroll
@@ -732,17 +732,12 @@ Rectangle {
     Row {
         Column {
             id: headerContainer
+            width: headerWidth
             z: 1
-            Rectangle {
-                id: cornerstone
-                property bool selected: false
+            Item {
                 // Padding between toolbar and track headers.
-                width: headerWidth
+                width: parent.width
                 height: ruler.height
-                color: 'transparent' //selected? shotcutBlue : activePalette.window
-                border.color: selected? 'red' : 'transparent'
-                border.width: selected? 1 : 0
-                z: 1
                 Button {
                     text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : "M"
                     anchors.fill: parent
@@ -765,16 +760,18 @@ Rectangle {
                 // Non-slider scroll area for the track headers.
                 id: headerFlick
                 contentY: scrollView.flickableItem.contentY
-                width: headerWidth
-                height: 100
+                width: parent.width
+                y: ruler.height
+                height: root.height - ruler.height
                 interactive: false
+                clip: true
 
                 MouseArea {
                     width: trackHeaders.width
                     height: trackHeaders.height
                     acceptedButtons: Qt.NoButton
                     onWheel: {
-                        var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.__horizontalScrollBar.height + cornerstone.height)
+                        var newScroll = Math.min(scrollView.flickableItem.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.__horizontalScrollBar.height + ruler.height)
                         scrollView.flickableItem.contentY = Math.max(newScroll, 0)
                     }
                 }
@@ -871,8 +868,9 @@ Rectangle {
             id: tracksArea
             property real clickX
             property real clickY
-            width: root.width - headerWidth
+            width: root.width - root.headerWidth
             height: root.height
+            x: root.headerWidth
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton
