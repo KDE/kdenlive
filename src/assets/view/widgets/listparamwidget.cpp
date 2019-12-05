@@ -117,11 +117,9 @@ void ListParamWidget::slotRefresh()
             const QString &entry = values.at(j);
             m_list->addItem(values.at(j).section(QLatin1Char('/'), -1), entry);
             if (!entry.isEmpty() && (entry.endsWith(QLatin1String(".png")) || entry.endsWith(QLatin1String(".pgm")))) {
-                if (!MainWindow::m_lumacache.contains(entry)) {
-                    QImage pix(entry);
-                    MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+                if (MainWindow::m_lumacache.contains(entry)) {
+                    m_list->setItemIcon(j + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
                 }
-                m_list->setItemIcon(j + 1, QPixmap::fromImage(MainWindow::m_lumacache.value(entry)));
             }
         }
         if (!value.isEmpty() && values.contains(value)) {

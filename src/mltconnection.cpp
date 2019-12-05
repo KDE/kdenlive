@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KUrlRequesterDialog>
 #include <config-kdenlive.h>
 #include <klocalizedstring.h>
+#include <QtConcurrent>
 
 #include "kdenlive_debug.h"
 #include <QFile>
@@ -181,6 +182,7 @@ void MltConnection::refreshLumas()
     fileFilters << QStringLiteral("*.png") << QStringLiteral("*.pgm");
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
+    QStringList allImagefiles;
     for (const QString &folder : customLumas) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
@@ -201,6 +203,9 @@ void MltConnection::refreshLumas()
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             MainWindow::m_lumaFiles.insert(format, imagefiles);
+            allImagefiles << imagefiles;
         }
     }
+    allImagefiles.removeDuplicates();
+    QtConcurrent::run(pCore.get(), &Core::buildLumaThumbs, allImagefiles);
 }

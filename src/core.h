@@ -233,6 +233,8 @@ public slots:
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>());
     void displayBinLogMessage(const QString &text, int type, const QString &logInfo);
+    /** @brief Create small thumbnails for luma used in compositions */
+    void buildLumaThumbs(const QStringList &values);
 
 signals:
     void coreIsReady();
