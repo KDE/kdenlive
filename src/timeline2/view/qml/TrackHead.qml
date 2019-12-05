@@ -377,8 +377,10 @@ Rectangle {
             Rectangle {
                 id: trackLabel
                 color: 'transparent'
-                Layout.fillWidth: true
                 radius: 2
+                Layout.fillWidth: true
+                Layout.rightMargin: 2
+                Layout.leftMargin: 2
                 border.color: trackNameMouseArea.containsMouse ? activePalette.highlight : 'transparent'
                 height: nameEdit.height
                 visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height + recLayout.height)
@@ -437,7 +439,8 @@ Rectangle {
                         padding.top:0
                         padding.bottom: 0
                         background: Rectangle {
-                            color: activePalette.base
+                            radius: 2
+                            color: activePalette.window
                             anchors.fill: parent
                         }
                     }
