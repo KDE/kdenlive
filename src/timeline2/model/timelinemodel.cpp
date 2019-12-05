@@ -555,7 +555,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
-        qDebug() << "// CLIP MISMATCH: " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
+        qDebug() << "// CLIP MISMATC FOR TK: "<<trackId<< ", " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };
@@ -590,7 +590,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             return false;
         }
     }
-    ok = ok & getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
+    ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -1489,14 +1489,14 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
         if (!moveMirrorTracks) {
-            if (getTrackById(old_track_ids[itemId])->isAudioTrack()) {
+            if (getTrackById_const(old_track_ids[itemId])->isAudioTrack()) {
                 // Master clip is audio, so reverse delta for video clips
                 video_delta = 0;
             } else {
                 audio_delta = 0;
             }
         } else {
-            if (getTrackById(old_track_ids[itemId])->isAudioTrack()) {
+            if (getTrackById_const(old_track_ids[itemId])->isAudioTrack()) {
                 // Master clip is audio, so reverse delta for video clips
                 video_delta = -delta_track;
             } else {
@@ -1510,17 +1510,64 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     bool updateThisView = allowViewRefresh;
     if (delta_track == 0) {
         // Special case, we are moving on same track, avoid too many calculations
+        // First pass, check for collisions and suggest better delta
+        QVector <int> processedTracks;
+        for (int item : sorted_clips) {
+            int current_track_id = getItemTrackId(item);
+            if (processedTracks.contains(current_track_id)) {
+                // We only check the first clip for each track since they are sorted depending on the move direction
+                continue;
+            }
+            processedTracks << current_track_id;
+            if (!allowedTracks.isEmpty() && !allowedTracks.contains(current_track_id)) {
+                continue;
+            }
+            int current_in = getItemPosition(item);
+            int playtime = getItemPlaytime(item);
+            int target_position = current_in + delta_pos;
+            if (isClip(item)) {
+                if (delta_pos < 0) {
+                    if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime)) {
+                        int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1);
+                        if (newStart == current_in - 1) {
+                            // No move possible, abort
+                            bool undone = local_undo();
+                            Q_ASSERT(undone);
+                            return false;
+                        }
+                        delta_pos = qMax(delta_pos, newStart - current_in);
+                    }
+                } else {
+                    int moveEnd = target_position + playtime;
+                    int moveStart = qMax(current_in + playtime, target_position);
+                    if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart)) {
+                        int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime);
+                        if (newStart == current_in + playtime) {
+                            // No move possible, abort
+                            bool undone = local_undo();
+                            Q_ASSERT(undone);
+                            return false;
+                        }
+                        delta_pos = qMin(delta_pos, newStart - (current_in + playtime));
+                    }
+                    
+                }
+            }
+        }
         for (int item : sorted_clips) {
             int current_track_id = getItemTrackId(item);
             if (!allowedTracks.isEmpty() && !allowedTracks.contains(current_track_id)) {
                 continue;
             }
-            int target_position = getItemPosition(item) + delta_pos;
+            int current_in = getItemPosition(item);
+            int target_position = current_in + delta_pos;
             if (isClip(item)) {
-                ok = ok && requestClipMove(item, current_track_id, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
+                ok = requestClipMove(item, current_track_id, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
             } else {
-                ok = ok &&
-                    requestCompositionMove(item, current_track_id, m_allCompositions[item]->getForcedTrack(), target_position, updateThisView, finalMove, local_undo, local_redo);
+                ok = requestCompositionMove(item, current_track_id, m_allCompositions[item]->getForcedTrack(), target_position, updateThisView, finalMove, local_undo, local_redo);
+            }
+            if (!ok) {
+                break;
             }
         }
         if (!ok) {

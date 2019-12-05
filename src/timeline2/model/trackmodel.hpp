@@ -266,6 +266,8 @@ protected:
     bool importEffects(std::weak_ptr<Mlt::Service> service);
     /* @brief Copy effects from anoter effect stack */
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
+    
+    bool isAvailable(int position, int duration);
 
 public slots:
     /*Delete the current track and all its associated clips */

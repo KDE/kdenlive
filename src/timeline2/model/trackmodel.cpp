@@ -1332,3 +1332,15 @@ void TrackModel::unlock()
         ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
     }
 }
+
+
+bool TrackModel::isAvailable(int position, int duration)
+{
+    //TODO: warning, does not work on second playlist
+    int start_clip = m_playlists[0].get_clip_index_at(position);
+    int end_clip = m_playlists[0].get_clip_index_at(position + duration - 1);
+    if (start_clip != end_clip) {
+        return false;
+    }
+    return m_playlists[0].is_blank(start_clip);
+}
