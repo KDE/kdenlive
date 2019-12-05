@@ -201,6 +201,19 @@ void Core::initGUI(const QUrl &Url)
     QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
 }
 
+void Core::buildLumaThumbs(const QStringList &values)
+{
+    for (auto &entry : values) {
+        if (MainWindow::m_lumacache.contains(entry)) {
+            continue;
+        }
+        QImage pix(entry);
+        if (!pix.isNull()) {
+            MainWindow::m_lumacache.insert(entry, pix.scaled(50, 30, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+        }
+    }
+}
+
 std::unique_ptr<Core> &Core::self()
 {
     if (!m_self) {
