@@ -249,7 +249,8 @@ Rectangle {
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
     property bool seekingFinished : proxy.seekFinished
-
+    property int scrollMin: scrollView.flickableItem.contentX / timeline.scaleFactor
+    property int scrollMax: scrollMin + scrollView.viewport.width / timeline.scaleFactor
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5

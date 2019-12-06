@@ -71,6 +71,7 @@ Rectangle {
     property bool forceReloadThumb
     property bool isComposition: false
     property var groupTrimData
+    property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
     width : clipDuration * timeScale;
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
@@ -164,9 +165,6 @@ Rectangle {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
-        if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
-            thumbsLoader.item.reload();
-        }
     }
     onScrollXChanged: {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
