@@ -41,6 +41,7 @@
 #include <QSpinBox>
 #include <QDoubleSpinBox>
 #include <QLabel>
+#include <QMouseEvent>
 #include <QStyle>
 #include <QFontDatabase>
 
