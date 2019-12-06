@@ -269,9 +269,7 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default">
-      <caption>Kdenlive Timeline</caption>
-      <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image>
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
