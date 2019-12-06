@@ -566,7 +566,6 @@ void TimelineController::addTrack(int tid)
             }
             m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true);
         }
-        m_model->buildTrackCompositing(true);
         if (audioRecTrack) {
             m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
         }
@@ -582,7 +581,6 @@ void TimelineController::deleteTrack(int tid)
     if (d->exec() == QDialog::Accepted) {
         int selectedTrackIx = d->selectedTrackId();
         m_model->requestTrackDeletion(selectedTrackIx);
-        m_model->buildTrackCompositing(true);
         if (m_activeTrack == -1) {
             setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
         }

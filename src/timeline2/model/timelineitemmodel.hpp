@@ -92,15 +92,14 @@ public:
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, const QVector<int> &roles) override;
     void notifyChange(const QModelIndex &topleft, const QModelIndex &bottomright, int role) override;
 
-    /** @brief Rebuild track compositing */
-    void buildTrackCompositing(bool rebuild = false);
-
     /** @brief Import track effects */
     void importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service);
 
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
-
+    
+    /** @brief Rebuild track compositing */
+    void buildTrackCompositing(bool rebuild = false) override;
     void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _beginInsertRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;
     void _endRemoveRows() override;

@@ -120,8 +120,8 @@ Rectangle {
     }
 
     onKeyframeModelChanged: {
-        console.log('keyframe model changed............')
         if (effectRow.keyframecanvas) {
+            console.log('keyframe model changed............')
             effectRow.keyframecanvas.requestPaint()
         }
     }

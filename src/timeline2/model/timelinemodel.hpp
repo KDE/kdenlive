@@ -505,7 +505,7 @@ public:
     */
     bool requestTrackInsertion(int pos, int &id, const QString &trackName = QString(), bool audioTrack = false);
     /* Same function, but accumulates undo and redo*/
-    bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool updateView = true);
+    bool requestTrackInsertion(int pos, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo);
 
     /* @brief Delete track with given id
        This also deletes all the clips contained in the track.
@@ -696,7 +696,7 @@ protected:
     /* @brief Deregister and destruct the track with given id.
        @parame updateView Whether to send updates to the model. Must be false when called from a constructor/destructor
      */
-    Fun deregisterTrack_lambda(int id, bool updateView = false);
+    Fun deregisterTrack_lambda(int id);
 
     /* @brief Return a lambda that deregisters and destructs the clip with given id.
        Note that the clip must already be deleted from its track and groups.
@@ -825,6 +825,8 @@ protected:
 
     // what follows are some virtual function that corresponds to the QML. They are implemented in TimelineItemModel
 protected:
+    /** @brief Rebuild track compositing */
+    virtual void buildTrackCompositing(bool rebuild = false) = 0;
     virtual void _beginRemoveRows(const QModelIndex &, int, int) = 0;
     virtual void _beginInsertRows(const QModelIndex &, int, int) = 0;
     virtual void _endRemoveRows() = 0;
