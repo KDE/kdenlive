@@ -10,8 +10,6 @@ Row {
     visible: !isAudio
     opacity: parentTrack.isAudio || parentTrack.isHidden || clipStatus == ClipState.Disabled ? 0.2 : 1
     property int thumbWidth: container.height * 16.0/9.0
-    property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
-    property int scrollEnd: scrollStart + scrollView.viewport.width
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
 
     function reload() {
@@ -41,7 +39,7 @@ Row {
             cache: enableCache
             property int currentFrame: Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
-            source: thumbRepeater.count < 3 ? (index == 0 ? clipRoot.baseThumbPath + thumbRepeater.thumbStartFrame : clipRoot.baseThumbPath + thumbRepeater.thumbEndFrame) : (index * width < thumbRow.scrollStart - width || index * width > thumbRow.scrollEnd) ? '' : clipRoot.baseThumbPath + currentFrame
+            source: thumbRepeater.count < 3 ? (index == 0 ? clipRoot.baseThumbPath + thumbRepeater.thumbStartFrame : clipRoot.baseThumbPath + thumbRepeater.thumbEndFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.viewport.width) ? '' : clipRoot.baseThumbPath + currentFrame
         }
     }
 }

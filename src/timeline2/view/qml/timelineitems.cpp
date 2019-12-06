@@ -83,7 +83,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
-    Q_PROPERTY(bool showItem MEMBER m_showItem NOTIFY showItemChanged)
+    Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
 
 public:
@@ -92,9 +92,10 @@ public:
         setAntialiasing(false);
         // setClip(true);
         setEnabled(false);
-        setRenderTarget(QQuickPaintedItem::FramebufferObject);
-        setMipmap(true);
-        setTextureSize(QSize(width(), height()));
+        m_showItem = false;
+        //setRenderTarget(QQuickPaintedItem::FramebufferObject);
+        //setMipmap(true);
+        setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
             if (!m_binId.isEmpty() && m_audioLevels.isEmpty()) {
                 m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
@@ -104,6 +105,22 @@ public:
         connect(this, &TimelineWaveform::propertyChanged, [&]() {
             update();
         });
+    }
+    
+    bool showItem() const
+    {
+        return m_showItem;
+    }
+    void setShowItem(bool show)
+    {
+        m_showItem = show;
+        if (show) {
+            setTextureSize(QSize(width(), height()));
+            update();
+        } else {
+            // Free memory
+            setTextureSize(QSize(1, 1));
+        }
     }
 
     void paint(QPainter *painter) override
