@@ -217,6 +217,7 @@ private:
     QAction *m_editMarker;
     KMessageWidget *m_infoMessage;
     int m_forceSizeFactor;
+    int m_offset;
     MonitorSceneType m_lastMonitorSceneType;
     MonitorAudioLevel *m_audioMeterWidget;
     QElapsedTimer m_droppedTimer;
