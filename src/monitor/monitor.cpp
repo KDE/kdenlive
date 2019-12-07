@@ -143,6 +143,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
+    , m_offset(id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);
@@ -1179,7 +1180,11 @@ void Monitor::slotRewindOneFrame(int diff)
 void Monitor::slotForwardOneFrame(int diff)
 {
     slotActivateMonitor();
-    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() + diff);
+    if (m_id == Kdenlive::ClipMonitor) {
+        m_glMonitor->getControllerProxy()->setPosition(qMin(m_glMonitor->duration(), m_glMonitor->getCurrentPos() + diff));
+    } else {
+        m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() + diff);
+    }
 }
 
 void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel)
@@ -1650,7 +1655,7 @@ void Monitor::updateAudioForAnalysis()
 
 void Monitor::onFrameDisplayed(const SharedFrame &frame)
 {
-    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration)) {
+    if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_offset, m_playAction->isActive())) {
         m_playAction->setActive(false);
     }
     m_monitorManager->frameDisplayed(frame);

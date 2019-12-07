@@ -680,10 +680,9 @@ void GLWidget::refresh()
     m_consumer->set("refresh", 1);
 }
 
-bool GLWidget::checkFrameNumber(int pos, int offset)
+bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
-    bool isPlaying = !qFuzzyIsNull(speed);
     m_proxy->positionFromConsumer(pos, isPlaying);
     int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
@@ -716,7 +715,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset)
             return false;
         }
     }
-    return true;
+    return isPlaying;
 }
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
@@ -1387,7 +1386,6 @@ void GLWidget::on_gl_nosync_frame_show(mlt_consumer, void *self, mlt_frame frame
 void GLWidget::on_gl_frame_show(mlt_consumer, void *self, mlt_frame frame_ptr)
 {
     Mlt::Frame frame(frame_ptr);
-    qDebug()<<"== SHOWING GL FRAME: "<<frame.get_position();
     if (frame.get_int("rendered") != 0) {
         auto *widget = static_cast<GLWidget *>(self);
         int timeout = (widget->consumer()->get_int("real_time") > 0) ? 0 : 1000;
