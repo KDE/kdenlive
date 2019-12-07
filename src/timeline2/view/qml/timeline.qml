@@ -892,7 +892,7 @@ Rectangle {
                     }
                 } else {
                     var delta = wheel.modifiers & Qt.ShiftModifier ? timeline.fps() : 1
-                    proxy.position = Math.min(root.consumerPosition - (wheel.angleDelta.y > 0 ? delta : -delta), timeline.fullDuration - 1)
+                    proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, timeline.fullDuration - 1)
                 }
             }
             onPressed: {

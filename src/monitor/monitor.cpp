@@ -1173,7 +1173,7 @@ void Monitor::slotForward(double speed)
 void Monitor::slotRewindOneFrame(int diff)
 {
     slotActivateMonitor();
-    m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() - diff);
+    m_glMonitor->getControllerProxy()->setPosition(qMax(0, m_glMonitor->getCurrentPos() - diff));
 }
 
 void Monitor::slotForwardOneFrame(int diff)
