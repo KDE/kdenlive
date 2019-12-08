@@ -427,11 +427,6 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
                 // Found orphaned autosave file
                 orphanedFile = stale;
                 break;
-            } else {
-                // Another Kdenlive instance is probably handling this autosave file
-                staleFiles.removeAll(stale);
-                delete stale;
-                continue;
             }
         }
     }
@@ -442,14 +437,13 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
             doOpenFile(url, orphanedFile);
             return true;
         }
-        // remove the stale files
-        for (KAutoSaveFile *stale : staleFiles) {
-            stale->open(QIODevice::ReadWrite);
-            delete stale;
-        }
-
-        return false;
     }
+    // remove the stale files
+    for (KAutoSaveFile *stale : staleFiles) {
+        stale->open(QIODevice::ReadWrite);
+        delete stale;
+    }
+    
     return false;
 }
 
