@@ -466,6 +466,9 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &clipData)
 
 void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, Fun &undo, Fun &redo)
 {
+    if (dataMap.isEmpty()) {
+        return;
+    }
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
     if (!clip) {
