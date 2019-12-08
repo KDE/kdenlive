@@ -25,7 +25,7 @@ import QtQml.Models 2.2
 
 Rectangle
 {
-    property alias kfrCount : keyframes.count
+    property int kfrCount : keyframes.count
     anchors.fill: parent
     color: Qt.rgba(1,1,0.8, 0.3)
     id: keyframeContainer
@@ -241,8 +241,10 @@ Rectangle
     }
     Canvas {
         id: keyframecanvas
-        anchors.fill: parent
         contextType: "2d"
+        renderStrategy: Canvas.Threaded
+        width: kfrCount > 1 ? parent.width : 0
+        height: kfrCount > 1 ? parent.height : 0
         Component {
             id: comp
             PathCurve { }
@@ -258,7 +260,7 @@ Rectangle
         }
 
         onPaint: {
-            if (keyframes.count == 0) {
+            if (kfrCount < 2) {
                 return
             }
             context.beginPath()
