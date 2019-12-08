@@ -70,6 +70,7 @@ Rectangle {
     property color borderColor: 'black'
     property bool forceReloadThumb
     property bool isComposition: false
+    property bool hideClipViews
     property var groupTrimData
     property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
     width : clipDuration * timeScale;
@@ -80,6 +81,10 @@ Rectangle {
     signal initGroupTrim(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
+    
+    onScrollStartChanged: {
+        clipRoot.hideClipViews = scrollStart > width || scrollStart + scrollView.viewport.width < 0
+    }
 
     onIsGrabbedChanged: {
         if (clipRoot.isGrabbed) {
@@ -298,7 +303,7 @@ Rectangle {
                 asynchronous: true
                 visible: status == Loader.Ready
                 anchors.fill: parent
-                source: parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
+                source: clipRoot.hideClipViews ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
                 onLoaded: {
                     item.reload()
                 }
@@ -462,7 +467,7 @@ Rectangle {
                 inPoint: clipRoot.inPoint
                 outPoint: clipRoot.outPoint
                 masterObject: clipRoot
-                kfrModel: clipRoot.keyframeModel
+                kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel
             }
         }
 

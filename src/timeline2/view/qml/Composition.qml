@@ -61,6 +61,8 @@ Item {
     property double speed: 1.0
     property color color: displayRect.color
     property color borderColor: 'black'
+    property bool hideCompoViews
+    property int scrollStart: scrollView.flickableItem.contentX - modelStart * timeline.scaleFactor
 
     signal moved(var clip)
     signal dragged(var clip, var mouse)
@@ -70,6 +72,10 @@ Item {
     signal trimmedIn(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse)
     signal trimmedOut(var clip)
+
+    onScrollStartChanged: {
+        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.viewport.width < 0
+    }
 
     onKeyframeModelChanged: {
         if (effectRow.keyframecanvas) {
@@ -236,7 +242,7 @@ Item {
                 inPoint: 0
                 outPoint: compositionRoot.clipDuration
                 masterObject: compositionRoot
-                kfrModel: compositionRoot.keyframeModel
+                kfrModel: compositionRoot.hideCompoViews ? 0 : compositionRoot.keyframeModel
             }
         }
         /*Drag.active: mouseArea.drag.active
