@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.6
+import QtQuick 2.11
 import QtQuick.Controls 1.4
-import QtQuick.Controls 2.2 as NEWQML
-import QtQuick.Controls.Styles 1.2
-import QtQuick.Layouts 1.3
+import QtQuick.Controls 2.4 as NEWQML
+import QtQuick.Controls.Styles 1.4
+import QtQuick.Layouts 1.11
 
 Rectangle {
     id: trackHeadRoot

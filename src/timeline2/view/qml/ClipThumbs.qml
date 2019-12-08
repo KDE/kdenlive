@@ -1,6 +1,6 @@
-import QtQuick 2.6
-import QtQuick.Controls 2.2
-import QtQml.Models 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
+import QtQml.Models 2.11
 import com.enums 1.0
 
 

@@ -1,6 +1,6 @@
-import QtQuick 2.6
+import QtQuick 2.11
 import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.11
 
 Item {
     id: recContainer

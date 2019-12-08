@@ -1,7 +1,7 @@
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.4
 import QtQuick.Window 2.2
 import Kdenlive.Controls 1.0
-import QtQuick 2.4
+import QtQuick 2.11
 
 Item {
     id: root
