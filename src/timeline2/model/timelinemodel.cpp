@@ -1397,8 +1397,21 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     Fun local_redo = []() { return true; };
     std::unordered_set<int> all_clips;
     std::unordered_set<int> all_compositions;
-    // Separate clips from compositions to sort
+    int lowerTrack = -1;
+    int upperTrack = -1;
+    
+    // Separate clips from compositions to sort and check source tracks
     for (int affectedItemId : all_items) {
+        if (delta_track != 0) {
+            // Check if an upper / lower move is possible
+            const int trackPos = getTrackPosition(getItemTrackId(affectedItemId));
+            if (lowerTrack == -1 || lowerTrack > trackPos) {
+                lowerTrack = trackPos;
+            }
+            if (upperTrack == -1 || upperTrack < trackPos) {
+                upperTrack = trackPos;
+            }
+        }
         if (isClip(affectedItemId)) {
             all_clips.insert(affectedItemId);
         } else {
@@ -1409,18 +1422,18 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Sort clips first
     std::vector<int> sorted_clips{std::make_move_iterator(std::begin(all_clips)), std::make_move_iterator(std::end(all_clips))};
     std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_pos](const int &clipId1, const int &clipId2) {
-        int p1 = m_allClips[clipId1]->getPosition();
-        int p2 = m_allClips[clipId2]->getPosition();
+        const int p1 = m_allClips[clipId1]->getPosition();
+        const int p2 = m_allClips[clipId2]->getPosition();
         return delta_pos > 0 ? p2 <= p1 : p1 <= p2;
     });
 
     // Sort compositions. We need to delete in the move direction from top to bottom
     std::vector<int> sorted_compositions{std::make_move_iterator(std::begin(all_compositions)), std::make_move_iterator(std::end(all_compositions))};
     std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](const int &clipId1, const int &clipId2) {
-        int p1 = delta_track < 0
+        const int p1 = delta_track < 0
                      ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
                      : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : m_allCompositions[clipId1]->getPosition();
-        int p2 = delta_track < 0
+        const int p2 = delta_track < 0
                      ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
                      : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : m_allCompositions[clipId2]->getPosition();
         return delta_track == 0 ? (delta_pos > 0 ? p2 <= p1 : p1 <= p2) : p1 <= p2;
@@ -1442,6 +1455,35 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Second step, reinsert clips at correct positions
     int audio_delta, video_delta;
     audio_delta = video_delta = delta_track;
+    bool masterIsAudio = getTrackById_const(getItemTrackId(itemId))->isAudioTrack();
+    if (delta_track < 0) {
+        int lowerPos = lowerTrack + delta_track;
+        bool lowerTrackIsAudio = getTrackById_const(getTrackIndexFromPosition(lowerTrack))->isAudioTrack();
+        if (masterIsAudio && lowerTrackIsAudio && lowerPos < 0) {
+            // We are moving a group with audio clips down, no space below
+            delta_track = 0;
+        } else if (!masterIsAudio && !lowerTrackIsAudio) {
+            // Moving a group of video clips
+            if (lowerPos < 0 || getTrackById_const(getTrackIndexFromPosition(lowerPos))->isAudioTrack()) {
+                // Moving to a non matching track
+                delta_track = 0;
+            }
+        }
+    } else if (delta_track > 0) {
+        int upperPos = upperTrack + delta_track;
+        bool upperTrackIsAudio = getTrackById_const(getTrackIndexFromPosition(upperTrack))->isAudioTrack();
+        if (masterIsAudio && upperTrackIsAudio) {
+            if (upperPos >= getTracksCount() || !getTrackById_const(getTrackIndexFromPosition(upperPos))->isAudioTrack()) {
+                // Moving to a non matching track
+                delta_track = 0;
+            }
+        } else if (!masterIsAudio && !upperTrackIsAudio) {
+            if (upperPos >= getTracksCount() || getTrackById_const(getTrackIndexFromPosition(upperPos))->isAudioTrack()) {
+                delta_track = 0;
+            }
+        }
+    }
+    
     if (delta_track == 0 && updateView) {
         updateView = false;
         allowViewRefresh = false;
@@ -1489,14 +1531,14 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
         if (!moveMirrorTracks) {
-            if (getTrackById_const(old_track_ids[itemId])->isAudioTrack()) {
+            if (masterIsAudio) {
                 // Master clip is audio, so reverse delta for video clips
                 video_delta = 0;
             } else {
                 audio_delta = 0;
             }
         } else {
-            if (getTrackById_const(old_track_ids[itemId])->isAudioTrack()) {
+            if (masterIsAudio) {
                 // Master clip is audio, so reverse delta for video clips
                 video_delta = -delta_track;
             } else {
