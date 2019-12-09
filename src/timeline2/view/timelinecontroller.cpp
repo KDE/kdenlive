@@ -2366,8 +2366,8 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     Fun local_redo = []() { return true; };
 
     // Sort clips. We need to delete from right to left to avoid confusing the view
-    std::vector<int> sorted_clips(all_items.begin(), all_items.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](const int clipId1, const int clipId2) {
+    std::vector<int> sorted_clips{std::make_move_iterator(std::begin(all_items)), std::make_move_iterator(std::end(all_items))};
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](const int &clipId1, const int &clipId2) {
         int p1 = m_model->isClip(clipId1) ? m_model->m_allClips[clipId1]->getPosition() : m_model->m_allCompositions[clipId1]->getPosition();
         int p2 = m_model->isClip(clipId2) ? m_model->m_allClips[clipId2]->getPosition() : m_model->m_allCompositions[clipId2]->getPosition();
         return p2 <= p1;
