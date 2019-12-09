@@ -857,8 +857,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
-                        if (delta < -modelStart) {
-                            delta = -modelStart
+                        if (maxDuration > 0 && delta < -inPoint) {
+                            delta = -inPoint
                         }
                         var newDuration =  clipDuration - delta
                         sizeChanged = true
@@ -938,6 +938,9 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
+                    if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
+                        newDuration = maxDuration - inPoint
+                    }
                     if (newDuration != clipDuration) {
                         sizeChanged = true
                         clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
