@@ -555,7 +555,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
-        qDebug() << "// CLIP MISMATC FOR TK: "<<trackId<< ", " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
+        //qDebug() << "// CLIP MISMATC FOR TK: "<<trackId<< ", " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };
@@ -1399,7 +1399,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     std::unordered_set<int> all_compositions;
     int lowerTrack = -1;
     int upperTrack = -1;
-    
+
     // Separate clips from compositions to sort and check source tracks
     for (int affectedItemId : all_items) {
         if (delta_track != 0) {

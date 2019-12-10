@@ -641,7 +641,7 @@ void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
     m_masterProducer->seek(0);
-    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
+    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
         if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {
