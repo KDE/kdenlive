@@ -8,7 +8,7 @@ Row {
     id: thumbRow
     anchors.fill: parent
     visible: !isAudio
-    opacity: parentTrack.isAudio || parentTrack.isHidden || clipStatus == ClipState.Disabled ? 0.2 : 1
+    opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
     property int thumbWidth: container.height * 16.0/9.0
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
 

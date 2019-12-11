@@ -271,14 +271,6 @@ Rectangle {
                             }
                         },
                         State {
-                            name: 'mute'
-                            when: trackHeadRoot.isDisabled
-                            PropertyChanges {
-                                target: trackLed
-                                color: 'orange'
-                            }
-                        },
-                        State {
                             name: 'inactive'
                             when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                             PropertyChanges {
