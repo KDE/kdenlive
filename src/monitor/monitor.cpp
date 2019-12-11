@@ -1147,6 +1147,7 @@ void Monitor::slotRewind(double speed)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed > -1) {
+            m_glMonitor->purgeCache();
             speed = -1;
         } else {
             speed = currentspeed * 1.5;
@@ -1162,6 +1163,7 @@ void Monitor::slotForward(double speed)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
+            m_glMonitor->purgeCache();
             speed = 1;
         } else {
             speed = currentspeed * 1.2;
