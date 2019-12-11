@@ -269,7 +269,7 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
@@ -277,6 +277,7 @@
       <caption xml:lang="et">Kdenlive helikohendused</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
+      <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
@@ -288,6 +289,7 @@
       <caption xml:lang="et">Kdenlive efektid</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="pt">Efeitos do Kdenlive</caption>
+      <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
