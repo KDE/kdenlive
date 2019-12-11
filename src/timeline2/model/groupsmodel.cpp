@@ -745,10 +745,17 @@ const QString GroupsModel::toJson() const
 {
     std::unordered_set<int> roots;
     std::transform(m_groupIds.begin(), m_groupIds.end(), std::inserter(roots, roots.begin()),
-                   [&](decltype(*m_groupIds.begin()) g) { return getRootId(g.first); });
+                   [&](decltype(*m_groupIds.begin()) g) { 
+        const int parentId = getRootId(g.first);
+        if (getType(parentId) == GroupType::Selection) {
+            // Don't insert selection group, only its child groups
+            return g.first;
+        }
+        return parentId;
+    });
     QJsonArray list;
     for (int r : roots) {
-        if (getType(r) != GroupType::Selection) list.push_back(toJson(r));
+        list.push_back(toJson(r));
     }
     QJsonDocument json(list);
     return QString(json.toJson());
