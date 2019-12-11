@@ -1372,16 +1372,16 @@ void TimelineController::initializePreview()
 
 bool TimelineController::hasPreviewTrack() const
 {
-    return (m_timelinePreview  && m_timelinePreview->hasOverlayTrack());
+    return (m_timelinePreview  && (m_timelinePreview->hasOverlayTrack() || m_timelinePreview->hasPreviewTrack()));
 }
 
 void TimelineController::updatePreviewConnection(bool enable)
 {
     if (m_timelinePreview) {
         if (enable) {
-            m_timelinePreview->reconnectTrack();
+            m_timelinePreview->enable();
         } else {
-            m_timelinePreview->disconnectTrack();
+            m_timelinePreview->disable();
         }
     }
 }
