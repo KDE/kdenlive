@@ -1529,7 +1529,11 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
 
 void TimelineController::invalidateItem(int cid)
 {
-    if (!m_timelinePreview || !m_model->isItem(cid) || m_model->getItemTrackId(cid) == -1) {
+    if (!m_timelinePreview || !m_model->isItem(cid)) {
+        return;
+    }
+    const int tid = m_model->getItemTrackId(cid);
+    if (tid == -1 || m_model->getTrackById_const(tid)->isAudioTrack()) {
         return;
     }
     int start = m_model->getItemPosition(cid);
@@ -1539,7 +1543,7 @@ void TimelineController::invalidateItem(int cid)
 
 void TimelineController::invalidateTrack(int tid)
 {
-    if (!m_timelinePreview || !m_model->isTrack(tid)) {
+    if (!m_timelinePreview || !m_model->isTrack(tid) || m_model->getTrackById_const(tid)->isAudioTrack()) {
         return;
     }
     for (auto clp : m_model->getTrackById_const(tid)->m_allClips) {

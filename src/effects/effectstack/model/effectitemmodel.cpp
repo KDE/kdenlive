@@ -196,6 +196,7 @@ void EffectItemModel::updateEnable()
 {
     filter().set("disable", isEnabled() ? 0 : 1);
     pCore->refreshProjectItem(m_ownerId);
+    pCore->invalidateItem(m_ownerId);
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
     emit dataChanged(start, end, QVector<int>());

@@ -3271,7 +3271,7 @@ void Bin::showBinFrame(QModelIndex ix, int frame)
 void Bin::invalidateClip(const QString &binId)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
-    if (clip) {
+    if (clip && clip->clipType() != ClipType::Audio) {
         QList<int> ids = clip->timelineInstances();
         for (int i : ids) {
             pCore->invalidateItem({ObjectType::TimelineClip,i});
