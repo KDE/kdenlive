@@ -1,12 +1,11 @@
-import QtQuick 2.6
-import QtQuick.Controls 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
-import QtQml.Models 2.2
+import QtQml.Models 2.11
 import com.enums 1.0
 
 Row {
     id: waveform
-    visible: clipStatus != ClipState.VideoOnly && parentTrack.isAudio && !parentTrack.isMute
     opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
     property int maxWidth: 500 + 100 * timeline.scaleFactor
     anchors.fill: parent

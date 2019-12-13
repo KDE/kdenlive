@@ -1,10 +1,10 @@
-import QtQuick 2.6
-import QtQml.Models 2.2
-import QtQuick.Controls 1.5 as OLD
+import QtQuick 2.11
+import QtQml.Models 2.11
+import QtQuick.Controls 1.4 as OLD
 import QtQuick.Controls.Styles 1.4
-import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.2
+import QtQuick.Controls 2.4
+import QtQuick.Layouts 1.11
+import QtQuick.Dialogs 1.3
 import Kdenlive.Controls 1.0
 import 'Timeline.js' as Logic
 

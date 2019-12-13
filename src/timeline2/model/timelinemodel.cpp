@@ -154,7 +154,7 @@ TimelineModel::~TimelineModel()
         all_ids.push_back(tracks.first);
     }
     for (auto tracks : all_ids) {
-        deregisterTrack_lambda(tracks, false)();
+        deregisterTrack_lambda(tracks)();
     }
     for (const auto &clip : m_allClips) {
         clip.second->deregisterClipToBin();
@@ -555,7 +555,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         }
     } else if (getTrackById_const(trackId)->trackType() != m_allClips[clipId]->clipState()) {
         // Move not allowed (audio / video mismatch)
-        qDebug() << "// CLIP MISMATC FOR TK: "<<trackId<< ", " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
+        //qDebug() << "// CLIP MISMATC FOR TK: "<<trackId<< ", " << getTrackById_const(trackId)->trackType() << " == " << m_allClips[clipId]->clipState();
         return false;
     }
     std::function<bool(void)> local_undo = []() { return true; };
@@ -1397,8 +1397,21 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     Fun local_redo = []() { return true; };
     std::unordered_set<int> all_clips;
     std::unordered_set<int> all_compositions;
-    // Separate clips from compositions to sort
+    int lowerTrack = -1;
+    int upperTrack = -1;
+
+    // Separate clips from compositions to sort and check source tracks
     for (int affectedItemId : all_items) {
+        if (delta_track != 0) {
+            // Check if an upper / lower move is possible
+            const int trackPos = getTrackPosition(getItemTrackId(affectedItemId));
+            if (lowerTrack == -1 || lowerTrack > trackPos) {
+                lowerTrack = trackPos;
+            }
+            if (upperTrack == -1 || upperTrack < trackPos) {
+                upperTrack = trackPos;
+            }
+        }
         if (isClip(affectedItemId)) {
             all_clips.insert(affectedItemId);
         } else {
@@ -1407,20 +1420,20 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     }
 
     // Sort clips first
-    std::vector<int> sorted_clips(all_clips.begin(), all_clips.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_pos](const int clipId1, const int clipId2) {
-        int p1 = m_allClips[clipId1]->getPosition();
-        int p2 = m_allClips[clipId2]->getPosition();
+    std::vector<int> sorted_clips{std::make_move_iterator(std::begin(all_clips)), std::make_move_iterator(std::end(all_clips))};
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this, delta_pos](const int &clipId1, const int &clipId2) {
+        const int p1 = m_allClips[clipId1]->getPosition();
+        const int p2 = m_allClips[clipId2]->getPosition();
         return delta_pos > 0 ? p2 <= p1 : p1 <= p2;
     });
 
     // Sort compositions. We need to delete in the move direction from top to bottom
-    std::vector<int> sorted_compositions(all_compositions.begin(), all_compositions.end());
-    std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](const int clipId1, const int clipId2) {
-        int p1 = delta_track < 0
+    std::vector<int> sorted_compositions{std::make_move_iterator(std::begin(all_compositions)), std::make_move_iterator(std::end(all_compositions))};
+    std::sort(sorted_compositions.begin(), sorted_compositions.end(), [this, delta_track, delta_pos](const int &clipId1, const int &clipId2) {
+        const int p1 = delta_track < 0
                      ? getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId())
                      : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId1]->getCurrentTrackId()) : m_allCompositions[clipId1]->getPosition();
-        int p2 = delta_track < 0
+        const int p2 = delta_track < 0
                      ? getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId())
                      : delta_track > 0 ? -getTrackMltIndex(m_allCompositions[clipId2]->getCurrentTrackId()) : m_allCompositions[clipId2]->getPosition();
         return delta_track == 0 ? (delta_pos > 0 ? p2 <= p1 : p1 <= p2) : p1 <= p2;
@@ -1442,6 +1455,35 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     // Second step, reinsert clips at correct positions
     int audio_delta, video_delta;
     audio_delta = video_delta = delta_track;
+    bool masterIsAudio = getTrackById_const(getItemTrackId(itemId))->isAudioTrack();
+    if (delta_track < 0) {
+        int lowerPos = lowerTrack + delta_track;
+        bool lowerTrackIsAudio = getTrackById_const(getTrackIndexFromPosition(lowerTrack))->isAudioTrack();
+        if (masterIsAudio && lowerTrackIsAudio && lowerPos < 0) {
+            // We are moving a group with audio clips down, no space below
+            delta_track = 0;
+        } else if (!masterIsAudio && !lowerTrackIsAudio) {
+            // Moving a group of video clips
+            if (lowerPos < 0 || getTrackById_const(getTrackIndexFromPosition(lowerPos))->isAudioTrack()) {
+                // Moving to a non matching track
+                delta_track = 0;
+            }
+        }
+    } else if (delta_track > 0) {
+        int upperPos = upperTrack + delta_track;
+        bool upperTrackIsAudio = getTrackById_const(getTrackIndexFromPosition(upperTrack))->isAudioTrack();
+        if (masterIsAudio && upperTrackIsAudio) {
+            if (upperPos >= getTracksCount() || !getTrackById_const(getTrackIndexFromPosition(upperPos))->isAudioTrack()) {
+                // Moving to a non matching track
+                delta_track = 0;
+            }
+        } else if (!masterIsAudio && !upperTrackIsAudio) {
+            if (upperPos >= getTracksCount() || getTrackById_const(getTrackIndexFromPosition(upperPos))->isAudioTrack()) {
+                delta_track = 0;
+            }
+        }
+    }
+    
     if (delta_track == 0 && updateView) {
         updateView = false;
         allowViewRefresh = false;
@@ -1489,14 +1531,14 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
         if (!moveMirrorTracks) {
-            if (getTrackById_const(old_track_ids[itemId])->isAudioTrack()) {
+            if (masterIsAudio) {
                 // Master clip is audio, so reverse delta for video clips
                 video_delta = 0;
             } else {
                 audio_delta = 0;
             }
         } else {
-            if (getTrackById_const(old_track_ids[itemId])->isAudioTrack()) {
+            if (masterIsAudio) {
                 // Master clip is audio, so reverse delta for video clips
                 video_delta = -delta_track;
             } else {
@@ -1550,7 +1592,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                         }
                         delta_pos = qMin(delta_pos, newStart - (current_in + playtime));
                     }
-                    
                 }
             }
         }
@@ -2157,7 +2198,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     TRACE(position, id, trackName, audioTrack);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo, true);
+    bool result = requestTrackInsertion(position, id, trackName, audioTrack, undo, redo);
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Insert Track"));
     }
@@ -2165,7 +2206,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     return result;
 }
 
-bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool updateView)
+bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo)
 {
     // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
@@ -2180,7 +2221,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     }
     int trackId = TimelineModel::getNextId();
     id = trackId;
-    Fun local_undo = deregisterTrack_lambda(trackId, true);
+    Fun local_undo = deregisterTrack_lambda(trackId);
     TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
     // Adjust compositions that were affecting track at previous pos
     Fun local_update = [previousId, position, this]() {
@@ -2194,21 +2235,22 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         return true;
     };
     local_update();
+    Fun rebuild_compositing = [this]() {
+        buildTrackCompositing(true);
+        return true;
+    };
+    buildTrackCompositing(true);
     auto track = getTrackById(trackId);
-    Fun local_redo = [track, position, updateView, local_update, this]() {
+    Fun local_redo = [track, position, local_update, this]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
         registerTrack(track, position, true);
         local_update();
-        if (updateView) {
-            _resetView();
-        }
+        buildTrackCompositing(true);
         return true;
     };
+    PUSH_LAMBDA(rebuild_compositing, local_undo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    if (updateView) {
-        _resetView();
-    }
     return true;
 }
 
@@ -2261,18 +2303,24 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         }
     }
     int old_position = getTrackPosition(trackId);
-    auto operation = deregisterTrack_lambda(trackId, true);
+    auto operation = deregisterTrack_lambda(trackId);
     std::shared_ptr<TrackModel> track = getTrackById(trackId);
     Fun reverse = [this, track, old_position]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
         registerTrack(track, old_position);
-        _resetView();
+        return true;
+    };
+    Fun rebuild_compositing = [this]() {
+        buildTrackCompositing(true);
         return true;
     };
     if (operation()) {
+        rebuild_compositing();
+        PUSH_LAMBDA(rebuild_compositing, local_undo);
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        PUSH_LAMBDA(rebuild_compositing, redo);
         return true;
     }
     local_undo();
@@ -2325,9 +2373,9 @@ void TimelineModel::registerGroup(int groupId)
     m_allGroups.insert(groupId);
 }
 
-Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
+Fun TimelineModel::deregisterTrack_lambda(int id)
 {
-    return [this, id, updateView]() {
+    return [this, id]() {
         // qDebug() << "DEREGISTER TRACK" << id;
         emit checkTrackDeletion(id);
         auto it = m_iteratorTable[id];                        // iterator to the element
@@ -2337,10 +2385,7 @@ Fun TimelineModel::deregisterTrack_lambda(int id, bool updateView)
         m_allTracks.erase(it);     // actual deletion of object
         m_iteratorTable.erase(id); // clean table
         beginRemoveRows(QModelIndex(), index, index);
-        endInsertRows();
-        if (updateView) {
-            _resetView();
-        }
+        endRemoveRows();
         int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
         mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
         return true;

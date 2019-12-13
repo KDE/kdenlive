@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.6
-import QtQml.Models 2.2
+import QtQuick 2.11
+import QtQml.Models 2.11
 import com.enums 1.0
 
 Column{
@@ -25,14 +25,13 @@ Column{
     property alias trackModel: trackModel.model
     property alias rootIndex : trackModel.rootIndex
     property bool isAudio
-    property bool isMute
-    property bool isHidden
     property real timeScale: 1.0
     property bool isCurrentTrack: false
     property bool isLocked: false
     property int trackInternalId : -42
     property int trackThumbsFormat
     property int itemType: 0
+    opacity: model.disabled ? 0.4 : 1
 
     /*function redrawWaveforms() {
         for (var i = 0; i < repeater.count; i++)

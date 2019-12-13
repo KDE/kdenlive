@@ -641,7 +641,7 @@ void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
     m_masterProducer->seek(0);
-    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
+    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
         if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {
@@ -659,6 +659,7 @@ void ClipController::checkAudioVideo()
         // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
         m_hasAudio = frame->get_int("test_audio") == 0;
         m_hasVideo = frame->get_int("test_image") == 0;
+        m_masterProducer->seek(0);
     } else {
         qDebug()<<"* * * *ERROR INVALID FRAME On test";
     }

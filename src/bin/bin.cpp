@@ -46,7 +46,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "project/projectmanager.h"
 #include "projectclip.h"
 #include "projectfolder.h"
-#include "projectfolderup.h"
 #include "projectitemmodel.h"
 #include "projectsortproxymodel.h"
 #include "projectsubclip.h"
@@ -151,7 +150,7 @@ public:
         int width = fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin;
         hint.setWidth(width);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
-        if (type == AbstractProjectItem::FolderItem || type == AbstractProjectItem::FolderUpItem) {
+        if (type == AbstractProjectItem::FolderItem) {
             return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
         }
         if (type == AbstractProjectItem::ClipItem) {
@@ -1383,7 +1382,7 @@ std::vector<QString> Bin::selectedClipsIds(bool excludeFolders)
     // We define the lambda that will be executed on each item of the subset of nodes of the tree that are selected
     auto itemAdder = [excludeFolders, &ids](std::vector<QString> &ids_vec, std::shared_ptr<TreeItem> item) {
         auto binItem = std::static_pointer_cast<AbstractProjectItem>(item);
-        if (!excludeFolders || (binItem->itemType() != AbstractProjectItem::FolderItem && binItem->itemType() != AbstractProjectItem::FolderUpItem)) {
+        if (!excludeFolders || binItem->itemType() != AbstractProjectItem::FolderItem) {
             ids.push_back(binItem->clipId());
         }
         return ids_vec;
@@ -1425,14 +1424,11 @@ void Bin::slotInitView(QAction *action)
             m_headerInfo = view->header()->saveState();
             m_showDate->setEnabled(true);
             m_showDesc->setEnabled(true);
+            m_upAction->setVisible(true);
+            m_upAction->setEnabled(false);
         } else {
             // remove the current folderUp item if any
-            if (m_folderUp) {
-                if (m_folderUp->parent()) {
-                    m_folderUp->parent()->removeChild(m_folderUp);
-                }
-                m_folderUp.reset();
-            }
+            m_upAction->setVisible(false);
         }
         m_listType = static_cast<BinViewType>(viewType);
     }
@@ -1443,7 +1439,6 @@ void Bin::slotInitView(QAction *action)
     switch (m_listType) {
     case BinIconView:
         m_itemView = new MyListView(this);
-        m_folderUp = ProjectFolderUp::construct(m_itemModel);
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         break;
@@ -1649,21 +1644,8 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos)
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (m_listType == BinIconView) {
         if (item->childCount() > 0 || item->itemType() == AbstractProjectItem::FolderItem) {
-            m_folderUp->changeParent(std::static_pointer_cast<TreeItem>(item));
             m_itemView->setRootIndex(ix);
-            return;
-        }
-        if (item == m_folderUp) {
-            std::shared_ptr<AbstractProjectItem> parentItem = item->parent();
-            if (parentItem->parent() != m_itemModel->getRootFolder()) {
-                // We are entering a parent folder
-                QModelIndex parentId = getIndexForId(parentItem->parent()->clipId(), parentItem->parent()->itemType() == AbstractProjectItem::FolderItem);
-                m_folderUp->changeParent(std::static_pointer_cast<TreeItem>(parentItem->parent()));
-                m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentId));
-            } else {
-                m_folderUp->changeParent(std::shared_ptr<TreeItem>());
-                m_itemView->setRootIndex(QModelIndex());
-            }
+            m_upAction->setEnabled(true);
             return;
         }
     } else {
@@ -2077,11 +2059,13 @@ void Bin::setupMenu()
     QAction *createFolder =
         addAction(QStringLiteral("create_folder"), i18n("Create Folder"), QIcon::fromTheme(QStringLiteral("folder-new")));
     connect(createFolder, &QAction::triggered, this, &Bin::slotAddFolder);
+    m_upAction = KStandardAction::up(this, SLOT(slotBack()), pCore->window()->actionCollection());
 
     // Setup actions
     QAction *first = m_toolbar->actions().at(0);
     m_toolbar->insertAction(first, m_deleteAction);
     m_toolbar->insertAction(m_deleteAction, createFolder);
+    m_toolbar->insertAction(createFolder, m_upAction);
 
     auto *m = new QMenu(this);
     m->addActions(addClipMenu->actions());
@@ -2089,7 +2073,7 @@ void Bin::setupMenu()
     m_addButton->setMenu(m);
     m_addButton->setDefaultAction(addClip);
     m_addButton->setPopupMode(QToolButton::MenuButtonPopup);
-    m_toolbar->insertWidget(createFolder, m_addButton);
+    m_toolbar->insertWidget(m_upAction, m_addButton);
     m_menu = new QMenu(this);
     m_propertiesDock = pCore->window()->addDock(i18n("Clip Properties"), QStringLiteral("clip_properties"), m_propertiesPanel);
     m_propertiesDock->close();
@@ -3201,7 +3185,6 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         openProducer(subClip->getMasterClip(), zone.x(), zone.y());
         break;
     }
-    case AbstractProjectItem::FolderUpItem:
     case AbstractProjectItem::FolderItem:
     default:
         break;
@@ -3288,7 +3271,7 @@ void Bin::showBinFrame(QModelIndex ix, int frame)
 void Bin::invalidateClip(const QString &binId)
 {
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
-    if (clip) {
+    if (clip && clip->clipType() != ClipType::Audio) {
         QList<int> ids = clip->timelineInstances();
         for (int i : ids) {
             pCore->invalidateItem({ObjectType::TimelineClip,i});
@@ -3300,3 +3283,32 @@ QSize Bin::sizeHint() const
 {
     return QSize(350, pCore->window()->height() / 2);
 }
+
+void Bin::slotBack()
+{
+    QModelIndex currentRootIx = m_itemView->rootIndex();
+    if (!currentRootIx.isValid()) {
+        return;
+    }
+    std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentRootIx));
+    if (!item) {
+        qDebug()<<"=== ERRO CANNOT FIND ROOT FOR CURRENT VIEW";
+        return;
+    }
+    std::shared_ptr<AbstractProjectItem> parentItem = item->parent();
+    if (!parentItem) {
+        qDebug()<<"=== ERRO CANNOT FIND PARENT FOR CURRENT VIEW";
+        return;
+    }
+    if (parentItem != m_itemModel->getRootFolder()) {
+        // We are entering a parent folder
+        QModelIndex parentId = getIndexForId(parentItem->clipId(), parentItem->itemType() == AbstractProjectItem::FolderItem);
+        if (parentId.isValid()) {
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentId));
+        }
+    } else {
+        m_itemView->setRootIndex(QModelIndex());
+        m_upAction->setEnabled(false);
+    }
+}
+

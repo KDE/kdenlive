@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="dynamic_loudness" id="dynamic_loudness" type="audio">
+	<name>Normalize</name>
+	<description>Dynamically correct audio loudness as recommended by EBU R128</description>
+	<author>Brian Matherly</author>
+	<parameter type="double" name="target_loudness" max="-10" min="-50" default="-23.00" decimals="2" suffix="LUFS">
+		<name>Target Program Loudness</name>
+	</parameter>
+	<parameter type="constant" name="window" max="500" min="1" default="3" suffix="s">
+		<name>Measurement Window</name>
+	</parameter>
+    <parameter type="constant" name="max_gain" max="30" min="0" default="15" suffix="dB">
+		<name>Maximum Gain Increase</name>
+	</parameter>
+    <parameter type="constant" name="min_gain" max="0" min="-30" default="-15" suffix="dB">
+		<name>Maximum Gain Decrease</name>
+	</parameter>
+    <parameter type="constant" name="max_rate" max="9" min="0.5" default="3" decimals="1" suffix="dB/s">
+		<name>Maximum Rate Change</name>
+	</parameter>
+</effect>

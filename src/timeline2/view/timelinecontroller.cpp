@@ -566,7 +566,6 @@ void TimelineController::addTrack(int tid)
             }
             m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true);
         }
-        m_model->buildTrackCompositing(true);
         if (audioRecTrack) {
             m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
         }
@@ -582,7 +581,6 @@ void TimelineController::deleteTrack(int tid)
     if (d->exec() == QDialog::Accepted) {
         int selectedTrackIx = d->selectedTrackId();
         m_model->requestTrackDeletion(selectedTrackIx);
-        m_model->buildTrackCompositing(true);
         if (m_activeTrack == -1) {
             setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
         }
@@ -1374,16 +1372,16 @@ void TimelineController::initializePreview()
 
 bool TimelineController::hasPreviewTrack() const
 {
-    return (m_timelinePreview  && m_timelinePreview->hasOverlayTrack());
+    return (m_timelinePreview  && (m_timelinePreview->hasOverlayTrack() || m_timelinePreview->hasPreviewTrack()));
 }
 
 void TimelineController::updatePreviewConnection(bool enable)
 {
     if (m_timelinePreview) {
         if (enable) {
-            m_timelinePreview->reconnectTrack();
+            m_timelinePreview->enable();
         } else {
-            m_timelinePreview->disconnectTrack();
+            m_timelinePreview->disable();
         }
     }
 }
@@ -1531,7 +1529,11 @@ void TimelineController::removeSpace(int trackId, int frame, bool affectAllTrack
 
 void TimelineController::invalidateItem(int cid)
 {
-    if (!m_timelinePreview || !m_model->isItem(cid) || m_model->getItemTrackId(cid) == -1) {
+    if (!m_timelinePreview || !m_model->isItem(cid)) {
+        return;
+    }
+    const int tid = m_model->getItemTrackId(cid);
+    if (tid == -1 || m_model->getTrackById_const(tid)->isAudioTrack()) {
         return;
     }
     int start = m_model->getItemPosition(cid);
@@ -1541,7 +1543,7 @@ void TimelineController::invalidateItem(int cid)
 
 void TimelineController::invalidateTrack(int tid)
 {
-    if (!m_timelinePreview || !m_model->isTrack(tid)) {
+    if (!m_timelinePreview || !m_model->isTrack(tid) || m_model->getTrackById_const(tid)->isAudioTrack()) {
         return;
     }
     for (auto clp : m_model->getTrackById_const(tid)->m_allClips) {
@@ -2368,8 +2370,8 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     Fun local_redo = []() { return true; };
 
     // Sort clips. We need to delete from right to left to avoid confusing the view
-    std::vector<int> sorted_clips(all_items.begin(), all_items.end());
-    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](const int clipId1, const int clipId2) {
+    std::vector<int> sorted_clips{std::make_move_iterator(std::begin(all_items)), std::make_move_iterator(std::end(all_items))};
+    std::sort(sorted_clips.begin(), sorted_clips.end(), [this](const int &clipId1, const int &clipId2) {
         int p1 = m_model->isClip(clipId1) ? m_model->m_allClips[clipId1]->getPosition() : m_model->m_allCompositions[clipId1]->getPosition();
         int p2 = m_model->isClip(clipId2) ? m_model->m_allClips[clipId2]->getPosition() : m_model->m_allCompositions[clipId2]->getPosition();
         return p2 <= p1;

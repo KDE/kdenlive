@@ -262,81 +262,38 @@
     </ul>
   </description>
   <releases>
-    <release date="2019-12-05" version="19.12.0"/>
+    <release date="2019-12-05" version="20.03.70"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default">
-      <caption>Kdenlive timeline</caption>
-      <caption xml:lang="ca">Línia del temps del Kdenlive</caption>
-      <caption xml:lang="cs">Časová osa Kdenlive</caption>
-      <caption xml:lang="en-GB">Kdenlive timeline</caption>
-      <caption xml:lang="gl">Liña de tempo de Kdenlive</caption>
-      <caption xml:lang="nl">Kdenlive tijdlijn</caption>
-      <caption xml:lang="pl">Oś czasu Kdenlive</caption>
-      <caption xml:lang="pt">Linha temporal do Kdenlive</caption>
-      <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
-      <caption xml:lang="sv">Kdenlive tidslinje</caption>
-      <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
-      <caption xml:lang="x-test">xxKdenlive timelinexx</caption>
-      <caption xml:lang="zh-TW">Kdenlive 時間軸</caption>
-      <image type="source">https://cdn.kde.org/screenshots/kdenlive/kdenlive-screenshot-19-08-series.png</image>
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
-      <caption>Kdenlive 19.08</caption>
-      <caption xml:lang="ca">Kdenlive 19.08</caption>
-      <caption xml:lang="cs">Kdenlive 19.08</caption>
-      <caption xml:lang="de">Kdenlive 19.08</caption>
-      <caption xml:lang="el">Kdenlive 19.08</caption>
-      <caption xml:lang="en-GB">Kdenlive 19.08</caption>
-      <caption xml:lang="es">Kdenlive 19.08</caption>
-      <caption xml:lang="eu">Kdenlive 19.08</caption>
-      <caption xml:lang="fr">Kdenlive 19.08</caption>
-      <caption xml:lang="gl">Kdenlive 19.08</caption>
-      <caption xml:lang="id">Kdenlive 19.08</caption>
-      <caption xml:lang="it">Kdenlive 19.08</caption>
-      <caption xml:lang="ko">Kdenlive 19.08</caption>
-      <caption xml:lang="nl">Kdenlive 19.08</caption>
-      <caption xml:lang="nn">Kdenlive 19.08</caption>
-      <caption xml:lang="pl">Kdenlive 19.08</caption>
-      <caption xml:lang="pt">Kdenlive 19.08</caption>
-      <caption xml:lang="pt-BR">Kdenlive 19.08</caption>
-      <caption xml:lang="sv">Kdenlive 19.08</caption>
-      <caption xml:lang="uk">Kdenlive 19.08</caption>
-      <caption xml:lang="x-test">xxKdenlive 19.08xx</caption>
-      <caption xml:lang="zh-TW">Kdenlive 19.08</caption>
-      <image>https://cdn.kde.org/screenshots/kdenlive/19-08.png</image>
+      <caption>Kdenlive Audio Adjustments</caption>
+      <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
+      <caption xml:lang="et">Kdenlive helikohendused</caption>
+      <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
+      <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
+      <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
+      <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
+      <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
     </screenshot>
     <screenshot type="source">
-      <caption>Kdenlive 18.08</caption>
-      <caption xml:lang="ca">Kdenlive 18.08</caption>
-      <caption xml:lang="ca-valencia">Kdenlive 18.08</caption>
-      <caption xml:lang="cs">Kdenlive 18.08</caption>
-      <caption xml:lang="de">Kdenlive 18.08</caption>
-      <caption xml:lang="el">Kdenlive 18.08</caption>
-      <caption xml:lang="en-GB">Kdenlive 18.08</caption>
-      <caption xml:lang="es">Kdenlive 18.08</caption>
-      <caption xml:lang="eu">Kdenlive 18.08</caption>
-      <caption xml:lang="fi">Kdenlive 18.08</caption>
-      <caption xml:lang="fr">Kdenlive 18.08</caption>
-      <caption xml:lang="gl">Kdenlive 18.08</caption>
-      <caption xml:lang="id">Kdenlive 18.08</caption>
-      <caption xml:lang="it">Kdenlive 18.08</caption>
-      <caption xml:lang="ko">Kdenlive 18.08</caption>
-      <caption xml:lang="nl">Kdenlive 18.08</caption>
-      <caption xml:lang="nn">Kdenlive 18.08</caption>
-      <caption xml:lang="pl">Kdenlive 18.08</caption>
-      <caption xml:lang="pt">Kdenlive 18.08</caption>
-      <caption xml:lang="pt-BR">Kdenlive 18.08</caption>
-      <caption xml:lang="sv">Kdenlive 18.08</caption>
-      <caption xml:lang="uk">Kdenlive 18.08</caption>
-      <caption xml:lang="x-test">xxKdenlive 18.08xx</caption>
-      <caption xml:lang="zh-CN">Kdenlive 18.08</caption>
-      <caption xml:lang="zh-TW">Kdenlive 18.08</caption>
-      <image>https://cdn.kde.org/screenshots/kdenlive/screenshot-monitors.png</image>
+      <caption>Kdenlive Effects</caption>
+      <caption xml:lang="ca">Efectes del Kdenlive</caption>
+      <caption xml:lang="cs">Efekty Kdenlive</caption>
+      <caption xml:lang="de">Kdenlive-Effekte</caption>
+      <caption xml:lang="et">Kdenlive efektid</caption>
+      <caption xml:lang="nl">Kdenlive effecten</caption>
+      <caption xml:lang="pt">Efeitos do Kdenlive</caption>
+      <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
+      <caption xml:lang="uk">Ефекти Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
+      <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>

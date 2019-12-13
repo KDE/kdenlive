@@ -21,6 +21,7 @@ grain.xml
 greyscale.xml
 invert.xml
 loudness.xml
+dynamic_loudness.xml
 luma.xml
 mirror.xml
 mute.xml

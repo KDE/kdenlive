@@ -16,10 +16,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.6
-import QtQuick.Controls 2.2
+import QtQuick 2.11
+import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
-import QtQml.Models 2.2
+import QtQml.Models 2.11
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
 import com.enums 1.0
@@ -126,8 +126,8 @@ Rectangle {
     }
 
     onKeyframeModelChanged: {
-        console.log('keyframe model changed............')
         if (effectRow.keyframecanvas) {
+            console.log('keyframe model changed............')
             effectRow.keyframecanvas.requestPaint()
         }
     }
@@ -857,8 +857,8 @@ Rectangle {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((trimIn.x) / timeScale)
                     if (delta !== 0) {
-                        if (delta < -modelStart) {
-                            delta = -modelStart
+                        if (maxDuration > 0 && delta < -inPoint) {
+                            delta = -inPoint
                         }
                         var newDuration =  clipDuration - delta
                         sizeChanged = true
@@ -938,6 +938,9 @@ Rectangle {
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var newDuration = Math.round((parent.x + parent.width) / timeScale)
+                    if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
+                        newDuration = maxDuration - inPoint
+                    }
                     if (newDuration != clipDuration) {
                         sizeChanged = true
                         clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)

@@ -133,6 +133,7 @@ bool PreviewManager::buildPreviewTrack()
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
     m_previewTrack = new Mlt::Playlist(pCore->getCurrentProfile()->profile());
+    m_previewTrack->set("id", "timeline_preview");
     m_tractor->lock();
     reconnectTrack();
     m_tractor->unlock();
@@ -206,14 +207,14 @@ void PreviewManager::reconnectTrack()
         m_tractor->insert_track(*m_previewTrack, m_previewTrackIndex);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex));
         tk->set("hide", 2);
-        tk->set("id", "timeline_preview");
+        //tk->set("id", "timeline_preview");
         increment++;
     }
     if (m_overlayTrack) {
         m_tractor->insert_track(*m_overlayTrack, m_previewTrackIndex + increment);
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(m_previewTrackIndex + increment));
         tk->set("hide", 2);
-        tk->set("id", "timeline_overlay");
+        //tk->set("id", "timeline_overlay");
     }
 }
 
@@ -235,6 +236,30 @@ void PreviewManager::disconnectTrack()
         }
     }
     m_previewTrackIndex = -1;
+}
+
+void PreviewManager::disable()
+{
+    if (m_previewTrackIndex > -1) {
+        if (m_previewTrack) {
+            m_previewTrack->set("hide", 3);
+        }
+        if (m_overlayTrack) {
+            m_overlayTrack->set("hide", 3);
+        }
+    }
+}
+
+void PreviewManager::enable()
+{
+    if (m_previewTrackIndex > -1) {
+        if (m_previewTrack) {
+            m_previewTrack->set("hide", 1);
+        }
+        if (m_overlayTrack) {
+            m_overlayTrack->set("hide", 1);
+        }
+    }
 }
 
 bool PreviewManager::loadParams()
@@ -732,6 +757,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
 int PreviewManager::setOverlayTrack(Mlt::Playlist *overlay)
 {
     m_overlayTrack = overlay;
+    m_overlayTrack->set("id", "timeline_overlay");
     reconnectTrack();
     return m_previewTrackIndex;
 }

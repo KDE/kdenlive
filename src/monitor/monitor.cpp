@@ -664,12 +664,9 @@ void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
     Q_UNUSED(discardLastFrame);
     int pos = m_glMonitor->getCurrentPos();
-    if (m_controller) {
-        if (pos < (int)m_controller->frameDuration() - 1) {
-            pos++;
-        }
-    } else
+    if (m_controller == nullptr) {
         pos++;
+    }
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
@@ -843,7 +840,7 @@ void Monitor::slotStartDrag()
         QStringList list;
         list.append(m_controller->AbstractProjectItem::clipId());
         list.append(QString::number(p.x()));
-        list.append(QString::number(p.y() - 1));
+        list.append(QString::number(p.y()));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     switch (dragType) {
@@ -1147,6 +1144,7 @@ void Monitor::slotRewind(double speed)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed > -1) {
+            m_glMonitor->purgeCache();
             speed = -1;
         } else {
             speed = currentspeed * 1.5;
@@ -1162,6 +1160,7 @@ void Monitor::slotForward(double speed)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
+            m_glMonitor->purgeCache();
             speed = 1;
         } else {
             speed = currentspeed * 1.2;
@@ -1181,7 +1180,7 @@ void Monitor::slotForwardOneFrame(int diff)
 {
     slotActivateMonitor();
     if (m_id == Kdenlive::ClipMonitor) {
-        m_glMonitor->getControllerProxy()->setPosition(qMin(m_glMonitor->duration(), m_glMonitor->getCurrentPos() + diff));
+        m_glMonitor->getControllerProxy()->setPosition(qMin(m_glMonitor->duration() - 1, m_glMonitor->getCurrentPos() + diff));
     } else {
         m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getCurrentPos() + diff);
     }
@@ -1357,19 +1356,18 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             // we are in record mode, don't display clip
             return;
         }
-        m_glMonitor->setRulerInfo((int)m_controller->frameDuration(), controller->getMarkerModel());
+        m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
         loadQmlScene(MonitorSceneDefault);
-        m_timePos->setRange(0, (int)m_controller->frameDuration());
+        m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
         updateMarkers();
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
         if (out == -1) {
             m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
-            qDebug() << m_controller->zone();
         } else {
             m_glMonitor->getControllerProxy()->setZone(in, out, false);
         }
-        m_snaps->addPoint((int)m_controller->frameDuration());
+        m_snaps->addPoint((int)m_controller->frameDuration() - 1);
         // Loading new clip / zone, stop if playing
         if (m_playAction->isActive()) {
             m_playAction->setActive(false);
@@ -2085,7 +2083,7 @@ void Monitor::slotEnd()
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
     if (m_id == Kdenlive::ClipMonitor) {
-        m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->duration());
+        m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->duration() - 1);
     } else {
         m_glMonitor->getControllerProxy()->setPosition(pCore->projectDuration() - 1);
     }
