@@ -565,20 +565,23 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     // Make sure all previous track compositing is removed
     if (rebuild) {
         QScopedPointer<Mlt::Service> service(new Mlt::Service(field->get_service()));
-        while ((service != nullptr) && service->is_valid()) {
+        while (service != nullptr && service->is_valid()) {
             if (service->type() == transition_type) {
                 Mlt::Transition t((mlt_transition)service->get_service());
-                QString serviceName = t.get("mlt_service");
                 if (t.get_int("internal_added") == 237) {
                     // remove all compositing transitions
                     field->disconnect_service(t);
+                    t.disconnect_all_producers();
                 }
             }
             service.reset(service->producer());
         }
     }
     QString composite = TransitionsRepository::get()->getCompositingTransition();
-    pCore->mixer()->cleanup();
+    bool hasMixer = pCore->mixer() != nullptr;
+    if (hasMixer) {
+        pCore->mixer()->cleanup();
+    }
     while (it != m_allTracks.cend()) {
         int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
@@ -596,7 +599,9 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             transition->set("sum", 1);
             field->plant_transition(*transition, 0, trackPos);
             transition->set_tracks(0, trackPos);
-            pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()));
+            if (hasMixer) {
+                pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()));
+            }
         }
         ++it;
     }

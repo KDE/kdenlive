@@ -29,29 +29,24 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     Fake(Method(timMock, adjustAssetRange));
 
     // This is faked to allow to count calls
-    Fake(Method(timMock, _resetView));
 
     int id1, id2, id3;
     REQUIRE(timeline->requestTrackInsertion(-1, id1));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
     REQUIRE(timeline->getTrackPosition(id1) == 0);
-    // In the current implementation, when a track is added/removed, the model is notified with _resetView
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     REQUIRE(timeline->requestTrackInsertion(-1, id2));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
     REQUIRE(timeline->getTrackPosition(id2) == 1);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     REQUIRE(timeline->requestTrackInsertion(-1, id3));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
     REQUIRE(timeline->getTrackPosition(id3) == 2);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     int id4;
@@ -62,33 +57,28 @@ TEST_CASE("Basic creation/deletion of a track", "[TrackModel]")
     REQUIRE(timeline->getTrackPosition(id4) == 1);
     REQUIRE(timeline->getTrackPosition(id2) == 2);
     REQUIRE(timeline->getTrackPosition(id3) == 3);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     // Test deletion
     REQUIRE(timeline->requestTrackDeletion(id3));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 3);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     REQUIRE(timeline->requestTrackDeletion(id1));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 2);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     REQUIRE(timeline->requestTrackDeletion(id4));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
-    Verify(Method(timMock, _resetView)).Exactly(Once);
     RESET(timMock);
 
     // We are not allowed to delete the last track
     REQUIRE_FALSE(timeline->requestTrackDeletion(id2));
     REQUIRE(timeline->checkConsistency());
     REQUIRE(timeline->getTracksCount() == 1);
-    Verify(Method(timMock, _resetView)).Exactly(0);
     RESET(timMock);
 
     SECTION("Delete a track with groups")
@@ -202,7 +192,6 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     Fake(Method(timMock, adjustAssetRange));
 
     // This is faked to allow to count calls
-    Fake(Method(timMock, _resetView));
     Fake(Method(timMock, _beginInsertRows));
     Fake(Method(timMock, _beginRemoveRows));
     Fake(Method(timMock, _endInsertRows));
@@ -223,7 +212,6 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     int cid4 = ClipModel::construct(timeline, binId2, -1, PlaylistState::VideoOnly);
     int cid5 = ClipModel::construct(timeline, binId_unlimited, -1, PlaylistState::VideoOnly);
 
-    Verify(Method(timMock, _resetView)).Exactly(3_Times);
     RESET(timMock);
 
     SECTION("Endless clips can be resized both sides")
@@ -887,16 +875,21 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
             REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
             REQUIRE(timeline->getClipTrackId(cid1) == tid1);
             REQUIRE(timeline->getClipTrackId(cid2) == tid2);
-            REQUIRE(timeline->getClipPosition(cid1) == 10);
-            REQUIRE(timeline->getClipPosition(cid2) == 12);
         };
         state();
 
-        REQUIRE_FALSE(timeline->requestClipMove(cid2, tid1, 10));
+        // Moving clips on an unavailable track will do a same track move
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 10));
+        REQUIRE(timeline->getClipPosition(cid1) == 8);
+        REQUIRE(timeline->getClipPosition(cid2) == 10);
         state();
-        REQUIRE_FALSE(timeline->requestClipMove(cid2, tid1, 100));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 100));
+        REQUIRE(timeline->getClipPosition(cid1) == 98);
+        REQUIRE(timeline->getClipPosition(cid2) == 100);
         state();
-        REQUIRE_FALSE(timeline->requestClipMove(cid1, tid3, 100));
+        REQUIRE(timeline->requestClipMove(cid1, tid3, 100));
+        REQUIRE(timeline->getClipPosition(cid1) == 100);
+        REQUIRE(timeline->getClipPosition(cid2) == 102);
         state();
     }
 
@@ -1880,7 +1873,6 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     Fake(Method(timMock, adjustAssetRange));
 
     // This is faked to allow to count calls
-    Fake(Method(timMock, _resetView));
     Fake(Method(timMock, _beginInsertRows));
     Fake(Method(timMock, _beginRemoveRows));
     Fake(Method(timMock, _endInsertRows));
@@ -1894,7 +1886,6 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     REQUIRE(timeline->requestTrackInsertion(-1, tid2));
     REQUIRE(timeline->requestTrackInsertion(-1, tid3));
 
-    Verify(Method(timMock, _resetView)).Exactly(3_Times);
     RESET(timMock);
 
     SECTION("Locked track can't receive insertion")

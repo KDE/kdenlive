@@ -41,8 +41,7 @@
 using namespace fakeit;
 #define RESET(mock)                                                                                                                                         \
     mock.Reset();                                                                                                                                              \
-    Fake(Method(mock, adjustAssetRange));                                                                                                                      \
-    Spy(Method(mock, _resetView));                                                                                                                             \
+    Fake(Method(mock, adjustAssetRange));                                                                                        \
     Spy(Method(mock, _beginInsertRows));                                                                                                                       \
     Spy(Method(mock, _beginRemoveRows));                                                                                                                       \
     Spy(Method(mock, _endInsertRows));                                                                                                                         \
