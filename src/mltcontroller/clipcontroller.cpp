@@ -659,6 +659,7 @@ void ClipController::checkAudioVideo()
         // test_audio returns 1 if there is NO audio (strange but true at the time this code is written)
         m_hasAudio = frame->get_int("test_audio") == 0;
         m_hasVideo = frame->get_int("test_image") == 0;
+        m_masterProducer->seek(0);
     } else {
         qDebug()<<"* * * *ERROR INVALID FRAME On test";
     }
