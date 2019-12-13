@@ -3127,8 +3127,18 @@ bool TimelineModel::checkConsistency()
     while (nextservice != nullptr) {
         if (mlt_type == transition_type) {
             auto tr = (mlt_transition)nextservice;
+            if (mlt_properties_get_int( MLT_TRANSITION_PROPERTIES(tr), "internal_added") > 0) {
+                // Skip track compositing
+                nextservice = mlt_service_producer(nextservice);
+                continue;
+            }
             int currentTrack = mlt_transition_get_b_track(tr);
             int currentATrack = mlt_transition_get_a_track(tr);
+            if (currentTrack == currentATrack) {
+                // Skip invalid transitions created by MLT on track deletion
+                nextservice = mlt_service_producer(nextservice);
+                continue;
+            }
 
             int currentIn = (int)mlt_transition_get_in(tr);
             int currentOut = (int)mlt_transition_get_out(tr);
@@ -3145,7 +3155,7 @@ bool TimelineModel::checkConsistency()
             }
             if (foundId == -1) {
                 qDebug() << "Error, we didn't find matching composition IN: " << currentIn << ", OUT: " << currentOut << ", TRACK: " << currentTrack << " / "
-                         << currentATrack;
+                         << currentATrack <<", SERVICE: "<<mlt_properties_get( MLT_TRANSITION_PROPERTIES(tr), "mlt_service")<<"\nID: "<<mlt_properties_get( MLT_TRANSITION_PROPERTIES(tr), "id");
                 field->unlock();
                 return false;
             }
