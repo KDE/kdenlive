@@ -304,9 +304,6 @@ Rectangle {
                 visible: status == Loader.Ready
                 anchors.fill: parent
                 source: clipRoot.hideClipViews ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
-                onLoaded: {
-                    item.reload()
-                }
             }
         }
 
