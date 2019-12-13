@@ -139,7 +139,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             QString id = metadata->get("identifier");
             res.name = i18n(metadata->get("title"));
             res.name[0] = res.name[0].toUpper();
-            res.description = i18n(metadata->get("description")) + QString(" (%1)").arg(id);
+            res.description = metadata->get("description") ? i18n(metadata->get("description")) + QString(" (%1)").arg(id) : id;
             res.author = metadata->get("creator");
             res.version_str = metadata->get("version");
             res.version = ceil(100 * metadata->get_double("version"));
