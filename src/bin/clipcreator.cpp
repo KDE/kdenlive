@@ -84,14 +84,12 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
     return res ? id : QStringLiteral("-1");
 }
 
-QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
-                                        const std::function<void(const QString &)> &readyCallBack)
+QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
 {
     QDomDocument xml;
     QMimeDatabase db;
     QMimeType type = db.mimeTypeForUrl(QUrl::fromLocalFile(path));
 
-    qDebug() << "/////////// createClipFromFile" << path << parentFolder << path << type.name();
     QDomElement prod;
     if (type.name().startsWith(QLatin1String("image/"))) {
         int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
@@ -120,7 +118,7 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
             prod.setAttribute(QStringLiteral("xmldata"), titleData);
         } else {
             txtfile.close();
-            return QStringLiteral("-1");
+            return QDomDocument();
         }
     } else {
         // it is a "normal" file, just use a producer
@@ -133,7 +131,17 @@ QString ClipCreator::createClipFromFile(const QString &path, const QString &pare
     if (pCore->bin()->isEmpty() && (KdenliveSettings::default_profile().isEmpty() || KdenliveSettings::checkfirstprojectclip())) {
         prod.setAttribute(QStringLiteral("_checkProfile"), 1);
     }
+    return xml;
+}
 
+QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
+                                        const std::function<void(const QString &)> &readyCallBack)
+{
+    qDebug() << "/////////// createClipFromFile" << path << parentFolder << path;
+    QDomDocument xml = getXmlFromUrl(path);
+    if (xml.isNull()) {
+        return QStringLiteral("-1");
+    }
     qDebug() << "/////////// final xml" << xml.toString();
     QString id;
     bool res = model->requestAddBinClip(id, xml.documentElement(), parentFolder, undo, redo, readyCallBack);

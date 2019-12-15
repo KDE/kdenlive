@@ -236,6 +236,8 @@ protected:
     std::shared_ptr<MarkerListModel> m_markerModel;
     bool m_hasAudio;
     bool m_hasVideo;
+    /** @brief Store clip url temporarily while the clip controller has not been created. */
+    QString m_temporaryUrl;
 
 private:
     /** @brief Mutex to protect the producer properties on read/write */

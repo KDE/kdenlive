@@ -254,8 +254,6 @@ public slots:
 private:
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash();
-    /** @brief Store clip url temporarily while the clip controller has not been created. */
-    QString m_temporaryUrl;
     std::shared_ptr<Mlt::Producer> m_thumbsProducer;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;

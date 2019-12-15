@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "kdenlivesettings.h"
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
+#include "bin/clipcreator.hpp"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -193,6 +194,11 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
         QString xml = producerXml(m_masterProducer, includeMeta, includeProfile);
         document.setContent(xml);
     } else {
+        if (!m_temporaryUrl.isEmpty()) {
+            document = ClipCreator::getXmlFromUrl(m_temporaryUrl);
+        } else if (!m_path.isEmpty()) {
+            document = ClipCreator::getXmlFromUrl(m_path);
+        }
         qCDebug(KDENLIVE_LOG) << " + + ++ NO MASTER PROD";
     }
 }

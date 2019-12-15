@@ -70,6 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 #include <utility>
+#include <utils/thumbnailcache.hpp>
 
 /**
  * @class BinItemDelegate
@@ -3078,18 +3079,21 @@ void Bin::reloadAllProducers()
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, false, false);
         // Make sure we reload clip length
-        xml.removeAttribute(QStringLiteral("out"));
-        Xml::removeXmlProperty(xml, QStringLiteral("length"));
+        if (clip->clipType() == ClipType::AV || clip->clipType() == ClipType::Video || clip->clipType() == ClipType::Audio || clip->clipType() == ClipType::Playlist) {
+            xml.removeAttribute(QStringLiteral("out"));
+            Xml::removeXmlProperty(xml, QStringLiteral("length"));
+        }
         if (clip->isValid()) {
             clip->resetProducerProperty(QStringLiteral("kdenlive:duration"));
             clip->resetProducerProperty(QStringLiteral("length"));
         }
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
-            clip->discardAudioThumb();
             pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
+            clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
+            ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId(), true);
             pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), 150, -1, true, true);
             pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
         }
