@@ -269,14 +269,20 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default"><caption>Kdenlive Timeline</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
+      <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
+      <caption xml:lang="es">Ajustes de audio de Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Effects</caption>
+      <caption xml:lang="ca">Efectes del Kdenlive</caption>
+      <caption xml:lang="es">Efectos de Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
   </screenshots>
