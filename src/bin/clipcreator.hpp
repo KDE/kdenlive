@@ -95,6 +95,10 @@ bool createClipFromFile(const QString &path, const QString &parentFolder, std::s
 bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo,
                          Fun &redo, bool topLevel = true);
 bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
+
+/* @brief Create minimal xml description from an url
+ */
+QDomDocument getXmlFromUrl(const QString &path);
 } // namespace ClipCreator
 
 #endif

@@ -340,7 +340,12 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
 QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool includeProfile)
 {
     getProducerXML(document, includeMeta, includeProfile);
-    QDomElement prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+    QDomElement prod;
+    if (document.documentElement().tagName() == QLatin1String("producer")) {
+        prod = document.documentElement();
+    } else {
+        prod = document.documentElement().firstChildElement(QStringLiteral("producer"));
+    }
     if (m_clipType != ClipType::Unknown) {
         prod.setAttribute(QStringLiteral("type"), (int)m_clipType);
     }
