@@ -1049,7 +1049,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         } else {
-            reloadProducer(refreshOnly, properties.contains(QStringLiteral("audio_index")));
+            bool audioStreamChanged = properties.contains(QStringLiteral("audio_index"));
+            reloadProducer(refreshOnly, audioStreamChanged, audioStreamChanged || (!refreshOnly && !properties.contains(QStringLiteral("kdenlive:proxy"))));
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {

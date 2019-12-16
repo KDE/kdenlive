@@ -1469,6 +1469,8 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_proxyModel->setDynamicSortFilter(true);
     m_layout->insertWidget(1, m_itemView);
+    // Reset drag type to normal
+    m_itemModel->setDragType(PlaylistState::Disabled);
 
     // setup some default view specific parameters
     if (m_listType == BinTreeView) {

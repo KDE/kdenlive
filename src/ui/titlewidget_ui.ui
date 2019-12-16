@@ -745,8 +745,8 @@
                  </property>
                  <property name="color" stdset="0">
                   <color>
-                   <red>85</red>
-                   <green>170</green>
+                   <red>255</red>
+                   <green>255</green>
                    <blue>255</blue>
                   </color>
                  </property>
