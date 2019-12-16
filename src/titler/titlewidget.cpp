@@ -2231,7 +2231,7 @@ void TitleWidget::readChoices()
     const QByteArray geometry = titleConfig.readEntry("dialog_geometry", QByteArray());
     restoreGeometry(QByteArray::fromBase64(geometry));
     font_family->setCurrentFont(titleConfig.readEntry("font_family", font_family->currentFont()));
-    font_size->setValue(titleConfig.readEntry("font_pixel_size", font_size->value()));
+    font_size->setValue(titleConfig.readEntry("font_pixel_size", m_frameHeight > 0 ? (int)(m_frameHeight / 20): font_size->value()));
     m_scene->slotUpdateFontSize(font_size->value());
     QColor fontColor = QColor(titleConfig.readEntry("font_color", fontColorButton->color()));
     QColor outlineColor = QColor(titleConfig.readEntry("font_outline_color", textOutlineColor->color()));
