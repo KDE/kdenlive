@@ -2374,7 +2374,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
     std::sort(sorted_clips.begin(), sorted_clips.end(), [this](const int &clipId1, const int &clipId2) {
         int p1 = m_model->isClip(clipId1) ? m_model->m_allClips[clipId1]->getPosition() : m_model->m_allCompositions[clipId1]->getPosition();
         int p2 = m_model->isClip(clipId2) ? m_model->m_allClips[clipId2]->getPosition() : m_model->m_allCompositions[clipId2]->getPosition();
-        return p2 <= p1;
+        return p2 < p1;
     });
 
     // Moving groups is a two stage process: first we remove the clips from the tracks, and then try to insert them back at their calculated new positions.
