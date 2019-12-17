@@ -146,7 +146,7 @@
       <li xml:lang="en-GB">Intuitive multitrack interface.</li>
       <li xml:lang="es">Interfaz multipista intuitiva.</li>
       <li xml:lang="et">Hõlpsasti mõistetav mitme paneeliga liides</li>
-      <li xml:lang="eu">Intuiziozko aztarna-anitzeko interfazea.</li>
+      <li xml:lang="eu">Aztarna-anitzeko interfazea intuitiboa.</li>
       <li xml:lang="fi">Selkeä moniraitainen käyttöliittymä</li>
       <li xml:lang="fr">Interface multipiste intuitive.</li>
       <li xml:lang="gl">Interface intuitiva con varias pistas.</li>
@@ -269,13 +269,14 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
       <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
       <caption xml:lang="es">Ajustes de audio de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive helikohendused</caption>
+      <caption xml:lang="eu">Kdenlive audio doikuntzak</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
       <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
@@ -292,6 +293,7 @@
       <caption xml:lang="de">Kdenlive-Effekte</caption>
       <caption xml:lang="es">Efectos de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive efektid</caption>
+      <caption xml:lang="eu">Kdenlive efektuak</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="pt">Efeitos do Kdenlive</caption>
       <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
