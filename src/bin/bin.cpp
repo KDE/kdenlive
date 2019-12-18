@@ -2783,16 +2783,6 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
 }
 */
 
-void Bin::slotGetCurrentProjectImage(const QString &clipId, bool request)
-{
-    Q_UNUSED(clipId)
-    // TODO refact : look at this
-    //    if (!clipId.isEmpty()) {
-    //        (pCore->projectManager()->currentTimeline()->hideClip(clipId, request));
-    //    }
-    pCore->monitorManager()->projectMonitor()->slotGetCurrentImage(request);
-}
-
 // TODO: move title editing into a better place...
 void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
 {
@@ -2800,7 +2790,6 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
     titleFolder.mkpath(QStringLiteral("."));
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
-    connect(&dia_ui, &TitleWidget::requestBackgroundFrame, this, &Bin::slotGetCurrentProjectImage);
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {

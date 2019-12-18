@@ -256,7 +256,6 @@ void ClipCreationDialog::createTitleClip(KdenliveDoc *doc, const QString &parent
     dir.mkpath(QStringLiteral("."));
     QPointer<TitleWidget> dia_ui =
         new TitleWidget(QUrl::fromLocalFile(templatePath), doc->timecode(), dir.absolutePath(), pCore->getMonitor(Kdenlive::ProjectMonitor), pCore->bin());
-    QObject::connect(dia_ui.data(), &TitleWidget::requestBackgroundFrame, pCore->bin(), &Bin::slotGetCurrentProjectImage);
     if (dia_ui->exec() == QDialog::Accepted) {
         // Ready, create clip xml
         std::unordered_map<QString, QString> properties;
