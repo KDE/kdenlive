@@ -2825,9 +2825,6 @@ void MainWindow::slotClipInProjectTree()
         int duration = pCore->getItemDuration(id);
         QPoint zone(start, start + duration);
         qDebug() << " - - selecting clip on monitor, zone: " << zone;
-        if (m_projectMonitor->isActive()) {
-            slotSwitchMonitors();
-        }
         int pos = m_projectMonitor->position();
         int itemPos = pCore->getItemPosition(id);
         if (pos >= itemPos && pos < itemPos + duration) {
