@@ -188,9 +188,8 @@ public:
     std::shared_ptr<ProjectClip> getBinClip(const QString &id);
 
     /** @brief Returns a list of selected clip ids
-     @param excludeFolders: if true, ids of folders are not returned
      */
-    std::vector<QString> selectedClipsIds(bool excludeFolders = true);
+    std::vector<QString> selectedClipsIds();
 
     // Returns the selected clips
     QList<std::shared_ptr<ProjectClip>> selectedClips();

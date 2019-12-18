@@ -1376,14 +1376,14 @@ void Bin::selectProxyModel(const QModelIndex &id)
     }
 }
 
-std::vector<QString> Bin::selectedClipsIds(bool excludeFolders)
+std::vector<QString> Bin::selectedClipsIds()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
     // We define the lambda that will be executed on each item of the subset of nodes of the tree that are selected
-    auto itemAdder = [excludeFolders, &ids](std::vector<QString> &ids_vec, std::shared_ptr<TreeItem> item) {
+    auto itemAdder = [&ids](std::vector<QString> &ids_vec, std::shared_ptr<TreeItem> item) {
         auto binItem = std::static_pointer_cast<AbstractProjectItem>(item);
-        if (!excludeFolders || binItem->itemType() != AbstractProjectItem::FolderItem) {
+        if (binItem->itemType() == AbstractProjectItem::ClipItem) {
             ids.push_back(binItem->clipId());
         }
         return ids_vec;
@@ -1400,7 +1400,7 @@ std::vector<QString> Bin::selectedClipsIds(bool excludeFolders)
 
 QList<std::shared_ptr<ProjectClip>> Bin::selectedClips()
 {
-    auto ids = selectedClipsIds(true);
+    auto ids = selectedClipsIds();
     QList<std::shared_ptr<ProjectClip>> ret;
     for (const auto &id : ids) {
         ret.push_back(m_itemModel->getClipByBinID(id));
