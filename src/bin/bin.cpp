@@ -1309,6 +1309,8 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
     }
     if (frame > -1) {
         m_monitor->slotSeek(frame);
+    } else {
+        m_monitor->slotActivateMonitor();
     }
     if (!zone.isNull()) {
         m_monitor->slotLoadClipZone(zone);

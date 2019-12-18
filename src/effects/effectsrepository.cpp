@@ -74,22 +74,11 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
     file.close();
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("effectgroup")) {
-        // in that case we have a custom effect
-        Info info;
-        info.xml = base;
-        info.type = EffectType::Custom;
-        QString tag = base.attribute(QStringLiteral("tag"), QString());
-        QString id = base.hasAttribute(QStringLiteral("id")) ? base.attribute(QStringLiteral("id")) : tag;
-        QString name = base.attribute(QStringLiteral("name"), QString());
-        info.name = name;
-        info.id = id;
-        info.mltId = tag;
-        if (customAssets.count(id) > 0) {
-            qDebug() << "Error: conflicting effect name" << id;
-        } else {
-            customAssets[id] = info;
+        QDomNodeList effects = base.elementsByTagName(QStringLiteral("effect"));
+        if (effects.count() != 1) {
+            qDebug() << "Error: found unsupported effect group" << base.attribute(QStringLiteral("name"))<<" : "<<file_name;
+            return;
         }
-        return;
     }
     QDomNodeList effects = doc.elementsByTagName(QStringLiteral("effect"));
 
