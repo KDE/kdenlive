@@ -398,7 +398,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double speed)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -414,7 +414,7 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(m_currentTrackId, m_id, state, m_speed);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     // replant effect stack in updated service
@@ -424,9 +424,12 @@ void ClipModel::refreshProducerFromBin(PlaylistState::ClipState state, double sp
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
-void ClipModel::refreshProducerFromBin()
+void ClipModel::refreshProducerFromBin(int trackId)
 {
-    refreshProducerFromBin(m_currentState);
+    if (trackId == -1) {
+        trackId = m_currentTrackId;
+    }
+    refreshProducerFromBin(trackId, m_currentState);
 }
 
 bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo, Fun &redo)
@@ -508,7 +511,7 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed)
     QWriteLocker locker(&m_lock);
     return [speed, this]() {
         qDebug() << "timeWarp producer" << speed;
-        refreshProducerFromBin(m_currentState, speed);
+        refreshProducerFromBin(m_currentTrackId, m_currentState, speed);
         if (auto ptr = m_parent.lock()) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
             ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
@@ -597,7 +600,7 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
     }
 
     if (finalMove && tid != -1 && m_lastTrackId != m_currentTrackId) {
-        refreshProducerFromBin(m_currentState);
+        refreshProducerFromBin(m_currentTrackId, m_currentState);
         m_lastTrackId = m_currentTrackId;
     }
 }
@@ -611,7 +614,7 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
             // Enforce producer reload
             m_lastTrackId = -1;
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
-                refreshProducerFromBin(m_currentState);
+                refreshProducerFromBin(m_currentTrackId, m_currentState);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
             }
