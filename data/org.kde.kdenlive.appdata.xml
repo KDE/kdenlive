@@ -269,13 +269,14 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption><caption xml:lang="fr">Montage Kdenlive</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
       <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
       <caption xml:lang="es">Ajustes de audio de Kdenlive</caption>
       <caption xml:lang="eu">Kdenlive audio doikuntzak</caption>
+      <caption xml:lang="fr">Ajustements audio Kdenlive</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="sv">Kdenlive ljudjusteringar</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
@@ -286,8 +287,10 @@
     <screenshot type="source">
       <caption>Kdenlive Effects</caption>
       <caption xml:lang="ca">Efectes del Kdenlive</caption>
+      <caption xml:lang="cs">Efekty Kdenlive</caption>
       <caption xml:lang="es">Efectos de Kdenlive</caption>
       <caption xml:lang="eu">Kdenlive efektuak</caption>
+      <caption xml:lang="fr">Effets Kdenlive</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
