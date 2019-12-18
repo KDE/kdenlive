@@ -373,7 +373,7 @@ private slots:
     void showMissingItems();
 
 signals:
-    void requestBackgroundFrame(const QString &clipId, bool request);
+    void requestBackgroundFrame(bool request);
 };
 
 #endif

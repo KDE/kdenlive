@@ -338,11 +338,6 @@ public slots:
     void slotUpdateClipProperties(const QString &id, const QMap<QString, QString> &properties, bool refreshPropertiesPanel);
     /** @brief Add effect to active Bin clip (used when double clicking an effect in list). */
     void slotAddEffect(QString id, const QStringList &effectData);
-    /** @brief Request current frame from project monitor.
-     *  @param clipId is the id of a clip we want to hide from screenshot
-     *  @param request true to start capture process, false to end it. It is necessary to emit a false after image is received
-     **/
-    void slotGetCurrentProjectImage(const QString &clipId, bool request);
     void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();

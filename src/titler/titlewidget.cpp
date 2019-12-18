@@ -211,6 +211,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
 
     connect(monitor, &Monitor::frameUpdated, this, &TitleWidget::slotGotBackground);
+    connect(this, &TitleWidget::requestBackgroundFrame, monitor, &Monitor::slotGetCurrentImage);
 
     // Position and size
     connect(value_w, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this](int){slotValueChanged(ValueWidth);});
@@ -879,7 +880,7 @@ void TitleWidget::displayBackgroundFrame()
             }
         }
     } else {
-        emit requestBackgroundFrame(m_clipId, true);
+        emit requestBackgroundFrame(true);
     }
 }
 
@@ -887,7 +888,7 @@ void TitleWidget::slotGotBackground(const QImage &img)
 {
     QRectF r = m_frameBorder->sceneBoundingRect();
     m_frameImage->setPixmap(QPixmap::fromImage(img.scaled(r.width() / 2, r.height() / 2)));
-    emit requestBackgroundFrame(m_clipId, false);
+    emit requestBackgroundFrame(false);
 }
 
 void TitleWidget::initAnimation()

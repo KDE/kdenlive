@@ -580,7 +580,7 @@ void GLWidget::paintGL()
             QOpenGLFramebufferObjectFormat fmt;
             fmt.setSamples(1);
             fmt.setInternalTextureFormat(GL_RGB);                             // GL_RGBA32F);  // which one is the fastest ?
-            m_fbo = new QOpenGLFramebufferObject(m_profileSize.height(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
+            m_fbo = new QOpenGLFramebufferObject(m_profileSize.width(), m_profileSize.height(), fmt); // GL_TEXTURE_2D);
         }
         m_fbo->bind();
         glViewport(0, 0, m_profileSize.width(), m_profileSize.height());
