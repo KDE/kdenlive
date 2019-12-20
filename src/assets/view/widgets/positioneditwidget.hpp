@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef POSITIONWIDGET_H
-#define POSITIONWIDGET_H
+#ifndef POSITIONEDITWIDGET_H
+#define POSITIONEDITWIDGET_H
 
 #include "abstractparamwidget.hpp"
 #include "timecode.h"
