@@ -9,7 +9,7 @@
  ***************************************************************************/
 
 /** This Spectrogram shows the spectral power distribution of incoming audio samples
-    over time. See http://en.wikipedia.org/wiki/Spectrogram.
+    over time. See https://en.wikipedia.org/wiki/Spectrogram.
 
     The Spectrogram makes use of two caches:
     * A cached image where only the most recent line needs to be appended instead of

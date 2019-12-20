@@ -909,7 +909,7 @@ void Wizard::slotOpenManual()
 
 void Wizard::slotShowWebInfos()
 {
-    KRun::runUrl(QUrl("http://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this,
+    KRun::runUrl(QUrl("https://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this,
                  KRun::RunFlags());
 }
 

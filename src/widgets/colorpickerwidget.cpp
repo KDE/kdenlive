@@ -24,7 +24,6 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QMouseEvent>
-#include <QScreen>
 #include <QTimer>
 #include <QToolButton>
 #include <klocalizedstring.h>

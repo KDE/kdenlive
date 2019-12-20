@@ -1873,7 +1873,7 @@ void RenderWidget::refreshView()
             }
             if (params.contains(QStringLiteral(" profile=")) || params.startsWith(QLatin1String("profile="))) {
                 // changed in MLT commit d8a3a5c9190646aae72048f71a39ee7446a3bd45
-                // (http://www.mltframework.org/gitweb/mlt.git?p=mltframework.org/mlt.git;a=commit;h=d8a3a5c9190646aae72048f71a39ee7446a3bd45)
+                // (https://github.com/mltframework/mlt/commit/d8a3a5c9190646aae72048f71a39ee7446a3bd45)
                 item->setData(0, ErrorRole,
                               i18n("This render profile uses a 'profile' parameter.<br />Unless you know what you are doing you will probably "
                                    "have to change it to 'mlt_profile'."));

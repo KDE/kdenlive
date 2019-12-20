@@ -957,7 +957,7 @@ void KdenliveDoc::updateProjectFolderPlacesEntry()
 {
     /*
      * For similar and more code have a look at kfileplacesmodel.cpp and the included files:
-     * http://websvn.kde.org/trunk/KDE/kdelibs/kfile/kfileplacesmodel.cpp?view=markup
+     * https://api.kde.org/frameworks/kio/html/kfileplacesmodel_8cpp_source.html
      */
 
     const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + QStringLiteral("/user-places.xbel");

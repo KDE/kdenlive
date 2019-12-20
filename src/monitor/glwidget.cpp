@@ -4,7 +4,7 @@
  * Modified for Kdenlive: Jean-Baptiste Mardelle
  *
  * GL shader based on BSD licensed code from Peter Bengtsson:
- * http://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
+ * https://www.fourcc.org/source/YUV420P-OpenGL-GLSLang.c
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

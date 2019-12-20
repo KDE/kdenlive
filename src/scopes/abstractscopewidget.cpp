@@ -178,7 +178,7 @@ void AbstractScopeWidget::prodScopeThread()
 
             Q_ASSERT(m_accelFactorScope > 0);
 
-            // See http://doc.qt.nokia.com/latest/qtconcurrentrun.html#run about
+            // See https://doc.qt.io/qt-5/qtconcurrentrun.html about
             // running member functions in a thread
             m_threadScope = QtConcurrent::run(this, &AbstractScopeWidget::renderScope, m_accelFactorScope);
             m_requestForcedUpdate = false;

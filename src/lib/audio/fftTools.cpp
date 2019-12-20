@@ -46,7 +46,7 @@ const QString FFTTools::cfgSignature(const int size)
     return QStringLiteral("s%1").arg(size);
 }
 
-// http://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage
+// https://cplusplus.syntaxerrors.info/index.php?title=Cannot_declare_member_function_%E2%80%98static_int_Foo::bar%28%29%E2%80%99_to_have_static_linkage
 const QVector<float> FFTTools::window(const WindowType windowType, const int size, const float param)
 {
     Q_ASSERT(size > 0);

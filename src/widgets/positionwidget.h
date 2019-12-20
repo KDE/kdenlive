@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef POSITIONEDIT_H
-#define POSITIONEDIT_H
+#ifndef POSITIONWIDGET_H
+#define POSITIONWIDGET_H
 
 #include "timecode.h"
 #include <QString>

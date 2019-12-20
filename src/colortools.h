@@ -34,7 +34,7 @@ public:
       scaling defines how far to zoom in (or out). Lower value = zoom in.
       The modified version always scales the RGB values so that at least one of them attains 255.
       If not the full rect should be filled, set circleOnly to true.
-      See also: http://en.wikipedia.org/wiki/YUV and http://de.wikipedia.org/wiki/Vektorskop
+      See also: https://en.wikipedia.org/wiki/YUV and https://de.wikipedia.org/wiki/Vektorskop
      */
     QImage yuvColorWheel(const QSize &size, int Y, float scaling, bool modifiedVersion, bool circleOnly);
     /**
@@ -65,7 +65,7 @@ public:
       @brief Draws a YPbPr plane with Pb on the x axis and Pr on the y axis.
       Y is the Y value to use.
       scaling defines how far to zoom in (or out). Lower value = zoom in.
-      See also: http://de.wikipedia.org/wiki/YPbPr-Farbmodell and http://www.poynton.com/ColorFAQ.html
+      See also: https://de.wikipedia.org/wiki/YPbPr-Farbmodell and https://www.poynton.com/ColorFAQ.html
      */
     QImage yPbPrColorWheel(const QSize &size, int Y, float scaling, bool circleOnly);
     /**
@@ -73,7 +73,7 @@ public:
      This is for the Bézier Curves widget which allows to change the hue (y) of a certain hue.
      MIN/MAX give the minimum/maximum hue difference, e.g. -128,+128.
      For the value ranges see:
-     http://doc.qt.nokia.com/latest/qcolor.html#the-hsv-color-model
+     https://doc.qt.io/qt-5/qcolor.html#the-hsv-color-model
      */
     static QImage hsvHueShiftPlane(const QSize &size, int S, int V, int MIN, int MAX);
 

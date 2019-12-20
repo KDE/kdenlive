@@ -54,7 +54,7 @@ AudioEnvelope::~AudioEnvelope()
         // finished, m_watcher might be finished, but the signal
         // 'envelopeReady' might still be pending while AudioEnvelope is
         // being deleted, which can cause a crash according to
-        // http://doc.qt.io/qt-5/qobject.html#dtor.QObject.
+        // https://doc.qt.io/qt-5/qobject.html#dtor.QObject.
         m_audioSummary.waitForFinished();
         m_watcher.waitForFinished();
     }

@@ -19,8 +19,8 @@
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
  ***************************************************************************/
 
-#ifndef LISTPARAMETERWIDGET_H
-#define LISTPARAMETERWIDGET_H
+#ifndef LISTPARAMWIDGET_H
+#define LISTPARAMWIDGET_H
 
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "ui_listparamwidget_ui.h"

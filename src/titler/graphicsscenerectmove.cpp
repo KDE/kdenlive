@@ -601,7 +601,7 @@ void GraphicsSceneRectMove::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *e)
     m_resizeMode = NoResize;
     m_selectedItem = nullptr;
 
-    // http://www.kdenlive.org/mantis/view.php?id=1035
+    // http://web.archive.org/web/20140728070013/http://www.kdenlive.org/mantis/view.php?id=1035
     QList<QGraphicsItem *> i = items(QRectF(p, QSizeF(4, 4)).toRect());
     if (i.isEmpty()) {
         return;

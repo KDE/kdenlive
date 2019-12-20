@@ -18,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef FILTCLIPJOB
-#define FILTCLIPJOB
+#ifndef FILTERCLIPJOB
+#define FILTERCLIPJOB
 
 #include "meltjob.h"
 #include "assets/model/assetparametermodel.hpp"

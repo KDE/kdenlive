@@ -20,8 +20,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PROFILESELECTWIDGET_H
-#define PROFILESELECTWIDGET_H
+#ifndef PROFILEWIDGET_H
+#define PROFILEWIDGET_H
 
 #include "dialogs/profilesdialog.h"
 #include <memory>

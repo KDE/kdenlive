@@ -2,7 +2,7 @@
 find_package(LibV4L2)
 set_package_properties(LibV4L2 PROPERTIES
     DESCRIPTION "video4linux support libraries"
-    URL "http://freecode.com/projects/libv4l"
+    URL "https://linuxtv.org/downloads/v4l-utils/"
     TYPE RUNTIME
     PURPOSE "Required for better webcam support")
 
