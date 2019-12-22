@@ -30,6 +30,7 @@
 
 class KSqueezedTextLabel;
 class KDualAction;
+class KMessageWidget;
 class QToolButton;
 class QComboBox;
 class QScrollArea;
@@ -71,6 +72,7 @@ public:
 public slots:
     /** @brief Clear panel if displaying itemId */
     void clearAssetPanel(int itemId);
+    void assetPanelWarning(const QString service, const QString id, const QString message);
     void deleteCurrentEffect();
     void slotCheckWheelEventFilter();
 
@@ -92,6 +94,7 @@ private:
     KDualAction *m_enableStackButton;
     KDualAction *m_timelineButton;
     QScrollArea *m_sc;
+    KMessageWidget *m_infoMessage;
 
 private slots:
     void processSplitEffect(bool enable);

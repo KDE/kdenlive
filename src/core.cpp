@@ -811,3 +811,8 @@ int Core::getDurationFromString(const QString &time)
     const QString duration = currentDoc()->timecode().reformatSeparators(time);
     return currentDoc()->timecode().getFrameCount(duration);
 }
+
+void Core::processInvalidFilter(const QString service, const QString id, const QString message)
+{
+    if (m_guiConstructed) m_mainWindow->assetPanelWarning(service, id, message);
+}

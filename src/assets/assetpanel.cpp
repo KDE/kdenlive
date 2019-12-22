@@ -28,6 +28,7 @@
 #include "kdenlivesettings.h"
 #include "model/assetparametermodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "effects/effectsrepository.hpp"
 #include "transitions/view/transitionstackview.hpp"
 
 #include "view/assetparameterview.hpp"
@@ -36,6 +37,7 @@
 #include <KColorUtils>
 #include <KDualAction>
 #include <KSqueezedTextLabel>
+#include <KMessageWidget>
 #include <QApplication>
 #include <QToolBar>
 #include <QToolButton>
@@ -128,6 +130,9 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_sc->setWidgetResizable(true);
 
     m_lay->addWidget(m_sc);
+    m_infoMessage = new KMessageWidget(this);
+    m_lay->addWidget(m_infoMessage);
+    m_infoMessage->hide();
     m_sc->setWidget(m_container);
     m_transitionWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
@@ -403,4 +408,21 @@ void AssetPanel::slotCheckWheelEventFilter()
         blockWheel = true;
     }
     m_effectStackWidget->blockWheenEvent(blockWheel);
+}
+
+void AssetPanel::assetPanelWarning(const QString service, const QString id, const QString message)
+{
+    QString finalMessage;
+    if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {
+        QString effectName = EffectsRepository::get()->getName(service);
+        if (!effectName.isEmpty()) {
+            finalMessage = QStringLiteral("<b>") + effectName + QStringLiteral("</b><br />");
+        }
+    }
+    finalMessage.append(message);
+    m_infoMessage->setText(finalMessage);
+    m_infoMessage->setWordWrap(message.length() > 35);
+    m_infoMessage->setCloseButtonVisible(true);
+    m_infoMessage->setMessageType(KMessageWidget::Warning);
+    m_infoMessage->animatedShow();
 }
