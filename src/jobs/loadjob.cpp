@@ -357,6 +357,8 @@ bool LoadJob::startJob()
         break;
     }
     case ClipType::SlideShow:
+        m_producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_resource.toUtf8().constData());
+        break;
     default:
         if (!service.isEmpty()) {
             service.append(QChar(':'));

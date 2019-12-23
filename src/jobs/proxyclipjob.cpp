@@ -89,6 +89,17 @@ bool ProxyJob::startJob()
         // set destination
         mltParameters << QStringLiteral("-consumer") << QStringLiteral("avformat:") + dest;
         QString parameter = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
+        if (parameter.isEmpty()) {
+            // Automatic setting, decide based on hw support
+            parameter = pCore->currentDoc()->getAutoProxyProfile();
+            bool nvenc = parameter.contains(QStringLiteral("%nvcodec"));
+            if (nvenc) {
+                parameter = parameter.section(QStringLiteral("-i"), 1);
+                parameter.replace(QStringLiteral("scale_cuda"), QStringLiteral("scale"));
+                parameter.replace(QStringLiteral("scale_npp"), QStringLiteral("scale"));
+                parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
+            }
+        }
         QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
         double display_ratio;
         if (source.startsWith(QLatin1String("consumer:"))) {
@@ -137,6 +148,7 @@ bool ProxyJob::startJob()
         }
         mltParameters.append(QStringLiteral("real_time=-%1").arg(threadCount));
         mltParameters.append(QStringLiteral("threads=%1").arg(threadCount));
+        mltParameters.append(QStringLiteral("terminate_on_pause=1"));
 
         // TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manually
         mltParameters << QStringLiteral("aspect=") + QLocale().toString(display_ratio);
