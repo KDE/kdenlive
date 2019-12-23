@@ -72,12 +72,16 @@ public:
     explicit MyListView(QWidget *parent = nullptr);
 
 protected:
+    void mousePressEvent(QMouseEvent *event) override;
     void focusInEvent(QFocusEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
 signals:
     void focusView();
-    void updateDragMode(ClipType::ProducerType type);
+    void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame);
+private:
+    QPoint m_startPos;
+    PlaylistState::ClipState m_dragType;
 };
 
 class MyTreeView : public QTreeView

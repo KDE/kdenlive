@@ -283,7 +283,7 @@ public:
                     }
                 }
             } else {
-                // Folder or Folder Up items
+                // Folder
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
                     r.setWidth(r.height() * m_dar);
@@ -338,17 +338,56 @@ public:
         connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
     }
     void setDar(double dar) { m_dar = dar; }
+    
+    bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override
+    {
+        Q_UNUSED(model);
+        Q_UNUSED(option);
+        Q_UNUSED(index);
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = (QMouseEvent *)event;
+            if (m_audioDragRect.contains(me->pos())) {
+                dragType = PlaylistState::AudioOnly;
+            } else if (m_videoDragRect.contains(me->pos())) {
+                dragType = PlaylistState::VideoOnly;
+            } else {
+                dragType = PlaylistState::Disabled;
+            }
+        }
+        event->ignore();
+        return false;
+    }
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         if (!index.data().isNull()) {
-            QStyleOptionViewItem opt = option;
+            QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
-
-            int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
-            QRect rect(0, 0, opt.rect.width(), opt.rect.height());
-            m_thumbRect = adjust > 0 && adjust < rect.width() ? rect.adjusted(adjust, 0, -adjust, 0) : rect;
             QStyledItemDelegate::paint(painter, option, index);
+            int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
+            QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
+            m_thumbRect = adjust > 0 && adjust < rect.width() ? rect.adjusted(adjust, 0, -adjust, 0) : rect;
+            // Add audio/video icons for selective drag
+                    int cType = index.data(AbstractProjectItem::ClipType).toInt();
+                    bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
+                        QRect thumbRect = m_thumbRect;
+                        int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
+                        thumbRect.setLeft(opt.rect.right() - iconSize - 4);
+                        thumbRect.setWidth(iconSize);
+                        thumbRect.setBottom(m_thumbRect.top() + iconSize);
+                        QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+                        m_audioDragRect = thumbRect;
+                        aDrag.paint(painter, m_audioDragRect, Qt::AlignRight);
+                        m_videoDragRect = m_audioDragRect;
+                        m_videoDragRect.moveTop(thumbRect.bottom());
+                        QIcon vDrag = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+                        vDrag.paint(painter, m_videoDragRect, Qt::AlignRight);
+                    } else {
+                        //m_audioDragRect = QRect();
+                        //m_videoDragRect = QRect();
+                    }
+            
         }
     }
 
@@ -391,6 +430,22 @@ void MyListView::focusInEvent(QFocusEvent *event)
     QListView::focusInEvent(event);
     if (event->reason() == Qt::MouseFocusReason) {
         emit focusView();
+    }
+}
+
+void MyListView::mousePressEvent(QMouseEvent *event)
+{
+    QListView::mousePressEvent(event);
+    if (event->button() == Qt::LeftButton) {
+        m_startPos = event->pos();
+        QModelIndex ix = indexAt(m_startPos);
+        if (ix.isValid()) {
+            QAbstractItemDelegate *del = itemDelegate(ix);
+            m_dragType = static_cast<BinListItemDelegate *>(del)->dragType;
+        } else {
+            m_dragType = PlaylistState::Disabled;
+        }
+        emit updateDragMode(m_dragType);
     }
 }
 
@@ -1498,6 +1553,7 @@ void Bin::slotInitView(QAction *action)
     } else if (m_listType == BinIconView) {
         m_itemView->setItemDelegate(m_binListViewDelegate);
         auto *view = static_cast<MyListView *>(m_itemView);
+        connect(view, &MyListView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
         view->setGridSize(QSize(zoom.width() * 1.2, zoom.width()));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
