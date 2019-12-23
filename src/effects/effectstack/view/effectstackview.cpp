@@ -311,10 +311,12 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
         return;
     }
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
-    auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-    if (del) {
-        del->setHeight(ix, newHeight);
-        QMetaObject::invokeMethod(this, "updateTreeHeight", Qt::QueuedConnection);
+    if (ix.isValid()) {
+        auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
+        if (del) {
+            del->setHeight(ix, newHeight);
+            QMetaObject::invokeMethod(this, "updateTreeHeight", Qt::QueuedConnection);
+        }
     }
 }
 

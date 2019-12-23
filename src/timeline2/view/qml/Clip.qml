@@ -505,7 +505,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 2
             anchors.leftMargin: 4
-            width: root.baseUnit * 1.2
+            width: root.baseUnit
             height: width
             radius: 2
             color: Qt.darker('mediumpurple')
@@ -553,7 +553,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 2
             anchors.rightMargin: 4
-            width: root.baseUnit * 1.2
+            width: root.baseUnit
             height: width
             radius: 2
             color: Qt.darker('mediumpurple')
@@ -597,295 +597,167 @@ Rectangle {
                 }
             }
         }
-
-
-        TimelineTriangle {
-            id: fadeInTriangle
-            fillColor: 'green'
-            width: Math.min(clipRoot.fadeIn * timeScale, clipRoot.width)
-            height: clipRoot.height - clipRoot.border.width * 2
-            anchors.left: parent.left
-            anchors.top: parent.top
-            anchors.margins: clipRoot.border.width
-            opacity: 0.3
-        }
-        Rectangle {
-            id: fadeInControl
-            anchors.left: fadeInTriangle.right
-            anchors.leftMargin: fadeInTriangle.width > root.baseUnit ? -root.baseUnit : 0
-            anchors.top: fadeInTriangle.top
-            anchors.topMargin: -10
-            width: root.baseUnit * 2
-            height: width
-            radius: width / 2
-            color: '#FF66FFFF'
-            border.width: 2
-            border.color: 'green'
-            enabled: !isLocked && !dragProxy.isComposition
-            opacity: 0
-            visible : clipRoot.width > 3 * width
-            Drag.active: fadeInMouseArea.drag.active
-            MouseArea {
-                id: fadeInMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                drag.target: parent
-                drag.minimumX: -root.baseUnit
-                drag.maximumX: container.width
-                drag.axis: Drag.XAxis
-                drag.smoothed: false
-                property int startX
-                property int startFadeIn
-                onEntered: parent.opacity = 0.7
-                onExited: {
-                    if (!pressed) {
-                    parent.opacity = 0
-                    }
-                }
-                onPressed: {
-                    root.autoScrolling = false
-                    startX = Math.round(parent.x / timeScale)
-                    startFadeIn = clipRoot.fadeIn
-                    parent.anchors.left = undefined
-                    parent.opacity = 1
-                    fadeInTriangle.opacity = 0.5
-                    // parentTrack.clipSelected(clipRoot, parentTrack) TODO
-                }
-                onReleased: {
-                    root.autoScrolling = timeline.autoScroll
-                    fadeInTriangle.opacity = 0.3
-                    parent.opacity = 0
-                    parent.anchors.left = fadeInTriangle.right
-                    console.log('released fade: ', clipRoot.fadeIn)
-                    timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
-                    bubbleHelp.hide()
-                }
-                onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
-                        var delta = Math.round(parent.x / timeScale) - startX
-                        var duration = Math.max(0, startFadeIn + delta)
-                        duration = Math.min(duration, clipRoot.clipDuration - 1)
-                        if (duration != clipRoot.fadeIn) {
-                            timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
-                            // Show fade duration as time in a "bubble" help.
-                            var s = timeline.simplifiedTC(Math.max(duration, 0))
-                            bubbleHelp.show(clipRoot.x, parentTrack.y + clipRoot.height, s)
-                        }
-                    }
-                }
-            }
-            SequentialAnimation on scale {
-                loops: Animation.Infinite
-                running: fadeInMouseArea.containsMouse && !fadeInMouseArea.pressed
-                NumberAnimation {
-                    from: 1.0
-                    to: 0.7
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-                NumberAnimation {
-                    from: 0.7
-                    to: 1.0
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-
-        TimelineTriangle {
-            id: fadeOutCanvas
-            fillColor: 'red'
-            width: Math.min(clipRoot.fadeOut * timeScale, clipRoot.width)
-            height: clipRoot.height - clipRoot.border.width * 2
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.margins: clipRoot.border.width
-            opacity: 0.3
-            transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
-        }
-        Rectangle {
-            id: fadeOutControl
-            anchors.right: fadeOutCanvas.left
-            anchors.rightMargin: fadeOutCanvas.width > root.baseUnit ? -root.baseUnit : 0
-            anchors.top: fadeOutCanvas.top
-            anchors.topMargin: -10
-            width: root.baseUnit * 2
-            height: width
-            radius: width / 2
-            color: '#66FFFFFF'
-            border.width: 2
-            border.color: 'red'
-            opacity: 0
-            enabled: !isLocked && !dragProxy.isComposition
-            Drag.active: fadeOutMouseArea.drag.active
-            visible : clipRoot.width > 3 * width
-            MouseArea {
-                id: fadeOutMouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                drag.target: parent
-                drag.axis: Drag.XAxis
-                drag.minimumX: -root.baseUnit
-                drag.maximumX: container.width
-                property int startX
-                property int startFadeOut
-                onEntered: parent.opacity = 0.7
-                onExited: {
-                    if (!pressed) {
-                    parent.opacity = 0
-                    }
-                }
-                drag.smoothed: false
-                onPressed: {
-                    root.autoScrolling = false
-                    startX = Math.round(parent.x / timeScale)
-                    startFadeOut = clipRoot.fadeOut
-                    parent.anchors.right = undefined
-                    parent.opacity = 1
-                    fadeOutCanvas.opacity = 0.5
-                }
-                onReleased: {
-                    fadeOutCanvas.opacity = 0.3
-                    parent.opacity = 0
-                    root.autoScrolling = timeline.autoScroll
-                    parent.anchors.right = fadeOutCanvas.left
-                    var duration = clipRoot.fadeOut
-                    if (duration > 0) {
-                        duration += 1
-                    }
-                    timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
-                    bubbleHelp.hide()
-                }
-                onPositionChanged: {
-                    if (mouse.buttons === Qt.LeftButton) {
-                        var delta = startX - Math.round(parent.x / timeScale)
-                        var duration = Math.max(0, startFadeOut + delta)
-                        duration = Math.min(duration, clipRoot.clipDuration)
-                        if (clipRoot.fadeOut != duration) {
-                            timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
-                            // Show fade duration as time in a "bubble" help.
-                            var s = timeline.simplifiedTC(Math.max(duration, 0))
-                            bubbleHelp.show(clipRoot.x + clipRoot.width, parentTrack.y + clipRoot.height, s)
-                        }
-                    }
-                }
-            }
-            SequentialAnimation on scale {
-                loops: Animation.Infinite
-                running: fadeOutMouseArea.containsMouse && !fadeOutMouseArea.pressed
-                NumberAnimation {
-                    from: 1.0
-                    to: 0.7
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-                NumberAnimation {
-                    from: 0.7
-                    to: 1.0
-                    duration: 250
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
+    }
+    
+    TimelineTriangle {
+        id: fadeInTriangle
+        fillColor: 'green'
+        width: Math.min(clipRoot.fadeIn * timeScale, clipRoot.width)
+        height: clipRoot.height - clipRoot.border.width * 2
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.margins: clipRoot.border.width
+        opacity: 0.3
     }
 
-    Rectangle {
-        id: trimIn
+    TimelineTriangle {
+        id: fadeOutCanvas
+        fillColor: 'red'
+        width: Math.min(clipRoot.fadeOut * timeScale, clipRoot.width)
+        height: clipRoot.height - clipRoot.border.width * 2
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.margins: clipRoot.border.width
+        opacity: 0.3
+        transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
+    }
+
+    MouseArea {
+        id: trimInMouseArea
         anchors.left: clipRoot.left
         anchors.leftMargin: 0
         height: parent.height
-        enabled: !isLocked
         width: root.baseUnit / 2
-        color: isAudio? 'green' : 'lawngreen'
-        opacity: 0
-        Drag.active: trimInMouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction
-        visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
-
-        ToolTip {
-            visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
-            delay: 1000
-            timeout: 5000
-            background: Rectangle {
-                color: activePalette.alternateBase
-                border.color: activePalette.light
+        enabled: !isLocked
+        hoverEnabled: true
+        drag.target: trimInMouseArea
+        drag.axis: Drag.XAxis
+        drag.smoothed: false
+        property bool shiftTrim: false
+        property bool controlTrim: false
+        property bool sizeChanged: false
+        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+        onPressed: {
+            root.autoScrolling = false
+            clipRoot.originalX = clipRoot.x
+            clipRoot.originalDuration = clipDuration
+            anchors.left = undefined
+            shiftTrim = mouse.modifiers & Qt.ShiftModifier
+            controlTrim = mouse.modifiers & Qt.ControlModifier
+            if (!shiftTrim && clipRoot.grouped) {
+                clipRoot.initGroupTrim(clipRoot)
             }
-            contentItem: Label {
-                color: activePalette.text
-                font.pointSize: root.fontUnit
-                text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+            trimIn.opacity = 0
+        }
+        onReleased: {
+            root.autoScrolling = timeline.autoScroll
+            anchors.left = clipRoot.left
+            if (sizeChanged) {
+                clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
+            sizeChanged = false
             }
         }
-
-        MouseArea {
-            id: trimInMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            drag.target: parent
-            drag.axis: Drag.XAxis
-            drag.smoothed: false
-            property bool shiftTrim: false
-            property bool controlTrim: false
-            property bool sizeChanged: false
-            cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
-            onPressed: {
-                root.autoScrolling = false
-                clipRoot.originalX = clipRoot.x
-                clipRoot.originalDuration = clipDuration
-                parent.anchors.left = undefined
-                shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                controlTrim = mouse.modifiers & Qt.ControlModifier
-                if (!shiftTrim && clipRoot.grouped) {
-                    clipRoot.initGroupTrim(clipRoot)
-                }
-                parent.opacity = 0
-            }
-            onReleased: {
-                root.autoScrolling = timeline.autoScroll
-                parent.anchors.left = clipRoot.left
-                if (sizeChanged) {
-                    clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
-                    sizeChanged = false
-                }
-            }
-            onPositionChanged: {
-                if (mouse.buttons === Qt.LeftButton) {
-                    var delta = Math.round((trimIn.x) / timeScale)
-                    if (delta !== 0) {
-                        if (maxDuration > 0 && delta < -inPoint) {
-                            delta = -inPoint
-                        }
-                        var newDuration =  clipDuration - delta
-                        sizeChanged = true
-                        clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+        onPositionChanged: {
+            if (mouse.buttons === Qt.LeftButton) {
+                var delta = Math.round(x / timeScale)
+                if (delta !== 0) {
+                    if (maxDuration > 0 && delta < -inPoint) {
+                        delta = -inPoint
                     }
+                    var newDuration =  clipDuration - delta
+                    sizeChanged = true
+                    clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
                 }
             }
-            onEntered: {
-                if (!pressed) {
-                    parent.opacity = 0.5
-                }
+        }
+        onEntered: {
+            if (!pressed) {
+                trimIn.opacity = 0.5
             }
-            onExited: {
-                parent.opacity = 0
+        }
+        onExited: {
+            trimIn.opacity = 0
+        }
+        Rectangle {
+            id: trimIn
+            anchors.fill: parent
+            anchors.margins: 2
+            color: isAudio? 'green' : 'lawngreen'
+            opacity: 0
+            Drag.active: trimInMouseArea.drag.active
+            Drag.proposedAction: Qt.MoveAction
+            visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
+
+            ToolTip {
+                visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
+                delay: 1000
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    font.pointSize: root.fontUnit
+                    text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+                }
             }
         }
     }
-    Rectangle {
-        id: trimOut
+
+    MouseArea {
+        id: trimOutMouseArea
         anchors.right: clipRoot.right
-        anchors.rightMargin: 0
         height: parent.height
         width: root.baseUnit / 2
-        color: 'red'
-        opacity: 0
+        hoverEnabled: true
         enabled: !isLocked
-        Drag.active: trimOutMouseArea.drag.active
-        Drag.proposedAction: Qt.MoveAction
-        visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
+        property bool shiftTrim: false
+        property bool controlTrim: false
+        property bool sizeChanged: false
+        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+        drag.target: trimOutMouseArea
+        drag.axis: Drag.XAxis
+        drag.smoothed: false
 
+        onPressed: {
+            root.autoScrolling = false
+            clipRoot.originalDuration = clipDuration
+            anchors.right = undefined
+            shiftTrim = mouse.modifiers & Qt.ShiftModifier
+            controlTrim = mouse.modifiers & Qt.ControlModifier
+            if (!shiftTrim && clipRoot.grouped) {
+                clipRoot.initGroupTrim(clipRoot)
+            }
+            trimOut.opacity = 0
+        }
+        onReleased: {
+            root.autoScrolling = timeline.autoScroll
+            anchors.right = clipRoot.right
+            if (sizeChanged) {
+                clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
+                sizeChanged = false
+            }
+        }
+        onPositionChanged: {
+            if (mouse.buttons === Qt.LeftButton) {
+                var newDuration = Math.round((x + width) / timeScale)
+                if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
+                    newDuration = maxDuration - inPoint
+                }
+                if (newDuration != clipDuration) {
+                    sizeChanged = true
+                    clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                }
+            }
+        }
+        onEntered: {
+            if (!pressed) {
+                trimOut.opacity = 0.5
+            }
+        }
+        onExited: trimOut.opacity = 0
+            
         ToolTip {
             visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
             delay: 1000
@@ -900,58 +772,175 @@ Rectangle {
                 text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
             }
         }
-
-        MouseArea {
-            id: trimOutMouseArea
+        Rectangle {
+            id: trimOut
             anchors.fill: parent
+            anchors.margins: 2
+            color: 'red'
+            opacity: 0
+            Drag.active: trimOutMouseArea.drag.active
+            Drag.proposedAction: Qt.MoveAction
+            visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
+        }
+    }
+    
+    MouseArea {
+            id: fadeOutMouseArea
+            anchors.right: fadeOutCanvas.left
+            anchors.rightMargin: -width/2
+            anchors.top: fadeOutCanvas.top
+            anchors.topMargin: -width / 3
+            width: root.baseUnit
+            height: width
+            //anchors.fill: parent
             hoverEnabled: true
-            property bool shiftTrim: false
-            property bool controlTrim: false
-            property bool sizeChanged: false
-            cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
-            drag.target: parent
+            cursorShape: Qt.PointingHandCursor
+            drag.target: fadeOutMouseArea
             drag.axis: Drag.XAxis
+            drag.minimumX: - Math.ceil(width / 2)
+            drag.maximumX: container.width
+            visible : clipRoot.width > 3 * width
+            property int startFadeOut
+            property int lastDuration: -1
+            onEntered: fadeOutControl.opacity = 0.7
+            onExited: {
+                if (!pressed) {
+                    fadeOutControl.opacity = 0
+                }
+            }
             drag.smoothed: false
-
             onPressed: {
                 root.autoScrolling = false
-                clipRoot.originalDuration = clipDuration
-                parent.anchors.right = undefined
-                shiftTrim = mouse.modifiers & Qt.ShiftModifier
-                controlTrim = mouse.modifiers & Qt.ControlModifier
-                if (!shiftTrim && clipRoot.grouped) {
-                    clipRoot.initGroupTrim(clipRoot)
-                }
-                parent.opacity = 0
+                startFadeOut = clipRoot.fadeOut
+                anchors.right = undefined
+                fadeOutControl.opacity = 1
             }
             onReleased: {
+                fadeOutCanvas.opacity = 0.3
                 root.autoScrolling = timeline.autoScroll
-                parent.anchors.right = clipRoot.right
-                if (sizeChanged) {
-                    clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
-                    sizeChanged = false
+                anchors.right = fadeOutCanvas.left
+                if (!fadeOutMouseArea.containsMouse) {
+                    fadeOutControl.opacity = 0
                 }
+                var duration = clipRoot.fadeOut
+                if (duration > 0) {
+                    duration += 1
+                }
+                timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, startFadeOut)
+                bubbleHelp.hide()
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var newDuration = Math.round((parent.x + parent.width) / timeScale)
-                    if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
-                        newDuration = maxDuration - inPoint
-                    }
-                    if (newDuration != clipDuration) {
-                        sizeChanged = true
-                        clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                    var delta = clipRoot.clipDuration - Math.floor(x / timeScale)
+                    var duration = Math.max(0, delta)
+                    duration = Math.min(duration, clipRoot.clipDuration)
+                    if (lastDuration != duration) {
+                        lastDuration = duration
+                        timeline.adjustFade(clipRoot.clipId, 'fadeout', duration, -1)
+                        // Show fade duration as time in a "bubble" help.
+                        var s = timeline.simplifiedTC(clipRoot.fadeOut + (clipRoot.fadeOut > 0 ? 1 : 0))
+                        bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
                     }
                 }
             }
-            onEntered: {
-                if (!pressed) {
-                    parent.opacity = 0.5
+            Rectangle {
+                id: fadeOutControl
+                anchors.fill: parent
+                radius: width / 2
+                color: '#66FFFFFF'
+                border.width: 2
+                border.color: 'red'
+                opacity: 0
+                enabled: !isLocked && !dragProxy.isComposition
+                Drag.active: fadeOutMouseArea.drag.active
+                Rectangle {
+                    id: fadeOutMarker
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: parent.width / 3
+                    color: 'red'
+                    height: container.height - 1
+                    width: 1
                 }
             }
-            onExited: parent.opacity = 0
         }
-    }
+        
+        MouseArea {
+            id: fadeInMouseArea
+            anchors.left: fadeInTriangle.right
+            anchors.leftMargin: -width / 2
+            anchors.top: fadeInTriangle.top
+            anchors.topMargin: -width / 3
+            width: root.baseUnit
+            height: width
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            drag.target: fadeInMouseArea
+            drag.minimumX: - Math.ceil(width / 2)
+            drag.maximumX: container.width - width / 2
+            drag.axis: Drag.XAxis
+            drag.smoothed: false
+            property int startFadeIn
+            onEntered: fadeInControl.opacity = 0.7
+            onExited: {
+                if (!pressed) {
+                    fadeInControl.opacity = 0
+                }
+            }
+            onPressed: {
+                root.autoScrolling = false
+                startFadeIn = clipRoot.fadeIn
+                anchors.left = undefined
+                fadeInControl.opacity = 1
+                fadeInTriangle.opacity = 0.5
+                // parentTrack.clipSelected(clipRoot, parentTrack) TODO
+            }
+            onReleased: {
+                root.autoScrolling = timeline.autoScroll
+                fadeInTriangle.opacity = 0.3
+                if (!fadeInMouseArea.containsMouse) {
+                    fadeInControl.opacity = 0
+                }
+                anchors.left = fadeInTriangle.right
+                console.log('released fade: ', clipRoot.fadeIn)
+                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
+                bubbleHelp.hide()
+            }
+            onPositionChanged: {
+                if (mouse.buttons === Qt.LeftButton) {
+                    var delta = Math.round(x / timeScale)
+                    var duration = Math.max(0, delta)
+                    duration = Math.min(duration, clipRoot.clipDuration - 1)
+                    if (duration != clipRoot.fadeIn) {
+                        timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
+                        // Show fade duration as time in a "bubble" help.
+                        var s = timeline.simplifiedTC(clipRoot.fadeIn)
+                        bubbleHelp.show(clipRoot.x + x, parentTrack.y + parentTrack.height, s)
+                    }
+                }
+            }
+            Rectangle {
+                id: fadeInControl
+                anchors.fill: parent
+                radius: width / 2
+                color: '#FF66FFFF'
+                border.width: 2
+                border.color: 'green'
+                enabled: !isLocked && !dragProxy.isComposition
+                opacity: 0
+                visible : clipRoot.width > 3 * width
+                Drag.active: fadeInMouseArea.drag.active
+                Rectangle {
+                    id: fadeInMarker
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: parent.width / 3
+                    color: 'green'
+                    height: container.height - 1
+                    width: 1
+                }
+            }
+        }
 
         /*MenuItem {
             id: mergeItem

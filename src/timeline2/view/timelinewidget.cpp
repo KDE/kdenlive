@@ -48,6 +48,7 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QUuid>
+#include <QFontDatabase>
 #include <QSortFilterProxyModel>
 
 const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 200, 300, 500, 800, 1000, 1500, 2000, 3000, 6000, 15000, 30000};
@@ -83,6 +84,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     m_thumbnailer = new ThumbnailProvider;
     engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
     setVisible(false);
+    setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFocusPolicy(Qt::StrongFocus);
 }
 
