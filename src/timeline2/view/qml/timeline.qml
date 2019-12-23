@@ -1354,9 +1354,9 @@ Rectangle {
         id: bubbleHelp
         property alias text: bubbleHelpLabel.text
         color: root.color //application.toolTipBaseColor
-        width: bubbleHelpLabel.width + 8
-        height: bubbleHelpLabel.height + 8
-        radius: 4
+        width: bubbleHelpLabel.width + 6
+        height: bubbleHelpLabel.height + 6
+        radius: 3
         states: [
             State { name: 'invisible'; PropertyChanges { target: bubbleHelp; opacity: 0} },
             State { name: 'visible'; PropertyChanges { target: bubbleHelp; opacity: 0.8} }
@@ -1381,9 +1381,9 @@ Rectangle {
             font.pointSize: root.fontUnit
         }
         function show(x, y, text) {
-            bubbleHelp.x = x + tracksArea.x - scrollView.flickableItem.contentX - bubbleHelpLabel.width
-            bubbleHelp.y = y + tracksArea.y - scrollView.flickableItem.contentY - bubbleHelpLabel.height
             bubbleHelp.text = text
+            bubbleHelp.x = x + tracksArea.x - scrollView.flickableItem.contentX - bubbleHelp.width
+            bubbleHelp.y = y + tracksArea.y - scrollView.flickableItem.contentY - bubbleHelp.height + ruler.height - 3
             if (bubbleHelp.state !== 'visible')
                 bubbleHelp.state = 'visible'
         }
