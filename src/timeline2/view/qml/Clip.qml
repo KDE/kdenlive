@@ -798,7 +798,7 @@ Rectangle {
             drag.target: fadeOutMouseArea
             drag.axis: Drag.XAxis
             drag.minimumX: - Math.ceil(width / 2)
-            drag.maximumX: container.width
+            drag.maximumX: container.width - Math.floor(width / 4)
             visible : clipRoot.width > 3 * width
             property int startFadeOut
             property int lastDuration: -1
@@ -831,7 +831,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = clipRoot.clipDuration - Math.floor(x / timeScale)
+                    var delta = clipRoot.clipDuration - Math.floor((x + width / 2)/ timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
                     if (lastDuration != duration) {
@@ -908,7 +908,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = Math.round(x / timeScale)
+                    var delta = Math.round((x + width / 2) / timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)
                     if (duration != clipRoot.fadeIn) {
