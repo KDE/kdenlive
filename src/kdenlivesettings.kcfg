@@ -9,6 +9,10 @@
       <label>Bin treeview headers state.</label>
       <default></default>
     </entry>
+    <entry name="binSorting" type="Int">
+      <label>Bin sorting column.</label>
+      <default>0</default>
+    </entry>
     <entry name="binMode" type="Int">
       <label>Bin view mode.</label>
       <default>0</default>

@@ -59,6 +59,7 @@ class QToolBar;
 class QToolButton;
 class QUndoCommand;
 class QVBoxLayout;
+class QActionGroup;
 class SmallJobLabel;
 
 namespace Mlt {
@@ -388,6 +389,7 @@ private:
     QAction *m_inTimelineAction;
     QAction *m_showDate;
     QAction *m_showDesc;
+    QAction *m_sortDescend;
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
     /** @brief Default icon size for the views. */
@@ -414,6 +416,7 @@ private:
     QAction *m_discardCurrentClipJobs;
     QAction *m_discardPendingJobs;
     QAction *m_upAction;
+    QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
@@ -440,6 +443,7 @@ private:
     void showTitleWidget(const std::shared_ptr<ProjectClip> &clip);
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
+    void updateSortingAction(int ix);
     int wheelAccumulatedDelta;
 
 signals:

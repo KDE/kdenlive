@@ -88,6 +88,9 @@ int ProjectItemModel::mapToColumn(int column) const
     case 2:
         return AbstractProjectItem::DataDescription;
         break;
+    case 3:
+        return AbstractProjectItem::ClipType;
+        break;
     default:
         return AbstractProjectItem::DataName;
     }
@@ -230,6 +233,9 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
             break;
         case 2:
             columnName = i18n("Description");
+            break;
+        case 3:
+            columnName = i18n("Type");
             break;
         default:
             columnName = i18n("Unknown");

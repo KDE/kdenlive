@@ -28,6 +28,7 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {
     m_collator.setNumericMode(true);
+    m_collator.setCaseSensitivity(Qt::CaseInsensitive);
     m_selection = new QItemSelectionModel(this);
     connect(m_selection, &QItemSelectionModel::selectionChanged, this, &ProjectSortProxyModel::onCurrentRowChanged);
     setDynamicSortFilter(true);
@@ -91,7 +92,6 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
     int leftType = sourceModel()->data(left, AbstractProjectItem::ItemTypeRole).toInt();
     int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
-        // Let the normal alphabetical sort happen
         // Let the normal alphabetical sort happen
         QVariant leftData;
         QVariant rightData;

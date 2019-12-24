@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
+#include <QActionGroup>
 #include <QSlider>
 #include <QTimeLine>
 #include <QUndoCommand>
@@ -805,6 +806,55 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     }
     pCore->window()->actionCollection()->addAction(QStringLiteral("bin_view_mode_icon"), iconViewAction);
 
+    // Sort menu
+    m_sortDescend = new QAction(i18n("Descending"), this);
+    m_sortDescend->setCheckable(true);
+    m_sortDescend->setChecked(KdenliveSettings::binSorting() > 99);
+    connect(m_sortDescend, &QAction::triggered, [&] () {
+        if (m_sortGroup->checkedAction()) {
+            if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+                auto *view = static_cast<QTreeView *>(m_itemView);
+                view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+            } else {
+                m_proxyModel->sort(m_sortGroup->checkedAction()->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+            }
+        }
+    });
+
+    QMenu *sort = new QMenu(i18n("Sort By"), this);
+    int binSort = KdenliveSettings::binSorting() % 100;
+    m_sortGroup = new QActionGroup(sort);
+    QAction *sortByName = new QAction(i18n("Name"), m_sortGroup);
+    sortByName->setCheckable(true);
+    sortByName->setData(0);
+    sortByName->setChecked(binSort == 0);
+    QAction *sortByDate = new QAction(i18n("Date"), m_sortGroup);
+    sortByDate->setCheckable(true);
+    sortByDate->setData(1);
+    sortByDate->setChecked(binSort == 1);
+    QAction *sortByDesc = new QAction(i18n("Description"), m_sortGroup);
+    sortByDesc->setCheckable(true);
+    sortByDesc->setData(2);
+    sortByDesc->setChecked(binSort == 2);
+    QAction *sortByType = new QAction(i18n("Type"), m_sortGroup);
+    sortByType->setCheckable(true);
+    sortByType->setData(3);
+    sortByType->setChecked(binSort == 3);
+    sort->addAction(sortByName);
+    sort->addAction(sortByDate);
+    sort->addAction(sortByType);
+    sort->addAction(sortByDesc);
+    sort->addSeparator();
+    sort->addAction(m_sortDescend);
+    connect(m_sortGroup, &QActionGroup::triggered, [&] (QAction *ac) {
+        if ((m_itemView != nullptr) && m_listType == BinTreeView) {
+            auto *view = static_cast<QTreeView *>(m_itemView);
+            view->header()->setSortIndicator(ac->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+        } else {
+            m_proxyModel->sort(ac->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+        }
+    });
+
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
     connect(disableEffects, &QAction::triggered, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
@@ -823,6 +873,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     sliderMenu->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
     sliderMenu->addAction(widgetslider);
     settingsMenu->addMenu(sliderMenu);
+    settingsMenu->addMenu(sort);
 
     // Column show / hide actions
     m_showDate = new QAction(i18n("Show date"), this);
@@ -1018,6 +1069,21 @@ void Bin::slotSaveHeaders()
         auto *view = static_cast<QTreeView *>(m_itemView);
         m_headerInfo = view->header()->saveState();
         KdenliveSettings::setTreeviewheaders(m_headerInfo.toBase64());
+        int ix = view->header()->sortIndicatorSection();
+        updateSortingAction(ix);
+        m_sortDescend->setChecked(view->header()->sortIndicatorOrder() == Qt::DescendingOrder);
+    }
+    if (m_sortGroup->checkedAction()) {
+        KdenliveSettings::setBinSorting(m_sortGroup->checkedAction()->data().toInt() + (m_sortDescend->isChecked() ? 100 : 0));
+    }
+}
+
+void Bin::updateSortingAction(int ix)
+{
+    for (QAction *ac : m_sortGroup->actions()) {
+        if (ac->data().toInt() == ix) {
+            ac->setChecked(true);
+        }
     }
 }
 
@@ -1539,12 +1605,14 @@ void Bin::slotInitView(QAction *action)
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
+            m_sortDescend->setChecked(view->header()->sortIndicatorOrder() == Qt::DescendingOrder);
         } else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
             view->resizeColumnToContents(0);
             view->setColumnHidden(1, true);
             view->setColumnHidden(2, true);
         }
+        view->setColumnHidden(3, true);
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
