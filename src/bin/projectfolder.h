@@ -85,6 +85,7 @@ public:
     /** @brief Returns true if folder contains a clip. */
     bool hasChildClips() const;
     ClipType::ProducerType clipType() const override;
+    const QString clipTags() const override;
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;
 };

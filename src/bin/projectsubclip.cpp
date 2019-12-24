@@ -182,6 +182,11 @@ ClipType::ProducerType ProjectSubClip::clipType() const
     return m_masterClip->clipType();
 }
 
+const QString ProjectSubClip::clipTags() const
+{
+    return QString();
+}
+
 bool ProjectSubClip::hasAudioAndVideo() const
 {
     return m_masterClip->hasAudioAndVideo();

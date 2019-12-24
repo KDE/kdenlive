@@ -258,6 +258,7 @@ signals:
     void itemDropped(const QStringList &, const QModelIndex &);
     void itemDropped(const QList<QUrl> &, const QModelIndex &);
     void effectDropped(const QStringList &, const QModelIndex &);
+    void addTag(const QString &, const QModelIndex &);
     void addClipCut(const QString &, int, int);
 };
 

@@ -85,6 +85,7 @@ public:
     /** @brief returns a pointer to the parent clip */
     std::shared_ptr<ProjectClip> getMasterClip() const;
     ClipType::ProducerType clipType() const override;
+    const QString clipTags() const override;
 
 private:
     std::shared_ptr<ProjectClip> m_masterClip;

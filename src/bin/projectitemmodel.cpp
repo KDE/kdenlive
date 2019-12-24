@@ -215,6 +215,14 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         QString id;
         return requestAddBinSubClip(id, list.at(1).toInt(), list.at(2).toInt(), QString(), list.at(0));
     }
+    
+    if (data->hasFormat(QStringLiteral("kdenlive/tag"))) {
+        // Dropping effect on a Bin item
+        QString tag = QString::fromUtf8(data->data(QStringLiteral("kdenlive/tag")));
+        qDebug()<<"=== GOT CLIP TAG: "<<tag;
+        emit addTag(tag, parent);
+        return true;
+    }
 
     return false;
 }
@@ -263,9 +271,7 @@ Qt::DropActions ProjectItemModel::supportedDropActions() const
 
 QStringList ProjectItemModel::mimeTypes() const
 {
-    QStringList types;
-    types << QStringLiteral("kdenlive/producerslist") << QStringLiteral("text/uri-list") << QStringLiteral("kdenlive/clip")
-          << QStringLiteral("kdenlive/effect");
+    QStringList types {QStringLiteral("kdenlive/producerslist"), QStringLiteral("text/uri-list"), QStringLiteral("kdenlive/clip"), QStringLiteral("kdenlive/effect"), QStringLiteral("kdenlive/tag")};
     return types;
 }
 

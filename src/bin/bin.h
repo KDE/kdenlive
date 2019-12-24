@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QMutex>
 #include <QPushButton>
 #include <QTreeView>
+#include <QListWidget>
 #include <QUrl>
 #include <QWidget>
 
@@ -61,10 +62,22 @@ class QUndoCommand;
 class QVBoxLayout;
 class QActionGroup;
 class SmallJobLabel;
+class QSplitter;
 
 namespace Mlt {
 class Producer;
 }
+
+class TagListView : public QListWidget
+{
+    Q_OBJECT
+
+public:
+    explicit TagListView(QWidget *parent);
+
+protected:
+    QMimeData *mimeData(const QList<QListWidgetItem *> list) const override;
+};
 
 class MyListView : public QListView
 {
@@ -293,6 +306,7 @@ private slots:
     void slotItemDropped(const QStringList &ids, const QModelIndex &parent);
     void slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent);
     void slotEffectDropped(const QStringList &effectData, const QModelIndex &parent);
+    void slotTagDropped(const QString &tag, const QModelIndex &parent);
     void slotItemEdited(const QModelIndex &, const QModelIndex &, const QVector<int> &);
 
     /** @brief Reset all text and log data from info message widget. */
@@ -416,8 +430,11 @@ private:
     QAction *m_discardCurrentClipJobs;
     QAction *m_discardPendingJobs;
     QAction *m_upAction;
+    QAction *m_tagAction;
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
+    QWidget *m_tagsPanel;
+    std::unique_ptr<QSplitter> m_splitter;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
     QStringList m_errorLog;

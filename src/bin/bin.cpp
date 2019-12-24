@@ -78,6 +78,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @brief This class is responsible for drawing items in the QTreeView.
  */
 
+TagListView::TagListView(QWidget *parent)
+    : QListWidget(parent)
+{
+    setFrameStyle(QFrame::NoFrame);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setDragEnabled(true);
+    setDragDropMode(QAbstractItemView::DragOnly);
+    //connect(this, &QListWidget::itemActivated, this, &EffectBasket::slotAddEffect);
+}
+
+QMimeData *TagListView::mimeData(const QList<QListWidgetItem *> list) const
+{
+    if (list.isEmpty()) {
+        return new QMimeData;
+    }
+    QDomDocument doc;
+    QListWidgetItem *item = list.at(0);
+    QString effectId = item->data(Qt::UserRole).toString();
+    auto *mime = new QMimeData;
+    mime->setData(QStringLiteral("kdenlive/tag"), effectId.toUtf8());
+    qDebug()<<"=== DRAGGING TAG DATA: "<<effectId;
+    return mime;
+}
+
 class BinItemDelegate : public QStyledItemDelegate
 {
 public:
@@ -213,6 +237,17 @@ public:
                 font.setBold(false);
                 painter->setFont(font);
                 QString subText = index.data(AbstractProjectItem::DataDuration).toString();
+                QString tags = index.data(AbstractProjectItem::DataTag).toString();
+                if (!tags.isEmpty()) {
+                    QStringList t = tags.split(QLatin1Char(';'));
+                    QRectF tagRect = m_thumbRect;
+                    tagRect.setWidth(r1.height() / 5);
+                    tagRect.setHeight(m_thumbRect.height() / t.size());
+                    for (const QString &color : t) {
+                        painter->fillRect(tagRect, QColor(color));
+                        tagRect.moveTop(tagRect.bottom());
+                    }
+                }
                 if (!subText.isEmpty()) {
                     r2.adjust(0, bounding.bottom() - r2.top(), 0, 0);
                     QColor subTextColor = painter->pen().color();
@@ -747,6 +782,29 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
+    
+    // Tags panel
+    m_tagsPanel = new QWidget(this);
+    QLabel *lab = new QLabel(i18n("Tags"), m_tagsPanel);
+    QVBoxLayout *tagsLay = new QVBoxLayout;
+    tagsLay->addWidget(lab);
+    TagListView *lw = new TagListView(m_tagsPanel);
+    lw->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+    tagsLay->addWidget(lw);
+    QPixmap pix(iconSize);
+    pix.fill(Qt::red);
+    QIcon icon(pix);
+    QListWidgetItem *item = new QListWidgetItem(icon, i18n("Red"), lw);
+    item->setData(Qt::UserRole, QColor(Qt::red).name());
+    pix.fill(Qt::green);
+    icon = QIcon(pix);
+    item = new QListWidgetItem(icon, i18n("Green"), lw);
+    item->setData(Qt::UserRole, QColor(Qt::green).name());
+    pix.fill(Qt::blue);
+    icon = QIcon(pix);
+    item = new QListWidgetItem(icon, i18n("Blue"), lw);
+    item->setData(Qt::UserRole, QColor(Qt::blue).name());
+    m_tagsPanel->setLayout(tagsLay);
 
     auto *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
@@ -763,6 +821,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_itemModel.get(), static_cast<void (ProjectItemModel::*)(const QList<QUrl> &, const QModelIndex &)>(&ProjectItemModel::itemDropped), this,
             static_cast<void (Bin::*)(const QList<QUrl> &, const QModelIndex &)>(&Bin::slotItemDropped));
     connect(m_itemModel.get(), &ProjectItemModel::effectDropped, this, &Bin::slotEffectDropped);
+    connect(m_itemModel.get(), &ProjectItemModel::addTag, this, &Bin::slotTagDropped);
     connect(m_itemModel.get(), &QAbstractItemModel::dataChanged, this, &Bin::slotItemEdited);
     connect(this, &Bin::refreshPanel, this, &Bin::doRefreshPanel);
 
@@ -885,6 +944,19 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
+    
+    // Show tags panel
+    m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
+    m_tagAction->setCheckable(true);
+    m_toolbar->addAction(m_tagAction);
+    connect(m_tagAction, &QAction::triggered, [&] (bool triggered) {
+       if (triggered) {
+           m_splitter->setSizes({100, 50});
+       } else {
+           m_splitter->setSizes({100, 0});
+       }
+    });
+    
     auto *button = new QToolButton;
     button->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     button->setToolTip(i18n("Options"));
@@ -1591,7 +1663,15 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setModel(m_proxyModel.get());
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_proxyModel->setDynamicSortFilter(true);
-    m_layout->insertWidget(1, m_itemView);
+    m_tagsPanel->setParent(nullptr);
+    m_tagsPanel->setVisible(false);
+    m_splitter.reset(new QSplitter(this));
+    m_splitter->addWidget(m_itemView);
+    m_splitter->addWidget(m_tagsPanel);
+    m_tagAction->setChecked(false);
+    m_splitter->setSizes({100, 0});
+    m_tagsPanel->setVisible(true);
+    m_layout->insertWidget(1, m_splitter.get());
     // Reset drag type to normal
     m_itemModel->setDragType(PlaylistState::Disabled);
 
@@ -1671,65 +1751,73 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     AbstractProjectItem::PROJECTITEMTYPE itemType = AbstractProjectItem::FolderItem;
     QString clipService;
     QString audioCodec;
+    bool clickInView = false;
     if (m_itemView) {
-        QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
-        if (idx.isValid()) {
-            // User right clicked on a clip
-            std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
-            itemType = currentItem->itemType();
-            if (currentItem) {
-                enableClipActions = true;
-                if (itemType == AbstractProjectItem::ClipItem) {
-                    auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
-                    if (clip) {
-                        m_proxyAction->blockSignals(true);
-                        emit findInTimeline(clip->clipId(), clip->timelineInstances());
-                        clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-                        m_proxyAction->setChecked(clip->hasProxy());
-                        QList<QAction *> transcodeActions;
-                        if (m_transcodeAction) {
-                            transcodeActions = m_transcodeAction->actions();
-                        }
-                        QStringList dataList;
-                        QString condition;
-                        audioCodec = clip->codec(true);
-                        QString videoCodec = clip->codec(false);
-                        type = clip->clipType();
-                        if (clip->hasUrl()) {
-                            isImported = true;
-                        }
-                        bool noCodecInfo = false;
-                        if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
-                            noCodecInfo = true;
-                        }
-                        for (int i = 0; i < transcodeActions.count(); ++i) {
-                            dataList = transcodeActions.at(i)->data().toStringList();
-                            if (dataList.count() > 4) {
-                                condition = dataList.at(4);
-                                if (condition.isEmpty()) {
-                                    transcodeActions.at(i)->setEnabled(true);
-                                    continue;
-                                }
-                                if (noCodecInfo) {
-                                    // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
-                                    transcodeActions.at(i)->setEnabled(false);
-                                    continue;
-                                }
-                                if (condition.startsWith(QLatin1String("vcodec"))) {
-                                    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == videoCodec);
-                                } else if (condition.startsWith(QLatin1String("acodec"))) {
-                                    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == audioCodec);
+        QRect viewRect(m_itemView->mapToGlobal(m_itemView->geometry().topLeft()), m_itemView->mapToGlobal(m_itemView->geometry().bottomRight()));
+        if (viewRect.contains(event->globalPos())) {
+            clickInView = true;
+            QModelIndex idx = m_itemView->indexAt(m_itemView->viewport()->mapFromGlobal(event->globalPos()));
+            if (idx.isValid()) {
+                // User right clicked on a clip
+                std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
+                itemType = currentItem->itemType();
+                if (currentItem) {
+                    enableClipActions = true;
+                    if (itemType == AbstractProjectItem::ClipItem) {
+                        auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
+                        if (clip) {
+                            m_proxyAction->blockSignals(true);
+                            emit findInTimeline(clip->clipId(), clip->timelineInstances());
+                            clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+                            m_proxyAction->setChecked(clip->hasProxy());
+                            QList<QAction *> transcodeActions;
+                            if (m_transcodeAction) {
+                                transcodeActions = m_transcodeAction->actions();
+                            }
+                            QStringList dataList;
+                            QString condition;
+                            audioCodec = clip->codec(true);
+                            QString videoCodec = clip->codec(false);
+                            type = clip->clipType();
+                            if (clip->hasUrl()) {
+                                isImported = true;
+                            }
+                            bool noCodecInfo = false;
+                            if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
+                                noCodecInfo = true;
+                            }
+                            for (int i = 0; i < transcodeActions.count(); ++i) {
+                                dataList = transcodeActions.at(i)->data().toStringList();
+                                if (dataList.count() > 4) {
+                                    condition = dataList.at(4);
+                                    if (condition.isEmpty()) {
+                                        transcodeActions.at(i)->setEnabled(true);
+                                        continue;
+                                    }
+                                    if (noCodecInfo) {
+                                        // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
+                                        transcodeActions.at(i)->setEnabled(false);
+                                        continue;
+                                    }
+                                    if (condition.startsWith(QLatin1String("vcodec"))) {
+                                        transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == videoCodec);
+                                    } else if (condition.startsWith(QLatin1String("acodec"))) {
+                                        transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == audioCodec);
+                                    }
                                 }
                             }
                         }
+                        m_proxyAction->blockSignals(false);
+                    } else {
+                        // Disable find in timeline option
+                        emit findInTimeline(QString());
                     }
-                    m_proxyAction->blockSignals(false);
-                } else {
-                    // Disable find in timeline option
-                    emit findInTimeline(QString());
                 }
             }
         }
+    }
+    if (!clickInView) {
+        return;
     }
     // Enable / disable clip actions
     m_proxyAction->setEnabled((m_doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0) && enableClipActions);
@@ -2445,6 +2533,30 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
         }
     }
+}
+
+void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
+{
+    if (parent.isValid()) {
+        std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(parent);
+        if (parentItem->itemType() == AbstractProjectItem::ClipItem) {
+            // effect only supported on clip/subclip items
+            std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(parentItem);
+            QString currentTag = clip->getProducerProperty(QStringLiteral("kdenlive:tags"));
+            QMap <QString, QString> oldProps;
+            oldProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
+            QMap <QString, QString> newProps;
+            if (currentTag.isEmpty()) {
+                currentTag = tag;
+            } else if (!currentTag.contains(tag)) {
+                currentTag.append(QStringLiteral(";") + tag);
+            }
+            newProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
+            slotEditClipCommand(parentItem->clipId(), oldProps, newProps);
+            return;
+        }
+    }
+    pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
 }
 
 void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)

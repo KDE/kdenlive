@@ -156,6 +156,9 @@ QVariant AbstractProjectItem::getData(DataType type) const
     case ClipType:
         data = clipType();
         break;
+    case DataTag:
+        data = clipTags();
+        break;
     case ClipHasAudioAndVideo:
         data = hasAudioAndVideo();
         break;

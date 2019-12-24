@@ -123,6 +123,8 @@ public:
         ItemTypeRole,
         // Duration of the clip as displayabe string
         DataDuration,
+        // Tag of the clip as colors
+        DataTag,
         // Duration of the clip in frames
         ParentDuration,
         // Inpoint of the subclip (0 for clips)
@@ -195,6 +197,7 @@ public:
     */
     virtual bool isIncludedInTimeline() { return false; }
     virtual ClipType::ProducerType clipType() const = 0;
+    virtual const QString clipTags() const = 0;
 
 signals:
     void childAdded(AbstractProjectItem *child);

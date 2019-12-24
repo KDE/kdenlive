@@ -209,6 +209,11 @@ ClipType::ProducerType ProjectClip::clipType() const
     return m_clipType;
 }
 
+const QString ProjectClip::clipTags() const
+{
+    return getProducerProperty(QStringLiteral("kdenlive:tags"));
+}
+
 bool ProjectClip::hasParent(const QString &id) const
 {
     std::shared_ptr<AbstractProjectItem> par = parent();
@@ -1018,6 +1023,11 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
     if (refreshAnalysis) {
         emit refreshAnalysisPanel();
+    }
+    if (properties.contains(QStringLiteral("kdenlive::tags"))) {
+        if (auto ptr = m_model.lock())
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                           AbstractProjectItem::DataTag);
     }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         m_duration = getStringDuration();

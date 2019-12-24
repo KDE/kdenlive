@@ -98,6 +98,7 @@ public:
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const override;
+    const QString clipTags() const override;
 
     bool selfSoftDelete(Fun &undo, Fun &redo) override;
 
