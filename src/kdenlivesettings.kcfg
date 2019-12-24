@@ -120,8 +120,8 @@
     </entry>
 
     <entry name="opengl_backend" type="Int">
-      <label>Default OpenGL backend.</label>
-      <default>0</default>
+      <label>Default OpenGL backend (Qt::AAUseOpenGLES).</label>
+      <default>16</default>
     </entry>
   </group>
 

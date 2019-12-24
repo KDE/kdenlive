@@ -86,6 +86,9 @@ int main(int argc, char *argv[])
         if (glMode > 0) {
             QCoreApplication::setAttribute((Qt::ApplicationAttribute)glMode, true);
         }
+    } else {
+        // Default to OpenGLES (QtAngle) on first start
+        QCoreApplication::setAttribute(Qt::AA_UseOpenGLES, true);
     }
 #endif
     QApplication app(argc, argv);
