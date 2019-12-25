@@ -111,7 +111,7 @@ TimelineModel::TimelineModel(Mlt::Profile *profile, std::weak_ptr<DocUndoStack> 
     , m_snaps(new SnapModel())
     , m_undoStack(std::move(undo_stack))
     , m_profile(profile)
-    , m_blackClip(new Mlt::Producer(*profile, "color:0"))
+    , m_blackClip(new Mlt::Producer(*profile, "color:black"))
     , m_lock(QReadWriteLock::Recursive)
     , m_timelineEffectsEnabled(true)
     , m_id(getNextId())
@@ -2246,7 +2246,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     return result;
 }
 
-bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo)
+bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool addCompositing)
 {
     // TODO: make sure we disable overlayTrack before inserting a track
     if (position == -1) {
@@ -2279,17 +2279,23 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         buildTrackCompositing(true);
         return true;
     };
-    buildTrackCompositing(true);
+    if (addCompositing) {
+        buildTrackCompositing(true);
+    }
     auto track = getTrackById(trackId);
-    Fun local_redo = [track, position, local_update, this]() {
+    Fun local_redo = [track, position, local_update, addCompositing, this]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
         registerTrack(track, position, true);
         local_update();
-        buildTrackCompositing(true);
+        if (addCompositing) {
+            buildTrackCompositing(true);
+        }
         return true;
     };
-    PUSH_LAMBDA(rebuild_compositing, local_undo);
+    if (addCompositing) {
+        PUSH_LAMBDA(rebuild_compositing, local_undo);
+    }
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
