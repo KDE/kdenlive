@@ -211,6 +211,9 @@ ClipType::ProducerType ProjectClip::clipType() const
 
 const QString ProjectClip::clipTags() const
 {
+    if (!m_masterProducer || !m_masterProducer->is_valid()) {
+        return QString();
+    }
     return getProducerProperty(QStringLiteral("kdenlive:tags"));
 }
 
