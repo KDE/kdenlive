@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectitemmodel.h"
 #include "projectsortproxymodel.h"
 #include "projectsubclip.h"
+#include "tagwidget.hpp"
 #include "titler/titlewidget.h"
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
@@ -77,30 +78,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @class BinItemDelegate
  * @brief This class is responsible for drawing items in the QTreeView.
  */
-
-TagListView::TagListView(QWidget *parent)
-    : QListWidget(parent)
-{
-    setFrameStyle(QFrame::NoFrame);
-    setSelectionMode(QAbstractItemView::SingleSelection);
-    setDragEnabled(true);
-    setDragDropMode(QAbstractItemView::DragOnly);
-    //connect(this, &QListWidget::itemActivated, this, &EffectBasket::slotAddEffect);
-}
-
-QMimeData *TagListView::mimeData(const QList<QListWidgetItem *> list) const
-{
-    if (list.isEmpty()) {
-        return new QMimeData;
-    }
-    QDomDocument doc;
-    QListWidgetItem *item = list.at(0);
-    QString effectId = item->data(Qt::UserRole).toString();
-    auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/tag"), effectId.toUtf8());
-    qDebug()<<"=== DRAGGING TAG DATA: "<<effectId;
-    return mime;
-}
 
 class BinItemDelegate : public QStyledItemDelegate
 {
@@ -240,12 +217,13 @@ public:
                 QString tags = index.data(AbstractProjectItem::DataTag).toString();
                 if (!tags.isEmpty()) {
                     QStringList t = tags.split(QLatin1Char(';'));
-                    QRectF tagRect = m_thumbRect;
-                    tagRect.setWidth(r1.height() / 5);
-                    tagRect.setHeight(m_thumbRect.height() / t.size());
+                    QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
+                    tagRect.setWidth(r1.height() / 3.5);
+                    tagRect.setHeight(tagRect.width());
                     for (const QString &color : t) {
-                        painter->fillRect(tagRect, QColor(color));
-                        tagRect.moveTop(tagRect.bottom());
+                        painter->setBrush(QColor(color));
+                        painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
+                        tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
                     }
                 }
                 if (!subText.isEmpty()) {
@@ -403,26 +381,41 @@ public:
             int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
             QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
             m_thumbRect = adjust > 0 && adjust < rect.width() ? rect.adjusted(adjust, 0, -adjust, 0) : rect;
+            
+            //Tags
+            QString tags = index.data(AbstractProjectItem::DataTag).toString();
+            if (!tags.isEmpty()) {
+                QStringList t = tags.split(QLatin1Char(';'));
+                QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
+                tagRect.setWidth(m_thumbRect.height() / 5);
+                tagRect.setHeight(tagRect.width());
+                for (const QString &color : t) {
+                    painter->setBrush(QColor(color));
+                    painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
+                    tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
+                }
+            }
+            
             // Add audio/video icons for selective drag
-                    int cType = index.data(AbstractProjectItem::ClipType).toInt();
-                    bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-                    if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
-                        QRect thumbRect = m_thumbRect;
-                        int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
-                        thumbRect.setLeft(opt.rect.right() - iconSize - 4);
-                        thumbRect.setWidth(iconSize);
-                        thumbRect.setBottom(m_thumbRect.top() + iconSize);
-                        QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
-                        m_audioDragRect = thumbRect;
-                        aDrag.paint(painter, m_audioDragRect, Qt::AlignRight);
-                        m_videoDragRect = m_audioDragRect;
-                        m_videoDragRect.moveTop(thumbRect.bottom());
-                        QIcon vDrag = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
-                        vDrag.paint(painter, m_videoDragRect, Qt::AlignRight);
-                    } else {
-                        //m_audioDragRect = QRect();
-                        //m_videoDragRect = QRect();
-                    }
+            int cType = index.data(AbstractProjectItem::ClipType).toInt();
+            bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+            if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
+                QRect thumbRect = m_thumbRect;
+                int iconSize = painter->boundingRect(thumbRect, Qt::AlignLeft, QStringLiteral("O")).height();
+                thumbRect.setLeft(opt.rect.right() - iconSize - 4);
+                thumbRect.setWidth(iconSize);
+                thumbRect.setBottom(m_thumbRect.top() + iconSize);
+                QIcon aDrag = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
+                m_audioDragRect = thumbRect;
+                aDrag.paint(painter, m_audioDragRect, Qt::AlignRight);
+                m_videoDragRect = m_audioDragRect;
+                m_videoDragRect.moveTop(thumbRect.bottom());
+                QIcon vDrag = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+                vDrag.paint(painter, m_videoDragRect, Qt::AlignRight);
+            } else {
+                //m_audioDragRect = QRect();
+                //m_videoDragRect = QRect();
+            }
             
         }
     }
@@ -774,6 +767,14 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_toolbar->setIconSize(iconSize);
     m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_layout->addWidget(m_toolbar);
+
+    // Tags panel
+    m_tagsWidget = new TagWidget(this);
+    connect(m_tagsWidget, &TagWidget::switchTag, this, &Bin::switchTag);
+    m_tagsWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    m_layout->addWidget(m_tagsWidget);
+    m_tagsWidget->setVisible(false);
+    
     m_layout->setSpacing(0);
     m_layout->setContentsMargins(0, 0, 0, 0);
     // Search line
@@ -783,29 +784,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
     
-    // Tags panel
-    m_tagsPanel = new QWidget(this);
-    QLabel *lab = new QLabel(i18n("Tags"), m_tagsPanel);
-    QVBoxLayout *tagsLay = new QVBoxLayout;
-    tagsLay->addWidget(lab);
-    TagListView *lw = new TagListView(m_tagsPanel);
-    lw->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-    tagsLay->addWidget(lw);
-    QPixmap pix(iconSize);
-    pix.fill(Qt::red);
-    QIcon icon(pix);
-    QListWidgetItem *item = new QListWidgetItem(icon, i18n("Red"), lw);
-    item->setData(Qt::UserRole, QColor(Qt::red).name());
-    pix.fill(Qt::green);
-    icon = QIcon(pix);
-    item = new QListWidgetItem(icon, i18n("Green"), lw);
-    item->setData(Qt::UserRole, QColor(Qt::green).name());
-    pix.fill(Qt::blue);
-    icon = QIcon(pix);
-    item = new QListWidgetItem(icon, i18n("Blue"), lw);
-    item->setData(Qt::UserRole, QColor(Qt::blue).name());
-    m_tagsPanel->setLayout(tagsLay);
-
     auto *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
     connect(leventEater, &LineEventEater::clearSearchLine, m_searchLine, &QLineEdit::clear);
@@ -951,9 +929,9 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_toolbar->addAction(m_tagAction);
     connect(m_tagAction, &QAction::triggered, [&] (bool triggered) {
        if (triggered) {
-           m_splitter->setSizes({100, 50});
+           m_tagsWidget->setVisible(true);
        } else {
-           m_splitter->setSizes({100, 0});
+           m_tagsWidget->setVisible(false);
        }
     });
     
@@ -1528,6 +1506,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_locateAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(currentItem);
+                m_tagsWidget->setTagData(clip->getProducerProperty(QStringLiteral("kdenlive:tags")));
                 ClipType::ProducerType type = clip->clipType();
                 m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::Text || type == ClipType::TextTemplate);
                 showClipProperties(clip, false);
@@ -1663,15 +1642,7 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setModel(m_proxyModel.get());
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_proxyModel->setDynamicSortFilter(true);
-    m_tagsPanel->setParent(nullptr);
-    m_tagsPanel->setVisible(false);
-    m_splitter.reset(new QSplitter(this));
-    m_splitter->addWidget(m_itemView);
-    m_splitter->addWidget(m_tagsPanel);
-    m_tagAction->setChecked(false);
-    m_splitter->setSizes({100, 0});
-    m_tagsPanel->setVisible(true);
-    m_layout->insertWidget(1, m_splitter.get());
+    m_layout->insertWidget(2, m_itemView);
     // Reset drag type to normal
     m_itemModel->setDragType(PlaylistState::Disabled);
 
@@ -2557,6 +2528,39 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
         }
     }
     pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
+}
+
+void Bin::switchTag(const QString &tag, bool add)
+{
+    qDebug()<<"=== READY TO TAG: "<<tag<<" = "<<add;
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    if (indexes.isEmpty()) {
+        pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
+    }
+    for (const QModelIndex &ix : indexes) {
+        std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        if (parentItem->itemType() == AbstractProjectItem::ClipItem) {
+            // effect only supported on clip/subclip items
+            std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(parentItem);
+            QString currentTag = clip->getProducerProperty(QStringLiteral("kdenlive:tags"));
+            QMap <QString, QString> oldProps;
+            oldProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
+            QMap <QString, QString> newProps;
+            if (add) {
+                if (currentTag.isEmpty()) {
+                    currentTag = tag;
+                } else if (!currentTag.contains(tag)) {
+                    currentTag.append(QStringLiteral(";") + tag);
+                }
+                newProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
+            } else {
+                QStringList tags = currentTag.split(QLatin1Char(';'));
+                tags.removeAll(tag);
+                newProps.insert(QStringLiteral("kdenlive:tags"), tags.join(QLatin1Char(';')));
+            }
+            slotEditClipCommand(parentItem->clipId(), oldProps, newProps);
+        }
+    }
 }
 
 void Bin::editMasterEffect(const std::shared_ptr<AbstractProjectItem> &clip)

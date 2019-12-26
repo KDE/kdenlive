@@ -201,6 +201,8 @@ public:
     int getDurationFromString(const QString &time);
     /** @brief An error occured within a filter, inform user */
     void processInvalidFilter(const QString service, const QString id, const QString message);
+    /** @brief Returns a list of project tags (color / description) */
+    QMap <QString, QString> getProjectTags();
 
 private:
     explicit Core();

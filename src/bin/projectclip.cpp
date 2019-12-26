@@ -1038,6 +1038,12 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         reload = true;
     }
 
+    if (properties.contains(QStringLiteral("kdenlive:tags"))) {
+        if (auto ptr = m_model.lock()) {
+            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                           AbstractProjectItem::DataTag);
+        }
+    }
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         m_name = properties.value(QStringLiteral("kdenlive:clipname"));
         refreshPanel = true;

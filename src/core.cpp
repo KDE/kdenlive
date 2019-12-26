@@ -816,3 +816,14 @@ void Core::processInvalidFilter(const QString service, const QString id, const Q
 {
     if (m_guiConstructed) m_mainWindow->assetPanelWarning(service, id, message);
 }
+
+QMap <QString, QString> Core::getProjectTags()
+{
+    QMap <QString, QString> tags;
+    tags.insert(QStringLiteral("#ff0000"), i18n("Red"));
+    tags.insert(QStringLiteral("#00ff00"), i18n("Green"));
+    tags.insert(QStringLiteral("#0000ff"), i18n("Blue"));
+    tags.insert(QStringLiteral("#ffff00"), i18n("Yellow"));
+    tags.insert(QStringLiteral("#00ffff"), i18n("Cyan"));
+    return tags;
+}

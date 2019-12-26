@@ -47,6 +47,7 @@ class ClipController;
 class EffectStackModel;
 class InvalidDialog;
 class KdenliveDoc;
+class TagWidget;
 class Monitor;
 class ProjectClip;
 class ProjectFolder;
@@ -62,22 +63,10 @@ class QUndoCommand;
 class QVBoxLayout;
 class QActionGroup;
 class SmallJobLabel;
-class QSplitter;
 
 namespace Mlt {
 class Producer;
 }
-
-class TagListView : public QListWidget
-{
-    Q_OBJECT
-
-public:
-    explicit TagListView(QWidget *parent);
-
-protected:
-    QMimeData *mimeData(const QList<QListWidgetItem *> list) const override;
-};
 
 class MyListView : public QListView
 {
@@ -332,6 +321,9 @@ private slots:
     /** @brief Display a defined frame in bin clip thumbnail
      */
     void showBinFrame(QModelIndex ix, int frame);
+    /** @brief Switch a tag on/off on current selection
+     */
+    void switchTag(const QString &tag, bool add);
 
 public slots:
     void slotRemoveInvalidClip(const QString &id, bool replace, const QString &errorMessage);
@@ -433,8 +425,7 @@ private:
     QAction *m_tagAction;
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
-    QWidget *m_tagsPanel;
-    std::unique_ptr<QSplitter> m_splitter;
+    TagWidget *m_tagsWidget;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
     QStringList m_errorLog;
