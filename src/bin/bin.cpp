@@ -1514,6 +1514,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_proxyAction->setText(i18n("Proxy Clip"));
             } else if (currentItem->itemType() == AbstractProjectItem::FolderItem) {
                 // A folder was selected, disable editing clip
+                m_tagsWidget->setTagData();
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
                 m_locateAction->setEnabled(false);
@@ -1521,6 +1522,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_deleteAction->setText(i18n("Delete Folder"));
                 m_proxyAction->setText(i18n("Proxy Folder"));
             } else if (currentItem->itemType() == AbstractProjectItem::SubClipItem) {
+                m_tagsWidget->setTagData();
                 showClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
@@ -2526,22 +2528,47 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
             slotEditClipCommand(parentItem->clipId(), oldProps, newProps);
             return;
         }
+        if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
+            QList <QString> allClips;
+            QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(parentItem)->childClips();
+            for (auto &clp : children) {
+                allClips <<clp->clipId();
+            }
+            editTags(allClips, tag, true);
+            return;
+        }
     }
     pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
 }
 
 void Bin::switchTag(const QString &tag, bool add)
 {
-    qDebug()<<"=== READY TO TAG: "<<tag<<" = "<<add;
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
         pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
     }
+    // Check for folders
+    QList <QString> allClips;
     for (const QModelIndex &ix : indexes) {
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
-        if (parentItem->itemType() == AbstractProjectItem::ClipItem) {
+        if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
+            QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(parentItem)->childClips();
+            for (auto &clp : children) {
+                allClips <<clp->clipId();
+            }
+        } else if (parentItem->itemType() == AbstractProjectItem::ClipItem) {
+            allClips <<parentItem->clipId();
+        }
+    }
+    editTags(allClips, tag, add);
+}
+
+void Bin::editTags(QList <QString> allClips, const QString &tag, bool add)
+{
+    for (const QString &id : allClips) {
+        std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+        if (clip) {
             // effect only supported on clip/subclip items
-            std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(parentItem);
             QString currentTag = clip->getProducerProperty(QStringLiteral("kdenlive:tags"));
             QMap <QString, QString> oldProps;
             oldProps.insert(QStringLiteral("kdenlive:tags"), currentTag);
@@ -2558,7 +2585,7 @@ void Bin::switchTag(const QString &tag, bool add)
                 tags.removeAll(tag);
                 newProps.insert(QStringLiteral("kdenlive:tags"), tags.join(QLatin1Char(';')));
             }
-            slotEditClipCommand(parentItem->clipId(), oldProps, newProps);
+            slotEditClipCommand(id, oldProps, newProps);
         }
     }
 }

@@ -80,7 +80,7 @@ class TagWidget : public QWidget
 
 public:
     explicit TagWidget(QWidget *parent = nullptr);
-    void setTagData(const QString tagData);
+    void setTagData(const QString tagData = QString());
 
 private:
     QList <DragButton *> tags;
