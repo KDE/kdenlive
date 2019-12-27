@@ -877,8 +877,13 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     sortByType->setCheckable(true);
     sortByType->setData(3);
     sortByType->setChecked(binSort == 3);
+    QAction *sortByDuration = new QAction(i18n("Duration"), m_sortGroup);
+    sortByDuration->setCheckable(true);
+    sortByDuration->setData(5);
+    sortByDuration->setChecked(binSort == 5);
     sort->addAction(sortByName);
     sort->addAction(sortByDate);
+    sort->addAction(sortByDuration);
     sort->addAction(sortByType);
     sort->addAction(sortByDesc);
     sort->addSeparator();
@@ -944,11 +949,20 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     filterButton->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(filterButton);
     connect(m_filterMenu, &QMenu::triggered, [&] (QAction *ac) {
-        QString action = ac->data().toString();
-        if (action.startsWith(QLatin1Char('#'))) {
-            m_proxyModel->slotSetSearchTag(action);
-        } else {
+        QString actionData = ac->data().toString();
+        if (actionData.startsWith(QLatin1Char('#'))) {
+            // Filter by tag
+            m_proxyModel->slotSetSearchType(0, false);
+            m_proxyModel->slotSetSearchTag(actionData);
+        } else if (actionData.isEmpty()) {
+            // Reset filter
+            m_proxyModel->slotSetSearchType(0, false);
             m_proxyModel->slotSetSearchTag(QString());
+        } else {
+            // Filter by type
+            int type = actionData.toInt();
+            m_proxyModel->slotSetSearchTag(QString(), false);
+            m_proxyModel->slotSetSearchType(type);
         }
     });
 
@@ -1389,6 +1403,7 @@ void Bin::setDocument(KdenliveDoc *project)
     QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear"), filterGrp);
     clearFilter->setCheckable(true);
     m_filterMenu->addAction(clearFilter);
+    // Add tag filters
     int tagsCount = pCore->getProjectTags().size();
     for (int i = 1; i <= tagsCount; i++) {
         QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
@@ -1399,6 +1414,44 @@ void Bin::setDocument(KdenliveDoc *project)
             m_filterMenu->addAction(tagFilter);
         }
     }
+    // Add type filters
+    m_filterMenu->addSeparator();
+    QAction *typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("AV Clip"), filterGrp);
+    typeFilter->setData(ClipType::AV);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-matroska")), i18n("Mute Video"), filterGrp);
+    typeFilter->setData(ClipType::Video);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("audio-x-generic")), i18n("Audio"), filterGrp);
+    typeFilter->setData(ClipType::Audio);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("image-jpeg")), i18n("Image"), filterGrp);
+    typeFilter->setData(ClipType::Image);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")), i18n("Slideshow"), filterGrp);
+    typeFilter->setData(ClipType::SlideShow);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-mlt-playlist")), i18n("Playlist"), filterGrp);
+    typeFilter->setData(ClipType::Playlist);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title"), filterGrp);
+    typeFilter->setData(ClipType::Text);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title Template"), filterGrp);
+    typeFilter->setData(ClipType::TextTemplate);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")), i18n("Color"), filterGrp);
+    typeFilter->setData(ClipType::Color);
+    typeFilter->setCheckable(true);
+    m_filterMenu->addAction(typeFilter);
 
     // connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));

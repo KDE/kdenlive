@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
+    , m_searchType(0)
 {
     m_collator.setNumericMode(true);
     m_collator.setCaseSensitivity(Qt::CaseInsensitive);
@@ -46,14 +47,25 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
-    int cols = sourceModel()->columnCount();
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 3; i++) {
         QModelIndex index0 = sourceModel()->index(sourceRow, i, sourceParent);
         if (!index0.isValid()) {
             return false;
         }
+        bool typeAccepted = false;
         bool tagAccepted = false;
         auto data = sourceModel()->data(index0);
+        if (m_searchType > 0) {
+            QModelIndex indexTag = sourceModel()->index(sourceRow, 3, sourceParent);
+            if (sourceModel()->data(indexTag).toInt() == m_searchType) {
+                typeAccepted = true;
+            }
+        } else {
+            typeAccepted = true;
+        }
+        if (!typeAccepted) {
+            return false;
+        }
         if (!m_searchTag.isEmpty()) {
             // Column 4 contains the item tag data
             QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
@@ -135,10 +147,20 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetSearchTag(const QString &str)
+void ProjectSortProxyModel::slotSetSearchTag(const QString &str, bool reload)
 {
     m_searchTag = str;
-    invalidateFilter();
+    if (reload) {
+        invalidateFilter();
+    }
+}
+
+void ProjectSortProxyModel::slotSetSearchType(const int type, bool reload)
+{
+    m_searchType = type;
+    if (reload) {
+        invalidateFilter();
+    }
 }
 
 void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, const QItemSelection &previous)

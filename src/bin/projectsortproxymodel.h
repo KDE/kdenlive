@@ -44,7 +44,9 @@ public slots:
     /** @brief Set search string that will filter the view */
     void slotSetSearchString(const QString &str);
     /** @brief Set search tag that will filter the view */
-    void slotSetSearchTag(const QString &str);
+    void slotSetSearchTag(const QString &str, bool reload = true);
+    /** @brief Set search type that will filter the view */
+    void slotSetSearchType(const int type, bool reload = true);
     /** @brief Relay datachanged signal from view's model  */
     void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
 
@@ -65,6 +67,7 @@ private:
     QItemSelectionModel *m_selection;
     QString m_searchString;
     QString m_searchTag;
+    int m_searchType;
     QCollator m_collator;
 
 signals:
