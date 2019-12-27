@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QListWidget>
 #include <QUrl>
 #include <QWidget>
+#include <QActionGroup>
 
 class AbstractProjectItem;
 class BinItemDelegate;
@@ -61,7 +62,6 @@ class QToolBar;
 class QToolButton;
 class QUndoCommand;
 class QVBoxLayout;
-class QActionGroup;
 class SmallJobLabel;
 
 namespace Mlt {
@@ -430,6 +430,7 @@ private:
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu;
+    QActionGroup m_filterGroup;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
     QStringList m_errorLog;
