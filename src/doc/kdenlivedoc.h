@@ -155,6 +155,8 @@ public:
     QString getAutoProxyProfile();
     /** @brief Returns the number of clips in this project (useful to show loading progress) */
     int clipsCount() const;
+    /** @brief Returns a list of project tags (color / description) */
+    QMap <QString, QString> getProjectTags();
 
 private:
     QUrl m_url;

@@ -37,6 +37,7 @@ class DragButton : public QToolButton
 public:
     explicit DragButton(int ix, const QString tag, const QString description = QString(), QWidget *parent = nullptr);
     const QString &tag() const;
+    const QString &description() const;
 
 private:
     QPoint m_dragStartPosition;
@@ -69,12 +70,15 @@ class TagWidget : public QWidget
 public:
     explicit TagWidget(QWidget *parent = nullptr);
     void setTagData(const QString tagData = QString());
+    void rebuildTags(QMap <QString, QString> newTags);
 
 private:
     QList <DragButton *> tags;
+    void showTagsConfig();
 
 signals:
     void switchTag(const QString &tag, bool add);
+    void updateProjectTags(QMap <QString, QString> newTags);
 };
 
 #endif

@@ -817,13 +817,22 @@ void Core::processInvalidFilter(const QString service, const QString id, const Q
     if (m_guiConstructed) m_mainWindow->assetPanelWarning(service, id, message);
 }
 
-QMap <QString, QString> Core::getProjectTags()
+void Core::updateProjectTags(QMap <QString, QString> tags)
 {
-    QMap <QString, QString> tags;
-    tags.insert(QStringLiteral("#ff0000"), i18n("Red"));
-    tags.insert(QStringLiteral("#00ff00"), i18n("Green"));
-    tags.insert(QStringLiteral("#0000ff"), i18n("Blue"));
-    tags.insert(QStringLiteral("#ffff00"), i18n("Yellow"));
-    tags.insert(QStringLiteral("#00ffff"), i18n("Cyan"));
-    return tags;
+    // Clear previous tags
+    for (int i = 1 ; i< 20; i++) {
+        QString current = currentDoc()->getDocumentProperty(QString("tag%1").arg(i));
+        if (current.isEmpty()) {
+            break;
+        } else {
+            currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString());
+        }
+    }
+    QMapIterator<QString, QString> j(tags);
+    int i = 1;
+    while (j.hasNext()) {
+        j.next();
+        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.key()).arg(j.value()));
+        i++;
+    }
 }

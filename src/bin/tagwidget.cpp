@@ -36,6 +36,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QToolButton>
 #include <QApplication>
 #include <QFontDatabase>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QListWidget>
 #include <QDrag>
 
 DragButton::DragButton(int ix, const QString tag, const QString description, QWidget *parent)
@@ -56,7 +59,7 @@ DragButton::DragButton(int ix, const QString tag, const QString description, QWi
     setText(description);
     setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     setCheckable(true);
-    QAction *ac = new QAction(i18n("Tag %1", ix), this);
+    QAction *ac = new QAction(description.isEmpty() ? i18n("Tag %1", ix) : description, this);
     ac->setData(m_tag);
     ac->setIcon(QIcon(pix));
     ac->setCheckable(true);
@@ -110,25 +113,26 @@ const QString &DragButton::tag() const
     return m_tag;
 }
 
+const QString &DragButton::description() const
+{
+    return m_description;
+}
+
 TagWidget::TagWidget(QWidget *parent)
     : QWidget(parent)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     QHBoxLayout *lay = new QHBoxLayout;
-    lay->setContentsMargins(0, 0, 0, 0);
-    QMap <QString, QString> projectTags = pCore->getProjectTags();
-    QMapIterator<QString, QString> i(projectTags);
-    int ix = 1;
-    while (i.hasNext()) {
-        i.next();
-        DragButton *tag1 = new DragButton(ix, i.key(), i.value(), this);
-        tag1->setFont(font());
-        connect(tag1, &DragButton::switchTag, this, &TagWidget::switchTag);
-        tags << tag1;
-        lay->addWidget(tag1);
-        ix++;
-    }
+    lay->setContentsMargins(2, 0, 2, 0);
     lay->addStretch(10);
+    QToolButton *config = new QToolButton(this);
+    QAction *ca = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure"), this);
+    config->setAutoRaise(true);
+    config->setDefaultAction(ca);
+    connect(config, &QToolButton::triggered, [&]() {
+        showTagsConfig ();
+    });
+    lay->addWidget(config);
     setLayout(lay);
 }
 
@@ -139,4 +143,57 @@ void TagWidget::setTagData(const QString tagData)
         const QString color = tb->tag();
         tb->defaultAction()->setChecked(colors.contains(color));
     }
+}
+
+void TagWidget::rebuildTags(QMap <QString, QString> newTags)
+{
+    QHBoxLayout *lay = static_cast<QHBoxLayout *>(layout());
+    qDeleteAll(tags);
+    tags.clear();
+    int ix = 1;
+    QMapIterator<QString, QString> i(newTags);
+    while (i.hasNext()) {
+        i.next();
+        DragButton *tag1 = new DragButton(ix, i.key(), i.value(), this);
+        tag1->setFont(font());
+        connect(tag1, &DragButton::switchTag, this, &TagWidget::switchTag);
+        tags << tag1;
+        lay->insertWidget(ix - 1, tag1);
+        ix++;
+    }
+}
+
+void TagWidget::showTagsConfig()
+{
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Save);
+    auto *l = new QVBoxLayout;
+    d.setLayout(l);
+    QLabel lab(i18n("Configure Project Tags"), &d);
+    QListWidget list(&d);
+    l->addWidget(&lab);
+    l->addWidget(&list);
+    l->addWidget(buttonBox);
+    for (DragButton *tb : tags) {
+        const QString color = tb->tag();
+        const QString desc = tb->description();
+        QIcon ic = tb->icon();
+        QListWidgetItem *item = new QListWidgetItem(ic, desc, &list);
+        item->setData(Qt::UserRole, color);
+        item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+    }
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    if (d.exec() != QDialog::Accepted) {
+        return;
+    }
+    QMap <QString, QString> newTags;
+    for (int i = 0; i < list.count(); i++) {
+        QListWidgetItem *item = list.item(i);
+        if (item) {
+            newTags.insert(item->data(Qt::UserRole).toString(), item->text());
+        }
+    }
+    rebuildTags(newTags);
+    emit updateProjectTags(newTags);
 }

@@ -772,6 +772,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // Tags panel
     m_tagsWidget = new TagWidget(this);
     connect(m_tagsWidget, &TagWidget::switchTag, this, &Bin::switchTag);
+    connect(m_tagsWidget, &TagWidget::updateProjectTags, this, &Bin::updateTags);
     m_tagsWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     m_layout->addWidget(m_tagsWidget);
     m_tagsWidget->setVisible(false);
@@ -949,7 +950,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     filterButton->setToolTip(i18n("Filter"));
     filterButton->setMenu(m_filterMenu);
-    m_toolbar->addWidget(filterButton);
     connect(filterButton, &QToolButton::toggled, [&](bool toggled) {
         if (toggled) {
             if (m_filterGroup.checkedAction()) {
@@ -1024,7 +1024,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_toolbar->addWidget(spacer);
 
-    // Add search line
+    // Add filter and search line
+    m_toolbar->addWidget(filterButton);
     m_toolbar->addWidget(m_searchLine);
 
     m_binTreeViewDelegate = new BinItemDelegate(this);
@@ -1408,10 +1409,21 @@ void Bin::setDocument(KdenliveDoc *project)
     }
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
 
-    // rebuild filter menu
+    // connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
+    // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
+    slotInitView(nullptr);
+    bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
+    setBinEffectsEnabled(!binEffectsDisabled);
+    QMap <QString, QString> projectTags = m_doc->getProjectTags();
+    m_tagsWidget->rebuildTags(projectTags);
+    rebuildFilters(projectTags);
+}
+
+void Bin::rebuildFilters(QMap <QString, QString> tags)
+{
     m_filterMenu->clear();
     // Add tag filters
-    int tagsCount = pCore->getProjectTags().size();
+    int tagsCount = tags.size();
     for (int i = 1; i <= tagsCount; i++) {
         QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
         if (tag) {
@@ -1459,12 +1471,6 @@ void Bin::setDocument(KdenliveDoc *project)
     typeFilter->setData(ClipType::Color);
     typeFilter->setCheckable(true);
     m_filterMenu->addAction(typeFilter);
-
-    // connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
-    // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
-    slotInitView(nullptr);
-    bool binEffectsDisabled = getDocumentProperty(QStringLiteral("disablebineffects")).toInt() == 1;
-    setBinEffectsEnabled(!binEffectsDisabled);
 }
 
 void Bin::createClip(const QDomElement &xml)
@@ -2663,6 +2669,12 @@ void Bin::switchTag(const QString &tag, bool add)
         }
     }
     editTags(allClips, tag, add);
+}
+
+void Bin::updateTags(QMap <QString, QString> tags)
+{
+    rebuildFilters(tags);
+    pCore->updateProjectTags(tags);
 }
 
 void Bin::editTags(QList <QString> allClips, const QString &tag, bool add)

@@ -324,6 +324,10 @@ private slots:
     /** @brief Switch a tag on/off on current selection
      */
     void switchTag(const QString &tag, bool add);
+    /** @brief Update project tags
+     */
+    void updateTags(QMap <QString, QString> tags);
+    void rebuildFilters(QMap <QString, QString> tags);
     /** @brief Switch a tag on  a clip list
      */
     void editTags(QList <QString> allClips, const QString &tag, bool add);

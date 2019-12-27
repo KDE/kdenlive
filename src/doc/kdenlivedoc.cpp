@@ -1729,3 +1729,24 @@ bool KdenliveDoc::updatePreviewSettings(const QString &profile)
     }
     return false;
 }
+
+QMap <QString, QString> KdenliveDoc::getProjectTags()
+{
+    QMap <QString, QString> tags;
+    for (int i = 1 ; i< 20; i++) {
+        QString current = getDocumentProperty(QString("tag%1").arg(i));
+        if (current.isEmpty()) {
+            break;
+        } else {
+            tags.insert(current.section(QLatin1Char(':'), 0, 0), current.section(QLatin1Char(':'), 1));
+        }
+    }
+    if (tags.isEmpty()) {
+        tags.insert(QStringLiteral("#ff0000"), i18n("Red"));
+        tags.insert(QStringLiteral("#00ff00"), i18n("Green"));
+        tags.insert(QStringLiteral("#0000ff"), i18n("Blue"));
+        tags.insert(QStringLiteral("#ffff00"), i18n("Yellow"));
+        tags.insert(QStringLiteral("#00ffff"), i18n("Cyan"));
+    }
+    return tags;
+}
