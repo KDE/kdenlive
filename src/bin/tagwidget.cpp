@@ -38,31 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontDatabase>
 #include <QDrag>
 
-
-TagListView::TagListView(QWidget *parent)
-    : QListWidget(parent)
-{
-    setFrameStyle(QFrame::NoFrame);
-    setSelectionMode(QAbstractItemView::SingleSelection);
-    setDragEnabled(true);
-    setDragDropMode(QAbstractItemView::DragOnly);
-    //connect(this, &QListWidget::itemActivated, this, &EffectBasket::slotAddEffect);
-}
-
-QMimeData *TagListView::mimeData(const QList<QListWidgetItem *> list) const
-{
-    if (list.isEmpty()) {
-        return new QMimeData;
-    }
-    QDomDocument doc;
-    QListWidgetItem *item = list.at(0);
-    QString effectId = item->data(Qt::UserRole).toString();
-    auto *mime = new QMimeData;
-    mime->setData(QStringLiteral("kdenlive/tag"), effectId.toUtf8());
-    return mime;
-}
-
-
 DragButton::DragButton(int ix, const QString tag, const QString description, QWidget *parent)
     : QToolButton(parent)
     , m_tag(tag.toLower())
@@ -82,6 +57,7 @@ DragButton::DragButton(int ix, const QString tag, const QString description, QWi
     setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     setCheckable(true);
     QAction *ac = new QAction(i18n("Tag %1", ix), this);
+    ac->setData(m_tag);
     ac->setIcon(QIcon(pix));
     ac->setCheckable(true);
     setDefaultAction(ac);
@@ -89,7 +65,6 @@ DragButton::DragButton(int ix, const QString tag, const QString description, QWi
     connect(ac, &QAction::triggered, [&, ac] (bool checked) {
         emit switchTag(m_tag, checked);
     });
-    
 }
 
 void DragButton::mousePressEvent(QMouseEvent *event)

@@ -774,7 +774,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_tagsWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     m_layout->addWidget(m_tagsWidget);
     m_tagsWidget->setVisible(false);
-    
+
     m_layout->setSpacing(0);
     m_layout->setContentsMargins(0, 0, 0, 0);
     // Search line
@@ -783,7 +783,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
-    
+
     auto *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
     connect(leventEater, &LineEventEater::clearSearchLine, m_searchLine, &QLineEdit::clear);
@@ -922,7 +922,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     settingsMenu->addAction(m_showDate);
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(disableEffects);
-    
+
     // Show tags panel
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
     m_tagAction->setCheckable(true);
@@ -934,7 +934,27 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
            m_tagsWidget->setVisible(false);
        }
     });
-    
+
+    // Filter menu
+    m_filterMenu = new QMenu(i18n("Filter"), this);
+    auto *filterButton = new QToolButton;
+    filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
+    filterButton->setToolTip(i18n("Filter"));
+    filterButton->setMenu(m_filterMenu);
+    filterButton->setPopupMode(QToolButton::InstantPopup);
+    m_toolbar->addWidget(filterButton);
+    connect(m_filterMenu, &QMenu::triggered, [&] (QAction *ac) {
+        QString action = ac->data().toString();
+        if (action.startsWith(QLatin1Char('#'))) {
+            m_proxyModel->slotSetSearchTag(action);
+        } else {
+            m_proxyModel->slotSetSearchTag(QString());
+        }
+    });
+
+    m_tagAction->setCheckable(true);
+    m_toolbar->addAction(m_tagAction);
+
     auto *button = new QToolButton;
     button->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-menu")));
     button->setToolTip(i18n("Options"));
@@ -1363,6 +1383,23 @@ void Bin::setDocument(KdenliveDoc *project)
     }
     connect(m_proxyAction, SIGNAL(toggled(bool)), m_doc, SLOT(slotProxyCurrentItem(bool)));
 
+    // rebuild filter menu
+    m_filterMenu->clear();
+    QActionGroup *filterGrp = new QActionGroup(this);
+    QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear"), filterGrp);
+    clearFilter->setCheckable(true);
+    m_filterMenu->addAction(clearFilter);
+    int tagsCount = pCore->getProjectTags().size();
+    for (int i = 1; i <= tagsCount; i++) {
+        QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
+        if (tag) {
+            QAction *tagFilter = new QAction(tag->icon(), tag->text(), filterGrp);
+            tagFilter->setData(tag->data());
+            tagFilter->setCheckable(true);
+            m_filterMenu->addAction(tagFilter);
+        }
+    }
+
     // connect(m_itemModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), m_itemView
     // connect(m_itemModel, SIGNAL(updateCurrentItem()), this, SLOT(autoSelect()));
     slotInitView(nullptr);
@@ -1665,7 +1702,12 @@ void Bin::slotInitView(QAction *action)
             view->setColumnHidden(1, true);
             view->setColumnHidden(2, true);
         }
+        // Type column
         view->setColumnHidden(3, true);
+        // Tags column
+        view->setColumnHidden(4, true);
+        // Duration column
+        view->setColumnHidden(5, true);
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);

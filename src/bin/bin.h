@@ -429,6 +429,7 @@ private:
     QActionGroup *m_sortGroup;
     SmallJobLabel *m_infoLabel;
     TagWidget *m_tagsWidget;
+    QMenu *m_filterMenu;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
     QStringList m_errorLog;

@@ -91,6 +91,12 @@ int ProjectItemModel::mapToColumn(int column) const
     case 3:
         return AbstractProjectItem::ClipType;
         break;
+    case 4:
+        return AbstractProjectItem::DataTag;
+        break;
+    case 5:
+        return AbstractProjectItem::DataDuration;
+        break;
     default:
         return AbstractProjectItem::DataName;
     }
@@ -215,7 +221,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         QString id;
         return requestAddBinSubClip(id, list.at(1).toInt(), list.at(2).toInt(), QString(), list.at(0));
     }
-    
+
     if (data->hasFormat(QStringLiteral("kdenlive/tag"))) {
         // Dropping effect on a Bin item
         QString tag = QString::fromUtf8(data->data(QStringLiteral("kdenlive/tag")));
@@ -244,6 +250,12 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
             break;
         case 3:
             columnName = i18n("Type");
+            break;
+        case 4:
+            columnName = i18n("Tag");
+            break;
+        case 5:
+            columnName = i18n("Duration");
             break;
         default:
             columnName = i18n("Unknown");

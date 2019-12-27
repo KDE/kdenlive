@@ -22,19 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef KDENLIVE_TAGWIDGET_H
 #define KDENLIVE_TAGWIDGET_H
 
-#include <QListWidget>
 #include <QToolButton>
-
-class TagListView : public QListWidget
-{
-    Q_OBJECT
-
-public:
-    explicit TagListView(QWidget *parent);
-
-protected:
-    QMimeData *mimeData(const QList<QListWidgetItem *> list) const override;
-};
 
 
 /**

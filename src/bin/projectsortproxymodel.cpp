@@ -47,14 +47,24 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
     int cols = sourceModel()->columnCount();
-    for (int i = 0; i < cols; i++) {
+    for (int i = 0; i < 4; i++) {
         QModelIndex index0 = sourceModel()->index(sourceRow, i, sourceParent);
         if (!index0.isValid()) {
             return false;
         }
-        auto model = sourceModel();
-        auto data = model->data(index0);
-        if (data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
+        bool tagAccepted = false;
+        auto data = sourceModel()->data(index0);
+        if (!m_searchTag.isEmpty()) {
+            // Column 4 contains the item tag data
+            QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
+            auto tagData = sourceModel()->data(indexTag);
+            if (tagData.toString().contains(m_searchTag, Qt::CaseInsensitive)) {
+                tagAccepted = true;
+            }
+        } else {
+            tagAccepted = true;
+        }
+        if (tagAccepted && data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
             return true;
         }
     }
@@ -122,6 +132,12 @@ QItemSelectionModel *ProjectSortProxyModel::selectionModel()
 void ProjectSortProxyModel::slotSetSearchString(const QString &str)
 {
     m_searchString = str;
+    invalidateFilter();
+}
+
+void ProjectSortProxyModel::slotSetSearchTag(const QString &str)
+{
+    m_searchTag = str;
     invalidateFilter();
 }
 
