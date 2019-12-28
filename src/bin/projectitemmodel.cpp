@@ -97,6 +97,9 @@ int ProjectItemModel::mapToColumn(int column) const
     case 5:
         return AbstractProjectItem::DataDuration;
         break;
+    case 6:
+        return AbstractProjectItem::DataId;
+        break;
     default:
         return AbstractProjectItem::DataName;
     }
@@ -256,6 +259,9 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
             break;
         case 5:
             columnName = i18n("Duration");
+            break;
+        case 6:
+            columnName = i18n("Id");
             break;
         default:
             columnName = i18n("Unknown");

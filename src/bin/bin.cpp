@@ -883,10 +883,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     sortByDuration->setCheckable(true);
     sortByDuration->setData(5);
     sortByDuration->setChecked(binSort == 5);
+    QAction *sortByInsert = new QAction(i18n("Insert Order"), m_sortGroup);
+    sortByInsert->setCheckable(true);
+    sortByInsert->setData(6);
+    sortByInsert->setChecked(binSort == 6);
     sort->addAction(sortByName);
     sort->addAction(sortByDate);
     sort->addAction(sortByDuration);
     sort->addAction(sortByType);
+    sort->addAction(sortByInsert);
     sort->addAction(sortByDesc);
     sort->addSeparator();
     sort->addAction(m_sortDescend);

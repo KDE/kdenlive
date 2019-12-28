@@ -221,7 +221,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
 
 int AbstractProjectItem::supportedDataCount() const
 {
-    return 6;
+    return 7;
 }
 
 QString AbstractProjectItem::name() const
