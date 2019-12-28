@@ -206,9 +206,10 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
     return res ? id : QStringLiteral("-1");
 }
 
-bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
+const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
                                       Fun &undo, Fun &redo, bool topLevel)
 {
+    QString createdItem;
     QScopedPointer<QProgressDialog> progressDialog;
     if (topLevel) {
         progressDialog.reset(new QProgressDialog(pCore->window()));
@@ -238,6 +239,7 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
             if (!folderCreated) {
                 continue;
             }
+            createdItem = folderId;
             QStringList result = dir.entryList(QDir::Files);
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
             QList<QUrl> folderFiles;
@@ -270,14 +272,19 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
                 }
                 if (!sublist.isEmpty()) {
                     // load subfolders
-                    created = created || createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
+                    const QString clipId = createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
+                    if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
+                        createdItem = clipId;
+                    }
                 }
             } else {
-                bool clipsCreated = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
-                created = true;
-                if (!clipsCreated) {
+                const QString clipId = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
+                if (clipId.isEmpty() || clipId == QLatin1String("-1")) {
                     local_undo();
                 } else {
+                    if (createdItem.isEmpty()) {
+                        createdItem = clipId;
+                    }
                     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo)
                 }
                 // Check subfolders
@@ -305,21 +312,23 @@ bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovab
 
                 if (answer == KMessageBox::Cancel) continue;
             }
-            QString id = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
-            created = created || (id != QStringLiteral("-1"));
+            const QString clipId = ClipCreator::createClipFromFile(file.toLocalFile(), parentFolder, model, undo, redo);
+            if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
+                createdItem = clipId;
+            }
         }
     }
     qDebug() << "/////////// creatclipsfromlist return" << created;
-    return created;
+    return createdItem == QLatin1String("-1") ? QString() : createdItem;
 }
 
-bool ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
+const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool ok = ClipCreator::createClipsFromList(list, checkRemovable, parentFolder, std::move(model), undo, redo);
-    if (ok) {
+    const QString id = ClipCreator::createClipsFromList(list, checkRemovable, parentFolder, std::move(model), undo, redo);
+    if (!id.isEmpty()) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }
-    return ok;
+    return id;
 }

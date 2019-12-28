@@ -2406,7 +2406,14 @@ void Bin::slotItemDropped(const QList<QUrl> &urls, const QModelIndex &parent)
         }
         parentFolder = parentItem->clipId();
     }
-    ClipCreator::createClipsFromList(urls, true, parentFolder, m_itemModel);
+    const QString id = ClipCreator::createClipsFromList(urls, true, parentFolder, m_itemModel);
+    if (!id.isEmpty()) {
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getItemByBinId(id);
+        if (item) {
+            QModelIndex ix = m_itemModel->getIndexFromItem(item);
+            m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
+        }
+    }
 }
 
 void Bin::slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command)
