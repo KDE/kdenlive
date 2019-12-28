@@ -357,6 +357,7 @@ void ProjectItemModel::onItemUpdated(const QString &binId, int role)
         onItemUpdated(item, role);
     }
 }
+
 std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &binId)
 {
     READ_LOCK();

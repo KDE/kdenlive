@@ -425,11 +425,11 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool created = ClipCreator::createClipsFromList(list, true, parentFolder, model, undo, redo);
+    const QString id = ClipCreator::createClipsFromList(list, true, parentFolder, model, undo, redo);
 
     // We reset the state of the "don't ask again" for the question about removable devices
     KMessageBox::enableMessage(QStringLiteral("removable"));
-    if (created) {
+    if (!id.isEmpty()) {
         pCore->pushUndo(undo, redo, i18np("Add clip", "Add clips", list.size()));
     }
 }

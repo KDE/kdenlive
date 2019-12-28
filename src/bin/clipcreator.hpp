@@ -92,9 +92,9 @@ bool createClipFromFile(const QString &path, const QString &parentFolder, std::s
    @param parentFolder: the binId of the containing folder
    @param model: a shared pointer to the bin item model
  */
-bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo,
+const QString createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo,
                          Fun &redo, bool topLevel = true);
-bool createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
+const QString createClipsFromList(const QList<QUrl> &list, bool checkRemovable, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 
 /* @brief Create minimal xml description from an url
  */
