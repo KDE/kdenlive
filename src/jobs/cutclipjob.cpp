@@ -137,8 +137,7 @@ bool CutClipJob::startJob()
     }
     QString startString = locale.toString(m_in.seconds());
     QString durationString = locale.toString((m_out - m_in).seconds());
-    qDebug()<<"// STARTING CUT JOB FROM: "<<m_in.seconds()<<" - "<<m_out.seconds()<<", DEST: "<<m_destUrl;
-    QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-i"),m_sourceUrl,QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-ss"),startString, QStringLiteral("-t"), durationString};
+    QStringList params = {QStringLiteral("-y"),QStringLiteral("-stats"),QStringLiteral("-v"),QStringLiteral("error"),QStringLiteral("-ss"),startString, QStringLiteral("-t"), durationString,QStringLiteral("-i"),m_sourceUrl};
     params << m_encodingParams << m_destUrl;
     m_jobProcess = std::make_unique<QProcess>(new QProcess);
     connect(m_jobProcess.get(), &QProcess::readyReadStandardError, this, &CutClipJob::processLogInfo);
