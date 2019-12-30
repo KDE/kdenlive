@@ -271,6 +271,7 @@ public:
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();
+    void selectAll();
 
 private slots:
     void slotAddClip();
