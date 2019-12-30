@@ -134,7 +134,7 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
         return;
     }
     for (int ix = 0; ix < indexes.count(); ix++) {
-        if (indexes.at(ix).column() == 0) {
+        if (indexes.at(ix).column() == 0 || indexes.at(ix).column() == 7) {
             emit selectModel(indexes.at(ix));
             break;
         }
@@ -144,4 +144,14 @@ void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, c
 void ProjectSortProxyModel::slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles)
 {
     emit dataChanged(ix1, ix2, roles);
+}
+
+
+void ProjectSortProxyModel::selectAll()
+{
+        QModelIndex topLeft = index(0, 0, QModelIndex());
+        QModelIndex bottomRight = index(rowCount(QModelIndex()) - 1,
+            columnCount(QModelIndex()) - 1, QModelIndex());
+        QItemSelection selection(topLeft, bottomRight);
+        m_selection->select(selection, QItemSelectionModel::Select);
 }

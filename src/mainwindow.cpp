@@ -2419,8 +2419,12 @@ void MainWindow::slotSelectTrack()
 
 void MainWindow::slotSelectAllTracks()
 {
-
-    getCurrentTimeline()->controller()->selectAll();
+    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
+        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+        pCore->bin()->selectAll();
+    } else {
+        getCurrentTimeline()->controller()->selectAll();
+    }
 }
 
 void MainWindow::slotUnselectAllTracks()

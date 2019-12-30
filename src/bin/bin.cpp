@@ -1285,6 +1285,11 @@ QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
     return {};
 }
 
+void Bin::selectAll()
+{
+    m_proxyModel->selectAll();
+}
+
 void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone)
 {
     if (m_monitor->activeClipId() == clipId) {

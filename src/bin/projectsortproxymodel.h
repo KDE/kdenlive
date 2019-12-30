@@ -45,6 +45,8 @@ public slots:
     void slotSetSearchString(const QString &str);
     /** @brief Relay datachanged signal from view's model  */
     void slotDataChanged(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);
+    /** @brief Select all items in model */
+    void selectAll();
 
 private slots:
     /** @brief Called when a row change is detected by selection model */
