@@ -328,12 +328,13 @@ public:
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
             }
             painter->restore();
-        } else if (index.column() == 7 && !index.data().isNull()) {
+        } else if (index.column() == 7) {
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
             QRect r1 = opt.rect;
+            QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+            style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
-                painter->fillRect(r1, option.palette.highlight());
                 painter->setPen(option.palette.highlightedText().color());
             }
             if (index.data(AbstractProjectItem::ItemTypeRole).toInt() != AbstractProjectItem::FolderItem) {
@@ -1822,6 +1823,7 @@ void Bin::slotInitView(QAction *action)
     connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, [&] (const QModelIndex &ix, uint rating) {
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
+        
         if (item) {
             item->setRating(rating);
             emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
