@@ -175,11 +175,6 @@ ClipType::ProducerType ProjectFolder::clipType() const
     return ClipType::Unknown;
 }
 
-const QString ProjectFolder::clipTags() const
-{
-    return QString();
-}
-
 bool ProjectFolder::hasAudioAndVideo() const
 {
     return false;

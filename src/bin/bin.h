@@ -278,8 +278,7 @@ private slots:
     /** @brief Set sorting column */
     void slotSetSorting();
     /** @brief Show/hide date column */
-    void slotShowDateColumn(bool show);
-    void slotShowDescColumn(bool show);
+    void slotShowColumn(bool show);
     /** @brief Go to parent folder */
     void slotBack();
     /** @brief Setup the bin view type (icon view, tree view, ...).
@@ -402,6 +401,7 @@ private:
     QAction *m_inTimelineAction;
     QAction *m_showDate;
     QAction *m_showDesc;
+    QAction *m_showRating;
     QAction *m_sortDescend;
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
@@ -435,6 +435,7 @@ private:
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu;
     QActionGroup m_filterGroup;
+    QToolButton *m_filterButton;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
     QStringList m_errorLog;
@@ -461,6 +462,8 @@ private:
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
     void updateSortingAction(int ix);
+    /** @brief Apply Bin filtering. */
+    void processBinFiltering();
     int wheelAccumulatedDelta;
 
 signals:

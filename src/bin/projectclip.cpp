@@ -97,12 +97,16 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     }
     // Make sure we have a hash for this clip
     hash();
-    connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
+    connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&]() {
+        setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
+    });
     QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
     if (!markers.isEmpty()) {
         QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, markers), Q_ARG(bool, true),
                                   Q_ARG(bool, false));
     }
+    setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
+    AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
     connectEffectStack();
 }
 
@@ -207,14 +211,6 @@ bool ProjectClip::audioThumbCreated() const
 ClipType::ProducerType ProjectClip::clipType() const
 {
     return m_clipType;
-}
-
-const QString ProjectClip::clipTags() const
-{
-    if (!m_masterProducer || !m_masterProducer->is_valid()) {
-        return QString();
-    }
-    return getProducerProperty(QStringLiteral("kdenlive:tags"));
 }
 
 bool ProjectClip::hasParent(const QString &id) const
@@ -431,6 +427,8 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     }
     m_duration = getStringDuration();
     m_clipStatus = StatusReady;
+    setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
+    AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
     if (!hasProxy()) {
         if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_binId);
     }
@@ -1027,11 +1025,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (refreshAnalysis) {
         emit refreshAnalysisPanel();
     }
-    if (properties.contains(QStringLiteral("kdenlive::tags"))) {
-        if (auto ptr = m_model.lock())
-            std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
-                                                                           AbstractProjectItem::DataTag);
-    }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
         m_duration = getStringDuration();
         if (auto ptr = m_model.lock())
@@ -1042,6 +1035,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     }
 
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {
+        setTags(properties.value(QStringLiteral("kdenlive:tags")));
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            AbstractProjectItem::DataTag);
@@ -1440,6 +1434,12 @@ void ProjectClip::updateZones()
             QPoint zone = clip->zone();
             currentZone.insert(QLatin1String("in"), QJsonValue(zone.x()));
             currentZone.insert(QLatin1String("out"), QJsonValue(zone.y()));
+            if (clip->rating() > 0) {
+                currentZone.insert(QLatin1String("rating"), QJsonValue((int)clip->rating()));
+            }
+            if (!clip->tags().isEmpty()) {
+                currentZone.insert(QLatin1String("tags"), QJsonValue(clip->tags()));
+            }
             list.push_back(currentZone);
         }
     }
@@ -1464,4 +1464,11 @@ void ProjectClip::getThumbFromPercent(int percent)
             pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 150, 50);
         }
     }
+}
+
+void ProjectClip::setRating(uint rating)
+{
+    AbstractProjectItem::setRating(rating);
+    setProducerProperty(QStringLiteral("kdenlive:rating"), (int) rating);
+    pCore->currentDoc()->setModified(true);
 }

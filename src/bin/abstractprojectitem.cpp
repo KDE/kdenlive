@@ -42,6 +42,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_date()
     , m_binId(std::move(id))
     , m_usage(0)
+    , m_rating(0)
     , m_clipStatus(StatusReady)
     , m_itemType(type)
     , m_lock(QReadWriteLock::Recursive)
@@ -157,7 +158,10 @@ QVariant AbstractProjectItem::getData(DataType type) const
         data = clipType();
         break;
     case DataTag:
-        data = clipTags();
+        data = QVariant(m_tags);
+        break;
+    case DataRating:
+        data = QVariant(m_rating);
         break;
     case ClipHasAudioAndVideo:
         data = hasAudioAndVideo();
@@ -221,7 +225,7 @@ QVariant AbstractProjectItem::getData(DataType type) const
 
 int AbstractProjectItem::supportedDataCount() const
 {
-    return 7;
+    return 8;
 }
 
 QString AbstractProjectItem::name() const
@@ -305,4 +309,25 @@ void AbstractProjectItem::updateParent(std::shared_ptr<TreeItem> newParent)
         m_lastParentId = std::static_pointer_cast<AbstractProjectItem>(newParent)->clipId();
     }
     TreeItem::updateParent(newParent);
+}
+
+const QString & AbstractProjectItem::tags() const
+{
+    return m_tags;
+}
+
+void AbstractProjectItem::setTags(const QString tags)
+{
+    m_tags = tags;
+}
+
+
+uint AbstractProjectItem::rating() const
+{
+    return m_rating;
+}
+
+void AbstractProjectItem::setRating(uint rating)
+{
+    m_rating = rating;
 }

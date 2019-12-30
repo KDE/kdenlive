@@ -28,8 +28,9 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
     , m_searchType(0)
 {
-    m_collator.setNumericMode(true);
+    m_collator.setLocale(QLocale());
     m_collator.setCaseSensitivity(Qt::CaseInsensitive);
+    m_collator.setNumericMode(true);
     m_selection = new QItemSelectionModel(this);
     connect(m_selection, &QItemSelectionModel::selectionChanged, this, &ProjectSortProxyModel::onCurrentRowChanged);
     setDynamicSortFilter(true);
@@ -52,31 +53,30 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
         if (!index0.isValid()) {
             return false;
         }
-        bool typeAccepted = false;
-        bool tagAccepted = false;
         auto data = sourceModel()->data(index0);
-        if (m_searchType > 0) {
-            QModelIndex indexTag = sourceModel()->index(sourceRow, 3, sourceParent);
-            if (sourceModel()->data(indexTag).toInt() == m_searchType) {
-                typeAccepted = true;
+        if (m_searchRating > 0) {
+            // Column 7 contains the rating
+            QModelIndex indexTag = sourceModel()->index(sourceRow, 7, sourceParent);
+            if (sourceModel()->data(indexTag).toInt() < m_searchRating) {
+                return false;
             }
-        } else {
-            typeAccepted = true;
         }
-        if (!typeAccepted) {
-            return false;
+        if (m_searchType > 0) {
+            // Column 3 contains the item type (video, image, title, etc)
+            QModelIndex indexTag = sourceModel()->index(sourceRow, 3, sourceParent);
+            if (sourceModel()->data(indexTag).toInt() != m_searchType) {
+                return false;
+            }
         }
         if (!m_searchTag.isEmpty()) {
             // Column 4 contains the item tag data
             QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
             auto tagData = sourceModel()->data(indexTag);
-            if (tagData.toString().contains(m_searchTag, Qt::CaseInsensitive)) {
-                tagAccepted = true;
+            if (!tagData.toString().contains(m_searchTag, Qt::CaseInsensitive)) {
+                return false;
             }
-        } else {
-            tagAccepted = true;
         }
-        if (tagAccepted && data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
+        if (data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
             return true;
         }
     }
@@ -115,16 +115,8 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
     int rightType = sourceModel()->data(right, AbstractProjectItem::ItemTypeRole).toInt();
     if (leftType == rightType) {
         // Let the normal alphabetical sort happen
-        QVariant leftData;
-        QVariant rightData;
-        if (leftType == AbstractProjectItem::SubClipItem) {
-            // Subclips, sort by start position
-            leftData = sourceModel()->data(left, AbstractProjectItem::DataInPoint);
-            rightData = sourceModel()->data(right, AbstractProjectItem::DataInPoint);
-        } else {
-            leftData = sourceModel()->data(left, Qt::DisplayRole);
-            rightData = sourceModel()->data(right, Qt::DisplayRole);
-        }
+        const QVariant leftData = sourceModel()->data(left, Qt::DisplayRole);
+        const QVariant rightData = sourceModel()->data(right, Qt::DisplayRole);
         if (leftData.type() == QVariant::DateTime) {
             return leftData.toDateTime() < rightData.toDateTime();
         }
@@ -147,20 +139,36 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetSearchTag(const QString &str, bool reload)
+void ProjectSortProxyModel::slotSetSearchRating(const int type)
 {
-    m_searchTag = str;
-    if (reload) {
-        invalidateFilter();
-    }
+    m_searchTag.clear();
+    m_searchType = 0;
+    m_searchRating = type;
+    invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetSearchType(const int type, bool reload)
+void ProjectSortProxyModel::slotSetSearchTag(const QString &str)
 {
+    m_searchType = 0;
+    m_searchRating = 0;
+    m_searchTag = str;
+    invalidateFilter();
+}
+
+void ProjectSortProxyModel::slotSetSearchType(const int type)
+{
+    m_searchTag.clear();
+    m_searchRating = 0;
     m_searchType = type;
-    if (reload) {
-        invalidateFilter();
-    }
+    invalidateFilter();
+}
+
+void ProjectSortProxyModel::slotClearSearchType()
+{
+    m_searchTag.clear();
+    m_searchRating = 0;
+    m_searchType = 0;
+    invalidateFilter();
 }
 
 void ProjectSortProxyModel::onCurrentRowChanged(const QItemSelection &current, const QItemSelection &previous)

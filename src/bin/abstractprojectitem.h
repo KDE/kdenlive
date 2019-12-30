@@ -125,6 +125,8 @@ public:
         DataDuration,
         // Tag of the clip as colors
         DataTag,
+        // Rating of the clip (0-5)
+        DataRating,
         // Duration of the clip in frames
         ParentDuration,
         // Inpoint of the subclip (0 for clips)
@@ -197,7 +199,10 @@ public:
     */
     virtual bool isIncludedInTimeline() { return false; }
     virtual ClipType::ProducerType clipType() const = 0;
-    virtual const QString clipTags() const = 0;
+    uint rating() const;
+    virtual void setRating(uint rating);
+    const QString &tags() const;
+    void setTags(const QString tags);
 
 signals:
     void childAdded(AbstractProjectItem *child);
@@ -214,6 +219,8 @@ protected:
     QDateTime m_date;
     QString m_binId;
     uint m_usage;
+    uint m_rating;
+    QString m_tags;
     CLIPSTATUS m_clipStatus;
 
     PROJECTITEMTYPE m_itemType;

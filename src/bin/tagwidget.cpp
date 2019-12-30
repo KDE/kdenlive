@@ -80,23 +80,25 @@ void DragButton::mousePressEvent(QMouseEvent *event)
 
 void DragButton::mouseMoveEvent(QMouseEvent *event)
 {
+    QToolButton::mouseMoveEvent(event);
     if (!(event->buttons() & Qt::LeftButton) || m_dragging) {
-        event->accept();
         return;
     }
     if ((event->pos() - m_dragStartPosition).manhattanLength()
          < QApplication::startDragDistance()) {
-        QToolButton::mouseMoveEvent(event);
         return;
     }
 
     QDrag *drag = new QDrag(this);
     QMimeData *mimeData = new QMimeData;
     mimeData->setData(QStringLiteral("kdenlive/tag"), m_tag.toUtf8());
+    drag->setPixmap(defaultAction()->icon().pixmap(22, 22));
     drag->setMimeData(mimeData);
     m_dragging = true;
-    Qt::DropAction dropAction = drag->exec(Qt::CopyAction);
-    event->accept();
+    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+    // Disable / enable toolbutton to clear highlighted state because mouserelease is not triggered on drop end
+    setEnabled(false);
+    setEnabled(true);
 }
 
 void DragButton::mouseReleaseEvent(QMouseEvent *event)
