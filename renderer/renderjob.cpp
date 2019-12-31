@@ -109,7 +109,7 @@ void RenderJob::slotAbort()
         QFile(m_scenelist).remove();
     }
     QFile(m_dest).remove();
-    m_logstream << "Job aborted by user" << endl;
+    m_logstream << "Job aborted by user" << "\n";
     m_logstream.flush();
     m_logfile.close();
     qApp->quit();
@@ -121,7 +121,7 @@ void RenderJob::receivedStderr()
     if (!result.startsWith(QLatin1String("Current Frame"))) {
         m_errorMessage.append(result + QStringLiteral("<br>"));
     } else {
-        m_logstream << "melt: " << result << endl;
+        m_logstream << "melt: " << result << "\n";
         int pro = result.section(QLatin1Char(' '), -1).toInt();
         if (pro <= m_progress || pro <= 0 || pro > 100) {
             return;
@@ -211,7 +211,8 @@ void RenderJob::start()
     connect(m_renderProcess, &QProcess::readyReadStandardError, this, &RenderJob::receivedStderr);
     m_renderProcess->start(m_prog, m_args);
     qDebug() << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' '));
-    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << endl;
+    m_logstream << "Started render process: " << m_prog << ' ' << m_args.join(QLatin1Char(' ')) << "\n";
+    m_logstream.flush();
 }
 
 void RenderJob::initKdenliveDbusInterface()
@@ -269,7 +270,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
         QProcess::startDetached(QStringLiteral("kdialog"), {QStringLiteral("--error"), error});
-        m_logstream << error << endl;
+        m_logstream << error << "\n";
         emit renderingFinished();
         //qApp->quit();
     }
@@ -286,7 +287,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
         QStringList args;
         QString error = tr("Rendering of %1 aborted, resulting video will probably be corrupted.").arg(m_dest);
         args << QStringLiteral("--error") << error;
-        m_logstream << error << endl;
+        m_logstream << error << "\n";
         QProcess::startDetached(QStringLiteral("kdialog"), args);
         emit renderingFinished();
     } else {
@@ -295,7 +296,7 @@ void RenderJob::slotIsOver(QProcess::ExitStatus status, bool isWritable)
             m_dbusargs.append(QString());
             m_kdenliveinterface->callWithArgumentList(QDBus::NoBlock, QStringLiteral("setRenderingFinished"), m_dbusargs);
         }
-        m_logstream << "Rendering of " << m_dest << " finished" << endl;
+        m_logstream << "Rendering of " << m_dest << " finished" << "\n";
         if (!m_dualpass && m_player.length() > 3 && m_player.contains(QLatin1Char(' '))) {
             QStringList args = m_player.split(QLatin1Char(' '));
             QString exec = args.takeFirst();
