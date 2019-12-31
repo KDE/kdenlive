@@ -81,8 +81,8 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
     QFileInfo finfo(source);
     QString fileName = finfo.fileName().section(QLatin1Char('.'), 0, -2);
     QDir dir = finfo.absoluteDir();
-    QString inString(binClip->framesToTime(inTime.frames(pCore->getCurrentFps())));
-    QString outString(binClip->framesToTime(outTime.frames(pCore->getCurrentFps())));
+    QString inString = QString::number((int)inTime.seconds());
+    QString outString = QString::number((int)outTime.seconds());
     QString path = dir.absoluteFilePath(fileName + QString("-%1-%2.").arg(inString).arg(outString) + transcoderExt);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
