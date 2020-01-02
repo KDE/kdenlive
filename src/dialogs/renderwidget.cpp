@@ -1479,7 +1479,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
             if (prod.attribute(QStringLiteral("id")) == QStringLiteral("black_track")) {
                 auto props = prod.elementsByTagName(QStringLiteral("property"));
                 for (int j = 0; j < props.count(); ++j) {
-                    auto prop = props.at(i).toElement();
+                    auto prop = props.at(j).toElement();
                     if (prop.attribute(QStringLiteral("name")) == QStringLiteral("resource")) {
                         prop.firstChild().setNodeValue(QStringLiteral("transparent"));
                         break;
