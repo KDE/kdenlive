@@ -1893,7 +1893,7 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
-    QString filename = url.fileName();
+    QString filename = pCore->currentDoc()->url().fileName();
     QString ext;
 
     if (extension.at(0) == '.') {
