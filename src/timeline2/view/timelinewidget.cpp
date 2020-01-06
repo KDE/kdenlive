@@ -133,6 +133,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
+    rootContext()->setContextProperty("smallFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
