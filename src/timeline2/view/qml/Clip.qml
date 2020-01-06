@@ -81,7 +81,7 @@ Rectangle {
     signal initGroupTrim(var clip)
     signal trimmingOut(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
-    
+
     onScrollStartChanged: {
         clipRoot.hideClipViews = scrollStart > width || scrollStart + scrollView.viewport.width < 0
     }
@@ -176,7 +176,7 @@ Rectangle {
     }
 
     border.color: selected ? root.selectionColor : grouped ? root.groupColor : borderColor
-    border.width: isGrabbed ? 8 : 1.5
+    border.width: isGrabbed ? 8 : 2
 
     function updateDrag() {
         var itemPos = mapToItem(tracksContainerArea, 0, 0, clipRoot.width, clipRoot.height)
@@ -293,8 +293,8 @@ Rectangle {
         Item {
             // Thumbs container
             anchors.fill: parent
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
+            anchors.leftMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
+            anchors.rightMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
             anchors.topMargin: clipRoot.border.width
             anchors.bottomMargin: clipRoot.border.width
             clip: true
