@@ -159,7 +159,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
@@ -2067,6 +2066,7 @@ void Monitor::reconfigure()
 
 void Monitor::slotSeekPosition(int pos)
 {
+    emit seekPosition(pos);
     m_timePos->setValue(pos);
     checkOverlay();
 }

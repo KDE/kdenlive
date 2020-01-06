@@ -182,7 +182,6 @@ signals:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
-    void consumerPosition(int);
     void activateMonitor();
 
 protected:
