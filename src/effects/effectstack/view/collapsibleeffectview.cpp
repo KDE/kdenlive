@@ -434,6 +434,7 @@ void CollapsibleEffectView::slotSaveEffect()
     QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
     QMap<QString, QString> values;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : currentValues) {
         if (param.second.type() == QVariant::Double) {
             values.insert(param.first, locale.toString(param.second.toDouble()));

@@ -779,7 +779,6 @@ void AnimationWidget::addParameter(QModelIndex ix)
 
 void AnimationWidget::buildSliderWidget(const QString &paramTag, QModelIndex ix)
 {
-    QLocale locale;
     QString paramName = i18n(m_model->data(ix, Qt::DisplayRole).toString().toUtf8().data());
     QString comment = m_model->data(ix, AssetParameterModel::CommentRole).toString();
     if (!comment.isEmpty()) {
@@ -1072,6 +1071,7 @@ const QMap<QString, QString> AnimationWidget::getAnimation()
             mlt_keyframe_type type;
             QString key;
             QLocale locale;
+            locale.setNumberOptions(QLocale::OmitGroupSeparator);
             QStringList result;
             int duration = m_outPoint;
             for (int j = 0; j < m_animController.key_count(); ++j) {
@@ -1413,7 +1413,6 @@ void AnimationWidget::reload(const QString &tag, const QString &data)
     }
     // Also add keyframes positions in other parameters
     QStringList paramNames = m_doubleWidgets.keys();
-    QLocale locale;
     m_animController = m_animProperties.get_animation(tag.toUtf8().constData());
     for (int i = 0; i < paramNames.count(); i++) {
         const QString &currentParam = paramNames.at(i);

@@ -136,6 +136,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
 QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QVector<QPair<QString, QVariant>> values;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);

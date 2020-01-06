@@ -101,6 +101,7 @@ std::unordered_map<QString, QString> ClipStabilize::filterParams() const
     QVector<QPair<QString, QVariant>> result = m_assetModel->getAllParameters();
     std::unordered_map<QString, QString> params;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
     for (const auto &it : result) {
         if (it.second.type() == QVariant::Double) {
