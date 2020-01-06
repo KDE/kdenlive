@@ -648,6 +648,7 @@ void KeyframeImport::importSelectedData()
     QPoint rectOffset;
     int finalAlign = m_alignCombo->currentIndex();
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &ix : m_indexes) {
         // update keyframes in other indexes
         KeyframeModel *km = kfrModel->getKeyModel(ix);
@@ -707,27 +708,27 @@ void KeyframeImport::importSelectedData()
                 }
                 switch (convertMode) {
                     case ImportRoles::FullGeometry:
-                        kfrData[0] = locale.toString(rect.x);
-                        kfrData[1] = locale.toString(rect.y);
-                        kfrData[2] = locale.toString(rect.w);
-                        kfrData[3] = locale.toString(rect.h);
+                        kfrData[0] = locale.toString((int)rect.x);
+                        kfrData[1] = locale.toString((int)rect.y);
+                        kfrData[2] = locale.toString((int)rect.w);
+                        kfrData[3] = locale.toString((int)rect.h);
                         break;
                     case ImportRoles::Position:
-                        kfrData[0] = locale.toString(rect.x);
-                        kfrData[1] = locale.toString(rect.y);
+                        kfrData[0] = locale.toString((int)rect.x);
+                        kfrData[1] = locale.toString((int)rect.y);
                         break;
                     case ImportRoles::SimpleValue:
                     case ImportRoles::XOnly:
-                        kfrData[0] = locale.toString(rect.x);
+                        kfrData[0] = locale.toString((int)rect.x);
                         break;
                     case ImportRoles::YOnly:
-                        kfrData[1] = locale.toString(rect.y);
+                        kfrData[1] = locale.toString((int)rect.y);
                         break;
                     case ImportRoles::WidthOnly:
-                        kfrData[2] = locale.toString(rect.w);
+                        kfrData[2] = locale.toString((int)rect.w);
                         break;
                     case ImportRoles::HeightOnly:
-                        kfrData[3] = locale.toString(rect.h);
+                        kfrData[3] = locale.toString((int)rect.h);
                         break;
                     default:
                         break;

@@ -43,7 +43,6 @@ ListParamWidget::ListParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     // setup the name
     m_labelName->setText(m_model->data(m_index, Qt::DisplayRole).toString());
     slotRefresh();
-    QLocale locale;
 
     // emit the signal of the base class when appropriate
     // The connection is ugly because the signal "currentIndexChanged" is overloaded in QComboBox
@@ -130,6 +129,7 @@ void ListParamWidget::slotRefresh()
             names = values;
         }
         QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
         for (int i = 0; i < names.count(); i++) {
             QString val = values.at(i);
             bool ok;

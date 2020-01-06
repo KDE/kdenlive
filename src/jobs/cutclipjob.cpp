@@ -128,7 +128,6 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
 
 bool CutClipJob::startJob()
 {
-    QLocale locale;
     bool result;
     if (m_destUrl == m_sourceUrl) {
         m_errorMessage.append(i18n("You cannot overwrite original clip."));

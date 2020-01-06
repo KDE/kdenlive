@@ -878,6 +878,7 @@ QVariant KeyframeModel::updateInterpolated(const QVariant &interpValue, double v
 {
     QStringList vals = interpValue.toString().split(QLatin1Char(' '));
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (!vals.isEmpty()) {
         vals[vals.size() - 1] = locale.toString(val);
     }
@@ -1105,7 +1106,6 @@ QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::share
 {
     Mlt::Properties mlt_prop;
     model->passProperties(mlt_prop);
-    QLocale locale;
     mlt_prop.set("key", animData.toUtf8().constData());
     // This is a fake query to force the animation to be parsed
     (void)mlt_prop.anim_get_int("key", 0, 0);
