@@ -353,36 +353,45 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
     int clip_duration = m_model->getClipPlaytime(clipId);
     int endPos = minimumPos + clip_duration;
     int position = minimumPos;
-    int duration = qMin(pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()), m_model->getTrackById_const(tid)->suggestCompositionLength(position));
+    int duration = qMin(clip_duration, pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()));
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
     bool revert = offset > clip_duration / 2;
+    int bottomId = 0;
     if (lowerVideoTrackId > 0) {
-        int bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position + offset);
-        if (bottomId > 0) {
-            QPair<int, int> bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
-            if (bottom.first > minimumPos) {
-                // Lower clip is after top clip
-                if (position + offset > bottom.first) {
-                    int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
-                    if (test_duration > 0) {
-                        offset -= (bottom.first - position);
-                        position = bottom.first;
-                        duration = test_duration;
-                        revert = position > minimumPos;
-                    }
-                }
-            } else if (position >= bottom.first) {
-                // Lower clip is before or at same pos as top clip
-                int test_duration = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
-                if (test_duration > 0) {
-                    duration = qMin(test_duration, clip_duration);
-                }
-            }
+        bottomId = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position + offset);
+    }
+    if (bottomId <= 0) {
+        // No video track underneath
+        if (offset < duration && duration < 2 * clip_duration) {
+            // Composition dropped close to start, keep default composition duration
+        } else if (clip_duration - offset < duration * 1.2  && duration < 2 * clip_duration) {
+            // Composition dropped close to end, keep default composition duration
+            position = endPos - duration;
         } else {
-            qDebug()<<"///// NO CLIP FOUND BELOW!!!";
+            // Use full clip length for duration
+            duration = m_model->getTrackById_const(tid)->suggestCompositionLength(position);
         }
     } else {
-        qDebug()<<"///// NO TRACK FOUND BELOW!!!";
+        duration = qMin(duration, m_model->getTrackById_const(tid)->suggestCompositionLength(position));
+        QPair<int, int> bottom(m_model->m_allClips[bottomId]->getPosition(), m_model->m_allClips[bottomId]->getPlaytime());
+        if (bottom.first > minimumPos) {
+            // Lower clip is after top clip
+            if (position + offset > bottom.first) {
+                int test_duration = m_model->getTrackById_const(tid)->suggestCompositionLength(bottom.first);
+                if (test_duration > 0) {
+                    offset -= (bottom.first - position);
+                    position = bottom.first;
+                    duration = test_duration;
+                    revert = position > minimumPos;
+                }
+            }
+        } else if (position >= bottom.first) {
+            // Lower clip is before or at same pos as top clip
+            int test_duration = m_model->getTrackById_const(lowerVideoTrackId)->suggestCompositionLength(position);
+            if (test_duration > 0) {
+                duration = qMin(test_duration, clip_duration);
+            }
+        }
     }
     if (duration < 0) {
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
