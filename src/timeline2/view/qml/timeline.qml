@@ -341,15 +341,15 @@ Rectangle {
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.flickableItem.contentY)
                 if (track !=-1) {
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                    frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                     if (clipBeingDroppedId >= 0){
                         if (controller.isAudioTrack(track)) {
                             // Don't allow moving composition to an audio track
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
                         }
-                        controller.requestCompositionMove(clipBeingDroppedId, track, frame, true, false)
+                        controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, Math.floor(root.snapping))
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
                     } else if (!controller.isAudioTrack(track)) {
+                        frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
                         continuousScrolling(drag.x + scrollView.flickableItem.contentX)
@@ -445,7 +445,7 @@ Rectangle {
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                    if (clipBeingDroppedId >= 0){
+                    if (clipBeingDroppedId >= 0) {
                         fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
