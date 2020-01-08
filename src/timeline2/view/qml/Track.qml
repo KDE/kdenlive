@@ -272,7 +272,7 @@ Column{
                 if (controlTrim) {
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
                     speedController.x = clip.x + clip.width - newDuration * trackRoot.timeScale
-                    speedController.width = newDuration * trackRoot.timeScale
+                    speedController.width = newDuration * root.timeScale
                     speedController.lastValidDuration = newDuration
                     speedController.speedText = (100 * clip.originalDuration * clip.speed / speedController.lastValidDuration).toFixed(2) + '%'
                     speedController.visible = true

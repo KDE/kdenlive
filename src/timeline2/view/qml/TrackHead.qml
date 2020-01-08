@@ -103,7 +103,7 @@ Rectangle {
     }
     ColumnLayout {
         id: targetColumn
-        width: trackTagLabel.width * .3
+        width: trackTagLabel.width * .5
         height: trackHeadRoot.height
         Item {
             width: parent.width
@@ -161,7 +161,7 @@ Rectangle {
                         when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.audioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
                         PropertyChanges {
                             target: trackTarget
-                            color: 'green'
+                            color: timeline.targetColor
                         }
                     },
                     State {
@@ -199,11 +199,11 @@ Rectangle {
         anchors.topMargin: 0
         RowLayout {
             spacing: 0
-            Layout.leftMargin: 2
+            Layout.leftMargin: 1
             ToolButton {
                 id: expandButton
-                implicitHeight: root.baseUnit * 2
-                implicitWidth: root.baseUnit * 2
+                implicitHeight: trackHeadRoot.iconSize
+                implicitWidth: trackHeadRoot.iconSize
                 iconName: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
                 onClicked: {
                     trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
@@ -216,16 +216,16 @@ Rectangle {
                 Layout.topMargin: 1
                 Rectangle {
                     id: trackLed
-                    color: Qt.darker(trackHeadRoot.color, 0.45)
+                    color: Qt.darker(trackHeadRoot.color, 0.55)
                     anchors.fill: parent
                     width: height
                     border.width: 0
-                    radius: 2
                     Text {
                         id: trackTagLabel
                         text: trackHeadRoot.trackTag
                         anchors.fill: parent
                         font.pointSize: root.fontUnit
+                        color: activePalette.text
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
                     }
@@ -267,7 +267,11 @@ Rectangle {
                             when: trackHeadRoot.isActive
                             PropertyChanges {
                                 target: trackLed
-                                color: 'yellow'
+                                color: timeline.targetColor
+                            }
+                            PropertyChanges {
+                                target: trackTagLabel
+                                color: timeline.targetTextColor
                             }
                         },
                         State {
@@ -275,7 +279,7 @@ Rectangle {
                             when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
                             PropertyChanges {
                                 target: trackLed
-                                color: Qt.darker(trackHeadRoot.color, 0.45)
+                                color: Qt.darker(trackHeadRoot.color, 0.55)
                             }
                         }
                     ]

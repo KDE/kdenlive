@@ -79,7 +79,8 @@ bool AudioThumbJob::computeWithMlt()
     for (int i = 0; i < m_channels; i++) {
         keys << "meta.media.audio_level." + QString::number(i);
     }
-
+    double maxLevel = 1;
+    QVector <double> mltLevels;
     for (int z = 0; z < m_lengthInFrames; ++z) {
         int val = (int)(100.0 * z / m_lengthInFrames);
         if (last_val != val) {
@@ -91,15 +92,21 @@ bool AudioThumbJob::computeWithMlt()
             int samples = mlt_sample_calculator(float(framesPerSecond), m_frequency, z);
             mltFrame->get_audio(audioFormat, m_frequency, m_channels, samples);
             for (int channel = 0; channel < m_channels; ++channel) {
-                double level = 256 * qMin(mltFrame->get_double(keys.at(channel).toUtf8().constData()) * 0.9, 1.0);
-                m_audioLevels << level;
+                double lev = mltFrame->get_double(keys.at(channel).toUtf8().constData());
+                mltLevels << lev;
+                maxLevel = qMax(lev, maxLevel);
             }
-        } else if (!m_audioLevels.isEmpty()) {
+        } else if (!mltLevels.isEmpty()) {
             for (int channel = 0; channel < m_channels; channel++) {
-                m_audioLevels << m_audioLevels.last();
+                mltLevels << mltLevels.last();
             }
         }
     }
+    // Normalize
+    for (double &v : mltLevels) {
+        m_audioLevels << 255 * v / maxLevel;
+    }
+    
     m_done = true;
     return true;
 }
@@ -170,7 +177,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         } else {
             QString aformat = QStringLiteral("[0:a%1]%2=100,channelsplit=channel_layout=%3")
                               .arg(m_audioStream > 0 ? ":" + QString::number(m_audioStream) : QString())
-                              .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates=")
+                              .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates")
                               .arg(m_channels > 2 ? "5.1" : "stereo");
             for (int i = 0; i < m_channels; ++i) {
                 aformat.append(QStringLiteral("[0:%1]").arg(i));
@@ -220,7 +227,8 @@ bool AudioThumbJob::computeWithFFMPEG()
             } else if (offset > 250) {
                 intraOffset = offset / 10;
             }
-            double factor = 800.0 / 32768;
+            long maxLevel = 1;
+            QVector <long> ffmpegLevels;
             for (int i = 0; i < m_lengthInFrames; i++) {
                 channelsData.resize((size_t)rawChannels.size());
                 std::fill(channelsData.begin(), channelsData.end(), 0);
@@ -229,20 +237,24 @@ bool AudioThumbJob::computeWithFFMPEG()
                 for (int j = 0; j < (int)offset && (pos + j < dataSize); j += intraOffset) {
                     steps++;
                     for (size_t k = 0; k < rawChannels.size(); k++) {
-                    channelsData[k] += abs(rawChannels[k][pos + j]);
+                        channelsData[k] += abs(rawChannels[k][pos + j]);
                     }
                 }
                 for (long &k : channelsData) {
                     if (steps != 0) {
                         k /= steps;
                     }
-                    m_audioLevels << (int)((double)k * factor);
+                    maxLevel = qMax(k, maxLevel);
+                    ffmpegLevels << k;
                 }
                 int p = 80 + (i * 20 / m_lengthInFrames);
                 if (p != progress) {
                     emit jobProgress(p);
                     progress = p;
                 }
+            }
+            for (long &v : ffmpegLevels) {
+                m_audioLevels << 255 * (double) v / maxLevel;
             }
             m_done = true;
             return true;
@@ -378,7 +390,7 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_successful) {
         return false;
     }
-    QVector <double>old = m_binClip->audioFrameCache;
+    QVector <uint8_t>old = m_binClip->audioFrameCache;
     QImage oldImage = m_binClip->thumbnail(m_thumbSize.width(), m_thumbSize.height()).toImage();
     QImage result = ThumbnailCache::get()->getAudioThumbnail(m_clipId);
 

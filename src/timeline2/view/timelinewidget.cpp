@@ -127,6 +127,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     // Create a unique id for this timeline to prevent thumbnails 
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", QUuid::createUuid());
+    rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); // m_transitionProxyModel.get());
     // rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
     rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));

@@ -26,7 +26,7 @@ import com.enums 1.0
 
 Rectangle {
     id: clipRoot
-    property real timeScale: 1.0
+    property real timeScale: 1
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
@@ -70,10 +70,10 @@ Rectangle {
     property color borderColor: 'black'
     property bool forceReloadThumb
     property bool isComposition: false
-    property bool hideClipViews
+    property bool hideClipViews: false
     property var groupTrimData
-    property int scrollStart: scrollView.flickableItem.contentX - clipRoot.modelStart * timeline.scaleFactor
-    width : clipDuration * timeScale;
+    property int scrollStart: scrollView.flickableItem.contentX - (clipRoot.modelStart * timeline.scaleFactor)
+    width : clipDuration * timeScale
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
     signal trimmingIn(var clip, real newDuration, var mouse, bool shiftTrim, bool controlTrim)
@@ -83,7 +83,7 @@ Rectangle {
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
     onScrollStartChanged: {
-        clipRoot.hideClipViews = scrollStart > width || scrollStart + scrollView.viewport.width < 0
+        clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.viewport.width < 0
     }
 
     onIsGrabbedChanged: {
@@ -143,6 +143,7 @@ Rectangle {
     onModelStartChanged: {
         x = modelStart * timeScale;
     }
+
     onFakePositionChanged: {
         x = fakePosition * timeScale;
     }

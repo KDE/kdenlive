@@ -28,7 +28,7 @@ import 'Timeline.js' as Logic
 
 Item {
     id: compositionRoot
-    property real timeScale: 1.0
+    property real timeScale: 1
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''

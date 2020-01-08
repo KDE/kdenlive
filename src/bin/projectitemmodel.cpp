@@ -384,7 +384,7 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
     return nullptr;
 }
 
-const QVector<double> ProjectItemModel::getAudioLevelsByBinID(const QString &binId)
+const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId)
 {
     READ_LOCK();
     if (binId.contains(QLatin1Char('_'))) {
@@ -396,7 +396,7 @@ const QVector<double> ProjectItemModel::getAudioLevelsByBinID(const QString &bin
             return std::static_pointer_cast<ProjectClip>(c)->audioFrameCache;
         }
     }
-    return QVector<double>();
+    return QVector<uint8_t>();
 }
 
 bool ProjectItemModel::hasClip(const QString &binId)

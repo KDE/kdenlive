@@ -2555,6 +2555,22 @@ QColor TimelineController::videoColor() const
     return scheme.foreground(KColorScheme::LinkText).color();
 }
 
+QColor TimelineController::targetColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    QColor base = scheme.foreground(KColorScheme::PositiveText).color();
+    QColor high = QApplication::palette().highlightedText().color();
+    double factor = 0.3;
+    QColor res = QColor(qBound(0, base.red() + (int)(factor*(high.red() - 128)), 255), qBound(0, base.green() + (int)(factor*(high.green() - 128)), 255), qBound(0, base.blue() + (int)(factor*(high.blue() - 128)), 255), 255);
+    return res;
+}
+
+QColor TimelineController::targetTextColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.background(KColorScheme::PositiveBackground).color();
+}
+
 QColor TimelineController::audioColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
