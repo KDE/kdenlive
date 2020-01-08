@@ -240,6 +240,45 @@ Item {
         hoverEnabled: true
         cursorShape: !root.isDefined ? Qt.PointingHandCursor : (pointContainsMouse || centerContainsMouse) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
+        onDoubleClicked: {
+            if (!root.isDefined) {
+                return
+            }
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                var p0; var p1; var p2; var dab; var dap; var dbp;
+                var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
+                for (var i = 0; i < root.centerPoints.length; i++) {
+                    p1 = root.centerPoints[i]
+                    if (i == 0) {
+                        p0 = root.centerPoints[root.centerPoints.length - 1]
+                    } else {
+                        p0 = root.centerPoints[i - 1]
+                    }
+                    dab = Math.sqrt(Math.pow(p1.x - p0.x, 2) + Math.pow(p1.y - p0.y, 2))
+                    dap = Math.sqrt(Math.pow(newPoint.x - p0.x, 2) + Math.pow(newPoint.y - p0.y, 2))
+                    dbp = Math.sqrt(Math.pow(p1.x - newPoint.x, 2) + Math.pow(p1.y - newPoint.y, 2))
+                    if (Math.abs(dab - dap - dbp) < 8) {
+                        var ctrl1 = Qt.point((p0.x - newPoint.x) / 5, (p0.y - newPoint.y) / 5);
+                        var ctrl2 = Qt.point((p1.x - newPoint.x) / 5, (p1.y - newPoint.y) / 5);
+                        if (i == 0) {
+                            root.centerPoints.push(newPoint)
+                            root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
+                            root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
+                        } else {
+                            root.centerPoints.splice(i, 0, newPoint)
+                            root.centerPointsTypes.splice(2 * i, 0, Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
+                            root.centerPointsTypes.splice(2 * i, 0, Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
+                        }
+                        root.effectPolygonChanged()
+                        canvas.requestPaint()
+                        break
+                    }
+                }
+            } else {
+                root.addKeyframe()
+            }
+        }
+
         onClicked: {
             if (!root.isDefined) {
                 if (mouse.button == Qt.RightButton && root.centerPoints.length > 2) {
@@ -271,10 +310,6 @@ Item {
                     canvas.requestPaint()
                 }
             }
-        }
-
-        onDoubleClicked: {
-            root.addKeyframe()
         }
 
         onPositionChanged: {
