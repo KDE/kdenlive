@@ -18,13 +18,13 @@ Item {
     property double zoom
     property double scalex
     property double scaley
-    property bool dropped
-    property string fps
-    property bool showMarkers
-    property bool showTimecode
-    property bool showFps
-    property bool showSafezone
-    property bool showAudiothumb
+    property bool dropped: false
+    property string fps: '-'
+    property bool showMarkers: false
+    property bool showTimecode: false
+    property bool showFps: false
+    property bool showSafezone: false
+    property bool showAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
