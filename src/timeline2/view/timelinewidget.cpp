@@ -81,8 +81,8 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    m_thumbnailer = new ThumbnailProvider;
-    engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
+    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
+    engine()->addImageProvider(QStringLiteral("thumbnailCache"), new ThumbnailCacheProvider);
     setVisible(false);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFocusPolicy(Qt::StrongFocus);

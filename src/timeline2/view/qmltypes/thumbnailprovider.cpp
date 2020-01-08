@@ -30,7 +30,6 @@
 
 ThumbnailProvider::ThumbnailProvider()
     : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
-//, m_profile(pCore->getCurrentProfilePath().toUtf8().constData())
 {
 }
 
@@ -57,40 +56,6 @@ QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSi
                 ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
             }
         }
-
-        /*if (m_producers.contains(binId.toInt())) {
-            producer = m_producers.object(binId.toInt());
-        } else {
-            m_binClip->thumbProducer();
-            if (!resource.isEmpty()) {
-                producer = new Mlt::Producer(m_profile, service.toUtf8().constData(), resource.toUtf8().constData());
-            } else {
-                producer = new Mlt::Producer(m_profile, service.toUtf8().constData());
-            }
-            std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
-            if (binClip) {
-                std::shared_ptr<Mlt::Producer> projectProducer = binClip->originalProducer();
-                Mlt::Properties original(projectProducer->get_properties());
-                Mlt::Properties cloneProps(producer->get_properties());
-                cloneProps.pass_list(original, "video_index,force_aspect_num,force_aspect_den,force_aspect_ratio,force_fps,force_progressive,force_tff,"
-                "force_colorspace,set.force_full_luma,templatetext,autorotate,xmldata");
-            }
-            Mlt::Filter scaler(m_profile, "swscale");
-            Mlt::Filter padder(m_profile, "resize");
-            Mlt::Filter converter(m_profile, "avcolor_space");
-            producer->attach(scaler);
-            producer->attach(padder);
-            producer->attach(converter);
-            m_producers.insert(binId.toInt(), producer);
-        }
-        if ((producer != nullptr) && producer->is_valid()) {
-            // result = KThumb::getFrame(producer, frameNumber, 0, 0);
-            result = makeThumbnail(producer, frameNumber, requestedSize);
-            ThumbnailCache::get()->storeThumbnail(binId, frameNumber, result, false);
-            //m_cache->insertImage(key, result);
-        } else {
-            qDebug() << "INVALID PRODUCER; " << service << " / " << resource;
-        }*/
     }
     if (size) *size = result.size();
     return result;
@@ -122,13 +87,8 @@ QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &pr
     if (frame == nullptr || !frame->is_valid()) {
         return QImage();
     }
-    int ow = 0; // requestedSize.width();
-    int oh = 0; // requestedSize.height();
-    /*if (ow > 0 && oh > 0) {
-        frame->set("rescale.interp", "fastest");
-        frame->set("deinterlace_method", "onefield");
-        frame->set("top_field_first", -1);
-    }*/
+    int ow = 0;
+    int oh = 0;
     mlt_image_format format = mlt_image_rgb24a;
     const uchar *image = frame->get_image(format, ow, oh);
     if (image) {
@@ -137,4 +97,29 @@ QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &pr
         return temp.rgbSwapped();
     }
     return QImage();
+}
+
+ThumbnailCacheProvider::ThumbnailCacheProvider()
+    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
+{
+}
+
+ThumbnailCacheProvider::~ThumbnailCacheProvider() = default;
+
+QImage ThumbnailCacheProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+{
+    QImage result;
+    // id is binID/#frameNumber
+    QString binId = id.section('/', 0, 0);
+    bool ok;
+    int frameNumber = id.section('#', -1).toInt(&ok);
+    if (ok) {
+        if (ThumbnailCache::get()->hasThumbnail(binId, frameNumber, false)) {
+            result = ThumbnailCache::get()->getThumbnail(binId, frameNumber);
+            *size = result.size();
+            return result;
+        }
+    }
+    if (size) *size = result.size();
+    return result;
 }

@@ -208,9 +208,10 @@ Rectangle {
         //generateWaveform()
     }
 */
-    property bool variableThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
+    property bool noThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
     property bool isImage: itemType == ProducerType.Image
-    property string baseThumbPath: variableThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/' + (isImage ? '#0' : '#')
+    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/' + (isImage ? '#0' : '#')
+    property string baseCacheThumbPath: noThumbs ? '' : 'image://thumbnailCache/' + binId + '/' + (isImage ? '#0' : '#')
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot
@@ -291,21 +292,18 @@ Rectangle {
         }
         onWheel: zoomByWheel(wheel)
 
-        Item {
+        Loader {
             // Thumbs container
+            id: thumbsLoader
             anchors.fill: parent
             anchors.leftMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
             anchors.rightMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
             anchors.topMargin: clipRoot.border.width
             anchors.bottomMargin: clipRoot.border.width
             clip: true
-            Loader {
-                id: thumbsLoader
-                asynchronous: true
-                visible: status == Loader.Ready
-                anchors.fill: parent
-                source: clipRoot.hideClipViews ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
-            }
+            asynchronous: true
+            visible: status == Loader.Ready
+            source: clipRoot.hideClipViews ? "" : parentTrack.isAudio ? (timeline.showAudioThumbnails ? "ClipAudioThumbs.qml" : "") : itemType == ProducerType.Color ? "" : timeline.showThumbnails ? "ClipThumbs.qml" : ""
         }
 
         Item {

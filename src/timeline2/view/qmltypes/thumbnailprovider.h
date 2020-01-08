@@ -34,9 +34,16 @@ public:
     QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 
 private:
-    QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
     QImage makeThumbnail(const std::shared_ptr<Mlt::Producer> &producer, int frameNumber, const QSize &requestedSize);
-    QCache<int, Mlt::Producer> m_producers;
+    QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
+};
+
+class ThumbnailCacheProvider : public QQuickImageProvider
+{
+public:
+    explicit ThumbnailCacheProvider();
+    ~ThumbnailCacheProvider() override;
+    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
 };
 
 #endif // THUMBNAILPROVIDER_H

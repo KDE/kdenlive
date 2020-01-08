@@ -71,7 +71,6 @@ private slots:
     void slotUngrabHack();
 
 private:
-    ThumbnailProvider *m_thumbnailer;
     TimelineController *m_proxy;
     static const int comboScale[];
     std::shared_ptr<AssetTreeModel> m_transitionModel;
