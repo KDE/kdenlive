@@ -3457,7 +3457,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     for (QAction *ac : actions) {
         int mid = ac->data().toInt();
         if (mid == 0x010) {
-            ac->setEnabled(id == Kdenlive::ClipMonitor);
+            ac->setVisible(id == Kdenlive::ClipMonitor);
         }
         ac->setChecked(code & mid);
     }
