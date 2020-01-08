@@ -38,12 +38,4 @@ private:
     QString cacheKey(Mlt::Properties &properties, const QString &service, const QString &resource, const QString &hash, int frameNumber);
 };
 
-class ThumbnailCacheProvider : public QQuickImageProvider
-{
-public:
-    explicit ThumbnailCacheProvider();
-    ~ThumbnailCacheProvider() override;
-    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
-};
-
 #endif // THUMBNAILPROVIDER_H

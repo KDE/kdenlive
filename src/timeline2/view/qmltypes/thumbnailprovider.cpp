@@ -98,28 +98,3 @@ QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &pr
     }
     return QImage();
 }
-
-ThumbnailCacheProvider::ThumbnailCacheProvider()
-    : QQuickImageProvider(QQmlImageProviderBase::Image, QQmlImageProviderBase::ForceAsynchronousImageLoading)
-{
-}
-
-ThumbnailCacheProvider::~ThumbnailCacheProvider() = default;
-
-QImage ThumbnailCacheProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
-{
-    QImage result;
-    // id is binID/#frameNumber
-    QString binId = id.section('/', 0, 0);
-    bool ok;
-    int frameNumber = id.section('#', -1).toInt(&ok);
-    if (ok) {
-        if (ThumbnailCache::get()->hasThumbnail(binId, frameNumber, false)) {
-            result = ThumbnailCache::get()->getThumbnail(binId, frameNumber);
-            *size = result.size();
-            return result;
-        }
-    }
-    if (size) *size = result.size();
-    return result;
-}

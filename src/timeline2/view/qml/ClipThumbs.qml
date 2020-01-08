@@ -38,13 +38,12 @@ Row {
             asynchronous: true
             cache: enableCache
             property int currentFrame: thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
-            property int lastFrame: -1
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
             source: thumbRepeater.count < 3 ? (clipRoot.baseThumbPath + currentFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.viewport.width) ? '' : clipRoot.baseThumbPath + currentFrame
             onStatusChanged: {
                 if (thumbRepeater.count < 3) {
                     if (status === Image.Ready) {
-                        lastFrame = currentFrame
+                        thumbPlaceholder.source = source
                     }
                 }
             }
@@ -62,12 +61,6 @@ Row {
                     horizontalAlignment: Image.AlignLeft
                     fillMode: Image.PreserveAspectFit
                     asynchronous: true
-                }
-                onRunningChanged: {
-                    if (!running) {
-                        thumbPlaceholder.source = clipRoot.baseCacheThumbPath + parent.lastFrame
-                        console.log('Setting image lastframe: ', parent.lastFrame)
-                    }
                 }
             }
             Rectangle {
