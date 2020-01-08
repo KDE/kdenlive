@@ -107,7 +107,13 @@ Item {
                 for (var i = 1; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     ctx.lineTo(p1.x, p1.y);
-                    ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+                    if (i == root.requestedKeyFrame) {
+                        ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
+                        ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+                        ctx.fillStyle = Qt.rgba(1, 0, 0, 0.5)
+                    } else {
+                        ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
+                    }
                 }
             } else {
                 var c1; var c2
@@ -259,7 +265,7 @@ Item {
                     root.isDefined = true;
                     root.effectPolygonChanged()
                     canvas.requestPaint()
-                } else {
+                } else if (root.requestedKeyFrame < 0) {
                     var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
                     root.centerPoints.push(newPoint)
                     canvas.requestPaint()
@@ -273,7 +279,7 @@ Item {
 
         onPositionChanged: {
             if (root.iskeyframe == false) return;
-            if (isDefined && pressed) {
+            if (pressed) {
                 if (centerContainsMouse) {
                     var xDiff = (mouseX - centerCross.x) / root.scalex
                     var yDiff = (mouseY - centerCross.y) / root.scaley
@@ -294,12 +300,16 @@ Item {
                     var yDiff = (mouseY - frame.y) / root.scaley - root.centerPoints[root.requestedKeyFrame].y
                     root.centerPoints[root.requestedKeyFrame].x += xDiff
                     root.centerPoints[root.requestedKeyFrame].y += yDiff
-                    root.centerPointsTypes[root.requestedKeyFrame * 2].x += xDiff
-                    root.centerPointsTypes[root.requestedKeyFrame * 2].y += yDiff
-                    root.centerPointsTypes[root.requestedKeyFrame * 2 + 1].x += xDiff
-                    root.centerPointsTypes[root.requestedKeyFrame * 2 + 1].y += yDiff
+                    if (root.centerPointsTypes.length > root.requestedKeyFrame * 2 + 1) {
+                        root.centerPointsTypes[root.requestedKeyFrame * 2].x += xDiff
+                        root.centerPointsTypes[root.requestedKeyFrame * 2].y += yDiff
+                        root.centerPointsTypes[root.requestedKeyFrame * 2 + 1].x += xDiff
+                        root.centerPointsTypes[root.requestedKeyFrame * 2 + 1].y += yDiff
+                    }
                     canvas.requestPaint()
-                    root.effectPolygonChanged()
+                    if (root.isDefined) {
+                        root.effectPolygonChanged()
+                    }
                 } else if (root.requestedSubKeyFrame >= 0) {
                     root.centerPointsTypes[root.requestedSubKeyFrame].x = (mouseX - frame.x) / root.scalex
                     root.centerPointsTypes[root.requestedSubKeyFrame].y = (mouseY - frame.y) / root.scaley
