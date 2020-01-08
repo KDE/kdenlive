@@ -189,8 +189,6 @@ int main(int argc, char *argv[])
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
     parser.setApplicationDescription(aboutData.shortDescription());
-    parser.addVersionOption();
-    parser.addHelpOption();
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
