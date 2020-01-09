@@ -32,6 +32,8 @@ Item {
     property bool isDefined: false
     property int requestedKeyFrame : -1
     property int requestedSubKeyFrame : -1
+    property int addedPointIndex : -1
+    property var addPointPossible : Qt.point(0, 0)
     property bool requestedCenter : false
     // The coordinate points where the bezier curve passes
     property var centerPoints : []
@@ -41,7 +43,6 @@ Item {
     property bool showToolbar: false
     onCenterPointsTypesChanged: checkDefined()
     signal effectPolygonChanged()
-    signal addKeyframe()
     signal seekToKeyframe()
 
     onDurationChanged: {
@@ -161,9 +162,9 @@ Item {
                             ctx.fillRect(c2.x - handleSize/2, c2.y - handleSize/2, handleSize, handleSize);
                         }
                         c1 = convertPoint(root.centerPointsTypes[2*i + 1])
-                        ctx.lineTo(c1.x, c1.y);
+                        ctx.lineTo(c1.x, c1.y)
                         ctx.moveTo(p1.x, p1.y)
-                        ctx.lineTo(c2.x, c2.y);
+                        ctx.lineTo(c2.x, c2.y)
                         ctx.moveTo(p1.x, p1.y)
                         if (i == root.requestedKeyFrame) {
                             ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
@@ -186,8 +187,23 @@ Item {
                 ctx.moveTo(centerCross.x, centerCross.y - root.baseUnit)
                 ctx.lineTo(centerCross.x, centerCross.y + root.baseUnit)
             }
-
             ctx.stroke()
+            if (root.addedPointIndex > -1) {
+                ctx.beginPath()
+                ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                ctx.strokeStyle = Qt.rgba(1, 1, 0, 0.5)
+                ctx.lineWidth = 1
+                ctx.fillRect(addPointPossible.x - handleSize, addPointPossible.y - handleSize, 2 * handleSize, 2 * handleSize);
+                if (root.addedPointIndex === 0) {
+                    p1 = convertPoint(root.centerPoints[root.centerPoints.length - 1])
+                } else {
+                    p1 = convertPoint(root.centerPoints[root.addedPointIndex - 1])
+                }
+                ctx.moveTo(p1.x, p1.y)
+                var p2 = convertPoint(root.centerPoints[root.addedPointIndex])
+                ctx.lineTo(p2.x, p2.y)
+                ctx.stroke()
+            }
     }
 
     function convertPoint(p)
@@ -238,13 +254,20 @@ Item {
         property bool pointContainsMouse
         property bool centerContainsMouse
         hoverEnabled: true
-        cursorShape: !root.isDefined ? Qt.PointingHandCursor : (pointContainsMouse || centerContainsMouse) ? Qt.PointingHandCursor : Qt.ArrowCursor
+        cursorShape: (!root.isDefined || pointContainsMouse || centerContainsMouse || addedPointIndex >= 0) ? Qt.PointingHandCursor : Qt.ArrowCursor
 
         onDoubleClicked: {
-            if (!root.isDefined) {
-                return
-            }
-            if (mouse.modifiers & Qt.ShiftModifier) {
+            if (root.isDefined) {
+                if (root.requestedKeyFrame > -1) {
+                    // Remove existing keyframe
+                    root.centerPoints.splice(root.requestedKeyFrame, 1)
+                    root.centerPointsTypes.splice(2 * root.requestedKeyFrame, 2)
+                    root.effectPolygonChanged()
+                    root.requestedKeyFrame = -1
+                    canvas.requestPaint()
+                    return
+                }
+                // Add new keyframe
                 var p0; var p1; var p2; var dab; var dap; var dbp;
                 var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
                 for (var i = 0; i < root.centerPoints.length; i++) {
@@ -274,8 +297,6 @@ Item {
                         break
                     }
                 }
-            } else {
-                root.addKeyframe()
             }
         }
 
@@ -352,6 +373,8 @@ Item {
                     root.effectPolygonChanged()
                 }
             } else if (root.centerPoints.length > 0) {
+              // Check if we are over a keyframe
+              addPointPossible = Qt.point(0, 0)
               for(var i = 0; i < root.centerPoints.length; i++)
               {
                 var p1 = canvas.convertPoint(root.centerPoints[i])
@@ -359,15 +382,18 @@ Item {
                     if (i == root.requestedKeyFrame) {
                         centerContainsMouse = false
                         pointContainsMouse = true;
+                        addedPointIndex = -1
                         return;
                     }
                     root.requestedKeyFrame = i
-                    canvas.requestPaint()
                     centerContainsMouse = false
                     pointContainsMouse = true;
+                    addedPointIndex = -1
+                    canvas.requestPaint()
                     return;
                 }
               }
+              // Check if we are on a control point
               for(var i = 0; i < root.centerPointsTypes.length; i++)
               {
                 var p1 = canvas.convertPoint(root.centerPointsTypes[i])
@@ -375,22 +401,52 @@ Item {
                     if (i == root.requestedSubKeyFrame) {
                         centerContainsMouse = false
                         pointContainsMouse = true;
+                        addedPointIndex = -1
                         return;
                     }
                     root.requestedSubKeyFrame = i
-                    canvas.requestPaint()
+                    addedPointIndex = -1
                     centerContainsMouse = false
                     pointContainsMouse = true;
+                    canvas.requestPaint()
                     return;
                 } 
               }
+              // Check if we are on a line segment
+              var p0; var p1; var p2; var dab; var dap; var dbp;
+              var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
+              for (var i = 0; i < root.centerPoints.length; i++) {
+                    p1 = root.centerPoints[i]
+                    if (i == 0) {
+                        p0 = root.centerPoints[root.centerPoints.length - 1]
+                    } else {
+                        p0 = root.centerPoints[i - 1]
+                    }
+                    dab = Math.sqrt(Math.pow(p1.x - p0.x, 2) + Math.pow(p1.y - p0.y, 2))
+                    dap = Math.sqrt(Math.pow(newPoint.x - p0.x, 2) + Math.pow(newPoint.y - p0.y, 2))
+                    dbp = Math.sqrt(Math.pow(p1.x - newPoint.x, 2) + Math.pow(p1.y - newPoint.y, 2))
+                    if (Math.abs(dab - dap - dbp) < 8) {
+                        addPointPossible = Qt.point(mouseX, mouseY)
+                        addedPointIndex = i
+                        root.requestedKeyFrame = -1
+                        root.requestedSubKeyFrame = -1
+                        centerContainsMouse = false
+                        pointContainsMouse = false
+                        canvas.requestPaint()
+                        return
+                    }
+              }
+              addedPointIndex = -1
+              // Check if we are on center point
               if (Math.abs(centerCross.x - mouseX) <= canvas.handleSize/2 && Math.abs(centerCross.y - mouseY) <= canvas.handleSize/2) {
                     centerContainsMouse = true;
                     pointContainsMouse = false;
+                    canvas.requestPaint()
                     return;
               }
 
               if (root.requestedKeyFrame == -1 && root.requestedSubKeyFrame == -1) {
+                  canvas.requestPaint()
                   return;
               }
               root.requestedKeyFrame = -1
