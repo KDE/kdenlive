@@ -217,6 +217,9 @@ void ProjectSubClip::setProperties(const QMap<QString, QString> &properties)
         propertyFound = true;
         m_rating = properties.value(QStringLiteral("kdenlive:rating")).toUInt();
     }
+    if (!propertyFound) {
+        return;
+    }
     if (auto ptr = m_model.lock()) {
         std::shared_ptr<AbstractProjectItem> parentItem = std::static_pointer_cast<ProjectItemModel>(ptr)->getItemByBinId(m_parentClipId);
         if (parentItem && parentItem->itemType() == AbstractProjectItem::ClipItem) {
