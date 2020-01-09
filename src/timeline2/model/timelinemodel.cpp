@@ -1584,13 +1584,13 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int target_position = current_in + delta_pos;
             if (delta_pos < 0) {
                 if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime)) {
-                    int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1);
-                    if (newStart == current_in - 1) {
+                    if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
                         bool undone = local_undo();
                         Q_ASSERT(undone);
                         return false;
                     }
+                    int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1);
                     delta_pos = qMax(delta_pos, newStart - current_in);
                 }
             } else {
