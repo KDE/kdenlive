@@ -260,11 +260,13 @@ Item {
             if (root.isDefined) {
                 if (root.requestedKeyFrame > -1) {
                     // Remove existing keyframe
-                    root.centerPoints.splice(root.requestedKeyFrame, 1)
-                    root.centerPointsTypes.splice(2 * root.requestedKeyFrame, 2)
-                    root.effectPolygonChanged()
-                    root.requestedKeyFrame = -1
-                    canvas.requestPaint()
+                    if (root.centerPoints.length > 3) {
+                        root.centerPoints.splice(root.requestedKeyFrame, 1)
+                        root.centerPointsTypes.splice(2 * root.requestedKeyFrame, 2)
+                        root.effectPolygonChanged()
+                        root.requestedKeyFrame = -1
+                        canvas.requestPaint()
+                    }
                     return
                 }
                 // Add new keyframe
@@ -413,9 +415,10 @@ Item {
                 } 
               }
               // Check if we are on a line segment
-              var p0; var p1; var p2; var dab; var dap; var dbp;
-              var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
-              for (var i = 0; i < root.centerPoints.length; i++) {
+              if (root.isDefined) {
+                var p0; var p1; var p2; var dab; var dap; var dbp;
+                var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
+                for (var i = 0; i < root.centerPoints.length; i++) {
                     p1 = root.centerPoints[i]
                     if (i == 0) {
                         p0 = root.centerPoints[root.centerPoints.length - 1]
@@ -435,6 +438,7 @@ Item {
                         canvas.requestPaint()
                         return
                     }
+                }
               }
               addedPointIndex = -1
               // Check if we are on center point
