@@ -54,7 +54,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_lay = new QVBoxLayout(this);
-    m_lay->setContentsMargins(2, 2, 2, 0);
     m_lay->setSpacing(0);
 
     bool ok = false;
@@ -170,7 +169,11 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
-    m_baseHeight = m_keyframeview->minimumHeight() + m_toolbar->sizeHint().height() + 2;
+    //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
+    int tm = 0;
+    int bm = 0;
+    m_lay->getContentsMargins(nullptr, &tm, nullptr, &bm);
+    m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + 2 + tm + bm;
     setFixedHeight(m_baseHeight);
     addParameter(index);
 
