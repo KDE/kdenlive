@@ -1837,11 +1837,7 @@ void Bin::slotInitView(QAction *action)
             m_showDate->setEnabled(true);
             m_showDesc->setEnabled(true);
             m_showRating->setEnabled(true);
-            m_upAction->setVisible(true);
             m_upAction->setEnabled(false);
-        } else {
-            // remove the current folderUp item if any
-            m_upAction->setVisible(false);
         }
         m_listType = static_cast<BinViewType>(viewType);
     }
@@ -1855,12 +1851,14 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         m_showRating->setEnabled(false);
+        m_upAction->setVisible(true);
         break;
     default:
         m_itemView = new MyTreeView(this);
         m_showDate->setEnabled(true);
         m_showDesc->setEnabled(true);
         m_showRating->setEnabled(true);
+        m_upAction->setVisible(false);
         break;
     }
     m_itemView->setMouseTracking(true);
