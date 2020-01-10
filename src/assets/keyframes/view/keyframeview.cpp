@@ -393,7 +393,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     QStylePainter p(this);
     m_scale = (width() - 2 * m_offset) / (double)(m_duration - 1);
     // p.translate(0, m_lineHeight);
-    int headOffset = m_lineHeight / 1.6;
+    int headOffset = m_lineHeight / 2;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
@@ -442,8 +442,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
      */
     p.setPen(m_colKeyframe);
     p.drawLine(m_offset, m_lineHeight, width() - m_offset, m_lineHeight);
-    p.drawLine(m_offset, m_lineHeight - headOffset / 2 + 2, m_offset, m_lineHeight + headOffset / 2 + 2);
-    p.drawLine(width() - m_offset, m_lineHeight - headOffset / 2 + 2, width() - m_offset, m_lineHeight + headOffset / 2 + 2);
+    p.drawLine(m_offset, m_lineHeight - headOffset / 2, m_offset, m_lineHeight + headOffset / 2);
+    p.drawLine(width() - m_offset, m_lineHeight - headOffset / 2, width() - m_offset, m_lineHeight + headOffset / 2);
 
     /*
      * current position cursor
@@ -455,8 +455,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
             scaledPos *= zoomFactor;
             scaledPos += m_offset;
             QPolygon pa(3);
-            int cursorwidth = (m_zoomHeight - m_lineHeight) / 1.5;
-            QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_zoomHeight - 2) << QPointF(cursorwidth, m_zoomHeight - 2) << QPointF(0, m_lineHeight + 1);
+            int cursorwidth = (m_zoomHeight - m_lineHeight) / 1.8;
+            QPolygonF position = QPolygonF() << QPointF(-cursorwidth, m_zoomHeight - 3) << QPointF(cursorwidth, m_zoomHeight - 3) << QPointF(0, m_lineHeight + 1);
             position.translate(scaledPos, 0);
             p.setBrush(m_colKeyframe);
             p.drawPolygon(position);
@@ -469,12 +469,4 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     p.drawRoundedRect(m_offset, m_zoomHeight + 3, width() - 2 * m_offset, m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
     p.setBrush(palette().highlight());
     p.drawRoundedRect(m_offset + (width() - m_offset) * m_zoomHandle.x(), m_zoomHeight + 3, (width() - 2 * m_offset) * (m_zoomHandle.y() - m_zoomHandle.x()), m_size - m_zoomHeight - 3, m_lineHeight / 5, m_lineHeight / 5);
-    
-    // Zoom handles
-    if (m_hoverZoomIn) {
-        p.fillRect(m_offset + (width() - m_offset) * m_zoomHandle.x() - 1, m_zoomHeight + 3, 2, m_size - m_zoomHeight - 3,
- Qt::green);
-    } else if (m_hoverZoomOut) {
-        p.fillRect((width() - m_offset) * m_zoomHandle.y() - 1, m_zoomHeight + 3, 2, m_size - m_zoomHeight - 3, Qt::red);
-    }
 }
