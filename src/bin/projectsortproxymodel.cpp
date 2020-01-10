@@ -73,8 +73,10 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
             // Column 4 contains the item tag data
             QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
             auto tagData = sourceModel()->data(indexTag);
-            if (!tagData.toString().contains(m_searchTag, Qt::CaseInsensitive)) {
-                return false;
+            for (const QString &tag : m_searchTag) {
+                if (!tagData.toString().contains(tag, Qt::CaseInsensitive)) {
+                    return false;
+                }
             }
         }
         if (data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
@@ -140,31 +142,15 @@ void ProjectSortProxyModel::slotSetSearchString(const QString &str)
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetSearchRating(const int type)
+void ProjectSortProxyModel::slotSetFilters(const QStringList tagFilters, const int rateFilters, const int typeFilters)
 {
-    m_searchTag.clear();
-    m_searchType = 0;
-    m_searchRating = type;
+    m_searchType = typeFilters;
+    m_searchRating = rateFilters;
+    m_searchTag = tagFilters;
     invalidateFilter();
 }
 
-void ProjectSortProxyModel::slotSetSearchTag(const QString &str)
-{
-    m_searchType = 0;
-    m_searchRating = 0;
-    m_searchTag = str;
-    invalidateFilter();
-}
-
-void ProjectSortProxyModel::slotSetSearchType(const int type)
-{
-    m_searchTag.clear();
-    m_searchRating = 0;
-    m_searchType = type;
-    invalidateFilter();
-}
-
-void ProjectSortProxyModel::slotClearSearchType()
+void ProjectSortProxyModel::slotClearSearchFilters()
 {
     m_searchTag.clear();
     m_searchRating = 0;

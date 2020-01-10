@@ -783,6 +783,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_propertiesPanel(nullptr)
     , m_blankThumb()
     , m_filterGroup(this)
+    , m_filterRateGroup(this)
+    , m_filterTypeGroup(this)
     , m_invalidClipDialog(nullptr)
     , m_gainedFocus(false)
     , m_audioDuration(0)
@@ -989,29 +991,98 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     });
 
     // Filter menu
+    m_filterGroup.setExclusive(false);
     m_filterMenu = new QMenu(i18n("Filter"), this);
     m_filterButton = new QToolButton;
-    m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setCheckable(true);
+    m_filterButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_filterButton->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     m_filterButton->setToolTip(i18n("Filter"));
-    m_filterButton->setStyleSheet(QString("QToolButton:checked{ background-color: %1;border: none; border-radius: 2px;padding-right: 20px;}").arg(palette().highlight().color().name()));
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
-    connect(m_filterButton, &QToolButton::toggled, [&](bool toggled) {
-        if (toggled) {
-            processBinFiltering();
-        } else {
-            // Reset filter
-            m_proxyModel->slotClearSearchType();
+    
+    connect(m_filterButton, &QToolButton::toggled, [this] (bool toggle) {
+        if (!toggle) {
+            m_proxyModel->slotClearSearchFilters();
+            return;
         }
-    });
-    connect(m_filterMenu, &QMenu::triggered, [&] () {
-        if (m_filterButton->isChecked()) {
-            processBinFiltering();
-        } else {
+        QList<QAction *> list = m_filterMenu->actions();
+        int rateFilters = 0;
+        int typeFilters = 0;
+        QStringList tagFilters;
+        for (QAction *ac : list) {
+            if (ac->isChecked()) {
+                QString actionData = ac->data().toString();
+                if (actionData.startsWith(QLatin1Char('#'))) {
+                    // Filter by tag
+                    tagFilters << actionData;
+                } else if (actionData.startsWith(QLatin1Char('.'))) {
+                    // Filter by rating
+                    rateFilters = actionData.remove(0, 1).toInt();
+                }
+            }
+        }
+        // Type actions
+        list = m_filterTypeGroup.actions();
+        for (QAction *ac : list) {
+            if (ac->isChecked()) {
+                typeFilters = ac->data().toInt();
+                break;
+            }
+        }
+        QSignalBlocker bkt(m_filterButton);
+        if (rateFilters > 0 || !tagFilters.isEmpty() ||typeFilters > 0) {
             m_filterButton->setChecked(true);
+        } else {
+            m_filterButton->setChecked(false);
         }
+        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters);
+    });
+
+    connect(m_filterMenu, &QMenu::triggered, [this](QAction *action) {
+        if (action->data().toString().isEmpty()) {
+            // Clear filters action
+            QSignalBlocker bk(m_filterMenu);
+            QList<QAction *> list = m_filterMenu->actions();
+            list << m_filterTypeGroup.actions();
+            for (QAction *ac : list) {
+                ac->setChecked(false);
+            }
+            m_proxyModel->slotClearSearchFilters();
+            m_filterButton->setChecked(false);
+            return;
+        }
+        QList<QAction *> list = m_filterMenu->actions();
+        int rateFilters = 0;
+        int typeFilters = 0;
+        QStringList tagFilters;
+        for (QAction *ac : list) {
+            if (ac->isChecked()) {
+                QString actionData = ac->data().toString();
+                if (actionData.startsWith(QLatin1Char('#'))) {
+                    // Filter by tag
+                    tagFilters << actionData;
+                } else if (actionData.startsWith(QLatin1Char('.'))) {
+                    // Filter by rating
+                    rateFilters = actionData.remove(0, 1).toInt();
+                }
+            }
+        }
+        // Type actions
+        list = m_filterTypeGroup.actions();
+        for (QAction *ac : list) {
+            if (ac->isChecked()) {
+                typeFilters = ac->data().toInt();
+                break;
+            }
+        }
+        QSignalBlocker bkt(m_filterButton);
+        if (rateFilters > 0 || !tagFilters.isEmpty() ||typeFilters > 0) {
+            m_filterButton->setChecked(true);
+        } else {
+            m_filterButton->setChecked(false);
+        }
+        m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters);
     });
 
     m_tagAction->setCheckable(true);
@@ -1114,28 +1185,6 @@ void Bin::abortOperations()
     delete m_itemView;
     m_itemView = nullptr;
     blockSignals(false);
-}
-
-void Bin::processBinFiltering()
-{
-    if (m_filterGroup.checkedAction()) {
-        QString actionData = m_filterGroup.checkedAction()->data().toString();
-        if (actionData.startsWith(QLatin1Char('#'))) {
-        // Filter by tag
-            m_proxyModel->slotSetSearchTag(actionData);
-        } else if (actionData.startsWith(QLatin1Char('.'))) {
-            // Filter by rating
-            int type = actionData.remove(0, 1).toInt();
-            m_proxyModel->slotSetSearchRating(type);
-        } else {
-            // Filter by type
-            int type = actionData.toInt();
-            m_proxyModel->slotSetSearchType(type);
-        }
-        m_filterButton->setToolTip(i18n("Filter by %1", m_filterGroup.checkedAction()->text().remove(QLatin1Char('&'))));
-    } else {
-        emit displayBinMessage(i18n("Select a filter to apply in filter menu"), KMessageWidget::Information);
-    }
 }
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
@@ -1486,6 +1535,8 @@ void Bin::rebuildFilters(QMap <QString, QString> tags)
 {
     m_filterMenu->clear();
     // Add tag filters
+    QAction *clearFilter = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Clear filters"), this);
+    m_filterMenu->addAction(clearFilter);
     int tagsCount = tags.size();
     for (int i = 1; i <= tagsCount; i++) {
         QAction *tag = pCore->window()->actionCollection()->action(QString("tag_%1").arg(i));
@@ -1500,7 +1551,7 @@ void Bin::rebuildFilters(QMap <QString, QString> tags)
     m_filterMenu->addSeparator();
     QAction *rateFilter;
     for (int i = 1; i< 6; ++i) {
-        rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 star", "%1 stars", i), &m_filterGroup);
+        rateFilter = new QAction(QIcon::fromTheme(QStringLiteral("favorite")), i18np("%1 star", "%1 stars", i), &m_filterRateGroup);
         rateFilter->setData(QString(".%1").arg(2 * i));
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
@@ -1508,42 +1559,42 @@ void Bin::rebuildFilters(QMap <QString, QString> tags)
     
     // Add type filters
     m_filterMenu->addSeparator();
-    QMenu *typeMenu = new QMenu(i18n("Sort by type"), m_filterMenu);
+    QMenu *typeMenu = new QMenu(i18n("Filter by type"), m_filterMenu);
     m_filterMenu->addMenu(typeMenu);
     m_filterMenu->addSeparator();
-    QAction *typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("AV Clip"), &m_filterGroup);
+    QAction *typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18n("AV Clip"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::AV);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-matroska")), i18n("Mute Video"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-x-matroska")), i18n("Mute Video"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Video);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("audio-x-generic")), i18n("Audio"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("audio-x-generic")), i18n("Audio"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Audio);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("image-jpeg")), i18n("Image"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("image-jpeg")), i18n("Image"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Image);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")), i18n("Slideshow"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")), i18n("Slideshow"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::SlideShow);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-mlt-playlist")), i18n("Playlist"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("video-mlt-playlist")), i18n("Playlist"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Playlist);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Text);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title Template"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("draw-text")), i18n("Title Template"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::TextTemplate);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
-    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")), i18n("Color"), &m_filterGroup);
+    typeFilter = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")), i18n("Color"), &m_filterTypeGroup);
     typeFilter->setData(ClipType::Color);
     typeFilter->setCheckable(true);
     typeMenu->addAction(typeFilter);
