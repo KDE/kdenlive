@@ -270,34 +270,28 @@ Item {
                     return
                 }
                 // Add new keyframe
-                var p0; var p1; var p2; var dab; var dap; var dbp;
-                var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
-                for (var i = 0; i < root.centerPoints.length; i++) {
-                    p1 = root.centerPoints[i]
-                    if (i == 0) {
+                if (addPointPossible.x > 0 && root.addedPointIndex >= 0) {
+                    var p0; var p1; var p2;
+                    var newPoint = Qt.point((addPointPossible.x - frame.x) / root.scalex, (addPointPossible.y - frame.y) / root.scaley);
+                    p1 = root.centerPoints[root.addedPointIndex]
+                    if (root.addedPointIndex == 0) {
                         p0 = root.centerPoints[root.centerPoints.length - 1]
                     } else {
-                        p0 = root.centerPoints[i - 1]
+                        p0 = root.centerPoints[root.addedPointIndex - 1]
                     }
-                    dab = Math.sqrt(Math.pow(p1.x - p0.x, 2) + Math.pow(p1.y - p0.y, 2))
-                    dap = Math.sqrt(Math.pow(newPoint.x - p0.x, 2) + Math.pow(newPoint.y - p0.y, 2))
-                    dbp = Math.sqrt(Math.pow(p1.x - newPoint.x, 2) + Math.pow(p1.y - newPoint.y, 2))
-                    if (Math.abs(dab - dap - dbp) < 8) {
-                        var ctrl1 = Qt.point((p0.x - newPoint.x) / 5, (p0.y - newPoint.y) / 5);
-                        var ctrl2 = Qt.point((p1.x - newPoint.x) / 5, (p1.y - newPoint.y) / 5);
-                        if (i == 0) {
-                            root.centerPoints.push(newPoint)
-                            root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
-                            root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
-                        } else {
-                            root.centerPoints.splice(i, 0, newPoint)
-                            root.centerPointsTypes.splice(2 * i, 0, Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
-                            root.centerPointsTypes.splice(2 * i, 0, Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
-                        }
-                        root.effectPolygonChanged()
-                        canvas.requestPaint()
-                        break
+                    var ctrl1 = Qt.point((p0.x - newPoint.x) / 5, (p0.y - newPoint.y) / 5);
+                    var ctrl2 = Qt.point((p1.x - newPoint.x) / 5, (p1.y - newPoint.y) / 5);
+                    if (root.addedPointIndex == 0) {
+                        root.centerPoints.push(newPoint)
+                        root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
+                        root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
+                    } else {
+                        root.centerPoints.splice(root.addedPointIndex, 0, newPoint)
+                        root.centerPointsTypes.splice(2 * root.addedPointIndex, 0, Qt.point(newPoint.x + ctrl2.x, newPoint.y + ctrl2.y))
+                        root.centerPointsTypes.splice(2 * root.addedPointIndex, 0, Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
                     }
+                    root.effectPolygonChanged()
+                    canvas.requestPaint()
                 }
             }
         }
@@ -428,7 +422,7 @@ Item {
                     dab = Math.sqrt(Math.pow(p1.x - p0.x, 2) + Math.pow(p1.y - p0.y, 2))
                     dap = Math.sqrt(Math.pow(newPoint.x - p0.x, 2) + Math.pow(newPoint.y - p0.y, 2))
                     dbp = Math.sqrt(Math.pow(p1.x - newPoint.x, 2) + Math.pow(p1.y - newPoint.y, 2))
-                    if (Math.abs(dab - dap - dbp) < 8) {
+                    if (Math.abs(dab - dap - dbp) * root.scalex < 4 && dap > dab / 4 && dbp > dab / 4) {
                         addPointPossible = Qt.point(mouseX, mouseY)
                         addedPointIndex = i
                         root.requestedKeyFrame = -1
