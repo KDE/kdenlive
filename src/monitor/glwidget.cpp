@@ -27,6 +27,7 @@
 #include <QPainter>
 #include <QQmlContext>
 #include <QQuickItem>
+#include <QFontDatabase>
 #include <kdeclarative_version.h>
 #include <klocalizedstring.h>
 
@@ -66,7 +67,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_consumer(nullptr)
     , m_producer(nullptr)
     , m_id(id)
-    , m_rulerHeight(QFontMetrics(QApplication::font()).lineSpacing() * 0.9)
+    , m_rulerHeight(QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5)
     , m_bgColor(KdenliveSettings::window_background())
     , m_shader(nullptr)
     , m_initSem(0)
