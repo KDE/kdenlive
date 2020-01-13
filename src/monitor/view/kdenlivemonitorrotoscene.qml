@@ -113,6 +113,7 @@ Item {
             var startP = p1;
             ctx.moveTo(p1.x, p1.y)
             if (!isDefined) {
+                // We are still building the shape, only draw points connected with lines
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                 for (var i = 1; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
@@ -154,6 +155,7 @@ Item {
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
                     if (iskeyframe && !root.displayResize) {
+                        // Draw control points and segments
                         if (subkf) {
                             ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
                             ctx.fillRect(c1.x - handleSize/2, c1.y - handleSize/2, handleSize, handleSize);
@@ -183,15 +185,14 @@ Item {
                     }
                 }
                 if (root.centerPoints.length > 2) {
+                    // Close shape
                     c1 = convertPoint(root.centerPointsTypes[root.centerPointsTypes.length - 1])
                     c2 = convertPoint(root.centerPointsTypes[0])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, startP.x, startP.y);
                 }
-                if (root.resizeContainsMouse == 0) {
-                    // not resizing, adjust center
-                    centerCross.x = bottomLeft.x + (topRight.x - bottomLeft.x)/2
-                    centerCross.y = topRight.y + (bottomLeft.y - topRight.y)/2
-                }
+                // Calculate and draw center
+                centerCross.x = bottomLeft.x + (topRight.x - bottomLeft.x)/2
+                centerCross.y = topRight.y + (bottomLeft.y - topRight.y)/2
                 ctx.moveTo(centerCross.x - root.baseUnit, centerCross.y)
                 ctx.lineTo(centerCross.x + root.baseUnit, centerCross.y)
                 ctx.moveTo(centerCross.x, centerCross.y - root.baseUnit)
@@ -199,6 +200,7 @@ Item {
             }
             ctx.stroke()
             if (root.addedPointIndex > -1 && !root.displayResize) {
+                // Ghost point where a new one could be inserted
                 ctx.beginPath()
                 ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
                 ctx.strokeStyle = Qt.rgba(1, 1, 0, 0.5)
@@ -209,6 +211,7 @@ Item {
                 } else {
                     p1 = convertPoint(root.centerPoints[root.addedPointIndex - 1])
                 }
+                // Segment where the point would be added
                 ctx.moveTo(p1.x, p1.y)
                 var p2 = convertPoint(root.centerPoints[root.addedPointIndex])
                 ctx.lineTo(p2.x, p2.y)
@@ -248,6 +251,34 @@ Item {
                     ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
                 } else {
                     ctx.fillRect(bottomLeft.x - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
+                }
+                if (root.resizeContainsMouse == 5) {
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                } else {
+                    ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, topRight.y - handleSize, 2 * handleSize, 2 * handleSize);
+                }
+                if (root.resizeContainsMouse == 7) {
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                } else {
+                    ctx.fillRect(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - handleSize, bottomLeft.y - handleSize, 2 * handleSize, 2 * handleSize);
+                }
+                if (root.resizeContainsMouse == 6) {
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillRect(topRight.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                } else {
+                    ctx.fillRect(topRight.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
+                }
+                if (root.resizeContainsMouse == 8) {
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 1)
+                    ctx.fillRect(bottomLeft.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
+                    ctx.fillStyle = Qt.rgba(1, 1, 0, 0.5)
+                } else {
+                    ctx.fillRect(bottomLeft.x - handleSize, topRight.y + (bottomLeft.y - topRight.y) / 2 - handleSize, 2 * handleSize, 2 * handleSize);
                 }
                 ctx.stroke()
             }
@@ -306,10 +337,12 @@ Item {
         onDoubleClicked: {
             if (root.isDefined) {
                 if (root.displayResize) {
+                    // Disable resize mode
                     root.displayResize = false
                     canvas.requestPaint()
                     return
                 } else if (centerContainsMouse) {
+                    // Enable resize mode
                     root.displayResize = true
                     canvas.requestPaint()
                     return
@@ -391,25 +424,54 @@ Item {
                 if (root.resizeContainsMouse > 0) {
                     // resizing shape
                     var movingCorner = []
+                    var referenceCorner = []
                     if (root.resizeContainsMouse == 1) {
+                        // Top left resize
                         movingCorner = Qt.point(bottomLeft.x, topRight.y)
+                        referenceCorner = Qt.point(topRight.x, bottomLeft.y)
                     } else if (root.resizeContainsMouse == 2) {
-                        movingCorner = Qt.point(bottomLeft.x, bottomLeft.y)
-                    } else if (root.resizeContainsMouse == 3) {
-                        movingCorner = Qt.point(topRight.x, bottomLeft.y)
-                    } else {
+                        // Top right resize
                         movingCorner = Qt.point(topRight.x, topRight.y)
+                        referenceCorner = Qt.point(bottomLeft.x, bottomLeft.y)
+                    } else if (root.resizeContainsMouse == 3) {
+                        // Bottom right resize
+                        movingCorner = Qt.point(topRight.x, bottomLeft.y)
+                        referenceCorner = Qt.point(bottomLeft.x, topRight.y)
+                    } else if (root.resizeContainsMouse == 4) {
+                        // Bottom left resize
+                        movingCorner = Qt.point(bottomLeft.x, bottomLeft.y)
+                        referenceCorner = Qt.point(topRight.x, topRight.y)
+                    } else if (root.resizeContainsMouse == 5) {
+                        // top resize
+                        movingCorner = Qt.point(bottomLeft.x + (topRight.x - bottomLeft.x) / 2, topRight.y)
+                        referenceCorner = Qt.point(bottomLeft.x + (topRight.x - bottomLeft.x) / 2, bottomLeft.y)
+                    } else if (root.resizeContainsMouse == 7) {
+                        // bottom resize
+                        movingCorner = Qt.point(bottomLeft.x + (topRight.x - bottomLeft.x) / 2, bottomLeft.y)
+                        referenceCorner = Qt.point(bottomLeft.x + (topRight.x - bottomLeft.x) / 2, topRight.y)
+                    } else if (root.resizeContainsMouse == 6) {
+                        // right resize
+                        movingCorner = Qt.point(topRight.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
+                        referenceCorner = Qt.point(bottomLeft.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
+                    } else if (root.resizeContainsMouse == 8) {
+                        // left resize
+                        movingCorner = Qt.point(bottomLeft.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
+                        referenceCorner = Qt.point(topRight.x, topRight.y + (bottomLeft.y - topRight.y) / 2)
                     }
-                    var originalDist = Math.sqrt( Math.pow(movingCorner.x - root.centerCross.x, 2) + Math.pow(movingCorner.y - root.centerCross.y, 2) );
-                    var mouseDist = Math.sqrt( Math.pow(mouseX - root.centerCross.x, 2) + Math.pow(mouseY - root.centerCross.y, 2) );
+                    var originalDist = Math.sqrt( Math.pow(movingCorner.x - referenceCorner.x, 2) + Math.pow(movingCorner.y - referenceCorner.y, 2) );
+                    var mouseDist = Math.sqrt( Math.pow(mouseX - referenceCorner.x, 2) + Math.pow(mouseY - referenceCorner.y, 2) );
                     var factor = Math.max(0.1, mouseDist / originalDist)
                     for (var j = 0; j < root.centerPoints.length; j++) {
-                        root.centerPoints[j].x = (root.centerCross.x + (root.centerPoints[j].x * root.scalex - root.centerCross.x) * factor) / root.scalex
-                        root.centerPoints[j].y = (root.centerCross.y + (root.centerPoints[j].y * root.scaley - root.centerCross.y) * factor) / root.scaley
-                        root.centerPointsTypes[j * 2].x = (root.centerCross.x + (root.centerPointsTypes[j * 2].x * root.scalex - root.centerCross.x) * factor) / root.scalex
-                        root.centerPointsTypes[j * 2].y = (root.centerCross.y + (root.centerPointsTypes[j * 2].y * root.scaley - root.centerCross.y) * factor) / root.scaley
-                        root.centerPointsTypes[j * 2 + 1].x = (root.centerCross.x + (root.centerPointsTypes[j * 2 + 1].x * root.scalex - root.centerCross.x) * factor) / root.scalex
-                        root.centerPointsTypes[j * 2 + 1].y = (root.centerCross.y + (root.centerPointsTypes[j * 2 + 1].y * root.scaley - root.centerCross.y) * factor) / root.scaley
+                        if (root.resizeContainsMouse != 5 && root.resizeContainsMouse!= 7) {
+                            root.centerPoints[j].x = (referenceCorner.x + (root.centerPoints[j].x * root.scalex - referenceCorner.x) * factor) / root.scalex
+                            root.centerPointsTypes[j * 2].x = (referenceCorner.x + (root.centerPointsTypes[j * 2].x * root.scalex - referenceCorner.x) * factor) / root.scalex
+                            root.centerPointsTypes[j * 2 + 1].x = (referenceCorner.x + (root.centerPointsTypes[j * 2 + 1].x * root.scalex - referenceCorner.x) * factor) / root.scalex
+                        }
+                        if (root.resizeContainsMouse != 6 && root.resizeContainsMouse!= 8) {
+                            root.centerPoints[j].y = (referenceCorner.y + (root.centerPoints[j].y * root.scaley - referenceCorner.y) * factor) / root.scaley
+                            root.centerPointsTypes[j * 2].y = (referenceCorner.y + (root.centerPointsTypes[j * 2].y * root.scaley - referenceCorner.y) * factor) / root.scaley
+                            root.centerPointsTypes[j * 2 + 1].y = (referenceCorner.y + (root.centerPointsTypes[j * 2 + 1].y * root.scaley - referenceCorner.y) * factor) / root.scaley
+                        }
                     }
                     canvas.requestPaint()
                     root.effectPolygonChanged()
@@ -541,6 +603,9 @@ Item {
                       } else if (Math.abs(topRight.y - mouseY) <= canvas.handleSize) {
                           // on the top left handle
                           root.resizeContainsMouse = 1
+                      } else if (Math.abs(topRight.y + (bottomLeft.y - topRight.y) / 2 - mouseY) <= canvas.handleSize) {
+                          // Middle left handle
+                          root.resizeContainsMouse = 8
                       }
                   } else if (Math.abs(topRight.x - mouseX) <= canvas.handleSize) {
                       // close to right side
@@ -550,6 +615,18 @@ Item {
                       } else if (Math.abs(topRight.y - mouseY) <= canvas.handleSize) {
                           // on the top right handle
                           root.resizeContainsMouse = 2
+                      } else if (Math.abs(topRight.y + (bottomLeft.y - topRight.y) / 2 - mouseY) <= canvas.handleSize) {
+                          // Middle left handle
+                          root.resizeContainsMouse = 6
+                      }
+                  } else if (Math.abs(bottomLeft.x + (topRight.x - bottomLeft.x) / 2 - mouseX) <= canvas.handleSize) {
+                      // horizontal center
+                      if (Math.abs(bottomLeft.y - mouseY) <= canvas.handleSize) {
+                          // on the bottom center handle
+                          root.resizeContainsMouse = 7
+                      } else if (Math.abs(topRight.y - mouseY) <= canvas.handleSize) {
+                          // on the top center handle
+                          root.resizeContainsMouse = 5
                       }
                   }
                   if (currentResize != root.resizeContainsMouse) {
