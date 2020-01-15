@@ -65,6 +65,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     // Build transition model for context menu
     m_transitionModel = TransitionTreeModel::construct(true, this);
     m_transitionProxyModel = std::make_unique<TransitionFilter>(this);
+    m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
@@ -90,6 +91,8 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 
 TimelineWidget::~TimelineWidget()
 {
+    rootContext()->setContextProperty("multitrack", 0);
+    rootContext()->setContextProperty("timeline", 0);
     delete m_proxy;
 }
 
@@ -114,11 +117,9 @@ const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isT
 
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
-    m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
-
     m_proxy->setModel(model);
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
