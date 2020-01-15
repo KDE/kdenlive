@@ -443,7 +443,6 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
-    
     return false;
 }
 
@@ -839,7 +838,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     }*/
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
-    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
     if (tractor.count() == 0) {
@@ -857,7 +856,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         }
         return false;
     }
-    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
+    m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
         //TODO: act on project load failure

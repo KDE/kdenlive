@@ -30,7 +30,7 @@
 QString BinPlaylist::binPlaylistId = QString("main_bin");
 
 BinPlaylist::BinPlaylist()
-    : m_binPlaylist(new Mlt::Playlist(pCore->getCurrentProfile()->profile()))
+    : m_binPlaylist(new Mlt::Playlist(*pCore->getProjectProfile()))
 {
     m_binPlaylist->set("id", binPlaylistId.toUtf8().constData());
 }
@@ -54,7 +54,7 @@ void BinPlaylist::manageBinItemInsertion(const std::shared_ptr<AbstractProjectIt
             m_binPlaylist->append(*clip->originalProducer().get());
         } else {
             // if clip is not loaded yet, we insert a dummy producer
-            Mlt::Producer dummy(pCore->getCurrentProfile()->profile(), "color:blue");
+            Mlt::Producer dummy(*pCore->getProjectProfile(), "color:blue");
             dummy.set("kdenlive:id", id.toUtf8().constData());
             m_binPlaylist->append(dummy);
         }

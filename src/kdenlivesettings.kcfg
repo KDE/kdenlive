@@ -779,6 +779,11 @@
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x05</default>
     </entry>
+    
+    <entry name="previewScaling" type="Int">
+      <label>Divide monitor resolution by this factor to speedup preview.</label>
+      <default>1</default>
+    </entry>
 
     <entry name="clipMonitorOverlayGuides" type="Int">
       <label>index of current guides overlay for clip monitor.</label>

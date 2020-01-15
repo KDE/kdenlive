@@ -157,6 +157,8 @@ signals:
     void frameDisplayed(const SharedFrame &);
     /** @brief Triggered when the project monitor is paused (used to reset stored audiomixer data */
     void cleanMixer();
+    /** @brief Update monitor preview resolution */
+    void updatePreviewScaling();
 };
 
 #endif

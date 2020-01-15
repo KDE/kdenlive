@@ -132,7 +132,7 @@ bool PreviewManager::buildPreviewTrack()
     }
     // Create overlay track
     qDebug() << "/// BUILDING PREVIEW TRACK\n----------------------\n----------------__";
-    m_previewTrack = new Mlt::Playlist(pCore->getCurrentProfile()->profile());
+    m_previewTrack = new Mlt::Playlist(*pCore->getProjectProfile());
     m_previewTrack->set("id", "timeline_preview");
     m_tractor->lock();
     reconnectTrack();
@@ -682,7 +682,7 @@ void PreviewManager::reloadChunks(const QVariantList chunks)
         if (m_previewTrack->is_blank_at(ix.toInt())) {
             QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
             fileName.prepend(QStringLiteral("avformat:"));
-            Mlt::Producer prod(pCore->getCurrentProfile()->profile(), fileName.toUtf8().constData());
+            Mlt::Producer prod(*pCore->getProjectProfile(), fileName.toUtf8().constData());
             if (prod.is_valid()) {
                 // m_ruler->updatePreview(ix, true);
                 prod.set("mlt_service", "avformat-novalidate");
@@ -715,7 +715,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         return;
     }
     if (m_previewTrack->is_blank_at(frame)) {
-        Mlt::Producer prod(pCore->getCurrentProfile()->profile(), QString("avformat:%1").arg(file).toUtf8().constData());
+        Mlt::Producer prod(*pCore->getProjectProfile(), QString("avformat:%1").arg(file).toUtf8().constData());
         if (prod.is_valid()) {
             m_dirtyChunks.removeAll(frame);
             m_renderedChunks << frame;

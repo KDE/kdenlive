@@ -35,8 +35,8 @@ class ProjectItemModel;
 class ProjectManager;
 
 namespace Mlt {
-class Repository;
-class Profile;
+    class Repository;
+    class Profile;
 } // namespace Mlt
 
 #define EXIT_RESTART (42)
@@ -203,6 +203,9 @@ public:
     void processInvalidFilter(const QString service, const QString id, const QString message);
     /** @brief Update current project's tags */
     void updateProjectTags(QMap <QString, QString> tags);
+    Mlt::Profile *getProjectProfile();
+    /** @brief Update MLT's preview profile */
+    void updatePreviewProfile();
 
 private:
     explicit Core();
@@ -224,12 +227,13 @@ private:
 
     QString m_profile;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
+    /** @brief Mlt profile used in project / monitors */
+    std::unique_ptr<Mlt::Profile> m_previewProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();
     std::unique_ptr<MediaCapture> m_capture;
     QUrl m_mediaCaptureFile;
-
     QMutex m_thumbProfileMutex;
 
 public slots:
@@ -243,6 +247,7 @@ public slots:
 signals:
     void coreIsReady();
     void updateLibraryPath();
+    void updateMonitorProfile();
     /** @brief Call config dialog on a selected page / tab */
     void showConfigDialog(int, int);
     void finalizeRecording(const QString &captureFile);

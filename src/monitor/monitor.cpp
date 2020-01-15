@@ -161,6 +161,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
+    connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
+        m_glMonitor->updateScaling();
+        refreshMonitorIfActive();
+    });
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
@@ -1771,7 +1775,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 // Split scene is already active
                 return;
             }
-            m_splitEffect.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad"));
+            m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));
             if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
                 m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
                 m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1823,7 +1827,7 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    m_splitEffect.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad"));
+    m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
         m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1834,13 +1838,13 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         return;
     }
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
-    Mlt::Transition t(pCore->getCurrentProfile()->profile(), splitTransition.toUtf8().constData());
+    Mlt::Transition t(*pCore->getProjectProfile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         m_splitEffect.reset();
         pCore->displayMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
-    Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
+    Mlt::Tractor trac(*pCore->getProjectProfile());
     std::shared_ptr<Mlt::Producer> clone = ProjectClip::cloneProducer(std::make_shared<Mlt::Producer>(original));
     // Delete all effects
     int ct = 0;

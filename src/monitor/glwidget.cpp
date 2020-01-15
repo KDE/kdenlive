@@ -116,7 +116,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(50);
-    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
@@ -128,6 +128,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     connect(this, &QQuickWindow::sceneGraphInitialized, this, &GLWidget::initializeGL, Qt::DirectConnection);
     connect(this, &QQuickWindow::beforeRendering, this, &GLWidget::paintGL, Qt::DirectConnection);
+    connect(pCore.get(), &Core::updateMonitorProfile, this, &GLWidget::reloadProfile);
 
     registerTimelineItems();
     m_proxy = new MonitorProxy(this);
@@ -454,7 +455,7 @@ bool GLWidget::initGPUAccel()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
 
-    m_glslManager = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "glsl.manager");
+    m_glslManager = new Mlt::Filter(*pCore->getProjectProfile(), "glsl.manager");
     return m_glslManager->is_valid();
 }
 
@@ -897,6 +898,10 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
                 m_consumer->stop();
             }
         }
+        if (m_id == Kdenlive::ProjectMonitor) {
+            // Make sure we apply preview scaling
+            pCore->updatePreviewProfile();
+        }
         error = reconfigure();
         if (error == 0) {
             // The profile display aspect ratio may have changed.
@@ -1036,17 +1041,11 @@ int GLWidget::reconfigureMulti(const QString &params, const QString &path, Mlt::
     return -1;
 }
 
-int GLWidget::reconfigure(bool reload)
+int GLWidget::reconfigure()
 {
     int error = 0;
     // use SDL for audio, OpenGL for video
     QString serviceName = property("mlt_service").toString();
-    if (reload) {
-        m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
-        m_blackClip->set("kdenlive:id", "black");
-        reloadProfile();
-        return error;
-    }
     if ((m_consumer == nullptr) || !m_consumer->is_valid() || strcmp(m_consumer->get("mlt_service"), "multi") == 0) {
         if (m_consumer) {
             m_consumer->purge();
@@ -1056,7 +1055,7 @@ int GLWidget::reconfigure(bool reload)
         QString audioBackend = (KdenliveSettings::external_display()) ? QString("decklink:%1").arg(KdenliveSettings::blackmagic_output_device())
                                                                       : KdenliveSettings::audiobackend();
         if (m_consumer == nullptr || serviceName.isEmpty() || serviceName != audioBackend) {
-            m_consumer.reset(new Mlt::FilteredConsumer(pCore->getCurrentProfile()->profile(), audioBackend.toLatin1().constData()));
+            m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
                 setProperty("mlt_service", serviceName);
@@ -1075,7 +1074,7 @@ int GLWidget::reconfigure(bool reload)
                         // Already tested
                         continue;
                     }
-                    m_consumer.reset(new Mlt::FilteredConsumer(pCore->getCurrentProfile()->profile(), bk.toLatin1().constData()));
+                    m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), bk.toLatin1().constData()));
                     if (m_consumer->is_valid()) {
                         if (audioBackend == KdenliveSettings::sdlAudioBackend()) {
                             // switch sdl audio backend
@@ -1120,6 +1119,9 @@ int GLWidget::reconfigure(bool reload)
             dropFrames = -dropFrames;
         }
         m_consumer->set("real_time", dropFrames);
+        if (KdenliveSettings::previewScaling() > 1) {
+            m_consumer->set("scale", 1.0 / KdenliveSettings::previewScaling());
+        }
         // C & D
         if (m_glslManager) {
             if (!m_threadStartEvent) {
@@ -1170,7 +1172,7 @@ int GLWidget::reconfigure(bool reload)
         m_consumer->set("audio_buffer", 512);
 #endif
         */
-        int fps = qRound(pCore->getCurrentProfile()->profile().fps());
+        int fps = qRound(pCore->getCurrentFps());
         m_consumer->set("buffer", qMax(25, fps));
         m_consumer->set("prefill", qMax(1, fps / 25));
         m_consumer->set("drop_max", fps / 4);
@@ -1195,11 +1197,17 @@ float GLWidget::zoom() const
 void GLWidget::reloadProfile()
 {
     // The profile display aspect ratio may have changed.
+    bool existingConsumer = false;
     if (m_consumer) {
         // Make sure to delete and rebuild consumer to match profile
         m_consumer->purge();
         m_consumer->stop();
         m_consumer.reset();
+        existingConsumer = true;
+    }
+    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
+    m_blackClip->set("kdenlive:id", "black");
+    if (existingConsumer) {
         reconfigure();
     }
     resizeGL(width(), height());
@@ -1269,7 +1277,6 @@ void GLWidget::purgeCache()
         m_producer->seek(m_proxy->getPosition() + 1);
     }
 }
-
 
 void GLWidget::mouseDoubleClickEvent(QMouseEvent *event)
 {
@@ -1794,4 +1801,17 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
             qCWarning(KDENLIVE_LOG) << "ERROR, Cannot start monitor";
         }
     }
+}
+
+void GLWidget::updateScaling()
+{
+#if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
+    bool hasConsumer = m_consumer != nullptr;
+    if (hasConsumer) {
+        m_consumer->stop();
+        m_consumer.reset();
+    }
+    pCore->updatePreviewProfile();
+    reconfigure();
+#endif
 }

@@ -1253,6 +1253,48 @@ void MainWindow::setupActions()
         overlayAudioInfo->setEnabled(toggled);
     });
 
+#if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
+    // Monitor resolution scaling
+    m_scaleGroup = new QActionGroup(this);
+    m_scaleGroup->setExclusive(true);
+    m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
+    QAction *scale_no = new QAction(i18n("Full Resolution Preview"), m_scaleGroup);
+    addAction(QStringLiteral("scale_no_preview"), scale_no);
+    scale_no->setCheckable(true);
+    scale_no->setData(1);
+    QAction *scale_2 = new QAction(i18n("1/2 Resolution Preview"), m_scaleGroup);
+    addAction(QStringLiteral("scale_2_preview"), scale_2);
+    scale_2->setCheckable(true);
+    scale_2->setData(2);
+    QAction *scale_4 = new QAction(i18n("1/4 Resolution Preview"), m_scaleGroup);
+    addAction(QStringLiteral("scale_4_preview"), scale_4);
+    scale_4->setCheckable(true);
+    scale_4->setData(4);
+    QAction *scale_8 = new QAction(i18n("1/8 Resolution Preview"), m_scaleGroup);
+    addAction(QStringLiteral("scale_8_preview"), scale_8);
+    scale_8->setCheckable(true);
+    scale_8->setData(8);
+    switch (KdenliveSettings::previewScaling()) {
+        case 2:
+            scale_2->setChecked(true);
+            break;
+        case 4:
+            scale_4->setChecked(true);
+            break;
+        case 8:
+            scale_8->setChecked(true);
+            break;
+        default:
+            scale_no->setChecked(true);
+            break;
+    }
+    connect(m_scaleGroup, &QActionGroup::triggered, [this] (QAction *ac) {
+        int scaling = ac->data().toInt();
+        KdenliveSettings::setPreviewScaling(scaling);
+        pCore->monitorManager()->updatePreviewScaling();
+    });
+#endif
+
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
     dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
@@ -2133,7 +2175,10 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
-    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, pCore->projectManager(), &ProjectManager::slotResetConsumers);
+    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, [this] (bool fullReset) {
+        m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
+        pCore->projectManager()->slotResetConsumers(fullReset);
+    });
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);

@@ -227,6 +227,7 @@ private:
     KToolBar *m_timelineToolBar;
     TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
+    QActionGroup *m_scaleGroup;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
