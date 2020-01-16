@@ -719,7 +719,7 @@ void MainWindow::updateAction()
 MainWindow::~MainWindow()
 {
     pCore->prepareShutdown();
-    m_timelineTabs->disconnectTimeline(getMainTimeline());
+    delete m_timelineTabs;
     delete m_audioSpectrum;
     if (m_projectMonitor) {
         m_projectMonitor->stop();
