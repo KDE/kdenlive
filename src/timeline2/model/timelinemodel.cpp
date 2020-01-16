@@ -3641,20 +3641,23 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
             }
             if (pairIds.size() == 2 && getClipBinId(pairIds.at(0)) == getClipBinId(pairIds.at(1))) {
                 // Check if they have same bin id
-                // Both clips have same bin ID, display offset
-                int pos1 = getClipPosition(pairIds.at(0));
-                int pos2 = getClipPosition(pairIds.at(1));
-                if (pos2 > pos1) {
-                    int offset = pos2 - getClipIn(pairIds.at(1)) - (pos1 - getClipIn(pairIds.at(0)));
-                    if (offset != 0) {
-                        m_allClips[pairIds.at(1)]->setOffset(offset);
-                        m_allClips[pairIds.at(0)]->setOffset(-offset);
-                    }
-                } else {
-                    int offset = pos1 - getClipIn(pairIds.at(0)) - (pos2 - getClipIn(pairIds.at(1)));
-                    if (offset != 0) {
-                        m_allClips[pairIds.at(0)]->setOffset(offset);
-                        m_allClips[pairIds.at(1)]->setOffset(-offset);
+                ClipType::ProducerType type = m_allClips[pairIds.at(0)]->clipType();
+                if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
+                    // Both clips have same bin ID, display offset
+                    int pos1 = getClipPosition(pairIds.at(0));
+                    int pos2 = getClipPosition(pairIds.at(1));
+                    if (pos2 > pos1) {
+                        int offset = pos2 - getClipIn(pairIds.at(1)) - (pos1 - getClipIn(pairIds.at(0)));
+                        if (offset != 0) {
+                            m_allClips[pairIds.at(1)]->setOffset(offset);
+                            m_allClips[pairIds.at(0)]->setOffset(-offset);
+                        }
+                    } else {
+                        int offset = pos1 - getClipIn(pairIds.at(0)) - (pos2 - getClipIn(pairIds.at(1)));
+                        if (offset != 0) {
+                            m_allClips[pairIds.at(0)]->setOffset(offset);
+                            m_allClips[pairIds.at(1)]->setOffset(-offset);
+                        }
                     }
                 }
             }
