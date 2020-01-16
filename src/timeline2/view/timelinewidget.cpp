@@ -90,8 +90,6 @@ TimelineWidget::TimelineWidget(QWidget *parent)
 
 TimelineWidget::~TimelineWidget()
 {
-    rootContext()->setContextProperty("multitrack", 0);
-    rootContext()->setContextProperty("timeline", 0);
     delete m_proxy;
 }
 
