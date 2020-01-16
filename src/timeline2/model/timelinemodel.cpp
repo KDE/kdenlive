@@ -1161,7 +1161,6 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
         PUSH_UNDO(undo, redo, actionLabel);
     }
     TRACE_RES(res);
-    requestClearSelection(true);
     return res;
 }
 
@@ -2442,7 +2441,7 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
         // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
-        requestClearSelection(true);
+        // Clear effect stack
         clearAssetView(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point

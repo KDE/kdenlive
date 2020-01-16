@@ -50,6 +50,12 @@ Rectangle {
         scrollView.flickableItem.contentX = pos
     }
 
+    function checkDeletion(itemId) {
+        if (dragProxy.draggedItem == itemId) {
+            endDrag()
+        }
+    }
+
     function updatePalette() {
         root.color = activePalette.window
         root.textColor = activePalette.text

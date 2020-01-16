@@ -90,6 +90,8 @@ void TimelineController::prepareClose()
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     delete m_timelinePreview;
     m_timelinePreview = nullptr;
+    // Clear roor so we don't call its methods anymore
+    m_root = nullptr;
 }
 
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
@@ -98,7 +100,12 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_zone = QPoint(-1, -1);
     m_timelinePreview = nullptr;
     m_model = std::move(model);
-    connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { pCore->clearAssetPanel(id); });
+    connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { 
+        pCore->clearAssetPanel(id);
+        if (m_root) {
+            QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
+        }
+    });
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);

@@ -155,7 +155,7 @@ protected:
     */
     bool requestClipDeletion(int clipId, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove, bool finalDeletion);
     /* @brief This function returns a lambda that performs the requested operation */
-    Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove);
+    Fun requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion);
 
     /* @brief Performs an insertion of the given composition.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
