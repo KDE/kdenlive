@@ -1008,7 +1008,7 @@ Rectangle {
                         rubberSelect.y = rubberSelect.originY
                         rubberSelect.height= newY - rubberSelect.originY
                     }
-                } else if (mouse.buttons === Qt.LeftButton && (!mouse.modifiers & Qt.ShiftModifier)) {
+                } else if (mouse.buttons === Qt.LeftButton && !(mouse.modifiers & Qt.ShiftModifier)) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
                         proxy.position = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
