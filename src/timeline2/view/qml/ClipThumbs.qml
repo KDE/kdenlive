@@ -53,6 +53,8 @@ Row {
                 anchors.leftMargin: index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
                 implicitWidth: thumbRepeater.imageWidth
                 implicitHeight: container.height
+                hoverEnabled: false
+                visible: running
                 contentItem:
                 Image {
                     id: thumbPlaceholder
