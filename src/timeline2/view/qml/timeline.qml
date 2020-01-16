@@ -984,8 +984,12 @@ Rectangle {
                 root.mousePosChanged(mousePos)
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (mouse.modifiers & Qt.ShiftModifier && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
-                    // rubber selection
-                    rubberSelect.visible = true
+                    // rubber selection, check if mouse move was enough
+                    var dx = rubberSelect.originX - mouseX
+                    var dy = rubberSelect.originY - mouseY
+                    if ((Math.abs(dx) + Math.abs(dy)) > Qt.styleHints.startDragDistance) {
+                        rubberSelect.visible = true
+                    }
                 }
                 if (rubberSelect.visible) {
                     var newX = mouse.x
@@ -1004,7 +1008,7 @@ Rectangle {
                         rubberSelect.y = rubberSelect.originY
                         rubberSelect.height= newY - rubberSelect.originY
                     }
-                } else if (mouse.buttons === Qt.LeftButton) {
+                } else if (mouse.buttons === Qt.LeftButton && (!mouse.modifiers & Qt.ShiftModifier)) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
                         proxy.position = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
