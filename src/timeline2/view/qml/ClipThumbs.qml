@@ -9,7 +9,7 @@ Row {
     anchors.fill: parent
     visible: !isAudio
     opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
-    property int thumbWidth: container.height * 16.0/9.0
+    property int thumbWidth: container.height * root.dar
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
 
     function reload() {

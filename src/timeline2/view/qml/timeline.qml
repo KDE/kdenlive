@@ -257,6 +257,7 @@ Rectangle {
     property bool seekingFinished : proxy.seekFinished
     property int scrollMin: scrollView.flickableItem.contentX / timeline.scaleFactor
     property int scrollMax: scrollMin + scrollView.viewport.width / timeline.scaleFactor
+    property double dar: 16/9
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5

@@ -139,6 +139,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
     connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
+    rootObject()->setProperty("dar", pCore->getCurrentDar());
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
