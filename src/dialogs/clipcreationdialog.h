@@ -38,6 +38,7 @@ class ProjectItemModel;
 namespace ClipCreationDialog {
 
 QStringList getExtensions();
+QString getExtensionsFilter(const QStringList& additionalFilters = QStringList());
 void createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model);
 void createQTextClip(KdenliveDoc *doc, const QString &parentId, Bin *bin, ProjectClip *clip = nullptr);
 void createSlideshowClip(KdenliveDoc *doc, const QString &parentId, std::shared_ptr<ProjectItemModel> model);

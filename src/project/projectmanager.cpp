@@ -52,6 +52,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTimeZone>
 #include <audiomixer/mixermanager.hpp>
 
+static QString getProjectNameFilters(bool ark=true) {
+    auto filter = i18n("Kdenlive project (*.kdenlive)");
+    if (ark) {
+        filter.append(";;" + i18n("Archived project (*.tar.gz)"));
+    }
+    return filter;
+}
+
+
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_mainTimelineModel(nullptr)
@@ -342,13 +351,14 @@ bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
     fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
-    fd.setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlive"));
+    fd.setNameFilter(getProjectNameFilters(false));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
     if (fd.exec() != QDialog::Accepted || fd.selectedFiles().isEmpty()) {
         return false;
     }
+    
     QString outputFile = fd.selectedFiles().constFirst();
 
     bool ok = false;
@@ -384,7 +394,7 @@ void ProjectManager::openFile()
         return;
     }
     QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"))),
-                                           getMimeType());
+                                           getProjectNameFilters());
     if (!url.isValid()) {
         return;
     }
@@ -574,15 +584,6 @@ void ProjectManager::slotRevert()
     if (closeCurrentDocument(false)) {
         doOpenFile(url, nullptr);
     }
-}
-
-QString ProjectManager::getMimeType(bool open)
-{
-    QString mimetype = i18n("Kdenlive project (*.kdenlive)");
-    if (open) {
-        mimetype.append(QStringLiteral(";;") + i18n("Archived project (*.tar.gz)"));
-    }
-    return mimetype;
 }
 
 KdenliveDoc *ProjectManager::current()

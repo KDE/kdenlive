@@ -642,10 +642,12 @@ QStringList ProjectSettings::extractSlideshowUrls(const QString &url)
 
 void ProjectSettings::slotExportToText()
 {
-    const QString savePath = QFileDialog::getSaveFileName(this, QString(), project_folder->url().toLocalFile(), QStringLiteral("text/plain"));
-    if (savePath.isEmpty()) {
-        return;
-    }
+    QFileDialog fd(this);
+    fd.setMimeTypeFilters(QStringList() << "text/plain");
+    if (fd.exec() != QDialog::Accepted) { return; }
+    
+    const QString savePath = fd.selectedFiles().first();
+    
     QString text;
     text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');
     text.append(i18n("Project profile: %1", m_pw->selectedProfile()) + '\n');

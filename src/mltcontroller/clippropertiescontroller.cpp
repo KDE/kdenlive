@@ -1115,7 +1115,7 @@ void ClipPropertiesController::slotAddMarker()
 void ClipPropertiesController::slotSaveMarkers()
 {
     QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
+    fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::AnyFile);
     fd->setAcceptMode(QFileDialog::AcceptSave);
     if (fd->exec() != QDialog::Accepted) {
@@ -1141,7 +1141,7 @@ void ClipPropertiesController::slotSaveMarkers()
 void ClipPropertiesController::slotLoadMarkers()
 {
     QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
+    fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) {
         return;

@@ -109,6 +109,18 @@ QStringList ClipCreationDialog::getExtensions()
     return allExtensions;
 }
 
+QString ClipCreationDialog::getExtensionsFilter(const QStringList& additionalFilters)
+{
+    const QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
+    QString filter = i18n("All Supported Files") + " (" + allExtensions + ')';
+    if (!additionalFilters.isEmpty()) {
+        filter += ";;";
+        filter.append(additionalFilters.join(";;"));
+    }
+    
+    return filter;
+}
+
 // static
 void ClipCreationDialog::createColorClip(KdenliveDoc *doc, const QString &parentFolder, std::shared_ptr<ProjectItemModel> model)
 {

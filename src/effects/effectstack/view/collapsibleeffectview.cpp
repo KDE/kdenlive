@@ -240,9 +240,7 @@ void CollapsibleEffectView::slotCreateGroup()
 
 void CollapsibleEffectView::slotCreateRegion()
 {
-    QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    const QString dialogFilter =
-        allExtensions + QLatin1Char(' ') + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n* ") + QLatin1Char('|') + i18n("All Files");
+    const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
