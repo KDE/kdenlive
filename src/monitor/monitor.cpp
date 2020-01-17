@@ -1891,7 +1891,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         type = MonitorSceneDefault;
     }
     double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * pCore->getCurrentProfile()->dar() + 0.5);
-    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
     case MonitorSceneSplit:
@@ -1927,17 +1927,16 @@ void Monitor::setQmlProperty(const QString &name, const QVariant &value)
 
 void Monitor::slotAdjustEffectCompare()
 {
-    QRect r = m_glMonitor->rect();
     double percent = 0.5;
     if (m_qmlManager->sceneType() == MonitorSceneSplit) {
         // Adjust splitter pos
         QQuickItem *root = m_glMonitor->rootObject();
-        percent = 0.5 - ((root->property("splitterPos").toInt() - r.left() - r.width() / 2.0) / (double)r.width() / 2.0) / 0.75;
+        percent = root->property("percentage").toDouble();
         // Store real frame percentage for resize events
         root->setProperty("realpercent", percent);
     }
     if (m_splitEffect) {
-        m_splitEffect->set("0", percent);
+        m_splitEffect->set("0", 0.5 - (percent - 0.5) * .666);
     }
     m_glMonitor->refresh();
 }

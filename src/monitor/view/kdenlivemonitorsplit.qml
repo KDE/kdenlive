@@ -10,16 +10,19 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     property double timeScale: 1
-    property double frameSize: 10
     property int duration: 300
     property int mouseRulerPos: 0
     property int splitterPos
-    property point center
+    property rect framesize
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
-    // realpercent holds splitter pos relative to the frame width percentage
-    property double realpercent
+    property point profile
+    property point center
+    property double offsetx
+    property double offsety
+    property double scalex
+    property double scaley
 
     signal qmlMoveSplit()
 
@@ -29,7 +32,6 @@ Item {
     }
 
     percentage: 0.5
-    realpercent: 0.5
     splitterPos: this.width / 2
 
     onDurationChanged: {
@@ -46,13 +48,13 @@ Item {
         cursorShape: Qt.SizeHorCursor
         acceptedButtons: Qt.LeftButton
         onPressed: {
-            root.percentage = mouseX / width
+            root.percentage = (mouseX - (root.width - (root.profile.x * root.scalex)) / 2) / (root.profile.x * root.scalex)
             root.splitterPos = mouseX
             root.qmlMoveSplit()
         }
         onPositionChanged: {
             if (pressed) {
-                root.percentage = mouseX / width
+                root.percentage = (mouseX - (root.width - (root.profile.x * root.scalex)) / 2) / (root.profile.x * root.scalex)
                 root.splitterPos = mouseX
                 root.qmlMoveSplit()
             }

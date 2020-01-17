@@ -94,6 +94,9 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     case MonitorSceneSplit:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
         root = m_view->rootObject();
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("scalex", (double)displayRect.width() / profile.width() * zoom);
+        root->setProperty("scaley", (double)displayRect.width() / profileStretch / profile.width() * zoom);
         break;
     case MonitorSceneRipple:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorripple.qml")));
@@ -128,7 +131,6 @@ void QmlManager::effectPolygonChanged()
         return;
     }
     QVariantList points = m_view->rootObject()->property("centerPoints").toList();
-    qDebug() << "// GOT NEW POLYGON FROM QML: " << points;
     emit effectPointsChanged(points);
 }
 

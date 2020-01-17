@@ -1291,6 +1291,7 @@ void MainWindow::setupActions()
     connect(m_scaleGroup, &QActionGroup::triggered, [this] (QAction *ac) {
         int scaling = ac->data().toInt();
         KdenliveSettings::setPreviewScaling(scaling);
+        // Clear timeline selection so that any qml monitor scene is reset
         pCore->monitorManager()->updatePreviewScaling();
     });
 #endif

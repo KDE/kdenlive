@@ -238,19 +238,19 @@ void GLWidget::resizeGL(int width, int height)
     x = (width - w) / 2;
     y = (height - h) / 2;
     m_rect.setRect(x, y, w, h);
-    double scalex = (double)m_rect.width() / m_profileSize.width() * m_zoom;
-    double scaley = (double)m_rect.width() /
-                    ((double)m_profileSize.height() * m_dar / m_profileSize.width()) /
-                    m_profileSize.width() * m_zoom;
-    QPoint center = m_rect.center();
     QQuickItem *rootQml = rootObject();
     if (rootQml) {
-        rootQml->setProperty("center", center);
+        QSize s = pCore->getCurrentFrameSize();
+        double scalex = (double)m_rect.width() / s.width() * m_zoom;
+        double scaley = (double)m_rect.width() /
+                    ((double)s.height() * m_dar / s.width()) /
+                    s.width() * m_zoom;
+        rootQml->setProperty("center", m_rect.center());
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
         if (rootQml->objectName() == QLatin1String("rootsplit")) {
             // Adjust splitter pos
-            rootQml->setProperty("splitterPos", x + (rootQml->property("realpercent").toDouble() * w));
+            rootQml->setProperty("splitterPos", x + (rootQml->property("percentage").toDouble() * w));
         }
     }
     emit rectChanged();
@@ -1062,7 +1062,7 @@ int GLWidget::reconfigure()
                 if (KdenliveSettings::external_display()) {
                     m_consumer->set("terminate_on_pause", 0);
                 }
-                m_profileSize = pCore->getCurrentFrameSize();
+                m_profileSize = QSize(pCore->getProjectProfile()->width(), pCore->getProjectProfile()->height());
                 m_colorSpace = pCore->getCurrentProfile()->colorspace();
                 m_dar = pCore->getCurrentDar();
             } else {
@@ -1594,12 +1594,13 @@ void GLWidget::refreshSceneLayout()
     if (!rootObject()) {
         return;
     }
-    rootObject()->setProperty("profile", QPoint(m_profileSize.width(), m_profileSize.height()));
-    rootObject()->setProperty("scalex", (double)m_rect.width() / pCore->getCurrentProfile()->width() * m_zoom);
+    QSize s = pCore->getCurrentFrameSize();
+    rootObject()->setProperty("profile", s);
+    rootObject()->setProperty("scalex", (double)m_rect.width() / s.width() * m_zoom);
     rootObject()->setProperty("scaley",
                               (double)m_rect.width() /
-                                  (((double)m_profileSize.height() * m_dar / m_profileSize.width())) /
-                                  m_profileSize.width() * m_zoom);
+                                  (((double)s.height() * m_dar / s.width())) /
+                                  s.width() * m_zoom);
 }
 
 void GLWidget::switchPlay(bool play, double speed)
@@ -1813,5 +1814,6 @@ void GLWidget::updateScaling()
     }
     pCore->updatePreviewProfile();
     reconfigure();
+    resizeGL(width(), height());
 #endif
 }
