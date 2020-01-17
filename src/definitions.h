@@ -107,7 +107,8 @@ enum ProducerType {
     TextTemplate = 11,
     QText = 12,
     Composition = 13,
-    Track = 14
+    Track = 14,
+    Qml = 15
 };
 Q_ENUM_NS(ProducerType)
 } // namespace ClipType

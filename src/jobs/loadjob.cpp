@@ -76,6 +76,10 @@ ClipType::ProducerType getTypeForService(const QString &id, const QString &path)
     if (id == QLatin1String("webvfx")) {
         return ClipType::WebVfx;
     }
+    if (id == QLatin1String("qml")) {
+        return ClipType::Qml;
+    }
+    
     return ClipType::Unknown;
 }
 
@@ -320,6 +324,24 @@ bool LoadJob::startJob()
     case ClipType::QText:
         m_producer = loadResource(m_resource, QStringLiteral("qtext:"));
         break;
+    case ClipType::Qml: {
+            bool ok;
+            int producerLength = 0;
+            QString pLength = Xml::getXmlProperty(m_xml, QStringLiteral("length"));
+            if (pLength.isEmpty()) {
+                producerLength = m_xml.attribute(QStringLiteral("length")).toInt();
+            } else {
+                producerLength = pLength.toInt(&ok);
+            }
+            if (producerLength <= 0) {
+                producerLength = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
+            }
+            m_producer = loadResource(m_resource, QStringLiteral("qml:"));
+            m_producer->set("length", producerLength);
+            m_producer->set("kdenlive:duration", producerLength);
+            m_producer->set("out", producerLength - 1);
+            break;
+    }
     case ClipType::Playlist: {
         m_producer = loadPlaylist(m_resource);
         if (!m_errorMessage.isEmpty()) {
