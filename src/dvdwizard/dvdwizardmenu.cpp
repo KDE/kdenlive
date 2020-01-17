@@ -468,7 +468,7 @@ void DvdWizardMenu::checkBackgroundType(int ix)
                 m_scene->removeItem(m_background);
             }
             m_view.background_image->clear();
-            m_view.background_image->setFilter(QStringLiteral("video/mpeg"));
+            m_view.background_image->setMimeTypeFilters({QStringLiteral("video/mpeg")});
             m_view.loop_movie->setVisible(true);
         }
     }

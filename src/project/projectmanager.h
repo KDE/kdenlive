@@ -174,10 +174,6 @@ protected:
     bool updateTimeline(int pos = -1, int scrollPos = -1);
 
 private:
-    /** @brief Checks that the Kdenlive MIME type is correctly installed.
-     * @param open If set to true, this will return the MIME type allowed for file opening (adds .tar.gz format)
-     * @return The MIME type */
-    QString getMimeType(bool open = true);
     /** @brief checks if autoback files exists, recovers from it if user says yes, returns true if files were recovered. */
     bool checkForBackupFile(const QUrl &url, bool newFile = false);
 
