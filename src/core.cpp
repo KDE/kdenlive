@@ -354,9 +354,7 @@ void Core::updatePreviewProfile()
     if (newWidth % 8 > 0) {
         newWidth += 8 - newWidth % 8;
     }
-    if (newHeight % 8 > 0) {
-        newHeight += 8 - newHeight % 8;
-    }
+    newHeight += newHeight % 2;
     m_previewProfile->set_colorspace(getCurrentProfile()->colorspace());
     m_previewProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
     m_previewProfile->set_width(newWidth);
