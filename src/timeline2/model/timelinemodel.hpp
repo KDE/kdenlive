@@ -772,6 +772,8 @@ signals:
     void selectionChanged();
     /* @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
+    /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
+    void checkItemDeletion(int cid);
 
 protected:
     std::unique_ptr<Mlt::Tractor> m_tractor;

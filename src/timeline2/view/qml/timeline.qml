@@ -885,6 +885,7 @@ Rectangle {
             width: root.width - root.headerWidth
             height: root.height
             x: root.headerWidth
+            property bool shiftPress: false
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
             acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton
@@ -904,12 +905,13 @@ Rectangle {
             }
             onPressed: {
                 focus = true
-                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !(mouse.modifiers & Qt.ShiftModifier))) {
+                shiftPress = mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height
+                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
-                if (root.activeTool === 0 && mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height) {
+                if (root.activeTool === 0 && shiftPress && mouse.y > ruler.height) {
                         console.log('1111111111111\nREAL SHIFT PRESSED\n111111111111\n')
                         // rubber selection
                         rubberSelect.x = mouse.x + tracksArea.x
@@ -966,7 +968,7 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
-                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !(mouse.modifiers & Qt.ShiftModifier)))) {
+                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !shiftPress))) {
                     var newScroll = Math.min(scrollView.flickableItem.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
                     var vertScroll = Math.min(scrollView.flickableItem.contentY - (mouseY - clickY), trackHeaders.height - scrollView.height + scrollView.__horizontalScrollBar.height)
                     scrollView.flickableItem.contentX = Math.max(newScroll, 0)
@@ -984,7 +986,7 @@ Rectangle {
                 var mousePos = Math.max(0, Math.round((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor))
                 root.mousePosChanged(mousePos)
                 ruler.showZoneLabels = mouse.y < ruler.height
-                if (mouse.modifiers & Qt.ShiftModifier && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
+                if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - mouseX
                     var dy = rubberSelect.originY - mouseY
@@ -1009,7 +1011,7 @@ Rectangle {
                         rubberSelect.y = rubberSelect.originY
                         rubberSelect.height= newY - rubberSelect.originY
                     }
-                } else if (mouse.buttons === Qt.LeftButton && !(mouse.modifiers & Qt.ShiftModifier)) {
+                } else if (mouse.buttons === Qt.LeftButton && !shiftPress) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
                         proxy.position = Math.max(0, Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
@@ -1040,19 +1042,20 @@ Rectangle {
                         timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier);
                     }
                     rubberSelect.y = -1
-                } else if (mouse.modifiers & Qt.ShiftModifier) {
+                } else if (shiftPress) {
                     if (root.activeTool == 1) {
                         // Shift click, process seek
                         proxy.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
-                    } else if (dragProxy.draggedItem > -1){
+                    } else if (dragProxy.draggedItem > -1) {
                         // Select item
                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
-                            console.log('ADD SELECTION: ', dragProxy.draggedItem)
                             controller.requestAddToSelection(dragProxy.draggedItem)
                         } else {
-                            console.log('REMOVE SELECTION: ', dragProxy.draggedItem)
                             controller.requestRemoveFromSelection(dragProxy.draggedItem)
                         }
+                    } else if (!rubberSelect.visible) {
+                        // Mouse release with shift press and no rubber select, seek
+                        proxy.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                     return
                 }

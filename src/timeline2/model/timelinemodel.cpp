@@ -2443,6 +2443,7 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
         // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
         // Clear effect stack
         clearAssetView(clipId);
+        emit checkItemDeletion(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
         Q_ASSERT(!m_groups->isInGroup(clipId)); // clip must be ungrouped at this point

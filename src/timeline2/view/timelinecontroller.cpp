@@ -100,8 +100,8 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_zone = QPoint(-1, -1);
     m_timelinePreview = nullptr;
     m_model = std::move(model);
-    connect(m_model.get(), &TimelineItemModel::requestClearAssetView, [&](int id) { 
-        pCore->clearAssetPanel(id);
+    connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
+    connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
         if (m_root) {
             QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
         }
