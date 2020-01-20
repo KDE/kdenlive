@@ -118,7 +118,7 @@ void Core::build(bool isAppImage, const QString &MltPath)
     m_self->m_jobManager.reset(new JobManager(m_self.get()));
 }
 
-void Core::initGUI(const QUrl &Url)
+void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
 {
     m_guiConstructed = true;
     m_profile = KdenliveSettings::default_profile();
@@ -191,7 +191,7 @@ void Core::initGUI(const QUrl &Url)
     connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
     m_mainWindow->init();
-    projectManager()->init(Url, QString());
+    projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
