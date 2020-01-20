@@ -134,6 +134,7 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
         checkAudioVideo();
+        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         QString proxy = m_properties->get("kdenlive:proxy");
         m_service = m_properties->get("mlt_service");
         QString path = m_properties->get("resource");
@@ -151,7 +152,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
         m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
         emitProducerChanged(m_controllerBinId, producer);
-        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
     }
     connectEffectStack();
 }
@@ -352,6 +352,7 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     *m_masterProducer = producer.get();
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
+    setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
     checkAudioVideo();
     // Pass properties from previous producer
     m_properties->pass_list(passProperties, passList);

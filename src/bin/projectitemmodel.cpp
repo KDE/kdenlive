@@ -620,7 +620,7 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
 {
     QWriteLocker locker(&m_lock);
     if (!id.isEmpty() && !isIdFree(id)) {
-        id = QString();
+        id.clear();
     }
     if (id.isEmpty()) {
         id = QString::number(getFreeFolderId());
@@ -641,7 +641,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
             id = QString::number(getFreeClipId());
         }
     }
-    Q_ASSERT(!id.isEmpty() && isIdFree(id));
+    Q_ASSERT(isIdFree(id));
     qDebug() << "/////////// found id" << id;
     std::shared_ptr<ProjectClip> new_clip =
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
@@ -683,7 +683,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
             id = QString::number(getFreeClipId());
         }
     }
-    Q_ASSERT(!id.isEmpty() && isIdFree(id));
+    Q_ASSERT(isIdFree(id));
     std::shared_ptr<ProjectClip> new_clip = ProjectClip::construct(id, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()), producer);
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
@@ -703,7 +703,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     if (id.isEmpty()) {
         id = QString::number(getFreeClipId());
     }
-    Q_ASSERT(!id.isEmpty() && isIdFree(id));
+    Q_ASSERT(isIdFree(id));
     QString subId = parentId;
     if (subId.startsWith(QLatin1Char('A')) || subId.startsWith(QLatin1Char('V'))) {
         subId.remove(0, 1);
@@ -909,6 +909,9 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
 bool ProjectItemModel::isIdFree(const QString &id) const
 {
     READ_LOCK();
+    if (id.isEmpty()) {
+        return false;
+    }
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->clipId() == id) {
