@@ -48,6 +48,7 @@
 #include <KDualAction>
 #include <KMessageBox>
 #include <KRecentDirs>
+#include <KSqueezedTextLabel>
 #include <klocalizedstring.h>
 
 CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)
@@ -107,7 +108,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
     m_colorIcon->setFixedSize(collapseButton->sizeHint());
-    title = new QLabel(this);
+    title = new KSqueezedTextLabel(this);
     l->insertWidget(2, title);
 
     m_keyframesButton = new QToolButton(this);
