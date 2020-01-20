@@ -225,6 +225,7 @@ int main(int argc, char *argv[])
     } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
+    const QString clipsToLoad = parser.value(QStringLiteral("i"));
     QUrl url;
     if (parser.positionalArguments().count() != 0) {
         url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
@@ -234,7 +235,7 @@ int main(int argc, char *argv[])
         url = startup.resolved(url);
     }
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
-    pCore->initGUI(url);
+    pCore->initGUI(url, clipsToLoad);
     //delete splash;
     //splash->endSplash();
     //qApp->processEvents();
