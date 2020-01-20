@@ -31,6 +31,7 @@
 
 class QLabel;
 class KDualAction;
+class KSqueezedTextLabel;
 class EffectItemModel;
 class AssetParameterView;
 
@@ -47,7 +48,7 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
 public:
     explicit CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent = nullptr);
     ~CollapsibleEffectView() override;
-    QLabel *title;
+    KSqueezedTextLabel *title;
 
     void setupWidget(const ItemInfo &info);
     void updateTimecodeFormat();
