@@ -170,10 +170,10 @@ Rectangle {
     onTimeScaleChanged: {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
     }
     onScrollXChanged: {
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : 0
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
     }
 
     border.color: selected ? root.selectionColor : grouped ? root.groupColor : borderColor
@@ -309,104 +309,12 @@ Rectangle {
             // Clipping container
             id: container
             anchors.fill: parent
-            anchors.margins: 1.5
-            clip: true
-
-            Rectangle {
-                // text background
-                id: labelRect
-                color: clipRoot.selected ? 'darkred' : '#66000000'
-                width: label.width + 2
-                height: label.height
-                visible: clipRoot.width > width / 2
-                Text {
-                    id: label
-                    text: clipName + (clipRoot.speed != 1.0 ? ' [' + Math.round(clipRoot.speed*100) + '%]': '')
-                    font.pointSize: root.fontUnit
-                    anchors {
-                        top: labelRect.top
-                        left: labelRect.left
-                        topMargin: 1
-                        leftMargin: 1
-                    }
-                    color: 'white'
-                    style: Text.Outline
-                    styleColor: 'black'
-                }
-            }
-            Rectangle {
-                // Offset info
-                id: offsetRect
-                color: 'darkgreen'
-                width: offsetLabel.width + radius
-                height: offsetLabel.height
-                radius: height/3
-                x: labelRect.width + 4
-                visible: labelRect.visible && positionOffset != 0
-                MouseArea {
-                    id: offsetArea
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    anchors.fill: parent
-                    onClicked: {
-                        clearAndMove(positionOffset)
-                    }
-                    ToolTip {
-                        visible: offsetArea.containsMouse
-                        delay: 1000
-                        timeout: 5000
-                        background: Rectangle {
-                            color: activePalette.alternateBase
-                            border.color: activePalette.light
-                        }
-                        contentItem: Label {
-                            color: activePalette.text
-                            font.pointSize: root.fontUnit
-                            text: positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
-                        }
-                    }
-                    Text {
-                        id: offsetLabel
-                        text: positionOffset
-                        font.pointSize: root.fontUnit
-                        anchors {
-                            horizontalCenter: parent.horizontalCenter
-                            topMargin: 1
-                            leftMargin: 1
-                        }
-                        color: 'white'
-                        style: Text.Outline
-                        styleColor: 'black'
-                    }
-                }
-            }
-            Rectangle {
-                // effects
-                id: effectsRect
-                color: '#555555'
-                width: effectLabel.width + 2
-                height: effectLabel.height
-                x: labelRect.x
-                anchors.top: labelRect.bottom
-                visible: labelRect.visible && clipRoot.effectNames != ''
-                Text {
-                    id: effectLabel
-                    text: clipRoot.effectNames
-                    font.pointSize: root.fontUnit
-                    anchors {
-                        top: effectsRect.top
-                        left: effectsRect.left
-                        topMargin: 1
-                        leftMargin: 1
-                        // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
-                    }
-                    color: 'white'
-                    //style: Text.Outline
-                    styleColor: 'black'
-                }
-            }
+            anchors.margins: clipRoot.border.width
+            //clip: true
+            property bool showDetails: !clipRoot.selected || !effectRow.visible
 
             Repeater {
+                // Clip markers
                 model: markers
                 delegate:
                 Item {
@@ -415,7 +323,7 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: parent.height
-                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (Math.round(model.frame / clipRoot.speed) - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale;
+                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (Math.round(model.frame / clipRoot.speed) - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
                     Rectangle {
@@ -455,14 +363,310 @@ Rectangle {
                 }
             }
 
+            MouseArea {
+                // Left resize handle
+                id: trimInMouseArea
+                anchors.left: container.left
+                anchors.leftMargin: -clipRoot.border.width
+                height: parent.height
+                width: root.baseUnit / 2
+                enabled: !isLocked
+                hoverEnabled: true
+                drag.target: trimInMouseArea
+                drag.axis: Drag.XAxis
+                drag.smoothed: false
+                property bool shiftTrim: false
+                property bool controlTrim: false
+                property bool sizeChanged: false
+                cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                onPressed: {
+                    root.autoScrolling = false
+                    clipRoot.originalX = clipRoot.x
+                    clipRoot.originalDuration = clipDuration
+                    anchors.left = undefined
+                    shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                    if (!shiftTrim && clipRoot.grouped) {
+                        clipRoot.initGroupTrim(clipRoot)
+                    }
+                    trimIn.opacity = 0
+                }
+                onReleased: {
+                    root.autoScrolling = timeline.autoScroll
+                    anchors.left = parent.left
+                    if (sizeChanged) {
+                        clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
+                        sizeChanged = false
+                    }
+                }
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        var delta = Math.round(x / timeScale)
+                        if (delta !== 0) {
+                            if (maxDuration > 0 && delta < -inPoint) {
+                                delta = -inPoint
+                            }
+                            var newDuration =  clipDuration - delta
+                            sizeChanged = true
+                            clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                        }
+                    }
+                }
+                onEntered: {
+                    if (!pressed) {
+                        trimIn.opacity = 1
+                    }
+                }
+                onExited: {
+                    trimIn.opacity = 0
+                }
+                Rectangle {
+                    id: trimIn
+                    anchors.left: parent.left
+                    width: clipRoot.border.width
+                    height: parent.height
+                    color: 'lawngreen'
+                    opacity: 0
+                    Drag.active: trimInMouseArea.drag.active
+                    Drag.proposedAction: Qt.MoveAction
+                    visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
+
+                    ToolTip {
+                        visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
+                        delay: 1000
+                        timeout: 5000
+                        background: Rectangle {
+                            color: activePalette.alternateBase
+                            border.color: activePalette.light
+                        }
+                        contentItem: Label {
+                            color: activePalette.text
+                            font.pointSize: root.fontUnit
+                            text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+                        }
+                    }
+                }
+            }
+
+            MouseArea {
+                // Right resize handle
+                id: trimOutMouseArea
+                anchors.right: parent.right
+                anchors.rightMargin: -clipRoot.border.width
+                anchors.top: parent.top
+                height: parent.height
+                width: root.baseUnit / 2
+                hoverEnabled: true
+                enabled: !isLocked
+                property bool shiftTrim: false
+                property bool controlTrim: false
+                property bool sizeChanged: false
+                cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                drag.target: trimOutMouseArea
+                drag.axis: Drag.XAxis
+                drag.smoothed: false
+
+                onPressed: {
+                    root.autoScrolling = false
+                    clipRoot.originalDuration = clipDuration
+                    anchors.right = undefined
+                    shiftTrim = mouse.modifiers & Qt.ShiftModifier
+                    controlTrim = mouse.modifiers & Qt.ControlModifier
+                    if (!shiftTrim && clipRoot.grouped) {
+                        clipRoot.initGroupTrim(clipRoot)
+                    }
+                    trimOut.opacity = 0
+                }
+                onReleased: {
+                    root.autoScrolling = timeline.autoScroll
+                    anchors.right = parent.right
+                    if (sizeChanged) {
+                        clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
+                        sizeChanged = false
+                    }
+                }
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        var newDuration = Math.round((x + width) / timeScale)
+                        if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
+                            newDuration = maxDuration - inPoint
+                        }
+                        if (newDuration != clipDuration) {
+                            sizeChanged = true
+                            clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                        }
+                    }
+                }
+                onEntered: {
+                    if (!pressed) {
+                        trimOut.opacity = 1
+                    }
+                }
+                onExited: trimOut.opacity = 0
+                ToolTip {
+                    visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
+                    delay: 1000
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        font.pointSize: root.fontUnit
+                        text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
+                    }
+                }
+                Rectangle {
+                    id: trimOut
+                    anchors.right: parent.right
+                    width: clipRoot.border.width
+                    height: parent.height
+                    color: 'red'
+                    opacity: 0
+                    Drag.active: trimOutMouseArea.drag.active
+                    Drag.proposedAction: Qt.MoveAction
+                    visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
+                }
+            }
+
             KeyframeView {
                 id: effectRow
+                clip: true
+                anchors.fill: parent
                 visible: clipRoot.showKeyframes && clipRoot.keyframeModel
                 selected: clipRoot.selected
                 inPoint: clipRoot.inPoint
                 outPoint: clipRoot.outPoint
                 masterObject: clipRoot
                 kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel
+            }
+
+            TimelineTriangle {
+                // Green fade in triangle
+                id: fadeInTriangle
+                fillColor: 'green'
+                width: Math.min(clipRoot.fadeIn * timeScale, container.width)
+                height: parent.height
+                anchors.left: parent.left
+                anchors.top: parent.top
+                opacity: 0.4
+            }
+
+            TimelineTriangle {
+                // Red fade out triangle
+                id: fadeOutCanvas
+                fillColor: 'red'
+                width: Math.min(clipRoot.fadeOut * timeScale, container.width)
+                height: parent.height
+                anchors.right: parent.right
+                anchors.top: parent.top
+                opacity: 0.4
+                transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
+            }
+
+            Item {
+                // Clipping container for clip names
+                anchors.fill: parent
+                clip: true
+                Rectangle {
+                    // Clip name background
+                    id: labelRect
+                    color: clipRoot.selected ? 'darkred' : '#66000000'
+                    y: 0
+                    width: label.width + 2 * clipRoot.border.width
+                    height: label.height
+                    visible: clipRoot.width > width / 2
+                    Text {
+                        // Clip name text
+                        id: label
+                        text: clipName + (clipRoot.speed != 1.0 ? ' [' + Math.round(clipRoot.speed*100) + '%]': '')
+                        font.pointSize: root.fontUnit
+                        anchors {
+                            top: labelRect.top
+                            left: labelRect.left
+                            leftMargin: clipRoot.border.width
+                        }
+                        color: 'white'
+                        //style: Text.Outline
+                        //styleColor: 'black'
+                    }
+                }
+
+                Rectangle {
+                    // Offset info
+                    id: offsetRect
+                    color: 'darkgreen'
+                    width: offsetLabel.width + radius
+                    height: offsetLabel.height
+                    radius: height/3
+                    x: labelRect.width + 4
+                    y: 2
+                    visible: labelRect.visible && positionOffset != 0
+                    MouseArea {
+                        id: offsetArea
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        anchors.fill: parent
+                        onClicked: {
+                            clearAndMove(positionOffset)
+                        }
+                        ToolTip {
+                            visible: offsetArea.containsMouse
+                            delay: 1000
+                            timeout: 5000
+                            background: Rectangle {
+                                color: activePalette.alternateBase
+                                border.color: activePalette.light
+                            }
+                            contentItem: Label {
+                                color: activePalette.text
+                                font.pointSize: root.fontUnit
+                                text: positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
+                            }
+                        }
+                        Text {
+                            id: offsetLabel
+                            text: positionOffset
+                            font.pointSize: root.fontUnit
+                            anchors {
+                                horizontalCenter: parent.horizontalCenter
+                                topMargin: 1
+                                leftMargin: 1
+                            }
+                            color: 'white'
+                            style: Text.Outline
+                            styleColor: 'black'
+                        }
+                    }
+                }
+
+                Rectangle {
+                    // effect names background
+                    id: effectsRect
+                    color: '#555555'
+                    width: effectLabel.width + 2
+                    height: effectLabel.height
+                    x: labelRect.x
+                    anchors.top: labelRect.bottom
+                    visible: labelRect.visible && clipRoot.effectNames != '' && container.showDetails
+                    Text {
+                        // Effect names text
+                        id: effectLabel
+                        text: clipRoot.effectNames
+                        font.pointSize: root.fontUnit
+                        visible: effectsRect.visible
+                        anchors {
+                            top: effectsRect.top
+                            left: effectsRect.left
+                            leftMargin: 1
+                            // + ((isAudio || !settings.timelineShowThumbnails) ? 0 : inThumbnail.width) + 1
+                        }
+                        color: 'white'
+                        //style: Text.Outline
+                        styleColor: 'black'
+                    }
+                }
             }
         }
 
@@ -497,197 +701,22 @@ Rectangle {
             }
         ]
 
-        Rectangle {
-            id: compositionIn
+        MouseArea {
+            // Add start composition area
+            id: compInArea
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            anchors.bottomMargin: 2
-            anchors.leftMargin: 4
             width: root.baseUnit
             height: width
-            radius: 2
-            color: Qt.darker('mediumpurple')
-            border.width: 2
-            border.color: 'green'
-            opacity: 0
-            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId
-            visible: clipRoot.width > 4 * width
-            MouseArea {
-                id: compInArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onEntered: parent.opacity = 0.7
-                onExited: {
-                    if (!pressed) {
-                    parent.opacity = 0
-                    }
-                }
-                onPressed: {
-                    timeline.addCompositionToClip('', clipRoot.clipId, 0)
-                }
-                onReleased: {
-                    parent.opacity = 0
-                }
-                ToolTip {
-                    visible: compInArea.containsMouse && !dragProxyArea.pressed
-                    delay: 1000
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        font.pointSize: root.fontUnit
-                        text: i18n("Click to add composition")
-                    }
-                }
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            visible: !clipRoot.isAudio
+            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionIn.visible
+            onPressed: {
+                timeline.addCompositionToClip('', clipRoot.clipId, 0)
             }
-        }
-        Rectangle {
-            id: compositionOut
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 2
-            anchors.rightMargin: 4
-            width: root.baseUnit
-            height: width
-            radius: 2
-            color: Qt.darker('mediumpurple')
-            border.width: 2
-            border.color: 'green'
-            opacity: 0
-            enabled: !clipRoot.isAudio  && dragProxy.draggedItem == clipRoot.clipId
-            visible: clipRoot.width > 4 * width
-            MouseArea {
-                id: compOutArea
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onEntered: {
-                    parent.opacity = 0.7
-                }
-                onExited: {
-                    if (!pressed) {
-                        parent.opacity = 0
-                    }
-                }
-                onPressed: {
-                    timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
-                }
-                onReleased: {
-                    parent.opacity = 0
-                }
-                ToolTip {
-                    visible: compOutArea.containsMouse && !dragProxyArea.pressed
-                    delay: 1000
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        font.pointSize: root.fontUnit
-                        text: i18n("Click to add composition")
-                    }
-                }
-            }
-        }
-    }
-    
-    TimelineTriangle {
-        id: fadeInTriangle
-        fillColor: 'green'
-        width: Math.min(clipRoot.fadeIn * timeScale, clipRoot.width)
-        height: clipRoot.height - clipRoot.border.width * 2
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.margins: clipRoot.border.width
-        opacity: 0.3
-    }
-
-    TimelineTriangle {
-        id: fadeOutCanvas
-        fillColor: 'red'
-        width: Math.min(clipRoot.fadeOut * timeScale, clipRoot.width)
-        height: clipRoot.height - clipRoot.border.width * 2
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: clipRoot.border.width
-        opacity: 0.3
-        transform: Scale { xScale: -1; origin.x: fadeOutCanvas.width / 2}
-    }
-
-    MouseArea {
-        id: trimInMouseArea
-        anchors.left: clipRoot.left
-        anchors.leftMargin: 0
-        height: parent.height
-        width: root.baseUnit / 2
-        enabled: !isLocked
-        hoverEnabled: true
-        drag.target: trimInMouseArea
-        drag.axis: Drag.XAxis
-        drag.smoothed: false
-        property bool shiftTrim: false
-        property bool controlTrim: false
-        property bool sizeChanged: false
-        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
-        onPressed: {
-            root.autoScrolling = false
-            clipRoot.originalX = clipRoot.x
-            clipRoot.originalDuration = clipDuration
-            anchors.left = undefined
-            shiftTrim = mouse.modifiers & Qt.ShiftModifier
-            controlTrim = mouse.modifiers & Qt.ControlModifier
-            if (!shiftTrim && clipRoot.grouped) {
-                clipRoot.initGroupTrim(clipRoot)
-            }
-            trimIn.opacity = 0
-        }
-        onReleased: {
-            root.autoScrolling = timeline.autoScroll
-            anchors.left = clipRoot.left
-            if (sizeChanged) {
-                clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
-            sizeChanged = false
-            }
-        }
-        onPositionChanged: {
-            if (mouse.buttons === Qt.LeftButton) {
-                var delta = Math.round(x / timeScale)
-                if (delta !== 0) {
-                    if (maxDuration > 0 && delta < -inPoint) {
-                        delta = -inPoint
-                    }
-                    var newDuration =  clipDuration - delta
-                    sizeChanged = true
-                    clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
-                }
-            }
-        }
-        onEntered: {
-            if (!pressed) {
-                trimIn.opacity = 0.5
-            }
-        }
-        onExited: {
-            trimIn.opacity = 0
-        }
-        Rectangle {
-            id: trimIn
-            anchors.fill: parent
-            anchors.margins: 2
-            color: isAudio? 'green' : 'lawngreen'
-            opacity: 0
-            Drag.active: trimInMouseArea.drag.active
-            Drag.proposedAction: Qt.MoveAction
-            visible: trimInMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
-
             ToolTip {
-                visible: trimInMouseArea.containsMouse && !trimInMouseArea.pressed
+                visible: compInArea.containsMouse && !dragProxyArea.pressed
                 delay: 1000
                 timeout: 5000
                 background: Rectangle {
@@ -697,129 +726,102 @@ Rectangle {
                 contentItem: Label {
                     color: activePalette.text
                     font.pointSize: root.fontUnit
-                    text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
+                    text: i18n("Click to add composition")
                 }
             }
+            Rectangle {
+                // Start composition box
+                id: compositionIn
+                anchors.bottom: parent.bottom
+                anchors.left: parent.left
+                width: compInArea.containsMouse ? root.baseUnit : 5
+                height: width
+                radius: width / 2
+                visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !dragProxyArea.pressed
+                color: Qt.darker('mediumpurple')
+                border.width: 3
+                border.color: 'mediumpurple'
+                Behavior on width { NumberAnimation { duration: 100 } }
+            }
         }
-    }
 
-    MouseArea {
-        id: trimOutMouseArea
-        anchors.right: clipRoot.right
-        height: parent.height
-        width: root.baseUnit / 2
-        hoverEnabled: true
-        enabled: !isLocked
-        property bool shiftTrim: false
-        property bool controlTrim: false
-        property bool sizeChanged: false
-        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
-        drag.target: trimOutMouseArea
-        drag.axis: Drag.XAxis
-        drag.smoothed: false
-
-        onPressed: {
-            root.autoScrolling = false
-            clipRoot.originalDuration = clipDuration
-            anchors.right = undefined
-            shiftTrim = mouse.modifiers & Qt.ShiftModifier
-            controlTrim = mouse.modifiers & Qt.ControlModifier
-            if (!shiftTrim && clipRoot.grouped) {
-                clipRoot.initGroupTrim(clipRoot)
-            }
-            trimOut.opacity = 0
-        }
-        onReleased: {
-            root.autoScrolling = timeline.autoScroll
-            anchors.right = clipRoot.right
-            if (sizeChanged) {
-                clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
-                sizeChanged = false
-            }
-        }
-        onPositionChanged: {
-            if (mouse.buttons === Qt.LeftButton) {
-                var newDuration = Math.round((x + width) / timeScale)
-                if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
-                    newDuration = maxDuration - inPoint
-                }
-                if (newDuration != clipDuration) {
-                    sizeChanged = true
-                    clipRoot.trimmingOut(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
-                }
-            }
-        }
-        onEntered: {
-            if (!pressed) {
-                trimOut.opacity = 0.5
-            }
-        }
-        onExited: trimOut.opacity = 0
-            
-        ToolTip {
-            visible: trimOutMouseArea.containsMouse && !trimOutMouseArea.pressed
-            delay: 1000
-            timeout: 5000
-            background: Rectangle {
-                color: activePalette.alternateBase
-                border.color: activePalette.light
-            }
-            contentItem: Label {
-                color: activePalette.text
-                font.pointSize: root.fontUnit
-                text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
-            }
-        }
-        Rectangle {
-            id: trimOut
-            anchors.fill: parent
-            anchors.margins: 2
-            color: 'red'
-            opacity: 0
-            Drag.active: trimOutMouseArea.drag.active
-            Drag.proposedAction: Qt.MoveAction
-            visible: trimOutMouseArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && clipRoot.width > 4 * width)
-        }
-    }
-    
-    MouseArea {
-            id: fadeOutMouseArea
-            anchors.right: fadeOutCanvas.left
-            anchors.rightMargin: -width/2
-            anchors.top: fadeOutCanvas.top
-            anchors.topMargin: -width / 3
+        MouseArea {
+            // Add end composition area
+            id: compOutArea
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
             width: root.baseUnit
             height: width
-            //anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            enabled: !clipRoot.isAudio && dragProxy.draggedItem === clipRoot.clipId && compositionOut.visible
+            visible: !clipRoot.isAudio
+            onPressed: {
+                timeline.addCompositionToClip('', clipRoot.clipId, clipRoot.clipDuration - 1)
+            }
+            ToolTip {
+                visible: compOutArea.containsMouse && !dragProxyArea.pressed
+                delay: 1000
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    font.pointSize: root.fontUnit
+                    text: i18n("Click to add composition")
+                }
+            }
+            Rectangle {
+                // End composition box
+                id: compositionOut
+                anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                width: compOutArea.containsMouse ? root.baseUnit : 5
+                height: width
+                radius: width / 2
+                visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !dragProxyArea.pressed
+                color: Qt.darker('mediumpurple')
+                border.width: 3
+                border.color: 'mediumpurple'
+                Behavior on width { NumberAnimation { duration: 100 } }
+            }
+        }
+
+        MouseArea {
+            // Fade out drag zone
+            id: fadeOutMouseArea
+            anchors.right: parent.right
+            anchors.rightMargin: clipRoot.fadeOut <= 0 ? 0 : fadeOutCanvas.width - width / 2
+            anchors.top: parent.top
+            width: root.baseUnit
+            height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             drag.target: fadeOutMouseArea
             drag.axis: Drag.XAxis
             drag.minimumX: - Math.ceil(width / 2)
-            drag.maximumX: container.width - Math.floor(width / 4)
-            visible : clipRoot.width > 3 * width
+            drag.maximumX: container.width + Math.ceil(width / 4)
+            visible: clipRoot.width > 3 * width && mouseArea.containsMouse && !dragProxyArea.pressed
             property int startFadeOut
             property int lastDuration: -1
-            onEntered: fadeOutControl.opacity = 0.7
-            onExited: {
-                if (!pressed) {
-                    fadeOutControl.opacity = 0
+            drag.smoothed: false
+            onClicked: {
+                if (clipRoot.fadeOut == 0) {
+                    timeline.adjustFade(clipRoot.clipId, 'fadeout', 0, -2)
                 }
             }
-            drag.smoothed: false
             onPressed: {
                 root.autoScrolling = false
                 startFadeOut = clipRoot.fadeOut
                 anchors.right = undefined
-                fadeOutControl.opacity = 1
+                fadeOutCanvas.opacity = 0.6
             }
             onReleased: {
-                fadeOutCanvas.opacity = 0.3
+                fadeOutCanvas.opacity = 0.4
                 root.autoScrolling = timeline.autoScroll
-                anchors.right = fadeOutCanvas.left
-                if (!fadeOutMouseArea.containsMouse) {
-                    fadeOutControl.opacity = 0
-                }
+                anchors.right = parent.right
                 var duration = clipRoot.fadeOut
                 if (duration > 0) {
                     duration += 1
@@ -829,7 +831,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    var delta = clipRoot.clipDuration - Math.floor((x + width / 2)/ timeScale)
+                    var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - clipRoot.border.width)/ timeScale)
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
                     if (lastDuration != duration) {
@@ -843,32 +845,36 @@ Rectangle {
             }
             Rectangle {
                 id: fadeOutControl
-                anchors.fill: parent
+                anchors.top: parent.top
+                anchors.right: clipRoot.fadeOut > 0 ? undefined : parent.right
+                anchors.horizontalCenter: clipRoot.fadeOut > 0 ? parent.horizontalCenter : undefined
+                width: fadeOutMouseArea.containsMouse || Drag.active ? root.baseUnit : 5
+                height: width
                 radius: width / 2
-                color: '#66FFFFFF'
-                border.width: 2
+                color: 'darkred'
+                border.width: 3
                 border.color: 'red'
-                opacity: 0
                 enabled: !isLocked && !dragProxy.isComposition
                 Drag.active: fadeOutMouseArea.drag.active
+                Behavior on width { NumberAnimation { duration: 100 } }
                 Rectangle {
                     id: fadeOutMarker
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
-                    anchors.topMargin: parent.width / 3
                     color: 'red'
-                    height: container.height - 1
+                    height: container.height
                     width: 1
+                    visible : clipRoot.fadeOut > 0 && (fadeOutMouseArea.containsMouse || fadeOutMouseArea.drag.active)
                 }
             }
         }
-        
+
         MouseArea {
+            // Fade in drag zone
             id: fadeInMouseArea
-            anchors.left: fadeInTriangle.right
-            anchors.leftMargin: -width / 2
-            anchors.top: fadeInTriangle.top
-            anchors.topMargin: -width / 3
+            anchors.left: container.left
+            anchors.leftMargin: clipRoot.fadeIn <= 0 ? 0 : (fadeInTriangle.width - width / 2)
+            anchors.top: parent.top
             width: root.baseUnit
             height: width
             hoverEnabled: true
@@ -879,30 +885,25 @@ Rectangle {
             drag.axis: Drag.XAxis
             drag.smoothed: false
             property int startFadeIn
-            onEntered: fadeInControl.opacity = 0.7
-            onExited: {
-                if (!pressed) {
-                    fadeInControl.opacity = 0
+            visible: clipRoot.width > 3 * width && mouseArea.containsMouse && !dragProxyArea.pressed
+            onClicked: {
+                if (clipRoot.fadeIn == 0) {
+                    timeline.adjustFade(clipRoot.clipId, 'fadein', 0, -2)
                 }
             }
             onPressed: {
                 root.autoScrolling = false
                 startFadeIn = clipRoot.fadeIn
                 anchors.left = undefined
-                fadeInControl.opacity = 1
-                fadeInTriangle.opacity = 0.5
+                fadeInTriangle.opacity = 0.6
                 // parentTrack.clipSelected(clipRoot, parentTrack) TODO
             }
             onReleased: {
                 root.autoScrolling = timeline.autoScroll
-                fadeInTriangle.opacity = 0.3
-                if (!fadeInMouseArea.containsMouse) {
-                    fadeInControl.opacity = 0
-                }
-                anchors.left = fadeInTriangle.right
-                console.log('released fade: ', clipRoot.fadeIn)
+                fadeInTriangle.opacity = 0.4
                 timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 bubbleHelp.hide()
+                anchors.left = container.left
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
@@ -919,41 +920,28 @@ Rectangle {
             }
             Rectangle {
                 id: fadeInControl
-                anchors.fill: parent
+                anchors.top: parent.top
+                anchors.left: clipRoot.fadeIn > 0 ? undefined : parent.left
+                anchors.horizontalCenter: clipRoot.fadeIn > 0 ? parent.horizontalCenter : undefined
+                width: fadeInMouseArea.containsMouse || Drag.active ? root.baseUnit : 5
+                height: width
                 radius: width / 2
-                color: '#FF66FFFF'
-                border.width: 2
-                border.color: 'green'
+                color: 'green'
+                border.width: 3
+                border.color: '#FF66FFFF'
                 enabled: !isLocked && !dragProxy.isComposition
-                opacity: 0
-                visible : clipRoot.width > 3 * width
                 Drag.active: fadeInMouseArea.drag.active
+                Behavior on width { NumberAnimation { duration: 100 } }
                 Rectangle {
                     id: fadeInMarker
                     anchors.horizontalCenter: parent.horizontalCenter
                     anchors.top: parent.top
-                    anchors.topMargin: parent.width / 3
-                    color: 'green'
-                    height: container.height - 1
+                    color: '#FF66FFFF'
+                    height: container.height
                     width: 1
+                    visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
                 }
             }
         }
-
-        /*MenuItem {
-            id: mergeItem
-            text: i18n("Merge with next clip")
-            onTriggered: timeline.mergeClipWithNext(trackIndex, index, false)
-        }
-        MenuItem {
-            text: i18n("Rebuild Audio Waveform")
-            onTriggered: timeline.remakeAudioLevels(trackIndex, index)
-        }*/
-        /*onPopupVisibleChanged: {
-            if (visible && application.OS !== 'OS X' && __popupGeometry.height > 0) {
-                // Try to fix menu running off screen. This only works intermittently.
-                menu.__yOffset = Math.min(0, Screen.height - (__popupGeometry.y + __popupGeometry.height + 40))
-                menu.__xOffset = Math.min(0, Screen.width - (__popupGeometry.x + __popupGeometry.width))
-            }
-        }*/
+    }
 }
