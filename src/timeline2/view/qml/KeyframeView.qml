@@ -119,6 +119,7 @@ Rectangle
                     anchors.rightMargin: - root.baseUnit/3
                     hoverEnabled: true
                     cursorShape: Qt.SizeHorCursor
+                    visible: x > root.baseUnit && x < keyframeContainer.width - root.baseUnit
                     drag.target: parent
                     drag.smoothed: false
                     drag.axis: Drag.XAxis
@@ -245,6 +246,7 @@ Rectangle
         renderStrategy: Canvas.Threaded
         width: kfrCount > 1 ? parent.width : 0
         height: kfrCount > 1 ? parent.height : 0
+        opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
             id: comp
             PathCurve { }
@@ -264,7 +266,7 @@ Rectangle
                 return
             }
             context.beginPath()
-            context.fillStyle = Qt.rgba(0,0,0.8, 0.4);
+            context.fillStyle = Qt.rgba(0,0,0.8, 0.5);
             paths = []
             var xpos
             var ypos

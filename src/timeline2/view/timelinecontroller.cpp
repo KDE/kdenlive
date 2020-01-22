@@ -1192,6 +1192,11 @@ void TimelineController::addEffectToCurrentClip(const QStringList &effectData)
 
 void TimelineController::adjustFade(int cid, const QString &effectId, int duration, int initialDuration)
 {
+    if (initialDuration == -2) {
+        // Add default fade
+        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::fade_duration());
+        initialDuration = 0;
+    }
     if (duration <= 0) {
         // remove fade
         m_model->removeFade(cid, effectId == QLatin1String("fadein"));
