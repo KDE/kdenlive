@@ -89,6 +89,7 @@ Rectangle
     Item {
         // Keyframes container
         anchors.fill: parent
+        z: 5
         visible: keyframeContainer.selected && keyframeContainer.width > root.baseUnit * 3 && (kfrCount < (keyframeContainer.width / root.baseUnit))
         Repeater {
             id: keyframes
@@ -119,7 +120,7 @@ Rectangle
                     anchors.rightMargin: - root.baseUnit/3
                     hoverEnabled: true
                     cursorShape: Qt.SizeHorCursor
-                    visible: x > root.baseUnit && x < keyframeContainer.width - root.baseUnit
+                    enabled: parent.x > root.baseUnit / 2 && parent.x < keyframeContainer.width - root.baseUnit / 2
                     drag.target: parent
                     drag.smoothed: false
                     drag.axis: Drag.XAxis
