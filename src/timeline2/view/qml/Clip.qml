@@ -311,7 +311,7 @@ Rectangle {
             anchors.fill: parent
             anchors.margins: clipRoot.border.width
             //clip: true
-            property bool showDetails: !clipRoot.selected || !effectRow.visible
+            property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
 
             Repeater {
                 // Clip markers
@@ -530,18 +530,6 @@ Rectangle {
                 }
             }
 
-            KeyframeView {
-                id: effectRow
-                clip: true
-                anchors.fill: parent
-                visible: clipRoot.showKeyframes && clipRoot.keyframeModel
-                selected: clipRoot.selected
-                inPoint: clipRoot.inPoint
-                outPoint: clipRoot.outPoint
-                masterObject: clipRoot
-                kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel
-            }
-
             TimelineTriangle {
                 // Green fade in triangle
                 id: fadeInTriangle
@@ -668,6 +656,18 @@ Rectangle {
                     }
                 }
             }
+
+            KeyframeView {
+                id: effectRow
+                clip: true
+                anchors.fill: parent
+                visible: clipRoot.showKeyframes && clipRoot.keyframeModel
+                selected: clipRoot.selected
+                inPoint: clipRoot.inPoint
+                outPoint: clipRoot.outPoint
+                masterObject: clipRoot
+                kfrModel: clipRoot.hideClipViews ? 0 : clipRoot.keyframeModel
+            }
         }
 
         states: [
@@ -706,7 +706,7 @@ Rectangle {
             id: compInArea
             anchors.left: parent.left
             anchors.bottom: parent.bottom
-            width: root.baseUnit
+            width: Math.min(root.baseUnit, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -734,7 +734,7 @@ Rectangle {
                 id: compositionIn
                 anchors.bottom: parent.bottom
                 anchors.left: parent.left
-                width: compInArea.containsMouse ? root.baseUnit : 5
+                width: compInArea.containsMouse ? parent.width : 5
                 height: width
                 radius: width / 2
                 visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !dragProxyArea.pressed
@@ -750,7 +750,7 @@ Rectangle {
             id: compOutArea
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            width: root.baseUnit
+            width: Math.min(root.baseUnit, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -778,7 +778,7 @@ Rectangle {
                 id: compositionOut
                 anchors.bottom: parent.bottom
                 anchors.right: parent.right
-                width: compOutArea.containsMouse ? root.baseUnit : 5
+                width: compOutArea.containsMouse ? parent.height : 5
                 height: width
                 radius: width / 2
                 visible: clipRoot.width > 4 * parent.width && mouseArea.containsMouse && !dragProxyArea.pressed
@@ -795,7 +795,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: clipRoot.fadeOut <= 0 ? 0 : fadeOutCanvas.width - width / 2
             anchors.top: parent.top
-            width: root.baseUnit
+            width: Math.min(root.baseUnit, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -848,7 +848,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.right: clipRoot.fadeOut > 0 ? undefined : parent.right
                 anchors.horizontalCenter: clipRoot.fadeOut > 0 ? parent.horizontalCenter : undefined
-                width: fadeOutMouseArea.containsMouse || Drag.active ? root.baseUnit : 5
+                width: fadeOutMouseArea.containsMouse || Drag.active ? parent.width : 5
                 height: width
                 radius: width / 2
                 color: 'darkred'
@@ -875,7 +875,7 @@ Rectangle {
             anchors.left: container.left
             anchors.leftMargin: clipRoot.fadeIn <= 0 ? 0 : (fadeInTriangle.width - width / 2)
             anchors.top: parent.top
-            width: root.baseUnit
+            width: Math.min(root.baseUnit, container.height / 3)
             height: width
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -923,7 +923,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.left: clipRoot.fadeIn > 0 ? undefined : parent.left
                 anchors.horizontalCenter: clipRoot.fadeIn > 0 ? parent.horizontalCenter : undefined
-                width: fadeInMouseArea.containsMouse || Drag.active ? root.baseUnit : 5
+                width: fadeInMouseArea.containsMouse || Drag.active ? parent.width : 5
                 height: width
                 radius: width / 2
                 color: 'green'
