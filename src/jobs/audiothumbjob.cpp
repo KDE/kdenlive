@@ -254,7 +254,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 }
             }
             for (long &v : ffmpegLevels) {
-                m_audioLevels << 255 * (double) v / maxLevel;
+                m_audioLevels << (uint8_t) (255 * v / maxLevel);
             }
             m_done = true;
             return true;
@@ -322,10 +322,10 @@ bool AudioThumbJob::startJob()
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p = image.pixel(i / m_channels, i % m_channels);
-            m_audioLevels << qRed(p);
-            m_audioLevels << qGreen(p);
-            m_audioLevels << qBlue(p);
-            m_audioLevels << qAlpha(p);
+            m_audioLevels << (uint8_t)qRed(p);
+            m_audioLevels << (uint8_t)qGreen(p);
+            m_audioLevels << (uint8_t)qBlue(p);
+            m_audioLevels << (uint8_t)qAlpha(p);
         }
     }
     if (!m_audioLevels.isEmpty()) {
