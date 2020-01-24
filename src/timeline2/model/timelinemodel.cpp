@@ -2425,11 +2425,16 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         emit checkTrackDeletion(id);
         auto it = m_iteratorTable[id];                        // iterator to the element
         int index = getTrackPosition(id);                     // compute index in list
-        m_tractor->remove_track(static_cast<int>(index + 1)); // melt operation, add 1 to account for black background track
+
         // send update to the model
-        m_allTracks.erase(it);     // actual deletion of object
-        m_iteratorTable.erase(id); // clean table
         beginRemoveRows(QModelIndex(), index, index);
+        // melt operation, add 1 to account for black background track
+        m_tractor->remove_track(static_cast<int>(index + 1));
+        // actual deletion of object
+        m_allTracks.erase(it);
+        // clean table
+        m_iteratorTable.erase(id);
+        // Finish operation
         endRemoveRows();
         int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
         mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));

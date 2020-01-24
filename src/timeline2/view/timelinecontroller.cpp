@@ -608,6 +608,7 @@ void TimelineController::checkTrackDeletion(int selectedTrackIx)
     if (m_activeTrack == selectedTrackIx) {
             // Make sure we don't keep an index on a deleted track
             m_activeTrack = -1;
+            emit activeTrackChanged();
         }
         if (m_model->m_audioTarget == selectedTrackIx) {
             setAudioTarget(-1);
