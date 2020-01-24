@@ -839,7 +839,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     }*/
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
-    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", m_project->getProjectXml().constData()));
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
     if (tractor.count() == 0) {
@@ -874,6 +874,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         m_mainTimelineModel->loadGroups(groupsData);
     }
     connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
+    pCore->monitorManager()->updatePreviewScaling();
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());

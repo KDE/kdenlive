@@ -116,7 +116,7 @@ GLWidget::GLWidget(int id, QObject *parent)
 
     m_refreshTimer.setSingleShot(true);
     m_refreshTimer.setInterval(50);
-    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     m_blackClip->set("out", 3);
     connect(&m_refreshTimer, &QTimer::timeout, this, &GLWidget::refresh);
@@ -455,7 +455,7 @@ bool GLWidget::initGPUAccel()
 {
     if (!KdenliveSettings::gpu_accel()) return false;
 
-    m_glslManager = new Mlt::Filter(*pCore->getProjectProfile(), "glsl.manager");
+    m_glslManager = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "glsl.manager");
     return m_glslManager->is_valid();
 }
 
@@ -898,10 +898,6 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
                 m_consumer->stop();
             }
         }
-        if (m_id == Kdenlive::ProjectMonitor) {
-            // Make sure we apply preview scaling
-            pCore->updatePreviewProfile();
-        }
         error = reconfigure();
         if (error == 0) {
             // The profile display aspect ratio may have changed.
@@ -1058,13 +1054,6 @@ int GLWidget::reconfigure()
             m_consumer.reset(new Mlt::FilteredConsumer(*pCore->getProjectProfile(), audioBackend.toLatin1().constData()));
             if (m_consumer->is_valid()) {
                 serviceName = audioBackend;
-                setProperty("mlt_service", serviceName);
-                if (KdenliveSettings::external_display()) {
-                    m_consumer->set("terminate_on_pause", 0);
-                }
-                m_profileSize = QSize(pCore->getProjectProfile()->width(), pCore->getProjectProfile()->height());
-                m_colorSpace = pCore->getCurrentProfile()->colorspace();
-                m_dar = pCore->getCurrentDar();
             } else {
                 // Warning, audio backend unavailable on system
                 m_consumer.reset();
@@ -1083,17 +1072,24 @@ int GLWidget::reconfigure()
                         qDebug() << "++++++++\nSwitching audio backend to: " << bk << "\n++++++++++";
                         KdenliveSettings::setAudiobackend(bk);
                         serviceName = bk;
-                        setProperty("mlt_service", serviceName);
                         break;
                     } else {
                         m_consumer.reset();
                     }
                 }
-                if (!m_consumer) {
-                    qWarning() << "WARNING, NO AUDIO BACKEND FOUND";
-                    return -1;
-                }
             }
+            if (!m_consumer || !m_consumer->is_valid()) {
+                qWarning() << "WARNING, NO AUDIO BACKEND FOUND";
+                return -1;
+            }
+            setProperty("mlt_service", serviceName);
+            if (KdenliveSettings::external_display()) {
+                m_consumer->set("terminate_on_pause", 0);
+            }
+            m_consumer->set("width", m_profileSize.width());
+            m_consumer->set("height", m_profileSize.height());
+            m_colorSpace = pCore->getCurrentProfile()->colorspace();
+            m_dar = pCore->getCurrentDar();
         }
         delete m_threadStartEvent;
         m_threadStartEvent = nullptr;
@@ -1205,7 +1201,7 @@ void GLWidget::reloadProfile()
         m_consumer.reset();
         existingConsumer = true;
     }
-    m_blackClip.reset(new Mlt::Producer(*pCore->getProjectProfile(), "color:0"));
+    m_blackClip.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "color:0"));
     m_blackClip->set("kdenlive:id", "black");
     if (existingConsumer) {
         reconfigure();
@@ -1807,13 +1803,38 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 void GLWidget::updateScaling()
 {
 #if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
-    bool hasConsumer = m_consumer != nullptr;
-    if (hasConsumer) {
-        m_consumer->stop();
-        m_consumer.reset();
+    QSize profileSize = pCore->getCurrentFrameSize();
+    int previewHeight = profileSize.height();
+    switch (KdenliveSettings::previewScaling()) {
+        case 2:
+            previewHeight = qMin(previewHeight, 720);
+            break;
+        case 4:
+            previewHeight = qMin(previewHeight, 540);
+            break;
+        case 8:
+            previewHeight = qMin(previewHeight, 360);
+            break;
+        case 16:
+            previewHeight = qMin(previewHeight, 270);
+            break;
+        default:
+            break;
     }
-    pCore->updatePreviewProfile();
-    reconfigure();
-    resizeGL(width(), height());
+    if (previewHeight == profileSize.height()) {
+        m_profileSize = profileSize;
+    } else {
+        int width = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
+        if (width % 8 > 0) {
+            width += 8 - width % 8;
+        }
+        m_profileSize = QSize(width, previewHeight);
+    }
+    qDebug()<<"==== SWITCHED PROFILE WIDTH TO : "<<m_profileSize.width()<<" = "<<profileSize.width();
+    if (m_consumer) {
+        m_consumer->set("width", m_profileSize.width());
+        m_consumer->set("height", m_profileSize.height());
+        resizeGL(width(), height());
+    }
 #endif
 }

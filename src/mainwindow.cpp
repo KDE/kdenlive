@@ -1258,22 +1258,26 @@ void MainWindow::setupActions()
     m_scaleGroup = new QActionGroup(this);
     m_scaleGroup->setExclusive(true);
     m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
-    QAction *scale_no = new QAction(i18n("Full Resolution Preview"), m_scaleGroup);
+    QAction *scale_no = new QAction(i18n("Full Resolution"), m_scaleGroup);
     addAction(QStringLiteral("scale_no_preview"), scale_no);
     scale_no->setCheckable(true);
     scale_no->setData(1);
-    QAction *scale_2 = new QAction(i18n("1/2 Resolution Preview"), m_scaleGroup);
+    QAction *scale_2 = new QAction(i18n("720p"), m_scaleGroup);
     addAction(QStringLiteral("scale_2_preview"), scale_2);
     scale_2->setCheckable(true);
     scale_2->setData(2);
-    QAction *scale_4 = new QAction(i18n("1/4 Resolution Preview"), m_scaleGroup);
+    QAction *scale_4 = new QAction(i18n("540p"), m_scaleGroup);
     addAction(QStringLiteral("scale_4_preview"), scale_4);
     scale_4->setCheckable(true);
     scale_4->setData(4);
-    QAction *scale_8 = new QAction(i18n("1/8 Resolution Preview"), m_scaleGroup);
+    QAction *scale_8 = new QAction(i18n("360p"), m_scaleGroup);
     addAction(QStringLiteral("scale_8_preview"), scale_8);
     scale_8->setCheckable(true);
     scale_8->setData(8);
+    QAction *scale_16 = new QAction(i18n("270p"), m_scaleGroup);
+    addAction(QStringLiteral("scale_16_preview"), scale_16);
+    scale_16->setCheckable(true);
+    scale_16->setData(16);
     switch (KdenliveSettings::previewScaling()) {
         case 2:
             scale_2->setChecked(true);
@@ -1283,6 +1287,9 @@ void MainWindow::setupActions()
             break;
         case 8:
             scale_8->setChecked(true);
+            break;
+        case 16:
+            scale_16->setChecked(true);
             break;
         default:
             scale_no->setChecked(true);

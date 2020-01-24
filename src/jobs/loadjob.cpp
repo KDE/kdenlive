@@ -121,7 +121,7 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadResource(QString resource, const QSt
     if (!resource.startsWith(type)) {
         resource.prepend(type);
     }
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, resource.toUtf8().constData());
 }
 
 std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
@@ -146,10 +146,10 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         QString loader = resource;
         loader.prepend(QStringLiteral("consumer:"));
         pCore->getCurrentProfile()->set_explicit(1);
-        return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), loader.toUtf8().constData());
+        return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), loader.toUtf8().constData());
     }
     pCore->getCurrentProfile()->set_explicit(1);
-    return std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), "xml", resource.toUtf8().constData());
+    return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), "xml", resource.toUtf8().constData());
 }
 
 void LoadJob::checkProfile(const QString &clipId, const QDomElement &xml, const std::shared_ptr<Mlt::Producer> &producer)
@@ -202,13 +202,13 @@ void LoadJob::processSlideShow()
     int ttl = Xml::getXmlProperty(m_xml, QStringLiteral("ttl")).toInt();
     QString anim = Xml::getXmlProperty(m_xml, QStringLiteral("animation"));
     if (!anim.isEmpty()) {
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "affine");
+        auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "affine");
         if ((filter != nullptr) && filter->is_valid()) {
             int cycle = ttl;
             QString geometry = SlideshowClip::animationToGeometry(anim, cycle);
             if (!geometry.isEmpty()) {
                 if (anim.contains(QStringLiteral("low-pass"))) {
-                    auto *blur = new Mlt::Filter(*pCore->getProjectProfile(), "boxblur");
+                    auto *blur = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "boxblur");
                     if ((blur != nullptr) && blur->is_valid()) {
                         m_producer->attach(*blur);
                     }
@@ -222,7 +222,7 @@ void LoadJob::processSlideShow()
     QString fade = Xml::getXmlProperty(m_xml, QStringLiteral("fade"));
     if (fade == QLatin1String("1")) {
         // user wants a fade effect to slideshow
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "luma");
+        auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "luma");
         if ((filter != nullptr) && filter->is_valid()) {
             if (ttl != 0) {
                 filter->set("cycle", ttl);
@@ -246,7 +246,7 @@ void LoadJob::processSlideShow()
     QString crop = Xml::getXmlProperty(m_xml, QStringLiteral("crop"));
     if (crop == QLatin1String("1")) {
         // user wants to center crop the slides
-        auto *filter = new Mlt::Filter(*pCore->getProjectProfile(), "crop");
+        auto *filter = new Mlt::Filter(pCore->getCurrentProfile()->profile(), "crop");
         if ((filter != nullptr) && filter->is_valid()) {
             filter->set("center", 1);
             m_producer->attach(*filter);
@@ -379,14 +379,14 @@ bool LoadJob::startJob()
         break;
     }
     case ClipType::SlideShow:
-        m_producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, m_resource.toUtf8().constData());
+        m_producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_resource.toUtf8().constData());
         break;
     default:
         if (!service.isEmpty()) {
             service.append(QChar(':'));
             m_producer = loadResource(m_resource, service);
         } else {
-            m_producer = std::make_shared<Mlt::Producer>(*pCore->getProjectProfile(), nullptr, m_resource.toUtf8().constData());
+            m_producer = std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), nullptr, m_resource.toUtf8().constData());
         }
         break;
     }

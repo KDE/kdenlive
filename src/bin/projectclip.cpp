@@ -763,7 +763,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::Clip
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
-    Mlt::Consumer c(*pCore->getProjectProfile(), "xml", "string");
+    Mlt::Consumer c(pCore->getCurrentProfile()->profile(), "xml", "string");
     Mlt::Service s(m_masterProducer->get_service());
     int ignore = s.get_int("ignore_points");
     if (ignore) {
@@ -782,7 +782,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
     }
     const QByteArray clipXml = c.get("string");
     std::shared_ptr<Mlt::Producer> prod;
-    prod.reset(new Mlt::Producer(*pCore->getProjectProfile(), "xml-string", clipXml.constData()));
+    prod.reset(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", clipXml.constData()));
 
     if (strcmp(prod->get("mlt_service"), "avformat") == 0) {
         prod->set("mlt_service", "avformat-novalidate");

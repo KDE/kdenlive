@@ -48,6 +48,7 @@
 #include <KRecentDirs>
 #include <KSelectAction>
 #include <KWindowConfig>
+#include <KColorScheme>
 #include <kio_version.h>
 
 #include "kdenlive_debug.h"
@@ -163,6 +164,24 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
     connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
         m_glMonitor->updateScaling();
+        switch (KdenliveSettings::previewScaling()) {
+            case 2:
+                m_scalingLabel->setText(i18n("720p"));
+                break;
+            case 4:
+                m_scalingLabel->setText(i18n("540p"));
+                break;
+            case 8:
+                m_scalingLabel->setText(i18n("360p"));
+                break;
+            case 16:
+                m_scalingLabel->setText(i18n("270p"));
+                break;
+            default:
+                m_scalingLabel->setText(QString());
+                break;
+        }
+        m_scalingLabel->setFixedWidth(m_scalingLabel->text().isEmpty() ? 0 : QWIDGETSIZE_MAX);
         refreshMonitorIfActive();
     });
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
@@ -207,6 +226,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     m_toolbar->setIconSize(iconSize);
+    m_scalingLabel = new QLabel(this);
+    m_scalingLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+    m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
+    m_toolbar->addWidget(m_scalingLabel);
     QWidget *sp1 = new QWidget(this);
     sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(sp1);
@@ -1734,6 +1759,9 @@ void Monitor::setPalette(const QPalette &p)
     if (root) {
         QMetaObject::invokeMethod(root, "updatePalette");
     }
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+    m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
     m_audioMeterWidget->refreshPixmap();
 }
 
@@ -1775,7 +1803,7 @@ void Monitor::slotSwitchCompare(bool enable)
                 // Split scene is already active
                 return;
             }
-            m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));
+            m_splitEffect.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad"));
             if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
                 m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
                 m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1827,7 +1855,7 @@ void Monitor::slotSwitchCompare(bool enable)
 
 void Monitor::buildSplitEffect(Mlt::Producer *original)
 {
-    m_splitEffect.reset(new Mlt::Filter(*pCore->getProjectProfile(), "frei0r.alphagrad"));
+    m_splitEffect.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "frei0r.alphagrad"));
     if ((m_splitEffect != nullptr) && m_splitEffect->is_valid()) {
         m_splitEffect->set("0", 0.5);    // 0 is the Clip left parameter
         m_splitEffect->set("1", 0);      // 1 is gradient width
@@ -1838,13 +1866,13 @@ void Monitor::buildSplitEffect(Mlt::Producer *original)
         return;
     }
     QString splitTransition = TransitionsRepository::get()->getCompositingTransition();
-    Mlt::Transition t(*pCore->getProjectProfile(), splitTransition.toUtf8().constData());
+    Mlt::Transition t(pCore->getCurrentProfile()->profile(), splitTransition.toUtf8().constData());
     if (!t.is_valid()) {
         m_splitEffect.reset();
         pCore->displayMessage(i18n("The cairoblend transition is required for that feature, please install frei0r and restart Kdenlive"), ErrorMessage);
         return;
     }
-    Mlt::Tractor trac(*pCore->getProjectProfile());
+    Mlt::Tractor trac(pCore->getCurrentProfile()->profile());
     std::shared_ptr<Mlt::Producer> clone = ProjectClip::cloneProducer(std::make_shared<Mlt::Producer>(original));
     // Delete all effects
     int ct = 0;

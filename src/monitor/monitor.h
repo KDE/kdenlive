@@ -43,6 +43,7 @@ class KMessageWidget;
 class QScrollBar;
 class RecManager;
 class QmlManager;
+class QLabel;
 class GLWidget;
 class MonitorAudioLevel;
 class MonitorProxy;
@@ -222,6 +223,7 @@ private:
     MonitorAudioLevel *m_audioMeterWidget;
     QElapsedTimer m_droppedTimer;
     double m_displayedFps;
+    QLabel *m_scalingLabel;
 
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);

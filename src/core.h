@@ -203,9 +203,9 @@ public:
     void processInvalidFilter(const QString service, const QString id, const QString message);
     /** @brief Update current project's tags */
     void updateProjectTags(QMap <QString, QString> tags);
+    /** @brief Returns the consumer profile, that will be scaled 
+     *  according to preview settings. Should only be used on the consumer */
     Mlt::Profile *getProjectProfile();
-    /** @brief Update MLT's preview profile */
-    void updatePreviewProfile();
 
 private:
     explicit Core();
@@ -227,8 +227,8 @@ private:
 
     QString m_profile;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
-    /** @brief Mlt profile used in project / monitors */
-    std::unique_ptr<Mlt::Profile> m_previewProfile;
+    /** @brief Mlt profile used in the consumer 's monitors */
+    std::unique_ptr<Mlt::Profile> m_projectProfile;
     bool m_guiConstructed = false;
     /** @brief Check that the profile is valid (width is a multiple of 8 and height a multiple of 2 */
     void checkProfileValidity();

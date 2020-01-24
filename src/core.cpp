@@ -133,7 +133,6 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
         profileChanged();
         KdenliveSettings::setDefault_profile(m_profile);
     }
-    updatePreviewProfile();
 
     if (!ProfileRepository::get()->profileExists(m_profile)) {
         KMessageBox::sorry(m_mainWindow, i18n("The default profile of Kdenlive is not set or invalid, press OK to set it to a correct value."));
@@ -313,11 +312,11 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
 
 Mlt::Profile *Core::getProjectProfile()
 {
-    if (!m_previewProfile) {
-        m_previewProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
-        updatePreviewProfile();
+    if (!m_projectProfile) {
+        m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
+        m_projectProfile->set_explicit(1);
     }
-    return m_previewProfile.get();
+    return m_projectProfile.get();
 }
 
 const QString &Core::getCurrentProfilePath() const
@@ -333,8 +332,8 @@ bool Core::setCurrentProfile(const QString &profilePath)
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
         m_currentProfile = profilePath;
-        updatePreviewProfile();
         m_thumbProfile.reset();
+        m_projectProfile.reset();
         // inform render widget
         profileChanged();
         m_mainWindow->updateRenderWidgetProfile();
@@ -345,24 +344,6 @@ bool Core::setCurrentProfile(const QString &profilePath)
         return true;
     }
     return false;
-}
-
-void Core::updatePreviewProfile()
-{
-    int newWidth = getCurrentProfile()->width() / KdenliveSettings::previewScaling();
-    int newHeight = getCurrentProfile()->height() / KdenliveSettings::previewScaling();
-    if (newWidth % 8 > 0) {
-        newWidth += 8 - newWidth % 8;
-    }
-    newHeight += newHeight % 2;
-    m_previewProfile->set_colorspace(getCurrentProfile()->colorspace());
-    m_previewProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
-    m_previewProfile->set_width(newWidth);
-    m_previewProfile->set_height(newHeight);
-    m_previewProfile->set_progressive(getCurrentProfile()->progressive());
-    m_previewProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
-    m_previewProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
-    m_previewProfile->set_explicit(true);
 }
 
 void Core::checkProfileValidity()
