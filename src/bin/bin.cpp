@@ -1767,17 +1767,20 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_proxyAction->setText(i18n("Proxy Clip"));
             }
             m_deleteAction->setEnabled(true);
+            m_renameAction->setEnabled(true);
         } else {
             m_reloadAction->setEnabled(false);
             m_locateAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
             m_openAction->setEnabled(false);
             m_deleteAction->setEnabled(false);
+            m_renameAction->setEnabled(false);
         }
     } else {
         // No item selected in bin
         m_openAction->setEnabled(false);
         m_deleteAction->setEnabled(false);
+        m_renameAction->setEnabled(false);
         showClipProperties(nullptr);
         emit requestClipShow(nullptr);
         // clear effect stack
@@ -2058,7 +2061,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
-    m_renameAction->setEnabled(true);
 
     m_editAction->setVisible(!isFolder);
     m_clipsActionsMenu->setEnabled(enableClipActions);
@@ -2067,7 +2069,6 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_inTimelineAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-    m_renameAction->setVisible(true);
 
     if (m_transcodeAction) {
         m_transcodeAction->setEnabled(enableClipActions);
@@ -2494,11 +2495,8 @@ void Bin::setupMenu()
     m_openAction->setEnabled(false);
     connect(m_openAction, &QAction::triggered, this, &Bin::slotOpenClip);
 
-    m_renameAction =
-        addAction(QStringLiteral("rename_clip"), i18n("Rename Clip"), QIcon::fromTheme(QStringLiteral("document-edit")));
-    m_renameAction->setData("rename_clip");
+    m_renameAction = KStandardAction::renameFile(this, SLOT(slotRenameItem()), pCore->window()->actionCollection());
     m_renameAction->setEnabled(false);
-    connect(m_renameAction, &QAction::triggered, this, &Bin::slotRenameItem);
 
     m_deleteAction =
         addAction(QStringLiteral("delete_clip"), i18n("Delete Clip"), QIcon::fromTheme(QStringLiteral("edit-delete")));
@@ -3548,6 +3546,9 @@ void Bin::setBinEffectsEnabled(bool enabled)
 
 void Bin::slotRenameItem()
 {
+    if (!hasFocus() && !m_itemView->hasFocus()) {
+        return;
+    }
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid()) {

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="169" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="170" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -70,7 +70,7 @@
       </Menu>
       <Action name="clip_properties" />
       <Action name="edit_clip" />
-      <Action name="rename_clip" />
+      <Action name="renamefile" />
       <Action name="delete_clip" />
     </Menu>
 
