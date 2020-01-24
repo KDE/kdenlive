@@ -497,6 +497,13 @@ void CollapsibleEffectView::updateHeight()
     emit switchHeight(m_model, height());
 }
 
+void CollapsibleEffectView::switchCollapsed(int row)
+{
+    if (row == m_model->row()) {
+        slotSwitch(!m_model->isCollapsed());
+    }
+}
+
 void CollapsibleEffectView::slotSwitch(bool collapse)
 {
     widgetFrame->setFixedHeight(collapse ? 0 : m_view->height());

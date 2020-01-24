@@ -92,6 +92,8 @@ public slots:
     void updateHeight();
     /** @brief Should we block wheel event (if parent is a view with scrollbar) */
     void blockWheenEvent(bool block);
+    /** @brief Switch between collapsed/expanded state */
+    void switchCollapsed(int row);
 
 private slots:
     void setWidgetHeight(qreal value);

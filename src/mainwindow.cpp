@@ -1026,6 +1026,11 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
     toolGroup->setExclusive(true);
+    
+    QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
+    addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
+    connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
+    
     // toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     /*QWidget * actionWidget;
@@ -3853,6 +3858,27 @@ void MainWindow::slotSwitchTimelineZone(bool active)
 void MainWindow::slotGrabItem()
 {
     getCurrentTimeline()->controller()->grabCurrent();
+}
+
+void MainWindow::slotCollapse()
+{
+    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
+        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+        // Bin expand/collapse?
+
+    } else {
+        QWidget *widget = QApplication::focusWidget();
+        while ((widget != nullptr) && widget != this) {
+            if (widget == m_effectStackDock) {
+                m_assetPanel->collapseCurrentEffect();
+                return;
+            }
+            widget = widget->parentWidget();
+        }
+
+        // Collapse / expand track
+        getMainTimeline()->controller()->collapseActiveTrack();
+    }    
 }
 
 #ifdef DEBUG_MAINW

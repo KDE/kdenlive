@@ -73,6 +73,9 @@ public:
      */
     void enableStack(bool enable);
     bool isStackEnabled() const;
+    /** @brief Collaps / expand current effect
+     */
+    void switchCollapsed();
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -106,6 +109,7 @@ private slots:
 
 signals:
     void doActivateEffect(QModelIndex);
+    void switchCollapsedView(int row);
     void seekToPos(int);
     void reloadEffect(const QString &path);
     void updateEnabledState();

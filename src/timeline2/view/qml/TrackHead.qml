@@ -40,7 +40,7 @@ Rectangle {
     property int iconSize: root.baseUnit * 2
     property string trackTag
     property int thumbsFormat: 0
-    property int collapsedHeight: expandButton.height
+    property int collapsedHeight: iconSize
     border.width: 1
     border.color: root.frameColor
     signal clicked()

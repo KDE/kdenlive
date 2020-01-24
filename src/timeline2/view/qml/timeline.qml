@@ -810,7 +810,7 @@ Rectangle {
                             width: headerWidth
                             current: item === timeline.activeTrack
                             trackId: item
-                            height: model.trackHeight
+                            height: Math.max(collapsedHeight, model.trackHeight)
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             collapsed: height <= collapsedHeight
                             onMyTrackHeightChanged: {
@@ -1309,7 +1309,7 @@ Rectangle {
                                     width: tracksContainerArea.width
                                     border.width: 1
                                     border.color: root.frameColor
-                                    height: model.trackHeight
+                                    height: Math.max(root.baseUnit * 2, model.trackHeight)
                                     color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
                             }

@@ -74,6 +74,8 @@ public slots:
     void clearAssetPanel(int itemId);
     void assetPanelWarning(const QString service, const QString id, const QString message);
     void deleteCurrentEffect();
+    /** @brief Collapse/expand current effect */
+    void collapseCurrentEffect();
     void slotCheckWheelEventFilter();
 
 protected:

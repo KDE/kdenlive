@@ -398,6 +398,13 @@ void AssetPanel::deleteCurrentEffect()
     }
 }
 
+void AssetPanel::collapseCurrentEffect()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->switchCollapsed();
+    }
+}
+
 void AssetPanel::slotCheckWheelEventFilter()
 {
     // If the effect stack widget has no scrollbar, we will not filter the

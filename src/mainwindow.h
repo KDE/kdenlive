@@ -473,6 +473,8 @@ private slots:
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */
     void slotGrabItem();
+    /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
+    void slotCollapse();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

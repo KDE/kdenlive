@@ -2736,3 +2736,12 @@ bool TimelineController::refreshIfVisible(int cid)
     }
     return false;
 }
+
+void TimelineController::collapseActiveTrack()
+{
+    if (m_activeTrack == -1) {
+        return;
+    }
+    int collapsed = m_model->getTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed")).toInt();
+    m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QStringLiteral("5"));
+}
