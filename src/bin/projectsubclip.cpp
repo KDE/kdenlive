@@ -47,6 +47,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_duration = timecode;
     m_parentDuration = (int)m_masterClip->frameDuration();
     m_parentClipId = m_masterClip->clipId();
+    m_date = parent->date.addSecs(in);
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
