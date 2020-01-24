@@ -252,19 +252,19 @@ public:
     Q_INVOKABLE void unGroupSelection(int cid = -1);
     /* @brief Ask for edit marker dialog
      */
-    Q_INVOKABLE void editMarker(int cid, int position = -1);
+    Q_INVOKABLE void editMarker(int cid = -1, int position = -1);
     /* @brief Ask for marker add dialog
      */
-    Q_INVOKABLE void addMarker(int cid, int position = -1);
+    Q_INVOKABLE void addMarker(int cid = -1, int position = -1);
     /* @brief Ask for quick marker add (without dialog)
      */
-    Q_INVOKABLE void addQuickMarker(int cid, int position = -1);
+    Q_INVOKABLE void addQuickMarker(int cid = -1, int position = -1);
     /* @brief Ask for marker delete
      */
-    Q_INVOKABLE void deleteMarker(int cid, int position = -1);
+    Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
     /* @brief Ask for all markers delete
      */
-    Q_INVOKABLE void deleteAllMarkers(int cid);
+    Q_INVOKABLE void deleteAllMarkers(int cid = -1);
     /* @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);
@@ -335,8 +335,8 @@ public:
     /* @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
-    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId, int offset);
-    Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId);
+    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
+    Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId = -1);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 
@@ -344,8 +344,8 @@ public:
 
     Q_INVOKABLE void splitAudio(int clipId);
     Q_INVOKABLE void splitVideo(int clipId);
-    Q_INVOKABLE void setAudioRef(int clipId);
-    Q_INVOKABLE void alignAudio(int clipId);
+    Q_INVOKABLE void setAudioRef(int clipId = -1);
+    Q_INVOKABLE void alignAudio(int clipId = -1);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     Q_INVOKABLE int getItemMovingTrack(int itemId) const;

@@ -248,14 +248,9 @@ Rectangle {
                 if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                clipMenu.clipId = clipRoot.clipId
-                clipMenu.clipStatus = clipRoot.clipStatus
-                clipMenu.clipFrame = Math.round(mouse.x / timeline.scaleFactor)
-                clipMenu.grouped = clipRoot.grouped
-                clipMenu.trackId = clipRoot.trackId
-                clipMenu.canBeAudio = clipRoot.canBeAudio
-                clipMenu.canBeVideo = clipRoot.canBeVideo
-                clipMenu.popup()
+                root.mainItemId = clipRoot.clipId
+                root.clipFrame = Math.round(mouse.x / timeline.scaleFactor)
+                root.showClipMenu()
             }
         }
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)

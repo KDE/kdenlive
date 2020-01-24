@@ -763,6 +763,9 @@ void TimelineController::setOutPoint()
 
 void TimelineController::editMarker(int cid, int position)
 {
+    if (cid == -1) {
+        cid = m_root->property("mainItemId").toInt();
+    }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
@@ -785,6 +788,9 @@ void TimelineController::editMarker(int cid, int position)
 
 void TimelineController::addMarker(int cid, int position)
 {
+    if (cid == -1) {
+        cid = m_root->property("mainItemId").toInt();
+    }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
@@ -803,14 +809,17 @@ void TimelineController::addMarker(int cid, int position)
 
 void TimelineController::addQuickMarker(int cid, int position)
 {
+    if (cid == -1) {
+        cid = m_root->property("mainItemId").toInt();
+    }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
         // Calculate marker position relative to timeline cursor
-        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid) + m_model->getClipIn(cid);
+        position = pCore->getTimelinePosition() - m_model->getClipPosition(cid);
         position = position * speed;
     }
-    if (position < (m_model->getClipIn(cid) * speed) || position > (m_model->getClipIn(cid) * speed + m_model->getClipPlaytime(cid))) {
+    if (position < (m_model->getClipIn(cid) * speed) || position > ((m_model->getClipIn(cid) + m_model->getClipPlaytime(cid) * speed))) {
         pCore->displayMessage(i18n("Cannot find clip to edit marker"), InformationMessage, 500);
         return;
     }
@@ -822,6 +831,9 @@ void TimelineController::addQuickMarker(int cid, int position)
 
 void TimelineController::deleteMarker(int cid, int position)
 {
+    if (cid == -1) {
+        cid = m_root->property("mainItemId").toInt();
+    }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
     if (position == -1) {
@@ -840,6 +852,9 @@ void TimelineController::deleteMarker(int cid, int position)
 
 void TimelineController::deleteAllMarkers(int cid)
 {
+    if (cid == -1) {
+        cid = m_root->property("mainItemId").toInt();
+    }
     Q_ASSERT(m_model->isClip(cid));
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
     clip->getMarkerModel()->removeAllMarkers();
@@ -1583,8 +1598,11 @@ void TimelineController::invalidateZone(int in, int out)
 
 void TimelineController::changeItemSpeed(int clipId, double speed)
 {
-    if (clipId == -1) {
+    /*if (clipId == -1) {
         clipId = getMainSelectedItem(false, true);
+    }*/
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
     }
     if (clipId == -1) {
         pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
@@ -1817,11 +1835,20 @@ void TimelineController::switchEnableState(std::unordered_set<int> selection)
         selection = m_model->getCurrentSelection();
         //clipId = getMainSelectedItem(false, false);
     }
+    if (selection.empty()) {
+        return;
+    }
     TimelineFunctions::switchEnableState(m_model, selection);
 }
 
 void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
+    }
+    if (offset == -1) {
+        offset = m_root->property("clipFrame").toInt();
+    }
     int track = m_model->getClipTrackId(clipId);
     int compoId = -1;
     if (assetId.isEmpty()) {
@@ -1841,6 +1868,9 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
 
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
 {
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
+    }
     qDebug() << "/// ADDING ASSET: " << assetId;
     m_model->addClipEffect(clipId, assetId);
 }
@@ -1872,6 +1902,9 @@ void TimelineController::splitVideo(int clipId)
 
 void TimelineController::setAudioRef(int clipId)
 {
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
+    }
     m_audioRef = clipId;
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
@@ -1888,6 +1921,9 @@ void TimelineController::setAudioRef(int clipId)
 void TimelineController::alignAudio(int clipId)
 {
     // find other clip
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
+    }
     if (m_audioRef == -1 || m_audioRef == clipId) {
         pCore->displayMessage(i18n("Set audio reference before attempting to align"), InformationMessage, 500);
         return;
@@ -2113,9 +2149,9 @@ double TimelineController::fps() const
 void TimelineController::editItemDuration(int id)
 {
     if (id == -1) {
-        id = getMainSelectedItem(false, true);
+        id = m_root->property("mainItemId").toInt(); //getMainSelectedItem(false, true);
     }
-    if (id == -1) {
+    if (id == -1 || !m_model->isItem(id)) {
         pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
         return;
     }
@@ -2231,9 +2267,9 @@ void TimelineController::updateClipActions()
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {
-            enableAction = isInSelection(item);
+            enableAction = isInSelection(item) && m_model->getCurrentSelection().size() > 1;
         } else if (actionData == QLatin1Char('U')) {
-            enableAction = isInSelection(item) || (m_model->m_groups->isInGroup(item) && !isInSelection(item));
+            enableAction = m_model->m_groups->isInGroup(item);
         } else if (actionData == QLatin1Char('A')) {
             enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
         } else if (actionData == QLatin1Char('V')) {

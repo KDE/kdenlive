@@ -19,6 +19,7 @@ Rectangle {
 
     signal clipClicked()
     signal mousePosChanged(int position)
+    signal showClipMenu()
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
@@ -27,9 +28,7 @@ Rectangle {
         id: fontMetrics
         font: smallFont
     }
-    ClipMenu {
-        id: clipMenu
-    }
+
     CompositionMenu {
         id: compositionMenu
     }
@@ -236,6 +235,8 @@ Rectangle {
     property color lockedColor: timeline.lockedColor
     property color selectionColor: timeline.selectionColor
     property color groupColor: timeline.groupColor
+    property int mainItemId: -1
+    property int clipFrame: 0
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
     property int droppedPosition: -1
@@ -1205,9 +1206,12 @@ Rectangle {
                                         }
                                         if (clickAccepted && dragProxy.draggedItem != -1) {
                                             focus = true;
+                                            root.mainItemId = dragProxy.draggedItem
                                             dragProxy.masterObject.originalX = dragProxy.masterObject.x
                                             dragProxy.masterObject.originalTrackId = dragProxy.masterObject.trackId
                                             dragProxy.masterObject.forceActiveFocus();
+                                        } else {
+                                            root.mainItemId = -1
                                         }
                                     } else {
                                         mouse.accepted = false

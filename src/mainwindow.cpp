@@ -503,6 +503,26 @@ void MainWindow::init()
     loadGenerators();
     loadDockActions();
     loadClipActions();
+
+    QMenu *timelineMenu = new QMenu(this);
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_split")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_switch")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
+
+    QMenu *markerMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
+    timelineMenu->addMenu(markerMenu);
+
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("set_audio_align_ref")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("align_audio")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
+
     QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
 #if defined(Q_OS_WIN)
     connect(openGLMenu, &QMenu::triggered, [&](QAction *ac) {
@@ -640,6 +660,7 @@ void MainWindow::init()
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
+    getMainTimeline()->setTimelineMenu(timelineMenu);
     scmanager->slotCheckActiveScopes();
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
@@ -1401,7 +1422,7 @@ void MainWindow::setupActions()
 
     QAction *switchEnable = addAction(QStringLiteral("clip_switch"), i18n("Disable Clip"), this, SLOT(slotSwitchClip()),
                                     QIcon(), QKeySequence(), clipActionCategory);
-    // "S" will be handled specifically to change the action name depending on current selection
+    // "W" will be handled specifically to change the action name depending on current selection
     switchEnable->setData('W');
     switchEnable->setEnabled(false);
 
@@ -1458,7 +1479,7 @@ void MainWindow::setupActions()
     groupClip->setEnabled(false);
 
     QAction *ungroupClip = addAction(QStringLiteral("ungroup_clip"), i18n("Ungroup Clips"), this, SLOT(slotUnGroupClips()),
-                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), Qt::CTRL + Qt::SHIFT + Qt::Key_G, clipActionCategory);
+                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G), clipActionCategory);
     // "U" as data means this action should only be available if selection is a group
     ungroupClip->setData('U');
     ungroupClip->setEnabled(false);
@@ -2308,11 +2329,8 @@ void MainWindow::slotAddClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->addMarker(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->addMarker();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2330,11 +2348,8 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->deleteMarker(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->deleteMarker();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2362,11 +2377,8 @@ void MainWindow::slotDeleteAllClipMarkers()
 {
     std::shared_ptr<ProjectClip> clip(nullptr);
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->deleteAllMarkers(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->deleteAllMarkers();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
     }
@@ -2386,11 +2398,8 @@ void MainWindow::slotEditClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->editMarker(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->editMarker();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2434,7 +2443,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
             getMainTimeline()->controller()->switchGuide();
         } else {
             // Add marker to main clip
-            getMainTimeline()->controller()->addQuickMarker(selectedClip);
+            getMainTimeline()->controller()->addQuickMarker();
         }
     }
 }
@@ -3047,22 +3056,12 @@ void MainWindow::slotSwitchClip()
 
 void MainWindow::slotSetAudioAlignReference()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->setAudioAlignReference();
-    }
-    */
+    getMainTimeline()->controller()->setAudioRef();
 }
 
 void MainWindow::slotAlignAudio()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->alignAudio();
-    }
-    */
+    getMainTimeline()->controller()->alignAudio();
 }
 
 void MainWindow::slotUpdateClipType(QAction *action)

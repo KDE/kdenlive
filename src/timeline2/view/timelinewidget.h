@@ -53,6 +53,8 @@ public:
     int zoomForScale(double value) const;
     /* @brief Give keyboard focus to timeline qml */
     void focusTimeline();
+    /** @brief Initiate timeline clip context menu */
+    void setTimelineMenu(QMenu *menu);
     bool loading;
 
 protected:
@@ -69,9 +71,13 @@ public slots:
 
 private slots:
     void slotUngrabHack();
+    void showClipMenu();
 
 private:
     TimelineController *m_proxy;
+    QMenu *m_timelineClipMenu;
+    QMenu *m_favEffects;
+    QMenu *m_favCompositions;
     static const int comboScale[];
     std::shared_ptr<AssetTreeModel> m_transitionModel;
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
@@ -83,7 +89,8 @@ private:
     /* @brief Keep last scroll position before fit to restore it on second click */
     int m_scrollPos;
     /* @brief Returns an alphabetically sorted list of favorite effects or transitions */
-    const QStringList sortedItems(const QStringList &items, bool isTransition);
+    const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
+    QPoint m_clickPos;
 
 signals:
     void focusProjectMonitor();
