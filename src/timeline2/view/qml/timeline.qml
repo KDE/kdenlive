@@ -508,6 +508,77 @@ Rectangle {
             clearDropData()
         }
     }
+    DropArea { //Drop area for urls (direct drop from file manager)
+        /** @brief local helper function to handle the insertion of multiple dragged items */
+        property int fakeFrame: -1
+        property int fakeTrack: -1
+        property var droppedUrls: []
+        width: root.width - headerWidth
+        height: root.height - ruler.height
+        y: ruler.height
+        x: headerWidth
+        keys: 'text/uri-list'
+        onEntered: {
+            drag.accepted = true
+            droppedUrls.length = 0
+            for(var i in drag.urls){
+                var url = drag.urls[i]
+                droppedUrls.push(Qt.resolvedUrl(url))
+            }
+        }
+        onExited:{
+            if (clipBeingDroppedId != -1) {
+                controller.requestItemDeletion(clipBeingDroppedId, false)
+            }
+            clearDropData()
+        }
+        onPositionChanged: {
+            if (clipBeingMovedId == -1) {
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.flickableItem.contentY)
+                if (track >= 0  && track < tracksRepeater.count) {
+                    timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
+                    var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                    if (clipBeingDroppedId >= 0) {
+                        //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
+                        fakeTrack = timeline.activeTrack
+                        //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
+                        continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    } else {
+                        frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
+                        if (controller.normalEdit()) {
+                            //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                        } else {
+                            // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
+                            //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
+                            //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
+                            fakeTrack = timeline.activeTrack
+                        }
+                        continuousScrolling(drag.x + scrollView.flickableItem.contentX)
+                    }
+                }
+            }
+        }
+        onDropped: {
+            var frame = Math.round((drag.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+            var track = timeline.activeTrack
+            //var binIds = clipBeingDroppedData.split(";")
+            //if (binIds.length == 1) {
+                if (controller.normalEdit()) {
+                    timeline.urlDropped(droppedUrls, frame, track)
+                } else {
+                    //timeline.insertClipZone(clipBeingDroppedData, track, frame)
+                }
+            /*} else {
+                if (controller.normalEdit()) {
+                    timeline.insertClips(track, frame, binIds, true, true)
+                } else {
+                    // TODO
+                    console.log('multiple clips insert/overwrite not supported yet')
+                }
+            }*/
+            clearDropData()
+        }
+    }
     OLD.Menu {
         id: menu
         property int clickedX

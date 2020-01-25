@@ -2678,6 +2678,14 @@ void TimelineController::switchRecording(int trackId)
     }
 }
 
+void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
+{
+    m_recordTrack = tid;
+    m_recordStart = {frame, -1};
+    qDebug()<<"=== GOT DROPPED FILED: "<<droppedFile<<"\n======";
+    finishRecording(QUrl(droppedFile.first()).toLocalFile());
+}
+
 void TimelineController::finishRecording(const QString &recordedFile)
 {
     if (recordedFile.isEmpty()) {

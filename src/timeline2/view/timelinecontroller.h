@@ -346,6 +346,7 @@ public:
     Q_INVOKABLE void splitVideo(int clipId);
     Q_INVOKABLE void setAudioRef(int clipId = -1);
     Q_INVOKABLE void alignAudio(int clipId = -1);
+    Q_INVOKABLE void urlDropped(QStringList droppedFile, int frame, int tid);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     Q_INVOKABLE int getItemMovingTrack(int itemId) const;
