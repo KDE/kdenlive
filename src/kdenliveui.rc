@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="170" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="171" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -200,6 +200,7 @@
           <Action name="scale_2_preview" />
           <Action name="scale_4_preview" />
           <Action name="scale_8_preview" />
+          <Action name="scale_16_preview" />
       </Menu>
       <Menu name="monitor_config" ><text>Monitor config</text>
           <Action name="mlt_interlace" />
