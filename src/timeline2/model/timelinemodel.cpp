@@ -1976,7 +1976,7 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
     }
     int in = getItemPosition(itemId);
     int out = in + getItemPlaytime(itemId);
-    
+
     if (right && size > out - in) {
         int targetPos = in + size - 1;
         int trackId = getItemTrackId(itemId);

@@ -1041,6 +1041,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !shiftPress))) {
+                    // Pan view
                     var newScroll = Math.min(scrollView.flickableItem.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.__verticalScrollBar.width))
                     var vertScroll = Math.min(scrollView.flickableItem.contentY - (mouseY - clickY), trackHeaders.height - scrollView.height + scrollView.__horizontalScrollBar.height)
                     scrollView.flickableItem.contentX = Math.max(newScroll, 0)
@@ -1052,6 +1053,7 @@ Rectangle {
                 if (!pressed && !rubberSelect.visible && root.activeTool === 1) {
                     cutLine.x = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.flickableItem.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
+                        // Seek
                         proxy.position = Math.floor((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor)
                     }
                 }

@@ -398,7 +398,7 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         var delta = Math.round(x / timeScale)
                         if (delta !== 0) {
-                            if (maxDuration > 0 && delta < -inPoint) {
+                            if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
                                 delta = -inPoint
                             }
                             var newDuration =  clipDuration - delta
@@ -483,7 +483,7 @@ Rectangle {
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         var newDuration = Math.round((x + width) / timeScale)
-                        if (maxDuration > 0 && newDuration > maxDuration - inPoint) {
+                        if (maxDuration > 0 && (newDuration > maxDuration - inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
                             newDuration = maxDuration - inPoint
                         }
                         if (newDuration != clipDuration) {
