@@ -1904,7 +1904,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
             pos += getItemPlaytime(id) - size;
         }
         result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, true);
-        result = result && requestClipTimeWarp(id, speed, false, undo, redo);
+        result = result && requestClipTimeWarp(id, speed, true, undo, redo);
         result = result && requestItemResize(id, size, true, true, undo, redo);
         result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo);
         if (!result) {
