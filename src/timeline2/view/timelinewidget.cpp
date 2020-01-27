@@ -133,9 +133,10 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
     return sortedItems;
 }
 
-void TimelineWidget::setTimelineMenu(QMenu *menu)
+void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu)
 {
-    m_timelineClipMenu = menu;
+    m_timelineClipMenu = clipMenu;
+    m_timelineCompositionMenu = compositionMenu;
     updateEffectFavorites();
     updateTransitionFavorites();
     connect(m_favEffects, &QMenu::triggered, [&] (QAction *ac) {
@@ -179,6 +180,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
     rootObject()->setProperty("dar", pCore->getCurrentDar());
     connect(rootObject(), SIGNAL(showClipMenu()), this, SLOT(showClipMenu()));
+    connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -196,6 +198,14 @@ void TimelineWidget::showClipMenu()
 {
     m_timelineClipMenu->popup(m_clickPos);
     connect(m_timelineClipMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
+void TimelineWidget::showCompositionMenu()
+{
+    m_timelineCompositionMenu->popup(m_clickPos);
+    connect(m_timelineCompositionMenu, &QMenu::aboutToHide, [this]() {
         slotUngrabHack();
     });
 }

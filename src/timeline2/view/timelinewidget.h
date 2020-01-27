@@ -54,7 +54,7 @@ public:
     /* @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *menu);
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu);
     bool loading;
 
 protected:
@@ -72,10 +72,12 @@ public slots:
 private slots:
     void slotUngrabHack();
     void showClipMenu();
+    void showCompositionMenu();
 
 private:
     TimelineController *m_proxy;
     QMenu *m_timelineClipMenu;
+    QMenu *m_timelineCompositionMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;
     static const int comboScale[];

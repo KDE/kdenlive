@@ -154,14 +154,12 @@ Item {
         onPressed: {
                 root.autoScrolling = false
                 compositionRoot.forceActiveFocus();
+                root.mainItemId = compositionRoot.clipId
                 if (mouse.button == Qt.RightButton) {
                     if (timeline.selection.indexOf(compositionRoot.clipId) == -1) {
-                        timeline.addSelection(compositionRoot.clipId, true)
+                        controller.requestAddToSelection(compositionRoot.clipId, true)
                     }
-                    compositionMenu.clipId = compositionRoot.clipId
-                    compositionMenu.grouped = compositionRoot.grouped
-                    compositionMenu.trackId = compositionRoot.trackId
-                    compositionMenu.popup()
+                    root.showCompositionMenu()
                 }
             }
         onReleased: {

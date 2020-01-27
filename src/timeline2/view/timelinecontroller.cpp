@@ -2230,7 +2230,7 @@ void TimelineController::editItemDuration(int id)
                     result = m_model->requestClipMove(partner, m_model->getItemTrackId(partner), newPos, true, true, true, true, undo, redo);
                 }
             } else {
-                result = m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, true, undo, redo);
+                result = m_model->requestCompositionMove(id, trackId, m_model->m_allCompositions[id]->getForcedTrack(), newPos, true, true, undo, redo);
             }
             if (result && newIn != in) {
                 m_model->requestItemResize(id, duration + (in - newIn), false, true, undo, redo);
@@ -2266,7 +2266,7 @@ void TimelineController::editItemDuration(int id)
                     }
                 } else {
                     result = result &&
-                             m_model->requestCompositionMove(id, trackId, newPos, m_model->m_allCompositions[id]->getForcedTrack(), true, true, undo, redo);
+                             m_model->requestCompositionMove(id, trackId, m_model->m_allCompositions[id]->getForcedTrack(), newPos, true, true, undo, redo);
                 }
             }
         }

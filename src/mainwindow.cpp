@@ -504,6 +504,7 @@ void MainWindow::init()
     loadDockActions();
     loadClipActions();
 
+    // Timeline clip menu
     QMenu *timelineMenu = new QMenu(this);
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
@@ -524,6 +525,12 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
+
+    // Timeline composition menu
+    QMenu *compositionMenu = new QMenu(this);
+    compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
+    compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
+    compositionMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
 
     QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
 #if defined(Q_OS_WIN)
@@ -662,7 +669,7 @@ void MainWindow::init()
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    getMainTimeline()->setTimelineMenu(timelineMenu);
+    getMainTimeline()->setTimelineMenu(timelineMenu, compositionMenu);
     scmanager->slotCheckActiveScopes();
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }

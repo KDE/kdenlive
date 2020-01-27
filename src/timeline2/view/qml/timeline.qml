@@ -20,6 +20,7 @@ Rectangle {
     signal clipClicked()
     signal mousePosChanged(int position)
     signal showClipMenu()
+    signal showCompositionMenu()
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
@@ -27,10 +28,6 @@ Rectangle {
     FontMetrics {
         id: fontMetrics
         font: smallFont
-    }
-
-    CompositionMenu {
-        id: compositionMenu
     }
 
     onDragInProgressChanged: {
