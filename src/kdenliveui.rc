@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="171" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="173" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -109,6 +109,8 @@
             <Action name="clip_switch" />
             <Action name="clip_disable" />
             <Action name="clip_in_project_tree" />
+            <Action name="extract_clip" />
+            <Action name="save_to_bin" />
             <Action name="expand_timeline_clip" />
       </Menu>
       <Action name="grab_item" />

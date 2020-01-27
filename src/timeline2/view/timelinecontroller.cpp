@@ -1707,11 +1707,45 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
 
 void TimelineController::extract(int clipId)
 {
-    // TODO: grouped clips?
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
+    }
     int in = m_model->getClipPosition(clipId);
-    QPoint zone(in, in + m_model->getClipPlaytime(clipId));
-    int track = m_model->getClipTrackId(clipId);
-    TimelineFunctions::extractZone(m_model, {track}, zone, false);
+    int out = in + m_model->getClipPlaytime(clipId);
+    QVector <int> tracks;
+    tracks << m_model->getClipTrackId(clipId);
+    if (m_model->m_groups->isInGroup(clipId)) {
+        int targetRoot = m_model->m_groups->getRootId(clipId);
+        if (m_model->isGroup(targetRoot)) {
+            std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
+            for (int current_id : sub) {
+                if (current_id == clipId) {
+                    continue;
+                }
+                if (m_model->isClip(current_id)) {
+                    int newIn = m_model->getClipPosition(current_id);
+                    int tk = m_model->getClipTrackId(current_id);
+                    in = qMin(in, newIn);
+                    out = qMax(out, newIn + m_model->getClipPlaytime(current_id));
+                    if (!tracks.contains(tk)) {
+                        tracks << tk;
+                    }
+                }
+            }
+        }
+    }
+    TimelineFunctions::extractZone(m_model, tracks, QPoint(in, out), false);
+}
+
+void TimelineController::saveZone(int clipId)
+{
+    if (clipId == -1) {
+        clipId = m_root->property("mainItemId").toInt();
+    }
+    int in = m_model->getClipIn(clipId);
+    int out = in + m_model->getClipPlaytime(clipId);
+    QString id;
+    pCore->projectItemModel()->requestAddBinSubClip(id, in, out, {}, m_model->m_allClips[clipId]->binId());
 }
 
 bool TimelineController::insertClipZone(const QString &binId, int tid, int position)

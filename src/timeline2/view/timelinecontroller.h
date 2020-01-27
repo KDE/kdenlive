@@ -340,7 +340,12 @@ public:
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 
-    Q_INVOKABLE void extract(int clipId);
+    /** @brief Extract (delete + remove space) current clip
+     */
+    void extract(int clipId = -1);
+    /** @brief Save current clip cut as bin subclip
+     */
+    void saveZone(int clipId = -1);
 
     Q_INVOKABLE void splitAudio(int clipId);
     Q_INVOKABLE void splitVideo(int clipId);

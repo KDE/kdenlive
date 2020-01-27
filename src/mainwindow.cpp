@@ -513,6 +513,8 @@ void MainWindow::init()
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_split")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_switch")));
     timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("extract_clip")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("save_to_bin")));
 
     QMenu *markerMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
     timelineMenu->addMenu(markerMenu);
@@ -1404,7 +1406,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-
     QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker"), this, SLOT(slotEditClipMarker()),
                                         QIcon::fromTheme(QStringLiteral("document-properties")));
     editClipMarker->setData(QStringLiteral("edit_marker"));
@@ -1419,6 +1420,14 @@ void MainWindow::setupActions()
     // "S" will be handled specifically to change the action name depending on current selection
     splitAudio->setData('S');
     splitAudio->setEnabled(false);
+
+    QAction *extractClip = addAction(QStringLiteral("extract_clip"), i18n("Extract Clip"), this, SLOT(slotExtractClip()), QIcon::fromTheme(QStringLiteral("timeline-extract")), QKeySequence(), clipActionCategory);
+    extractClip->setData('C');
+    extractClip->setEnabled(false);
+
+    QAction *extractToBin = addAction(QStringLiteral("save_to_bin"), i18n("Save Timeline Zone to Bin"), this, SLOT(slotSaveZoneToBin()), QIcon(), QKeySequence(), clipActionCategory);
+    extractToBin->setData('C');
+    extractToBin->setEnabled(false);
 
     QAction *switchEnable = addAction(QStringLiteral("clip_switch"), i18n("Disable Clip"), this, SLOT(slotSwitchClip()),
                                     QIcon(), QKeySequence(), clipActionCategory);
@@ -2558,6 +2567,16 @@ void MainWindow::slotInsertClipInsert()
 void MainWindow::slotExtractZone()
 {
     getMainTimeline()->controller()->extractZone(m_clipMonitor->getZoneInfo());
+}
+
+void MainWindow::slotExtractClip()
+{
+    getMainTimeline()->controller()->extract();
+}
+
+void MainWindow::slotSaveZoneToBin()
+{
+    getMainTimeline()->controller()->saveZone();
 }
 
 void MainWindow::slotLiftZone()

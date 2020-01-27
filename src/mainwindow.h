@@ -475,6 +475,10 @@ private slots:
     void slotGrabItem();
     /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
     void slotCollapse();
+    /** @brief Save currently selected timeline clip as bin subclip*/
+    void slotExtractClip();
+    /** @brief Save currently selected timeline clip as bin subclip*/
+    void slotSaveZoneToBin();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);
