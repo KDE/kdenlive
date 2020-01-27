@@ -861,6 +861,18 @@ std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
     return clone;
 }
 
+std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
+{
+    const char *list = ClipController::getPassPropertiesList();
+    QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
+    QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
+    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    Mlt::Properties original(m_masterProducer->get_properties());
+    Mlt::Properties cloneProps(clone->get_properties());
+    cloneProps.pass_list(original, list);
+    return clone;
+}
+
 bool ProjectClip::isReady() const
 {
     return m_clipStatus == StatusReady;

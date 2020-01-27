@@ -215,6 +215,9 @@ public:
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
+    /** @brief Returns a clone of the producer, useful for movit clip jobs
+     */
+    std::unique_ptr<Mlt::Producer> getClone();
     void updateTimelineClips(const QVector<int> &roles);
     /** @brief Saves the subclips data as json
      */

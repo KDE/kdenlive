@@ -63,7 +63,6 @@ void SceneSplitJob::configureConsumer()
 
 void SceneSplitJob::configureFilter()
 {
-
     m_filter = std::make_unique<Mlt::Filter>(*m_profile.get(), "motion_est");
     if ((m_filter == nullptr) || !m_filter->is_valid()) {
         m_errorMessage.append(i18n("Cannot create filter motion_est. Cannot split scenes"));
