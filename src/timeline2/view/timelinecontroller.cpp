@@ -2552,6 +2552,12 @@ QColor TimelineController::audioColor() const
     return scheme.foreground(KColorScheme::PositiveText).color();
 }
 
+QColor TimelineController::imageColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    return scheme.foreground(KColorScheme::NeutralText).color();
+}
+
 QColor TimelineController::lockedColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
