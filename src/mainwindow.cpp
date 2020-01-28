@@ -505,32 +505,44 @@ void MainWindow::init()
     loadClipActions();
 
     // Timeline clip menu
-    QMenu *timelineMenu = new QMenu(this);
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_split")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_switch")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("extract_clip")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("save_to_bin")));
+    QMenu *timelineClipMenu = new QMenu(this);
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_split")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_switch")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("extract_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("save_to_bin")));
 
     QMenu *markerMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
-    timelineMenu->addMenu(markerMenu);
+    timelineClipMenu->addMenu(markerMenu);
 
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("set_audio_align_ref")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("align_audio")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
-    timelineMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("set_audio_align_ref")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("align_audio")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
 
     // Timeline composition menu
     QMenu *compositionMenu = new QMenu(this);
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
     compositionMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
+
+    // Timeline main menu
+    QMenu *timelineMenu = new QMenu(this);
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    QMenu *guideMenu = new QMenu(i18n("Go to Guide..."), this);
+    timelineMenu->addMenu(guideMenu);
+
 
     QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
 #if defined(Q_OS_WIN)
@@ -669,7 +681,7 @@ void MainWindow::init()
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    getMainTimeline()->setTimelineMenu(timelineMenu, compositionMenu);
+    getMainTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, actionCollection()->action(QStringLiteral("edit_guide")));
     scmanager->slotCheckActiveScopes();
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
@@ -1522,7 +1534,7 @@ void MainWindow::setupActions()
     QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
-    
+
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
     connect(masterEffectStack, &QAction::triggered, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);

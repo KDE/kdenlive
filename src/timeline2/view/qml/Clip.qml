@@ -249,7 +249,7 @@ Rectangle {
                 if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                root.clipFrame = Math.round(mouse.x / timeline.scaleFactor)
+                root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
                 root.showClipMenu()
             }
         }

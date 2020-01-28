@@ -356,8 +356,8 @@ int TimelineController::insertNewComposition(int tid, int position, const QStrin
 int TimelineController::insertNewComposition(int tid, int clipId, int offset, const QString &transitionId, bool logUndo)
 {
     int id;
-    int minimumPos = m_model->getClipPosition(clipId);
-    int clip_duration = m_model->getClipPlaytime(clipId);
+    int minimumPos = clipId > -1 ? m_model->getClipPosition(clipId) : offset;
+    int clip_duration = clipId > -1 ? m_model->getClipPlaytime(clipId) : pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
     int endPos = minimumPos + clip_duration;
     int position = minimumPos;
     int duration = qMin(clip_duration, pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()));
@@ -1881,9 +1881,9 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
         clipId = m_root->property("mainItemId").toInt();
     }
     if (offset == -1) {
-        offset = m_root->property("clipFrame").toInt();
+        offset = m_root->property("mainFrame").toInt();
     }
-    int track = m_model->getClipTrackId(clipId);
+    int track = clipId > -1 ? m_model->getClipTrackId(clipId) : m_activeTrack;
     int compoId = -1;
     if (assetId.isEmpty()) {
         QStringList compositions = KdenliveSettings::favorite_transitions();

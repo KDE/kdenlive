@@ -21,6 +21,7 @@ Rectangle {
     signal mousePosChanged(int position)
     signal showClipMenu()
     signal showCompositionMenu()
+    signal showTimelineMenu()
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
@@ -236,7 +237,7 @@ Rectangle {
     property color selectionColor: timeline.selectionColor
     property color groupColor: timeline.groupColor
     property int mainItemId: -1
-    property int clipFrame: 0
+    property int mainFrame: 0
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
     property int droppedPosition: -1
@@ -577,95 +578,6 @@ Rectangle {
                 }
             }*/
             clearDropData()
-        }
-    }
-    OLD.Menu {
-        id: menu
-        property int clickedX
-        property int clickedY
-        onAboutToHide: {
-            timeline.ungrabHack()
-            editGuideMenu.visible = false
-        }
-        OLD.MenuItem {
-            text: i18n("Paste")
-            iconName: 'edit-paste'
-            visible: copiedClip != -1
-            onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
-                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.pasteItem(frame, track)
-            }
-        }
-        OLD.MenuItem {
-            text: i18n("Insert Space")
-            onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
-                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.insertSpace(track, frame);
-            }
-        }
-        OLD.MenuItem {
-            text: i18n("Remove Space On Active Track")
-            onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
-                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.removeSpace(track, frame);
-            }
-        }
-        OLD.MenuItem {
-            text: i18n("Remove Space")
-            onTriggered: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
-                var frame = Math.floor((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                timeline.removeSpace(track, frame, true);
-            }
-        }
-        OLD.MenuItem {
-            id: addGuideMenu
-            text: i18n("Add Guide")
-            onTriggered: {
-                timeline.switchGuide(root.consumerPosition);
-            }
-        }
-        GuidesMenu {
-            title: i18n("Go to guide...")
-            menuModel: guidesModel
-            enabled: guidesDelegateModel.count > 0
-            onGuideSelected: {
-                proxy.position = assetFrame
-            }
-        }
-        OLD.MenuItem {
-            id: editGuideMenu
-            text: i18n("Edit Guide")
-            visible: false
-            onTriggered: {
-                timeline.editGuide(root.consumerPosition);
-            }
-        }
-        AssetMenu {
-            title: i18n("Insert a composition...")
-            menuModel: transitionModel
-            isTransition: true
-            onAssetSelected: {
-                var track = Logic.getTrackIdFromPos(menu.clickedY - ruler.height + scrollView.flickableItem.contentY)
-                var frame = Math.round((menu.clickedX + scrollView.flickableItem.contentX) / timeline.scaleFactor)
-                var id = timeline.insertComposition(track, frame, assetId, true)
-                if (id == -1) {
-                    compositionFail.open()
-                }
-            }
-        }
-        onAboutToShow: {
-            if (guidesModel.hasMarker(root.consumerPosition)) {
-                // marker at timeline position
-                addGuideMenu.text = i18n("Remove Guide")
-                editGuideMenu.visible = true
-            } else {
-                addGuideMenu.text = i18n("Add Guide")
-            }
-            console.log("pop menu")
         }
     }
     OLD.Menu {
@@ -1024,11 +936,10 @@ Rectangle {
                         proxy.position = Math.min((scrollView.flickableItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                 } else if (mouse.button & Qt.RightButton) {
-                    menu.clickedX = mouse.x
-                    menu.clickedY = mouse.y
                     if (mouse.y > ruler.height) {
                         timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.flickableItem.contentY)).trackInternalId
-                        menu.popup()
+                        root.mainFrame = Math.floor((mouse.x + scrollView.flickableItem.contentX) / timeline.scaleFactor)
+                        root.showTimelineMenu()
                     } else {
                         // ruler menu
                         rulermenu.popup()
