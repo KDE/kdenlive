@@ -50,6 +50,9 @@ Rectangle {
         if (dragProxy.draggedItem == itemId) {
             endDrag()
         }
+        if (itemId == mainItemId) {
+            mainItemId = -1
+        }
     }
 
     function updatePalette() {

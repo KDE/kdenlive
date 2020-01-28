@@ -244,11 +244,11 @@ Rectangle {
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : dragProxyArea.cursorShape
         onPressed: {
             root.autoScrolling = false
+            root.mainItemId = clipRoot.clipId
             if (mouse.button == Qt.RightButton) {
                 if (timeline.selection.indexOf(clipRoot.clipId) == -1) {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
-                root.mainItemId = clipRoot.clipId
                 root.clipFrame = Math.round(mouse.x / timeline.scaleFactor)
                 root.showClipMenu()
             }
