@@ -52,6 +52,7 @@ Core::Core()
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
+    projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
 }
 
