@@ -361,8 +361,7 @@ Rectangle {
             MouseArea {
                 // Left resize handle
                 id: trimInMouseArea
-                anchors.left: container.left
-                anchors.leftMargin: -clipRoot.border.width
+                x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
                 enabled: !isLocked
@@ -378,7 +377,6 @@ Rectangle {
                     root.autoScrolling = false
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipDuration
-                    anchors.left = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier
                     if (!shiftTrim && clipRoot.grouped) {
@@ -388,7 +386,7 @@ Rectangle {
                 }
                 onReleased: {
                     root.autoScrolling = timeline.autoScroll
-                    anchors.left = parent.left
+                    x = -clipRoot.border.width
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
@@ -396,7 +394,9 @@ Rectangle {
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var delta = Math.round(x / timeScale)
+                        var currentFrame = Math.round((clipRoot.x + (x + clipRoot.border.width)) / timeScale)
+                        var currentClipPos = clipRoot.modelStart
+                        var delta = currentFrame - currentClipPos
                         if (delta !== 0) {
                             if (maxDuration > 0 && delta < -inPoint && !(mouse.modifiers & Qt.ControlModifier)) {
                                 delta = -inPoint
