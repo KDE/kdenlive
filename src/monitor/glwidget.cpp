@@ -701,7 +701,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
         return true;
     } else if (isPlaying) {
         maxPos -= offset;
-        if (pos >= (maxPos - 1) && speed > 0.) {
+        if (pos >= (maxPos - 1) && !(speed < 0.)) {
             // Playing past last clip, pause
             m_producer->set_speed(0);
             m_consumer->set("refresh", 0);
