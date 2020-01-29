@@ -52,6 +52,15 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QTimeZone>
 #include <audiomixer/mixermanager.hpp>
 
+static QString getProjectNameFilters(bool ark=true) {
+    auto filter = i18n("Kdenlive project (*.kdenlive)");
+    if (ark) {
+        filter.append(";;" + i18n("Archived project (*.tar.gz)"));
+    }
+    return filter;
+}
+
+
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_mainTimelineModel(nullptr)
@@ -342,13 +351,14 @@ bool ProjectManager::saveFileAs()
 {
     QFileDialog fd(pCore->window());
     fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
-    fd.setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlive"));
+    fd.setNameFilter(getProjectNameFilters(false));
     fd.setAcceptMode(QFileDialog::AcceptSave);
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
     if (fd.exec() != QDialog::Accepted || fd.selectedFiles().isEmpty()) {
         return false;
     }
+    
     QString outputFile = fd.selectedFiles().constFirst();
 
     bool ok = false;
@@ -384,7 +394,7 @@ void ProjectManager::openFile()
         return;
     }
     QUrl url = QFileDialog::getOpenFileUrl(pCore->window(), QString(), QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveProjectsFolder"))),
-                                           getMimeType());
+                                           getProjectNameFilters());
     if (!url.isValid()) {
         return;
     }
@@ -443,7 +453,6 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
-    
     return false;
 }
 
@@ -577,15 +586,6 @@ void ProjectManager::slotRevert()
     }
 }
 
-QString ProjectManager::getMimeType(bool open)
-{
-    QString mimetype = i18n("Kdenlive project (*.kdenlive)");
-    if (open) {
-        mimetype.append(QStringLiteral(";;") + i18n("Archived project (*.tar.gz)"));
-    }
-    return mimetype;
-}
-
 KdenliveDoc *ProjectManager::current()
 {
     return m_project;
@@ -692,6 +692,7 @@ QString ProjectManager::documentNotes() const
 
 void ProjectManager::slotAddProjectNote()
 {
+    m_notesPlugin->showDock();
     m_notesPlugin->widget()->raise();
     m_notesPlugin->widget()->setFocus();
     m_notesPlugin->widget()->addProjectNote();
@@ -857,7 +858,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         }
         return false;
     }
-    m_mainTimelineModel = TimelineItemModel::construct(&pCore->getCurrentProfile()->profile(), m_project->getGuideModel(), m_project->commandStack());
+    m_mainTimelineModel = TimelineItemModel::construct(pCore->getProjectProfile(), m_project->getGuideModel(), m_project->commandStack());
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
     if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
         //TODO: act on project load failure
@@ -874,6 +875,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         m_mainTimelineModel->loadGroups(groupsData);
     }
     connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
+    pCore->monitorManager()->updatePreviewScaling();
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());

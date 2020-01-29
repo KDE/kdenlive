@@ -50,6 +50,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     QChar separator, oldSeparator;
     // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
         if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
@@ -598,7 +599,6 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
 QJsonDocument AssetParameterModel::toJson(bool includeFixed) const
 {
     QJsonArray list;
-    QLocale locale;
     if (includeFixed) {
         for (const auto &fixed : m_fixedParams) {
             QJsonObject currentParam;
@@ -813,6 +813,7 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
 void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params)
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : params) {
         if (param.second.type() == QVariant::Double) {
             setParameter(param.first, locale.toString(param.second.toDouble()), false);

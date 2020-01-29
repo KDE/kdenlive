@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
 
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL,
-                         i18n("Copyright © 2007–2019 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
+                         i18n("Copyright © 2007–2020 Kdenlive authors"), i18n("Please report bugs to https://bugs.kde.org"),
                          QStringLiteral("https://kdenlive.org"));
     aboutData.addAuthor(i18n("Jean-Baptiste Mardelle"), i18n("MLT and KDE SC 4 / KF5 port, main developer and maintainer"), QStringLiteral("jb@kdenlive.org"));
     aboutData.addAuthor(i18n("Nicolas Carion"), i18n("Code re-architecture & timeline rewrite"), QStringLiteral("french.ebook.lover@gmail.com"));
@@ -189,8 +189,6 @@ int main(int argc, char *argv[])
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
     parser.setApplicationDescription(aboutData.shortDescription());
-    parser.addVersionOption();
-    parser.addHelpOption();
 
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("config"), i18n("Set a custom config file name"), QStringLiteral("config")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("mlt-path"), i18n("Set the path for MLT environment"), QStringLiteral("mlt-path")));
@@ -227,6 +225,7 @@ int main(int argc, char *argv[])
     } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {
         mlt_log_set_level(MLT_LOG_DEBUG);
     }
+    const QString clipsToLoad = parser.value(QStringLiteral("i"));
     QUrl url;
     if (parser.positionalArguments().count() != 0) {
         url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
@@ -236,7 +235,7 @@ int main(int argc, char *argv[])
         url = startup.resolved(url);
     }
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
-    pCore->initGUI(url);
+    pCore->initGUI(url, clipsToLoad);
     //delete splash;
     //splash->endSplash();
     //qApp->processEvents();

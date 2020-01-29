@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "timelineitemmodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
+#include "mainwindow.h"
 
 #include <QApplication>
 #include <QDebug>
@@ -600,8 +601,26 @@ bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemMode
             break;
         }
     }
+    // Update action name since clip will be switched
+    int id = *selection.begin();
+    Fun local_redo = []() { return true; };
+    Fun local_undo = []() { return true; };
+    if (timeline->isClip(id)) {
+        bool disabled = timeline->m_allClips[id]->clipState() == PlaylistState::Disabled;
+        QAction *action = pCore->window()->actionCollection()->action(QStringLiteral("clip_switch"));
+        local_redo = [disabled, action]() {
+            action->setText(disabled ? i18n("Enable clip") : i18n("Disable clip"));
+            return true;
+        };
+        local_undo = [disabled, action]() {
+            action->setText(disabled ? i18n("Disable clip") : i18n("Enable clip"));
+            return true;
+        };
+    }
     if (result) {
-            pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
+        local_redo();
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+        pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
     }
     return result;
 }

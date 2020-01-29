@@ -37,13 +37,14 @@
 #include "kdenlivesettings.h"
 #include "scopes/sharedframe.h"
 
+#include <mlt++/MltProfile.h>
+
 class QOpenGLFunctions_3_2_Core;
 
 namespace Mlt {
 class Filter;
 class Producer;
 class Consumer;
-class Profile;
 } // namespace Mlt
 
 class RenderThread;
@@ -85,7 +86,7 @@ public:
     // TODO: currently unused
     int reconfigureMulti(const QString &params, const QString &path, Mlt::Profile *profile);
     void stopCapture();
-    int reconfigure(bool reload = false);
+    int reconfigure();
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
     const QString sceneList(const QString &root, const QString &fullPath = QString());
@@ -109,7 +110,6 @@ public:
     void updateGamma();
     /** @brief delete and rebuild consumer, for example when external display is switched */
     void resetConsumer(bool fullReset);
-    void reloadProfile();
     void lockMonitor();
     void releaseMonitor();
     int realTime() const;
@@ -151,7 +151,6 @@ protected:
     QString frameToTime(int frames) const;
 
 public slots:
-    //void seek(int pos);
     void requestSeek(int position);
     void setZoom(float zoom);
     void setOffsetX(int x, int max);
@@ -160,6 +159,9 @@ public slots:
     void initializeGL();
     void releaseAnalyse();
     void switchPlay(bool play, double speed = 1.0);
+    void reloadProfile();
+    /** @brief Update MLT's consumer scaling */
+    void updateScaling();
 
 signals:
     void frameDisplayed(const SharedFrame &frame);
@@ -182,7 +184,6 @@ signals:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
-    void consumerPosition(int);
     void activateMonitor();
 
 protected:

@@ -9,7 +9,7 @@ Row {
     anchors.fill: parent
     visible: !isAudio
     opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
-    property int thumbWidth: container.height * 16.0/9.0
+    property int thumbWidth: container.height * root.dar
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
 
     function reload() {
@@ -37,9 +37,43 @@ Row {
             fillMode: Image.PreserveAspectFit
             asynchronous: true
             cache: enableCache
-            property int currentFrame: Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
+            property int currentFrame: thumbRepeater.count < 3 ? (index == 0 ? thumbRepeater.thumbStartFrame : thumbRepeater.thumbEndFrame) : Math.floor(clipRoot.inPoint + Math.round((index) * width / timeline.scaleFactor)* clipRoot.speed)
             horizontalAlignment: thumbRepeater.count < 3 ? (index == 0 ? Image.AlignLeft : Image.AlignRight) : Image.AlignLeft
-            source: thumbRepeater.count < 3 ? (index == 0 ? clipRoot.baseThumbPath + thumbRepeater.thumbStartFrame : clipRoot.baseThumbPath + thumbRepeater.thumbEndFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.viewport.width) ? '' : clipRoot.baseThumbPath + currentFrame
+            source: thumbRepeater.count < 3 ? (clipRoot.baseThumbPath + currentFrame) : (index * width < clipRoot.scrollStart - width || index * width > clipRoot.scrollStart + scrollView.contentItem.width) ? '' : clipRoot.baseThumbPath + currentFrame
+            onStatusChanged: {
+                if (thumbRepeater.count < 3) {
+                    if (status === Image.Ready) {
+                        thumbPlaceholder.source = source
+                    }
+                }
+            }
+            BusyIndicator {
+                running: parent.status != Image.Ready
+                anchors.left: parent.left
+                anchors.leftMargin: index < thumbRepeater.count - 1 ? 0 : parent.width - thumbRow.thumbWidth - 1
+                implicitWidth: thumbRepeater.imageWidth
+                implicitHeight: container.height
+                hoverEnabled: false
+                visible: running
+                contentItem:
+                Image {
+                    id: thumbPlaceholder
+                    visible: parent.running
+                    anchors.fill: parent
+                    horizontalAlignment: Image.AlignLeft
+                    fillMode: Image.PreserveAspectFit
+                    asynchronous: true
+                }
+            }
+            Rectangle {
+                visible: thumbRepeater.count < 3
+                anchors.left: parent.left
+                anchors.leftMargin: index < thumbRepeater.count - 1 ? thumbRow.thumbWidth : parent.width - thumbRow.thumbWidth - 1
+                color: "#ffffff"
+                opacity: 0.3
+                width: 1
+                height: parent.height
+            }
         }
     }
 }

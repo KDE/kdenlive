@@ -227,6 +227,7 @@ private:
     KToolBar *m_timelineToolBar;
     TimelineContainer *m_timelineToolBarContainer;
     QLabel *m_trimLabel;
+    QActionGroup *m_scaleGroup;
 
     /** @brief initialize startup values, return true if first run. */
     bool readOptions();
@@ -472,6 +473,12 @@ private slots:
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */
     void slotGrabItem();
+    /** @brief Collapse or expand current item (depending on focused widget: effet, track)*/
+    void slotCollapse();
+    /** @brief Save currently selected timeline clip as bin subclip*/
+    void slotExtractClip();
+    /** @brief Save currently selected timeline clip as bin subclip*/
+    void slotSaveZoneToBin();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -53,6 +53,8 @@ public:
     int zoomForScale(double value) const;
     /* @brief Give keyboard focus to timeline qml */
     void focusTimeline();
+    /** @brief Initiate timeline clip context menu */
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu);
     bool loading;
 
 protected:
@@ -69,10 +71,24 @@ public slots:
 
 private slots:
     void slotUngrabHack();
+    void showClipMenu();
+    void showCompositionMenu();
+    void showTimelineMenu();
+    void showRulerMenu();
+    void showHeaderMenu();
 
 private:
-    ThumbnailProvider *m_thumbnailer;
     TimelineController *m_proxy;
+    QMenu *m_timelineClipMenu;
+    QMenu *m_timelineCompositionMenu;
+    QMenu *m_timelineMenu;
+    QMenu *m_timelineRulerMenu;
+    QMenu *m_guideMenu;
+    QMenu *m_headerMenu;
+    QMenu *m_thumbsMenu;
+    QMenu *m_favEffects;
+    QMenu *m_favCompositions;
+    QAction *m_editGuideAcion;
     static const int comboScale[];
     std::shared_ptr<AssetTreeModel> m_transitionModel;
     std::unique_ptr<AssetFilter> m_transitionProxyModel;
@@ -84,7 +100,8 @@ private:
     /* @brief Keep last scroll position before fit to restore it on second click */
     int m_scrollPos;
     /* @brief Returns an alphabetically sorted list of favorite effects or transitions */
-    const QStringList sortedItems(const QStringList &items, bool isTransition);
+    const QMap<QString, QString> sortedItems(const QStringList &items, bool isTransition);
+    QPoint m_clickPos;
 
 signals:
     void focusProjectMonitor();

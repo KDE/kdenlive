@@ -225,6 +225,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
         }
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
         QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
         for (const auto &param : params) {
             if (param.second.type() == QVariant::Double) {
                 Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
@@ -263,6 +264,7 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
     }
     QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : params) {
         if (param.second.type() == QVariant::Double) {
             Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));

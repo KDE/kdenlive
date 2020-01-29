@@ -48,6 +48,7 @@
 #include <KDualAction>
 #include <KMessageBox>
 #include <KRecentDirs>
+#include <KSqueezedTextLabel>
 #include <klocalizedstring.h>
 
 CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent)
@@ -107,7 +108,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
     m_colorIcon->setFixedSize(collapseButton->sizeHint());
-    title = new QLabel(this);
+    title = new KSqueezedTextLabel(this);
     l->insertWidget(2, title);
 
     m_keyframesButton = new QToolButton(this);
@@ -240,9 +241,7 @@ void CollapsibleEffectView::slotCreateGroup()
 
 void CollapsibleEffectView::slotCreateRegion()
 {
-    QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    const QString dialogFilter =
-        allExtensions + QLatin1Char(' ') + QLatin1Char('|') + i18n("All Supported Files") + QStringLiteral("\n* ") + QLatin1Char('|') + i18n("All Files");
+    const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty()) {
         clipFolder = QDir::homePath();
@@ -434,6 +433,7 @@ void CollapsibleEffectView::slotSaveEffect()
     QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
     QMap<QString, QString> values;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : currentValues) {
         if (param.second.type() == QVariant::Double) {
             values.insert(param.first, locale.toString(param.second.toDouble()));
@@ -495,6 +495,13 @@ void CollapsibleEffectView::updateHeight()
     widgetFrame->setFixedHeight(m_collapse->isActive() ? 0 : m_view->height());
     setFixedHeight(widgetFrame->height() + frame->minimumHeight() + 2 * (contentsMargins().top() + decoframe->lineWidth()));
     emit switchHeight(m_model, height());
+}
+
+void CollapsibleEffectView::switchCollapsed(int row)
+{
+    if (row == m_model->row()) {
+        slotSwitch(!m_model->isCollapsed());
+    }
 }
 
 void CollapsibleEffectView::slotSwitch(bool collapse)

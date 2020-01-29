@@ -89,6 +89,7 @@ Rectangle
     Item {
         // Keyframes container
         anchors.fill: parent
+        z: 5
         visible: keyframeContainer.selected && keyframeContainer.width > root.baseUnit * 3 && (kfrCount < (keyframeContainer.width / root.baseUnit))
         Repeater {
             id: keyframes
@@ -119,6 +120,7 @@ Rectangle
                     anchors.rightMargin: - root.baseUnit/3
                     hoverEnabled: true
                     cursorShape: Qt.SizeHorCursor
+                    enabled: parent.x > root.baseUnit / 2 && parent.x < keyframeContainer.width - root.baseUnit / 2
                     drag.target: parent
                     drag.smoothed: false
                     drag.axis: Drag.XAxis
@@ -245,6 +247,7 @@ Rectangle
         renderStrategy: Canvas.Threaded
         width: kfrCount > 1 ? parent.width : 0
         height: kfrCount > 1 ? parent.height : 0
+        opacity: keyframeContainer.selected ? 1 : 0.5
         Component {
             id: comp
             PathCurve { }
@@ -264,7 +267,7 @@ Rectangle
                 return
             }
             context.beginPath()
-            context.fillStyle = Qt.rgba(0,0,0.8, 0.4);
+            context.fillStyle = Qt.rgba(0,0,0.8, 0.5);
             paths = []
             var xpos
             var ypos

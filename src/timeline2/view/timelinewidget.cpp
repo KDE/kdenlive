@@ -48,6 +48,7 @@
 #include <QQmlEngine>
 #include <QQuickItem>
 #include <QUuid>
+#include <QMenu>
 #include <QFontDatabase>
 #include <QSortFilterProxyModel>
 
@@ -65,6 +66,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     // Build transition model for context menu
     m_transitionModel = TransitionTreeModel::construct(true, this);
     m_transitionProxyModel = std::make_unique<TransitionFilter>(this);
+    m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
     m_transitionProxyModel->setSourceModel(m_transitionModel.get());
     m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
@@ -81,11 +83,12 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
     setResizeMode(QQuickWidget::SizeRootObjectToView);
-    m_thumbnailer = new ThumbnailProvider;
-    engine()->addImageProvider(QStringLiteral("thumbnail"), m_thumbnailer);
+    engine()->addImageProvider(QStringLiteral("thumbnail"), new ThumbnailProvider);
     setVisible(false);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setFocusPolicy(Qt::StrongFocus);
+    m_favEffects = new QMenu(i18n("Insert an effect..."), this);
+    m_favCompositions = new QMenu(i18n("Insert a composition..."), this);
 }
 
 TimelineWidget::~TimelineWidget()
@@ -95,30 +98,76 @@ TimelineWidget::~TimelineWidget()
 
 void TimelineWidget::updateEffectFavorites()
 {
-    rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
+    const QMap<QString, QString> effects = sortedItems(KdenliveSettings::favorite_effects(), false);
+    QMapIterator<QString, QString> i(effects);
+    m_favEffects->clear();
+    while (i.hasNext()) {
+        i.next();
+        QAction *ac = m_favEffects->addAction(i.key());
+        ac->setData(i.value());
+    }
+    const QStringList effs = effects.values();
+    rootContext()->setContextProperty("effectModel",effs);
 }
 
 void TimelineWidget::updateTransitionFavorites()
 {
-    rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true));
+    const QMap<QString, QString> effects = sortedItems(KdenliveSettings::favorite_transitions(), true);
+    QMapIterator<QString, QString> i(effects);
+    m_favCompositions->clear();
+    while (i.hasNext()) {
+        i.next();
+        QAction *ac = m_favCompositions->addAction(i.key());
+        ac->setData(i.value());
+    }
+    const QStringList trans = effects.values();
+    rootContext()->setContextProperty("transitionModel", trans);
 }
 
-const QStringList TimelineWidget::sortedItems(const QStringList &items, bool isTransition)
+const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &items, bool isTransition)
 {
     QMap<QString, QString> sortedItems;
     for (const QString &effect : items) {
         sortedItems.insert(m_proxy->getAssetName(effect, isTransition), effect);
     }
-    return sortedItems.values();
+    return sortedItems;
+}
+
+void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu)
+{
+    m_timelineClipMenu = clipMenu;
+    m_timelineCompositionMenu = compositionMenu;
+    m_timelineMenu = timelineMenu;
+    m_timelineRulerMenu = timelineRulerMenu;
+    m_guideMenu = guideMenu;
+    m_headerMenu = headerMenu;
+    m_thumbsMenu = thumbsMenu;
+    m_headerMenu->addMenu(m_thumbsMenu);
+    m_editGuideAcion = editGuideAction;
+    updateEffectFavorites();
+    updateTransitionFavorites();
+    connect(m_favEffects, &QMenu::triggered, [&] (QAction *ac) {
+        m_proxy->addEffectToClip(ac->data().toString());
+    });
+    connect(m_favCompositions, &QMenu::triggered, [&] (QAction *ac) {
+        m_proxy->addCompositionToClip(ac->data().toString());
+    });
+    connect(m_guideMenu, &QMenu::triggered, [&] (QAction *ac) {
+        m_proxy->setPosition(ac->data().toInt());
+    });
+    connect(m_headerMenu, &QMenu::triggered, [&] (QAction *ac) {
+        m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
+    });
+    m_timelineClipMenu->addMenu(m_favEffects);
+    m_timelineClipMenu->addMenu(m_favCompositions);
+    m_timelineMenu->addMenu(m_favCompositions);
 }
 
 void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, MonitorProxy *proxy)
 {
-    m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
     m_sortModel->setSourceModel(model.get());
     m_sortModel->setSortRole(TimelineItemModel::SortRole);
     m_sortModel->sort(0, Qt::DescendingOrder);
-
     m_proxy->setModel(model);
     rootContext()->setContextProperty("multitrack", m_sortModel.get());
     rootContext()->setContextProperty("controller", model.get());
@@ -127,18 +176,28 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     // Create a unique id for this timeline to prevent thumbnails 
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", QUuid::createUuid());
-    rootContext()->setContextProperty("transitionModel", sortedItems(KdenliveSettings::favorite_transitions(), true)); // m_transitionProxyModel.get());
-    // rootContext()->setContextProperty("effectModel", m_effectsProxyModel.get());
-    rootContext()->setContextProperty("effectModel", sortedItems(KdenliveSettings::favorite_effects(), false));
+    rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
+    rootContext()->setContextProperty("smallFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
+    const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
+    rootContext()->setContextProperty("transitionModel", trans);
+    rootContext()->setContextProperty("effectModel",effs);
+
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
     connect(rootObject(), SIGNAL(zoomIn(bool)), pCore->window(), SLOT(slotZoomIn(bool)));
     connect(rootObject(), SIGNAL(zoomOut(bool)), pCore->window(), SLOT(slotZoomOut(bool)));
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
     connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
+    rootObject()->setProperty("dar", pCore->getCurrentDar());
+    connect(rootObject(), SIGNAL(showClipMenu()), this, SLOT(showClipMenu()));
+    connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
+    connect(rootObject(), SIGNAL(showTimelineMenu()), this, SLOT(showTimelineMenu()));
+    connect(rootObject(), SIGNAL(showRulerMenu()), this, SLOT(showRulerMenu()));
+    connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -148,7 +207,92 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
 void TimelineWidget::mousePressEvent(QMouseEvent *event)
 {
     emit focusProjectMonitor();
+    m_clickPos = event->globalPos();
     QQuickWidget::mousePressEvent(event);
+}
+
+void TimelineWidget::showClipMenu()
+{
+    m_timelineClipMenu->popup(m_clickPos);
+    connect(m_timelineClipMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
+void TimelineWidget::showCompositionMenu()
+{
+    m_timelineCompositionMenu->popup(m_clickPos);
+    connect(m_timelineCompositionMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
+void TimelineWidget::showHeaderMenu()
+{
+    int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
+    if (currentThumbs >= 0) {
+        QList <QAction *> actions = m_thumbsMenu->actions();
+        for (QAction *ac : actions) {
+            if (ac->data().toInt() == currentThumbs) {
+                ac->setChecked(true);
+                break;
+            }
+        }
+        m_thumbsMenu->menuAction()->setVisible(true);
+    } else {
+        m_thumbsMenu->menuAction()->setVisible(false);
+    }
+    m_headerMenu->popup(m_clickPos);
+    connect(m_headerMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
+void TimelineWidget::showRulerMenu()
+{
+    m_guideMenu->clear();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    QAction *ac;
+    m_editGuideAcion->setEnabled(false);
+    double fps = pCore->getCurrentFps();
+    int currentPos = rootObject()->property("consumerPosition").toInt();
+    for (auto guide : guides) {
+        ac = new QAction(guide.comment(), this);
+        int frame = guide.time().frames(fps);
+        ac->setData(frame);
+        if (frame == currentPos) {
+            m_editGuideAcion->setEnabled(true);
+        }
+        m_guideMenu->addAction(ac);
+    }
+    m_timelineRulerMenu->popup(m_clickPos);
+    connect(m_timelineRulerMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
+
+void TimelineWidget::showTimelineMenu()
+{
+    m_guideMenu->clear();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    QAction *ac;
+    m_editGuideAcion->setEnabled(false);
+    double fps = pCore->getCurrentFps();
+    int currentPos = rootObject()->property("consumerPosition").toInt();
+    for (auto guide : guides) {
+        ac = new QAction(guide.comment(), this);
+        int frame = guide.time().frames(fps);
+        ac->setData(frame);
+        if (frame == currentPos) {
+            m_editGuideAcion->setEnabled(true);
+        }
+        m_guideMenu->addAction(ac);
+    }
+    m_timelineMenu->popup(m_clickPos);
+    connect(m_timelineMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
 }
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)

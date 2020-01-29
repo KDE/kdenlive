@@ -203,9 +203,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(itembottom, &QAbstractButton::clicked, this, &TitleWidget::itemBottom);
     connect(itemleft, &QAbstractButton::clicked, this, &TitleWidget::itemLeft);
     connect(itemright, &QAbstractButton::clicked, this, &TitleWidget::itemRight);
-    connect(effect_list, SIGNAL(currentIndexChanged(int)), this, SLOT(slotAddEffect(int)));
-    connect(typewriter_delay, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotEditTypewriter);
-    connect(typewriter_start, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &TitleWidget::slotEditTypewriter);
 
     connect(origin_x_left, &QAbstractButton::clicked, this, &TitleWidget::slotOriginXClicked);
     connect(origin_y_top, &QAbstractButton::clicked, this, &TitleWidget::slotOriginYClicked);
@@ -511,9 +508,6 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     loadGradients();
     readChoices();
 
-    // Hide effects not implemented
-    tabWidget->removeTab(3);
-
     graphicsView->show();
     graphicsView->setInteractive(true);
     // qCDebug(KDENLIVE_LOG) << "// TITLE WIDGWT: " << graphicsView->viewport()->width() << 'x' << graphicsView->viewport()->height();
@@ -793,7 +787,7 @@ void TitleWidget::slotImageTool()
 
 void TitleWidget::showToolbars(TITLETOOL toolType)
 {
-    // toolbar_stack->setEnabled(toolType != TITLE_SELECT);
+    toolbar_stack->setEnabled(toolType != TITLE_SELECT);
     switch (toolType) {
     case TITLE_IMAGE:
         toolbar_stack->setCurrentIndex(2);
@@ -2504,16 +2498,6 @@ void TitleWidget::slotAddEffect(int /*ix*/)
         }*/
 }
 
-void TitleWidget::slotEditTypewriter(int /*ix*/)
-{
-    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    if (l.size() == 1) {
-        QStringList effdata = QStringList() << QStringLiteral("typewriter")
-                                            << QString::number(typewriter_delay->value()) + QLatin1Char(';') + QString::number(typewriter_start->value());
-        l[0]->setData(100, effdata);
-    }
-}
-
 qreal TitleWidget::zIndexBounds(bool maxBound, bool intersectingOnly)
 {
     qreal bound = maxBound ? -99 : 99;
@@ -2686,7 +2670,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     // Note: Disabling an element also blocks signals. So disabled elements don't need to be set to blocking too.
     bool blockOX = origin_x_left->signalsBlocked();
     bool blockOY = origin_y_top->signalsBlocked();
-    bool blockEff = effect_list->signalsBlocked();
     bool blockRX = itemrotatex->signalsBlocked();
     bool blockRY = itemrotatey->signalsBlocked();
     bool blockRZ = itemrotatez->signalsBlocked();
@@ -2697,7 +2680,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
     bool blockH = value_h->signalsBlocked();
     origin_x_left->blockSignals(true);
     origin_y_top->blockSignals(true);
-    effect_list->blockSignals(true);
     itemrotatex->blockSignals(true);
     itemrotatey->blockSignals(true);
     itemrotatez->blockSignals(true);
@@ -2709,7 +2691,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
     if (referenceItem == nullptr) {
         // qCDebug(KDENLIVE_LOG) << "nullptr item.\n";
-        effect_list->setCurrentIndex(0);
         origin_x_left->setChecked(false);
         origin_y_top->setChecked(false);
         updateTextOriginX();
@@ -2753,14 +2734,14 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 // We have an existing text item selected
                 if (!i->data(100).isNull()) {
                     // Item has an effect
-                    QStringList effdata = i->data(100).toStringList();
+                    /*QStringList effdata = i->data(100).toStringList();
                     QString effectName = effdata.takeFirst();
                     if (effectName == QLatin1String("typewriter")) {
                         QStringList params = effdata.at(0).split(QLatin1Char(';'));
                         typewriter_delay->setValue(params.at(0).toInt());
                         typewriter_start->setValue(params.at(1).toInt());
                         effect_list->setCurrentIndex(effect_list->findData((int)TYPEWRITEREFFECT));
-                    }
+                    }*/
                 } else {
                     /*if (i->graphicsEffect()) {
                         QGraphicsBlurEffect *blur = static_cast <QGraphicsBlurEffect *>(i->graphicsEffect());
@@ -2954,7 +2935,6 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
         itemrotatez->setValue((int)(m_transformations.value(referenceItem).rotatez));
     }
 
-    effect_list->blockSignals(blockEff);
     itemrotatex->blockSignals(blockRX);
     itemrotatey->blockSignals(blockRY);
     itemrotatez->blockSignals(blockRZ);

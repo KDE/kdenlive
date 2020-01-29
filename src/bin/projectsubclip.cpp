@@ -47,6 +47,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_duration = timecode;
     m_parentDuration = (int)m_masterClip->frameDuration();
     m_parentClipId = m_masterClip->clipId();
+    m_date = parent->date.addSecs(in);
     QPixmap pix(64, 36);
     pix.fill(Qt::lightGray);
     m_thumbnail = QIcon(pix);
@@ -216,6 +217,9 @@ void ProjectSubClip::setProperties(const QMap<QString, QString> &properties)
     if (properties.contains(QStringLiteral("kdenlive:rating"))) {
         propertyFound = true;
         m_rating = properties.value(QStringLiteral("kdenlive:rating")).toUInt();
+    }
+    if (!propertyFound) {
+        return;
     }
     if (auto ptr = m_model.lock()) {
         std::shared_ptr<AbstractProjectItem> parentItem = std::static_pointer_cast<ProjectItemModel>(ptr)->getItemByBinId(m_parentClipId);

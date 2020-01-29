@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class SpeedDialog;
+class ClipSpeed_UI;
 }
 
 class SpeedDialog : public QDialog
@@ -18,7 +18,7 @@ public:
     double getValue() const;
 
 private:
-    Ui::SpeedDialog *ui;
+    Ui::ClipSpeed_UI *ui;
 };
 
 #endif // SPEEDDIALOG_H

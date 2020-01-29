@@ -238,6 +238,7 @@ void EffectStackView::loadEffects()
             emit seekToPos(pos + clipIn);
         });
         connect(this, &EffectStackView::doActivateEffect, view, &CollapsibleEffectView::slotActivateEffect);
+        connect(this, &EffectStackView::switchCollapsedView, view, &CollapsibleEffectView::switchCollapsed);
         QModelIndex ix = m_model->getIndexFromItem(effectModel);
         m_effectsTree->setIndexWidget(ix, view);
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
@@ -398,6 +399,15 @@ bool EffectStackView::isStackEnabled() const
         return m_model->isStackEnabled();
     }
     return false;
+}
+
+void EffectStackView::switchCollapsed()
+{
+    if (m_model) {
+        int max = m_model->rowCount();
+        int active = qBound(0, m_model->getActiveEffect(), max - 1);
+        emit switchCollapsedView(active);
+    }
 }
 
 /*

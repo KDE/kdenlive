@@ -415,6 +415,7 @@ const QString GeometryWidget::getValue() const
 {
     if (m_opacity) {
         QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
         return QStringLiteral("%1 %2 %3 %4 %5")
             .arg(m_spinX->value())
             .arg(m_spinY->value())

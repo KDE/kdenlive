@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="168" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="173" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -70,7 +70,7 @@
       </Menu>
       <Action name="clip_properties" />
       <Action name="edit_clip" />
-      <Action name="rename_clip" />
+      <Action name="renamefile" />
       <Action name="delete_clip" />
     </Menu>
 
@@ -109,6 +109,8 @@
             <Action name="clip_switch" />
             <Action name="clip_disable" />
             <Action name="clip_in_project_tree" />
+            <Action name="extract_clip" />
+            <Action name="save_to_bin" />
             <Action name="expand_timeline_clip" />
       </Menu>
       <Action name="grab_item" />
@@ -194,6 +196,13 @@
           <Action name="monitor_overlay_fps" />
           <Action name="monitor_overlay_markers" />
           <Action name="monitor_overlay_audiothumb" />
+      </Menu>
+      <Menu name="monitor_scaling" ><text>Preview Resolution</text>
+          <Action name="scale_no_preview" />
+          <Action name="scale_2_preview" />
+          <Action name="scale_4_preview" />
+          <Action name="scale_8_preview" />
+          <Action name="scale_16_preview" />
       </Menu>
       <Menu name="monitor_config" ><text>Monitor config</text>
           <Action name="mlt_interlace" />

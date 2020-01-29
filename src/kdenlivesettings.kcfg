@@ -105,7 +105,7 @@
 
     <entry name="transition_duration" type="String">
       <label>Default transition duration.</label>
-      <default>00:00:01:00</default>
+      <default>00:00:03:00</default>
     </entry>
 
     <entry name="disable_effect_parameters" type="Bool">
@@ -778,6 +778,11 @@
     <entry name="displayProjectMonitorInfo" type="Int">
       <label>Show overlay info on monitor (in / out points, markers,...).</label>
       <default>0x05</default>
+    </entry>
+    
+    <entry name="previewScaling" type="Int">
+      <label>Divide monitor resolution by this factor to speedup preview.</label>
+      <default>1</default>
     </entry>
 
     <entry name="clipMonitorOverlayGuides" type="Int">

@@ -436,6 +436,8 @@ private:
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu;
     QActionGroup m_filterGroup;
+    QActionGroup m_filterRateGroup;
+    QActionGroup m_filterTypeGroup;
     QToolButton *m_filterButton;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
@@ -463,8 +465,6 @@ private:
     void showSlideshowWidget(const std::shared_ptr<ProjectClip> &clip);
     void processAudioThumbs();
     void updateSortingAction(int ix);
-    /** @brief Apply Bin filtering. */
-    void processBinFiltering();
     int wheelAccumulatedDelta;
 
 signals:

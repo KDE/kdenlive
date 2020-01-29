@@ -250,7 +250,7 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
                 // A clip move changed the track duration, update track effects
                 m_effectStack->adjustStackLength(true, 0, duration, 0, trackDuration(), 0, undo, redo, true);
             }
-            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove);
+            auto reverse = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalMove);
             UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
@@ -289,7 +289,7 @@ void TrackModel::replugClip(int clipId)
     m_playlists[target_track].unlock();
 }
 
-Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove)
+Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool finalMove, bool groupMove, bool finalDeletion)
 {
     QWriteLocker locker(&m_lock);
     // Find index of clip
@@ -297,8 +297,15 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
     bool audioOnly = m_allClips[clipId]->isAudioOnly();
     int old_in = clip_position;
     int old_out = old_in + m_allClips[clipId]->getPlaytime();
-    return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, groupMove, this]() {
+    return [clip_position, clipId, old_in, old_out, updateView, audioOnly, finalMove, groupMove, finalDeletion, this]() {
         if (isLocked()) return false;
+        if (finalDeletion && m_allClips[clipId]->selected) {
+            m_allClips[clipId]->selected = false;
+            if (auto ptr = m_parent.lock()) {
+                // item was selected, unselect
+                ptr->requestClearSelection(true);
+            }
+        }
         auto clip_loc = getClipIndexAt(clip_position);
         if (updateView) {
             int old_clip_index = getRowfromClip(clipId);
@@ -354,11 +361,8 @@ bool TrackModel::requestClipDeletion(int clipId, bool updateView, bool finalMove
     auto old_clip = m_allClips[clipId];
     int old_position = old_clip->getPosition();
     // qDebug() << "/// REQUESTOING CLIP DELETION_: " << updateView;
-    if (finalDeletion) {
-        m_allClips[clipId]->selected = false;
-    }
     int duration = trackDuration();
-    auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove);
+    auto operation = requestClipDeletion_lambda(clipId, updateView, finalMove, groupMove, finalDeletion);
     if (operation()) {
         if (finalMove && duration != trackDuration()) {
             // A clip move changed the track duration, update track effects

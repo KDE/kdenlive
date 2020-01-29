@@ -1477,14 +1477,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         for (int i = 0; i < prods.count(); ++i) {
             auto prod = prods.at(i).toElement();
             if (prod.attribute(QStringLiteral("id")) == QStringLiteral("black_track")) {
-                auto props = prod.elementsByTagName(QStringLiteral("property"));
-                for (int j = 0; j < props.count(); ++j) {
-                    auto prop = props.at(j).toElement();
-                    if (prop.attribute(QStringLiteral("name")) == QStringLiteral("resource")) {
-                        prop.firstChild().setNodeValue(QStringLiteral("transparent"));
-                        break;
-                    }
-                }
+                Xml::setXmlProperty(prod, QStringLiteral("resource"), QStringLiteral("transparent"));
                 break;
             }
         }
@@ -1893,7 +1886,7 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
-    QString filename = url.fileName();
+    QString filename = pCore->currentDoc()->url().fileName();
     QString ext;
 
     if (extension.at(0) == '.') {

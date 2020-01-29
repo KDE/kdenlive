@@ -36,6 +36,11 @@ void NotesPlugin::setProject(KdenliveDoc *document)
     connect(m_widget, SIGNAL(textChanged()), document, SLOT(setModified()));
 }
 
+void NotesPlugin::showDock()
+{
+    m_notesDock->show();
+}
+
 void NotesPlugin::slotInsertTimecode()
 {
     int frames = pCore->monitorManager()->projectMonitor()->position();

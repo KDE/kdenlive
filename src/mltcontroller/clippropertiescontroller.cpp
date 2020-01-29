@@ -442,6 +442,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
     if (m_type == ClipType::AV || m_type == ClipType::Video) {
         QLocale locale;
+        locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
         // Fps
         QString force_fps = m_properties->get("force_fps");
@@ -819,6 +820,7 @@ void ClipPropertiesController::slotEnableForce(int state)
     QString param = box->objectName();
     QMap<QString, QString> properties;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (state == Qt::Unchecked) {
         // The force property was disable, remove it / reset default if necessary
         if (param == QLatin1String("force_duration")) {
@@ -898,6 +900,7 @@ void ClipPropertiesController::slotValueChanged(double value)
     QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
     QMap<QString, QString> properties;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     properties.insert(param, locale.toString(value));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
@@ -927,6 +930,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
     properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
     properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double)spin->value() / spin2->value()));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
@@ -1111,7 +1115,7 @@ void ClipPropertiesController::slotAddMarker()
 void ClipPropertiesController::slotSaveMarkers()
 {
     QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Save Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
+    fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::AnyFile);
     fd->setAcceptMode(QFileDialog::AcceptSave);
     if (fd->exec() != QDialog::Accepted) {
@@ -1137,7 +1141,7 @@ void ClipPropertiesController::slotSaveMarkers()
 void ClipPropertiesController::slotLoadMarkers()
 {
     QScopedPointer<QFileDialog> fd(new QFileDialog(this, i18n("Load Clip Markers"), pCore->projectManager()->current()->projectDataFolder()));
-    fd->setMimeTypeFilters(QStringList() << QStringLiteral("text/plain"));
+    fd->setMimeTypeFilters(QStringList() << QStringLiteral("application/json") << QStringLiteral("text/plain"));
     fd->setFileMode(QFileDialog::ExistingFile);
     if (fd->exec() != QDialog::Accepted) {
         return;

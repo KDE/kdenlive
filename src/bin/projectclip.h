@@ -171,7 +171,7 @@ public:
 
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
-    QVector<double> audioFrameCache;
+    QVector<uint8_t> audioFrameCache;
     bool audioThumbCreated() const;
 
     void setWaitingStatus(const QString &id);
@@ -215,6 +215,9 @@ public:
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
     std::shared_ptr<Mlt::Producer> softClone(const char *list);
+    /** @brief Returns a clone of the producer, useful for movit clip jobs
+     */
+    std::unique_ptr<Mlt::Producer> getClone();
     void updateTimelineClips(const QVector<int> &roles);
     /** @brief Saves the subclips data as json
      */
@@ -247,7 +250,7 @@ protected:
 public slots:
     /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
-    void updateAudioThumbnail(const QVector<double> audioLevels);
+    void updateAudioThumbnail(const QVector<uint8_t> audioLevels);
     /** @brief Delete the proxy file */
     void deleteProxy();
 

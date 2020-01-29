@@ -104,9 +104,13 @@ bool MeltJob::startJob()
     double fps = projectProfile->fps();
     int fps_num = projectProfile->frame_rate_num();
     int fps_den = projectProfile->frame_rate_den();
-
-    m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
-
+    if (KdenliveSettings::gpu_accel()) {
+        m_producer = binClip->getClone();
+        Mlt::Filter converter(*m_profile.get(), "avcolor_space");
+        m_producer->attach(converter);
+    } else {
+        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), m_url.toUtf8().constData());
+    }
     if (m_producer && m_useProducerProfile) {
         m_profile->from_producer(*m_producer.get());
         m_profile->set_explicit(1);

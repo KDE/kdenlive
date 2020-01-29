@@ -203,7 +203,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     } else {
         roles.push_back(TimelineModel::OutPointRole);
     }
-    
+
     Fun operation = [this, inPoint, outPoint, roles, track_operation]() {
         if (track_operation()) {
             setInOut(inPoint, outPoint);
@@ -512,9 +512,11 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed)
     return [speed, this]() {
         qDebug() << "timeWarp producer" << speed;
         refreshProducerFromBin(m_currentTrackId, m_currentState, speed);
-        if (auto ptr = m_parent.lock()) {
-            QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
+        if (m_currentTrackId > -1) {
+            if (auto ptr = m_parent.lock()) {
+                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
+                ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
+            }
         }
         return true;
     };

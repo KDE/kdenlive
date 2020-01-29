@@ -73,6 +73,8 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor imageColor READ imageColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor targetColor READ targetColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor targetTextColor READ targetTextColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor selectionColor READ selectionColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor groupColor READ groupColor NOTIFY colorsChanged)
@@ -155,6 +157,8 @@ public:
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor imageColor() const;
+    Q_INVOKABLE QColor targetColor() const;
+    Q_INVOKABLE QColor targetTextColor() const;
     Q_INVOKABLE QColor lockedColor() const;
     Q_INVOKABLE QColor selectionColor() const;
     Q_INVOKABLE QColor groupColor() const;
@@ -250,19 +254,19 @@ public:
     Q_INVOKABLE void unGroupSelection(int cid = -1);
     /* @brief Ask for edit marker dialog
      */
-    Q_INVOKABLE void editMarker(int cid, int position = -1);
+    Q_INVOKABLE void editMarker(int cid = -1, int position = -1);
     /* @brief Ask for marker add dialog
      */
-    Q_INVOKABLE void addMarker(int cid, int position = -1);
+    Q_INVOKABLE void addMarker(int cid = -1, int position = -1);
     /* @brief Ask for quick marker add (without dialog)
      */
-    Q_INVOKABLE void addQuickMarker(int cid, int position = -1);
+    Q_INVOKABLE void addQuickMarker(int cid = -1, int position = -1);
     /* @brief Ask for marker delete
      */
-    Q_INVOKABLE void deleteMarker(int cid, int position = -1);
+    Q_INVOKABLE void deleteMarker(int cid = -1, int position = -1);
     /* @brief Ask for all markers delete
      */
-    Q_INVOKABLE void deleteAllMarkers(int cid);
+    Q_INVOKABLE void deleteAllMarkers(int cid = -1);
     /* @brief Ask for edit timeline guide dialog
      */
     Q_INVOKABLE void editGuide(int frame = -1);
@@ -333,17 +337,23 @@ public:
     /* @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
-    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId, int offset);
-    Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId);
+    Q_INVOKABLE void addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
+    Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId = -1);
 
     Q_INVOKABLE void requestClipCut(int clipId, int position);
 
-    Q_INVOKABLE void extract(int clipId);
+    /** @brief Extract (delete + remove space) current clip
+     */
+    void extract(int clipId = -1);
+    /** @brief Save current clip cut as bin subclip
+     */
+    void saveZone(int clipId = -1);
 
     Q_INVOKABLE void splitAudio(int clipId);
     Q_INVOKABLE void splitVideo(int clipId);
-    Q_INVOKABLE void setAudioRef(int clipId);
-    Q_INVOKABLE void alignAudio(int clipId);
+    Q_INVOKABLE void setAudioRef(int clipId = -1);
+    Q_INVOKABLE void alignAudio(int clipId = -1);
+    Q_INVOKABLE void urlDropped(QStringList droppedFile, int frame, int tid);
 
     Q_INVOKABLE bool endFakeMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline);
     Q_INVOKABLE int getItemMovingTrack(int itemId) const;
@@ -380,6 +390,11 @@ public:
     /* @brief Seek timeline to mouse position
      */
     void seekToMouse();
+
+    /* @brief Set a property on the active track
+     */
+    void setActiveTrackProperty(const QString &name, const QString &value);
+    const QVariant getActiveTrackProperty(const QString &name);
 
     /* @brief Returns a list of all luma files used in the project
      */
@@ -473,6 +488,8 @@ public:
     Q_INVOKABLE void showMasterEffects();
     /** @brief Return true if an instance of this bin clip is currently undet timeline cursor */
     bool refreshIfVisible(int cid);
+    /** @brief Collapse / expand active track */
+    void collapseActiveTrack();
 
 public slots:
     void resetView();

@@ -262,14 +262,14 @@
     </ul>
   </description>
   <releases>
-    <release date="2019-12-05" version="20.03.70"/>
+    <release date="2020-01-06" version="20.03.70"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="en-GB">Kdenlive Timeline</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption><caption xml:lang="fr">Montage Kdenlive</caption><caption xml:lang="id">Linimasa Kdenlive</caption><caption xml:lang="it">Linea temporale Kdenlive</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
+    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="de">Kdenlive-Zeitleiste</caption><caption xml:lang="en-GB">Kdenlive Timeline</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="et">Kdenlive ajatelg</caption><caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption><caption xml:lang="fr">Montage Kdenlive</caption><caption xml:lang="id">Linimasa Kdenlive</caption><caption xml:lang="it">Linea temporale Kdenlive</caption><caption xml:lang="ko">Kdenlive 타임라인</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="sk">Kdenlive časová os</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
@@ -281,9 +281,11 @@
       <caption xml:lang="fr">Ajustements audio Kdenlive</caption>
       <caption xml:lang="id">Penyetelan Audio Kdenlive</caption>
       <caption xml:lang="it">Regolazioni audio Kdenlive</caption>
+      <caption xml:lang="ko">Kdenlive 오디오 조정</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
       <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
+      <caption xml:lang="sk">Kdenlive prispôsobenie zvuku</caption>
       <caption xml:lang="sv">Kdenlive ljudjusteringar</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
@@ -302,9 +304,11 @@
       <caption xml:lang="fr">Effets Kdenlive</caption>
       <caption xml:lang="id">Efek Kdenlive</caption>
       <caption xml:lang="it">Effetti Kdenlive</caption>
+      <caption xml:lang="ko">Kdenlive 효과</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="pt">Efeitos do Kdenlive</caption>
       <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
+      <caption xml:lang="sk">Kdenlive efekty</caption>
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>

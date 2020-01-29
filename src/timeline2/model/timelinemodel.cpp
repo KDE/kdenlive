@@ -1161,7 +1161,6 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
         PUSH_UNDO(undo, redo, actionLabel);
     }
     TRACE_RES(res);
-    requestClearSelection(true);
     return res;
 }
 
@@ -1584,13 +1583,13 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int target_position = current_in + delta_pos;
             if (delta_pos < 0) {
                 if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime)) {
-                    int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1);
-                    if (newStart == current_in - 1) {
+                    if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
                         bool undone = local_undo();
                         Q_ASSERT(undone);
                         return false;
                     }
+                    int newStart = getTrackById_const(current_track_id)->getBlankStart(current_in - 1);
                     delta_pos = qMax(delta_pos, newStart - current_in);
                 }
             } else {
@@ -1905,7 +1904,7 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
             pos += getItemPlaytime(id) - size;
         }
         result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, true);
-        result = result && requestClipTimeWarp(id, speed, false, undo, redo);
+        result = result && requestClipTimeWarp(id, speed, true, undo, redo);
         result = result && requestItemResize(id, size, true, true, undo, redo);
         result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo);
         if (!result) {
@@ -1977,7 +1976,7 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
     }
     int in = getItemPosition(itemId);
     int out = in + getItemPlaytime(itemId);
-    
+
     if (right && size > out - in) {
         int targetPos = in + size - 1;
         int trackId = getItemTrackId(itemId);
@@ -2426,11 +2425,16 @@ Fun TimelineModel::deregisterTrack_lambda(int id)
         emit checkTrackDeletion(id);
         auto it = m_iteratorTable[id];                        // iterator to the element
         int index = getTrackPosition(id);                     // compute index in list
-        m_tractor->remove_track(static_cast<int>(index + 1)); // melt operation, add 1 to account for black background track
+
         // send update to the model
-        m_allTracks.erase(it);     // actual deletion of object
-        m_iteratorTable.erase(id); // clean table
         beginRemoveRows(QModelIndex(), index, index);
+        // melt operation, add 1 to account for black background track
+        m_tractor->remove_track(static_cast<int>(index + 1));
+        // actual deletion of object
+        m_allTracks.erase(it);
+        // clean table
+        m_iteratorTable.erase(id);
+        // Finish operation
         endRemoveRows();
         int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
         mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));
@@ -2442,8 +2446,9 @@ Fun TimelineModel::deregisterClip_lambda(int clipId)
 {
     return [this, clipId]() {
         // qDebug() << " // /REQUEST TL CLP DELETION: " << clipId << "\n--------\nCLIPS COUNT: " << m_allClips.size();
-        requestClearSelection(true);
+        // Clear effect stack
         clearAssetView(clipId);
+        emit checkItemDeletion(clipId);
         Q_ASSERT(m_allClips.count(clipId) > 0);
         Q_ASSERT(getClipTrackId(clipId) == -1); // clip must be deleted from its track at this point
         Q_ASSERT(!m_groups->isInGroup(clipId)); // clip must be ungrouped at this point
@@ -3642,20 +3647,23 @@ bool TimelineModel::requestSetSelection(const std::unordered_set<int> &ids)
             }
             if (pairIds.size() == 2 && getClipBinId(pairIds.at(0)) == getClipBinId(pairIds.at(1))) {
                 // Check if they have same bin id
-                // Both clips have same bin ID, display offset
-                int pos1 = getClipPosition(pairIds.at(0));
-                int pos2 = getClipPosition(pairIds.at(1));
-                if (pos2 > pos1) {
-                    int offset = pos2 - getClipIn(pairIds.at(1)) - (pos1 - getClipIn(pairIds.at(0)));
-                    if (offset != 0) {
-                        m_allClips[pairIds.at(1)]->setOffset(offset);
-                        m_allClips[pairIds.at(0)]->setOffset(-offset);
-                    }
-                } else {
-                    int offset = pos1 - getClipIn(pairIds.at(0)) - (pos2 - getClipIn(pairIds.at(1)));
-                    if (offset != 0) {
-                        m_allClips[pairIds.at(0)]->setOffset(offset);
-                        m_allClips[pairIds.at(1)]->setOffset(-offset);
+                ClipType::ProducerType type = m_allClips[pairIds.at(0)]->clipType();
+                if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
+                    // Both clips have same bin ID, display offset
+                    int pos1 = getClipPosition(pairIds.at(0));
+                    int pos2 = getClipPosition(pairIds.at(1));
+                    if (pos2 > pos1) {
+                        int offset = pos2 - getClipIn(pairIds.at(1)) - (pos1 - getClipIn(pairIds.at(0)));
+                        if (offset != 0) {
+                            m_allClips[pairIds.at(1)]->setOffset(offset);
+                            m_allClips[pairIds.at(0)]->setOffset(-offset);
+                        }
+                    } else {
+                        int offset = pos1 - getClipIn(pairIds.at(0)) - (pos2 - getClipIn(pairIds.at(1)));
+                        if (offset != 0) {
+                            m_allClips[pairIds.at(0)]->setOffset(offset);
+                            m_allClips[pairIds.at(1)]->setOffset(-offset);
+                        }
                     }
                 }
             }

@@ -28,7 +28,7 @@ import 'Timeline.js' as Logic
 
 Item {
     id: compositionRoot
-    property real timeScale: 1.0
+    property real timeScale: 1
     property string clipName: ''
     property string clipResource: ''
     property string mltService: ''
@@ -62,7 +62,7 @@ Item {
     property color color: displayRect.color
     property color borderColor: 'black'
     property bool hideCompoViews
-    property int scrollStart: scrollView.flickableItem.contentX - modelStart * timeline.scaleFactor
+    property int scrollStart: scrollView.contentItem.contentX - modelStart * timeline.scaleFactor
 
     signal moved(var clip)
     signal dragged(var clip, var mouse)
@@ -74,7 +74,7 @@ Item {
     signal trimmedOut(var clip)
 
     onScrollStartChanged: {
-        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.viewport.width < 0
+        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.contentItem.width < 0
     }
 
     onKeyframeModelChanged: {
@@ -154,14 +154,12 @@ Item {
         onPressed: {
                 root.autoScrolling = false
                 compositionRoot.forceActiveFocus();
+                root.mainItemId = compositionRoot.clipId
                 if (mouse.button == Qt.RightButton) {
                     if (timeline.selection.indexOf(compositionRoot.clipId) == -1) {
-                        timeline.addSelection(compositionRoot.clipId, true)
+                        controller.requestAddToSelection(compositionRoot.clipId, true)
                     }
-                    compositionMenu.clipId = compositionRoot.clipId
-                    compositionMenu.grouped = compositionRoot.grouped
-                    compositionMenu.trackId = compositionRoot.trackId
-                    compositionMenu.popup()
+                    root.showCompositionMenu()
                 }
             }
         onReleased: {

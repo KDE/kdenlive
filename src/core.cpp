@@ -52,6 +52,8 @@ Core::Core()
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
+    m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
+    projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
 }
 
@@ -118,7 +120,7 @@ void Core::build(bool isAppImage, const QString &MltPath)
     m_self->m_jobManager.reset(new JobManager(m_self.get()));
 }
 
-void Core::initGUI(const QUrl &Url)
+void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
 {
     m_guiConstructed = true;
     m_profile = KdenliveSettings::default_profile();
@@ -191,7 +193,7 @@ void Core::initGUI(const QUrl &Url)
     connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
     m_mainWindow->init();
-    projectManager()->init(Url, QString());
+    projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
@@ -310,6 +312,15 @@ std::unique_ptr<ProfileModel> &Core::getCurrentProfile() const
     return ProfileRepository::get()->getProfile(m_currentProfile);
 }
 
+Mlt::Profile *Core::getProjectProfile()
+{
+    if (!m_projectProfile) {
+        m_projectProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
+        m_projectProfile->set_explicit(1);
+    }
+    return m_projectProfile.get();
+}
+
 const QString &Core::getCurrentProfilePath() const
 {
     return m_currentProfile;
@@ -324,11 +335,12 @@ bool Core::setCurrentProfile(const QString &profilePath)
     if (ProfileRepository::get()->profileExists(profilePath)) {
         m_currentProfile = profilePath;
         m_thumbProfile.reset();
+        m_projectProfile.reset();
         // inform render widget
         profileChanged();
         m_mainWindow->updateRenderWidgetProfile();
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-            m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(&getCurrentProfile()->profile());
+            m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
             checkProfileValidity();
         }
         return true;

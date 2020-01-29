@@ -398,6 +398,13 @@ void AssetPanel::deleteCurrentEffect()
     }
 }
 
+void AssetPanel::collapseCurrentEffect()
+{
+    if (m_effectStackWidget->isVisible()) {
+        m_effectStackWidget->switchCollapsed();
+    }
+}
+
 void AssetPanel::slotCheckWheelEventFilter()
 {
     // If the effect stack widget has no scrollbar, we will not filter the
@@ -410,7 +417,7 @@ void AssetPanel::slotCheckWheelEventFilter()
     m_effectStackWidget->blockWheenEvent(blockWheel);
 }
 
-void AssetPanel::assetPanelWarning(const QString service, const QString id, const QString message)
+void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, const QString message)
 {
     QString finalMessage;
     if (!service.isEmpty() && EffectsRepository::get()->exists(service)) {

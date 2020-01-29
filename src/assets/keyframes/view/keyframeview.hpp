@@ -73,8 +73,20 @@ private:
     int m_currentKeyframeOriginal;
     int m_hoverKeyframe;
     int m_lineHeight;
+    int m_zoomHeight;
     int m_offset;
     double m_scale;
+    /** @brief The zoom factor (start, end - between 0 and 1) */
+    QPointF m_zoomHandle;
+    QPointF m_lastZoomHandle;
+    /** @brief Mouse is the zoom left handle */
+    bool m_hoverZoomIn;
+    /** @brief Mouse is the zoom right handle */
+    bool m_hoverZoomOut;
+    /** @brief Mouse is over the zoom bar */
+    bool m_hoverZoom;
+    /** @brief the x click position offset for moving zoom */
+    double m_clickOffset;
     int m_size;
 
     QColor m_colSelected;

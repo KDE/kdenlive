@@ -638,3 +638,4 @@ void MonitorManager::updateBgColor()
         m_clipMonitor->updateBgColor();
     }
 }
+

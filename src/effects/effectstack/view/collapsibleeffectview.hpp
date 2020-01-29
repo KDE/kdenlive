@@ -31,6 +31,7 @@
 
 class QLabel;
 class KDualAction;
+class KSqueezedTextLabel;
 class EffectItemModel;
 class AssetParameterView;
 
@@ -47,7 +48,7 @@ class CollapsibleEffectView : public AbstractCollapsibleWidget
 public:
     explicit CollapsibleEffectView(const std::shared_ptr<EffectItemModel> &effectModel, QSize frameSize, const QImage &icon, QWidget *parent = nullptr);
     ~CollapsibleEffectView() override;
-    QLabel *title;
+    KSqueezedTextLabel *title;
 
     void setupWidget(const ItemInfo &info);
     void updateTimecodeFormat();
@@ -91,6 +92,8 @@ public slots:
     void updateHeight();
     /** @brief Should we block wheel event (if parent is a view with scrollbar) */
     void blockWheenEvent(bool block);
+    /** @brief Switch between collapsed/expanded state */
+    void switchCollapsed(int row);
 
 private slots:
     void setWidgetHeight(qreal value);

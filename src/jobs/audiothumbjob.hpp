@@ -72,6 +72,6 @@ private:
 
     bool m_done{false}, m_successful{false};
     int m_channels, m_frequency, m_lengthInFrames, m_audioStream;
-    QVector <double>m_audioLevels;
+    QVector <uint8_t>m_audioLevels;
     std::unique_ptr<QProcess> m_ffmpegProcess;
 };

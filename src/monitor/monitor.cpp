@@ -48,6 +48,7 @@
 #include <KRecentDirs>
 #include <KSelectAction>
 #include <KWindowConfig>
+#include <KColorScheme>
 #include <kio_version.h>
 
 #include "kdenlive_debug.h"
@@ -159,9 +160,30 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::passKeyEvent, this, &Monitor::doKeyPressEvent);
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
-    connect(m_glMonitor, &GLWidget::consumerPosition, this, &Monitor::seekPosition, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
+    connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
+        m_glMonitor->updateScaling();
+        switch (KdenliveSettings::previewScaling()) {
+            case 2:
+                m_scalingLabel->setText(i18n("720p"));
+                break;
+            case 4:
+                m_scalingLabel->setText(i18n("540p"));
+                break;
+            case 8:
+                m_scalingLabel->setText(i18n("360p"));
+                break;
+            case 16:
+                m_scalingLabel->setText(i18n("270p"));
+                break;
+            default:
+                m_scalingLabel->setText(QString());
+                break;
+        }
+        m_scalingLabel->setFixedWidth(m_scalingLabel->text().isEmpty() ? 0 : QWIDGETSIZE_MAX);
+        refreshMonitorIfActive();
+    });
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
@@ -204,6 +226,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     m_toolbar->setIconSize(iconSize);
+    m_scalingLabel = new QLabel(this);
+    m_scalingLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+    m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
+    m_toolbar->addWidget(m_scalingLabel);
     QWidget *sp1 = new QWidget(this);
     sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(sp1);
@@ -238,6 +266,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
 
     auto *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
+    connect(m_playMenu, &QMenu::aboutToShow, [this]() {
+        slotActivateMonitor();
+    });
     QAction *originalPlayAction = static_cast<KDualAction *>(manager->getAction(QStringLiteral("monitor_play")));
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
     m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
@@ -1731,6 +1762,9 @@ void Monitor::setPalette(const QPalette &p)
     if (root) {
         QMetaObject::invokeMethod(root, "updatePalette");
     }
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
+    m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
     m_audioMeterWidget->refreshPixmap();
 }
 
@@ -1888,7 +1922,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         type = MonitorSceneDefault;
     }
     double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * pCore->getCurrentProfile()->dar() + 0.5);
-    m_qmlManager->setScene(m_id, type, m_glMonitor->profileSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
     case MonitorSceneSplit:
@@ -1924,17 +1958,16 @@ void Monitor::setQmlProperty(const QString &name, const QVariant &value)
 
 void Monitor::slotAdjustEffectCompare()
 {
-    QRect r = m_glMonitor->rect();
     double percent = 0.5;
     if (m_qmlManager->sceneType() == MonitorSceneSplit) {
         // Adjust splitter pos
         QQuickItem *root = m_glMonitor->rootObject();
-        percent = 0.5 - ((root->property("splitterPos").toInt() - r.left() - r.width() / 2.0) / (double)r.width() / 2.0) / 0.75;
+        percent = root->property("percentage").toDouble();
         // Store real frame percentage for resize events
         root->setProperty("realpercent", percent);
     }
     if (m_splitEffect) {
-        m_splitEffect->set("0", percent);
+        m_splitEffect->set("0", 0.5 - (percent - 0.5) * .666);
     }
     m_glMonitor->refresh();
 }
@@ -2067,6 +2100,7 @@ void Monitor::reconfigure()
 
 void Monitor::slotSeekPosition(int pos)
 {
+    emit seekPosition(pos);
     m_timePos->setValue(pos);
     checkOverlay();
 }

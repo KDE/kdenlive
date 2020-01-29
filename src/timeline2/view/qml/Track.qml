@@ -20,7 +20,7 @@ import QtQuick 2.11
 import QtQml.Models 2.11
 import com.enums 1.0
 
-Column{
+Item{
     id: trackRoot
     property alias trackModel: trackModel.model
     property alias rootIndex : trackModel.rootIndex
@@ -94,7 +94,7 @@ Column{
                 Binding {
                     target: loader.item
                     property: "scrollX"
-                    value: scrollView.flickableItem.contentX
+                    value: scrollView.contentItem.contentX
                     when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
@@ -271,10 +271,16 @@ Column{
             onTrimmingIn: {
                 if (controlTrim) {
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, false, root.snapping)
-                    speedController.x = clip.x + clip.width - newDuration * trackRoot.timeScale
-                    speedController.width = newDuration * trackRoot.timeScale
+                    if (!speedController.visible) {
+                        // Store original speed
+                        speedController.originalSpeed = clip.speed
+                    }
+                    clip.x += clip.width - (newDuration * trackRoot.timeScale)
+                    clip.width = newDuration * root.timeScale
+                    speedController.x = clip.x + clip.border.width
+                    speedController.width = clip.width - 2 * clip.border.width
                     speedController.lastValidDuration = newDuration
-                    speedController.speedText = (100 * clip.originalDuration * clip.speed / speedController.lastValidDuration).toFixed(2) + '%'
+                    clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
                     return
                 }
@@ -294,15 +300,14 @@ Column{
             }
             onTrimmedIn: {
                 bubbleHelp.hide()
-                if (controlTrim) {
-                    speedController.visible = false
-                }
                 if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
                     // We only resize one element
                     controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, 0, shiftTrim)
                     if (controlTrim) {
                         // Update speed
-                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * clip.speed / speedController.lastValidDuration)
+                        speedController.visible = false
+                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, false, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
+                        speedController.originalSpeed = 1
                     } else {
                         controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, 0, shiftTrim)
                     }
@@ -314,11 +319,16 @@ Column{
             }
             onTrimmingOut: {
                 if (controlTrim) {
-                    speedController.x = clip.x
+                    if (!speedController.visible) {
+                        // Store original speed
+                        speedController.originalSpeed = clip.speed
+                    }
+                    speedController.x = clip.x + clip.border.width
                     newDuration = controller.requestItemSpeedChange(clip.clipId, newDuration, true, root.snapping)
-                    speedController.width = newDuration * trackRoot.timeScale
+                    clip.width = newDuration * trackRoot.timeScale
+                    speedController.width = clip.width - 2 * clip.border.width
                     speedController.lastValidDuration = newDuration
-                    speedController.speedText = (100 * clip.originalDuration * clip.speed / speedController.lastValidDuration).toFixed(2) + '%'
+                    clip.speed = clip.originalDuration * speedController.originalSpeed / newDuration
                     speedController.visible = true
                     return
                 }
@@ -337,14 +347,13 @@ Column{
             }
             onTrimmedOut: {
                 bubbleHelp.hide()
-                if (controlTrim) {
-                    speedController.visible = false
-                }
                 if (shiftTrim || clip.groupTrimData == undefined || controlTrim) {
                     controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, 0, shiftTrim)
                     if (controlTrim) {
+                        speedController.visible = false
                         // Update speed
-                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * clip.speed / speedController.lastValidDuration)
+                        controller.requestClipResizeAndTimeWarp(clip.clipId, speedController.lastValidDuration, true, root.snapping, shiftTrim, clip.originalDuration * speedController.originalSpeed / speedController.lastValidDuration)
+                        speedController.originalSpeed = 1
                     } else {
                         controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, 0, shiftTrim)
                     }
@@ -403,21 +412,23 @@ Column{
     }
     Rectangle {
         id: speedController
-        color: '#aaff0000'
+        anchors.bottom: parent.bottom
+        color: activePalette.highlight //'#cccc0000'
         visible: false
-        height: root.baseUnit * 3
+        height: root.baseUnit * 1.5
         property int lastValidDuration: 0
-        property string speedText: '100%'
+        property real originalSpeed: 1
         Text {
             id: speedLabel
-            text: i18n("Adjusting speed:\n") + speedController.speedText
-            font.pixelSize: root.baseUnit * 1.2
+            text: i18n("Adjusting speed")
+            font.pointSize: root.fontUnit
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            color: 'white'
-            style: Text.Outline
-            styleColor: 'black'
+            color: activePalette.highlightedText
         }
+        transitions: [ Transition {
+            NumberAnimation { property: "opacity"; duration: 300}
+        } ]
     }
 }

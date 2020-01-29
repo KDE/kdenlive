@@ -316,7 +316,7 @@ void MainWindow::init()
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
 
     m_assetPanel = new AssetPanel(this);
-    m_effectStackDock = addDock(i18n("Properties"), QStringLiteral("effect_stack"), m_assetPanel);
+    m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, [&](int cid, const QString &compositionId) {
@@ -503,6 +503,76 @@ void MainWindow::init()
     loadGenerators();
     loadDockActions();
     loadClipActions();
+
+    // Timeline clip menu
+    QMenu *timelineClipMenu = new QMenu(this);
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_split")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_switch")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("extract_clip")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("save_to_bin")));
+
+    QMenu *markerMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("marker_menu"), this));
+    timelineClipMenu->addMenu(markerMenu);
+
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("set_audio_align_ref")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("align_audio")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_speed")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("clip_in_project_tree")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("cut_timeline_clip")));
+
+    // Timeline composition menu
+    QMenu *compositionMenu = new QMenu(this);
+    compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
+    compositionMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
+    compositionMenu->addAction(actionCollection()->action(QStringLiteral("delete_timeline_clip")));
+
+    // Timeline main menu
+    QMenu *timelineMenu = new QMenu(this);
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("insert_space")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("delete_space_all_tracks")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
+    timelineMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    QMenu *guideMenu = new QMenu(i18n("Go to Guide..."), this);
+    timelineMenu->addMenu(guideMenu);
+
+    // Timeline ruler menu
+    QMenu *timelineRulerMenu = new QMenu(this);
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineRulerMenu->addMenu(guideMenu);
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
+
+    // Timeline headers menu
+    QMenu *timelineHeadersMenu = new QMenu(this);
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
+    QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
+    QActionGroup *thumbGroup = new QActionGroup(this);
+    QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
+    inFrame->setData(QStringLiteral("2"));
+    inFrame->setCheckable(true);
+    thumbsMenu->addAction(inFrame);
+    QAction *inOutFrame = new QAction(i18n("In/Out Frames"), thumbGroup);
+    inOutFrame->setData(QStringLiteral("0"));
+    inOutFrame->setCheckable(true);
+    thumbsMenu->addAction(inOutFrame);
+    QAction *allFrame = new QAction(i18n("All Frames"), thumbGroup);
+    allFrame->setData(QStringLiteral("1"));
+    allFrame->setCheckable(true);
+    thumbsMenu->addAction(allFrame);
+    QAction *noFrame = new QAction(i18n("No Thumbnails"), thumbGroup);
+    noFrame->setData(QStringLiteral("3"));
+    noFrame->setCheckable(true);
+    thumbsMenu->addAction(noFrame);
+
     QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
 #if defined(Q_OS_WIN)
     connect(openGLMenu, &QMenu::triggered, [&](QAction *ac) {
@@ -640,6 +710,7 @@ void MainWindow::init()
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
+    getMainTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu);
     scmanager->slotCheckActiveScopes();
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
@@ -720,7 +791,7 @@ void MainWindow::updateAction()
 MainWindow::~MainWindow()
 {
     pCore->prepareShutdown();
-    m_timelineTabs->disconnectTimeline(getMainTimeline());
+    delete m_timelineTabs;
     delete m_audioSpectrum;
     if (m_projectMonitor) {
         m_projectMonitor->stop();
@@ -1026,6 +1097,11 @@ void MainWindow::setupActions()
     toolGroup->addAction(m_buttonRazorTool);
     toolGroup->addAction(m_buttonSpacerTool);
     toolGroup->setExclusive(true);
+    
+    QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
+    addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
+    connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
+    
     // toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     /*QWidget * actionWidget;
@@ -1253,6 +1329,56 @@ void MainWindow::setupActions()
         overlayAudioInfo->setEnabled(toggled);
     });
 
+#if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
+    // Monitor resolution scaling
+    m_scaleGroup = new QActionGroup(this);
+    m_scaleGroup->setExclusive(true);
+    m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
+    QAction *scale_no = new QAction(i18n("Full Resolution"), m_scaleGroup);
+    addAction(QStringLiteral("scale_no_preview"), scale_no);
+    scale_no->setCheckable(true);
+    scale_no->setData(1);
+    QAction *scale_2 = new QAction(i18n("720p"), m_scaleGroup);
+    addAction(QStringLiteral("scale_2_preview"), scale_2);
+    scale_2->setCheckable(true);
+    scale_2->setData(2);
+    QAction *scale_4 = new QAction(i18n("540p"), m_scaleGroup);
+    addAction(QStringLiteral("scale_4_preview"), scale_4);
+    scale_4->setCheckable(true);
+    scale_4->setData(4);
+    QAction *scale_8 = new QAction(i18n("360p"), m_scaleGroup);
+    addAction(QStringLiteral("scale_8_preview"), scale_8);
+    scale_8->setCheckable(true);
+    scale_8->setData(8);
+    QAction *scale_16 = new QAction(i18n("270p"), m_scaleGroup);
+    addAction(QStringLiteral("scale_16_preview"), scale_16);
+    scale_16->setCheckable(true);
+    scale_16->setData(16);
+    switch (KdenliveSettings::previewScaling()) {
+        case 2:
+            scale_2->setChecked(true);
+            break;
+        case 4:
+            scale_4->setChecked(true);
+            break;
+        case 8:
+            scale_8->setChecked(true);
+            break;
+        case 16:
+            scale_16->setChecked(true);
+            break;
+        default:
+            scale_no->setChecked(true);
+            break;
+    }
+    connect(m_scaleGroup, &QActionGroup::triggered, [this] (QAction *ac) {
+        int scaling = ac->data().toInt();
+        KdenliveSettings::setPreviewScaling(scaling);
+        // Clear timeline selection so that any qml monitor scene is reset
+        pCore->monitorManager()->updatePreviewScaling();
+    });
+#endif
+
     QAction *dropFrames = new QAction(QIcon(), i18n("Real Time (drop frames)"), this);
     dropFrames->setCheckable(true);
     dropFrames->setChecked(KdenliveSettings::monitor_dropframes());
@@ -1328,7 +1454,6 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_clip_marker"), i18n("Delete Marker"), this, SLOT(slotDeleteClipMarker()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("delete_all_clip_markers"), i18n("Delete All Markers"), this, SLOT(slotDeleteAllClipMarkers()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
-
     QAction *editClipMarker = addAction(QStringLiteral("edit_clip_marker"), i18n("Edit Marker"), this, SLOT(slotEditClipMarker()),
                                         QIcon::fromTheme(QStringLiteral("document-properties")));
     editClipMarker->setData(QStringLiteral("edit_marker"));
@@ -1344,9 +1469,17 @@ void MainWindow::setupActions()
     splitAudio->setData('S');
     splitAudio->setEnabled(false);
 
+    QAction *extractClip = addAction(QStringLiteral("extract_clip"), i18n("Extract Clip"), this, SLOT(slotExtractClip()), QIcon::fromTheme(QStringLiteral("timeline-extract")), QKeySequence(), clipActionCategory);
+    extractClip->setData('C');
+    extractClip->setEnabled(false);
+
+    QAction *extractToBin = addAction(QStringLiteral("save_to_bin"), i18n("Save Timeline Zone to Bin"), this, SLOT(slotSaveZoneToBin()), QIcon(), QKeySequence(), clipActionCategory);
+    extractToBin->setData('C');
+    extractToBin->setEnabled(false);
+
     QAction *switchEnable = addAction(QStringLiteral("clip_switch"), i18n("Disable Clip"), this, SLOT(slotSwitchClip()),
                                     QIcon(), QKeySequence(), clipActionCategory);
-    // "S" will be handled specifically to change the action name depending on current selection
+    // "W" will be handled specifically to change the action name depending on current selection
     switchEnable->setData('W');
     switchEnable->setEnabled(false);
 
@@ -1403,7 +1536,7 @@ void MainWindow::setupActions()
     groupClip->setEnabled(false);
 
     QAction *ungroupClip = addAction(QStringLiteral("ungroup_clip"), i18n("Ungroup Clips"), this, SLOT(slotUnGroupClips()),
-                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), Qt::CTRL + Qt::SHIFT + Qt::Key_G, clipActionCategory);
+                                     QIcon::fromTheme(QStringLiteral("object-ungroup")), QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G), clipActionCategory);
     // "U" as data means this action should only be available if selection is a group
     ungroupClip->setData('U');
     ungroupClip->setEnabled(false);
@@ -1430,7 +1563,7 @@ void MainWindow::setupActions()
     QAction *insertTrack = new QAction(QIcon(), i18n("Insert Track"), this);
     connect(insertTrack, &QAction::triggered, this, &MainWindow::slotInsertTrack);
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
-    
+
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
     connect(masterEffectStack, &QAction::triggered, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
@@ -1467,7 +1600,7 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")));
+    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")));
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
@@ -2133,7 +2266,10 @@ void MainWindow::slotPreferences(int page, int option)
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
     connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
-    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, pCore->projectManager(), &ProjectManager::slotResetConsumers);
+    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, [this] (bool fullReset) {
+        m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
+        pCore->projectManager()->slotResetConsumers(fullReset);
+    });
     connect(dialog, &KdenliveSettingsDialog::checkTabPosition, this, &MainWindow::slotCheckTabPosition);
     connect(dialog, &KdenliveSettingsDialog::restartKdenlive, this, &MainWindow::slotRestart);
     connect(dialog, &KdenliveSettingsDialog::updateLibraryFolder, pCore.get(), &Core::updateLibraryPath);
@@ -2250,11 +2386,8 @@ void MainWindow::slotAddClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->addMarker(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->addMarker();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2272,11 +2405,8 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->deleteMarker(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->deleteMarker();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2304,11 +2434,8 @@ void MainWindow::slotDeleteAllClipMarkers()
 {
     std::shared_ptr<ProjectClip> clip(nullptr);
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->deleteAllMarkers(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->deleteAllMarkers();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
     }
@@ -2328,11 +2455,8 @@ void MainWindow::slotEditClipMarker()
     std::shared_ptr<ProjectClip> clip(nullptr);
     GenTime pos;
     if (m_projectMonitor->isActive()) {
-        int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
-        if (selectedClip > -1) {
-            getMainTimeline()->controller()->editMarker(selectedClip);
-            return;
-        }
+        getMainTimeline()->controller()->editMarker();
+        return;
     } else {
         clip = m_clipMonitor->currentController();
         pos = GenTime(m_clipMonitor->position(), pCore->getCurrentFps());
@@ -2376,7 +2500,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
             getMainTimeline()->controller()->switchGuide();
         } else {
             // Add marker to main clip
-            getMainTimeline()->controller()->addQuickMarker(selectedClip);
+            getMainTimeline()->controller()->addQuickMarker();
         }
     }
 }
@@ -2491,6 +2615,16 @@ void MainWindow::slotInsertClipInsert()
 void MainWindow::slotExtractZone()
 {
     getMainTimeline()->controller()->extractZone(m_clipMonitor->getZoneInfo());
+}
+
+void MainWindow::slotExtractClip()
+{
+    getMainTimeline()->controller()->extract();
+}
+
+void MainWindow::slotSaveZoneToBin()
+{
+    getMainTimeline()->controller()->saveZone();
 }
 
 void MainWindow::slotLiftZone()
@@ -2989,22 +3123,12 @@ void MainWindow::slotSwitchClip()
 
 void MainWindow::slotSetAudioAlignReference()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->setAudioAlignReference();
-    }
-    */
+    getMainTimeline()->controller()->setAudioRef();
 }
 
 void MainWindow::slotAlignAudio()
 {
-    // TODO refac
-    /*
-    if (pCore->projectManager()->currentTimeline()) {
-        pCore->projectManager()->currentTimeline()->projectView()->alignAudio();
-    }
-    */
+    getMainTimeline()->controller()->alignAudio();
 }
 
 void MainWindow::slotUpdateClipType(QAction *action)
@@ -3218,9 +3342,7 @@ void MainWindow::slotTranscode(const QStringList &urls)
 
 void MainWindow::slotTranscodeClip()
 {
-    QString allExtensions = ClipCreationDialog::getExtensions().join(QLatin1Char(' '));
-    const QString dialogFilter =
-        i18n("All Supported Files") + QLatin1Char('(') + allExtensions + QStringLiteral(");;") + i18n("All Files") + QStringLiteral("(*)");
+    const QString dialogFilter = ClipCreationDialog::getExtensionsFilter(QStringList() << i18n("All Files") + QStringLiteral(" (*)"));
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     QStringList urls = QFileDialog::getOpenFileNames(this, i18n("Files to transcode"), clipFolder, dialogFilter);
     if (urls.isEmpty()) {
@@ -3457,7 +3579,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
     for (QAction *ac : actions) {
         int mid = ac->data().toInt();
         if (mid == 0x010) {
-            ac->setEnabled(id == Kdenlive::ClipMonitor);
+            ac->setVisible(id == Kdenlive::ClipMonitor);
         }
         ac->setChecked(code & mid);
     }
@@ -3802,6 +3924,27 @@ void MainWindow::slotSwitchTimelineZone(bool active)
 void MainWindow::slotGrabItem()
 {
     getCurrentTimeline()->controller()->grabCurrent();
+}
+
+void MainWindow::slotCollapse()
+{
+    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
+        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+        // Bin expand/collapse?
+
+    } else {
+        QWidget *widget = QApplication::focusWidget();
+        while ((widget != nullptr) && widget != this) {
+            if (widget == m_effectStackDock) {
+                m_assetPanel->collapseCurrentEffect();
+                return;
+            }
+            widget = widget->parentWidget();
+        }
+
+        // Collapse / expand track
+        getMainTimeline()->controller()->collapseActiveTrack();
+    }    
 }
 
 #ifdef DEBUG_MAINW

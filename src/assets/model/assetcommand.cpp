@@ -34,6 +34,7 @@ AssetCommand::AssetCommand(const std::shared_ptr<AssetParameterModel> &model, co
     , m_stamp(QTime::currentTime())
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_name = m_model->data(index, AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();
     if (EffectsRepository::get()->exists(id)) {
@@ -82,6 +83,7 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     , m_stamp(QTime::currentTime())
 {
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     qDebug()<<"CREATING MULTIPLE COMMAND!!!\nVALUES: "<<m_values;
     m_name = m_model->data(indexes.first(), AssetParameterModel::NameRole).toString();
     const QString id = model->getAssetId();

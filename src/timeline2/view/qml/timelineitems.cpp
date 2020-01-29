@@ -156,9 +156,9 @@ public:
                     continue;
                 }
                 lastIdx = idx;
-                level = m_audioLevels.at(idx) / 256;
+                level = m_audioLevels.at(idx) / 255.;
                 for (int j = 1; j < m_channels; j++) {
-                    level = qMax(level, m_audioLevels.at(idx + j) / 256);
+                    level = qMax(level, m_audioLevels.at(idx + j) / 255.);
                 }
                 path.lineTo(i, height() - level * height());
             }
@@ -197,7 +197,7 @@ public:
                     lastIdx = idx;
                     idx += channel;
                     if (idx >= m_audioLevels.length() || idx < 0) break;
-                    level = m_audioLevels.at(idx) * channelHeight / 256;
+                    level = m_audioLevels.at(idx) * channelHeight / 255.;
                     channelPaths[channel].lineTo(i, y - level);
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
@@ -220,7 +220,7 @@ signals:
     void audioChannelsChanged();
 
 private:
-    QVector<double> m_audioLevels;
+    QVector<uint8_t> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
     QString m_binId;

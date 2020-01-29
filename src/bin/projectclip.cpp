@@ -197,7 +197,7 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(const QVector<double> audioLevels)
+void ProjectClip::updateAudioThumbnail(const QVector<uint8_t> audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
@@ -562,7 +562,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
         if (trackId == -1 ||
-            (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text))) {
+            (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
             return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration : -1));
@@ -853,8 +853,20 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
 std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
 {
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
-    QString resource = QString::fromLatin1(m_masterProducer->get("resource"));
+    QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
     std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    Mlt::Properties original(m_masterProducer->get_properties());
+    Mlt::Properties cloneProps(clone->get_properties());
+    cloneProps.pass_list(original, list);
+    return clone;
+}
+
+std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
+{
+    const char *list = ClipController::getPassPropertiesList();
+    QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
+    QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
+    std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Properties original(m_masterProducer->get_properties());
     Mlt::Properties cloneProps(clone->get_properties());
     cloneProps.pass_list(original, list);

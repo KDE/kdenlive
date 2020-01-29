@@ -1601,6 +1601,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     }
                     QStringList parsedValues;
                     QLocale locale;
+                    locale.setNumberOptions(QLocale::OmitGroupSeparator);
                     QMapIterator<int, double> l(values);
                     if (id == QLatin1String("volume")) {
                         // convert old volume range (0-300) to new dB values (-60-60)
@@ -2221,6 +2222,7 @@ QString DocumentValidator::factorizeGeomValue(const QString &value, double facto
     const QStringList vals = value.split(QLatin1Char(';'));
     QString result;
     QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int i = 0; i < vals.count(); i++) {
         const QString &s = vals.at(i);
         QString key = s.section(QLatin1Char('='), 0, 0);
