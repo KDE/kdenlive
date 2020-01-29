@@ -2823,3 +2823,10 @@ void TimelineController::collapseActiveTrack()
     int collapsed = m_model->getTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed")).toInt();
     m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QStringLiteral("5"));
 }
+
+void TimelineController::setTrackProperty(const QString &name, const QString &value)
+{
+    if (m_activeTrack > -1) {
+        m_model->setTrackProperty(m_activeTrack, name, value);
+    }
+}

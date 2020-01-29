@@ -86,11 +86,12 @@ Rectangle {
         onPressed: {
             parent.clicked()
             if (mouse.button == Qt.RightButton) {
-                headerMenu.trackId = trackId
+                /*headerMenu.trackId = trackId
                 headerMenu.thumbsFormat = thumbsFormat
                 headerMenu.audioTrack = trackHeadRoot.isAudio
                 headerMenu.recEnabled = trackHeadRoot.showAudioRecord
-                headerMenu.popup()
+                headerMenu.popup()*/
+                root.showHeaderMenu()
             }
         }
         onClicked: {

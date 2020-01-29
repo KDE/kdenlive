@@ -133,12 +133,15 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
     return sortedItems;
 }
 
-void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QAction *editGuideAction)
+void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu)
 {
     m_timelineClipMenu = clipMenu;
     m_timelineCompositionMenu = compositionMenu;
     m_timelineMenu = timelineMenu;
+    m_timelineRulerMenu = timelineRulerMenu;
     m_guideMenu = guideMenu;
+    m_headerMenu = headerMenu;
+    m_thumbsMenu = thumbsMenu;
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
@@ -150,6 +153,9 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     });
     connect(m_guideMenu, &QMenu::triggered, [&] (QAction *ac) {
         m_proxy->setPosition(ac->data().toInt());
+    });
+    connect(m_headerMenu, &QMenu::triggered, [&] (QAction *ac) {
+        m_proxy->setTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
     m_timelineClipMenu->addMenu(m_favEffects);
     m_timelineClipMenu->addMenu(m_favCompositions);
@@ -189,6 +195,8 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showClipMenu()), this, SLOT(showClipMenu()));
     connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
     connect(rootObject(), SIGNAL(showTimelineMenu()), this, SLOT(showTimelineMenu()));
+    connect(rootObject(), SIGNAL(showRulerMenu()), this, SLOT(showRulerMenu()));
+    connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -217,6 +225,38 @@ void TimelineWidget::showCompositionMenu()
         slotUngrabHack();
     });
 }
+
+void TimelineWidget::showHeaderMenu()
+{
+    m_headerMenu->popup(m_clickPos);
+    connect(m_headerMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
+void TimelineWidget::showRulerMenu()
+{
+    m_guideMenu->clear();
+    const QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    QAction *ac;
+    m_editGuideAcion->setEnabled(false);
+    double fps = pCore->getCurrentFps();
+    int currentPos = rootObject()->property("consumerPosition").toInt();
+    for (auto guide : guides) {
+        ac = new QAction(guide.comment(), this);
+        int frame = guide.time().frames(fps);
+        ac->setData(frame);
+        if (frame == currentPos) {
+            m_editGuideAcion->setEnabled(true);
+        }
+        m_guideMenu->addAction(ac);
+    }
+    m_timelineRulerMenu->popup(m_clickPos);
+    connect(m_timelineRulerMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+}
+
 
 void TimelineWidget::showTimelineMenu()
 {

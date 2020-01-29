@@ -543,6 +543,36 @@ void MainWindow::init()
     QMenu *guideMenu = new QMenu(i18n("Go to Guide..."), this);
     timelineMenu->addMenu(guideMenu);
 
+    // Timeline ruler menu
+    QMenu *timelineRulerMenu = new QMenu(this);
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_guide")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
+    timelineRulerMenu->addMenu(guideMenu);
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
+
+    // Timeline headers menu
+    QMenu *timelineHeadersMenu = new QMenu(this);
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
+    QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
+    QActionGroup *thumbGroup = new QActionGroup(this);
+    QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
+    inFrame->setData(QStringLiteral("2"));
+    inFrame->setCheckable(true);
+    thumbsMenu->addAction(inFrame);
+    QAction *inOutFrame = new QAction(i18n("In/Out Frames"), thumbGroup);
+    inOutFrame->setData(QStringLiteral("0"));
+    inOutFrame->setCheckable(true);
+    thumbsMenu->addAction(inOutFrame);
+    QAction *allFrame = new QAction(i18n("All Frames"), thumbGroup);
+    allFrame->setData(QStringLiteral("1"));
+    allFrame->setCheckable(true);
+    thumbsMenu->addAction(allFrame);
+    QAction *noFrame = new QAction(i18n("No Thumbnails"), thumbGroup);
+    noFrame->setData(QStringLiteral("3"));
+    noFrame->setCheckable(true);
+    thumbsMenu->addAction(noFrame);
+    timelineHeadersMenu->addMenu(thumbsMenu);
 
     QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
 #if defined(Q_OS_WIN)
@@ -681,7 +711,7 @@ void MainWindow::init()
 #ifdef USE_JOGSHUTTLE
     new JogManager(this);
 #endif
-    getMainTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, actionCollection()->action(QStringLiteral("edit_guide")));
+    getMainTimeline()->setTimelineMenu(timelineClipMenu, compositionMenu, timelineMenu, guideMenu, timelineRulerMenu, actionCollection()->action(QStringLiteral("edit_guide")), timelineHeadersMenu, thumbsMenu);
     scmanager->slotCheckActiveScopes();
     // m_messageLabel->setMessage(QStringLiteral("This is a beta version. Always backup your data"), MltError);
 }
@@ -1571,7 +1601,7 @@ void MainWindow::setupActions()
     disablePreview->setCheckable(true);
     addAction(QStringLiteral("disable_preview"), disablePreview);
 
-    addAction(QStringLiteral("add_guide"), i18n("Add Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")));
+    addAction(QStringLiteral("add_guide"), i18n("Add/Remove Guide"), this, SLOT(slotAddGuide()), QIcon::fromTheme(QStringLiteral("list-add")));
     addAction(QStringLiteral("delete_guide"), i18n("Delete Guide"), this, SLOT(slotDeleteGuide()), QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),

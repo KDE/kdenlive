@@ -692,6 +692,7 @@ QString ProjectManager::documentNotes() const
 
 void ProjectManager::slotAddProjectNote()
 {
+    m_notesPlugin->showDock();
     m_notesPlugin->widget()->raise();
     m_notesPlugin->widget()->setFocus();
     m_notesPlugin->widget()->addProjectNote();

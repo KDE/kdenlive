@@ -54,7 +54,7 @@ public:
     /* @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QAction *editGuideAction);
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu);
     bool loading;
 
 protected:
@@ -74,13 +74,18 @@ private slots:
     void showClipMenu();
     void showCompositionMenu();
     void showTimelineMenu();
+    void showRulerMenu();
+    void showHeaderMenu();
 
 private:
     TimelineController *m_proxy;
     QMenu *m_timelineClipMenu;
     QMenu *m_timelineCompositionMenu;
     QMenu *m_timelineMenu;
+    QMenu *m_timelineRulerMenu;
     QMenu *m_guideMenu;
+    QMenu *m_headerMenu;
+    QMenu *m_thumbsMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;
     QAction *m_editGuideAcion;

@@ -22,6 +22,8 @@ Rectangle {
     signal showClipMenu()
     signal showCompositionMenu()
     signal showTimelineMenu()
+    signal showRulerMenu()
+    signal showHeaderMenu()
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
@@ -581,62 +583,6 @@ Rectangle {
         }
     }
     OLD.Menu {
-        id: rulermenu
-        property int clickedX
-        property int clickedY
-        onAboutToHide: {
-            timeline.ungrabHack()
-            editGuideMenu2.visible = false
-        }
-        OLD.MenuItem {
-            id: addGuideMenu2
-            text: i18n("Add Guide")
-            onTriggered: {
-                timeline.switchGuide(root.consumerPosition);
-            }
-        }
-        GuidesMenu {
-            title: i18n("Go to guide...")
-            menuModel: guidesModel
-            enabled: guidesDelegateModel.count > 0
-            onGuideSelected: {
-                proxy.position = assetFrame
-            }
-        }
-        OLD.MenuItem {
-            id: editGuideMenu2
-            text: i18n("Edit Guide")
-            visible: false
-            onTriggered: {
-                timeline.editGuide(root.consumerPosition);
-            }
-        }
-        OLD.MenuItem {
-            id: addProjectNote
-            text: i18n("Add Project Note")
-            onTriggered: {
-                timeline.triggerAction('add_project_note')
-            }
-        }
-        onAboutToShow: {
-            if (guidesModel.hasMarker(root.consumerPosition)) {
-                // marker at timeline position
-                addGuideMenu2.text = i18n("Remove Guide")
-                editGuideMenu2.visible = true
-            } else {
-                addGuideMenu2.text = i18n("Add Guide")
-            }
-            console.log("pop menu")
-        }
-    }
-    MessageDialog {
-        id: compositionFail
-        title: i18n("Timeline error")
-        icon: StandardIcon.Warning
-        text: i18n("Impossible to add a composition at that position. There might not be enough space")
-        standardButtons: StandardButton.Ok
-    }
-    OLD.Menu {
         id: headerMenu
         property int trackId: -1
         property int thumbsFormat: 0
@@ -942,7 +888,7 @@ Rectangle {
                         root.showTimelineMenu()
                     } else {
                         // ruler menu
-                        rulermenu.popup()
+                        root.showRulerMenu()
                     }
                 }
             }

@@ -389,6 +389,10 @@ public:
      */
     void seekToMouse();
 
+    /* @brief Set a property on the active track
+     */
+    void setTrackProperty(const QString &name, const QString &value);
+
     /* @brief Returns a list of all luma files used in the project
      */
     QStringList extractCompositionLumas() const;
