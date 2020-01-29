@@ -74,7 +74,7 @@ Item {
     signal trimmedOut(var clip)
 
     onScrollStartChanged: {
-        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.viewport.width < 0
+        compositionRoot.hideCompoViews = compositionRoot.scrollStart > width || compositionRoot.scrollStart + scrollView.contentItem.width < 0
     }
 
     onKeyframeModelChanged: {
