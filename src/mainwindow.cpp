@@ -572,7 +572,6 @@ void MainWindow::init()
     noFrame->setData(QStringLiteral("3"));
     noFrame->setCheckable(true);
     thumbsMenu->addAction(noFrame);
-    timelineHeadersMenu->addMenu(thumbsMenu);
 
     QMenu *openGLMenu = static_cast<QMenu *>(factory()->container(QStringLiteral("qt_opengl"), this));
 #if defined(Q_OS_WIN)

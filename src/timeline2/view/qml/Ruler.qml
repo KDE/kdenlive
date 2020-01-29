@@ -101,7 +101,7 @@ Rectangle {
     Repeater {
         id: tickRepeater
         model: scrollView.width / rulerRoot.tickSpacing + 2
-        property int offset: Math.floor(scrollView.flickableItem.contentX /rulerRoot.tickSpacing)
+        property int offset: Math.floor(scrollView.contentItem.contentX /rulerRoot.tickSpacing)
         Item {
             property int realPos: (tickRepeater.offset + index) * rulerRoot.tickSpacing / timeline.scaleFactor
             x: realPos * timeline.scaleFactor

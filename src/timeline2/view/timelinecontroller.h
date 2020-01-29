@@ -391,7 +391,8 @@ public:
 
     /* @brief Set a property on the active track
      */
-    void setTrackProperty(const QString &name, const QString &value);
+    void setActiveTrackProperty(const QString &name, const QString &value);
+    const QVariant getActiveTrackProperty(const QString &name);
 
     /* @brief Returns a list of all luma files used in the project
      */

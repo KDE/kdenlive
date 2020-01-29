@@ -2824,9 +2824,20 @@ void TimelineController::collapseActiveTrack()
     m_model->setTrackProperty(m_activeTrack, QStringLiteral("kdenlive:collapsed"), collapsed > 0 ? QStringLiteral("0") : QStringLiteral("5"));
 }
 
-void TimelineController::setTrackProperty(const QString &name, const QString &value)
+void TimelineController::setActiveTrackProperty(const QString &name, const QString &value)
 {
     if (m_activeTrack > -1) {
         m_model->setTrackProperty(m_activeTrack, name, value);
     }
+}
+
+const QVariant TimelineController::getActiveTrackProperty(const QString &name)
+{
+    if (m_activeTrack > -1) {
+        if (m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
+            return QVariant(-1);
+        }
+        return m_model->getTrackProperty(m_activeTrack, name);
+    }
+    return QVariant();
 }

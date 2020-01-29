@@ -142,6 +142,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_guideMenu = guideMenu;
     m_headerMenu = headerMenu;
     m_thumbsMenu = thumbsMenu;
+    m_headerMenu->addMenu(m_thumbsMenu);
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
@@ -155,7 +156,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
         m_proxy->setPosition(ac->data().toInt());
     });
     connect(m_headerMenu, &QMenu::triggered, [&] (QAction *ac) {
-        m_proxy->setTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
+        m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
     m_timelineClipMenu->addMenu(m_favEffects);
     m_timelineClipMenu->addMenu(m_favCompositions);
@@ -228,6 +229,19 @@ void TimelineWidget::showCompositionMenu()
 
 void TimelineWidget::showHeaderMenu()
 {
+    int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
+    if (currentThumbs >= 0) {
+        QList <QAction *> actions = m_thumbsMenu->actions();
+        for (QAction *ac : actions) {
+            if (ac->data().toInt() == currentThumbs) {
+                ac->setChecked(true);
+                break;
+            }
+        }
+        m_thumbsMenu->menuAction()->setVisible(true);
+    } else {
+        m_thumbsMenu->menuAction()->setVisible(false);
+    }
     m_headerMenu->popup(m_clickPos);
     connect(m_headerMenu, &QMenu::aboutToHide, [this]() {
         slotUngrabHack();
