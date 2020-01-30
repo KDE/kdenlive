@@ -159,21 +159,11 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
         m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
     // Fix qml focus issue
-    connect(m_headerMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
-    connect(m_timelineClipMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
-    connect(m_timelineCompositionMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
-    connect(m_timelineRulerMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
-    connect(m_timelineMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
+    connect(m_headerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineCompositionMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineRulerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
 
     m_timelineClipMenu->addMenu(m_favEffects);
     m_timelineClipMenu->addMenu(m_favCompositions);
