@@ -42,11 +42,11 @@ Rectangle {
     }
 
     function scrollPos() {
-        return scrollView.contentItem.contentX
+        return scrollView.contentX
     }
 
     function goToStart(pos) {
-        scrollView.contentItem.contentX = pos
+        scrollView.contentX = pos
     }
 
     function checkDeletion(itemId) {
@@ -98,26 +98,26 @@ Rectangle {
             }
         } else if (wheel.modifiers & Qt.ShiftModifier) {
             // Vertical scroll
-            var newScroll = Math.min(scrollView.contentItem.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height)
-            scrollView.contentItem.contentY = Math.max(newScroll, 0)
+            var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, trackHeaders.height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height)
+            scrollView.contentY = Math.max(newScroll, 0)
         } else {
             // Horizontal scroll
-            var newScroll = Math.min(scrollView.contentItem.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
-            scrollView.contentItem.contentX = Math.max(newScroll, 0)
+            var newScroll = Math.min(scrollView.contentX - wheel.angleDelta.y, timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
+            scrollView.contentX = Math.max(newScroll, 0)
         }
         wheel.accepted = true
     }
 
     function continuousScrolling(x) {
         // This provides continuous scrolling at the left/right edges.
-        if (x > scrollView.contentItem.contentX + scrollView.width - 50) {
+        if (x > scrollView.contentX + scrollView.width - 50) {
             scrollTimer.item = clip
             scrollTimer.backwards = false
             scrollTimer.start()
         } else if (x < 50) {
-            scrollView.contentItem.contentX = 0;
+            scrollView.contentX = 0;
             scrollTimer.stop()
-        } else if (x < scrollView.contentItem.contentX + 50) {
+        } else if (x < scrollView.contentX + 50) {
             scrollTimer.item = clip
             scrollTimer.backwards = true
             scrollTimer.start()
@@ -138,15 +138,15 @@ Rectangle {
     }
 
     function getMousePos() {
-        return (scrollView.contentItem.contentX + tracksArea.mouseX) / timeline.scaleFactor
+        return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
     }
 
     function getScrollPos() {
-        return scrollView.contentItem.contentX
+        return scrollView.contentX
     }
 
     function setScrollPos(pos) {
-        return scrollView.contentItem.contentX = pos
+        return scrollView.contentX = pos
     }
 
     function getCopiedItemId() {
@@ -154,7 +154,7 @@ Rectangle {
     }
 
     function getMouseTrack() {
-        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.contentItem.contentY)
+        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.contentY)
     }
 
     function getTrackColor(audio, header) {
@@ -259,7 +259,7 @@ Rectangle {
     property int wheelAccumulatedDelta: 0
     readonly property int defaultDeltasPerStep: 120
     property bool seekingFinished : proxy.seekFinished
-    property int scrollMin: scrollView.contentItem.contentX / timeline.scaleFactor
+    property int scrollMin: scrollView.contentX / timeline.scaleFactor
     property int scrollMax: scrollMin + scrollView.contentItem.width / timeline.scaleFactor
     property double dar: 16/9
 
@@ -270,10 +270,10 @@ Rectangle {
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
         if (root.zoomOnMouse >= 0) {
-            scrollView.contentItem.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
+            scrollView.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
             root.zoomOnMouse = -1
         } else {
-            scrollView.contentItem.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
+            scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
         }
         //root.snapping = timeline.snap ? 10 / Math.sqrt(root.timeScale) : -1
         ruler.adjustStepSize()
@@ -289,10 +289,10 @@ Rectangle {
 
     onViewActiveTrackChanged: {
         var tk = Logic.getTrackById(timeline.activeTrack)
-        if (tk.y < scrollView.contentItem.contentY) {
-            scrollView.contentItem.contentY = Math.max(0, tk.y - scrollView.height / 3)
-        } else if (tk.y + tk.height > scrollView.contentItem.contentY + scrollView.contentItem.height) {
-            scrollView.contentItem.contentY = Math.min(trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y - scrollView.height / 3)
+        if (tk.y < scrollView.contentY) {
+            scrollView.contentY = Math.max(0, tk.y - scrollView.height / 3)
+        } else if (tk.y + tk.height > scrollView.contentY + scrollView.contentItem.height) {
+            scrollView.contentY = Math.min(trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y - scrollView.height / 3)
         }
     }
 
@@ -332,15 +332,15 @@ Rectangle {
             console.log("Trying to drop composition")
             if (clipBeingMovedId == -1) {
                 console.log("No clip being moved")
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentItem.contentY)
-                var frame = Math.round((drag.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY)
+                var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
                 if (track >= 0 && !controller.isAudioTrack(track)) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                     console.log("Trying to insert",track, frame, clipBeingDroppedData)
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
                     console.log("id",clipBeingDroppedId)
-                    continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                    continuousScrolling(drag.x + scrollView.contentX)
                     drag.acceptProposedAction()
                 } else {
                     drag.accepted = false
@@ -349,21 +349,21 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentItem.contentY)
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY)
                 if (track !=-1) {
-                    var frame = Math.round((drag.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+                    var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0){
                         if (controller.isAudioTrack(track)) {
                             // Don't allow moving composition to an audio track
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
                         }
                         controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, Math.floor(root.snapping))
-                        continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX)
                     } else if (!controller.isAudioTrack(track)) {
                         frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
-                        continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX)
                     }
                 }
             }
@@ -418,9 +418,9 @@ Rectangle {
         onEntered: {
             if (clipBeingMovedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentItem.contentY)
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    var frame = Math.round((drag.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+                    var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     droppedPosition = frame
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
@@ -438,7 +438,7 @@ Rectangle {
                             drag.accepted = false
                         }
                     }
-                    continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                    continuousScrolling(drag.x + scrollView.contentX)
                 } else {
                     drag.accepted = false
                 }
@@ -452,15 +452,15 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentItem.contentY)
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
-                    var frame = Math.round((drag.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+                    var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0) {
                         fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                        continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX)
                     } else {
                         frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         if (controller.normalEdit()) {
@@ -471,7 +471,7 @@ Rectangle {
                             fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         }
-                        continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX)
                     }
                 }
             }
@@ -537,15 +537,15 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentItem.contentY)
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
-                    var frame = Math.round((drag.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+                    var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0) {
                         //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                        continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX)
                     } else {
                         frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         if (controller.normalEdit()) {
@@ -556,13 +556,13 @@ Rectangle {
                             //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         }
-                        continuousScrolling(drag.x + scrollView.contentItem.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX)
                     }
                 }
             }
         }
         onDropped: {
-            var frame = Math.round((drag.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+            var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
             var track = timeline.activeTrack
             //var binIds = clipBeingDroppedData.split(";")
             //if (binIds.length == 1) {
@@ -613,7 +613,7 @@ Rectangle {
             Flickable {
                 // Non-slider scroll area for the track headers.
                 id: headerFlick
-                contentY: scrollView.contentItem.contentY
+                contentY: scrollView.contentY
                 width: parent.width
                 y: ruler.height
                 height: root.height - ruler.height
@@ -625,8 +625,8 @@ Rectangle {
                     height: trackHeaders.height
                     acceptedButtons: Qt.NoButton
                     onWheel: {
-                        var newScroll = Math.min(scrollView.contentItem.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height)
-                        scrollView.contentItem.contentY = Math.max(newScroll, 0)
+                        var newScroll = Math.min(scrollView.contentY - wheel.angleDelta.y, height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height)
+                        scrollView.contentY = Math.max(newScroll, 0)
                     }
                 }
                 Column {
@@ -728,7 +728,8 @@ Rectangle {
             property bool shiftPress: false
             // This provides continuous scrubbing and scimming at the left/right edges.
             hoverEnabled: true
-            acceptedButtons: Qt.RightButton | Qt.LeftButton | Qt.MidButton
+            preventStealing: true
+            acceptedButtons: Qt.AllButtons
             cursorShape: root.activeTool === 0 ? Qt.ArrowCursor : root.activeTool === 1 ? Qt.IBeamCursor : Qt.SplitHCursor
             onWheel: {
                 if (wheel.modifiers & Qt.AltModifier) {
@@ -745,14 +746,13 @@ Rectangle {
             }
             onPressed: {
                 focus = true
-                shiftPress = mouse.modifiers & Qt.ShiftModifier && mouse.y > ruler.height
-                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !shiftPress)) {
+                shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height)
+                if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
                 if (root.activeTool === 0 && shiftPress && mouse.y > ruler.height) {
-                        console.log('1111111111111\nREAL SHIFT PRESSED\n111111111111\n')
                         // rubber selection
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
@@ -763,9 +763,9 @@ Rectangle {
                 } else if (mouse.button & Qt.LeftButton) {
                     if (root.activeTool === 1) {
                         // razor tool
-                        var y = mouse.y - ruler.height + scrollView.contentItem.contentY
+                        var y = mouse.y - ruler.height + scrollView.contentY
                         if (y >= 0) {
-                            timeline.cutClipUnderCursor((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
+                            timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
                         }
                     }
                     if (dragProxy.draggedItem > -1) {
@@ -774,8 +774,8 @@ Rectangle {
                     }
                     if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
-                        var y = mouse.y - ruler.height + scrollView.contentItem.contentY
-                        var frame = (scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor
+                        var y = mouse.y - ruler.height + scrollView.contentY
+                        var frame = (scrollView.contentX + mouse.x) / timeline.scaleFactor
                         var track = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId : -1
                         spacerGroup = timeline.requestSpacerStartOperation(track, frame)
                         if (spacerGroup > -1) {
@@ -789,12 +789,12 @@ Rectangle {
                         if (mouse.y > ruler.height) {
                             controller.requestClearSelection();
                         }
-                        proxy.position = Math.min((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     if (mouse.y > ruler.height) {
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentItem.contentY)).trackInternalId
-                        root.mainFrame = Math.floor((mouse.x + scrollView.contentItem.contentX) / timeline.scaleFactor)
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY)).trackInternalId
+                        root.mainFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                         root.showTimelineMenu()
                     } else {
                         // ruler menu
@@ -807,24 +807,24 @@ Rectangle {
                 scim = false
             }
             onPositionChanged: {
-                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && mouse.modifiers & Qt.ControlModifier && !shiftPress))) {
+                if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
-                    var newScroll = Math.min(scrollView.contentItem.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
-                    var vertScroll = Math.min(scrollView.contentItem.contentY - (mouseY - clickY), trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height)
-                    scrollView.contentItem.contentX = Math.max(newScroll, 0)
-                    scrollView.contentItem.contentY = Math.max(vertScroll, 0)
+                    var newScroll = Math.min(scrollView.contentX - (mouseX - clickX), timeline.fullDuration * root.timeScale - (scrollView.width - scrollView.ScrollBar.vertical.width))
+                    var vertScroll = Math.min(scrollView.contentY - (mouseY - clickY), trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height)
+                    scrollView.contentX = Math.max(newScroll, 0)
+                    scrollView.contentY = Math.max(vertScroll, 0)
                     clickX = mouseX
                     clickY = mouseY
                     return
                 }
                 if (!pressed && !rubberSelect.visible && root.activeTool === 1) {
-                    cutLine.x = Math.floor((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.contentItem.contentX
+                    cutLine.x = Math.floor((scrollView.contentX + mouse.x) / timeline.scaleFactor) * timeline.scaleFactor - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
-                        proxy.position = Math.floor((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor)
+                        proxy.position = Math.floor((scrollView.contentX + mouse.x) / timeline.scaleFactor)
                     }
                 }
-                var mousePos = Math.max(0, Math.round((mouse.x + scrollView.contentItem.contentX) / timeline.scaleFactor))
+                var mousePos = Math.max(0, Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor))
                 root.mousePosChanged(mousePos)
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
@@ -852,15 +852,15 @@ Rectangle {
                         rubberSelect.y = rubberSelect.originY
                         rubberSelect.height= newY - rubberSelect.originY
                     }
-                } else if (mouse.buttons === Qt.LeftButton && !shiftPress) {
+                } else if ((pressedButtons & Qt.LeftButton) && !shiftPress) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
-                        proxy.position = Math.max(0, Math.min((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
+                        proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
                     } else if (root.activeTool === 2 && spacerGroup > -1) {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
-                        var frame = Math.round((mouse.x + scrollView.contentItem.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
+                        var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
                         frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, Math.floor(root.snapping))
-                        continuousScrolling(mouse.x + scrollView.contentItem.contentX)
+                        continuousScrolling(mouse.x + scrollView.contentX)
                     }
                     scim = true
                 } else {
@@ -870,7 +870,7 @@ Rectangle {
             onReleased: {
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
-                    var y = rubberSelect.y - ruler.height + scrollView.contentItem.contentY
+                    var y = rubberSelect.y - ruler.height + scrollView.contentY
                     var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
                     var bottomTrack = Logic.getTrackIndexFromPos(y + rubberSelect.height)
                     if (bottomTrack >= topTrack) {
@@ -878,15 +878,15 @@ Rectangle {
                         for (var i = topTrack; i <= bottomTrack; i++) {
                             t.push(tracksRepeater.itemAt(i).trackInternalId)
                         }
-                        var startFrame = (scrollView.contentItem.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
-                        var endFrame = (scrollView.contentItem.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
+                        var startFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
+                        var endFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
                         timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier);
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress) {
                     if (root.activeTool == 1) {
                         // Shift click, process seek
-                        proxy.position = Math.min((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     } else if (dragProxy.draggedItem > -1) {
                         // Select item
                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
@@ -896,7 +896,7 @@ Rectangle {
                         }
                     } else if (!rubberSelect.visible) {
                         // Mouse release with shift press and no rubber select, seek
-                        proxy.position = Math.min((scrollView.contentItem.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
+                        proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                     return
                 }
@@ -916,7 +916,7 @@ Rectangle {
                     id: rulercontainer
                     width: root.width - headerWidth
                     height: root.baseUnit * 2
-                    contentX: scrollView.contentItem.contentX
+                    contentX: scrollView.contentX
                     contentWidth: Math.max(parent.width, timeline.fullDuration * timeScale)
                     interactive: false
                     clip: true
@@ -948,7 +948,7 @@ Rectangle {
                         }
                     }
                 }
-                ScrollView {
+                Flickable {
                     id: scrollView
                     width: root.width - headerWidth
                     height: root.height - ruler.height
@@ -956,6 +956,14 @@ Rectangle {
                     // Click and drag should seek, not scroll the timeline view
                     //flickableItem.interactive: false
                     clip: true
+                    interactive: false
+                    ScrollBar.horizontal: ScrollBar { }
+                    ScrollBar.vertical: ScrollBar { }
+                    //ScrollBar.horizontal.interactive: false
+                    //ScrollBar.vertical.interactive: false
+                    //Component.onCompleted: contentItem.interactive = false
+                    contentWidth: tracksContainerArea.width
+                    contentHeight: tracksContainerArea.height
                     Rectangle {
                         id: tracksContainerArea
                         width: Math.max(scrollView.width - scrollView.ScrollBar.vertical.width, timeline.fullDuration * timeScale)
@@ -1179,21 +1187,6 @@ Rectangle {
                     }
                 }
             }
-            /*CornerSelectionShadow {
-                y: tracksRepeater.count ? tracksRepeater.itemAt(currentTrack).y + ruler.height - scrollView.contentItem.contentY : 0
-                clip: timeline.selection.length ?
-                        tracksRepeater.itemAt(currentTrack).clipAt(timeline.selection[0]) : null
-                opacity: clip && clip.x + clip.width < scrollView.contentItem.contentX ? 1 : 0
-            }
-
-            CornerSelectionShadow {
-                y: tracksRepeater.count ? tracksRepeater.itemAt(currentTrack).y + ruler.height - scrollView.contentItem.contentY : 0
-                clip: timeline.selection.length ?
-                        tracksRepeater.itemAt(currentTrack).clipAt(timeline.selection[timeline.selection.length - 1]) : null
-                opacity: clip && clip.x > scrollView.contentItem.contentX + scrollView.width ? 1 : 0
-                anchors.right: parent.right
-                mirrorGradient: true
-            }*/
             Rectangle {
                 id: cutLine
                 visible: root.activeTool == 1 && tracksArea.mouseY > ruler.height
@@ -1202,7 +1195,7 @@ Rectangle {
                 opacity: (width > 2) ? 0.5 : 1
                 height: root.height - scrollView.ScrollBar.horizontal.height - ruler.height
                 x: 0
-                //x: root.consumerPosition * timeline.scaleFactor - scrollView.contentItem.contentX
+                //x: root.consumerPosition * timeline.scaleFactor - scrollView.contentX
                 y: ruler.height
             }
         }
@@ -1240,8 +1233,8 @@ Rectangle {
         }
         function show(x, y, text) {
             bubbleHelp.text = text
-            bubbleHelp.x = x + tracksArea.x - scrollView.contentItem.contentX - bubbleHelp.width
-            bubbleHelp.y = y + tracksArea.y - scrollView.contentItem.contentY - bubbleHelp.height + ruler.height - 3
+            bubbleHelp.x = x + tracksArea.x - scrollView.contentX - bubbleHelp.width
+            bubbleHelp.y = y + tracksArea.y - scrollView.contentY - bubbleHelp.height + ruler.height - 3
             if (bubbleHelp.state !== 'visible')
                 bubbleHelp.state = 'visible'
         }
@@ -1353,7 +1346,7 @@ Rectangle {
                     text: model.comment
                     font.pointSize: root.fontUnit
                     x: guideBase.x + 2
-                    y: scrollView.contentItem.contentY
+                    y: scrollView.contentY
                     color: 'white'
                 }
             }
@@ -1381,8 +1374,8 @@ Rectangle {
         onTriggered: {
             var delta = backwards? -10 : 10
             if (item) item.x += delta
-            scrollView.contentItem.contentX += delta
-            if (scrollView.contentItem.contentX <= 0 || clipBeingMovedId == -1)
+            scrollView.contentX += delta
+            if (scrollView.contentX <= 0 || clipBeingMovedId == -1)
                 stop()
         }
     }

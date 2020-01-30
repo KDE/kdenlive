@@ -94,7 +94,7 @@ Item{
                 Binding {
                     target: loader.item
                     property: "scrollX"
-                    value: scrollView.contentItem.contentX
+                    value: scrollView.contentX
                     when: loader.status == Loader.Ready && loader.item
                 }
                 Binding {
