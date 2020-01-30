@@ -158,6 +158,23 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     connect(m_headerMenu, &QMenu::triggered, [&] (QAction *ac) {
         m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
+    // Fix qml focus issue
+    connect(m_headerMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+    connect(m_timelineClipMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+    connect(m_timelineCompositionMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+    connect(m_timelineRulerMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+    connect(m_timelineMenu, &QMenu::aboutToHide, [this]() {
+        slotUngrabHack();
+    });
+
     m_timelineClipMenu->addMenu(m_favEffects);
     m_timelineClipMenu->addMenu(m_favCompositions);
     m_timelineMenu->addMenu(m_favCompositions);
@@ -214,17 +231,11 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
 void TimelineWidget::showClipMenu()
 {
     m_timelineClipMenu->popup(m_clickPos);
-    connect(m_timelineClipMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
 }
 
 void TimelineWidget::showCompositionMenu()
 {
     m_timelineCompositionMenu->popup(m_clickPos);
-    connect(m_timelineCompositionMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
 }
 
 void TimelineWidget::showHeaderMenu()
@@ -243,9 +254,6 @@ void TimelineWidget::showHeaderMenu()
         m_thumbsMenu->menuAction()->setVisible(false);
     }
     m_headerMenu->popup(m_clickPos);
-    connect(m_headerMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
 }
 
 void TimelineWidget::showRulerMenu()
@@ -266,9 +274,6 @@ void TimelineWidget::showRulerMenu()
         m_guideMenu->addAction(ac);
     }
     m_timelineRulerMenu->popup(m_clickPos);
-    connect(m_timelineRulerMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
 }
 
 
@@ -290,9 +295,6 @@ void TimelineWidget::showTimelineMenu()
         m_guideMenu->addAction(ac);
     }
     m_timelineMenu->popup(m_clickPos);
-    connect(m_timelineMenu, &QMenu::aboutToHide, [this]() {
-        slotUngrabHack();
-    });
 }
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
