@@ -34,10 +34,11 @@ Rectangle {
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
-    property int iconSize: root.baseUnit * 2
+    property int buttonSize: root.baseUnit * 1.8
+    property int iconSize: buttonSize - 8//Math.max(16, 8 * Math.round((buttonSize - 4)/ 8))
     property string trackTag
     property int thumbsFormat: 0
-    property int collapsedHeight: iconSize
+    property int collapsedHeight: buttonSize
     border.width: 1
     border.color: root.frameColor
     signal clicked()
@@ -96,7 +97,7 @@ Rectangle {
     }
     Item {
         id: targetColumn
-        width: trackHeadRoot.iconSize * .4
+        width: trackHeadRoot.buttonSize * .4
         height: trackHeadRoot.height
         Item {
             anchors.fill: parent
@@ -189,8 +190,10 @@ Rectangle {
         ToolButton {
             id: expandButton
             anchors.left: trackHeadColumn.left
-            implicitHeight: trackHeadRoot.iconSize
-            implicitWidth: trackHeadRoot.iconSize
+            height: trackHeadRoot.buttonSize
+            width: trackHeadRoot.buttonSize
+            icon.width: trackHeadRoot.iconSize
+            icon.height: trackHeadRoot.iconSize
             icon.name: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
             onClicked: {
                 trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
@@ -213,14 +216,14 @@ Rectangle {
         Item {
             id: tagContainer
             anchors.left: expandButton.right
-            width: trackHeadRoot.iconSize
-            height: trackHeadRoot.iconSize
+            width: trackHeadRoot.buttonSize
+            height: trackHeadRoot.buttonSize
             //Layout.topMargin: 1
             Rectangle {
                 id: trackLed
                 color: Qt.darker(trackHeadRoot.color, 0.55)
                 anchors.fill: parent
-                anchors.margins: trackHeadRoot.iconSize / 8
+                anchors.margins: trackHeadRoot.buttonSize / 8
                 border.width: 0
                 Text {
                     id: trackTagLabel
@@ -305,7 +308,7 @@ Rectangle {
         }
         Row {
             width: childrenRect.width
-            x: Math.max(2 * trackHeadRoot.iconSize + 2, parent.width - width - 4)
+            x: Math.max(2 * trackHeadRoot.buttonSize + 2, parent.width - width - 4)
             spacing: 0
             ToolButton {
                 id: effectButton
@@ -313,8 +316,10 @@ Rectangle {
                 checkable: true
                 enabled: trackHeadRoot.effectNames != ''
                 checked: enabled && trackHeadRoot.isStackEnabled
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
+                height: trackHeadRoot.buttonSize
+                width: trackHeadRoot.buttonSize
+                icon.width: trackHeadRoot.iconSize
+                icon.height: trackHeadRoot.iconSize
                 onClicked: {
                     timeline.showTrackAsset(trackId)
                     controller.setTrackStackEnabled(trackId, !isStackEnabled)
@@ -322,10 +327,11 @@ Rectangle {
             }
             ToolButton {
                 id: muteButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
+                height: trackHeadRoot.buttonSize
+                width: trackHeadRoot.buttonSize
+                icon.width: trackHeadRoot.iconSize
+                icon.height: trackHeadRoot.iconSize
                 icon.name: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
-                icon.source: isAudio ? (isDisabled ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz') : (isDisabled ? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz')
                 onClicked: controller.setTrackProperty(trackId, "hide", isDisabled ? (isAudio ? '1' : '2') : '3')
                 ToolTip {
                     visible: muteButton.hovered
@@ -345,10 +351,11 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
+                height: trackHeadRoot.buttonSize
+                width: trackHeadRoot.buttonSize
+                icon.width: trackHeadRoot.iconSize
+                icon.height: trackHeadRoot.iconSize
                 icon.name: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
-                icon.source: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
                 ToolTip {
                     visible: lockButton.hovered
