@@ -35,7 +35,7 @@ Rectangle {
     property int myTrackHeight
     property int trackId : -42
     property int buttonSize: root.baseUnit * 1.8
-    property int iconSize: buttonSize - 8//Math.max(16, 8 * Math.round((buttonSize - 4)/ 8))
+    property int iconSize: buttonSize - 4
     property string trackTag
     property int thumbsFormat: 0
     property int collapsedHeight: buttonSize
