@@ -463,7 +463,9 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
 {
     bool exists;
     auto marker = getMarker(pos, &exists);
-    Q_ASSERT(exists || createIfNotFound);
+    if(!exists && !createIfNotFound) {
+        pCore->displayMessage(i18n("No guide found at current position"), InformationMessage);
+    }
 
     if (!exists && createIfNotFound) {
         marker = CommentedTime(pos, QString());

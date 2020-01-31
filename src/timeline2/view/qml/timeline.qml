@@ -1,10 +1,6 @@
 import QtQuick 2.11
 import QtQml.Models 2.11
-import QtQuick.Controls 1.4 as OLD
-import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 2.4
-import QtQuick.Layouts 1.11
-import QtQuick.Dialogs 1.3
 import Kdenlive.Controls 1.0
 import 'Timeline.js' as Logic
 
@@ -593,7 +589,7 @@ Rectangle {
                 width: parent.width
                 height: ruler.height
                 Button {
-                    text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : "M"
+                    text: parent.width > metrics.boundingRect.width * 1.4 ? metrics.text : i18nc("Initial for Master", "M")
                     anchors.fill: parent
                     anchors.leftMargin: 2
                     anchors.rightMargin: 2
@@ -674,11 +670,11 @@ Rectangle {
                 Column {
                     id: trackHeadersResizer
                     spacing: 0
-                    width: 5
+                    width: root.baseUnit / 2
                     Rectangle {
                         id: resizer
                         height: trackHeaders.height
-                        width: 3
+                        width: root.baseUnit / 2
                         x: root.headerWidth - 2
                         color: 'red'
                         opacity: 0

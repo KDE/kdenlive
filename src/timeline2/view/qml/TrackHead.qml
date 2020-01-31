@@ -17,10 +17,7 @@
  */
 
 import QtQuick 2.11
-import QtQuick.Controls 1.4
-import QtQuick.Controls 2.4 as NEWQML
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Layouts 1.11
+import QtQuick.Controls 2.4
 
 Rectangle {
     id: trackHeadRoot
@@ -86,11 +83,6 @@ Rectangle {
         onPressed: {
             parent.clicked()
             if (mouse.button == Qt.RightButton) {
-                /*headerMenu.trackId = trackId
-                headerMenu.thumbsFormat = thumbsFormat
-                headerMenu.audioTrack = trackHeadRoot.isAudio
-                headerMenu.recEnabled = trackHeadRoot.showAudioRecord
-                headerMenu.popup()*/
                 root.showHeaderMenu()
             }
         }
@@ -102,17 +94,13 @@ Rectangle {
             }
         }
     }
-    ColumnLayout {
+    Item {
         id: targetColumn
-        width: trackTagLabel.width * .5
+        width: trackHeadRoot.iconSize * .4
         height: trackHeadRoot.height
         Item {
-            width: parent.width
-            Layout.fillHeight: true
-            Layout.topMargin: 1
-            Layout.bottomMargin: 1
-            Layout.leftMargin: 1
-            Layout.alignment: Qt.AlignVCenter
+            anchors.fill: parent
+            anchors.margins: 1
             Rectangle {
                 id: trackTarget
                 color: 'grey'
@@ -141,7 +129,7 @@ Rectangle {
                         }
                     }
                 }
-                NEWQML.ToolTip {
+                ToolTip {
                         visible: targetArea.containsMouse
                         font.pixelSize: root.baseUnit
                         delay: 1500
@@ -192,123 +180,136 @@ Rectangle {
             }
         }
     }
-    ColumnLayout {
+    Item {
         id: trackHeadColumn
-        spacing: 0
         anchors.fill: parent
         anchors.leftMargin: targetColumn.width
         anchors.topMargin: 0
-        RowLayout {
-            spacing: 0
-            Layout.leftMargin: 1
-            ToolButton {
-                id: expandButton
-                implicitHeight: trackHeadRoot.iconSize
-                implicitWidth: trackHeadRoot.iconSize
-                iconName: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
-                onClicked: {
-                    trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
-                }
-                tooltip: trackLabel.visible? i18n("Minimize") : i18n("Expand")
+
+        ToolButton {
+            id: expandButton
+            anchors.left: trackHeadColumn.left
+            implicitHeight: trackHeadRoot.iconSize
+            implicitWidth: trackHeadRoot.iconSize
+            icon.name: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
+            onClicked: {
+                trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
             }
-            Item {
-                width: trackTagLabel.contentWidth + 4
-                height: width
-                Layout.topMargin: 1
-                Rectangle {
-                    id: trackLed
-                    color: Qt.darker(trackHeadRoot.color, 0.55)
-                    anchors.fill: parent
-                    width: height
-                    border.width: 0
-                    Text {
-                        id: trackTagLabel
-                        text: trackHeadRoot.trackTag
-                        anchors.fill: parent
-                        font.pointSize: root.fontUnit
-                        color: activePalette.text
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignHCenter
-                    }
-                    MouseArea {
-                        id: tagMouseArea
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            timeline.switchTrackActive(trackHeadRoot.trackId)
-                        }
-                    }
-                    NEWQML.ToolTip {
-                        visible: tagMouseArea.containsMouse
-                        font.pixelSize: root.baseUnit
-                        delay: 1500
-                        timeout: 5000
-                        background: Rectangle {
-                            color: activePalette.alternateBase
-                            border.color: activePalette.light
-                        }
-                        contentItem: Label {
-                            color: activePalette.text
-                            text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
-                        }
-                    }
-                    state:  'normalled'
-                    states: [
-                        State {
-                            name: 'locked'
-                            when: trackHeadRoot.isLocked
-                            PropertyChanges {
-                                target: trackLed
-                                color: 'red'
-                            }
-                        },
-                        State {
-                            name: 'active'
-                            when: trackHeadRoot.isActive
-                            PropertyChanges {
-                                target: trackLed
-                                color: timeline.targetColor
-                            }
-                            PropertyChanges {
-                                target: trackTagLabel
-                                color: timeline.targetTextColor
-                            }
-                        },
-                        State {
-                            name: 'inactive'
-                            when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
-                            PropertyChanges {
-                                target: trackLed
-                                color: Qt.darker(trackHeadRoot.color, 0.55)
-                            }
-                        }
-                    ]
-                    transitions: [
-                        Transition {
-                            to: '*'
-                            ColorAnimation { target: trackLed; duration: 300 }
-                        }
-                    ]
-                }
-            }
-            Item {
-                // Spacer
-                width:2
-            }
-            Label {
-                text: trackHeadRoot.trackName
+            ToolTip {
+                visible: expandButton.hovered
                 font.pixelSize: root.baseUnit
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTagLabel.width + (5 * muteButton.width)
+                delay: 1500
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    text: trackLabel.visible? i18n("Minimize") : i18n("Expand")
+                }
             }
-            Item {
-                // Spacer
-                Layout.fillWidth: true
+        }
+        Item {
+            id: tagContainer
+            anchors.left: expandButton.right
+            width: trackHeadRoot.iconSize
+            height: trackHeadRoot.iconSize
+            //Layout.topMargin: 1
+            Rectangle {
+                id: trackLed
+                color: Qt.darker(trackHeadRoot.color, 0.55)
+                anchors.fill: parent
+                anchors.margins: trackHeadRoot.iconSize / 8
+                border.width: 0
+                Text {
+                    id: trackTagLabel
+                    text: trackHeadRoot.trackTag
+                    anchors.fill: parent
+                    font.pointSize: root.fontUnit
+                    color: activePalette.text
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                MouseArea {
+                    id: tagMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        timeline.switchTrackActive(trackHeadRoot.trackId)
+                    }
+                }
+                ToolTip {
+                    visible: tagMouseArea.containsMouse
+                    font.pixelSize: root.baseUnit
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
+                    }
+                    }
+            state:  'normalled'
+                states: [
+                    State {
+                        name: 'locked'
+                        when: trackHeadRoot.isLocked
+                        PropertyChanges {
+                            target: trackLed
+                            color: 'red'
+                        }
+                    },
+                    State {
+                        name: 'active'
+                        when: trackHeadRoot.isActive
+                        PropertyChanges {
+                            target: trackLed
+                            color: timeline.targetColor
+                        }
+                        PropertyChanges {
+                            target: trackTagLabel
+                            color: timeline.targetTextColor
+                        }
+                    },
+                    State {
+                        name: 'inactive'
+                        when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
+                        PropertyChanges {
+                            target: trackLed
+                            color: Qt.darker(trackHeadRoot.color, 0.55)
+                        }
+                    }
+                ]
+                transitions: [
+                    Transition {
+                        to: '*'
+                        ColorAnimation { target: trackLed; duration: 300 }
+                    }
+                ]
             }
+        }
+        Label {
+            anchors.left: tagContainer.right
+            anchors.leftMargin: 2
+            anchors.verticalCenter: parent.verticalCenter
+            text: trackHeadRoot.trackName
+            font.pixelSize: root.baseUnit
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTagLabel.width + (4 * muteButton.width) + 4
+        }
+        Row {
+            width: childrenRect.width
+            x: Math.max(2 * trackHeadRoot.iconSize + 2, parent.width - width - 4)
+            spacing: 0
             ToolButton {
-                iconName: 'tools-wizard'
+                id: effectButton
+                icon.name: 'tools-wizard'
                 checkable: true
                 enabled: trackHeadRoot.effectNames != ''
                 checked: enabled && trackHeadRoot.isStackEnabled
@@ -323,20 +324,46 @@ Rectangle {
                 id: muteButton
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize
-                iconName: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
-                iconSource: isAudio ? (isDisabled ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz') : (isDisabled ? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz')
+                icon.name: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
+                icon.source: isAudio ? (isDisabled ? 'qrc:///pics/kdenlive-hide-audio.svgz' : 'qrc:///pics/kdenlive-show-audio.svgz') : (isDisabled ? 'qrc:///pics/kdenlive-hide-video.svgz' : 'qrc:///pics/kdenlive-show-video.svgz')
                 onClicked: controller.setTrackProperty(trackId, "hide", isDisabled ? (isAudio ? '1' : '2') : '3')
-                tooltip: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
+                ToolTip {
+                    visible: muteButton.hovered
+                    font.pixelSize: root.baseUnit
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: isAudio ? (isDisabled? i18n("Unmute") : i18n("Mute")) : (isDisabled? i18n("Show") : i18n("Hide"))
+                    }
+                }
             }
 
             ToolButton {
                 id: lockButton
                 implicitHeight: trackHeadRoot.iconSize
                 implicitWidth: trackHeadRoot.iconSize
-                iconName: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
-                iconSource: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
+                icon.name: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
+                icon.source: isLocked ? 'qrc:///pics/kdenlive-lock.svg' : 'qrc:///pics/kdenlive-unlock.svg'
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
-                tooltip: isLocked? i18n("Unlock track") : i18n("Lock track")
+                ToolTip {
+                    visible: lockButton.hovered
+                    font.pixelSize: root.baseUnit
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: isLocked? i18n("Unlock track") : i18n("Lock track")
+                    }
+                }
 
                  SequentialAnimation {
                     id: flashLock
@@ -355,32 +382,20 @@ Rectangle {
                     }
                  }
             }
-            Layout.rightMargin: 4
         }
-        RowLayout {
-            id: recLayout
-            Layout.maximumHeight: showAudioRecord ? -1 : 0
-            Loader {
-                id: audioVuMeter
-                Layout.fillWidth: true
-                Layout.rightMargin: 2
-                Layout.leftMargin: 4
-                visible: showAudioRecord && (trackHeadRoot.height >= 2 * muteButton.height + resizer.height)
-                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
-                onLoaded: item.trackId = trackId
-            }
-        }
-        RowLayout {
+        Item {
+            anchors.bottom: trackHeadColumn.bottom
+            anchors.left: trackHeadColumn.left
+            anchors.right: trackHeadColumn.right
+            anchors.margins: 2
+            height: nameEdit.height
             Rectangle {
                 id: trackLabel
                 color: 'transparent'
                 radius: 2
-                Layout.fillWidth: true
-                Layout.rightMargin: 2
-                Layout.leftMargin: 2
+                anchors.fill: parent
                 border.color: trackNameMouseArea.containsMouse ? activePalette.highlight : 'transparent'
-                height: nameEdit.height
-                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height + recLayout.height)
+                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
                 MouseArea {
                     id: trackNameMouseArea
                     anchors.fill: parent
@@ -432,7 +447,12 @@ Rectangle {
                     width: parent.width
                     text: trackName
                     font.pointSize: root.fontUnit
-                    style: TextFieldStyle {
+                    background: Rectangle {
+                        radius: 2
+                        color: activePalette.window
+                        anchors.fill: parent
+                    }
+                    /*style: TextFieldStyle {
                         padding.top:0
                         padding.bottom: 0
                         background: Rectangle {
@@ -440,19 +460,13 @@ Rectangle {
                             color: activePalette.window
                             anchors.fill: parent
                         }
-                    }
+                    }*/
                     onEditingFinished: {
                         controller.setTrackProperty(trackId, "kdenlive:track_name", text)
                         visible = false
                     }
                 }
             }
-        }
-        Item {
-            // Spacer
-            id: spacer
-            Layout.fillWidth: true
-            Layout.fillHeight: true
         }
     }
     Rectangle {
