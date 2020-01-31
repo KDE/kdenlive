@@ -57,6 +57,12 @@ TimelineTabs::TimelineTabs(QWidget *parent)
     connect(pCore->monitorManager()->projectMonitor(), &Monitor::addEffect, m_mainTimeline->controller(), &TimelineController::addEffectToCurrentClip);
 }
 
+TimelineTabs::~TimelineTabs()
+{
+    // clear source
+    m_mainTimeline->setSource(QUrl());
+}
+
 TimelineWidget *TimelineTabs::getMainTimeline() const
 {
     return m_mainTimeline;

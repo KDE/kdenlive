@@ -60,7 +60,6 @@ void EffectListWidget::updateFavorite(const QModelIndex &index)
 
 EffectListWidget::~EffectListWidget()
 {
-    delete m_proxy;
     qDebug() << " - - -Deleting effect list widget";
 }
 

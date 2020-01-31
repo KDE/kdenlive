@@ -53,7 +53,6 @@ TransitionListWidget::TransitionListWidget(QWidget *parent)
 
 TransitionListWidget::~TransitionListWidget()
 {
-    delete m_proxy;
     qDebug() << " - - -Deleting transition list widget";
 }
 
