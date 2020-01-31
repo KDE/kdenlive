@@ -131,6 +131,7 @@ target_link_libraries(kdenliveLib
     KF5::Solid
     Qt5::Svg
     Qt5::Quick
+    Qt5::QuickControls2
     Qt5::QuickWidgets
     Qt5::Concurrent
     Qt5::Multimedia

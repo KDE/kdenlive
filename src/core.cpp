@@ -36,7 +36,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QCoreApplication>
 #include <QInputDialog>
 #include <QDir>
-
+#include <QQuickStyle>
 #include <locale>
 #ifdef Q_OS_MAC
 #include <xlocale.h>
@@ -127,6 +127,13 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     m_currentProfile = m_profile;
     profileChanged();
     m_mainWindow = new MainWindow();
+    QStringList styles = QQuickStyle::availableStyles();
+    if (styles.contains(QLatin1String("org.kde.desktop"))) {
+        QQuickStyle::setStyle("org.kde.desktop");
+    } else if (styles.contains(QLatin1String("Fusion"))) {
+        QQuickStyle::setStyle("Fusion");
+    }
+
     connect(this, &Core::showConfigDialog, m_mainWindow, &MainWindow::slotPreferences);
 
     // load default profile and ask user to select one if not found.
