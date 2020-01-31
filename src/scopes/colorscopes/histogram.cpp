@@ -10,7 +10,7 @@
 
 #include "histogram.h"
 #include "histogramgenerator.h"
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -124,8 +124,8 @@ QImage Histogram::renderHUD(uint)
 }
 QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
-    QTime start = QTime::currentTime();
-    start.start();
+    QElapsedTimer timer;
+    timer.start();
     const int componentFlags =
         (m_ui->cbY->isChecked() ? 1 : 0) * HistogramGenerator::ComponentY | (m_ui->cbS->isChecked() ? 1 : 0) * HistogramGenerator::ComponentSum |
         (m_ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR | (m_ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG |
@@ -135,7 +135,7 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
 
     QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(), accelFactor);
 
-    emit signalScopeRenderingFinished(uint(start.elapsed()), accelFactor);
+    emit signalScopeRenderingFinished(uint(timer.elapsed()), accelFactor);
     return histogram;
 }
 QImage Histogram::renderBackground(uint)

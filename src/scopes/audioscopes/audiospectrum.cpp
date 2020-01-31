@@ -14,7 +14,7 @@
 #include "lib/external/kiss_fft/tools/kiss_fftr.h"
 
 #include <QPainter>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -159,7 +159,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
             m_freqMax = freq / 2;
         }
 
-        QTime start = QTime::currentTime();
+        QElapsedTimer timer;
+        timer.start();
 
         /*******FIXME!!!
         #ifdef DETECT_OVERMODULATION
@@ -308,7 +309,7 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
         qCDebug(KDENLIVE_LOG) << widgetName() << " took " << drawTime.elapsed() << " ms for drawing. Average: " << ((float)m_timeTotal / m_showTotal);
 #endif
 
-        emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
+        emit signalScopeRenderingFinished((uint)timer.elapsed(), 1);
 
         return spectrum;
     }
@@ -317,7 +318,8 @@ QImage AudioSpectrum::renderAudioScope(uint, const audioShortVector &audioFrame,
 }
 QImage AudioSpectrum::renderHUD(uint)
 {
-    QTime start = QTime::currentTime();
+    QElapsedTimer timer;
+    timer.start();
 
     if (m_innerScopeRect.height() > 0 && m_innerScopeRect.width() > 0) { // May be below 0 if widget is too small
 
@@ -437,7 +439,7 @@ QImage AudioSpectrum::renderHUD(uint)
             }
         }
 
-        emit signalHUDRenderingFinished((uint)start.elapsed(), 1);
+        emit signalHUDRenderingFinished((uint)timer.elapsed(), 1);
         return hud;
     }
 #ifdef DEBUG_AUDIOSPEC

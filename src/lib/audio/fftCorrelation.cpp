@@ -15,7 +15,7 @@ extern "C" {
 }
 
 #include "kdenlive_debug.h"
-#include <QTime>
+#include <QElapsedTimer>
 #include <algorithm>
 #include <vector>
 
@@ -77,7 +77,7 @@ void FFTCorrelation::correlate(const qint64 *left, const size_t leftSize, const 
 
 void FFTCorrelation::convolve(const float *left, const size_t leftSize, const float *right, const size_t rightSize, float *out_convolved)
 {
-    QTime time;
+    QElapsedTimer time;
     time.start();
 
     // To avoid issues with repetition (we are dealing with cosine waves

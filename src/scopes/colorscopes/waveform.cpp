@@ -18,6 +18,7 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 #include <QPainter>
+#include <QElapsedTimer>
 #include <QPoint>
 
 const QSize Waveform::m_textWidth(35, 0);
@@ -176,15 +177,15 @@ QImage Waveform::renderHUD(uint)
 
 QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
 {
-    QTime start = QTime::currentTime();
-    start.start();
+    QElapsedTimer timer;
+    timer.start();
 
     const int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
                                                          (WaveformGenerator::PaintMode)paintmode, true, rec, accelFactor);
 
-    emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
+    emit signalScopeRenderingFinished((uint)timer.elapsed(), 1);
     return wave;
 }
 

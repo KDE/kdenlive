@@ -20,7 +20,7 @@
 #include "audiosignal.h"
 
 #include <QPainter>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include <cmath>
 
@@ -39,7 +39,8 @@ AudioSignal::~AudioSignal() = default;
 
 QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, const int, const int num_channels, const int samples, const int)
 {
-    QTime start = QTime::currentTime();
+    QElapsedTimer timer;
+    timer.start();
 
     int num_samples = samples > 200 ? 200 : samples;
 
@@ -76,7 +77,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     int dbsize = 20;
     if (!horiz) {
         // calculate actual width of lowest=longest db scale mark based on drawing font
-        dbsize = p.fontMetrics().horizontalAdvance(QString().sprintf("%d", m_dbscale.at(m_dbscale.size() - 1)));
+        dbsize = p.fontMetrics().horizontalAdvance(QString::number(m_dbscale.at(m_dbscale.size() - 1)));
     }
     bool showdb = width() > (dbsize + 40);
     // valpixel=1.0 for 127, 1.0+(1/40) for 1 short oversample, 1.0+(2/40) for longer oversample
@@ -127,15 +128,15 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
         for (int l : m_dbscale) {
             if (!horiz) {
                 double xf = pow(10.0, (double)l / 20.0) * (double)height();
-                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString().sprintf("%d", l));
+                p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString::number(l));
             } else {
                 double xf = pow(10.0, (double)l / 20.0) * (double)width();
-                p.drawText(xf * 40 / 42 - 10, height() - 2, QString().sprintf("%d", l));
+                p.drawText(xf * 40 / 42 - 10, height() - 2, QString::number(l));
             }
         }
     }
     p.end();
-    emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
+    emit signalScopeRenderingFinished((uint)timer.elapsed(), 1);
     return image;
 }
 

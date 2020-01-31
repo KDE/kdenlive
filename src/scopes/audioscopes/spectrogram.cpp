@@ -11,7 +11,7 @@
 #include "spectrogram.h"
 
 #include <QPainter>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -165,7 +165,8 @@ QRect Spectrogram::scopeRect()
 QImage Spectrogram::renderHUD(uint)
 {
     if (m_innerScopeRect.width() > 0 && m_innerScopeRect.height() > 0) {
-        QTime start = QTime::currentTime();
+        QElapsedTimer timer;
+        timer.start();
 
         int x, y;
         const int minDistY = 30; // Minimum distance between two lines
@@ -285,7 +286,7 @@ QImage Spectrogram::renderHUD(uint)
         davinci.drawText(m_scopeRect.left(), topDist, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmax));
         davinci.drawText(m_scopeRect.left(), topDist + m_innerScopeRect.height() - 20, rectWidth, rectHeight, Qt::AlignRight, i18n("%1\ndB", m_dBmin));
 
-        emit signalHUDRenderingFinished((uint)start.elapsed(), 1);
+        emit signalHUDRenderingFinished((uint)timer.elapsed(), 1);
         return hud;
     }
     emit signalHUDRenderingFinished(0, 1);
@@ -303,7 +304,8 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
         qCDebug(KDENLIVE_LOG) << "New data for " << widgetName() << ": " << newDataAvailable << QStringLiteral(" (") << newData << " units)";
 #endif
 
-        QTime start = QTime::currentTime();
+        QElapsedTimer timer;
+        timer.start();
 
         int fftWindow = m_ui->windowSize->itemData(m_ui->windowSize->currentIndex()).toInt();
         if (fftWindow > num_samples) {
@@ -424,7 +426,7 @@ QImage Spectrogram::renderAudioScope(uint, const audioShortVector &audioFrame, c
 
         m_fftHistoryImg = spectrum;
 
-        emit signalScopeRenderingFinished((uint)start.elapsed(), 1);
+        emit signalScopeRenderingFinished((uint)timer.elapsed(), 1);
         return spectrum;
     }
     emit signalScopeRenderingFinished(0, 1);

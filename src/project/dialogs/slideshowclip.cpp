@@ -527,17 +527,17 @@ QString SlideshowClip::animationToGeometry(const QString &animation, int &ttl)
 {
     QString geometry;
     if (animation.startsWith(QLatin1String("Pan and zoom"))) {
-        geometry = QString().sprintf(
+        geometry = QString::asprintf(
             "0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%;%d=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%", ttl - 1,
             ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1);
         ttl *= 3;
     } else if (animation.startsWith(QLatin1String("Pan"))) {
-        geometry = QString().sprintf("0=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/"
+        geometry = QString::asprintf("0=-5%%/-5%%:110%%x110%%;%d=0/0:110%%x110%%;%d=0/0:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/"
                                      "-5%%:110%%x110%%;%d=0/-5%%:110%%x110%%;%d=-5%%/0:110%%x110%%",
                                      ttl - 1, ttl, ttl * 2 - 1, ttl * 2, ttl * 3 - 1, ttl * 3, ttl * 4 - 1);
         ttl *= 4;
     } else if (animation.startsWith(QLatin1String("Zoom"))) {
-        geometry = QString().sprintf("0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%", ttl - 1);
+        geometry = QString::asprintf("0=0/0:100%%x100%%;%d=-14%%/-14%%:120%%x120%%", ttl - 1);
     }
     return geometry;
 }

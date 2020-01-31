@@ -13,7 +13,6 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include "kdenlive_debug.h"
 #include "klocalizedstring.h"
-#include <QTime>
 #include <QElapsedTimer>
 #include <cmath>
 #include <iostream>

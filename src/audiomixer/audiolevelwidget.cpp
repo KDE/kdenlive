@@ -116,7 +116,7 @@ void AudioLevelWidget::drawBackground(int channels)
     int labelHeight = fontMetrics().ascent();
     for (int i = 0; i < dbLabelCount; i++) {
         int value = dbscale.at(i);
-        QString label = QString().sprintf("%d", value);
+        QString label = QString::number(value);
         //int labelWidth = fontMetrics().width(label);
         double xf = m_pixmap.height() - pow(10.0, (double)dbscale.at(i) / 50.0) * m_pixmap.height() * 40.0 / 42;
         /*if (xf + labelWidth / 2 > m_pixmap.height()) {

@@ -15,7 +15,7 @@
 #include <QImage>
 #include <QPainter>
 #include <QSize>
-#include <QTime>
+#include <QElapsedTimer>
 #include <vector>
 
 #define CHOP255(a) ((255) < (a) ? (255) : (a))

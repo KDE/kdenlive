@@ -12,7 +12,7 @@
 #include "rgbparadegenerator.h"
 #include <QPainter>
 #include <QRect>
-#include <QTime>
+#include <QElapsedTimer>
 
 #include "klocalizedstring.h"
 #include <KConfigGroup>
@@ -132,13 +132,13 @@ QImage RGBParade::renderHUD(uint)
 
 QImage RGBParade::renderGfxScope(uint accelerationFactor, const QImage &qimage)
 {
-    QTime start = QTime::currentTime();
-    start.start();
+    QElapsedTimer timer;
+    timer.start();
 
     int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
     QImage parade = m_rgbParadeGenerator->calculateRGBParade(m_scopeRect.size(), qimage, (RGBParadeGenerator::PaintMode)paintmode, m_aAxis->isChecked(),
                                                              m_aGradRef->isChecked(), accelerationFactor);
-    emit signalScopeRenderingFinished((uint)start.elapsed(), accelerationFactor);
+    emit signalScopeRenderingFinished((uint)timer.elapsed(), accelerationFactor);
     return parade;
 }
 

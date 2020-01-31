@@ -19,7 +19,7 @@
 #include <KSharedConfig>
 #include <QAction>
 #include <QPainter>
-#include <QTime>
+#include <QElapsedTimer>
 #include <cmath>
 const float P75 = .75;
 
@@ -263,7 +263,8 @@ QImage Vectorscope::renderHUD(uint)
 
 QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage)
 {
-    QTime start = QTime::currentTime();
+    QElapsedTimer timer;
+    timer.start();
     QImage scope;
 
     if (m_cw <= 0) {
@@ -276,16 +277,14 @@ QImage Vectorscope::renderGfxScope(uint accelerationFactor, const QImage &qimage
         scope = m_vectorscopeGenerator->calculateVectorscope(m_scopeRect.size(), qimage, m_gain, paintMode, colorSpace, m_aAxisEnabled->isChecked(),
                                                              accelerationFactor);
     }
-
-    unsigned int mseconds = (uint)start.msecsTo(QTime::currentTime());
-    emit signalScopeRenderingFinished(mseconds, accelerationFactor);
+    emit signalScopeRenderingFinished((uint) timer.elapsed(), accelerationFactor);
     return scope;
 }
 
 QImage Vectorscope::renderBackground(uint)
 {
-    QTime start = QTime::currentTime();
-    start.start();
+    QElapsedTimer timer;
+    timer.start();
 
     QImage bg(m_visibleRect.size(), QImage::Format_ARGB32);
     bg.fill(qRgba(0, 0, 0, 0));
@@ -487,7 +486,7 @@ QImage Vectorscope::renderBackground(uint)
         davinci.drawText(QPoint(m_scopeRect.width() - 40, m_scopeRect.height() - 15), QVariant(m_accelFactorScope).toString().append(QStringLiteral("x")));
     }
 
-    emit signalBackgroundRenderingFinished((uint)start.elapsed(), 1);
+    emit signalBackgroundRenderingFinished((uint)timer.elapsed(), 1);
     return bg;
 }
 

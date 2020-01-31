@@ -15,7 +15,7 @@
 #include "core.h"
 #include "kdenlive_debug.h"
 #include <QImage>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QtConcurrent>
 #include <KLocalizedString>
 #include <algorithm>
@@ -106,7 +106,7 @@ AudioEnvelope::AudioSummary AudioEnvelope::loadAndNormalizeEnvelope() const
     mlt_audio_format format_s16 = mlt_audio_s16;
     int channels = 1;
 
-    QTime t;
+    QElapsedTimer t;
     t.start();
     m_producer->seek(0);
     size_t max = summary.audioAmplitudes.size();
