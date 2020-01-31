@@ -22,8 +22,6 @@
 #ifndef TIMELINEWIDGET_H
 #define TIMELINEWIDGET_H
 
-#include "assets/assetlist/model/assetfilter.hpp"
-#include "assets/assetlist/model/assettreemodel.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include <QQuickWidget>
 
@@ -31,6 +29,7 @@ class ThumbnailProvider;
 class TimelineController;
 class QSortFilterProxyModel;
 class MonitorProxy;
+class QMenu;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -90,10 +89,6 @@ private:
     QMenu *m_favCompositions;
     QAction *m_editGuideAcion;
     static const int comboScale[];
-    std::shared_ptr<AssetTreeModel> m_transitionModel;
-    std::unique_ptr<AssetFilter> m_transitionProxyModel;
-    std::shared_ptr<AssetTreeModel> m_effectsModel;
-    std::unique_ptr<AssetFilter> m_effectsProxyModel;
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
     /* @brief Keep last scale before fit to restore it on second click */
     double m_prevScale;

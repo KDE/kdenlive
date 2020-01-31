@@ -27,8 +27,6 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
-#include "effects/effectlist/model/effectfilter.hpp"
-#include "effects/effectlist/model/effecttreemodel.hpp"
 #include "kdenlivesettings.h"
 #include "mainwindow.h"
 #include "profiles/profilemodel.hpp"
@@ -37,8 +35,6 @@
 #include "qml/timelineitems.h"
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
-#include "transitions/transitionlist/model/transitionfilter.hpp"
-#include "transitions/transitionlist/model/transitiontreemodel.hpp"
 #include "utils/clipboardproxy.hpp"
 
 #include <KDeclarative/KDeclarative>
@@ -63,22 +59,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     kdeclarative.setupContext();
     setClearColor(palette().window().color());
     registerTimelineItems();
-    // Build transition model for context menu
-    m_transitionModel = TransitionTreeModel::construct(true, this);
-    m_transitionProxyModel = std::make_unique<TransitionFilter>(this);
     m_sortModel = std::make_unique<QSortFilterProxyModel>(this);
-    static_cast<TransitionFilter *>(m_transitionProxyModel.get())->setFilterType(true, TransitionType::Favorites);
-    m_transitionProxyModel->setSourceModel(m_transitionModel.get());
-    m_transitionProxyModel->setSortRole(AssetTreeModel::NameRole);
-    m_transitionProxyModel->sort(0, Qt::AscendingOrder);
-
-    // Build effects model for context menu
-    m_effectsModel = EffectTreeModel::construct(QStringLiteral(), this);
-    m_effectsProxyModel = std::make_unique<EffectFilter>(this);
-    static_cast<EffectFilter *>(m_effectsProxyModel.get())->setFilterType(true, EffectType::Favorites);
-    m_effectsProxyModel->setSourceModel(m_effectsModel.get());
-    m_effectsProxyModel->setSortRole(AssetTreeModel::NameRole);
-    m_effectsProxyModel->sort(0, Qt::AscendingOrder);
     m_proxy = new TimelineController(this);
     connect(m_proxy, &TimelineController::zoneMoved, this, &TimelineWidget::zoneMoved);
     connect(m_proxy, &TimelineController::ungrabHack, this, &TimelineWidget::slotUngrabHack);
@@ -106,8 +87,6 @@ void TimelineWidget::updateEffectFavorites()
         QAction *ac = m_favEffects->addAction(i.key());
         ac->setData(i.value());
     }
-    const QStringList effs = effects.values();
-    rootContext()->setContextProperty("effectModel",effs);
 }
 
 void TimelineWidget::updateTransitionFavorites()
@@ -120,8 +99,6 @@ void TimelineWidget::updateTransitionFavorites()
         QAction *ac = m_favCompositions->addAction(i.key());
         ac->setData(i.value());
     }
-    const QStringList trans = effects.values();
-    rootContext()->setContextProperty("transitionModel", trans);
 }
 
 const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &items, bool isTransition)
@@ -190,8 +167,6 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("smallFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
-    rootContext()->setContextProperty("transitionModel", trans);
-    rootContext()->setContextProperty("effectModel",effs);
 
     setSource(QUrl(QStringLiteral("qrc:/qml/timeline.qml")));
     connect(rootObject(), SIGNAL(mousePosChanged(int)), pCore->window(), SLOT(slotUpdateMousePosition(int)));
