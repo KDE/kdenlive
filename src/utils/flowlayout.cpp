@@ -149,10 +149,10 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     if (m_itemList.isEmpty() || effectiveRect.width() <= 0 || effectiveRect.height() <= 0) {
         return 0;
     }
-    
     QWidget *wid = m_itemList.at(0)->widget();
     QSize min = wid->minimumSize();
     int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
+    columns = qMax(1, columns);
     int realWidth = rect.width() / columns - horizontalSpacing();
     int totalHeight = y - rect.y() + bottom + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
     m_minimumSize = QSize(rect.width(), totalHeight);
