@@ -118,6 +118,10 @@ bool TranscodeJob::startJob()
 
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");
+        if (m_outPoint > 0) {
+            mltParameters.prepend(QString("out=%1").arg(m_outPoint));
+            mltParameters.prepend(QString("in=%1").arg(m_inPoint));
+        }
         mltParameters.prepend(source);
         m_jobProcess = new QProcess;
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
@@ -136,8 +140,14 @@ bool TranscodeJob::startJob()
             return false;
         }
         m_jobDuration = (int)binClip->duration().seconds();
-        //parameters << QStringLiteral("-y");
+        parameters << QStringLiteral("-y");
+        if (m_inPoint > -1) {
+            parameters << QStringLiteral("-ss") << QString::number(GenTime(m_inPoint, pCore->getCurrentFps()).seconds());
+        }
         parameters << QStringLiteral("-stats") << QStringLiteral("-i") << source;
+        if (m_outPoint > -1) {
+            parameters << QStringLiteral("-to") << QString::number(GenTime(m_outPoint - m_inPoint, pCore->getCurrentFps()).seconds());
+        }
         // Only output error data
         parameters << QStringLiteral("-v") << QStringLiteral("error");
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));

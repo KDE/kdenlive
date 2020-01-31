@@ -44,6 +44,12 @@ MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, in
     , m_out(out)
     , m_requiresFilter(true)
 {
+    if (m_in == -1) {
+        m_in = m_inPoint;
+    }
+    if (m_out == -1) {
+        m_out = m_outPoint;
+    }
 }
 
 bool MeltJob::startJob()
@@ -145,6 +151,14 @@ bool MeltJob::startJob()
     }
     */
 
+    configureProducer();
+    if ((m_producer == nullptr) || !m_producer->is_valid()) {
+        // Clip was removed or something went wrong, Notify user?
+        m_errorMessage.append(i18n("Invalid clip"));
+        m_successful = false;
+        m_done = true;
+        return false;
+    }
     if (m_out == -1) {
         m_out = m_producer->get_playtime() - 1;
     }
@@ -154,14 +168,6 @@ bool MeltJob::startJob()
     if (m_out != m_producer->get_playtime() - 1 || m_in != 0) {
         std::swap(m_wholeProducer, m_producer);
         m_producer.reset(m_wholeProducer->cut(m_in, m_out));
-    }
-    configureProducer();
-    if ((m_producer == nullptr) || !m_producer->is_valid()) {
-        // Clip was removed or something went wrong, Notify user?
-        m_errorMessage.append(i18n("Invalid clip"));
-        m_successful = false;
-        m_done = true;
-        return false;
     }
 
     // Build consumer

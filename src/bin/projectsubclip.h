@@ -70,6 +70,9 @@ public:
     /** @brief Returns the clip's duration. */
     GenTime duration() const;
 
+    /** @brief A string composed of: Clip id / in / out. */
+    const QString cutClipId() const;
+
     /** @brief Sets thumbnail for this clip. */
     void setThumbnail(const QImage &);
     QPixmap thumbnail(int width, int height);
@@ -84,13 +87,13 @@ public:
 
     /** @brief returns a pointer to the parent clip */
     std::shared_ptr<ProjectClip> getMasterClip() const;
-    
+
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const override;
-    
+
     /** @brief Set properties on this clip zone */
     void setProperties(const QMap<QString, QString> &properties);
-    
+
     /** @brief Set rating on item */
     void setRating(uint rating) override;
 

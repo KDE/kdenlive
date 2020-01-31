@@ -69,6 +69,8 @@ void SpeedJob::configureProducer()
     if (!qFuzzyCompare(m_speed, 1.0)) {
         QString resource = m_producer->get("resource");
         m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(QString::fromStdString(std::to_string(m_speed))).arg(resource).toUtf8().constData());
+        m_in /= m_speed;
+        m_out /= m_speed;
     }
 }
 
@@ -85,7 +87,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
     d.setLayout(l);
     QLabel labUrl(&d);
     KUrlRequester fileUrl(&d);
-    auto binClip = pCore->projectItemModel()->getClipByBinID(binIds.front());
+    auto binClip = pCore->projectItemModel()->getClipByBinID(binIds.front().section(QLatin1Char('/'), 0, 0));
     QDir folder = QFileInfo(binClip->url()).absoluteDir();
     folder.mkpath(i18n("Speed Change"));
     folder.cd(i18n("Speed Change"));
@@ -129,7 +131,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
             mltfile = fileUrl.url().toLocalFile();
         } else {
             QDir dir(fileUrl.url().toLocalFile());
-            binClip = pCore->projectItemModel()->getClipByBinID(binId);
+            binClip = pCore->projectItemModel()->getClipByBinID(binId.section(QLatin1Char('/'), 0, 0));
             mltfile = QFileInfo(binClip->url()).fileName().section(QLatin1Char('.'), 0, -2);
             mltfile.append(QString("-%1.mlt").arg(QString::number((int)speed)));
             mltfile = dir.absoluteFilePath(mltfile);

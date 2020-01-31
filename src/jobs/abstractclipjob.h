@@ -88,7 +88,8 @@ protected:
     QString m_logDetails;
     int m_addClipToProject;
     JOBTYPE m_jobType;
-
+    int m_inPoint;
+    int m_outPoint;
     bool m_resultConsumed{false};
 
 signals:

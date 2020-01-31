@@ -1790,15 +1790,18 @@ void Bin::selectProxyModel(const QModelIndex &id)
     }
 }
 
-std::vector<QString> Bin::selectedClipsIds()
+std::vector<QString> Bin::selectedClipsIds(bool allowSubClips)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
     // We define the lambda that will be executed on each item of the subset of nodes of the tree that are selected
-    auto itemAdder = [&ids](std::vector<QString> &ids_vec, std::shared_ptr<TreeItem> item) {
+    auto itemAdder = [&ids, allowSubClips](std::vector<QString> &ids_vec, std::shared_ptr<TreeItem> item) {
         auto binItem = std::static_pointer_cast<AbstractProjectItem>(item);
         if (binItem->itemType() == AbstractProjectItem::ClipItem) {
             ids.push_back(binItem->clipId());
+        } else if (allowSubClips && binItem->itemType() == AbstractProjectItem::SubClipItem) {
+            auto subClipItem = std::static_pointer_cast<ProjectSubClip>(item);
+            ids.push_back(subClipItem->cutClipId());
         }
         return ids_vec;
     };
@@ -1999,47 +2002,53 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                 itemType = currentItem->itemType();
                 if (currentItem) {
                     enableClipActions = true;
+                    std::shared_ptr<ProjectClip> clip = nullptr;
                     if (itemType == AbstractProjectItem::ClipItem) {
-                        auto clip = std::static_pointer_cast<ProjectClip>(currentItem);
-                        if (clip) {
-                            m_proxyAction->blockSignals(true);
+                        clip = std::static_pointer_cast<ProjectClip>(currentItem);
+                    } else if (itemType == AbstractProjectItem::SubClipItem) {
+                        auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
+                        clip = subClip->getMasterClip();
+                    }
+                    if (clip) {
+                        m_proxyAction->blockSignals(true);
+                        if (itemType == AbstractProjectItem::ClipItem) {
                             emit findInTimeline(clip->clipId(), clip->timelineInstances());
-                            clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
-                            m_proxyAction->setChecked(clip->hasProxy());
-                            QList<QAction *> transcodeActions;
-                            if (m_transcodeAction) {
-                                transcodeActions = m_transcodeAction->actions();
-                            }
-                            QStringList dataList;
-                            QString condition;
-                            audioCodec = clip->codec(true);
-                            QString videoCodec = clip->codec(false);
-                            type = clip->clipType();
-                            if (clip->hasUrl()) {
-                                isImported = true;
-                            }
-                            bool noCodecInfo = false;
-                            if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
-                                noCodecInfo = true;
-                            }
-                            for (int i = 0; i < transcodeActions.count(); ++i) {
-                                dataList = transcodeActions.at(i)->data().toStringList();
-                                if (dataList.count() > 4) {
-                                    condition = dataList.at(4);
-                                    if (condition.isEmpty()) {
-                                        transcodeActions.at(i)->setEnabled(true);
-                                        continue;
-                                    }
-                                    if (noCodecInfo) {
-                                        // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
-                                        transcodeActions.at(i)->setEnabled(false);
-                                        continue;
-                                    }
-                                    if (condition.startsWith(QLatin1String("vcodec"))) {
-                                        transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == videoCodec);
-                                    } else if (condition.startsWith(QLatin1String("acodec"))) {
-                                        transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == audioCodec);
-                                    }
+                        }
+                        clipService = clip->getProducerProperty(QStringLiteral("mlt_service"));
+                        m_proxyAction->setChecked(clip->hasProxy());
+                        QList<QAction *> transcodeActions;
+                        if (m_transcodeAction) {
+                            transcodeActions = m_transcodeAction->actions();
+                        }
+                        QStringList dataList;
+                        QString condition;
+                        audioCodec = clip->codec(true);
+                        QString videoCodec = clip->codec(false);
+                        type = clip->clipType();
+                        if (clip->hasUrl()) {
+                            isImported = true;
+                        }
+                        bool noCodecInfo = false;
+                        if (audioCodec.isEmpty() && videoCodec.isEmpty()) {
+                            noCodecInfo = true;
+                        }
+                        for (int i = 0; i < transcodeActions.count(); ++i) {
+                            dataList = transcodeActions.at(i)->data().toStringList();
+                            if (dataList.count() > 4) {
+                                condition = dataList.at(4);
+                                if (condition.isEmpty()) {
+                                    transcodeActions.at(i)->setEnabled(true);
+                                    continue;
+                                }
+                                if (noCodecInfo) {
+                                    // No audio / video codec, this is an MLT clip, disable conditionnal transcoding
+                                    transcodeActions.at(i)->setEnabled(false);
+                                    continue;
+                                }
+                                if (condition.startsWith(QLatin1String("vcodec"))) {
+                                    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == videoCodec);
+                                } else if (condition.startsWith(QLatin1String("acodec"))) {
+                                    transcodeActions.at(i)->setEnabled(condition.section(QLatin1Char('='), 1, 1) == audioCodec);
                                 }
                             }
                         }
@@ -2068,7 +2077,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
-    m_inTimelineAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+    m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
 
     if (m_transcodeAction) {
         m_transcodeAction->setEnabled(enableClipActions);
@@ -2078,7 +2087,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
         itemType != AbstractProjectItem::FolderItem &&
         (clipService.contains(QStringLiteral("avformat")) || clipService.contains(QStringLiteral("xml")) || clipService.contains(QStringLiteral("consumer"))));
     m_extractAudioAction->menuAction()->setVisible(!isFolder && !audioCodec.isEmpty());
-    m_locateAction->setVisible(itemType != AbstractProjectItem::FolderItem && (isImported));
+    m_locateAction->setVisible(itemType == AbstractProjectItem::ClipItem && (isImported));
 
     // Show menu
     event->setAccepted(true);

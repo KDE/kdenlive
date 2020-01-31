@@ -77,6 +77,11 @@ ProjectSubClip::~ProjectSubClip()
     // controller is deleted in bincontroller
 }
 
+const QString ProjectSubClip::cutClipId() const
+{
+    return QString("%1/%2/%3").arg(m_parentClipId).arg(m_inPoint).arg(m_outPoint);
+}
+
 void ProjectSubClip::gotThumb(int pos, const QImage &img)
 {
     if (pos == m_inPoint) {

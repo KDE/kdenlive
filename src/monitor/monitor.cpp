@@ -143,8 +143,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
-    , m_lastMonitorSceneType(MonitorSceneDefault)
     , m_offset(id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration)
+    , m_lastMonitorSceneType(MonitorSceneDefault)
 {
     auto *layout = new QVBoxLayout;
     layout->setContentsMargins(0, 0, 0, 0);

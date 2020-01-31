@@ -92,7 +92,7 @@ int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::
             QString destination = d->destination();
             std::unordered_map<QString, QString> destinations; // keys are binIds, values are path to target files
             for (const auto &binId : binIds) {
-                auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
+                auto binClip = pCore->projectItemModel()->getClipByBinID(binId.section(QLatin1Char('/'), 0, 0));
                 if (binIds.size() == 1) {
                     // We only have one clip, destination points to the final url
                     destinations[binId] = destination;

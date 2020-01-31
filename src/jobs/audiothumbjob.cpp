@@ -106,7 +106,7 @@ bool AudioThumbJob::computeWithMlt()
     for (double &v : mltLevels) {
         m_audioLevels << 255 * v / maxLevel;
     }
-    
+
     m_done = true;
     return true;
 }
@@ -331,7 +331,7 @@ bool AudioThumbJob::startJob()
     if (!m_audioLevels.isEmpty()) {
         m_dataInCache = true;
     }
-    
+
     // Check audio thumbnail image
     if (ThumbnailCache::get()->hasThumbnail(m_clipId, -1, false)) {
         m_thumbInCache = true;
@@ -341,7 +341,7 @@ bool AudioThumbJob::startJob()
         m_successful = true;
         return true;
     }
-    
+
     bool ok = m_binClip->clipType() == ClipType::Playlist ? false : computeWithFFMPEG();
     ok = ok ? ok : computeWithMlt();
     Q_ASSERT(ok == m_done);
