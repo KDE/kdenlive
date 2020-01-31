@@ -262,13 +262,14 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             manager->getAction(QStringLiteral("mark_out"))->trigger();
         });
     }
-    m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_seek_backward")));
+    // Per monitor rewind action
+    QAction *rewind = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
+    m_toolbar->addAction(rewind);
+    connect(rewind, &QAction::triggered, this, &Monitor::slotRewind);
 
     auto *playButton = new QToolButton(m_toolbar);
     m_playMenu = new QMenu(i18n("Play..."), this);
-    connect(m_playMenu, &QMenu::aboutToShow, [this]() {
-        slotActivateMonitor();
-    });
+    connect(m_playMenu, &QMenu::aboutToShow, this, &Monitor::slotActivateMonitor);
     QAction *originalPlayAction = static_cast<KDualAction *>(manager->getAction(QStringLiteral("monitor_play")));
     m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
     m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
@@ -287,7 +288,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     playButton->setMenu(m_playMenu);
     playButton->setPopupMode(QToolButton::MenuButtonPopup);
     m_toolbar->addWidget(playButton);
-    m_toolbar->addAction(manager->getAction(QStringLiteral("monitor_seek_forward")));
+
+    // Per monitor forward action
+    QAction *forward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
+    m_toolbar->addAction(forward);
+    connect(forward, &QAction::triggered, this, &Monitor::slotForward);
 
     playButton->setDefaultAction(m_playAction);
     m_configMenu = new QMenu(i18n("Misc..."), this);
@@ -1181,8 +1186,8 @@ void Monitor::slotRewind(double speed)
             speed = currentspeed * 1.5;
         }
     }
-    m_glMonitor->switchPlay(true, speed);
     m_playAction->setActive(true);
+    m_glMonitor->switchPlay(true, speed);
 }
 
 void Monitor::slotForward(double speed)
@@ -1197,8 +1202,8 @@ void Monitor::slotForward(double speed)
             speed = currentspeed * 1.2;
         }
     }
-    m_glMonitor->switchPlay(true, speed);
     m_playAction->setActive(true);
+    m_glMonitor->switchPlay(true, speed);
 }
 
 void Monitor::slotRewindOneFrame(int diff)

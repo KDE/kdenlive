@@ -235,19 +235,15 @@ void MonitorManager::slotLoopZone()
 
 void MonitorManager::slotRewind(double speed)
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewind(speed);
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewind(speed);
+    if (m_activeMonitor) {
+        m_activeMonitor->slotRewind(speed);
     }
 }
 
 void MonitorManager::slotForward(double speed)
 {
-    if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForward(speed);
-    } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForward(speed);
+    if (m_activeMonitor) {
+        m_activeMonitor->slotForward(speed);
     }
 }
 
@@ -387,7 +383,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_zoomout"), monitorZoomOut);
 
     QAction *monitorSeekBackward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-backward")), i18n("Rewind"), this);
-    connect(monitorSeekBackward, SIGNAL(triggered(bool)), SLOT(slotRewind()));
+    connect(monitorSeekBackward, &QAction::triggered, this, &MonitorManager::slotRewind);
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward"), monitorSeekBackward, Qt::Key_J);
 
     QAction *monitorSeekBackwardOneFrame = new QAction(QIcon::fromTheme(QStringLiteral("media-skip-backward")), i18n("Rewind 1 Frame"), this);
@@ -399,7 +395,7 @@ void MonitorManager::setupActions()
     pCore->window()->addAction(QStringLiteral("monitor_seek_backward-one-second"), monitorSeekBackwardOneSecond, Qt::SHIFT + Qt::Key_Left);
 
     QAction *monitorSeekForward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
-    connect(monitorSeekForward, SIGNAL(triggered(bool)), SLOT(slotForward()));
+    connect(monitorSeekForward,  &QAction::triggered, this, &MonitorManager::slotForward);
     pCore->window()->addAction(QStringLiteral("monitor_seek_forward"), monitorSeekForward, Qt::Key_L);
 
     QAction *projectStart = new QAction(QIcon::fromTheme(QStringLiteral("go-first")), i18n("Go to Project Start"), this);

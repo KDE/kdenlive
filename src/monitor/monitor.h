@@ -290,8 +290,8 @@ public slots:
     void slotLoopZone();
     /** @brief Loops the selected item (clip or transition). */
     void slotLoopClip();
-    void slotForward(double speed = 0);
-    void slotRewind(double speed = 0);
+    void slotForward(double speed = 0) override;
+    void slotRewind(double speed = 0) override;
     void slotRewindOneFrame(int diff = 1);
     void slotForwardOneFrame(int diff = 1);
     void slotStart();
