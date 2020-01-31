@@ -15,7 +15,7 @@ Please note that Kdenlive's Github repo is just a mirror: see [the detailed expl
 We welcome all feedback and offers for help!
 
 * Talk about us!
-* [Report bugs](https://bugs.kde.org) you encounter (if not already done)
+* [Report bugs](https://kdenlive.org/en/bug-reports/) you encounter (if not already done)
 * Help other users [on the forum](http://forum.kde.org/viewforum.php?f=262) and bug tracker
 * [Help to fill the manual](http://userbase.kde.org/Kdenlive)
 * Complete and check [application and documentation translation](http://l10n.kde.org)
