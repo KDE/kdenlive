@@ -140,9 +140,8 @@ QSize FlowLayout::minimumSize() const
 
 int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
 {
-    int left, top, right, bottom;
-    getContentsMargins(&left, &top, &right, &bottom);
-    QRect effectiveRect = rect.adjusted(+left, +top, -right, -bottom);
+    QMargins mrg = contentsMargins();
+    QRect effectiveRect = rect.adjusted(mrg.left(), mrg.top(), -mrg.right(), -mrg.bottom());
     int x = effectiveRect.x();
     int y = effectiveRect.y();
     int itemCount = 0;
@@ -154,7 +153,7 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
     columns = qMax(1, columns);
     int realWidth = rect.width() / columns - horizontalSpacing();
-    int totalHeight = y - rect.y() + bottom + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
+    int totalHeight = y - rect.y() + mrg.bottom() + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
     m_minimumSize = QSize(rect.width(), totalHeight);
     if (testOnly) {
         return totalHeight;

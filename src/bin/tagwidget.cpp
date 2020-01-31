@@ -95,7 +95,7 @@ void DragButton::mouseMoveEvent(QMouseEvent *event)
     drag->setPixmap(defaultAction()->icon().pixmap(22, 22));
     drag->setMimeData(mimeData);
     m_dragging = true;
-    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+    drag->exec(Qt::CopyAction | Qt::MoveAction);
     // Disable / enable toolbutton to clear highlighted state because mouserelease is not triggered on drop end
     setEnabled(false);
     setEnabled(true);

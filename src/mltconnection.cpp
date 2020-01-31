@@ -63,16 +63,16 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
         if (service_name)
             message = QString("[%1 %2 %3] ").arg(mlt_type).arg(service_name).arg(id);
         else
-            message = QString().sprintf("[%s %p] ", mlt_type, service);
+            message = QString::asprintf("[%s %p] ", mlt_type, service);
         if (resource)
             message.append(QString("\"%1\" ").arg(resource));
-        message.append(QString().vsprintf(format, args));
+        message.append(QString::vasprintf(format, args));
         message.replace('\n', "");
         if (!strcmp(mlt_type, "filter")) {
             pCore->processInvalidFilter(service_name, id, message);
         }
     } else {
-        message = QString().vsprintf(format, args);
+        message = QString::vasprintf(format, args);
         message.replace('\n', "");
     }
     qDebug()<<"==========\n\nMLT ERROR:\n"<<message<<"\n";

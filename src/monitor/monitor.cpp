@@ -379,10 +379,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(spacer);*/
     m_toolbar->addSeparator();
-    int tm = 0;
-    int bm = 0;
-    m_toolbar->getContentsMargins(nullptr, &tm, nullptr, &bm);
-    m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - tm - bm, this);
+    QMargins mrg = m_toolbar->contentsMargins();
+    m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - mrg.top() - mrg.bottom(), this);
     m_toolbar->addWidget(m_audioMeterWidget);
     if (!m_audioMeterWidget->isValid) {
         KdenliveSettings::setMonitoraudio(0x01);

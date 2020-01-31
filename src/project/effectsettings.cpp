@@ -52,9 +52,8 @@ int ElidedCheckBox::currentWidth() const
     if (isVisible()) {
         width = contentsRect().width() - (2 * iconSize().width());
     } else {
-        int l, t, r, b;
-        getContentsMargins(&l, &t, &r, &b);
-        width = sizeHint().width() - l - r - (2 * iconSize().width());
+        QMargins mrg = contentsMargins();
+        width = sizeHint().width() - mrg.left() - mrg.right() - (2 * iconSize().width());
     }
     return width;
 }
