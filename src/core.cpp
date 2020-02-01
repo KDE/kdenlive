@@ -342,7 +342,14 @@ bool Core::setCurrentProfile(const QString &profilePath)
     if (ProfileRepository::get()->profileExists(profilePath)) {
         m_currentProfile = profilePath;
         m_thumbProfile.reset();
-        m_projectProfile.reset();
+        if (m_projectProfile) {
+            m_projectProfile->set_width(getCurrentProfile()->width());
+            m_projectProfile->set_height(getCurrentProfile()->height());
+            m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
+            m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
+            m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
+            m_projectProfile->set_progressive(getCurrentProfile()->progressive());
+        }
         // inform render widget
         profileChanged();
         m_mainWindow->updateRenderWidgetProfile();
