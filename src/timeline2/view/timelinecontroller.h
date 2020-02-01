@@ -72,6 +72,7 @@ class TimelineController : public QObject
     Q_PROPERTY(bool autoScroll READ autoScroll NOTIFY autoScrollChanged)
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor imageColor READ imageColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetColor READ targetColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetTextColor READ targetTextColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor lockedColor READ lockedColor NOTIFY colorsChanged)
@@ -155,6 +156,7 @@ public:
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
     Q_INVOKABLE QColor videoColor() const;
     Q_INVOKABLE QColor audioColor() const;
+    Q_INVOKABLE QColor imageColor() const;
     Q_INVOKABLE QColor targetColor() const;
     Q_INVOKABLE QColor targetTextColor() const;
     Q_INVOKABLE QColor lockedColor() const;
