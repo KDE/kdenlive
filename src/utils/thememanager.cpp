@@ -79,7 +79,14 @@ QString ThemeManager::loadCurrentScheme() const
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup cg(config, "UiSettings");
-    return cg.readEntry("ColorScheme", currentDesktopDefaultScheme());
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 67, 0)
+    // Since 5.67 KColorSchemeManager includes a system color scheme option that reacts to system
+    // scheme changes. This scheme will be activated if we pass an empty string to KColorSchemeManager
+    // So no need anymore to read the the current global scheme ourselves if no custom one is configured.
+    return cg.readEntry("ColorScheme");
+#else
+     return cg.readEntry("ColorScheme", currentDesktopDefaultScheme());
+#endif
 }
 
 void ThemeManager::saveCurrentScheme(const QString &name)
@@ -90,12 +97,14 @@ void ThemeManager::saveCurrentScheme(const QString &name)
     cg.sync();
 }
 
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
 QString ThemeManager::currentDesktopDefaultScheme() const
 {
     KSharedConfigPtr config = KSharedConfig::openConfig(QLatin1String("kdeglobals"));
     KConfigGroup group(config, "General");
     return group.readEntry("ColorScheme", QStringLiteral("Breeze"));
 }
+#endif
 
 QString ThemeManager::currentSchemeName() const
 {
@@ -104,7 +113,12 @@ QString ThemeManager::currentSchemeName() const
     QAction *const action = menu()->activeAction();
 
     if (action) return KLocalizedString::removeAcceleratorMarker(action->text());
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 67, 0)
+    // See above
+    return QString();
+#else
     return currentDesktopDefaultScheme();
+#endif
 }
 
 void ThemeManager::slotSchemeChanged(QAction *triggeredAction, const QString &path)

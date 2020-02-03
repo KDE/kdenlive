@@ -25,12 +25,13 @@
 // Qt includes
 
 #include <QAction>
-#include <QObject>
-#include <QString>
+#include <QtGlobal>
+
+#include <kconfigwidgets_version.h>
+
 
 // KDE includes
 #include <KColorSchemeManager>
-
 
 class ThemeManager : public QAction
 {
@@ -45,7 +46,9 @@ private Q_SLOTS:
 private:
     QString loadCurrentScheme() const;
     void saveCurrentScheme(const QString &name);
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
     QString currentDesktopDefaultScheme() const;
+#endif
 
 signals:
     void themeChanged(const QString &name);
