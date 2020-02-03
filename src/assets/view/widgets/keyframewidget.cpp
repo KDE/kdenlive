@@ -170,8 +170,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);
     connect(m_buttonNext, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToNext);
     //m_baseHeight = m_keyframeview->height() + m_selectType->defaultWidget()->sizeHint().height();
-    QMargins mrg = contentsMargins();
-    m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + 2 + mrg.top() + mrg.bottom();
+    QMargins mrg = m_lay->contentsMargins();
+    m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + mrg.top() + mrg.bottom();
     setFixedHeight(m_baseHeight);
     addParameter(index);
 
