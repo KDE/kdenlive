@@ -6,14 +6,58 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>389</width>
-    <height>132</height>
+    <width>476</width>
+    <height>140</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="5" column="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="destination_layout">
+     <item>
+      <widget class="QLabel" name="label_dest">
+       <property name="text">
+        <string>Destination</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="KUrlRequester" name="kurlrequester">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="1" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -70,56 +114,19 @@
      </item>
     </layout>
    </item>
-   <item row="4" column="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" colspan="3">
-    <layout class="QHBoxLayout" name="destination_layout">
-     <item>
-      <widget class="QLabel" name="label_dest">
-       <property name="text">
-        <string>Destination</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KUrlRequester" name="kurlrequester">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="4" column="1">
+   <item row="5" column="1">
     <widget class="QCheckBox" name="checkBox">
      <property name="text">
       <string>Reverse clip</string>
      </property>
     </widget>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="infoLayout">
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+    </layout>
    </item>
   </layout>
  </widget>
