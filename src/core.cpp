@@ -347,6 +347,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
             m_projectProfile->set_height(getCurrentProfile()->height());
             m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
             m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
+            m_projectProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
             m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
             m_projectProfile->set_progressive(getCurrentProfile()->progressive());
         }
