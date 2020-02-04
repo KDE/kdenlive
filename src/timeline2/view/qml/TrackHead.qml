@@ -192,6 +192,7 @@ Rectangle {
             anchors.left: trackHeadColumn.left
             height: trackHeadRoot.buttonSize
             width: trackHeadRoot.buttonSize
+            focusPolicy: Qt.NoFocus
             //icon.width: trackHeadRoot.iconSize
             //icon.height: trackHeadRoot.iconSize
             icon.name: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
@@ -318,6 +319,7 @@ Rectangle {
                 checked: enabled && trackHeadRoot.isStackEnabled
                 height: trackHeadRoot.buttonSize
                 width: trackHeadRoot.buttonSize
+                focusPolicy: Qt.NoFocus
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize
                 onClicked: {
@@ -329,6 +331,7 @@ Rectangle {
                 id: muteButton
                 height: trackHeadRoot.buttonSize
                 width: trackHeadRoot.buttonSize
+                focusPolicy: Qt.NoFocus
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize
                 icon.name: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
@@ -353,6 +356,7 @@ Rectangle {
                 id: lockButton
                 height: trackHeadRoot.buttonSize
                 width: trackHeadRoot.buttonSize
+                focusPolicy: Qt.NoFocus
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize
                 icon.name: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
