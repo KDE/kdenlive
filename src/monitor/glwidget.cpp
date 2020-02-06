@@ -1826,8 +1826,8 @@ void GLWidget::updateScaling()
         m_profileSize = profileSize;
     } else {
         int width = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
-        if (width % 8 > 0) {
-            width += 8 - width % 8;
+        if (width % 2 > 0) {
+            width ++;
         }
         m_profileSize = QSize(width, previewHeight);
     }
