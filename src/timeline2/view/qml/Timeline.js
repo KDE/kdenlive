@@ -79,6 +79,13 @@ function getTrackById(id) {
     return 0
 }
 
+function getTrackHeightByPos(pos) {
+    if (pos >= 0 && pos < tracksRepeater.count) {
+        return tracksRepeater.itemAt(pos).height
+    }
+    return 0
+}
+
 function getTrackYFromMltIndex(id) {
     if (id <= 0) {
         return 0
