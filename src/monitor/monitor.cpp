@@ -1924,8 +1924,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         pCore->displayMessage(i18n("Enable edit mode in monitor to edit effect"), InformationMessage, 500);
         type = MonitorSceneDefault;
     }
-    double ratio = (double)m_glMonitor->profileSize().width() / (int)(m_glMonitor->profileSize().height() * pCore->getCurrentProfile()->dar() + 0.5);
-    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), ratio, m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+    m_qmlManager->setScene(m_id, type, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
     QQuickItem *root = m_glMonitor->rootObject();
     switch (type) {
     case MonitorSceneSplit:
