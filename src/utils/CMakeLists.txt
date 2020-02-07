@@ -7,6 +7,7 @@ set(kdenlive_SRCS
   utils/flowlayout.cpp
   utils/freesound.cpp
   utils/openclipart.cpp
+  utils/otioconvertions.cpp
   utils/resourcewidget.cpp
   utils/thememanager.cpp
   utils/thumbnailcache.cpp

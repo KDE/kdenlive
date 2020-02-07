@@ -64,6 +64,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
+#include "utils/otioconvertions.h"
 
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
@@ -428,6 +429,7 @@ void MainWindow::init()
     new HideTitleBars(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
+    m_otioConvertions.getOtioConverters();
 
     // Create Effect Basket (dropdown list of favorites)
     m_effectBasket = new EffectBasket(this);
@@ -1291,6 +1293,15 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme(QStringLiteral("media-optical")));
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
+    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("E&xport project"), this);
+    connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
+    exportAction->setEnabled(false);
+    addAction(QStringLiteral("export_project"), exportAction);
+    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("&Import project"), this);
+    connect(importAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotImportProject);
+    importAction->setEnabled(false);
+    addAction(QStringLiteral("import_project"), importAction);
+
     addAction(QStringLiteral("archive_project"), i18n("Archive Project"), this, SLOT(slotArchiveProject()),
               QIcon::fromTheme(QStringLiteral("document-save-all")));
     addAction(QStringLiteral("switch_monitor"), i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);

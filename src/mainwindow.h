@@ -44,6 +44,7 @@
 #include "kdenlive_debug.h"
 #include "kdenlivecore_export.h"
 #include "statusbarmessagelabel.h"
+#include "utils/otioconvertions.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -153,6 +154,7 @@ private:
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
 
+    OtioConvertions m_otioConvertions;
     KColorSchemeManager *m_colorschemes;
 
     QDockWidget *m_projectBinDock;
