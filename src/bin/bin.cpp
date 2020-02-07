@@ -114,17 +114,14 @@ public:
                 dragType = PlaylistState::Disabled;
                 if (index.column() == 7) {
                     // Rating
-                    uint rate = (uint) (10 * (me->pos().x() - option.rect.x()) / option.rect.width());
-                    switch (rate) {
-                        case 0:
-                        case 1:
-                            rate *= 2;
-                            break;
-                        default:
-                            rate = 2 + 2 * (rate / 2);
-                            break;
+                    int rate = KRatingPainter::getRatingFromPosition(option.rect, Qt::AlignCenter, qApp->layoutDirection(), me->pos());
+                    if (rate > -1) {
+                        // Full star rating only
+                        if (rate %2 == 1) {
+                            rate++;
+                        }
+                        static_cast<ProjectSortProxyModel *>(model)->updateRating(index, (uint) rate);
                     }
-                    static_cast<ProjectSortProxyModel *>(model)->updateRating(index, rate);
                 }
             }
         }
@@ -333,11 +330,11 @@ public:
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
             QRect r1 = opt.rect;
+            // Tweak bg opacity since breeze dark star has same color as highlighted background
+            painter->setOpacity(0.5);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-            if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
-                painter->setPen(option.palette.highlightedText().color());
-            }
+            painter->setOpacity(1);
             if (index.data(AbstractProjectItem::ItemTypeRole).toInt() != AbstractProjectItem::FolderItem) {
                 KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
             }
