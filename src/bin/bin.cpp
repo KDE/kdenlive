@@ -2895,6 +2895,9 @@ void Bin::switchTag(const QString &tag, bool add)
     // Check for folders
     QList <QString> allClips;
     for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
         if (parentItem->itemType() == AbstractProjectItem::FolderItem) {
             QList<std::shared_ptr<ProjectClip>> children = std::static_pointer_cast<ProjectFolder>(parentItem)->childClips();
