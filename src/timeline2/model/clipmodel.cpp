@@ -835,3 +835,7 @@ int ClipModel::getMaxDuration() const
     return m_producer->get_length();
 }
 
+const QString ClipModel::clipName()
+{
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->clipName();
+}

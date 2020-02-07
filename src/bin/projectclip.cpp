@@ -1018,14 +1018,19 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         const QList<QString> propKeys = properties.keys();
         for (const QString &k : propKeys) {
             if (forceReloadProperties.contains(k)) {
-                if (m_clipType != ClipType::Color) {
-                    reload = true;
-                    refreshOnly = false;
-                } else {
-                    // Clip resource changed, update thumbnail
-                    reload = true;
-                    refreshPanel = true;
+                refreshPanel = true;
+                reload = true;
+                if (m_clipType == ClipType::Color) {
+                    refreshOnly = true;
                     updateRoles << TimelineModel::ResourceRole;
+                } else {
+                    // Clip resource changed, update thumbnail, name, clear hash
+                    refreshOnly = false;
+                    if (propKeys.contains(QStringLiteral("resource"))) {
+                        resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
+                        setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
+                        updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
+                    }
                 }
                 break;
             }
@@ -1061,7 +1066,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                                                                            AbstractProjectItem::DataName);
         }
         // update timeline clips
-        updateTimelineClips(QVector<int>() << TimelineModel::NameRole);
+        if (!reload) {
+            updateTimelineClips(QVector<int>() << TimelineModel::NameRole);
+        }
     }
     if (refreshPanel) {
         // Some of the clip properties have changed through a command, update properties panel

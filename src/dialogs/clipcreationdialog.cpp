@@ -117,7 +117,6 @@ QString ClipCreationDialog::getExtensionsFilter(const QStringList& additionalFil
         filter += ";;";
         filter.append(additionalFilters.join(";;"));
     }
-    
     return filter;
 }
 

@@ -54,13 +54,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "ui_qtextclip_ui.h"
 #include "undohelper.hpp"
 #include "xml/xml.hpp"
+#include <utils/thumbnailcache.hpp>
+#include <profiles/profilemodel.hpp>
 
 #include <KColorScheme>
 #include <KRatingPainter>
 #include <KMessageBox>
 #include <KXMLGUIFactory>
-#include <QToolBar>
 
+#include <QToolBar>
 #include <QCryptographicHash>
 #include <QDesktopServices>
 #include <QDrag>
@@ -73,7 +75,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QUrl>
 #include <QVBoxLayout>
 #include <utility>
-#include <utils/thumbnailcache.hpp>
 
 /**
  * @class BinItemDelegate
@@ -1416,6 +1417,56 @@ void Bin::slotReloadClip()
     }
 }
 
+void Bin::slotReplaceClip()
+{
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid() || ix.column() != 0) {
+            continue;
+        }
+        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        std::shared_ptr<ProjectClip> currentItem = nullptr;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            currentItem = std::static_pointer_cast<ProjectClip>(item);
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+        }
+        if (currentItem) {
+            emit openClip(std::shared_ptr<ProjectClip>());
+            QString fileName = QFileDialog::getOpenFileName(this, i18n("Open replacement file"),
+                                                QFileInfo(currentItem->url()).absolutePath(),
+                                                ClipCreationDialog::getExtensionsFilter());
+            if (!fileName.isEmpty()) {
+                QMap <QString, QString> sourceProps;
+                QMap <QString, QString> newProps;
+                sourceProps.insert(QStringLiteral("resource"), currentItem->url());
+                sourceProps.insert(QStringLiteral("kdenlive:clipname"), currentItem->clipName());
+                newProps.insert(QStringLiteral("resource"), fileName);
+                newProps.insert(QStringLiteral("kdenlive:clipname"), QFileInfo(fileName).fileName());
+                // Check if replacement clip is long enough
+                if (currentItem->hasLimitedDuration() && currentItem->isIncludedInTimeline()) {
+                    // Clip is used in timeline, make sure lentgh is similar
+                    std::unique_ptr<Mlt::Producer> replacementProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), fileName.toUtf8().constData()));
+                    int currentDuration = (int)currentItem->frameDuration();
+                    if (replacementProd->is_valid()) {
+                        int replacementDuration = replacementProd->get_length();
+                        if (replacementDuration < currentDuration) {
+                            if (KMessageBox::warningContinueCancel(this, i18n("You are replacing a clip with a shorter one, this might cause issues in timeline.\nReplacement is %1 frames shorter.", (currentDuration - replacementDuration))) != KMessageBox::Continue) {
+                                continue;
+                            }
+                        }
+                    } else {
+                        KMessageBox::sorry(this, i18n("The selected file %1 is invalid.", fileName));
+                        continue;
+                    }
+                }
+                slotEditClipCommand(currentItem->clipId(), sourceProps, newProps);
+            }
+        }
+    }
+}
+
+
 void Bin::slotLocateClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
@@ -1738,6 +1789,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             setCurrent(currentItem);
             if (currentItem->itemType() == AbstractProjectItem::ClipItem) {
                 m_reloadAction->setEnabled(true);
+                m_replaceAction->setEnabled(true);
                 m_locateAction->setEnabled(true);
                 m_duplicateAction->setEnabled(true);
                 std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(currentItem);
@@ -1752,6 +1804,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 m_tagsWidget->setTagData();
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
+                m_replaceAction->setEnabled(false);
                 m_locateAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Folder"));
@@ -1761,6 +1814,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
                 showClipProperties(std::static_pointer_cast<ProjectClip>(currentItem->parent()), false);
                 m_openAction->setEnabled(false);
                 m_reloadAction->setEnabled(false);
+                m_replaceAction->setEnabled(false);
                 m_locateAction->setEnabled(false);
                 m_duplicateAction->setEnabled(false);
                 m_deleteAction->setText(i18n("Delete Clip"));
@@ -1770,6 +1824,7 @@ void Bin::selectProxyModel(const QModelIndex &id)
             m_renameAction->setEnabled(true);
         } else {
             m_reloadAction->setEnabled(false);
+            m_replaceAction->setEnabled(false);
             m_locateAction->setEnabled(false);
             m_duplicateAction->setEnabled(false);
             m_openAction->setEnabled(false);
@@ -2068,6 +2123,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_proxyAction->setEnabled((m_doc->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0) && enableClipActions);
     m_openAction->setEnabled(type == ClipType::Image || type == ClipType::Audio || type == ClipType::TextTemplate || type == ClipType::Text);
     m_reloadAction->setEnabled(enableClipActions);
+    m_replaceAction->setEnabled(enableClipActions);
     m_locateAction->setEnabled(enableClipActions);
     m_duplicateAction->setEnabled(enableClipActions);
 
@@ -2076,6 +2132,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     m_extractAudioAction->setEnabled(enableClipActions);
     m_openAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_reloadAction->setVisible(itemType != AbstractProjectItem::FolderItem);
+    m_replaceAction->setVisible(itemType == AbstractProjectItem::ClipItem);
     m_duplicateAction->setVisible(itemType != AbstractProjectItem::FolderItem);
     m_inTimelineAction->setVisible(itemType == AbstractProjectItem::ClipItem);
 
@@ -2431,6 +2488,9 @@ void Bin::setupGeneratorMenu()
     if (m_reloadAction) {
         m_menu->addAction(m_reloadAction);
     }
+    if (m_replaceAction) {
+        m_menu->addAction(m_replaceAction);
+    }
     if (m_duplicateAction) {
         m_menu->addAction(m_duplicateAction);
     }
@@ -2480,6 +2540,12 @@ void Bin::setupMenu()
     m_reloadAction->setData("reload_clip");
     m_reloadAction->setEnabled(false);
     connect(m_reloadAction, &QAction::triggered, this, &Bin::slotReloadClip);
+
+    m_replaceAction =
+        addAction(QStringLiteral("replace_clip"), i18n("Replace Clip"), QIcon::fromTheme(QStringLiteral("edit-find-replace")));
+    m_replaceAction->setData("replace_clip");
+    m_replaceAction->setEnabled(false);
+    connect(m_replaceAction, &QAction::triggered, this, &Bin::slotReplaceClip);
 
     m_duplicateAction =
         addAction(QStringLiteral("duplicate_clip"), i18n("Duplicate Clip"), QIcon::fromTheme(QStringLiteral("edit-copy")));

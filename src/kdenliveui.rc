@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="173" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="174" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -63,6 +63,7 @@
       <Separator />
       <Action name="locate_clip" />
       <Action name="reload_clip" />
+      <Action name="replace_clip" />
       <Action name="duplicate_clip" />
       <Action name="proxy_clip" />
       <Menu name="clip_in_timeline"><text>Clip in Timeline</text>

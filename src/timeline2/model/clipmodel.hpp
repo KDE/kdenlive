@@ -67,11 +67,14 @@ public:
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
                          PlaylistState::ClipState state);
 
-    /* @brief returns a property of the clip, or from it's parent if it's a cut
+    /** @brief returns a property of the clip, or from it's parent if it's a cut
      */
     const QString getProperty(const QString &name) const override;
     int getIntProperty(const QString &name) const;
     double getDoubleProperty(const QString &name) const;
+    /** @brief returns the bin clip name
+     */
+    const QString clipName();
     QSize getFrameSize() const;
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);

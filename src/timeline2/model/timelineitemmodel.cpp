@@ -260,19 +260,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         // TODO
         case NameRole:
         case Qt::DisplayRole: {
-            QString result = clip->getProperty("kdenlive:clipname");
-            if (result.isEmpty()) {
-                result = clip->getProperty("kdenlive:originalurl");
-                if (result.isEmpty()) {
-                    result = clip->getProperty("resource");
-                }
-                if (!result.isEmpty()) {
-                    result = QFileInfo(result).fileName();
-                } else {
-                    result = clip->getProperty("mlt_service");
-                }
-            }
-            return result;
+            return clip->clipName();
         }
         case ResourceRole: {
             QString result = clip->getProperty("resource");
