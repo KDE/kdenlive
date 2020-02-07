@@ -547,6 +547,7 @@ private:
 
     void initializePreview();
     bool darkBackground() const;
+    int getMenuOrTimelinePos() const;
 
 signals:
     void selected(Mlt::Producer *producer);

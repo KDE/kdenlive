@@ -134,7 +134,11 @@ Rectangle {
     }
 
     function getMousePos() {
-        return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
+        if (tracksArea.containsMouse) {
+            return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
+        } else {
+            return -1;
+        }
     }
 
     function getScrollPos() {

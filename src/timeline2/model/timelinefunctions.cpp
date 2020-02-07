@@ -1460,32 +1460,37 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         if (res) {
             std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
             destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), undo, redo);
+        } else {
+            break;
         }
     }
 
     // Compositions
-    for (int i = 0; res && i < compositions.count(); i++) {
-        QDomElement prod = compositions.at(i).toElement();
-        QString originalId = prod.attribute(QStringLiteral("composition"));
-        int in = prod.attribute(QStringLiteral("in")).toInt();
-        int out = prod.attribute(QStringLiteral("out")).toInt();
-        int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
-        int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-        if (aTrackId > 0) {
-            aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId));
-        }
-        int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
-        int newId;
-        auto transProps = std::make_unique<Mlt::Properties>();
-        QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
-        for (int j = 0; j < props.count(); j++) {
-            transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
+    if (res) {
+        for (int i = 0; res && i < compositions.count(); i++) {
+            QDomElement prod = compositions.at(i).toElement();
+            QString originalId = prod.attribute(QStringLiteral("composition"));
+            int in = prod.attribute(QStringLiteral("in")).toInt();
+            int out = prod.attribute(QStringLiteral("out")).toInt();
+            int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
+            int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
+            if (aTrackId > 0) {
+                aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId));
+            }
+            int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
+            int newId;
+            auto transProps = std::make_unique<Mlt::Properties>();
+            QDomNodeList props = prod.elementsByTagName(QStringLiteral("property"));
+            for (int j = 0; j < props.count(); j++) {
+                transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
                             props.at(j).toElement().text().toUtf8().constData());
+            }
+            res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, undo, redo);
         }
-        res = timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, undo, redo);
     }
     if (!res) {
         undo();
+        pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
         return false;
     }
     // Rebuild groups

@@ -326,6 +326,10 @@ void TimelineWidget::slotUngrabHack()
     // https://phabricator.kde.org/D5515
     if (quickWindow() && quickWindow()->mouseGrabberItem()) {
         quickWindow()->mouseGrabberItem()->ungrabMouse();
+        // Reset menu position
+        QTimer::singleShot(200, this, [this]() {
+            rootObject()->setProperty("mainFrame", -1);
+        });
     }
 }
 

@@ -200,7 +200,7 @@ QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
 void TimelineController::setScaleFactorOnMouse(double scale, bool zoomOnMouse)
 {
     if (m_root) {
-        m_root->setProperty("zoomOnMouse", zoomOnMouse ? qMin(getMousePos(), duration()) : -1);
+        m_root->setProperty("zoomOnMouse", zoomOnMouse ? qBound(0, getMousePos(), duration()) : -1);
         m_scale = scale;
         emit scaleFactorChanged();
     } else {
@@ -1147,10 +1147,10 @@ void TimelineController::seekToClip(int cid, bool seekToEnd)
 
 void TimelineController::seekToMouse()
 {
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getMousePos", Q_RETURN_ARG(QVariant, returnedValue));
-    int mousePos = returnedValue.toInt();
-    setPosition(mousePos);
+    int mousePos = getMousePos();
+    if (mousePos > -1) {
+        setPosition(mousePos);
+    }
 }
 
 int TimelineController::getMousePos()
@@ -1526,10 +1526,19 @@ QMap<QString, QString> TimelineController::documentProperties()
     return props;
 }
 
+int TimelineController::getMenuOrTimelinePos() const
+{
+    int frame = m_root->property("mainFrame").toInt();
+    if (frame == -1) {
+        frame = pCore->getTimelinePosition();
+    }
+    return frame;
+}
+
 void TimelineController::insertSpace(int trackId, int frame)
 {
     if (frame == -1) {
-        frame = pCore->getTimelinePosition();
+        frame = getMenuOrTimelinePos();
     }
     if (trackId == -1) {
         trackId = m_activeTrack;
@@ -1553,7 +1562,7 @@ void TimelineController::insertSpace(int trackId, int frame)
 void TimelineController::removeSpace(int trackId, int frame, bool affectAllTracks)
 {
     if (frame == -1) {
-        frame = pCore->getTimelinePosition();
+        frame = getMenuOrTimelinePos();
     }
     if (trackId == -1) {
         trackId = m_activeTrack;
