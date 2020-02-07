@@ -658,12 +658,16 @@ void KeyframeImport::importSelectedData()
             // Import our keyframes
             int frame = 0;
             KeyframeImport::ImportRoles convertMode = static_cast<KeyframeImport::ImportRoles> (m_sourceCombo->currentData().toInt());
+            mlt_keyframe_type type;
             for (int i = 0; i < anim->key_count(); i++) {
-                frame = anim->key_get_frame(i);
+                int error = anim->key_get(i, frame, type);
+                if (error) {
+                    continue;
+                }
                 QVariant current = km->getInterpolatedValue(frame);
                 if (convertMode == ImportRoles::SimpleValue) {
                     double dval = animData->anim_get_double("key", frame);
-                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), dval, true, undo, redo);
+                    km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)type, dval, true, undo, redo);
                     continue;
                 }
                 QStringList kfrData = current.toString().split(QLatin1Char(' '));
@@ -734,15 +738,19 @@ void KeyframeImport::importSelectedData()
                         break;
                 }
                 current = kfrData.join(QLatin1Char(' '));
-                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), current, true, undo, redo);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)type, current, true, undo, redo);
             }
         } else {
             int frame = 0;
+            mlt_keyframe_type type;
             for (int i = 0; i < anim->key_count(); i++) {
-                frame = anim->key_get_frame(i);
+                int error = anim->key_get(i, frame, type);
+                if (error) {
+                    continue;
+                }
                 //frame += (m_inPoint->getPosition() - m_offsetPoint->getPosition());
                 QVariant current = km->getInterpolatedValue(frame);
-                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp(), current, true, undo, redo);
+                km->addKeyframe(GenTime(frame - m_inPoint->getPosition() + m_offsetPoint->getPosition(), pCore->getCurrentFps()), (KeyframeType)type, current, true, undo, redo);
             }
         }
     }
