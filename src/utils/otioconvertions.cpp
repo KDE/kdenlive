@@ -117,22 +117,22 @@ void OtioConvertions::slotProjectExported(int exitCode, QProcess::ExitStatus exi
     m_otioProcess.disconnect();
     m_otioTempFile.remove();
     if(exitStatus != QProcess::NormalExit || exitCode != 0) {
-        pCore->displayMessage(i18n("Project convertion failed"), ErrorMessage);
+        pCore->displayMessage(i18n("Project conversion failed"), ErrorMessage);
         qWarning() << exitCode << exitStatus << QString(m_otioProcess.readAllStandardError());
         return;
     }
-    pCore->displayMessage(i18n("Project convertion complete"), InformationMessage);
+    pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);
 }
 
 void OtioConvertions::slotProjectImported(int exitCode, QProcess::ExitStatus exitStatus)
 {
     m_otioProcess.disconnect();
     if(exitStatus != QProcess::NormalExit || exitCode != 0 || !QFile::exists(m_importedFile)) {
-        pCore->displayMessage(i18n("Project convertion failed"), ErrorMessage);
+        pCore->displayMessage(i18n("Project conversion failed"), ErrorMessage);
         qWarning() << exitCode << exitStatus << QString(m_otioProcess.readAllStandardError());
         return;
     }
-    pCore->displayMessage(i18n("Project convertion complete"), InformationMessage);
+    pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);
     // Verify current project can be closed
     if (pCore->currentDoc()->isModified() &&
         KMessageBox::warningContinueCancel(pCore->window(), i18n(
