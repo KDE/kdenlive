@@ -187,7 +187,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
-    m_glWidget->installEventFilter(leventEater);
+    m_videoWidget->installEventFilter(leventEater);
     connect(leventEater, &QuickEventEater::addEffect, this, &Monitor::slotAddEffect);
 
     m_qmlManager = new QmlManager(m_glMonitor);
