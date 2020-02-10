@@ -307,9 +307,8 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     // m_view.splitter->setStretchFactor(1, 5);
     // m_view.splitter->setStretchFactor(0, 2);
 
-    m_view.out_file->setMode(KFile::File);
     m_view.out_file->setAcceptMode(QFileDialog::AcceptSave);
-
+    m_view.out_file->setMode(KFile::File);
     m_view.out_file->setFocusPolicy(Qt::ClickFocus);
 
     m_jobsDelegate = new RenderViewDelegate(this);
@@ -1886,7 +1885,10 @@ QUrl RenderWidget::filenameWithExtension(QUrl url, const QString &extension)
         url = QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator());
     }
     QString directory = url.adjusted(QUrl::RemoveFilename).toLocalFile();
-    QString filename = pCore->currentDoc()->url().fileName();
+    QString filename = url.fileName();
+    if (filename.isEmpty()) {
+        filename = pCore->currentDoc()->url().fileName();
+    }
     QString ext;
 
     if (extension.at(0) == '.') {
@@ -2762,9 +2764,16 @@ void RenderWidget::setRenderProfile(const QMap<QString, QString> &props)
     slotUpdateGuideBox();
 
     QString url = props.value(QStringLiteral("renderurl"));
-    if (!url.isEmpty()) {
-        m_view.out_file->setUrl(QUrl::fromLocalFile(url));
+    if (url.isEmpty()) {
+        QTreeWidgetItem *item = m_view.formats->currentItem();
+        if (item && item->parent()) { // categories have no parent
+            const QString extension = item->data(0, ExtensionRole).toString();
+            url = filenameWithExtension(QUrl::fromLocalFile(pCore->currentDoc()->projectDataFolder() + QDir::separator()), extension).toLocalFile();
+        }
+    } else if (QFileInfo(url).isRelative()) {
+        url.prepend(pCore->currentDoc()->documentRoot());
     }
+    m_view.out_file->setUrl(QUrl::fromLocalFile(url));
 
     if (props.contains(QStringLiteral("renderprofile")) || props.contains(QStringLiteral("rendercategory"))) {
         focusFirstVisibleItem(props.value(QStringLiteral("renderprofile")));
