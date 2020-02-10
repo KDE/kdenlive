@@ -152,7 +152,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     rectLineWidth->setToolTip(i18n("Border width"));
 
     itemzoom->setSuffix(i18n("%"));
-    QSize profileSize = monitor->profileSize();
+    QSize profileSize = pCore->getCurrentFrameSize();
     m_frameWidth = (int)(profileSize.height() * pCore->getCurrentDar() + 0.5);
     m_frameHeight = profileSize.height();
     showToolbars(TITLE_SELECT);
