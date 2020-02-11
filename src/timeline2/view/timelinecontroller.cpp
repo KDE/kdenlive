@@ -2675,6 +2675,15 @@ QColor TimelineController::imageColor() const
     return scheme.foreground(KColorScheme::NeutralText).color();
 }
 
+QColor TimelineController::slideshowColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    QColor base = scheme.foreground(KColorScheme::LinkText).color();
+    QColor high = scheme.foreground(KColorScheme::NeutralText).color();
+    QColor slide = QColor(qBound(0, base.red() + (int)(high.red() - 128), 255), qBound(0, base.green() + (int)(high.green() - 128), 255), qBound(0, base.blue() + (int)(high.blue() - 128), 255), 255);
+    return slide;
+}
+
 QColor TimelineController::lockedColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
