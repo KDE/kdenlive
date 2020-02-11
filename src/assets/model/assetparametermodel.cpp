@@ -89,6 +89,9 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
             value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
         }
+        if (value.isEmpty()) {
+            continue;
+        }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
             m_fixedParams[name] = value;

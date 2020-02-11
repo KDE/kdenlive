@@ -418,6 +418,8 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
+    std::unordered_set<int> previousFadeIn = m_fadeIns;
+    std::unordered_set<int> previousFadeOut = m_fadeOuts;
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
     if (effect->isAudio()) {
@@ -473,9 +475,23 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
             emit dataChanged(QModelIndex(), QModelIndex(), roles);
             return true;
         };
+        Fun update_undo = [this, inFades, outFades, previousFadeIn, previousFadeOut]() {
+            // TODO: only update if effect is fade or keyframe
+            QVector<int> roles = {TimelineModel::EffectNamesRole};
+            if (inFades > 0) {
+                m_fadeIns = previousFadeIn;
+                roles << TimelineModel::FadeInRole;
+            } else if (outFades > 0) {
+                m_fadeOuts = previousFadeOut;
+                roles << TimelineModel::FadeOutRole;
+            }
+            pCore->updateItemKeyframes(m_ownerId);
+            emit dataChanged(QModelIndex(), QModelIndex(), roles);
+            return true;
+        };
         update();
         PUSH_LAMBDA(update, redo);
-        PUSH_LAMBDA(update, undo);
+        PUSH_LAMBDA(update_undo, undo);
         PUSH_UNDO(undo, redo, i18n("Add effect %1", EffectsRepository::get()->getName(effectId)));
     } else if (makeCurrent) {
         if (auto srvPtr = m_masterService.lock()) {
