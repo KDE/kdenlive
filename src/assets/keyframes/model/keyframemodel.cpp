@@ -698,13 +698,13 @@ QString KeyframeModel::getRotoProperty() const
 {
     QJsonDocument doc;
     if (auto ptr = m_model.lock()) {
-        int in = 0; // ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
-        int out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        QMap<QString, QVariant> map;
+        int in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        int out = in + ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        QVariantMap map;
         for (const auto &keyframe : m_keyframeList) {
-            map.insert(QString::number(in + keyframe.first.frames(pCore->getCurrentFps())).rightJustified(log10((double)out) + 1, '0'), keyframe.second.second);
+            map.insert(QString::number(keyframe.first.frames(pCore->getCurrentFps())).rightJustified(log10((double)out) + 1, '0'), keyframe.second.second);
         }
-        doc = QJsonDocument::fromVariant(QVariant(map));
+        doc = QJsonDocument::fromVariant(map);
     }
     return doc.toJson();
 }
