@@ -191,6 +191,9 @@ Rectangle {
         if (itemType == ProducerType.Image) {
             return imageColor
         }
+        if (itemType == ProducerType.SlideShow) {
+            return slideshowColor
+        }
         if (itemType == ProducerType.Color) {
             var color = clipResource.substring(clipResource.length - 9)
             if (color[0] == '#') {
