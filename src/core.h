@@ -93,6 +93,8 @@ public:
     ProjectManager *projectManager();
     /** @brief Returns a pointer to the current project. */
     KdenliveDoc *currentDoc();
+    /** @brief Set current project modified. */
+    void setDocumentModified();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the view of the project bin. */

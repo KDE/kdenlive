@@ -243,6 +243,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             emit muteTrack(m_tid, !active);
             reset();
         }
+        pCore->setDocumentModified();
         updateLabel();
     });
 
@@ -306,6 +307,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_levelFilter->set("disable", value == 60 ? 1 : 0);
             m_levels.clear();
             m_manager->purgeCache();
+            pCore->setDocumentModified();
         }
     });
     connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int value) {
@@ -316,6 +318,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_balanceFilter->set("disable", value == 0 ? 1 : 0);
             m_levels.clear();
             m_manager->purgeCache();
+            pCore->setDocumentModified();
         }
     });
     QVBoxLayout *lay = new QVBoxLayout;

@@ -549,6 +549,11 @@ KdenliveDoc *Core::currentDoc()
     return m_projectManager->current();
 }
 
+void Core::setDocumentModified()
+{
+    m_projectManager->current()->setModified();;
+}
+
 int Core::projectDuration() const
 {
     if (!m_guiConstructed) {
