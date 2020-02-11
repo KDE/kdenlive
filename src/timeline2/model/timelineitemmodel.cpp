@@ -470,6 +470,17 @@ void TimelineItemModel::setTrackStackEnabled(int tid, bool enable)
 void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> service)
 {
     std::shared_ptr<TrackModel> track = getTrackById(tid);
+    std::shared_ptr<Mlt::Tractor> destination = track->getTrackService();
+    // Audio mixer effects are attached to the Tractor service, while track effects are attached to first playlist service 
+    if (auto ptr = service.lock()) {
+        for (int i = 0; i < ptr->filter_count(); i++) {
+            std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
+            if (filter->get_int("internal_added") > 0) {
+                destination->attach(*filter.get());
+            }
+        }
+    }
+
     track->importEffects(std::move(service));
 }
 
