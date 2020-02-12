@@ -27,7 +27,7 @@
 #include <KMessageWidget>
 #include <QtMath>
 
-SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double maxSpeed, bool reversed)
+SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate)
     : QDialog(parent)
     , ui(new Ui::ClipSpeed_UI)
 {
@@ -48,6 +48,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double 
     }
     ui->speedSpin->setValue(speed);
     ui->speedSlider->setValue(qLn(speed) * 12);
+    ui->pitchCompensate->setChecked(pitch_compensate);
 
     // Info widget
     KMessageWidget *infoMessage = new KMessageWidget(this);
@@ -85,4 +86,9 @@ double SpeedDialog::getValue() const
         val *= -1;
     }
     return val;
+}
+
+bool SpeedDialog::getPitchCompensate() const
+{
+    return ui->pitchCompensate->isChecked();
 }

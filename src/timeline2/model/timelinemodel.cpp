@@ -97,7 +97,7 @@ RTTR_REGISTRATION
         // .method("requestCompositionInsertion", select_overload<bool(const QString &, int, int, int, std::unique_ptr<Mlt::Properties>, int &, bool)>(
         //                                            &TimelineModel::requestCompositionInsertion))(
         //     parameter_names("transitionId", "trackId", "position", "length", "transProps", "id", "logUndo"))
-        .method("requestClipTimeWarp", select_overload<bool(int, double,bool)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed","changeDuration"));
+        .method("requestClipTimeWarp", select_overload<bool(int, double,bool,bool)>(&TimelineModel::requestClipTimeWarp))(parameter_names("clipId", "speed","pitchCompensate","changeDuration"));
 }
 
 int TimelineModel::next_id = 0;
@@ -928,7 +928,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     return currentPos;
 }
 
-bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, bool warp_pitch, Fun &undo, Fun &redo)
 {
     qDebug() << "requestClipCreation " << binClipId;
     QString bid = binClipId;
@@ -947,7 +947,7 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     int clipId = TimelineModel::getNextId();
     id = clipId;
     Fun local_undo = deregisterClip_lambda(clipId);
-    ClipModel::construct(shared_from_this(), bid, clipId, state, speed);
+    ClipModel::construct(shared_from_this(), bid, clipId, state, speed, warp_pitch);
     auto clip = m_allClips[clipId];
     Fun local_redo = [clip, this, state]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
@@ -1040,7 +1040,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             return false;
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
-        res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, local_undo, local_redo);
+        res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
         int target_track;
         if (audioDrop) {
@@ -1075,7 +1075,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 std::function<bool(void)> audio_undo = []() { return true; };
                 std::function<bool(void)> audio_redo = []() { return true; };
                 int newId;
-                res = requestClipCreation(binClipId, newId, audioDrop ? PlaylistState::VideoOnly : PlaylistState::AudioOnly, 1.0, audio_undo, audio_redo);
+                res = requestClipCreation(binClipId, newId, audioDrop ? PlaylistState::VideoOnly : PlaylistState::AudioOnly, 1.0, false, audio_undo, audio_redo);
                 if (res) {
                     bool move = false;
                     while (!move && !possibleTracks.isEmpty()) {
@@ -1110,7 +1110,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (normalisedBinId.startsWith(QLatin1Char('A')) || normalisedBinId.startsWith(QLatin1Char('V'))) {
             normalisedBinId.remove(0, 1);
         }
-        res = requestClipCreation(normalisedBinId, id, dropType, 1.0, local_undo, local_redo);
+        res = requestClipCreation(normalisedBinId, id, dropType, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
     }
     if (!res) {
@@ -1904,7 +1904,8 @@ int TimelineModel::requestClipResizeAndTimeWarp(int itemId, int size, bool right
             pos += getItemPlaytime(id) - size;
         }
         result = getTrackById(tid)->requestClipDeletion(id, true, true, undo, redo, false, true);
-        result = result && requestClipTimeWarp(id, speed, true, undo, redo);
+        bool pitchCompensate = m_allClips[id]->getIntProperty(QStringLiteral("warp_pitch"));
+        result = result && requestClipTimeWarp(id, speed, pitchCompensate, true, undo, redo);
         result = result && requestItemResize(id, size, true, true, undo, redo);
         result = result && getTrackById(tid)->requestClipInsertion(id, pos, true, true, undo, redo);
         if (!result) {
@@ -3381,12 +3382,9 @@ void TimelineModel::requestClipUpdate(int clipId, const QVector<int> &roles)
     notifyChange(modelIndex, modelIndex, roles);
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDuration, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed())) {
-        return true;
-    }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     int oldPos = getClipPosition(clipId);
@@ -3397,7 +3395,8 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDur
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
     if (success) {
-        success = m_allClips[clipId]->useTimewarpProducer(speed, changeDuration, local_undo, local_redo);
+        qDebug()<<"Warp pass 3";
+        success = m_allClips[clipId]->useTimewarpProducer(speed, pitchCompensate, changeDuration, local_undo, local_redo);
     }
     if (trackId != -1) {
         success = success && getTrackById(trackId)->requestClipInsertion(clipId, oldPos, true, true, local_undo, local_redo);
@@ -3410,9 +3409,12 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDur
     return success;
 }
 
-bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDuration)
+bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration)
 {
     QWriteLocker locker(&m_lock);
+    if (qFuzzyCompare(speed, m_allClips[clipId]->getSpeed()) && pitchCompensate == m_allClips[clipId]->getIntProperty("warp_pitch")) {
+        return true;
+    }
     TRACE(clipId, speed);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -3423,10 +3425,10 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDur
         // Check if clip has a split partner
         int splitId = m_groups->getSplitPartner(clipId);
         if (splitId > -1) {
-            result = requestClipTimeWarp(splitId, speed / 100.0, changeDuration, undo, redo);
+            result = requestClipTimeWarp(splitId, speed / 100.0, pitchCompensate, changeDuration, undo, redo);
         }
         if (result) {
-            result = requestClipTimeWarp(clipId, speed / 100.0, changeDuration, undo, redo);
+            result = requestClipTimeWarp(clipId, speed / 100.0, pitchCompensate, changeDuration, undo, redo);
         }
         if (!result) {
             pCore->displayMessage(i18n("Change speed failed"), ErrorMessage);
@@ -3436,7 +3438,7 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool changeDur
         }
     } else {
         // If clip is not inserted on a track, we just change the producer
-        result = m_allClips[clipId]->useTimewarpProducer(speed, changeDuration, undo, redo);
+        result = m_allClips[clipId]->useTimewarpProducer(speed, pitchCompensate, changeDuration, undo, redo);
     }
     if (result) {
         PUSH_UNDO(undo, redo, i18n("Change clip speed"));

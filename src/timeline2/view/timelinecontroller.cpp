@@ -1617,6 +1617,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
         return;
     }
+    bool pitchCompensate = m_model->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
     if (qFuzzyCompare(speed, -1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
         double duration = m_model->getItemPlaytime(clipId);
@@ -1634,14 +1635,15 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             minSpeed = std::max(minSpeed, minSpeed2);
             maxSpeed = std::min(maxSpeed, maxSpeed2);
         }
-        QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), minSpeed, maxSpeed, speed < 0));
+        QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), minSpeed, maxSpeed, speed < 0, pitchCompensate));
         if (d->exec() != QDialog::Accepted) {
             return;
         }
         speed = d->getValue();
+        pitchCompensate = d->getPitchCompensate();
         qDebug() << "requesting speed " << speed;
     }
-    m_model->requestClipTimeWarp(clipId, speed, true);
+    m_model->requestClipTimeWarp(clipId, speed, pitchCompensate, true);
 }
 
 void TimelineController::switchCompositing(int mode)

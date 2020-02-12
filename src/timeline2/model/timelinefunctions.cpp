@@ -64,7 +64,8 @@ bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &time
 {
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
-    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, clipSpeed, undo, redo);
+    bool warp_pitch = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
+    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, clipSpeed, warp_pitch, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
 
     // copy useful timeline properties
@@ -1430,8 +1431,12 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
+        bool warp_pitch = false;
+        if (!qFuzzyCompare(speed, 1.)) {
+            warp_pitch = prod.attribute(QStringLiteral("warp_pitch")).toInt();
+        }
         int newId;
-        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, undo, redo);
+        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, warp_pitch, undo, redo);
         if (created) {
             // Master producer is ready
             // ids.removeAll(originalId);

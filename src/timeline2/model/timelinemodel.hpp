@@ -410,7 +410,7 @@ protected:
        @param id: return parameter for the id of the newly created clip.
        @param state: The desired clip state (original, audio/video only).
      */
-    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, Fun &undo, Fun &redo);
+    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, bool warp_pitch, Fun &undo, Fun &redo);
 
     /* @brief Switch item selection status */
     void setSelected(int itemId, bool sel);
@@ -637,10 +637,10 @@ public:
     This functions create an undo object and also apply the effect to the corresponding audio if there is any.
     Returns true on success, false otherwise (and nothing is modified)
     */
-    Q_INVOKABLE bool requestClipTimeWarp(int clipId, double speed, bool changeDuration);
+    Q_INVOKABLE bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration);
     /* @brief Same function as above, but doesn't check for paired audio and accumulate undo/redo
      */
-    bool requestClipTimeWarp(int clipId, double speed, bool changeDuration, Fun &undo, Fun &redo);
+    bool requestClipTimeWarp(int clipId, double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
 
     void replugClip(int clipId);
 

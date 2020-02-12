@@ -69,7 +69,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     });
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed, bool warp_pitch)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
@@ -81,6 +81,9 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     state = stateFromBool(videoAudio);
     std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
+    if (!qFuzzyCompare(speed, 1.)) {
+        cutProducer->parent().set("warp_pitch", warp_pitch ? 1 : 0);
+    }
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -106,11 +109,16 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     state = stateFromBool(videoAudio);
 
     double speed = 1.0;
+    bool warp_pitch = false;
     if (QString::fromUtf8(producer->parent().get("mlt_service")) == QLatin1String("timewarp")) {
         speed = producer->parent().get_double("warp_speed");
+        warp_pitch = producer->parent().get_int("warp_pitch");
     }
     auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
+    if (warp_pitch) {
+        result.first->parent().set("warp_pitch", 1);
+    }
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
     clip->m_effectStack->importEffects(producer, state, result.second);
@@ -432,15 +440,11 @@ void ClipModel::refreshProducerFromBin(int trackId)
     refreshProducerFromBin(trackId, m_currentState);
 }
 
-bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo, Fun &redo)
+bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
 {
     if (m_endlessResize) {
         // no timewarp for endless producers
         return false;
-    }
-    if (qFuzzyCompare(speed, m_speed)) {
-        // nothing to do
-        return true;
     }
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
@@ -457,8 +461,9 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
     } else if (previousSpeed < 0) {
         revertSpeed = true;
     }
-    auto operation = useTimewarpProducer_lambda(speed);
-    auto reverse = useTimewarpProducer_lambda(previousSpeed);
+    bool hasPitch = getIntProperty(QStringLiteral("warp_pitch"));
+    auto operation = useTimewarpProducer_lambda(speed, pitchCompensate);
+    auto reverse = useTimewarpProducer_lambda(previousSpeed, hasPitch);
     if (revertSpeed || (changeDuration && oldOut >= newDuration)) {
         // in that case, we are going to shrink the clip when changing the producer. We must undo that when reloading the old producer
         reverse = [reverse, oldIn, oldOut, this]() {
@@ -506,12 +511,13 @@ bool ClipModel::useTimewarpProducer(double speed, bool changeDuration, Fun &undo
     return false;
 }
 
-Fun ClipModel::useTimewarpProducer_lambda(double speed)
+Fun ClipModel::useTimewarpProducer_lambda(double speed, bool pitchCompensate)
 {
     QWriteLocker locker(&m_lock);
-    return [speed, this]() {
+    return [speed, pitchCompensate, this]() {
         qDebug() << "timeWarp producer" << speed;
         refreshProducerFromBin(m_currentTrackId, m_currentState, speed);
+        m_producer->parent().set("warp_pitch", pitchCompensate ? 1 : 0);
         if (m_currentTrackId > -1) {
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
@@ -730,6 +736,9 @@ QDomElement ClipModel::toXml(QDomDocument &document)
         }
     }
     container.setAttribute(QStringLiteral("speed"), m_speed);
+    if (!qFuzzyCompare(m_speed, 1.)) {
+        container.setAttribute(QStringLiteral("warp_pitch"), getIntProperty(QStringLiteral("warp_pitch")));
+    }
     container.appendChild(m_effectStack->toXml(document));
     return container;
 }

@@ -57,7 +57,7 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed = 1.);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed = 1., bool warp_pitch = false);
 
     /* @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -182,9 +182,9 @@ protected:
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
     */
-    bool useTimewarpProducer(double speed, bool changeDuration, Fun &undo, Fun &redo);
+    bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
     // @brief Lambda that merely changes the speed (in and out are untouched)
-    Fun useTimewarpProducer_lambda(double speed);
+    Fun useTimewarpProducer_lambda(double speed, bool pitchCompensate);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;

@@ -33,10 +33,11 @@ class SpeedDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit SpeedDialog(QWidget *parent, double speed, double minSpeed, double maxSpeed, bool reversed);
+    explicit SpeedDialog(QWidget *parent, double speed, double minSpeed, double maxSpeed, bool reversed, bool pitch_compensate);
     ~SpeedDialog();
 
     double getValue() const;
+    bool getPitchCompensate() const;
 
 private:
     Ui::ClipSpeed_UI *ui;
