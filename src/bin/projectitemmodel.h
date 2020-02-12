@@ -201,6 +201,9 @@ public:
     void setClipWaiting(const QString &binId);
     void setClipInvalid(const QString &binId);
 
+    /** @brief Returns true if current project has a clip with id @clipId and a hash of @clipHash */
+    bool validateClip(const QString &binId, const QString &clipHash);
+
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;
 

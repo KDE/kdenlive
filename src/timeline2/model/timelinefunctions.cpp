@@ -1384,6 +1384,30 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
         tracksMap.insert(oldPos, projectTracks.first.at(offsetId));
     }
+    if (docId == pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
+        // Check that the bin clips exists in case we try to paste in a copy of original project
+        QDomNodeList binClips = copiedItems.documentElement().elementsByTagName(QStringLiteral("producer"));
+        QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
+        for (int i = 0; i < binClips.count(); ++i) {
+            QDomElement currentProd = binClips.item(i).toElement();
+            QString clipId = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:id"));
+            QString clipHash = Xml::getXmlProperty(currentProd, QStringLiteral("kdenlive:file_hash"));
+            if (!pCore->projectItemModel()->validateClip(clipId, clipHash)) {
+                // This clip is different in project and in paste data, create a copy
+                QString updatedId = QString::number(pCore->projectItemModel()->getFreeClipId());
+                Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), updatedId);
+                mappedIds.insert(clipId, updatedId);
+                if (folderId.isEmpty()) {
+                    // Folder doe not exist
+                    const QString rootId = pCore->projectItemModel()->getRootFolder()->clipId();
+                    folderId = QString::number(pCore->projectItemModel()->getFreeFolderId());
+                    pCore->projectItemModel()->requestAddFolder(folderId, i18n("Pasted clips"), rootId, undo, redo);
+                }
+                pCore->projectItemModel()->requestAddBinClip(updatedId, currentProd, folderId, undo, redo);
+            }
+        }
+    }
+
     if (!docId.isEmpty() && docId != pCore->currentDoc()->getDocumentProperty(QStringLiteral("documentid"))) {
         // paste from another document, import bin clips
         QString folderId = pCore->projectItemModel()->getFolderIdByName(i18n("Pasted clips"));
@@ -1403,10 +1427,12 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 mappedIds.insert(clipId, updatedId);
                 clipId = updatedId;
             }
-            pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo);
+            if (!pCore->projectItemModel()->requestAddBinClip(clipId, currentProd, folderId, undo, redo)) {
+                undo();
+                return false;
+            }
         }
     }
-
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
 
     bool res = true;
@@ -1443,6 +1469,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             waitingIds.removeAt(i);
         } else {
             i++;
+            // TODO: Bad practice.. maybe try using a callback function or put a timeout
             qApp->processEvents();
             continue;
         }

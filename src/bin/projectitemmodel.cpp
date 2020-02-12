@@ -1085,3 +1085,13 @@ int ProjectItemModel::clipsCount() const
     READ_LOCK();
     return m_binPlaylist->count();
 }
+
+bool ProjectItemModel::validateClip(const QString &binId, const QString &clipHash)
+{
+    QWriteLocker locker(&m_lock);
+    std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
+    if (clip) {
+        return clip->hash() == clipHash;
+    }
+    return false;
+}
