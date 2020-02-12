@@ -19,7 +19,7 @@ Row {
 
     Repeater {
         id: thumbRepeater
-        // switching the model allows to have different view modes:
+        // switching the model allows one to have different view modes:
         // 2: will display start / end thumbs
         // container.width / thumbRow.thumbWidth will display all frames showThumbnails
         // 1: only show first thumbnail

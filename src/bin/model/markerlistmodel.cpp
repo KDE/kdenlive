@@ -357,7 +357,7 @@ void MarkerListModel::registerSnapModel(const std::weak_ptr<SnapInterface> &snap
 
         // we now add the already existing markers to the snap
         for (const auto &marker : m_markerList) {
-            qDebug() << " *- *-* REGISTEING MARKER: " << marker.first.frames(pCore->getCurrentFps());
+            qDebug() << " *- *-* REGISTERING MARKER: " << marker.first.frames(pCore->getCurrentFps());
             ptr->addPoint(marker.first.frames(pCore->getCurrentFps()));
         }
     } else {

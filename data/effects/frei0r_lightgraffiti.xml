@@ -3,7 +3,7 @@
     <effect tag="frei0r.lightgraffiti" id="frei0r.lightgraffiti">
         <name>Light Graffiti</name>
         <description>Light Graffiti effect.
-        <full><![CDATA[This effect allows to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
+        <full><![CDATA[This effect allows one to do Light Painting (i.e. painting with light sources on a photo by keeping the shutter
         opened for a while), but for video.]]></full></description>
         <author>Simon A. Eugster (Granjow)</author>
         <parameter type="animated" name="thresholdBrightness" default="450" min="0" max="765">

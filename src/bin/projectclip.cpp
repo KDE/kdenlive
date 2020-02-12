@@ -800,7 +800,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
             qDebug() << "// EFFECT " << ct << " : " << filter->get("mlt_service");
             QString ix = QString::fromLatin1(filter->get("kdenlive_id"));
             if (!ix.isEmpty()) {
-                qDebug() << "/ + + DELTING";
+                qDebug() << "/ + + DELETING";
                 if (prod->detach(*filter) == 0) {
                 } else {
                     ct++;

@@ -138,7 +138,7 @@ void TimelineModel::prepareClose()
 {
     requestClearSelection(true);
     QWriteLocker locker(&m_lock);
-    // Unlock all tracks to allow delting clip from tracks
+    // Unlock all tracks to allow deleting clip from tracks
     m_closing = true;
     auto it = m_allTracks.begin();
     while (it != m_allTracks.end()) {
