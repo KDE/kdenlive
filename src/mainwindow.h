@@ -197,7 +197,7 @@ private:
 
     /** @brief Shortcut to remove the focus from any element.
      *
-     * It allows to get out of e.g. text input fields and to press another
+     * It allows one to get out of e.g. text input fields and to press another
      * shortcut. */
     QShortcut *m_shortcutRemoveFocus;
 

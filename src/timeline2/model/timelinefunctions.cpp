@@ -215,7 +215,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
         bool res = true;
         for (const int topId : topElements) {
-            qDebug()<<"// CHECKING REGROUP ELMENT: "<<topId<<", ISCLIP: "<<timeline->isClip(topId)<<timeline->isGroup(topId);
+            qDebug()<<"// CHECKING REGROUP ELEMENT: "<<topId<<", ISCLIP: "<<timeline->isClip(topId)<<timeline->isGroup(topId);
             res = res && timeline->m_groups->split(topId, criterion, undo, redo);
         }
         if (!res) {
