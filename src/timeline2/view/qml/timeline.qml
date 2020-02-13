@@ -235,6 +235,7 @@ Rectangle {
     property int duration: timeline.duration
     property color audioColor: timeline.audioColor
     property color videoColor: timeline.videoColor
+    property color titleColor: timeline.titleColor
     property color imageColor: timeline.imageColor
     property color slideshowColor: timeline.slideshowColor
     property color lockedColor: timeline.lockedColor

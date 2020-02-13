@@ -2671,6 +2671,15 @@ QColor TimelineController::audioColor() const
     return scheme.foreground(KColorScheme::PositiveText).color();
 }
 
+QColor TimelineController::titleColor() const
+{
+    KColorScheme scheme(QApplication::palette().currentColorGroup());
+    QColor base = scheme.foreground(KColorScheme::LinkText).color();
+    QColor high = scheme.foreground(KColorScheme::NegativeText).color();
+    QColor title = QColor(qBound(0, base.red() + (int)(high.red() - 128), 255), qBound(0, base.green() + (int)(high.green() - 128), 255), qBound(0, base.blue() + (int)(high.blue() - 128), 255), 255);
+    return title;
+}
+
 QColor TimelineController::imageColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());

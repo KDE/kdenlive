@@ -188,6 +188,9 @@ Rectangle {
         if (clipStatus == ClipState.Disabled) {
             return 'grey'
         }
+        if (itemType == ProducerType.Text) {
+            return titleColor
+        }
         if (itemType == ProducerType.Image) {
             return imageColor
         }
