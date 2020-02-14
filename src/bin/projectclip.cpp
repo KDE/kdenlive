@@ -884,8 +884,12 @@ const QString ProjectClip::getFileHash()
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case ClipType::Text:
-    case ClipType::TextTemplate:
         fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();
+        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        break;
+    case ClipType::TextTemplate:
+        fileData = getProducerProperty(QStringLiteral("resource")).toUtf8();
+        fileData.append(getProducerProperty(QStringLiteral("templatetext")).toUtf8());
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     case ClipType::QText:
@@ -1020,6 +1024,12 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         emit refreshAnalysisPanel();
     }
     if (properties.contains(QStringLiteral("length")) || properties.contains(QStringLiteral("kdenlive:duration"))) {
+        // Make sure length is >= kdenlive:duration
+        int producerLength = getProducerIntProperty(QStringLiteral("length"));
+        int kdenliveLength = getFramePlaytime();
+        if (producerLength < kdenliveLength) {
+            setProducerProperty(QStringLiteral("length"), kdenliveLength);
+        }
         m_duration = getStringDuration();
         if (auto ptr = m_model.lock())
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
