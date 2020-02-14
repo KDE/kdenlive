@@ -15,7 +15,6 @@ extern "C" {
 }
 
 #include "kdenlive_debug.h"
-#include <QElapsedTimer>
 #include <algorithm>
 #include <vector>
 

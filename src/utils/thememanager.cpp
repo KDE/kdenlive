@@ -82,7 +82,7 @@ QString ThemeManager::loadCurrentScheme() const
 #if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 67, 0)
     // Since 5.67 KColorSchemeManager includes a system color scheme option that reacts to system
     // scheme changes. This scheme will be activated if we pass an empty string to KColorSchemeManager
-    // So no need anymore to read the the current global scheme ourselves if no custom one is configured.
+    // So no need anymore to read the current global scheme ourselves if no custom one is configured.
     return cg.readEntry("ColorScheme");
 #else
      return cg.readEntry("ColorScheme", currentDesktopDefaultScheme());

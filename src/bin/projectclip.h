@@ -207,7 +207,7 @@ public:
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
        bool returned has the following sementic:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
-           - if false, the the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
+           - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
     std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
                                                                                      PlaylistState::ClipState state);

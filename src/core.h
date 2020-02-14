@@ -201,7 +201,7 @@ public:
     QString getTimelineClipBinId(int cid);
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
-    /** @brief An error occured within a filter, inform user */
+    /** @brief An error occurred within a filter, inform user */
     void processInvalidFilter(const QString service, const QString id, const QString message);
     /** @brief Update current project's tags */
     void updateProjectTags(QMap <QString, QString> tags);

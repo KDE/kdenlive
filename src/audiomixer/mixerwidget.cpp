@@ -142,7 +142,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Build audio meter widget
     m_audioMeterWidget.reset(new AudioLevelWidget(width(), this));
-    // intialize for stereo display
+    // initialize for stereo display
     m_audioMeterWidget->setAudioValues({-100, -100});
 
     // Build volume widget

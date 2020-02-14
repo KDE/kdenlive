@@ -786,7 +786,7 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
         update();
         UPDATE_UNDO_REDO(update, update, undo, redo);
         auto effectId = std::static_pointer_cast<EffectItemModel>(item)->getAssetId();
-        PUSH_UNDO(undo, redo, i18n("Move effect %1").arg(EffectsRepository::get()->getName(effectId)));
+        PUSH_UNDO(undo, redo, i18n("Move effect %1", EffectsRepository::get()->getName(effectId)));
     }
 }
 
