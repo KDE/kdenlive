@@ -224,6 +224,8 @@ private:
     QElapsedTimer m_droppedTimer;
     double m_displayedFps;
     QLabel *m_scalingLabel;
+    QLabel *m_speedLabel;
+    int m_speedIndex;
 
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
@@ -232,6 +234,8 @@ private:
     void checkDrops(int dropped);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
+    /** @brief Reset and hide speed info label */
+    void resetSpeedInfo();
 
 private slots:
     void slotSetThumbFrame();

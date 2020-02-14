@@ -71,6 +71,7 @@ public:
     /** @brief Returns true if the project monitor is visible (and not tabbed under another dock. */
     bool projectMonitorVisible() const;
     QTimer refreshTimer;
+    static const double speedArray[5];
 
 public slots:
 

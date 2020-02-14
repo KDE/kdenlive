@@ -232,6 +232,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
     m_toolbar->addWidget(m_scalingLabel);
+    m_speedLabel = new QLabel(this);
+    m_speedLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    bg = scheme.background(KColorScheme::PositiveBackground).color();
+    m_speedLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_speedLabel->sizeHint().height()/4));
+    m_toolbar->addWidget(m_speedLabel);
+    m_speedLabel->setFixedWidth(0);
     QWidget *sp1 = new QWidget(this);
     sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     m_toolbar->addWidget(sp1);
@@ -1182,8 +1188,15 @@ void Monitor::slotRewind(double speed)
         if (currentspeed > -1) {
             m_glMonitor->purgeCache();
             speed = -1;
+            resetSpeedInfo();
         } else {
-            speed = currentspeed * 1.5;
+            m_speedIndex++;
+            if (m_speedIndex > 4) {
+                m_speedIndex = 0;
+            }
+            speed = -MonitorManager::speedArray[m_speedIndex];
+            m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
+            m_speedLabel->setText(QString("x%1").arg(speed));
         }
     }
     m_playAction->setActive(true);
@@ -1198,8 +1211,15 @@ void Monitor::slotForward(double speed)
         if (currentspeed < 1) {
             m_glMonitor->purgeCache();
             speed = 1;
+            resetSpeedInfo();
         } else {
-            speed = currentspeed * 1.2;
+            m_speedIndex++;
+            if (m_speedIndex > 4) {
+                m_speedIndex = 0;
+            }
+            speed = MonitorManager::speedArray[m_speedIndex];
+            m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
+            m_speedLabel->setText(QString("x%1").arg(speed));
         }
     }
     m_playAction->setActive(true);
@@ -1299,18 +1319,21 @@ void Monitor::pause()
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
     m_playAction->setActive(false);
+    resetSpeedInfo();
 }
 
 void Monitor::switchPlay(bool play)
 {
     m_playAction->setActive(play);
     m_glMonitor->switchPlay(play);
+    resetSpeedInfo();
 }
 
 void Monitor::slotSwitchPlay()
 {
     slotActivateMonitor();
     m_glMonitor->switchPlay(m_playAction->isActive());
+    resetSpeedInfo();
 }
 
 void Monitor::slotPlay()
@@ -2114,17 +2137,26 @@ void Monitor::slotStart()
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
     m_glMonitor->getControllerProxy()->setPosition(0);
+    resetSpeedInfo();
 }
 
 void Monitor::slotEnd()
 {
     slotActivateMonitor();
     m_glMonitor->switchPlay(false);
+    resetSpeedInfo();
     if (m_id == Kdenlive::ClipMonitor) {
         m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->duration() - 1);
     } else {
         m_glMonitor->getControllerProxy()->setPosition(pCore->projectDuration() - 1);
     }
+}
+
+void Monitor::resetSpeedInfo()
+{
+    m_speedIndex = -1;
+    m_speedLabel->setFixedWidth(0);
+    m_speedLabel->clear();
 }
 
 void Monitor::addSnapPoint(int pos)

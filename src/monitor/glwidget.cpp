@@ -1613,8 +1613,12 @@ void GLWidget::switchPlay(bool play, double speed)
             m_producer->seek(0);
         }
         m_producer->set_speed(speed);
+        if (speed <= 1. || speed > 6.) {
+            m_consumer->set("scrub_audio", 0);
+        } else {
+            m_consumer->set("scrub_audio", 1);
+        }
         m_consumer->start();
-        m_consumer->set("scrub_audio", 0);
         m_consumer->set("refresh", 1);
     } else {
         emit paused();
