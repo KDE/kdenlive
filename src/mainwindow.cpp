@@ -1243,12 +1243,12 @@ void MainWindow::setupActions()
     openGLAuto->setCheckable(true);
     openGLAuto->setChecked(glBackend == 0);
 
-    QAction *openGLDesktop = new QAction(i18n("Desktop OpenGL"), this);
+    QAction *openGLDesktop = new QAction(i18n("OpenGL"), this);
     openGLDesktop->setData(Qt::AA_UseDesktopOpenGL);
     openGLDesktop->setCheckable(true);
     openGLDesktop->setChecked(glBackend == Qt::AA_UseDesktopOpenGL);
 
-    QAction *openGLES = new QAction(i18n("OpenGLES"), this);
+    QAction *openGLES = new QAction(i18n("DirectX (ANGLE)"), this);
     openGLES->setData(Qt::AA_UseOpenGLES);
     openGLES->setCheckable(true);
     openGLES->setChecked(glBackend == Qt::AA_UseOpenGLES);
