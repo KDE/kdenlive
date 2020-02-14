@@ -269,7 +269,26 @@
   <url type="help">https://userbase.kde.org/Kdenlive/Manual</url>
   <url type="donation">https://www.kde.org/community/donations/?app=kdenlive&amp;source=appdata</url>
   <screenshots>
-    <screenshot type="default"><caption>Kdenlive Timeline</caption><caption xml:lang="ca">Línia del temps del Kdenlive</caption><caption xml:lang="ca-valencia">Línia del temps del Kdenlive</caption><caption xml:lang="cs">Časová osa Kdenlive</caption><caption xml:lang="en-GB">Kdenlive Timeline</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption><caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption><caption xml:lang="fr">Montage Kdenlive</caption><caption xml:lang="id">Linimasa Kdenlive</caption><caption xml:lang="it">Linea temporale Kdenlive</caption><caption xml:lang="ko">Kdenlive 타임라인</caption><caption xml:lang="nl">Kdenlive tijdlijn</caption><caption xml:lang="pt">Linha Temporal do Kdenlive</caption><caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption><caption xml:lang="sk">Kdenlive časová os</caption><caption xml:lang="sv">Kdenlive tidslinje</caption><caption xml:lang="uk">Монтажний стіл Kdenlive</caption><caption xml:lang="x-test">xxKdenlive Timelinexx</caption><caption xml:lang="zh-TW">Kdenlive 時間軸</caption><image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>/image&gt;
+    <screenshot type="default">
+      <caption>Kdenlive Timeline</caption>
+      <caption xml:lang="ca">Línia del temps del Kdenlive</caption>
+      <caption xml:lang="ca-valencia">Línia del temps del Kdenlive</caption>
+      <caption xml:lang="cs">Časová osa Kdenlive</caption>
+      <caption xml:lang="en-GB">Kdenlive Timeline</caption><caption xml:lang="es">Línea de tiempo de Kdenlive</caption>
+      <caption xml:lang="eu">Kdenlive-n denbora-lerroa</caption>
+      <caption xml:lang="fr">Montage Kdenlive</caption>
+      <caption xml:lang="id">Linimasa Kdenlive</caption>
+      <caption xml:lang="it">Linea temporale Kdenlive</caption>
+      <caption xml:lang="ko">Kdenlive 타임라인</caption>
+      <caption xml:lang="nl">Kdenlive tijdlijn</caption>
+      <caption xml:lang="pt">Linha Temporal do Kdenlive</caption>
+      <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
+      <caption xml:lang="sk">Kdenlive časová os</caption>
+      <caption xml:lang="sv">Kdenlive tidslinje</caption>
+      <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Timelinexx</caption>
+      <caption xml:lang="zh-TW">Kdenlive 時間軸</caption>
+      <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
     </screenshot>
     <screenshot type="source">
       <caption>Kdenlive Audio Adjustments</caption>
