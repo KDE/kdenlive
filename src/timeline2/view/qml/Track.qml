@@ -195,12 +195,6 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "speed"
-                    value: model.speed
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
-                }
-                Binding {
-                    target: loader.item
                     property: "maxDuration"
                     value: model.maxDuration
                     when: loader.status == Loader.Ready && isClip(model.clipType)
@@ -239,7 +233,8 @@ Item{
                         item.canBeVideo = model.canBeVideo
                         item.itemType = model.clipType
                         item.audioChannels = model.audioChannels
-                        //item.binId= model.binId
+                        // Speed change triggers a new clip insert so no binding necessary
+                        item.speed = model.speed
                     } else if (model.clipType == ProducerType.Composition) {
                         console.log('loaded composition: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex)
                         //item.aTrack = model.a_track

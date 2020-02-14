@@ -518,12 +518,6 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, bool pitchCompensate)
         qDebug() << "timeWarp producer" << speed;
         refreshProducerFromBin(m_currentTrackId, m_currentState, speed);
         m_producer->parent().set("warp_pitch", pitchCompensate ? 1 : 0);
-        if (m_currentTrackId > -1) {
-            if (auto ptr = m_parent.lock()) {
-                QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->notifyChange(ix, ix, TimelineModel::SpeedRole);
-            }
-        }
         return true;
     };
 }

@@ -3395,7 +3395,6 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
         success = success && getTrackById(trackId)->requestClipDeletion(clipId, true, true, local_undo, local_redo, false, false);
     }
     if (success) {
-        qDebug()<<"Warp pass 3";
         success = m_allClips[clipId]->useTimewarpProducer(speed, pitchCompensate, changeDuration, local_undo, local_redo);
     }
     if (trackId != -1) {

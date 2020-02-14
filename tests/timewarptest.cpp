@@ -61,7 +61,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
 
         REQUIRE(timeline->requestClipTimeWarp(cid3, 0.1, false, true, undo, redo));
 
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 0.1);
         INFO(timeline->m_allClips[cid3]->getIn());
         INFO(timeline->m_allClips[cid3]->getOut());
@@ -69,13 +68,11 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
 
         undo();
 
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 1.);
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration);
 
         redo();
 
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 0.1);
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration / 0.1);
 
@@ -83,17 +80,14 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         std::function<bool(void)> redo2 = []() { return true; };
         REQUIRE(timeline->requestClipTimeWarp(cid3, 1.2, false, true, undo2, redo2));
 
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 1.2);
         REQUIRE(timeline->getClipPlaytime(cid3) == int(originalDuration / 1.2));
 
         undo2();
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 0.1);
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration / 0.1);
 
         undo();
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == 1.);
         REQUIRE(timeline->getClipPlaytime(cid3) == originalDuration);
 
@@ -104,7 +98,6 @@ TEST_CASE("Test of timewarping", "[Timewarp]")
         // This is the limit, should work
         REQUIRE(timeline->requestClipTimeWarp(cid3, double(curLength), false, true, undo2, redo2));
 
-        CHECK_UPDATE(TimelineModel::SpeedRole);
         REQUIRE(timeline->getClipSpeed(cid3) == double(curLength));
         REQUIRE(timeline->getClipPlaytime(cid3) == 1);
 
