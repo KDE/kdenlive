@@ -232,7 +232,7 @@ void GLWidget::resizeGL(int width, int height)
         w = width;
         h = width / m_dar;
     } else {
-        w = height * m_dar;
+        w = height / m_dar;
         h = height;
     }
     x = (width - w) / 2;
