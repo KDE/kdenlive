@@ -22,6 +22,8 @@
 
 #include "speeddialog.h"
 #include "ui_clipspeed_ui.h"
+#include "effects/effectsrepository.hpp"
+
 #include <QPushButton>
 #include <QDebug>
 #include <KMessageWidget>
@@ -49,6 +51,10 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double 
     ui->speedSpin->setValue(speed);
     ui->speedSlider->setValue(qLn(speed) * 12);
     ui->pitchCompensate->setChecked(pitch_compensate);
+    if (!EffectsRepository::get()->exists(QStringLiteral("rbpitch"))) {
+        ui->pitchCompensate->setEnabled(false);
+        ui->pitchCompensate->setToolTip(i18n("MLT must be compiled with rubberband library to enable pitch correction"));
+    }
 
     // Info widget
     KMessageWidget *infoMessage = new KMessageWidget(this);
