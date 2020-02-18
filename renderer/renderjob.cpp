@@ -164,7 +164,7 @@ void RenderJob::start()
     if ((interface != nullptr) && m_usekuiserver) {
         if (!interface->isServiceRegistered(QStringLiteral("org.kde.JobViewServer"))) {
             qWarning() << "No org.kde.JobViewServer registered, trying to start kuiserver";
-            if (QProcess::startDetached(QStringLiteral("kuiserver"))) {
+            if (QProcess::startDetached(QStringLiteral("kuiserver"), QStringList())) {
                 // Give it a couple of seconds to start
                 QElapsedTimer t;
                 t.start();

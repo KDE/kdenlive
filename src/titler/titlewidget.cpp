@@ -490,7 +490,11 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     graphicsView->scene()->addItem(m_frameImage);
 
     bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&] (int ix) {
+#else
+    connect(bgBox, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , [&] (int ix) {
+#endif
         KdenliveSettings::setTitlerbg(ix);
         displayBackgroundFrame();
     });
@@ -3118,7 +3122,7 @@ void TitleWidget::updateGuides(int)
     for (int i = 0; i < max; i++) {
         auto *line1 = new QGraphicsLineItem(0, (i + 1) * m_frameHeight / (max + 1), m_frameWidth, (i + 1) * m_frameHeight / (max + 1), m_frameBorder);
         line1->setPen(framepen);
-        line1->setFlags(nullptr);
+        line1->setFlags({});
         line1->setData(-1, -1);
         line1->setVisible(guideVisible);
         m_guides << line1;
@@ -3127,7 +3131,7 @@ void TitleWidget::updateGuides(int)
     for (int i = 0; i < max; i++) {
         auto *line1 = new QGraphicsLineItem((i + 1) * m_frameWidth / (max + 1), 0, (i + 1) * m_frameWidth / (max + 1), m_frameHeight, m_frameBorder);
         line1->setPen(framepen);
-        line1->setFlags(nullptr);
+        line1->setFlags({});
         line1->setData(-1, -1);
         line1->setVisible(guideVisible);
         m_guides << line1;
@@ -3138,14 +3142,14 @@ void TitleWidget::updateGuides(int)
 
     auto *line6 = new QGraphicsLineItem(0, 0, m_frameWidth, m_frameHeight, m_frameBorder);
     line6->setPen(framepen);
-    line6->setFlags(nullptr);
+    line6->setFlags({});
     line6->setData(-1, -1);
     line6->setVisible(guideVisible);
     m_guides << line6;
 
     auto *line7 = new QGraphicsLineItem(m_frameWidth, 0, 0, m_frameHeight, m_frameBorder);
     line7->setPen(framepen);
-    line7->setFlags(nullptr);
+    line7->setFlags({});
     line7->setData(-1, -1);
     line7->setVisible(guideVisible);
     m_guides << line7;

@@ -323,7 +323,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     });
     QVBoxLayout *lay = new QVBoxLayout;
     setContentsMargins(0, 0, 0, 0);
-    lay->setMargin(0);
+    lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_trackLabel);
     QHBoxLayout *buttonslay = new QHBoxLayout;
     buttonslay->setSpacing(0);
