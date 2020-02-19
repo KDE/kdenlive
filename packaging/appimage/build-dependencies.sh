@@ -121,6 +121,7 @@ cmake --build . --target ext_gavl
 cmake --build . --target ext_frei0r
 cmake --build . --target ext_vidstab
 cmake --build . --target ext_opencv
+cmake --build . --target ext_rubberband
 
 #export CC=/usr/bin/gcc-6
 #export CXX=/usr/bin/g++-6
