@@ -126,7 +126,7 @@ mkdir -p $GST_LIB_DEST_DIR
 GST_PLUGIN_DEST_DIR=$APPDIR/usr/lib/x86_64-linux-gnu/gstreamer1.0/gstreamer-1.0
 mkdir -p $GST_PLUGIN_DEST_DIR
 cp $GST_PLUGIN_SRC_DIR/gstreamer1.0/gstreamer-1.0/gst-plugin-scanner $GST_PLUGIN_DEST_DIR
-cp $GST_PLUGIN_SRC_DIR/gstreamer-1.0/* $GST_LIB_DEST_DIR
+cp $GST_PLUGIN_SRC_DIR/gstreamer-1.0/*.so $GST_LIB_DEST_DIR
 
 rm $GST_LIB_DEST_DIR/libgstegl* || true
 
