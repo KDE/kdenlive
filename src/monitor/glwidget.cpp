@@ -232,7 +232,7 @@ void GLWidget::resizeGL(int width, int height)
         w = width;
         h = width / m_dar;
     } else {
-        w = height / m_dar;
+        w = height * m_dar;
         h = height;
     }
     x = (width - w) / 2;
@@ -242,9 +242,7 @@ void GLWidget::resizeGL(int width, int height)
     if (rootQml) {
         QSize s = pCore->getCurrentFrameSize();
         double scalex = (double)m_rect.width() / s.width() * m_zoom;
-        double scaley = (double)m_rect.width() /
-                    ((double)s.height() * m_dar / s.width()) /
-                    s.width() * m_zoom;
+        double scaley = (double)m_rect.height() / s.height() * m_zoom;
         rootQml->setProperty("center", m_rect.center());
         rootQml->setProperty("scalex", scalex);
         rootQml->setProperty("scaley", scaley);
@@ -506,8 +504,8 @@ bool GLWidget::initGPUAccelSync()
 void GLWidget::paintGL()
 {
     QOpenGLFunctions *f = openglContext()->functions();
-    int width = this->width() * devicePixelRatio();
-    int height = this->height() * devicePixelRatio();
+    float width = this->width() * devicePixelRatio();
+    float height = this->height() * devicePixelRatio();
 
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
@@ -534,7 +532,7 @@ void GLWidget::paintGL()
 
     // Setup an orthographic projection.
     QMatrix4x4 projection;
-    projection.scale(2.0f / (float)width, 2.0f / (float)height);
+    projection.scale(2.0f / width, 2.0f / height);
     m_shader->setUniformValue(m_projectionLocation, projection);
     check_error(f);
 
@@ -551,10 +549,10 @@ void GLWidget::paintGL()
     QVector<QVector2D> vertices;
     width = m_rect.width() * devicePixelRatio();
     height = m_rect.height() * devicePixelRatio();
-    vertices << QVector2D(float(-width) / 2.0f, float(-height) / 2.0f);
-    vertices << QVector2D(float(-width) / 2.0f, float(height) / 2.0f);
-    vertices << QVector2D(float(width) / 2.0f, float(-height) / 2.0f);
-    vertices << QVector2D(float(width) / 2.0f, float(height) / 2.0f);
+    vertices << QVector2D(-width / 2.0f, -height / 2.0f);
+    vertices << QVector2D(-width / 2.0f, height / 2.0f);
+    vertices << QVector2D(width / 2.0f, -height / 2.0f);
+    vertices << QVector2D(width / 2.0f, height / 2.0f);
     m_shader->enableAttributeArray(m_vertexLocation);
     check_error(f);
     m_shader->setAttributeArray(m_vertexLocation, vertices.constData());
@@ -1594,10 +1592,7 @@ void GLWidget::refreshSceneLayout()
     QSize s = pCore->getCurrentFrameSize();
     rootObject()->setProperty("profile", s);
     rootObject()->setProperty("scalex", (double)m_rect.width() / s.width() * m_zoom);
-    rootObject()->setProperty("scaley",
-                              (double)m_rect.width() /
-                                  (((double)s.height() * m_dar / s.width())) /
-                                  s.width() * m_zoom);
+    rootObject()->setProperty("scaley", (double)m_rect.height() / s.height() * m_zoom);
 }
 
 void GLWidget::switchPlay(bool play, double speed)
@@ -1808,8 +1803,7 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 void GLWidget::updateScaling()
 {
 #if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
-    QSize profileSize = pCore->getCurrentFrameSize();
-    int previewHeight = profileSize.height();
+    int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
         case 2:
             previewHeight = qMin(previewHeight, 720);
@@ -1826,19 +1820,24 @@ void GLWidget::updateScaling()
         default:
             break;
     }
-    if (previewHeight == profileSize.height()) {
-        m_profileSize = profileSize;
-    } else {
-        int width = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
-        if (width % 2 > 0) {
-            width ++;
-        }
-        m_profileSize = QSize(width, previewHeight);
+    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
+    if (pWidth% 2 > 0) {
+        pWidth ++;
     }
-    qDebug()<<"==== SWITCHED PROFILE WIDTH TO : "<<m_profileSize.width()<<" = "<<profileSize.width();
+    m_profileSize = QSize(pWidth, previewHeight);
     if (m_consumer) {
         m_consumer->set("width", m_profileSize.width());
         m_consumer->set("height", m_profileSize.height());
+        resizeGL(width(), height());
+    }
+#else
+    int previewHeight = pCore->getCurrentFrameSize().height();
+    int pWidth = previewHeight * pCore->getCurrentDar() / pCore->getCurrentSar();
+    if (pWidth% 2 > 0) {
+        pWidth ++;
+    }
+    m_profileSize = QSize(pWidth, previewHeight);
+    if (m_consumer) {
         resizeGL(width(), height());
     }
 #endif

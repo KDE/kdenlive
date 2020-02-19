@@ -53,8 +53,9 @@ public:
     bool commitResult(Fun &undo, Fun &redo) override;
 
 private:
-    int m_fullWidth;
     int m_imageHeight;
+    int m_imageWidth;
+    int m_fullWidth;
 
     std::shared_ptr<ProjectClip> m_binClip;
     std::shared_ptr<Mlt::Producer> m_prod;

@@ -183,7 +183,7 @@ void ThumbnailCache::storeThumbnail(const QString &binId, int pos, const QImage 
         QDir thumbFolder = getDir(false, &ok);
         if (ok) {
             if (!img.save(thumbFolder.absoluteFilePath(key))) {
-                qDebug() << ".............\nAAAAAAAAAAAARGH ERROR SAVING THUMB";
+                qDebug() << ".............\n!!!!!!!! ERROR SAVING THUMB in: "<<thumbFolder.absoluteFilePath(key);
             }
             m_storedOnDisk[binId].push_back(pos);
             // if volatile cache also contains this entry, update it

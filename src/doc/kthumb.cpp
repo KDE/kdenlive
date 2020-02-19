@@ -101,20 +101,23 @@ QImage KThumb::getFrame(Mlt::Producer &producer, int framepos, int displayWidth,
 }
 
 // static
-QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, bool forceRescale)
+QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidth)
 {
     if (frame == nullptr || !frame->is_valid()) {
         qDebug() << "* * * *INVALID FRAME";
         return QImage();
     }
-    int ow = forceRescale ? 0 : width;
-    int oh = forceRescale ? 0 : height;
+    int ow = width;
+    int oh = height;
     mlt_image_format format = mlt_image_rgb24a;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
         QImage temp(ow, oh, QImage::Format_ARGB32);
         memcpy(temp.scanLine(0), imagedata, (unsigned)(ow * oh * 4));
-        return temp.rgbSwapped();
+        if (scaledWidth == 0 || scaledWidth == width) {
+            return temp.rgbSwapped();
+        }
+        return temp.rgbSwapped().scaled(scaledWidth, height);
     }
     return QImage();
 }

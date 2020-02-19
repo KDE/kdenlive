@@ -35,14 +35,15 @@
 ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool persistent, bool reloadAllThumbs)
     : AbstractClipJob(THUMBJOB, binId)
     , m_frameNumber(frameNumber)
-    , m_fullWidth(imageHeight * pCore->getCurrentDar() + 0.5)
-    , m_imageHeight(imageHeight)
+    , m_imageHeight(pCore->thumbProfile()->height())
+    , m_imageWidth(pCore->thumbProfile()->width())
+    , m_fullWidth(m_imageHeight * pCore->getCurrentDar() + 0.5)
     , m_persistent(persistent)
     , m_reloadAll(reloadAllThumbs)
 
 {
-    if (m_fullWidth % 8 > 0) {
-        m_fullWidth += 8 - m_fullWidth % 8;
+    if (m_fullWidth % 2 > 0) {
+        m_fullWidth ++;
     }
     m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
@@ -103,7 +104,7 @@ bool ThumbJob::startJob()
     frame->set("top_field_first", -1);
     frame->set("rescale.interp", "nearest");
     if ((frame != nullptr) && frame->is_valid()) {
-        m_result = KThumb::getFrame(frame.data());
+        m_result = KThumb::getFrame(frame.data(), m_imageWidth, m_imageHeight, m_fullWidth);
         m_done = true;
     }
     return m_done;

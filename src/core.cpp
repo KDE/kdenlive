@@ -343,17 +343,19 @@ bool Core::setCurrentProfile(const QString &profilePath)
         m_currentProfile = profilePath;
         m_thumbProfile.reset();
         if (m_projectProfile) {
-            m_projectProfile->set_width(getCurrentProfile()->width());
-            m_projectProfile->set_height(getCurrentProfile()->height());
-            m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
-            m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
-            m_projectProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
             m_projectProfile->set_colorspace(getCurrentProfile()->colorspace());
+            m_projectProfile->set_frame_rate(getCurrentProfile()->frame_rate_num(), getCurrentProfile()->frame_rate_den());
+            m_projectProfile->set_height(getCurrentProfile()->height());
             m_projectProfile->set_progressive(getCurrentProfile()->progressive());
+            m_projectProfile->set_sample_aspect(getCurrentProfile()->sample_aspect_num(), getCurrentProfile()->sample_aspect_den());
+            m_projectProfile->set_display_aspect(getCurrentProfile()->display_aspect_num(), getCurrentProfile()->display_aspect_den());
+            m_projectProfile->set_width(getCurrentProfile()->width());
+            m_projectProfile->set_explicit(true);
         }
         // inform render widget
         profileChanged();
         m_mainWindow->updateRenderWidgetProfile();
+        pCore->monitorManager()->updatePreviewScaling();
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
             checkProfileValidity();
@@ -746,12 +748,13 @@ Mlt::Profile *Core::thumbProfile()
     QMutexLocker lck(&m_thumbProfileMutex);
     if (!m_thumbProfile) {
         m_thumbProfile = std::make_unique<Mlt::Profile>(m_currentProfile.toStdString().c_str());
+        /*double factor = 144. / m_thumbProfile->height();
         m_thumbProfile->set_height(144);
-        int width = 144 * m_thumbProfile->dar() + 0.5;
-        if (width % 8 > 0) {
-            width += 8 - width % 8;
+        int width = m_thumbProfile->width() * factor + 0.5;
+        if (width % 2 > 0) {
+            width ++;
         }
-        m_thumbProfile->set_width(width);
+        m_thumbProfile->set_width(width);*/
     }
     return m_thumbProfile.get();
 }

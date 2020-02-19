@@ -57,9 +57,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
     m_view->rootContext()->setContextProperty("fixedFont", ft);
     double scalex = (double)displayRect.width() / profile.width() * zoom;
-    double scaley = displayRect.width() /
-                    ((double)profile.height() * profileStretch / profile.width()) /
-                    profile.width() * zoom;
+    double scaley = (double)displayRect.height() / profile.height() * zoom;
     switch (type) {
     case MonitorSceneGeometry:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitoreffectscene.qml")));
