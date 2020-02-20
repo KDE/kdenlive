@@ -171,6 +171,7 @@ void KeyframeView::slotGoToPrev()
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
 {
+    emit activateEffect();
     int offset = pCore->getItemIn(m_model->getOwnerId());
     double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);

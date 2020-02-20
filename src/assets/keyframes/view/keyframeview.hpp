@@ -97,6 +97,7 @@ signals:
     void seekToPos(int pos);
     void atKeyframe(bool isKeyframe, bool singleKeyframe);
     void modified();
+    void activateEffect();
 };
 
 #endif

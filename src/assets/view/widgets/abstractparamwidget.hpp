@@ -63,6 +63,7 @@ signals:
 
     void seekToPos(int);
     void updateHeight(int height = -1);
+    void activateEffect();
 
 public slots:
     /** @brief Toggle the comments on or off

@@ -141,6 +141,12 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
     m_view->setModel(effectParamModel, frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
+    connect(m_view, &AssetParameterView::activateEffect, [this]() {
+        if (!decoframe->property("active").toBool()) {
+            // Activate effect if not already active
+            emit activateEffect(m_model);
+        }
+    });
     connect(m_view, &AssetParameterView::updateHeight, this, &CollapsibleEffectView::updateHeight);
     connect(this, &CollapsibleEffectView::refresh, m_view, &AssetParameterView::slotRefresh);
     m_keyframesButton->setVisible(m_view->keyframesAllowed());
@@ -337,7 +343,7 @@ bool CollapsibleEffectView::isEnabled() const
     return m_enabledButton->isActive();
 }
 
-void CollapsibleEffectView::slotActivateEffect(QModelIndex ix, bool active)
+void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     // m_colorIcon->setEnabled(active);
     // bool active = ix.row() == m_model->row(); 

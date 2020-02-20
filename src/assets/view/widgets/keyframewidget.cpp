@@ -165,6 +165,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p) { slotSetPosition(p, true); });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
+    connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
 
     connect(m_buttonAddDelete, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotAddRemove);
     connect(m_buttonPrevious, &QAbstractButton::pressed, m_keyframeview, &KeyframeView::slotGoToPrev);

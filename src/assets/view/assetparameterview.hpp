@@ -110,6 +110,7 @@ signals:
     /** @brief clear and refill the effect presets */
     void updatePresets(const QString &presetName = QString());
     void updateHeight();
+    void activateEffect();
 };
 
 #endif

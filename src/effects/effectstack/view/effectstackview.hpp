@@ -104,7 +104,7 @@ private slots:
     void slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel);
     void loadEffects();
     void updateTreeHeight();
-    void doActivateEffect(QModelIndex);
+    void doActivateEffect(int row, QModelIndex ix);
 
     //    void switchBuiltStack(bool show);
 

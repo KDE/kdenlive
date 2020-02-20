@@ -82,7 +82,6 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 ac->setChecked(true);
             }
         }
-        
     });
     emit updatePresets();
     connect(m_model.get(), &AssetParameterModel::dataChanged, this, &AssetParameterView::refresh);
@@ -113,6 +112,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(this, &AssetParameterView::initKeyframeView, w, &AbstractParamWidget::slotInitMonitor);
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
+                connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
                 connect(w, &AbstractParamWidget::updateHeight, [&, w]() {
                     setFixedHeight(contentHeight());
                     emit updateHeight();
