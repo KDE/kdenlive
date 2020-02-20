@@ -2268,7 +2268,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         if (previousId > -1) {
             for (auto &compo : m_allCompositions) {
                 if (compo.second->getATrack() == position && compo.second->getForcedTrack() == -1) {
-                    compo.second->setATrack(position + 1, previousId);
+                    compo.second->setATrack(position + 1, -1);
                 }
             }
         }
