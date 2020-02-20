@@ -337,10 +337,10 @@ bool CollapsibleEffectView::isEnabled() const
     return m_enabledButton->isActive();
 }
 
-void CollapsibleEffectView::slotActivateEffect(QModelIndex ix)
+void CollapsibleEffectView::slotActivateEffect(QModelIndex ix, bool active)
 {
     // m_colorIcon->setEnabled(active);
-    bool active = ix.row() == m_model->row();
+    // bool active = ix.row() == m_model->row(); 
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {

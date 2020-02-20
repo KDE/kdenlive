@@ -88,7 +88,7 @@ public slots:
     void slotDisable(bool disable);
     void slotResetEffect();
     void importKeyframes(const QString &keyframes);
-    void slotActivateEffect(QModelIndex ix);
+    void slotActivateEffect(QModelIndex ix, bool active);
     void updateHeight();
     /** @brief Should we block wheel event (if parent is a view with scrollbar) */
     void blockWheenEvent(bool block);
