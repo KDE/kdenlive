@@ -358,6 +358,8 @@ private slots:
     void slotSetTool(ProjectTool tool);
     void slotSnapForward();
     void slotSnapRewind();
+    void slotGuideForward();
+    void slotGuideRewind();
     void slotClipStart();
     void slotClipEnd();
     void slotSelectClipInTimeline();

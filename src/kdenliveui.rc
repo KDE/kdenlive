@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="176" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="177" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -169,12 +169,14 @@
       <Separator />
       <Menu name="monitor_go" ><text>Go To</text>
 	    <Action name="seek_start" />
+        <Action name="monitor_seek_guide_backward" />
 	    <Action name="monitor_seek_snap_backward" />
 	    <Action name="seek_zone_start" />
 	    <Action name="seek_clip_start" />
 	    <Action name="seek_clip_end" />
 	    <Action name="seek_zone_end" />
 	    <Action name="monitor_seek_snap_forward" />
+        <Action name="monitor_seek_guide_forward" />
 	    <Action name="seek_end" />
       </Menu>
       <Menu name="monitor_seek" ><text>Seek</text>

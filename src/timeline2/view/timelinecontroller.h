@@ -303,6 +303,13 @@ public:
     /* @brief Seek to previous snap point
      */
     void gotoPreviousSnap();
+    /* @brief Seek to previous guide
+     */
+    void gotoPreviousGuide();
+    /* @brief Seek to next guide
+     */
+    void gotoNextGuide();
+
     /* @brief Set current item's start point to cursor position
      */
     void setInPoint();

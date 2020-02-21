@@ -646,6 +646,38 @@ void TimelineController::gotoPreviousSnap()
     }
 }
 
+void TimelineController::gotoNextGuide()
+{
+    QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+    int pos = pCore->getTimelinePosition();
+    double fps = pCore->getCurrentFps();
+    for (auto &guide : guides) {
+        if (guide.time().frames(fps) > pos) {
+            setPosition(guide.time().frames(fps));
+            return;
+        }
+    }
+    setPosition(m_duration - 1);
+}
+
+void TimelineController::gotoPreviousGuide()
+{
+    if (pCore->getTimelinePosition() > 0) {
+        QList<CommentedTime> guides = pCore->projectManager()->current()->getGuideModel()->getAllMarkers();
+        int pos = pCore->getTimelinePosition();
+        double fps = pCore->getCurrentFps();
+        int lastGuidePos = 0;
+        for (auto &guide : guides) {
+            if (guide.time().frames(fps) >= pos) {
+                setPosition(lastGuidePos);
+                return;
+            }
+            lastGuidePos = guide.time().frames(fps);
+        }
+        setPosition(lastGuidePos);
+    }
+}
+
 void TimelineController::groupSelection()
 {
     const auto selection = m_model->getCurrentSelection();
