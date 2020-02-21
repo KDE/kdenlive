@@ -829,7 +829,7 @@ void Monitor::slotSwitchFullScreen(bool minimizeOnly)
             m_glWidget->setParent(nullptr);
         }
         m_glWidget->showFullScreen();
-        qApp->activeWindow()->setFocus();
+        m_videoWidget->setFocus();
     } else {
         m_glWidget->showNormal();
         auto *lay = (QVBoxLayout *)layout();
