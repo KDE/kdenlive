@@ -513,7 +513,7 @@ void MainWindow::init()
     // Timeline clip menu
     QMenu *timelineClipMenu = new QMenu(this);
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_copy")));
-    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_paste")));
+    timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("paste_effects")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("group_clip")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("ungroup_clip")));
     timelineClipMenu->addAction(actionCollection()->action(QStringLiteral("edit_item_duration")));
