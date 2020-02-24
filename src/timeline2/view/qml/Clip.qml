@@ -323,6 +323,7 @@ Rectangle {
                 delegate:
                 Item {
                     anchors.fill: parent
+                    visible: markerBase.x >= 0 && markerBase.x < clipRoot.width
                     Rectangle {
                         id: markerBase
                         width: 1
