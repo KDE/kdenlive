@@ -44,7 +44,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     m_defaultSize = pCore->getCurrentFrameSize();
-    m_sourceSize = frameSize.isValid() ? frameSize : m_defaultSize;
+    m_sourceSize = (frameSize.isValid() && !frameSize.isNull()) ? frameSize : m_defaultSize;
     /*QString paramName = i18n(paramTag.toUtf8().data());
     QString comment = m_model->data(ix, AssetParameterModel::CommentRole).toString();
     if (!comment.isEmpty()) {
