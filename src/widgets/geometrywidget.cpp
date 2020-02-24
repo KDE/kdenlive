@@ -196,29 +196,24 @@ void GeometryWidget::slotAdjustToFrameSize()
 {
     double monitorDar = pCore->getCurrentDar();
     double sourceDar = m_sourceSize.width() / m_sourceSize.height();
-    m_spinWidth->blockSignals(true);
-    m_spinHeight->blockSignals(true);
+    QSignalBlocker bk1(m_spinWidth);
+    QSignalBlocker bk2(m_spinHeight);
     if (sourceDar > monitorDar) {
         // Fit to width
         double factor = (double)m_defaultSize.width() / m_sourceSize.width() * pCore->getCurrentSar();
         m_spinHeight->setValue((int)(m_sourceSize.height() * factor + 0.5));
         m_spinWidth->setValue(m_defaultSize.width());
-        // Center
-        m_spinY->blockSignals(true);
-        m_spinY->setValue((m_defaultSize.height() - m_spinHeight->value()) / 2);
-        m_spinY->blockSignals(false);
     } else {
         // Fit to height
         double factor = (double)m_defaultSize.height() / m_sourceSize.height();
         m_spinHeight->setValue(m_defaultSize.height());
         m_spinWidth->setValue((int)(m_sourceSize.width() / pCore->getCurrentSar() * factor + 0.5));
-        // Center
-        m_spinX->blockSignals(true);
-        m_spinX->setValue((m_defaultSize.width() - m_spinWidth->value()) / 2);
-        m_spinX->blockSignals(false);
     }
-    m_spinWidth->blockSignals(false);
-    m_spinHeight->blockSignals(false);
+    // Center
+    QSignalBlocker bk3(m_spinX);
+    QSignalBlocker bk4(m_spinY);
+    m_spinX->setValue((m_defaultSize.width() - m_spinWidth->value()) / 2);
+    m_spinY->setValue((m_defaultSize.height() - m_spinHeight->value()) / 2);
     slotAdjustRectKeyframeValue();
 }
 
