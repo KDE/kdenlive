@@ -202,9 +202,9 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
 
 void EffectStackView::loadEffects()
 {
-    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects: ";
     //QMutexLocker lock(&m_mutex);
     int max = m_model->rowCount();
+    qDebug() << "MUTEX LOCK!!!!!!!!!!!! loadEffects COUNT: "<<max;
     if (max == 0) {
         // blank stack
         ObjectId item = m_model->getOwnerId();
@@ -249,10 +249,10 @@ void EffectStackView::loadEffects()
             activeIndex = ix;
         }
     }
-    if (activeIndex.isValid()) {
-        doActivateEffect(active, activeIndex);
-    }
     updateTreeHeight();
+    if (activeIndex.isValid()) {
+        doActivateEffect(active, activeIndex, true);
+    }
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
 
@@ -411,14 +411,14 @@ void EffectStackView::switchCollapsed()
     }
 }
 
-void EffectStackView::doActivateEffect(int row, QModelIndex activeIx)
+void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force)
 {
     int currentActive = m_model->getActiveEffect();
-    if (row > 0 && row == currentActive) {
+    if (row == currentActive && !force) {
         // Effect is already active
         return;
     }
-    if (row != currentActive) {
+    if (row != currentActive && currentActive > -1) {
         auto item = m_model->getEffectStackRow(currentActive);
         QModelIndex ix = m_model->getIndexFromItem(item);
         CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
