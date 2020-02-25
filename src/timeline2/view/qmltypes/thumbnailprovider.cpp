@@ -21,6 +21,7 @@
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "utils/thumbnailcache.hpp"
+#include "doc/kthumb.h"
 
 #include <QCryptographicHash>
 #include <QDebug>
@@ -122,19 +123,8 @@ QImage ThumbnailProvider::makeThumbnail(const std::shared_ptr<Mlt::Producer> &pr
     if (frame == nullptr || !frame->is_valid()) {
         return QImage();
     }
-    int ow = 0; // requestedSize.width();
-    int oh = 0; // requestedSize.height();
-    /*if (ow > 0 && oh > 0) {
-        frame->set("rescale.interp", "fastest");
-        frame->set("deinterlace_method", "onefield");
-        frame->set("top_field_first", -1);
-    }*/
-    mlt_image_format format = mlt_image_rgb24a;
-    const uchar *image = frame->get_image(format, ow, oh);
-    if (image) {
-        QImage temp(ow, oh, QImage::Format_ARGB32);
-        memcpy(temp.scanLine(0), image, (unsigned)(ow * oh * 4));
-        return temp.rgbSwapped();
-    }
-    return QImage();
+    int imageHeight = pCore->thumbProfile()->height();
+    int imageWidth = pCore->thumbProfile()->width();
+    int fullWidth = imageHeight * pCore->getCurrentDar() + 0.5;
+    return KThumb::getFrame(frame.data(), imageWidth, imageHeight, fullWidth);
 }

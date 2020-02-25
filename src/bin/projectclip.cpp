@@ -308,7 +308,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
         ThumbnailCache::get()->invalidateThumbsForClip(clipId(), false);
         pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         m_thumbsProducer.reset();
-        pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), 150, -1, true, true);
+        pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
         if (loadjobId > -1) {
@@ -328,7 +328,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
             }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId(), reloadAudio);
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
-            pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), 150, -1, true, true);
+            pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
             if (audioStreamChanged) {
                 discardAudioThumb();
                 pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
@@ -1452,7 +1452,7 @@ void ProjectClip::getThumbFromPercent(int percent)
         int id;
         if (pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
         } else {
-            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 150, 50);
+            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 50);
         }
     }
 }

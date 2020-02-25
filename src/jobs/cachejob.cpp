@@ -34,18 +34,19 @@
 
 #include <set>
 
-CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount, int inPoint, int outPoint)
+CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPoint)
     : AbstractClipJob(CACHEJOB, binId)
-    , m_fullWidth(imageHeight * pCore->getCurrentDar() + 0.5)
-    , m_imageHeight(imageHeight)
+    , m_imageHeight(pCore->thumbProfile()->height())
+    , m_imageWidth(pCore->thumbProfile()->width())
+    , m_fullWidth(m_imageHeight * pCore->getCurrentDar() + 0.5)
     , m_done(false)
     , m_thumbsCount(thumbsCount)
     , m_inPoint(inPoint)
     , m_outPoint(outPoint)
 
 {
-    if (m_fullWidth % 8 > 0) {
-        m_fullWidth += 8 - m_fullWidth % 8;
+    if (m_fullWidth % 2 > 0) {
+        m_fullWidth ++;
     }
     m_imageHeight += m_imageHeight % 2;
     auto item = pCore->projectItemModel()->getItemByBinId(binId);
@@ -104,7 +105,7 @@ bool CacheJob::startJob()
         frame->set("top_field_first", -1);
         frame->set("rescale.interp", "nearest");
         if (frame != nullptr && frame->is_valid()) {
-            QImage result = KThumb::getFrame(frame.data());
+            QImage result = KThumb::getFrame(frame.data(), m_imageWidth, m_imageHeight, m_fullWidth);
             ThumbnailCache::get()->storeThumbnail(m_clipId, i, result, true);
         }
     }
