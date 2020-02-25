@@ -32,7 +32,7 @@
 #include <QScopedPointer>
 #include <mlt++/MltProducer.h>
 
-ThumbJob::ThumbJob(const QString &binId, int imageHeight, int frameNumber, bool persistent, bool reloadAllThumbs)
+ThumbJob::ThumbJob(const QString &binId, int frameNumber, bool persistent, bool reloadAllThumbs)
     : AbstractClipJob(THUMBJOB, binId)
     , m_frameNumber(frameNumber)
     , m_imageHeight(pCore->thumbProfile()->height())

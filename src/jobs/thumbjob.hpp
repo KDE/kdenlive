@@ -43,7 +43,7 @@ public:
        @param frameNumber is the frame to extract. Leave to -1 for default
        @param persistent: if true, we will use the persistent cache (for query and saving)
     */
-    ThumbJob(const QString &binId, int imageHeight, int frameNumber = -1, bool persistent = false, bool reloadAllThumbs = false);
+    ThumbJob(const QString &binId, int frameNumber = -1, bool persistent = false, bool reloadAllThumbs = false);
 
     const QString getDescription() const override;
 

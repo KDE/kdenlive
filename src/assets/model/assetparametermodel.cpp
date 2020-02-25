@@ -516,7 +516,7 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         int width = profile->width();
         int height = profile->height();
         int in = pCore->getItemIn(owner);
-        int out = in + pCore->getItemDuration(owner);
+        int out = in + pCore->getItemDuration(owner) - 1;
         int frame_duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
         // replace symbols in the double parameter
         content.replace(QLatin1String("%maxWidth"), QString::number(width))

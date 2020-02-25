@@ -447,7 +447,6 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     if (res) {
         int inFades = 0;
         int outFades = 0;
-
         if (effectId == QLatin1String("fadein") || effectId == QLatin1String("fade_from_black")) {
             int duration = effect->filter().get_length() - 1;
             int in = pCore->getItemIn(m_ownerId);
@@ -695,7 +694,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             in = ptr->get_int("in");
         }
         int itemDuration = pCore->getItemDuration(m_ownerId);
-        int out = in + itemDuration;
+        int out = in + itemDuration - 1;
         int oldDuration = -1;
         QList<QModelIndex> indexes;
         for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -704,7 +703,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 if (oldDuration == -1) {
                     oldDuration = effect->filter().get_length();
                 }
-                effect->filter().set("out", out - 1);
+                effect->filter().set("out", out);
                 duration = qMin(itemDuration, duration);
                 effect->filter().set("in", out - duration);
                 indexes << getIndexFromItem(effect);

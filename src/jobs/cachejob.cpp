@@ -34,7 +34,7 @@
 
 #include <set>
 
-CacheJob::CacheJob(const QString &binId, int imageHeight, int thumbsCount, int inPoint, int outPoint)
+CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPoint)
     : AbstractClipJob(CACHEJOB, binId)
     , m_imageHeight(pCore->thumbProfile()->height())
     , m_imageWidth(pCore->thumbProfile()->width())

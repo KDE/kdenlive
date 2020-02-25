@@ -53,7 +53,7 @@ PositionEditWidget::PositionEditWidget(std::shared_ptr<AssetParameterModel> mode
     // emit the signal of the base class when appropriate
     connect(this->m_slider, &QAbstractSlider::valueChanged, [this](int val) {
         if (m_inverted) {
-            val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() -
+            val = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt() + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt() - 1 -
                   val;
         } else if (!m_model->data(m_index, AssetParameterModel::RelativePosRole).toBool()) {
             val += m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
@@ -100,7 +100,7 @@ void PositionEditWidget::slotRefresh()
     if (value.isNull()) {
         val = m_model->data(m_index, AssetParameterModel::DefaultRole).toInt();
         if (m_inverted) {
-            val = -val;
+            val = -val - 1;
         }
     } else {
         if (value.userType() == QMetaType::QString) {
@@ -112,7 +112,7 @@ void PositionEditWidget::slotRefresh()
             if (val < 0) {
                 val = -val;
             } else {
-                val = max - val;
+                val = max - val - 1;
             }
         }
     }
