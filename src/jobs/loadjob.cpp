@@ -31,7 +31,10 @@
 #include "macros.hpp"
 #include "profiles/profilemodel.hpp"
 #include "project/dialogs/slideshowclip.h"
+#include "effects/effectsrepository.hpp"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "monitor/monitor.h"
+
 #include "xml/xml.hpp"
 #include <KMessageWidget>
 #include <QMimeDatabase>
@@ -79,7 +82,6 @@ ClipType::ProducerType getTypeForService(const QString &id, const QString &path)
     if (id == QLatin1String("qml")) {
         return ClipType::Qml;
     }
-    
     return ClipType::Unknown;
 }
 
@@ -665,6 +667,29 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     };
     bool ok = operation();
     if (ok) {
+        if (KdenliveSettings::disableimagescaling() && m_binClip->clipType() == ClipType::Image && !m_binClip->hasEffects()) {
+            // Add effect to have image at source size
+            QSize size = m_binClip->getFrameSize();
+            if (size.isValid() && !size.isNull() && size != pCore->getCurrentFrameSize()) {
+                // Image has a different size than project profile, create effect
+                QDomDocument doc("effects");
+                QDomElement root = doc.createElement("effects");
+                doc.appendChild(root);
+                QDomElement main = doc.createElement("effect");
+                QMap<QString, QString> properties;
+                if (EffectsRepository::get()->exists(QStringLiteral("pan_zoom"))) {
+                    main.setAttribute(QStringLiteral("id"), QStringLiteral("pan_zoom"));
+                    properties.insert(QStringLiteral("transition.geometry"), QString("0=\"0 0 %1 %2\"").arg(size.width()).arg(size.height()));
+                } else {
+                    main.setAttribute(QStringLiteral("id"), QStringLiteral("qtblend"));
+                    properties.insert(QStringLiteral("rect"), QString("0=\"0 0 %1 %2 1\"").arg(size.width()).arg(size.height()));
+                }
+                root.appendChild(main);
+                Xml::addXmlProperties(main, properties);
+                m_binClip->getEffectStack()->fromXml(doc.documentElement(), undo, redo);
+                qDebug()<<"== DOC2: "<< doc.toString();
+            }
+        }
         m_readyCallBack();
         if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip

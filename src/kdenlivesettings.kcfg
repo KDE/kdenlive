@@ -77,6 +77,10 @@
       <label>Automatically import image sequences.</label>
       <default>false</default>
     </entry>
+    <entry name="disableimagescaling" type="Bool">
+      <label>Add a filter to disable default image scaling.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="automultistreams" type="Bool">
       <label>Automatically import all streams in multi streams clips.</label>
