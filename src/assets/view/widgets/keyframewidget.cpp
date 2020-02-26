@@ -207,6 +207,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 {
     int type = action->data().toInt();
     m_keyframeview->slotEditType(type, m_index);
+    activateEffect();
 }
 
 void KeyframeWidget::slotRefreshParams()
@@ -354,7 +355,9 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), integerOpacity, this);
         connect(geomWidget, &GeometryWidget::valueChanged,
-                [this, index](const QString v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
+                [this, index](const QString v) {
+                    activateEffect();
+                    m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
     } else if (type == ParamType::Roto_spline) {
         m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
@@ -386,7 +389,10 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         factor = qFuzzyIsNull(factor) ? 1 : factor;
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals, m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged,
-                [this, index](double v) { m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
+                [this, index](double v) {
+            activateEffect();
+            m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
+        });
         paramWidget = doubleWidget;
     }
     if (paramWidget) {
@@ -430,6 +436,7 @@ void KeyframeWidget::connectMonitor(bool active)
 
 void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
+    activateEffect();
     if (m_keyframes->isEmpty()) {
         GenTime pos(pCore->getItemIn(m_model->getOwnerId()) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {

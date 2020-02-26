@@ -398,6 +398,7 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
     std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
+    emit activateEffect(m_model);
 }
 
 void CollapsibleEffectView::slotDeleteEffect()
@@ -727,7 +728,6 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
         if (event->source()->objectName() == QStringLiteral("ParameterContainer")) {
             return;
         }
-        // emit activateEffect(effectIndex());
         QString itemData = event->mimeData()->data(QStringLiteral("kdenlive/geometry"));
         importKeyframes(itemData);
         return;

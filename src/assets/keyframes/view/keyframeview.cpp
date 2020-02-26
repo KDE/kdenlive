@@ -106,6 +106,7 @@ void KeyframeView::slotAddRemove()
     } else {
         slotAddKeyframe(m_position);
     }
+    emit activateEffect();
 }
 
 void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
@@ -149,6 +150,7 @@ void KeyframeView::slotGoToNext()
         // no keyframe after current position
         emit seekToPos(m_duration - 1);
     }
+    emit activateEffect();
 }
 
 void KeyframeView::slotGoToPrev()
@@ -167,6 +169,7 @@ void KeyframeView::slotGoToPrev()
         // no keyframe after current position
         emit seekToPos(m_duration - 1);
     }
+    emit activateEffect();
 }
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)
