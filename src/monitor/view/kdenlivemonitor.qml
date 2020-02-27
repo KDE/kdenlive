@@ -12,7 +12,7 @@ Item {
     // default size, but scalable by user
     height: 300; width: 400
     property string markerText
-    property point profile
+    property point profile: controller.profile
     property double zoom
     property double scalex
     property double scaley

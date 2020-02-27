@@ -709,7 +709,6 @@ void ProjectManager::prepareSave()
 void ProjectManager::slotResetProfiles()
 {
     m_project->resetProfile();
-    pCore->monitorManager()->resetProfiles(m_project->timecode());
     pCore->monitorManager()->updateScopeSource();
 }
 

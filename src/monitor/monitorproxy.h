@@ -38,6 +38,7 @@ class MonitorProxy : public QObject
     Q_OBJECT
     // Q_PROPERTY(int consumerPosition READ consumerPosition NOTIFY consumerPositionChanged)
     Q_PROPERTY(int position MEMBER m_position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(QPoint profile READ profile NOTIFY profileChanged)
     Q_PROPERTY(int seekFinished MEMBER m_seekFinished NOTIFY seekFinishedChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
@@ -84,6 +85,7 @@ public:
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
     Q_INVOKABLE double fps() const;
+    QPoint profile();
     void setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName);
     void setAudioThumb(const QUrl thumbPath = QUrl());
 
@@ -107,6 +109,7 @@ signals:
     void clipNameChanged();
     void clipTypeChanged();
     void audioThumbChanged();
+    void profileChanged();
 
 private:
     GLWidget *q;

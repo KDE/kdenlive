@@ -22,7 +22,6 @@
 
 #include "monitor.h"
 
-#include "timecode.h"
 #include <QDir>
 #include <QMutex>
 #include <QTimer>
@@ -44,7 +43,7 @@ public:
     void appendMonitor(AbstractMonitor *monitor);
     void removeMonitor(AbstractMonitor *monitor);
     Timecode timecode() const;
-    void resetProfiles(const Timecode &tc);
+    void resetProfiles();
     /** @brief delete and rebuild consumer, for example when external display is switched */
     void resetConsumers(bool fullReset);
     void stopActiveMonitor();
@@ -138,7 +137,6 @@ private:
     void setupActions();
     Monitor *m_clipMonitor{nullptr};
     Monitor *m_projectMonitor{nullptr};
-    Timecode m_timecode;
     AbstractMonitor *m_activeMonitor{nullptr};
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;

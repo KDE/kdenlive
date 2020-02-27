@@ -353,8 +353,10 @@ bool Core::setCurrentProfile(const QString &profilePath)
             m_projectProfile->set_explicit(true);
         }
         // inform render widget
+        m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
         m_mainWindow->updateRenderWidgetProfile();
+        pCore->monitorManager()->resetProfiles();
         pCore->monitorManager()->updatePreviewScaling();
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
@@ -390,6 +392,7 @@ double Core::getCurrentFps() const
 {
     return getCurrentProfile()->fps();
 }
+
 
 QSize Core::getCurrentFrameDisplaySize() const
 {
@@ -576,6 +579,11 @@ bool Core::hasTimelinePreview() const
 KdenliveDoc *Core::currentDoc()
 {
     return m_projectManager->current();
+}
+
+Timecode Core::timecode() const
+{
+    return m_timecode;
 }
 
 void Core::setDocumentModified()

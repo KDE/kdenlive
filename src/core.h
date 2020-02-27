@@ -19,6 +19,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 #include <QPoint>
+#include "timecode.h"
+
 class Bin;
 class DocUndoStack;
 class EffectStackModel;
@@ -93,6 +95,8 @@ public:
     ProjectManager *projectManager();
     /** @brief Returns a pointer to the current project. */
     KdenliveDoc *currentDoc();
+    /** @brief Returns project's timecode. */
+    Timecode timecode() const;
     /** @brief Set current project modified. */
     void setDocumentModified();
     /** @brief Returns a pointer to the monitor manager. */
@@ -228,6 +232,7 @@ private:
     QString m_currentProfile;
 
     QString m_profile;
+    Timecode m_timecode;
     std::unique_ptr<Mlt::Profile> m_thumbProfile;
     /** @brief Mlt profile used in the consumer 's monitors */
     std::unique_ptr<Mlt::Profile> m_projectProfile;

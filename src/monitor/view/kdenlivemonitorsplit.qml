@@ -17,7 +17,7 @@ Item {
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     // percentage holds splitter pos relative to the scene percentage
     property double percentage
-    property point profile
+    property point profile: controller.profile
     property point center
     property double offsetx
     property double offsety

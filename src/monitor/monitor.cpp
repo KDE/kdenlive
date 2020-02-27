@@ -372,7 +372,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->addAction(m_sceneVisibilityAction);
 
     m_toolbar->addSeparator();
-    m_timePos = new TimecodeDisplay(m_monitorManager->timecode(), this);
+    m_timePos = new TimecodeDisplay(pCore->timecode(), this);
     m_toolbar->addWidget(m_timePos);
 
     auto *configButton = new QToolButton(m_toolbar);
@@ -605,20 +605,6 @@ void Monitor::slotForceSize(QAction *a)
     updateGeometry();
 }
 
-QString Monitor::getTimecodeFromFrames(int pos)
-{
-    return m_monitorManager->timecode().getTimecodeFromFrames(pos);
-}
-
-double Monitor::fps() const
-{
-    return m_monitorManager->timecode().fps();
-}
-
-Timecode Monitor::timecode() const
-{
-    return m_monitorManager->timecode();
-}
 
 void Monitor::updateMarkers()
 {
@@ -627,8 +613,8 @@ void Monitor::updateMarkers()
         QList<CommentedTime> markers = m_controller->getMarkerModel()->getAllMarkers();
         if (!markers.isEmpty()) {
             for (int i = 0; i < markers.count(); ++i) {
-                int pos = (int)markers.at(i).time().frames(m_monitorManager->timecode().fps());
-                QString position = m_monitorManager->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
+                int pos = (int)markers.at(i).time().frames(pCore->getCurrentFps());
+                QString position = pCore->timecode().getTimecode(markers.at(i).time()) + QLatin1Char(' ') + markers.at(i).comment();
                 QAction *go = m_markerMenu->addAction(position);
                 go->setData(pos);
             }
@@ -647,8 +633,8 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
         i.next();
         CommentedTime timeGuide(GenTime(i.key()), i.value());
         guidesList << timeGuide;
-        int pos = (int)timeGuide.time().frames(m_monitorManager->timecode().fps());
-        QString position = m_monitorManager->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
+        int pos = (int)timeGuide.time().frames(pCore->getCurrentFps());
+        QString position = pCore->timecode().getTimecode(timeGuide.time()) + QLatin1Char(' ') + timeGuide.comment();
         QAction *go = m_markerMenu->addAction(position);
         go->setData(pos);
     }
@@ -660,14 +646,14 @@ void Monitor::setGuides(const QMap<double, QString> &guides)
 void Monitor::slotSeekToPreviousSnap()
 {
     if (m_controller) {
-        m_glMonitor->getControllerProxy()->setPosition(getSnapForPos(true).frames(m_monitorManager->timecode().fps()));
+        m_glMonitor->getControllerProxy()->setPosition(getSnapForPos(true).frames(pCore->getCurrentFps()));
     }
 }
 
 void Monitor::slotSeekToNextSnap()
 {
     if (m_controller) {
-        m_glMonitor->getControllerProxy()->setPosition(getSnapForPos(false).frames(m_monitorManager->timecode().fps()));
+        m_glMonitor->getControllerProxy()->setPosition(getSnapForPos(false).frames(pCore->getCurrentFps()));
     }
 }
 
@@ -986,7 +972,7 @@ void Monitor::keyPressEvent(QKeyEvent *event)
 void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 {
     if ((modifiers & Qt::ControlModifier) != 0u) {
-        int delta = m_monitorManager->timecode().fps();
+        int delta = qRound(pCore->getCurrentFps());
         if (eventDelta > 0) {
             delta = 0 - delta;
         }
@@ -1150,7 +1136,7 @@ void Monitor::checkOverlay(int pos)
 
     if (model) {
         bool found = false;
-        CommentedTime marker = model->getMarker(GenTime(pos, m_monitorManager->timecode().fps()), &found);
+        CommentedTime marker = model->getMarker(GenTime(pos, pCore->getCurrentFps()), &found);
         if (found) {
             overlayText = marker.comment();
         }
@@ -1491,10 +1477,10 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
 
 void Monitor::resetProfile()
 {
-    m_timePos->updateTimeCode(m_monitorManager->timecode());
+    m_timePos->updateTimeCode(pCore->timecode());
     m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
-    double fps = m_monitorManager->timecode().fps();
+    double fps = pCore->getCurrentFps();
     // Update drop frame info
     m_qmlManager->setProperty(QStringLiteral("dropped"), false);
     m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
@@ -1724,7 +1710,7 @@ void Monitor::checkDrops(int dropped)
     if (m_droppedTimer.isValid()) {
         if (m_droppedTimer.hasExpired(1000)) {
             m_droppedTimer.invalidate();
-            double fps = m_monitorManager->timecode().fps();
+            double fps = pCore->getCurrentFps();
             if (dropped == 0) {
                 // No dropped frames since last check
                 m_qmlManager->setProperty(QStringLiteral("dropped"), false);
@@ -1764,7 +1750,7 @@ QString Monitor::getMarkerThumb(GenTime pos)
         QDir dir = pCore->currentDoc()->getCacheDir(CacheThumbs, &ok);
         if (ok) {
             QString url = dir.absoluteFilePath(m_controller->getClipHash() + QLatin1Char('#') +
-                                            QString::number((int)pos.frames(m_monitorManager->timecode().fps())) + QStringLiteral(".png"));
+                                            QString::number((int)pos.frames(pCore->getCurrentFps())) + QStringLiteral(".png"));
             if (QFile::exists(url)) {
                 return url;
             }
@@ -1975,7 +1961,7 @@ void Monitor::loadQmlScene(MonitorSceneType type)
     default:
         break;
     }
-    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(m_monitorManager->timecode().fps(), 'g', 2));
+    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
 }
 
 void Monitor::setQmlProperty(const QString &name, const QVariant &value)

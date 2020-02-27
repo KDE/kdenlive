@@ -105,12 +105,8 @@ public:
     void reloadProducer(const QString &id);
     /** @brief Reimplemented from QWidget, updates the palette colors. */
     void setPalette(const QPalette &p);
-    /** @brief Returns a hh:mm:ss timecode from a frame number. */
-    QString getTimecodeFromFrames(int pos);
     /** @brief Returns current project's fps. */
     double fps() const;
-    /** @brief Returns current project's timecode. */
-    Timecode timecode() const;
     /** @brief Get url for the clip's thumbnail */
     QString getMarkerThumb(GenTime pos);
     int getZoneStart();

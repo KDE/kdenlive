@@ -295,3 +295,9 @@ void MonitorProxy::setAudioThumb(const QUrl thumbPath)
     m_audioThumb = thumbPath;
     emit audioThumbChanged();
 }
+
+QPoint MonitorProxy::profile()
+{
+    QSize s = pCore->getCurrentFrameSize();
+    return QPoint(s.width(), s.height());
+}

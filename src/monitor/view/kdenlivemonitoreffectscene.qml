@@ -11,7 +11,7 @@ Item {
     property string framenum
     property rect framesize
     property rect adjustedFrame
-    property point profile
+    property point profile: controller.profile
     property point center
     property double scalex
     property double scaley

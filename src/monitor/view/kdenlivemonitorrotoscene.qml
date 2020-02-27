@@ -10,7 +10,7 @@ Item {
     height: 300; width: 400
     property string comment
     property string framenum
-    property point profile
+    property point profile: controller.profile
     property point center
     property real baseUnit: fontMetrics.font.pointSize
     property double scalex : 1

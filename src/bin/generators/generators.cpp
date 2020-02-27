@@ -68,7 +68,7 @@ Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
         m_preview->setPixmap(m_pixmap.scaledToWidth(m_preview->width()));
         auto *hlay = new QHBoxLayout;
         hlay->addWidget(new QLabel(i18n("Duration")));
-        m_timePos = new TimecodeDisplay(monitor->timecode(), this);
+        m_timePos = new TimecodeDisplay(pCore->timecode(), this);
         if (base.hasAttribute(QStringLiteral("updateonduration"))) {
             connect(m_timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &Generators::updateDuration);
         }

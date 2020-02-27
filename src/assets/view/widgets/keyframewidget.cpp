@@ -97,7 +97,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar = new QToolBar(this);
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    m_time = new TimecodeDisplay(monitor->timecode(), this);
+    m_time = new TimecodeDisplay(pCore->timecode(), this);
     m_time->setRange(0, duration - 1);
 
     m_toolbar->addWidget(m_buttonPrevious);

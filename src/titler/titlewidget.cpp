@@ -88,7 +88,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     , m_missingMessage(nullptr)
     , m_projectTitlePath(std::move(projectTitlePath))
     , m_tc(tc)
-    , m_fps(monitor->fps())
+    , m_fps(pCore->getCurrentFps())
     , m_guides(QList<QGraphicsLineItem *>())
 {
     setupUi(this);

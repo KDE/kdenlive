@@ -10,7 +10,7 @@ Item {
     property string comment
     property string framenum
     property rect framesize
-    property point profile
+    property point profile: controller.profile
     property point center
     property double scalex
     property double scaley

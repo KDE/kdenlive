@@ -43,11 +43,6 @@ MonitorManager::MonitorManager(QObject *parent)
     connect(&refreshTimer, &QTimer::timeout, this, &MonitorManager::forceProjectMonitorRefresh);
 }
 
-Timecode MonitorManager::timecode() const
-{
-    return m_timecode;
-}
-
 QAction *MonitorManager::getAction(const QString &name)
 {
     return pCore->window()->action(name.toUtf8().constData());
@@ -270,18 +265,18 @@ void MonitorManager::slotForwardOneFrame()
 void MonitorManager::slotRewindOneSecond()
 {
     if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotRewindOneFrame(m_timecode.fps());
+        m_clipMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
     } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotRewindOneFrame(m_timecode.fps());
+        m_projectMonitor->slotRewindOneFrame(qRound(pCore->getCurrentFps()));
     }
 }
 
 void MonitorManager::slotForwardOneSecond()
 {
     if (m_activeMonitor == m_clipMonitor) {
-        m_clipMonitor->slotForwardOneFrame(m_timecode.fps());
+        m_clipMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
     } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotForwardOneFrame(m_timecode.fps());
+        m_projectMonitor->slotForwardOneFrame(qRound(pCore->getCurrentFps()));
     }
 }
 
@@ -303,9 +298,8 @@ void MonitorManager::slotEnd()
     }
 }
 
-void MonitorManager::resetProfiles(const Timecode &tc)
+void MonitorManager::resetProfiles()
 {
-    m_timecode = tc;
     m_clipMonitor->resetProfile();
     m_projectMonitor->resetProfile();
 }

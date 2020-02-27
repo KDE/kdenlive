@@ -1590,7 +1590,7 @@ void GLWidget::refreshSceneLayout()
         return;
     }
     QSize s = pCore->getCurrentFrameSize();
-    rootObject()->setProperty("profile", s);
+    m_proxy->profileChanged();
     rootObject()->setProperty("scalex", (double)m_rect.width() / s.width() * m_zoom);
     rootObject()->setProperty("scaley", (double)m_rect.height() / s.height() * m_zoom);
 }

@@ -1361,7 +1361,6 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
     double fps = pCore->getCurrentFps();
     double fpsChanged = m_timecode.fps() / fps;
     m_timecode.setFormat(fps);
-    pCore->monitorManager()->resetProfiles(m_timecode);
     if (!reloadProducers) {
         return;
     }

@@ -14,7 +14,7 @@ Item {
     height: 300; width: 400
     property string markerText
     property int itemType: 0
-    property point profile
+    property point profile: controller.profile
     property double zoom
     property double scalex
     property double scaley
