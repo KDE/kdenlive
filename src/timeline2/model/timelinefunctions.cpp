@@ -1435,6 +1435,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     }
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
 
+    std::function<bool(void)> timeline_undo = []() { return true; };
+    std::function<bool(void)> timeline_redo = []() { return true; };
     bool res = true;
     QLocale locale;
     std::unordered_map<int, int> correspondingIds;
@@ -1462,7 +1464,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             warp_pitch = prod.attribute(QStringLiteral("warp_pitch")).toInt();
         }
         int newId;
-        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, warp_pitch, undo, redo);
+        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, warp_pitch, timeline_undo, timeline_redo);
         if (created) {
             // Master producer is ready
             // ids.removeAll(originalId);
@@ -1481,11 +1483,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         timeline->m_allClips[newId]->setInOut(in, out);
         int targetId = prod.attribute(QStringLiteral("id")).toInt();
         correspondingIds[targetId] = newId;
-        res = res && timeline->getTrackById(curTrackId)->requestClipInsertion(newId, position + pos, true, true, undo, redo);
+        res = res && timeline->getTrackById(curTrackId)->requestClipInsertion(newId, position + pos, true, true, timeline_undo, timeline_redo);
         // paste effects
         if (res) {
             std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
-            destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), undo, redo);
+            destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), timeline_undo, timeline_redo);
         } else {
             break;
         }
@@ -1511,18 +1513,19 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 transProps->set(props.at(j).toElement().attribute(QStringLiteral("name")).toUtf8().constData(),
                             props.at(j).toElement().text().toUtf8().constData());
             }
-            res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, undo, redo);
+            res = res && timeline->requestCompositionInsertion(originalId, curTrackId, aTrackId, position + pos, out - in + 1, std::move(transProps), newId, timeline_undo, timeline_redo);
         }
     }
     if (!res) {
-        undo();
+        timeline_undo();
+        pCore->pushUndo(undo, redo, i18n("Paste clips"));
         pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
         return false;
     }
     // Rebuild groups
     const QString groupsData = copiedItems.documentElement().firstChildElement(QStringLiteral("groups")).text();
     if (!groupsData.isEmpty()) {
-        timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, undo, redo);
+        timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, timeline_undo, timeline_redo);
     }
     // unsure to clear selection in undo/redo too.
     Fun unselect = [&]() {
@@ -1531,8 +1534,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         qDebug() << "after Selection " << timeline->m_currentSelection;
         return true;
     };
-    PUSH_FRONT_LAMBDA(unselect, undo);
-    PUSH_FRONT_LAMBDA(unselect, redo);
+    PUSH_FRONT_LAMBDA(unselect, timeline_undo);
+    PUSH_FRONT_LAMBDA(unselect, timeline_redo);
+    UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
     pCore->pushUndo(undo, redo, i18n("Paste clips"));
     return true;
 }

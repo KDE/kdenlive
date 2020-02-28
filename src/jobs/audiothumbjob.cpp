@@ -290,6 +290,10 @@ bool AudioThumbJob::startJob()
     m_dataInCache = false;
     m_thumbInCache = false;
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    if (m_binClip == nullptr) {
+        // Clip was deleted
+        return false;
+    }
     if (m_binClip->audioChannels() == 0 || m_binClip->audioThumbCreated()) {
         // nothing to do
         m_done = true;

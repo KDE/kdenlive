@@ -694,7 +694,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
             pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
         }
         if (type == ClipType::AV || type == ClipType::Video || type == ClipType::Playlist || type == ClipType::Unknown) {
-            pCore->jobManager()->startJob<CacheJob>({id}, thumbJob, QString());
+            pCore->jobManager()->startJob<CacheJob>({id}, loadJob, QString());
         }
     }
     return res;

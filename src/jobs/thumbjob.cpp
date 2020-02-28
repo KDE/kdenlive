@@ -68,10 +68,18 @@ bool ThumbJob::startJob()
     // We reload here, because things may have changed since creation of this job
     if (m_subClip) {
         auto item = pCore->projectItemModel()->getItemByBinId(m_clipId);
+        if (item == nullptr) {
+            // Clip was deleted
+            return false;
+        }
         m_binClip = std::static_pointer_cast<ProjectClip>(item->parent());
         m_frameNumber = item->zone().x();
     } else {
         m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+        if (m_binClip == nullptr) {
+            // Clip was deleted
+            return false;
+        }
         if (m_frameNumber < 0) {
             m_frameNumber = qMax(0, m_binClip->getProducerIntProperty(QStringLiteral("kdenlive:thumbnailFrame")));
         }

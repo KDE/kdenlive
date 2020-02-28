@@ -70,6 +70,10 @@ bool CacheJob::startJob()
         return false;
     }
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    if (m_binClip == nullptr) {
+        // Clip was deleted
+        return false;
+    }
     if (m_binClip->clipType() != ClipType::Video && m_binClip->clipType() != ClipType::AV && m_binClip->clipType() != ClipType::Playlist) {
         // Don't create thumbnail for audio clips
         m_done = true;

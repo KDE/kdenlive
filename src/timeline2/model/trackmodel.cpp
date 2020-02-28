@@ -182,7 +182,6 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                 m_playlists[0].unlock();
                 if (finalMove && !groupMove) {
                     ptr->updateDuration();
-                    
                 }
                 return index != -1 && end_function(0);
             }
