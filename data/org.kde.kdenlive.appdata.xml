@@ -93,6 +93,7 @@
     <p xml:lang="pl">Kdenlive jest nieliniowym edytorem wideo. Oparty jest na szkielecie MLT i może pracować na wielu formatach obrazu i dźwięku, umożliwia dodawanie efektów, przejść i renderowanie ich do dowolnego formatu.</p>
     <p xml:lang="pt">O Kdenlive é um editor de vídeo não-linear. Baseia-se na plataforma MLT e aceita diversos formatos de áudio e vídeo, permitindo-lhe adicionar efeitos, transições e gravar no formato da sua escolha.</p>
     <p xml:lang="pt-BR">Kdenlive é um editor de vídeo não-linear. É baseado na plataforma MLT e aceita diversos formatos de áudio e vídeo, permitindo-lhe adicionar efeitos, transições e gravar no formato da sua escolha.</p>
+    <p xml:lang="ru">Kdenlive — это нелинейный видеоредактор. Основан на Framework MLT и берёт из него множество звуковых и видео форматов, позволяет добавлять эффекты и переходы, собирать видео в выбранный вами формат.</p>
     <p xml:lang="sk">Kdenline je nelineárny video editor. Je založený na frameworku MLT a podporuje veľa audio a video formátov, umožní pridávať efekty, prechody a renderovanie do formátu podľa vášho výberu.</p>
     <p xml:lang="sl">Kdenlive je nelinearni urejevalnik videa, ki temelji na ogrodju MLT. Kdenlive zmore obdelati številne vrste zvočnih in video datotek, omogoča dodajanje učinkov, prehodov in izvoz videa v vrsto po vaši izbiri.</p>
     <p xml:lang="sv">Kdenlive är en icke-linjär videoeditor. Den är baserad på MLT-ramverket och accepterar många ljud- och videoformat, låter dig lägga till effekter, övergångar och återge med valfritt format.</p>
@@ -158,6 +159,7 @@
       <li xml:lang="pl">Intuicyjny interfejs wielościeżkowy.</li>
       <li xml:lang="pt">Interface multi-faixas intuitiva.</li>
       <li xml:lang="pt-BR">Interface multifaixa intuitiva.</li>
+      <li xml:lang="ru">Интуитивно понятный многодорожечный интерфейс.</li>
       <li xml:lang="sk">Intuitívne viacstopové rozhranie.</li>
       <li xml:lang="sl">Intuitiven vmesnik z več sledmi.</li>
       <li xml:lang="sv">Intuitivt gränssnitt med flera spår.</li>
@@ -189,6 +191,7 @@
       <li xml:lang="pl">Wiele efektów i przejść.</li>
       <li xml:lang="pt">Diversos efeitos e transições.</li>
       <li xml:lang="pt-BR">Diversos efeitos e transições.</li>
+      <li xml:lang="ru">Множество эффектов и переходов.</li>
       <li xml:lang="sk">Veľa efektov a prechodov.</li>
       <li xml:lang="sl">Veliko učinkov in prehodov.</li>
       <li xml:lang="sv">Många effekter och övergångar.</li>
@@ -220,6 +223,7 @@
       <li xml:lang="pl">Zakresy barw</li>
       <li xml:lang="pt">Medições de cores</li>
       <li xml:lang="pt-BR">Escopo de cores</li>
+      <li xml:lang="ru">Цветовые клипы</li>
       <li xml:lang="sk">Farebné rozsahy</li>
       <li xml:lang="sl">Barvni obsegi</li>
       <li xml:lang="sv">Färgoscilloskop</li>
@@ -251,6 +255,7 @@
       <li xml:lang="pl">Pomocnik podstawowego DVD</li>
       <li xml:lang="pt">Assistente Básico de DVD's</li>
       <li xml:lang="pt-BR">Assistente básico para DVDs</li>
+      <li xml:lang="ru">Мастер создания DVD</li>
       <li xml:lang="sk">Základný DVD sprievodca</li>
       <li xml:lang="sl">Osnovni čarovnik za DVD-je</li>
       <li xml:lang="sv">Enkel dvd-guide</li>
@@ -287,6 +292,7 @@
       <caption xml:lang="nl">Kdenlive tijdlijn</caption>
       <caption xml:lang="pt">Linha Temporal do Kdenlive</caption>
       <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
+      <caption xml:lang="ru">Монтажный стол Kdenlive</caption>
       <caption xml:lang="sk">Kdenlive časová os</caption>
       <caption xml:lang="sv">Kdenlive tidslinje</caption>
       <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
@@ -310,6 +316,7 @@
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
       <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
       <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
+      <caption xml:lang="ru">Настройка звука Kdenlive</caption>
       <caption xml:lang="sk">Kdenlive prispôsobenie zvuku</caption>
       <caption xml:lang="sv">Kdenlive ljudjusteringar</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
@@ -335,6 +342,7 @@
       <caption xml:lang="nl">Kdenlive effecten</caption>
       <caption xml:lang="pt">Efeitos do Kdenlive</caption>
       <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
+      <caption xml:lang="ru">Эффекты Kdenlive</caption>
       <caption xml:lang="sk">Kdenlive efekty</caption>
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
