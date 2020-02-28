@@ -2249,6 +2249,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
 bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &trackName, bool audioTrack, Fun &undo, Fun &redo, bool addCompositing)
 {
     // TODO: make sure we disable overlayTrack before inserting a track
+    qDebug()<<"=== REQUESTING TRACK INSERTION AT: "<<position;
     if (position == -1) {
         position = (int)(m_allTracks.size());
     }
@@ -2275,10 +2276,17 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         return true;
     };
 
-    Fun local_name_update = [position, this]() {
+    Fun local_name_update = [position, audioTrack, this]() {
+        if (audioTrack) {
+            for (int i = 0; i <= position; i++) {
+                QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+                emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+            }
+        } else {
             for (int i = position; i < getTracksCount(); i++) {
-            QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
-            emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+                QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+                emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+            }
         }
         return true;
     };
@@ -2363,6 +2371,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     int old_position = getTrackPosition(trackId);
     auto operation = deregisterTrack_lambda(trackId);
     std::shared_ptr<TrackModel> track = getTrackById(trackId);
+    bool audioTrack = track->isAudioTrack();
     Fun reverse = [this, track, old_position]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
@@ -2373,10 +2382,17 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         buildTrackCompositing(true);
         return true;
     };
-    Fun local_name_update = [old_position, this]() {
+    Fun local_name_update = [old_position, audioTrack, this]() {
+        if (audioTrack) {
+            for (int i = 0; i < qMin(old_position + 1, getTracksCount()); i++) {
+                QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+                emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+            }
+        } else {
             for (int i = old_position; i < getTracksCount(); i++) {
-            QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
-            emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+                QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+                emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+            }
         }
         return true;
     };
