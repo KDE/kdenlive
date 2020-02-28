@@ -90,7 +90,6 @@ public:
     {
         connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
     }
-    void setDar(double dar) { m_dar = dar; }
     void setEditorData(QWidget *w, const QModelIndex &i) const override
     {
         if (!m_editorOpen) {
@@ -140,7 +139,7 @@ public:
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         int decoWidth = 0;
         if (opt.decorationSize.height() > 0) {
-            decoWidth += r1.height() * m_dar;
+            decoWidth += r1.height() * pCore->getCurrentDar();
         }
         int mid = 0;
         if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
@@ -211,7 +210,7 @@ public:
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(r.height() * m_dar);
+                    r.setWidth(r.height() * pCore->getCurrentDar());
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     // Draw icon
                     decoWidth += r.width() + textMargin;
@@ -314,7 +313,7 @@ public:
                 // Folder
                 int decoWidth = 0;
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(r.height() * m_dar);
+                    r.setWidth(r.height() * pCore->getCurrentDar());
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     // Draw icon
                     decoWidth += r.width() + textMargin;
@@ -357,7 +356,6 @@ private:
     mutable QRect m_audioDragRect;
     mutable QRect m_videoDragRect;
     mutable QRect m_thumbRect;
-    double m_dar{1.778};
 
 public:
     PlaylistState::ClipState dragType{PlaylistState::Disabled};
@@ -377,8 +375,6 @@ public:
     {
         connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
     }
-    void setDar(double dar) { m_dar = dar; }
-    
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override
     {
         Q_UNUSED(model);
@@ -407,7 +403,7 @@ public:
             int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
             QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
             m_thumbRect = adjust > 0 && adjust < rect.width() ? rect.adjusted(adjust, 0, -adjust, 0) : rect;
-            
+
             //Tags
             QString tags = index.data(AbstractProjectItem::DataTag).toString();
             if (!tags.isEmpty()) {
@@ -421,7 +417,7 @@ public:
                     tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
                 }
             }
-            
+
             // Add audio/video icons for selective drag
             int cType = index.data(AbstractProjectItem::ClipType).toInt();
             bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
@@ -442,7 +438,6 @@ public:
                 //m_audioDragRect = QRect();
                 //m_videoDragRect = QRect();
             }
-            
         }
     }
 
@@ -460,7 +455,6 @@ private:
     mutable QRect m_audioDragRect;
     mutable QRect m_videoDragRect;
     mutable QRect m_thumbRect;
-    double m_dar{1.778};
 
 public:
     PlaylistState::ClipState dragType{PlaylistState::Disabled};
@@ -771,6 +765,8 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , isLoading(false)
     , m_itemModel(std::move(model))
     , m_itemView(nullptr)
+    , m_binTreeViewDelegate(nullptr)
+    , m_binListViewDelegate(nullptr)
     , m_doc(nullptr)
     , m_extractAudioAction(nullptr)
     , m_transcodeAction(nullptr)
@@ -1134,8 +1130,6 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_toolbar->addWidget(m_filterButton);
     m_toolbar->addWidget(m_searchLine);
 
-    m_binTreeViewDelegate = new BinItemDelegate(this);
-    m_binListViewDelegate = new BinListItemDelegate(this);
     // connect(pCore->projectManager(), SIGNAL(projectOpened(Project*)), this, SLOT(setProject(Project*)));
     m_headerInfo = QByteArray::fromBase64(KdenliveSettings::treeviewheaders().toLatin1());
     m_propertiesPanel = new QScrollArea(this);
@@ -1902,10 +1896,15 @@ void Bin::slotInitView(QAction *action)
     if (m_itemView) {
         delete m_itemView;
     }
+    delete m_binTreeViewDelegate;
+    delete m_binListViewDelegate;
+    m_binTreeViewDelegate = nullptr;
+    m_binListViewDelegate = nullptr;
 
     switch (m_listType) {
     case BinIconView:
         m_itemView = new MyListView(this);
+        m_binListViewDelegate = new BinListItemDelegate(this);
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         m_showRating->setEnabled(false);
@@ -1913,6 +1912,7 @@ void Bin::slotInitView(QAction *action)
         break;
     default:
         m_itemView = new MyTreeView(this);
+        m_binTreeViewDelegate = new BinItemDelegate(this);
         m_showDate->setEnabled(true);
         m_showDesc->setEnabled(true);
         m_showRating->setEnabled(true);
@@ -1926,8 +1926,6 @@ void Bin::slotInitView(QAction *action)
     QPixmap pix(zoom);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
-    m_binTreeViewDelegate->setDar(pCore->getCurrentDar());
-    m_binListViewDelegate->setDar(pCore->getCurrentDar());
     m_proxyModel.reset(new ProjectSortProxyModel(this));
     // Connect models
     m_proxyModel->setSourceModel(m_itemModel.get());
@@ -1935,7 +1933,6 @@ void Bin::slotInitView(QAction *action)
     connect(m_proxyModel.get(), &ProjectSortProxyModel::updateRating, [&] (const QModelIndex &ix, uint rating) {
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
-        
         if (item) {
             item->setRating(rating);
             emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
