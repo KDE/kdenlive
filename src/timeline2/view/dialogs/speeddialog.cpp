@@ -41,7 +41,6 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double 
     ui->speedSlider->setMinimum(0);
     ui->speedSlider->setMaximum(100);
     ui->speedSlider->setTickInterval(10);
-    ui->speedSpin->selectAll();
     ui->label_dest->setVisible(false);
     ui->kurlrequester->setVisible(false);
     ui->toolButton->setVisible(false);
@@ -60,6 +59,8 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, double minSpeed, double 
     KMessageWidget *infoMessage = new KMessageWidget(this);
     ui->infoLayout->addWidget(infoMessage);
     infoMessage->hide();
+    ui->speedSpin->setFocus();
+    ui->speedSpin->selectAll();
 
     connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&] (double value) {
         QSignalBlocker bk(ui->speedSlider);
