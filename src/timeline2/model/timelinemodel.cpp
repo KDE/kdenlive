@@ -2274,7 +2274,17 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         }
         return true;
     };
+
+    Fun local_name_update = [position, this]() {
+            for (int i = position; i < getTracksCount(); i++) {
+            QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+            emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+        }
+        return true;
+    };
+
     local_update();
+    local_name_update();
     Fun rebuild_compositing = [this]() {
         buildTrackCompositing(true);
         return true;
@@ -2296,7 +2306,9 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     if (addCompositing) {
         PUSH_LAMBDA(rebuild_compositing, local_undo);
     }
+    PUSH_LAMBDA(local_name_update, local_undo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    PUSH_LAMBDA(local_name_update, redo);
     return true;
 }
 
@@ -2361,12 +2373,22 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         buildTrackCompositing(true);
         return true;
     };
+    Fun local_name_update = [old_position, this]() {
+            for (int i = old_position; i < getTracksCount(); i++) {
+            QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+            emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+        }
+        return true;
+    };
     if (operation()) {
         rebuild_compositing();
+        local_name_update();
         PUSH_LAMBDA(rebuild_compositing, local_undo);
+        PUSH_LAMBDA(local_name_update, local_undo);
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         PUSH_LAMBDA(rebuild_compositing, redo);
+        PUSH_LAMBDA(local_name_update, redo);
         return true;
     }
     local_undo();
