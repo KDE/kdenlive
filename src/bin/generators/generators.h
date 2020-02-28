@@ -40,7 +40,6 @@ class Producer;
 class QLabel;
 class QResizeEvent;
 class ParameterContainer;
-class Monitor;
 class TimecodeDisplay;
 
 class Generators : public QDialog
@@ -48,7 +47,7 @@ class Generators : public QDialog
     Q_OBJECT
 
 public:
-    explicit Generators(Monitor *monitor, const QString &path, QWidget *parent = nullptr);
+    explicit Generators(const QString &path, QWidget *parent = nullptr);
     ~Generators() override;
 
     static void getGenerators(const QStringList &producers, QMenu *menu);

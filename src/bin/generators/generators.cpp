@@ -20,9 +20,9 @@
 #include "generators.h"
 #include "assets/abstractassetsrepository.hpp"
 #include "doc/kthumb.h"
+#include "timecodedisplay.h"
 #include "effects/effectsrepository.hpp"
 #include "kdenlivesettings.h"
-#include "monitor/monitor.h"
 
 #include <QDialogButtonBox>
 #include <QDir>
@@ -44,7 +44,7 @@
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltTractor.h>
 
-Generators::Generators(Monitor *monitor, const QString &path, QWidget *parent)
+Generators::Generators(const QString &path, QWidget *parent)
     : QDialog(parent)
     , m_producer(nullptr)
     , m_timePos(nullptr)

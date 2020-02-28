@@ -855,7 +855,7 @@ void MainWindow::loadGenerators()
 
 void MainWindow::buildGenerator(QAction *action)
 {
-    Generators gen(m_clipMonitor, action->data().toString(), this);
+    Generators gen(action->data().toString(), this);
     if (gen.exec() == QDialog::Accepted) {
         pCore->bin()->slotAddClipToProject(gen.getSavedClip());
     }
