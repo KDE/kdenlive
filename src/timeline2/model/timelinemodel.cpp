@@ -3517,7 +3517,7 @@ void TimelineModel::updateProfile(Mlt::Profile *profile)
     for (int i = 0; i < m_tractor->count(); i++) {
         std::shared_ptr<Mlt::Producer> tk(m_tractor->track(i));
         tk->set_profile(*m_profile);
-        if (tk->type() == multitrack_type) {
+        if (tk->type() == tractor_type) {
             Mlt::Tractor sub(*tk.get());
             for (int j = 0; j < sub.count(); j++) {
                 std::shared_ptr<Mlt::Producer> subtk(sub.track(j));
@@ -3525,6 +3525,7 @@ void TimelineModel::updateProfile(Mlt::Profile *profile)
             }
         }
     }
+    m_blackClip->set_profile(*m_profile);
     // Rebuild compositions since profile has changed
     buildTrackCompositing(true);
 }
