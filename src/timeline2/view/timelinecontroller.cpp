@@ -1681,9 +1681,9 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
 void TimelineController::switchCompositing(int mode)
 {
     // m_model->m_tractor->lock();
-    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(mode));    
+    pCore->currentDoc()->setDocumentProperty(QStringLiteral("compositing"), QString::number(mode));
     QScopedPointer<Mlt::Service> service(m_model->m_tractor->field());
-    Mlt::Field *field = m_model->m_tractor->field();
+    QScopedPointer<Mlt::Field>field(m_model->m_tractor->field());
     field->lock();
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
@@ -1707,8 +1707,7 @@ void TimelineController::switchCompositing(int mode)
                 Mlt::Transition t(*m_model->m_tractor->profile(),
                                   mode == 1 ? "composite" : TransitionsRepository::get()->getCompositingTransition().toUtf8().constData());
                 t.set("always_active", 1);
-                t.set("a_track", 0);
-                t.set("b_track", track + 1);
+                t.set_tracks(0, track + 1);
                 if (mode == 1) {
                     t.set("valign", "middle");
                     t.set("halign", "centre");
@@ -1722,7 +1721,6 @@ void TimelineController::switchCompositing(int mode)
         }
     }
     field->unlock();
-    delete field;
     pCore->requestMonitorRefresh();
 }
 

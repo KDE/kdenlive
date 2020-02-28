@@ -563,7 +563,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     field->lock();
     // Make sure all previous track compositing is removed
     if (rebuild) {
-        QScopedPointer<Mlt::Service> service(new Mlt::Service(field->get_service()));
+        QScopedPointer<Mlt::Service> service(m_tractor->field());
         while (service != nullptr && service->is_valid()) {
             if (service->type() == transition_type) {
                 Mlt::Transition t((mlt_transition)service->get_service());
@@ -588,16 +588,16 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
-            field->plant_transition(*transition, 0, trackPos);
             transition->set_tracks(0, trackPos);
+            field->plant_transition(*transition, 0, trackPos);
         } else if ((*it)->isAudioTrack()) {
             // audio mix
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             transition->set("sum", 1);
-            field->plant_transition(*transition, 0, trackPos);
             transition->set_tracks(0, trackPos);
+            field->plant_transition(*transition, 0, trackPos);
             if (hasMixer) {
                 pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()));
             }
