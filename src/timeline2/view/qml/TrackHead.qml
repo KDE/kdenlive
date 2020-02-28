@@ -38,10 +38,8 @@ Rectangle {
     property int iconSize: buttonSize - 4
     property string trackTag
     property int thumbsFormat: 0
-    property int collapsedHeight: buttonSize
     border.width: 1
     border.color: root.frameColor
-    signal clicked()
 
     function pulseLockButton() {
         flashLock.restart();
@@ -82,7 +80,7 @@ Rectangle {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: {
-            parent.clicked()
+            timeline.activeTrack = trackId
             if (mouse.button == Qt.RightButton) {
                 root.showHeaderMenu()
             }
@@ -197,7 +195,7 @@ Rectangle {
             //icon.height: trackHeadRoot.iconSize
             icon.name: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
             onClicked: {
-                trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : collapsedHeight
+                trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(root.collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : root.collapsedHeight
             }
             ToolTip {
                 visible: expandButton.hovered
@@ -419,7 +417,7 @@ Rectangle {
                     }
                     onClicked: {
                         timeline.showTrackAsset(trackId)
-                        trackHeadRoot.clicked()
+                        timeline.activeTrack = trackId
                         trackHeadRoot.focus = true
                     }
                     onEntered: {
@@ -497,7 +495,7 @@ Rectangle {
                 cursorShape: Qt.SizeVerCursor
                 drag.target: parent
                 drag.axis: Drag.YAxis
-                drag.minimumY: trackHeadRoot.collapsedHeight - resizer.height
+                drag.minimumY: root.collapsedHeight - resizer.height
                 property double startY
                 property double originalY
                 drag.smoothed: false
@@ -522,7 +520,7 @@ Rectangle {
                     if (mouse.buttons === Qt.LeftButton) {
                         parent.opacity = 0.5
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
-                        newHeight =  Math.max(trackHeadRoot.collapsedHeight, newHeight)
+                        newHeight =  Math.max(root.collapsedHeight, newHeight)
                         trackHeadRoot.myTrackHeight = newHeight
                     }
                 }

@@ -265,6 +265,7 @@ Rectangle {
     property int scrollMin: scrollView.contentX / timeline.scaleFactor
     property int scrollMax: scrollMin + scrollView.contentItem.width / timeline.scaleFactor
     property double dar: 16/9
+    property int collapsedHeight: baseUnit * 1.8
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
@@ -296,7 +297,10 @@ Rectangle {
         if (tk.y < scrollView.contentY) {
             scrollView.contentY = Math.max(0, tk.y - scrollView.height / 3)
         } else if (tk.y + tk.height > scrollView.contentY + scrollView.contentItem.height) {
-            scrollView.contentY = Math.min(trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y - scrollView.height / 3)
+            var newY = Math.min(trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y - scrollView.height / 3)
+            if (newY >= 0) {
+                scrollView.contentY = newY
+            }
         }
     }
 
@@ -667,10 +671,6 @@ Rectangle {
                                 }
                                 // hack: change property to trigger transition adjustment
                                 root.trackHeight = root.trackHeight === 1 ? 0 : 1
-                            }
-                            onClicked: {
-                                timeline.activeTrack = tracksRepeater.itemAt(index).trackInternalId
-                                console.log('track name: ',index, ' = ', model.name,'/',tracksRepeater.itemAt(index).trackInternalId)
                             }
                         }
                     }
@@ -1165,7 +1165,7 @@ Rectangle {
                                     width: tracksContainerArea.width
                                     border.width: 1
                                     border.color: root.frameColor
-                                    height: Math.max(root.baseUnit * 2, model.trackHeight)
+                                    height: Math.max(collapsedHeight, model.trackHeight)
                                     color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
                             }
