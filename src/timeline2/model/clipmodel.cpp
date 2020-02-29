@@ -703,6 +703,7 @@ void ClipModel::setFakePosition(int fid)
 
 QDomElement ClipModel::toXml(QDomDocument &document)
 {
+    QLocale locale;
     QDomElement container = document.createElement(QStringLiteral("clip"));
     container.setAttribute(QStringLiteral("binid"), m_binClipId);
     container.setAttribute(QStringLiteral("id"), m_id);
@@ -727,7 +728,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
             }
         }
     }
-    container.setAttribute(QStringLiteral("speed"), m_speed);
+    container.setAttribute(QStringLiteral("speed"), locale.toString(m_speed));
     container.appendChild(m_effectStack->toXml(document));
     return container;
 }
