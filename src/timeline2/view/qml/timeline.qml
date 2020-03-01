@@ -658,16 +658,16 @@ Rectangle {
                             width: headerWidth
                             current: item === timeline.activeTrack
                             trackId: item
-                            height: Math.max(collapsedHeight, model.trackHeight)
+                            height: model.trackHeight
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
-                            collapsed: height <= collapsedHeight
+                            collapsed: height <= root.collapsedHeight
                             onMyTrackHeightChanged: {
-                                collapsed = myTrackHeight <= collapsedHeight
+                                collapsed = myTrackHeight <= root.collapsedHeight
                                 if (!collapsed) {
                                     controller.setTrackProperty(trackId, "kdenlive:trackheight", myTrackHeight)
                                     controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
                                 } else {
-                                    controller.setTrackProperty(trackId, "kdenlive:collapsed", collapsedHeight)
+                                    controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
                                 }
                                 // hack: change property to trigger transition adjustment
                                 root.trackHeight = root.trackHeight === 1 ? 0 : 1
@@ -1165,7 +1165,7 @@ Rectangle {
                                     width: tracksContainerArea.width
                                     border.width: 1
                                     border.color: root.frameColor
-                                    height: Math.max(collapsedHeight, model.trackHeight)
+                                    height: model.trackHeight
                                     color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
                                 }
                             }
@@ -1278,7 +1278,7 @@ Rectangle {
             rootIndex: trackDelegateModel.modelIndex(index)
             timeScale: timeline.scaleFactor
             width: tracksContainerArea.width
-            height: Math.max(root.baseUnit * 2, trackHeight)
+            height: trackHeight
             isAudio: audio
             trackThumbsFormat: thumbsFormat
             isCurrentTrack: item === timeline.activeTrack
