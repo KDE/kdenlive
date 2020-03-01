@@ -12,7 +12,7 @@ Item {
     property string framenum
     property point profile: controller.profile
     property point center
-    property real baseUnit: fontMetrics.font.pointSize
+    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property double scalex : 1
     property double scaley : 1
     property double stretch : 1
