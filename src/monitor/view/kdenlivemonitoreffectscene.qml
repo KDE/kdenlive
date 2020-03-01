@@ -21,7 +21,7 @@ Item {
     property double timeScale: 1
     property double frameSize: 10
     property int duration: 300
-    property real baseUnit: fontMetrics.font.pointSize
+    property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int mouseRulerPos: 0
     onScalexChanged: canvas.requestPaint()
     onScaleyChanged: canvas.requestPaint()
@@ -227,8 +227,8 @@ Item {
             left: parent.left
             }
             visible: root.iskeyframe
-            width: effectsize.height * 0.7
-            height: this.width
+            width: root.baseUnit
+            height: width
             color: "red"
             MouseArea {
               property int oldMouseX
@@ -303,8 +303,8 @@ Item {
             top: parent.top
             right: parent.right
             }
-            width: effectsize.height * 0.7
-            height: this.width
+            width: root.baseUnit
+            height: width
             color: "red"
             visible: root.iskeyframe
             MouseArea {
@@ -369,8 +369,8 @@ Item {
             bottom: parent.bottom
             left: parent.left
             }
-            width: effectsize.height * 0.7
-            height: this.width
+            width: root.baseUnit
+            height: width
             color: "red"
             visible: root.iskeyframe
             MouseArea {
@@ -435,8 +435,8 @@ Item {
             bottom: parent.bottom
             right: parent.right
             }
-            width: effectsize.height * 0.7
-            height: this.width
+            width: root.baseUnit
+            height: width
             color: "red"
             visible: root.iskeyframe
             MouseArea {

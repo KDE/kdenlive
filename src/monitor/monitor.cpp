@@ -1357,9 +1357,9 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             // we are in record mode, don't display clip
             return;
         }
+        m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
         m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
         loadQmlScene(MonitorSceneDefault);
-        m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
         updateMarkers();
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
