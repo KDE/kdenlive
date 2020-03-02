@@ -1256,6 +1256,10 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
         int trackPos = prod.attribute(QStringLiteral("track")).toInt();
+        if (trackPos < 0 || trackPos >= projectTracks.first.size() + projectTracks.second.size()) {
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            return false;
+        }
         bool audioTrack = prod.hasAttribute(QStringLiteral("audioTrack"));
         if (audioTrack) {
             if (!audioTracks.contains(trackPos)) {
@@ -1352,6 +1356,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         int newPos = masterIx + tk - masterSourceTrack;
         if (newPos < 0 || newPos >= projectTracks.second.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            return false;
         }
         tracksMap.insert(tk, projectTracks.second.at(newPos));
     }
