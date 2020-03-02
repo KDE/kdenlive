@@ -338,7 +338,7 @@ Rectangle {
         keys: 'kdenlive/composition'
         onEntered: {
             console.log("Trying to drop composition")
-            if (clipBeingMovedId == -1) {
+            if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 console.log("No clip being moved")
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY)
                 var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
@@ -377,7 +377,8 @@ Rectangle {
             }
         }
         onExited:{
-            if (clipBeingDroppedId != -1) {
+            if (clipBeingDroppedId != -1 && drag.y < drag.x) {
+                // If we exit on top, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
             }
             clearDropData()
@@ -424,7 +425,7 @@ Rectangle {
         x: headerWidth
         keys: 'kdenlive/producerslist'
         onEntered: {
-            if (clipBeingMovedId == -1) {
+            if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
@@ -453,7 +454,8 @@ Rectangle {
             }
         }
         onExited:{
-            if (clipBeingDroppedId != -1) {
+            if (clipBeingDroppedId != -1 && drag.y < drag.x) {
+                // If we exit on top, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
             }
             clearDropData()
