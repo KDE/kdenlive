@@ -8,6 +8,13 @@
 
 [Instructions to build Kdenlive](https://community.kde.org/Kdenlive/Development) are available on the KDE wiki.
 
+# Testing Kdenlive via Nightly Builds
+
+- AppImage (Linux) = https://binary-factory.kde.org/job/Kdenlive_Nightly_Appimage_Build/
+- Windows = https://binary-factory.kde.org/job/Kdenlive_Nightly_mingw64/
+
+*Note * - nightly/daily builds are not meant to be used in production.*
+
 # Contributing to Kdenlive
 
 Please note that Kdenlive's Github repo is just a mirror: see [the detailed explanations on how to submit patches](https://community.kde.org/Infrastructure/Github_Mirror).
