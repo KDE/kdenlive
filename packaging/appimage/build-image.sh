@@ -169,7 +169,9 @@ rm $APPDIR/usr/lib/libasound.so.2 || true
 
 
 # libxcb should be removed
-rm $APPDIR/usr/lib/libxcb*
+rm $APPDIR/usr/lib/libxcb* || true
+
+rm $APPDIR/usr/lib/libgcrypt.so.20 || true
 
 rm  $APPDIR/AppRun
 
