@@ -499,7 +499,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     emit refreshPropertiesPanel();
     if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist) {
         QTimer::singleShot(1000, this, [this]() {
-            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
+            int loadjobId;
+            if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &loadjobId)) {
+                pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
+            }
         });
     }
     replaceInTimeline();
@@ -1493,8 +1496,7 @@ void ProjectClip::getThumbFromPercent(int percent)
     } else {
         // Generate percent thumbs
         int id;
-        if (pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
-        } else {
+        if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
             pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 50);
         }
     }

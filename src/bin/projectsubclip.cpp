@@ -205,8 +205,7 @@ void ProjectSubClip::getThumbFromPercent(int percent)
     } else {
         // Generate percent thumbs
         int id;
-        if (pCore->jobManager()->hasPendingJob(m_parentClipId, AbstractClipJob::CACHEJOB, &id)) {
-        } else {
+        if (!pCore->jobManager()->hasPendingJob(m_parentClipId, AbstractClipJob::CACHEJOB, &id)) {
             pCore->jobManager()->startJob<CacheJob>({m_parentClipId}, -1, QString(), 25, m_inPoint, m_outPoint);
         }
     }

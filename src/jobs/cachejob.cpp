@@ -89,8 +89,11 @@ bool CacheJob::startJob()
         m_thumbsCount = duration / 10;
     }
     std::set<int> frames;
-    for (int i = 1; i <= m_thumbsCount; ++i) {
-        frames.insert(m_inPoint + (duration * i / m_thumbsCount));
+    double steps = qMax(pCore->getCurrentFps(), (double)duration / m_thumbsCount);
+    int pos = m_inPoint;
+    for (int i = 1; i <= m_thumbsCount && pos <= duration; ++i) {
+        frames.insert(pos);
+        pos = m_inPoint + (steps * i);
     }
     int size = (int)frames.size();
     int count = 0;
