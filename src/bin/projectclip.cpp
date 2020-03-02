@@ -497,6 +497,11 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_videoProducers.clear();
     m_timewarpProducers.clear();
     emit refreshPropertiesPanel();
+    if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist) {
+        QTimer::singleShot(1000, this, [this]() {
+            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
+        });
+    }
     replaceInTimeline();
     return true;
 }
