@@ -75,8 +75,40 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
     QDomElement base = doc.documentElement();
     if (base.tagName() == QLatin1String("effectgroup")) {
         QDomNodeList effects = base.elementsByTagName(QStringLiteral("effect"));
-        if (effects.count() != 1) {
-            qDebug() << "Error: found unsupported effect group" << base.attribute(QStringLiteral("name"))<<" : "<<file_name;
+        if (effects.count() > 1) {
+            // Effect group
+            //qDebug() << "Error: found unsupported effect group" << base.attribute(QStringLiteral("name"))<<" : "<<file_name;
+            Info result;
+            result.xml = base;
+            for (int i = 0; i < effects.count(); ++i) {
+                QDomNode currentNode = effects.item(i);
+                if (currentNode.isNull()) {
+                    continue;
+                }
+                QDomElement currentEffect = currentNode.toElement();
+                QString currentId = currentEffect.attribute(QStringLiteral("id"), QString());
+                if (currentId.isEmpty()) {
+                    currentId = currentEffect.attribute(QStringLiteral("tag"), QString());
+                }
+                if (!exists(currentId)) {
+                    qDebug() << "Error: found unsupported effect in group" << currentId<<" : "<<file_name;
+                    return;
+                }
+            }
+            QString type = base.attribute(QStringLiteral("type"), QString());
+            if (type == QLatin1String("customAudio")) {
+                result.type = EffectType::CustomAudio;
+            } else {
+                result.type = EffectType::Custom;
+            }
+            result.id = base.attribute(QStringLiteral("id"), QString());
+            if (result.id.isEmpty()) {
+                result.id = QFileInfo(file_name).baseName();
+            }
+            if (!result.id.isEmpty()) {
+                result.name = result.id;
+                customAssets[result.id] = result;
+            }
             return;
         }
     }
@@ -212,6 +244,17 @@ QPair<QString, QString> EffectsRepository::reloadCustom(const QString &path)
         result.second = custom.second.mltId;
     }
     return result;
+}
+
+bool EffectsRepository::isGroup(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        QDomElement xml = m_assets.at(assetId).xml;
+        if (xml.tagName() == QLatin1String("effectgroup")) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

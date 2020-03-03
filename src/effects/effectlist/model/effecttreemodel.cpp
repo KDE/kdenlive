@@ -115,9 +115,18 @@ void EffectTreeModel::reloadEffect(const QString &path)
     if (asset.first.isEmpty() || m_customCategory == nullptr) {
         return;
     }
+    // Check if item already existed, and remove
+    for (int i = 0; i < m_customCategory->childCount(); i++) {
+        std::shared_ptr<TreeItem> item = m_customCategory->child(i);
+        if (item->dataColumn(idCol).toString() == asset.first) {
+            m_customCategory->removeChild(item);
+            break;
+        }
+    }
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
     QList<QVariant> data {asset.first, asset.first, QVariant::fromValue(EffectType::Custom), isFav};
     m_customCategory->appendChild(data);
+    
 }
 
 void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions)

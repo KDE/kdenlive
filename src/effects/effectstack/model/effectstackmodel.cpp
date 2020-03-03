@@ -420,6 +420,10 @@ bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
     QWriteLocker locker(&m_lock);
     std::unordered_set<int> previousFadeIn = m_fadeIns;
     std::unordered_set<int> previousFadeOut = m_fadeOuts;
+    if (EffectsRepository::get()->isGroup(effectId)) {
+        QDomElement doc = EffectsRepository::get()->getXml(effectId);
+        return copyXmlEffect(doc);
+    }
     auto effect = EffectItemModel::construct(effectId, shared_from_this());
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
     if (effect->isAudio()) {

@@ -108,6 +108,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     m_colorIcon = new QLabel(this);
     l->insertWidget(0, m_colorIcon);
     m_colorIcon->setFixedSize(collapseButton->sizeHint());
+    m_colorIcon->setToolTip(effectName);
     title = new KSqueezedTextLabel(this);
     l->insertWidget(2, title);
 
@@ -180,6 +181,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         m_view->setVisible(false);
     }
     m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save Effect"), this, SLOT(slotSaveEffect()));
+    m_menu->addAction(QIcon::fromTheme(QStringLiteral("document-save-all")), i18n("Save Effect Stack"), this, SIGNAL(saveStack()));
     if (!m_regionEffect) {
         /*if (m_info.groupIndex == -1) {
             m_menu->addAction(m_groupAction);
@@ -478,7 +480,6 @@ void CollapsibleEffectView::slotSaveEffect()
     QDomElement effectprops = effect.firstChildElement(QStringLiteral("properties"));
     effectprops.setAttribute(QStringLiteral("id"), name);
     effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
-
     QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream out(&file);
@@ -486,6 +487,36 @@ void CollapsibleEffectView::slotSaveEffect()
     }
     file.close();
     emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+}
+
+QDomDocument CollapsibleEffectView::toXml() const
+{
+    QDomDocument doc;
+    // Get base effect xml
+    QString effectId = m_model->getAssetId();
+    // Adjust param values
+    QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
+    QMap<QString, QString> values;
+
+    QDomElement effect = doc.createElement(QStringLiteral("effect"));
+    doc.appendChild(effect);
+    effect.setAttribute(QStringLiteral("id"), effectId);
+    QLocale locale;
+    locale.setNumberOptions(QLocale::OmitGroupSeparator);
+    for (const auto &param : currentValues) {
+        QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
+        effect.appendChild(xmlParam);
+        xmlParam.setAttribute(QStringLiteral("name"), param.first);
+        QString value;
+        if (param.second.type() == QVariant::Double) {
+            value = locale.toString(param.second.toDouble());
+        } else {
+            value = param.second.toString();
+        }
+        QDomText val = doc.createTextNode(value);
+        xmlParam.appendChild(val);
+    }
+    return doc;
 }
 
 void CollapsibleEffectView::slotResetEffect()

@@ -55,6 +55,8 @@ public:
     /* @brief Check custom effects (older custom effects need an update to default and current values
     *  returns a list of effects that were incorrectly converted */
     QPair<QStringList, QStringList> fixDeprecatedEffects();
+    /** @brief Returns true if this is an effect group */
+    bool isGroup(const QString &assetId) const;
 
 protected:
     // Constructor is protected because class is a Singleton

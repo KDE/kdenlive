@@ -306,7 +306,6 @@ template <typename AssetType> QString AbstractAssetsRepository<AssetType>::getDe
 template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInfoFromXml(const QDomElement &currentAsset, Info &res) const
 {
     QString tag = currentAsset.attribute(QStringLiteral("tag"), QString());
-
     QString id = currentAsset.attribute(QStringLiteral("id"), QString());
     if (id.isEmpty()) {
         id = tag;

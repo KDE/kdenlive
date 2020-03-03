@@ -82,6 +82,8 @@ public:
     void setActiveKeyframe(int kf);
     /** @brief Returns true if effect can be moved (false for speed effect). */
     bool isMovable() const;
+    /** @brief Returns the effect in xml format for saving. */
+    QDomDocument toXml() const;
 
 public slots:
     void slotSyncEffectsPos(int pos);
@@ -165,6 +167,8 @@ signals:
     void startDrag(QPixmap, std::shared_ptr<EffectItemModel> effectModel);
     void activateEffect(std::shared_ptr<EffectItemModel> effectModel);
     void refresh();
+    /** @brief Requests saving the full effect stack. */
+    void saveStack();
 };
 
 #endif

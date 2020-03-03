@@ -105,6 +105,9 @@ private slots:
     void loadEffects();
     void updateTreeHeight();
     void doActivateEffect(int row, QModelIndex ix, bool force = false);
+    /** @brief Save current effect stack
+     */
+    void slotSaveStack();
 
     //    void switchBuiltStack(bool show);
 

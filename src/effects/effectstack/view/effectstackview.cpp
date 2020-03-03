@@ -39,7 +39,12 @@
 #include <QScrollBar>
 #include <QTreeView>
 #include <QVBoxLayout>
+#include <QInputDialog>
+#include <QDir>
+
+#include <KMessageBox>
 #include <utility>
+
 WidgetDelegate::WidgetDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
@@ -230,6 +235,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::reloadEffect, this, &EffectStackView::reloadEffect);
         connect(view, &CollapsibleEffectView::switchHeight, this, &EffectStackView::slotAdjustDelegate, Qt::DirectConnection);
         connect(view, &CollapsibleEffectView::startDrag, this, &EffectStackView::slotStartDrag);
+        connect(view, &CollapsibleEffectView::saveStack, this, &EffectStackView::slotSaveStack);
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
         connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
@@ -431,6 +437,43 @@ void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force
     if (w) {
         w->slotActivateEffect(true);
     }
+}
+
+void EffectStackView::slotSaveStack()
+{
+    QString name = QInputDialog::getText(this, i18n("Save Effect Stack"), i18n("Name for saved stack: "));
+    if (name.trimmed().isEmpty()) {
+        return;
+    }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+    }
+
+    if (dir.exists(name + QStringLiteral(".xml"))) {
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+            return;
+        }
+    }
+
+    QDomDocument doc;
+    QDomElement effect = doc.createElement(QStringLiteral("effectgroup"));
+    effect.setAttribute(QStringLiteral("id"), name);
+    effect.setAttribute(QStringLiteral("parentIn"), pCore->getItemIn(m_model->getOwnerId()));
+    doc.appendChild(effect);
+    for (int i = 0; i <= m_model->rowCount(); ++i) {
+        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, 0, QModelIndex())));
+        if (w) {
+            effect.appendChild(doc.importNode(w->toXml().documentElement(), true));
+        }
+    }
+    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&file);
+        out << doc.toString();
+    }
+    file.close();
+    reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
 
 /*

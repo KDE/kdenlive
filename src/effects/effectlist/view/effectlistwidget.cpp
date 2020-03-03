@@ -87,6 +87,7 @@ QString EffectListWidget::getMimeType(const QString &assetId) const
 void EffectListWidget::reloadCustomEffect(const QString &path)
 {
     static_cast<EffectTreeModel *>(m_model.get())->reloadEffect(path);
+    m_proxyModel->sort(0, Qt::AscendingOrder);
 }
 
 void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)
