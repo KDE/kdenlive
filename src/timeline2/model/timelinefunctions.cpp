@@ -212,7 +212,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     if (count > 0 && timeline->m_groups->isInGroup(clipId)) {
         // we now split the group hierarchy.
         // As a splitting criterion, we compare start point with split position
-        auto criterion = [timeline, position](int cid) { return timeline->getClipPosition(cid) < position; };
+        auto criterion = [timeline, position](int cid) { return timeline->getItemPosition(cid) < position; };
         bool res = true;
         for (const int topId : topElements) {
             qDebug()<<"// CHECKING REGROUP ELEMENT: "<<topId<<", ISCLIP: "<<timeline->isClip(topId)<<timeline->isGroup(topId);
