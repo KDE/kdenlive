@@ -1491,11 +1491,14 @@ void Bin::slotLocateClip()
 void Bin::slotDuplicateClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    QList < std::shared_ptr<AbstractProjectItem> > items;
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
             continue;
         }
-        std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+        items << m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
+    }
+    for (auto item : items) {
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
             if (currentItem) {
