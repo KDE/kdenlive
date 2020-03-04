@@ -162,6 +162,11 @@ Mlt::Tractor *TimelineController::tractor()
     return m_model->tractor();
 }
 
+Mlt::Producer TimelineController::trackProducer(int tid)
+{
+    return *(m_model->getTrackById(tid).get());
+}
+
 double TimelineController::scaleFactor() const
 {
     return m_scale;

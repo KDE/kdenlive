@@ -41,7 +41,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     //QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
-    setEnabled(m_model->getOwnerId().first != ObjectType::TimelineTrack);
+    //setEnabled(m_model->getOwnerId().first != ObjectType::TimelineTrack);
     auto *layout = new QVBoxLayout(this);
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
@@ -102,6 +102,9 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
             binId = pCore->getTimelineClipBinId(cid);
             in = pCore->getItemIn(owner);
             out = in + pCore->getItemDuration(owner);
+        } else if (owner.first == ObjectType::TimelineTrack || owner.first == ObjectType::Master) {
+            in = 0;
+            out = pCore->getItemDuration(owner);
         }
         std::unordered_map<QString, QVariant> fParams;
         std::unordered_map<QString, QString> fData;
@@ -118,7 +121,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
                 fParams.insert({fparam.section(QLatin1Char('='), 0, 0), fparam.section(QLatin1Char('='), 1)});
             }
         }
-        pCore->jobManager()->startJob<FilterClipJob>({binId}, -1, QString(), cid, m_model, assetId, in, out, assetId, fParams, fData);
+        pCore->jobManager()->startJob<FilterClipJob>({binId}, -1, QString(), owner, m_model, assetId, in, out, assetId, fParams, fData);
         if (m_label) {
             m_label->setVisible(false);
         }

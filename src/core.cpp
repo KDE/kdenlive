@@ -879,3 +879,21 @@ void Core::updateProjectTags(QMap <QString, QString> tags)
         i++;
     }
 }
+
+std::unique_ptr<Mlt::Producer> Core::getMasterProducerInstance()
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()) {
+        std::unique_ptr<Mlt::Producer> producer(m_mainWindow->getCurrentTimeline()->controller()->tractor()->cut(0, m_mainWindow->getCurrentTimeline()->controller()->duration() - 1));
+        return producer;
+    }
+    return nullptr;
+}
+
+std::unique_ptr<Mlt::Producer> Core::getTrackProducerInstance(int tid)
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()) {
+        std::unique_ptr<Mlt::Producer> producer(new Mlt::Producer(m_mainWindow->getCurrentTimeline()->controller()->trackProducer(tid)));
+        return producer;
+    }
+    return nullptr;
+}

@@ -22,6 +22,7 @@
 #include "assets/model/assetparametermodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
+#include "profiles/profilemodel.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
 #include "macros.hpp"
@@ -30,15 +31,35 @@
 
 #include <klocalizedstring.h>
 
-FilterClipJob::FilterClipJob(const QString &binId, int cid, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, const QString &filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData)
+FilterClipJob::FilterClipJob(const QString &binId, const ObjectId &owner, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, const QString &filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData)
     : MeltJob(binId, FILTERCLIPJOB, false, in, out)
     , m_model(model)
     , m_filterName(filterName)
-    , m_timelineClipId(cid)
     , m_assetId(assetId)
     , m_filterParams(std::move(filterParams))
     , m_filterData(std::move(filterData))
+    , m_owner(owner)
 {
+    m_timelineClipId = -1;
+    if (owner.first == ObjectType::TimelineClip) {
+        m_timelineClipId = owner.second;
+    }
+}
+
+void FilterClipJob::configureProducer()
+{
+    if (m_producer != nullptr) {
+        // producer already configured, abort
+        return;
+    }
+    // We are on master or track, configure producer accordingly
+    if (m_owner.first == ObjectType::Master) {
+        m_profile.reset(&pCore->getCurrentProfile()->profile());
+        m_producer = std::move(pCore->getMasterProducerInstance());
+    } else if (m_owner.first == ObjectType::TimelineTrack) {
+        m_profile.reset(&pCore->getCurrentProfile()->profile());
+        m_producer = std::move(pCore->getTrackProducerInstance(m_owner.second));
+    }
 }
 
 const QString FilterClipJob::getDescription() const
@@ -83,7 +104,11 @@ bool FilterClipJob::commitResult(Fun &undo, Fun &redo)
         return false;
     }
     m_resultConsumed = true;
+    m_producer->detach(*m_filter.get());
     if (!m_successful) {
+        m_filter.reset();
+        m_producer.reset();
+        m_wholeProducer.reset();
         return false;
     }
     QVector<QPair<QString, QVariant>> params;
@@ -102,8 +127,10 @@ bool FilterClipJob::commitResult(Fun &undo, Fun &redo)
     }
     auto operation = [assetModel = m_model, filterParams = std::move(params)]() {
         if (auto ptr = assetModel.lock()) {
+            qDebug()<<"===== SETTING FILTER PARAM: "<<filterParams;
             ptr->setParameters(filterParams);
         }
+        pCore->setDocumentModified();
         return true;
     };
     auto reverse = [assetModel = m_model, keyName = key]() {
@@ -112,9 +139,13 @@ bool FilterClipJob::commitResult(Fun &undo, Fun &redo)
         if (auto ptr = assetModel.lock()) {
             ptr->setParameters(fParams);
         }
+        pCore->setDocumentModified();
         return true;
     };
     bool ok = operation();
+    m_filter.reset();
+    m_producer.reset();
+    m_wholeProducer.reset();
     if (ok) {
         UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo);
     }

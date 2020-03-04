@@ -319,6 +319,9 @@ public:
     /* @brief Return the project's tractor
      */
     Mlt::Tractor *tractor();
+    /* @brief Return a track's producer
+     */
+    Mlt::Producer trackProducer(int tid);
     /* @brief Get the list of currently selected clip id's
      */
     QList<int> selection() const;

@@ -38,6 +38,7 @@ class ProjectManager;
 
 namespace Mlt {
     class Repository;
+    class Producer;
     class Profile;
 } // namespace Mlt
 
@@ -212,6 +213,10 @@ public:
     /** @brief Returns the consumer profile, that will be scaled 
      *  according to preview settings. Should only be used on the consumer */
     Mlt::Profile *getProjectProfile();
+    /** @brief Returns a copy of current timeline's master playlist */
+    std::unique_ptr<Mlt::Producer> getMasterProducerInstance();
+    /** @brief Returns a copy of a track's playlist */
+    std::unique_ptr<Mlt::Producer> getTrackProducerInstance(int tid);
 
 private:
     explicit Core();
