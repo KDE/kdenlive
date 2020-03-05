@@ -122,11 +122,11 @@ void Core::build(bool isAppImage, const QString &MltPath)
 
 void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
 {
-    m_guiConstructed = true;
     m_profile = KdenliveSettings::default_profile();
     m_currentProfile = m_profile;
     profileChanged();
     m_mainWindow = new MainWindow();
+    m_guiConstructed = true;
     QStringList styles = QQuickStyle::availableStyles();
     if (styles.contains(QLatin1String("org.kde.desktop"))) {
         QQuickStyle::setStyle("org.kde.desktop");
@@ -695,13 +695,13 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
 
 void Core::invalidateRange(QSize range)
 {
-    if (!m_mainWindow || m_mainWindow->getCurrentTimeline()->loading) return;
+    if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
     m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.width(), range.height());
 }
 
 void Core::invalidateItem(ObjectId itemId)
 {
-    if (!m_mainWindow || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (itemId.first) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
@@ -729,14 +729,14 @@ double Core::getClipSpeed(int id) const
 
 void Core::updateItemKeyframes(ObjectId id)
 {
-    if (id.first == ObjectType::TimelineClip && m_mainWindow) {
+    if (id.first == ObjectType::TimelineClip && m_guiConstructed) {
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {TimelineModel::KeyframesRole});
     }
 }
 
 void Core::updateItemModel(ObjectId id, const QString &service)
 {
-    if (m_mainWindow && id.first == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
+    if (m_guiConstructed && id.first == ObjectType::TimelineClip && !m_mainWindow->getCurrentTimeline()->loading && service.startsWith(QLatin1String("fade"))) {
         bool startFade = service == QLatin1String("fadein") || service == QLatin1String("fade_from_black");
         m_mainWindow->getCurrentTimeline()->controller()->updateClip(id.second, {startFade ? TimelineModel::FadeInRole : TimelineModel::FadeOutRole});
     }
