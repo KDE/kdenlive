@@ -97,6 +97,8 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         QString type = result.xml.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("hidden")) {
             result.type = TransitionType::Hidden;
+        } else if (type == QLatin1String("short")) {
+            result.type = TransitionType::VideoShortComposition;
         }
         customAssets[result.id] = result;
     }
@@ -164,7 +166,7 @@ std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QStr
 bool TransitionsRepository::isComposition(const QString &transitionId) const
 {
     auto type = getType(transitionId);
-    return type == TransitionType::AudioComposition || type == TransitionType::VideoComposition;
+    return type == TransitionType::AudioComposition || type == TransitionType::VideoComposition || type == TransitionType::VideoShortComposition;
 }
 
 const QString TransitionsRepository::getCompositingTransition()

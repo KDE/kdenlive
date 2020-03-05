@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<transition tag="composite" id="slide">
+<transition tag="composite" id="slide" type="short">
         <name>Slide</name>
         <description>Slide image from one side to another.</description>
         <author>Dan Dennedy</author>

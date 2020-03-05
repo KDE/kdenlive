@@ -405,8 +405,10 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
             }
         }
     }
-    if (duration < 0) {
-        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int defaultLength = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == TransitionType::VideoShortComposition;
+    if (duration < 0 || (isShortComposition && duration > 1.5 * defaultLength)) {
+        duration = defaultLength;
     } else if (duration <= 1) {
         // if suggested composition duration is lower than 4 frames, use default
         duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
