@@ -509,7 +509,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_contextMenu->addMenu(markerMenu);
         QList<QAction *> list = markerMenu->actions();
         for (int i = 0; i < list.count(); ++i) {
-            if (list.at(i)->data().toString() == QLatin1String("edit_marker")) {
+            if (list.at(i)->objectName() == QLatin1String("edit_marker")) {
                 m_editMarker = list.at(i);
                 break;
             }

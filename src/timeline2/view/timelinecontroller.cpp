@@ -1119,14 +1119,12 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     const auto selection = m_model->getCurrentSelection();
     if (track == -1) {
         for (int cid : selection) {
-            if (m_model->isClip(cid)) {
+            if (m_model->isClip(cid) && positionIsInItem(cid)) {
                 if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
                     foundClip = true;
                     // Cutting clips in the selection group is handled in TimelineFunctions
                     break;
                 }
-            } else {
-                qDebug() << "//// TODO: COMPOSITION CUT!!!";
             }
         }
     }
@@ -1204,14 +1202,25 @@ int TimelineController::getMouseTrack()
     return returnedValue.toInt();
 }
 
-void TimelineController::refreshItem(int id)
+bool TimelineController::positionIsInItem(int id)
 {
     int in = m_model->getItemPosition(id);
     int position = pCore->getTimelinePosition();
-    if (in > position || (m_model->isClip(id) && m_model->m_allClips[id]->isAudioOnly())) {
-        return;
+    if (in > position) {
+        return false;
     }
     if (position <= in + m_model->getItemPlaytime(id)) {
+        return true;
+    }
+    return false;
+}
+
+void TimelineController::refreshItem(int id)
+{
+    if (m_model->isClip(id) && m_model->m_allClips[id]->isAudioOnly()) {
+        return;
+    }
+    if (positionIsInItem(id)) {
         pCore->requestMonitorRefresh();
     }
 }
@@ -2343,6 +2352,7 @@ void TimelineController::updateClipActions()
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
     }
+    bool enablePositionActions = positionIsInItem(item);
     for (QAction *act : clipActions) {
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
@@ -2370,6 +2380,8 @@ void TimelineController::updateClipActions()
             }
         } else if (actionData == QLatin1Char('C') && clip == nullptr) {
             enableAction = false;
+        } else if (actionData == QLatin1Char('P')) {
+            enableAction = enablePositionActions;
         }
         act->setEnabled(enableAction);
     }

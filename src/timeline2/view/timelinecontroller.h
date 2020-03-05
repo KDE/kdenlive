@@ -395,6 +395,9 @@ public:
     /* @brief Seeks to a clip start (or end) based on it's clip id
      */
     void seekToClip(int cid, bool seekToEnd);
+    /* @brief Returns true if timeline cursor is inside the item
+     */
+    bool positionIsInItem(int id);
     /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
     QPoint getTracksCount() const;
