@@ -92,7 +92,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
-        connect(w, &AbstractParamWidget::updateHeight, [&, w](int h) {
+        connect(w, &AbstractParamWidget::updateHeight, [&](int h) {
             setFixedHeight(h + m_lay->contentsMargins().bottom());
             emit updateHeight();
         });
@@ -113,7 +113,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-                connect(w, &AbstractParamWidget::updateHeight, [&, w]() {
+                connect(w, &AbstractParamWidget::updateHeight, [&]() {
                     setFixedHeight(contentHeight());
                     emit updateHeight();
                 });

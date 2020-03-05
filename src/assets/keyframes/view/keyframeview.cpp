@@ -95,7 +95,7 @@ void KeyframeView::slotAddKeyframe(int pos)
         pos = m_position;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->addKeyframe(GenTime(size_t(pos + offset), pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp());
+    m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp());
 }
 
 void KeyframeView::slotAddRemove()
@@ -113,7 +113,7 @@ void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
 {
     int offset = pCore->getItemIn(m_model->getOwnerId());
     if (m_model->hasKeyframe(m_position + offset)) {
-        m_model->updateKeyframeType(GenTime(size_t(m_position + offset), pCore->getCurrentFps()), type, index);
+        m_model->updateKeyframeType(GenTime(m_position + offset, pCore->getCurrentFps()), type, index);
     }
 }
 
@@ -123,7 +123,7 @@ void KeyframeView::slotRemoveKeyframe(int pos)
         pos = m_position;
     }
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_model->removeKeyframe(GenTime(size_t(pos + offset), pCore->getCurrentFps()));
+    m_model->removeKeyframe(GenTime(pos + offset, pCore->getCurrentFps()));
 }
 
 void KeyframeView::setDuration(int dur)
@@ -142,7 +142,7 @@ void KeyframeView::slotGoToNext()
 
     bool ok;
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    auto next = m_model->getNextKeyframe(GenTime(size_t(m_position + offset), pCore->getCurrentFps()), &ok);
+    auto next = m_model->getNextKeyframe(GenTime(m_position + offset, pCore->getCurrentFps()), &ok);
 
     if (ok) {
         emit seekToPos(qMin((int)next.first.frames(pCore->getCurrentFps()) - offset, m_duration - 1));

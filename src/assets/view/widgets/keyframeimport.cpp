@@ -646,7 +646,6 @@ void KeyframeImport::importSelectedData()
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     // Geometry target
-    QPoint rectOffset;
     int finalAlign = m_alignCombo->currentIndex();
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);

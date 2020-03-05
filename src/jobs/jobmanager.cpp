@@ -321,11 +321,7 @@ void JobManager::slotManageFinishedJob(int id)
                 }
             }
         } else {
-            QString bid;
-            for (const auto &it : m_jobs.at(id)->m_indices) {
-                bid = it.first;
-                break;
-            }
+            const QString bid = m_jobs.at(id)->m_indices.cbegin()->first;
             QPair<QString, QString> message = getJobMessageForClip(id, bid);
             if (!message.first.isEmpty()) {
                 if (!message.second.isEmpty()) {
@@ -347,11 +343,7 @@ void JobManager::slotManageFinishedJob(int id)
     m_jobs[id]->m_processed = true;
     if (!ok) {
         m_jobs[id]->m_failed = true;
-        QString bid;
-        for (const auto &it : m_jobs.at(id)->m_indices) {
-            bid = it.first;
-            break;
-        }
+        const QString bid = m_jobs.at(id)->m_indices.cbegin()->first;
         qDebug() << "ERROR: Job " << id << " failed, BID: " << bid<<", TYPE: "<<m_jobs.at(id)->m_type;
         QPair<QString, QString> message = getJobMessageForClip(id, bid);
         qDebug()<<"MESSAGE LOG: "<<message;

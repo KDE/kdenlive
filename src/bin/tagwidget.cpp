@@ -65,7 +65,7 @@ DragButton::DragButton(int ix, const QString tag, const QString description, QWi
     ac->setCheckable(true);
     setDefaultAction(ac);
     pCore->window()->actionCollection()->addAction(QString("tag_%1").arg(ix), ac);
-    connect(ac, &QAction::triggered, [&, ac] (bool checked) {
+    connect(ac, &QAction::triggered, [&] (bool checked) {
         emit switchTag(m_tag, checked);
     });
 }

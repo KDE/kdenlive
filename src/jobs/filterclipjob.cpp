@@ -55,10 +55,10 @@ void FilterClipJob::configureProducer()
     // We are on master or track, configure producer accordingly
     if (m_owner.first == ObjectType::Master) {
         m_profile.reset(&pCore->getCurrentProfile()->profile());
-        m_producer = std::move(pCore->getMasterProducerInstance());
+        m_producer = pCore->getMasterProducerInstance();
     } else if (m_owner.first == ObjectType::TimelineTrack) {
         m_profile.reset(&pCore->getCurrentProfile()->profile());
-        m_producer = std::move(pCore->getTrackProducerInstance(m_owner.second));
+        m_producer = pCore->getTrackProducerInstance(m_owner.second);
     }
 }
 
