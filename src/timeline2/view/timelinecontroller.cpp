@@ -1706,6 +1706,7 @@ void TimelineController::switchCompositing(int mode)
             if (t.get_int("internal_added") == 237 && serviceName != QLatin1String("mix")) {
                 // remove all compositing transitions
                 field->disconnect_service(t);
+                t.disconnect_all_producers();
             }
         }
         service.reset(service->producer());
