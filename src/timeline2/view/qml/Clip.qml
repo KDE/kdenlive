@@ -218,8 +218,7 @@ Rectangle {
     }
 */
     property bool noThumbs: (isAudio || itemType == ProducerType.Color || mltService === '')
-    property bool isImage: itemType == ProducerType.Image
-    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/' + (isImage ? '#0' : '#')
+    property string baseThumbPath: noThumbs ? '' : 'image://thumbnail/' + binId + '/' + documentId + '/#'
 
     DropArea { //Drop area for clips
         anchors.fill: clipRoot
