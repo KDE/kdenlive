@@ -75,10 +75,14 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     QColor col(t);
     bool isAudio = false;
     bool isCustom = false;
+    bool isGroup = false;
     if (m_effect) {
         EffectType type = EffectsRepository::get()->getType(effectId);
         isAudio = type == EffectType::Audio || type == EffectType::CustomAudio;
         isCustom = type == EffectType::CustomAudio || type == EffectType::Custom;
+        if (isCustom) {
+            isGroup = EffectsRepository::get()->isGroup(effectId);
+        }
     } else {
         auto type = TransitionsRepository::get()->getType(effectId);
         isAudio = (type == TransitionType::AudioComposition) || (type == TransitionType::AudioTransition);
@@ -88,7 +92,7 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
         pix.fill(Qt::transparent);
         p.begin(&pix);
         p.setPen(Qt::NoPen);
-        p.setBrush(Qt::red);
+        p.setBrush(isGroup ? Qt::magenta : Qt::red);
         p.drawRoundedRect(pix.rect(), 4, 4);
         p.setPen(QPen());
     } else if (isAudio) {
