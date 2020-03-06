@@ -220,6 +220,11 @@ int main(int argc, char *argv[])
                                      1, 0,                       // major and minor version of the import
                                      "ProducerType",             // name in QML
                                      "Error: only enums");
+    qmlRegisterUncreatableMetaObject(AssetListType::staticMetaObject, // static meta object
+                                     "com.enums",                // import statement
+                                     1, 0,                       // major and minor version of the import
+                                     "AssetType",             // name in QML
+                                     "Error: only enums");
     if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("verbose")) {
         mlt_log_set_level(MLT_LOG_VERBOSE);
     } else if (parser.value(QStringLiteral("mlt-log")) == QStringLiteral("debug")) {

@@ -160,12 +160,12 @@ void EffectStackView::dropEvent(QDropEvent *event)
     } else {
         bool added = false;
         if (row < m_model->rowCount()) {
-            if (m_model->appendEffect(effectId)) {
+            if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
                 added = true;
                 m_model->moveEffect(row, m_model->getEffectStackRow(m_model->rowCount() - 1));
             }
         } else {
-            if (m_model->appendEffect(effectId)) {
+            if (m_model->appendEffect(effectId) && m_model->rowCount() > 0) {
                 added = true;
                 std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(m_model->rowCount() - 1);
                 if (item) {
@@ -442,7 +442,7 @@ void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force
 void EffectStackView::slotSaveStack()
 {
     QString name = QInputDialog::getText(this, i18n("Save Effect Stack"), i18n("Name for saved stack: "));
-    if (name.trimmed().isEmpty()) {
+    if (name.trimmed().isEmpty() || m_model->rowCount() <= 0) {
         return;
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
@@ -459,6 +459,10 @@ void EffectStackView::slotSaveStack()
     QDomDocument doc;
     QDomElement effect = doc.createElement(QStringLiteral("effectgroup"));
     effect.setAttribute(QStringLiteral("id"), name);
+    auto item = m_model->getEffectStackRow(0);
+    if (item->isAudio()) {
+        effect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
+    }
     effect.setAttribute(QStringLiteral("parentIn"), pCore->getItemIn(m_model->getOwnerId()));
     doc.appendChild(effect);
     for (int i = 0; i <= m_model->rowCount(); ++i) {

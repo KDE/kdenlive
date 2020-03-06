@@ -406,7 +406,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
         }
     }
     int defaultLength = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
-    bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == TransitionType::VideoShortComposition;
+    bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == AssetListType::AssetType::VideoShortComposition;
     if (duration < 0 || (isShortComposition && duration > 1.5 * defaultLength)) {
         duration = defaultLength;
     } else if (duration <= 1) {

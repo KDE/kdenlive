@@ -33,10 +33,7 @@
  * Note that this class is a Singleton
  */
 
-enum class TransitionType { AudioComposition, VideoShortComposition, VideoComposition, AudioTransition, VideoTransition, Favorites, Hidden = -1 };
-Q_DECLARE_METATYPE(TransitionType)
-
-class TransitionsRepository : public AbstractAssetsRepository<TransitionType>
+class TransitionsRepository : public AbstractAssetsRepository<AssetListType::AssetType>
 {
 
 public:

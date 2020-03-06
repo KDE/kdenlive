@@ -33,34 +33,23 @@ AssetIconProvider::AssetIconProvider(bool effect)
     m_effect = effect;
 }
 
-QImage AssetIconProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
+QImage AssetIconProvider::requestImage(const QString &name, QSize *size, const QSize &requestedSize)
 {
     QImage result;
 
-    if (id == QStringLiteral("root") || id.isEmpty()) {
+    if (name.isEmpty()) {
         QPixmap pix(30, 30);
         return pix.toImage();
     }
 
-    if (m_effect && EffectsRepository::get()->exists(id)) {
-        QString name = EffectsRepository::get()->getName(id);
-        result = makeIcon(id, name, requestedSize);
-        if (size) {
-            *size = result.size();
-        }
-    } else if (!m_effect && TransitionsRepository::get()->exists(id)) {
-        QString name = TransitionsRepository::get()->getName(id);
-        result = makeIcon(id, name, requestedSize);
-        if (size) {
-            *size = result.size();
-        }
-    } else {
-        qDebug() << "Asset not found " << id;
+    result = makeIcon(name, requestedSize);
+    if (size) {
+        *size = result.size();
     }
     return result;
 }
 
-QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effectName, const QSize &size)
+QImage AssetIconProvider::makeIcon(const QString &effectName, const QSize &size)
 {
     Q_UNUSED(size);
     QPixmap pix(30, 30);
@@ -76,16 +65,15 @@ QImage AssetIconProvider::makeIcon(const QString &effectId, const QString &effec
     bool isAudio = false;
     bool isCustom = false;
     bool isGroup = false;
+    AssetListType::AssetType type = (AssetListType::AssetType)effectName.section(QLatin1Char('/'), -1).toInt();
     if (m_effect) {
-        EffectType type = EffectsRepository::get()->getType(effectId);
-        isAudio = type == EffectType::Audio || type == EffectType::CustomAudio;
-        isCustom = type == EffectType::CustomAudio || type == EffectType::Custom;
+        isAudio = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+        isCustom = type == AssetListType::AssetType::CustomAudio || type == AssetListType::AssetType::Custom;
         if (isCustom) {
-            isGroup = EffectsRepository::get()->isGroup(effectId);
+            //isGroup = EffectsRepository::get()->isGroup(effectId);
         }
     } else {
-        auto type = TransitionsRepository::get()->getType(effectId);
-        isAudio = (type == TransitionType::AudioComposition) || (type == TransitionType::AudioTransition);
+        isAudio = (type == AssetListType::AssetType::AudioComposition) || (type == AssetListType::AssetType::AudioTransition);
     }
     QPainter p;
     if (isCustom) {

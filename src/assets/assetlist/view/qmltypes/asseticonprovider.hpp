@@ -31,10 +31,10 @@ class AssetIconProvider : public QQuickImageProvider
 {
 public:
     explicit AssetIconProvider(bool effect);
-    QImage requestImage(const QString &id, QSize *size, const QSize &requestedSize) override;
+    QImage requestImage(const QString &name, QSize *size, const QSize &requestedSize) override;
 
 private:
-    QImage makeIcon(const QString &effectId, const QString &effectName, const QSize &size);
+    QImage makeIcon(const QString &effectName, const QSize &size);
     std::unique_ptr<KImageCache> m_cache;
 
     bool m_effect;

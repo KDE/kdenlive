@@ -66,15 +66,15 @@ EffectListWidget::~EffectListWidget()
 void EffectListWidget::setFilterType(const QString &type)
 {
     if (type == "video") {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Video);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Video);
     } else if (type == "audio") {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Audio);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Audio);
     } else if (type == "custom") {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Custom);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Custom);
     } else if (type == "favorites") {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Favorites);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
     } else {
-        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, EffectType::Preferred);
+        static_cast<EffectFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Preferred);
     }
 }
 

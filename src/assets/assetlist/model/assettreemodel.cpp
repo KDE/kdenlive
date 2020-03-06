@@ -41,6 +41,7 @@ QHash<int, QByteArray> AssetTreeModel::roleNames() const
     roles[IdRole] = "identifier";
     roles[NameRole] = "name";
     roles[FavoriteRole] = "favorite";
+    roles[TypeRole] = "type";
     return roles;
 }
 
@@ -99,6 +100,8 @@ QVariant AssetTreeModel::data(const QModelIndex &index, int role) const
         return item->dataColumn(AssetTreeModel::idCol);
     case FavoriteRole:
         return item->dataColumn(AssetTreeModel::favCol);
+    case TypeRole:
+        return item->dataColumn(AssetTreeModel::typeCol);
     case NameRole:
     case Qt::DisplayRole:
         return item->dataColumn(index.column());

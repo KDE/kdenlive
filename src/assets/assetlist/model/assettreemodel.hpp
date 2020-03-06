@@ -36,7 +36,7 @@ class AssetTreeModel : public AbstractTreeModel
 public:
     explicit AssetTreeModel(QObject *parent = nullptr);
 
-    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole };
+    enum { IdRole = Qt::UserRole + 1, NameRole, FavoriteRole, TypeRole };
 
     // Helper function to retrieve name
     QString getName(const QModelIndex &index) const;
@@ -48,6 +48,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     virtual void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) = 0;
     virtual void setFavorite(const QModelIndex &index, bool favorite, bool isEffect) = 0;
+    virtual void deleteEffect(const QModelIndex &index) = 0;
 
     // for convenience, we store the column of each data field
     static int nameCol, idCol, favCol, typeCol, preferredCol;

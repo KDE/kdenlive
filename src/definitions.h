@@ -90,6 +90,12 @@ namespace TimelineMode {
 enum EditMode { NormalEdit = 0, OverwriteEdit = 1, InsertEdit = 2 };
 }
 
+namespace AssetListType {
+Q_NAMESPACE
+enum AssetType { Preferred, Video, Audio, Custom, CustomAudio, Favorites, AudioComposition, VideoShortComposition, VideoComposition, AudioTransition, VideoTransition, Hidden = -1 };
+Q_ENUM_NS(AssetType)
+}
+
 namespace ClipType {
 Q_NAMESPACE
 enum ProducerType {

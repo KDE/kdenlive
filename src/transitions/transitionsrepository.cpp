@@ -33,7 +33,7 @@ std::unique_ptr<TransitionsRepository> TransitionsRepository::instance;
 std::once_flag TransitionsRepository::m_onceFlag;
 
 TransitionsRepository::TransitionsRepository()
-    : AbstractAssetsRepository<TransitionType>()
+    : AbstractAssetsRepository<AssetListType::AssetType>()
 {
     init();
     QStringList invalidTransition;
@@ -96,9 +96,9 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         result.xml = currentNode.toElement();
         QString type = result.xml.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("hidden")) {
-            result.type = TransitionType::Hidden;
+            result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("short")) {
-            result.type = TransitionType::VideoShortComposition;
+            result.type = AssetListType::AssetType::VideoShortComposition;
         }
         customAssets[result.id] = result;
     }
@@ -122,15 +122,15 @@ void TransitionsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata,
 
     if (getSingleTrackTransitions().contains(res.id)) {
         if (audio) {
-            res.type = TransitionType::AudioTransition;
+            res.type = AssetListType::AssetType::AudioTransition;
         } else {
-            res.type = TransitionType::VideoTransition;
+            res.type = AssetListType::AssetType::VideoTransition;
         }
     } else {
         if (audio) {
-            res.type = TransitionType::AudioComposition;
+            res.type = AssetListType::AssetType::AudioComposition;
         } else {
-            res.type = TransitionType::VideoComposition;
+            res.type = AssetListType::AssetType::VideoComposition;
         }
     }
 }
@@ -166,7 +166,7 @@ std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QStr
 bool TransitionsRepository::isComposition(const QString &transitionId) const
 {
     auto type = getType(transitionId);
-    return type == TransitionType::AudioComposition || type == TransitionType::VideoComposition || type == TransitionType::VideoShortComposition;
+    return type == AssetListType::AssetType::AudioComposition || type == AssetListType::AssetType::VideoComposition || type == AssetListType::AssetType::VideoShortComposition;
 }
 
 const QString TransitionsRepository::getCompositingTransition()

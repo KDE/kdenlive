@@ -74,9 +74,9 @@ void TransitionListWidget::updateFavorite(const QModelIndex &index)
 void TransitionListWidget::setFilterType(const QString &type)
 {
     if (type == "favorites") {
-        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, TransitionType::Favorites);
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(true, AssetListType::AssetType::Favorites);
     } else {
-        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, TransitionType::Favorites);
+        static_cast<TransitionFilter *>(m_proxyModel.get())->setFilterType(false, AssetListType::AssetType::Favorites);
     }
 }
 

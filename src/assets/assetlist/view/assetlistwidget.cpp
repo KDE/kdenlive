@@ -74,6 +74,11 @@ void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite, bool 
     m_model->setFavorite(m_proxyModel->mapToSource(index), favorite, isEffect);
 }
 
+void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
+{
+    m_model->deleteEffect(m_proxyModel->mapToSource(index));
+}
+
 QString AssetListWidget::getDescription(bool isEffect, const QModelIndex &index) const
 {
     return m_model->getDescription(isEffect, m_proxyModel->mapToSource(index));

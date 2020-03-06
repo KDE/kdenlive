@@ -40,7 +40,7 @@ public:
        @param enabled whether to enable this filter
        @param type Effect type to display
     */
-    void setFilterType(bool enabled, EffectType type);
+    void setFilterType(bool enabled, AssetListType::AssetType type);
     void reloadFilterOnFavorite() override;
 
 protected:
@@ -48,6 +48,6 @@ protected:
     bool applyAll(std::shared_ptr<TreeItem> item) const override;
 
     bool m_type_enabled;
-    EffectType m_type_value;
+    AssetListType::AssetType m_type_value;
 };
 #endif

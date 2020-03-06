@@ -85,14 +85,14 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     QString favCategory = QStringLiteral("kdenlive:favorites");
     for (const auto &effect : allEffects) {
         auto targetCategory = miscCategory;
-        EffectType type = EffectsRepository::get()->getType(effect.first);
+        AssetListType::AssetType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {
             targetCategory = effectCategory[effect.first];
-        } else if (type == EffectType::Audio) {
+        } else if (type == AssetListType::AssetType::Audio) {
             targetCategory = audioCategory;
         }
 
-        if (type == EffectType::Custom || type == EffectType::CustomAudio) {
+        if (type == AssetListType::AssetType::Custom || type == AssetListType::AssetType::CustomAudio) {
             targetCategory = self->m_customCategory;
         }
 
@@ -124,9 +124,19 @@ void EffectTreeModel::reloadEffect(const QString &path)
         }
     }
     bool isFav = KdenliveSettings::favorite_effects().contains(asset.first);
-    QList<QVariant> data {asset.first, asset.first, QVariant::fromValue(EffectType::Custom), isFav};
+    QList<QVariant> data {asset.first, asset.first, QVariant::fromValue(AssetListType::AssetType::Custom), isFav};
     m_customCategory->appendChild(data);
-    
+}
+
+void EffectTreeModel::deleteEffect(const QModelIndex &index)
+{
+    if (!index.isValid()) {
+        return;
+    }
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    const QString id = item->dataColumn(idCol).toString();
+    m_customCategory->removeChild(item);
+    EffectsRepository::get()->deleteEffect(id);
 }
 
 void EffectTreeModel::reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions)
@@ -171,3 +181,4 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     }
     KdenliveSettings::setFavorite_effects(favs);
 }
+

@@ -50,8 +50,8 @@ std::shared_ptr<TransitionTreeModel> TransitionTreeModel::construct(bool flat, Q
     auto allTransitions = TransitionsRepository::get()->getNames();
     for (const auto &transition : allTransitions) {
         std::shared_ptr<TreeItem> targetCategory = compoCategory;
-        TransitionType type = TransitionsRepository::get()->getType(transition.first);
-        if (type == TransitionType::AudioTransition || type == TransitionType::VideoTransition) {
+        AssetListType::AssetType type = TransitionsRepository::get()->getType(transition.first);
+        if (type == AssetListType::AssetType::AudioTransition || type == AssetListType::AssetType::VideoTransition) {
             targetCategory = transCategory;
         }
         if (flat) {
@@ -106,3 +106,8 @@ void TransitionTreeModel::setFavorite(const QModelIndex &index, bool favorite, b
     }
     KdenliveSettings::setFavorite_transitions(favs);
 }
+
+void TransitionTreeModel::deleteEffect(const QModelIndex &)
+{
+}
+

@@ -283,11 +283,12 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
     qDebug()<<"// GOT PREVIOUS PARENTIN: "<<parentIn<<"\n\n=======\n=======\n\n";
     int currentIn = pCore->getItemIn(m_ownerId);
     PlaylistState::ClipState state = pCore->getItemState(m_ownerId);
+    bool effectAdded = false;
     for (int i = 0; i < nodeList.count(); ++i) {
         QDomElement node = nodeList.item(i).toElement();
         const QString effectId = node.attribute(QStringLiteral("id"));
-        EffectType type = EffectsRepository::get()->getType(effectId);
-        bool isAudioEffect = type == EffectType::Audio || type == EffectType::CustomAudio;
+        AssetListType::AssetType type = EffectsRepository::get()->getType(effectId);
+        bool isAudioEffect = type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
         if (isAudioEffect) {
             if (state != PlaylistState::AudioOnly) {
                 continue;
@@ -343,9 +344,10 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             effect->filter().set("out", filterOut);
         }
         local_redo();
+        effectAdded = true;
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     }
-    if (true) {
+    if (effectAdded) {
         Fun update = [this]() {
             emit dataChanged(QModelIndex(), QModelIndex(), {});
             return true;
@@ -354,7 +356,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         PUSH_LAMBDA(update, redo);
         PUSH_LAMBDA(update, undo);
     }
-    return true;
+    return effectAdded;
 }
 
 bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sourceItem, PlaylistState::ClipState state)

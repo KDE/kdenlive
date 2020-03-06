@@ -103,12 +103,11 @@ void EffectItemModel::plant(const std::weak_ptr<Mlt::Service> &service)
 void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
 {
     if (auto ptr = service.lock()) {
-        const QString effectId = getAssetId();
         std::shared_ptr<EffectItemModel> effect = nullptr;
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::unique_ptr<Mlt::Filter> filt(ptr->filter(i));
             QString effName = filt->get("kdenlive_id");
-            if (effName == effectId && filt->get_int("_kdenlive_processed") == 0) {
+            if (effName == m_assetId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
                     effect = EffectItemModel::construct(std::move(filt), ptr2);
                     int childId = ptr->get_int("_childid");
@@ -217,6 +216,6 @@ bool EffectItemModel::isCollapsed()
 
 bool EffectItemModel::isAudio() const
 {
-    EffectType type = EffectsRepository::get()->getType(getAssetId());
-    return  type == EffectType::Audio || type == EffectType::CustomAudio;
+    AssetListType::AssetType type = EffectsRepository::get()->getType(m_assetId);
+    return  type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
 }

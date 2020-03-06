@@ -33,10 +33,7 @@
  * Note that this class is a Singleton
  */
 
-enum class EffectType { Preferred, Video, Audio, Custom, CustomAudio, Favorites, Hidden = -1 };
-Q_DECLARE_METATYPE(EffectType)
-
-class EffectsRepository : public AbstractAssetsRepository<EffectType>
+class EffectsRepository : public AbstractAssetsRepository<AssetListType::AssetType>
 {
 
 public:
@@ -57,6 +54,7 @@ public:
     QPair<QStringList, QStringList> fixDeprecatedEffects();
     /** @brief Returns true if this is an effect group */
     bool isGroup(const QString &assetId) const;
+    void deleteEffect(const QString &id);
 
 protected:
     // Constructor is protected because class is a Singleton
@@ -82,7 +80,7 @@ protected:
 
     /* @brief Returns the metadata associated with the given asset*/
     Mlt::Properties *getMetadata(const QString &assetId) const override;
-    
+
     QPair <QString, QString> fixCustomAssetFile(const QString &path);
 
     static std::unique_ptr<EffectsRepository> instance;

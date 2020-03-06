@@ -52,6 +52,9 @@ public:
     /* @brief Sets whether this effect belongs to favorites */
     void setFavorite(const QModelIndex &index, bool favorite = true, bool isEffect = true);
 
+    /* @brief Delete a custom effect */
+    void deleteCustomEffect(const QModelIndex &index);
+
     /* @brief Returns the description of the asset given its model index */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
 
@@ -68,7 +71,7 @@ public:
 
     /* @brief Rebuild the view by resetting the source. Is there a better way? */
     void reset();
-    
+
 protected:
     void setup();
     std::shared_ptr<AssetTreeModel> m_model;

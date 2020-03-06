@@ -25,6 +25,7 @@ import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Window 2.2
 import QtQml.Models 2.11
+import com.enums 1.0
 
 Rectangle {
     id: listRoot
@@ -256,9 +257,10 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         visible: assetDelegate.isItem
                         property bool isFavorite: model == undefined || model.favorite === undefined ? false : model.favorite
+                        property bool isCustom: model == undefined ? false : model.type == AssetType.Custom || model.type == AssetType.CustomAudio
                         height: parent.height * 0.8
                         width: height
-                        source: 'image://asseticon/' + styleData.value
+                        source: assetText.text == '' ? '' : 'image://asseticon/' + assetText.text + '/' + model.type
                     }
                     Label {
                         id: assetText
@@ -287,6 +289,7 @@ Rectangle {
                             } else {
                                 drag.target = undefined
                                 assetContextMenu.isItemFavorite = assetThumb.isFavorite
+                                assetContextMenu.isCustom = assetThumb.isCustom
                                 assetContextMenu.popup()
                                 mouse.accepted = false
                             }
@@ -311,20 +314,20 @@ Rectangle {
             Menu {
                 id: assetContextMenu
                 property bool isItemFavorite
-                property bool isDisplayed: false
+                property bool isCustom: false
                 MenuItem {
-                    id: favMenu
                     text: assetContextMenu.isItemFavorite ? i18n("Remove from favorites") : i18n("Add to favorites")
-                    property url thumbSource
                     onTriggered: {
                         assetlist.setFavorite(sel.currentIndex, !assetContextMenu.isItemFavorite)
                     }
                 }
-                onAboutToShow: {
-                    isDisplayed = true;
-                }
-                onAboutToHide: {
-                    isDisplayed = false;
+                MenuItem {
+                    id: removeMenu
+                    text: i18n("Delete custom effect")
+                    visible: isEffectList && assetContextMenu.isCustom
+                    onTriggered: {
+                        assetlist.deleteCustomEffect(sel.currentIndex)
+                    }
                 }
             }
 

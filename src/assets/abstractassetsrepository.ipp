@@ -90,8 +90,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     QListIterator<QString> dirs_it(asset_dirs);
     for (dirs_it.toBack(); dirs_it.hasPrevious();) { auto dir=dirs_it.previous();
         QDir current_dir(dir);
-        QStringList filter;
-        filter << QStringLiteral("*.xml");
+        QStringList filter {QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
         for (const auto &file : fileList) {
             QString path = current_dir.absoluteFilePath(file);

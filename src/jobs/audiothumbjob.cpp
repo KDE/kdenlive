@@ -216,7 +216,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                     m_errorMessage.append(i18n("Audio thumbs: error reading audio thumbnail created with FFmpeg\n"));
                     return false;
                 }
-                rawChannels.emplace_back((const qint16 *)res.constData());
+                rawChannels.emplace_back(reinterpret_cast<const qint16 *>(res.constData()));
             }
             int progress = 0;
             std::vector<long> channelsData;

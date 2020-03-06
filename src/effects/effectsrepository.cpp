@@ -36,7 +36,7 @@ std::unique_ptr<EffectsRepository> EffectsRepository::instance;
 std::once_flag EffectsRepository::m_onceFlag;
 
 EffectsRepository::EffectsRepository()
-    : AbstractAssetsRepository<EffectType>()
+    : AbstractAssetsRepository<AssetListType::AssetType>()
 {
     init();
     // Check that our favorite effects are valid
@@ -90,16 +90,16 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                 if (currentId.isEmpty()) {
                     currentId = currentEffect.attribute(QStringLiteral("tag"), QString());
                 }
-                if (!exists(currentId)) {
+                if (!exists(currentId) && customAssets.count(currentId) == 0) {
                     qDebug() << "Error: found unsupported effect in group" << currentId<<" : "<<file_name;
                     return;
                 }
             }
             QString type = base.attribute(QStringLiteral("type"), QString());
             if (type == QLatin1String("customAudio")) {
-                result.type = EffectType::CustomAudio;
+                result.type = AssetListType::AssetType::CustomAudio;
             } else {
-                result.type = EffectType::Custom;
+                result.type = AssetListType::AssetType::Custom;
             }
             result.id = base.attribute(QStringLiteral("id"), QString());
             if (result.id.isEmpty()) {
@@ -140,16 +140,16 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
 
         // Parse type information.
         // Video effect by default
-        result.type = EffectType::Video;
+        result.type = AssetListType::AssetType::Video;
         QString type = currentEffect.attribute(QStringLiteral("type"), QString());
         if (type == QLatin1String("audio")) {
-            result.type = EffectType::Audio;
+            result.type = AssetListType::AssetType::Audio;
         } else if (type == QLatin1String("customVideo")) {
-            result.type = EffectType::Custom;
+            result.type = AssetListType::AssetType::Custom;
         } else if (type == QLatin1String("customAudio")) {
-            result.type = EffectType::CustomAudio;
+            result.type = AssetListType::AssetType::CustomAudio;
         } else if (type == QLatin1String("hidden")) {
-            result.type = EffectType::Hidden;
+            result.type = AssetListType::AssetType::Hidden;
         } else if (type == QLatin1String("custom")) {
             // Old type effect, update to customVideo / customAudio
             const QString effectTag = currentEffect.attribute(QStringLiteral("tag"));
@@ -157,10 +157,10 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             if (metadata && metadata->is_valid()) {
                 Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
                 if (QString(tags.get(0)) == QLatin1String("Audio")) {
-                    result.type = EffectType::CustomAudio;
+                    result.type = AssetListType::AssetType::CustomAudio;
                     currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customAudio"));
                 } else {
-                    result.type = EffectType::Custom;
+                    result.type = AssetListType::AssetType::Custom;
                     currentEffect.setAttribute(QStringLiteral("type"), QStringLiteral("customVideo"));
                 }
                 QFile effectFile(file_name);
@@ -187,10 +187,10 @@ QStringList EffectsRepository::assetDirs() const
 
 void EffectsRepository::parseType(QScopedPointer<Mlt::Properties> &metadata, Info &res)
 {
-    res.type = EffectType::Video;
+    res.type = AssetListType::AssetType::Video;
     Mlt::Properties tags((mlt_properties)metadata->get_data("tags"));
     if (QString(tags.get(0)) == QLatin1String("Audio")) {
-        res.type = EffectType::Audio;
+        res.type = AssetListType::AssetType::Audio;
     }
 }
 
@@ -384,4 +384,17 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
         results.first = path;
     }
     return results;
+}
+
+void EffectsRepository::deleteEffect(const QString &id)
+{
+    if (!exists(id)) {
+        return;
+    }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    QFile file(dir.absoluteFilePath(id + QStringLiteral(".xml")));
+    if (file.exists()) {
+        file.remove();
+        m_assets.erase(id);
+    }
 }
