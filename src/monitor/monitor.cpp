@@ -162,28 +162,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
     connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
-    connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
-        m_glMonitor->updateScaling();
-        switch (KdenliveSettings::previewScaling()) {
-            case 2:
-                m_scalingLabel->setText(i18n("720p"));
-                break;
-            case 4:
-                m_scalingLabel->setText(i18n("540p"));
-                break;
-            case 8:
-                m_scalingLabel->setText(i18n("360p"));
-                break;
-            case 16:
-                m_scalingLabel->setText(i18n("270p"));
-                break;
-            default:
-                m_scalingLabel->setText(QString());
-                break;
-        }
-        m_scalingLabel->setFixedWidth(m_scalingLabel->text().isEmpty() ? 0 : QWIDGETSIZE_MAX);
-        refreshMonitorIfActive();
-    });
+
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
     auto *leventEater = new QuickEventEater(this);
@@ -228,6 +207,29 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_toolbar->setIconSize(iconSize);
     m_scalingLabel = new QLabel(this);
     m_scalingLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
+        m_glMonitor->updateScaling();
+        switch (KdenliveSettings::previewScaling()) {
+            case 2:
+                m_scalingLabel->setText(i18n("720p"));
+                break;
+            case 4:
+                m_scalingLabel->setText(i18n("540p"));
+                break;
+            case 8:
+                m_scalingLabel->setText(i18n("360p"));
+                break;
+            case 16:
+                m_scalingLabel->setText(i18n("270p"));
+                break;
+            default:
+                m_scalingLabel->clear();
+                break;
+        }
+        m_scalingLabel->setFixedWidth(m_scalingLabel->text().isEmpty() ? 0 : QWIDGETSIZE_MAX);
+        refreshMonitorIfActive();
+    });
+
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
     QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
@@ -238,9 +240,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_speedLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_speedLabel->sizeHint().height()/4));
     m_toolbar->addWidget(m_speedLabel);
     m_speedLabel->setFixedWidth(0);
-    QWidget *sp1 = new QWidget(this);
-    sp1->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_toolbar->addWidget(sp1);
     if (id == Kdenlive::ClipMonitor) {
         // Add options for recording
         m_recManager = new RecManager(this);
@@ -381,9 +380,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     configButton->setMenu(m_configMenu);
     configButton->setPopupMode(QToolButton::InstantPopup);
     m_toolbar->addWidget(configButton);
-    /*QWidget *spacer = new QWidget(this);
-    spacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
-    m_toolbar->addWidget(spacer);*/
     m_toolbar->addSeparator();
     QMargins mrg = m_toolbar->contentsMargins();
     m_audioMeterWidget = new MonitorAudioLevel(m_toolbar->height() - mrg.top() - mrg.bottom(), this);
