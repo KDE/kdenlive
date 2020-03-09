@@ -380,8 +380,8 @@ Rectangle {
             if (clipBeingDroppedId != -1 && drag.y < drag.x) {
                 // If we exit on top, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
+                clearDropData()
             }
-            clearDropData()
         }
         onDropped: {
             if (clipBeingDroppedId != -1) {
@@ -457,8 +457,10 @@ Rectangle {
             if (clipBeingDroppedId != -1 && drag.y < drag.x) {
                 // If we exit on top, remove clip
                 controller.requestItemDeletion(clipBeingDroppedId, false)
+                clearDropData()
+            } else {
+                // Clip is dropped
             }
-            clearDropData()
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
