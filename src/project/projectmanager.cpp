@@ -666,7 +666,9 @@ QString ProjectManager::projectSceneList(const QString &outputFolder)
     if (hasPreview) {
         pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(false);
     }
+    pCore->mixer()->pauseMonitoring(true);
     QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
+    pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);
     }

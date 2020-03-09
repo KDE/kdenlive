@@ -68,6 +68,8 @@ public:
     void unSolo();
     /** @brief Connect the mixer widgets to the correspondant filters */
     void connectMixer(bool doConnect);
+    /** @brief Disable/enable monitoring by disabling/enabling filter */
+    void pauseMonitoring(bool pause);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

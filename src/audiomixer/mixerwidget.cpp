@@ -179,6 +179,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         const QString filterService = fl->get("mlt_service");
         if (filterService == QLatin1String("audiolevel")) {
             m_monitorFilter = fl;
+            m_monitorFilter->set("disable", 0);
         } else if (filterService == QLatin1String("volume")) {
             m_levelFilter = fl;
             int volume = m_levelFilter->get_int("level");
@@ -488,5 +489,12 @@ void MixerWidget::connectMixer(bool doConnect)
     } else {
         delete m_listener;
         m_listener = nullptr;
+    }
+}
+
+void MixerWidget::pauseMonitoring(bool pause)
+{
+    if (m_monitorFilter) {
+        m_monitorFilter->set("disable", pause ? 1 : 0);
     }
 }

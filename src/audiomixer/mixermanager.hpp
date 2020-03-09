@@ -52,6 +52,8 @@ public:
     /** @brief Connect the mixer widgets to the correspondant filters */
     void connectMixer(bool doConnect);
     void collapseMixers();
+    /** @brief Pause/unpause audio monitoring */
+    void pauseMonitoring(bool pause);
 
 public slots:
     void recordStateChanged(int tid, bool recording);

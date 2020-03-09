@@ -223,3 +223,13 @@ QSize MixerManager::sizeHint() const
 {
     return QSize(m_recommandedWidth, 0);
 }
+
+void MixerManager::pauseMonitoring(bool pause)
+{
+    for (auto item : m_mixers) {
+        item.second->pauseMonitoring(pause);
+    }
+    if (m_masterMixer != nullptr) {
+        m_masterMixer->pauseMonitoring(pause);
+    }
+}
