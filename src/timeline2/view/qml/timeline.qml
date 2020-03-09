@@ -762,9 +762,10 @@ Rectangle {
                 }
                 if (root.activeTool === 0 && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
+                        rubberSelect.clickX = mouse.x + scrollView.contentX
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
-                        rubberSelect.originX = mouse.x
+                        rubberSelect.originX = rubberSelect.clickX
                         rubberSelect.originY = rubberSelect.y
                         rubberSelect.width = 0
                         rubberSelect.height = 0
@@ -837,21 +838,22 @@ Rectangle {
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
-                    var dx = rubberSelect.originX - mouseX
+                    var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
                     var dy = rubberSelect.originY - mouseY
                     if ((Math.abs(dx) + Math.abs(dy)) > Qt.styleHints.startDragDistance) {
                         rubberSelect.visible = true
                     }
                 }
                 if (rubberSelect.visible) {
-                    var newX = mouse.x
+                    var newX = mouse.x + scrollView.contentX
                     var newY = mouse.y
+                    console.log('got rubber: ', newX, ', CURRENT X: ', rubberSelect.clickX)
                     if (newX < rubberSelect.originX) {
-                        rubberSelect.x = newX + tracksArea.x
+                        rubberSelect.clickX = newX
+                        rubberSelect.x = newX - scrollView.contentX + tracksArea.x
                         rubberSelect.width = rubberSelect.originX - newX
                     } else {
-                        rubberSelect.x = rubberSelect.originX + tracksArea.x
-                        rubberSelect.width = newX - rubberSelect.originX
+                        rubberSelect.width = newX - rubberSelect.clickX
                     }
                     if (newY < rubberSelect.originY) {
                         rubberSelect.y = newY
@@ -860,6 +862,7 @@ Rectangle {
                         rubberSelect.y = rubberSelect.originY
                         rubberSelect.height= newY - rubberSelect.originY
                     }
+                    continuousScrolling(newX)
                 } else if ((pressedButtons & Qt.LeftButton) && !shiftPress) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
@@ -1254,8 +1257,12 @@ Rectangle {
 
     Rectangle {
         id: rubberSelect
+        // Used to determine if drag start should trigger an event
         property int originX
+        // Used to determine if drag start should trigger an event
         property int originY
+        // Absolute position of the click event
+        property int clickX
         y: -1
         color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
         border.color: activePalette.highlight
@@ -1385,6 +1392,9 @@ Rectangle {
             scrollView.contentX += delta
             if (scrollView.contentX <= 0 || clipBeingMovedId == -1)
                 stop()
+            if (rubberSelect.visible) {
+                rubberSelect.x -= delta
+            }
         }
     }
 }
