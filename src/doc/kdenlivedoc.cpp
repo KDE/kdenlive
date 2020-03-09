@@ -1376,6 +1376,8 @@ void KdenliveDoc::resetProfile()
 
 void KdenliveDoc::slotSwitchProfile(const QString &profile_path)
 {
+    // Discard all current jobs
+    pCore->jobManager()->slotCancelJobs();
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true);
     emit docModified(true);
@@ -1409,6 +1411,8 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
 
             switch (answer) {
             case KMessageBox::Yes:
+                // Discard all current jobs
+                pCore->jobManager()->slotCancelJobs();
                 KdenliveSettings::setDefault_profile(profile->path());
                 pCore->setCurrentProfile(profile->path());
                 updateProjectProfile(true);
@@ -1475,6 +1479,8 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
                                          .arg(profile->m_height)
                                          .arg(QString::number((double)profile->m_frame_rate_num / profile->m_frame_rate_den, 'f', 2));
             QString profilePath = ProfileRepository::get()->saveProfile(profile.get());
+            // Discard all current jobs
+            pCore->jobManager()->slotCancelJobs();
             pCore->setCurrentProfile(profilePath);
             updateProjectProfile(true);
             emit docModified(true);
