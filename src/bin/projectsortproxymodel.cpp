@@ -58,7 +58,7 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
         if (m_searchRating > 0) {
             // Column 7 contains the rating
             QModelIndex indexTag = sourceModel()->index(sourceRow, 7, sourceParent);
-            if (sourceModel()->data(indexTag).toInt() < m_searchRating) {
+            if (sourceModel()->data(indexTag).toInt() != m_searchRating) {
                 return false;
             }
         }
