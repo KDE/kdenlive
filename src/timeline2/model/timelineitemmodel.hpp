@@ -97,7 +97,7 @@ public:
 
     const QString groupsData();
     bool loadGroups(const QString &groupsData);
-    
+
     /** @brief Rebuild track compositing */
     void buildTrackCompositing(bool rebuild = false) override;
     void _beginRemoveRows(const QModelIndex & /*unused*/, int /*unused*/, int /*unused*/) override;

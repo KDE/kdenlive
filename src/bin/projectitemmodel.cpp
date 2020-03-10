@@ -987,28 +987,33 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
             if (progressDialog) {
                 progressDialog->setMaximum(progressDialog->maximum() + max);
             }
+            QMap <int, std::shared_ptr<Mlt::Producer> > binProducers;
             for (int i = 0; i < max; i++) {
                 if (progressDialog) {
                     progressDialog->setValue(i);
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
-                std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
-                qDebug() << "dealing with bin clip" << i;
-                if (producer->is_blank() || !producer->is_valid()) {
+                if (prod->is_blank() || !prod->is_valid()) {
                     qDebug() << "producer is not valid or blank";
                     continue;
                 }
-                QString id = qstrdup(producer->get("kdenlive:id"));
-                QString parentId = qstrdup(producer->get("kdenlive:folderid"));
+                std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
+                int id = producer->get_int("kdenlive:id");
+                binProducers.insert(id, producer);
+            }
+            // Do the real insertion
+            QMapIterator<int, std::shared_ptr<Mlt::Producer> > i(binProducers);
+            while (i.hasNext()) {
+                i.next();
+                QString newId = QString::number(getFreeClipId());
+                QString parentId = qstrdup(i.value()->get("kdenlive:folderid"));
                 if (parentId.isEmpty()) {
                     parentId = QStringLiteral("-1");
                 }
-                qDebug() << "clip id" << id;
-                QString newId = isIdFree(id) ? id : QString::number(getFreeClipId());
-                producer->set("_kdenlive_processed", 1);
-                requestAddBinClip(newId, producer, parentId, undo, redo);
-                binIdCorresp[id] = newId;
-                qDebug() << "Loaded clip " << id << "under id" << newId;
+                i.value()->set("_kdenlive_processed", 1);
+                requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
+                binIdCorresp[QString::number(i.key())] = newId;
+                qDebug() << "Loaded clip " << i.key() << "under id" << newId;
             }
         }
     }

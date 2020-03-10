@@ -876,12 +876,14 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_sortDescend->setChecked(KdenliveSettings::binSorting() > 99);
     connect(m_sortDescend, &QAction::triggered, [&] () {
         if (m_sortGroup->checkedAction()) {
+            int actionData = m_sortGroup->checkedAction()->data().toInt();
             if ((m_itemView != nullptr) && m_listType == BinTreeView) {
                 auto *view = static_cast<QTreeView *>(m_itemView);
-                view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+                view->header()->setSortIndicator(actionData, m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
             } else {
-                m_proxyModel->sort(m_sortGroup->checkedAction()->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+                m_proxyModel->sort(actionData, m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
             }
+            KdenliveSettings::setBinSorting(actionData + (m_sortDescend->isChecked() ? 100 : 0));
         }
     });
 
@@ -926,12 +928,14 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     sort->addSeparator();
     sort->addAction(m_sortDescend);
     connect(m_sortGroup, &QActionGroup::triggered, [&] (QAction *ac) {
+        int actionData = ac->data().toInt();
         if ((m_itemView != nullptr) && m_listType == BinTreeView) {
             auto *view = static_cast<QTreeView *>(m_itemView);
-            view->header()->setSortIndicator(ac->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+            view->header()->setSortIndicator(actionData, m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
         } else {
-            m_proxyModel->sort(ac->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+            m_proxyModel->sort(actionData, m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
         }
+        KdenliveSettings::setBinSorting(actionData + (m_sortDescend->isChecked() ? 100 : 0));
     });
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
@@ -994,7 +998,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_filterButton->setToolTip(i18n("Filter"));
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
-    
+
     connect(m_filterButton, &QToolButton::toggled, [this] (bool toggle) {
         if (!toggle) {
             m_proxyModel->slotClearSearchFilters();
@@ -1265,12 +1269,6 @@ void Bin::slotSaveHeaders()
         auto *view = static_cast<QTreeView *>(m_itemView);
         m_headerInfo = view->header()->saveState();
         KdenliveSettings::setTreeviewheaders(m_headerInfo.toBase64());
-        int ix = view->header()->sortIndicatorSection();
-        updateSortingAction(ix);
-        m_sortDescend->setChecked(view->header()->sortIndicatorOrder() == Qt::DescendingOrder);
-    }
-    if (m_sortGroup->checkedAction()) {
-        KdenliveSettings::setBinSorting(m_sortGroup->checkedAction()->data().toInt() + (m_sortDescend->isChecked() ? 100 : 0));
     }
 }
 
@@ -1601,7 +1599,7 @@ void Bin::rebuildFilters(QMap <QString, QString> tags)
         rateFilter->setCheckable(true);
         m_filterMenu->addAction(rateFilter);
     }
-    
+
     // Add type filters
     m_filterMenu->addSeparator();
     QMenu *typeMenu = new QMenu(i18n("Filter by type"), m_filterMenu);
@@ -1963,7 +1961,6 @@ void Bin::slotInitView(QAction *action)
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
-            m_sortDescend->setChecked(view->header()->sortIndicatorOrder() == Qt::DescendingOrder);
         } else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
             view->resizeColumnToContents(0);
