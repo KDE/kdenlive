@@ -49,40 +49,42 @@ bool ProjectSortProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 
 bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIndex &sourceParent) const
 {
+    if (m_searchRating > 0) {
+        // Column 7 contains the rating
+        QModelIndex indexTag = sourceModel()->index(sourceRow, 7, sourceParent);
+        if (sourceModel()->data(indexTag).toInt() != m_searchRating) {
+            return false;
+        }
+    }
+    if (m_searchType > 0) {
+        // Column 3 contains the item type (video, image, title, etc)
+        QModelIndex indexTag = sourceModel()->index(sourceRow, 3, sourceParent);
+        if (sourceModel()->data(indexTag).toInt() != m_searchType) {
+            return false;
+        }
+    }
+    if (!m_searchTag.isEmpty()) {
+        // Column 4 contains the item tag data
+        QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
+        auto tagData = sourceModel()->data(indexTag);
+        for (const QString &tag : m_searchTag) {
+            if (!tagData.toString().contains(tag, Qt::CaseInsensitive)) {
+                return false;
+            }
+        }
+    }
+    
     for (int i = 0; i < 3; i++) {
         QModelIndex index0 = sourceModel()->index(sourceRow, i, sourceParent);
         if (!index0.isValid()) {
             return false;
         }
         auto data = sourceModel()->data(index0);
-        if (m_searchRating > 0) {
-            // Column 7 contains the rating
-            QModelIndex indexTag = sourceModel()->index(sourceRow, 7, sourceParent);
-            if (sourceModel()->data(indexTag).toInt() != m_searchRating) {
-                return false;
-            }
-        }
-        if (m_searchType > 0) {
-            // Column 3 contains the item type (video, image, title, etc)
-            QModelIndex indexTag = sourceModel()->index(sourceRow, 3, sourceParent);
-            if (sourceModel()->data(indexTag).toInt() != m_searchType) {
-                return false;
-            }
-        }
-        if (!m_searchTag.isEmpty()) {
-            // Column 4 contains the item tag data
-            QModelIndex indexTag = sourceModel()->index(sourceRow, 4, sourceParent);
-            auto tagData = sourceModel()->data(indexTag);
-            for (const QString &tag : m_searchTag) {
-                if (!tagData.toString().contains(tag, Qt::CaseInsensitive)) {
-                    return false;
-                }
-            }
-        }
         if (data.toString().contains(m_searchString, Qt::CaseInsensitive)) {
             return true;
         }
     }
+    
     return false;
 }
 
