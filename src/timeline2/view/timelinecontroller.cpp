@@ -1704,14 +1704,16 @@ void TimelineController::switchCompositing(int mode)
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition)service->get_service());
+            service.reset(service->producer());
             QString serviceName = t.get("mlt_service");
             if (t.get_int("internal_added") == 237 && serviceName != QLatin1String("mix")) {
                 // remove all compositing transitions
                 field->disconnect_service(t);
                 t.disconnect_all_producers();
             }
+        } else {
+            service.reset(service->producer());
         }
-        service.reset(service->producer());
     }
     if (mode > 0) {
         const QString compositeGeometry =

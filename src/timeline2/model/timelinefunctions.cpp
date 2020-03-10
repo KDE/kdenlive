@@ -1073,6 +1073,7 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
             }
             t.set("always_active", 1);
             t.set("internal_added", 237);
+            t.set_tracks(isAudio ? lowerAudioTrack : lowerVideoTrack, ix);
             field->plant_transition(t, isAudio ? lowerAudioTrack : lowerVideoTrack, ix);
         }
         ix++;
