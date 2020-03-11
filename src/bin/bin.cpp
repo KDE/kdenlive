@@ -1705,6 +1705,8 @@ void Bin::slotAddFolder()
     // Edit folder name
     auto folder = m_itemModel->getFolderByBinId(newId);
     auto ix = m_itemModel->getIndexFromItem(folder);
+    // Scroll to ensure folder is visible
+    m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
     qDebug() << "selecting" << ix;
     if (ix.isValid()) {
         qDebug() << "ix valid";
@@ -2414,6 +2416,12 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
     const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
     if (id.isValid() && id2.isValid()) {
         m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)), QItemSelectionModel::SelectCurrent);
+    }
+    // Ensure parent folder is expanded
+    if (m_listType == BinTreeView) {
+        // Make sure parent folder is expanded
+        auto *view = static_cast<QTreeView *>(m_itemView);
+        view->expand(m_proxyModel->mapFromSource(ix.parent()));
     }
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
 }
