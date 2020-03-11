@@ -799,7 +799,7 @@ void TimelineController::setOutPoint()
             if (start + m_model->getItemPlaytime(id) == cursorPos) {
                 continue;
             }
-            int size = cursorPos - start;
+            int size = cursorPos - start + 1;
             m_model->requestItemResize(id, size, true, true, 0, false);
             selectionFound = true;
         }
@@ -815,7 +815,7 @@ void TimelineController::setOutPoint()
             if (cid >= 0) {
                 int start = m_model->getItemPosition(cid);
                 if (start + m_model->getItemPlaytime(cid) != cursorPos) {
-                    int size = cursorPos - start;
+                    int size = cursorPos - start + 1;
                     m_model->requestItemResize(cid, size, true, true, 0, false);
                 }
             }
