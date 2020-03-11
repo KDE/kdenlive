@@ -82,6 +82,7 @@ signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame);
+    void processDragEnd();
 private:
     QPoint m_startPos;
     PlaylistState::ClipState m_dragType;
@@ -115,6 +116,7 @@ signals:
     void focusView();
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame);
+    void processDragEnd();
 };
 
 class SmallJobLabel : public QPushButton
@@ -496,6 +498,8 @@ signals:
     void refreshPanel(const QString &id);
     /** @brief Upon selection, activate timeline target tracks. */
     void setupTargets(bool hasVideo, QList <int> audioStreams);
+    /** @brief A drag event ended, inform timeline. */
+    void processDragEnd();
 };
 
 #endif

@@ -629,6 +629,7 @@ bool MyTreeView::performDrag()
         drag->setPixmap(QPixmap::fromImage(image));
     }
     drag->exec();
+    emit processDragEnd();
     return true;
 }
 
@@ -1958,6 +1959,7 @@ void Bin::slotInitView(QAction *action)
         view->setSortingEnabled(true);
         view->setWordWrap(true);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
+        connect(view, &MyTreeView::processDragEnd, this, &Bin::processDragEnd);
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
@@ -1994,6 +1996,7 @@ void Bin::slotInitView(QAction *action)
         view->setGridSize(QSize(zoom.width() * 1.2, zoom.width()));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
+        connect(view, &MyListView::processDragEnd, this, &Bin::processDragEnd);
     }
     m_itemView->setEditTriggers(QAbstractItemView::NoEditTriggers); // DoubleClicked);
     m_itemView->setSelectionMode(QAbstractItemView::ExtendedSelection);

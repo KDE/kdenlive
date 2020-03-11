@@ -369,3 +369,9 @@ void TimelineWidget::focusTimeline()
     }
 }
 
+void TimelineWidget::endDrag()
+{
+    if (rootObject()) {
+        QMetaObject::invokeMethod(rootObject(), "endBinDrag");
+    }
+}

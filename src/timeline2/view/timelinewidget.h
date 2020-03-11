@@ -67,6 +67,8 @@ public slots:
     void updateEffectFavorites();
     /* @brief Favorite transitions have changed, reload model for context menu */
     void updateTransitionFavorites();
+    /* @brief Bin clip drag ended, make sure we correctly processed the drop */
+    void endDrag();
 
 private slots:
     void slotUngrabHack();

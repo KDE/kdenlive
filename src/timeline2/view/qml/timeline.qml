@@ -33,6 +33,10 @@ Rectangle {
         processingDrag(!root.dragInProgress)
     }
 
+    function endBinDrag() {
+        clipDropArea.processDrop()
+    }
+
     function fitZoom() {
         return scrollView.width / (timeline.duration * 1.1)
     }
@@ -377,8 +381,8 @@ Rectangle {
             }
         }
         onExited:{
-            if (clipBeingDroppedId != -1 && drag.y < drag.x) {
-                // If we exit on top, remove clip
+            if (clipBeingDroppedId != -1) {
+                // If we exit, remove composition
                 controller.requestItemDeletion(clipBeingDroppedId, false)
                 clearDropData()
             }
@@ -394,7 +398,9 @@ Rectangle {
             clearDropData()
         }
     }
-    DropArea { //Drop area for bin/clips
+    DropArea {
+        //Drop area for bin/clips
+        id: clipDropArea
         /** @brief local helper function to handle the insertion of multiple dragged items */
         function insertAndMaybeGroup(track, frame, droppedData) {
             var binIds = droppedData.split(";")
@@ -424,6 +430,42 @@ Rectangle {
         y: ruler.height
         x: headerWidth
         keys: 'kdenlive/producerslist'
+        function processDrop()
+        {
+            // Process the drop event, useful if drop event happens outside of drop area
+            if (clipBeingDroppedId != -1) {
+                var frame = controller.getClipPosition(clipBeingDroppedId)
+                var track = controller.getClipTrackId(clipBeingDroppedId)
+                if (!controller.normalEdit()) {
+                    frame = fakeFrame
+                    track = fakeTrack
+                }
+                /* We simulate insertion at the final position so that stored undo has correct value
+                 * NOTE: even if dropping multiple clips, requesting the deletion of the first one is
+                 * enough as internally it will request the group deletion
+                 */
+                controller.requestItemDeletion(clipBeingDroppedId, false)
+
+                var binIds = clipBeingDroppedData.split(";")
+                if (binIds.length == 1) {
+                    if (controller.normalEdit()) {
+                        timeline.insertClip(track, frame, clipBeingDroppedData, true, true, false)
+                    } else {
+                        timeline.insertClipZone(clipBeingDroppedData, track, frame)
+                    }
+                } else {
+                    if (controller.normalEdit()) {
+                        timeline.insertClips(track, frame, binIds, true, true)
+                    } else {
+                        // TODO
+                        console.log('multiple clips insert/overwrite not supported yet')
+                    }
+                }
+                fakeTrack = -1
+                fakeFrame = -1
+            }
+            clearDropData()
+        }
         onEntered: {
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
@@ -489,38 +531,7 @@ Rectangle {
             }
         }
         onDropped: {
-            if (clipBeingDroppedId != -1) {
-                var frame = controller.getClipPosition(clipBeingDroppedId)
-                var track = controller.getClipTrackId(clipBeingDroppedId)
-                if (!controller.normalEdit()) {
-                    frame = fakeFrame
-                    track = fakeTrack
-                }
-                /* We simulate insertion at the final position so that stored undo has correct value
-                 * NOTE: even if dropping multiple clips, requesting the deletion of the first one is
-                 * enough as internally it will request the group deletion
-                 */
-                controller.requestItemDeletion(clipBeingDroppedId, false)
-
-                var binIds = clipBeingDroppedData.split(";")
-                if (binIds.length == 1) {
-                    if (controller.normalEdit()) {
-                        timeline.insertClip(track, frame, clipBeingDroppedData, true, true, false)
-                    } else {
-                        timeline.insertClipZone(clipBeingDroppedData, track, frame)
-                    }
-                } else {
-                    if (controller.normalEdit()) {
-                        timeline.insertClips(track, frame, binIds, true, true)
-                    } else {
-                        // TODO
-                        console.log('multiple clips insert/overwrite not supported yet')
-                    }
-                }
-                fakeTrack = -1
-                fakeFrame = -1
-            }
-            clearDropData()
+            processDrop()
         }
     }
     DropArea { //Drop area for urls (direct drop from file manager)
