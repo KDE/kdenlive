@@ -297,6 +297,7 @@
       <caption xml:lang="sv">Kdenlive tidslinje</caption>
       <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Timelinexx</caption>
+      <caption xml:lang="zh-CN">Kdenlive 时间线</caption>
       <caption xml:lang="zh-TW">Kdenlive 時間軸</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
     </screenshot>
@@ -321,6 +322,7 @@
       <caption xml:lang="sv">Kdenlive ljudjusteringar</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
+      <caption xml:lang="zh-CN">Kdenlive 音频调整</caption>
       <caption xml:lang="zh-TW">Kdenlive 音訊調整</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
     </screenshot>
@@ -347,6 +349,7 @@
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
+      <caption xml:lang="zh-CN">Kdenlive 特效</caption>
       <caption xml:lang="zh-TW">Kdenlive 特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
     </screenshot>
