@@ -201,6 +201,7 @@ void ProjectClip::updateAudioThumbnail(const QVector<uint8_t> audioLevels)
 {
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
+    updateTimelineClips({TimelineModel::ReloadThumbRole});
 }
 
 bool ProjectClip::audioThumbCreated() const

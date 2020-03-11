@@ -136,7 +136,7 @@ Rectangle {
         width = clipDuration * timeScale;
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
-            thumbsLoader.item.reload()
+            thumbsLoader.item.reload(1)
         }
     }
 
@@ -163,7 +163,7 @@ Rectangle {
     onForceReloadThumbChanged: {
         // TODO: find a way to force reload of clip thumbs
         if (thumbsLoader.item) {
-            thumbsLoader.item.reload()
+            thumbsLoader.item.reload(0)
         }
     }
 

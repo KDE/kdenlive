@@ -16,7 +16,10 @@ Row {
         onTriggered: processReload()
     }
 
-    function reload() {
+    function reload(reset) {
+        if (reset == 0) {
+            waveformRepeater.model = 0
+        }
         waveTimer.start()
     }
     onMaxWidthChanged: {

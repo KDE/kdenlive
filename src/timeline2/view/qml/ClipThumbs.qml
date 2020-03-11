@@ -13,8 +13,8 @@ Row {
     property int thumbWidth: container.height * root.dar
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
 
-    function reload() {
-        console.log('+++++\n\ntriggered ML thumb reload\n\n++++++++++++++')
+    function reload(reset) {
+        //console.log('+++++\n\ntriggered ML thumb reload\n\n++++++++++++++')
         clipRoot.baseThumbPath = clipRoot.variableThumbs ? '' : 'image://thumbnail/' + clipRoot.binId + '/' + Math.random() + '/#'
     }
 
