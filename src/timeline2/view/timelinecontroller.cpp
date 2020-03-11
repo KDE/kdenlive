@@ -610,6 +610,29 @@ void TimelineController::deleteTrack(int tid)
     }
 }
 
+
+void TimelineController::switchTrackRecord(int tid)
+{
+    if (tid == -1) {
+        tid = m_activeTrack;
+    }
+    if (!m_model->getTrackById_const(tid)->isAudioTrack()) {
+        pCore->displayMessage(i18n("Select an audio track to display record controls"), InformationMessage, 500);
+    }
+    int recDisplayed = m_model->getTrackProperty(tid, QStringLiteral("kdenlive:audio_rec")).toInt();
+    if (recDisplayed == 1) {
+        // Disable rec controls
+        m_model->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), QStringLiteral("0"));
+    } else {
+        // Enable rec controls
+        m_model->setTrackProperty(tid, QStringLiteral("kdenlive:audio_rec"), QStringLiteral("1"));
+    }
+    QModelIndex ix = m_model->makeTrackIndexFromID(tid);
+    if (ix.isValid()) {
+        m_model->dataChanged(ix, ix, {TimelineModel::AudioRecordRole});
+    }
+}
+
 void TimelineController::checkTrackDeletion(int selectedTrackIx)
 {
     if (m_activeTrack == selectedTrackIx) {
@@ -2918,13 +2941,21 @@ void TimelineController::setActiveTrackProperty(const QString &name, const QStri
     }
 }
 
-const QVariant TimelineController::getActiveTrackProperty(const QString &name)
+bool TimelineController::isActiveTrackAudio() const
 {
     if (m_activeTrack > -1) {
         if (m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
-            return QVariant(-1);
+            return true;
         }
+    }
+    return false;
+}
+
+const QVariant TimelineController::getActiveTrackProperty(const QString &name) const
+{
+    if (m_activeTrack > -1) {
         return m_model->getTrackProperty(m_activeTrack, name);
     }
     return QVariant();
 }
+

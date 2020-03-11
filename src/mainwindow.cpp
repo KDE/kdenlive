@@ -560,6 +560,7 @@ void MainWindow::init()
     QMenu *timelineHeadersMenu = new QMenu(this);
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
+    timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
     QActionGroup *thumbGroup = new QActionGroup(this);
     QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
@@ -1601,6 +1602,12 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
     deleteTrack->setData("delete_track");
 
+    QAction *showAudio = new QAction(QIcon(), i18n("Show Record Controls"), this);
+    connect(showAudio, &QAction::triggered, this, &MainWindow::slotShowTrackRec);
+    timelineActions->addAction(QStringLiteral("show_track_record"), showAudio);
+    showAudio->setCheckable(true);
+    showAudio->setData("show_track_record");
+
     QAction *selectTrack = new QAction(QIcon(), i18n("Select All in Current Track"), this);
     connect(selectTrack, &QAction::triggered, this, &MainWindow::slotSelectTrack);
     timelineActions->addAction(QStringLiteral("select_track"), selectTrack);
@@ -2560,6 +2567,11 @@ void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     getCurrentTimeline()->controller()->deleteTrack(-1);
+}
+
+void MainWindow::slotShowTrackRec()
+{
+    getCurrentTimeline()->controller()->switchTrackRecord();
 }
 
 void MainWindow::slotSelectTrack()

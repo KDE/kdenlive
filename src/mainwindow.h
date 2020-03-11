@@ -382,6 +382,7 @@ private slots:
     void configureNotifications();
     void slotInsertTrack();
     void slotDeleteTrack();
+    void slotShowTrackRec();
     /** @brief Select all clips in active track. */
     void slotSelectTrack();
     /** @brief Select all clips in timeline. */

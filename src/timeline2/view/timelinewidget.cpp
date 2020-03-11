@@ -205,8 +205,18 @@ void TimelineWidget::showCompositionMenu()
 
 void TimelineWidget::showHeaderMenu()
 {
-    int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
-    if (currentThumbs >= 0) {
+    bool isAudio = m_proxy->isActiveTrackAudio();
+    QList <QAction *> menuActions = m_headerMenu->actions();
+    QAction *showRec = nullptr;
+    for (QAction *ac : menuActions) {
+        if (ac->data().toString() == QLatin1String("show_track_record")) {
+            showRec = ac;
+            break;
+        }
+    }
+    if (!isAudio) {
+        // Video track
+        int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
         QList <QAction *> actions = m_thumbsMenu->actions();
         for (QAction *ac : actions) {
             if (ac->data().toInt() == currentThumbs) {
@@ -215,8 +225,16 @@ void TimelineWidget::showHeaderMenu()
             }
         }
         m_thumbsMenu->menuAction()->setVisible(true);
+        if (showRec) {
+            showRec->setVisible(false);
+        }
     } else {
+        // Audio track
         m_thumbsMenu->menuAction()->setVisible(false);
+        if (showRec) {
+            showRec->setVisible(true);
+            showRec->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
+        }
     }
     m_headerMenu->popup(m_clickPos);
 }

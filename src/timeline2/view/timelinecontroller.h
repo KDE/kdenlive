@@ -250,6 +250,9 @@ public:
     /* @brief Remove a timeline track
      */
     Q_INVOKABLE void deleteTrack(int tid);
+    /* @brief Show / hide audio rec controls in active track
+     */
+    void switchTrackRecord(int tid = -1);
     /* @brief Group selected items in timeline
      */
     Q_INVOKABLE void groupSelection();
@@ -411,7 +414,12 @@ public:
     /* @brief Set a property on the active track
      */
     void setActiveTrackProperty(const QString &name, const QString &value);
-    const QVariant getActiveTrackProperty(const QString &name);
+    /* @brief Get a property on the active track
+     */
+    const QVariant getActiveTrackProperty(const QString &name) const;
+    /* @brief Is the active track audio
+     */
+    bool isActiveTrackAudio() const;
 
     /* @brief Returns a list of all luma files used in the project
      */

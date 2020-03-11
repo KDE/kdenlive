@@ -30,7 +30,7 @@ Rectangle {
     property bool isLocked: false
     property bool isActive: false
     property bool isAudio
-    property bool showAudioRecord
+    property bool showAudioRecord: false
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
@@ -309,6 +309,7 @@ Rectangle {
             width: childrenRect.width
             x: Math.max(2 * trackHeadRoot.buttonSize + 2, parent.width - width - 4)
             spacing: 0
+            id: buttonsRow
             ToolButton {
                 id: effectButton
                 icon.name: 'tools-wizard'
@@ -393,6 +394,22 @@ Rectangle {
             }
         }
         Item {
+            id: recLayout
+            y: trackHeadRoot.buttonSize + 4
+            //width: trackHeadRoot.width
+            anchors.left: trackHeadColumn.left
+            anchors.right: trackHeadColumn.right
+            anchors.margins: 2
+            height: showAudioRecord ? trackHeadRoot.buttonSize : 0
+            Loader {
+                id: audioVuMeter
+                anchors.fill: parent
+                visible: showAudioRecord && (trackHeadRoot.height >= 2 * muteButton.height + resizer.height)
+                source: isAudio && showAudioRecord ? "AudioLevels.qml" : ""
+                onLoaded: item.trackId = trackId
+            }
+        }
+        Item {
             anchors.bottom: trackHeadColumn.bottom
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
@@ -404,7 +421,7 @@ Rectangle {
                 radius: 2
                 anchors.fill: parent
                 border.color: trackNameMouseArea.containsMouse ? activePalette.highlight : 'transparent'
-                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height)
+                visible: (trackHeadRoot.height >= trackLabel.height + muteButton.height + resizer.height + recLayout.height)
                 MouseArea {
                     id: trackNameMouseArea
                     anchors.fill: parent
