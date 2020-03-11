@@ -2057,6 +2057,10 @@ void Monitor::displayAudioMonitor(bool isActive)
         disconnect(m_monitorManager, &MonitorManager::frameDisplayed, m_audioMeterWidget, &ScopeWidget::onNewFrame);
     }
     m_audioMeterWidget->setVisibility((KdenliveSettings::monitoraudio() & m_id) != 0);
+    if (isActive && m_glWidget->isFullScreen()) {
+        // If both monitors are fullscreen, this is necessary to do the switch
+        m_glWidget->showFullScreen();
+    }
 }
 
 void Monitor::updateQmlDisplay(int currentOverlay)
