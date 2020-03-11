@@ -1687,12 +1687,20 @@ void Bin::createClip(const QDomElement &xml)
 void Bin::slotAddFolder()
 {
     auto parentFolder = m_itemModel->getFolderByBinId(getCurrentFolder());
-    qDebug() << "pranteforder id" << parentFolder->clipId();
+    qDebug() << "parent folder id" << parentFolder->clipId();
     QString newId;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     m_itemModel->requestAddFolder(newId, i18n("Folder"), parentFolder->clipId(), undo, redo);
     pCore->pushUndo(undo, redo, i18n("Create bin folder"));
+    if (m_listType == BinTreeView) {
+        // Make sure parent folder is expanded
+        if (parentFolder->clipId().toInt() > -1) {
+            auto ix = m_itemModel->getIndexFromItem(parentFolder);
+            auto *view = static_cast<QTreeView *>(m_itemView);
+            view->expand(m_proxyModel->mapFromSource(ix));
+        }
+    }
 
     // Edit folder name
     auto folder = m_itemModel->getFolderByBinId(newId);
