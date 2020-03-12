@@ -50,9 +50,15 @@ public:
     const QString trackName() const;
 
 private:
-    int m_audioCount;
-    int m_videoCount;
+    int m_trackIndex;
+    std::shared_ptr<TimelineItemModel> m_model;
+    bool m_deleteMode;
     QMap<int, int> m_positionByIndex;
+
+private slots:
+    /** @brief: Fill track list combo
+     */
+    void buildCombo();
 };
 
 #endif

@@ -25,53 +25,55 @@
 
 TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex, QWidget *parent, bool deleteMode)
     : QDialog(parent)
-    , m_audioCount(1)
-    , m_videoCount(1)
+    , m_trackIndex(trackIndex)
+    , m_model(model)
+    , m_deleteMode(deleteMode)
 {
     setWindowTitle(deleteMode ? i18n("Delete Track") : i18n("Add Track"));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
-    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     setupUi(this);
-    QStringList existingTrackNames;
-    for (int i = model->getTracksCount() - 1; i >= 0; i--) {
-        int tid = model->getTrackIndexFromPosition(i);
-        bool audioTrack = model->isAudioTrack(tid);
-        if (audioTrack) {
-            m_audioCount++;
-        } else {
-            m_videoCount++;
-        }
-        const QString trackName = model->getTrackFullName(tid);
-        existingTrackNames << trackName;
-        comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
-        // Track index in in MLT, so add + 1 to compensate black track
-        m_positionByIndex.insert(tid, i + 1);
+    if (m_model->isAudioTrack(m_trackIndex)) {
+        audio_track->setChecked(true);
+        before_select->setCurrentIndex(1);
     }
-    if (trackIndex > -1) {
-        int ix = comboTracks->findData(trackIndex);
-        comboTracks->setCurrentIndex(ix);
-        if (model->isAudioTrack(trackIndex)) {
-            audio_track->setChecked(true);
-            before_select->setCurrentIndex(1);
-        }
-    }
-    trackIndex--;
+    buildCombo();
+    connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
+    connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     if (deleteMode) {
         track_name->setVisible(false);
         video_track->setVisible(false);
         audio_track->setVisible(false);
+        av_track->setVisible(false);
+        arec_track->setVisible(false);
         name_label->setVisible(false);
         before_select->setVisible(false);
         label->setText(i18n("Delete Track"));
-    } else {
-        // No default name since we now use tags
-        /*QString proposedName = i18n("Video %1", trackIndex);
-        while (existingTrackNames.contains(proposedName)) {
-            proposedName = i18n("Video %1", ++trackIndex);
-        }
-        track_name->setText(proposedName);*/
     }
+}
+
+void TrackDialog::buildCombo()
+{
+    QIcon videoIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-video"));
+    QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
+    m_positionByIndex.clear();
+    comboTracks->clear();
+    bool audioMode = audio_track->isChecked() || arec_track->isChecked();
+    for (int i = m_model->getTracksCount() - 1; i >= 0; i--) {
+        int tid = m_model->getTrackIndexFromPosition(i);
+        bool audioTrack = m_model->isAudioTrack(tid);
+        if (!m_deleteMode && audioMode != audioTrack) {
+            continue;
+        }
+        const QString trackName = m_model->getTrackFullName(tid);
+        comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
+        // Track index in in MLT, so add + 1 to compensate black track
+        m_positionByIndex.insert(tid, i + 1);
+    }
+    if (m_trackIndex > -1) {
+        int ix = qMax(0, comboTracks->findData(m_trackIndex));
+        comboTracks->setCurrentIndex(ix);
+    }
+
 }
 
 int TrackDialog::selectedTrackPosition() const
