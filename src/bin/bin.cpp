@@ -2070,6 +2070,8 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
                     } else if (itemType == AbstractProjectItem::SubClipItem) {
                         auto subClip = std::static_pointer_cast<ProjectSubClip>(currentItem);
                         clip = subClip->getMasterClip();
+                    } else if (itemType == AbstractProjectItem::FolderItem) {
+                        isFolder = true;
                     }
                     if (clip) {
                         m_proxyAction->blockSignals(true);
