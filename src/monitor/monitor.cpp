@@ -686,7 +686,7 @@ void Monitor::slotSetZoneEnd(bool discardLastFrame)
 {
     Q_UNUSED(discardLastFrame);
     int pos = m_glMonitor->getCurrentPos();
-    if (m_controller == nullptr) {
+    if (m_controller) {
         pos++;
     }
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
