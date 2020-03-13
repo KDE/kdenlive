@@ -269,7 +269,7 @@ Item {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
                 }
-                visible: root.showMarkers && controller.position == controller.zoneOut
+                visible: root.showMarkers && controller.position + 1 == controller.zoneOut
                 text: i18n("Out Point")
                 color: "white"
                 background: Rectangle {
