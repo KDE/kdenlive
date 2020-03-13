@@ -2060,6 +2060,7 @@ void Monitor::displayAudioMonitor(bool isActive)
     if (isActive && m_glWidget->isFullScreen()) {
         // If both monitors are fullscreen, this is necessary to do the switch
         m_glWidget->showFullScreen();
+        m_videoWidget->setFocus();
     }
 }
 
