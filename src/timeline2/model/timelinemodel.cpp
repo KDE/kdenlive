@@ -2713,14 +2713,72 @@ int TimelineModel::getBestSnapPos(int pos, int length, const std::vector<int> &p
     return -1;
 }
 
-int TimelineModel::getNextSnapPos(int pos)
+int TimelineModel::getNextSnapPos(int pos, std::vector<size_t> &snaps)
 {
-    return m_snaps->getNextPoint(pos);
+    QVector<int>tracks;
+    // Get active tracks
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->shouldReceiveTimelineOp()) {
+            tracks << (*it)->getId();
+        }
+        ++it;
+    }
+    if (tracks.isEmpty()) {
+        // No active track, use all possible snap points
+        return m_snaps->getNextPoint((int)pos);
+    }
+    // Build snap points for selected tracks
+    for (const auto &cp : m_allClips) {
+        // Check if clip is on a target track
+        if (tracks.contains(cp.second->getCurrentTrackId())) {
+            auto clip = (cp.second);
+            clip->allSnaps(snaps);
+        }
+    }
+    // sort snaps
+    std::sort(snaps.begin(), snaps.end());
+    for (auto i : snaps) {
+        if (i > pos) {
+            return i;
+        }
+    }
+    return pos;
 }
 
-int TimelineModel::getPreviousSnapPos(int pos)
+int TimelineModel::getPreviousSnapPos(int pos, std::vector<size_t> &snaps)
 {
-    return m_snaps->getPreviousPoint(pos);
+    QVector<int>tracks;
+    // Get active tracks
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->shouldReceiveTimelineOp()) {
+            tracks << (*it)->getId();
+        }
+        ++it;
+    }
+    if (tracks.isEmpty()) {
+        // No active track, use all possible snap points
+        return m_snaps->getPreviousPoint((int)pos);
+    }
+    // Build snap points for selected tracks
+    for (const auto &cp : m_allClips) {
+        // Check if clip is on a target track
+        if (tracks.contains(cp.second->getCurrentTrackId())) {
+            auto clip = (cp.second);
+            clip->allSnaps(snaps);
+        }
+    }
+    // sort snaps
+    std::sort(snaps.begin(), snaps.end());
+    // sort descending
+    std::reverse(snaps.begin(),snaps.end());
+    for (auto i : snaps) {
+        if (i < pos) {
+            return i;
+        }
+    }
+    return 0;
 }
 
 void TimelineModel::addSnap(int pos)

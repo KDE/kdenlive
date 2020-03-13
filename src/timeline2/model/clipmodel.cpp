@@ -91,6 +91,11 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
+void ClipModel::allSnaps(std::vector<size_t> &snaps)
+{
+    m_clipMarkerModel->allSnaps(snaps);
+}
+
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
                          PlaylistState::ClipState state)
 {

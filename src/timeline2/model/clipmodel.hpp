@@ -107,6 +107,9 @@ public:
     /* @brief Returns an XML representation of the clip with its effects */
     QDomElement toXml(QDomDocument &document);
 
+    /* @brief Retrieve a list of all snaps for this clip */
+    void allSnaps(std::vector<size_t> &snaps);
+
 protected:
     // helper functions that creates the lambda
     Fun setClipState_lambda(PlaylistState::ClipState state);

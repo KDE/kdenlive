@@ -266,7 +266,7 @@ protected:
     bool importEffects(std::weak_ptr<Mlt::Service> service);
     /* @brief Copy effects from anoter effect stack */
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
-    
+    /* @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration);
 
 public slots:

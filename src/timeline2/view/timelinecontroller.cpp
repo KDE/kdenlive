@@ -663,7 +663,10 @@ void TimelineController::showConfig(int page, int tab)
 
 void TimelineController::gotoNextSnap()
 {
-    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition());
+    std::vector<size_t> snaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+    snaps.push_back(m_zone.x());
+    snaps.push_back(m_zone.y());
+    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), snaps);
     if (nextSnap > pCore->getTimelinePosition()) {
         setPosition(nextSnap);
     }
@@ -672,7 +675,10 @@ void TimelineController::gotoNextSnap()
 void TimelineController::gotoPreviousSnap()
 {
     if (pCore->getTimelinePosition() > 0) {
-        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition()));
+        std::vector<size_t> snaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+        snaps.push_back(m_zone.x());
+        snaps.push_back(m_zone.y());
+        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), snaps));
     }
 }
 
@@ -2958,4 +2964,3 @@ const QVariant TimelineController::getActiveTrackProperty(const QString &name) c
     }
     return QVariant();
 }
-
