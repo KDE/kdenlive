@@ -682,13 +682,9 @@ void Monitor::slotSetZoneStart()
     checkOverlay();
 }
 
-void Monitor::slotSetZoneEnd(bool discardLastFrame)
+void Monitor::slotSetZoneEnd()
 {
-    Q_UNUSED(discardLastFrame);
-    int pos = m_glMonitor->getCurrentPos();
-    if (m_controller) {
-        pos++;
-    }
+    int pos = m_glMonitor->getCurrentPos() + 1;
     m_glMonitor->getControllerProxy()->setZoneOut(pos);
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());

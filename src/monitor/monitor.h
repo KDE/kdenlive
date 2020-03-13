@@ -297,7 +297,7 @@ public slots:
     void slotStart();
     void slotEnd();
     void slotSetZoneStart();
-    void slotSetZoneEnd(bool discardLastFrame = false);
+    void slotSetZoneEnd();
     void slotZoneStart();
     void slotZoneEnd();
     void slotLoadClipZone(const QPoint &zone);
