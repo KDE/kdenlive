@@ -39,7 +39,7 @@ Item {
         height: parent.height
         width: liftgammagain.width / 3
             Label {
-                text: 'Lift'
+                text: i18n("Lift")
             }
             ColorWheelItem {
                 id: liftwheel
@@ -56,7 +56,7 @@ Item {
         height: parent.height
         width: liftgammagain.width / 3
             Label {
-                text: 'Gamma'
+                text: i18n("Gamma")
             }
             ColorWheelItem {
                 id: gammawheel
@@ -73,7 +73,7 @@ Item {
             height: parent.height
             width: liftgammagain.width / 3
             Label {
-                text: 'Gain'
+                text: i18n("Gain")
             }
             ColorWheelItem {
                 id: gainwheel
