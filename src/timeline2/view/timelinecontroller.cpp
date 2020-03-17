@@ -2989,22 +2989,24 @@ void TimelineController::expandActiveClip()
         if (m_model->isGroup(i)) {
             std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
             items_list.insert(children.begin(), children.end());
-            m_model->requestClipUngroup(i, undo, redo);
         } else {
             items_list.insert(i);
         }
     }
+    m_model->requestClearSelection();
     bool result = true;
     int processed = 0;
     for (int id : items_list) {
-        /*if (mainId == -1 && m_model->getItemTrackId(id) == m_activeTrack) {
-            mainId = id;
-            continue;
-        }*/
         if (result && m_model->isClip(id)) {
             std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
             if (clip->clipType() == ClipType::Playlist) {
                 int pos = clip->getPosition();
+                if (m_model->m_groups->isInGroup(id)) {
+                    int targetRoot = m_model->m_groups->getRootId(id);
+                    if (m_model->isGroup(targetRoot)) {
+                        m_model->requestClipUngroup(targetRoot, undo, redo);
+                    }
+                }
                 QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
                 m_model->requestClipDeletion(id, undo, redo);
                 result = TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo);
