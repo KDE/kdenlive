@@ -149,7 +149,6 @@ public:
        @param undo,redo: lambdas that are updated to accumulate operation.
     */
     bool requestAddFolder(QString &id, const QString &name, const QString &parentId, Fun &undo, Fun &redo);
-
     /* @brief Request creation of a bin clip
        @param id Id of the requested bin. If this is empty, it will be used as a return parameter to give the automatic bin id used.
        @param description Xml description of the clip
@@ -203,6 +202,8 @@ public:
 
     /** @brief Returns true if current project has a clip with id @clipId and a hash of @clipHash */
     bool validateClip(const QString &binId, const QString &clipHash);
+    /** @brief Returns clip id if folder @folderId has a clip with hash of @clipHash or empty if not found */
+    QString validateClipInFolder(const QString &folderId, const QString &clipHash);
 
     /** @brief Number of clips in the bin playlist */
     int clipsCount() const;

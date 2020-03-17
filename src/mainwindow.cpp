@@ -1310,7 +1310,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("archive_project"), i18n("Archive Project"), this, SLOT(slotArchiveProject()),
               QIcon::fromTheme(QStringLiteral("document-save-all")));
     addAction(QStringLiteral("switch_monitor"), i18n("Switch monitor"), this, SLOT(slotSwitchMonitors()), QIcon(), Qt::Key_T);
-    addAction(QStringLiteral("expand_timeline_clip"), i18n("Expand Clip"), pCore->projectManager(), SLOT(slotExpandClip()),
+    addAction(QStringLiteral("expand_timeline_clip"), i18n("Expand Clip"), this, SLOT(slotExpandClip()),
               QIcon::fromTheme(QStringLiteral("document-open")));
 
     QAction *overlayInfo = new QAction(QIcon::fromTheme(QStringLiteral("help-hint")), i18n("Monitor Info Overlay"), this);
@@ -1691,6 +1691,8 @@ void MainWindow::setupActions()
               Qt::SHIFT + Qt::Key_T);
     addAction(QStringLiteral("switch_active_target"), i18n("Toggle Track Active"), pCore->projectManager(), SLOT(slotSwitchTrackActive()), QIcon(),
               Qt::Key_A);
+    addAction(QStringLiteral("switch_all_targets"), i18n("Toggle All Tracks Active"), pCore->projectManager(), SLOT(slotSwitchAllTrackActive()), QIcon(),
+              Qt::SHIFT +  Qt::Key_A);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark")));
 
@@ -4000,8 +4002,15 @@ void MainWindow::slotCollapse()
 
         // Collapse / expand track
         getMainTimeline()->controller()->collapseActiveTrack();
-    }    
+    }
 }
+
+
+void MainWindow::slotExpandClip()
+{
+    getCurrentTimeline()->controller()->expandActiveClip();
+}
+
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

@@ -484,6 +484,8 @@ private slots:
     void slotExtractClip();
     /** @brief Save currently selected timeline clip as bin subclip*/
     void slotSaveZoneToBin();
+    /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
+    void slotExpandClip();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

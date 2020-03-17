@@ -2085,6 +2085,17 @@ void TimelineController::switchTrackActive(int trackId)
     m_model->setTrackProperty(trackId, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
 }
 
+void TimelineController::switchAllTrackActive()
+{
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        bool active = (*it)->isTimelineActive();
+        int target_track = (*it)->getId();
+        m_model->setTrackProperty(target_track, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
+        ++it;
+    }
+}
+
 void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {
@@ -2963,4 +2974,43 @@ const QVariant TimelineController::getActiveTrackProperty(const QString &name) c
         return m_model->getTrackProperty(m_activeTrack, name);
     }
     return QVariant();
+}
+
+void TimelineController::expandActiveClip()
+{
+    std::unordered_set<int> ids = m_model->getCurrentSelection();
+    std::unordered_set<int> items_list;
+    for (int i : ids) {
+        if (m_model->isGroup(i)) {
+            std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
+            items_list.insert(children.begin(), children.end());
+        } else {
+            items_list.insert(i);
+        }
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool result = true;
+    int processed = 0;
+    for (int id : items_list) {
+        /*if (mainId == -1 && m_model->getItemTrackId(id) == m_activeTrack) {
+            mainId = id;
+            continue;
+        }*/
+        if (result && m_model->isClip(id)) {
+            std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
+            if (clip->clipType() == ClipType::Playlist) {
+                int pos = clip->getPosition();
+                QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
+                m_model->requestClipDeletion(id, undo, redo);
+                result = TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo);
+                processed++;
+            }
+        }
+    }
+    if (result && processed > 0) {
+        pCore->pushUndo(undo, redo, i18n("Expand clip"));
+    } else {
+        undo();
+    }
 }
