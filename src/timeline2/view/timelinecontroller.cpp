@@ -2980,16 +2980,17 @@ void TimelineController::expandActiveClip()
 {
     std::unordered_set<int> ids = m_model->getCurrentSelection();
     std::unordered_set<int> items_list;
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
     for (int i : ids) {
         if (m_model->isGroup(i)) {
             std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
             items_list.insert(children.begin(), children.end());
+            m_model->requestClipUngroup(i, undo, redo);
         } else {
             items_list.insert(i);
         }
     }
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     bool result = true;
     int processed = 0;
     for (int id : items_list) {

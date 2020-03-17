@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QApplication>
 #include <QDebug>
 #include <QInputDialog>
+#include <QSemaphore>
 #include <klocalizedstring.h>
 #include <unordered_map>
 
@@ -54,6 +55,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 QStringList waitingBinIds;
 QMap<QString, QString> mappedIds;
 QMap<int, int> tracksMap;
+QSemaphore semaphore(1);
 
 RTTR_REGISTRATION
 {
@@ -1244,11 +1246,16 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo)
 {
     timeline->requestClearSelection();
+    while(!semaphore.tryAcquire(1)) {
+        qApp->processEvents();
+    }
+    waitingBinIds.clear();
     QDomDocument copiedItems;
     copiedItems.setContent(pasteString);
     if (copiedItems.documentElement().tagName() == QLatin1String("kdenlive-scene")) {
         qDebug() << " / / READING CLIPS FROM CLIPBOARD";
     } else {
+        semaphore.release(1);
         return false;
     }
     const QString docId = copiedItems.documentElement().attribute(QStringLiteral("documentid"));
@@ -1272,6 +1279,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         int trackPos = prod.attribute(QStringLiteral("track")).toInt();
         if (trackPos < 0 || trackPos >= projectTracks.first.size() + projectTracks.second.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            semaphore.release(1);
             return false;
         }
         bool audioTrack = prod.hasAttribute(QStringLiteral("audioTrack"));
@@ -1320,6 +1328,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     int requestedAudioTracks = audioTracks.isEmpty() ? 0 : audioTracks.last() - audioTracks.first() + 1;
     if (requestedVideoTracks > projectTracks.second.size() || requestedAudioTracks > projectTracks.first.size()) {
         pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+        semaphore.release(1);
         return false;
     }
 
@@ -1370,6 +1379,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         int newPos = masterIx + tk - masterSourceTrack;
         if (newPos < 0 || newPos >= projectTracks.second.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            semaphore.release(1);
             return false;
         }
         tracksMap.insert(tk, projectTracks.second.at(newPos));
@@ -1400,13 +1410,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         int offsetId = oldPos + audioOffset;
         if (offsetId < 0 || offsetId >= projectTracks.first.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            semaphore.release(1);
             return false;
         }
         tracksMap.insert(oldPos, projectTracks.first.at(offsetId));
     }
-
-    waitingBinIds.clear();
-
     std::function<void(const QString &)> callBack = [timeline, copiedItems, position](const QString &binId) {
         waitingBinIds.removeAll(binId);
         if (waitingBinIds.isEmpty()) {
@@ -1473,6 +1481,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             if (!insert) {
                 pCore->displayMessage(i18n("Could not add bin clip"), InformationMessage, 500);
                 undo();
+                semaphore.release(1);
                 return false;
             }
         }
@@ -1515,8 +1524,9 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         int newId;
         bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, warp_pitch, timeline_undo, timeline_redo);
         if (!created) {
-            // Master producer is ready
+            // Something is broken
             timeline_undo();
+            semaphore.release(1);
             return false;
         }
         if (timeline->m_allClips[newId]->m_endlessResize) {
@@ -1563,6 +1573,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         timeline_undo();
         //pCore->pushUndo(undo, redo, i18n("Paste clips"));
         pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
+        semaphore.release(1);
         return false;
     }
     // Rebuild groups
@@ -1581,6 +1592,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     PUSH_FRONT_LAMBDA(unselect, timeline_redo);
     pCore->pushUndo(timeline_undo, timeline_redo, i18n("Paste clips"));
     //UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
+    semaphore.release(1);
     return true;
 }
 
@@ -1614,26 +1626,63 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     container.appendChild(bin);
     bool isAudio = timeline->isAudioTrack(tid);
     int masterTrack = timeline->getTrackPosition(tid);
-    if (isAudio) {
-        container.setAttribute(QStringLiteral("masterAudioTrack"), masterTrack);
-    } else {
-        container.setAttribute(QStringLiteral("masterTrack"), masterTrack);
-    }
     container.setAttribute(QStringLiteral("offset"), pos);
     container.setAttribute(QStringLiteral("documentid"), QStringLiteral("000000"));
     // Process producers
+    QLocale locale;
     QList <int> processedProducers;
     QMap <QString, int> producerMap;
+    QMap <QString, double> producerSpeed;
+    QMap <QString, int> producerSpeedResource;
     QDomNodeList producers = sourceDoc.elementsByTagName(QLatin1String("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement currentProd = producers.item(i).toElement();
         bool ok;
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
         if (!ok) {
+            const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            qDebug()<<"===== CLIP NOT FOUND: "<<resource;
+            if (producerSpeedResource.contains(resource)) {
+                clipId = producerSpeedResource.value(resource);
+                qDebug()<<"===== GOT PREVIOUS ID: "<<clipId;
+                QString baseProducerId;
+                int baseProducerClipId = 0;
+                QMapIterator<QString, int>m(producerMap);
+                while (m.hasNext()) {
+                    m.next();
+                    if (m.value() == clipId) {
+                        baseProducerId = m.key();
+                        baseProducerClipId = m.value();
+                        qDebug()<<"=== FOUND PRODUCER FOR ID: "<<m.key();
+                        break;
+                    }
+                }
+                if (!baseProducerId.isEmpty()) {
+                    producerSpeed.insert(currentProd.attribute(QLatin1String("id")), producerSpeed.value(baseProducerId));
+                    producerMap.insert(currentProd.attribute(QLatin1String("id")), baseProducerClipId);
+                    qDebug()<<"/// INSERTING PRODUCERMAP: "<<currentProd.attribute(QLatin1String("id"))<<"="<<baseProducerClipId;
+                }
+                // Producer already processed;
+                continue;
+            } else {
+                clipId = pCore->projectItemModel()->getFreeClipId();
+            }
+            Xml::setXmlProperty(currentProd, QStringLiteral("kdenlive:id"), QString::number(clipId));
             qDebug()<<"=== UNKNOWN CLIP FOUND: "<<Xml::getXmlProperty(currentProd, QLatin1String("resource"));
-            continue;
         }
         producerMap.insert(currentProd.attribute(QLatin1String("id")), clipId);
+        qDebug()<<"/// INSERTING SOURCE PRODUCERMAP: "<<currentProd.attribute(QLatin1String("id"))<<"="<<clipId;
+        QString mltService = Xml::getXmlProperty(currentProd, QStringLiteral("mlt_service"));
+        if (mltService == QLatin1String("timewarp")) {
+            // Speed producer
+            double speed = locale.toDouble(Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")));
+            Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+            producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
+            qDebug()<<"===== CLIP SPEED RESOURCE: "<<Xml::getXmlProperty(currentProd, QLatin1String("resource"))<<" = "<<clipId;
+            QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+            Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
+            producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
+        }
         if (processedProducers.contains(clipId)) {
             // Producer already processed
             continue;
@@ -1661,9 +1710,15 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             videoTracks++;
         }
     }
+    int track = 1;
+    if (isAudio) {
+        container.setAttribute(QStringLiteral("masterAudioTrack"), 0);
+    } else {
+        track = audioTracks;
+        container.setAttribute(QStringLiteral("masterTrack"), track);
+    }
     // Process playlists
     QDomNodeList playlists = sourceDoc.elementsByTagName(QLatin1String("playlist"));
-    int track = 1;
     for (int i = 0; i < playlists.count(); ++i) {
         QDomElement currentPlay = playlists.item(i).toElement();
         int position = 0;
@@ -1683,7 +1738,8 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 container.appendChild(clipElement);
                 int in = currentElement.attribute(QLatin1String("in")).toInt();
                 int out = currentElement.attribute(QLatin1String("out")).toInt();
-                clipElement.setAttribute(QLatin1String("binid"), producerMap.value(currentElement.attribute(QLatin1String("producer"))));
+                const QString originalProducer = currentElement.attribute(QLatin1String("producer"));
+                clipElement.setAttribute(QLatin1String("binid"), producerMap.value(originalProducer));
                 clipElement.setAttribute(QLatin1String("in"), in);
                 clipElement.setAttribute(QLatin1String("out"), out);
                 clipElement.setAttribute(QLatin1String("position"), position + pos);
@@ -1700,7 +1756,11 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                         clipElement.setAttribute(QLatin1String("mirrorTrack"), -1);
                     }
                 }
-                clipElement.setAttribute(QStringLiteral("speed"), 1);
+                if (producerSpeed.contains(originalProducer)) {
+                    clipElement.setAttribute(QStringLiteral("speed"), producerSpeed.value(originalProducer));
+                } else {
+                    clipElement.setAttribute(QStringLiteral("speed"), 1);
+                }
                 position += (out - in);
                 QDomNodeList effects = currentElement.elementsByTagName(QLatin1String("filter"));
                 qDebug()<<"=== FOUND effects for clip: "<<effects.count();
