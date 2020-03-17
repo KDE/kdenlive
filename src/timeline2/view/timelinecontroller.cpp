@@ -68,6 +68,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_zone(-1, -1)
     , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250)
     , m_timelinePreview(nullptr)
+    , m_ready(false)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -87,11 +88,12 @@ TimelineController::~TimelineController()
 
 void TimelineController::prepareClose()
 {
+    // Clear roor so we don't call its methods anymore
+    m_ready = false;
+    m_root = nullptr;
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     delete m_timelinePreview;
     m_timelinePreview = nullptr;
-    // Clear roor so we don't call its methods anymore
-    m_root = nullptr;
 }
 
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
@@ -102,7 +104,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_model = std::move(model);
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
     connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
-        if (m_root) {
+        if (m_ready) {
             QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
         }
     });
@@ -155,6 +157,7 @@ std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
 void TimelineController::setRoot(QQuickItem *root)
 {
     m_root = root;
+    m_ready = true;
 }
 
 Mlt::Tractor *TimelineController::tractor()
