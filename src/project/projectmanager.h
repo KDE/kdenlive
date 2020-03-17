@@ -130,9 +130,6 @@ public slots:
     /** @brief Rebuild consumers after a property change */
     void slotResetConsumers(bool fullReset);
 
-    /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
-    void slotExpandClip();
-
     /** @brief Dis/enable all timeline effects */
     void slotDisableTimelineEffects(bool disable);
 
@@ -142,6 +139,7 @@ public slots:
 
     /** @brief Make current timeline track active/inactive*/
     void slotSwitchTrackActive();
+    void slotSwitchAllTrackActive();
 
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();

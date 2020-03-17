@@ -644,6 +644,9 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     }
     m_resultConsumed = true;
     auto m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
+    if (!m_binClip) {
+        qDebug()<<"=============\nERROR BIN CLIP UNAVAILABLE: "<<m_clipId<<"\n==================";
+    }
     if (!m_successful) {
         // TODO: Deleting cannot happen at this stage or we endup in a mutex lock
         pCore->projectItemModel()->requestBinClipDeletion(m_binClip, undo, redo);

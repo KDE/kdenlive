@@ -388,6 +388,7 @@ public:
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
 
     Q_INVOKABLE void switchTrackActive(int trackId = -1);
+    void switchAllTrackActive();
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
 
@@ -515,6 +516,8 @@ public:
     bool refreshIfVisible(int cid);
     /** @brief Collapse / expand active track */
     void collapseActiveTrack();
+    /** @brief Expand MLT playlist to its contained clips/compositions */
+    void expandActiveClip();
 
 public slots:
     void resetView();

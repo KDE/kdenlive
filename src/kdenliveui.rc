@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="177" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="178" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -145,6 +145,7 @@
         <Action name="switch_all_track_lock" />
         <Action name="switch_track_target" />
         <Action name="switch_active_target" />
+        <Action name="switch_all_targets" />
       </Menu>
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Effect</text>

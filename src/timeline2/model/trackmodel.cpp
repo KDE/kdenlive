@@ -221,9 +221,11 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
 {
     QWriteLocker locker(&m_lock);
     if (isLocked()) {
+        qDebug()<<"==== ERROR INSERT OK LOCKED TK";
         return false;
     }
     if (position < 0) {
+        qDebug()<<"==== ERROR INSERT ON NEGATIVE POS: "<<position;
         return false;
     }
     if (auto ptr = m_parent.lock()) {

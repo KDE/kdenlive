@@ -674,7 +674,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
         id =
-            Xml::getTagContentByAttribute(description, QStringLiteral("property"), QStringLiteral("name"), QStringLiteral("kdenlive:id"), QStringLiteral("-1"));
+            Xml::getXmlProperty(description, QStringLiteral("kdenlive:id"), QStringLiteral("-1"));
         if (id == QStringLiteral("-1") || !isIdFree(id)) {
             id = QString::number(getFreeClipId());
         }
@@ -1096,4 +1096,14 @@ bool ProjectItemModel::validateClip(const QString &binId, const QString &clipHas
         return clip->hash() == clipHash;
     }
     return false;
+}
+
+QString ProjectItemModel::validateClipInFolder(const QString &folderId, const QString &clipHash)
+{
+    QWriteLocker locker(&m_lock);
+    std::shared_ptr<ProjectFolder> folder = getFolderByBinId(folderId);
+    if (folder) {
+        return folder->childByHash(clipHash);
+    }
+    return QString();
 }

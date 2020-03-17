@@ -719,12 +719,6 @@ void ProjectManager::slotResetConsumers(bool fullReset)
     pCore->monitorManager()->resetConsumers(fullReset);
 }
 
-void ProjectManager::slotExpandClip()
-{
-    // TODO refac
-    // m_trackView->projectView()->expandActiveClip();
-}
-
 void ProjectManager::disableBinEffects(bool disable)
 {
     if (m_project) {
@@ -757,6 +751,11 @@ void ProjectManager::slotSwitchTrackLock()
 void ProjectManager::slotSwitchTrackActive()
 {
     pCore->window()->getMainTimeline()->controller()->switchTrackActive();
+}
+
+void ProjectManager::slotSwitchAllTrackActive()
+{
+    pCore->window()->getMainTimeline()->controller()->switchAllTrackActive();
 }
 
 void ProjectManager::slotSwitchAllTrackLock()

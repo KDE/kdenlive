@@ -58,6 +58,8 @@ struct TimelineFunctions
     static QString copyClips(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &itemIds);
     /* @brief Paste the clips as described by the string. Returns true on success*/
     static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position);
+    static bool pasteClips(const std::shared_ptr<TimelineItemModel> &timeline, const QString &pasteString, int trackId, int position, Fun &undo, Fun &redo);
+    static bool pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position);
 
     /* @brief Request the addition of multiple clips to the timeline
      * If the addition of any of the clips fails, the entire operation is undone.
@@ -125,6 +127,10 @@ struct TimelineFunctions
     /** @brief This function breaks group is an item in the zone is grouped with an item outside of selected tracks
      */
     static bool breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, QVector<int> tracks, QPoint zone, Fun &undo, Fun &redo);
+
+    /** @brief This function extracts the content of an xml playlist file and converts it to json paste format
+     */
+    static QDomDocument extractClip(const std::shared_ptr<TimelineItemModel> &timeline, int cid, const QString &binId);
 };
 
 #endif

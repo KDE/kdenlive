@@ -304,7 +304,7 @@ void JobManager::slotManageFinishedJob(int id)
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     if (!ok) {
-        qDebug() << " * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: " << id << "\n------------------------";
+        qDebug() << " * * * ** * * *\nWARNING + + +\nJOB NOT CORRECT FINISH: " << id <<"\n------------------------";
         // TODO: delete child jobs
         m_jobs[id]->m_completionMutex.unlock();
         locker.unlock();
