@@ -33,7 +33,7 @@ class FilterClipJob : public MeltJob
     Q_OBJECT
 
 public:
-    FilterClipJob(const QString &binId, const ObjectId &owner, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, const QString &filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData);
+    FilterClipJob(const QString &binId, const ObjectId &owner, std::weak_ptr<AssetParameterModel> model, const QString &assetId, int in, int out, const QString &filterName, std::unordered_map<QString, QVariant> filterParams, std::unordered_map<QString, QString> filterData, const QStringList consumerArgs);
     const QString getDescription() const override;
     /** @brief This is to be called after the job finished.
     By design, the job should store the result of the computation but not share it with the rest of the code. This happens when we call commitResult */
@@ -56,6 +56,7 @@ protected:
     QString m_assetId;
     std::unordered_map<QString, QVariant> m_filterParams;
     std::unordered_map<QString, QString> m_filterData;
+    QStringList m_consumerArgs;
     ObjectId m_owner;
 };
 

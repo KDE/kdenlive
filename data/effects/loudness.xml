@@ -7,7 +7,7 @@
 		<name>Target Program Loudness</name>
 	</parameter>
 	<parameter type="filterjob" filtertag="loudness" filterparams="%params" consumer="null" consumerparams="video_off=1 no_meta=1 all=1 terminate_on_pause=1">
-        <name>Analyse</name>
+        <name conditional="Reset">Analyse</name>
 		<jobparam name="key">results</jobparam>
 		<jobparam name="finalfilter">loudness</jobparam>
 	</parameter>
