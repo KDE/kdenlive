@@ -572,6 +572,7 @@ private:
     QAction *m_disablePreview;
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
+    bool m_ready;
 
     void initializePreview();
     bool darkBackground() const;

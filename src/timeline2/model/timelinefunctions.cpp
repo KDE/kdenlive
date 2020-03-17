@@ -1319,6 +1319,11 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
         videoTracks << atrackPos;
     }
+    if (audioTracks.isEmpty() && videoTracks.isEmpty()) {
+        // playlist does not have any tracks, exit
+        semaphore.release(1);
+        return true;
+    }
     // Now we have a list of all source tracks, check that we have enough target tracks
     std::sort(videoTracks.begin(), videoTracks.end());
     std::sort(audioTracks.begin(), audioTracks.end());

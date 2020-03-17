@@ -49,8 +49,6 @@ CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPo
         m_fullWidth ++;
     }
     m_imageHeight += m_imageHeight % 2;
-    auto item = pCore->projectItemModel()->getItemByBinId(binId);
-    Q_ASSERT(item != nullptr && item->itemType() == AbstractProjectItem::ClipItem);
     connect(this, &CacheJob::jobCanceled, [&] () {
         m_done = true;
         m_clipId.clear();

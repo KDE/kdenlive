@@ -68,6 +68,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_zone(-1, -1)
     , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250)
     , m_timelinePreview(nullptr)
+    , m_ready(false)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -87,11 +88,12 @@ TimelineController::~TimelineController()
 
 void TimelineController::prepareClose()
 {
+    // Clear roor so we don't call its methods anymore
+    m_ready = false;
+    m_root = nullptr;
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
     delete m_timelinePreview;
     m_timelinePreview = nullptr;
-    // Clear roor so we don't call its methods anymore
-    m_root = nullptr;
 }
 
 void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
@@ -102,7 +104,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_model = std::move(model);
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
     connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
-        if (m_root) {
+        if (m_ready) {
             QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
         }
     });
@@ -155,6 +157,7 @@ std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
 void TimelineController::setRoot(QQuickItem *root)
 {
     m_root = root;
+    m_ready = true;
 }
 
 Mlt::Tractor *TimelineController::tractor()
@@ -2986,22 +2989,24 @@ void TimelineController::expandActiveClip()
         if (m_model->isGroup(i)) {
             std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
             items_list.insert(children.begin(), children.end());
-            m_model->requestClipUngroup(i, undo, redo);
         } else {
             items_list.insert(i);
         }
     }
+    m_model->requestClearSelection();
     bool result = true;
     int processed = 0;
     for (int id : items_list) {
-        /*if (mainId == -1 && m_model->getItemTrackId(id) == m_activeTrack) {
-            mainId = id;
-            continue;
-        }*/
         if (result && m_model->isClip(id)) {
             std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
             if (clip->clipType() == ClipType::Playlist) {
                 int pos = clip->getPosition();
+                if (m_model->m_groups->isInGroup(id)) {
+                    int targetRoot = m_model->m_groups->getRootId(id);
+                    if (m_model->isGroup(targetRoot)) {
+                        m_model->requestClipUngroup(targetRoot, undo, redo);
+                    }
+                }
                 QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
                 m_model->requestClipDeletion(id, undo, redo);
                 result = TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo);
