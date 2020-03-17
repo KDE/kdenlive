@@ -361,21 +361,13 @@ QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks, in
     Mlt::Tractor tractor(docProfile);
     Mlt::Producer bk(docProfile, "color:black");
     tractor.insert_track(bk, 0);
-    bool firstVideoTrackFound = false;
     for (int i = 0; i < tracks.count(); ++i) {
         Mlt::Tractor track(docProfile);
         track.set("kdenlive:track_name", tracks.at(i).trackName.toUtf8().constData());
+        track.set("kdenlive:timeline_active", 1);
         track.set("kdenlive:trackheight", KdenliveSettings::trackheight());
         if (tracks.at(i).type == AudioTrack) {
             track.set("kdenlive:audio_track", 1);
-            if (i == audiotracks - 1) {
-                // top most audio track, make active by default
-                track.set("kdenlive:timeline_active", 1);
-            }
-        } else if (!firstVideoTrackFound) {
-            firstVideoTrackFound = true;
-            // bottom video track, make active by default
-            track.set("kdenlive:timeline_active", 1);
         }
         if (tracks.at(i).isLocked) {
             track.set("kdenlive:locked_track", 1);
