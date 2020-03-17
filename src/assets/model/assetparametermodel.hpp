@@ -93,6 +93,7 @@ public:
         FilterRole,
         FilterJobParamsRole,
         FilterParamsRole,
+        FilterConsumerParamsRole,
         ScaleRole,
         OpacityRole,
         RelativePosRole,

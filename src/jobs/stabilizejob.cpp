@@ -71,6 +71,7 @@ void StabilizeJob::configureFilter()
     }
     QString targetFile = m_destUrl + QStringLiteral(".trf");
     m_filter->set("filename", targetFile.toUtf8().constData());
+    m_filter->set_in_and_out(0, length - 1);
 }
 
 // static

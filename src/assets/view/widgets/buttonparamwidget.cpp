@@ -45,6 +45,8 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     auto *layout = new QVBoxLayout(this);
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
+    QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
+
     QString conditionalInfo;
     for (const QVariant jobElement : filterData) {
         QStringList d = jobElement.toStringList();
@@ -79,7 +81,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     setMinimumHeight(m_button->sizeHint().height() + (m_label != nullptr ? m_label->sizeHint().height() : 0));
 
     // emit the signal of the base class when appropriate
-    connect(this->m_button, &QPushButton::clicked, [&, filterData, filterAddedParams]() {
+    connect(this->m_button, &QPushButton::clicked, [&, filterData, filterAddedParams, consumerParams]() {
         // Trigger job
         if (!m_displayConditional) {
             QVector<QPair<QString, QVariant>> values;
@@ -114,14 +116,16 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
             fData.insert({d.at(0), d.at(1)});
         }
         for (const auto &param : filterLastParams) {
-            fParams.insert({param.first, param.second});
+            if (param.first != m_keyParam) {
+                fParams.insert({param.first, param.second});
+            }
         }
         for (const QString &fparam : filterAddedParams) {
             if (fparam.contains(QLatin1Char('='))) {
                 fParams.insert({fparam.section(QLatin1Char('='), 0, 0), fparam.section(QLatin1Char('='), 1)});
             }
         }
-        pCore->jobManager()->startJob<FilterClipJob>({binId}, -1, QString(), owner, m_model, assetId, in, out, assetId, fParams, fData);
+        pCore->jobManager()->startJob<FilterClipJob>({binId}, -1, QString(), owner, m_model, assetId, in, out, assetId, fParams, fData, consumerParams);
         if (m_label) {
             m_label->setVisible(false);
         }

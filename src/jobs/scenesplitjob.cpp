@@ -71,6 +71,7 @@ void SceneSplitJob::configureFilter()
 
     m_filter->set("shot_change_list", 0);
     m_filter->set("denoise", 0);
+    m_filter->set_in_and_out(0, length - 1);
 }
 
 void SceneSplitJob::configureProfile()

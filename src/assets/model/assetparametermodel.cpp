@@ -349,6 +349,8 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(m_ownerId, QStringLiteral("filter"), element);
     case FilterParamsRole:
         return parseAttribute(m_ownerId, QStringLiteral("filterparams"), element);
+    case FilterConsumerParamsRole:
+        return parseAttribute(m_ownerId, QStringLiteral("consumerparams"), element);
     case FilterJobParamsRole:
         return parseSubAttributes(QStringLiteral("jobparam"), element);
     case AlternateNameRole: {
@@ -591,7 +593,9 @@ QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const
     }
 
     for (const auto &param : m_params) {
-        res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
+        if (!param.first.isEmpty()) {
+            res.push_back(QPair<QString, QVariant>(param.first, param.second.value));
+        }
     }
     return res;
 }

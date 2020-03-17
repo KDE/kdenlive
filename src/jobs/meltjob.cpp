@@ -114,6 +114,12 @@ bool MeltJob::startJob()
     } else {
         // Filter applied on a track of master producer, leave config to source job
     }
+    if (m_producer != nullptr) {
+        length = m_producer->get_playtime();
+        if (length == 0) {
+            length = m_producer->get_length();
+        }
+    }
 
     configureProducer();
     if ((m_producer == nullptr) || !m_producer->is_valid()) {
@@ -195,18 +201,11 @@ bool MeltJob::startJob()
     }
 
     Mlt::Tractor tractor(*m_profile.get());
-    Mlt::Playlist playlist(*m_profile.get());
-    tractor.set_track(playlist, 0);
-    playlist.append(*m_producer.get());
+    tractor.set_track(*m_producer.get(), 0);
     m_consumer->connect(tractor);
     m_producer->set_speed(0);
     m_producer->seek(0);
-    length = m_producer->get_playtime();
-    if (length == 0) {
-        length = m_producer->get_length();
-    }
     if (m_filter) {
-        m_filter->set_in_and_out(0, length - 1);
         m_producer->attach(*m_filter.get());
     }
     m_showFrameEvent.reset(m_consumer->listen("consumer-frame-show", this, (mlt_listener)consumer_frame_render));
