@@ -50,6 +50,20 @@ Rectangle {
         }
     }
 
+    // Ruler zone
+    Rectangle {
+        id: zone
+        visible: controller.zoneOut > controller.zoneIn
+        color: activePalette.highlight
+        x: controller.zoneIn * root.timeScale
+        width: (controller.zoneOut - controller.zoneIn) * root.timeScale
+        anchors.bottom: parent.bottom
+        height: ruler.height / 1.9
+        opacity: 0.8
+        onXChanged: zoneToolTipTimer.start()
+        onWidthChanged: zoneToolTipTimer.start()
+    }
+
     // frame ticks
     Repeater {
         id: rulerTicks
@@ -102,16 +116,6 @@ Rectangle {
             color: activePalette.highlightedText
         }
     }
-    TimelinePlayhead {
-        id: playhead
-        visible: controller.position > -1
-        height: ruler.height * 0.5
-        width: ruler.height * 1
-        opacity: 1
-        anchors.top: ruler.top
-        fillColor: activePalette.windowText
-        x: controller.position * root.timeScale - (width / 2)
-    }
     // monitor zone
     Rectangle {
         id: inZoneMarker
@@ -130,17 +134,15 @@ Rectangle {
         color: activePalette.highlight
         visible: inZoneMarker.visible
     }
-    Rectangle {
-        id: zone
-        visible: controller.zoneOut > controller.zoneIn
-        color: activePalette.highlight
-        x: controller.zoneIn * root.timeScale
-        width: (controller.zoneOut - controller.zoneIn) * root.timeScale
-        anchors.bottom: parent.bottom
-        height: ruler.height / 2
-        opacity: 0.4
-        onXChanged: zoneToolTipTimer.start()
-        onWidthChanged: zoneToolTipTimer.start()
+    TimelinePlayhead {
+        id: playhead
+        visible: controller.position > -1
+        height: ruler.height * 0.5
+        width: ruler.height * 1
+        opacity: 1
+        anchors.top: ruler.top
+        fillColor: activePalette.windowText
+        x: controller.position * root.timeScale - (width / 2)
     }
     Rectangle {
         id: trimIn
