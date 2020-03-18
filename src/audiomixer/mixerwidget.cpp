@@ -294,6 +294,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         if (m_recording) {
             m_volumeSpin->setValue(value);
             KdenliveSettings::setAudiocapturevolume(value);
+            m_manager->updateRecVolume();
             //TODO update capture volume
         } else if (m_levelFilter != nullptr) {
             double dbValue = 0;

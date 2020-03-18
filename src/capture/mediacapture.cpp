@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "mediacapture.h"
+#include "audiomixer/mixermanager.hpp"
 #include "kdenlivesettings.h"
 #include "core.h"
 #include <QAudioProbe>
@@ -32,7 +33,6 @@ MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
     , currentState(-1)
     , m_audioDevice("default:")
-    , m_volume(1.)
     , m_path(QUrl())
     , m_recordState(0)
 {
@@ -41,6 +41,7 @@ MediaCapture::MediaCapture(QObject *parent)
     m_resetTimer.setInterval(5000);
     m_resetTimer.setSingleShot(true);
     connect(&m_resetTimer, &QTimer::timeout, this, &MediaCapture::resetIfUnused);
+    connect(pCore->mixer(), &MixerManager::updateRecVolume, this, &MediaCapture::setAudioVolume);
 }
 
 MediaCapture::~MediaCapture() = default;
@@ -82,8 +83,7 @@ void MediaCapture::recordAudio(int tid, bool record)
         setAudioCaptureDevice();
         m_audioRecorder->setAudioInput(m_audioDevice);
         setCaptureOutputLocation();
-        setAudioVolume();
-        m_audioRecorder->setVolume(m_volume);
+        m_audioRecorder->setVolume(KdenliveSettings::audiocapturevolume()/100.0);
         //qDebug()<<"START AREC: "<<m_path<<"\n; CODECS: "<<m_audioRecorder->supportedAudioCodecs();
 
         connect(m_audioRecorder.get(), SIGNAL(error(QMediaRecorder::Error)), this, SLOT(displayErrorMessage()));
@@ -183,7 +183,9 @@ void MediaCapture::setAudioCaptureDevice()
 
 void MediaCapture::setAudioVolume()
 {
-    m_volume = KdenliveSettings::audiocapturevolume()/100.0;
+    if (m_audioRecorder) {
+        m_audioRecorder->setVolume(KdenliveSettings::audiocapturevolume()/100.0);
+    }
 }
 
 int MediaCapture::getState()

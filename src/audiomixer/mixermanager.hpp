@@ -66,6 +66,7 @@ signals:
     void recordAudio(int tid);
     void purgeCache();
     void clearMixers();
+    void updateRecVolume();
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
