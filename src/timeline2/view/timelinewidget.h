@@ -72,7 +72,7 @@ public slots:
 
 private slots:
     void slotUngrabHack();
-    void showClipMenu();
+    void showClipMenu(int cid);
     void showCompositionMenu();
     void showTimelineMenu();
     void showRulerMenu();

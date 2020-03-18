@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="179" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="180" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -12,7 +12,7 @@
       <Action name="project_find" />
       <Action name="project_find_next" />
     </Menu>
-    <Menu name="project" ><text>Project</text>
+    <Menu name="go" noMerge="1"><text>Project</text>
       <Action name="add_clip" />
       <Action name="add_color_clip" />
       <Action name="add_slide_clip" />

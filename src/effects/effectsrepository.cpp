@@ -398,3 +398,12 @@ void EffectsRepository::deleteEffect(const QString &id)
         m_assets.erase(id);
     }
 }
+
+bool EffectsRepository::isAudioEffect(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        AssetListType::AssetType type = m_assets.at(assetId).type;
+        return type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+    }
+    return false;
+}
