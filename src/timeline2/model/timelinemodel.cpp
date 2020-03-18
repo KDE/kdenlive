@@ -2251,7 +2251,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     // TODO: make sure we disable overlayTrack before inserting a track
     qDebug()<<"=== REQUESTING TRACK INSERTION AT: "<<position;
     if (position == -1) {
-        position = audioTrack ? 0 : (int)(m_allTracks.size());
+        position = (int)(m_allTracks.size());
     }
     if (position < 0 || position > (int)m_allTracks.size()) {
         return false;
