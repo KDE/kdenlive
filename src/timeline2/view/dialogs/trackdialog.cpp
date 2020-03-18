@@ -85,7 +85,8 @@ int TrackDialog::selectedTrackPosition() const
         }
         return position;
     }
-    return -1;
+    bool audioMode = audio_track->isChecked() || arec_track->isChecked();
+    return audioMode ? 0 : -1;
 }
 
 int TrackDialog::selectedTrackId() const
