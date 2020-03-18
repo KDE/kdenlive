@@ -2626,14 +2626,7 @@ void MainWindow::slotInsertClipOverwrite()
         // No clip in monitor
         return;
     }
-    int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
-    if (pos > 0) {
-        Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-        m_projectMonitor->refreshMonitorIfActive(true);
-        getCurrentTimeline()->controller()->setPosition(pos);
-        pCore->monitorManager()->activateMonitor(activeMonitor);
-    }
+    getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
 }
 
 void MainWindow::slotInsertClipInsert()
@@ -2644,14 +2637,7 @@ void MainWindow::slotInsertClipInsert()
         pCore->displayMessage(i18n("No clip selected in project bin"), InformationMessage);
         return;
     }
-    int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
-    if (pos > 0) {
-        Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-        m_projectMonitor->refreshMonitorIfActive(true);
-        getCurrentTimeline()->controller()->setPosition(pos);
-        pCore->monitorManager()->activateMonitor(activeMonitor);
-    }
+    getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
 }
 
 void MainWindow::slotExtractZone()

@@ -1886,8 +1886,38 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
     if (aTrack > -1) {
         target_tracks << aTrack;
     }
-
-    return TimelineFunctions::insertZone(m_model, target_tracks, binId, position, QPoint(in, out + 1), m_model->m_editMode == TimelineMode::OverwriteEdit, false);
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool overwrite = m_model->m_editMode == TimelineMode::OverwriteEdit;
+    QPoint zone(in, out + 1);
+    bool res = TimelineFunctions::insertZone(m_model, target_tracks, binId, position, zone, overwrite, false, undo, redo);
+    if (res) {
+        int newPos = position + (zone.y() - zone.x());
+        int currentPos = pCore->getTimelinePosition();
+        Fun redoPos = [this, newPos]() {
+            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
+            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+            pCore->monitorManager()->refreshProjectMonitor();
+            setPosition(newPos);
+            pCore->monitorManager()->activateMonitor(activeMonitor);
+            return true;
+        };
+        Fun undoPos = [this, currentPos]() {
+            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
+            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+            pCore->monitorManager()->refreshProjectMonitor();
+            setPosition(currentPos);
+            pCore->monitorManager()->activateMonitor(activeMonitor);
+            return true;
+        };
+        redoPos();
+        UPDATE_UNDO_REDO_NOLOCK(redoPos, undoPos, undo, redo);
+        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), InformationMessage);
+        undo();
+    }
+    return res;
 }
 
 int TimelineController::insertZone(const QString &binId, QPoint zone, bool overwrite)
@@ -1933,8 +1963,36 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
         pCore->displayMessage(i18n("Please select a target track by clicking on a track's target zone"), InformationMessage);
         return -1;
     }
-    return TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite) ? insertPoint + (sourceZone.y() - sourceZone.x())
-                                                                                                            : -1;
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool res = TimelineFunctions::insertZone(m_model, target_tracks, binId, insertPoint, sourceZone, overwrite, true, undo, redo);
+    if (res) {
+        int newPos = insertPoint + (sourceZone.y() - sourceZone.x());
+        int currentPos = pCore->getTimelinePosition();
+        Fun redoPos = [this, newPos]() {
+            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
+            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+            pCore->monitorManager()->refreshProjectMonitor();
+            setPosition(newPos);
+            pCore->monitorManager()->activateMonitor(activeMonitor);
+            return true;
+        };
+        Fun undoPos = [this, currentPos]() {
+            Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
+            pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
+            pCore->monitorManager()->refreshProjectMonitor();
+            setPosition(currentPos);
+            pCore->monitorManager()->activateMonitor(activeMonitor);
+            return true;
+        };
+        redoPos();
+        UPDATE_UNDO_REDO_NOLOCK(redoPos, undoPos, undo, redo);
+        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), InformationMessage);
+        undo();
+    }
+    return res;
 }
 
 void TimelineController::updateClip(int clipId, const QVector<int> &roles)

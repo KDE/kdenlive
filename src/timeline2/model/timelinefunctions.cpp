@@ -335,9 +335,22 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
 bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
                                    bool overwrite, bool useTargets)
 {
-    // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    bool res = TimelineFunctions::insertZone(timeline, trackIds, binId, insertFrame, zone, overwrite, useTargets, undo, redo);
+    if (res) {
+        pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
+    } else {
+        pCore->displayMessage(i18n("Could not insert zone"), InformationMessage);
+        undo();
+    }
+    return res;
+}
+
+bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &timeline, QList<int> trackIds, const QString &binId, int insertFrame, QPoint zone,
+                                   bool overwrite, bool useTargets, Fun &undo, Fun &redo)
+{
+    // Start undoable command
     bool result = true;
     QVector<int> affectedTracks;
     auto it = timeline->m_allTracks.cbegin();
@@ -400,15 +413,8 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
                 clipInserted = true;
             }
         }
-        if (result) {
-            pCore->pushUndo(undo, redo, overwrite ? i18n("Overwrite zone") : i18n("Insert zone"));
-        }
     }
-    if (!result) {
-        qDebug() << "// REQUESTING SPACE FAILED";
-        undo();
-    }
-    return clipInserted;
+    return result;
 }
 
 bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo)
