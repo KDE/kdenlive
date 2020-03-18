@@ -387,8 +387,12 @@ public:
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
 
+    /** @brief Make current timeline track active/inactive*/
     Q_INVOKABLE void switchTrackActive(int trackId = -1);
+    /** @brief Toogle the active/inactive state of all tracks*/
     void switchAllTrackActive();
+    /** @brief Make all tracks active or inactive */
+    void makeAllTrackActive();
     void switchTrackLock(bool applyToAll = false);
     void switchTargetTrack();
 

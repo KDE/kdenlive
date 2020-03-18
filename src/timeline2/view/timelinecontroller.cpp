@@ -2099,6 +2099,27 @@ void TimelineController::switchAllTrackActive()
     }
 }
 
+void TimelineController::makeAllTrackActive()
+{
+    // Check current status
+    auto it = m_model->m_allTracks.cbegin();
+    bool makeActive = false;
+    while (it != m_model->m_allTracks.cend()) {
+        if (!(*it)->isTimelineActive()) {
+            // There is an inactive track, activate all
+            makeActive = true;
+            break;
+        }
+        ++it;
+    }
+    it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        m_model->setTrackProperty(target_track, QStringLiteral("kdenlive:timeline_active"), makeActive ? QStringLiteral("1") : QStringLiteral("0"));
+        ++it;
+    }
+}
+
 void TimelineController::switchTrackLock(bool applyToAll)
 {
     if (!applyToAll) {

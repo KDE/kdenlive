@@ -139,7 +139,10 @@ public slots:
 
     /** @brief Make current timeline track active/inactive*/
     void slotSwitchTrackActive();
+    /** @brief Toogle the active/inactive state of all tracks*/
     void slotSwitchAllTrackActive();
+    /** @brief Make all tracks active or inactive */
+    void slotMakeAllTrackActive();
 
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();

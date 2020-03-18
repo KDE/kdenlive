@@ -1692,7 +1692,9 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_active_target"), i18n("Toggle Track Active"), pCore->projectManager(), SLOT(slotSwitchTrackActive()), QIcon(),
               Qt::Key_A);
     addAction(QStringLiteral("switch_all_targets"), i18n("Toggle All Tracks Active"), pCore->projectManager(), SLOT(slotSwitchAllTrackActive()), QIcon(),
-              Qt::SHIFT +  Qt::Key_A);
+              Qt::SHIFT + Qt::Key_A);
+    addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
+              Qt::SHIFT + Qt::ALT + Qt::Key_A);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark")));
 

@@ -346,10 +346,10 @@ QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
         videoTrack.duration = 0;
         tracks.append(videoTrack);
     }
-    return createEmptyDocument(tracks, audiotracks);
+    return createEmptyDocument(tracks);
 }
 
-QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks, int audiotracks)
+QDomDocument KdenliveDoc::createEmptyDocument(const QList<TrackInfo> &tracks)
 {
     // Creating new document
     QDomDocument doc;
