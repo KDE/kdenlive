@@ -1187,18 +1187,16 @@ void Monitor::slotForward(double speed)
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
-            m_glMonitor->purgeCache();
-            speed = 1;
-            resetSpeedInfo();
+            m_speedIndex = 0;
         } else {
             m_speedIndex++;
-            if (m_speedIndex > 4) {
-                m_speedIndex = 0;
-            }
-            speed = MonitorManager::speedArray[m_speedIndex];
-            m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
-            m_speedLabel->setText(QString("x%1").arg(speed));
         }
+        if (m_speedIndex > 4) {
+            m_speedIndex = 0;
+        }
+        speed = MonitorManager::speedArray[m_speedIndex];
+        m_speedLabel->setFixedWidth(QWIDGETSIZE_MAX);
+        m_speedLabel->setText(QString("x%1").arg(speed));
     }
     m_playAction->setActive(true);
     m_glMonitor->switchPlay(true, speed);
