@@ -41,7 +41,6 @@ MediaCapture::MediaCapture(QObject *parent)
     m_resetTimer.setInterval(5000);
     m_resetTimer.setSingleShot(true);
     connect(&m_resetTimer, &QTimer::timeout, this, &MediaCapture::resetIfUnused);
-    connect(pCore->mixer(), &MixerManager::updateRecVolume, this, &MediaCapture::setAudioVolume);
 }
 
 MediaCapture::~MediaCapture() = default;
