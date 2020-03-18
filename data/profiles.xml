@@ -15,6 +15,7 @@
    audioqualities="3,7" defaultaudioquality="3"
    args="properties=MPEG-2 qscale=%quality aq=%audioquality"
    speeds="subq=5 cmp=2 subcmp=2 trellis=1 bf=2;subq=3 cmp=1 subcmp=1 trellis=1 bf=2;subq=1"/>
+  <profile name="GIF High Quality" extension="GIF" args=""/>
  </group>
  <group name="Ultra-High Definition (4K)" renderer="avformat" type="av">
   <profile name="WebM-VP9" extension="webm"
@@ -57,10 +58,12 @@
    args="f=asf vcodec=wmv2 acodec=wmav2 qscale=%quality aq=%audioquality"/>
  </group>
  <group name="Audio only" renderer="avformat" type="audio">
-  <profile name="WAV" extension="wav" args="properties=WAV"/>
+  <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k' vn=1"/>
+  <profile name="ALAC" extension="mov" args="f=mov acodec=alac vn=1 video_off=1"/>
+  <profile name="FLAC" extension="mka" args="f=matroska acodec=flac vn=1 video_off=1"/> 
   <profile name="MP3" extension="mp3" audioqualities="3,7" defaultaudioquality="5" args="aq=%audioquality acodec=libmp3lame vn=1"/>
   <profile name="OGG" extension="ogg" audioqualities="3,7" defaultaudioquality="4" args="aq=%audioquality vn=1"/>
-  <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k' vn=1"/>
+  <profile name="WAV" extension="wav" args="properties=WAV"/>
  </group>
 </profiles>
 
