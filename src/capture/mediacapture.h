@@ -54,8 +54,6 @@ public:
     QUrl getCaptureOutputLocation();
     /** @brief Sets m_audioDevice to selected audio capture device **/
     void setAudioCaptureDevice();
-    /** @brief Sets m_volume to selected audio capture volume **/
-    void setAudioVolume();
     /** @brief Returns list of audio devices available for capture **/
     QStringList getAudioCaptureDevices();
     /** @brief Sets currentState to QMediaRecorder::State value and returns it **/
@@ -66,6 +64,8 @@ public:
 
 public slots:
     void displayErrorMessage();
+    /** @brief Sets m_volume to selected audio capture volume **/
+    void setAudioVolume();
 
 private:
     std::unique_ptr<QAudioRecorder> m_audioRecorder;
@@ -73,7 +73,6 @@ private:
     std::unique_ptr<QCamera> m_camera;
     std::unique_ptr<QAudioProbe> m_probe;
     QString m_audioDevice;
-    qreal m_volume;
     QUrl m_path;
     QVector<qreal> m_levels;
     int m_recordState;
