@@ -1692,7 +1692,9 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("switch_active_target"), i18n("Toggle Track Active"), pCore->projectManager(), SLOT(slotSwitchTrackActive()), QIcon(),
               Qt::Key_A);
     addAction(QStringLiteral("switch_all_targets"), i18n("Toggle All Tracks Active"), pCore->projectManager(), SLOT(slotSwitchAllTrackActive()), QIcon(),
-              Qt::SHIFT +  Qt::Key_A);
+              Qt::SHIFT + Qt::Key_A);
+    addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
+              Qt::SHIFT + Qt::ALT + Qt::Key_A);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark")));
 
@@ -2624,14 +2626,7 @@ void MainWindow::slotInsertClipOverwrite()
         // No clip in monitor
         return;
     }
-    int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
-    if (pos > 0) {
-        Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-        m_projectMonitor->refreshMonitorIfActive(true);
-        getCurrentTimeline()->controller()->setPosition(pos);
-        pCore->monitorManager()->activateMonitor(activeMonitor);
-    }
+    getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), true);
 }
 
 void MainWindow::slotInsertClipInsert()
@@ -2642,14 +2637,7 @@ void MainWindow::slotInsertClipInsert()
         pCore->displayMessage(i18n("No clip selected in project bin"), InformationMessage);
         return;
     }
-    int pos = getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
-    if (pos > 0) {
-        Kdenlive::MonitorId activeMonitor = pCore->monitorManager()->activeMonitor()->id();
-        pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-        m_projectMonitor->refreshMonitorIfActive(true);
-        getCurrentTimeline()->controller()->setPosition(pos);
-        pCore->monitorManager()->activateMonitor(activeMonitor);
-    }
+    getMainTimeline()->controller()->insertZone(binId, m_clipMonitor->getZoneInfo(), false);
 }
 
 void MainWindow::slotExtractZone()

@@ -192,7 +192,7 @@ private:
 
     /** @brief Creates a new project. */
     QDomDocument createEmptyDocument(int videotracks, int audiotracks);
-    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks, int audiotracks);
+    QDomDocument createEmptyDocument(const QList<TrackInfo> &tracks);
 
     /** @brief Updates the project folder location entry in the kdenlive file dialogs to point to the current project folder. */
     void updateProjectFolderPlacesEntry();
