@@ -58,7 +58,7 @@ Rectangle {
         x: controller.zoneIn * root.timeScale
         width: (controller.zoneOut - controller.zoneIn) * root.timeScale
         anchors.bottom: parent.bottom
-        height: ruler.height / 1.9
+        height: ruler.height / 2
         opacity: 0.8
         onXChanged: zoneToolTipTimer.start()
         onWidthChanged: zoneToolTipTimer.start()
@@ -102,18 +102,19 @@ Rectangle {
     Rectangle {
         visible: inZoneMarker.visible || zoneToolTipTimer.running
         width: inLabel.contentWidth + 4
-        height: inLabel.contentHeight
+        height: inLabel.contentHeight + 2
         property int centerPos: zone.x + zone.width / 2 - inLabel.contentWidth / 2
         x: centerPos < 0 ? 0 : centerPos > ruler.width - inLabel.contentWidth ? ruler.width - inLabel.contentWidth : centerPos
-        color: activePalette.highlight
+        color: activePalette.alternateBase
         anchors.bottom: ruler.top
         Label {
             id: inLabel
             anchors.fill: parent
             horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignBottom
             text: trimInMouseArea.containsMouse || trimInMouseArea.pressed ? controller.toTimecode(controller.zoneIn) + '>' + controller.toTimecode(controller.zoneOut - controller.zoneIn) : trimOutMouseArea.containsMouse || trimOutMouseArea.pressed ? controller.toTimecode(controller.zoneOut - controller.zoneIn) + '<' + controller.toTimecode(controller.zoneOut) : controller.toTimecode(controller.zoneOut - controller.zoneIn)
-            font.pixelSize: root.baseUnit
-            color: activePalette.highlightedText
+            font: fixedFont
+            color: activePalette.text
         }
     }
     // monitor zone
