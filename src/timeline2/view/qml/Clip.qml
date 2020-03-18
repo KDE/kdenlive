@@ -258,7 +258,7 @@ Rectangle {
                     controller.requestAddToSelection(clipRoot.clipId, true)
                 }
                 root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
-                root.showClipMenu()
+                root.showClipMenu(clipRoot.clipId)
             }
         }
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)

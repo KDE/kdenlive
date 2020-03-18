@@ -36,6 +36,7 @@
 #include "qmltypes/thumbnailprovider.h"
 #include "timelinecontroller.h"
 #include "utils/clipboardproxy.hpp"
+#include "effects/effectsrepository.hpp"
 
 #include <KDeclarative/KDeclarative>
 // #include <QUrl>
@@ -175,7 +176,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(processingDrag(bool)), pCore->window(), SIGNAL(enableUndo(bool)));
     connect(m_proxy, &TimelineController::seeked, proxy, &MonitorProxy::setPosition);
     rootObject()->setProperty("dar", pCore->getCurrentDar());
-    connect(rootObject(), SIGNAL(showClipMenu()), this, SLOT(showClipMenu()));
+    connect(rootObject(), SIGNAL(showClipMenu(int)), this, SLOT(showClipMenu(int)));
     connect(rootObject(), SIGNAL(showCompositionMenu()), this, SLOT(showCompositionMenu()));
     connect(rootObject(), SIGNAL(showTimelineMenu()), this, SLOT(showTimelineMenu()));
     connect(rootObject(), SIGNAL(showRulerMenu()), this, SLOT(showRulerMenu()));
@@ -193,8 +194,24 @@ void TimelineWidget::mousePressEvent(QMouseEvent *event)
     QQuickWidget::mousePressEvent(event);
 }
 
-void TimelineWidget::showClipMenu()
+void TimelineWidget::showClipMenu(int cid)
 {
+    // Hide not applicable effects
+    QList <QAction *> effects = m_favEffects->actions();
+    int tid = model()->getClipTrackId(cid);
+    bool isAudioTrack = false;
+    if (tid > -1) {
+        isAudioTrack = model()->isAudioTrack(tid);
+    }
+    m_favCompositions->setEnabled(!isAudioTrack);
+    for (auto ac : effects) {
+        const QString &id = ac->data().toString();
+        if (EffectsRepository::get()->isAudioEffect(id) != isAudioTrack) {
+            ac->setVisible(false);
+        } else {
+            ac->setVisible(true);
+        }
+    }
     m_timelineClipMenu->popup(m_clickPos);
 }
 
