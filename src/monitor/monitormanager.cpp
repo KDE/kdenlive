@@ -240,7 +240,7 @@ void MonitorManager::slotRewind(double speed)
 void MonitorManager::slotForward(double speed)
 {
     if (m_activeMonitor) {
-        m_activeMonitor->slotForward(speed);
+        m_activeMonitor->slotForward(speed, true);
     }
 }
 

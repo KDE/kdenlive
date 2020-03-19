@@ -321,7 +321,9 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Per monitor forward action
     QAction *forward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
     m_toolbar->addAction(forward);
-    connect(forward, &QAction::triggered, this, &Monitor::slotForward);
+    connect(forward, &QAction::triggered, [this]() {
+        Monitor::slotForward();
+    });
 
     playButton->setDefaultAction(m_playAction);
     m_configMenu = new QMenu(i18n("Misc..."), this);
@@ -1205,13 +1207,21 @@ void Monitor::slotRewind(double speed)
     m_glMonitor->switchPlay(true, speed);
 }
 
-void Monitor::slotForward(double speed)
+void Monitor::slotForward(double speed, bool allowNormalPlay)
 {
     slotActivateMonitor();
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
-            m_speedIndex = 0;
+            if (allowNormalPlay) {
+                m_glMonitor->purgeCache();
+                resetSpeedInfo();
+                m_playAction->setActive(true);
+                m_glMonitor->switchPlay(true, 1);
+                return;
+            } else {
+                m_speedIndex = 0;
+            }
         } else {
             m_speedIndex++;
         }
