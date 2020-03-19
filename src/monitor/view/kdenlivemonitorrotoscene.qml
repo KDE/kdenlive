@@ -13,6 +13,8 @@ Item {
     property point profile: controller.profile
     property point center
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
+    property int overlayType: controller.overlayType
+    property color overlayColor: 'cyan'
     property double scalex : 1
     property double scaley : 1
     property double stretch : 1
@@ -302,6 +304,26 @@ Item {
         y: root.center.y - height / 2 - root.offsety;
         color: "transparent"
         border.color: "#ffffff00"
+        Loader {
+            anchors.fill: parent
+            source: {
+                switch(root.overlayType)
+                {
+                    case 0:
+                        return '';
+                    case 1:
+                        return "OverlayStandard.qml";
+                    case 2:
+                        return "OverlayMinimal.qml";
+                    case 3:
+                        return "OverlayCenter.qml";
+                    case 4:
+                        return "OverlayCenterDiagonal.qml";
+                    case 5:
+                        return "OverlayThirds.qml";
+                }
+            }
+        }
     }
 
     Rectangle {
