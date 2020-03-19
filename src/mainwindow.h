@@ -380,6 +380,7 @@ private slots:
     void slotResizeItemStart();
     void slotResizeItemEnd();
     void configureNotifications();
+    void slotSeparateAudioChannel();
     void slotInsertTrack();
     void slotDeleteTrack();
     void slotShowTrackRec();
