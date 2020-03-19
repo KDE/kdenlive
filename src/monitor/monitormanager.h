@@ -158,6 +158,8 @@ signals:
     void cleanMixer();
     /** @brief Update monitor preview resolution */
     void updatePreviewScaling();
+    /** @brief monitor scaling was changed, update select action */
+    void scalingChanged();
 };
 
 #endif

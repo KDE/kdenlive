@@ -206,36 +206,60 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     QSize iconSize(size, size);
     m_toolbar->setIconSize(iconSize);
     m_scalingLabel = new QLabel(this);
+    m_scalingLabel->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
     m_scalingLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    QFontMetricsF fm(m_scalingLabel->font());
+    int labelWidth = (int) fm.boundingRect(QRect(0, 0, fm.averageCharWidth()*10, fm.lineSpacing() * 2), Qt::AlignCenter, QStringLiteral("000p")).width();
+    QMargins labelMrg = m_scalingLabel->contentsMargins();
+    m_scalingLabel->setFixedWidth(labelWidth + labelMrg.left() + labelMrg.right());
+    m_scalingLabel->setAlignment(Qt::AlignCenter);
+    connect(m_scalingLabel, &QLabel::linkActivated, [&]() {
+        switch (KdenliveSettings::previewScaling()) {
+            case 2:
+                KdenliveSettings::setPreviewScaling(4);
+                break;
+            case 4:
+                KdenliveSettings::setPreviewScaling(8);
+                break;
+            case 8:
+                KdenliveSettings::setPreviewScaling(16);
+                break;
+            case 16:
+                KdenliveSettings::setPreviewScaling(0);
+                break;
+            default:
+                KdenliveSettings::setPreviewScaling(2);
+        }
+        m_monitorManager->scalingChanged();
+        m_monitorManager->updatePreviewScaling();
+    });
     connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
         m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
-                m_scalingLabel->setText(i18n("720p"));
+                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("720p")));
                 break;
             case 4:
-                m_scalingLabel->setText(i18n("540p"));
+                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("540p")));
                 break;
             case 8:
-                m_scalingLabel->setText(i18n("360p"));
+                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("360p")));
                 break;
             case 16:
-                m_scalingLabel->setText(i18n("270p"));
+                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("270p")));
                 break;
             default:
-                m_scalingLabel->clear();
+                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("1:1")));
                 break;
         }
-        m_scalingLabel->setFixedWidth(m_scalingLabel->text().isEmpty() ? 0 : QWIDGETSIZE_MAX);
         refreshMonitorIfActive();
     });
 
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
-    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
-    m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
     m_toolbar->addWidget(m_scalingLabel);
     m_speedLabel = new QLabel(this);
     m_speedLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
     bg = scheme.background(KColorScheme::PositiveBackground).color();
     m_speedLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_speedLabel->sizeHint().height()/4));
     m_toolbar->addWidget(m_speedLabel);
@@ -1766,9 +1790,6 @@ void Monitor::setPalette(const QPalette &p)
     if (root) {
         QMetaObject::invokeMethod(root, "updatePalette");
     }
-    KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
-    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
-    m_scalingLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_scalingLabel->sizeHint().height()/4));
     m_audioMeterWidget->refreshPixmap();
 }
 

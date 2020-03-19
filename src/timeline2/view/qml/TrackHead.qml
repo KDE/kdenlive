@@ -516,9 +516,11 @@ Rectangle {
                 property double startY
                 property double originalY
                 drag.smoothed: false
+                property bool dragStarted: false
 
                 onPressed: {
                     root.autoScrolling = false
+                    dragStarted = false
                     startY = mapToItem(null, x, y).y
                     originalY = trackHeadRoot.height // reusing originalX to accumulate delta for bubble help
                 }
@@ -527,15 +529,21 @@ Rectangle {
                     if (!trimInMouseArea.containsMouse) {
                         parent.opacity = 0
                     }
-                    if (mouse.modifiers & Qt.ShiftModifier) {
+                    if (mouse.modifiers & Qt.ShiftModifier && dragStarted) {
                         timeline.adjustAllTrackHeight(trackHeadRoot.trackId, trackHeadRoot.myTrackHeight)
                     }
                 }
                 onEntered: parent.opacity = 0.3
                 onExited: parent.opacity = 0
+                onDoubleClicked: {
+                    timeline.defaultTrackHeight(mouse.modifiers & Qt.ShiftModifier ? -1 : trackHeadRoot.trackId)
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         parent.opacity = 0.5
+                        if (!dragStarted && Math.abs(mapToItem(null, x, y).y - startY) > 2) {
+                            dragStarted = true
+                        }
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
                         newHeight =  Math.max(root.collapsedHeight, newHeight)
                         trackHeadRoot.myTrackHeight = newHeight
