@@ -321,8 +321,8 @@ Item {
 
         Rectangle {
             // Audio or video only drag zone
-            x: 5
-            y: parent.height - height - 5
+            x: 2
+            y: inPoint.visible ? inPoint.y - height - 2 : parent.height - height - 2
             width: childrenRect.width
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
