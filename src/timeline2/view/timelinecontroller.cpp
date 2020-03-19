@@ -1034,6 +1034,26 @@ void TimelineController::adjustAllTrackHeight(int trackId, int height)
     m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
+void TimelineController::defaultTrackHeight(int trackId)
+{
+    if (trackId > -1) {
+        m_model->getTrackById(trackId)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(KdenliveSettings::trackheight()));
+        QModelIndex modelStart = m_model->makeTrackIndexFromID(trackId);
+        m_model->dataChanged(modelStart, modelStart, {TimelineModel::HeightRole});
+        return;
+    }
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        m_model->getTrackById(target_track)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(KdenliveSettings::trackheight()));
+        ++it;
+    }
+    int tracksCount = m_model->getTracksCount();
+    QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
+    QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
+    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+
 void TimelineController::setPosition(int position)
 {
     // Process seek request

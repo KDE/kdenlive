@@ -295,6 +295,10 @@ public:
     */
     Q_INVOKABLE void adjustAllTrackHeight(int trackId, int height);
 
+    /** @brief Reset track @trackId height to default track height. Adjusts all tracks if @trackId == -1
+    */
+    Q_INVOKABLE void defaultTrackHeight(int trackId);
+
     Q_INVOKABLE bool exists(int itemId);
 
     Q_INVOKABLE int headerWidth() const;
