@@ -1350,7 +1350,7 @@ void MainWindow::setupActions()
     m_scaleGroup = new QActionGroup(this);
     m_scaleGroup->setExclusive(true);
     m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
-    QAction *scale_no = new QAction(i18n("Full Resolution"), m_scaleGroup);
+    QAction *scale_no = new QAction(i18n("Full Resolution (1:1)"), m_scaleGroup);
     addAction(QStringLiteral("scale_no_preview"), scale_no);
     scale_no->setCheckable(true);
     scale_no->setData(1);
@@ -1370,23 +1370,26 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("scale_16_preview"), scale_16);
     scale_16->setCheckable(true);
     scale_16->setData(16);
-    switch (KdenliveSettings::previewScaling()) {
-        case 2:
-            scale_2->setChecked(true);
-            break;
-        case 4:
-            scale_4->setChecked(true);
-            break;
-        case 8:
-            scale_8->setChecked(true);
-            break;
-        case 16:
-            scale_16->setChecked(true);
-            break;
-        default:
-            scale_no->setChecked(true);
-            break;
-    }
+    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, [scale_2, scale_4, scale_8, scale_16, scale_no]() {
+        switch (KdenliveSettings::previewScaling()) {
+            case 2:
+                scale_2->setChecked(true);
+                break;
+            case 4:
+                scale_4->setChecked(true);
+                break;
+            case 8:
+                scale_8->setChecked(true);
+                break;
+            case 16:
+                scale_16->setChecked(true);
+                break;
+            default:
+                scale_no->setChecked(true);
+                break;
+        }
+    });
+    pCore->monitorManager()->scalingChanged();
     connect(m_scaleGroup, &QActionGroup::triggered, [] (QAction *ac) {
         int scaling = ac->data().toInt();
         KdenliveSettings::setPreviewScaling(scaling);
