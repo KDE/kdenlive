@@ -416,7 +416,7 @@ Item{
         Text {
             id: speedLabel
             text: i18n("Adjusting speed")
-            font.pointSize: root.fontUnit
+            font: miniFont
             anchors.fill: parent
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter

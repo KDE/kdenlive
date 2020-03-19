@@ -120,7 +120,7 @@ Rectangle {
         }
         contentItem: Label {
             color: activePalette.text
-            font.pointSize: root.fontUnit
+            font: miniFont
             text: label.text + ' (' + timeline.simplifiedTC(clipRoot.inPoint) + '-' + timeline.simplifiedTC(clipRoot.outPoint) + ')'
         }
     }
@@ -355,7 +355,7 @@ Rectangle {
                         id: mlabel
                         visible: timeline.showMarkers && parent.width > width * 1.5
                         text: model.comment
-                        font.pointSize: root.fontUnit
+                        font: miniFont
                         x: markerBase.x
                         anchors {
                             bottom: parent.verticalCenter
@@ -445,7 +445,7 @@ Rectangle {
                         }
                         contentItem: Label {
                             color: activePalette.text
-                            font.pointSize: root.fontUnit
+                            font: miniFont
                             text: i18n("In:%1\nPosition:%2", timeline.simplifiedTC(clipRoot.inPoint),timeline.simplifiedTC(clipRoot.modelStart))
                         }
                     }
@@ -517,7 +517,7 @@ Rectangle {
                     }
                     contentItem: Label {
                         color: activePalette.text
-                        font.pointSize: root.fontUnit
+                        font: miniFont
                         text: i18n("Out: ") + timeline.simplifiedTC(clipRoot.outPoint)
                     }
                 }
@@ -573,7 +573,7 @@ Rectangle {
                         // Clip name text
                         id: label
                         text: clipName + (clipRoot.speed != 1.0 ? ' [' + Math.round(clipRoot.speed*100) + '%]': '')
-                        font.pointSize: root.fontUnit
+                        font: miniFont
                         anchors {
                             top: labelRect.top
                             left: labelRect.left
@@ -613,14 +613,14 @@ Rectangle {
                             }
                             contentItem: Label {
                                 color: activePalette.text
-                                font.pointSize: root.fontUnit
+                                font: miniFont
                                 text: positionOffset < 0 ? i18n("Offset: -%1", timeline.simplifiedTC(-positionOffset)) : i18n("Offset: %1", timeline.simplifiedTC(positionOffset))
                             }
                         }
                         Text {
                             id: offsetLabel
                             text: positionOffset
-                            font.pointSize: root.fontUnit
+                            font: miniFont
                             anchors {
                                 horizontalCenter: parent.horizontalCenter
                                 topMargin: 1
@@ -646,7 +646,7 @@ Rectangle {
                         // Effect names text
                         id: effectLabel
                         text: clipRoot.effectNames
-                        font.pointSize: root.fontUnit
+                        font: miniFont
                         visible: effectsRect.visible
                         anchors {
                             top: effectsRect.top
@@ -729,7 +729,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    font.pointSize: root.fontUnit
+                    font: miniFont
                     text: i18n("Click to add composition")
                 }
             }
@@ -773,7 +773,7 @@ Rectangle {
                 }
                 contentItem: Label {
                     color: activePalette.text
-                    font.pointSize: root.fontUnit
+                    font: miniFont
                     text: i18n("Click to add composition")
                 }
             }

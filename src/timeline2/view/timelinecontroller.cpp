@@ -582,18 +582,32 @@ void TimelineController::addTrack(int tid)
         int newTid;
         bool audioRecTrack = d->addRecTrack();
         bool addAVTrack = d->addAVTrack();
-        m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack());
-        if (addAVTrack) {
-            int newTid2;
-            int mirrorPos = 0;
-            int mirrorId = m_model->getMirrorAudioTrackId(newTid);
-            if (mirrorId > -1) {
-                mirrorPos = m_model->getTrackMltIndex(mirrorId);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        bool result = m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack(), undo, redo);
+        if (result) {
+            m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
+            if (addAVTrack) {
+                int newTid2;
+                int mirrorPos = 0;
+                int mirrorId = m_model->getMirrorAudioTrackId(newTid);
+                if (mirrorId > -1) {
+                    mirrorPos = m_model->getTrackMltIndex(mirrorId);
+                }
+                result = m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true, undo, redo);
+                if (result) {
+                    m_model->setTrackProperty(newTid2, "kdenlive:timeline_active", QStringLiteral("1"));
+                }
             }
-            m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true);
+            if (audioRecTrack) {
+                m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+            }
         }
-        if (audioRecTrack) {
-            m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+        if (result) {
+            pCore->pushUndo(undo, redo, addAVTrack ? i18n("Insert Tracks") : i18n("Insert Track"));
+        } else {
+            pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
+            undo();
         }
     }
 }
@@ -3117,5 +3131,6 @@ void TimelineController::expandActiveClip()
         pCore->pushUndo(undo, redo, i18n("Expand clip"));
     } else {
         undo();
+        pCore->displayMessage(i18n("Could not expand clip"), InformationMessage, 500);
     }
 }
