@@ -1189,18 +1189,19 @@ void MainWindow::setupActions()
     connect(m_zoomSlider, &QAbstractSlider::sliderMoved, this, &MainWindow::slotShowZoomSliderToolTip);
     connect(m_buttonFitZoom, &QAction::triggered, this, &MainWindow::slotFitZoom);
 
-    m_trimLabel = new QLabel(QStringLiteral(" "), this);
-    m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    // m_trimLabel->setAutoFillBackground(true);
-    m_trimLabel->setAlignment(Qt::AlignHCenter);
-    m_trimLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; }"));
-
     KToolBar *toolbar = new KToolBar(QStringLiteral("statusToolBar"), this, Qt::BottomToolBarArea);
     toolbar->setMovable(false);
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
+    if (KdenliveSettings::gpu_accel()) {
     /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
-    toolbar->addWidget(m_trimLabel);
+        m_trimLabel = new QLabel(i18n("Experimental GPU processing enabled - not for production"), this);
+        m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    // m_trimLabel->setAutoFillBackground(true);
+        m_trimLabel->setAlignment(Qt::AlignHCenter);
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; color:black;padding-left:2px;padding-right:2px}"));
+        toolbar->addWidget(m_trimLabel);
+    }
     toolbar->addAction(m_buttonAutomaticTransition);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
