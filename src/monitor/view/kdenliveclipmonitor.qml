@@ -27,7 +27,7 @@ Item {
     property bool showAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
-    property real baseUnit: fontMetrics.font.pixelSize * 0.8
+    property real baseUnit: fontMetrics.font.pixelSize
     property int duration: 300
     property int mouseRulerPos: 0
     property double frameSize: 10
@@ -39,7 +39,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font.family: "Arial"
+        font: fixedFont
     }
 
     signal editCurrentMarker()
@@ -208,34 +208,42 @@ Item {
                 }
             }
 
-            Text {
+            Label {
                 id: timecode
-                font: fixedFont
+                font.family: fontMetrics.font.family
+                font.pointSize: 1.5 * fontMetrics.font.pointSize
                 objectName: "timecode"
-                color: "white"
-                style: Text.Outline; 
-                styleColor: "black"
+                color: "#ffffff"
+                padding: 2
+                background: Rectangle {
+                    color: "#66000000"
+                }
                 text: controller.toTimecode(controller.position)
                 visible: root.showTimecode
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
+                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip) ? audioThumb.height : 0
                     rightMargin: 4
                 }
             }
-            Text {
+            Label {
                 id: fpsdropped
-                font: fixedFont
+                font.family: fontMetrics.font.family
+                font.pointSize: 1.5 * fontMetrics.font.pointSize
                 objectName: "fpsdropped"
-                color: root.dropped ? "red" : "white"
-                style: Text.Outline;
-                styleColor: "black"
+                color: "#ffffff"
+                padding: 2
+                background: Rectangle {
+                    color: root.dropped ? "#99ff0000" : "#66000000"
+                }
                 text: i18n("%1 fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    rightMargin: 10
+                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip) ? audioThumb.height : 0
+                    rightMargin: timecode.visible ? 0 : 4
                 }
             }
             Label {

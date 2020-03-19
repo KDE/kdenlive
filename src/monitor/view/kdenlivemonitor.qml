@@ -34,7 +34,7 @@ Item {
 
     FontMetrics {
         id: fontMetrics
-        font.family: "Arial"
+        font: fixedFont
     }
 
     signal editCurrentMarker()
@@ -116,13 +116,16 @@ Item {
             id: monitorOverlay
             anchors.fill: parent
 
-            Text {
+            Label {
                 id: timecode
-                font: fixedFont
+                font.family: fontMetrics.font.family
+                font.pointSize: 1.5 * fontMetrics.font.pointSize
                 objectName: "timecode"
-                color: "white"
-                style: Text.Outline; 
-                styleColor: "black"
+                color: "#ffffff"
+                padding: 2
+                background: Rectangle {
+                    color: "#66000000"
+                }
                 text: controller.toTimecode(controller.position)
                 visible: root.showTimecode
                 anchors {
@@ -131,19 +134,22 @@ Item {
                     rightMargin: 4
                 }
             }
-            Text {
+            Label {
                 id: fpsdropped
-                font: fixedFont
+                font.family: fontMetrics.font.family
+                font.pointSize: 1.5 * fontMetrics.font.pointSize
                 objectName: "fpsdropped"
-                color: root.dropped ? "red" : "white"
-                style: Text.Outline;
-                styleColor: "black"
+                color: "#ffffff"
+                padding: 2
+                background: Rectangle {
+                    color: root.dropped ? "#99ff0000" : "#66000000"
+                }
                 text: i18n("%1 fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    rightMargin: 10
+                    rightMargin: timecode.visible ? 0 : 4
                 }
             }
             Label {
