@@ -55,7 +55,12 @@ Rectangle {
             iconName: "view-grid"
             tooltip: i18n("Change Overlay")
             onClicked: {
-                root.switchOverlay()
+                if (controller.overlayType >= 5) {
+                    controller.overlayType = 0
+                } else {
+                    controller.overlayType = controller.overlayType + 1;
+                }
+                root.overlayType = controller.overlayType
             }
         }
         ToolButton {

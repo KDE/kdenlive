@@ -54,8 +54,7 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
     }
     m_sceneType = type;
     QQuickItem *root = nullptr;
-    const QFont ft = QFontDatabase::systemFont(QFontDatabase::FixedFont);
-    m_view->rootContext()->setContextProperty("fixedFont", ft);
+    m_view->rootContext()->setContextProperty("fixedFont", QFontDatabase::systemFont(QFontDatabase::FixedFont));
     double scalex = (double)displayRect.width() / profile.width() * zoom;
     double scaley = (double)displayRect.height() / profile.height() * zoom;
     switch (type) {

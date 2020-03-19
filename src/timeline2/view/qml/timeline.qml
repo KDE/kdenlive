@@ -1251,7 +1251,7 @@ Rectangle {
             id: bubbleHelpLabel
             color: activePalette.text //application.toolTipTextColor
             anchors.centerIn: parent
-            font.pointSize: root.fontUnit
+            font: miniFont
         }
         function show(x, y, text) {
             bubbleHelp.text = text
@@ -1370,7 +1370,7 @@ Rectangle {
                     id: mlabel
                     visible: timeline.showMarkers
                     text: model.comment
-                    font.pointSize: root.fontUnit
+                    font: miniFont
                     x: guideBase.x + 2
                     y: scrollView.contentY
                     color: 'white'

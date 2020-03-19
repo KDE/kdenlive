@@ -130,7 +130,7 @@ Rectangle {
                 }
                 ToolTip {
                         visible: targetArea.containsMouse
-                        font.pixelSize: root.baseUnit
+                        font: miniFont
                         delay: 1500
                         timeout: 5000
                         background: Rectangle {
@@ -199,7 +199,7 @@ Rectangle {
             }
             ToolTip {
                 visible: expandButton.hovered
-                font.pixelSize: root.baseUnit
+                font: miniFont
                 delay: 1500
                 timeout: 5000
                 background: Rectangle {
@@ -212,95 +212,94 @@ Rectangle {
                 }
             }
         }
-        Item {
-            id: tagContainer
+        Label {
+            id: trackLed
+            property color bgColor: Qt.darker(trackHeadRoot.color, 0.55)
             anchors.left: expandButton.right
-            width: trackHeadRoot.buttonSize
-            height: trackHeadRoot.buttonSize
-            //Layout.topMargin: 1
-            Rectangle {
-                id: trackLed
-                color: Qt.darker(trackHeadRoot.color, 0.55)
-                anchors.fill: parent
-                anchors.margins: trackHeadRoot.buttonSize / 8
-                border.width: 0
-                Text {
-                    id: trackTagLabel
-                    text: trackHeadRoot.trackTag
-                    anchors.fill: parent
-                    font.pointSize: root.fontUnit
-                    color: activePalette.text
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                }
-                MouseArea {
-                    id: tagMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        timeline.switchTrackActive(trackHeadRoot.trackId)
-                    }
-                }
-                ToolTip {
-                    visible: tagMouseArea.containsMouse
-                    font.pixelSize: root.baseUnit
-                    delay: 1500
-                    timeout: 5000
-                    background: Rectangle {
-                        color: activePalette.alternateBase
-                        border.color: activePalette.light
-                    }
-                    contentItem: Label {
-                        color: activePalette.text
-                        text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
-                    }
-                    }
-            state:  'normalled'
-                states: [
-                    State {
-                        name: 'locked'
-                        when: trackHeadRoot.isLocked
-                        PropertyChanges {
-                            target: trackLed
-                            color: 'red'
-                        }
-                    },
-                    State {
-                        name: 'active'
-                        when: trackHeadRoot.isActive
-                        PropertyChanges {
-                            target: trackLed
-                            color: timeline.targetColor
-                        }
-                        PropertyChanges {
-                            target: trackTagLabel
-                            color: timeline.targetTextColor
-                        }
-                    },
-                    State {
-                        name: 'inactive'
-                        when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
-                        PropertyChanges {
-                            target: trackLed
-                            color: Qt.darker(trackHeadRoot.color, 0.55)
-                        }
-                    }
-                ]
-                transitions: [
-                    Transition {
-                        to: '*'
-                        ColorAnimation { target: trackLed; duration: 300 }
-                    }
-                ]
+            font: miniFont
+            text: trackHeadRoot.trackTag
+            color: activePalette.text
+            background: Rectangle {
+                color: trackLed.bgColor
             }
+            FontMetrics {
+                id: textMetricsLed
+                font: miniFont
+            }
+            height: parent.height, textMetricsLed.height + 2
+            width: (textMetricsLed.averageCharacterWidth * text.length) + 4
+            y: 1
+            leftPadding:0
+            rightPadding:0
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            MouseArea {
+                id: tagMouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    timeline.switchTrackActive(trackHeadRoot.trackId)
+                }
+            }
+            ToolTip {
+                visible: tagMouseArea.containsMouse
+                font: miniFont
+                delay: 1500
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    text: i18n("Click to make track active/inactive. Active tracks will react to editing operations")
+                }
+                }
+        state:  'normalled'
+            states: [
+                State {
+                    name: 'locked'
+                    when: trackHeadRoot.isLocked
+                    PropertyChanges {
+                        target: trackLed
+                        bgColor: 'red'
+                    }
+                },
+                State {
+                    name: 'active'
+                    when: trackHeadRoot.isActive
+                    PropertyChanges {
+                        target: trackLed
+                        bgColor: timeline.targetColor
+                    }
+                    PropertyChanges {
+                        target: trackLed
+                        color: timeline.targetTextColor
+                    }
+                },
+                State {
+                    name: 'inactive'
+                    when: !trackHeadRoot.isLocked && !trackHeadRoot.isActive
+                    PropertyChanges {
+                        target: trackLed
+                        bgColor: Qt.darker(trackHeadRoot.color, 0.55)
+                    }
+                }
+            ]
+            transitions: [
+                Transition {
+                    to: '*'
+                    ColorAnimation { target: trackLed; duration: 300 }
+                }
+            ]
         }
         Label {
-            anchors.left: tagContainer.right
+            anchors.left: trackLed.right
             anchors.leftMargin: 2
             anchors.verticalCenter: parent.verticalCenter
             text: trackHeadRoot.trackName
-            font.pixelSize: root.baseUnit
+            font: miniFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTagLabel.width + (4 * muteButton.width) + 4
@@ -337,7 +336,7 @@ Rectangle {
                 onClicked: controller.setTrackProperty(trackId, "hide", isDisabled ? (isAudio ? '1' : '2') : '3')
                 ToolTip {
                     visible: muteButton.hovered
-                    font.pixelSize: root.baseUnit
+                    font: miniFont
                     delay: 1500
                     timeout: 5000
                     background: Rectangle {
@@ -362,7 +361,7 @@ Rectangle {
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
                 ToolTip {
                     visible: lockButton.hovered
-                    font.pixelSize: root.baseUnit
+                    font: miniFont
                     delay: 1500
                     timeout: 5000
                     background: Rectangle {
@@ -454,7 +453,7 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
-                    font.pointSize: root.fontUnit
+                    font: miniFont
                 }
                 Label {
                     id: placeHolder
@@ -465,14 +464,14 @@ Rectangle {
                     anchors.left: parent.left
                     anchors.leftMargin: 4
                     elide: Qt.ElideRight
-                    font.pointSize: root.fontUnit
+                    font: miniFont
                 }
                 TextField {
                     id: nameEdit
                     visible: false
                     width: parent.width
                     text: trackName
-                    font.pointSize: root.fontUnit
+                    font: miniFont
                     background: Rectangle {
                         radius: 2
                         color: activePalette.window

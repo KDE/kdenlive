@@ -118,7 +118,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: 2
                 text: timeline.timecode(parent.realPos)
-                font.pointSize: root.fontUnit
+                font: miniFont
                 color: activePalette.windowText
             }
         }
@@ -189,7 +189,7 @@ Rectangle {
                 id: inLabel
                 anchors.fill: parent
                 text: timeline.timecode(timeline.zoneIn)
-                font.pointSize: root.fontUnit
+                font: miniFont
                 color: activePalette.highlightedText
             }
         }
@@ -204,7 +204,7 @@ Rectangle {
                 id: outLabel
                 anchors.fill: parent
                 text: timeline.timecode(timeline.zoneOut)
-                font.pointSize: root.fontUnit
+                font: miniFont
                 color: activePalette.highlightedText
             }
         }
@@ -221,7 +221,7 @@ Rectangle {
                 anchors.fill: parent
                 horizontalAlignment: Text.AlignHCenter
                 text: timeline.timecode(timeline.zoneOut - timeline.zoneIn)
-                font.pointSize: root.fontUnit
+                font: miniFont
                 color: activePalette.highlightedText
             }
         }
