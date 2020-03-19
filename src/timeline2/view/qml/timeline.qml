@@ -232,7 +232,7 @@ Rectangle {
     property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pixelSize
-    property real fontUnit: fontMetrics.font.pointSize * 0.9
+    property real fontUnit: fontMetrics.font.pointSize
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
     property bool autoScrolling: timeline.autoScroll
