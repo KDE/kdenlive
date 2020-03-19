@@ -1604,7 +1604,7 @@ void GLWidget::switchPlay(bool play, double speed)
         resetZoneMode();
     }
     if (play) {
-        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out()) {
+        if (m_id == Kdenlive::ClipMonitor && m_consumer->position() == m_producer->get_out() && speed > 0) {
             m_producer->seek(0);
         }
         m_producer->set_speed(speed);

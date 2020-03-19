@@ -19,13 +19,13 @@
  ***************************************************************************/
 
 #include "core.h"
-#include "dialogs/splash.hpp"
 #include "logger.hpp"
 #include <config-kdenlive.h>
 
 #include <mlt++/Mlt.h>
 
 #include "kxmlgui_version.h"
+#include "mainwindow.h"
 
 #include <KAboutData>
 #include <KConfigGroup>
@@ -52,6 +52,7 @@
 #include <QQmlEngine>
 #include <QUrl> //new
 #include <klocalizedstring.h>
+#include <QSplashScreen>
 
 #ifdef Q_OS_WIN
 extern "C"
@@ -96,6 +97,15 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(QStringLiteral("kde.org"));
     app.setWindowIcon(QIcon(QStringLiteral(":/pics/kdenlive.png")));
     KLocalizedString::setApplicationDomain("kdenlive");
+
+    QPixmap pixmap(":/pics/splash-background.png");
+    qApp->processEvents(QEventLoop::AllEvents);
+    QSplashScreen splash(pixmap);
+    qApp->processEvents(QEventLoop::AllEvents);
+    splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignLeft | Qt::AlignBottom, Qt::white);
+    splash.show();
+    qApp->processEvents(QEventLoop::AllEvents);
+
 #ifdef Q_OS_WIN
     qputenv("KDE_FORK_SLAVES", "1");
     QString path = qApp->applicationDirPath() + QLatin1Char(';') + qgetenv("PATH");
@@ -147,6 +157,7 @@ int main(int argc, char *argv[])
         bool darkBreeze = grp.readEntry("use_dark_breeze", QVariant(false)).toBool();
         QIcon::setThemeName(darkBreeze ? QStringLiteral("breeze-dark") : QStringLiteral("breeze"));
     }
+    qApp->processEvents(QEventLoop::AllEvents);
 
     // Create KAboutData
     KAboutData aboutData(QByteArray("kdenlive"), i18n("Kdenlive"), KDENLIVE_VERSION, i18n("An open source video editor."), KAboutLicense::GPL,
@@ -184,6 +195,7 @@ int main(int argc, char *argv[])
     app.setOrganizationDomain(aboutData.organizationDomain());
     app.setApplicationVersion(aboutData.version());
     app.setAttribute(Qt::AA_DontCreateNativeWidgetSiblings, true);
+    qApp->processEvents(QEventLoop::AllEvents);
 
     // Create command line parser with options
     QCommandLineParser parser;
@@ -200,15 +212,13 @@ int main(int argc, char *argv[])
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+    qApp->processEvents(QEventLoop::AllEvents);
+
 #ifdef USE_DRMINGW
     ExcHndlInit();
 #elif defined(KF5_USE_CRASH)
     KCrash::initialize();
 #endif
-
-    //auto splash = new Splash(&app);
-    //splash->show();
-    //qApp->processEvents();
 
     qmlRegisterUncreatableMetaObject(PlaylistState::staticMetaObject, // static meta object
                                      "com.enums",                     // import statement
@@ -239,11 +249,10 @@ int main(int argc, char *argv[])
         QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
         url = startup.resolved(url);
     }
+    qApp->processEvents(QEventLoop::AllEvents);
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
     pCore->initGUI(url, clipsToLoad);
-    //delete splash;
-    //splash->endSplash();
-    //qApp->processEvents();
+    splash.finish(pCore->window());
     int result = app.exec();
     Core::clean();
 
