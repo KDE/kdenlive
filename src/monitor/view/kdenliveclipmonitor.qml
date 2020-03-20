@@ -223,8 +223,7 @@ Item {
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
-                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip) ? audioThumb.height : 0
-                    rightMargin: 4
+                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? audioThumb.height : 0
                 }
             }
             Label {
@@ -235,15 +234,14 @@ Item {
                 color: "#ffffff"
                 padding: 2
                 background: Rectangle {
-                    color: root.dropped ? "#99ff0000" : "#66000000"
+                    color: root.dropped ? "#99ff0000" : "#66004400"
                 }
-                text: i18n("%1 fps", root.fps)
+                text: i18n("%1fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
                     bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip) ? audioThumb.height : 0
-                    rightMargin: timecode.visible ? 0 : 4
                 }
             }
             Label {
@@ -259,16 +257,8 @@ Item {
                 background: Rectangle {
                     color: "#228b22"
                 }
-                height: marker.height
-                width: textMetricsIn.width + 10
-                leftPadding:0
-                rightPadding:0
+                padding:4
                 horizontalAlignment: TextInput.AlignHCenter
-                TextMetrics {
-                    id: textMetricsIn
-                    font: inPoint.font
-                    text: inPoint.text
-                }
             }
             Label {
                 id: outPoint
@@ -283,22 +273,15 @@ Item {
                 background: Rectangle {
                     color: "#ff4500"
                 }
-                width: textMetricsOut.width + 10
-                height: marker.height
-                leftPadding:0
-                rightPadding:0
+                padding: 4
                 horizontalAlignment: TextInput.AlignHCenter
-                TextMetrics {
-                    id: textMetricsOut
-                    font: outPoint.font
-                    text: outPoint.text
-                }
             }
             TextField {
                 id: marker
                 font: fixedFont
                 objectName: "markertext"
                 activeFocusOnPress: true
+                text: controller.markerComment
                 onEditingFinished: {
                     root.markerText = marker.displayText
                     marker.focus = false
@@ -309,20 +292,14 @@ Item {
                     bottom: parent.bottom
                 }
                 visible: root.showMarkers && text != ""
-                text: controller.markerComment
-                width: textMetrics.width + 10
-                horizontalAlignment: TextInput.AlignHCenter
+                height: inPoint.height
+                width: fontMetrics.boundingRect(displayText).width + 10
+                horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
                 background: Rectangle {
                         color: "#990000ff"
                 }
-                color: "white"
-                padding:0
-
-                TextMetrics {
-                    id: textMetrics
-                    font: marker.font
-                    text: controller.markerComment
-                }
+                color: "#ffffff"
+                padding: 0
                 maximumLength: 20
             }
         }
@@ -330,7 +307,7 @@ Item {
         Rectangle {
             // Audio or video only drag zone
             x: 2
-            y: inPoint.visible ? inPoint.y - height - 2 : parent.height - height - 2
+            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 : parent.height - height - 2
             width: childrenRect.width
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)

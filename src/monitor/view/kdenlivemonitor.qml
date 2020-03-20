@@ -131,7 +131,6 @@ Item {
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
-                    rightMargin: 4
                 }
             }
             Label {
@@ -142,14 +141,13 @@ Item {
                 color: "#ffffff"
                 padding: 2
                 background: Rectangle {
-                    color: root.dropped ? "#99ff0000" : "#66000000"
+                    color: root.dropped ? "#99ff0000" : "#66004400"
                 }
-                text: i18n("%1 fps", root.fps)
+                text: i18n("%1fps", root.fps)
                 visible: root.showFps
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    rightMargin: timecode.visible ? 0 : 4
                 }
             }
             Label {
@@ -165,16 +163,8 @@ Item {
                 background: Rectangle {
                     color: "#228b22"
                 }
-                height: marker.height
-                width: textMetricsIn.width + 10
-                leftPadding:0
-                rightPadding:0
+                padding: 5
                 horizontalAlignment: TextInput.AlignHCenter
-                TextMetrics {
-                    id: textMetricsIn
-                    font: inPoint.font
-                    text: inPoint.text
-                }
             }
             Label {
                 id: outPoint
@@ -189,16 +179,8 @@ Item {
                 background: Rectangle {
                     color: "#ff4500"
                 }
-                width: textMetricsOut.width + 10
-                height: marker.height
-                leftPadding:0
-                rightPadding:0
+                padding: 5
                 horizontalAlignment: TextInput.AlignHCenter
-                TextMetrics {
-                    id: textMetricsOut
-                    font: outPoint.font
-                    text: outPoint.text
-                }
             }
             TextField {
                 id: marker
@@ -216,19 +198,14 @@ Item {
                 }
                 visible: root.showMarkers && text != ""
                 text: controller.markerComment
-                width: textMetrics.width + 10
-                horizontalAlignment: TextInput.AlignHCenter
+                height: inPoint.height
+                width: fontMetrics.boundingRect(displayText).width + 10
+                horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
                 background: Rectangle {
                         color: "#990000ff"
                 }
-                color: "white"
-                padding:0
-
-                TextMetrics {
-                    id: textMetrics
-                    font: marker.font
-                    text: controller.markerComment
-                }
+                color: "#ffffff"
+                padding: 0
                 maximumLength: 25
             }
         }

@@ -27,7 +27,7 @@
 #include "scopes/sharedframe.h"
 #include "timecodedisplay.h"
 
-#include <QElapsedTimer>
+#include <QTimer>
 #include <QToolBar>
 
 #include <memory>
@@ -217,7 +217,7 @@ private:
     int m_offset;
     MonitorSceneType m_lastMonitorSceneType;
     MonitorAudioLevel *m_audioMeterWidget;
-    QElapsedTimer m_droppedTimer;
+    QTimer m_droppedTimer;
     double m_displayedFps;
     QLabel *m_scalingLabel;
     QLabel *m_speedLabel;
@@ -226,8 +226,6 @@ private:
     void adjustScrollBars(float horizontal, float vertical);
     void loadQmlScene(MonitorSceneType type);
     void updateQmlDisplay(int currentOverlay);
-    /** @brief Check and display dropped frames */
-    void checkDrops(int dropped);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
     /** @brief Reset and hide speed info label */
@@ -271,6 +269,8 @@ private slots:
     void removeSnapPoint(int pos);
     /** @brief Pause monitor and process seek */
     void processSeek(int pos);
+    /** @brief Check and display dropped frames */
+    void checkDrops();
 
 public slots:
     void slotSetScreen(int screenIndex);

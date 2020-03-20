@@ -426,6 +426,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Load monitor overlay qml
     loadQmlScene(MonitorSceneDefault);
 
+    // Monitor dropped fps timer
+    m_droppedTimer.setInterval(1000);
+    m_droppedTimer.setSingleShot(false);
+    connect(&m_droppedTimer, &QTimer::timeout, this, &Monitor::checkDrops);
+
     // Info message widget
     m_infoMessage = new KMessageWidget(this);
     layout->addWidget(m_infoMessage);
@@ -1343,6 +1348,18 @@ void Monitor::slotSwitchPlay()
 {
     slotActivateMonitor();
     m_glMonitor->switchPlay(m_playAction->isActive());
+    bool showDropped;
+    if (m_id == Kdenlive::ClipMonitor) {
+        showDropped =  KdenliveSettings::displayClipMonitorInfo() & 0x20;
+    } else {
+        showDropped =  KdenliveSettings::displayProjectMonitorInfo() & 0x20;
+    }
+    if (showDropped) {
+        m_glMonitor->resetDrops();
+        m_droppedTimer.start();
+    } else {
+        m_droppedTimer.stop();
+    }
     resetSpeedInfo();
 }
 
@@ -1726,31 +1743,20 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
         m_playAction->setActive(false);
     }
     m_monitorManager->frameDisplayed(frame);
-    checkDrops(m_glMonitor->droppedFrames());
 }
 
-void Monitor::checkDrops(int dropped)
+void Monitor::checkDrops()
 {
-    if (m_droppedTimer.isValid()) {
-        if (m_droppedTimer.hasExpired(1000)) {
-            m_droppedTimer.invalidate();
-            double fps = pCore->getCurrentFps();
-            if (dropped == 0) {
-                // No dropped frames since last check
-                m_qmlManager->setProperty(QStringLiteral("dropped"), false);
-                m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
-            } else {
-                m_glMonitor->resetDrops();
-                fps -= dropped;
-                m_qmlManager->setProperty(QStringLiteral("dropped"), true);
-                m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
-                m_droppedTimer.start();
-            }
-        }
-    } else if (dropped > 0) {
-        // Start m_dropTimer
+    int dropped = m_glMonitor->droppedFrames();
+    if (dropped == 0) {
+        // No dropped frames since last check
+        m_qmlManager->setProperty(QStringLiteral("dropped"), false);
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
+    } else {
         m_glMonitor->resetDrops();
-        m_droppedTimer.start();
+        dropped = pCore->getCurrentFps() - dropped;
+        m_qmlManager->setProperty(QStringLiteral("dropped"), true);
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(dropped, 'g', 2));
     }
 }
 
@@ -2093,9 +2099,18 @@ void Monitor::updateQmlDisplay(int currentOverlay)
 {
     m_glMonitor->rootObject()->setVisible((currentOverlay & 0x01) != 0);
     m_glMonitor->rootObject()->setProperty("showMarkers", currentOverlay & 0x04);
-    m_glMonitor->rootObject()->setProperty("showFps", currentOverlay & 0x20);
+    bool showDropped = currentOverlay & 0x20;
+    m_glMonitor->rootObject()->setProperty("showFps", showDropped);
     m_glMonitor->rootObject()->setProperty("showTimecode", currentOverlay & 0x02);
     m_glMonitor->rootObject()->setProperty("showAudiothumb", currentOverlay & 0x10);
+    if (showDropped) {
+         if (!m_droppedTimer.isActive() && m_playAction->isActive()) {
+            m_glMonitor->resetDrops();
+            m_droppedTimer.start();
+         }
+    } else {
+        m_droppedTimer.stop();
+    }
 }
 
 void Monitor::clearDisplay()
