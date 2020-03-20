@@ -241,7 +241,7 @@ Item {
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip) ? audioThumb.height : 0
+                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? audioThumb.height : 0
                 }
             }
             Label {
