@@ -715,8 +715,7 @@ void Monitor::slotSetZoneStart()
 
 void Monitor::slotSetZoneEnd()
 {
-    int pos = m_glMonitor->getCurrentPos() + 1;
-    m_glMonitor->getControllerProxy()->setZoneOut(pos);
+    m_glMonitor->getControllerProxy()->setZoneOut(m_glMonitor->getCurrentPos() + 1);
     if (m_controller) {
         m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
     }

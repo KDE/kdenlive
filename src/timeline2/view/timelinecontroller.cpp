@@ -682,7 +682,7 @@ void TimelineController::gotoNextSnap()
 {
     std::vector<size_t> snaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
     snaps.push_back(m_zone.x());
-    snaps.push_back(m_zone.y());
+    snaps.push_back(m_zone.y() - 1);
     int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), snaps);
     if (nextSnap > pCore->getTimelinePosition()) {
         setPosition(nextSnap);
@@ -694,7 +694,7 @@ void TimelineController::gotoPreviousSnap()
     if (pCore->getTimelinePosition() > 0) {
         std::vector<size_t> snaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
         snaps.push_back(m_zone.x());
-        snaps.push_back(m_zone.y());
+        snaps.push_back(m_zone.y() - 1);
         setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), snaps));
     }
 }

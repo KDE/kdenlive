@@ -177,7 +177,7 @@ Item {
                 text: i18n("Out Point")
                 color: "white"
                 background: Rectangle {
-                    color: "#ff4500"
+                    color: "#770000"
                 }
                 padding: 5
                 horizontalAlignment: TextInput.AlignHCenter
