@@ -2724,7 +2724,7 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<size_t> &snaps)
         }
         ++it;
     }
-    if (tracks.isEmpty()) {
+    if (tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) {
         // No active track, use all possible snap points
         return m_snaps->getNextPoint((int)pos);
     }
@@ -2757,7 +2757,7 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<size_t> &snaps)
         }
         ++it;
     }
-    if (tracks.isEmpty()) {
+    if (tracks.isEmpty() || tracks.count() == (int) m_allTracks.size()) {
         // No active track, use all possible snap points
         return m_snaps->getPreviousPoint((int)pos);
     }
