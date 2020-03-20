@@ -88,7 +88,7 @@ public slots:
     virtual void start() = 0;
     virtual void slotPlay() = 0;
     virtual void slotRewind(double speed = 0) = 0;
-    virtual void slotForward(double speed = 0) = 0;
+    virtual void slotForward(double speed = 0, bool allowNormalPlay = false) = 0;
     virtual void refreshMonitorIfActive(bool directUpdate = false) = 0;
     virtual void slotMouseSeek(int eventDelta, uint modifiers) = 0;
     bool slotActivateMonitor();
