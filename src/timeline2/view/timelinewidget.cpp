@@ -161,11 +161,10 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     // Create a unique id for this timeline to prevent thumbnails 
     // leaking from one project to another because of qml's image caching
     rootContext()->setContextProperty("documentId", QUuid::createUuid());
-    rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     rootContext()->setContextProperty("audiorec", pCore->getAudioDevice());
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
-    rootContext()->setContextProperty("smallFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    rootContext()->setContextProperty("miniFont", QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 

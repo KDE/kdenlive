@@ -22,7 +22,7 @@ import QtQuick.Controls 2.4
 Rectangle {
     id: rulerRoot
     // The standard width for labels. Depends on format used (frame number or full timecode)
-    property int labelSize: fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
+    property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
     // The spacing between labels. Depends on labelSize
     property real labelSpacing: labelSize
     // The space we want between each ticks in the ruler
@@ -49,7 +49,7 @@ Rectangle {
     }
 
     function adjustFormat() {
-        rulerRoot.labelSize = fontMetrics.tightBoundingRect(timeline.timecode(36000)).width
+        rulerRoot.labelSize = fontMetrics.boundingRect(timeline.timecode(36000)).width
         adjustStepSize()
         repaintRuler()
     }
