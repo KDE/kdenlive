@@ -561,6 +561,11 @@ void MainWindow::init()
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
+    QAction *separate_channels = new QAction(QIcon(), i18n("Separate Channels"), this);
+    separate_channels->setCheckable(true);
+    separate_channels->setChecked(KdenliveSettings::displayallchannels());
+    connect(separate_channels, &QAction::triggered, this, &MainWindow::slotSeparateAudioChannel);
+    timelineHeadersMenu->addAction(separate_channels);
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
     QActionGroup *thumbGroup = new QActionGroup(this);
     QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
@@ -2564,6 +2569,12 @@ void MainWindow::slotRemoveSpace()
 void MainWindow::slotRemoveAllSpace()
 {
     getMainTimeline()->controller()->removeSpace(-1, -1, true);
+}
+
+void MainWindow::slotSeparateAudioChannel()
+{
+    KdenliveSettings::setDisplayallchannels(!KdenliveSettings::displayallchannels());
+    getCurrentTimeline()->controller()->audioThumbFormatChanged();
 }
 
 void MainWindow::slotInsertTrack()
