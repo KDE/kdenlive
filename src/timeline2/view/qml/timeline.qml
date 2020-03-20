@@ -26,7 +26,7 @@ Rectangle {
 
     FontMetrics {
         id: fontMetrics
-        font: smallFont
+        font: miniFont
     }
 
     onDragInProgressChanged: {
