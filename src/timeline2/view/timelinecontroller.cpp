@@ -1161,7 +1161,7 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
     };
     redo_zone();
     UPDATE_UNDO_REDO_NOLOCK(redo_zone, undo_zone, undo, redo);
-    pCore->pushUndo(undo, redo, i18n("Set Zone In"));
+    pCore->pushUndo(undo, redo, i18n("Set Zone"));
 }
 
 void TimelineController::setZoneIn(int inPoint)
