@@ -23,6 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QLinearGradient>
 #include <QPainter>
+#include <QPainterPath>
 #include <QPixmap>
 #include <QtMath>
 
