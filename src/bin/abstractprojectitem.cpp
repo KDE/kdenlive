@@ -32,6 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "jobs/thumbjob.hpp"
 
 #include <QPainter>
+#include <QPainterPath>
 #include <QVariant>
 #include <utility>
 AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const std::shared_ptr<ProjectItemModel> &model, bool isRoot)
