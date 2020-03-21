@@ -148,13 +148,13 @@ Rectangle {
             MouseArea {
                 id: moveMouseArea
                 anchors.fill: parent
-                property double startX
                 hoverEnabled: true
                 drag.target: zone
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
+                property var startZone
                 onPressed: {
-                    startX = zone.x
+                    startZone = Qt.point(timeline.zoneIn, timeline.zoneOut)
                 }
                 onEntered: {
                     resizeActive = true
@@ -163,6 +163,7 @@ Rectangle {
                     resizeActive = false
                 }
                 onReleased: {
+                    timeline.updateZone(startZone, Qt.point(timeline.zoneIn, timeline.zoneOut), true)
                     resizeActive = false
                 }
                 onPositionChanged: {
@@ -243,6 +244,7 @@ Rectangle {
                     drag.target: parent
                     drag.axis: Drag.XAxis
                     drag.smoothed: false
+                    property var startZone
                     onEntered: {
                         resizeActive = true
                         parent.opacity = 1
@@ -254,10 +256,12 @@ Rectangle {
                     onPressed: {
                         parent.anchors.left = undefined
                         parent.opacity = 1
+                        startZone = Qt.point(timeline.zoneIn, timeline.zoneOut)
                     }
                     onReleased: {
                         resizeActive = false
                         parent.anchors.left = zone.left
+                        timeline.updateZone(startZone, Qt.point(timeline.zoneIn, timeline.zoneOut), true)
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {
@@ -289,6 +293,7 @@ Rectangle {
                     drag.target: parent
                     drag.axis: Drag.XAxis
                     drag.smoothed: false
+                    property var startZone
                     onEntered: {
                         resizeActive = true
                         parent.opacity = 1
@@ -300,10 +305,12 @@ Rectangle {
                     onPressed: {
                         parent.anchors.right = undefined
                         parent.opacity = 1
+                        startZone = Qt.point(timeline.zoneIn, timeline.zoneOut)
                     }
                     onReleased: {
                         resizeActive = false
                         parent.anchors.right = zone.right
+                        timeline.updateZone(startZone, Qt.point(timeline.zoneIn, timeline.zoneOut), true)
                     }
                     onPositionChanged: {
                         if (mouse.buttons === Qt.LeftButton) {

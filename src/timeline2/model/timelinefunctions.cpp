@@ -398,7 +398,6 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
         result = result && TimelineFunctions::requestInsertSpace(timeline, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo, affectedTracks);
     }
-    bool clipInserted = false;
     if (result) {
         if (!trackIds.isEmpty()) {
             int newId = -1;
@@ -409,9 +408,6 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
                 binClipId = QString("%1/%2/%3").arg(binId).arg(zone.x()).arg(zone.y() - 1);
             }
             result = timeline->requestClipInsertion(binClipId, trackIds.first(), insertFrame, newId, true, true, useTargets, undo, redo, affectedTracks);
-            if (result) {
-                clipInserted = true;
-            }
         }
     }
     return result;
@@ -1636,7 +1632,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     QDomElement bin = destDoc.createElement(QStringLiteral("bin"));
     container.appendChild(bin);
     bool isAudio = timeline->isAudioTrack(tid);
-    int masterTrack = timeline->getTrackPosition(tid);
     container.setAttribute(QStringLiteral("offset"), pos);
     container.setAttribute(QStringLiteral("documentid"), QStringLiteral("000000"));
     // Process producers

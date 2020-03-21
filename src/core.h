@@ -217,6 +217,8 @@ public:
     std::unique_ptr<Mlt::Producer> getMasterProducerInstance();
     /** @brief Returns a copy of a track's playlist */
     std::unique_ptr<Mlt::Producer> getTrackProducerInstance(int tid);
+    /** @brief Returns the undo stack index (position). */
+    int undoIndex() const;
 
 private:
     explicit Core();

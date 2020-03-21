@@ -169,11 +169,11 @@ public:
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */
-    Q_INVOKABLE int zoneIn() const { return m_zone.x(); }
-    Q_INVOKABLE int zoneOut() const { return m_zone.y(); }
-    Q_INVOKABLE void setZoneIn(int inPoint);
-    Q_INVOKABLE void setZoneOut(int outPoint);
-    void setZone(const QPoint &zone);
+    int zoneIn() const { return m_zone.x(); }
+    int zoneOut() const { return m_zone.y(); }
+    void setZoneIn(int inPoint);
+    void setZoneOut(int outPoint);
+    void setZone(const QPoint &zone, bool withUndo = true);
     /* @brief Request a seek operation
        @param position is the desired new timeline position
      */
@@ -546,6 +546,8 @@ public slots:
     void saveTimelineSelection(const QDir &targetDir);
     /** @brief Restore timeline scroll pos on open. */
     void setScrollPos(int pos);
+    /** @brief change zone info with undo. */
+    Q_INVOKABLE void updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo = true);
 
 private slots:
     void updateClipActions();
@@ -581,6 +583,8 @@ private:
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
     bool m_ready;
+    std::vector<size_t> m_activeSnaps;
+    int m_snapStackIndex;
 
     void initializePreview();
     bool darkBackground() const;

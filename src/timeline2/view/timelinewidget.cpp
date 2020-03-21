@@ -341,7 +341,12 @@ std::shared_ptr<TimelineItemModel> TimelineWidget::model()
 
 void TimelineWidget::zoneUpdated(const QPoint &zone)
 {
-    m_proxy->setZone(zone);
+    m_proxy->setZone(zone, false);
+}
+
+void TimelineWidget::zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &newZone)
+{
+    m_proxy->updateZone(oldZone, newZone);
 }
 
 void TimelineWidget::setTool(ProjectTool tool)

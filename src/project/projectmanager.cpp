@@ -886,7 +886,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
-    pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone());
+    pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
     //pCore->window()->getMainTimeline()->controller()->setTargetTracks(m_project->targetTracks());
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();

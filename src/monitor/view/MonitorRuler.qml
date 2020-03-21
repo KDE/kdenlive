@@ -165,6 +165,12 @@ Rectangle {
             drag.smoothed: false
             drag.minimumX: 0
             drag.maximumX: ruler.width
+            onPressed: {
+                controller.startZoneMove()
+            }
+            onReleased: {
+                controller.endZoneMove()
+            }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     controller.zoneIn = Math.round(trimIn.x / root.timeScale)
@@ -192,6 +198,12 @@ Rectangle {
             drag.smoothed: false
             drag.minimumX: 0
             drag.maximumX: ruler.width - trimOut.width
+            onPressed: {
+                controller.startZoneMove()
+            }
+            onReleased: {
+                controller.endZoneMove()
+            }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     controller.zoneOut = Math.round((trimOut.x + trimOut.width) / root.timeScale)
