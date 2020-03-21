@@ -150,6 +150,16 @@ void MonitorProxy::setZoneOut(int pos)
     emit saveZone();
 }
 
+void MonitorProxy::startZoneMove()
+{
+    m_undoZone = QPoint(m_zoneIn, m_zoneOut);
+}
+
+void MonitorProxy::endZoneMove()
+{
+    emit saveZoneWithUndo(m_undoZone, QPoint(m_zoneIn, m_zoneOut));
+}
+
 void MonitorProxy::setZone(int in, int out, bool sendUpdate)
 {
     if (m_zoneIn > 0) {

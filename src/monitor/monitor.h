@@ -335,6 +335,7 @@ signals:
     void durationChanged(int);
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);
+    void zoneUpdatedWithUndo(const QPoint &, const QPoint &);
     void timelineZoneChanged();
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */

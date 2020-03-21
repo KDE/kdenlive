@@ -69,6 +69,7 @@ TimelineController::TimelineController(QObject *parent)
     , m_scale(QFontMetrics(QApplication::font()).maxWidth() / 250)
     , m_timelinePreview(nullptr)
     , m_ready(false)
+    , m_snapStackIndex(-1)
 {
     m_disablePreview = pCore->currentDoc()->getAction(QStringLiteral("disable_preview"));
     connect(m_disablePreview, &QAction::triggered, this, &TimelineController::disablePreview);
@@ -102,6 +103,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_zone = QPoint(-1, -1);
     m_timelinePreview = nullptr;
     m_model = std::move(model);
+    m_activeSnaps.clear();
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
     connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
         if (m_ready) {
@@ -680,10 +682,14 @@ void TimelineController::showConfig(int page, int tab)
 
 void TimelineController::gotoNextSnap()
 {
-    std::vector<size_t> snaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
-    snaps.push_back(m_zone.x());
-    snaps.push_back(m_zone.y() - 1);
-    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), snaps);
+    if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
+        m_snapStackIndex = pCore->undoIndex();
+        m_activeSnaps.clear();
+        m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+        m_activeSnaps.push_back(m_zone.x());
+        m_activeSnaps.push_back(m_zone.y() - 1);
+    }
+    int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), m_activeSnaps);
     if (nextSnap > pCore->getTimelinePosition()) {
         setPosition(nextSnap);
     }
@@ -692,10 +698,14 @@ void TimelineController::gotoNextSnap()
 void TimelineController::gotoPreviousSnap()
 {
     if (pCore->getTimelinePosition() > 0) {
-        std::vector<size_t> snaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
-        snaps.push_back(m_zone.x());
-        snaps.push_back(m_zone.y() - 1);
-        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), snaps));
+        if (m_activeSnaps.empty() || pCore->undoIndex() != m_snapStackIndex) {
+            m_snapStackIndex = pCore->undoIndex();
+            m_activeSnaps.clear();
+            m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
+            m_activeSnaps.push_back(m_zone.x());
+            m_activeSnaps.push_back(m_zone.y() - 1);
+        }
+        setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), m_activeSnaps));
     }
 }
 
@@ -1111,7 +1121,7 @@ void TimelineController::setActiveTrack(int track)
     emit activeTrackChanged();
 }
 
-void TimelineController::setZone(const QPoint &zone)
+void TimelineController::setZone(const QPoint &zone, bool withUndo)
 {
     if (m_zone.x() > 0) {
         m_model->removeSnap(m_zone.x());
@@ -1125,8 +1135,33 @@ void TimelineController::setZone(const QPoint &zone)
     if (zone.y() > 0) {
         m_model->addSnap(zone.y() - 1);
     }
-    m_zone = zone;
-    emit zoneChanged();
+    updateZone(m_zone, zone, withUndo);
+}
+
+void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, bool withUndo)
+{
+    if (!withUndo) {
+        m_zone = newZone;
+        emit zoneChanged();
+        return;
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    Fun undo_zone = [this, oldZone]() {
+            m_zone = oldZone;
+            emit zoneChanged();
+            emit zoneMoved(oldZone);
+            return true;
+    };
+    Fun redo_zone = [this, newZone]() {
+            m_zone = newZone;
+            emit zoneChanged();
+            emit zoneMoved(newZone);
+            return true;
+    };
+    redo_zone();
+    UPDATE_UNDO_REDO_NOLOCK(redo_zone, undo_zone, undo, redo);
+    pCore->pushUndo(undo, redo, i18n("Set Zone In"));
 }
 
 void TimelineController::setZoneIn(int inPoint)
@@ -1138,6 +1173,7 @@ void TimelineController::setZoneIn(int inPoint)
         m_model->addSnap(inPoint);
     }
     m_zone.setX(inPoint);
+    emit zoneChanged();
     emit zoneMoved(m_zone);
 }
 
@@ -1150,6 +1186,7 @@ void TimelineController::setZoneOut(int outPoint)
         m_model->addSnap(outPoint - 1);
     }
     m_zone.setY(outPoint);
+    emit zoneChanged();
     emit zoneMoved(m_zone);
 }
 

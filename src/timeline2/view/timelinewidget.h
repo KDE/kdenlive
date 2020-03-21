@@ -63,6 +63,7 @@ public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void slotFitZoom();
     void zoneUpdated(const QPoint &zone);
+    void zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &newZone);
     /* @brief Favorite effects have changed, reload model for context menu */
     void updateEffectFavorites();
     /* @brief Favorite transitions have changed, reload model for context menu */

@@ -84,6 +84,8 @@ public:
     QPoint zone() const;
     QImage extractFrame(int frame_position, const QString &path = QString(), int width = -1, int height = -1, bool useSourceProfile = false);
     Q_INVOKABLE QString toTimecode(int frames) const;
+    Q_INVOKABLE void startZoneMove();
+    Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE double fps() const;
     QPoint profile();
     void setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName);
@@ -95,6 +97,7 @@ signals:
     void requestSeek(int pos);
     void zoneChanged();
     void saveZone();
+    void saveZoneWithUndo(const QPoint, const QPoint&);
     void markerCommentChanged();
     void rulerHeightChanged();
     void addSnap(int);
@@ -122,6 +125,7 @@ private:
     QString m_clipName;
     int m_clipType;
     bool m_seekFinished;
+    QPoint m_undoZone;
 };
 
 #endif

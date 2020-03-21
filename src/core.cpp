@@ -615,6 +615,11 @@ void Core::pushUndo(QUndoCommand *command)
     undoStack()->push(command);
 }
 
+int Core::undoIndex() const
+{
+    return m_projectManager->undoStack()->index();
+}
+
 void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {
