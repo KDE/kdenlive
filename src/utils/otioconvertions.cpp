@@ -26,6 +26,7 @@
 #include "doc/kdenlivedoc.h"
 #include "project/projectmanager.h"
 
+#include <QStandardPaths>
 #include <KMessageBox>
 
 OtioConvertions::OtioConvertions()
@@ -34,6 +35,11 @@ OtioConvertions::OtioConvertions()
 
 void OtioConvertions::getOtioConverters()
 {
+    if(QStandardPaths::findExecutable(QStringLiteral("otioconvert")).isEmpty() ||
+       QStandardPaths::findExecutable(QStringLiteral("python3")).isEmpty()) {
+        qInfo("otioconvert or python3 not available, project import/export not enabled");
+        return;
+    }
     connect(&m_otioProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &OtioConvertions::slotGotOtioConverters);
     m_otioProcess.start(QStringLiteral("python3"));
     m_otioProcess.write(QStringLiteral(

@@ -2739,8 +2739,8 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<size_t> &snaps)
     // sort snaps
     std::sort(snaps.begin(), snaps.end());
     for (auto i : snaps) {
-        if (i > pos) {
-            return i;
+        if ((int)i > pos) {
+            return (int) i;
         }
     }
     return pos;
@@ -2774,8 +2774,8 @@ int TimelineModel::getPreviousSnapPos(int pos, std::vector<size_t> &snaps)
     // sort descending
     std::reverse(snaps.begin(),snaps.end());
     for (auto i : snaps) {
-        if (i < pos) {
-            return i;
+        if ((int)i < pos) {
+            return (int)i;
         }
     }
     return 0;
