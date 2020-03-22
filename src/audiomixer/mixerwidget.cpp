@@ -94,7 +94,7 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
     }
 }
 
-MixerWidget::MixerWidget(int ix, int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent)
+MixerWidget::MixerWidget(bool alternateBackground, int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent)
 : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -109,10 +109,10 @@ MixerWidget::MixerWidget(int ix, int tid, std::shared_ptr<Mlt::Tractor> service,
     , m_listener(nullptr)
     , m_recording(false)
 {
-    buildUI(ix, service.get(), trackTag);
+    buildUI(alternateBackground, service.get(), trackTag);
 }
 
-MixerWidget::MixerWidget(int ix, int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent)
+MixerWidget::MixerWidget(bool alternateBackground, int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent)
     : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -127,7 +127,7 @@ MixerWidget::MixerWidget(int ix, int tid, Mlt::Tractor *service, const QString &
     , m_listener(nullptr)
     , m_recording(false)
 {
-    buildUI(ix, service, trackTag);
+    buildUI(alternateBackground, service, trackTag);
 }
 
 MixerWidget::~MixerWidget()
@@ -137,7 +137,7 @@ MixerWidget::~MixerWidget()
     }
 }
 
-void MixerWidget::buildUI(int ix, Mlt::Tractor *service, const QString &trackTag)
+void MixerWidget::buildUI(bool alternateBackground, Mlt::Tractor *service, const QString &trackTag)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Build audio meter widget
@@ -145,7 +145,7 @@ void MixerWidget::buildUI(int ix, Mlt::Tractor *service, const QString &trackTag
     // initialize for stereo display
     m_audioMeterWidget->setAudioValues({-100, -100});
     setAutoFillBackground(true);
-    setBackgroundRole(ix %2 == 0 ? QPalette::AlternateBase : QPalette::Base);
+    setBackgroundRole(alternateBackground ? QPalette::AlternateBase : QPalette::Base);
 
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);
