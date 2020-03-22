@@ -686,8 +686,8 @@ void TimelineController::gotoNextSnap()
         m_snapStackIndex = pCore->undoIndex();
         m_activeSnaps.clear();
         m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
-        m_activeSnaps.push_back(m_zone.x());
-        m_activeSnaps.push_back(m_zone.y() - 1);
+        m_activeSnaps.push_back((size_t)m_zone.x());
+        m_activeSnaps.push_back((size_t)(m_zone.y() - 1));
     }
     int nextSnap = m_model->getNextSnapPos(pCore->getTimelinePosition(), m_activeSnaps);
     if (nextSnap > pCore->getTimelinePosition()) {
@@ -702,8 +702,8 @@ void TimelineController::gotoPreviousSnap()
             m_snapStackIndex = pCore->undoIndex();
             m_activeSnaps.clear();
             m_activeSnaps = pCore->projectManager()->current()->getGuideModel()->getSnapPoints();
-            m_activeSnaps.push_back(m_zone.x());
-            m_activeSnaps.push_back(m_zone.y() - 1);
+            m_activeSnaps.push_back((size_t)m_zone.x());
+            m_activeSnaps.push_back((size_t)(m_zone.y() - 1));
         }
         setPosition(m_model->getPreviousSnapPos(pCore->getTimelinePosition(), m_activeSnaps));
     }
