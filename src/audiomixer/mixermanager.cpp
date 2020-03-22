@@ -66,7 +66,7 @@ MixerManager::MixerManager(QWidget *parent)
     m_channelsLayout = new QHBoxLayout;
     m_channelsLayout->setContentsMargins(0, 0, 0, 0);
     m_masterBox->setContentsMargins(0, 0, 0, 0);
-    m_channelsLayout->setSpacing(0);
+    m_channelsLayout->setSpacing(4);
     channelsBoxContainer->setLayout(m_channelsLayout);
     m_channelsLayout->addStretch(10);
     m_line = new QFrame(this);
@@ -83,7 +83,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         // Track already registered
         return;
     }
-    std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, this));
+    std::shared_ptr<MixerWidget> mixer(new MixerWidget(m_mixers.size(), tid, service, trackTag, this));
     connect(mixer.get(), &MixerWidget::muteTrack, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
@@ -122,7 +122,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     });
     m_mixers[tid] = mixer;
     m_channelsLayout->insertWidget(0, mixer.get());
-    m_recommandedWidth = mixer->minimumWidth() * (qMin(2, int(m_mixers.size())));
+    m_recommandedWidth = (mixer->minimumWidth() + 4) * (qMin(2, int(m_mixers.size())));
     m_channelsBox->setMinimumWidth(m_recommandedWidth);
 }
 
@@ -163,7 +163,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         // delete previous master mixer
         m_masterBox->removeWidget(m_masterMixer.get());
     }
-    m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), this));
+    m_masterMixer.reset(new MixerWidget(m_mixers.size(), -1, service, i18n("Master"), this));
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
