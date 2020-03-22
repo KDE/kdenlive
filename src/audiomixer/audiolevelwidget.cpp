@@ -104,7 +104,7 @@ void AudioLevelWidget::drawBackground(int channels)
     }
     QRect rect(m_offset, 0, newSize.width(), newSize.height());
     QPainter p(&m_pixmap);
-    p.setOpacity(isEnabled() ? 0.4 : 0.2);
+    p.setOpacity(isEnabled() ? 0.8 : 0.4);
     p.setFont(font());
     p.fillRect(rect, QBrush(gradient));
 
