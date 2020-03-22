@@ -92,6 +92,16 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
+    connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() {
+        if (video_tracks->value() + audio_tracks->value() <= 0) {
+            video_tracks->setValue(1);
+        }
+    });
+    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this] () {
+        if (video_tracks->value() + audio_tracks->value() <= 0) {
+            audio_tracks->setValue(1);
+        }
+    });
 
     QString currentProf;
     if (doc) {
