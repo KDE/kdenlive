@@ -108,21 +108,32 @@ Rectangle {
         wheel.accepted = true
     }
 
-    function continuousScrolling(x) {
+    function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
         if (x > scrollView.contentX + scrollView.width - 50) {
             scrollTimer.item = clip
-            scrollTimer.backwards = false
+            scrollTimer.horizontal = 10
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
+            scrollTimer.horizontal = 0
             scrollTimer.stop()
         } else if (x < scrollView.contentX + 50) {
             scrollTimer.item = clip
-            scrollTimer.backwards = true
+            scrollTimer.horizontal = -10
             scrollTimer.start()
         } else {
-            scrollTimer.stop()
+            if (y > scrollView.contentY + scrollView.height - 50) {
+                scrollTimer.vertical = 10
+                scrollTimer.start()
+            } else if (y - scrollView.contentY < 50) {
+                scrollTimer.vertical = -10
+                scrollTimer.start()
+            } else {
+                scrollTimer.vertical = 0
+                scrollTimer.horizontal = 0
+                scrollTimer.stop()
+            }
         }
     }
     function getTrackYFromId(a_track) {
@@ -352,7 +363,7 @@ Rectangle {
                     console.log("Trying to insert",track, frame, clipBeingDroppedData)
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
                     console.log("id",clipBeingDroppedId)
-                    continuousScrolling(drag.x + scrollView.contentX)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     drag.acceptProposedAction()
                 } else {
                     drag.accepted = false
@@ -370,12 +381,12 @@ Rectangle {
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
                         }
                         controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, Math.floor(root.snapping))
-                        continuousScrolling(drag.x + scrollView.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else if (!controller.isAudioTrack(track)) {
                         frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
-                        continuousScrolling(drag.x + scrollView.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     }
                 }
             }
@@ -489,7 +500,7 @@ Rectangle {
                             drag.accepted = false
                         }
                     }
-                    continuousScrolling(drag.x + scrollView.contentX)
+                    continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                 } else {
                     drag.accepted = false
                 }
@@ -514,7 +525,7 @@ Rectangle {
                         fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                        continuousScrolling(drag.x + scrollView.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
                         frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         if (controller.normalEdit()) {
@@ -525,7 +536,7 @@ Rectangle {
                             fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         }
-                        continuousScrolling(drag.x + scrollView.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     }
                 }
             }
@@ -568,7 +579,7 @@ Rectangle {
                         //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
-                        continuousScrolling(drag.x + scrollView.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
                         frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
                         if (controller.normalEdit()) {
@@ -579,7 +590,7 @@ Rectangle {
                             //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
                             fakeTrack = timeline.activeTrack
                         }
-                        continuousScrolling(drag.x + scrollView.contentX)
+                        continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     }
                 }
             }
@@ -774,10 +785,11 @@ Rectangle {
                 if (root.activeTool === 0 && shiftPress && mouse.y > ruler.height) {
                         // rubber selection
                         rubberSelect.clickX = mouse.x + scrollView.contentX
+                        rubberSelect.clickY = mouse.y + scrollView.contentY
                         rubberSelect.x = mouse.x + tracksArea.x
                         rubberSelect.y = mouse.y
                         rubberSelect.originX = rubberSelect.clickX
-                        rubberSelect.originY = rubberSelect.y
+                        rubberSelect.originY = rubberSelect.clickY
                         rubberSelect.width = 0
                         rubberSelect.height = 0
                 } else if (mouse.button & Qt.LeftButton) {
@@ -850,14 +862,14 @@ Rectangle {
                 if (shiftPress && mouse.buttons === Qt.LeftButton && root.activeTool === 0 && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
                     var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
-                    var dy = rubberSelect.originY - mouseY
+                    var dy = rubberSelect.originY - (mouseY + scrollView.contentY)
                     if ((Math.abs(dx) + Math.abs(dy)) > Qt.styleHints.startDragDistance) {
                         rubberSelect.visible = true
                     }
                 }
                 if (rubberSelect.visible) {
                     var newX = mouse.x + scrollView.contentX
-                    var newY = mouse.y
+                    var newY = mouse.y + scrollView.contentY
                     console.log('got rubber: ', newX, ', CURRENT X: ', rubberSelect.clickX)
                     if (newX < rubberSelect.originX) {
                         rubberSelect.clickX = newX
@@ -867,13 +879,13 @@ Rectangle {
                         rubberSelect.width = newX - rubberSelect.clickX
                     }
                     if (newY < rubberSelect.originY) {
-                        rubberSelect.y = newY
+                        rubberSelect.y = newY - scrollView.contentY
                         rubberSelect.height = rubberSelect.originY - newY
                     } else {
-                        rubberSelect.y = rubberSelect.originY
+                        rubberSelect.y = rubberSelect.originY - scrollView.contentY
                         rubberSelect.height= newY - rubberSelect.originY
                     }
-                    continuousScrolling(newX)
+                    continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && !shiftPress) {
                     if (root.activeTool === 0 || mouse.y < ruler.height) {
                         proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1))
@@ -882,7 +894,7 @@ Rectangle {
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
                         frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, Math.floor(root.snapping))
-                        continuousScrolling(mouse.x + scrollView.contentX)
+                        continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     }
                     scim = true
                 } else {
@@ -1098,7 +1110,7 @@ Rectangle {
                                         return
                                     }
                                     if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
-                                        continuousScrolling(mouse.x + parent.x)
+                                        continuousScrolling(mouse.x + parent.x, mouse.y + parent.y)
                                         var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x)
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
                                         var posx = Math.round((parent.x)/ root.timeScale)
@@ -1274,6 +1286,7 @@ Rectangle {
         property int originY
         // Absolute position of the click event
         property int clickX
+        property int clickY
         y: -1
         color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.4)
         border.color: activePalette.highlight
@@ -1396,15 +1409,31 @@ Rectangle {
         repeat: true
         triggeredOnStart: true
         property var item
-        property bool backwards
+        property int horizontal: 0
+        property int vertical: 0
         onTriggered: {
-            var delta = backwards? -10 : 10
-            if (item) item.x += delta
-            scrollView.contentX += delta
+            if (vertical != 0) {
+                scrollView.contentY += vertical
+                if (scrollView.contentY <= 0) {
+                    scrollView.contentY = 0
+                    vertical = 0
+                    stop()
+                } else {
+                    var maxScroll = trackHeaders.height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height
+                    if (scrollView.contentY > maxScroll) {
+                        scrollView.contentY = maxScroll
+                        vertical = 0
+                        stop()
+                    }
+                }
+            }
+            if (item) item.x += horizontal
+            scrollView.contentX += horizontal
             if (scrollView.contentX <= 0 || clipBeingMovedId == -1)
                 stop()
             if (rubberSelect.visible) {
-                rubberSelect.x -= delta
+                rubberSelect.x -= horizontal
+                rubberSelect.y -= vertical
             }
         }
     }

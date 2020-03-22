@@ -83,7 +83,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         // Track already registered
         return;
     }
-    std::shared_ptr<MixerWidget> mixer(new MixerWidget(m_mixers.size(), tid, service, trackTag, this));
+    std::shared_ptr<MixerWidget> mixer(new MixerWidget(m_mixers.size() % 2 == 0, tid, service, trackTag, this));
     connect(mixer.get(), &MixerWidget::muteTrack, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
@@ -163,7 +163,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         // delete previous master mixer
         m_masterBox->removeWidget(m_masterMixer.get());
     }
-    m_masterMixer.reset(new MixerWidget(m_mixers.size(), -1, service, i18n("Master"), this));
+    m_masterMixer.reset(new MixerWidget(m_mixers.size() % 2 == 0, -1, service, i18n("Master"), this));
     connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });

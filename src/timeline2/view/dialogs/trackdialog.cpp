@@ -32,7 +32,7 @@ TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int tr
     setWindowTitle(deleteMode ? i18n("Delete Track") : i18n("Add Track"));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
-    if (m_model->isAudioTrack(m_trackIndex)) {
+    if (m_trackIndex > -1 && m_model->isAudioTrack(m_trackIndex)) {
         audio_track->setChecked(true);
         before_select->setCurrentIndex(1);
     }

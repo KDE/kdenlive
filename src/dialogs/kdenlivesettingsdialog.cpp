@@ -87,6 +87,16 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_page8->setIcon(QIcon::fromTheme(QStringLiteral("project-defaults")));
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
+    connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() {
+        if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
+            m_configProject.kcfg_videotracks->setValue(1);
+        }
+    });
+    connect(m_configProject.kcfg_audiotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this] () {
+        if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
+            m_configProject.kcfg_audiotracks->setValue(1);
+        }
+    });
 
     QWidget *p9 = new QWidget;
     m_configProxy.setupUi(p9);
