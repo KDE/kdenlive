@@ -1527,7 +1527,7 @@ void MainWindow::setupActions()
     QAction *alignAudio =
         addAction(QStringLiteral("align_audio"), i18n("Align Audio to Reference"), this, SLOT(slotAlignAudio()), QIcon(), QKeySequence(), clipActionCategory);
     // "A" as data means this action should only be available for clips with audio
-    alignAudio->setData('A');
+    //alignAudio->setData('A');
     alignAudio->setEnabled(false);
 
     QAction *act = addAction(QStringLiteral("edit_item_duration"), i18n("Edit Duration"), this, SLOT(slotEditItemDuration()),

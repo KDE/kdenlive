@@ -140,6 +140,7 @@ void MixerManager::cleanup()
         }
         delete item;
     }
+    m_channelsLayout->addStretch(10);
     m_mixers.clear();
     if (m_masterMixer) {
         m_masterMixer->reset();
