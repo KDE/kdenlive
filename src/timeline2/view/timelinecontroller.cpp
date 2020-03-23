@@ -2184,28 +2184,59 @@ void TimelineController::alignAudio(int clipId)
         return;
     }
     const QString masterBinClipId = getClipBinId(m_audioRef);
+    std::unordered_set<int> clipsToAnalyse;
     if (m_model->m_groups->isInGroup(clipId)) {
-        std::unordered_set<int> groupIds = m_model->getGroupElements(clipId);
-        // Check that no item is grouped with our audioRef item
-        // TODO
+        clipsToAnalyse = m_model->getGroupElements(clipId);
         m_model->requestClearSelection();
+    } else {
+        clipsToAnalyse.insert(clipId);
     }
-    const QString otherBinId = getClipBinId(clipId);
-    if (otherBinId == masterBinClipId) {
-        // easy, same clip.
-        int newPos = m_model->getClipPosition(m_audioRef) - m_model->getClipIn(m_audioRef) + m_model->getClipIn(clipId);
-        if (newPos) {
-            bool result = m_model->requestClipMove(clipId, m_model->getClipTrackId(clipId), newPos, true, true, true);
-            if (!result) {
-                pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), InformationMessage, 500);
-            }
-            return;
+    QList <int> processedGroups;
+    int processed = 0;
+    for (int cid : clipsToAnalyse) {
+        if (!m_model->isClip(cid) || cid == m_audioRef) {
+            continue;
         }
+        const QString otherBinId = getClipBinId(cid);
+        if (m_model->m_groups->isInGroup(cid)) {
+            int parentGroup = m_model->m_groups->getRootId(cid);
+            if (processedGroups.contains(parentGroup)) {
+                continue;
+            }
+            // Only process one clip from the group
+            std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(otherBinId);
+            if (clip->hasAudio()) {
+                processedGroups << parentGroup;
+            } else {
+                continue;
+            }
+        }
+        if (!pCore->bin()->getBinClip(otherBinId)->hasAudio()) {
+            // Cannot process non audi clips
+            continue;
+        }
+        if (otherBinId == masterBinClipId) {
+            // easy, same clip.
+            int newPos = m_model->getClipPosition(m_audioRef) - m_model->getClipIn(m_audioRef) + m_model->getClipIn(cid);
+            if (newPos) {
+                bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), newPos, true, true, true);
+                processed ++;
+                if (!result) {
+                    pCore->displayMessage(i18n("Cannot move clip to frame %1.", newPos), InformationMessage, 500);
+                }
+                continue;
+            }
+        }
+        processed ++;
+        // Perform audio calculation
+        AudioEnvelope *envelope = new AudioEnvelope(otherBinId, cid, (size_t)m_model->getClipIn(cid), (size_t)m_model->getClipPlaytime(cid),
+                                                (size_t)m_model->getClipPosition(cid));
+        m_audioCorrelator->addChild(envelope);
     }
-    // Perform audio calculation
-    AudioEnvelope *envelope = new AudioEnvelope(otherBinId, clipId, (size_t)m_model->getClipIn(clipId), (size_t)m_model->getClipPlaytime(clipId),
-                                                (size_t)m_model->getClipPosition(clipId));
-    m_audioCorrelator->addChild(envelope);
+    if (processed == 0) {
+        //TODO: improve feedback message after freeze
+        pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
+    }
 }
 
 void TimelineController::switchTrackActive(int trackId)
