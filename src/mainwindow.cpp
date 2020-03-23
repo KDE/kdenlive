@@ -2095,6 +2095,7 @@ void MainWindow::connectDocument()
     KdenliveSettings::setProject_fps(pCore->getCurrentFps());
     m_projectMonitor->slotLoadClipZone(project->zone());
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
+    connect(m_projectMonitor, &Monitor::activateTrack, getMainTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, pCore->library(), &LibraryWidget::enableAddSelection,
             Qt::UniqueConnection);
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
@@ -2546,7 +2547,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
             getMainTimeline()->controller()->switchGuide();
         } else {
             // Add marker to main clip
-            getMainTimeline()->controller()->addQuickMarker();
+            getMainTimeline()->controller()->addQuickMarker(selectedClip);
         }
     }
 }

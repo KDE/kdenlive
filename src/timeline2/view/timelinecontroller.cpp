@@ -2872,7 +2872,28 @@ bool TimelineController::exists(int itemId)
 
 void TimelineController::slotMultitrackView(bool enable, bool refresh)
 {
-    TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
+    QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
+    pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? MonitorSplitTrack : MonitorSceneNone, false, QVariant(trackNames));
+}
+
+void TimelineController::activateTrackAndSelect(int trackPosition)
+{
+    int tid = -1;
+    for (const auto &track : m_model->m_iteratorTable) {
+        if (m_model->getTrackById_const(track.first)->isAudioTrack() || m_model->getTrackById_const(track.first)->isHidden()) {
+            continue;
+        }
+        if (trackPosition == 0) {
+            tid = track.first;
+            break;
+        }
+        trackPosition--;
+    }
+    if (tid > -1) {
+        m_activeTrack = tid;
+        emit activeTrackChanged();
+        selectCurrentItem(ObjectType::TimelineClip, true);
+    }
 }
 
 void TimelineController::saveTimelineSelection(const QDir &targetDir)

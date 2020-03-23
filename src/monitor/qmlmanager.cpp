@@ -91,6 +91,17 @@ void QmlManager::setScene(Kdenlive::MonitorId id, MonitorSceneType type, QSize p
         root->setProperty("stretch", profileStretch);
         root->setProperty("center", displayRect.center());
         break;
+    case MonitorSplitTrack:
+        m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplittracks.qml")));
+        root = m_view->rootObject();
+        QObject::connect(root, SIGNAL(activateTrack(int)), this, SIGNAL(activateTrack(int)), Qt::UniqueConnection);
+        root->setProperty("profile", QPoint(profile.width(), profile.height()));
+        root->setProperty("framesize", QRect(0, 0, profile.width(), profile.height()));
+        root->setProperty("scalex", scalex);
+        root->setProperty("scaley", scaley);
+        root->setProperty("stretch", profileStretch);
+        root->setProperty("center", displayRect.center());
+        break;
     case MonitorSceneSplit:
         m_view->setSource(QUrl(QStringLiteral("qrc:/qml/kdenlivemonitorsplit.qml")));
         root = m_view->rootObject();

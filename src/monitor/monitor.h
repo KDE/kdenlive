@@ -224,7 +224,7 @@ private:
     int m_speedIndex;
 
     void adjustScrollBars(float horizontal, float vertical);
-    void loadQmlScene(MonitorSceneType type);
+    void loadQmlScene(MonitorSceneType type, QVariant sceneData = QVariant());
     void updateQmlDisplay(int currentOverlay);
     /** @brief Create temporary Mlt::Tractor holding a clip and it's effectless clone */
     void buildSplitEffect(Mlt::Producer *original);
@@ -307,7 +307,7 @@ public slots:
     void setTimePos(const QString &pos);
     QPoint getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
-    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false);
+    void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, QVariant sceneData = QVariant());
     bool effectSceneDisplayed(MonitorSceneType effectType);
     /** @brief split screen to compare clip with and without effect */
     void slotSwitchCompare(bool enable);
@@ -363,6 +363,7 @@ signals:
     void removeSplitOverlay();
     void acceptRipple(bool);
     void switchTrimMode(int);
+    void activateTrack(int);
 };
 
 #endif

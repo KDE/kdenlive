@@ -808,9 +808,10 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     pCore->pushUndo(undo, redo, i18n("Change Composition Track"));
 }
 
-void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)
+QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)
 {
     QList<int> videoTracks;
+    QStringList trackNames;
     for (const auto &track : timeline->m_iteratorTable) {
         if (timeline->getTrackById_const(track.first)->isAudioTrack() || timeline->getTrackById_const(track.first)->isHidden()) {
             continue;
@@ -849,6 +850,7 @@ void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemM
             // 200 is an arbitrary number so we can easily remove these transition later
             transition.set("internal_added", 200);
             QString geometry;
+            trackNames << timeline->getTrackFullName(videoTracks.at(i));
             switch (i) {
             case 0:
                 switch (videoTracks.size()) {
@@ -856,8 +858,6 @@ void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemM
                     geometry = QStringLiteral("0 0 50% 100%");
                     break;
                 case 3:
-                    geometry = QStringLiteral("0 0 33% 100%");
-                    break;
                 case 4:
                     geometry = QStringLiteral("0 0 50% 50%");
                     break;
@@ -876,8 +876,6 @@ void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemM
                     geometry = QStringLiteral("50% 0 50% 100%");
                     break;
                 case 3:
-                    geometry = QStringLiteral("33% 0 33% 100%");
-                    break;
                 case 4:
                     geometry = QStringLiteral("50% 0 50% 50%");
                     break;
@@ -893,8 +891,6 @@ void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemM
             case 2:
                 switch (videoTracks.size()) {
                 case 3:
-                    geometry = QStringLiteral("66% 0 33% 100%");
-                    break;
                 case 4:
                     geometry = QStringLiteral("0 50% 50% 50%");
                     break;
@@ -962,6 +958,7 @@ void TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemM
     if (refresh) {
         timeline->requestMonitorRefresh();
     }
+    return trackNames;
 }
 
 void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection,

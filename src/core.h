@@ -219,6 +219,8 @@ public:
     std::unique_ptr<Mlt::Producer> getTrackProducerInstance(int tid);
     /** @brief Returns the undo stack index (position). */
     int undoIndex() const;
+    /** @brief Enable / disable monitor multitrack view. Returns false if multitrack was not previously enabled */
+    bool enableMultiTrack(bool enable);
 
 private:
     explicit Core();

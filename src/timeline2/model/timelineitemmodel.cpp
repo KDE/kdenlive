@@ -558,6 +558,7 @@ void TimelineItemModel::notifyChange(const QModelIndex &topleft, const QModelInd
 
 void TimelineItemModel::buildTrackCompositing(bool rebuild)
 {
+    bool isMultiTrack = pCore->enableMultiTrack(false);
     auto it = m_allTracks.cbegin();
     QScopedPointer<Mlt::Service> service(m_tractor->field());
     QScopedPointer<Mlt::Field> field(m_tractor->field());
@@ -607,6 +608,9 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
         ++it;
     }
     field->unlock();
+    if (isMultiTrack) {
+        pCore->enableMultiTrack(true);
+    }
     if (composite.isEmpty()) {
         pCore->displayMessage(i18n("Could not setup track compositing, check your install"), MessageType::ErrorMessage);
     }
