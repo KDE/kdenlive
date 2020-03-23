@@ -94,7 +94,7 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
     }
 }
 
-MixerWidget::MixerWidget(bool alternateBackground, int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent)
+MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const QString &trackTag, MixerManager *parent)
 : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -109,10 +109,10 @@ MixerWidget::MixerWidget(bool alternateBackground, int tid, std::shared_ptr<Mlt:
     , m_listener(nullptr)
     , m_recording(false)
 {
-    buildUI(alternateBackground, service.get(), trackTag);
+    buildUI(service.get(), trackTag);
 }
 
-MixerWidget::MixerWidget(bool alternateBackground, int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent)
+MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag, MixerManager *parent)
     : QWidget(parent)
     , m_manager(parent)
     , m_tid(tid)
@@ -127,7 +127,7 @@ MixerWidget::MixerWidget(bool alternateBackground, int tid, Mlt::Tractor *servic
     , m_listener(nullptr)
     , m_recording(false)
 {
-    buildUI(alternateBackground, service, trackTag);
+    buildUI(service, trackTag);
 }
 
 MixerWidget::~MixerWidget()
@@ -137,15 +137,13 @@ MixerWidget::~MixerWidget()
     }
 }
 
-void MixerWidget::buildUI(bool alternateBackground, Mlt::Tractor *service, const QString &trackTag)
+void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     // Build audio meter widget
     m_audioMeterWidget.reset(new AudioLevelWidget(width(), this));
     // initialize for stereo display
     m_audioMeterWidget->setAudioValues({-100, -100});
-    setAutoFillBackground(true);
-    setBackgroundRole(alternateBackground ? QPalette::AlternateBase : QPalette::Base);
 
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);

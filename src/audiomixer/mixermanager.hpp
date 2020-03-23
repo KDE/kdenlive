@@ -36,7 +36,6 @@ class MixerWidget;
 class QHBoxLayout;
 class TimelineItemModel;
 class QScrollArea;
-class QFrame;
 
 class MixerManager : public QWidget
 {
@@ -80,7 +79,6 @@ private:
     QHBoxLayout *m_masterBox;
     QHBoxLayout *m_channelsLayout;
     QScrollArea *m_channelsBox;
-    QFrame *m_line;
     int m_lastFrame;
     bool m_visibleMixerManager;
     int m_expandedWidth;
