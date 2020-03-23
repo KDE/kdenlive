@@ -58,6 +58,7 @@ private slots:
 signals:
     void effectChanged(const QRect &);
     void effectPointsChanged(const QVariantList &);
+    void activateTrack(int);
 };
 
 #endif

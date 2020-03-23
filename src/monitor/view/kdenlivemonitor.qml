@@ -38,7 +38,6 @@ Item {
     }
 
     signal editCurrentMarker()
-    signal toolBarChanged(bool doAccept)
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()

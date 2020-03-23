@@ -542,6 +542,8 @@ public slots:
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable, bool refresh = true);
+    /** @brief Activate a video track by its position (0 = topmost). */
+    void activateTrackAndSelect(int trackPosition);
     /** @brief Save timeline selected clips to target folder. */
     void saveTimelineSelection(const QDir &targetDir);
     /** @brief Restore timeline scroll pos on open. */

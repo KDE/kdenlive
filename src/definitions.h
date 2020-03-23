@@ -132,7 +132,8 @@ enum MonitorSceneType {
     MonitorSceneCorners,
     MonitorSceneRoto,
     MonitorSceneSplit,
-    MonitorSceneRipple
+    MonitorSceneRipple,
+    MonitorSplitTrack
 };
 
 enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessage, InformationMessage, ErrorMessage, MltError };

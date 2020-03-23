@@ -172,6 +172,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_qmlManager = new QmlManager(m_glMonitor);
     connect(m_qmlManager, &QmlManager::effectChanged, this, &Monitor::effectChanged);
     connect(m_qmlManager, &QmlManager::effectPointsChanged, this, &Monitor::effectPointsChanged);
+    connect(m_qmlManager, &QmlManager::activateTrack, this, &Monitor::activateTrack);
 
     auto *monitorEventEater = new QuickMonitorEventEater(this);
     m_videoWidget->installEventFilter(monitorEventEater);
@@ -1612,7 +1613,7 @@ void Monitor::slotEnableEffectScene(bool enable)
     }
 }
 
-void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
+void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary, QVariant sceneData)
 {
     if (sceneType == MonitorSceneNone) {
         // We just want to revert to normal scene
@@ -1621,11 +1622,15 @@ void Monitor::slotShowEffectScene(MonitorSceneType sceneType, bool temporary)
             return;
         }
         sceneType = MonitorSceneDefault;
+    } else if (m_qmlManager->sceneType() == MonitorSplitTrack) {
+        // Don't show another scene type if multitrack mode is active
+        loadQmlScene(MonitorSplitTrack, sceneData);
+        return;
     }
     if (!temporary) {
         m_lastMonitorSceneType = sceneType;
     }
-    loadQmlScene(sceneType);
+    loadQmlScene(sceneType, sceneData);
 }
 
 void Monitor::slotSeekToKeyFrame()
@@ -1951,7 +1956,7 @@ QSize Monitor::profileSize() const
     return m_glMonitor->profileSize();
 }
 
-void Monitor::loadQmlScene(MonitorSceneType type)
+void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
     if (m_id == Kdenlive::DvdMonitor || type == m_qmlManager->sceneType()) {
         return;
@@ -1984,6 +1989,9 @@ void Monitor::loadQmlScene(MonitorSceneType type)
         } else if (m_id == Kdenlive::ProjectMonitor) {
             updateQmlDisplay(KdenliveSettings::displayProjectMonitorInfo());
         }
+        break;
+    case MonitorSplitTrack:
+        m_qmlManager->setProperty(QStringLiteral("tracks"), sceneData);
         break;
     default:
         break;
