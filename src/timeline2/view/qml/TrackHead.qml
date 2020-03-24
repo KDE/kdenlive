@@ -302,7 +302,7 @@ Rectangle {
             font: miniFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackTagLabel.width + (4 * muteButton.width) + 4
+            visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackLed.width + (4 * muteButton.width) + 4
         }
         Row {
             width: childrenRect.width

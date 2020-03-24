@@ -313,46 +313,55 @@ Item {
             radius: 4
             opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || (barOverArea.containsMouse && barOverArea.mouseY >= y)) ? 1 : 0
             visible: controller.clipHasAV
+            onOpacityChanged: {
+                if (opacity == 1) {
+                    videoDragButton.x = 0
+                    videoDragButton.y = 0
+                    audioDragButton.x = videoDragButton.x + videoDragButton.width
+                    audioDragButton.y = 0
+                }
+            }
             Row {
                 id: dragRow
                 ToolButton {
                     id: videoDragButton
                     icon.name: "kdenlive-show-video"
+                    Drag.active: dragVideoArea.drag.active
+                    Drag.dragType: Drag.Automatic
+                    Drag.mimeData: {
+                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + controller.zoneOut
+                    }
                     MouseArea {
                         id: dragVideoArea
                         hoverEnabled: true
-                        acceptedButtons: Qt.LeftButton
                         anchors.fill: parent
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
-                        onPressed: {
-                            parent.enabled = false
-                            mouse.accepted = false
-                            dragType = 2
-                        }
+                        drag.target: parent
                         onExited: {
-                            parent.enabled = true
-                            parent.clicked()
+                            parent.x = 0
+                            parent.y = 0
                         }
                     }
                 }
                 ToolButton {
                     id: audioDragButton
                     icon.name: "audio-volume-medium"
+                    Drag.active: dragAudioArea.drag.active
+                    Drag.dragType: Drag.Automatic
+                    Drag.mimeData: {
+                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + controller.zoneOut
+                    }
                     MouseArea {
                         id: dragAudioArea
                         hoverEnabled: true
-                        acceptedButtons: Qt.LeftButton
                         anchors.fill: parent
                         propagateComposedEvents: true
                         cursorShape: Qt.PointingHand
-                        onPressed: {
-                            parent.enabled = false
-                            mouse.accepted = false
-                            dragType = 1
-                        }
+                        drag.target: parent
                         onExited: {
-                            parent.enabled = true
+                            parent.x = videoDragButton.x + videoDragButton.width
+                            parent.y = 0
                         }
                     }
                 }

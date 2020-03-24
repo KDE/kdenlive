@@ -40,6 +40,7 @@ MonitorProxy::MonitorProxy(GLWidget *parent)
     , m_zoneOut(-1)
     , m_hasAV(false)
     , m_clipType(0)
+    , m_clipId(-1)
     , m_seekFinished(true)
 {
 }
@@ -282,7 +283,7 @@ QString MonitorProxy::toTimecode(int frames) const
     return KdenliveSettings::frametimecode() ? QString::number(frames) : q->frameToTime(frames);
 }
 
-void MonitorProxy::setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName)
+void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName)
 {
     if (hasAV != m_hasAV) {
         m_hasAV = hasAV;
@@ -297,6 +298,10 @@ void MonitorProxy::setClipProperties(ClipType::ProducerType type, bool hasAV, co
     if (type != m_clipType) {
         m_clipType = type;
         emit clipTypeChanged();
+    }
+    if (clipId != m_clipId) {
+        m_clipId = clipId;
+        emit clipIdChanged();
     }
 }
 
