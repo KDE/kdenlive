@@ -2874,20 +2874,42 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
 {
     QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
     pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? MonitorSplitTrack : MonitorSceneNone, false, QVariant(trackNames));
+    QObject::disconnect( m_connection );
+    if (enable) {
+        m_connection = connect(this, &TimelineController::activeTrackChanged, [this]() {
+            int ix = 0;
+            auto it = m_model->m_allTracks.cbegin();
+            while (it != m_model->m_allTracks.cend()) {
+                int target_track = (*it)->getId();
+                ++it;
+                if (target_track == m_activeTrack) {
+                    break;
+                }
+                if (m_model->getTrackById_const(target_track)->isAudioTrack() || m_model->getTrackById_const(target_track)->isHidden()) {
+                    continue;
+                }
+                ++ix;
+            }
+            pCore->monitorManager()->projectMonitor()->updateMultiTrackView(ix);
+        });
+    }
 }
 
 void TimelineController::activateTrackAndSelect(int trackPosition)
 {
     int tid = -1;
-    for (const auto &track : m_model->m_iteratorTable) {
-        if (m_model->getTrackById_const(track.first)->isAudioTrack() || m_model->getTrackById_const(track.first)->isHidden()) {
+    int ix = 0;
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        tid = (*it)->getId();
+        ++it;
+        if (m_model->getTrackById_const(tid)->isAudioTrack() || m_model->getTrackById_const(tid)->isHidden()) {
             continue;
         }
-        if (trackPosition == 0) {
-            tid = track.first;
+        if (trackPosition == ix) {
             break;
         }
-        trackPosition--;
+        ++ix;
     }
     if (tid > -1) {
         m_activeTrack = tid;

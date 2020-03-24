@@ -2238,3 +2238,11 @@ MonitorProxy *Monitor::getControllerProxy()
 {
     return m_glMonitor->getControllerProxy();
 }
+
+void Monitor::updateMultiTrackView(int tid)
+{
+    QQuickItem *root = m_glMonitor->rootObject();
+    if (root) {
+        root->setProperty("activeTrack", tid);
+    }
+}

@@ -153,6 +153,8 @@ public:
     void resetPlayOrLoopZone(const QString &binId);
     /** @brief Returns a pointer to monitor proxy, allowing to manage seek and consumer position */
     MonitorProxy *getControllerProxy();
+    /** @brief Update active track in multitrack view */
+    void updateMultiTrackView(int tid);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

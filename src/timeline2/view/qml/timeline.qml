@@ -74,7 +74,6 @@ Rectangle {
         } else if (newTrack >= max) {
             newTrack = 0;
         }
-        console.log('Setting curr tk: ', newTrack, 'MAX: ',max)
         timeline.activeTrack = tracksRepeater.itemAt(newTrack).trackInternalId
     }
 

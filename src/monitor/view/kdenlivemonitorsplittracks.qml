@@ -21,6 +21,7 @@ Item {
     property double sourcedar : 1
     property double offsetx : 0
     property double offsety : 0
+    property int activeTrack: 0
     onSourcedarChanged: refreshdar()
     property bool iskeyframe
     property int requestedKeyFrame
@@ -66,40 +67,38 @@ Item {
         }
     }
 
-    Rectangle {
+    Item {
         id: frame
         objectName: "referenceframe"
-        property color hoverColor: "#ff0000"
         width: root.profile.x * root.scalex
         height: root.profile.y * root.scaley
         x: root.center.x - width / 2 - root.offsetx
         y: root.center.y - height / 2 - root.offsety
-        color: "transparent"
-        border.color: "#ffffff00"
         Repeater {
             id: trackSeparators
             model: tracks
             property int rows: trackSeparators.count < 5 ? 2 : 3
-            property int columns: trackSeparators.count < 3 ? 1 : trackSeparators.count < 5 ? 2 : 3
+            property int columns: trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
             Rectangle {
                 width: parent.width / trackSeparators.rows
                 height: parent.height / trackSeparators.columns
                 x: width * (index % trackSeparators.rows)
                 y: height * (Math.floor(index / trackSeparators.rows))
                 color: "transparent"
-                border.color: root.overlayColor
+                border.color: index == root.activeTrack ? "#ff0000" : "#00000000"
+                border.width: 2
                 Label {
                     text: modelData
                     color: "#ffffff"
                     padding :4
                     background: Rectangle {
-                        color: "#66660000"
+                        color: index == root.activeTrack ? "#990000" : "#000066"
                     }
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: root.activateTrack(index);
-                    }
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: root.activateTrack(index);
                 }
             }
         }
