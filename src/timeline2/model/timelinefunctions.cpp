@@ -810,13 +810,14 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
 
 QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)
 {
-    QList<int> videoTracks;
     QStringList trackNames;
-    for (const auto &track : timeline->m_iteratorTable) {
-        if (timeline->getTrackById_const(track.first)->isAudioTrack() || timeline->getTrackById_const(track.first)->isHidden()) {
+    std::vector<int> videoTracks;
+    for (int i = 0; i < (int)timeline->m_allTracks.size(); i++) {
+        int tid = timeline->getTrackIndexFromPosition(i);
+        if (timeline->getTrackById_const(tid)->isAudioTrack() || timeline->getTrackById_const(tid)->isHidden()) {
             continue;
         }
-        videoTracks << track.first;
+        videoTracks.push_back(tid);
     }
     if (videoTracks.size() < 2) {
         pCore->displayMessage(i18n("Cannot enable multitrack view on a single track"), InformationMessage);
@@ -840,18 +841,20 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
         service.reset(service->producer());
     }
     if (enable) {
-        for (int i = 0; i < videoTracks.size(); ++i) {
+        int count = 0;
+        for (int tid : videoTracks) {
+            int b_track = timeline->getTrackMltIndex(tid);
             Mlt::Transition transition(*timeline->m_tractor->profile(), "composite");
             transition.set("mlt_service", "composite");
             transition.set("a_track", 0);
-            transition.set("b_track", timeline->getTrackMltIndex(videoTracks.at(i)));
+            transition.set("b_track", b_track);
             transition.set("distort", 0);
             transition.set("aligned", 0);
             // 200 is an arbitrary number so we can easily remove these transition later
             transition.set("internal_added", 200);
             QString geometry;
-            trackNames << timeline->getTrackFullName(videoTracks.at(i));
-            switch (i) {
+            trackNames << timeline->getTrackFullName(tid);
+            switch (count) {
             case 0:
                 switch (videoTracks.size()) {
                 case 2:
@@ -948,10 +951,11 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
                 geometry = QStringLiteral("66% 66% 33% 33%");
                 break;
             }
+            count++;
             // Add transition to track:
             transition.set("geometry", geometry.toUtf8().constData());
             transition.set("always_active", 1);
-            field->plant_transition(transition, 0, timeline->getTrackMltIndex(videoTracks.at(i)));
+            field->plant_transition(transition, 0, b_track);
         }
     }
     field->unlock();
