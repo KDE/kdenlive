@@ -876,14 +876,6 @@ void Monitor::slotStartDrag()
     }
     auto *drag = new QDrag(this);
     auto *mimeData = new QMimeData;
-
-    // Get drag state
-    QQuickItem *root = m_glMonitor->rootObject();
-    int dragType = 0;
-    if (root) {
-        dragType = root->property("dragType").toInt();
-        root->setProperty("dragType", 0);
-    }
     QByteArray prodData;
     QPoint p = m_glMonitor->getControllerProxy()->zone();
     if (p.x() == -1 || p.y() == -1) {
@@ -894,18 +886,6 @@ void Monitor::slotStartDrag()
         list.append(QString::number(p.x()));
         list.append(QString::number(p.y()));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
-    }
-    switch (dragType) {
-    case 1:
-        // Audio only drag
-        prodData.prepend('A');
-        break;
-    case 2:
-        // Audio only drag
-        prodData.prepend('V');
-        break;
-    default:
-        break;
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);
@@ -1464,7 +1444,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QUrl() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
         }
         m_controller->getMarkerModel()->registerSnapModel(m_snaps);
-        m_glMonitor->getControllerProxy()->setClipProperties(controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
+        m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
         m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         // hasEffects =  controller->hasEffects();
     } else {
@@ -1472,7 +1452,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->setProducer(nullptr, isActive());
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
-        m_glMonitor->getControllerProxy()->setClipProperties(ClipType::Unknown, false, QString());
+        m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
     }
     if (slotActivateMonitor()) {
         start();

@@ -55,6 +55,7 @@ class MonitorProxy : public QObject
     /** @brief: Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(int clipType MEMBER m_clipType NOTIFY clipTypeChanged)
+    Q_PROPERTY(int clipId MEMBER m_clipId NOTIFY clipIdChanged)
 
 public:
     MonitorProxy(GLWidget *parent);
@@ -88,7 +89,7 @@ public:
     Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE double fps() const;
     QPoint profile();
-    void setClipProperties(ClipType::ProducerType type, bool hasAV, const QString clipName);
+    void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
     void setAudioThumb(const QUrl thumbPath = QUrl());
 
 signals:
@@ -111,6 +112,7 @@ signals:
     void clipHasAVChanged();
     void clipNameChanged();
     void clipTypeChanged();
+    void clipIdChanged();
     void audioThumbChanged();
     void profileChanged();
 
@@ -124,6 +126,7 @@ private:
     QString m_markerComment;
     QString m_clipName;
     int m_clipType;
+    int m_clipId;
     bool m_seekFinished;
     QPoint m_undoZone;
 };
