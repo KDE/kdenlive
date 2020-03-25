@@ -1148,15 +1148,11 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     Fun undo_zone = [this, oldZone]() {
-            m_zone = oldZone;
-            emit zoneChanged();
-            emit zoneMoved(oldZone);
+            setZone(oldZone, false);
             return true;
     };
     Fun redo_zone = [this, newZone]() {
-            m_zone = newZone;
-            emit zoneChanged();
-            emit zoneMoved(newZone);
+            setZone(newZone, false);
             return true;
     };
     redo_zone();
