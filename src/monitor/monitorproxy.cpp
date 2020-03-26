@@ -135,7 +135,7 @@ void MonitorProxy::setZoneIn(int pos)
         emit addSnap(pos);
     }
     emit zoneChanged();
-    emit saveZone();
+    emit saveZone(QPoint(m_zoneIn, m_zoneOut));
 }
 
 void MonitorProxy::setZoneOut(int pos)
@@ -148,7 +148,7 @@ void MonitorProxy::setZoneOut(int pos)
         emit addSnap(m_zoneOut - 1);
     }
     emit zoneChanged();
-    emit saveZone();
+    emit saveZone(QPoint(m_zoneIn, m_zoneOut));
 }
 
 void MonitorProxy::startZoneMove()
@@ -179,7 +179,7 @@ void MonitorProxy::setZone(int in, int out, bool sendUpdate)
     }
     emit zoneChanged();
     if (sendUpdate) {
-        emit saveZone();
+        emit saveZone(QPoint(m_zoneIn, m_zoneOut));
     }
 }
 

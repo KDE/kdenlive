@@ -97,7 +97,7 @@ signals:
     void seekFinishedChanged();
     void requestSeek(int pos);
     void zoneChanged();
-    void saveZone();
+    void saveZone(const QPoint zone);
     void saveZoneWithUndo(const QPoint, const QPoint&);
     void markerCommentChanged();
     void rulerHeightChanged();

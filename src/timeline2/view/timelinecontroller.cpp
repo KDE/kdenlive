@@ -1143,6 +1143,8 @@ void TimelineController::updateZone(const QPoint oldZone, const QPoint newZone, 
     if (!withUndo) {
         m_zone = newZone;
         emit zoneChanged();
+        // Update monitor zone
+        emit zoneMoved(m_zone);
         return;
     }
     std::function<bool(void)> undo = []() { return true; };
@@ -1170,6 +1172,7 @@ void TimelineController::setZoneIn(int inPoint)
     }
     m_zone.setX(inPoint);
     emit zoneChanged();
+    // Update monitor zone
     emit zoneMoved(m_zone);
 }
 

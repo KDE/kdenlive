@@ -91,8 +91,8 @@ void ClipSnapModel::removeAllSnaps()
 
 void ClipSnapModel::allSnaps(std::vector<size_t> &snaps)
 {
-    snaps.push_back(m_position);
-    snaps.push_back(m_position + m_outPoint - m_inPoint);
+    snaps.push_back((size_t)m_position);
+    snaps.push_back((size_t)(m_position + m_outPoint - m_inPoint));
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
