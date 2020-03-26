@@ -569,7 +569,10 @@ void MonitorManager::slotSetInPoint()
     if (m_activeMonitor == m_clipMonitor) {
         m_clipMonitor->slotSetZoneStart();
     } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotSetZoneStart();
+        QPoint sourceZone = m_projectMonitor->getZoneInfo();
+        QPoint destZone = sourceZone;
+        destZone.setX(m_projectMonitor->position());
+        m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 
@@ -578,7 +581,10 @@ void MonitorManager::slotSetOutPoint()
     if (m_activeMonitor == m_clipMonitor) {
         m_clipMonitor->slotSetZoneEnd();
     } else if (m_activeMonitor == m_projectMonitor) {
-        m_projectMonitor->slotSetZoneEnd();
+        QPoint sourceZone = m_projectMonitor->getZoneInfo();
+        QPoint destZone = sourceZone;
+        destZone.setY(m_projectMonitor->position());
+        m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 

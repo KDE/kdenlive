@@ -2238,13 +2238,6 @@ void MainWindow::connectDocument()
     getMainTimeline()->focusTimeline();
 }
 
-void MainWindow::slotZoneMoved(int start, int end)
-{
-    pCore->currentDoc()->setZone(start, end);
-    QPoint zone(start, end);
-    m_projectMonitor->slotLoadClipZone(zone);
-}
-
 void MainWindow::slotGuidesUpdated()
 {
     if (m_renderWidget) {

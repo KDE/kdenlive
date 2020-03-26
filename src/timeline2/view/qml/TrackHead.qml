@@ -226,8 +226,7 @@ Rectangle {
                 id: textMetricsLed
                 font: miniFont
             }
-            height: parent.height, textMetricsLed.height + 2
-            width: (textMetricsLed.averageCharacterWidth * text.length) + 4
+            width: (Math.ceil(textMetricsLed.averageCharacterWidth * trackLed.text.length * 1.2))
             y: 1
             leftPadding:0
             rightPadding:0

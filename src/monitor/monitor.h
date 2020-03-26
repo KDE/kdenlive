@@ -237,7 +237,7 @@ private slots:
     void slotSetThumbFrame();
     void slotSaveZone();
     void slotSeek();
-    void updateClipZone();
+    void updateClipZone(const QPoint zone);
     void slotGoToMarker(QAction *action);
     void slotSetVolume(int volume);
     void slotEditMarker();
@@ -264,8 +264,6 @@ private slots:
     void setOffsetY(int y);
     /** @brief Pan monitor view */
     void panView(QPoint diff);
-    /** @brief Project monitor zone changed, inform timeline */
-    void updateTimelineClipZone();
     void slotSeekPosition(int);
     void addSnapPoint(int pos);
     void removeSnapPoint(int pos);
@@ -338,7 +336,6 @@ signals:
     void refreshClipThumbnail(const QString &);
     void zoneUpdated(const QPoint &);
     void zoneUpdatedWithUndo(const QPoint &, const QPoint &);
-    void timelineZoneChanged();
     /** @brief  Editing transitions / effects over the monitor requires the renderer to send frames as QImage.
      *      This causes a major slowdown, so we only enable it if required */
     void requestFrameForAnalysis(bool);

@@ -392,7 +392,6 @@ private slots:
     void slotGetNewKeyboardStuff(QComboBox *schemesList);
     void slotAutoTransition();
     void slotRunWizard();
-    void slotZoneMoved(int start, int end);
     void slotDvdWizard(const QString &url = QString());
     void slotGroupClips();
     void slotUnGroupClips();

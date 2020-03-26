@@ -381,7 +381,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     if (id != Kdenlive::ClipMonitor) {
         // TODO: reimplement
         // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
-        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateTimelineClipZone);
+        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
     } else {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
@@ -699,28 +699,19 @@ GenTime Monitor::getSnapForPos(bool previous)
 
 void Monitor::slotLoadClipZone(const QPoint &zone)
 {
-    m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y());
+    m_glMonitor->getControllerProxy()->setZone(zone.x(), zone.y(), false);
     checkOverlay();
 }
 
 void Monitor::slotSetZoneStart()
 {
     m_glMonitor->getControllerProxy()->setZoneIn(m_glMonitor->getCurrentPos());
-    if (m_controller) {
-        m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
-    } else {
-        // timeline
-        emit timelineZoneChanged();
-    }
     checkOverlay();
 }
 
 void Monitor::slotSetZoneEnd()
 {
     m_glMonitor->getControllerProxy()->setZoneOut(m_glMonitor->getCurrentPos() + 1);
-    if (m_controller) {
-        m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
-    }
     checkOverlay();
 }
 
@@ -1518,17 +1509,12 @@ const QString Monitor::sceneList(const QString &root, const QString &fullPath)
     return m_glMonitor->sceneList(root, fullPath);
 }
 
-void Monitor::updateClipZone()
+void Monitor::updateClipZone(const QPoint zone)
 {
     if (m_controller == nullptr) {
         return;
     }
-    m_controller->setZone(m_glMonitor->getControllerProxy()->zone());
-}
-
-void Monitor::updateTimelineClipZone()
-{
-    emit zoneUpdated(m_glMonitor->getControllerProxy()->zone());
+    m_controller->setZone(zone);
 }
 
 void Monitor::switchDropFrames(bool drop)
@@ -1577,10 +1563,7 @@ void Monitor::updateTimecodeFormat()
 
 QPoint Monitor::getZoneInfo() const
 {
-    if (m_controller == nullptr) {
-        return {};
-    }
-    return m_controller->zone();
+    return m_glMonitor->getControllerProxy()->zone();
 }
 
 void Monitor::slotEnableEffectScene(bool enable)
