@@ -545,7 +545,7 @@ protected:
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
        @returns best snap position or -1 if no snap point is near
      */
-    int getBestSnapPos(int pos, int length, const std::vector<int> &pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
+    int getBestSnapPos(int referencePos, int diff, std::vector<int> pts = std::vector<int>(), int cursorPosition = 0, int snapDistance = -1);
 
     /* @brief Returns the best possible size for a clip on resize
      */

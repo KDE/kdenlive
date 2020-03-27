@@ -572,6 +572,9 @@ void MonitorManager::slotSetInPoint()
         QPoint sourceZone = m_projectMonitor->getZoneInfo();
         QPoint destZone = sourceZone;
         destZone.setX(m_projectMonitor->position());
+        if (destZone.x() > destZone.y()) {
+            destZone.setY(qMin(pCore->projectDuration(), destZone.x() + (sourceZone.y() - sourceZone.x())));
+        }
         m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
@@ -584,6 +587,9 @@ void MonitorManager::slotSetOutPoint()
         QPoint sourceZone = m_projectMonitor->getZoneInfo();
         QPoint destZone = sourceZone;
         destZone.setY(m_projectMonitor->position());
+        if (destZone.y() < destZone.x()) {
+            destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
+        }
         m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }

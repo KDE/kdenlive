@@ -730,13 +730,11 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         for (int current_clipId : all_items) {
             if (getItemTrackId(current_clipId) != -1) {
                 int in = getItemPosition(current_clipId);
-                int out = in + getItemPlaytime(current_clipId);
                 ignored_pts.push_back(in);
-                ignored_pts.push_back(out);
+                ignored_pts.push_back(in + getItemPlaytime(current_clipId));
             }
         }
-
-        int snapped = getBestSnapPos(position, m_allClips[clipId]->getPlaytime(), m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
+        int snapped = getBestSnapPos(currentPos, position - currentPos, m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
                                      cursorPosition, snapDistance);
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
@@ -889,9 +887,8 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
             for (int current_compoId : all_items) {
                 // TODO: fix for composition
                 int in = getItemPosition(current_compoId);
-                int out = in + getItemPlaytime(current_compoId);
                 ignored_pts.push_back(in);
-                ignored_pts.push_back(out);
+                ignored_pts.push_back(in + getItemPlaytime(current_compoId));
             }
         } else {
             int in = currentPos;
@@ -900,8 +897,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
             ignored_pts.push_back(in);
             ignored_pts.push_back(out);
         }
-
-        int snapped = getBestSnapPos(position, m_allCompositions[compoId]->getPlaytime(), ignored_pts, cursorPosition, snapDistance);
+        int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance);
         qDebug() << "Starting suggestion " << compoId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
@@ -2689,28 +2685,33 @@ int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
     return (qAbs(snapped - pos) < snapDistance ? snapped : pos);
 }
 
-int TimelineModel::getBestSnapPos(int pos, int length, const std::vector<int> &pts, int cursorPosition, int snapDistance)
+int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> pts, int cursorPosition, int snapDistance)
 {
     if (!pts.empty()) {
         m_snaps->ignore(pts);
+    } else {
+        return -1;
     }
+    // Sort and remove duplicates
+    std::sort(pts.begin(), pts.end());
+    pts.erase( std::unique(pts.begin(), pts.end()), pts.end());
     m_snaps->addPoint(cursorPosition);
-    int snapped_start = m_snaps->getClosestPoint(pos);
-    int snapped_end = m_snaps->getClosestPoint(pos + length);
+    int closest = -1;
+    int lowestDiff = snapDistance + 1;
+    for (int point : pts) {
+        int snapped = m_snaps->getClosestPoint(point + diff);
+        int currentDiff = qAbs(point + diff - snapped);
+        if (currentDiff < lowestDiff) {
+            lowestDiff = currentDiff;
+            closest = snapped - (point - referencePos);
+            if (lowestDiff < 2) {
+                break;
+            }
+        }
+    }
     m_snaps->unIgnore();
     m_snaps->removePoint(cursorPosition);
-
-    int startDiff = qAbs(pos - snapped_start);
-    int endDiff = qAbs(pos + length - snapped_end);
-    if (startDiff < endDiff && startDiff <= snapDistance) {
-        // snap to start
-        return snapped_start;
-    }
-    if (endDiff <= snapDistance) {
-        // snap to end
-        return snapped_end - length;
-    }
-    return -1;
+    return closest;
 }
 
 int TimelineModel::getNextSnapPos(int pos, std::vector<size_t> &snaps)
