@@ -88,7 +88,7 @@ void Core::build(bool isAppImage, const QString &MltPath)
     qRegisterMetaType<QVector<int>>();
     qRegisterMetaType<QDomElement>("QDomElement");
     qRegisterMetaType<requestClipInfo>("requestClipInfo");
-    
+
     if (isAppImage) {
         QString appPath = qApp->applicationDirPath();
         KdenliveSettings::setFfmpegpath(QDir::cleanPath(appPath + QStringLiteral("/ffmpeg")));
