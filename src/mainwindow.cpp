@@ -782,7 +782,7 @@ void MainWindow::updateActionsToolTip()
             // find the shortcut pattern and delete (note the preceding space in the RegEx)
             QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
             // append shortcut if it exists for action
-            if (tempAction->shortcut() == QKeySequence(0)) {
+            if (tempAction->shortcut() == QKeySequence()) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
                 tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
