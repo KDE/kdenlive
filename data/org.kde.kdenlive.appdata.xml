@@ -294,6 +294,7 @@
       <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
       <caption xml:lang="ru">Монтажный стол Kdenlive</caption>
       <caption xml:lang="sk">Kdenlive časová os</caption>
+      <caption xml:lang="sl">Časovnica Kdenlive</caption>
       <caption xml:lang="sv">Kdenlive tidslinje</caption>
       <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Timelinexx</caption>
@@ -319,6 +320,7 @@
       <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
       <caption xml:lang="ru">Настройка звука Kdenlive</caption>
       <caption xml:lang="sk">Kdenlive prispôsobenie zvuku</caption>
+      <caption xml:lang="sl">Prilagoditve zvoka Kdenlive</caption>
       <caption xml:lang="sv">Kdenlive ljudjusteringar</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
@@ -346,6 +348,7 @@
       <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
       <caption xml:lang="ru">Эффекты Kdenlive</caption>
       <caption xml:lang="sk">Kdenlive efekty</caption>
+      <caption xml:lang="sl">Učinki Kdenlive</caption>
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
       <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
