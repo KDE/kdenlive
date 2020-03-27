@@ -379,10 +379,10 @@ Rectangle {
                             // Don't allow moving composition to an audio track
                             track = controller.getCompositionTrackId(clipBeingDroppedId)
                         }
-                        controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, Math.floor(root.snapping))
+                        controller.suggestCompositionMove(clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else if (!controller.isAudioTrack(track)) {
-                        frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
+                        frame = controller.suggestSnapPoint(frame, root.snapping)
                         clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
                         clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData , false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
@@ -493,7 +493,7 @@ Rectangle {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
                         if (clipBeingDroppedId > -1) {
-                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
+                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeTrack = timeline.activeTrack
                         } else {
                             drag.accepted = false
@@ -521,18 +521,18 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0) {
-                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
+                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                         fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
-                        frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
+                        frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
                             clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
                         } else {
                             // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                             clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
-                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
+                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeTrack = timeline.activeTrack
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
@@ -580,7 +580,7 @@ Rectangle {
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
-                        frame = controller.suggestSnapPoint(frame, Math.floor(root.snapping))
+                        frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
                             //clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
                         } else {
@@ -892,7 +892,7 @@ Rectangle {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, Math.floor(root.snapping))
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, root.snapping)
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     }
                     scim = true
@@ -1121,7 +1121,7 @@ Rectangle {
                                             }
                                         }
                                         if (dragProxy.isComposition) {
-                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, Math.floor(root.snapping))
+                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         } else {
                                             if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
@@ -1132,7 +1132,7 @@ Rectangle {
                                                 dragProxy.masterObject.y = pos.y
                                                 //console.log('bringing item to front')
                                             }
-                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, Math.floor(root.snapping), moveMirrorTracks)
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping, moveMirrorTracks)
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
