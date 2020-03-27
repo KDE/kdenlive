@@ -34,7 +34,7 @@ Rectangle {
     property bool current: false
     property int myTrackHeight
     property int trackId : -42
-    property int buttonSize: root.baseUnit * 1.8
+    property int buttonSize: root.collapsedHeight
     property int iconSize: buttonSize - 4
     property string trackTag
     property int thumbsFormat: 0
@@ -187,7 +187,7 @@ Rectangle {
 
         ToolButton {
             id: expandButton
-            anchors.left: trackHeadColumn.left
+            anchors.left: parent.left
             height: trackHeadRoot.buttonSize
             width: trackHeadRoot.buttonSize
             focusPolicy: Qt.NoFocus
@@ -222,7 +222,8 @@ Rectangle {
             background: Rectangle {
                 color: trackLed.bgColor
             }
-            width: fontMetrics.boundingRect("M").width * trackLed.text.length
+            width: fontMetrics.boundingRect("M").width * trackHeadRoot.trackTag.length
+            height: trackHeadRoot.buttonSize
             y: 1
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
