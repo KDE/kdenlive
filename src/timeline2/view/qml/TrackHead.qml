@@ -222,14 +222,8 @@ Rectangle {
             background: Rectangle {
                 color: trackLed.bgColor
             }
-            FontMetrics {
-                id: textMetricsLed
-                font: miniFont
-            }
-            width: (Math.ceil(textMetricsLed.averageCharacterWidth * trackLed.text.length * 1.2))
+            width: fontMetrics.boundingRect("M").width * trackLed.text.length
             y: 1
-            leftPadding:0
-            rightPadding:0
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             MouseArea {
