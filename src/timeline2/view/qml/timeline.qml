@@ -892,7 +892,7 @@ Rectangle {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, root.snapping)
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     }
                     scim = true

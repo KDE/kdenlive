@@ -73,7 +73,7 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
             }
         }
     }
-    
+
     for (int i = 0; i < 3; i++) {
         QModelIndex index0 = sourceModel()->index(sourceRow, i, sourceParent);
         if (!index0.isValid()) {
@@ -84,7 +84,6 @@ bool ProjectSortProxyModel::filterAcceptsRowItself(int sourceRow, const QModelIn
             return true;
         }
     }
-    
     return false;
 }
 
