@@ -31,22 +31,14 @@ class OtioConvertions: public QObject
     Q_OBJECT
 public:
     OtioConvertions();
-    void getOtioConverters();
+    bool getOtioConverters();
 
 private:
-    QProcess m_otioProcess;
     QString m_adapters;
-    QTemporaryFile m_otioTempFile;
-    QString m_importedFile;
 
 public slots:
     void slotExportProject();
     void slotImportProject();
-
-private slots:
-    void slotGotOtioConverters(int exitCode, QProcess::ExitStatus exitStatus);
-    void slotProjectExported(int exitCode, QProcess::ExitStatus exitStatus);
-    void slotProjectImported(int exitCode, QProcess::ExitStatus exitStatus);
 };
 
 #endif // OTIOCONVERTIONS_H

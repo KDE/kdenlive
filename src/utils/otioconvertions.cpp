@@ -33,45 +33,53 @@ OtioConvertions::OtioConvertions()
 {
 }
 
-void OtioConvertions::getOtioConverters()
+bool OtioConvertions::getOtioConverters()
 {
-    if(QStandardPaths::findExecutable(QStringLiteral("otioconvert")).isEmpty() ||
-       QStandardPaths::findExecutable(QStringLiteral("python3")).isEmpty()) {
-        qInfo("otioconvert or python3 not available, project import/export not enabled");
-        return;
+    if(QStandardPaths::findExecutable(QStringLiteral("otioconvert")).isEmpty()) {
+        KMessageBox::error(pCore->window(), i18n("Could not find \"otioconvert\" script.\n"
+                                   "You need to install OpenTimelineIO,\n"
+                                   "through your package manager if available,\n"
+                                   "or by \"pip3 install opentimelineio\",\n"
+                                   "and check the scripts are installed in a directory "
+                                   "listed in PATH environment variable"));
+        return false;
     }
-    connect(&m_otioProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), this, &OtioConvertions::slotGotOtioConverters);
-    m_otioProcess.start(QStringLiteral("python3"));
-    m_otioProcess.write(QStringLiteral(
-"from opentimelineio import *\n"
-"for a in plugins.ActiveManifest().adapters:\n"
-"    if a.has_feature('read') and a.has_feature('write'):\n"
-"        print('*.'+' *.'.join(a.suffixes), end=' ')"
-                            ).toUtf8());
-    m_otioProcess.closeWriteChannel();
-}
-
-void OtioConvertions::slotGotOtioConverters(int exitCode, QProcess::ExitStatus exitStatus)
-{
-    m_otioProcess.disconnect();
-    if(exitStatus != QProcess::NormalExit || exitCode != 0) {
-        qInfo("OpenTimelineIO python module is not available");
-        return;
+    if(QStandardPaths::findExecutable(QStringLiteral("python3")).isEmpty()) {
+        KMessageBox::error(pCore->window(), ("Could not find \"python3\" executable, needed for OpenTimelineIO adapters.\n"
+                                   "If already installed, check it is installed in a directory"
+                                   "listed in PATH environment variable"));
+        return false;
     }
-    m_adapters = m_otioProcess.readAll();
+    QProcess listAdapters;
+    listAdapters.start(QStringLiteral("python3"));
+    listAdapters.write(QStringLiteral(
+                           "from opentimelineio import *\n"
+                           "for a in plugins.ActiveManifest().adapters:\n"
+                           "    if a.has_feature('read') and a.has_feature('write'):\n"
+                           "        print('*.'+' *.'.join(a.suffixes), end=' ')"
+                           ).toUtf8());
+    listAdapters.closeWriteChannel();
+    listAdapters.waitForFinished();
+    if(listAdapters.exitStatus() != QProcess::NormalExit || listAdapters.exitCode() != 0) {
+        KMessageBox::error(pCore->window(), i18n("python3 could not load opentimelineio module"));
+        return false;
+    }
+    m_adapters = listAdapters.readAll();
+    qInfo() << "OTIO adapters:" << m_adapters;
     if (!m_adapters.contains("kdenlive")) {
-        qInfo() << "Kdenlive not supported by OTIO: " << m_adapters;
-        return;
+        KMessageBox::error(pCore->window(), i18n("Your OpenTimelineIO module does not include Kdenlive adapter.\n"
+                                   "Please install version >= 0.12\n"));
+        return false;
     }
-    QAction *exportAction = pCore->window()->actionCollection()->action("export_project");
-    QAction *importAction = pCore->window()->actionCollection()->action("import_project");
-    exportAction->setEnabled(true);
-    importAction->setEnabled(true);
+    return true;
 }
 
 void OtioConvertions::slotExportProject()
 {
-    auto exportFile = QFileDialog::getSaveFileName(
+    if(m_adapters.isEmpty() && !getOtioConverters()) {
+        return;
+    }
+    QString exportFile = QFileDialog::getSaveFileName(
                 pCore->window(), i18n("Export Project"),
                 pCore->currentDoc()->projectDataFolder(),
                 i18n("OpenTimelineIO adapters (%1)", m_adapters));
@@ -83,21 +91,32 @@ void OtioConvertions::slotExportProject()
         KMessageBox::error(pCore->window(), i18n("Project file could not be saved for export."));
         return;
     }
-    m_otioTempFile.setFileTemplate(QStringLiteral("XXXXXX.kdenlive"));
-    if (!m_otioTempFile.open() || !(m_otioTempFile.write(xml) > 0)) {
-        pCore->displayMessage(i18n("Unable to write to temporary kdenlive file for export: %1",
-                                   m_otioTempFile.fileName()), ErrorMessage);
+    QTemporaryFile tmp;
+    tmp.setFileTemplate(QStringLiteral("XXXXXX.kdenlive"));
+    if (!tmp.open() || !(tmp.write(xml) > 0)) {
+        KMessageBox::error(pCore->window(), i18n("Unable to write to temporary kdenlive file for export: %1",
+                                   tmp.fileName()));
         return;
     }
-    connect(&m_otioProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, &OtioConvertions::slotProjectExported);
-    m_otioProcess.start(QStringLiteral("otioconvert"), {"-i", m_otioTempFile.fileName(), "-o", exportFile});
+    QProcess convert;
+    convert.start(QStringLiteral("otioconvert"), {"-i", tmp.fileName(), "-o", exportFile});
+    convert.waitForFinished();
+    tmp.remove();
+    if(convert.exitStatus() != QProcess::NormalExit || convert.exitCode() != 0) {
+        KMessageBox::error(pCore->window(), i18n("Project conversion failed:\n%1"),
+                           QString(convert.readAllStandardError()));
+        return;
+    }
+    pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);
 }
 
 void OtioConvertions::slotImportProject()
 {
+    if(m_adapters.isEmpty() && !getOtioConverters()) {
+        return;
+    }
     // Select foreign project to import
-    auto importFile = QFileDialog::getOpenFileName(
+    QString importFile = QFileDialog::getOpenFileName(
                 pCore->window(), i18n("Project to import"),
                 pCore->currentDoc()->projectDataFolder(),
                 i18n("OpenTimelineIO adapters (%1)", m_adapters));
@@ -105,47 +124,30 @@ void OtioConvertions::slotImportProject()
         return;
     }
     // Select converted project file
-    m_importedFile = QFileDialog::getSaveFileName(
+    QString importedFile = QFileDialog::getSaveFileName(
                 pCore->window(), i18n("Imported Project"),
                 pCore->currentDoc()->projectDataFolder(),
                 i18n("Kdenlive project (*.kdenlive)"));
-    if (m_importedFile.isNull()) {
+    if (importedFile.isNull()) {
         return;
     }
     // Start convertion process
-    connect(&m_otioProcess, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
-            this, &OtioConvertions::slotProjectImported);
-    m_otioProcess.start(QStringLiteral("otioconvert"), {"-i", importFile, "-o", m_importedFile});
-}
-
-void OtioConvertions::slotProjectExported(int exitCode, QProcess::ExitStatus exitStatus)
-{
-    m_otioProcess.disconnect();
-    m_otioTempFile.remove();
-    if(exitStatus != QProcess::NormalExit || exitCode != 0) {
-        pCore->displayMessage(i18n("Project conversion failed"), ErrorMessage);
-        qWarning() << exitCode << exitStatus << QString(m_otioProcess.readAllStandardError());
-        return;
-    }
-    pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);
-}
-
-void OtioConvertions::slotProjectImported(int exitCode, QProcess::ExitStatus exitStatus)
-{
-    m_otioProcess.disconnect();
-    if(exitStatus != QProcess::NormalExit || exitCode != 0 || !QFile::exists(m_importedFile)) {
-        pCore->displayMessage(i18n("Project conversion failed"), ErrorMessage);
-        qWarning() << exitCode << exitStatus << QString(m_otioProcess.readAllStandardError());
+    QProcess convert;
+    convert.start(QStringLiteral("otioconvert"), {"-i", importFile, "-o", importedFile});
+    convert.waitForFinished();
+    if(convert.exitStatus() != QProcess::NormalExit || convert.exitCode() != 0 || !QFile::exists(importedFile)) {
+        KMessageBox::error(pCore->window(), i18n("Project conversion failed:\n%1"),
+                           QString(convert.readAllStandardError()));
         return;
     }
     pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);
     // Verify current project can be closed
     if (pCore->currentDoc()->isModified() &&
-        KMessageBox::warningContinueCancel(pCore->window(), i18n(
-            "The current project has not been saved\n"
-            "Do you want to load imported project abandoning latest changes?")
-        ) != KMessageBox::Continue) {
+            KMessageBox::warningContinueCancel(pCore->window(), i18n(
+                                                   "The current project has not been saved\n"
+                                                   "Do you want to load imported project abandoning latest changes?")
+                                               ) != KMessageBox::Continue) {
         return;
     }
-    pCore->projectManager()->openFile(QUrl::fromLocalFile(m_importedFile));
+    pCore->projectManager()->openFile(QUrl::fromLocalFile(importedFile));
 }
