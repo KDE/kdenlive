@@ -188,8 +188,6 @@ Rectangle {
         ToolButton {
             id: expandButton
             anchors.left: parent.left
-            height: trackHeadRoot.buttonSize
-            width: trackHeadRoot.buttonSize
             focusPolicy: Qt.NoFocus
             //icon.width: trackHeadRoot.iconSize
             //icon.height: trackHeadRoot.iconSize
@@ -223,7 +221,7 @@ Rectangle {
                 color: trackLed.bgColor
             }
             width: fontMetrics.boundingRect("M").width * trackHeadRoot.trackTag.length
-            height: trackHeadRoot.buttonSize
+            height: expandButton.height
             y: 1
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -309,8 +307,6 @@ Rectangle {
                 checkable: true
                 enabled: trackHeadRoot.effectNames != ''
                 checked: enabled && trackHeadRoot.isStackEnabled
-                height: trackHeadRoot.buttonSize
-                width: trackHeadRoot.buttonSize
                 focusPolicy: Qt.NoFocus
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize
@@ -321,8 +317,6 @@ Rectangle {
             }
             ToolButton {
                 id: muteButton
-                height: trackHeadRoot.buttonSize
-                width: trackHeadRoot.buttonSize
                 focusPolicy: Qt.NoFocus
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize
@@ -346,8 +340,6 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
-                height: trackHeadRoot.buttonSize
-                width: trackHeadRoot.buttonSize
                 focusPolicy: Qt.NoFocus
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize

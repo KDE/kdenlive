@@ -128,7 +128,9 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     m_mainWindow = new MainWindow();
     m_guiConstructed = true;
     QStringList styles = QQuickStyle::availableStyles();
-    if (styles.contains(QLatin1String("org.kde.desktop"))) {
+    if (styles.contains(QLatin1String("Plasma"))) {
+        QQuickStyle::setStyle("Plasma");
+    } else if (styles.contains(QLatin1String("org.kde.desktop"))) {
         QQuickStyle::setStyle("org.kde.desktop");
     } else if (styles.contains(QLatin1String("Fusion"))) {
         QQuickStyle::setStyle("Fusion");

@@ -159,7 +159,7 @@ linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -qmldir=$DEPS_INSTALL_PREFIX/qml \
   -verbose=2 \
   -bundle-non-qt-libs \
-  -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins \
+  -extra-plugins=$APPDIR/usr/lib/mlt,$APPDIR/usr/plugins,$APPDIR/usr/qml \
   -exclude-libs=libnss3.so,libnssutil3.so,libGL.so.1
 
 #  -appimage \
