@@ -1921,7 +1921,7 @@ QSize Monitor::profileSize() const
 
 void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
-    if (m_id == Kdenlive::DvdMonitor || type == m_qmlManager->sceneType()) {
+    if (m_id == Kdenlive::DvdMonitor || (type == m_qmlManager->sceneType() && sceneData.isNull())) {
         return;
     }
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;

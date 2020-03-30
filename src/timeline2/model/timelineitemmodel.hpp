@@ -109,5 +109,9 @@ public:
 protected:
     // This is an helper function that finishes a construction of a freshly created TimelineItemModel
     static void finishConstruct(const std::shared_ptr<TimelineItemModel> &ptr, const std::shared_ptr<MarkerListModel> &guideModel);
+
+signals:
+    /** @brief Triggered when a video track visibility changed */
+    void trackVisibilityChanged();
 };
 #endif

@@ -2875,6 +2875,7 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
     pCore->monitorManager()->projectMonitor()->slotShowEffectScene(enable ? MonitorSplitTrack : MonitorSceneNone, false, QVariant(trackNames));
     QObject::disconnect( m_connection );
     if (enable) {
+        connect(m_model.get(), &TimelineItemModel::trackVisibilityChanged, this, &TimelineController::updateMultiTrack, Qt::UniqueConnection);
         m_connection = connect(this, &TimelineController::activeTrackChanged, [this]() {
             int ix = 0;
             auto it = m_model->m_allTracks.cbegin();
@@ -2891,7 +2892,15 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
             }
             pCore->monitorManager()->projectMonitor()->updateMultiTrackView(ix);
         });
+    } else {
+        disconnect(m_model.get(), &TimelineItemModel::trackVisibilityChanged, this, &TimelineController::updateMultiTrack);
     }
+}
+
+void TimelineController::updateMultiTrack()
+{
+    QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, true, true);
+    pCore->monitorManager()->projectMonitor()->slotShowEffectScene(MonitorSplitTrack, false, QVariant(trackNames));
 }
 
 void TimelineController::activateTrackAndSelect(int trackPosition)
