@@ -1566,8 +1566,10 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             int out = prod.attribute(QStringLiteral("out")).toInt();
             int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
             int aTrackId = prod.attribute(QStringLiteral("a_track")).toInt();
-            if (aTrackId > 0) {
+            if (tracksMap.contains(aTrackId)) {
                 aTrackId = timeline->getTrackPosition(tracksMap.value(aTrackId));
+            } else {
+                aTrackId = 0;
             }
             int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
             int newId;
@@ -1788,9 +1790,15 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                     effectsList.appendChild(clipEffect);
                     clipEffect.setAttribute(QStringLiteral("id"), filterId);
                     QDomNodeList properties = effect.childNodes();
+                    if (effect.hasAttribute(QStringLiteral("in"))) {
+                        clipEffect.setAttribute(QStringLiteral("in"), effect.attribute(QStringLiteral("in")));
+                    }
+                    if (effect.hasAttribute(QStringLiteral("out"))) {
+                        clipEffect.setAttribute(QStringLiteral("out"), effect.attribute(QStringLiteral("out")));
+                    }
                     for (int l = 0; l < properties.count(); ++l) {
                         QDomElement prop = properties.item(l).toElement();
-                        const QString &propName = prop.attribute(QLatin1String("name"));
+                        const QString propName = prop.attribute(QLatin1String("name"));
                         if (propName == QLatin1String("mlt_service") || propName == QLatin1String("kdenlive_id")) {
                             continue;
                         }
@@ -1801,6 +1809,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         }
         track++;
     }
+    track = audioTracks;
     if (!isAudio) {
         // Compositions
         QDomNodeList compositions = sourceDoc.elementsByTagName(QLatin1String("transition"));
@@ -1819,8 +1828,8 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             composition.setAttribute(QLatin1String("in"), in);
             composition.setAttribute(QLatin1String("out"), out);
             composition.setAttribute(QLatin1String("composition"), compoId);
-            composition.setAttribute(QLatin1String("a_track"), Xml::getXmlProperty(currentCompo, QLatin1String("a_track")).toInt() - 1);
-            composition.setAttribute(QLatin1String("track"), Xml::getXmlProperty(currentCompo, QLatin1String("b_track")).toInt() - 1);
+            composition.setAttribute(QLatin1String("a_track"), track + Xml::getXmlProperty(currentCompo, QLatin1String("a_track")).toInt());
+            composition.setAttribute(QLatin1String("track"), track + Xml::getXmlProperty(currentCompo, QLatin1String("b_track")).toInt());
             QDomNodeList properties = currentCompo.childNodes();
             for (int l = 0; l < properties.count(); ++l) {
                 QDomElement prop = properties.item(l).toElement();
