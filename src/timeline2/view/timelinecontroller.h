@@ -541,7 +541,7 @@ public slots:
     void invalidateZone(int in, int out);
     void checkDuration();
     /** @brief Dis / enable multi track view. */
-    void slotMultitrackView(bool enable, bool refresh = true);
+    void slotMultitrackView(bool enable = true, bool refresh = true);
     /** @brief Activate a video track by its position (0 = topmost). */
     void activateTrackAndSelect(int trackPosition);
     /** @brief Save timeline selected clips to target folder. */
@@ -555,6 +555,8 @@ private slots:
     void updateClipActions();
     void updateVideoTarget();
     void updateAudioTarget();
+    /** @brief Dis / enable multi track view. */
+    void updateMultiTrack();
 
 public:
     /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */

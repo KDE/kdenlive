@@ -829,16 +829,19 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition)service->get_service());
+            service.reset(service->producer());
             QString serviceName = t.get("mlt_service");
             int added = t.get_int("internal_added");
             if (added == 237 && serviceName != QLatin1String("mix")) {
-                // remove all compositing transitions
+                // Disable all compositing transitions
                 t.set("disable", enable ? "1" : nullptr);
-            } else if (!enable && added == 200) {
+            } else if (added == 200) {
                 field->disconnect_service(t);
+                t.disconnect_all_producers();
             }
+        } else {
+            service.reset(service->producer());
         }
-        service.reset(service->producer());
     }
     if (enable) {
         int count = 0;

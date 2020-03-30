@@ -435,6 +435,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     std::shared_ptr<TrackModel> track = getTrackById(trackId);
     track->setProperty(name, value);
     QVector<int> roles;
+    bool updateMultiTrack = false;
     if (name == QLatin1String("kdenlive:track_name")) {
         roles.push_back(NameRole);
     } else if (name == QLatin1String("kdenlive:locked_track")) {
@@ -443,6 +444,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
         roles.push_back(IsDisabledRole);
         if (!track->isAudioTrack()) {
             pCore->requestMonitorRefresh();
+            updateMultiTrack = true;
         }
     } else if (name == QLatin1String("kdenlive:timeline_active")) {
         roles.push_back(TrackActiveRole);
@@ -456,6 +458,9 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     if (!roles.isEmpty()) {
         QModelIndex ix = makeTrackIndexFromID(trackId);
         emit dataChanged(ix, ix, roles);
+        if (updateMultiTrack) {
+            emit trackVisibilityChanged();
+        }
     }
 }
 
