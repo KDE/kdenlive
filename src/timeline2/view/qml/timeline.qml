@@ -686,6 +686,9 @@ Rectangle {
                             height: model.trackHeight
                             onIsLockedChanged: tracksRepeater.itemAt(index).isLocked = isLocked
                             collapsed: height <= root.collapsedHeight
+                            Component.onCompleted: {
+                                root.collapsedHeight = collapsedHeight
+                            }
                             onMyTrackHeightChanged: {
                                 collapsed = myTrackHeight <= root.collapsedHeight
                                 if (!collapsed) {
