@@ -33,9 +33,8 @@ Rectangle {
     property bool showAudioRecord: false
     property bool current: false
     property int myTrackHeight
+    property int collapsedHeight : expandButton.height
     property int trackId : -42
-    property int buttonSize: root.collapsedHeight
-    property int iconSize: buttonSize - 4
     property string trackTag
     property int thumbsFormat: 0
     border.width: 1
@@ -95,7 +94,7 @@ Rectangle {
     }
     Item {
         id: targetColumn
-        width: trackHeadRoot.buttonSize * .4
+        width: root.collapsedHeight * .4
         height: trackHeadRoot.height
         Item {
             anchors.fill: parent
@@ -298,7 +297,7 @@ Rectangle {
         }
         Row {
             width: childrenRect.width
-            x: Math.max(2 * trackHeadRoot.buttonSize + 2, parent.width - width - 4)
+            x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
             spacing: 0
             id: buttonsRow
             ToolButton {
@@ -380,12 +379,12 @@ Rectangle {
         }
         Item {
             id: recLayout
-            y: trackHeadRoot.buttonSize + 4
+            y: root.collapsedHeight + 4
             //width: trackHeadRoot.width
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2
-            height: showAudioRecord ? trackHeadRoot.buttonSize : 0
+            height: showAudioRecord ? root.collapsedHeight : 0
             Loader {
                 id: audioVuMeter
                 anchors.fill: parent
