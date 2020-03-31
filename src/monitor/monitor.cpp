@@ -876,7 +876,7 @@ void Monitor::slotStartDrag()
         QStringList list;
         list.append(m_controller->AbstractProjectItem::clipId());
         list.append(QString::number(p.x()));
-        list.append(QString::number(p.y()));
+        list.append(QString::number(p.y() - 1));
         prodData.append(list.join(QLatin1Char('/')).toUtf8());
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
