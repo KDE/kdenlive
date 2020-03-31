@@ -111,7 +111,7 @@ Rectangle {
         }
     }
     ToolTip {
-        visible: mouseArea.containsMouse && !dragProxyArea.pressed
+        visible: mouseArea.containsMouse && !dragProxyArea.pressed && !trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !fadeInMouseArea.containsMouse && !fadeOutMouseArea.containsMouse
         delay: 1000
         timeout: 5000
         background: Rectangle {
@@ -871,6 +871,21 @@ Rectangle {
                     width: 1
                     visible : clipRoot.fadeOut > 0 && (fadeOutMouseArea.containsMouse || fadeOutMouseArea.drag.active)
                 }
+                ToolTip {
+                    visible: clipRoot.fadeOut > 0 && fadeOutMouseArea.containsMouse && !fadeOutMouseArea.drag.active
+                    delay: 1000
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        font: miniFont
+                        text: '%1: %2'.arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(clipRoot.fadeOut))
+                    }
+                }
             }
         }
 
@@ -945,6 +960,21 @@ Rectangle {
                     height: container.height
                     width: 1
                     visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
+                }
+                ToolTip {
+                    visible: clipRoot.fadeIn > 0 && fadeInMouseArea.containsMouse && !fadeInMouseArea.drag.active
+                    delay: 1000
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        font: miniFont
+                        text: '%1: %2'.arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(clipRoot.fadeIn))
+                    }
                 }
             }
         }
