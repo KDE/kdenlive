@@ -449,6 +449,22 @@ void TimelineItemModel::setTrackName(int trackId, const QString &text)
     PUSH_UNDO(undo_lambda, redo_lambda, i18n("Edit item"));
 }
 
+void TimelineItemModel::hideTrack(int trackId, const QString state)
+{
+    QWriteLocker locker(&m_lock);
+    QString previousState = getTrackProperty(trackId, QStringLiteral("hide")).toString();
+    Fun undo_lambda = [this, trackId, previousState]() {
+        setTrackProperty(trackId, QStringLiteral("hide"), previousState);
+        return true;
+    };
+    Fun redo_lambda = [this, trackId, state]() {
+        setTrackProperty(trackId, QStringLiteral("hide"), state);
+        return true;
+    };
+    redo_lambda();
+    PUSH_UNDO(undo_lambda, redo_lambda, i18n("Edit item"));
+}
+
 void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const QString &value)
 {
     std::shared_ptr<TrackModel> track = getTrackById(trackId);

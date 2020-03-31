@@ -320,7 +320,7 @@ Rectangle {
                 //icon.width: trackHeadRoot.iconSize
                 //icon.height: trackHeadRoot.iconSize
                 icon.name: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
-                onClicked: controller.setTrackProperty(trackId, "hide", isDisabled ? (isAudio ? '1' : '2') : '3')
+                onClicked: controller.hideTrack(trackId, isDisabled ? (isAudio ? '1' : '2') : '3')
                 ToolTip {
                     visible: muteButton.hovered
                     font: miniFont
