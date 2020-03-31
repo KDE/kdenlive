@@ -51,21 +51,6 @@ Item {
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
     }
-    SceneToolBar {
-        id: sceneToolBar
-        barContainsMouse: sceneToolBar.rightSide ? barOverArea.mouseX >= x - 10 : barOverArea.mouseX < x + width + 10
-        onBarContainsMouseChanged: {
-            sceneToolBar.opacity = 1
-            sceneToolBar.visible = sceneToolBar.barContainsMouse
-        }
-        anchors {
-            right: parent.right
-            top: parent.top
-            topMargin: 4
-            rightMargin: 4
-            leftMargin: 4
-        }
-    }
 
     Item {
         id: frame
@@ -77,8 +62,8 @@ Item {
         Repeater {
             id: trackSeparators
             model: tracks
-            property int rows: trackSeparators.count < 5 ? 2 : 3
-            property int columns: trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
+            property int rows: trackSeparators.count < 2 ? 1 : trackSeparators.count < 5 ? 2 : 3
+            property int columns: trackSeparators.count < 2 ? 1 : trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
             Rectangle {
                 width: parent.width / trackSeparators.rows
                 height: parent.height / trackSeparators.columns
@@ -101,6 +86,21 @@ Item {
                     onClicked: root.activateTrack(index);
                 }
             }
+        }
+    }
+    SceneToolBar {
+        id: sceneToolBar
+        barContainsMouse: sceneToolBar.rightSide ? barOverArea.mouseX >= x - 10 : barOverArea.mouseX < x + width + 10
+        onBarContainsMouseChanged: {
+            sceneToolBar.opacity = 1
+            sceneToolBar.visible = sceneToolBar.barContainsMouse
+        }
+        anchors {
+            right: parent.right
+            top: parent.top
+            topMargin: 4
+            rightMargin: 4
+            leftMargin: 4
         }
     }
     MonitorRuler {

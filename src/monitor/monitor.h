@@ -221,7 +221,6 @@ private:
     MonitorAudioLevel *m_audioMeterWidget;
     QTimer m_droppedTimer;
     double m_displayedFps;
-    QLabel *m_scalingLabel;
     QLabel *m_speedLabel;
     int m_speedIndex;
 

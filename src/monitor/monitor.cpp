@@ -206,57 +206,58 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     m_toolbar->setIconSize(iconSize);
-    m_scalingLabel = new QLabel(this);
-    m_scalingLabel->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
-    m_scalingLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    QFontMetricsF fm(m_scalingLabel->font());
-    int labelWidth = (int) fm.boundingRect(QRect(0, 0, fm.averageCharWidth()*10, fm.lineSpacing() * 2), Qt::AlignCenter, QStringLiteral("000p")).width();
-    QMargins labelMrg = m_scalingLabel->contentsMargins();
-    m_scalingLabel->setFixedWidth(labelWidth + labelMrg.left() + labelMrg.right());
-    m_scalingLabel->setAlignment(Qt::AlignCenter);
-    connect(m_scalingLabel, &QLabel::linkActivated, [&]() {
-        switch (KdenliveSettings::previewScaling()) {
+
+    QComboBox *scalingAction = new QComboBox(this);
+    scalingAction->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
+    // Combobox padding is bad, so manually add a space before text
+    scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"),QStringLiteral(" ") + i18n("720p"),QStringLiteral(" ") + i18n("540p"),QStringLiteral(" ") + i18n("360p"),QStringLiteral(" ") + i18n("270p")});
+    connect(scalingAction, QOverload<int>::of(&QComboBox::activated), [this] (int index) {
+        switch (index) {
+            case 1:
+                KdenliveSettings::setPreviewScaling(2);
+                break;
             case 2:
                 KdenliveSettings::setPreviewScaling(4);
                 break;
-            case 4:
+            case 3:
                 KdenliveSettings::setPreviewScaling(8);
                 break;
-            case 8:
+            case 4:
                 KdenliveSettings::setPreviewScaling(16);
                 break;
-            case 16:
-                KdenliveSettings::setPreviewScaling(0);
-                break;
             default:
-                KdenliveSettings::setPreviewScaling(2);
+                KdenliveSettings::setPreviewScaling(0);
         }
         m_monitorManager->scalingChanged();
         m_monitorManager->updatePreviewScaling();
     });
-    connect(manager, &MonitorManager::updatePreviewScaling, [this]() {
+
+    connect(manager, &MonitorManager::updatePreviewScaling, [this, scalingAction]() {
         m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
-                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("720p")));
+                scalingAction->setCurrentIndex(1);
                 break;
             case 4:
-                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("540p")));
+                scalingAction->setCurrentIndex(2);
                 break;
             case 8:
-                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("360p")));
+                scalingAction->setCurrentIndex(3);
                 break;
             case 16:
-                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("270p")));
+                scalingAction->setCurrentIndex(4);
                 break;
             default:
-                m_scalingLabel->setText(QString("<a href=\"#\">%1</a>").arg(i18n("1:1")));
+                scalingAction->setCurrentIndex(0);
                 break;
         }
         refreshMonitorIfActive();
     });
+    scalingAction->setFrame(false);
+    scalingAction->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    m_toolbar->addWidget(scalingAction);
+    m_toolbar->addSeparator();
 
-    m_toolbar->addWidget(m_scalingLabel);
     m_speedLabel = new QLabel(this);
     m_speedLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);

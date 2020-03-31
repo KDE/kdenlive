@@ -121,7 +121,11 @@ Rectangle {
         contentItem: Label {
             color: activePalette.text
             font: miniFont
-            text: label.text + ' (' + timeline.simplifiedTC(clipRoot.inPoint) + '-' + timeline.simplifiedTC(clipRoot.outPoint) + ')'
+            text: '%1 (%2-%3)\n%4: %5'.arg(label.text)
+                        .arg(timeline.simplifiedTC(clipRoot.inPoint))
+                        .arg(timeline.simplifiedTC(clipRoot.outPoint))
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(clipRoot.clipDuration))
         }
     }
 
