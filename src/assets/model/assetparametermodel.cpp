@@ -209,14 +209,21 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
         int points = vals.size();
         m_asset->set("3", points / 10.);
+        m_params[QStringLiteral("3")].value = points / 10.;
         // for the curve, inpoints are numbered: 6, 8, 10, 12, 14
         // outpoints, 7, 9, 11, 13,15 so we need to deduce these enums
         for (int i = 0; i < points; i++) {
             const QString &pointVal = vals.at(i);
             int idx = 2 * i + 6;
-            m_asset->set(QString::number(idx).toLatin1().constData(), pointVal.section(QLatin1Char('/'), 0, 0).toDouble());
+            QString pName = QString::number(idx);
+            double val = pointVal.section(QLatin1Char('/'), 0, 0).toDouble();
+            m_asset->set(pName.toLatin1().constData(), val);
+            m_params[pName].value = val;
             idx++;
-            m_asset->set(QString::number(idx).toLatin1().constData(), pointVal.section(QLatin1Char('/'), 1, 1).toDouble());
+            pName = QString::number(idx);
+            val = pointVal.section(QLatin1Char('/'), 1, 1).toDouble();
+            m_asset->set(pName.toLatin1().constData(), val);
+            m_params[pName].value = val;
         }
     }
     bool conversionSuccess;

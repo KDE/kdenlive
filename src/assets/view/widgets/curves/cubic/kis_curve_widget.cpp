@@ -60,6 +60,7 @@ KisCurveWidget::KisCurveWidget(QWidget *parent)
     m_pixmapCache = nullptr;
     m_maxPoints = 0;
     m_curve = KisCubicCurve();
+    setMaxPoints(5);
     update();
 }
 
@@ -134,6 +135,7 @@ void KisCurveWidget::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::RightButton && closest_point_index > 0 && closest_point_index < m_curve.points().count() - 1) {
         m_currentPointIndex = closest_point_index;
         slotDeleteCurrentPoint();
+        return;
     } else if (e->button() != Qt::LeftButton) {
         return;
     }
