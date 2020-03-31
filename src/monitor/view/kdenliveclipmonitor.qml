@@ -329,7 +329,7 @@ Item {
                     Drag.active: dragVideoArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + controller.zoneOut
+                        "kdenlive/producerslist" : "V" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1)
                     }
                     MouseArea {
                         id: dragVideoArea
