@@ -83,6 +83,11 @@ public:
     /* @brief Enabled/disabled a track's effect stack */
     Q_INVOKABLE void setTrackStackEnabled(int tid, bool enable);
     Q_INVOKABLE QVariant getTrackProperty(int tid, const QString &name) const;
+    /* @brief Sets a track name
+       @param trackId is of the track to alter
+       @param text is the new track name.
+    */
+    Q_INVOKABLE void setTrackName(int trackId, const QString &text);
     /** @brief returns the lower video track index in timeline.
      **/
     int getFirstVideoTrackIndex() const;
