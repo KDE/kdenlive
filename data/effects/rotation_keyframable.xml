@@ -21,6 +21,5 @@
 	<parameter type="color" name="producer.resource" default="0x00000000" alpha="1">
 		<name>Background Color</name>
 	</parameter>
-        <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
-	<parameter type="fixed" name="transition.always_active" max="1" min="1" default="1" />
+    <parameter type="fixed" name="transition.keyed" max="1" min="1" default="1" />
 </effect>
