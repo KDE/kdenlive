@@ -574,7 +574,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-            return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration : -1));
+            return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
         }
         if (m_timewarpProducers.count(clipId) > 0) {
             m_effectStack->removeService(m_timewarpProducers[clipId]);
@@ -604,7 +604,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 m_effectStack->addService(m_videoProducers[trackId]);
             }
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-            return std::shared_ptr<Mlt::Producer>(m_videoProducers[trackId]->cut(-1, duration > 0 ? duration : -1));
+            return std::shared_ptr<Mlt::Producer>(m_videoProducers[trackId]->cut(-1, duration > 0 ? duration - 1: -1));
         }
         if (m_videoProducers.count(trackId) > 0) {
             m_effectStack->removeService(m_videoProducers[trackId]);
@@ -613,7 +613,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         Q_ASSERT(state == PlaylistState::Disabled);
         createDisabledMasterProducer();
         int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
-        return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration : -1));
+        return std::shared_ptr<Mlt::Producer>(m_disabledProducer->cut(-1, duration > 0 ? duration - 1: -1));
     }
 
     // For timewarp clips, we keep one separate producer for each clip.
@@ -733,42 +733,6 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
     // we have a problem
     return {std::shared_ptr<Mlt::Producer>(ClipController::mediaUnavailable->cut()), false};
 }
-/*
-std::shared_ptr<Mlt::Producer> ProjectClip::timelineProducer(PlaylistState::ClipState state, int track)
-{
-    if (!m_service.startsWith(QLatin1String("avformat"))) {
-        std::shared_ptr<Mlt::Producer> prod(originalProducer()->cut());
-        int length = getProducerIntProperty(QStringLiteral("kdenlive:duration"));
-        if (length > 0) {
-            prod->set_in_and_out(0, length);
-        }
-        return prod;
-    }
-    if (state == PlaylistState::VideoOnly) {
-        if (m_timelineProducers.count(0) > 0) {
-            return std::shared_ptr<Mlt::Producer>(m_timelineProducers.find(0)->second->cut());
-        }
-        std::shared_ptr<Mlt::Producer> videoProd = cloneProducer();
-        videoProd->set("audio_index", -1);
-        m_timelineProducers[0] = videoProd;
-        return std::shared_ptr<Mlt::Producer>(videoProd->cut());
-    }
-    if (state == PlaylistState::AudioOnly) {
-        if (m_timelineProducers.count(-track) > 0) {
-            return std::shared_ptr<Mlt::Producer>(m_timelineProducers.find(-track)->second->cut());
-        }
-        std::shared_ptr<Mlt::Producer> audioProd = cloneProducer();
-        audioProd->set("video_index", -1);
-        m_timelineProducers[-track] = audioProd;
-        return std::shared_ptr<Mlt::Producer>(audioProd->cut());
-    }
-    if (m_timelineProducers.count(track) > 0) {
-        return std::shared_ptr<Mlt::Producer>(m_timelineProducers.find(track)->second->cut());
-    }
-    std::shared_ptr<Mlt::Producer> normalProd = cloneProducer();
-    m_timelineProducers[track] = normalProd;
-    return std::shared_ptr<Mlt::Producer>(normalProd->cut());
-}*/
 
 std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects)
 {
