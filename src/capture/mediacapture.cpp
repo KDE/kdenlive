@@ -32,12 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)
     , currentState(-1)
+    , m_probe(nullptr)
     , m_audioDevice("default:")
     , m_path(QUrl())
     , m_recordState(0)
 {
-    m_probe = std::make_unique<QAudioProbe>(this);
-    connect(m_probe.get(), &QAudioProbe::audioBufferProbed, this, &MediaCapture::processBuffer);
     m_resetTimer.setInterval(5000);
     m_resetTimer.setSingleShot(true);
     connect(&m_resetTimer, &QTimer::timeout, this, &MediaCapture::resetIfUnused);
@@ -64,6 +63,10 @@ void MediaCapture::recordAudio(int tid, bool record)
     QMutexLocker lk(&m_recMutex);
     if (!m_audioRecorder) {
         m_audioRecorder = std::make_unique<QAudioRecorder>(this);
+        if (!m_probe) {
+            m_probe = std::make_unique<QAudioProbe>(this);
+            connect(m_probe.get(), &QAudioProbe::audioBufferProbed, this, &MediaCapture::processBuffer);
+        }
         m_probe->setSource(m_audioRecorder.get());
         connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, [&, tid] (QMediaRecorder::State state) {
             m_recordState = state;
