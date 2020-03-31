@@ -446,7 +446,7 @@ void TimelineItemModel::setTrackName(int trackId, const QString &text)
         return true;
     };
     redo_lambda();
-    PUSH_UNDO(undo_lambda, redo_lambda, i18n("Edit item"));
+    PUSH_UNDO(undo_lambda, redo_lambda, i18n("Rename Track"));
 }
 
 void TimelineItemModel::hideTrack(int trackId, const QString state)
@@ -462,7 +462,7 @@ void TimelineItemModel::hideTrack(int trackId, const QString state)
         return true;
     };
     redo_lambda();
-    PUSH_UNDO(undo_lambda, redo_lambda, i18n("Edit item"));
+    PUSH_UNDO(undo_lambda, redo_lambda, state == QLatin1String("3") ? i18n("Hide Track") : i18n("Enable Track"));
 }
 
 void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const QString &value)
