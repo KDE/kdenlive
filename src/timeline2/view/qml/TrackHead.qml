@@ -472,7 +472,7 @@ Rectangle {
                         }
                     }*/
                     onEditingFinished: {
-                        controller.setTrackProperty(trackId, "kdenlive:track_name", text)
+                        controller.setTrackName(trackId, text)
                         visible = false
                     }
                 }

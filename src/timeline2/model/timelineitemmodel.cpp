@@ -430,6 +430,25 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+void TimelineItemModel::setTrackName(int trackId, const QString &text)
+{
+    QWriteLocker locker(&m_lock);
+    const QString &currentName = getTrackProperty(trackId, QStringLiteral("kdenlive:track_name")).toString();
+    if (text == currentName) {
+        return;
+    }
+    Fun undo_lambda = [this, trackId, currentName]() {
+        setTrackProperty(trackId, QStringLiteral("kdenlive:track_name"), currentName);
+        return true;
+    };
+    Fun redo_lambda = [this, trackId, text]() {
+        setTrackProperty(trackId, QStringLiteral("kdenlive:track_name"), text);
+        return true;
+    };
+    redo_lambda();
+    PUSH_UNDO(undo_lambda, redo_lambda, i18n("Edit item"));
+}
+
 void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const QString &value)
 {
     std::shared_ptr<TrackModel> track = getTrackById(trackId);
@@ -438,6 +457,9 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     bool updateMultiTrack = false;
     if (name == QLatin1String("kdenlive:track_name")) {
         roles.push_back(NameRole);
+        if (!track->isAudioTrack()) {
+            updateMultiTrack = true;
+        }
     } else if (name == QLatin1String("kdenlive:locked_track")) {
         roles.push_back(IsLockedRole);
     } else if (name == QLatin1String("hide")) {
