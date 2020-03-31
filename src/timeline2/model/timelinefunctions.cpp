@@ -860,6 +860,9 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
             switch (count) {
             case 0:
                 switch (videoTracks.size()) {
+                case 1:
+                    geometry = QStringLiteral("0 0 100% 100%");
+                    break;
                 case 2:
                     geometry = QStringLiteral("0 0 50% 100%");
                     break;
