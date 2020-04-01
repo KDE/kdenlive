@@ -650,11 +650,16 @@ void KdenliveSettingsDialog::initDevices()
 {
     // Fill audio drivers
     m_configSdl.kcfg_audio_driver->addItem(i18n("Automatic"), QString());
-#ifndef Q_WS_MAC
-    m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
+#if defined(Q_OS_WIN)
+    //TODO: i18n
+    m_configSdl.kcfg_audio_driver->addItem("DirectSound", "directsound");
+    m_configSdl.kcfg_audio_driver->addItem("WinMM", "winmm");
+    m_configSdl.kcfg_audio_driver->addItem("Wasapi", "wasapi");
+#elif !defined(Q_WS_MAC)
     m_configSdl.kcfg_audio_driver->addItem(i18n("ALSA"), "alsa");
-    m_configSdl.kcfg_audio_driver->addItem(i18n("PulseAudio"), "pulse");
-    m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("PulseAudio"), "pulseaudio");
+    m_configSdl.kcfg_audio_driver->addItem(i18n("OSS"), "dsp");
+    //m_configSdl.kcfg_audio_driver->addItem(i18n("OSS with DMA access"), "dma");
     m_configSdl.kcfg_audio_driver->addItem(i18n("Esound daemon"), "esd");
     m_configSdl.kcfg_audio_driver->addItem(i18n("ARTS daemon"), "artsc");
 #endif
@@ -728,7 +733,7 @@ void KdenliveSettingsDialog::initDevices()
         m_configSdl.kcfg_audio_backend->setCurrentIndex(ix);
         KdenliveSettings::setAudio_backend(ix);
     }
-    m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend().startsWith(QLatin1String("sdl_audio")));
+    m_configSdl.group_sdl->setEnabled(KdenliveSettings::audiobackend().startsWith(QLatin1String("sdl")));
 
     loadCurrentV4lProfileInfo();
 }
