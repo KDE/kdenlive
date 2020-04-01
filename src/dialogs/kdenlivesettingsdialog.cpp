@@ -1141,7 +1141,7 @@ void KdenliveSettingsDialog::slotCheckAlsaDriver()
 void KdenliveSettingsDialog::slotCheckAudioBackend()
 {
     QString value = m_configSdl.kcfg_audio_backend->itemData(m_configSdl.kcfg_audio_backend->currentIndex()).toString();
-    m_configSdl.group_sdl->setEnabled(value.startsWith(QLatin1String("sdl_audio")));
+    m_configSdl.group_sdl->setEnabled(value.startsWith(QLatin1String("sdl")));
 }
 
 void KdenliveSettingsDialog::loadTranscodeProfiles()
