@@ -1142,7 +1142,7 @@ int GLWidget::reconfigure()
         }
 
         int volume = KdenliveSettings::volume();
-        if (serviceName.startsWith(QLatin1String("sdl_audio"))) {
+        if (serviceName.startsWith(QLatin1String("sdl"))) {
             QString audioDevice = KdenliveSettings::audiodevicename();
             if (!audioDevice.isEmpty()) {
                 m_consumer->set("audio_device", audioDevice.toUtf8().constData());
