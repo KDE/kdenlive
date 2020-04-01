@@ -265,7 +265,10 @@ void EffectStackView::loadEffects()
 void EffectStackView::updateTreeHeight()
 {
     // For some reason, the treeview height does not update correctly, so enforce it
-    m_mutex.lock();
+    QMutexLocker lk(&m_mutex);
+    if (!m_model) {
+        return;
+    }
     int totalHeight = 0;
     for (int j = 0; j < m_model->rowCount(); j++) {
         std::shared_ptr<AbstractEffectItem> item2 = m_model->getEffectStackRow(j);
@@ -277,7 +280,6 @@ void EffectStackView::updateTreeHeight()
         }
     }
     m_effectsTree->setFixedHeight(totalHeight);
-    m_mutex.unlock();
     m_scrollTimer.start();
 }
 
