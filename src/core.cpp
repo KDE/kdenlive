@@ -516,7 +516,7 @@ int Core::getItemDuration(const ObjectId &id)
         break;
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
-        return m_mainWindow->getCurrentTimeline()->controller()->duration();
+        return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
     default:
         qDebug() << "ERROR: unhandled object type";
     }

@@ -739,7 +739,7 @@ void ClipController::setZone(const QPoint &zone)
 QPoint ClipController::zone() const
 {
     int in = getProducerIntProperty(QStringLiteral("kdenlive:zone_in"));
-    int max = getFramePlaytime() - 1;
+    int max = getFramePlaytime();
     int out = qMin(getProducerIntProperty(QStringLiteral("kdenlive:zone_out")), max);
     if (out <= in) {
         out = max;
