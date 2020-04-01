@@ -2442,15 +2442,14 @@ void TimelineController::pasteEffects(int targetId)
             effects.appendChild(subs.at(0));
         }
     }
-    bool result = true;
+    int insertedEffects = 0;
     for (int target : targetIds) {
         std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(target);
-        result = result && destStack->fromXml(effects, undo, redo);
-        if (!result) {
-            break;
+        if (destStack->fromXml(effects, undo, redo)) {
+            insertedEffects++;
         }
     }
-    if (result) {
+    if (insertedEffects > 0) {
         pCore->pushUndo(undo, redo, i18n("Paste effects"));
     } else {
         pCore->displayMessage(i18n("Cannot paste effect on selected clip"), InformationMessage, 500);
