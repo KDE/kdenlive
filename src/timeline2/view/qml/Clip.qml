@@ -111,7 +111,7 @@ Rectangle {
         }
     }
     ToolTip {
-        visible: mouseArea.containsMouse && !dragProxyArea.pressed && !trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !fadeInMouseArea.containsMouse && !fadeOutMouseArea.containsMouse
+        visible: mouseArea.containsMouse && !dragProxyArea.pressed && !trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !fadeInMouseArea.containsMouse && !fadeOutMouseArea.containsMouse && !fadeInMouseArea.drag.active && !fadeOutMouseArea.drag.active && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active
         delay: 1000
         timeout: 5000
         background: Rectangle {
