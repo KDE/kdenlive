@@ -2014,14 +2014,14 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     std::unordered_set<int> all_items;
+    all_items.insert(itemId);
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
-        std::unordered_set<int> items;
-        if (m_groups->getType(groupId) == GroupType::AVSplit) {
+        std::unordered_set<int> items = m_groups->getLeaves(groupId);
+        /*if (m_groups->getType(groupId) == GroupType::AVSplit) {
             // Only resize group elements if it is an avsplit
             items = m_groups->getLeaves(groupId);
-        }
-        all_items.insert(itemId);
+        }*/
         for (int id : items) {
             if (id == itemId) {
                 continue;
@@ -2036,8 +2036,6 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 all_items.insert(id);
             }
         }
-    } else {
-        all_items.insert(itemId);
     }
     bool result = true;
     int finalPos = right ? in + size : out - size;
