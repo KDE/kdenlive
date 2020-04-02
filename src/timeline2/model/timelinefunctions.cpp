@@ -1058,7 +1058,8 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
         std::sort(compositions.begin(), compositions.end(), [](Mlt::Transition *a, Mlt::Transition *b) { return a->get_b_track() < b->get_b_track(); });
         while (!compositions.isEmpty()) {
             QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
-            if (sourceTracks.contains(t->get_a_track()) && sourceTracks.contains(t->get_b_track())) {
+            int a_track = t->get_a_track();
+            if ((sourceTracks.contains(a_track) || a_track == 0) && sourceTracks.contains(t->get_b_track())) {
                 Mlt::Transition newComposition(*newTractor.profile(), t->get("mlt_service"));
                 Mlt::Properties sourceProps(t->get_properties());
                 newComposition.inherit(sourceProps);
@@ -1066,7 +1067,9 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
                 int in = qMax(0, t->get_in() - offset);
                 int out = t->get_out() - offset;
                 newComposition.set_in_and_out(in, out);
-                int a_track = sourceTracks.value(t->get_a_track());
+                if (sourceTracks.contains(a_track)) {
+                    a_track = sourceTracks.value(a_track);
+                }
                 int b_track = sourceTracks.value(t->get_b_track());
                 field->plant_transition(newComposition, a_track, b_track);
             }
@@ -1271,7 +1274,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     mappedIds.clear();
     // Check available tracks
     QPair<QList<int>, QList<int>> projectTracks = TimelineFunctions::getAVTracksIds(timeline);
-    int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack")).toInt();
+    int masterSourceTrack = copiedItems.documentElement().attribute(QStringLiteral("masterTrack"), QStringLiteral("-1")).toInt();
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
     // find paste tracks
@@ -1297,7 +1300,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 audioTracks << trackPos;
             }
             int videoMirror = prod.attribute(QStringLiteral("mirrorTrack")).toInt();
-            if (videoMirror == -1) {
+            if (videoMirror == -1 || masterSourceTrack == -1) {
                 if (singleAudioTracks.contains(trackPos)) {
                     continue;
                 }
@@ -1402,13 +1405,15 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     int audioOffset = 0;
     for (const auto &mirror : audioMirrors) {
         int videoIx = tracksMap.value(mirror.second);
-        qDebug()<<"==== INSERTING MIRROR AUDIO:"<<mirror.first<<" = "<<timeline->getMirrorAudioTrackId(videoIx)<<" (MIRROR FROM: "<<videoIx;
-        tracksMap.insert(mirror.first, timeline->getMirrorAudioTrackId(videoIx));
-        if (!audioOffsetCalculated) {
-            int oldPosition = mirror.first;
-            int currentPosition = timeline->getTrackPosition(tracksMap.value(oldPosition));
-            audioOffset = currentPosition - oldPosition;
-            audioOffsetCalculated = true;
+        int mirrorIx = timeline->getMirrorAudioTrackId(videoIx);
+        if (mirrorIx > 0) {
+            tracksMap.insert(mirror.first, mirrorIx);
+            if (!audioOffsetCalculated) {
+                int oldPosition = mirror.first;
+                int currentPosition = timeline->getTrackPosition(tracksMap.value(oldPosition));
+                audioOffset = currentPosition - oldPosition;
+                audioOffsetCalculated = true;
+            }
         }
     }
     if (!audioOffsetCalculated && audioMaster) {
@@ -1501,7 +1506,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
     }
     if (!clipsImported) {
-        return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position);
+        QTimer::singleShot(200, timeline.get(), [timeline, copiedItems, position]() {
+            TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position);
+        });
     }
     qDebug()<<"++++++++++++\nWAITIND FOR BIN INSERTION: "<<waitingBinIds<<"\n\n+++++++++++++";
     return true;
@@ -1557,7 +1564,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
             destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), timeline_undo, timeline_redo);
         } else {
-            //break;
+            qDebug()<<"=== COULD NOT PASTE CLIP: "<<newId<<" ON TRACK: "<<curTrackId<<" AT: "<<position;
+            break;
         }
     }
     // Compositions
@@ -1598,7 +1606,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         timeline->m_groups->fromJsonWithOffset(groupsData, tracksMap, position - offset, timeline_undo, timeline_redo);
     }
     // Ensure to clear selection in undo/redo too.
-    Fun unselect = [&]() {
+    Fun unselect = [timeline]() {
         qDebug() << "starting undo or redo. Selection " << timeline->m_currentSelection;
         timeline->requestClearSelection();
         qDebug() << "after Selection " << timeline->m_currentSelection;
@@ -1606,8 +1614,8 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     };
     PUSH_FRONT_LAMBDA(unselect, timeline_undo);
     PUSH_FRONT_LAMBDA(unselect, timeline_redo);
-    pCore->pushUndo(timeline_undo, timeline_redo, i18n("Paste clips"));
     //UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
+    pCore->pushUndo(timeline_undo, timeline_redo, i18n("Paste timeline clips"));
     semaphore.release(1);
     return true;
 }
@@ -1764,7 +1772,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 if (audioTrack) {
                     clipElement.setAttribute(QLatin1String("audioTrack"), 1);
                     int mirror = audioTrack + videoTracks - track - 1;
-                    qDebug()<<"=== GOT MIRROR FOR: "<<track<<" = "<<mirror;
                     if (track <= videoTracks) {
                         clipElement.setAttribute(QLatin1String("mirrorTrack"), mirror);
                     } else {
@@ -1776,9 +1783,8 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 } else {
                     clipElement.setAttribute(QStringLiteral("speed"), 1);
                 }
-                position += (out - in);
+                position += (out - in + 1);
                 QDomNodeList effects = currentElement.elementsByTagName(QLatin1String("filter"));
-                qDebug()<<"=== FOUND effects for clip: "<<effects.count();
                 if (effects.count() == 0) {
                     continue;
                 }
@@ -1788,7 +1794,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 for (int k = 0; k < effects.count(); ++k) {
                     QDomElement effect = effects.item(k).toElement();
                     QString filterId = Xml::getXmlProperty(effect, QLatin1String("kdenlive_id"));
-                    qDebug()<<"=== FOUND effects : "<<filterId;
                     QDomElement clipEffect = destDoc.createElement(QStringLiteral("effect"));
                     effectsList.appendChild(clipEffect);
                     clipEffect.setAttribute(QStringLiteral("id"), filterId);
@@ -1831,8 +1836,8 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             composition.setAttribute(QLatin1String("in"), in);
             composition.setAttribute(QLatin1String("out"), out);
             composition.setAttribute(QLatin1String("composition"), compoId);
-            composition.setAttribute(QLatin1String("a_track"), track + Xml::getXmlProperty(currentCompo, QLatin1String("a_track")).toInt());
-            composition.setAttribute(QLatin1String("track"), track + Xml::getXmlProperty(currentCompo, QLatin1String("b_track")).toInt());
+            composition.setAttribute(QLatin1String("a_track"), Xml::getXmlProperty(currentCompo, QLatin1String("a_track")).toInt());
+            composition.setAttribute(QLatin1String("track"), Xml::getXmlProperty(currentCompo, QLatin1String("b_track")).toInt());
             QDomNodeList properties = currentCompo.childNodes();
             for (int l = 0; l < properties.count(); ++l) {
                 QDomElement prop = properties.item(l).toElement();
@@ -1841,7 +1846,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             }
         }
     }
-
     qDebug()<<"=== GOT CONVERTED DOCUMENT\n\n"<<destDoc.toString();
     return destDoc;
 }

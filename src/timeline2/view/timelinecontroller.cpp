@@ -3214,8 +3214,6 @@ void TimelineController::expandActiveClip()
 {
     std::unordered_set<int> ids = m_model->getCurrentSelection();
     std::unordered_set<int> items_list;
-    std::function<bool(void)> undo = []() { return true; };
-    std::function<bool(void)> redo = []() { return true; };
     for (int i : ids) {
         if (m_model->isGroup(i)) {
             std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
@@ -3226,29 +3224,29 @@ void TimelineController::expandActiveClip()
     }
     m_model->requestClearSelection();
     bool result = true;
-    int processed = 0;
     for (int id : items_list) {
         if (result && m_model->isClip(id)) {
             std::shared_ptr<ClipModel> clip = m_model->getClipPtr(id);
             if (clip->clipType() == ClipType::Playlist) {
-                int pos = clip->getPosition();
+                std::function<bool(void)> undo = []() { return true; };
+                std::function<bool(void)> redo = []() { return true; };
                 if (m_model->m_groups->isInGroup(id)) {
                     int targetRoot = m_model->m_groups->getRootId(id);
                     if (m_model->isGroup(targetRoot)) {
                         m_model->requestClipUngroup(targetRoot, undo, redo);
                     }
                 }
+                int pos = clip->getPosition();
                 QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
                 m_model->requestClipDeletion(id, undo, redo);
                 result = TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo);
-                processed++;
+                if (result) {
+                    pCore->pushUndo(undo, redo, i18n("Expand clip"));
+                } else {
+                    undo();
+                    pCore->displayMessage(i18n("Could not expand clip"), InformationMessage, 500);
+                }
             }
         }
-    }
-    if (result && processed > 0) {
-        pCore->pushUndo(undo, redo, i18n("Expand clip"));
-    } else {
-        undo();
-        pCore->displayMessage(i18n("Could not expand clip"), InformationMessage, 500);
     }
 }
