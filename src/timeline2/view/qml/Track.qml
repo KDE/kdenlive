@@ -372,11 +372,11 @@ Item{
                     clip.lastValidDuration = newDuration
                     clip.originalX = clip.draggedX
                     // Show amount trimmed as a time in a "bubble" help.
-                    var delta = newDuration - clip.originalDuration
+                    var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
                     s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
-                        .arg(timeline.simplifiedTC(clipDuration))
+                        .arg(timeline.simplifiedTC(new_duration))
                     bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }
@@ -390,11 +390,11 @@ Item{
                 if (new_duration > 0) {
                     clip.lastValidDuration = newDuration
                     // Show amount trimmed as a time in a "bubble" help.
-                    var delta = newDuration - clip.originalDuration
+                    var delta = clip.originalDuration - new_duration
                     var s = timeline.simplifiedTC(Math.abs(delta))
                     s = '%1%2 = %3'.arg((delta <= 0)? '+' : '-')
                         .arg(s)
-                        .arg(timeline.simplifiedTC(clipDuration))
+                        .arg(timeline.simplifiedTC(new_duration))
                     bubbleHelp.show(clip.x + clip.width, trackRoot.y + trackRoot.height, s)
                 }
             }

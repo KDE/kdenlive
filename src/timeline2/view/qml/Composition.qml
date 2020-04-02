@@ -242,6 +242,22 @@ Item {
                 masterObject: compositionRoot
                 kfrModel: compositionRoot.hideCompoViews ? 0 : compositionRoot.keyframeModel
             }
+            ToolTip {
+                visible: mouseArea.containsMouse && !trimInMouseArea.containsMouse && !trimOutMouseArea.containsMouse && !trimInMouseArea.drag.active && !trimOutMouseArea.drag.active
+                delay: 1000
+                timeout: 5000
+                background: Rectangle {
+                    color: activePalette.alternateBase
+                    border.color: activePalette.light
+                }
+                contentItem: Label {
+                    color: activePalette.text
+                    font: miniFont
+                    text: '%1\n%4: %5'.arg(label.text)
+                        .arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(compositionRoot.clipDuration))
+                }
+            }
         }
         /*Drag.active: mouseArea.drag.active
         Drag.proposedAction: Qt.MoveAction*/
