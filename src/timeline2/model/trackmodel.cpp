@@ -241,7 +241,7 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
         Fun local_redo = []() { return true; };
         bool res = true;
         if (ptr->getClipPtr(clipId)->clipState() != PlaylistState::Disabled) {
-            res = res && ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
+            res = ptr->getClipPtr(clipId)->setClipState(isAudioTrack() ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, local_undo, local_redo);
         }
         int duration = trackDuration();
         auto operation = requestClipInsertion_lambda(clipId, position, updateView, finalMove, groupMove);
