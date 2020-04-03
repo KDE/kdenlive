@@ -107,7 +107,7 @@ bool MeltJob::startJob()
         if (m_in == -1) {
             m_in = 0;
         }
-        if (m_out != m_producer->get_length() - 1 || m_in != 0) {
+        if (m_in != 0 || m_out != m_producer->get_length() - 1) {
             std::swap(m_wholeProducer, m_producer);
             m_producer.reset(m_wholeProducer->cut(m_in, m_out));
         }
