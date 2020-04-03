@@ -162,7 +162,7 @@ void DvdWizardChapters::createMonitor(DVDFORMAT format)
     if (m_monitor == nullptr) {
         // TODO: allow monitor with different profile for DVD
         QString profile = DvdWizardVob::getDvdProfile(format);
-        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager /*, profile*/, this);
+        m_monitor = new Monitor(Kdenlive::DvdMonitor, m_manager, this);
         m_monitor->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
         m_view.video_frame->layout()->addWidget(m_monitor);
         m_manager->appendMonitor(m_monitor);

@@ -704,6 +704,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
             m_producer->set_speed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
+            m_proxy->setPosition(qMax(0, maxPos));
             m_producer->seek(qMax(0, maxPos));
             return false;
         } else if (pos <= 0 && speed < 0.) {
@@ -711,6 +712,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
             m_producer->set_speed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
+            m_proxy->setPosition(0);
             m_producer->seek(0);
             return false;
         }
@@ -868,6 +870,28 @@ static void onThreadStopped(mlt_properties owner, GLWidget *self)
 {
     Q_UNUSED(owner)
     self->stopGlsl();
+}
+
+int GLWidget::setProducer(const QString &file)
+{
+    if (m_producer) {
+        m_producer.reset();
+    }
+    qDebug()<<"==== OPENING PROIDUCER FILE: "<<file;
+    m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
+    if (m_consumer) {
+        m_consumer->stop();
+        if (!m_consumer->is_stopped()) {
+            m_consumer->stop();
+        }
+    }
+    int error = reconfigure();
+    if (error == 0) {
+        // The profile display aspect ratio may have changed.
+        resizeGL(width(), height());
+        startConsumer();
+    }
+    return error;
 }
 
 int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position)

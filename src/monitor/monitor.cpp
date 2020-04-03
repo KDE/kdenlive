@@ -143,7 +143,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
-    , m_offset(id == Kdenlive::ClipMonitor ? 0 : TimelineModel::seekDuration)
+    , m_offset(id == Kdenlive::ProjectMonitor ? TimelineModel::seekDuration : 0)
     , m_lastMonitorSceneType(MonitorSceneDefault)
 {
     auto *layout = new QVBoxLayout;
@@ -379,12 +379,12 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(this, &Monitor::scopesClear, m_glMonitor, &GLWidget::releaseAnalyse, Qt::DirectConnection);
     connect(m_glMonitor, &GLWidget::analyseFrame, this, &Monitor::frameUpdated);
 
-    if (id != Kdenlive::ClipMonitor) {
+    if (id == Kdenlive::ProjectMonitor) {
         // TODO: reimplement
         // connect(render, &Render::durationChanged, this, &Monitor::durationChanged);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::zoneUpdated);
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZoneWithUndo, this, &Monitor::zoneUpdatedWithUndo);
-    } else {
+    } else if (id == Kdenlive::ClipMonitor) {
         connect(m_glMonitor->getControllerProxy(), &MonitorProxy::saveZone, this, &Monitor::updateClipZone);
     }
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::triggerAction, pCore.get(), &Core::triggerAction);
@@ -1463,16 +1463,9 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotOpenDvdFile(const QString &file)
 {
-    // TODO
-    Q_UNUSED(file)
     m_glMonitor->initializeGL();
+    m_glMonitor->setProducer(file);
     // render->loadUrl(file);
-}
-
-void Monitor::slotSaveZone()
-{
-    // TODO? or deprecate
-    // render->saveZone(pCore->currentDoc()->projectDataFolder(), m_ruler->zone());
 }
 
 void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
@@ -1923,7 +1916,12 @@ QSize Monitor::profileSize() const
 
 void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
-    if (m_id == Kdenlive::DvdMonitor || (type == m_qmlManager->sceneType() && sceneData.isNull())) {
+    if (m_id == Kdenlive::DvdMonitor) {
+        m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
+        return;
+    }
+    if (type == m_qmlManager->sceneType() && sceneData.isNull()) {
         return;
     }
     bool sceneWithEdit = type == MonitorSceneGeometry || type == MonitorSceneCorners || type == MonitorSceneRoto;
