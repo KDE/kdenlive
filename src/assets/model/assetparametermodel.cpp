@@ -226,8 +226,14 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
             m_params[pName].value = val;
         }
     }
-    bool conversionSuccess;
-    double doubleValue = locale.toDouble(paramValue, &conversionSuccess);
+    bool conversionSuccess = true;
+    double doubleValue = 0;
+    if (paramValue.simplified().contains(QLatin1Char(' '))) {
+        // Some locale interpret a space as thousands separator
+        conversionSuccess = false;
+    } else {
+        doubleValue = locale.toDouble(paramValue, &conversionSuccess);
+    }
     if (conversionSuccess) {
         m_asset->set(name.toLatin1().constData(), doubleValue);
         if (m_fixedParams.count(name) == 0) {

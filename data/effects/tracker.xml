@@ -48,7 +48,7 @@
     <name>Motion Tracker</name>
     <description>Select a zone to follow its movements</description>
     <author>Jean-Baptiste Mardelle</author>
-    <parameter type="geometry" name="rect" default="50%,50%:25%x25%" fixed="1" opacity="false" conditional="1">
+    <parameter type="geometry" name="rect" default="50% 50% 25% 25%" fixed="1" opacity="false" conditional="1">
         <name>Rectangle</name>
     </parameter>
     <parameter type="list" name="algo" default="KCF" paramlist="KCF;CSRT;MOSSE;MIL;BOOSTING;TLD" conditional="1">
