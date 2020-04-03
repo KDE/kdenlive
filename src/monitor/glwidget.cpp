@@ -704,6 +704,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
             m_producer->set_speed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
+            m_proxy->setPosition(qMax(0, maxPos));
             m_producer->seek(qMax(0, maxPos));
             return false;
         } else if (pos <= 0 && speed < 0.) {
@@ -711,6 +712,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
             m_producer->set_speed(0);
             m_consumer->set("refresh", 0);
             m_consumer->purge();
+            m_proxy->setPosition(0);
             m_producer->seek(0);
             return false;
         }
