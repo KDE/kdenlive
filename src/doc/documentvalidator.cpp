@@ -1777,7 +1777,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         // AV clips are not supported anymore. Check if we have some and add extra audio tracks if necessary
         // Update the main bin name as well to be xml compliant
         for (int i = 0; i < playlists.count(); i++) {
-            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
+            if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin") || playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main_bin")) {
                 playlists.at(i).toElement().setAttribute(QStringLiteral("id"), BinPlaylist::binPlaylistId);
                 mainplaylist = playlists.at(i);
                 QString oldGroups = Xml::getXmlProperty(mainplaylist.toElement(), QStringLiteral("kdenlive:clipgroups"));
