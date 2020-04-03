@@ -69,7 +69,7 @@ Row {
             Rectangle {
                 visible: thumbRepeater.count < 3
                 anchors.left: parent.left
-                anchors.leftMargin: index < thumbRepeater.count - 1 ? thumbRow.thumbWidth : parent.width - thumbRow.thumbWidth - 1
+                anchors.leftMargin: index == 0 ? thumbRow.thumbWidth : parent.width - thumbRow.thumbWidth - 1
                 color: "#ffffff"
                 opacity: 0.3
                 width: 1
