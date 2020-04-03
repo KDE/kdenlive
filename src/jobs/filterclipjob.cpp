@@ -103,7 +103,7 @@ void FilterClipJob::configureFilter()
         }
     }
     if (m_filterData.find(QLatin1String("relativeInOut")) != m_filterData.end()) {
-        m_filter->set_in_and_out(0, length - 1);
+        // leave it operate on full clip
     } else {
         m_filter->set_in_and_out(m_producer->get_in(), m_producer->get_out());
     }
