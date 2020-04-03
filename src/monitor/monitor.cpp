@@ -1530,6 +1530,10 @@ void Monitor::switchMonitorInfo(int code)
         KdenliveSettings::setDisplayProjectMonitorInfo(currentOverlay);
     }
     updateQmlDisplay(currentOverlay);
+    if (code == 0x01) {
+        // Hide/show ruler
+        m_glMonitor->switchRuler(currentOverlay & 0x01);
+    }
 }
 
 void Monitor::updateMonitorGamma()
