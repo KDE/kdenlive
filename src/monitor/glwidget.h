@@ -141,6 +141,8 @@ public:
     void setConsumerProperty(const QString &name, const QString &value);
     /** @brief Clear consumer cache */
     void purgeCache();
+    /** @brief Show / hide monitor ruler */
+    void switchRuler(bool show);
 
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;

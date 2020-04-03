@@ -106,6 +106,12 @@ GLWidget::GLWidget(int id, QObject *parent)
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");
     qRegisterMetaType<SharedFrame>("SharedFrame");
 
+    if (m_id == Kdenlive::ClipMonitor && !(KdenliveSettings::displayClipMonitorInfo() & 0x01)) {
+        m_rulerHeight = 0;
+    } else if (!(KdenliveSettings::displayProjectMonitorInfo() & 0x01)) {
+        m_rulerHeight = 0;
+    }
+
     setPersistentOpenGLContext(true);
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
@@ -1865,4 +1871,11 @@ void GLWidget::updateScaling()
         resizeGL(width(), height());
     }
 #endif
+}
+
+void GLWidget::switchRuler(bool show)
+{
+    m_rulerHeight = show ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 : 0;
+    resizeGL(width(), height());
+    m_proxy->rulerHeightChanged();
 }
