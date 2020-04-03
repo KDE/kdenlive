@@ -133,7 +133,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     connect(m_guideMenu, &QMenu::triggered, [&] (QAction *ac) {
         m_proxy->setPosition(ac->data().toInt());
     });
-    connect(m_headerMenu, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_thumbsMenu, &QMenu::triggered, [&] (QAction *ac) {
         m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
     // Fix qml focus issue
@@ -226,11 +226,10 @@ void TimelineWidget::showHeaderMenu()
 {
     bool isAudio = m_proxy->isActiveTrackAudio();
     QList <QAction *> menuActions = m_headerMenu->actions();
-    QAction *showRec = nullptr;
+    QList <QAction *> audioActions;
     for (QAction *ac : menuActions) {
-        if (ac->data().toString() == QLatin1String("show_track_record")) {
-            showRec = ac;
-            break;
+        if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels")) {
+            audioActions << ac;
         }
     }
     if (!isAudio) {
@@ -244,15 +243,17 @@ void TimelineWidget::showHeaderMenu()
             }
         }
         m_thumbsMenu->menuAction()->setVisible(true);
-        if (showRec) {
-            showRec->setVisible(false);
+        for (auto ac : audioActions) {
+            ac->setVisible(false);
         }
     } else {
         // Audio track
         m_thumbsMenu->menuAction()->setVisible(false);
-        if (showRec) {
-            showRec->setVisible(true);
-            showRec->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
+        for (auto ac : audioActions) {
+            ac->setVisible(true);
+            if (ac->data().toString() == QLatin1String("show_track_record")) {
+                ac->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
+            }
         }
     }
     m_headerMenu->popup(m_clickPos);

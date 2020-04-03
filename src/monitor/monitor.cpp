@@ -1322,10 +1322,10 @@ void Monitor::slotSwitchPlay()
 {
     slotActivateMonitor();
     m_glMonitor->switchPlay(m_playAction->isActive());
-    bool showDropped;
+    bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
         showDropped =  KdenliveSettings::displayClipMonitorInfo() & 0x20;
-    } else {
+    } else if (m_id == Kdenlive::ProjectMonitor) {
         showDropped =  KdenliveSettings::displayProjectMonitorInfo() & 0x20;
     }
     if (showDropped) {

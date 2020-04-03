@@ -33,11 +33,6 @@ Item{
     property int itemType: 0
     opacity: model.disabled ? 0.4 : 1
 
-    /*function redrawWaveforms() {
-        for (var i = 0; i < repeater.count; i++)
-            repeater.itemAt(i).generateWaveform()
-    }*/
-
     function clipAt(index) {
         return repeater.itemAt(index)
     }

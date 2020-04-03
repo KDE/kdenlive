@@ -560,11 +560,14 @@ void MainWindow::init()
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("insert_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("delete_track")));
     timelineHeadersMenu->addAction(actionCollection()->action(QStringLiteral("show_track_record")));
+
     QAction *separate_channels = new QAction(QIcon(), i18n("Separate Channels"), this);
     separate_channels->setCheckable(true);
     separate_channels->setChecked(KdenliveSettings::displayallchannels());
+    separate_channels->setData("separate_channels");
     connect(separate_channels, &QAction::triggered, this, &MainWindow::slotSeparateAudioChannel);
     timelineHeadersMenu->addAction(separate_channels);
+
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
     QActionGroup *thumbGroup = new QActionGroup(this);
     QAction *inFrame = new QAction(i18n("In Frame"), thumbGroup);
