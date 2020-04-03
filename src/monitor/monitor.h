@@ -234,7 +234,6 @@ private:
 
 private slots:
     void slotSetThumbFrame();
-    void slotSaveZone();
     void slotSeek();
     void updateClipZone(const QPoint zone);
     void slotGoToMarker(QAction *action);

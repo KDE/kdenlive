@@ -870,6 +870,28 @@ static void onThreadStopped(mlt_properties owner, GLWidget *self)
     self->stopGlsl();
 }
 
+int GLWidget::setProducer(const QString &file)
+{
+    if (m_producer) {
+        m_producer.reset();
+    }
+    qDebug()<<"==== OPENING PROIDUCER FILE: "<<file;
+    m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
+    if (m_consumer) {
+        m_consumer->stop();
+        if (!m_consumer->is_stopped()) {
+            m_consumer->stop();
+        }
+    }
+    int error = reconfigure();
+    if (error == 0) {
+        // The profile display aspect ratio may have changed.
+        resizeGL(width(), height());
+        startConsumer();
+    }
+    return error;
+}
+
 int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position)
 {
     int error = 0;
