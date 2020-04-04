@@ -2990,6 +2990,15 @@ void RenderWidget::keyPressEvent(QKeyEvent *e)
             }
             break;
         }
+    } else if (e->key() == Qt::Key_Delete) {
+        // If in Scripts tab, let Del key invoke DeleteScript
+        if (m_view.tabWidget->currentIndex() == 2) {
+            if (m_view.delete_script->isEnabled()) {
+                slotDeleteScript();
+            }
+        } else {
+            QDialog::keyPressEvent(e);
+        }
     } else {
         QDialog::keyPressEvent(e);
     }
