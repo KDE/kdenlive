@@ -243,11 +243,12 @@ int main(int argc, char *argv[])
     const QString clipsToLoad = parser.value(QStringLiteral("i"));
     QUrl url;
     if (parser.positionalArguments().count() != 0) {
-        url = QUrl::fromLocalFile(parser.positionalArguments().at(0));
-        // Make sure we get an absolute URL so that we can autosave correctly
-        QString currentPath = QDir::currentPath();
-        QUrl startup = QUrl::fromLocalFile(currentPath.endsWith(QDir::separator()) ? currentPath : currentPath + QDir::separator());
-        url = startup.resolved(url);
+        const QString inputFilename = parser.positionalArguments().at(0);
+        const QFileInfo fileInfo(inputFilename);
+        url = QUrl(inputFilename);
+        if (fileInfo.exists() || url.scheme().isEmpty()) { // easiest way to detect "invalid"/unintended URLs is no scheme
+            url = QUrl::fromLocalFile(fileInfo.absoluteFilePath());
+        }
     }
     qApp->processEvents(QEventLoop::AllEvents);
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
