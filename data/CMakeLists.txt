@@ -6,6 +6,7 @@ add_subdirectory(lumas)
 add_subdirectory(man)
 add_subdirectory(titles)
 add_subdirectory(profiles)
+add_subdirectory(shortcuts)
 
 install(FILES
   banner.png
