@@ -71,6 +71,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     m_favEffects = new QMenu(i18n("Insert an effect..."), this);
     m_favCompositions = new QMenu(i18n("Insert a composition..."), this);
+    installEventFilter(this);
 }
 
 TimelineWidget::~TimelineWidget()
@@ -399,4 +400,31 @@ void TimelineWidget::endDrag()
     if (rootObject()) {
         QMetaObject::invokeMethod(rootObject(), "endBinDrag");
     }
+}
+
+
+bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
+{
+    switch(event->type()) {
+        case QEvent::Enter:
+            if (!hasFocus()) {
+                pCore->window()->focusTimeline(true, true);
+            }
+            break;
+        case QEvent::Leave:
+            if (!hasFocus()) {
+                pCore->window()->focusTimeline(false, true);
+            }
+            break;
+        case QEvent::FocusOut:
+            pCore->window()->focusTimeline(false, false);
+            break;
+        case QEvent::FocusIn:
+            pCore->window()->focusTimeline(true, false);
+            break;
+        default:
+            break;
+    }
+
+    return QQuickWidget::eventFilter(object, event);
 }

@@ -226,6 +226,25 @@ void MainWindow::init()
     ctnLay->setSpacing(0);
     ctnLay->setContentsMargins(0, 0, 0, 0);
     m_timelineToolBarContainer->setLayout(ctnLay);
+    QFrame *topFrame = new QFrame(this);
+    topFrame->setFrameShape(QFrame::HLine);
+    topFrame->setFixedHeight(1);
+    topFrame->setLineWidth(1);
+    connect(this, &MainWindow::focusTimeline, [topFrame](bool focus, bool highlight) {
+        if (focus) {
+            KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
+            if (highlight) {
+                QColor col = scheme.decoration(KColorScheme::HoverColor).color();
+                topFrame->setStyleSheet(QString("QFrame {border: 1px solid rgba(%1,%2,%3,70)}").arg(col.red()).arg(col.green()).arg(col.blue()));
+            } else {
+                QColor col = scheme.decoration(KColorScheme::FocusColor).color();
+                topFrame->setStyleSheet(QString("QFrame {border: 1px solid rgba(%1,%2,%3,100)}").arg(col.red()).arg(col.green()).arg(col.blue()));
+            }
+        } else {
+            topFrame->setStyleSheet(QString());
+        }
+    });
+    ctnLay->addWidget(topFrame);
     ctnLay->addWidget(m_timelineToolBar);
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup mainConfig(config, QStringLiteral("MainWindow"));
