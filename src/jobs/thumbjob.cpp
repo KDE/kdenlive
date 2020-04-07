@@ -53,6 +53,11 @@ ThumbJob::ThumbJob(const QString &binId, int frameNumber, bool persistent, bool 
     } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
         m_subClip = true;
     }
+    connect(this, &ThumbJob::jobCanceled, [&] () {
+        QMutexLocker lk(&m_mutex);
+        m_done = true;
+        m_clipId.clear();
+    });
 }
 
 const QString ThumbJob::getDescription() const
@@ -96,6 +101,7 @@ bool ThumbJob::startJob()
         m_inCache = true;
         return true;
     }
+    m_mutex.lock();
     m_prod = m_binClip->thumbProducer();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         qDebug() << "********\nCOULD NOT READ THUMB PRODUCER\n********";
@@ -107,6 +113,10 @@ bool ThumbJob::startJob()
     if (m_frameNumber > 0) {
         m_prod->seek(m_frameNumber);
     }
+    if (m_done) {
+        m_mutex.unlock();
+        return true;
+    }
     QScopedPointer<Mlt::Frame> frame(m_prod->get_frame());
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1);
@@ -115,6 +125,7 @@ bool ThumbJob::startJob()
         m_result = KThumb::getFrame(frame.data(), m_imageWidth, m_imageHeight, m_fullWidth);
         m_done = true;
     }
+    m_mutex.unlock();
     return m_done;
 }
 
