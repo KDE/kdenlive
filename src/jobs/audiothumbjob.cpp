@@ -127,6 +127,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
         connect(this, &AudioThumbJob::jobCanceled, [&] () {
             if (m_ffmpegProcess) {
+                disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
                 m_ffmpegProcess->kill();
             }
             m_done = true;
@@ -194,6 +195,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
         connect(this, &AudioThumbJob::jobCanceled, [&]() {
             if (m_ffmpegProcess) {
+                disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
                 m_ffmpegProcess->kill();
             }
         });
@@ -270,6 +272,9 @@ bool AudioThumbJob::computeWithFFMPEG()
 
 void AudioThumbJob::updateFfmpegProgress()
 {
+    if (m_ffmpegProcess == nullptr) {
+        return;
+    }
     QString result = m_ffmpegProcess->readAllStandardOutput();
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
