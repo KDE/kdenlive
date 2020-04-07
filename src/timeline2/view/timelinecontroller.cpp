@@ -1248,6 +1248,16 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
 }
 
+void TimelineController::cutAllClipsUnderCursor(int position)
+{
+    if (position == -1) {
+        position = pCore->getTimelinePosition();
+    }
+    QMutexLocker lk(&m_metaMutex);
+
+    TimelineFunctions::requestClipCutAll(m_model, position);
+}
+
 int TimelineController::requestSpacerStartOperation(int trackId, int position)
 {
     QMutexLocker lk(&m_metaMutex);

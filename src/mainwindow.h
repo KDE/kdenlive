@@ -334,6 +334,7 @@ private slots:
      * This can be useful to mark something during playback. */
     void slotAddMarkerGuideQuickly();
     void slotCutTimelineClip();
+    void slotCutTimelineAllClips();
     void slotInsertClipOverwrite();
     void slotInsertClipInsert();
     void slotExtractZone();
