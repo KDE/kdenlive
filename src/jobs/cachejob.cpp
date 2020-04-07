@@ -50,6 +50,7 @@ CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPo
     }
     m_imageHeight += m_imageHeight % 2;
     connect(this, &CacheJob::jobCanceled, [&] () {
+        QMutexLocker lk(&m_mutex);
         m_done = true;
         m_clipId.clear();
     });
@@ -96,13 +97,15 @@ bool CacheJob::startJob()
     int size = (int)frames.size();
     int count = 0;
     for (int i : frames) {
-        if (m_done) {
-            break;
-        }
         emit jobProgress(100 * count / size);
         count++;
-        if (ThumbnailCache::get()->hasThumbnail(m_clipId, i)) {
+        if (m_clipId.isEmpty() || ThumbnailCache::get()->hasThumbnail(m_clipId, i)) {
             continue;
+        }
+        m_mutex.lock();
+        if (m_done) {
+            m_mutex.unlock();
+            break;
         }
         m_prod->seek(i);
         QScopedPointer<Mlt::Frame> frame(m_prod->get_frame());
@@ -113,6 +116,7 @@ bool CacheJob::startJob()
             QImage result = KThumb::getFrame(frame.data(), m_imageWidth, m_imageHeight, m_fullWidth);
             ThumbnailCache::get()->storeThumbnail(m_clipId, i, result, true);
         }
+        m_mutex.unlock();
     }
     m_done = true;
     return true;

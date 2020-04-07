@@ -1199,7 +1199,17 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
                 m_gainedFocus = false;
                 if (idx.isValid() && m_proxyModel) {
                     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
-                    editMasterEffect(item);
+                    if (item->itemType() == AbstractProjectItem::ClipItem) {
+                        auto clip = std::static_pointer_cast<ProjectClip>(item);
+                        if (clip && clip->isReady()) {
+                            editMasterEffect(item);
+                        }
+                    } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+                        auto clip = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+                        if (clip && clip->isReady()) {
+                            editMasterEffect(item);
+                        }
+                    }
                 } else {
                     editMasterEffect(nullptr);
                 }

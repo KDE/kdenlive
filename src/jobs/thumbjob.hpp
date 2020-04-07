@@ -24,6 +24,7 @@
 #include "abstractclipjob.h"
 
 #include <QImage>
+#include <QMutex>
 #include <memory>
 
 /* @brief This class represents the job that corresponds to computing the thumb of a clip
@@ -63,6 +64,7 @@ private:
     std::shared_ptr<Mlt::Producer> m_prod;
 
     QImage m_result;
+    QMutex m_mutex;
     bool m_done{false};
     bool m_persistent;
     bool m_reloadAll;
