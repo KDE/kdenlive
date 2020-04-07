@@ -310,11 +310,7 @@ void MainWindow::init()
         for (int ix = 0; ix < screens; ix++) {
             screenCombo->addItem(i18n("Monitor %1", ix));
         }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         connect(screenCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), m_clipMonitor, &Monitor::slotSetScreen);
-#else
-        connect(screenCombo, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , m_clipMonitor, &Monitor::slotSetScreen);
-#endif
         recToolbar->addWidget(screenCombo);
         // Update screen grab monitor choice in case we changed from fullscreen
         screenCombo->setEnabled(KdenliveSettings::grab_capture_type() == 0);

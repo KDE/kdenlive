@@ -46,11 +46,7 @@ EncodingProfilesDialog::EncodingProfilesDialog(int profileType, QWidget *parent)
 
     m_configFile = new KConfig(QStringLiteral("encodingprofiles.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
     profile_type->setCurrentIndex(profileType);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(profile_type, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &EncodingProfilesDialog::slotLoadProfiles);
-#else
-    connect(profile_type, static_cast<void (KComboBox::*)(int, const QString &)>(&KComboBox::currentIndexChanged) , this, &EncodingProfilesDialog::slotLoadProfiles);
-#endif
     connect(profile_list, &QListWidget::currentRowChanged, this, &EncodingProfilesDialog::slotShowParams);
     connect(button_delete, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotDeleteProfile);
     connect(button_add, &QAbstractButton::clicked, this, &EncodingProfilesDialog::slotAddProfile);

@@ -490,11 +490,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     graphicsView->scene()->addItem(m_frameImage);
 
     bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&] (int ix) {
-#else
-    connect(bgBox, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , [&] (int ix) {
-#endif
         KdenliveSettings::setTitlerbg(ix);
         displayBackgroundFrame();
     });

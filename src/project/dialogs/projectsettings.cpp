@@ -163,11 +163,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(proxy_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManageEncodingProfile);
     proxy_profile->setToolTip(i18n("Select default proxy profile"));
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(proxy_profile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdateProxyParams);
-#else
-    connect(proxy_profile, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdateProxyParams);
-#endif
     proxyparams->setVisible(false);
     proxyparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(proxy_showprofileinfo, &QAbstractButton::clicked, proxyparams, &QWidget::setVisible);
@@ -183,11 +179,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(preview_manageprofile, &QAbstractButton::clicked, this, &ProjectSettings::slotManagePreviewProfile);
     preview_profile->setToolTip(i18n("Select default preview profile"));
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(preview_profile, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdatePreviewParams);
-#else
-    connect(preview_profile, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged), this, &ProjectSettings::slotUpdatePreviewParams);
-#endif
     previewparams->setVisible(false);
     previewparams->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 5);
     connect(preview_showprofileinfo, &QAbstractButton::clicked, previewparams, &QWidget::setVisible);

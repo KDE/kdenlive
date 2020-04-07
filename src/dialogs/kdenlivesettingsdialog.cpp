@@ -165,17 +165,9 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
             }
         }
     }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.kcfg_detectedv4ldevices, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdatev4lDevice);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_v4l_format, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.kcfg_v4l_format, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdatev4lCaptureProfile);
     connect(m_configCapture.config_v4l, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEditVideo4LinuxProfile);
 
@@ -265,24 +257,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     loadEncodingProfiles();
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configSdl.kcfg_audio_driver, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotCheckAlsaDriver);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configSdl.kcfg_audio_backend, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotCheckAudioBackend);
     initDevices();
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_grab_capture_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.kcfg_grab_capture_type, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateGrabRegionStatus);
 
     slotUpdateGrabRegionStatus();
@@ -297,11 +277,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configCapture.decklink_parameters->setVisible(false);
     m_configCapture.decklink_parameters->setMaximumHeight(QFontMetrics(font()).lineSpacing() * 4);
     m_configCapture.decklink_parameters->setPlainText(KdenliveSettings::decklink_parameters());
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_decklink_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.kcfg_decklink_profile, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateDecklinkProfile);
     connect(m_configCapture.decklink_showprofileinfo, &QAbstractButton::clicked, m_configCapture.decklink_parameters, &QWidget::setVisible);
 
@@ -315,11 +291,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     act->setData(2);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.v4l_manageprofile->setDefaultAction(act);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_v4l_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.kcfg_v4l_profile, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateV4lProfile);
     connect(m_configCapture.v4l_showprofileinfo, &QAbstractButton::clicked, m_configCapture.v4l_parameters, &QWidget::setVisible);
 
@@ -332,11 +304,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     act->setData(3);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configCapture.grab_manageprofile->setDefaultAction(act);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_grab_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.kcfg_grab_profile, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateGrabProfile);
     connect(m_configCapture.grab_showprofileinfo, &QAbstractButton::clicked, m_configCapture.grab_parameters, &QWidget::setVisible);
 
@@ -347,11 +315,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     int channelsIndex = m_configCapture.audiocapturechannels->findData(KdenliveSettings::audiocapturechannels());
     m_configCapture.audiocapturechannels->setCurrentIndex(qMax(channelsIndex, 0));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.audiocapturechannels, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateAudioCaptureChannels);
 
     // audio capture sample rate
@@ -361,11 +325,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     int sampleRateIndex = m_configCapture.audiocapturesamplerate->findData(KdenliveSettings::audiocapturesamplerate());
     m_configCapture.audiocapturesamplerate->setCurrentIndex(qMax(sampleRateIndex, 0));
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configCapture.audiocapturesamplerate, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateAudioCaptureSampleRate);
 
     m_configCapture.labelNoAudioDevices->setVisible(false);
@@ -375,11 +335,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     act->setData(1);
     connect(act, &QAction::triggered, this, &KdenliveSettingsDialog::slotManageEncodingProfile);
     m_configProject.preview_manageprofile->setDefaultAction(act);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configProject.kcfg_preview_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configProject.kcfg_preview_profile, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdatePreviewProfile);
     connect(m_configProject.preview_showprofileinfo, &QAbstractButton::clicked, m_configProject.previewparams, &QWidget::setVisible);
     m_configProject.previewparams->setVisible(false);
@@ -407,11 +363,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configProxy.proxy_manageprofile->setDefaultAction(act);
 
     connect(m_configProxy.proxy_showprofileinfo, &QAbstractButton::clicked, m_configProxy.proxyparams, &QWidget::setVisible);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configProxy.kcfg_proxy_profile, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-#else
-    connect(m_configProxy.kcfg_proxy_profile, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this,
-#endif
             &KdenliveSettingsDialog::slotUpdateProxyProfile);
 
     slotUpdateProxyProfile(-1);
@@ -483,11 +435,7 @@ bool KdenliveSettingsDialog::initAudioRecDevice()
     m_configCapture.labelNoAudioDevices->setVisible(audioDevices.empty());
 
     m_configCapture.kcfg_defaultaudiocapture->addItems(audioDevices);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_configCapture.kcfg_defaultaudiocapture, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&]() {
-#else
-    connect(m_configCapture.kcfg_defaultaudiocapture, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , [&]() {
-#endif
         QString currentDevice = m_configCapture.kcfg_defaultaudiocapture->currentText();
         KdenliveSettings::setDefaultaudiocapture(currentDevice);
     });
