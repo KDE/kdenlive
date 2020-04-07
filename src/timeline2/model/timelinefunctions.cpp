@@ -1286,6 +1286,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     std::unordered_map<int, int> audioMirrors;
     // List of all source audio tracks that don't have video mirror
     QList<int> singleAudioTracks;
+    // Number of required video tracks with mirror
+    int topAudioMirror = 0;
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
         int trackPos = prod.attribute(QStringLiteral("track")).toInt();
@@ -1308,6 +1310,10 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
                 continue;
             }
             audioMirrors[trackPos] = videoMirror;
+            if (videoMirror > topAudioMirror) {
+                // We have to check how many video tracks with mirror are needed
+                topAudioMirror = videoMirror;
+            }
             if (videoTracks.contains(videoMirror)) {
                 continue;
             }
@@ -1366,6 +1372,18 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             // not enough tracks above, try to paste on lower track
             qDebug() << "// UPDATING ABOVE TID IX TO: " << (projectTracks.second.size() - tracksAbove);
             trackId = projectTracks.second.at(projectTracks.second.size() - tracksAbove - 1);
+        }
+        // Find top-most video track that requires an audio mirror
+        int topAudioOffset = videoTracks.indexOf(topAudioMirror) - videoTracks.indexOf(masterSourceTrack);
+        // Check if we have enough video tracks with mirror at paste track position
+        if (projectTracks.first.size() <= projectTracks.second.indexOf(trackId) + topAudioOffset) {
+            int updatedPos = projectTracks.first.size() - topAudioOffset - 1;
+            if (updatedPos < 0 || updatedPos >= projectTracks.second.size()) {
+                pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+                semaphore.release(1);
+                return false;
+            }
+            trackId = projectTracks.second.at(updatedPos);
         }
     } else {
         // Audio only
@@ -1536,6 +1554,13 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         int in = prod.attribute(QStringLiteral("in")).toInt();
         int out = prod.attribute(QStringLiteral("out")).toInt();
         int curTrackId = tracksMap.value(prod.attribute(QStringLiteral("track")).toInt());
+        if (!timeline->isTrack(curTrackId)) {
+            // Something is broken
+            pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
+            timeline_undo();
+            semaphore.release(1);
+            return false;
+        }
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
         double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
         bool warp_pitch = false;
@@ -1546,6 +1571,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, warp_pitch, timeline_undo, timeline_redo);
         if (!created) {
             // Something is broken
+            pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);
             timeline_undo();
             semaphore.release(1);
             return false;
