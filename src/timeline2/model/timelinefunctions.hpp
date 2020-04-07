@@ -51,6 +51,9 @@ struct TimelineFunctions
     /* This is the same function, except that it accumulates undo/redo and do not deal with groups. Do not call directly */
     static bool processClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo);
 
+    /* Cuts all clips at given position */
+    static bool requestClipCutAll(std::shared_ptr<TimelineItemModel> timeline, int position);
+
     /* @brief Makes a perfect clone of a given clip, but do not insert it */
     static bool cloneClip(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int &newId, PlaylistState::ClipState state, Fun &undo, Fun &redo);
 

@@ -1547,6 +1547,9 @@ void MainWindow::setupActions()
     act = addAction(QStringLiteral("cut_timeline_clip"), i18n("Cut Clip"), this, SLOT(slotCutTimelineClip()), QIcon::fromTheme(QStringLiteral("edit-cut")),
                     Qt::SHIFT + Qt::Key_R);
 
+    act = addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), this, SLOT(slotCutTimelineAllClips()), QIcon::fromTheme(QStringLiteral("edit-cut")),
+                    Qt::CTRL + Qt::SHIFT + Qt::Key_R);
+
     act = addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
@@ -2626,6 +2629,11 @@ void MainWindow::slotDeleteAllGuides()
 void MainWindow::slotCutTimelineClip()
 {
     getMainTimeline()->controller()->cutClipUnderCursor();
+}
+
+void MainWindow::slotCutTimelineAllClips()
+{
+    getMainTimeline()->controller()->cutAllClipsUnderCursor();
 }
 
 void MainWindow::slotInsertClipOverwrite()

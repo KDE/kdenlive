@@ -233,6 +233,49 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     return count > 0;
 }
 
+bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> timeline, int position)
+{
+    QVector<std::shared_ptr<TrackModel>> affectedTracks;
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+
+    for (auto track: timeline->m_allTracks) {
+        if (!track->isLocked()) {
+            affectedTracks << track;
+        }
+    }
+
+    if (affectedTracks.isEmpty()) {
+        pCore->displayMessage(i18n("All tracks are locked"), InformationMessage, 500);
+        return false;
+    }
+
+    unsigned count = 0;
+    for (auto track: affectedTracks) {
+        int clipId = track->getClipByPosition(position);
+        if (clipId > -1) {
+            // Found clip at position in track, cut it. Update undo/redo as we go.
+            if (!TimelineFunctions::requestClipCut(timeline, clipId, position, undo, redo)) {
+                qWarning() << "Failed to cut clip " << clipId << " at " << position;
+                pCore->displayMessage(i18n("Failed to cut clip"), ErrorMessage, 500);
+                // Undo all cuts made, assert successful undo.
+                bool undone = undo();
+                Q_ASSERT(undone);
+                return false;
+            }
+            count++;
+        }
+    }
+
+    if (!count) {
+        pCore->displayMessage(i18n("No clips to cut"), InformationMessage);
+    } else {
+        pCore->pushUndo(undo, redo, i18n("Cut all clips"));
+    }
+
+    return count > 0;
+}
+
 int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
 {
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, position, -1);
