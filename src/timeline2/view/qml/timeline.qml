@@ -310,7 +310,7 @@ Rectangle {
         var tk = Logic.getTrackById(timeline.activeTrack)
         if (tk.y < scrollView.contentY) {
             scrollView.contentY = Math.max(0, tk.y - scrollView.height / 3)
-        } else if (tk.y + tk.height > scrollView.contentY + scrollView.contentItem.height) {
+        } else if (tk.y + tk.height > scrollView.contentY + scrollView.height) {
             var newY = Math.min(trackHeaders.height - scrollView.height + scrollView.ScrollBar.horizontal.height, tk.y - scrollView.height / 3)
             if (newY >= 0) {
                 scrollView.contentY = newY
