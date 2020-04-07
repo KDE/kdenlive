@@ -1380,6 +1380,36 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
     Q_UNUSED(id)
     Q_UNUSED(xml)
     // Request profile update
+    // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
+    QString adjustMessage;
+    double fps = (double)profile->frame_rate_num() / profile->frame_rate_den();
+    double fps_int;
+    double fps_frac = std::modf(fps, &fps_int);
+    if (fps_frac < 0.4) {
+        profile->m_frame_rate_num = (int)fps_int;
+        profile->m_frame_rate_den = 1;
+    } else {
+        // Check for 23.98, 29.97, 59.94
+        if (qFuzzyCompare(fps_int, 23.0)) {
+            if (qFuzzyCompare(fps, 23.98)) {
+                profile->m_frame_rate_num = 24000;
+                profile->m_frame_rate_den = 1001;
+            }
+        } else if (qFuzzyCompare(fps_int, 29.0)) {
+            if (qFuzzyCompare(fps, 29.97)) {
+                profile->m_frame_rate_num = 30000;
+                profile->m_frame_rate_den = 1001;
+            }
+        } else if (qFuzzyCompare(fps_int, 59.0)) {
+            if (qFuzzyCompare(fps, 59.94)) {
+                profile->m_frame_rate_num = 60000;
+                profile->m_frame_rate_den = 1001;
+            }
+        } else {
+            // Unknown profile fps, warn user
+            adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
+        }
+    }
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     if (matchingProfile.isEmpty() && (profile->width() % 8 != 0)) {
         // Make sure profile width is a multiple of 8, required by some parts of mlt
@@ -1429,36 +1459,6 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list);
     } else {
         // No known profile, ask user if he wants to use clip profile anyway
-        // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
-        QString adjustMessage;
-        double fps = (double)profile->frame_rate_num() / profile->frame_rate_den();
-        double fps_int;
-        double fps_frac = std::modf(fps, &fps_int);
-        if (fps_frac < 0.4) {
-            profile->m_frame_rate_num = (int)fps_int;
-            profile->m_frame_rate_den = 1;
-        } else {
-            // Check for 23.98, 29.97, 59.94
-            if (qFuzzyCompare(fps_int, 23.0)) {
-                if (qFuzzyCompare(fps, 23.98)) {
-                    profile->m_frame_rate_num = 24000;
-                    profile->m_frame_rate_den = 1001;
-                }
-            } else if (qFuzzyCompare(fps_int, 29.0)) {
-                if (qFuzzyCompare(fps, 29.97)) {
-                    profile->m_frame_rate_num = 30000;
-                    profile->m_frame_rate_den = 1001;
-                }
-            } else if (qFuzzyCompare(fps_int, 59.0)) {
-                if (qFuzzyCompare(fps, 59.94)) {
-                    profile->m_frame_rate_num = 60000;
-                    profile->m_frame_rate_den = 1001;
-                }
-            } else {
-                // Unknown profile fps, warn user
-                adjustMessage = i18n("\nWarning: unknown non integer fps, might cause incorrect duration display.");
-            }
-        }
         if (qFuzzyCompare((double)profile->m_frame_rate_num / profile->m_frame_rate_den, fps)) {
             adjustMessage = i18n("\nProfile fps adjusted from original %1", QString::number(fps, 'f', 4));
         }
