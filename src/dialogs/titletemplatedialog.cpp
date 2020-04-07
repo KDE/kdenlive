@@ -63,11 +63,7 @@ TitleTemplateDialog::TitleTemplateDialog(const QString &folder, QWidget *parent)
     }
     const QStringList mimeTypeFilters = {QStringLiteral("application/x-kdenlivetitle")};
     m_view.template_list->setMimeTypeFilters(mimeTypeFilters);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_view.template_list->comboBox(), static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this,
-#else
-    connect(m_view.template_list->comboBox(), static_cast<void (KComboBox::*)(int, const QString &)>(&KComboBox::currentIndexChanged) , this,
-#endif
             &TitleTemplateDialog::updatePreview);
     updatePreview();
 }

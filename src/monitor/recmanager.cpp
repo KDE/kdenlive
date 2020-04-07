@@ -73,11 +73,7 @@ RecManager::RecManager(Monitor *parent)
     m_audio_device = new QComboBox(parent);
     QStringList audioDevices = pCore->getAudioCaptureDevices();
     m_audio_device->addItems(audioDevices);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_audio_device, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotAudioDeviceChanged);
-#else
-    connect(m_audio_device, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this, &RecManager::slotAudioDeviceChanged);
-#endif
     QString selectedDevice = KdenliveSettings::defaultaudiocapture();
     int selectedIndex = m_audio_device->findText(selectedDevice);
     if (!selectedDevice.isNull() && selectedIndex > -1) {
@@ -118,11 +114,7 @@ RecManager::RecManager(Monitor *parent)
     if (selectedIndex > -1) {
         m_device_selector->setCurrentIndex(selectedIndex);
     }
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_device_selector, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &RecManager::slotVideoDeviceChanged);
-#else
-    connect(m_device_selector, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this, &RecManager::slotVideoDeviceChanged);
-#endif
     m_recToolbar->addWidget(m_device_selector);
 
     QAction *configureRec = m_recToolbar->addAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"));

@@ -238,11 +238,7 @@ DvdWizardMenu::DvdWizardMenu(DVDFORMAT format, QWidget *parent)
     connect(m_view.background_image, &KUrlRequester::textChanged, this, &DvdWizardMenu::buildImage);
     connect(m_view.background_color, &KColorButton::changed, this, &DvdWizardMenu::buildColor);
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_view.background_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &DvdWizardMenu::checkBackgroundType);
-#else
-    connect(m_view.background_list, static_cast<void (KComboBox::*)(int, const QString &)>(&KComboBox::currentIndexChanged) , this, &DvdWizardMenu::checkBackgroundType);
-#endif
 
     connect(m_view.target_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated), this, &DvdWizardMenu::setButtonTarget);
     connect(m_view.back_to_menu, &QAbstractButton::toggled, this, &DvdWizardMenu::setBackToMenu);

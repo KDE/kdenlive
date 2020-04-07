@@ -361,11 +361,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         m_view.parallel_process->setEnabled(false);
     }
     m_view.field_order->setEnabled(false);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int index) { m_view.field_order->setEnabled(index == 2); });
-#else
-    connect(m_view.scanning_list, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged), [this](int index) { m_view.field_order->setEnabled(index == 2); });
-#endif
     refreshView();
     focusFirstVisibleItem();
     adjustSize();

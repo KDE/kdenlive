@@ -478,11 +478,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *combo = new QComboBox(this);
         combo->addItem(i18n("Interlaced"), 0);
         combo->addItem(i18n("Progressive"), 1);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-#else
-        connect(combo, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this, &ClipPropertiesController::slotComboValueChanged);
-#endif
         combo->setObjectName(QStringLiteral("force_progressive_value"));
         if (!force_prog.isEmpty()) {
             combo->setCurrentIndex(force_prog.toInt());
@@ -504,11 +500,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         combo = new QComboBox(this);
         combo->addItem(i18n("Bottom first"), 0);
         combo->addItem(i18n("Top first"), 1);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-#else
-        connect(combo, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this, &ClipPropertiesController::slotComboValueChanged);
-#endif
         combo->setObjectName(QStringLiteral("force_tff_value"));
         if (!force_tff.isEmpty()) {
             combo->setCurrentIndex(force_tff.toInt());
@@ -591,11 +583,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, videoStream]() {
-#else
-            QObject::connect(videoStream, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , [this, videoStream]() {
-#endif
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("video_index"), QString::number(videoStream->currentData().toInt()));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -650,11 +638,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             QObject::connect(audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, audioStream]() {
-#else
-            QObject::connect(audioStream, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , [this, audioStream]() {
-#endif
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("audio_index"), QString::number(audioStream->currentData().toInt()));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -709,11 +693,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             combo->setEnabled(false);
         }
         connect(box, &QAbstractButton::toggled, combo, &QWidget::setEnabled);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         connect(combo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ClipPropertiesController::slotComboValueChanged);
-#else
-        connect(combo, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , this, &ClipPropertiesController::slotComboValueChanged);
-#endif
         hlay->addWidget(box);
         hlay->addWidget(combo);
         vbox->addLayout(hlay);

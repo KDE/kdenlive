@@ -111,11 +111,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
         m_filter->setFilterFps(current > 0, current);
         slotFilterChanged();
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_fpsFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateFps);
-#else
-    connect(m_fpsFilt, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , updateFps);
-#endif
     int ix = m_fpsFilt->findText(KdenliveSettings::profile_fps_filter());
     if (ix > -1) {
         m_fpsFilt->setCurrentIndex(ix);
@@ -130,11 +126,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
         m_filter->setFilterInterlaced(current != -1, current == 0);
         slotFilterChanged();
     };
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_scanningFilt, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), updateScanning);
-#else
-    connect(m_scanningFilt, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) , updateScanning);
-#endif
 
     ix = m_scanningFilt->findText(KdenliveSettings::profile_scanning_filter());
     if (ix > -1) {

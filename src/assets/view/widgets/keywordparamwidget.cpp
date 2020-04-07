@@ -56,11 +56,7 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     connect(lineeditwidget, &QLineEdit::editingFinished, [this]() { 
         emit valueChanged(m_index, lineeditwidget->text(), true);
     });
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-#else
-    connect(comboboxwidget, static_cast<void (QComboBox::*)(int, const QString &)>(&QComboBox::currentIndexChanged) ,
-#endif
             [this](int ix) {
             if (ix > 0) {
                 QString comboval = comboboxwidget->itemData(ix).toString();

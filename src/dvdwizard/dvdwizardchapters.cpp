@@ -27,11 +27,7 @@ DvdWizardChapters::DvdWizardChapters(MonitorManager *manager, DVDFORMAT format, 
 
 {
     m_view.setupUi(this);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_view.vob_list, static_cast<void (KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &DvdWizardChapters::slotUpdateChaptersList);
-#else
-    connect(m_view.vob_list, static_cast<void (KComboBox::*)(int, const QString &)>(&KComboBox::currentIndexChanged) , this, &DvdWizardChapters::slotUpdateChaptersList);
-#endif
     connect(m_view.button_add, &QAbstractButton::clicked, this, &DvdWizardChapters::slotAddChapter);
     connect(m_view.button_delete, &QAbstractButton::clicked, this, &DvdWizardChapters::slotRemoveChapter);
     connect(m_view.chapters_list, &QListWidget::itemSelectionChanged, this, &DvdWizardChapters::slotGoToChapter);
