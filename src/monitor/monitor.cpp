@@ -553,13 +553,13 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         m_playMenu->addAction(loopClip);
     }
 
-    // TODO: add save zone to timeline monitor when fixed
     m_contextMenu->addMenu(m_markerMenu);
     if (m_id == Kdenlive::ClipMonitor) {
         //m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-save")), i18n("Save zone"), this, SLOT(slotSaveZone()));
         QAction *extractZone =
             m_configMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Extract Zone"), this, SLOT(slotExtractCurrentZone()));
         m_contextMenu->addAction(extractZone);
+        m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("insert_project_tree")));
     }
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame")));
     m_contextMenu->addAction(m_monitorManager->getAction(QStringLiteral("extract_frame_to_project")));
