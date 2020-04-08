@@ -201,6 +201,12 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
             QStringList clipData = ids.constFirst().split(QLatin1Char('/'));
             if (clipData.length() >= 3) {
                 QString id;
+                std::shared_ptr<ProjectClip> masterClip = getClipByBinID(clipData.at(0));
+                std::shared_ptr<ProjectSubClip> sub = masterClip->getSubClip(clipData.at(1).toInt(), clipData.at(2).toInt());
+                if (sub != nullptr) {
+                    // This zone already exists
+                    return false;
+                }
                 return requestAddBinSubClip(id, clipData.at(1).toInt(), clipData.at(2).toInt(), {}, clipData.at(0));
             } else {
                 // error, malformed clip zone, abort
@@ -213,7 +219,7 @@ bool ProjectItemModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     }
 
     if (data->hasFormat(QStringLiteral("kdenlive/effect"))) {
-        // Dropping effect on a Bin item   
+        // Dropping effect on a Bin item
         QStringList effectData;
         effectData << QString::fromUtf8(data->data(QStringLiteral("kdenlive/effect")));
         QStringList source = QString::fromUtf8(data->data(QStringLiteral("kdenlive/effectsource"))).split(QLatin1Char('-'));
