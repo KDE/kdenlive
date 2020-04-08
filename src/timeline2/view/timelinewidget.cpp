@@ -166,7 +166,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     rootContext()->setContextProperty("guidesModel", pCore->projectManager()->current()->getGuideModel().get());
     rootContext()->setContextProperty("clipboard", new ClipboardProxy(this));
     QFont ft = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-    ft.setPixelSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pixelSize());
+    ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
     setFont(ft);
     rootContext()->setContextProperty("miniFont", font());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();

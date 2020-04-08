@@ -75,7 +75,7 @@ Rectangle {
                 id: showVideo
                 visible: isEffectList
                 iconName: "kdenlive-show-video"
-                iconSource: 'qrc:///pics/kdenlive-show-video.svgz'
+                iconSource: 'image://icon/kdenlive-show-video'
                 checkable:true
                 exclusiveGroup: filterGroup
                 tooltip: i18n("Show all video effects")
@@ -87,7 +87,7 @@ Rectangle {
                 id: showAudio
                 visible: isEffectList
                 iconName: "kdenlive-show-audio"
-                iconSource: 'qrc:///pics/kdenlive-show-audio.svgz'
+                iconSource: 'image://icon/kdenlive-show-audio'
                 checkable:true
                 exclusiveGroup: filterGroup
                 tooltip: i18n("Show all audio effects")

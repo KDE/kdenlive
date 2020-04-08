@@ -63,6 +63,8 @@ Rectangle {
         root.textColor = activePalette.text
         playhead.fillColor = activePalette.windowText
         ruler.repaintRuler()
+        // Disable caching fot track header icons
+        root.paletteUnchanged = false
     }
 
     function moveSelectedTrack(offset) {
@@ -280,6 +282,7 @@ Rectangle {
     property int scrollMax: scrollMin + scrollView.contentItem.width / timeline.scaleFactor
     property double dar: 16/9
     property int collapsedHeight: baseUnit * 1.8
+    property bool paletteUnchanged: true
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
