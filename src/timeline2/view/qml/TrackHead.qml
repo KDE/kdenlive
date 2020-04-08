@@ -33,7 +33,6 @@ Rectangle {
     property bool showAudioRecord: false
     property bool current: false
     property int myTrackHeight
-    property int collapsedHeight : expandButton.height
     property int trackId : -42
     property string trackTag
     property int thumbsFormat: 0
@@ -186,14 +185,22 @@ Rectangle {
 
         ToolButton {
             id: expandButton
-            anchors.left: parent.left
             focusPolicy: Qt.NoFocus
-            //icon.width: trackHeadRoot.iconSize
-            //icon.height: trackHeadRoot.iconSize
-            icon.name: trackHeadRoot.collapsed ? 'arrow-right' : 'arrow-down'
+            contentItem: Item {
+                Image {
+                    source: trackHeadRoot.collapsed ? "image://icon/go-next" : "image://icon/go-down"
+                    anchors.centerIn: parent
+                    width: root.collapsedHeight - 4
+                    height: root.collapsedHeight - 4
+                    cache: root.paletteUnchanged
+                }
+            }
             onClicked: {
                 trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(root.collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : root.collapsedHeight
             }
+            anchors.left: parent.left
+            width: root.collapsedHeight
+            height: root.collapsedHeight
             ToolTip {
                 visible: expandButton.hovered
                 font: miniFont
@@ -220,7 +227,7 @@ Rectangle {
                 color: trackLed.bgColor
             }
             width: fontMetrics.boundingRect("M").width * trackHeadRoot.trackTag.length
-            height: expandButton.height
+            height: root.collapsedHeight - 2
             y: 1
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
@@ -302,24 +309,41 @@ Rectangle {
             id: buttonsRow
             ToolButton {
                 id: effectButton
-                icon.name: 'tools-wizard'
-                checkable: true
-                enabled: trackHeadRoot.effectNames != ''
-                checked: enabled && trackHeadRoot.isStackEnabled
                 focusPolicy: Qt.NoFocus
-                //icon.width: trackHeadRoot.iconSize
-                //icon.height: trackHeadRoot.iconSize
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/tools-wizard"
+                        anchors.centerIn: parent
+                        width: root.collapsedHeight - 4
+                        height: root.collapsedHeight - 4
+                        cache: root.paletteUnchanged
+                        opacity: effectButton.enabled ? 1 : 0.5
+                    }
+                }
+                enabled: trackHeadRoot.effectNames != ''
+                checkable: true
+                checked: enabled && trackHeadRoot.isStackEnabled
                 onClicked: {
                     timeline.showTrackAsset(trackId)
                     controller.setTrackStackEnabled(trackId, !isStackEnabled)
                 }
+                width: root.collapsedHeight
+                height: root.collapsedHeight
             }
             ToolButton {
                 id: muteButton
                 focusPolicy: Qt.NoFocus
-                //icon.width: trackHeadRoot.iconSize
-                //icon.height: trackHeadRoot.iconSize
-                icon.name: isAudio ? (isDisabled ? 'kdenlive-hide-audio' : 'kdenlive-show-audio') : (isDisabled ? 'kdenlive-hide-video' : 'kdenlive-show-video')
+                contentItem: Item {
+                    Image {
+                        source: isAudio ? (isDisabled ? "image://icon/kdenlive-hide-audio" : "image://icon/kdenlive-show-audio") : (isDisabled ? "image://icon/kdenlive-hide-video" : "image://icon/kdenlive-show-video")
+                        anchors.centerIn: parent
+                        width: root.collapsedHeight - 4
+                        height: root.collapsedHeight - 4
+                        cache: root.paletteUnchanged
+                    }
+                }
+                width: root.collapsedHeight
+                height: root.collapsedHeight
                 onClicked: controller.hideTrack(trackId, isDisabled ? (isAudio ? '1' : '2') : '3')
                 ToolTip {
                     visible: muteButton.hovered
@@ -339,10 +363,18 @@ Rectangle {
 
             ToolButton {
                 id: lockButton
+                width: root.collapsedHeight
+                height: root.collapsedHeight
                 focusPolicy: Qt.NoFocus
-                //icon.width: trackHeadRoot.iconSize
-                //icon.height: trackHeadRoot.iconSize
-                icon.name: isLocked ? 'kdenlive-lock' : 'kdenlive-unlock'
+                contentItem: Item {
+                    Image {
+                        source: trackHeadRoot.isLocked ? "image://icon/kdenlive-lock" : "image://icon/kdenlive-unlock"
+                        anchors.centerIn: parent
+                        width: root.collapsedHeight - 4
+                        height: root.collapsedHeight - 4
+                        cache: root.paletteUnchanged
+                    }
+                }
                 onClicked: controller.setTrackLockedState(trackId, !isLocked)
                 ToolTip {
                     visible: lockButton.hovered
@@ -359,7 +391,7 @@ Rectangle {
                     }
                 }
 
-                 SequentialAnimation {
+                SequentialAnimation {
                     id: flashLock
                     loops: 1
                     ScaleAnimator {
