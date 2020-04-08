@@ -1425,7 +1425,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (out == -1) {
             m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
         } else {
-            m_glMonitor->getControllerProxy()->setZone(in, out, false);
+            m_glMonitor->getControllerProxy()->setZone(in, out + 1, false);
         }
         m_snaps->addPoint((int)m_controller->frameDuration() - 1);
         // Loading new clip / zone, stop if playing

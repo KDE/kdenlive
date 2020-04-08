@@ -98,7 +98,7 @@ public:
 
     /** @brief Returns the clip type as defined in definitions.h */
     ClipType::ProducerType clipType() const override;
-    
+
     /** @brief Set rating on item */
     void setRating(uint rating) override;
 
