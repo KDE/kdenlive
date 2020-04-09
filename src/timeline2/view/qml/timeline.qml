@@ -124,11 +124,11 @@ Rectangle {
             scrollTimer.horizontal = -10
             scrollTimer.start()
         } else {
-            if (y > scrollView.contentY + scrollView.height - 50) {
-                scrollTimer.vertical = 10
+            if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit * 3) {
+                scrollTimer.vertical = root.baseUnit / 3
                 scrollTimer.start()
-            } else if (y - scrollView.contentY < 50) {
-                scrollTimer.vertical = -10
+            } else if (y - scrollView.contentY - ruler.height < root.baseUnit * 3) {
+                scrollTimer.vertical = -root.baseUnit / 3
                 scrollTimer.start()
             } else {
                 scrollTimer.vertical = 0
@@ -875,7 +875,7 @@ Rectangle {
                 if (rubberSelect.visible) {
                     var newX = mouse.x + scrollView.contentX
                     var newY = mouse.y + scrollView.contentY
-                    console.log('got rubber: ', newX, ', CURRENT X: ', rubberSelect.clickX)
+                    // console.log('got rubber: ', newX, ', CURRENT X: ', rubberSelect.clickX)
                     if (newX < rubberSelect.originX) {
                         rubberSelect.clickX = newX
                         rubberSelect.x = newX - scrollView.contentX + tracksArea.x
@@ -888,7 +888,7 @@ Rectangle {
                         rubberSelect.height = rubberSelect.originY - newY
                     } else {
                         rubberSelect.y = rubberSelect.originY - scrollView.contentY
-                        rubberSelect.height= newY - rubberSelect.originY
+                        rubberSelect.height = newY - rubberSelect.originY
                     }
                     continuousScrolling(newX, newY)
                 } else if ((pressedButtons & Qt.LeftButton) && !shiftPress) {
@@ -949,7 +949,7 @@ Rectangle {
                 scim = false
             }
 
-            Column {
+            Item {
                 Flickable {
                     // Non-slider scroll area for the Ruler.
                     id: rulercontainer
@@ -989,15 +989,27 @@ Rectangle {
                 }
                 Flickable {
                     id: scrollView
-                    width: root.width - headerWidth
-                    height: root.height - ruler.height
+                    width: root.width - headerWidth - vertScroll.width
+                    height: root.height - ruler.height - horScroll.height
                     y: ruler.height
                     // Click and drag should seek, not scroll the timeline view
                     //flickableItem.interactive: false
                     clip: true
                     interactive: false
-                    ScrollBar.horizontal: ScrollBar { }
-                    ScrollBar.vertical: ScrollBar { }
+                    ScrollBar.horizontal: ScrollBar {
+                        id: horScroll
+                        parent: scrollView.parent
+                        anchors.top: scrollView.bottom
+                        anchors.left: scrollView.left
+                        anchors.right: scrollView.right
+                    }
+                    ScrollBar.vertical: ScrollBar {
+                        id: vertScroll
+                        parent: scrollView.parent
+                        anchors.top: scrollView.top
+                        anchors.left: scrollView.right
+                        anchors.bottom: scrollView.bottom
+                    }
                     //ScrollBar.horizontal.interactive: false
                     //ScrollBar.vertical.interactive: false
                     //Component.onCompleted: contentItem.interactive = false
