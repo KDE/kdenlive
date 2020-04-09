@@ -294,13 +294,14 @@ Rectangle {
         }
         Label {
             anchors.left: trackLed.right
+            anchors.top: parent.top
             anchors.leftMargin: 2
-            anchors.verticalCenter: parent.verticalCenter
+            height: trackLed.height
             text: trackHeadRoot.trackName
             font: miniFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            visible: trackHeadRoot.collapsed && trackHeadRoot.width > trackTarget.width + expandButton.width + trackLed.width + (4 * muteButton.width) + 4
+            visible: !trackLabel.visible && trackHeadRoot.width > trackTarget.width + expandButton.width + trackLed.width + (4 * muteButton.width) + 4
         }
         Row {
             width: childrenRect.width
