@@ -150,7 +150,7 @@ public:
     bool isReady() const;
 
     /** @brief Returns this clip's producer. */
-    std::shared_ptr<Mlt::Producer> thumbProducer();
+    std::shared_ptr<Mlt::Producer> thumbProducer() override;
 
     /** @brief Recursively disable/enable bin effects. */
     void setBinEffectsEnabled(bool enabled) override;
@@ -260,7 +260,6 @@ public slots:
 private:
     /** @brief Generate and store file hash if not available. */
     const QString getFileHash();
-    std::shared_ptr<Mlt::Producer> m_thumbsProducer;
     QMutex m_producerMutex;
     QMutex m_thumbMutex;
     QFuture<void> m_thumbThread;

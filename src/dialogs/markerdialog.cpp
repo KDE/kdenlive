@@ -34,7 +34,6 @@
 MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const Timecode &tc, const QString &caption, QWidget *parent)
     : QDialog(parent)
     , m_clip(clip)
-    , m_dar(4.0 / 3.0)
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
@@ -55,25 +54,24 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
 
     if (m_clip != nullptr) {
         m_in->setRange(0, m_clip->getFramePlaytime());
-        m_previewTimer->setInterval(500);
+        m_previewTimer->setInterval(100);
         connect(m_previewTimer, &QTimer::timeout, this, &MarkerDialog::slotUpdateThumb);
-        m_dar = pCore->getCurrentDar();
-        int width = Kdenlive::DefaultThumbHeight * m_dar;
-        QPixmap p(width, Kdenlive::DefaultThumbHeight);
+        int width = 200 * pCore->getCurrentDar();
+        QPixmap p(width, 200);
         p.fill(Qt::transparent);
         switch (m_clip->clipType()) {
         case ClipType::Video:
         case ClipType::AV:
         case ClipType::SlideShow:
         case ClipType::Playlist:
-            m_previewTimer->start();
+            QTimer::singleShot(0, this, &MarkerDialog::slotUpdateThumb);
             connect(this, &MarkerDialog::updateThumb, m_previewTimer, static_cast<void (QTimer::*)()>(&QTimer::start));
             break;
         case ClipType::Image:
         case ClipType::Text:
         case ClipType::QText:
         case ClipType::Color:
-            m_previewTimer->start();
+            QTimer::singleShot(0, this, &MarkerDialog::slotUpdateThumb);
             // p = m_clip->pixmap(m_in->getValue(), width, height);
             break;
         // UNKNOWN, AUDIO, VIRTUAL:
@@ -82,8 +80,7 @@ MarkerDialog::MarkerDialog(ClipController *clip, const CommentedTime &t, const T
         }
 
         if (!p.isNull()) {
-            clip_thumb->setFixedWidth(p.width());
-            clip_thumb->setFixedHeight(p.height());
+            clip_thumb->setScaledContents(true);
             clip_thumb->setPixmap(p);
         }
         connect(m_in, &TimecodeDisplay::timeCodeEditingFinished, this, &MarkerDialog::updateThumb);
@@ -107,11 +104,9 @@ void MarkerDialog::slotUpdateThumb()
 {
     m_previewTimer->stop();
     int pos = m_in->getValue();
-    int width = Kdenlive::DefaultThumbHeight * m_dar;
-    /*m_image = KThumb::getFrame(m_producer, pos, swidth, width, 100);
-    const QPixmap p = QPixmap::fromImage(m_image);*/
-    const QPixmap p = m_clip->pixmap(pos, width, Kdenlive::DefaultThumbHeight);
+    const QPixmap p = m_clip->pixmap(pos);
     if (!p.isNull()) {
+        clip_thumb->setFixedSize(p.width(), p.height());
         clip_thumb->setPixmap(p);
     } else {
         qCDebug(KDENLIVE_LOG) << "!!!!!!!!!!!  ERROR CREATING THUMB";
