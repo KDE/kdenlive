@@ -1426,7 +1426,7 @@ Rectangle {
                 } else {
                     var maxScroll = trackHeaders.height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height
                     if (scrollView.contentY > maxScroll) {
-                        scrollView.contentY = maxScroll
+                        scrollView.contentY = Math.max(0, maxScroll)
                         vertical = 0
                         stop()
                     }
