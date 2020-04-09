@@ -400,7 +400,15 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectId = m_model->getAssetId();
     QString effectName = EffectsRepository::get()->getName(effectId);
     std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
+    pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+    m_view->initKeyframeView(!disable);
     emit activateEffect(m_model);
+}
+
+void CollapsibleEffectView::updateScene()
+{
+    pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
+    m_view->initKeyframeView(m_model->isEnabled());
 }
 
 void CollapsibleEffectView::slotDeleteEffect()

@@ -848,11 +848,19 @@ void EffectStackModel::setEffectStackEnabled(bool enabled)
     QWriteLocker locker(&m_lock);
     m_effectStackEnabled = enabled;
 
+    QList<QModelIndex> indexes;
     // Recursively updates children states
     for (int i = 0; i < rootItem->childCount(); ++i) {
-        std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i))->setEffectStackEnabled(enabled);
+        std::shared_ptr<AbstractEffectItem> item = std::static_pointer_cast<AbstractEffectItem>(rootItem->child(i));
+        item->setEffectStackEnabled(enabled);
+        indexes << getIndexFromItem(item);
     }
-    emit dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectsEnabledRole});
+    if (indexes.isEmpty()) {
+        return;
+    }
+    pCore->refreshProjectItem(m_ownerId);
+    pCore->invalidateItem(m_ownerId);
+    emit dataChanged(indexes.first(), indexes.last(), {TimelineModel::EffectsEnabledRole});
     emit enabledStateChanged();
 }
 

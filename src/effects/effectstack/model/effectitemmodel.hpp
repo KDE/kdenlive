@@ -66,7 +66,7 @@ protected:
     EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
                     const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled = true);
     QMap<int, std::shared_ptr<EffectItemModel>> m_childEffects;
-    void updateEnable() override;
+    void updateEnable(bool updateTimeline = true) override;
     int m_childId;
 };
 

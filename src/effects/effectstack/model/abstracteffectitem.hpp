@@ -65,7 +65,7 @@ public:
 
 protected:
     /* @brief Toogles the mlt effect according to the current activation state*/
-    virtual void updateEnable() = 0;
+    virtual void updateEnable(bool updateTimeline = true) = 0;
 
     EffectItemType m_effectItemType;
     bool m_enabled;
