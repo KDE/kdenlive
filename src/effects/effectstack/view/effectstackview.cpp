@@ -200,7 +200,17 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     loadEffects();
     m_scrollTimer.start();
     connect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
-    connect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::updateEnabledState);
+    connect(m_model.get(), &EffectStackModel::enabledStateChanged, [this]() {
+        int max = m_model->rowCount();
+        int currentActive = m_model->getActiveEffect();
+        if (currentActive < max && currentActive > -1) {
+            auto item = m_model->getEffectStackRow(currentActive);
+            QModelIndex ix = m_model->getIndexFromItem(item);
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+            w->updateScene();
+        }
+        emit updateEnabledState();
+    });
     connect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
     // m_builtStack->setModel(model, stackOwner());
 }

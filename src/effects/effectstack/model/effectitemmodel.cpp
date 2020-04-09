@@ -191,11 +191,13 @@ bool EffectItemModel::isValid() const
     return m_asset && m_asset->is_valid();
 }
 
-void EffectItemModel::updateEnable()
+void EffectItemModel::updateEnable(bool updateTimeline)
 {
     filter().set("disable", isEnabled() ? 0 : 1);
-    pCore->refreshProjectItem(m_ownerId);
-    pCore->invalidateItem(m_ownerId);
+    if (updateTimeline) {
+        pCore->refreshProjectItem(m_ownerId);
+        pCore->invalidateItem(m_ownerId);
+    }
     const QModelIndex start = AssetParameterModel::index(0, 0);
     const QModelIndex end = AssetParameterModel::index(rowCount() - 1, 0);
     emit dataChanged(start, end, QVector<int>());

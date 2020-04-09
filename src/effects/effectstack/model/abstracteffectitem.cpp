@@ -66,7 +66,7 @@ void AbstractEffectItem::setEffectStackEnabled(bool enabled)
     for (int i = 0; i < childCount(); ++i) {
         std::static_pointer_cast<AbstractEffectItem>(child(i))->setEffectStackEnabled(enabled);
     }
-    updateEnable();
+    updateEnable(false);
 }
 
 bool AbstractEffectItem::isEnabled() const

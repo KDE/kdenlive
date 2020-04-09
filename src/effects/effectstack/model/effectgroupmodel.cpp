@@ -43,8 +43,9 @@ std::shared_ptr<EffectGroupModel> EffectGroupModel::construct(const QString &nam
     return self;
 }
 
-void EffectGroupModel::updateEnable()
+void EffectGroupModel::updateEnable(bool updateTimeline)
 {
+    Q_UNUSED(updateTimeline);
     for (int i = 0; i < childCount(); ++i) {
         std::static_pointer_cast<AbstractEffectItem>(child(i))->updateEnable();
     }

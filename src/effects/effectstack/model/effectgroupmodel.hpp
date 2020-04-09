@@ -52,7 +52,7 @@ public:
 protected:
     EffectGroupModel(const QList<QVariant> &data, QString name, const std::shared_ptr<AbstractTreeModel> &stack, bool isRoot = false);
 
-    void updateEnable() override;
+    void updateEnable(bool updateTimeline = true) override;
 
     QString m_name;
 };

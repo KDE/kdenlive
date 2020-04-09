@@ -84,6 +84,8 @@ public:
     bool isMovable() const;
     /** @brief Returns the effect in xml format for saving. */
     QDomDocument toXml() const;
+    /** @brief Update monitor scene depending on effect enabled state. */
+    void updateScene();
 
 public slots:
     void slotSyncEffectsPos(int pos);
