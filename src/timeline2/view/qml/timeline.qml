@@ -281,7 +281,7 @@ Rectangle {
     property int scrollMin: scrollView.contentX / timeline.scaleFactor
     property int scrollMax: scrollMin + scrollView.contentItem.width / timeline.scaleFactor
     property double dar: 16/9
-    property int collapsedHeight: Math.max(20, baseUnit * 1.8)
+    property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     property bool paletteUnchanged: true
 
     onSeekingFinishedChanged : {
