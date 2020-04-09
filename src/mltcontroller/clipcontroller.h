@@ -95,6 +95,9 @@ public:
     /** @brief Returns the MLT's producer id */
     const QString binId() const;
 
+    /** @brief Returns this clip's producer. */
+    virtual std::shared_ptr<Mlt::Producer> thumbProducer() = 0;
+
     /** @brief Returns the clip's duration */
     GenTime getPlaytime() const;
     int getFramePlaytime() const;
@@ -238,6 +241,7 @@ protected:
     bool m_hasVideo;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QString m_temporaryUrl;
+    std::shared_ptr<Mlt::Producer> m_thumbsProducer;
 
 private:
     /** @brief Mutex to protect the producer properties on read/write */

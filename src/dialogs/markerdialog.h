@@ -54,7 +54,6 @@ private slots:
 private:
     ClipController *m_clip;
     TimecodeDisplay *m_in;
-    double m_dar;
     QTimer *m_previewTimer;
 
 signals:

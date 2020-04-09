@@ -80,7 +80,6 @@ RTTR_REGISTRATION
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id, std::move(producer))
-    , m_thumbsProducer(nullptr)
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     m_clipStatus = StatusReady;
@@ -128,7 +127,6 @@ void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer)
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
-    , m_thumbsProducer(nullptr)
 {
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
@@ -526,8 +524,6 @@ std::shared_ptr<Mlt::Producer> ProjectClip::thumbProducer()
     if (KdenliveSettings::gpu_accel()) {
         // TODO: when the original producer changes, we must reload this thumb producer
         m_thumbsProducer = softClone(ClipController::getPassPropertiesList());
-        Mlt::Filter converter(*prod->profile(), "avcolor_space");
-        m_thumbsProducer->attach(converter);
     } else {
         QString mltService = m_masterProducer->get("mlt_service");
         const QString mltResource = m_masterProducer->get("resource");
@@ -827,7 +823,11 @@ std::shared_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
 {
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
     QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
-    std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*m_masterProducer->profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    std::shared_ptr<Mlt::Producer> clone(new Mlt::Producer(*pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
+    Mlt::Filter scaler(*pCore->thumbProfile(), "swscale");
+    Mlt::Filter converter(pCore->getCurrentProfile()->profile(), "avcolor_space");
+    clone->attach(scaler);
+    clone->attach(converter);
     Mlt::Properties original(m_masterProducer->get_properties());
     Mlt::Properties cloneProps(clone->get_properties());
     cloneProps.pass_list(original, list);

@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "lib/audio/audioStreamInfo.h"
 #include "profiles/profilemodel.hpp"
 #include "bin/clipcreator.hpp"
+#include "doc/kthumb.h"
 
 #include "core.h"
 #include "kdenlive_debug.h"
@@ -51,6 +52,7 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     , m_effectStack(producer ? EffectStackModel::construct(producer, {ObjectType::BinClip, clipId.toInt()}, pCore->undoStack()) : nullptr)
     , m_hasAudio(false)
     , m_hasVideo(false)
+    , m_thumbsProducer(nullptr)
     , m_producerLock(QReadWriteLock::Recursive)
     , m_controllerBinId(clipId)
 {
@@ -693,41 +695,21 @@ QPixmap ClipController::pixmap(int framePosition, int width, int height)
 {
     // TODO refac this should use the new thumb infrastructure
     QReadLocker lock(&m_producerLock);
-    m_masterProducer->seek(framePosition);
-    Mlt::Frame *frame = m_masterProducer->get_frame();
+    if (thumbProducer() == nullptr) {
+        return QPixmap();
+    }
+    m_thumbsProducer->seek(framePosition);
+    QScopedPointer<Mlt::Frame> frame(m_thumbsProducer->get_frame());
     if (frame == nullptr || !frame->is_valid()) {
         QPixmap p(width, height);
         p.fill(QColor(Qt::red).rgb());
         return p;
     }
-
-    frame->set("rescale.interp", "bilinear");
     frame->set("deinterlace_method", "onefield");
     frame->set("top_field_first", -1);
-
-    if (width == 0) {
-        width = m_masterProducer->get_int("meta.media.width");
-        if (width == 0) {
-            width = m_masterProducer->get_int("width");
-        }
-    }
-    if (height == 0) {
-        height = m_masterProducer->get_int("meta.media.height");
-        if (height == 0) {
-            height = m_masterProducer->get_int("height");
-        }
-    }
-    //     int ow = frameWidth;
-    //     int oh = height;
-    mlt_image_format format = mlt_image_rgb24a;
-    width += width % 2;
-    height += height % 2;
-    const uchar *imagedata = frame->get_image(format, width, height);
-    QImage image(imagedata, width, height, QImage::Format_RGBA8888);
-    QPixmap pixmap;
-    pixmap.convertFromImage(image);
-    delete frame;
-    return pixmap;
+    frame->set("rescale.interp", "nearest");
+    QImage img = KThumb::getFrame(frame.data());
+    return QPixmap::fromImage(img/*.scaled(height, width, Qt::KeepAspectRatio)*/);
 }
 
 void ClipController::setZone(const QPoint &zone)

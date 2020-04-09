@@ -814,7 +814,6 @@ void Monitor::setZoom()
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?
-    pause();
     if (!m_glWidget->isFullScreen() && !minimizeOnly) {
         // Move monitor widget to the second screen (one screen for Kdenlive, the other one for the Monitor widget)
         if (qApp->screens().count() > 1) {
