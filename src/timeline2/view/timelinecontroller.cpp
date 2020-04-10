@@ -1189,7 +1189,7 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
-void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect)
+void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions)
 {
     std::unordered_set<int> itemsToSelect;
     if (addToSelect) {
@@ -1199,7 +1199,7 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
         if (m_model->getTrackById_const(tracks.at(i).toInt())->isLocked()) {
             continue;
         }
-        auto currentClips = m_model->getItemsInRange(tracks.at(i).toInt(), startFrame, endFrame, true);
+        auto currentClips = m_model->getItemsInRange(tracks.at(i).toInt(), startFrame, endFrame, i < tracks.count() - 1 ? true : selectBottomCompositions);
         itemsToSelect.insert(currentClips.begin(), currentClips.end());
     }
     m_model->requestSetSelection(itemsToSelect);

@@ -912,6 +912,8 @@ Rectangle {
                     var y = rubberSelect.y - ruler.height + scrollView.contentY
                     var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
                     var bottomTrack = Logic.getTrackIndexFromPos(y + rubberSelect.height)
+                    // Check if bottom of rubber selection covers the last track compositions
+                    var selectBottomCompositions = ((y + rubberSelect.height) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId) - scrollView.contentY) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
                     if (bottomTrack >= topTrack) {
                         var t = []
                         for (var i = topTrack; i <= bottomTrack; i++) {
@@ -919,7 +921,7 @@ Rectangle {
                         }
                         var startFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
                         var endFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
-                        timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier);
+                        timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions);
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress) {
