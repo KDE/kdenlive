@@ -113,7 +113,7 @@ public:
         @param start/endFrame Interval from which to select the items
         @param addToSelect if true, the old selection is retained
     */
-    Q_INVOKABLE void selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect);
+    Q_INVOKABLE void selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions);
 
     /** @brief request a selection with a list of ids*/
     Q_INVOKABLE void selectItems(const QList<int> &ids);
