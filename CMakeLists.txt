@@ -157,8 +157,6 @@ if(BUILD_TESTING)
         ${CMAKE_BINARY_DIR}/src
         ${MLT_INCLUDE_DIR}
         ${MLTPP_INCLUDE_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
-        ${CMAKE_CURRENT_SOURCE_DIR}/lib
         src)
     add_executable(runTests ${Tests_SRCS})
     set_property(TARGET runTests PROPERTY CXX_STANDARD 14)

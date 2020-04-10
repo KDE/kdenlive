@@ -94,7 +94,9 @@ ecm_add_app_icon(kdenlive ICONS ${ICONS_SRCS}) # icon name = variable name
 add_executable(kdenlive main.cpp ${kdenlive_extra_SRCS} ${kdenlive})
 target_include_directories(kdenlive
     PRIVATE ${CMAKE_BINARY_DIR}
-    SYSTEM ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
+    )
+target_include_directories(kdenlive
+	SYSTEM PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
 target_link_libraries(kdenlive kdenliveLib)
 install(TARGETS kdenlive DESTINATION ${BIN_INSTALL_DIR})
 
@@ -106,7 +108,9 @@ target_include_directories(kdenliveLib
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
     ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    SYSTEM ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
+    )
+target_include_directories(kdenliveLib
+	SYSTEM  PRIVATE ${MLT_INCLUDE_DIR} ${MLTPP_INCLUDE_DIR})
 # Adds Qt definitions and include directories, and sets QT_LIBRARIES according
 # to the components requested in find_package().
 # KDE definitions and include directories *must* always come first, Qt follows
@@ -172,7 +176,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --std=c99")
 # Optional deps
 if(DRMINGW_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DUSE_DRMINGW)
-	target_include_directories(kdenlive PRIVATE SYSTEM ${DRMINGW_INCLUDE_DIR})
+    target_include_directories(kdenlive SYSTEM PRIVATE ${DRMINGW_INCLUDE_DIR})
     target_link_libraries(kdenlive ${DRMINGW_LIBRARY})
 elseif(KF5Crash_FOUND)
     target_compile_definitions(kdenlive PRIVATE -DKF5_USE_CRASH)
@@ -198,7 +202,7 @@ else()
 endif()
 
 if(Q_WS_X11)
-    target_include_directories(kdenliveLib PRIVATE SYSTEM ${X11_Xlib_INCLUDE_PATH})
+	target_include_directories(kdenliveLib SYSTEM PRIVATE ${X11_Xlib_INCLUDE_PATH})
     target_link_libraries(kdenliveLib ${X11_LIBRARIES})
 endif()
 
@@ -209,7 +213,7 @@ elseif(SDL_FOUND)
 endif()
 
 if(LIBV4L2_FOUND)
-    target_include_directories(kdenliveLib PRIVATE SYSTEM ${LIBV4L2_INCLUDE_DIR})
+    target_include_directories(kdenliveLib SYSTEM PRIVATE ${LIBV4L2_INCLUDE_DIR})
     target_link_libraries(kdenliveLib ${LIBV4L2_LIBRARY})
     target_compile_definitions(kdenliveLib PRIVATE -DUSE_V4L)
 endif()
