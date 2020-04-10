@@ -400,7 +400,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
             // Check for image sequence
             const QUrl &url = list.at(0);
             QString fileName = url.fileName().section(QLatin1Char('.'), 0, -2);
-            if (fileName.at(fileName.size() - 1).isDigit()) {
+            if (!fileName.isEmpty() && fileName.at(fileName.size() - 1).isDigit()) {
                 KFileItem item(url);
                 if (item.mimetype().startsWith(QLatin1String("image"))) {
                     // import as sequence if we found more than one image in the sequence
