@@ -3366,7 +3366,11 @@ void Bin::slotGotFilterJobResults(const QString &id, int startPos, int track, co
     QString label = filterInfo.value(QStringLiteral("label"));
     QString key = filterInfo.value(QStringLiteral("key"));
     int offset = filterInfo.value(QStringLiteral("offset")).toInt();
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList value = results.value(key).split(QLatin1Char(';'), QString::SkipEmptyParts);
+#else
+    QStringList value = results.value(key).split(QLatin1Char(';'), Qt::SkipEmptyParts);
+#endif
     // qCDebug(KDENLIVE_LOG)<<"// RESULT; "<<key<<" = "<<value;
     if (filterInfo.contains(QStringLiteral("resultmessage"))) {
         QString mess = filterInfo.value(QStringLiteral("resultmessage"));

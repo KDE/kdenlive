@@ -1642,8 +1642,16 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     }
     QVariantList renderedChunks;
     QVariantList dirtyChunks;
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList chunksList = chunks.split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+    QStringList chunksList = chunks.split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList dirtyList = dirty.split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+    QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
     for (const QString &frame : chunksList) {
         renderedChunks << frame.toInt();
     }

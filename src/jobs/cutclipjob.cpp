@@ -104,7 +104,11 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
         return -1;
     }
     path = ui.file_url->url().toLocalFile();
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList encodingParams = ui.extra_params->toPlainText().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+    QStringList encodingParams = ui.extra_params->toPlainText().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
     KdenliveSettings::setAdd_new_clip(ui.add_clip->isChecked());
     delete d;
 

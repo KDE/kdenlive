@@ -150,7 +150,11 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
     QStringList frames;
     /*if (e.hasAttribute(QStringLiteral("keyframes"))) {
         // Effects have keyframes in a "keyframe" attribute, not sure why
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         frames = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), QString::SkipEmptyParts);
+#else
+        frames = e.attribute(QStringLiteral("keyframes")).split(QLatin1Char(';'), Qt::SkipEmptyParts);
+#endif
         m_keyframesTag = true;
     } else {*/
     // Transitions take keyframes from the value param
@@ -158,7 +162,11 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
     if (!framesValue.contains(QLatin1Char('='))) {
         framesValue.prepend(QStringLiteral("0="));
     }
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     frames = framesValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
+#else
+    frames = framesValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+#endif
     m_keyframesTag = false;
     //}
     for (int i = 0; i < frames.count(); ++i) {

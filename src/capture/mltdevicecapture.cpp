@@ -366,7 +366,11 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     // without this line a call to mlt_properties_get_int(terminate on pause) for in mlt/src/modules/core/consumer_multi.c is returning 1
     // and going into and endless loop.
     renderProps->set("mlt_profile", m_activeProfile.toUtf8().constData());
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     const QStringList paramList = params.split(' ', QString::SkipEmptyParts);
+#else
+    const QStringList paramList = params.split(' ', Qt::SkipEmptyParts);
+#endif
     for (int i = 0; i < paramList.count(); ++i) {
         tmp = qstrdup(paramList.at(i).section(QLatin1Char('='), 0, 0).toUtf8().constData());
         QString value = paramList.at(i).section(QLatin1Char('='), 1, 1);

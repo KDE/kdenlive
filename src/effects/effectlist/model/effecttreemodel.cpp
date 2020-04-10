@@ -63,7 +63,11 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             if (!KdenliveSettings::gpu_accel() && groupName == i18n("GPU effects")) {
                 continue;
             }
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), QString::SkipEmptyParts);
+#else
+            QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), Qt::SkipEmptyParts);
+#endif
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
             for (const QString &effect : list) {
                 effectCategory[effect] = groupItem;

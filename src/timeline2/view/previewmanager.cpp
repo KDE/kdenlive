@@ -266,11 +266,19 @@ bool PreviewManager::loadParams()
 {
     KdenliveDoc *doc = pCore->currentDoc();
     m_extension = doc->getDocumentProperty(QStringLiteral("previewextension"));
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+    m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {
         doc->selectPreviewProfile();
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+        m_consumerParams = doc->getDocumentProperty(QStringLiteral("previewparameters")).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
         m_extension = doc->getDocumentProperty(QStringLiteral("previewextension"));
     }
     if (m_consumerParams.isEmpty() || m_extension.isEmpty()) {

@@ -271,7 +271,11 @@ int main(int argc, char *argv[])
                 }
             }
         }
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList progArgs = QString(*argv).split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+        QStringList progArgs = QString(*argv).split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
         // Remove app name
         progArgs.takeFirst();
         auto *restart = new QProcess;

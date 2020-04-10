@@ -44,8 +44,16 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     //setEnabled(m_model->getOwnerId().first != ObjectType::TimelineTrack);
     auto *layout = new QVBoxLayout(this);
     QVariantList filterData = m_model->data(m_index, AssetParameterModel::FilterJobParamsRole).toList();
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+    QStringList filterAddedParams = m_model->data(m_index, AssetParameterModel::FilterParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), QString::SkipEmptyParts);
+#else
+    QStringList consumerParams = m_model->data(m_index, AssetParameterModel::FilterConsumerParamsRole).toString().split(QLatin1Char(' '), Qt::SkipEmptyParts);
+#endif
 
     QString conditionalInfo;
     for (const QVariant jobElement : filterData) {

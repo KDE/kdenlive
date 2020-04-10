@@ -206,7 +206,11 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
     if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList vals = paramValue.split(QLatin1Char(';'), QString::SkipEmptyParts);
+#else
+        QStringList vals = paramValue.split(QLatin1Char(';'), Qt::SkipEmptyParts);
+#endif
         int points = vals.size();
         m_asset->set("3", points / 10.);
         m_params[QStringLiteral("3")].value = points / 10.;

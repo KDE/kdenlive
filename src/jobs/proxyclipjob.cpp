@@ -100,7 +100,11 @@ bool ProxyJob::startJob()
                 parameter.prepend(QStringLiteral("-pix_fmt yuv420p"));
             }
         }
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         QStringList params = parameter.split(QLatin1Char('-'), QString::SkipEmptyParts);
+#else
+        QStringList params = parameter.split(QLatin1Char('-'), Qt::SkipEmptyParts);
+#endif
         double display_ratio;
         if (source.startsWith(QLatin1String("consumer:"))) {
             display_ratio = KdenliveDoc::getDisplayRatio(source.section(QLatin1Char(':'), 1));
@@ -270,7 +274,11 @@ bool ProxyJob::startJob()
             parameters << QStringLiteral("-i") << source;
         }
         QString params = proxyParams;
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         for (const QString &s : params.split(QLatin1Char(' '), QString::SkipEmptyParts)) {
+#else
+        for (const QString &s : params.split(QLatin1Char(' '), Qt::SkipEmptyParts)) {
+#endif
             QString t = s.simplified();
             if (t != QLatin1String("-noautorotate")) {
                 parameters << t;

@@ -553,7 +553,11 @@ void RenderWidget::slotSaveProfile()
     ui.setupUi(d);
 
     QString customGroup;
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     QStringList arguments = m_view.advanced_params->toPlainText().split(' ', QString::SkipEmptyParts);
+#else
+    QStringList arguments = m_view.advanced_params->toPlainText().split(' ', Qt::SkipEmptyParts);
+#endif
     if (!arguments.isEmpty()) {
         ui.parameters->setText(arguments.join(QLatin1Char(' ')));
     }
@@ -2304,17 +2308,37 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             childitem->setData(0, StandardRole, standard);
             childitem->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             } else if (params.contains(QLatin1String("%bitrate"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                childitem->setData(0, BitratesRole, profile.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             }
             if (params.contains(QLatin1String("%audioquality"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                childitem->setData(0, AudioBitratesRole, profile.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             }
             if (profile.hasAttribute(QStringLiteral("speeds"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 childitem->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
+#else
+                childitem->setData(0, SpeedsRole, profile.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), Qt::SkipEmptyParts));
+#endif
             }
             if (profile.hasAttribute(QStringLiteral("url"))) {
                 childitem->setData(0, ExtraRole, profile.attribute(QStringLiteral("url")));
@@ -2393,18 +2417,38 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
             item->setData(0, StandardRole, standard);
             item->setData(0, ParamsRole, params);
             if (params.contains(QLatin1String("%quality"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("qualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             } else if (params.contains(QLatin1String("%bitrate"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                item->setData(0, BitratesRole, profileElement.attribute(QStringLiteral("bitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             }
             if (params.contains(QLatin1String("%audioquality"))) {
                 item->setData(0, AudioBitratesRole,
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                               profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                              profileElement.attribute(QStringLiteral("audioqualities")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             } else if (params.contains(QLatin1String("%audiobitrate"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), QString::SkipEmptyParts));
+#else
+                item->setData(0, AudioBitratesRole, profileElement.attribute(QStringLiteral("audiobitrates")).split(QLatin1Char(','), Qt::SkipEmptyParts));
+#endif
             }
             if (profileElement.hasAttribute(QStringLiteral("speeds"))) {
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
                 item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), QString::SkipEmptyParts));
+#else
+                item->setData(0, SpeedsRole, profileElement.attribute(QStringLiteral("speeds")).split(QLatin1Char(';'), Qt::SkipEmptyParts));
+#endif
             }
             if (profileElement.hasAttribute(QStringLiteral("url"))) {
                 item->setData(0, ExtraRole, profileElement.attribute(QStringLiteral("url")));

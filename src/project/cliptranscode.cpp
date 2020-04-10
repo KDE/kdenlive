@@ -176,7 +176,11 @@ void ClipTranscode::slotStartTransCode()
     
     if (mltEncoding) {
         params.replace(QStringLiteral("%1"), QString("-consumer %1"));
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
         const QStringList splitted = params.split(QLatin1Char('-'), QString::SkipEmptyParts);
+#else
+        const QStringList splitted = params.split(QLatin1Char('-'), Qt::SkipEmptyParts);
+#endif
         for (const QString &s : splitted) {
             QString t = s.simplified();
             if (t.count(QLatin1Char(' ')) == 0) {
