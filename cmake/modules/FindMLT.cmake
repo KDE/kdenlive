@@ -8,6 +8,11 @@
 find_package(PkgConfig QUIET)
 pkg_check_modules(PC_MLT mlt++)
 
+# Workaround cmake 3.17 issue (dropped .dll extension for library search)
+if(WIN32)
+    list(INSERT CMAKE_FIND_LIBRARY_SUFFIXES 0 .dll)
+endif()
+
 find_path(MLT_INCLUDE_DIR
   NAMES framework/mlt.h
   HINTS
