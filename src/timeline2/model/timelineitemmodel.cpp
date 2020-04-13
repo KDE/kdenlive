@@ -361,7 +361,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             }
             int height = getTrackById_const(id)->getProperty("kdenlive:trackheight").toInt();
             // qDebug() << "DATA yielding height" << height;
-            return (height > 0 ? height : 60);
+            return (height > 0 ? height : KdenliveSettings::trackheight());
         }
         case ThumbsFormatRole:
             return getTrackById_const(id)->getProperty("kdenlive:thumbs_format").toInt();

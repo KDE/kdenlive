@@ -104,7 +104,6 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
     m_standard.setupUi(page2);*/
     setButtonText(QWizard::CancelButton, i18n("Abort"));
     setButtonText(QWizard::FinishButton, i18n("OK"));
-
     slotCheckMlt();
     if (autoClose) {
         // This is a first run instance, check HW encoders
