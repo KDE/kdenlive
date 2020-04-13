@@ -23,7 +23,7 @@
 
 #include "abstractclipjob.h"
 
-#include <QMutex>
+#include <QSemaphore>
 #include <memory>
 
 /* @brief This class represents the job that corresponds to computing the thumb of a clip
@@ -54,13 +54,11 @@ public:
     bool commitResult(Fun &undo, Fun &redo) override;
 
 private:
-    int m_imageHeight;
-    int m_imageWidth;
     int m_fullWidth;
 
     std::shared_ptr<ProjectClip> m_binClip;
     std::shared_ptr<Mlt::Producer> m_prod;
-    QMutex m_mutex;
+    QSemaphore m_semaphore;
 
     bool m_done{false};
     int m_thumbsCount;

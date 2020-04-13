@@ -30,15 +30,15 @@
 #include "utils/thumbnailcache.hpp"
 #include <QImage>
 #include <QScopedPointer>
+#include <QThread>
 #include <mlt++/MltProducer.h>
 
 #include <set>
 
 CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPoint)
     : AbstractClipJob(CACHEJOB, binId)
-    , m_imageHeight(pCore->thumbProfile()->height())
-    , m_imageWidth(pCore->thumbProfile()->width())
-    , m_fullWidth(m_imageHeight * pCore->getCurrentDar() + 0.5)
+    , m_fullWidth(qFuzzyCompare(pCore->getCurrentSar(), 1.0) ? 0 : pCore->thumbProfile()->height() * pCore->getCurrentDar() + 0.5)
+    , m_semaphore(1)
     , m_done(false)
     , m_thumbsCount(thumbsCount)
     , m_inPoint(inPoint)
@@ -48,11 +48,13 @@ CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPo
     if (m_fullWidth % 2 > 0) {
         m_fullWidth ++;
     }
-    m_imageHeight += m_imageHeight % 2;
     connect(this, &CacheJob::jobCanceled, [&] () {
-        QMutexLocker lk(&m_mutex);
+        if (m_done) {
+            return;
+        }
         m_done = true;
         m_clipId.clear();
+        m_semaphore.acquire();
     });
 }
 
@@ -102,9 +104,8 @@ bool CacheJob::startJob()
         if (m_clipId.isEmpty() || ThumbnailCache::get()->hasThumbnail(m_clipId, i)) {
             continue;
         }
-        m_mutex.lock();
-        if (m_done) {
-            m_mutex.unlock();
+        if (m_done || !m_semaphore.tryAcquire(1)) {
+            m_semaphore.release();
             break;
         }
         m_prod->seek(i);
@@ -113,10 +114,10 @@ bool CacheJob::startJob()
         frame->set("top_field_first", -1);
         frame->set("rescale.interp", "nearest");
         if (frame != nullptr && frame->is_valid()) {
-            QImage result = KThumb::getFrame(frame.data(), m_imageWidth, m_imageHeight, m_fullWidth);
+            QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
             ThumbnailCache::get()->storeThumbnail(m_clipId, i, result, true);
         }
-        m_mutex.unlock();
+        m_semaphore.release(1);
     }
     m_done = true;
     return true;

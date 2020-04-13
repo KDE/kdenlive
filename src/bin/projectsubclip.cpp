@@ -145,6 +145,9 @@ std::shared_ptr<ProjectSubClip> ProjectSubClip::subClip(int in, int out)
 
 void ProjectSubClip::setThumbnail(const QImage &img)
 {
+    if (img.isNull()) {
+        return;
+    }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     int duration = m_parentDuration;
     double factor = ((double) thumb.width()) / duration;

@@ -63,3 +63,4 @@ AbstractClipJob::JOBTYPE AbstractClipJob::jobType() const
 {
     return m_jobType;
 }
+

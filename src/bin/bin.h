@@ -256,6 +256,8 @@ public:
     bool isEmpty() const;
     /** @brief Trigger reload of all clips. */
     void reloadAllProducers();
+    /** @brief Ensure all audio thumbs have been created */
+    void checkAudioThumbs();
     /** @brief Get usage stats for project bin. */
     void getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize);
     /** @brief Returns the clip properties dockwidget. */

@@ -2394,6 +2394,7 @@ void MainWindow::slotSwitchVideoThumbs()
 void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
+    pCore->bin()->checkAudioThumbs();
     m_timelineTabs->showAudioThumbnailsChanged();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }

@@ -197,6 +197,9 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail(const QVector<uint8_t> audioLevels)
 {
+    if (!KdenliveSettings::audiothumbnails()) {
+        return;
+    }
     audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
     updateTimelineClips({TimelineModel::ReloadThumbRole});
@@ -357,6 +360,9 @@ QDomElement ProjectClip::toXml(QDomDocument &document, bool includeMeta, bool in
 
 void ProjectClip::setThumbnail(const QImage &img)
 {
+    if (img.isNull()) {
+        return;
+    }
     QPixmap thumb = roundedPixmap(QPixmap::fromImage(img));
     if (hasProxy() && !thumb.isNull()) {
         // Overlay proxy icon

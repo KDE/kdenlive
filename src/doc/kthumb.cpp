@@ -117,7 +117,7 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidt
         if (scaledWidth == 0 || scaledWidth == width) {
             return temp.rgbSwapped();
         }
-        return temp.rgbSwapped().scaled(scaledWidth, height);
+        return temp.rgbSwapped().scaled(scaledWidth, height == 0 ? oh : height);
     }
     return QImage();
 }
