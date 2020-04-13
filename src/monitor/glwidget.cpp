@@ -690,7 +690,7 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
-    int maxPos = m_producer->get_int("out");
+    int maxPos = (m_isZoneMode || m_isLoopMode) ? m_proxy->zoneOut() : m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
         if (isPlaying && pos >= maxPos) {
             m_consumer->purge();
