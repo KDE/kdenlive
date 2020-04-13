@@ -128,7 +128,7 @@ void MonitorManager::forceProjectMonitorRefresh()
 
 bool MonitorManager::projectMonitorVisible() const
 {
-    return (m_projectMonitor->isVisible() && !m_projectMonitor->visibleRegion().isEmpty());
+    return (m_projectMonitor->monitorIsFullScreen() || (m_projectMonitor->isVisible() && !m_projectMonitor->visibleRegion().isEmpty()));
 }
 
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
@@ -149,12 +149,17 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
         }
     }
     if (m_activeMonitor) {
-        m_activeMonitor->parentWidget()->raise();
         if (name == Kdenlive::ClipMonitor) {
+            if (!m_clipMonitor->monitorIsFullScreen()) {
+                m_clipMonitor->parentWidget()->raise();
+            }
             emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
         } else if (name == Kdenlive::ProjectMonitor) {
+            if (!m_projectMonitor->monitorIsFullScreen()) {
+                m_projectMonitor->parentWidget()->raise();
+            }
             emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
             m_projectMonitor->displayAudioMonitor(true);

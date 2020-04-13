@@ -811,6 +811,11 @@ void Monitor::setZoom()
     }
 }
 
+bool Monitor::monitorIsFullScreen() const
+{
+    return m_glWidget->isFullScreen();
+}
+
 void Monitor::slotSwitchFullScreen(bool minimizeOnly)
 {
     // TODO: disable screensaver?

@@ -155,6 +155,8 @@ public:
     MonitorProxy *getControllerProxy();
     /** @brief Update active track in multitrack view */
     void updateMultiTrackView(int tid);
+    /** @brief Returns true if monitor is currently fullscreen */
+    bool monitorIsFullScreen() const;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
