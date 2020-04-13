@@ -46,8 +46,7 @@
 #include "mlt++/MltProperties.h"
 
 
-KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes,
-                               QWidget *parent)
+KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetParameterModel> model, QList<QPersistentModelIndex> indexes, int parentIn, int parentDuration, QWidget *parent)
     : QDialog(parent)
     , m_model(std::move(model))
     , m_indexes(indexes)
@@ -141,7 +140,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     // Zone in / out
     in = qMax(0, in);
     if (out <= 0) {
-        out = in + m_model->data(indexes.first(), AssetParameterModel::ParentDurationRole).toInt();
+        out = in + parentDuration;
     }
     m_inPoint = new PositionWidget(i18n("In"), in, 0, out, pCore->currentDoc()->timecode(), QString(), this);
     connect(m_inPoint, &PositionWidget::valueChanged, this, &KeyframeImport::updateDisplay);
@@ -219,8 +218,8 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     lay->addLayout(l1);
 
     // Output offset
-    int clipIn = m_model->data(indexes.first(), AssetParameterModel::ParentInRole).toInt();
-    m_offsetPoint = new PositionWidget(i18n("Offset"), clipIn, 0, clipIn + m_model->data(indexes.first(), AssetParameterModel::ParentDurationRole).toInt(), pCore->currentDoc()->timecode(), "", this);
+    int clipIn = parentIn;
+    m_offsetPoint = new PositionWidget(i18n("Offset"), clipIn, 0, clipIn + parentDuration, pCore->currentDoc()->timecode(), "", this);
     lay->addWidget(m_offsetPoint);
 
     // Source range

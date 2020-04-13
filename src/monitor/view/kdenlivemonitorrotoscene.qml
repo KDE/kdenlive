@@ -335,7 +335,7 @@ Item {
         Text {
             id: label
             text: i18n("Click to add points,\nright click to close shape.")
-            font: miniFont
+            font: fixedFont
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors {
