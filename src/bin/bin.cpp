@@ -212,10 +212,12 @@ public:
                 if (opt.decorationSize.height() > 0) {
                     r.setWidth(r.height() * pCore->getCurrentDar());
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
-                    // Draw icon
-                    decoWidth += r.width() + textMargin;
-                    r.setWidth(r.height() * pix.width() / pix.height());
-                    painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
+                    if (!pix.isNull()) {
+                        // Draw icon
+                        decoWidth += r.width() + textMargin;
+                        r.setWidth(r.height() * pix.width() / pix.height());
+                        painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
+                    }
                     m_thumbRect = r;
                 }
                 int mid = (int)((r1.height() / 2));
@@ -3752,6 +3754,20 @@ void Bin::reloadAllProducers()
             ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId(), true);
             pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
             pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
+        }
+    }
+}
+
+void Bin::checkAudioThumbs()
+{
+    if (!KdenliveSettings::audiothumbnails() || m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
+        return;
+    }
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    for (auto clip : clipList) {
+        ClipType::ProducerType type = clip->clipType();
+        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
+            pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, -1, QString());
         }
     }
 }
