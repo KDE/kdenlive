@@ -227,8 +227,17 @@ QImage MonitorProxy::extractFrame(int frame_position, const QString &path, int w
         width++;
     }
     if (!path.isEmpty()) {
-        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(pCore->getCurrentProfile()->profile(), path.toUtf8().constData()));
+        QScopedPointer<Mlt::Profile> tmpProfile(new Mlt::Profile());
+        QScopedPointer<Mlt::Producer> producer(new Mlt::Producer(*tmpProfile, path.toUtf8().constData()));
         if (producer && producer->is_valid()) {
+            tmpProfile->from_producer(*producer);
+            width = tmpProfile->width();
+            height = tmpProfile->height();
+            double projectFps = pCore->getCurrentFps();
+            double currentFps = tmpProfile->fps();
+            if (!qFuzzyCompare(projectFps, currentFps)) {
+                frame_position = frame_position * currentFps / projectFps;
+            }
             QImage img = KThumb::getFrame(producer.data(), frame_position, width, height);
             return img;
         }
