@@ -1763,7 +1763,7 @@ bool MainWindow::readOptions()
     }
     if (KdenliveSettings::trackheight() == 0) {
         QFontMetrics metrics(font());
-        int trackHeight = 2 * metrics.height();
+        int trackHeight = 2.2 * metrics.height();
         QStyle *style = qApp->style();
         trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) +
                        style->pixelMetric(QStyle::PM_ToolBarItemSpacing) + 2;
