@@ -491,7 +491,7 @@ void KeyframeWidget::slotImportKeyframes()
     for (const auto &w : m_parameters) {
         indexes << w.first;
     }
-    QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, this);
+    QPointer<KeyframeImport> import = new KeyframeImport(values, m_model, indexes, m_model->data(m_index, AssetParameterModel::ParentInRole).toInt(), m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt(), this);
     if (import->exec() != QDialog::Accepted) {
         delete import;
         return;
