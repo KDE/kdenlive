@@ -113,7 +113,12 @@ public:
                 dragType = PlaylistState::Disabled;
                 if (index.column() == 7) {
                     // Rating
-                    int rate = KRatingPainter::getRatingFromPosition(option.rect, Qt::AlignCenter, qApp->layoutDirection(), me->pos());
+                    QRect rect = option.rect;
+                    rect.adjust(option.rect.width() / 14, 0, 0, 0);
+                    int rate = 0;
+                    if (me->pos().x() > rect.x()) {
+                        rate = KRatingPainter::getRatingFromPosition(rect, Qt::AlignCenter, qApp->layoutDirection(), me->pos());
+                    }
                     if (rate > -1) {
                         // Full star rating only
                         if (rate %2 == 1) {
@@ -337,6 +342,7 @@ public:
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             painter->setOpacity(1);
             if (index.data(AbstractProjectItem::ItemTypeRole).toInt() != AbstractProjectItem::FolderItem) {
+                r1.adjust(r1.width() / 14, 0, 0, 0);
                 KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
             }
         } else {
