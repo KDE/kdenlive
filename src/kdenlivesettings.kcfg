@@ -239,7 +239,7 @@
   <group name="timeline">
     <entry name="headerwidth" type="Int">
       <label>Default width for timeline track headers.</label>
-      <default>140</default>
+      <default>0</default>
     </entry>
     <entry name="defaultkeyframeinterp" type="Int">
       <label>Default interpolation for keyframes.</label>

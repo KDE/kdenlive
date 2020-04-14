@@ -413,7 +413,6 @@ Rectangle {
         Item {
             id: recLayout
             y: root.collapsedHeight + 4
-            //width: trackHeadRoot.width
             anchors.left: trackHeadColumn.left
             anchors.right: trackHeadColumn.right
             anchors.margins: 2

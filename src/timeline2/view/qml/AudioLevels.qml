@@ -21,7 +21,7 @@ Item {
         }
     }
     RowLayout {
-        spacing: 2
+        spacing: 4
         Layout.fillWidth: true
         Rectangle {
             id: recbutton
@@ -52,11 +52,12 @@ Item {
             id: levelsContainer
             width: recContainer.width - recbutton.width - 6
             height: recbutton.height
-            border.color: root.frameColor
+            border.color: "#000000"
+            border.width: 1
             color: Qt.lighter(activePalette.base)
             Repeater {
-                model: audiorec.levels.length
-                id: levelRepeater
+                model: audiorec.levels.length == 0 ? 2 : audiorec.levels.length
+                id: bgRepeater
                 Rectangle {
                     color: 'transparent'
                     LinearGradient {
@@ -72,17 +73,50 @@ Item {
                             GradientStop { position: 1.0; color: "red" }
                         }
                     }
-                    width: parent.width * audiorec.levels[index]
-                    height: parent.height / levelRepeater.count
+                    width: parent.width - 1
+                    height: parent.height / bgRepeater.count
                     y: height * index
+                }
+            }
+            Repeater {
+                model: audiorec.levels.length == 0 ? 2 : audiorec.levels.length
+                id: levelRepeater
+                Item {
+                    anchors.fill: parent
+                    anchors.margins: 1
+                    property double currentLevel: audiorec.levels.length <= 0 ? 0 : audiorec.levels[index]
+                    property double peak: 0
+                    Rectangle {
+                        color: "#cc000000"
+                        width: parent.width * (1.0 - currentLevel)
+                        anchors.right: parent.right
+                        height: parent.height / levelRepeater.count
+                        y: height * index
+                    }
+                    onCurrentLevelChanged: {
+                        if (currentLevel > peak) {
+                            peak = currentLevel
+                        } else if (peak > 0) {
+                            peak -= 0.003
+                        }
+                    }
+                    Rectangle {
+                        visible: peak > 0
+                        color: activePalette.text
+                        width: 2
+                        height: parent.height / levelRepeater.count
+                        x: parent.width * peak
+                        y: height * index
+                    }
                 }
             }
             Repeater {
                 model: 8
                 Rectangle {
-                    color: levelsContainer.color
+                    color: "#000000"
                     width: 1
-                    height: parent.height
+                    y: 1
+                    height: parent.height - 2
                     x: parent.width * (index + 1) / 9
                 }
             }

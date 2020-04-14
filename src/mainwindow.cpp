@@ -1762,12 +1762,14 @@ bool MainWindow::readOptions()
         KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
     }
     if (KdenliveSettings::trackheight() == 0) {
-        QFontMetrics metrics(font());
-        int trackHeight = 2.2 * metrics.height();
-        QStyle *style = qApp->style();
-        trackHeight += style->pixelMetric(QStyle::PM_ToolBarIconSize) + 2 * style->pixelMetric(QStyle::PM_ToolBarItemMargin) +
-                       style->pixelMetric(QStyle::PM_ToolBarItemSpacing) + 2;
-        KdenliveSettings::setTrackheight(trackHeight == 0 ? 50 : trackHeight);
+        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+        int trackHeight = qMax(50, (int) (3.6 * QFontInfo(ft).pixelSize() + 6));
+        KdenliveSettings::setTrackheight(trackHeight);
+    }
+    if (KdenliveSettings::headerwidth() == 0) {
+        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+        int trackWidth = qMax(50, 6 * (int)(1.8 * QFontInfo(ft).pixelSize() + 2));
+        KdenliveSettings::setHeaderwidth(trackWidth);
     }
     bool firstRun = false;
     KConfigGroup initialGroup(config, "version");
