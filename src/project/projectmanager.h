@@ -125,7 +125,7 @@ public slots:
     void slotStartAutoSave();
 
     /** @brief Update project and monitors profiles */
-    void slotResetProfiles();
+    void slotResetProfiles(bool reloadThumbs);
 
     /** @brief Rebuild consumers after a property change */
     void slotResetConsumers(bool fullReset);

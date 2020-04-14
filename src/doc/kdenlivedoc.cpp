@@ -1347,7 +1347,7 @@ void KdenliveDoc::loadDocumentProperties()
     updateProjectProfile(false);
 }
 
-void KdenliveDoc::updateProjectProfile(bool reloadProducers)
+void KdenliveDoc::updateProjectProfile(bool reloadProducers, bool reloadThumbs)
 {
     pCore->jobManager()->slotCancelJobs();
     double fps = pCore->getCurrentFps();
@@ -1357,21 +1357,21 @@ void KdenliveDoc::updateProjectProfile(bool reloadProducers)
         return;
     }
     emit updateFps(fpsChanged);
-    pCore->bin()->reloadAllProducers();
+    pCore->bin()->reloadAllProducers(reloadThumbs);
 }
 
-void KdenliveDoc::resetProfile()
+void KdenliveDoc::resetProfile(bool reloadThumbs)
 {
-    updateProjectProfile(true);
+    updateProjectProfile(true, reloadThumbs);
     emit docModified(true);
 }
 
-void KdenliveDoc::slotSwitchProfile(const QString &profile_path)
+void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThumbs)
 {
     // Discard all current jobs
     pCore->jobManager()->slotCancelJobs();
     pCore->setCurrentProfile(profile_path);
-    updateProjectProfile(true);
+    updateProjectProfile(true, reloadThumbs);
     emit docModified(true);
 }
 
@@ -1453,7 +1453,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         QList<QAction *> list;
         const QString profilePath = profile->path();
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
-        connect(ac, &QAction::triggered, [this, profilePath]() { this->slotSwitchProfile(profilePath); });
+        connect(ac, &QAction::triggered, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2;
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list);

@@ -126,7 +126,6 @@ private:
     bool initAudioRecDevice();
 signals:
     void customChanged();
-    void doResetProfile();
     void doResetConsumer(bool fullReset);
     void updateCaptureFolder();
     void updateLibraryFolder();

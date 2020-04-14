@@ -255,7 +255,7 @@ public:
     /** @brief Returns true if there is no clip. */
     bool isEmpty() const;
     /** @brief Trigger reload of all clips. */
-    void reloadAllProducers();
+    void reloadAllProducers(bool reloadThumbs = true);
     /** @brief Ensure all audio thumbs have been created */
     void checkAudioThumbs();
     /** @brief Get usage stats for project bin. */
