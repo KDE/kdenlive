@@ -111,24 +111,24 @@ Rectangle {
 
     function continuousScrolling(x, y) {
         // This provides continuous scrolling at the left/right edges.
-        if (x > scrollView.contentX + scrollView.width - 50) {
-            scrollTimer.item = clip
+        if (x > scrollView.contentX + scrollView.width - root.baseUnit * 3) {
             scrollTimer.horizontal = 10
             scrollTimer.start()
         } else if (x < 50) {
             scrollView.contentX = 0;
             scrollTimer.horizontal = 0
             scrollTimer.stop()
-        } else if (x < scrollView.contentX + 50) {
-            scrollTimer.item = clip
+        } else if (x < scrollView.contentX + root.baseUnit * 3) {
             scrollTimer.horizontal = -10
             scrollTimer.start()
         } else {
             if (y > scrollView.contentY + scrollView.height + ruler.height - root.baseUnit * 3) {
                 scrollTimer.vertical = root.baseUnit / 3
+                scrollTimer.horizontal = 0
                 scrollTimer.start()
             } else if (y - scrollView.contentY - ruler.height < root.baseUnit * 3) {
                 scrollTimer.vertical = -root.baseUnit / 3
+                scrollTimer.horizontal = 0
                 scrollTimer.start()
             } else {
                 scrollTimer.vertical = 0
@@ -1046,6 +1046,7 @@ Rectangle {
                                 drag.smoothed: false
                                 drag.minimumX: 0
                                 property int dragFrame
+                                property int snapping: root.snapping
                                 property bool moveMirrorTracks: true
                                 cursorShape: root.activeTool == 0 ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
                                 enabled: root.activeTool == 0
@@ -1130,10 +1131,17 @@ Rectangle {
                                     }
                                     if (dragProxy.draggedItem > -1 && mouse.buttons === Qt.LeftButton &&  (controller.isClip(dragProxy.draggedItem) || controller.isComposition(dragProxy.draggedItem))) {
                                         continuousScrolling(mouse.x + parent.x, mouse.y + parent.y)
-                                        var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, mouse.x, mouse.y).x)
+                                        snapping = (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping
+                                        moveItem()
+                                    }
+                                }
+
+                                function moveItem() {
+                                    if (dragProxy.draggedItem > -1) {
+                                        var mapped = Math.max(0, tracksContainerArea.mapFromItem(dragProxy, dragProxyArea.mouseX, 0).x)
                                         root.mousePosChanged(Math.round(mapped / timeline.scaleFactor))
                                         var posx = Math.round((parent.x)/ root.timeScale)
-                                        var posy = Math.min(Math.max(0, mouse.y + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
+                                        var posy = Math.min(Math.max(0, dragProxyArea.mouseY + parent.y - dragProxy.verticalOffset), tracksContainerArea.height)
                                         var tId = Logic.getTrackIdFromPos(posy)
                                         if (dragProxy.masterObject && tId == dragProxy.masterObject.trackId) {
                                             if (posx == dragFrame && controller.normalEdit()) {
@@ -1141,18 +1149,18 @@ Rectangle {
                                             }
                                         }
                                         if (dragProxy.isComposition) {
-                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)
+                                            dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         } else {
                                             if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
-                                                var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y);
+                                                var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y)
                                                 dragProxy.masterObject.parent = dragContainer
                                                 pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
                                                 dragProxy.masterObject.x = pos.x
                                                 dragProxy.masterObject.y = pos.y
                                                 //console.log('bringing item to front')
                                             }
-                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping, moveMirrorTracks)
+                                            dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
                                             timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
                                         }
                                         var delta = dragFrame - dragProxy.sourceFrame
@@ -1427,7 +1435,6 @@ Rectangle {
         interval: 25
         repeat: true
         triggeredOnStart: true
-        property var item
         property int horizontal: 0
         property int vertical: 0
         onTriggered: {
@@ -1446,10 +1453,22 @@ Rectangle {
                     }
                 }
             }
-            if (item) item.x += horizontal
-            scrollView.contentX += horizontal
-            if (scrollView.contentX <= 0 || clipBeingMovedId == -1)
-                stop()
+            if (horizontal != 0) {
+                if (scrollView.contentX + horizontal < 0) {
+                    horizontal = - scrollView.contentX
+                    scrollView.contentX = 0
+                } else {
+                    scrollView.contentX += horizontal
+                }
+                if (dragProxy.draggedItem > -1) {
+                    dragProxy.x += horizontal
+                    dragProxyArea.moveItem()
+                }
+                if (scrollView.contentX == 0 || clipBeingMovedId == -1) {
+                    horizontal = 0
+                    stop()
+                }
+            }
             if (rubberSelect.visible) {
                 rubberSelect.x -= horizontal
                 rubberSelect.y -= vertical
