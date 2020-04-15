@@ -670,7 +670,8 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
     };
     bool ok = operation();
     if (ok) {
-        if (KdenliveSettings::disableimagescaling() && m_binClip->clipType() == ClipType::Image && !m_binClip->hasEffects()) {
+        // Currently broken because qtblend does not correctly handle scaling on source clip with size != profile. TBD in MLT
+        /*if (KdenliveSettings::disableimagescaling() && m_binClip->clipType() == ClipType::Image && !m_binClip->hasEffects()) {
             // Add effect to have image at source size
             QSize size = m_binClip->getFrameSize();
             if (size.isValid() && !size.isNull() && size != pCore->getCurrentFrameSize()) {
@@ -692,7 +693,7 @@ bool LoadJob::commitResult(Fun &undo, Fun &redo)
                 m_binClip->getEffectStack()->fromXml(doc.documentElement(), undo, redo);
                 qDebug()<<"== DOC2: "<< doc.toString();
             }
-        }
+        }*/
         m_readyCallBack();
         if (pCore->projectItemModel()->clipsCount() == 1) {
             // Always select first added clip
