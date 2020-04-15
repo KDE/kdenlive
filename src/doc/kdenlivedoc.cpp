@@ -1324,6 +1324,21 @@ void KdenliveDoc::loadDocumentProperties()
         QDir dir(path);
         dir.cdUp();
         m_projectFolder = dir.absolutePath();
+        bool ok;
+        // Ensure document storage folder is writable
+        QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+        documentId.toLongLong(&ok, 10);
+        if (ok) {
+            if (!dir.exists(documentId)) {
+                if (!dir.mkpath(documentId)) {
+                    // Invalid storage folder, reset to default
+                    m_projectFolder.clear();
+                }
+            }
+        } else {
+            // Something is wrong, documentid not readable
+            qDebug()<<"=========\n\nCannot read document id: "<<documentId<<"\n\n==========";
+        }
     }
 
     QString profile = m_documentProperties.value(QStringLiteral("profile"));
