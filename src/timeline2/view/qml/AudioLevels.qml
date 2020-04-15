@@ -52,8 +52,6 @@ Item {
             id: levelsContainer
             width: recContainer.width - recbutton.width - 6
             height: recbutton.height
-            border.color: "#000000"
-            border.width: 1
             color: Qt.lighter(activePalette.base)
             Repeater {
                 model: audiorec.levels.length == 0 ? 2 : audiorec.levels.length
@@ -119,6 +117,13 @@ Item {
                     height: parent.height - 2
                     x: parent.width * (index + 1) / 9
                 }
+            }
+            Rectangle {
+                // main frame
+                anchors.fill: parent
+                color: "#00000000"
+                border.color: "#000000"
+                border.width: 1
             }
         }
     }
