@@ -121,7 +121,7 @@ public:
     bool autoGenerateImageProxy(int width) const;
     /** @brief Saves effects embedded in project file. */
     void saveCustomEffects(const QDomNodeList &customeffects);
-    void resetProfile();
+    void resetProfile(bool reloadThumbs);
     /** @brief Returns true if the profile file has changed. */
     bool profileChanged(const QString &profile) const;
     /** @brief Get an action from main actioncollection. */
@@ -201,7 +201,7 @@ private:
     /** @brief Load document properties from the xml file */
     void loadDocumentProperties();
     /** @brief update document properties to reflect a change in the current profile */
-    void updateProjectProfile(bool reloadProducers = false);
+    void updateProjectProfile(bool reloadProducers = false, bool reloadThumbs = false);
     /** @brief initialize proxy settings based on hw status */
     void initProxySettings();
 
@@ -224,7 +224,7 @@ public slots:
 private slots:
     void slotModified();
     void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
-    void slotSwitchProfile(const QString &profile_path);
+    void slotSwitchProfile(const QString &profile_path, bool reloadThumbs);
     /** @brief Check if we did a new action invalidating more recent undo items. */
     void checkPreviewStack();
     /** @brief Guides were changed, save to MLT. */

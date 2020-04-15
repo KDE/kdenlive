@@ -3736,7 +3736,7 @@ bool Bin::isEmpty() const
     return !m_itemModel->getRootFolder()->hasChildClips();
 }
 
-void Bin::reloadAllProducers()
+void Bin::reloadAllProducers(bool reloadThumbs)
 {
     if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0 || !isEnabled()) {
         return;
@@ -3761,7 +3761,9 @@ void Bin::reloadAllProducers()
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
-            ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId(), true);
+            if (reloadThumbs) {
+                ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId(), true);
+            }
             pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
             pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
         }

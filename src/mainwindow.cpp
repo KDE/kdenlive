@@ -1952,8 +1952,9 @@ void MainWindow::slotEditProjectSettings()
                 }
                 pCore->projectManager()->saveWithUpdatedProfile(profile);
             } else {
+                bool darChanged = !qFuzzyCompare(pCore->getCurrentProfile()->dar(), ProfileRepository::get()->getProfile(profile)->dar());
                 pCore->setCurrentProfile(profile);
-                pCore->projectManager()->slotResetProfiles();
+                pCore->projectManager()->slotResetProfiles(darChanged);
                 slotUpdateDocumentState(true);
             }
         } else if (modified) {
@@ -2325,7 +2326,6 @@ void MainWindow::slotPreferences(int page, int option)
     auto *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
-    connect(dialog, &KdenliveSettingsDialog::doResetProfile, pCore->projectManager(), &ProjectManager::slotResetProfiles);
     connect(dialog, &KdenliveSettingsDialog::doResetConsumer, [this] (bool fullReset) {
         m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
         pCore->projectManager()->slotResetConsumers(fullReset);

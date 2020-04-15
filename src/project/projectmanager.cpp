@@ -708,9 +708,9 @@ void ProjectManager::prepareSave()
     pCore->projectItemModel()->saveProperty(QStringLiteral("kdenlive:docproperties.groups"), m_mainTimelineModel->groupsData());
 }
 
-void ProjectManager::slotResetProfiles()
+void ProjectManager::slotResetProfiles(bool reloadThumbs)
 {
-    m_project->resetProfile();
+    m_project->resetProfile(reloadThumbs);
     pCore->monitorManager()->updateScopeSource();
 }
 

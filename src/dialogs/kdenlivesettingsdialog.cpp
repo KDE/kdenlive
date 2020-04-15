@@ -849,7 +849,6 @@ void KdenliveSettingsDialog::updateSettings()
     }
     KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
-    bool resetProfile = false;
     bool resetConsumer = false;
     bool fullReset = false;
     bool updateCapturePath = false;
@@ -994,7 +993,6 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
         emit updateMonitorBg();
-        resetProfile = true;
     }
 
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
@@ -1065,9 +1063,6 @@ void KdenliveSettingsDialog::updateSettings()
     // KConfigDialog::updateSettings();
     if (resetConsumer) {
         emit doResetConsumer(fullReset);
-    }
-    if (resetProfile) {
-        emit doResetProfile();
     }
     if (restart) {
         emit restartKdenlive();
