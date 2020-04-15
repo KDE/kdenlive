@@ -1761,14 +1761,15 @@ bool MainWindow::readOptions()
         dir.mkpath(QStringLiteral("."));
         KdenliveSettings::setDefaultprojectfolder(dir.absolutePath());
     }
+    QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+    // Default unit for timeline.qml objects size
+    int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
     if (KdenliveSettings::trackheight() == 0) {
-        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
-        int trackHeight = qMax(50, (int) (3.6 * QFontInfo(ft).pixelSize() + 6));
+        int trackHeight = qMax(50, 2 * baseUnit + 6);
         KdenliveSettings::setTrackheight(trackHeight);
     }
     if (KdenliveSettings::headerwidth() == 0) {
-        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
-        int trackWidth = qMax(50, 6 * (int)(1.8 * QFontInfo(ft).pixelSize() + 2));
+        int trackWidth = qMax(50, 6 * (baseUnit + 2));
         KdenliveSettings::setHeaderwidth(trackWidth);
     }
     bool firstRun = false;
