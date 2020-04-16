@@ -886,7 +886,7 @@ int GLWidget::setProducer(const QString &file)
     qDebug()<<"==== OPENING PROIDUCER FILE: "<<file;
     m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
     if (m_consumer) {
-        m_consumer->stop();
+        //m_consumer->stop();
         if (!m_consumer->is_stopped()) {
             m_consumer->stop();
         }
@@ -906,6 +906,10 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
     QString currentId;
     int consumerPosition = 0;
     currentId = m_producer->parent().get("kdenlive:id");
+    if (m_consumer) {
+        consumerPosition = m_consumer->position();
+    }
+    stop();
     if (producer) {
         m_producer = producer;
     } else {
@@ -917,27 +921,17 @@ int GLWidget::setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool i
         rootContext()->setContextProperty("markersModel", 0);
     }
     // redundant check. postcondition of above is m_producer != null
-    if (m_producer) {
-        m_producer->set_speed(0);
-        if (m_consumer) {
-            consumerPosition = m_consumer->position();
-            m_consumer->stop();
-            if (!m_consumer->is_stopped()) {
-                m_consumer->stop();
-            }
-        }
-        error = reconfigure();
-        if (error == 0) {
-            // The profile display aspect ratio may have changed.
-            resizeGL(width(), height());
-        }
+    m_producer->set_speed(0);
+    error = reconfigure();
+    if (error == 0) {
+        // The profile display aspect ratio may have changed.
+        resizeGL(width(), height());
     } else {
         return error;
     }
     if (!m_consumer) {
         return error;
     }
-    consumerPosition = m_consumer->position();
     if (position == -1 && m_producer->parent().get("kdenlive:id") == currentId) {
         position = consumerPosition;
     }
