@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
     qApp->processEvents(QEventLoop::AllEvents);
     QSplashScreen splash(pixmap);
     qApp->processEvents(QEventLoop::AllEvents);
-    splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignLeft | Qt::AlignBottom, Qt::white);
+    splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
     splash.show();
     qApp->processEvents(QEventLoop::AllEvents);
 
