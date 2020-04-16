@@ -297,17 +297,19 @@ Rectangle {
             anchors.top: parent.top
             anchors.leftMargin: 2
             height: trackLed.height
+            width: buttonsRow.x - x
             text: trackHeadRoot.trackName
+            elide: Text.ElideRight
             font: miniFont
             verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-            visible: !trackLabel.visible && trackHeadRoot.width > trackTarget.width + expandButton.width + trackLed.width + (4 * muteButton.width) + 4
+            horizontalAlignment: Text.AlignLeft
+            visible: !trackLabel.visible && trackHeadRoot.width > (trackTarget.width + expandButton.width + trackLed.width + (4 * muteButton.width) + 4)
         }
         Row {
+            id: buttonsRow
             width: childrenRect.width
             x: Math.max(2 * root.collapsedHeight + 2, parent.width - width - 4)
             spacing: 0
-            id: buttonsRow
             ToolButton {
                 id: effectButton
                 focusPolicy: Qt.NoFocus
