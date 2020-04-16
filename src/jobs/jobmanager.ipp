@@ -47,8 +47,8 @@ int JobManager::startJob(const std::vector<QString> &binIds, int parentId, QStri
     m_jobs[jobId] = job;
     endInsertRows();
     m_lock.unlock();
-    if (parentId == -1 || m_jobs[parentId]->m_completionMutex.tryLock()) {
-        if (parentId != -1) {
+    if (parentId == -1 || m_jobs.count(parentId) == 0 || m_jobs[parentId]->m_completionMutex.tryLock()) {
+        if (parentId != -1 && m_jobs.count(parentId) > 0) {
             m_jobs[parentId]->m_completionMutex.unlock();
         }
         QtConcurrent::run(this, &JobManager::createJob, job);
