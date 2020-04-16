@@ -31,6 +31,7 @@ Rectangle {
     property string clipResource: ''
     property string mltService: ''
     property string effectNames
+    property bool isProxy: false
     property int modelStart
     property real scrollX: 0
     property int inPoint: 0
@@ -660,6 +661,33 @@ Rectangle {
                         }
                         color: 'white'
                         //style: Text.Outline
+                        styleColor: 'black'
+                    }
+                }
+                
+               Rectangle{
+                    //proxy 
+                    id:proxyRect
+                    color: 'yellow'
+                    width: labelRect.height
+                    height: labelRect.height
+                    x: labelRect.x
+                    anchors.top: labelRect.top
+                    anchors.left: labelRect.right
+                    visible: clipRoot.isProxy && !clipRoot.isAudio
+                    Text {
+                        // Proxy P
+                        id: proxyLabel
+                        text: "P"
+                        font.pointSize: root.fontUnit +1
+                        visible: proxyRect.visible
+                        anchors {
+                            top: proxyRect.top
+                            left: proxyRect.left
+                            leftMargin: (labelRect.height-proxyLabel.width)/2
+                            topMargin: (labelRect.height-proxyLabel.height)/2
+                        }
+                        color: 'black'
                         styleColor: 'black'
                     }
                 }

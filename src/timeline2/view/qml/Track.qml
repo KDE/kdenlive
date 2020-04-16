@@ -190,6 +190,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "isProxy"
+                    value: model.isProxy
+                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                }
+                Binding {
+                    target: loader.item
                     property: "maxDuration"
                     value: model.maxDuration
                     when: loader.status == Loader.Ready && isClip(model.clipType)

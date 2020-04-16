@@ -114,6 +114,7 @@ public:
     enum {
         NameRole = Qt::UserRole + 1,
         ResourceRole, /// clip only
+        IsProxyRole,  /// clip only
         ServiceRole,  /// clip only
         StartRole,    /// clip only
         BinIdRole,    /// clip only

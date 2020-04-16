@@ -190,6 +190,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[NameRole] = "name";
     roles[ResourceRole] = "resource";
+    roles[IsProxyRole] = "isProxy";
     roles[ServiceRole] = "mlt_service";
     roles[BinIdRole] = "binId";
     roles[TrackIdRole] = "trackId";
@@ -268,6 +269,10 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
                 result = clip->getProperty("mlt_service");
             }
             return result;
+        }
+        case IsProxyRole: {
+            QString proxy = clip->getProperty("kdenlive:proxy");
+            return proxy.size() > 2;
         }
         case FakeTrackIdRole:
             return clip->getFakeTrackId();
