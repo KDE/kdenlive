@@ -436,12 +436,14 @@ void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force
         // Effect is already active
         return;
     }
-    if (row != currentActive && currentActive > -1) {
+    if (row != currentActive && currentActive > -1 && currentActive < m_model->rowCount()) {
         auto item = m_model->getEffectStackRow(currentActive);
-        QModelIndex ix = m_model->getIndexFromItem(item);
-        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
-        if (w) {
-            w->slotActivateEffect(false);
+        if (item) {
+            QModelIndex ix = m_model->getIndexFromItem(item);
+            CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+            if (w) {
+                w->slotActivateEffect(false);
+            }
         }
     }
     m_model->setActiveEffect(row);

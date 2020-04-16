@@ -91,6 +91,7 @@ void PositionEditWidget::slotUpdatePosition()
 
 void PositionEditWidget::slotRefresh()
 {
+    const QSignalBlocker bk(m_slider);
     int min = m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     int max = min + m_model->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
     const QSignalBlocker blocker(m_slider);

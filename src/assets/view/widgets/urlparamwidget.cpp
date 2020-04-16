@@ -66,5 +66,6 @@ void UrlParamWidget::slotShowComment(bool show)
 
 void UrlParamWidget::slotRefresh()
 {
+    const QSignalBlocker bk(urlwidget);
     urlwidget->setUrl(QUrl::fromLocalFile(m_model->data(m_index, AssetParameterModel::ValueRole).toString()));
 }

@@ -57,6 +57,7 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
 
 void DoubleParamWidget::slotRefresh()
 {
+    QSignalBlocker bk(m_doubleWidget);
     QLocale locale;
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     double value = locale.toDouble(m_model->data(m_index, AssetParameterModel::ValueRole).toString());

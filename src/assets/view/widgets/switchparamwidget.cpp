@@ -59,5 +59,6 @@ void SwitchParamWidget::slotShowComment(bool show)
 
 void SwitchParamWidget::slotRefresh()
 {
+    const QSignalBlocker bk(m_checkBox);
     m_checkBox->setChecked(m_model->data(m_index, AssetParameterModel::ValueRole) == m_model->data(m_index, AssetParameterModel::MaxRole));
 }
