@@ -511,6 +511,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         });
     }
     replaceInTimeline();
+    updateTimelineClips({TimelineModel::IsProxyRole});
     return true;
 }
 
@@ -1056,7 +1057,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
         // update timeline clips
         if (!reload) {
-            updateTimelineClips(QVector<int>() << TimelineModel::NameRole);
+            updateTimelineClips({TimelineModel::NameRole});
         }
     }
     if (refreshPanel) {
