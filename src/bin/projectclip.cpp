@@ -179,7 +179,10 @@ void ProjectClip::connectEffectStack()
 
 QString ProjectClip::getToolTip() const
 {
-    return url();
+    if (m_clipType == ClipType::Color && m_path.contains(QLatin1Char('/'))) {
+        return m_path.section(QLatin1Char('/'), -1);
+    }
+    return m_path;
 }
 
 QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &propertyName, const QString &defaultValue)
@@ -297,8 +300,7 @@ GenTime ProjectClip::duration() const
 
 size_t ProjectClip::frameDuration() const
 {
-    GenTime d = duration();
-    return (size_t)d.frames(pCore->getCurrentFps());
+    return (size_t)getFramePlaytime();
 }
 
 void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool reloadAudio)
