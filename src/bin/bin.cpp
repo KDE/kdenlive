@@ -114,10 +114,10 @@ public:
                 if (index.column() == 7) {
                     // Rating
                     QRect rect = option.rect;
-                    rect.adjust(option.rect.width() / 14, 0, 0, 0);
+                    rect.adjust(option.rect.width() / 12, 0, 0, 0);
                     int rate = 0;
                     if (me->pos().x() > rect.x()) {
-                        rate = KRatingPainter::getRatingFromPosition(rect, Qt::AlignCenter, qApp->layoutDirection(), me->pos());
+                        rate = KRatingPainter::getRatingFromPosition(rect, Qt::AlignLeft, qApp->layoutDirection(), me->pos());
                     }
                     if (rate > -1) {
                         // Full star rating only
@@ -342,8 +342,8 @@ public:
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             painter->setOpacity(1);
             if (index.data(AbstractProjectItem::ItemTypeRole).toInt() != AbstractProjectItem::FolderItem) {
-                r1.adjust(r1.width() / 14, 0, 0, 0);
-                KRatingPainter::paintRating(painter, r1, Qt::AlignCenter, index.data().toInt());
+                r1.adjust(r1.width() / 12, 0, 0, 0);
+                KRatingPainter::paintRating(painter, r1, Qt::AlignLeft, index.data().toInt());
             }
         } else {
             QStyledItemDelegate::paint(painter, option, index);
