@@ -48,6 +48,7 @@ void FontParamWidget::slotShowComment(bool show)
 
 void FontParamWidget::slotRefresh()
 {
+    QSignalBlocker bk(fontfamilywidget);
     const QString family = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     fontfamilywidget->setCurrentFont(QFont(family));
 }

@@ -134,6 +134,7 @@ void ColorEditWidget::slotShowComment(bool) {}
 
 void ColorEditWidget::slotRefresh()
 {
+    QSignalBlocker bk(this);
     QString color = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
     m_button->setColor(stringToColor(color));
 }

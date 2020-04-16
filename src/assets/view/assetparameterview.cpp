@@ -235,26 +235,22 @@ void AssetParameterView::refresh(const QModelIndex &topLeft, const QModelIndex &
     // We are expecting indexes that are children of the root index, which is "invalid"
     Q_ASSERT(!topLeft.parent().isValid());
     // We make sure the range is valid
-    if (m_mainKeyframeWidget) {
-        m_mainKeyframeWidget->slotRefresh();
+    auto type = m_model->data(m_model->index(topLeft.row(), 0), AssetParameterModel::TypeRole).value<ParamType>();
+    if (type == ParamType::ColorWheel) {
+        // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
+        // Should be better managed
+        m_widgets[0]->slotRefresh();
+        return;
+    }
+    size_t max;
+    if (!bottomRight.isValid()) {
+        max = m_widgets.size() - 1;
     } else {
-        auto type = m_model->data(m_model->index(topLeft.row(), 0), AssetParameterModel::TypeRole).value<ParamType>();
-        if (type == ParamType::ColorWheel) {
-            // Some special widgets, like colorwheel handle multiple params so we can have cases where param index row is greater than the number of widgets.
-            // Should be better managed
-            m_widgets[0]->slotRefresh();
-            return;
-        }
-        size_t max;
-        if (!bottomRight.isValid()) {
-            max = m_widgets.size() - 1;
-        } else {
-            max = (size_t)bottomRight.row();
-        }
-        Q_ASSERT(max < m_widgets.size());
-        for (size_t i = (size_t)topLeft.row(); i <= max; ++i) {
-            m_widgets[i]->slotRefresh();
-        }
+        max = (size_t)bottomRight.row();
+    }
+    Q_ASSERT(max < m_widgets.size());
+    for (size_t i = (size_t)topLeft.row(); i <= max; ++i) {
+        m_widgets[i]->slotRefresh();
     }
 }
 
