@@ -247,7 +247,10 @@ void JobManager::slotManageCanceledJob(int id)
 {
     qDebug() << "################### JOB canceled: " << id;
     QReadLocker locker(&m_lock);
-    Q_ASSERT(m_jobs.count(id) > 0);
+    if (m_jobs.count(id) == 0) {
+        // Job finished, nothing to do
+        return;
+    }
     if (m_jobs[id]->m_processed) return;
     m_jobs[id]->m_processed = true;
     //m_jobs[id]->m_completionMutex.unlock(); // crashing on Windows

@@ -212,6 +212,8 @@ bool MeltJob::startJob()
     connect(this, &MeltJob::jobCanceled, [&] () {
         m_showFrameEvent.reset();
         m_consumer->stop();
+        m_successful = false;
+        m_done = true;
         return false;
     });
     m_consumer->run();
