@@ -281,6 +281,7 @@
       <caption xml:lang="cs">Časová osa Kdenlive</caption>
       <caption xml:lang="da">Kdenlive tidslinje</caption>
       <caption xml:lang="de">Kdenlive-Zeitleiste</caption>
+      <caption xml:lang="el">Kdenlive χρονοδιάγραμμα</caption>
       <caption xml:lang="en-GB">Kdenlive Timeline</caption>
       <caption xml:lang="es">Línea de tiempo de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive ajatelg</caption>
@@ -307,6 +308,7 @@
       <caption xml:lang="ca">Ajustaments de l'àudio del Kdenlive</caption>
       <caption xml:lang="ca-valencia">Ajustaments de l'àudio del Kdenlive</caption>
       <caption xml:lang="da">Kdenlive lydjusteringer</caption>
+      <caption xml:lang="el">Kdenlive προσαρμογές ήχου</caption>
       <caption xml:lang="en-GB">Kdenlive Audio Adjustments</caption>
       <caption xml:lang="es">Ajustes de audio de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive helikohendused</caption>
@@ -335,6 +337,7 @@
       <caption xml:lang="cs">Efekty Kdenlive</caption>
       <caption xml:lang="da">Kdenlive effekter</caption>
       <caption xml:lang="de">Kdenlive-Effekte</caption>
+      <caption xml:lang="el">Εφέ Kdenlive</caption>
       <caption xml:lang="en-GB">Kdenlive Effects</caption>
       <caption xml:lang="es">Efectos de Kdenlive</caption>
       <caption xml:lang="et">Kdenlive efektid</caption>
