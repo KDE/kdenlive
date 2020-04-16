@@ -2259,13 +2259,23 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     Fun local_undo = deregisterTrack_lambda(trackId);
     TrackModel::construct(shared_from_this(), trackId, position, trackName, audioTrack);
     // Adjust compositions that were affecting track at previous pos
-    Fun local_update = [previousId, position, this]() {
-        if (previousId > -1) {
-            for (auto &compo : m_allCompositions) {
-                if (compo.second->getATrack() == position && compo.second->getForcedTrack() == -1) {
-                    compo.second->setATrack(position + 1, -1);
-                }
+    QList <std::shared_ptr<CompositionModel>> updatedCompositions;
+    if (previousId > -1) {
+        for (auto &compo : m_allCompositions) {
+            if (compo.second->getATrack() == position && compo.second->getForcedTrack() == -1) {
+                updatedCompositions << compo.second;
             }
+        }
+    }
+    Fun local_update = [position, updatedCompositions]() {
+        for (auto &compo : updatedCompositions) {
+            compo->setATrack(position + 1, -1);
+        }
+        return true;
+    };
+    Fun local_update_undo = [position, updatedCompositions]() {
+        for (auto &compo : updatedCompositions) {
+            compo->setATrack(position, -1);
         }
         return true;
     };
@@ -2306,6 +2316,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
         return true;
     };
     if (addCompositing) {
+        PUSH_LAMBDA(local_update_undo, local_undo);
         PUSH_LAMBDA(rebuild_compositing, local_undo);
     }
     PUSH_LAMBDA(local_name_update, local_undo);
@@ -2363,13 +2374,29 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         }
     }
     int old_position = getTrackPosition(trackId);
+    int previousTrack = getPreviousVideoTrackPos(trackId);
     auto operation = deregisterTrack_lambda(trackId);
     std::shared_ptr<TrackModel> track = getTrackById(trackId);
     bool audioTrack = track->isAudioTrack();
-    Fun reverse = [this, track, old_position]() {
+    QList <std::shared_ptr<CompositionModel>> updatedCompositions;
+    for (auto &compo : m_allCompositions) {
+        if (compo.second->getATrack() == old_position + 1 && compo.second->getForcedTrack() == -1) {
+            updatedCompositions << compo.second;
+        }
+    }
+    Fun reverse = [this, track, old_position, updatedCompositions]() {
         // We capture a shared_ptr to the track, which means that as long as this undo object lives, the track object is not deleted. To insert it back it is
         // sufficient to register it.
         registerTrack(track, old_position);
+        for (auto &compo : updatedCompositions) {
+            compo->setATrack(old_position + 1, -1);
+        }
+        return true;
+    };
+    Fun local_update = [previousTrack, updatedCompositions]() {
+        for (auto &compo : updatedCompositions) {
+            compo->setATrack(previousTrack, -1);
+        }
         return true;
     };
     Fun rebuild_compositing = [this]() {
@@ -2391,12 +2418,14 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         return true;
     };
     if (operation()) {
+        local_update();
         rebuild_compositing();
         local_name_update();
         PUSH_LAMBDA(rebuild_compositing, local_undo);
         PUSH_LAMBDA(local_name_update, local_undo);
         UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        PUSH_LAMBDA(local_update, redo);
         PUSH_LAMBDA(rebuild_compositing, redo);
         PUSH_LAMBDA(local_name_update, redo);
         return true;
