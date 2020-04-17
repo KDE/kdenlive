@@ -873,7 +873,7 @@ TEST_CASE("FuzzBug5")
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
         {
-            bool res = timeline_1->requestGroupMove(10, 9, 0, 0, false, false);
+            bool res = timeline_1->requestGroupMove(10, 9, 0, 0, true, false, false);
             REQUIRE(res == false);
         }
         REQUIRE(timeline_0->checkConsistency());

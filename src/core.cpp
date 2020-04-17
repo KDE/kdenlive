@@ -906,6 +906,9 @@ std::unique_ptr<Mlt::Producer> Core::getTrackProducerInstance(int tid)
 
 bool Core::enableMultiTrack(bool enable)
 {
+    if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline()) {
+        return false;
+    }
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
     if (isMultiTrack || enable) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(enable, enable);
