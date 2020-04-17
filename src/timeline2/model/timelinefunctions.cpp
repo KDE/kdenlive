@@ -1524,9 +1524,8 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         }
     }
     if (!clipsImported) {
-        QTimer::singleShot(200, timeline.get(), [timeline, copiedItems, position]() {
-            TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position);
-        });
+        // Clips from same document, directly proceed to pasting
+        return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, undo, redo, false);
     }
     qDebug()<<"++++++++++++\nWAITIND FOR BIN INSERTION: "<<waitingBinIds<<"\n\n+++++++++++++";
     return true;
@@ -1534,13 +1533,18 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
 bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position)
 {
+    std::function<bool(void)> timeline_undo = []() { return true; };
+    std::function<bool(void)> timeline_redo = []() { return true; };
+    return TimelineFunctions::pasteTimelineClips(timeline, copiedItems, position, timeline_undo, timeline_redo, true);
+}
+
+bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemModel> &timeline, QDomDocument copiedItems, int position, Fun &timeline_undo, Fun & timeline_redo, bool pushToStack)
+{
     // Wait until all bin clips are inserted
     QDomNodeList clips = copiedItems.documentElement().elementsByTagName(QStringLiteral("clip"));
     QDomNodeList compositions = copiedItems.documentElement().elementsByTagName(QStringLiteral("composition"));
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
 
-    std::function<bool(void)> timeline_undo = []() { return true; };
-    std::function<bool(void)> timeline_redo = []() { return true; };
     bool res = true;
     QLocale locale;
     std::unordered_map<int, int> correspondingIds;
@@ -1641,7 +1645,9 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     PUSH_FRONT_LAMBDA(unselect, timeline_undo);
     PUSH_FRONT_LAMBDA(unselect, timeline_redo);
     //UPDATE_UNDO_REDO_NOLOCK(timeline_redo, timeline_undo, undo, redo);
-    pCore->pushUndo(timeline_undo, timeline_redo, i18n("Paste timeline clips"));
+    if (pushToStack) {
+        pCore->pushUndo(timeline_undo, timeline_redo, i18n("Paste timeline clips"));
+    }
     semaphore.release(1);
     return true;
 }

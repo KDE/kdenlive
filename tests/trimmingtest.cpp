@@ -1052,7 +1052,6 @@ TEST_CASE("Copy/paste", "[CP]")
         cid4 = timeline->m_groups->getSplitPartner(cid3);
         state2(tid2b);
     }
-
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();
