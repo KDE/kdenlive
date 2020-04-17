@@ -2941,7 +2941,7 @@ bool TimelineModel::requestCompositionMove(int compoId, int trackId, int positio
         int track_pos2 = getTrackPosition(current_trackId);
         int delta_track = track_pos1 - track_pos2;
         int delta_pos = position - m_allCompositions[compoId]->getPosition();
-        return requestGroupMove(compoId, groupId, delta_track, delta_pos, updateView, logUndo);
+        return requestGroupMove(compoId, groupId, delta_track, delta_pos, true, updateView, logUndo);
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
