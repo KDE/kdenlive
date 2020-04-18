@@ -2373,6 +2373,24 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
             return false;
         }
     }
+    std::vector<int> compositions_to_delete;
+    for (const auto &it : getTrackById(trackId)->m_allCompositions) {
+        compositions_to_delete.push_back(it.first);
+    }
+    for (int compo : compositions_to_delete) {
+        bool res = true;
+        while (res && m_groups->isInGroup(compo)) {
+            res = requestClipUngroup(compo, local_undo, local_redo);
+        }
+        if (res) {
+            res = requestCompositionDeletion(compo, local_undo, local_redo);
+        }
+        if (!res) {
+            bool u = local_undo();
+            Q_ASSERT(u);
+            return false;
+        }
+    }
     int old_position = getTrackPosition(trackId);
     int previousTrack = getPreviousVideoTrackPos(trackId);
     auto operation = deregisterTrack_lambda(trackId);
@@ -3132,12 +3150,11 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         Q_ASSERT(aTrack != -1 && aTrack < m_tractor->count());
 
         Mlt::Transition &transition = *m_allCompositions[compo.second].get();
-
+        transition.set_tracks(aTrack, compo.first);
         int ret = field->plant_transition(transition, aTrack, compo.first);
         qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
                  << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;
 
-        transition.set_tracks(aTrack, compo.first);
         mlt_service consumer = mlt_service_consumer(transition.get_service());
         Q_ASSERT(consumer != nullptr);
         if (ret != 0) {
