@@ -668,7 +668,7 @@ Rectangle {
                Rectangle{
                     //proxy 
                     id:proxyRect
-                    color: 'yellow'
+                    color: '#fdbc4b'
                     width: labelRect.height
                     height: labelRect.height
                     x: labelRect.x
