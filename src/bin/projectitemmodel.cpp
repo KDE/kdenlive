@@ -1005,6 +1005,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 }
                 std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
                 int id = producer->get_int("kdenlive:id");
+                if (!id) id = getFreeClipId();
                 binProducers.insert(id, producer);
             }
             // Do the real insertion
