@@ -108,6 +108,9 @@ private slots:
     /** @brief Save current effect stack
      */
     void slotSaveStack();
+    /** @brief Refresh the enabled state on widgets
+     */
+    void changeEnabledState();
 
     //    void switchBuiltStack(bool show);
 
