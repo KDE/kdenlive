@@ -179,8 +179,8 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed = 0);
-    void refreshProducerFromBin(int trackId = -1);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed, bool hasPitch);
+    void refreshProducerFromBin(int trackId, bool hasPitch);
 
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same
