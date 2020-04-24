@@ -1467,7 +1467,6 @@ const QString Monitor::activeClipId()
 
 void Monitor::slotOpenDvdFile(const QString &file)
 {
-    m_glMonitor->initializeGL();
     m_glMonitor->setProducer(file);
     // render->loadUrl(file);
 }
