@@ -39,12 +39,11 @@
 #include <QTreeWidget>
 #include <QtConcurrent>
 #include <utility>
-ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc, const QStringList &luma_list, QWidget *parent)
+ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, const QStringList &luma_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
     , m_copyJob(nullptr)
     , m_name(projectName.section(QLatin1Char('.'), 0, -2))
-    , m_doc(doc)
     , m_temp(nullptr)
     , m_abortArchive(false)
     , m_extractMode(false)
@@ -57,9 +56,12 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     setWindowTitle(i18n("Archive Project"));
     archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
     connect(archive_url, &KUrlRequester::textChanged, this, &ArchiveWidget::slotCheckSpace);
-    connect(this, SIGNAL(archivingFinished(bool)), this, SLOT(slotArchivingFinished(bool)));
-    connect(this, SIGNAL(archiveProgress(int)), this, SLOT(slotArchivingProgress(int)));
+    connect(this, &ArchiveWidget::archivingFinished, this, &ArchiveWidget::slotArchivingBoolFinished);
+    connect(this, &ArchiveWidget::archiveProgress, this, &ArchiveWidget::slotArchivingIntProgress);
     connect(proxy_only, &QCheckBox::stateChanged, this, &ArchiveWidget::slotProxyOnly);
+
+    // Prepare xml
+    m_doc.setContent(xmlData);
 
     // Setup categories
     QTreeWidgetItem *videos = new QTreeWidgetItem(files_list, QStringList() << i18n("Video clips"));
@@ -206,6 +208,16 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QDomDocument &doc
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
 
     slotCheckSpace();
+
+    // Validate some basic project properties
+    QDomElement mlt = m_doc.documentElement();
+    QDomNodeList tracks = mlt.elementsByTagName(QStringLiteral("track"));
+    if (tracks.size() == 0 || !xmlData.contains(QStringLiteral("kdenlive:docproperties.version"))) {
+        m_infoMessage->setMessageType(KMessageWidget::Warning);
+        m_infoMessage->setText(i18n("There was an error processing project file"));
+        m_infoMessage->animatedShow();
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
+    }
 }
 
 // Constructor for extract widget
@@ -623,8 +635,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-            connect(job, SIGNAL(processedSize(KJob *, KIO::filesize_t)), this, SLOT(slotArchivingProgress(KJob *, KIO::filesize_t)));
+            connect(job, &KJob::result, [this] (KJob *jb) {
+                slotArchivingFinished(jb, false);
+            });
+            connect(job, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
         }
         return true;
     }
@@ -643,8 +657,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, SIGNAL(result(KJob *)), this, SLOT(slotArchivingFinished(KJob *)));
-        connect(m_copyJob, SIGNAL(processedSize(KJob *, KIO::filesize_t)), this, SLOT(slotArchivingProgress(KJob *, KIO::filesize_t)));
+        connect(m_copyJob, &KJob::result, [this] (KJob *jb) {
+            slotArchivingFinished(jb, false);
+        });
+        connect(m_copyJob, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
     }
     if (firstPass) {
         progressBar->setValue(0);
@@ -689,7 +705,7 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
     }
 }
 
-void ArchiveWidget::slotArchivingProgress(KJob *, KIO::filesize_t size)
+void ArchiveWidget::slotArchivingProgress(KJob *, qulonglong size)
 {
     progressBar->setValue(static_cast<int>(100 * size / m_requestedSize));
 }
@@ -737,31 +753,8 @@ bool ArchiveWidget::processProjectFile()
     // Switch to relative path
     mlt.removeAttribute(QStringLiteral("root"));
 
-    // process kdenlive producers
-    QDomNodeList prods = mlt.elementsByTagName(QStringLiteral("kdenlive_producer"));
-    for (int i = 0; i < prods.count(); ++i) {
-        QDomElement e = prods.item(i).toElement();
-        if (e.isNull()) {
-            continue;
-        }
-        if (e.hasAttribute(QStringLiteral("resource"))) {
-            QUrl src = QUrl::fromLocalFile(e.attribute(QStringLiteral("resource")));
-            QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) {
-                e.setAttribute(QStringLiteral("resource"), dest.toLocalFile());
-            }
-        }
-        if (e.hasAttribute(QStringLiteral("kdenlive:proxy")) && e.attribute(QStringLiteral("kdenlive:proxy")) != QLatin1String("-")) {
-            QUrl src = QUrl::fromLocalFile(e.attribute(QStringLiteral("kdenlive:proxy")));
-            QUrl dest = m_replacementList.value(src);
-            if (!dest.isEmpty()) {
-                e.setAttribute(QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
-            }
-        }
-    }
-
     // process mlt producers
-    prods = mlt.elementsByTagName(QStringLiteral("producer"));
+    QDomNodeList prods = mlt.elementsByTagName(QStringLiteral("producer"));
     for (int i = 0; i < prods.count(); ++i) {
         QDomElement e = prods.item(i).toElement();
         if (e.isNull()) {
@@ -776,6 +769,28 @@ bool ArchiveWidget::processProjectFile()
             QUrl dest = m_replacementList.value(srcUrl);
             if (!dest.isEmpty()) {
                 Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
+            }
+        }
+        src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
+        if (src.size() > 2) {
+            if (QFileInfo(src).isRelative()) {
+                src.prepend(root);
+            }
+            QUrl srcUrl = QUrl::fromLocalFile(src);
+            QUrl dest = m_replacementList.value(srcUrl);
+            if (!dest.isEmpty()) {
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), dest.toLocalFile());
+            }
+        }
+        src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
+        if (!src.isEmpty()) {
+            if (QFileInfo(src).isRelative()) {
+                src.prepend(root);
+            }
+            QUrl srcUrl = QUrl::fromLocalFile(src);
+            QUrl dest = m_replacementList.value(srcUrl);
+            if (!dest.isEmpty()) {
+                Xml::setXmlProperty(e, QStringLiteral("kdenlive:originalurl"), dest.toLocalFile());
             }
         }
         src = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
@@ -913,7 +928,7 @@ void ArchiveWidget::createArchive()
     emit archivingFinished(result);
 }
 
-void ArchiveWidget::slotArchivingFinished(bool result)
+void ArchiveWidget::slotArchivingBoolFinished(bool result)
 {
     if (result) {
         slotJobResult(true, i18n("Project was successfully archived."));
@@ -934,7 +949,7 @@ void ArchiveWidget::slotArchivingFinished(bool result)
     }
 }
 
-void ArchiveWidget::slotArchivingProgress(int p)
+void ArchiveWidget::slotArchivingIntProgress(int p)
 {
     progressBar->setValue(p);
 }
