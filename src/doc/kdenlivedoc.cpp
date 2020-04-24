@@ -519,7 +519,7 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
         qDebug()<<" = = = =  = =  CORRUPTED DOC\n"<<scene;
         return QDomDocument();
     }
-    
+
     QDomNodeList pls = mlt.elementsByTagName(QStringLiteral("playlist"));
     QDomElement mainPlaylist;
     for (int i = 0; i < pls.count(); ++i) {

@@ -3552,12 +3552,13 @@ void MainWindow::slotUpdateProxySettings()
 void MainWindow::slotArchiveProject()
 {
     KdenliveDoc *doc = pCore->currentDoc();
-    QDomDocument xmlDoc = doc->xmlSceneList(m_projectMonitor->sceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()));
-    if (xmlDoc.isNull()) {
+    pCore->projectManager()->prepareSave();
+    QString sceneData = pCore->projectManager()->projectSceneList(doc->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
+    if (sceneData.isEmpty()) {
         KMessageBox::error(this, i18n("Project file could not be saved for archiving."));
         return;
     }
-    QPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), xmlDoc, getMainTimeline()->controller()->extractCompositionLumas(), this));
+    QPointer<ArchiveWidget> d(new ArchiveWidget(doc->url().fileName(), sceneData, getMainTimeline()->controller()->extractCompositionLumas(), this));
     if (d->exec() != 0) {
         m_messageLabel->setMessage(i18n("Archiving project"), OperationCompletedMessage);
     }
