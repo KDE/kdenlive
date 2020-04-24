@@ -613,26 +613,25 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 PUSH_LAMBDA(refresh, redo);
                 PUSH_LAMBDA(refresh, undo);
             } else {
-                if (m_ownerId.first == ObjectType::TimelineTrack) {
-                    int oldEffectOut = effect->filter().get_out();
-                    Fun operation = [effect, out, logUndo]() {
-                        effect->setParameter(QStringLiteral("out"), out, logUndo);
+                qDebug() << "// NULL Keyframes---------";
+            }
+            if (m_ownerId.first == ObjectType::TimelineTrack) {
+                int oldEffectOut = effect->filter().get_out();
+                Fun operation = [effect, out, logUndo]() {
+                    effect->setParameter(QStringLiteral("out"), out, logUndo);
+                    return true;
+                };
+                bool res = operation();
+                if (!res) {
+                    return false;
+                }
+                if (logUndo) {
+                    Fun reverse = [effect, oldEffectOut]() {
+                        effect->setParameter(QStringLiteral("out"), oldEffectOut, true);
                         return true;
                     };
-                    bool res = operation();
-                    if (!res) {
-                        return false;
-                    }
-                    if (logUndo) {
-                        Fun reverse = [effect, oldEffectOut]() {
-                            effect->setParameter(QStringLiteral("out"), oldEffectOut, true);
-                            return true;
-                        };
-                        PUSH_LAMBDA(operation, redo);
-                        PUSH_LAMBDA(reverse, undo);
-                    }
-                } else {
-                    qDebug() << "// NULL Keyframes---------";
+                    PUSH_LAMBDA(operation, redo);
+                    PUSH_LAMBDA(reverse, undo);
                 }
             }
         }
