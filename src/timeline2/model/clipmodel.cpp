@@ -411,7 +411,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed, bool hasPitch)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -430,6 +430,12 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
+    if (hasPitch) {
+        // Check if pitch shift is enabled
+        m_producer->parent().set("warp_pitch", 1);
+    } else if (!qFuzzyCompare(m_speed, 1.)) {
+        m_producer->parent().set("warp_pitch", 0);
+    }
     // replant effect stack in updated service
     m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->clipId().toUtf8().constData());
@@ -437,12 +443,12 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
-void ClipModel::refreshProducerFromBin(int trackId)
+void ClipModel::refreshProducerFromBin(int trackId, bool hasPitch)
 {
     if (trackId == -1) {
         trackId = m_currentTrackId;
     }
-    refreshProducerFromBin(trackId, m_currentState);
+    refreshProducerFromBin(trackId, m_currentState, 0, hasPitch);
 }
 
 bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
@@ -521,8 +527,7 @@ Fun ClipModel::useTimewarpProducer_lambda(double speed, bool pitchCompensate)
     QWriteLocker locker(&m_lock);
     return [speed, pitchCompensate, this]() {
         qDebug() << "timeWarp producer" << speed;
-        refreshProducerFromBin(m_currentTrackId, m_currentState, speed);
-        m_producer->parent().set("warp_pitch", pitchCompensate ? 1 : 0);
+        refreshProducerFromBin(m_currentTrackId, m_currentState, speed, pitchCompensate);
         return true;
     };
 }
