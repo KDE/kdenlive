@@ -28,6 +28,7 @@
 #include "xml/xml.hpp"
 
 #include "kdenlive_debug.h"
+#include "doc/kdenlivedoc.h"
 #include <KDiskFreeSpaceInfo>
 #include <KGuiItem>
 #include <KMessageBox>
@@ -867,6 +868,11 @@ bool ArchiveWidget::processProjectFile()
         m_archiveThread = QtConcurrent::run(this, &ArchiveWidget::createArchive);
         return true;
     }
+
+    // Make a copy of original project file for extra safety
+    QString backupPath = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
+    QFile source(pCore->currentDoc()->url().toLocalFile());
+    source.copy(backupPath);
 
     QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
     QFile file(path);
