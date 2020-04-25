@@ -134,7 +134,7 @@ void EffectItemModel::plantClone(const std::weak_ptr<Mlt::Service> &service)
         std::shared_ptr<EffectItemModel> effect = nullptr;
         if (auto ptr2 = m_model.lock()) {
             effect = EffectItemModel::construct(effectId, ptr2);
-            effect->setParameters(getAllParameters());
+            effect->setParameters(getAllParameters(), false);
             int childId = ptr->get_int("_childid");
             if (childId == 0) {
                 childId = m_childId++;

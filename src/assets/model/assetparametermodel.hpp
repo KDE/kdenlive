@@ -145,7 +145,7 @@ public:
     /* @brief Sets the value of a list of parameters
        @param params contains the pairs (parameter name, parameter value)
      */
-    void setParameters(const QVector<QPair<QString, QVariant>> &params);
+    void setParameters(const QVector<QPair<QString, QVariant>> &params, bool update = true);
 
     /* Which monitor is attached to this asset (clip/project)
      */
