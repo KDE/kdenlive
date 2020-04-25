@@ -14,8 +14,9 @@ Building is done in 3 steps:
 
 ### Get the development dependencies
 
-Kdenlive usually requires the latest versions of MLT. It is therefore usually
-required to build MLT together with frei0r as well. 
+Kdenlive usually requires the latest versions of MLT. MLT depends on frei0r,
+and on Ubuntu frei0r needs to be built as well as there is no
+`frei0r-plugins-dev` package.
 
 First, install the requirements. For Ubuntu 19.10, the required packages are:
 
@@ -44,7 +45,22 @@ sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev /
                  appstream gettext libv4l-dev
 ```
 
-**Important:** As you are going to install the projects to your `/usr` after
+Most development packages will already be installed with the following command:
+
+```bash
+# Ubuntu
+# Enable deb-src entries /etc/apt/sources beforehand!
+sudo apt-get build-dep mlt kdenlive
+
+# OpenSuse
+zypper build-dep
+
+# Fedora
+# Install builddep beforehand
+dnf builddep
+```
+
+**Important:** If you are going to install the projects to your `/usr` after
 building them, make sure to remove existing packages of Kdenlive, MLT, and
 frei0r beforehand!
 
@@ -67,7 +83,7 @@ Now you can build and install the projects. As Kdenlive depends on MLT which
 depends on frei0r, build and install them in reverse order.
 
 Note that `make install` is required for Kdenlive, otherwise the effects will
-not be installed and cannot be used..
+not be installed and cannot be used.
 
 For frei0r, MLT, and Kdenlive (in that order), run the following steps
 inside their directory to build, compile, and install it.
@@ -86,6 +102,32 @@ make
 # Install the compiled files
 sudo make install
 ```
+
+
+### Install Kdenlive to a local path
+
+As alternative to installing Kdenlive system wide in `/usr`, it can also be
+installed in a custom directory, for example `~/.local`, in order to still have
+a global sytem version for comparison. In that case, the `prefix.sh` script in
+the build directory has to be executed prior to running Kdenlive from the
+installation directory; it sets some environment variables.
+
+```bash
+# Configure with a different install directory
+cmake .. -DCMAKE_INSTALL_PREFIX=~/.local
+
+# Compile and install (sudo is not required for ~/.local)
+make
+make install
+
+# Load environment variables
+chmod u+x prefix.sh
+./prefix.sh
+
+# Run Kdenlive
+~/.local/bin/kdenlive
+```
+
 
 ### Building in Docker
 
