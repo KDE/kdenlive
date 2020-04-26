@@ -225,7 +225,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(buttonAlignCenter, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
-    connect(displayBg, &QCheckBox::stateChanged, this, &TitleWidget::displayBackgroundFrame);
+
+    displayBg->setChecked(KdenliveSettings::titlerShowbg());
+    connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] (int state) {
+        KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
+        displayBackgroundFrame();
+    });
 
     connect(m_unicodeDialog, &UnicodeDialog::charSelected, this, &TitleWidget::slotInsertUnicodeString);
 
