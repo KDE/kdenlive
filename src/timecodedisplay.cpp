@@ -120,7 +120,7 @@ void TimecodeDisplay::slotUpdateTimeCodeFormat()
 void TimecodeDisplay::updateTimeCode(const Timecode &t)
 {
     m_timecode = t;
-    setTimeCodeFormat(KdenliveSettings::frametimecode());
+    setTimeCodeFormat(KdenliveSettings::frametimecode(), true);
 }
 
 void TimecodeDisplay::keyPressEvent(QKeyEvent *e)
@@ -214,8 +214,7 @@ void TimecodeDisplay::setValue(int value)
             return;
         }
         m_value = value;
-        QString v = m_timecode.getTimecodeFromFrames(value - m_minimum);
-        lineEdit()->setText(v);
+        lineEdit()->setText(m_timecode.getTimecodeFromFrames(value - m_minimum));
     }
 }
 
