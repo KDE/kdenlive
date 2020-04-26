@@ -1420,29 +1420,33 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             // we are in record mode, don't display clip
             return;
         }
-        m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
-        m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
-        loadQmlScene(MonitorSceneDefault);
-        updateMarkers();
-        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
-        connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
-        if (out == -1) {
-            m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
+        if (m_controller->isReady()) {
+            m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
+            m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
+            loadQmlScene(MonitorSceneDefault);
+            updateMarkers();
+            connect(m_glMonitor->getControllerProxy(), &MonitorProxy::addSnap, this, &Monitor::addSnapPoint, Qt::DirectConnection);
+            connect(m_glMonitor->getControllerProxy(), &MonitorProxy::removeSnap, this, &Monitor::removeSnapPoint, Qt::DirectConnection);
+            if (out == -1) {
+                m_glMonitor->getControllerProxy()->setZone(m_controller->zone(), false);
+            } else {
+                m_glMonitor->getControllerProxy()->setZone(in, out + 1, false);
+            }
+            m_snaps->addPoint((int)m_controller->frameDuration() - 1);
+            // Loading new clip / zone, stop if playing
+            if (m_playAction->isActive()) {
+                m_playAction->setActive(false);
+            }
+            m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
+            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+                m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QUrl() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
+            }
+            m_controller->getMarkerModel()->registerSnapModel(m_snaps);
+            m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
+            m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         } else {
-            m_glMonitor->getControllerProxy()->setZone(in, out + 1, false);
+            qDebug()<<"*************** CONTROLLER NOT READY";
         }
-        m_snaps->addPoint((int)m_controller->frameDuration() - 1);
-        // Loading new clip / zone, stop if playing
-        if (m_playAction->isActive()) {
-            m_playAction->setActive(false);
-        }
-        m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-        if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-            m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QUrl() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
-        }
-        m_controller->getMarkerModel()->registerSnapModel(m_snaps);
-        m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
-        m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         // hasEffects =  controller->hasEffects();
     } else {
         loadQmlScene(MonitorSceneDefault);

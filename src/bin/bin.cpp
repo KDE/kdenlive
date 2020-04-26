@@ -1515,6 +1515,7 @@ void Bin::slotDuplicateClip()
         }
         items << m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     }
+    QString lastId;
     for (auto item : items) {
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
@@ -1535,7 +1536,7 @@ void Bin::slotDuplicateClip()
                     }
                     QString id;
                     m_itemModel->requestAddBinClip(id, xml, item->parent()->clipId(), i18n("Duplicate clip"));
-                    selectClipById(id);
+                    lastId = id;
                 }
             }
         } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
@@ -1543,8 +1544,11 @@ void Bin::slotDuplicateClip()
             QString id;
             QPoint clipZone = currentItem->zone();
             m_itemModel->requestAddBinSubClip(id, clipZone.x(), clipZone.y(), {}, currentItem->getMasterClip()->clipId());
-            selectClipById(id);
+            lastId = id;
         }
+    }
+    if (!lastId.isEmpty()) {
+        selectClipById(lastId);
     }
 }
 
@@ -1553,7 +1557,9 @@ void Bin::setMonitor(Monitor *monitor)
     m_monitor = monitor;
     connect(m_monitor, &Monitor::addClipToProject, this, &Bin::slotAddClipToProject);
     connect(m_monitor, &Monitor::refreshCurrentClip, this, &Bin::slotOpenCurrent);
-    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) { m_monitor->slotOpenClip(clip, in, out); });
+    connect(this, &Bin::openClip, [&](std::shared_ptr<ProjectClip> clip, int in, int out) {
+        m_monitor->slotOpenClip(clip, in, out);
+    });
 }
 
 void Bin::setDocument(KdenliveDoc *project)
@@ -2378,7 +2384,7 @@ void Bin::reloadClip(const QString &id, bool reloadAudio)
 
 void Bin::reloadMonitorIfActive(const QString &id)
 {
-    if (m_monitor->activeClipId() == id) {
+    if (m_monitor->activeClipId() == id || m_monitor->activeClipId().isEmpty()) {
         slotOpenCurrent();
     }
 }
@@ -3858,18 +3864,24 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
 {
     switch (item->itemType()) {
     case AbstractProjectItem::ClipItem: {
-        openProducer(std::static_pointer_cast<ProjectClip>(item));
         std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(item);
-        emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
+        if (clp && clp->isReady()) {
+            openProducer(clp);
+            emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
+        }
         break;
     }
     case AbstractProjectItem::SubClipItem: {
         auto subClip = std::static_pointer_cast<ProjectSubClip>(item);
         QPoint zone = subClip->zone();
-        openProducer(subClip->getMasterClip(), zone.x(), zone.y());
+        std::shared_ptr<ProjectClip> master = subClip->getMasterClip();
+        if (master && master->isReady()) {
+            openProducer(master, zone.x(), zone.y());
+        }
         break;
     }
     case AbstractProjectItem::FolderItem:
+        openProducer(nullptr);
     default:
         break;
     }

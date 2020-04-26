@@ -166,7 +166,7 @@ Qt::ItemFlags ProjectItemModel::flags(const QModelIndex &index) const
         break;
     case AbstractProjectItem::ClipItem:
         if (!item->statusReady()) {
-            return Qt::ItemIsSelectable;
+            return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
         }
         return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable;
         break;
