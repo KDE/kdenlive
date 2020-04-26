@@ -19,6 +19,11 @@ DNxHD 720p 59.94 fps 220 Mb/s=-s 1280x720 -r 60000/1001 -vb 220000k -threads 0 -
 DNxHD 720p 59.94 fps 145 Mb/s=-s 1280x720 -r 60000/1001 -vb 145000k -threads 0 -vcodec dnxhd -acodec copy %1.mov;High quality encoding
 Fix MPEG-1=-sameq -acodec copy -vcodec mpeg1video %1.mpg;Fix unplayable MPEG-1 files;;vcodec=mpeg1video
 Fix Ogg Theora=-sameq -vcodec libtheora -acodec copy %1.ogv;Fix unplayable OGG Theora files;;vcodec=theora
+ProRes 422 Proxy=-vcodec prores_ks -profile:v 0 -acodec pcm_s16le -ar 48000 -ac 2 %1.mov;High quality encoding
+ProRes 422 LT=-vcodec prores_ks -profile:v 1 -acodec pcm_s16le -ar 48000 -ac 2 %1.mov;High quality encoding
+ProRes 422 SQ=-vcodec prores_ks -profile:v 2 -acodec pcm_s16le -ar 48000 -ac 2 %1.mov;High quality encoding
+ProRes 422 HQ=-vcodec prores_ks -profile:v 3 -acodec pcm_s16le -ar 48000 -ac 2 %1.mov;High quality encoding
+ProRes 444 with alpha=-vcodec prores_ks -profile:v 4 -pix_fmt yuva444p10le -bits_per_mb 8000 -acodec pcm_s16le -ar 48000 -ac 2 %1.mov;High quality encoding with alpha channel
 Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files;;vcodec=mpeg2video
 Remux MPEG-2 PS/VOB=-vcodec copy -acodec copy %1.mpg;Fix audio sync in MPEG-2 vob files 2;
 Lossless Matroska=-sn -vcodec huffyuv -acodec flac %1.mkv;High quality lossless encoding
