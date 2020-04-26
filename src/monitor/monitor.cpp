@@ -1491,10 +1491,9 @@ void Monitor::resetProfile()
     m_timePos->updateTimeCode(pCore->timecode());
     m_glMonitor->reloadProfile();
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
-    double fps = pCore->getCurrentFps();
     // Update drop frame info
     m_qmlManager->setProperty(QStringLiteral("dropped"), false);
-    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(fps, 'g', 2));
+    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
 }
 
 void Monitor::resetConsumer(bool fullReset)

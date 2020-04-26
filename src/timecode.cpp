@@ -92,7 +92,7 @@ Timecode::~Timecode() = default;
 void Timecode::setFormat(double framesPerSecond, Formats format)
 {
     m_displayedFramesPerSecond = (int)(framesPerSecond + 0.5);
-    m_dropFrameTimecode = !qFuzzyCompare(framesPerSecond, qRound(framesPerSecond));
+    m_dropFrameTimecode = qFuzzyCompare(framesPerSecond, 30000.0/1001.0);
     m_format = format;
     m_realFps = framesPerSecond;
     if (m_dropFrameTimecode) {
@@ -128,7 +128,7 @@ const QString Timecode::mask(const GenTime &t) const
 QString Timecode::reformatSeparators(QString duration) const
 {
     if (m_dropFrameTimecode) {
-        return duration.replace(8, 1, ',');
+        return duration.replace(8, 1, ';');
     }
     return duration.replace(8, 1, ':');
 }
@@ -222,18 +222,9 @@ QString Timecode::getStringTimecode(int frames, const double &fps, bool showFram
     seconds = seconds % 60;
     int hours = minutes / 60;
     minutes = minutes % 60;
-    QString text;
+    QString text = showFrames ? QString("%1:%2:%3.%4").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0')).arg(frms, 2, 10, QLatin1Char('0')) : QString("%1:%2:%3").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0'));
     if (negative) {
-        text.append('-');
-    }
-    text.append(QString::number(hours).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(minutes).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(seconds).rightJustified(2, '0', false));
-    if (showFrames) {
-        text.append('.');
-        text.append(QString::number(frms).rightJustified(2, '0', false));
+        text.prepend('-');
     }
     return text;
 }
@@ -258,26 +249,18 @@ const QString Timecode::getTimecodeHH_MM_SS_FF(int frames) const
         frames = qAbs(frames);
     }
 
-    int seconds = frames / m_displayedFramesPerSecond;
-    frames = frames % m_displayedFramesPerSecond;
+    int hours = frames / ( m_realFps * 3600 );
+    frames -= floor( hours * 3600 * m_realFps );
 
-    int minutes = seconds / 60;
-    seconds = seconds % 60;
-    int hours = minutes / 60;
-    minutes = minutes % 60;
+    int minutes = frames / ( m_realFps * 60 );
+    frames -= floor( minutes * 60 * m_realFps );
 
-    QString text;
+    int seconds = frames / m_realFps;
+    frames -= ceil( seconds * m_realFps );
+    QString text = QString("%1:%2:%3:%4").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0')).arg(frames, 2, 10, QLatin1Char('0'));
     if (negative) {
-        text.append('-');
+        text.prepend('-');
     }
-    text.append(QString::number(hours).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(minutes).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(seconds).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(frames).rightJustified(2, '0', false));
-
     return text;
 }
 
@@ -298,22 +281,10 @@ const QString Timecode::getTimecodeHH_MM_SS_HH(const GenTime &time) const
     int hours = minutes / 60;
     minutes = minutes % 60;
 
-    QString text;
+    QString text = QString("%1:%2:%3%5%4").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0')).arg(hundredths, 2, 10, QLatin1Char('0')).arg(m_dropFrameTimecode ? QLatin1Char(',') : QLatin1Char(':'));
     if (negative) {
-        text.append('-');
+        text.prepend('-');
     }
-    text.append(QString::number(hours).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(minutes).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(seconds).rightJustified(2, '0', false));
-    if (m_dropFrameTimecode) {
-        text.append(',');
-    } else {
-        text.append(':');
-    }
-    text.append(QString::number(hundredths).rightJustified(2, '0', false));
-
     return text;
 }
 
@@ -361,17 +332,9 @@ const QString Timecode::getTimecodeDropFrame(int framenumber) const
     int minutes = (int)floor(floor(framenumber / m_displayedFramesPerSecond) / 60) % 60;
     int hours = floor(floor(floor(framenumber / m_displayedFramesPerSecond) / 60) / 60);
 
-    QString text;
+    QString text = QString("%1:%2:%3,%4").arg(hours, 2, 10, QLatin1Char('0')).arg(minutes, 2, 10, QLatin1Char('0')).arg(seconds, 2, 10, QLatin1Char('0')).arg(frames, 2, 10, QLatin1Char('0'));
     if (negative) {
-        text.append('-');
+        text.prepend('-');
     }
-    text.append(QString::number(hours).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(minutes).rightJustified(2, '0', false));
-    text.append(':');
-    text.append(QString::number(seconds).rightJustified(2, '0', false));
-    text.append(',');
-    text.append(QString::number(frames).rightJustified(2, '0', false));
-
     return text;
 }
