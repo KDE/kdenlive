@@ -577,7 +577,7 @@ Rectangle {
                     Text {
                         // Clip name text
                         id: label
-                        text: clipName + (clipRoot.speed != 1.0 ? ' [' + Math.round(clipRoot.speed*100) + '%]': '')
+                        text: (clipRoot.speed != 1.0 ? '[' + Math.round(clipRoot.speed*100) + '%] ': '') + clipName
                         font: miniFont
                         anchors {
                             top: labelRect.top
