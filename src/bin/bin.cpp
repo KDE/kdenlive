@@ -2563,7 +2563,7 @@ void Bin::setupMenu()
     connect(downloadResourceAction, &QAction::triggered, pCore->window(), &MainWindow::slotDownloadResources);
 
     m_locateAction =
-        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), QIcon::fromTheme(QStringLiteral("edit-file")));
+        addAction(QStringLiteral("locate_clip"), i18n("Locate Clip..."), QIcon::fromTheme(QStringLiteral("find-location")));
     m_locateAction->setData("locate_clip");
     m_locateAction->setEnabled(false);
     connect(m_locateAction, &QAction::triggered, this, &Bin::slotLocateClip);
