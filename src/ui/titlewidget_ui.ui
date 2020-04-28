@@ -351,14 +351,14 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color">
+         <property name="color" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor">
+         <property name="defaultColor" stdset="0">
           <color>
            <red>255</red>
            <green>0</green>
@@ -643,8 +643,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>628</width>
-                    <height>729</height>
+                    <width>544</width>
+                    <height>506</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -781,7 +781,7 @@
                    <item row="5" column="0" colspan="7">
                     <widget class="QGroupBox" name="shadowBox">
                      <property name="title">
-                      <string>Sh&amp;adow</string>
+                      <string>Sha&amp;dow</string>
                      </property>
                      <property name="checkable">
                       <bool>true</bool>
@@ -821,14 +821,14 @@
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
-                        <property name="color">
+                        <property name="color" stdset="0">
                          <color alpha="100">
                           <red>0</red>
                           <green>0</green>
                           <blue>0</blue>
                          </color>
                         </property>
-                        <property name="alphaChannelEnabled">
+                        <property name="alphaChannelEnabled" stdset="0">
                          <bool>true</bool>
                         </property>
                        </widget>
@@ -982,14 +982,14 @@
                      <property name="flat">
                       <bool>false</bool>
                      </property>
-                     <property name="color">
+                     <property name="color" stdset="0">
                       <color>
                        <red>255</red>
                        <green>255</green>
                        <blue>255</blue>
                       </color>
                      </property>
-                     <property name="defaultColor">
+                     <property name="defaultColor" stdset="0">
                       <color>
                        <red>0</red>
                        <green>0</green>
@@ -1047,14 +1047,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor">
+                 <property name="defaultColor" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1112,14 +1112,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color">
+                 <property name="color" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor">
+                 <property name="defaultColor" stdset="0">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1162,7 +1162,7 @@
                <item row="0" column="0">
                 <widget class="QCheckBox" name="preserveAspectRatio">
                  <property name="enabled">
-                  <bool>false</bool>
+                  <bool>true</bool>
                  </property>
                  <property name="text">
                   <string>Preserve aspect ratio</string>
@@ -1231,14 +1231,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="color">
+             <property name="color" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor">
+             <property name="defaultColor" stdset="0">
               <color>
                <red>0</red>
                <green>0</green>

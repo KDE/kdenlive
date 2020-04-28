@@ -462,14 +462,16 @@ void Monitor::setOffsetY(int y)
 void Monitor::slotGetCurrentImage(bool request)
 {
     m_glMonitor->sendFrameForAnalysis = request;
+    Kdenlive::MonitorId id = m_monitorManager->activeMonitor()->id();
     m_monitorManager->activateMonitor(m_id);
-    refreshMonitorIfActive();
+    refreshMonitorIfActive(true);
     if (request) {
         // Update analysis state
         QTimer::singleShot(500, m_monitorManager, &MonitorManager::checkScopes);
     } else {
         m_glMonitor->releaseAnalyse();
     }
+    m_monitorManager->activateMonitor(id);
 }
 
 void Monitor::slotAddEffect(const QStringList &effect)

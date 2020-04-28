@@ -225,6 +225,9 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(buttonAlignCenter, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
+    connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] () {
+        slotValueChanged(ValueWidth);
+    });
 
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
     connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] (int state) {
@@ -1238,6 +1241,8 @@ void TitleWidget::slotValueChanged(int type)
 
                 // Scaling factor
                 double scale = 1;
+                double scalex = t.scalex;
+                double scaley = t.scaley;
 
                 // We want to keep the aspect ratio of the image as the user does not yet have the possibility
                 // to restore the original ratio. You rarely want to change it anyway.
@@ -1245,18 +1250,23 @@ void TitleWidget::slotValueChanged(int type)
                 case ValueWidth:
                     // Add 0.5 because otherwise incrementing by 1 might have no effect
                     length = val / (cos(alpha) + 1 / phi * sin(alpha)) + 0.5;
-                    scale = length / i->boundingRect().width();
+                    scalex = length / i->boundingRect().width();
+                    if (preserveAspectRatio->isChecked()) {
+                        scaley = scalex;
+                    }
                     break;
                 case ValueHeight:
                     length = val / (phi * sin(alpha) + cos(alpha)) + 0.5;
-                    scale = length / i->boundingRect().height();
+                    scaley = length / i->boundingRect().height();
+                    if (preserveAspectRatio->isChecked()) {
+                        scalex = scaley;
+                    }
                     break;
                 }
-
-                t.scalex = scale;
-                t.scaley = scale;
+                t.scalex = scalex;
+                t.scaley = scaley;
                 QTransform qtrans;
-                qtrans.scale(scale, scale);
+                qtrans.scale(scalex, scaley);
                 qtrans.rotate(t.rotatex, Qt::XAxis);
                 qtrans.rotate(t.rotatey, Qt::YAxis);
                 qtrans.rotate(t.rotatez, Qt::ZAxis);
@@ -2921,8 +2931,10 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
 
             updateCoordinates(referenceItem);
             updateDimension(referenceItem);
-
             enableToolbars(TITLE_IMAGE);
+            QSignalBlocker bk(preserveAspectRatio);
+            Transform t = m_transformations.value(referenceItem);
+            preserveAspectRatio->setChecked(t.scalex == t.scaley);
 
         } else {
             showToolbars(TITLE_SELECT);
