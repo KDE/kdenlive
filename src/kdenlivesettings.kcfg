@@ -1033,5 +1033,9 @@
         <label>Default background for titler.</label>
         <default>0</default>
         </entry>
+        <entry name="titlerShowbg" type="Bool">
+        <label>Show titler background.</label>
+        <default>false</default>
+        </entry>
    </group>
 </kcfg>
