@@ -312,7 +312,7 @@ Rectangle {
     }
 
     onConsumerPositionChanged: {
-        if (autoScrolling) Logic.scrollIfNeeded()
+        if (root.autoScrolling) Logic.scrollIfNeeded()
     }
 
     onViewActiveTrackChanged: {
