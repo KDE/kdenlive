@@ -2262,7 +2262,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     QList <std::shared_ptr<CompositionModel>> updatedCompositions;
     if (previousId > -1) {
         for (auto &compo : m_allCompositions) {
-            if (compo.second->getATrack() == position && compo.second->getForcedTrack() == -1) {
+            if (position > 0 && compo.second->getATrack() == position && compo.second->getForcedTrack() == -1) {
                 updatedCompositions << compo.second;
             }
         }

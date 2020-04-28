@@ -74,6 +74,7 @@ Rectangle {
     property bool hideClipViews: false
     property var groupTrimData
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
+    property int mouseXPos: mouseArea.mouseX
     width : clipDuration * timeScale
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 

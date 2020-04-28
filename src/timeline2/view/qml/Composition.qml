@@ -63,6 +63,7 @@ Item {
     property color borderColor: 'black'
     property bool hideCompoViews
     property int scrollStart: scrollView.contentX - modelStart * timeline.scaleFactor
+    property int mouseXPos: mouseArea.mouseX
 
     signal moved(var clip)
     signal dragged(var clip, var mouse)
