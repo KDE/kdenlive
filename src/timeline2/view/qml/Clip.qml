@@ -264,7 +264,11 @@ Rectangle {
                 }
                 root.mainFrame = Math.round(mouse.x / timeline.scaleFactor)
                 root.showClipMenu(clipRoot.clipId)
+                root.autoScrolling = timeline.autoScroll
             }
+        }
+        onReleased: {
+            root.autoScrolling = timeline.autoScroll
         }
         Keys.onShortcutOverride: event.accepted = clipRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
