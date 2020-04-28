@@ -1376,7 +1376,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         // Find top-most video track that requires an audio mirror
         int topAudioOffset = videoTracks.indexOf(topAudioMirror) - videoTracks.indexOf(masterSourceTrack);
         // Check if we have enough video tracks with mirror at paste track position
-        if (projectTracks.first.size() <= projectTracks.second.indexOf(trackId) + topAudioOffset) {
+        if (requestedAudioTracks > 0 && projectTracks.first.size() <= (projectTracks.second.indexOf(trackId) + topAudioOffset)) {
             int updatedPos = projectTracks.first.size() - topAudioOffset - 1;
             if (updatedPos < 0 || updatedPos >= projectTracks.second.size()) {
                 pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
@@ -1407,9 +1407,6 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         masterIx = projectTracks.first.indexOf(trackId);
         audioMaster = true;
     }
-    qDebug() << "/// PROJECT VIDEO TKS: " << projectTracks.second << ", MASTER: " << trackId;
-    qDebug() << "/// PASTE VIDEO TKS: " << videoTracks << " / MASTER: " << masterSourceTrack;
-    qDebug() << "/// MASTER PASTE: " << masterIx;
     for (int tk : videoTracks) {
         int newPos = masterIx + tk - masterSourceTrack;
         if (newPos < 0 || newPos >= projectTracks.second.size()) {
@@ -1418,6 +1415,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             return false;
         }
         tracksMap.insert(tk, projectTracks.second.at(newPos));
+        //qDebug() << "/// MAPPING SOURCE TRACK: "<<tk<<" TO PROJECT TK: "<<projectTracks.second.at(newPos)<<" = "<<timeline->getTrackMltIndex(projectTracks.second.at(newPos));
     }
     bool audioOffsetCalculated = false;
     int audioOffset = 0;

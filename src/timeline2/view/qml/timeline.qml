@@ -150,6 +150,9 @@ Rectangle {
     }
 
     function getMousePos() {
+        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
+            return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) / timeline.scaleFactor
+        }
         if (tracksArea.containsMouse) {
             return (scrollView.contentX + tracksArea.mouseX) / timeline.scaleFactor
         } else {
@@ -170,6 +173,9 @@ Rectangle {
     }
 
     function getMouseTrack() {
+        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
+            return dragProxy.masterObject.trackId
+        }
         return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.contentY)
     }
 
