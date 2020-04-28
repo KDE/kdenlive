@@ -350,7 +350,7 @@ Item {
                     Drag.active: dragAudioArea.drag.active
                     Drag.dragType: Drag.Automatic
                     Drag.mimeData: {
-                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + controller.zoneOut
+                        "kdenlive/producerslist" : "A" + controller.clipId + "/" + controller.zoneIn + "/" + (controller.zoneOut - 1)
                     }
                     MouseArea {
                         id: dragAudioArea
