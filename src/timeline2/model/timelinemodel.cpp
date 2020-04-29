@@ -945,11 +945,11 @@ bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, Playl
     Fun local_undo = deregisterClip_lambda(clipId);
     ClipModel::construct(shared_from_this(), bid, clipId, state, speed, warp_pitch);
     auto clip = m_allClips[clipId];
-    Fun local_redo = [clip, this, state]() {
+    Fun local_redo = [clip, this, state, speed, warp_pitch]() {
         // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
         // sufficient to register it.
         registerClip(clip, true);
-        clip->refreshProducerFromBin(-1, state);
+        clip->refreshProducerFromBin(-1, state, speed, warp_pitch);
         return true;
     };
 
@@ -3490,7 +3490,12 @@ void TimelineModel::requestClipReload(int clipId)
     int oldPos = getClipPosition(clipId);
     int oldOut = getClipIn(clipId) + getClipPlaytime(clipId);
     int maxDuration = m_allClips[clipId]->getMaxDuration();
-    bool hasPitch = m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
+    bool hasPitch = false;
+    double speed = m_allClips[clipId]->getSpeed();
+    PlaylistState::ClipState state = m_allClips[clipId]->clipState();
+    if (!qFuzzyCompare(speed, 1.)) {
+        hasPitch = m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
+    }
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
     bool refreshView = oldOut > (int)binClip->frameDuration();
@@ -3498,7 +3503,7 @@ void TimelineModel::requestClipReload(int clipId)
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
     }
     if (old_trackId != -1) {
-        m_allClips[clipId]->refreshProducerFromBin(old_trackId, hasPitch);
+        m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, 0, hasPitch);
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);
         if (maxDuration != m_allClips[clipId]->getMaxDuration()) {
             QModelIndex ix = makeClipIndexFromID(clipId);

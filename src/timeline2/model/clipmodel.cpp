@@ -418,7 +418,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     QWriteLocker locker(&m_lock);
     int in = getIn();
     int out = getOut();
-    if (!qFuzzyCompare(speed, m_speed) && !qFuzzyCompare(speed, 0.)) {
+    if (!qFuzzyCompare(speed, m_speed) && !qFuzzyIsNull(speed)) {
         in = in * std::abs(m_speed / speed);
         out = in + getPlaytime() - 1;
         // prevent going out of the clip's range
@@ -443,10 +443,14 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, bool hasPitch)
+void ClipModel::refreshProducerFromBin(int trackId)
 {
     if (trackId == -1) {
         trackId = m_currentTrackId;
+    }
+    bool hasPitch = false;
+    if (!qFuzzyCompare(getSpeed(), 1.)) {
+        hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
     refreshProducerFromBin(trackId, m_currentState, 0, hasPitch);
 }
@@ -612,7 +616,7 @@ void ClipModel::setCurrentTrackId(int tid, bool finalMove)
     }
 
     if (finalMove && tid != -1 && m_lastTrackId != m_currentTrackId) {
-        refreshProducerFromBin(m_currentTrackId, m_currentState);
+        refreshProducerFromBin(m_currentTrackId);
         m_lastTrackId = m_currentTrackId;
     }
 }
@@ -626,7 +630,7 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
             // Enforce producer reload
             m_lastTrackId = -1;
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
-                refreshProducerFromBin(m_currentTrackId, m_currentState);
+                refreshProducerFromBin(m_currentTrackId);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
             }
