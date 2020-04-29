@@ -698,16 +698,8 @@ Rectangle {
                             Component.onCompleted: {
                                 root.collapsedHeight = collapsedHeight
                             }
-                            onMyTrackHeightChanged: {
-                                collapsed = myTrackHeight <= root.collapsedHeight
-                                if (!collapsed) {
-                                    controller.setTrackProperty(trackId, "kdenlive:trackheight", myTrackHeight)
-                                    controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
-                                } else {
-                                    controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
-                                }
-                                // hack: change property to trigger transition adjustment
-                                root.trackHeight = root.trackHeight === 1 ? 0 : 1
+                            onHeightChanged: {
+                                collapsed = height <= root.collapsedHeight
                             }
                         }
                     }

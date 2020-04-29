@@ -32,7 +32,6 @@ Rectangle {
     property bool isAudio
     property bool showAudioRecord: false
     property bool current: false
-    property int myTrackHeight
     property int trackId : -42
     property string trackTag
     property int thumbsFormat: 0
@@ -186,6 +185,7 @@ Rectangle {
         ToolButton {
             id: expandButton
             focusPolicy: Qt.NoFocus
+            property var modifier: 0
             contentItem: Item {
                 Image {
                     source: trackHeadRoot.collapsed ? "image://icon/go-next" : "image://icon/go-down"
@@ -196,7 +196,27 @@ Rectangle {
                 }
             }
             onClicked: {
-                trackHeadRoot.myTrackHeight = trackHeadRoot.collapsed ? Math.max(root.collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight")) : root.collapsedHeight
+                if (modifier & Qt.ShiftModifier) {
+                    // Collapse / expand all tracks
+                    timeline.collapseAllTrackHeight(trackId, !trackHeadRoot.collapsed, root.collapsedHeight)
+                } else {
+                    if (trackHeadRoot.collapsed) {
+                        var newHeight = Math.max(root.collapsedHeight * 1.5, controller.getTrackProperty(trackId, "kdenlive:trackheight"))
+                        controller.setTrackProperty(trackId, "kdenlive:trackheight", newHeight)
+                        controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
+                    } else {
+                        controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
+                    }
+                }
+            }
+            MouseArea {
+                // Used to pass modifier state to expand button
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton
+                onPressed: {
+                    expandButton.modifier = mouse.modifiers
+                    mouse.accepted = false
+                }
             }
             anchors.left: parent.left
             width: root.collapsedHeight
@@ -548,7 +568,7 @@ Rectangle {
                         parent.opacity = 0
                     }
                     if (mouse.modifiers & Qt.ShiftModifier && dragStarted) {
-                        timeline.adjustAllTrackHeight(trackHeadRoot.trackId, trackHeadRoot.myTrackHeight)
+                        timeline.adjustAllTrackHeight(trackHeadRoot.trackId, trackHeadRoot.height)
                     }
                 }
                 onEntered: parent.opacity = 0.3
@@ -564,7 +584,12 @@ Rectangle {
                         }
                         var newHeight = originalY + (mapToItem(null, x, y).y - startY)
                         newHeight =  Math.max(root.collapsedHeight, newHeight)
-                        trackHeadRoot.myTrackHeight = newHeight
+                        if (newHeight == root.collapsedHeight) {
+                            controller.setTrackProperty(trackId, "kdenlive:collapsed", root.collapsedHeight)
+                        } else {
+                            controller.setTrackProperty(trackId, "kdenlive:trackheight", newHeight)
+                            controller.setTrackProperty(trackId, "kdenlive:collapsed", "0")
+                        }
                     }
                 }
             }

@@ -1058,6 +1058,27 @@ void TimelineController::adjustAllTrackHeight(int trackId, int height)
     m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
+void TimelineController::collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight)
+{
+    bool isAudio = m_model->getTrackById_const(trackId)->isAudioTrack();
+    auto it = m_model->m_allTracks.cbegin();
+    while (it != m_model->m_allTracks.cend()) {
+        int target_track = (*it)->getId();
+        if (m_model->getTrackById_const(target_track)->isAudioTrack() == isAudio) {
+            if (collapse) {
+                m_model->setTrackProperty(target_track, "kdenlive:collapsed", QString::number(collapsedHeight));
+            } else {
+                m_model->setTrackProperty(target_track, "kdenlive:collapsed", QStringLiteral("0"));
+            }
+        }
+        ++it;
+    }
+    int tracksCount = m_model->getTracksCount();
+    QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
+    QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
+    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+}
+
 void TimelineController::defaultTrackHeight(int trackId)
 {
     if (trackId > -1) {
