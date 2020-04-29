@@ -294,6 +294,7 @@ public:
     /* @brief Adjust height of all similar (audio or video) tracks
     */
     Q_INVOKABLE void adjustAllTrackHeight(int trackId, int height);
+    Q_INVOKABLE void collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight);
 
     /** @brief Reset track @trackId height to default track height. Adjusts all tracks if @trackId == -1
     */

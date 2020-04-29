@@ -80,7 +80,7 @@ public:
 
     /* Set if the item is in grab state */
     bool isGrabbed() const;
-    
+
     /* True if item is selected in timeline */
     bool selected {false};
     /* Set selected status */

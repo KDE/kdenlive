@@ -180,6 +180,16 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             clips.insert(cid);
         }
     }
+    // Shall we reselect after the split
+    int trackToSelect = -1;
+    if (timeline->isClip(clipId) && timeline->m_allClips[clipId]->selected) {
+        int mainIn = timeline->getItemPosition(clipId);
+        int mainOut = mainIn + timeline->getItemPlaytime(clipId);
+        if (position > mainIn && position < mainOut) {
+            trackToSelect = timeline->getItemTrackId(clipId);
+        }
+    }
+
     // We need to call clearSelection before attempting the split or the group split will be corrupted by the selection group (no undo support)
     timeline->requestClearSelection();
 
@@ -229,6 +239,12 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             Q_ASSERT(undone);
             return false;
         }
+    }
+    if (count > 0 && trackToSelect > -1) {
+        int newClip = timeline->getClipByPosition(trackToSelect, position);
+        if (newClip > -1) {
+            timeline->requestSetSelection({newClip});
+            }
     }
     return count > 0;
 }
