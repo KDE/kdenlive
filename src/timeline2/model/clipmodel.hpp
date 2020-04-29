@@ -180,7 +180,7 @@ protected:
      * you are doing, better use useTimewarProducer to change the speed
      */
     void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed, bool hasPitch);
-    void refreshProducerFromBin(int trackId, bool hasPitch);
+    void refreshProducerFromBin(int trackId);
 
     /* @brief This functions replaces the current producer with a slowmotion one
        It also resizes the producer so that set of frames contained in the clip is the same

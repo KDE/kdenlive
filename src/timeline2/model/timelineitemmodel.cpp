@@ -514,7 +514,7 @@ void TimelineItemModel::importTrackEffects(int tid, std::weak_ptr<Mlt::Service> 
 {
     std::shared_ptr<TrackModel> track = getTrackById(tid);
     std::shared_ptr<Mlt::Tractor> destination = track->getTrackService();
-    // Audio mixer effects are attached to the Tractor service, while track effects are attached to first playlist service 
+    // Audio mixer effects are attached to the Tractor service, while track effects are attached to first playlist service
     if (auto ptr = service.lock()) {
         for (int i = 0; i < ptr->filter_count(); i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));

@@ -135,8 +135,9 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         qDebug() << "////// ERROR, CANNOT LOAD SELECTED PLAYLIST: " << resource;
         return nullptr;
     }
-    std::unique_ptr<ProfileInfo> prof(new ProfileParam(xmlProfile.get()));
-    if (static_cast<ProfileInfo*>(pCore->getCurrentProfile().get()) == prof.get()) {
+    std::unique_ptr<ProfileParam> clipProfile(new ProfileParam(xmlProfile.get()));
+    std::unique_ptr<ProfileParam> projectProfile(new ProfileParam(pCore->getCurrentProfile().get()));
+    if (*clipProfile.get() == *projectProfile.get()) {
         // We can use the "xml" producer since profile is the same (using it with different profiles corrupts the project.
         // Beware that "consumer" currently crashes on audio mixes!
         //resource.prepend(QStringLiteral("xml:"));
