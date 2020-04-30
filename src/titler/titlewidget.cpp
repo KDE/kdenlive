@@ -1240,7 +1240,6 @@ void TitleWidget::slotValueChanged(int type)
                 double length;
 
                 // Scaling factor
-                double scale = 1;
                 double scalex = t.scalex;
                 double scaley = t.scaley;
 
@@ -2934,7 +2933,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
             enableToolbars(TITLE_IMAGE);
             QSignalBlocker bk(preserveAspectRatio);
             Transform t = m_transformations.value(referenceItem);
-            preserveAspectRatio->setChecked(t.scalex == t.scaley);
+            preserveAspectRatio->setChecked(qFuzzyCompare(t.scalex, t.scaley));
 
         } else {
             showToolbars(TITLE_SELECT);
