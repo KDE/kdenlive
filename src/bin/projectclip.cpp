@@ -576,7 +576,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
         if (trackId == -1 ||
-            (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text || m_clipType == ClipType::Qml))) {
+            (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text|| m_clipType == ClipType::TextTemplate || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
             return std::shared_ptr<Mlt::Producer>(m_masterProducer->cut(-1, duration > 0 ? duration - 1 : -1));
