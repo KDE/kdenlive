@@ -247,7 +247,7 @@ bool DocumentChecker::hasErrorInClips()
             }
             // Check for slideshows
             bool slideshow = original.contains(QStringLiteral("/.all.")) || original.contains(QLatin1Char('?')) || original.contains(QLatin1Char('%'));
-            if (slideshow && !Xml::getXmlProperty(e, QStringLiteral("ttl")).isEmpty()) {
+            if (slideshow && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
                 original = QFileInfo(original).absolutePath();
             }
             if (!QFile::exists(original)) {
@@ -260,8 +260,16 @@ bool DocumentChecker::hasErrorInClips()
         }
         // Check for slideshows
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
-        if ((service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) && slideshow) {
-            resource = QFileInfo(resource).absolutePath();
+        if (slideshow) {
+            if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+                resource = QFileInfo(resource).absolutePath();
+            } else if (service.startsWith(QLatin1String("avformat")) && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+                // Fix MLT 6.20 avformat slideshows
+                if (service.startsWith(QLatin1String("avformat"))) {
+                    Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
+                }
+                resource = QFileInfo(resource).absolutePath();
+            }
         }
         if (!QFile::exists(resource)) {
             // Missing clip found, make sure to omit timeline preview
@@ -427,7 +435,7 @@ bool DocumentChecker::hasErrorInClips()
         QString resource =
             service == QLatin1String("timewarp") ? Xml::getXmlProperty(e, QStringLiteral("warp_resource")) : Xml::getXmlProperty(e, QStringLiteral("resource"));
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
-        if (service == QLatin1String("avformat") || service == QLatin1String("avformat-novalidate") || service == QLatin1String("framebuffer") ||
+        if (service.startsWith(QLatin1String("avformat")) || service == QLatin1String("framebuffer") ||
             service == QLatin1String("timewarp")) {
             clipType = i18n("Video clip");
             type = ClipType::AV;
@@ -465,7 +473,7 @@ bool DocumentChecker::hasErrorInClips()
             }
             processedIds << clipId;
         }
-        
+
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
         item->setData(0, clipTypeRole, (int)type);
