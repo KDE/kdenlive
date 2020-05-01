@@ -40,6 +40,7 @@ public:
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
+    void insertFromMimeData(const QMimeData *source) override;
 
 private slots:
     void slotFillNotesMenu(const QPoint &pos);
