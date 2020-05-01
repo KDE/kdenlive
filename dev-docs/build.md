@@ -18,7 +18,7 @@ Kdenlive usually requires the latest versions of MLT. MLT depends on frei0r,
 and on Ubuntu frei0r needs to be built as well as there is no
 `frei0r-plugins-dev` package.
 
-First, install the requirements. For Ubuntu 19.10, the required packages are:
+First, install the requirements. For Ubuntu 20.04 and 19.10, the required packages are:
 
 ```bash
 # Basic packages
@@ -28,20 +28,20 @@ sudo apt install git build-essential cmake cmake-extras pkg-config
 sudo apt install libopencv-dev libcairo-dev libgavl-dev
 
 # MLT
-sudo apt install libavformat-dev libsdl2-dev libswscale-dev libavfilter-dev /
-                 libavdevice-dev libgdk-pixbuf2.0-dev libpango-1.0-dev libexif-dev /
-                 libfftw3-dev libebur128-dev librubberband-dev librtaudio-dev /
+sudo apt install libavformat-dev libsdl2-dev libswscale-dev libavfilter-dev \
+                 libavdevice-dev libgdk-pixbuf2.0-dev libpango1.0-dev libexif-dev \
+                 libfftw3-dev libebur128-dev librubberband-dev librtaudio-dev \
                  libvidstab-dev libxml2-dev qt5-default libqt5svg5-dev
 
 # Kdenlive
-sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev /
-                 libkf5config-dev libkf5configwidgets-dev libkf5dbusaddons-dev /
-                 libkf5kio-dev libkf5widgetsaddons-dev libkf5notifyconfig-dev /
-                 libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev /
-                 libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev /
-                 libkf5purpose-dev libkf5iconthemes-dev kdoctools-dev libkf5crash-dev /
-                 libkf5filemetadata-dev  kio kinit qtdeclarative5-dev libqt5svg5-dev /
-                 qml-module-qtquick-controls qtmultimedia5-dev qtquickcontrols2-5-dev /
+sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev \
+                 libkf5config-dev libkf5configwidgets-dev libkf5dbusaddons-dev \
+                 libkf5kio-dev libkf5widgetsaddons-dev libkf5notifyconfig-dev \
+                 libkf5newstuff-dev libkf5xmlgui-dev libkf5declarative-dev \
+                 libkf5notifications-dev libkf5guiaddons-dev libkf5textwidgets-dev \
+                 libkf5purpose-dev libkf5iconthemes-dev kdoctools-dev libkf5crash-dev \
+                 libkf5filemetadata-dev  kio kinit qtdeclarative5-dev libqt5svg5-dev \
+                 qml-module-qtquick-controls qtmultimedia5-dev qtquickcontrols2-5-dev \
                  appstream gettext libv4l-dev
 ```
 
@@ -101,6 +101,14 @@ make
 
 # Install the compiled files
 sudo make install
+```
+
+#### Building on Ubuntu 20.04
+
+Ubuntu 20.04 provides OpenCV 4.2 which is not supported by the frei0r plugins yet. Run CMake with
+
+```bash
+cmake .. -DWITHOUT_OPENCV=true -DCMAKE_INSTALL_PREFIX=/usr
 ```
 
 
