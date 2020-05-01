@@ -18,10 +18,12 @@
  ***************************************************************************/
 
 #include "noteswidget.h"
-
 #include "kdenlive_debug.h"
+#include "core.h"
+
 #include <QMenu>
 #include <QMouseEvent>
+#include <QMimeData>
 #include <klocalizedstring.h>
 
 NotesWidget::NotesWidget(QWidget *parent)
@@ -75,4 +77,22 @@ void NotesWidget::addProjectNote()
         insertPlainText(QStringLiteral("\n"));
     }
     emit insertNotesTimecode();
+}
+
+void NotesWidget::insertFromMimeData(const QMimeData *source)
+{
+    QString pastedText = source->text();
+    // Check for timecodes
+    QStringList words = pastedText.split(QLatin1Char(' '));
+    QMap <QString, QString> replacementPatterns;
+    for (const QString &w : words) {
+        if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
+            // This is probably a timecode
+            int frames = pCore->timecode().getFrameCount(w);
+            if (frames > 0) {
+                pastedText.replace(w, QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + w + QStringLiteral("</a> "));
+            }
+        }
+    }
+    insertHtml(pastedText);
 }

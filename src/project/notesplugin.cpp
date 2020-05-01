@@ -11,11 +11,10 @@ the Free Software Foundation, either version 3 of the License, or
 #include "notesplugin.h"
 #include "core.h"
 #include "dialogs/noteswidget.h"
-#include "doc/kdenlivedoc.h"
 #include "mainwindow.h"
+#include "doc/kdenlivedoc.h"
 #include "monitor/monitormanager.h"
 #include "project/projectmanager.h"
-
 #include "klocalizedstring.h"
 
 NotesPlugin::NotesPlugin(ProjectManager *projectManager)
@@ -44,7 +43,7 @@ void NotesPlugin::showDock()
 void NotesPlugin::slotInsertTimecode()
 {
     int frames = pCore->monitorManager()->projectMonitor()->position();
-    QString position = pCore->projectManager()->current()->timecode().getTimecodeFromFrames(frames);
+    QString position = pCore->timecode().getTimecodeFromFrames(frames);
     m_widget->insertHtml(QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + position + QStringLiteral("</a> "));
 }
 
