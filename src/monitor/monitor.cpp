@@ -1415,11 +1415,13 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         disconnect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
     }
     m_controller = controller;
+    m_glMonitor->getControllerProxy()->setAudioStream(QString());
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
         m_audioChannels->clear();
         delete m_audioChannelsGroup;
+        m_audioChannelsGroup = nullptr;
         if (m_controller->audioInfo()) {
             QMap<int, QString> audioStreamsInfo = m_controller->audioInfo()->streamInfo(m_controller->properties());
             if (audioStreamsInfo.size() > 1) {
@@ -1435,6 +1437,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     ac->setCheckable(true);
                     if (i.key() == activeStream) {
                         ac->setChecked(true);
+                        m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
                     }
                     m_audioChannelsGroup->addAction(ac);
                 }
@@ -1445,11 +1448,12 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     ac->setChecked(true);
                 }
                 m_audioChannelsGroup->addAction(ac);
-                connect(m_audioChannelsGroup, &QActionGroup::triggered, [controller] (QAction *act) {
+                connect(m_audioChannelsGroup, &QActionGroup::triggered, [this] (QAction *act) {
                     int selectedStream = act->data().toInt();
+                    m_glMonitor->getControllerProxy()->setAudioStream(act->text().remove(QLatin1Char('&')));
                     QMap <QString, QString> props;
                     props.insert(QStringLiteral("audio_index"), QString::number(selectedStream));
-                    controller->setProperties(props, true);
+                    m_controller->setProperties(props, true);
                 });
                 m_audioChannels->menuAction()->setVisible(true);
             } else {
@@ -1519,6 +1523,7 @@ void Monitor::reloadActiveStream()
         for (QAction *ac : actions) {
             if (ac->data().toInt() == activeStream) {
                 ac->setChecked(true);
+                m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
                 break;
             }
         }

@@ -134,6 +134,21 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
+                Label {
+                    id: clipStreamLabel
+                    font: fixedFont
+                    anchors {
+                        bottom: audioThumb.isAudioClip ? parent.bottom : parent.top
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    color: "white"
+                    text: controller.clipStream
+                    background: Rectangle {
+                        color: "#222277"
+                    }
+                    visible: text != ""
+                    padding :4
+                }
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width

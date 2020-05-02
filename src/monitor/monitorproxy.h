@@ -52,6 +52,7 @@ class MonitorProxy : public QObject
     /** @brief: Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(QString clipName MEMBER m_clipName NOTIFY clipNameChanged)
+    Q_PROPERTY(QString clipStream MEMBER m_clipStream NOTIFY clipStreamChanged)
     /** @brief: Contains the name of clip currently displayed in monitor
      * */
     Q_PROPERTY(int clipType MEMBER m_clipType NOTIFY clipTypeChanged)
@@ -91,6 +92,7 @@ public:
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
     void setAudioThumb(const QUrl thumbPath = QUrl());
+    void setAudioStream(const QString &name);
 
 signals:
     void positionChanged(int);
@@ -111,6 +113,7 @@ signals:
     void seekToKeyframe();
     void clipHasAVChanged();
     void clipNameChanged();
+    void clipStreamChanged();
     void clipTypeChanged();
     void clipIdChanged();
     void audioThumbChanged();
@@ -125,6 +128,7 @@ private:
     QUrl m_audioThumb;
     QString m_markerComment;
     QString m_clipName;
+    QString m_clipStream;
     int m_clipType;
     int m_clipId;
     bool m_seekFinished;

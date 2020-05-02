@@ -334,6 +334,13 @@ void MonitorProxy::setAudioThumb(const QUrl thumbPath)
     emit audioThumbChanged();
 }
 
+void MonitorProxy::setAudioStream(const QString &name)
+{
+    m_clipStream = name;
+    emit clipStreamChanged();
+}
+
+
 QPoint MonitorProxy::profile()
 {
     QSize s = pCore->getCurrentFrameSize();
