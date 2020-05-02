@@ -1062,10 +1062,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             updateTimelineClips({TimelineModel::NameRole});
         }
     }
-    if (refreshPanel) {
-        // Some of the clip properties have changed through a command, update properties panel
-        emit refreshPropertiesPanel();
-    }
+    bool audioStreamChanged = properties.contains(QStringLiteral("audio_index"));
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         if (hasProxy()) {
@@ -1073,7 +1070,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
             pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         } else {
-            bool audioStreamChanged = properties.contains(QStringLiteral("audio_index"));
             reloadProducer(refreshOnly, audioStreamChanged, audioStreamChanged || (!refreshOnly && !properties.contains(QStringLiteral("kdenlive:proxy"))));
         }
         if (refreshOnly) {
@@ -1084,6 +1080,17 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (!updateRoles.isEmpty()) {
             updateTimelineClips(updateRoles);
         }
+    } else {
+        if (audioStreamChanged) {
+            discardAudioThumb();
+            pCore->bin()->reloadMonitorStreamIfActive(clipId());
+            pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, -1, QString());
+            refreshPanel = true;
+        }
+    }
+    if (refreshPanel) {
+        // Some of the clip properties have changed through a command, update properties panel
+        emit refreshPropertiesPanel();
     }
     if (!passProperties.isEmpty() && (!reload || refreshOnly)) {
         for (auto &p : m_audioProducers) {

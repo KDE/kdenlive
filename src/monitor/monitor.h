@@ -157,6 +157,7 @@ public:
     void updateMultiTrackView(int tid);
     /** @brief Returns true if monitor is currently fullscreen */
     bool monitorIsFullScreen() const;
+    void reloadActiveStream();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

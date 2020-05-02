@@ -166,6 +166,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     , m_id(controller->binId())
     , m_type(controller->clipType())
     , m_properties(new Mlt::Properties(controller->properties()))
+    , m_audioStream(nullptr)
     , m_textEdit(nullptr)
 {
     m_controller->mirrorOriginalProperties(m_sourceProperties);
@@ -612,42 +613,42 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             tbv->setAutoRaise(true);
             hlay->addWidget(tbv);
             hlay->addWidget(new QLabel(i18n("Audio stream")));
-            auto *audioStream = new QComboBox(this);
+            m_audioStream = new QComboBox(this);
             QMapIterator<int, QString> i(audioStreamsInfo);
             while (i.hasNext()) {
                 i.next();
-                audioStream->addItem(QString("%1: %2").arg(i.key()).arg(i.value()), i.key());
+                m_audioStream->addItem(QString("%1: %2").arg(i.key()).arg(i.value()), i.key());
             }
-            if (audioStream->count() > 1) {
-                audioStream->addItem(i18n("Merge all streams"), INT_MAX);
+            if (m_audioStream->count() > 1) {
+                m_audioStream->addItem(i18n("Merge all streams"), INT_MAX);
             }
             if (!vix.isEmpty() && vix.toInt() != -1) {
-                audioStream->setCurrentIndex(audioStream->findData(QVariant(vix)));
+                m_audioStream->setCurrentIndex(m_audioStream->findData(QVariant(vix)));
             }
             ac->setActive(vix.toInt() == -1);
-            audioStream->setEnabled(vix.toInt() > -1);
-            audioStream->setVisible(audioStreamsInfo.size() > 0);
-            connect(ac, &KDualAction::activeChanged, [this, audioStream](bool activated) {
+            m_audioStream->setEnabled(vix.toInt() > -1);
+            m_audioStream->setVisible(audioStreamsInfo.size() > 0);
+            connect(ac, &KDualAction::activeChanged, [this](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
-                    audioStream->setEnabled(false);
+                    m_audioStream->setEnabled(false);
                 } else {
-                    audioStream->setEnabled(true);
-                    vindx = audioStream->currentData().toInt();
+                    m_audioStream->setEnabled(true);
+                    vindx = m_audioStream->currentData().toInt();
                 }
                 properties.insert(QStringLiteral("audio_index"), QString::number(vindx));
                 properties.insert(QStringLiteral("set.test_audio"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-            QObject::connect(audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, audioStream]() {
+            QObject::connect(m_audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() {
                 QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("audio_index"), QString::number(audioStream->currentData().toInt()));
+                properties.insert(QStringLiteral("audio_index"), QString::number(m_audioStream->currentData().toInt()));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-            hlay->addWidget(audioStream);
+            hlay->addWidget(m_audioStream);
             vbox->addLayout(hlay);
 
             // Audio sync
@@ -776,6 +777,15 @@ void ClipPropertiesController::slotReloadProperties()
         if (proxy != m_originalProperties.value(QStringLiteral("kdenlive:proxy"))) {
             m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
             emit proxyModified(proxy);
+        }
+        if (m_audioStream && m_audioStream->isEnabled()) {
+            int audio_ix = m_properties->get_int("audio_index");
+            if (audio_ix != m_originalProperties.value(QStringLiteral("audio_index")).toInt()) {
+                QSignalBlocker bk(m_audioStream);
+                m_originalProperties.insert(QStringLiteral("audio_index"), QString::number(audio_ix));
+                // update combo
+                m_audioStream->setCurrentIndex(m_audioStream->findData(audio_ix));
+            }
         }
         break;
     }

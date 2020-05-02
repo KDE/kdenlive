@@ -219,6 +219,8 @@ public:
 
     /** @brief refresh monitor (if clip changed)  */
     void reloadMonitorIfActive(const QString &id);
+    /** @brief refresh monitor stream selector  */
+    void reloadMonitorStreamIfActive(const QString &id);
 
     void doMoveClip(const QString &id, const QString &newParentId);
     void doMoveFolder(const QString &id, const QString &newParentId);

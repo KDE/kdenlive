@@ -34,6 +34,7 @@ class ClipController;
 class QMimeData;
 class QTextEdit;
 class QLabel;
+class QComboBox;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -107,6 +108,7 @@ private:
     QWidget *m_markersPage;
     QWidget *m_metaPage;
     QWidget *m_analysisPage;
+    QComboBox *m_audioStream;
     QTreeView *m_markerTree;
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;

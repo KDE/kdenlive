@@ -2389,6 +2389,13 @@ void Bin::reloadMonitorIfActive(const QString &id)
     }
 }
 
+void Bin::reloadMonitorStreamIfActive(const QString &id)
+{
+    if (m_monitor->activeClipId() == id) {
+        m_monitor->reloadActiveStream();
+    }
+}
+
 QStringList Bin::getBinFolderClipIds(const QString &id) const
 {
     QStringList ids;

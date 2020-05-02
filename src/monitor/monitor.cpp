@@ -1445,9 +1445,11 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     ac->setChecked(true);
                 }
                 m_audioChannelsGroup->addAction(ac);
-                connect(m_audioChannelsGroup, &QActionGroup::triggered, [controller] (QAction *ac) {
-                    int selectedStream = ac->data().toInt();
-                    controller->setProducerProperty(QStringLiteral("audio_index"), QString::number(selectedStream));
+                connect(m_audioChannelsGroup, &QActionGroup::triggered, [controller] (QAction *act) {
+                    int selectedStream = act->data().toInt();
+                    QMap <QString, QString> props;
+                    props.insert(QStringLiteral("audio_index"), QString::number(selectedStream));
+                    controller->setProperties(props, true);
                 });
                 m_audioChannels->menuAction()->setVisible(true);
             } else {
@@ -1507,6 +1509,22 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     }
     checkOverlay();
 }
+
+void Monitor::reloadActiveStream()
+{
+    if (m_controller) {
+        int activeStream = m_controller->getProducerIntProperty(QLatin1String("audio_index"));
+        QList <QAction*> actions = m_audioChannels->actions();
+        QSignalBlocker bk(m_audioChannelsGroup);
+        for (QAction *ac : actions) {
+            if (ac->data().toInt() == activeStream) {
+                ac->setChecked(true);
+                break;
+            }
+        }
+    }
+}
+
 
 const QString Monitor::activeClipId()
 {
