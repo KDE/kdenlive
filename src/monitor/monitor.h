@@ -208,6 +208,8 @@ private:
     QMenu *m_configMenu;
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
+    QMenu *m_audioChannels;
+    QActionGroup *m_audioChannelsGroup;
     QPoint m_DragStartPosition;
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = nullptr. */

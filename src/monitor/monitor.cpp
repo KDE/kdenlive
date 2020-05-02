@@ -140,6 +140,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_sceneVisibilityAction(nullptr)
     , m_contextMenu(nullptr)
     , m_markerMenu(nullptr)
+    , m_audioChannels(nullptr)
+    , m_audioChannelsGroup(nullptr)
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
@@ -275,6 +277,10 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
+        m_audioChannels = new QMenu(this);
+        m_audioChannels->setIcon(QIcon::fromTheme(QStringLiteral("speaker")));
+        m_toolbar->addAction(m_audioChannels->menuAction());
+        m_audioChannels->menuAction()->setVisible(false);
     } else if (id == Kdenlive::ProjectMonitor) {
         connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
@@ -1412,6 +1418,44 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_snaps.reset(new SnapModel());
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
+        m_audioChannels->clear();
+        delete m_audioChannelsGroup;
+        if (m_controller->audioInfo()) {
+            QMap<int, QString> audioStreamsInfo = m_controller->audioInfo()->streamInfo(m_controller->properties());
+            if (audioStreamsInfo.size() > 1) {
+                // Multi stream clip
+                m_audioChannelsGroup = new QActionGroup(this);
+                QMapIterator<int, QString> i(audioStreamsInfo);
+                int activeStream = m_controller->getProducerIntProperty(QLatin1String("audio_index"));
+                QAction *ac;
+                while (i.hasNext()) {
+                    i.next();
+                    ac = m_audioChannels->addAction(QString("%1: %2").arg(i.key()).arg(i.value()));
+                    ac->setData(i.key());
+                    ac->setCheckable(true);
+                    if (i.key() == activeStream) {
+                        ac->setChecked(true);
+                    }
+                    m_audioChannelsGroup->addAction(ac);
+                }
+                ac = m_audioChannels->addAction(i18n("Merge all streams"));
+                ac->setData(INT_MAX);
+                ac->setCheckable(true);
+                if (activeStream == INT_MAX) {
+                    ac->setChecked(true);
+                }
+                m_audioChannelsGroup->addAction(ac);
+                connect(m_audioChannelsGroup, &QActionGroup::triggered, [controller] (QAction *ac) {
+                    int selectedStream = ac->data().toInt();
+                    controller->setProducerProperty(QStringLiteral("audio_index"), QString::number(selectedStream));
+                });
+                m_audioChannels->menuAction()->setVisible(true);
+            } else {
+                m_audioChannels->menuAction()->setVisible(false);
+            }
+        } else {
+            m_audioChannels->menuAction()->setVisible(false);
+        }
         connect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
         connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
                 SLOT(checkOverlay()));
@@ -1456,6 +1500,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
+        m_audioChannels->menuAction()->setVisible(false);
     }
     if (slotActivateMonitor()) {
         start();
