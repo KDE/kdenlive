@@ -254,10 +254,10 @@ void PreviewManager::enable()
 {
     if (m_previewTrackIndex > -1) {
         if (m_previewTrack) {
-            m_previewTrack->set("hide", 1);
+            m_previewTrack->set("hide", 2);
         }
         if (m_overlayTrack) {
-            m_overlayTrack->set("hide", 1);
+            m_overlayTrack->set("hide", 2);
         }
     }
 }
