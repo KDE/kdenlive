@@ -618,7 +618,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 i.next();
                 audioStream->addItem(QString("%1: %2").arg(i.key()).arg(i.value()), i.key());
             }
-            if (!vix.isEmpty() && vix.toInt() > -1) {
+            if (audioStream->count() > 1) {
+                audioStream->addItem(i18n("Merge all streams"), INT_MAX);
+            }
+            if (!vix.isEmpty() && vix.toInt() != -1) {
                 audioStream->setCurrentIndex(audioStream->findData(QVariant(vix)));
             }
             ac->setActive(vix.toInt() == -1);
