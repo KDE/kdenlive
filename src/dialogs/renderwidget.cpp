@@ -1541,6 +1541,15 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     }
     QStringList playlists;
     QString renderedFile = m_view.out_file->url().toLocalFile();
+    if (m_view.advanced_params->toPlainText().simplified().contains("=stills/"))
+    {
+        // Image sequence, ensure we have a %0xd at file end
+        QString extension = renderedFile.section(QLatin1Char('.'), -1);
+        // format string for counter
+        if (!QRegExp(QStringLiteral(".*%[0-9]*d.*")).exactMatch(renderedFile)) {
+            renderedFile = renderedFile.section(QLatin1Char('.'), 0, -2) + QStringLiteral("_%05d.") + extension;
+        }
+    }
     for (int i = 0; i < passes; i++) {
         // Append consumer settings
         QDomDocument final = i > 0 ? clone : doc;
