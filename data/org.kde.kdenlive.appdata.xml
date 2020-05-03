@@ -155,7 +155,7 @@
       <li xml:lang="it">Interfaccia multitraccia intuitiva.</li>
       <li xml:lang="ko">사용하기 편한 다중 트랙 인터페이스.</li>
       <li xml:lang="nl">Intuïtief interface met meerdere tracks.</li>
-      <li xml:lang="nn">Intuitivt fleirsporsgrensesnitt.</li>
+      <li xml:lang="nn">Intuitivt fleirsporsgrensesnitt</li>
       <li xml:lang="pl">Intuicyjny interfejs wielościeżkowy.</li>
       <li xml:lang="pt">Interface multi-faixas intuitiva.</li>
       <li xml:lang="pt-BR">Interface multifaixa intuitiva.</li>
@@ -187,7 +187,7 @@
       <li xml:lang="it">Numerosi effetti e transizioni.</li>
       <li xml:lang="ko">다양한 효과와 트랜지션.</li>
       <li xml:lang="nl">Veel effecten en overgangen.</li>
-      <li xml:lang="nn">Mange effektar og overgangar.</li>
+      <li xml:lang="nn">Mange effektar og overgangar</li>
       <li xml:lang="pl">Wiele efektów i przejść.</li>
       <li xml:lang="pt">Diversos efeitos e transições.</li>
       <li xml:lang="pt-BR">Diversos efeitos e transições.</li>
@@ -291,6 +291,7 @@
       <caption xml:lang="it">Linea temporale Kdenlive</caption>
       <caption xml:lang="ko">Kdenlive 타임라인</caption>
       <caption xml:lang="nl">Kdenlive tijdlijn</caption>
+      <caption xml:lang="nn">Tidslinje i Kdenlive</caption>
       <caption xml:lang="pt">Linha Temporal do Kdenlive</caption>
       <caption xml:lang="pt-BR">Linha do tempo do Kdenlive</caption>
       <caption xml:lang="ru">Монтажный стол Kdenlive</caption>
@@ -317,6 +318,7 @@
       <caption xml:lang="it">Regolazioni audio Kdenlive</caption>
       <caption xml:lang="ko">Kdenlive 오디오 조정</caption>
       <caption xml:lang="nl">Kdenlive geluidsaanpassingen</caption>
+      <caption xml:lang="nn">Lysjustering i Kdenlive</caption>
       <caption xml:lang="pt">Ajustes de Áudio do Kdenlive</caption>
       <caption xml:lang="pt-BR">Ajustes de áudio do Kdenlive</caption>
       <caption xml:lang="ru">Настройка звука Kdenlive</caption>
@@ -345,6 +347,7 @@
       <caption xml:lang="it">Effetti Kdenlive</caption>
       <caption xml:lang="ko">Kdenlive 효과</caption>
       <caption xml:lang="nl">Kdenlive effecten</caption>
+      <caption xml:lang="nn">Kdenlive-effektar</caption>
       <caption xml:lang="pt">Efeitos do Kdenlive</caption>
       <caption xml:lang="pt-BR">Efeitos do Kdenlive</caption>
       <caption xml:lang="ru">Эффекты Kdenlive</caption>
