@@ -1112,10 +1112,22 @@ void ClipPropertiesController::slotEditMarker()
 void ClipPropertiesController::slotDeleteMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
-    auto current = m_markerTree->currentIndex();
-    if (!current.isValid()) return;
-    GenTime pos(markerModel->data(current, MarkerListModel::PosRole).toDouble());
-    markerModel->removeMarker(pos);
+    QModelIndexList indexes = m_markerTree->selectionModel()->selectedIndexes();
+    QList <GenTime> positions;
+    for (auto &ix : indexes) {
+        if (ix.isValid()) {
+            positions << GenTime(markerModel->data(ix, MarkerListModel::PosRole).toDouble());
+        }
+    }
+    if (!positions.isEmpty()) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+
+        for (GenTime pos : positions) {
+            markerModel->removeMarker(pos, undo, redo);
+        }
+        pCore->pushUndo(undo, redo, i18n("Delete marker"));
+    }
 }
 
 void ClipPropertiesController::slotAddMarker()

@@ -77,7 +77,6 @@ public:
     /* @brief Delete all the markers of the model */
     bool removeAllMarkers();
 
-protected:
     /* @brief Same function but accumulates undo/redo */
     bool removeMarker(GenTime pos, Fun &undo, Fun &redo);
 
