@@ -2871,14 +2871,6 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             row = parent.row();
             parentIndex = parent.parent();
         }
-        m_proxyModel->selectionModel()->clearSelection();
-        const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
-        const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, parentIndex);
-        if (id.isValid() && id2.isValid()) {
-            m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
-                                                   QItemSelectionModel::Select);
-        }
-        setCurrent(parentItem);
         bool res = false;
         if (effectData.count() == 4) {
             // Paste effect from another stack
@@ -2889,6 +2881,15 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
         }
         if (!res) {
             pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+        } else {
+            m_proxyModel->selectionModel()->clearSelection();
+            const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
+            const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, parentIndex);
+            if (id.isValid() && id2.isValid()) {
+                m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
+                                                   QItemSelectionModel::Select);
+            }
+            setCurrent(parentItem);
         }
     }
 }
