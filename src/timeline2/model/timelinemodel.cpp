@@ -729,9 +729,14 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         }
         for (int current_clipId : all_items) {
             if (getItemTrackId(current_clipId) != -1) {
-                int in = getItemPosition(current_clipId);
-                ignored_pts.push_back(in);
-                ignored_pts.push_back(in + getItemPlaytime(current_clipId));
+                if (isClip(current_clipId)) {
+                    m_allClips[current_clipId]->allSnaps(ignored_pts);
+                } else {
+                    // Composition
+                    int in = getItemPosition(current_clipId);
+                    ignored_pts.push_back(in);
+                    ignored_pts.push_back(in + getItemPlaytime(current_clipId));
+                }
             }
         }
         int snapped = getBestSnapPos(currentPos, position - currentPos, m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
@@ -2759,7 +2764,7 @@ int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> p
     return closest;
 }
 
-int TimelineModel::getNextSnapPos(int pos, std::vector<size_t> &snaps)
+int TimelineModel::getNextSnapPos(int pos, std::vector<int> &snaps)
 {
     QVector<int>tracks;
     // Get active tracks
@@ -2792,7 +2797,7 @@ int TimelineModel::getNextSnapPos(int pos, std::vector<size_t> &snaps)
     return pos;
 }
 
-int TimelineModel::getPreviousSnapPos(int pos, std::vector<size_t> &snaps)
+int TimelineModel::getPreviousSnapPos(int pos, std::vector<int> &snaps)
 {
     QVector<int>tracks;
     // Get active tracks

@@ -591,7 +591,7 @@ private:
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
     QMutex m_metaMutex;
     bool m_ready;
-    std::vector<size_t> m_activeSnaps;
+    std::vector<int> m_activeSnaps;
     int m_snapStackIndex;
     QMetaObject::Connection m_connection;
 

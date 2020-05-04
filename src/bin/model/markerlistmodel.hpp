@@ -99,7 +99,7 @@ public:
     QList<CommentedTime> getAllMarkers() const;
 
     /* @brief Returns all markers positions in model */
-    std::vector<size_t> getSnapPoints() const;
+    std::vector<int> getSnapPoints() const;
 
     /* @brief Returns true if a marker exists at given pos
        Notice that add/remove queries are done in real time (gentime), but this request is made in frame
