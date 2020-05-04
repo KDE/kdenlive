@@ -1443,16 +1443,21 @@ Rectangle {
                     vertical = 0
                     stop()
                 } else {
-                    var maxScroll = trackHeaders.height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height
-                    if (scrollView.contentY > maxScroll) {
-                        scrollView.contentY = Math.max(0, maxScroll)
+                    if ((clipBeingMovedId == -1 && !rubberSelect.visible)) {
                         vertical = 0
                         stop()
+                    } else {
+                        var maxScroll = trackHeaders.height - tracksArea.height + scrollView.ScrollBar.horizontal.height + ruler.height
+                        if (scrollView.contentY > maxScroll) {
+                            scrollView.contentY = Math.max(0, maxScroll)
+                            vertical = 0
+                            stop()
+                        }
                     }
                 }
             }
             if (horizontal != 0) {
-                if (scrollView.contentX + horizontal < 0) {
+                if (scrollView.contentX < -horizontal) {
                     horizontal = - scrollView.contentX
                     scrollView.contentX = 0
                 } else {
@@ -1462,14 +1467,16 @@ Rectangle {
                     dragProxy.x += horizontal
                     dragProxyArea.moveItem()
                 }
-                if (scrollView.contentX == 0 || clipBeingMovedId == -1) {
+                if (scrollView.contentX == 0 || (clipBeingMovedId == -1 && !rubberSelect.visible)) {
                     horizontal = 0
                     stop()
                 }
             }
             if (rubberSelect.visible) {
                 rubberSelect.x -= horizontal
+                rubberSelect.width += horizontal
                 rubberSelect.y -= vertical
+                rubberSelect.height += vertical
             }
         }
     }
