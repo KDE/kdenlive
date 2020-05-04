@@ -108,7 +108,7 @@ public:
     QDomElement toXml(QDomDocument &document);
 
     /* @brief Retrieve a list of all snaps for this clip */
-    void allSnaps(std::vector<size_t> &snaps);
+    void allSnaps(std::vector<int> &snaps);
 
 protected:
     // helper functions that creates the lambda
