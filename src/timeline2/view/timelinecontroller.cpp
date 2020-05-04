@@ -2629,7 +2629,8 @@ void TimelineController::updateClipActions()
         } else if (actionData == QLatin1Char('C') && clip == nullptr) {
             enableAction = false;
         } else if (actionData == QLatin1Char('P')) {
-            enableAction = enablePositionActions;
+            // Position actions should stay enabled in clip monitor
+            //enableAction = enablePositionActions;
         }
         act->setEnabled(enableAction);
     }
