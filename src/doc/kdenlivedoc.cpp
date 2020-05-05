@@ -612,22 +612,20 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
                      backupFile));
         }
     }
-    QFile file(path);
+    QSaveFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << path;
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
-
-    file.write(sceneList.toString().toUtf8());
-    if (file.error() != QFile::NoError) {
+    const QByteArray sceneData = sceneList.toString().toUtf8();
+    file.write(sceneData);
+    if (!file.commit()) {
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
-        file.close();
         return false;
     }
-    file.close();
     cleanupBackupFiles();
-    QFileInfo info(file);
+    QFileInfo info(path);
     QString fileName = QUrl::fromLocalFile(path).fileName().section(QLatin1Char('.'), 0, -2);
     fileName.append(QLatin1Char('-') + m_documentProperties.value(QStringLiteral("documentid")));
     fileName.append(info.lastModified().toString(QStringLiteral("-yyyy-MM-dd-hh-mm")));
