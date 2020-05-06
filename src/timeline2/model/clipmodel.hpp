@@ -65,7 +65,7 @@ public:
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state);
+                         PlaylistState::ClipState state, int tid);
 
     /** @brief returns a property of the clip, or from it's parent if it's a cut
      */

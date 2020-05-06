@@ -97,7 +97,7 @@ void ClipModel::allSnaps(std::vector<int> &snaps)
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state)
+                         PlaylistState::ClipState state, int tid)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -119,7 +119,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
         speed = producer->parent().get_double("warp_speed");
         warp_pitch = producer->parent().get_int("warp_pitch");
     }
-    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
+    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state, tid);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
     if (warp_pitch) {
         result.first->parent().set("warp_pitch", 1);

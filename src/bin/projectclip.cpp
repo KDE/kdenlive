@@ -664,8 +664,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     return std::shared_ptr<Mlt::Producer>(warpProducer->cut());
 }
 
-std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
-                                                                                              PlaylistState::ClipState state)
+std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid)
 {
     int in = master->get_in();
     int out = master->get_out();
@@ -703,16 +702,16 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 return {master, true};
             }
             if (state == PlaylistState::AudioOnly) {
-                m_audioProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
-                m_effectStack->loadService(m_audioProducers[clipId]);
+                m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
+                m_effectStack->loadService(m_audioProducers[tid]);
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
                 // good, we found a master video producer, and we didn't have any
                 if (m_clipType != ClipType::Color && m_clipType != ClipType::Image && m_clipType != ClipType::Text) {
                     // Color, image and text clips always use master producer in timeline
-                    m_videoProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
-                    m_effectStack->loadService(m_videoProducers[clipId]);
+                    m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
+                    m_effectStack->loadService(m_videoProducers[tid]);
                 }
                 return {master, true};
             }

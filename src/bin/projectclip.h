@@ -209,8 +209,7 @@ public:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
            - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
-    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
-                                                                                     PlaylistState::ClipState state);
+    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
