@@ -1286,13 +1286,13 @@ bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition
 void TimelineController::seekCurrentClip(bool seekToEnd)
 {
     const auto selection = m_model->getCurrentSelection();
-    for (int cid : selection) {
+    if (!selection.empty()) {
+        int cid = *selection.begin();
         int start = m_model->getItemPosition(cid);
         if (seekToEnd) {
             start += m_model->getItemPlaytime(cid);
         }
         setPosition(start);
-        break;
     }
 }
 
