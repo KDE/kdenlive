@@ -208,7 +208,7 @@ public:
     bool addEffect(const QString &effectId);
 
     /** @brief Returns the list of audio streams indexes for this clip */
-    QList <int> audioStreams() const;
+    QMap <int, QString> audioStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
 

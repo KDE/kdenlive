@@ -61,13 +61,13 @@ class TimelineController : public QObject
     Q_PROPERTY(int workingPreview READ workingPreview NOTIFY workingPreviewChanged)
     Q_PROPERTY(bool useRuler READ useRuler NOTIFY useRulerChanged)
     Q_PROPERTY(int activeTrack READ activeTrack WRITE setActiveTrack NOTIFY activeTrackChanged)
-    Q_PROPERTY(int audioTarget READ audioTarget WRITE setAudioTarget NOTIFY audioTargetChanged)
+    Q_PROPERTY(QVariantList audioTarget READ audioTarget NOTIFY audioTargetChanged)
     Q_PROPERTY(int videoTarget READ videoTarget WRITE setVideoTarget NOTIFY videoTargetChanged)
 
-    //Q_PROPERTY(int lastAudioTarget MEMBER m_lastAudioTarget NOTIFY lastAudioTargetChanged)
+    Q_PROPERTY(QVariantList lastAudioTarget READ lastAudioTarget  NOTIFY lastAudioTargetChanged)
     Q_PROPERTY(int lastVideoTarget MEMBER m_lastVideoTarget NOTIFY lastVideoTargetChanged)
 
-    Q_PROPERTY(bool hasAudioTarget READ hasAudioTarget NOTIFY hasAudioTargetChanged)
+    Q_PROPERTY(int hasAudioTarget READ hasAudioTarget NOTIFY hasAudioTargetChanged)
     Q_PROPERTY(bool hasVideoTarget READ hasVideoTarget NOTIFY hasVideoTargetChanged)
     Q_PROPERTY(bool autoScroll READ autoScroll NOTIFY autoScrollChanged)
     Q_PROPERTY(QColor videoColor READ videoColor NOTIFY colorsChanged)
@@ -150,9 +150,11 @@ public:
      */
     /* @brief Returns the seek request position (-1 = no seek pending)
      */
-    Q_INVOKABLE int audioTarget() const;
+    Q_INVOKABLE QVariantList audioTarget() const;
+    Q_INVOKABLE QVariantList lastAudioTarget() const;
+    Q_INVOKABLE const QString audioTargetName(int tid) const;
     Q_INVOKABLE int videoTarget() const;
-    Q_INVOKABLE bool hasAudioTarget() const;
+    Q_INVOKABLE int hasAudioTarget() const;
     Q_INVOKABLE bool hasVideoTarget() const;
     Q_INVOKABLE bool autoScroll() const;
     Q_INVOKABLE int activeTrack() const { return m_activeTrack; }
@@ -506,7 +508,7 @@ public:
     /** @brief timeline preview params changed, reset */
     void resetPreview();
     /** @brief Set target tracks (video, audio) */
-    void setTargetTracks(bool hasVideo, QList <int> audioTargets);
+    void setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets);
     /** @brief Return asset's display name from it's id (effect or composition) */
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */
@@ -530,13 +532,19 @@ public:
     void collapseActiveTrack();
     /** @brief Expand MLT playlist to its contained clips/compositions */
     void expandActiveClip();
+    /** @brief Retrieve a list of possible audio stream targets */
+    QMap <int, QString> getCurrentTargets(int trackId, int &activeTargetStream);
+    /** @brief Define audio stream target for a track index */
+    void assignAudioTarget(int trackId, int stream);
 
 public slots:
     void resetView();
-    Q_INVOKABLE void setAudioTarget(int track);
-    void setIntAudioTarget(QList <int> tracks);
+    void setAudioTarget(QMap<int, int> tracks);
+    Q_INVOKABLE void switchAudioTarget(int trackId);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
+    /** @brief Get the first unassigned target audio stream. */
+    int getFirstUnassignedStream() const;
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);
@@ -575,10 +583,13 @@ private:
     int m_videoTarget;
     int m_activeTrack;
     int m_audioRef;
-    bool m_hasAudioTarget {false};
+    int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
     int m_lastVideoTarget {-1};
-    QList <int> m_lastAudioTarget;
+    /** @brief The list of audio streams available from the selected bin clip, in the form: {stream index, stream description} */
+    QMap <int, QString> m_binAudioTargets;
+    /** @brief The last combination of audio targets in the form: {timeline track id, bin stream index} */
+    QMap <int, int> m_lastAudioTarget;
     bool m_videoTargetActive {true};
     bool m_audioTargetActive {true};
     QPair<int, int> m_recordStart;

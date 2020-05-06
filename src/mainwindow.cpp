@@ -267,7 +267,7 @@ void MainWindow::init()
     connect(m_clipMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
 
     connect(pCore->bin(), &Bin::findInTimeline, this, &MainWindow::slotClipInTimeline, Qt::DirectConnection);
-    connect(pCore->bin(), &Bin::setupTargets, this, [&] (bool hasVideo, QList <int> audioStreams) {
+    connect(pCore->bin(), &Bin::setupTargets, this, [&] (bool hasVideo, QMap <int, QString> audioStreams) {
             getCurrentTimeline()->controller()->setTargetTracks(hasVideo, audioStreams);
         }
     );

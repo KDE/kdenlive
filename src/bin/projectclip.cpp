@@ -70,6 +70,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma GCC diagnostic ignored "-Wshadow"
 #pragma GCC diagnostic ignored "-Wpedantic"
 #include <rttr/registration>
+
 #pragma GCC diagnostic pop
 RTTR_REGISTRATION
 {
@@ -164,7 +165,6 @@ ProjectClip::~ProjectClip()
     m_requestedThumbs.clear();
     m_thumbMutex.unlock();
     m_thumbThread.waitForFinished();
-    audioFrameCache.clear();
 }
 
 void ProjectClip::connectEffectStack()
@@ -198,13 +198,13 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
     return value;
 }
 
-void ProjectClip::updateAudioThumbnail(const QVector<uint8_t> audioLevels)
+void ProjectClip::updateAudioThumbnail()
 {
     if (!KdenliveSettings::audiothumbnails()) {
         return;
     }
-    audioFrameCache = audioLevels;
     m_audioThumbCreated = true;
+    audioThumbReady();
     updateTimelineClips({TimelineModel::ReloadThumbRole});
 }
 
@@ -568,14 +568,18 @@ void ProjectClip::createDisabledMasterProducer()
     }
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, double speed)
+std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed)
 {
     if (!m_masterProducer) {
         return nullptr;
     }
     if (qFuzzyCompare(speed, 1.0)) {
         // we are requesting a normal speed producer
-        if (trackId == -1 ||
+        bool byPassTrackProducer = false;
+        if (trackId == -1 && (state != PlaylistState::AudioOnly || audioStream == m_masterProducer->get_int("audio_index"))) {
+            byPassTrackProducer = true;
+        }
+        if (byPassTrackProducer ||
             (state == PlaylistState::VideoOnly && (m_clipType == ClipType::Color || m_clipType == ClipType::Image || m_clipType == ClipType::Text|| m_clipType == ClipType::TextTemplate || m_clipType == ClipType::Qml))) {
             // Temporary copy, return clone of master
             int duration = m_masterProducer->time_to_frames(m_masterProducer->get("kdenlive:duration"));
@@ -587,10 +591,20 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         }
         if (state == PlaylistState::AudioOnly) {
             // We need to get an audio producer, if none exists
+            if (audioStream > -1) {
+                if (trackId >= 0) {
+                    trackId += 100 * audioStream;
+                } else {
+                    trackId -= 100 * audioStream;
+                }
+            }
             if (m_audioProducers.count(trackId) == 0) {
                 m_audioProducers[trackId] = cloneProducer(true);
                 m_audioProducers[trackId]->set("set.test_audio", 0);
                 m_audioProducers[trackId]->set("set.test_image", 1);
+                if (audioStream > -1) {
+                    m_audioProducers[trackId]->set("audio_index", audioStream);
+                }
                 m_effectStack->addService(m_audioProducers[trackId]);
             }
             return std::shared_ptr<Mlt::Producer>(m_audioProducers[trackId]->cut());
@@ -665,8 +679,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     return std::shared_ptr<Mlt::Producer>(warpProducer->cut());
 }
 
-std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
-                                                                                              PlaylistState::ClipState state)
+std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid)
 {
     int in = master->get_in();
     int out = master->get_out();
@@ -681,10 +694,9 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         }
         if (master->parent().get_int("_loaded") == 1) {
             // we already have a clip that shares the same master
-
             if (state != PlaylistState::Disabled || timeWarp) {
                 // In that case, we must create copies
-                std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(-1, clipId, state, speed)->cut(in, out));
+                std::shared_ptr<Mlt::Producer> prod(getTimelineProducer(tid, clipId, state, master->parent().get_int("audio_index"), speed)->cut(in, out));
                 return {prod, false};
             }
             if (state == PlaylistState::Disabled) {
@@ -704,16 +716,21 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 return {master, true};
             }
             if (state == PlaylistState::AudioOnly) {
-                m_audioProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
-                m_effectStack->loadService(m_audioProducers[clipId]);
+                int producerId = tid;
+                int audioStream = master->parent().get_int("audio_index");
+                if (audioStream > -1) {
+                    producerId += 100 * audioStream;
+                }
+                m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
+                m_effectStack->loadService(m_audioProducers[tid]);
                 return {master, true};
             }
             if (state == PlaylistState::VideoOnly) {
                 // good, we found a master video producer, and we didn't have any
                 if (m_clipType != ClipType::Color && m_clipType != ClipType::Image && m_clipType != ClipType::Text) {
                     // Color, image and text clips always use master producer in timeline
-                    m_videoProducers[clipId] = std::make_shared<Mlt::Producer>(&master->parent());
-                    m_effectStack->loadService(m_videoProducers[clipId]);
+                    m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
+                    m_effectStack->loadService(m_videoProducers[tid]);
                 }
                 return {master, true};
             }
@@ -733,7 +750,7 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
         if (QString::fromUtf8(master->parent().get("mlt_service")) == QLatin1String("timewarp")) {
             speed = master->get_double("warp_speed");
         }
-        return {getTimelineProducer(-1, clipId, state, speed), false};
+        return {getTimelineProducer(-1, clipId, state, master->get_int("audio_index"), speed), false};
     }
     // we have a problem
     return {std::shared_ptr<Mlt::Producer>(ClipController::mediaUnavailable->cut()), false};
@@ -1082,9 +1099,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
     } else {
         if (audioStreamChanged) {
-            discardAudioThumb();
+            refreshAudioInfo();
+            audioThumbReady();
             pCore->bin()->reloadMonitorStreamIfActive(clipId());
-            pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, -1, QString());
             refreshPanel = true;
         }
     }
@@ -1223,18 +1240,40 @@ int ProjectClip::audioChannels() const
 
 void ProjectClip::discardAudioThumb()
 {
-    QString audioThumbPath = getAudioThumbPath();
+    if (!m_audioInfo) {
+        return;
+    }
+    QString audioThumbPath = getAudioThumbPath(audioInfo()->ffmpeg_audio_index());
     if (!audioThumbPath.isEmpty()) {
         QFile::remove(audioThumbPath);
     }
-    audioFrameCache.clear();
-    qCDebug(KDENLIVE_LOG) << "////////////////////  DISCARD AUIIO THUMBNS";
+    qCDebug(KDENLIVE_LOG) << "////////////////////  DISCARD AUDIO THUMBS";
     m_audioThumbCreated = false;
     refreshAudioInfo();
     pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
 }
 
-const QString ProjectClip::getAudioThumbPath(bool miniThumb)
+int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)
+{
+    if (!m_masterProducer) {
+        return -1;
+    }
+    int streams = m_masterProducer->get_int("meta.media.nb_streams");
+    QList<int> audioStreams;
+    for (int i = 0; i < streams; ++i) {
+        QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
+        QString type = m_masterProducer->get(propertyName.data());
+        if (type == QLatin1String("audio")) {
+            audioStreams << i;
+        }
+    }
+    if (audioStreams.count() > 1 && mltStream < audioStreams.count()) {
+        return audioStreams.indexOf(mltStream);
+    }
+    return -1;
+}
+
+const QString ProjectClip::getAudioThumbPath(int stream, bool miniThumb)
 {
     if (audioInfo() == nullptr && !miniThumb) {
         return QString();
@@ -1249,13 +1288,10 @@ const QString ProjectClip::getAudioThumbPath(bool miniThumb)
         return QString();
     }
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
+    audioPath.append(QLatin1Char('_') + QString::number(stream));
     if (miniThumb) {
         audioPath.append(QStringLiteral(".png"));
         return audioPath;
-    }
-    int audioStream = audioInfo()->ffmpeg_audio_index();
-    if (audioStream > 0) {
-        audioPath.append(QLatin1Char('_') + QString::number(audioInfo()->audio_index()));
     }
     int roundedFps = (int)pCore->getCurrentFps();
     audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
@@ -1488,4 +1524,32 @@ void ProjectClip::setRating(uint rating)
     AbstractProjectItem::setRating(rating);
     setProducerProperty(QStringLiteral("kdenlive:rating"), (int) rating);
     pCore->currentDoc()->setModified(true);
+}
+
+QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
+{
+    QVector <uint8_t> audioLevels;
+    if (stream == -1) {
+        if (m_audioInfo) {
+            stream = m_audioInfo->ffmpeg_audio_index();
+        } else {
+            return audioLevels;
+        }
+    }
+    // convert cached image
+    const QString cachePath = getAudioThumbPath(stream);
+    // checking for cached thumbs
+    QImage image(cachePath);
+    int channels = m_audioInfo->channels();
+    if (!image.isNull()) {
+        int n = image.width() * image.height();
+        for (int i = 0; i < n; i++) {
+            QRgb p = image.pixel(i / channels, i % channels);
+            audioLevels << qRed(p);
+            audioLevels << qGreen(p);
+            audioLevels << qBlue(p);
+            audioLevels << qAlpha(p);
+        }
+    }
+    return audioLevels;
 }

@@ -234,6 +234,8 @@ Item{
                         item.canBeVideo = model.canBeVideo
                         item.itemType = model.clipType
                         item.audioChannels = model.audioChannels
+                        item.audioStream = model.audioStream
+                        console.log('loaded clpi with Astream: ', model.audioStream)
                         // Speed change triggers a new clip insert so no binding necessary
                         item.speed = model.speed
                     } else if (model.clipType == ProducerType.Composition) {

@@ -69,7 +69,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     });
 }
 
-int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed, bool warp_pitch)
+int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream, double speed, bool warp_pitch)
 {
     id = (id == -1 ? TimelineModel::getNextId() : id);
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binClipId);
@@ -79,11 +79,13 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     videoAudio.first = videoAudio.first && binClip->hasVideo();
     videoAudio.second = videoAudio.second && binClip->hasAudio();
     state = stateFromBool(videoAudio);
-    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, speed);
+    qDebug()<<"// GET TIMELINE PROD FOR STREAM: "<<audioStream;
+    std::shared_ptr<Mlt::Producer> cutProducer = binClip->getTimelineProducer(-1, id, state, audioStream, speed);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, cutProducer, binClipId, id, state, speed));
     if (!qFuzzyCompare(speed, 1.)) {
         cutProducer->parent().set("warp_pitch", warp_pitch ? 1 : 0);
     }
+    qDebug()<<"==== BUILT CLIP STREAM: "<<clip->audioStream();
     TRACE_CONSTR(clip.get(), parent, binClipId, id, state, speed);
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
@@ -97,7 +99,7 @@ void ClipModel::allSnaps(std::vector<int> &snaps)
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state)
+                         PlaylistState::ClipState state, int tid)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -119,7 +121,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
         speed = producer->parent().get_double("warp_speed");
         warp_pitch = producer->parent().get_int("warp_pitch");
     }
-    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state);
+    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state, tid);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
     if (warp_pitch) {
         result.first->parent().set("warp_pitch", 1);
@@ -411,7 +413,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed, bool hasPitch)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -427,7 +429,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, m_speed);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     if (hasPitch) {
@@ -452,7 +454,8 @@ void ClipModel::refreshProducerFromBin(int trackId)
     if (!qFuzzyCompare(getSpeed(), 1.)) {
         hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
-    refreshProducerFromBin(trackId, m_currentState, 0, hasPitch);
+    int stream = m_producer->parent().get_int("audio_index");
+    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch);
 }
 
 bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
@@ -477,8 +480,9 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
         revertSpeed = true;
     }
     bool hasPitch = getIntProperty(QStringLiteral("warp_pitch"));
-    auto operation = useTimewarpProducer_lambda(speed, pitchCompensate);
-    auto reverse = useTimewarpProducer_lambda(previousSpeed, hasPitch);
+    int audioStream = getIntProperty(QStringLiteral("audio_index"));
+    auto operation = useTimewarpProducer_lambda(speed, audioStream, pitchCompensate);
+    auto reverse = useTimewarpProducer_lambda(previousSpeed, audioStream, hasPitch);
     if (revertSpeed || (changeDuration && oldOut >= newDuration)) {
         // in that case, we are going to shrink the clip when changing the producer. We must undo that when reloading the old producer
         reverse = [reverse, oldIn, oldOut, this]() {
@@ -526,12 +530,12 @@ bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool cha
     return false;
 }
 
-Fun ClipModel::useTimewarpProducer_lambda(double speed, bool pitchCompensate)
+Fun ClipModel::useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate)
 {
     QWriteLocker locker(&m_lock);
-    return [speed, pitchCompensate, this]() {
+    return [speed, stream, pitchCompensate, this]() {
         qDebug() << "timeWarp producer" << speed;
-        refreshProducerFromBin(m_currentTrackId, m_currentState, speed, pitchCompensate);
+        refreshProducerFromBin(m_currentTrackId, m_currentState, stream, speed, pitchCompensate);
         return true;
     };
 }
@@ -551,6 +555,15 @@ int ClipModel::audioChannels() const
 {
     READ_LOCK();
     return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels();
+}
+
+int ClipModel::audioStream() const
+{
+    READ_LOCK();
+    if (pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamsCount() > 1) {
+        return m_producer->parent().get_int("audio_index");
+    }
+    return -m_producer->parent().get_int("audio_index");
 }
 
 int ClipModel::fadeIn() const
@@ -745,6 +758,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
         }
     }
     container.setAttribute(QStringLiteral("speed"), locale.toString(m_speed));
+    container.setAttribute(QStringLiteral("audioStream"), getIntProperty(QStringLiteral("audio_index")));
     if (!qFuzzyCompare(m_speed, 1.)) {
         container.setAttribute(QStringLiteral("warp_pitch"), getIntProperty(QStringLiteral("warp_pitch")));
     }

@@ -140,6 +140,7 @@ public:
         ShowKeyframesRole,
         AudioLevelsRole,    /// clip only
         AudioChannelsRole,  /// clip only
+        AudioStreamRole,  /// clip only
         IsCompositeRole,    /// track only
         IsLockedRole,       /// track only
         HeightRole,         /// track only
@@ -411,7 +412,7 @@ protected:
        @param id: return parameter for the id of the newly created clip.
        @param state: The desired clip state (original, audio/video only).
      */
-    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, double speed, bool warp_pitch, Fun &undo, Fun &redo);
+    bool requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, int audioStream, double speed, bool warp_pitch, Fun &undo, Fun &redo);
 
     /* @brief Switch item selection status */
     void setSelected(int itemId, bool sel);
@@ -818,8 +819,8 @@ protected:
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;
 
-    // The preferred audio target for clip insertion or -1 if not defined
-    int m_audioTarget;
+    // The preferred audio target for clip insertion in the form {timeline track id, bin clip stream index}
+    QMap <int, int> m_audioTarget;
     // The preferred video target for clip insertion or -1 if not defined
     int m_videoTarget;
     // Timeline editing mode

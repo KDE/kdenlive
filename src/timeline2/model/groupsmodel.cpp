@@ -108,31 +108,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
         // We do not create a group with only one element. Instead, we return the id of that element
         return *(roots.begin());
     }
-    if (type == GroupType::AVSplit && !force) {
-        // additional checks for AVSplit
-        if (roots.size() != 2) {
-            // must group exactly two items
-            return -1;
-        }
-        auto it = roots.begin();
-        int cid1 = *it;
-        ++it;
-        int cid2 = *it;
-        auto ptr = m_parent.lock();
-        if (!ptr) Q_ASSERT(false);
-        if (cid1 == cid2 || !ptr->isClip(cid1) || !ptr->isClip(cid2)) {
-            // invalid: we must get two different clips
-            return -1;
-        }
-        int tid1 = ptr->getClipTrackId(cid1);
-        bool isAudio1 = ptr->getTrackById(tid1)->isAudioTrack();
-        int tid2 = ptr->getClipTrackId(cid2);
-        bool isAudio2 = ptr->getTrackById(tid2)->isAudioTrack();
-        if (isAudio1 == isAudio2) {
-            // invalid: we must insert one in video the other in audio
-            return -1;
-        }
-    }
+
     int gid = TimelineModel::getNextId();
     auto operation = groupItems_lambda(gid, roots, type);
     if (operation()) {

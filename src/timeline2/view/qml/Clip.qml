@@ -40,6 +40,7 @@ Rectangle {
     property int maxDuration: 0
     property bool isAudio: false
     property int audioChannels
+    property int audioStream: -1
     property bool showKeyframes: false
     property bool isGrabbed: false
     property bool grouped: false
@@ -582,7 +583,8 @@ Rectangle {
                     Text {
                         // Clip name text
                         id: label
-                        text: (clipRoot.speed != 1.0 ? '[' + Math.round(clipRoot.speed*100) + '%] ': '') + clipName
+                        property string clipNameString: (clipRoot.isAudio && clipRoot.audioStream > -1) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.audioStream) + '|' + clipName ) : clipName
+                        text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
                         anchors {
                             top: labelRect.top
@@ -668,8 +670,7 @@ Rectangle {
                         //style: Text.Outline
                         styleColor: 'black'
                     }
-                }
-                
+               }
                Rectangle{
                     //proxy 
                     id:proxyRect

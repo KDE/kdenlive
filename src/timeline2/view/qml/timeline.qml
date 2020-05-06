@@ -20,6 +20,7 @@ Rectangle {
     signal showTimelineMenu()
     signal showRulerMenu()
     signal showHeaderMenu()
+    signal showTargetMenu(int ix)
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)

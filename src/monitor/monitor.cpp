@@ -1423,7 +1423,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         delete m_audioChannelsGroup;
         m_audioChannelsGroup = nullptr;
         if (m_controller->audioInfo()) {
-            QMap<int, QString> audioStreamsInfo = m_controller->audioInfo()->streamInfo(m_controller->properties());
+            QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
             if (audioStreamsInfo.size() > 1) {
                 // Multi stream clip
                 m_audioChannelsGroup = new QActionGroup(this);
@@ -1432,7 +1432,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 QAction *ac;
                 while (i.hasNext()) {
                     i.next();
-                    ac = m_audioChannels->addAction(QString("%1: %2").arg(i.key()).arg(i.value()));
+                    ac = m_audioChannels->addAction(i.value());
                     ac->setData(i.key());
                     ac->setCheckable(true);
                     if (i.key() == activeStream) {

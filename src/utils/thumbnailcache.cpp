@@ -281,7 +281,14 @@ QString ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
     *ok = binClip != nullptr;
-    return *ok ? binClip->hash() + QStringLiteral(".png") : QString();
+    if (ok) {
+        int audio = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
+        if (audio > -1) {
+            return binClip->hash() + QLatin1Char('_') + QString::number(audio) + QStringLiteral(".png");
+        }
+        return binClip->hash() + QStringLiteral(".png");
+    }
+    return QString();
 }
 
 // static

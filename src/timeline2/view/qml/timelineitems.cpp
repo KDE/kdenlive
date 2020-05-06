@@ -82,6 +82,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
+    Q_PROPERTY(int audioStream MEMBER m_stream)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
@@ -97,8 +98,8 @@ public:
         //setMipmap(true);
         setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
-            if (!m_binId.isEmpty() && m_audioLevels.isEmpty()) {
-                m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
+            if (!m_binId.isEmpty() && m_audioLevels.isEmpty() && m_stream >= 0) {
+                m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
                 update();
             }
         });
@@ -128,8 +129,8 @@ public:
         if (!m_showItem || m_binId.isEmpty()) {
             return;
         }
-        if (m_audioLevels.isEmpty()) {
-            m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId);
+        if (m_audioLevels.isEmpty() && m_stream >= 0) {
+            m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
             if (m_audioLevels.isEmpty()) {
                 return;
             }
@@ -228,6 +229,7 @@ private:
     bool m_format;
     bool m_showItem;
     int m_channels;
+    int m_stream;
     bool m_firstChunk;
 };
 

@@ -117,17 +117,18 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
-void TimelineController::setTargetTracks(bool hasVideo, QList <int> audioTargets)
+void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
 {
     int videoTrack = -1;
-    QList <int> audioTracks;
+    m_binAudioTargets = audioTargets;
+    QMap<int, int> audioTracks;
     m_hasVideoTarget = hasVideo;
-    m_hasAudioTarget = !audioTargets.isEmpty();
+    m_hasAudioTarget = audioTargets.size();
     if (m_hasVideoTarget) {
         videoTrack = m_model->getFirstVideoTrackIndex();
     }
-    if (m_hasAudioTarget) {
-        QList <int> tracks;
+    if (m_hasAudioTarget > 0) {
+        QVector <int> tracks;
         auto it = m_model->m_allTracks.cbegin();
         while (it != m_model->m_allTracks.cend()) {
             if ((*it)->isAudioTrack()) {
@@ -135,20 +136,23 @@ void TimelineController::setTargetTracks(bool hasVideo, QList <int> audioTargets
             }
             ++it;
         }
-        int i = 0;
-        while (i < audioTargets.size() && !tracks.isEmpty()) {
-            audioTracks << tracks.takeLast();
-            i++;
+        QMapIterator <int, QString>st(audioTargets);
+        while (st.hasNext()) {
+            st.next();
+            if (tracks.isEmpty()) {
+                break;
+            }
+            audioTracks.insert(tracks.takeLast(), st.key());
         }
     }
     emit hasAudioTargetChanged();
     emit hasVideoTargetChanged();
-    if (m_videoTargetActive) {
+    //if (m_videoTargetActive) {
         setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : videoTrack);
-    }
-    if (m_audioTargetActive) {
-        setIntAudioTarget((m_hasAudioTarget && (m_lastAudioTarget.size() == audioTargets.size())) ? m_lastAudioTarget : audioTracks);
-    }
+    //}
+    //if (m_audioTargetActive) {
+        setAudioTarget((m_hasAudioTarget > 0 && (m_lastAudioTarget.size() == audioTargets.size())) ? m_lastAudioTarget : audioTracks);
+    //}
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -659,14 +663,16 @@ void TimelineController::checkTrackDeletion(int selectedTrackIx)
             m_activeTrack = -1;
             emit activeTrackChanged();
         }
-        if (m_model->m_audioTarget == selectedTrackIx) {
-            setAudioTarget(-1);
+        if (m_model->m_audioTarget.contains(selectedTrackIx)) {
+            QMap<int, int> selection = m_model->m_audioTarget;
+            selection.remove(selectedTrackIx);
+            setAudioTarget(selection);
         }
         if (m_model->m_videoTarget == selectedTrackIx) {
             setVideoTarget(-1);
         }
         if (m_lastAudioTarget.contains(selectedTrackIx)) {
-            m_lastAudioTarget.removeAll(selectedTrackIx);
+            m_lastAudioTarget.remove(selectedTrackIx);
             emit lastAudioTargetChanged();
         }
         if (m_lastVideoTarget == selectedTrackIx) {
@@ -1105,23 +1111,59 @@ void TimelineController::setPosition(int position)
     emit seeked(position);
 }
 
-void TimelineController::setAudioTarget(int track)
+void TimelineController::setAudioTarget(QMap<int, int> tracks)
 {
-    if ((track > -1 && !m_model->isTrack(track)) || !m_hasAudioTarget) {
+    if ((!tracks.isEmpty() && !m_model->isTrack(tracks.firstKey())) || m_hasAudioTarget == 0) {
         return;
     }
-    m_model->m_audioTarget = track;
+    // Clear targets before re-adding to trigger qml refresh
+    m_model->m_audioTarget.clear();
+    emit audioTargetChanged();
+
+    m_model->m_audioTarget = tracks;
     emit audioTargetChanged();
 }
 
-void TimelineController::setIntAudioTarget(QList <int> tracks)
+void TimelineController::switchAudioTarget(int trackId)
 {
-    if ((!tracks.isEmpty() && !m_model->isTrack(tracks.first())) || !m_hasAudioTarget) {
-        return;
+    if (m_model->m_audioTarget.contains(trackId)) {
+        m_model->m_audioTarget.remove(trackId);
+    } else {
+        //TODO: use track description
+        int ix = getFirstUnassignedStream();
+        if (ix > -1) {
+            m_model->m_audioTarget.insert(trackId, ix);
+        }
     }
-    qDebug()<<"/// GOT AUDIO TRACKS: "<<tracks;
-    m_model->m_audioTarget = tracks.isEmpty() ? -1 : tracks.first();
     emit audioTargetChanged();
+}
+
+void TimelineController::assignAudioTarget(int trackId, int stream)
+{
+    QList <int> assignedStreams = m_model->m_audioTarget.values();
+    if (assignedStreams.contains(stream)) {
+        // This stream was assigned to another track, remove
+        m_model->m_audioTarget.remove(m_model->m_audioTarget.key(stream));
+    }
+    //Remove and re-add target track to trigger a refresh in qml track headers
+    m_model->m_audioTarget.remove(trackId);
+    emit audioTargetChanged();
+
+    m_model->m_audioTarget.insert(trackId, stream);
+    emit audioTargetChanged();
+}
+
+
+int TimelineController::getFirstUnassignedStream() const
+{
+    QList <int> keys = m_binAudioTargets.keys();
+    QList <int> assigned = m_model->m_audioTarget.values();
+    for (int k : keys) {
+        if (!assigned.contains(k)) {
+            return k;
+        }
+    }
+    return -1;
 }
 
 void TimelineController::setVideoTarget(int track)
@@ -1693,7 +1735,7 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
 QMap<QString, QString> TimelineController::documentProperties()
 {
     QMap<QString, QString> props = pCore->currentDoc()->documentProperties();
-    int audioTarget = m_model->m_audioTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_audioTarget);
+    int audioTarget = m_model->m_audioTarget.isEmpty() ? -1 : m_model->getTrackPosition(m_model->m_audioTarget.firstKey());
     int videoTarget = m_model->m_videoTarget == -1 ? -1 : m_model->getTrackPosition(m_model->m_videoTarget);
     int activeTrack = m_activeTrack == -1 ? -1 : m_model->getTrackPosition(m_activeTrack);
     props.insert(QStringLiteral("audioTarget"), QString::number(audioTarget));
@@ -2035,7 +2077,7 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     int aTrack = -1;
     int vTrack = -1;
     if (clip->hasAudio()) {
-        aTrack = audioTarget();
+        aTrack = m_model->m_audioTarget.firstKey();
     }
     if (clip->hasVideo()) {
         vTrack = videoTarget();
@@ -2176,7 +2218,7 @@ bool TimelineController::splitAV()
         if (clip->clipState() == PlaylistState::AudioOnly) {
             return TimelineFunctions::requestSplitVideo(m_model, cid, videoTarget());
         } else {
-            return TimelineFunctions::requestSplitAudio(m_model, cid, audioTarget());
+            return TimelineFunctions::requestSplitAudio(m_model, cid, m_model->m_audioTarget.firstKey());
         }
     }
     pCore->displayMessage(i18n("No clip found to perform AV split operation"), InformationMessage, 500);
@@ -2185,7 +2227,7 @@ bool TimelineController::splitAV()
 
 void TimelineController::splitAudio(int clipId)
 {
-    TimelineFunctions::requestSplitAudio(m_model, clipId, audioTarget());
+    TimelineFunctions::requestSplitAudio(m_model, clipId, m_model->m_audioTarget.firstKey());
 }
 
 void TimelineController::splitVideo(int clipId)
@@ -2346,15 +2388,53 @@ void TimelineController::switchTargetTrack()
 {
     bool isAudio = m_model->getTrackById_const(m_activeTrack)->getProperty("kdenlive:audio_track").toInt() == 1;
     if (isAudio) {
-        setAudioTarget(audioTarget() == m_activeTrack ? -1 : m_activeTrack);
+        QMap<int, int> current = m_model->m_audioTarget;
+        if (current.contains(m_activeTrack)) {
+            current.remove(m_activeTrack);
+        } else {
+            int ix = getFirstUnassignedStream();
+            if (ix > -1) {
+                current.insert(m_activeTrack, ix);
+            }
+        }
+        setAudioTarget(current);
     } else {
         setVideoTarget(videoTarget() == m_activeTrack ? -1 : m_activeTrack);
     }
 }
 
-int TimelineController::audioTarget() const
+QVariantList TimelineController::audioTarget() const
 {
-    return m_model->m_audioTarget;
+    QVariantList audioTracks;
+    QMapIterator <int, int>i(m_model->m_audioTarget);
+    while (i.hasNext()) {
+        i.next();
+        audioTracks << i.key();
+    }
+    return audioTracks;
+}
+
+QVariantList TimelineController::lastAudioTarget() const
+{
+    QVariantList audioTracks;
+    QMapIterator <int, int>i(m_lastAudioTarget);
+    while (i.hasNext()) {
+        i.next();
+        audioTracks << i.key();
+    }
+    return audioTracks;
+}
+
+const QString TimelineController::audioTargetName(int tid) const
+{
+    if (m_model->m_audioTarget.contains(tid) && m_binAudioTargets.size() > 1) {
+        int streamIndex = m_model->m_audioTarget.value(tid);
+        if (m_binAudioTargets.contains(streamIndex)) {
+            QString targetName = m_binAudioTargets.value(streamIndex);
+            return targetName.isEmpty() ? QChar('x') : targetName.at(0);
+        }
+    }
+    return QString();
 }
 
 int TimelineController::videoTarget() const
@@ -2362,7 +2442,7 @@ int TimelineController::videoTarget() const
     return m_model->m_videoTarget;
 }
 
-bool TimelineController::hasAudioTarget() const
+int TimelineController::hasAudioTarget() const
 {
     return m_hasAudioTarget;
 }
@@ -3169,8 +3249,8 @@ void TimelineController::updateVideoTarget()
 
 void TimelineController::updateAudioTarget()
 {
-    if (audioTarget() > -1) {
-        m_lastAudioTarget = {audioTarget()};
+    if (!audioTarget().isEmpty()) {
+        m_lastAudioTarget = m_model->m_audioTarget;
         m_audioTargetActive = true;
         emit lastAudioTargetChanged();
     } else {
@@ -3289,4 +3369,18 @@ void TimelineController::expandActiveClip()
             }
         }
     }
+}
+
+QMap <int, QString> TimelineController::getCurrentTargets(int trackId, int &activeTargetStream)
+{
+    if (m_binAudioTargets.size() < 2) {
+        activeTargetStream = -1;
+        return QMap <int, QString>();
+    }
+    if (m_model->m_audioTarget.contains(trackId)) {
+        activeTargetStream = m_model->m_audioTarget.value(trackId);
+    } else {
+        activeTargetStream = -1;
+    }
+    return m_binAudioTargets;
 }

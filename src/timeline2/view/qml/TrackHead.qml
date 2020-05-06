@@ -90,96 +90,106 @@ Rectangle {
             }
         }
     }
-    Item {
-        id: targetColumn
-        width: root.collapsedHeight * .4
+    Label {
+        id: trackTarget
+        property color bgColor: 'grey'
+        font: miniFont
+        color: timeline.targetTextColor
+        background: Rectangle {
+            color: trackTarget.bgColor
+        }
+        width: 2 * fontMetrics.boundingRect("M").width
         height: trackHeadRoot.height
-        Item {
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget > 0 : timeline.hasVideoTarget           
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.margins: 1
+        
+        MouseArea {
+            id: targetArea
             anchors.fill: parent
-            anchors.margins: 1
-            Rectangle {
-                id: trackTarget
-                color: 'grey'
-                anchors.fill: parent
-                width: height
-                border.width: 0
-                visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget : timeline.hasVideoTarget
-                MouseArea {
-                    id: targetArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        if (trackHeadRoot.isAudio) {
-                            if (trackHeadRoot.trackId == timeline.audioTarget) {
-                                timeline.audioTarget = -1;
-                            } else if (timeline.hasAudioTarget) {
-                                timeline.audioTarget = trackHeadRoot.trackId;
-                            }
-                        } else {
-                            if (trackHeadRoot.trackId == timeline.videoTarget) {
-                                timeline.videoTarget = -1;
-                            } else if (timeline.hasVideoTarget) {
-                                timeline.videoTarget = trackHeadRoot.trackId;
-                            }
+            hoverEnabled: true
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                if (mouse.button == Qt.RightButton) {
+                    if (trackHeadRoot.isAudio) {
+                        root.showTargetMenu(trackId)
+                    } else {
+                        root.showHeaderMenu()
+                    }
+                }
+                else {
+                    if (trackHeadRoot.isAudio) {
+                        timeline.switchAudioTarget(trackHeadRoot.trackId);
+                    } else {
+                        if (trackHeadRoot.trackId == timeline.videoTarget) {
+                            timeline.videoTarget = -1;
+                        } else if (timeline.hasVideoTarget) {
+                            timeline.videoTarget = trackHeadRoot.trackId;
                         }
                     }
                 }
-                ToolTip {
-                        visible: targetArea.containsMouse
-                        font: miniFont
-                        delay: 1500
-                        timeout: 5000
-                        background: Rectangle {
-                            color: activePalette.alternateBase
-                            border.color: activePalette.light
-                        }
-                        contentItem: Label {
-                            color: activePalette.text
-                            text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
-                        }
-                    }
-                state:  'normalTarget'
-                states: [
-                    State {
-                        name: 'target'
-                        when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.audioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
-                        PropertyChanges {
-                            target: trackTarget
-                            color: timeline.targetColor
-                        }
-                    },
-                    State {
-                        name: 'inactiveTarget'
-                        when: (trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastAudioTarget) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastVideoTarget)
-                        PropertyChanges {
-                            target: trackTarget
-                            opacity: 0.3
-                            color: activePalette.text
-                        }
-                    },
-                    State {
-                        name: 'noTarget'
-                        when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
-                        PropertyChanges {
-                            target: trackTarget
-                            color: activePalette.base
-                        }
-                    }
-                ]
-                transitions: [
-                    Transition {
-                        to: '*'
-                        ColorAnimation { target: trackTarget; duration: 300 }
-                    }
-                ]
             }
         }
+        ToolTip {
+            visible: targetArea.containsMouse
+            font: miniFont
+            delay: 1500
+            timeout: 5000
+            background: Rectangle {
+                color: activePalette.alternateBase
+                border.color: activePalette.light
+            }
+            contentItem: Label {
+                color: activePalette.text
+                text: i18n("Click to toggle track as target. Target tracks will receive the inserted clips")
+            }
+        }
+    state:  'normalTarget'
+    states: [
+        State {
+            name: 'target'
+            when: (trackHeadRoot.isAudio && timeline.audioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.videoTarget)
+            PropertyChanges {
+                target: trackTarget
+                bgColor: timeline.targetColor
+                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+            }
+        },
+        State {
+            name: 'inactiveTarget'
+            when: (trackHeadRoot.isAudio && timeline.lastAudioTarget.indexOf(trackHeadRoot.trackId) > -1) || (!trackHeadRoot.isAudio && trackHeadRoot.trackId == timeline.lastVideoTarget)
+            PropertyChanges {
+                target: trackTarget
+                opacity: 0.3
+                bgColor: activePalette.text
+                text: trackHeadRoot.isAudio ? timeline.audioTargetName(trackHeadRoot.trackId) : ''
+            }
+        },
+        State {
+            name: 'noTarget'
+            when: !trackHeadRoot.isLocked && !trackHeadRoot.isDisabled
+            PropertyChanges {
+                target: trackTarget
+                bgColor: activePalette.base
+                text: ''
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            to: '*'
+            ColorAnimation { target: trackTarget; duration: 300 }
+        }
+    ]
     }
     Item {
         id: trackHeadColumn
         anchors.fill: parent
-        anchors.leftMargin: targetColumn.width
+        anchors.leftMargin: trackTarget.width
         anchors.topMargin: 0
 
         ToolButton {
@@ -290,9 +300,6 @@ Rectangle {
                     PropertyChanges {
                         target: trackLed
                         bgColor: timeline.targetColor
-                    }
-                    PropertyChanges {
-                        target: trackLed
                         color: timeline.targetTextColor
                     }
                 },

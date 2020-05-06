@@ -71,7 +71,8 @@ bool TimelineFunctions::cloneClip(const std::shared_ptr<TimelineItemModel> &time
     // Special case: slowmotion clips
     double clipSpeed = timeline->m_allClips[clipId]->getSpeed();
     bool warp_pitch = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
-    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, clipSpeed, warp_pitch, undo, redo);
+    int audioStream = timeline->m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
+    bool res = timeline->requestClipCreation(timeline->getClipBinId(clipId), newId, state, audioStream, clipSpeed, warp_pitch, undo, redo);
     timeline->m_allClips[newId]->m_endlessResize = timeline->m_allClips[clipId]->m_endlessResize;
 
     // copy useful timeline properties
@@ -1628,8 +1629,9 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         if (!qFuzzyCompare(speed, 1.)) {
             warp_pitch = prod.attribute(QStringLiteral("warp_pitch")).toInt();
         }
+        int audioStream = prod.attribute(QStringLiteral("audioStream")).toInt();
         int newId;
-        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), speed, warp_pitch, timeline_undo, timeline_redo);
+        bool created = timeline->requestClipCreation(originalId, newId, timeline->getTrackById_const(curTrackId)->trackType(), audioStream, speed, warp_pitch, timeline_undo, timeline_redo);
         if (!created) {
             // Something is broken
             pCore->displayMessage(i18n("Could not paste items in timeline"), InformationMessage, 500);

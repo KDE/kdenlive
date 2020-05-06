@@ -44,6 +44,7 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickItem>
+#include <QActionGroup>
 #include <QUuid>
 #include <QMenu>
 #include <QFontDatabase>
@@ -53,6 +54,7 @@ const int TimelineWidget::comboScale[] = {1, 2, 4, 8, 15, 30, 50, 75, 100, 150, 
 
 TimelineWidget::TimelineWidget(QWidget *parent)
     : QQuickWidget(parent)
+    , m_targetsGroup(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
     kdeclarative.setDeclarativeEngine(engine());
@@ -72,6 +74,7 @@ TimelineWidget::TimelineWidget(QWidget *parent)
     m_favEffects = new QMenu(i18n("Insert an effect..."), this);
     m_favCompositions = new QMenu(i18n("Insert a composition..."), this);
     installEventFilter(this);
+    m_targetsMenu = new QMenu(this);
 }
 
 TimelineWidget::~TimelineWidget()
@@ -184,6 +187,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showTimelineMenu()), this, SLOT(showTimelineMenu()));
     connect(rootObject(), SIGNAL(showRulerMenu()), this, SLOT(showRulerMenu()));
     connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
+    connect(rootObject(), SIGNAL(showTargetMenu(int)), this, SLOT(showTargetMenu(int)));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -258,6 +262,37 @@ void TimelineWidget::showHeaderMenu()
         }
     }
     m_headerMenu->popup(m_clickPos);
+}
+
+void TimelineWidget::showTargetMenu(int ix)
+{
+    int currentTargetStream;
+    QMap<int, QString> possibleTargets = m_proxy->getCurrentTargets(ix, currentTargetStream);
+    m_targetsMenu->clear();
+    if (m_targetsGroup) {
+        delete m_targetsGroup;
+    }
+    m_targetsGroup = new QActionGroup(this);
+    QMapIterator<int, QString> i(possibleTargets);
+    while (i.hasNext()) {
+        i.next();
+        QAction *ac = m_targetsMenu->addAction(i.value());
+        ac->setData(i.key());
+        m_targetsGroup->addAction(ac);
+        ac->setCheckable(true);
+        if (i.key() == currentTargetStream) {
+            ac->setChecked(true);
+        }
+    }
+    connect(m_targetsGroup, &QActionGroup::triggered, [this, ix] (QAction *action) {
+        int targetStream = action->data().toInt();
+        m_proxy->assignAudioTarget(ix, targetStream);
+    });
+    if (m_targetsMenu->isEmpty() || possibleTargets.isEmpty()) {
+        m_headerMenu->popup(m_clickPos);
+    } else {
+        m_targetsMenu->popup(m_clickPos);
+    }
 }
 
 void TimelineWidget::showRulerMenu()

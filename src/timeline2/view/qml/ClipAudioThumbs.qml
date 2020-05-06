@@ -45,6 +45,7 @@ Row {
             height: waveform.height
             channels: clipRoot.audioChannels
             binId: clipRoot.binId
+            audioStream: Math.abs(clipRoot.audioStream)
             isFirstChunk: index == 0
             showItem: waveform.visible && (index * waveform.maxWidth < (clipRoot.scrollStart + scrollView.contentItem.width)) && ((index * waveform.maxWidth + width) > clipRoot.scrollStart)
             format: timeline.audioThumbFormat

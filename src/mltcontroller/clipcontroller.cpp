@@ -1032,7 +1032,7 @@ void ClipController::refreshAudioInfo()
     }
 }
 
-QList <int> ClipController::audioStreams() const
+QMap <int, QString> ClipController::audioStreams() const
 {
     if (m_audioInfo) {
         return m_audioInfo->streams();

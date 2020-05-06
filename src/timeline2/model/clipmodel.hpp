@@ -57,7 +57,7 @@ public:
        @param binClip is the id of the bin clip associated
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, double speed = 1., bool warp_pitch = false);
+    static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, int id, PlaylistState::ClipState state, int audioStream = -1, double speed = 1., bool warp_pitch = false);
 
     /* @brief Creates a clip, which references itself to the parent timeline
        Returns the (unique) id of the created clip
@@ -65,7 +65,7 @@ public:
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state);
+                         PlaylistState::ClipState state, int tid);
 
     /** @brief returns a property of the clip, or from it's parent if it's a cut
      */
@@ -179,7 +179,7 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, double speed, bool hasPitch);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch);
     void refreshProducerFromBin(int trackId);
 
     /* @brief This functions replaces the current producer with a slowmotion one
@@ -187,13 +187,14 @@ protected:
     */
     bool useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo);
     // @brief Lambda that merely changes the speed (in and out are untouched)
-    Fun useTimewarpProducer_lambda(double speed, bool pitchCompensate);
+    Fun useTimewarpProducer_lambda(double speed, int stream, bool pitchCompensate);
 
     /** @brief Returns the marker model associated with this clip */
     std::shared_ptr<MarkerListModel> getMarkerModel() const;
 
     /** @brief Returns the number of audio channels for this clip */
     int audioChannels() const;
+    int audioStream() const;
 
     bool audioEnabled() const;
     bool isAudioOnly() const;

@@ -118,13 +118,21 @@ bool AudioThumbJob::computeWithFFMPEG()
         filePath = m_prod->get("resource");
     }
     m_ffmpegProcess.reset(new QProcess);
-    if (!m_thumbInCache) {
+    QString thumbPath = m_binClip->getAudioThumbPath(m_audioStream, true);
+    int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);
+    if (!QFile::exists(thumbPath)) {
         // Generate thumbnail used in monitor overlay
         QStringList args;
-        args << QStringLiteral("-hide_banner") << QStringLiteral("-y")<< QStringLiteral("-i") << QUrl::fromLocalFile(filePath).toLocalFile() << QStringLiteral("-filter_complex:a");
-        args << QString("showwavespic=s=%1x%2:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_thumbSize.width()).arg(m_thumbSize.height());
+        args << QStringLiteral("-hide_banner") << QStringLiteral("-y")<< QStringLiteral("-i") << QUrl::fromLocalFile(filePath).toLocalFile() << QString("-filter_complex");
+        if (audioStreamIndex >= 0) {
+            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_binClip->getAudioStreamFfmpegIndex(m_audioStream)).arg(m_thumbSize.width()).arg(m_thumbSize.height());
+        } else {
+            // Only 1 audio stream in clip
+            args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_thumbSize.width()).arg(m_thumbSize.height());
+        }
         args << QStringLiteral("-frames:v") << QStringLiteral("1");
-        args << m_binClip->getAudioThumbPath(true);
+        args << thumbPath;
+        qDebug()<<"=== FFARGS: "<<args;
         connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
         connect(this, &AudioThumbJob::jobCanceled, [&] () {
             if (m_ffmpegProcess) {
@@ -137,14 +145,9 @@ bool AudioThumbJob::computeWithFFMPEG()
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
-            m_thumbInCache = true;
             if (m_dataInCache || !KdenliveSettings::audiothumbnails()) {
-                m_binClip->audioThumbReady();
                 m_done = true;
                 return true;
-            } else {
-                // Next Processing step can be long, already display audio thumb in monitor
-                m_binClip->audioThumbReady();
             }
         }
     }
@@ -170,17 +173,20 @@ bool AudioThumbJob::computeWithFFMPEG()
         args << QStringLiteral("/dev/stdout");
 #endif
         bool isFFmpeg = KdenliveSettings::ffmpegpath().contains(QLatin1String("ffmpeg"));
-        args << QStringLiteral("-filter_complex:a");
+        args << QStringLiteral("-filter_complex");
         if (m_channels == 1) {
-            //TODO: this does not correcty generate the correct stream data
-            args << QStringLiteral("aformat=channel_layouts=mono,%1=100").arg(isFFmpeg ? "aresample=async" : "sample_rates");
-            args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(m_audioStream > 0 ? ":" + QString::number(m_audioStream) : QString())
-             << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-frames:v") 
+            if (audioStreamIndex >= 0) {
+                args << QStringLiteral("[a:%1]aformat=channel_layouts=mono,%2=100").arg(audioStreamIndex).arg(isFFmpeg ? "aresample=async" : "sample_rates");
+            } else {
+                args << QStringLiteral("[a]aformat=channel_layouts=mono,%2=100").arg(audioStreamIndex).arg(isFFmpeg ? "aresample=async" : "sample_rates");
+            }
+            /*args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(m_audioStream > 0 ? ":" + QString::number(audioStreamIndex) : QString())*/
+            args << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-frames:v") 
              << QStringLiteral("1") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")
              << channelFiles[0]->fileName();
         } else {
             QString aformat = QStringLiteral("[0:a%1]%2=100,channelsplit=channel_layout=%3")
-                              .arg(m_audioStream > 0 ? ":" + QString::number(m_audioStream) : QString())
+                              .arg(audioStreamIndex >= 0 ? ":" + QString::number(audioStreamIndex) : QString())
                               .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates")
                               .arg(m_channels > 2 ? "5.1" : "stereo");
             for (int i = 0; i < m_channels; ++i) {
@@ -300,7 +306,6 @@ bool AudioThumbJob::startJob()
         return true;
     }
     m_dataInCache = false;
-    m_thumbInCache = false;
     m_binClip = pCore->projectItemModel()->getClipByBinID(m_clipId);
     if (m_binClip == nullptr) {
         // Clip was deleted
@@ -322,70 +327,58 @@ bool AudioThumbJob::startJob()
     m_channels = m_channels <= 0 ? 2 : m_channels;
 
     m_lengthInFrames = m_prod->get_length();
-    m_audioStream = m_binClip->audioInfo()->ffmpeg_audio_index();
+    QMap <int, QString> streams = m_binClip->audioInfo()->streams();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
         m_done = true;
         m_successful = false;
         return false;
     }
-    m_cachePath = m_binClip->getAudioThumbPath();
+    QMapIterator<int, QString> st(streams);
+    while (st.hasNext()) {
+        st.next();
+        int stream = st.key();
+        // Generate one thumb per stream
+        m_audioStream = stream;
+        m_cachePath = m_binClip->getAudioThumbPath(stream);
 
-    // checking for cached thumbs
-    QImage image(m_cachePath);
-    if (!image.isNull()) {
-        // convert cached image
-        int n = image.width() * image.height();
-        for (int i = 0; i < n; i++) {
-            QRgb p = image.pixel(i / m_channels, i % m_channels);
-            m_audioLevels << (uint8_t)qRed(p);
-            m_audioLevels << (uint8_t)qGreen(p);
-            m_audioLevels << (uint8_t)qBlue(p);
-            m_audioLevels << (uint8_t)qAlpha(p);
+        // checking for cached thumbs
+        QImage image(m_cachePath);
+        if (!image.isNull()) {
+            // Audio cache already exists
+            continue;
         }
-    }
-    if (!m_audioLevels.isEmpty()) {
-        m_dataInCache = true;
-    }
+        m_done = false;
 
-    // Check audio thumbnail image
-    if (ThumbnailCache::get()->hasThumbnail(m_clipId, -1, false)) {
-        m_thumbInCache = true;
-    }
-    if (m_thumbInCache && (m_dataInCache || !KdenliveSettings::audiothumbnails())) {
-        m_done = true;
-        m_successful = true;
-        return true;
-    }
+        bool ok = m_binClip->clipType() == ClipType::Playlist ? (KdenliveSettings::audiothumbnails() ? false : true) : computeWithFFMPEG();
+        ok = ok ? ok : computeWithMlt();
+        Q_ASSERT(ok == m_done);
 
-    bool ok = m_binClip->clipType() == ClipType::Playlist ? (KdenliveSettings::audiothumbnails() ? false : true) : computeWithFFMPEG();
-    ok = ok ? ok : computeWithMlt();
-    Q_ASSERT(ok == m_done);
-
-    if (ok && m_done && !m_dataInCache && !m_audioLevels.isEmpty()) {
-        // Put into an image for caching.
-        int count = m_audioLevels.size();
-        image = QImage((int)lrint((count + 3) / 4.0 / m_channels), m_channels, QImage::Format_ARGB32);
-        int n = image.width() * image.height();
-        for (int i = 0; i < n; i++) {
-            QRgb p;
-            if ((4 * i + 3) < count) {
-                p = qRgba(m_audioLevels.at(4 * i), m_audioLevels.at(4 * i + 1), m_audioLevels.at(4 * i + 2),
+        if (ok && m_done && !m_audioLevels.isEmpty()) {
+            // Put into an image for caching.
+            int count = m_audioLevels.size();
+            image = QImage((int)lrint((count + 3) / 4.0 / m_channels), m_channels, QImage::Format_ARGB32);
+            int n = image.width() * image.height();
+            for (int i = 0; i < n; i++) {
+                QRgb p;
+                if ((4 * i + 3) < count) {
+                    p = qRgba(m_audioLevels.at(4 * i), m_audioLevels.at(4 * i + 1), m_audioLevels.at(4 * i + 2),
                           m_audioLevels.at(4 * i + 3));
-            } else {
-                int last = m_audioLevels.last();
-                int r = (4 * i + 0) < count ? m_audioLevels.at(4 * i + 0) : last;
-                int g = (4 * i + 1) < count ? m_audioLevels.at(4 * i + 1) : last;
-                int b = (4 * i + 2) < count ? m_audioLevels.at(4 * i + 2) : last;
-                int a = last;
-                p = qRgba(r, g, b, a);
+                } else {
+                    int last = m_audioLevels.last();
+                    int r = (4 * i + 0) < count ? m_audioLevels.at(4 * i + 0) : last;
+                    int g = (4 * i + 1) < count ? m_audioLevels.at(4 * i + 1) : last;
+                    int b = (4 * i + 2) < count ? m_audioLevels.at(4 * i + 2) : last;
+                    int a = last;
+                    p = qRgba(r, g, b, a);
+                }
+                image.setPixel(i / m_channels, i % m_channels, p);
             }
-            image.setPixel(i / m_channels, i % m_channels, p);
+            image.save(m_cachePath);
         }
-        image.save(m_cachePath);
-        m_successful = true;
-        return true;
-    } else if (ok && m_thumbInCache && (m_done || !KdenliveSettings::audiothumbnails())) {
+        m_audioLevels.clear();
+    }
+    if (m_done || !KdenliveSettings::audiothumbnails()) {
         m_successful = true;
         return true;
     }
@@ -406,7 +399,6 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_successful) {
         return false;
     }
-    QVector <uint8_t>old = m_binClip->audioFrameCache;
     QImage oldImage;
     QImage result;
     if (m_binClip->clipType() == ClipType::Audio) {
@@ -415,17 +407,15 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     }
 
     // note that the image is moved into lambda, it won't be available from this class anymore
-    auto operation = [clip = m_binClip, audio = std::move(m_audioLevels), image = std::move(result)]() {
-        if (!audio.isEmpty()) {
-            clip->updateAudioThumbnail(audio);
-        }
+    auto operation = [clip = m_binClip, image = std::move(result)]() {
+        clip->updateAudioThumbnail();
         if (!image.isNull() && clip->clipType() == ClipType::Audio) {
             clip->setThumbnail(image);
         }
         return true;
     };
-    auto reverse = [clip = m_binClip, audio = std::move(old), image = std::move(oldImage)]() {
-        clip->updateAudioThumbnail(audio);
+    auto reverse = [clip = m_binClip, image = std::move(oldImage)]() {
+        clip->updateAudioThumbnail();
         if (!image.isNull() && clip->clipType() == ClipType::Audio) {
             clip->setThumbnail(image);
         }

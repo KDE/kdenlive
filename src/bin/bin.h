@@ -501,7 +501,7 @@ signals:
     /** @brief A clip was updated, request panel update. */
     void refreshPanel(const QString &id);
     /** @brief Upon selection, activate timeline target tracks. */
-    void setupTargets(bool hasVideo, QList <int> audioStreams);
+    void setupTargets(bool hasVideo, QMap <int, QString> audioStreams);
     /** @brief A drag event ended, inform timeline. */
     void processDragEnd();
 };

@@ -595,10 +595,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         }
 
         // Audio index
-        QMap<int, QString> audioStreamsInfo;
-        if (m_controller->audioInfo()) {
-            audioStreamsInfo = m_controller->audioInfo()->streamInfo(m_sourceProperties);
-        }
+        QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
         if (!audioStreamsInfo.isEmpty()) {
             QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
@@ -617,7 +614,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             QMapIterator<int, QString> i(audioStreamsInfo);
             while (i.hasNext()) {
                 i.next();
-                m_audioStream->addItem(QString("%1: %2").arg(i.key()).arg(i.value()), i.key());
+                m_audioStream->addItem(i.value(), i.key());
             }
             if (m_audioStream->count() > 1) {
                 m_audioStream->addItem(i18n("Merge all streams"), INT_MAX);

@@ -12,7 +12,7 @@ the Free Software Foundation, either version 3 of the License, or
 #define AUDIOSTREAMINFO_H
 
 #include <QString>
-#include <QList>
+#include <QMap>
 #include <memory>
 #include <mlt++/Mlt.h>
 
@@ -28,7 +28,7 @@ public:
 
     int samplingRate() const;
     int channels() const;
-    QList <int> streams() const;
+    QMap <int, QString> streams() const;
     int bitrate() const;
     const QString &samplingFormat() const;
     int audio_index() const;
@@ -39,7 +39,7 @@ public:
 
 private:
     int m_audioStreamIndex;
-    QList <int> m_audioStreams;
+    QMap <int, QString> m_audioStreams;
     int m_ffmpegAudioIndex;
     int m_samplingRate;
     int m_channels;

@@ -30,6 +30,7 @@ class TimelineController;
 class QSortFilterProxyModel;
 class MonitorProxy;
 class QMenu;
+class QActionGroup;
 
 class TimelineWidget : public QQuickWidget
 {
@@ -79,6 +80,7 @@ private slots:
     void showTimelineMenu();
     void showRulerMenu();
     void showHeaderMenu();
+    void showTargetMenu(int ix);
 
 private:
     TimelineController *m_proxy;
@@ -88,6 +90,8 @@ private:
     QMenu *m_timelineRulerMenu;
     QMenu *m_guideMenu;
     QMenu *m_headerMenu;
+    QMenu *m_targetsMenu;
+    QActionGroup *m_targetsGroup;
     QMenu *m_thumbsMenu;
     QMenu *m_favEffects;
     QMenu *m_favCompositions;

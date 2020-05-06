@@ -618,13 +618,13 @@ TEST_CASE("Insert/delete", "[Trimming2]")
         };
         state();
 
-        timeline->m_audioTarget = tid2;
+        timeline->m_audioTarget.insert(tid2, 0);
         timeline->m_videoTarget = tid1;
         // Make tracks active
         timeline->setTrackProperty(tid1, QStringLiteral("kdenlive:timeline_active"), QStringLiteral("1"));
         timeline->setTrackProperty(tid2, QStringLiteral("kdenlive:timeline_active"), QStringLiteral("1"));
         REQUIRE(TimelineFunctions::insertZone(timeline, {tid1, tid2}, binId, 3 + 2, {l / 4, 3 * l / 4}, false));
-        timeline->m_audioTarget = -1;
+        timeline->m_audioTarget.clear();
         timeline->m_videoTarget = -1;
         int small_length = 3 * l / 4 - l / 4;
         int cid3 = timeline->getClipByPosition(tid1, 3 + 2);

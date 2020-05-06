@@ -171,7 +171,6 @@ public:
 
     /** Cache for every audio Frame with 10 Bytes */
     /** format is frame -> channel ->bytes */
-    QVector<uint8_t> audioFrameCache;
     bool audioThumbCreated() const;
 
     void setWaitingStatus(const QString &id);
@@ -188,7 +187,7 @@ public:
     /** @brief Delete cached audio thumb - needs to be recreated */
     void discardAudioThumb();
     /** @brief Get path for this clip's audio thumbnail */
-    const QString getAudioThumbPath(bool miniThumb = false);
+    const QString getAudioThumbPath(int stream, bool miniThumb = false);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 
@@ -201,7 +200,7 @@ public:
     /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
         Each clip must have a different master producer (see comment of the class)
     */
-    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, double speed = 1.0);
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0);
 
     /* @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
@@ -209,8 +208,7 @@ public:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
            - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
-    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master,
-                                                                                     PlaylistState::ClipState state);
+    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);
@@ -225,6 +223,12 @@ public:
     /** @brief Display Bin thumbnail given a percent
      */
     void getThumbFromPercent(int percent);
+    /** @brief Return audio cache for a stream
+     */
+    QVector <uint8_t> audioFrameCache(int stream = -1);
+    /** @brief Return FFmpeg's audio stream index for an MLT audio stream index
+     */
+    int getAudioStreamFfmpegIndex(int mltStream);
 
 protected:
     friend class ClipModel;
@@ -250,7 +254,7 @@ protected:
 public slots:
     /* @brief Store the audio thumbnails once computed. Note that the parameter is a value and not a reference, fill free to use it as a sink (use std::move to
      * avoid copy). */
-    void updateAudioThumbnail(const QVector<uint8_t> audioLevels);
+    void updateAudioThumbnail();
     /** @brief Delete the proxy file */
     void deleteProxy();
 
