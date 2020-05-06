@@ -1255,19 +1255,11 @@ void ProjectClip::discardAudioThumb()
 
 int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)
 {
-    if (!m_masterProducer) {
+    if (!m_masterProducer || !audioInfo()) {
         return -1;
     }
-    int streams = m_masterProducer->get_int("meta.media.nb_streams");
-    QList<int> audioStreams;
-    for (int i = 0; i < streams; ++i) {
-        QByteArray propertyName = QStringLiteral("meta.media.%1.stream.type").arg(i).toLocal8Bit();
-        QString type = m_masterProducer->get(propertyName.data());
-        if (type == QLatin1String("audio")) {
-            audioStreams << i;
-        }
-    }
-    if (audioStreams.count() > 1 && mltStream < audioStreams.count()) {
+    QList<int> audioStreams = audioInfo()->streams().keys();
+    if (audioStreams.contains(mltStream)) {
         return audioStreams.indexOf(mltStream);
     }
     return -1;

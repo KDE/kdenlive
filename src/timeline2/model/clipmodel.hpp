@@ -194,7 +194,10 @@ protected:
 
     /** @brief Returns the number of audio channels for this clip */
     int audioChannels() const;
+    /** @brief Returns the active audio stream for this clip (or -1 if we only have 1 stream */
     int audioStream() const;
+    /** @brief Returns the list of available audio stream indexes for the bin clip */
+    int audioStreamIndex() const;
 
     bool audioEnabled() const;
     bool isAudioOnly() const;

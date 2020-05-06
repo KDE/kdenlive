@@ -141,6 +141,7 @@ public:
         AudioLevelsRole,    /// clip only
         AudioChannelsRole,  /// clip only
         AudioStreamRole,  /// clip only
+        AudioStreamIndexRole, /// clip only
         IsCompositeRole,    /// track only
         IsLockedRole,       /// track only
         HeightRole,         /// track only

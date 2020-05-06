@@ -124,8 +124,8 @@ bool AudioThumbJob::computeWithFFMPEG()
         // Generate thumbnail used in monitor overlay
         QStringList args;
         args << QStringLiteral("-hide_banner") << QStringLiteral("-y")<< QStringLiteral("-i") << QUrl::fromLocalFile(filePath).toLocalFile() << QString("-filter_complex");
-        if (audioStreamIndex >= 0) {
-            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_binClip->getAudioStreamFfmpegIndex(m_audioStream)).arg(m_thumbSize.width()).arg(m_thumbSize.height());
+        if (m_audioStream >= 0) {
+            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(audioStreamIndex).arg(m_thumbSize.width()).arg(m_thumbSize.height());
         } else {
             // Only 1 audio stream in clip
             args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_thumbSize.width()).arg(m_thumbSize.height());
@@ -144,6 +144,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         });
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
+        disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
             if (m_dataInCache || !KdenliveSettings::audiothumbnails()) {
                 m_done = true;
@@ -175,17 +176,17 @@ bool AudioThumbJob::computeWithFFMPEG()
         bool isFFmpeg = KdenliveSettings::ffmpegpath().contains(QLatin1String("ffmpeg"));
         args << QStringLiteral("-filter_complex");
         if (m_channels == 1) {
-            if (audioStreamIndex >= 0) {
+            if (m_audioStream >= 0) {
                 args << QStringLiteral("[a:%1]aformat=channel_layouts=mono,%2=100").arg(audioStreamIndex).arg(isFFmpeg ? "aresample=async" : "sample_rates");
             } else {
-                args << QStringLiteral("[a]aformat=channel_layouts=mono,%2=100").arg(audioStreamIndex).arg(isFFmpeg ? "aresample=async" : "sample_rates");
+                args << QStringLiteral("[a]aformat=channel_layouts=mono,%1=100").arg(isFFmpeg ? "aresample=async" : "sample_rates");
             }
             /*args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(m_audioStream > 0 ? ":" + QString::number(audioStreamIndex) : QString())*/
             args << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-frames:v") 
              << QStringLiteral("1") << QStringLiteral("-y") << QStringLiteral("-f") << QStringLiteral("data")
              << channelFiles[0]->fileName();
         } else {
-            QString aformat = QStringLiteral("[0:a%1]%2=100,channelsplit=channel_layout=%3")
+            QString aformat = QStringLiteral("[a%1]%2=100,channelsplit=channel_layout=%3")
                               .arg(audioStreamIndex >= 0 ? ":" + QString::number(audioStreamIndex) : QString())
                               .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates")
                               .arg(m_channels > 2 ? "5.1" : "stereo");
@@ -210,6 +211,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         });
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
+        disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
             int dataSize = 0;
             std::vector<const qint16 *> rawChannels;
