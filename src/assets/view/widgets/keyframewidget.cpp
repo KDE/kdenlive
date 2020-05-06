@@ -97,6 +97,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_toolbar = new QToolBar(this);
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
     m_time = new TimecodeDisplay(pCore->timecode(), this);
     m_time->setRange(0, duration - 1);
 
@@ -411,11 +412,6 @@ void KeyframeWidget::slotInitMonitor(bool active)
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
     }
     connectMonitor(active);
-    if (active) {
-        connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
-    } else {
-        disconnect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek);
-    }
 }
 
 void KeyframeWidget::connectMonitor(bool active)
