@@ -12,6 +12,8 @@
 #define WAVEFORMGENERATOR_H
 
 #include <QObject>
+#include "colorconstants.h"
+
 class QImage;
 class QSize;
 
@@ -21,13 +23,12 @@ class WaveformGenerator : public QObject
 
 public:
     enum PaintMode { PaintMode_Green, PaintMode_Yellow, PaintMode_White };
-    enum Rec { Rec_601, Rec_709 };
 
     WaveformGenerator();
     ~WaveformGenerator() override;
 
     QImage calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
-                             const WaveformGenerator::Rec rec, uint accelFactor = 1);
+                             const ITURec rec, uint accelFactor = 1);
 };
 
 #endif // WAVEFORMGENERATOR_H

@@ -42,7 +42,7 @@ sudo apt install libkf5archive-dev libkf5bookmarks-dev libkf5coreaddons-dev \
                  libkf5purpose-dev libkf5iconthemes-dev kdoctools-dev libkf5crash-dev \
                  libkf5filemetadata-dev  kio kinit qtdeclarative5-dev libqt5svg5-dev \
                  qml-module-qtquick-controls qtmultimedia5-dev qtquickcontrols2-5-dev \
-                 appstream gettext libv4l-dev breeze
+                 appstream gettext libv4l-dev libqt5webkit5-dev librttr-dev breeze ffmpeg
 ```
 
 Most development packages will already be installed with the following command:

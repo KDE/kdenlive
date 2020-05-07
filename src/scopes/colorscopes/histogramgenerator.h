@@ -12,6 +12,7 @@
 #define HISTOGRAMGENERATOR_H
 
 #include <QObject>
+#include "colorconstants.h"
 
 class QColor;
 class QImage;
@@ -25,21 +26,36 @@ class HistogramGenerator : public QObject
 public:
     explicit HistogramGenerator();
 
-    /** Recommendation to use.
-        See http://www.poynton.com/ColorFAQ.html for details. */
-    enum Rec { Rec_601, Rec_709 };
-
     /**
-        Calculates a histogram display from the input image.
-        components are OR-ed HistogramGenerator::Components flags and decide with components (Y, R, G, B) to paint.
-        unscaled = true leaves the width at 256 if the widget is wider (to avoid scaling). */
-    QImage calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, const HistogramGenerator::Rec rec, bool unscaled,
+     * Calculates a histogram display from the input image.
+     * @param paradeSize
+     * @param image
+     * @param components OR-ed HistogramGenerator::Components flags and decide with components (Y, R, G, B) to paint.
+     * @param rec
+     * @param unscaled unscaled = true leaves the width at 256 if the widget is wider (to avoid scaling).
+     * @param logScale Use a logarithmic instead of linear scale.
+     * @param accelFactor
+     * @return
+     */
+    QImage calculateHistogram(const QSize &paradeSize, const QImage &image, const int &components, const ITURec rec, bool unscaled,
+                              bool logScale,
                               uint accelFactor = 1) const;
 
-    QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, uint max) const;
+    /**
+     * Draws the histogram of a single component.
+     *
+     * @param y Bins containing the number of samples per value
+     * @param size Desired box size of the histogram
+     * @param scaling Use this scaling factor to scale the y values to the box height
+     * @param color Color to use for drawing
+     * @param unscaled Do not scale the width but take the number of bins instead (usually 256)
+     * @param logScale Use logarithmic scale instead of linear
+     * @param max Number of bins, usually 256
+     */
+    static QImage drawComponent(const int *y, const QSize &size, const float &scaling, const QColor &color, bool unscaled, bool logScale, uint max) ;
 
-    void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, int textSpace, bool unscaled,
-                           uint max) const;
+    static void drawComponentFull(QPainter *davinci, const int *y, const float &scaling, const QRect &rect, const QColor &color, int textSpace,
+            bool unscaled, bool logScale, uint max) ;
 
     enum Components { ComponentY = 1 << 0, ComponentR = 1 << 1, ComponentG = 1 << 2, ComponentB = 1 << 3, ComponentSum = 1 << 4 };
 };

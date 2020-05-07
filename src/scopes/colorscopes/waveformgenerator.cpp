@@ -9,6 +9,7 @@
  ***************************************************************************/
 
 #include "waveformgenerator.h"
+#include "colorconstants.h"
 
 #include <cmath>
 
@@ -25,7 +26,7 @@ WaveformGenerator::WaveformGenerator() = default;
 WaveformGenerator::~WaveformGenerator() = default;
 
 QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QImage &image, WaveformGenerator::PaintMode paintMode, bool drawAxis,
-                                            WaveformGenerator::Rec rec, uint accelFactor)
+                                            ITURec rec, uint accelFactor)
 {
     Q_ASSERT(accelFactor >= 1);
 
@@ -70,12 +71,12 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, const QIm
         double dY, dx, dy;
         auto *col = (const QRgb *)bits;
 
-        if (rec == WaveformGenerator::Rec_601) {
+        if (rec == ITURec::Rec_601) {
             // CIE 601 Luminance
-            dY = .299 * qRed(*col) + .587 * qGreen(*col) + .114 * qBlue(*col);
+            dY = REC_601_R * float(qRed(*col)) + REC_601_G * float(qGreen(*col)) + REC_601_B * float(qBlue(*col));
         } else {
             // CIE 709 Luminance
-            dY = .2125 * qRed(*col) + .7154 * qGreen(*col) + .0721 * qBlue(*col);
+            dY = REC_709_R * float(qRed(*col)) + REC_709_G * float(qGreen(*col)) + REC_709_B * float(qBlue(*col));
         }
         // dY is on [0,255] now.
 
