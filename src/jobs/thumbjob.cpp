@@ -158,6 +158,10 @@ bool ThumbJob::commitResult(Fun &undo, Fun &redo)
     bool ok = false;
     if (m_subClip) {
         auto subClip = std::static_pointer_cast<ProjectSubClip>(pCore->projectItemModel()->getItemByBinId(m_clipId));
+        if (subClip == nullptr) {
+            // Subclip was deleted
+            return ok;
+        }
         QImage old = subClip->thumbnail(m_result.width(), m_result.height()).toImage();
 
         // note that the image is moved into lambda, it won't be available from this class anymore
