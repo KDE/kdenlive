@@ -231,7 +231,7 @@ bool ProxyJob::startJob()
             m_done = true;
             return false;
         }
-        // Only output error data
+        // Only output error data, make sure we don't block when proxy file already exists
         QStringList parameters = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-stats"), QStringLiteral("-v"), QStringLiteral("error")};
         m_jobDuration = (int)binClip->duration().seconds();
         QString proxyParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyparams")).simplified();
@@ -288,9 +288,10 @@ bool ProxyJob::startJob()
             }
         }
 
-        // Make sure we don't block when proxy file already exists
+        // Make sure we keep the stream order
+        parameters << QStringLiteral("-map") << QStringLiteral("0");
         parameters << dest;
-         qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
+        qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;
         // m_jobProcess->setProcessChannelMode(QProcess::MergedChannels);
         connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyJob::processLogInfo);

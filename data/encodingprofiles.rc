@@ -5,7 +5,7 @@ MPEG=qscale=4 ab=192k vcodec=mpeg2video acodec=mp2 threads=%threads;mpg
 
 [proxy]
 x264=-vf scale=640:-2 -vcodec libx264 -g 1 -bf 0 -vb 0 -crf 20 -preset veryfast -acodec aac -ab 128k;mov
-x264-vaapi=-hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i -vf format=nv12,hwupload,scale_vaapi=640:-2 -vcodec h264_vaapi -g 1 -bf 0 -vb 0 -crf 20 -acodec aac -ab 128k;mov
+x264-vaapi=-hwaccel vaapi -vaapi_device /dev/dri/renderD128 -i -vf format=nv12,hwupload,scale_vaapi=640:-2 -vcodec h264_vaapi -g 1 -bf 0 -qp 26 -acodec aac -ab 128k;mov
 x264-nvenc=-hwaccel cuvid -c:v %nvcodec -i -vf scale_npp=640:-2 -vcodec h264_nvenc -g 1 -bf 0 -vb 0 -preset fast -acodec copy;mov
 MPEG2=-vf scale=640:-2 -g 1 -bf 0 -vb 0 -qscale 6 -ab 128k -vcodec mpeg2video -acodec ac3;mpg
 MJPEG=-vf yadif,scale=640:-2 -qscale 3 -vcodec mjpeg -acodec pcm_s16le;mkv
