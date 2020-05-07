@@ -2435,6 +2435,10 @@ void MainWindow::slotDeleteItem()
                 m_assetPanel->deleteCurrentEffect();
                 return;
             }
+            if (widget == pCore->bin()->clipPropertiesDock()) {
+                pCore->bin()->deleteMarkers();
+                return;
+            }
             widget = widget->parentWidget();
         }
 
@@ -2617,12 +2621,17 @@ void MainWindow::slotSelectTrack()
 
 void MainWindow::slotSelectAllTracks()
 {
-    if ((QApplication::focusWidget() != nullptr) && (QApplication::focusWidget()->parentWidget() != nullptr) &&
-        QApplication::focusWidget()->parentWidget() == pCore->bin()) {
-        pCore->bin()->selectAll();
-    } else {
-        getCurrentTimeline()->controller()->selectAll();
+    if (QApplication::focusWidget() != nullptr) {
+        if (QApplication::focusWidget()->parentWidget() != nullptr && QApplication::focusWidget()->parentWidget() == pCore->bin()) {
+            pCore->bin()->selectAll();
+            return;
+        } 
+        if (QApplication::focusWidget()->objectName() == QLatin1String("markers_list")) {
+            pCore->bin()->selectMarkers();
+            return;
+        }
     }
+    getCurrentTimeline()->controller()->selectAll();
 }
 
 void MainWindow::slotUnselectAllTracks()

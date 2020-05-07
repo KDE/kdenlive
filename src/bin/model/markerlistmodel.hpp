@@ -124,7 +124,7 @@ public:
        @param clip: pointer to the clip if we are editing a marker
        @return true if dialog was accepted and modification successful
      */
-    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr);
+    bool editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip = nullptr, bool createOnly = false);
 
     // Mandatory overloads
     QVariant data(const QModelIndex &index, int role) const override;

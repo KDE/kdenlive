@@ -2359,6 +2359,8 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
     }
     ClipPropertiesController *panel = clip->buildProperties(m_propertiesPanel);
     connect(this, &Bin::refreshTimeCode, panel, &ClipPropertiesController::slotRefreshTimeCode);
+    connect(this, &Bin::deleteMarkers, panel, &ClipPropertiesController::slotDeleteSelectedMarkers);
+    connect(this, &Bin::selectMarkers, panel, &ClipPropertiesController::slotSelectAllMarkers);
     connect(panel, &ClipPropertiesController::updateClipProperties, this, &Bin::slotEditClipCommand);
     connect(panel, &ClipPropertiesController::seekToFrame, m_monitor, static_cast<void (Monitor::*)(int)>(&Monitor::slotSeek));
     connect(panel, &ClipPropertiesController::editClip, this, &Bin::slotEditClip);
