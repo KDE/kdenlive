@@ -67,6 +67,8 @@ public slots:
     void slotRefreshTimeCode();
     void slotFillMeta(QTreeWidget *tree);
     void slotFillAnalysisData();
+    void slotDeleteSelectedMarkers();
+    void slotSelectAllMarkers();
 
 private slots:
     void slotColorModified(const QColor &newcolor);

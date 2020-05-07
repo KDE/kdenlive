@@ -502,6 +502,10 @@ signals:
     void setupTargets(bool hasVideo, QList <int> audioStreams);
     /** @brief A drag event ended, inform timeline. */
     void processDragEnd();
+    /** @brief Delete selected markers in clip properties dialog. */
+    void deleteMarkers();
+    /** @brief Selected all markers in clip properties dialog. */
+    void selectMarkers();
 };
 
 #endif

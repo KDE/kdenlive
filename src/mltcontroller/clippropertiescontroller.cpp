@@ -206,6 +206,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_markerTree->setHeaderHidden(true);
     m_markerTree->setSelectionMode(QAbstractItemView::ExtendedSelection);
     m_markerTree->setModel(controller->getMarkerModel().get());
+    m_markerTree->setObjectName("markers_list");
     mBox->addWidget(m_markerTree);
     auto *bar = new QToolBar;
     bar->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Add marker"), this, SLOT(slotAddMarker()));
@@ -1121,7 +1122,7 @@ void ClipPropertiesController::slotAddMarker()
 {
     auto markerModel = m_controller->getMarkerModel();
     GenTime pos(m_controller->originalProducer()->position(), m_tc.fps());
-    markerModel->editMarkerGui(pos, this, true, m_controller);
+    markerModel->editMarkerGui(pos, this, true, m_controller, true);
 }
 
 void ClipPropertiesController::slotSaveMarkers()
@@ -1375,4 +1376,18 @@ void ClipPropertiesController::slotTextChanged()
     properties.insert(QStringLiteral("templatetext"), m_textEdit->toPlainText());
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
+}
+
+void ClipPropertiesController::slotDeleteSelectedMarkers()
+{
+    if (m_tabWidget->currentIndex() == 2) {
+        slotDeleteMarker();
+    }
+}
+
+void ClipPropertiesController::slotSelectAllMarkers()
+{
+    if (m_tabWidget->currentIndex() == 2) {
+        m_markerTree->selectAll();
+    }
 }

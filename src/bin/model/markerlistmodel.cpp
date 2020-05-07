@@ -459,7 +459,7 @@ bool MarkerListModel::removeAllMarkers()
     return true;
 }
 
-bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip)
+bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool createIfNotFound, ClipController *clip, bool createOnly)
 {
     bool exists;
     auto marker = getMarker(pos, &exists);
@@ -476,7 +476,7 @@ bool MarkerListModel::editMarkerGui(const GenTime &pos, QWidget *parent, bool cr
 
     if (dialog->exec() == QDialog::Accepted) {
         marker = dialog->newMarker();
-        if (exists) {
+        if (exists && !createOnly) {
             return editMarker(pos, marker.time(), marker.comment(), marker.markerType());
         }
         return addMarker(marker.time(), marker.comment(), marker.markerType());
