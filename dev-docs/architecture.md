@@ -6,7 +6,6 @@
   * Dependencies MLT etc.
   * MVC
   * GUI elements and their counterpart
-* [kdenlivesettings.kcfg](../src/kdenlivesettings.kcfg)
 
 
 ## Architectural Overview

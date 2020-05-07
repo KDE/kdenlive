@@ -15,6 +15,7 @@
 #include "klocalizedstring.h"
 #include <KConfigGroup>
 #include <KSharedConfig>
+#include <QtWidgets/QButtonGroup>
 
 Histogram::Histogram(QWidget *parent)
     : AbstractGfxScopeWidget(false, parent)
@@ -39,6 +40,10 @@ Histogram::Histogram(QWidget *parent)
     m_menu->addAction(m_aRec601);
     m_menu->addAction(m_aRec709);
 
+    QButtonGroup scaleGroup;
+    scaleGroup.addButton(m_ui->rbLinear);
+    scaleGroup.addButton(m_ui->rbLogarithmic);
+
     connect(m_ui->cbY, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
     connect(m_ui->cbS, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
     connect(m_ui->cbR, &QAbstractButton::toggled, this, &AbstractScopeWidget::forceUpdateScope);
@@ -47,6 +52,7 @@ Histogram::Histogram(QWidget *parent)
     connect(m_aUnscaled, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec601, &QAction::toggled, this, &Histogram::forceUpdateScope);
     connect(m_aRec709, &QAction::toggled, this, &Histogram::forceUpdateScope);
+    connect(m_ui->rbLogarithmic, &QAbstractButton::toggled, this, &Histogram::forceUpdateScope);
 
     init();
     m_histogramGenerator = new HistogramGenerator();
@@ -76,6 +82,7 @@ void Histogram::readConfig()
     m_ui->cbB->setChecked(scopeConfig.readEntry("bEnabled", true));
     m_aRec601->setChecked(scopeConfig.readEntry("rec601", false));
     m_aRec709->setChecked(!m_aRec601->isChecked());
+    m_ui->rbLogarithmic->setChecked(scopeConfig.readEntry("logScale", false));
 }
 
 void Histogram::writeConfig()
@@ -88,6 +95,7 @@ void Histogram::writeConfig()
     scopeConfig.writeEntry("gEnabled", m_ui->cbG->isChecked());
     scopeConfig.writeEntry("bEnabled", m_ui->cbB->isChecked());
     scopeConfig.writeEntry("rec601", m_aRec601->isChecked());
+    scopeConfig.writeEntry("logScale", m_ui->rbLogarithmic->isChecked());
     scopeConfig.sync();
 }
 
@@ -131,9 +139,9 @@ QImage Histogram::renderGfxScope(uint accelFactor, const QImage &qimage)
         (m_ui->cbR->isChecked() ? 1 : 0) * HistogramGenerator::ComponentR | (m_ui->cbG->isChecked() ? 1 : 0) * HistogramGenerator::ComponentG |
         (m_ui->cbB->isChecked() ? 1 : 0) * HistogramGenerator::ComponentB;
 
-    HistogramGenerator::Rec rec = m_aRec601->isChecked() ? HistogramGenerator::Rec_601 : HistogramGenerator::Rec_709;
+    ITURec rec = m_aRec601->isChecked() ? ITURec::Rec_601 : ITURec::Rec_709;
 
-    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(), accelFactor);
+    QImage histogram = m_histogramGenerator->calculateHistogram(m_scopeRect.size(), qimage, componentFlags, rec, m_aUnscaled->isChecked(), m_ui->rbLogarithmic->isChecked(), accelFactor);
 
     emit signalScopeRenderingFinished(uint(timer.elapsed()), accelFactor);
     return histogram;

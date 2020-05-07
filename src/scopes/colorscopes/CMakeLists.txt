@@ -1,5 +1,6 @@
 set(kdenlive_SRCS
   ${kdenlive_SRCS}
+  scopes/colorscopes/colorconstants.h
   scopes/colorscopes/abstractgfxscopewidget.cpp
   scopes/colorscopes/colorplaneexport.cpp
   scopes/colorscopes/histogram.cpp

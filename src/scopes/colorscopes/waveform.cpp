@@ -181,7 +181,7 @@ QImage Waveform::renderGfxScope(uint accelFactor, const QImage &qimage)
     timer.start();
 
     const int paintmode = m_ui->paintMode->itemData(m_ui->paintMode->currentIndex()).toInt();
-    WaveformGenerator::Rec rec = m_aRec601->isChecked() ? WaveformGenerator::Rec_601 : WaveformGenerator::Rec_709;
+    ITURec rec = m_aRec601->isChecked() ? ITURec::Rec_601 : ITURec::Rec_709;
     QImage wave = m_waveformGenerator->calculateWaveform(scopeRect().size() - m_textWidth - QSize(0, m_paddingBottom), qimage,
                                                          (WaveformGenerator::PaintMode)paintmode, true, rec, accelFactor);
 
