@@ -1079,7 +1079,11 @@ void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipIte
     if (clipItem->clipType() == ClipType::AV || clipItem->clipType() == ClipType::Audio || clipItem->clipType() == ClipType::Image ||
         clipItem->clipType() == ClipType::Video || clipItem->clipType() == ClipType::Playlist || clipItem->clipType() == ClipType::TextTemplate) {
         m_fileWatcher->removeFile(clipItem->clipId());
-        m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+        QFileInfo check_file(clipItem->clipUrl());
+        // check if file exists and if yes: Is it really a file and no directory?
+        if ((check_file.exists() && check_file.isFile()) || clipItem->clipStatus() == AbstractProjectItem::StatusMissing) {
+            m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
+        }
     }
 }
 

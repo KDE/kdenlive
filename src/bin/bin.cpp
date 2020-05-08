@@ -226,10 +226,23 @@ public:
                     }
                     m_thumbRect = r;
                 }
+                // Add audio/video icons for selective drag
+                int cType = index.data(AbstractProjectItem::ClipType).toInt();
                 if (clipStatus == AbstractProjectItem::StatusMissing) {
                     painter->save();
                     painter->setPen(QPen(Qt::red, 3));
                     painter->drawRect(m_thumbRect);
+                    painter->restore();
+                } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
+                    // Draw 'photo' frame to identify image clips
+                    painter->save();
+                    int penWidth = m_thumbRect.height() / 14;
+                    penWidth += penWidth % 2;
+                    painter->setPen(QPen(QColor(255, 255, 255, 160), penWidth));
+                    penWidth /= 2;
+                    painter->drawRoundedRect(m_thumbRect.adjusted(penWidth, penWidth, -penWidth - 1, -penWidth - 1), 4, 4);
+                    painter->setPen(QPen(Qt::black, 1));
+                    painter->drawRoundedRect(m_thumbRect.adjusted(0, 0, -1, -1), 4, 4);
                     painter->restore();
                 }
                 int mid = (int)((r1.height() / 2));
@@ -265,8 +278,6 @@ public:
                     }
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
 
-                    // Add audio/video icons for selective drag
-                    int cType = index.data(AbstractProjectItem::ClipType).toInt();
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
                         bounding.moveLeft(bounding.right() + (2 * textMargin));

@@ -606,6 +606,7 @@ bool DocumentChecker::hasErrorInClips()
                 if (missingPaths.contains(realPath)) {
                     // Proxy AND source missing
                     setProperty(mltProd, QStringLiteral("_placeholder"), QStringLiteral("1"));
+                    setProperty(mltProd, QStringLiteral("kdenlive:orig_service"), Xml::getXmlProperty(mltProd, "mlt_service"));
                 }
             }
         }

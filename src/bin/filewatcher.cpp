@@ -40,11 +40,6 @@ void FileWatcher::addFile(const QString &binId, const QString &url)
     if (url.isEmpty()) {
         return;
     }
-    QFileInfo check_file(url);
-    // check if file exists and if yes: Is it really a file and no directory?
-    if (!check_file.exists() || !check_file.isFile()) {
-        return;
-    }
     if (m_occurences.count(url) == 0) {
         m_fileWatcher->addFile(url);
     }
