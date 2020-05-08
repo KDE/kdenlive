@@ -63,6 +63,13 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     if (m_properties) {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_service = m_properties->get("mlt_service");
+        if (m_service == QLatin1String("qtext")) {
+            // Placeholder clip, find real service
+            QString originalService = m_properties->get("kdenlive:orig_service");
+            if (!originalService.isEmpty()) {
+                m_service = originalService;
+            }
+        }
         QString proxy = m_properties->get("kdenlive:proxy");
         QString path = m_properties->get("resource");
         if (proxy.length() > 2) {
@@ -653,7 +660,7 @@ void ClipController::checkAudioVideo()
 {
     QReadLocker lock(&m_producerLock);
     m_masterProducer->seek(0);
-    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1 || m_masterProducer->get("text") == QLatin1String("INVALID")) {
+    if (m_masterProducer->get_int("_placeholder") == 1 || m_masterProducer->get_int("_missingsource") == 1) {
         // This is a placeholder file, try to guess from its properties
         QString orig_service = m_masterProducer->get("kdenlive:orig_service");
         if (orig_service.startsWith(QStringLiteral("avformat")) || (m_masterProducer->get_int("audio_index") + m_masterProducer->get_int("video_index") > 0)) {

@@ -82,7 +82,11 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     , ClipController(id, std::move(producer))
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
-    m_clipStatus = StatusReady;
+    if (producer->get_int("_placeholder") == 1 || producer->get_int("_missingsource") == 1) {
+        m_clipStatus = StatusMissing;
+    } else {
+        m_clipStatus = StatusReady;
+    }
     m_name = clipName();
     m_duration = getStringDuration();
     m_inPoint = 0;
