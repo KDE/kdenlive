@@ -229,6 +229,7 @@ public:
     /** @brief Return FFmpeg's audio stream index for an MLT audio stream index
      */
     int getAudioStreamFfmpegIndex(int mltStream);
+    void setClipStatus(AbstractProjectItem::CLIPSTATUS status) override;
 
 protected:
     friend class ClipModel;

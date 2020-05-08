@@ -214,6 +214,7 @@ public:
             painter->setFont(font);
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 int decoWidth = 0;
+                AbstractProjectItem::CLIPSTATUS clipStatus = (AbstractProjectItem::CLIPSTATUS)index.data(AbstractProjectItem::ClipStatus).toInt();
                 if (opt.decorationSize.height() > 0) {
                     r.setWidth(r.height() * pCore->getCurrentDar());
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
@@ -224,6 +225,12 @@ public:
                         painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
                     }
                     m_thumbRect = r;
+                }
+                if (clipStatus == AbstractProjectItem::StatusMissing) {
+                    painter->save();
+                    painter->setPen(QPen(Qt::red, 3));
+                    painter->drawRect(m_thumbRect);
+                    painter->restore();
                 }
                 int mid = (int)((r1.height() / 2));
                 r1.adjust(decoWidth, 0, 0, -mid);
@@ -286,7 +293,6 @@ public:
                         r.setWidth(bounding.height());
                         reload.paint(painter, r);
                     }
-
                     int jobProgress = index.data(AbstractProjectItem::JobProgress).toInt();
                     auto status = index.data(AbstractProjectItem::JobStatus).value<JobManagerStatus>();
                     if (status == JobManagerStatus::Pending || status == JobManagerStatus::Running) {
@@ -1394,6 +1400,11 @@ void Bin::slotReloadClip()
         }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
+            if (currentItem->clipStatus() == AbstractProjectItem::StatusMissing) {
+                // Don't attempt to reload missing clip
+                emit displayBinMessage(i18n("Missing source clip"), KMessageWidget::Warning);
+                return;
+            }
             if (currentItem->clipType() == ClipType::Playlist) {
                 // Check if a clip inside playlist is missing
                 QString path = currentItem->url();

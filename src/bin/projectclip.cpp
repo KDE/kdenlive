@@ -1223,10 +1223,16 @@ bool ProjectClip::rename(const QString &name, int column)
 QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
-    case AbstractProjectItem::IconOverlay:
-        return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
-    default:
-        return AbstractProjectItem::getData(type);
+        case AbstractProjectItem::IconOverlay:
+            if (m_clipStatus == AbstractProjectItem::StatusMissing) {
+                return QVariant("window-close");
+            }
+            if (m_clipStatus == AbstractProjectItem::StatusWaiting) {
+                return QVariant("view-refresh");
+            }
+            return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
+        default:
+            return AbstractProjectItem::getData(type);
     }
 }
 
@@ -1544,4 +1550,13 @@ QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
         }
     }
     return audioLevels;
+}
+
+void ProjectClip::setClipStatus(AbstractProjectItem::CLIPSTATUS status)
+{
+    AbstractProjectItem::setClipStatus(status);
+    if (auto ptr = m_model.lock()) {
+        std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
+                                                                       AbstractProjectItem::IconOverlay);
+    }
 }
