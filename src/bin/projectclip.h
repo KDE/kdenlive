@@ -224,6 +224,7 @@ public:
     /** @brief Display Bin thumbnail given a percent
      */
     void getThumbFromPercent(int percent);
+    void setClipStatus(AbstractProjectItem::CLIPSTATUS status) override;
 
 protected:
     friend class ClipModel;
