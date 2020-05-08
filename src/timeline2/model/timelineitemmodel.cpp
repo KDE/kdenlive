@@ -481,6 +481,7 @@ void TimelineItemModel::setTrackProperty(int trackId, const QString &name, const
     } else if (name == QLatin1String("hide")) {
         roles.push_back(IsDisabledRole);
         if (!track->isAudioTrack()) {
+            pCore->invalidateItem(ObjectId(ObjectType::TimelineTrack, trackId));
             pCore->requestMonitorRefresh();
             updateMultiTrack = true;
         }
