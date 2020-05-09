@@ -262,6 +262,14 @@ bool KeyframeModelList::isEmpty() const
     return (m_parameters.size() == 0 || m_parameters.begin()->second->rowCount() == 0);
 }
 
+int KeyframeModelList::count() const
+{
+    READ_LOCK();
+    if (m_parameters.size() > 0)
+        return m_parameters.begin()->second->rowCount();
+    return 0;
+}
+
 Keyframe KeyframeModelList::getNextKeyframe(const GenTime &pos, bool *ok) const
 {
     READ_LOCK();
@@ -484,4 +492,14 @@ void KeyframeModelList::checkConsistency()
             }
         }
     }
+}
+
+GenTime KeyframeModelList::getPosAtIndex(int ix)
+{
+    QList<GenTime> positions = m_parameters.begin()->second->getKeyframePos();
+    std::sort(positions.begin(), positions.end());
+    if (ix < 0 || ix >= positions.count()) {
+        return GenTime();
+    }
+    return positions.at(ix);
 }

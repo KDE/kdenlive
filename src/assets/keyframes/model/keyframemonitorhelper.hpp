@@ -53,7 +53,7 @@ public:
     bool connectMonitor(bool activate);
     /** @brief Send data update to the monitor
      */
-    virtual void refreshParams(int pos) = 0;
+    virtual void refreshParams(int pos);
 
 protected:
     Monitor *m_monitor;
@@ -64,7 +64,7 @@ protected:
     bool m_active;
 
 private slots:
-    virtual void slotUpdateFromMonitorData(const QVariantList &v) = 0;
+    virtual void slotUpdateFromMonitorData(const QVariantList &v);
 
 public slots:
     /** @brief For classes that manage several parameters, add a param index to the list

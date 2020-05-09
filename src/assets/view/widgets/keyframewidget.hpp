@@ -81,6 +81,7 @@ private slots:
     void slotCopyKeyframes();
     void slotImportKeyframes();
     void slotRemoveNextKeyframes();
+    void slotSeekToKeyframe(int ix);
 
 private:
     QVBoxLayout *m_lay;
