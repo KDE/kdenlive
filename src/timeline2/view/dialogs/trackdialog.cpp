@@ -39,7 +39,12 @@ TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int tr
     buildCombo();
     connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
+    connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), [this] (int count) {
+        tracks_count->setSuffix(count > 1 ? i18n(" tracks") : i18n(" track"));
+        track_name->setEnabled(count == 1);
+    });
     if (deleteMode) {
+        tracks_count->setVisible(false);
         track_name->setVisible(false);
         video_track->setVisible(false);
         audio_track->setVisible(false);
@@ -114,4 +119,9 @@ bool TrackDialog::addAudioTrack() const
 const QString TrackDialog::trackName() const
 {
     return track_name->text();
+}
+
+int TrackDialog::tracksCount() const
+{
+    return tracks_count->value();
 }

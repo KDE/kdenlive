@@ -48,6 +48,9 @@ public:
     /** @brief: returns the newly created track name
      */
     const QString trackName() const;
+    /** @brief: returns the number of tracks to be inserted
+     */
+    int tracksCount() const;
 
 private:
     int m_trackIndex;

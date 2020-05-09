@@ -585,32 +585,38 @@ void TimelineController::addTrack(int tid)
     }
     QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow());
     if (d->exec() == QDialog::Accepted) {
-        int newTid;
         bool audioRecTrack = d->addRecTrack();
         bool addAVTrack = d->addAVTrack();
+        int tracksCount = d->tracksCount();
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        bool result = m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack(), undo, redo);
-        if (result) {
-            m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
-            if (addAVTrack) {
-                int newTid2;
-                int mirrorPos = 0;
-                int mirrorId = m_model->getMirrorAudioTrackId(newTid);
-                if (mirrorId > -1) {
-                    mirrorPos = m_model->getTrackMltIndex(mirrorId);
+        bool result = true;
+        for (int ix = 0; ix < tracksCount; ++ix) {
+            int newTid;
+            result = m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack(), undo, redo);
+            if (result) {
+                m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
+                if (addAVTrack) {
+                    int newTid2;
+                    int mirrorPos = 0;
+                    int mirrorId = m_model->getMirrorAudioTrackId(newTid);
+                    if (mirrorId > -1) {
+                        mirrorPos = m_model->getTrackMltIndex(mirrorId);
+                    }
+                    result = m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true, undo, redo);
+                    if (result) {
+                        m_model->setTrackProperty(newTid2, "kdenlive:timeline_active", QStringLiteral("1"));
+                    }
                 }
-                result = m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true, undo, redo);
-                if (result) {
-                    m_model->setTrackProperty(newTid2, "kdenlive:timeline_active", QStringLiteral("1"));
+                if (audioRecTrack) {
+                    m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
                 }
-            }
-            if (audioRecTrack) {
-                m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
+            } else {
+                break;
             }
         }
         if (result) {
-            pCore->pushUndo(undo, redo, addAVTrack ? i18n("Insert Tracks") : i18n("Insert Track"));
+            pCore->pushUndo(undo, redo, addAVTrack || tracksCount > 1 ? i18n("Insert Tracks") : i18n("Insert Track"));
         } else {
             pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
             undo();
