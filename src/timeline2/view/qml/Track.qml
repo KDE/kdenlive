@@ -358,7 +358,7 @@ Item{
     Component {
         id: compositionDelegate
         Composition {
-            displayHeight: trackRoot.height / 2
+            displayHeight: Math.max(trackRoot.height / 2, trackRoot.height - (root.baseUnit * 2))
             opacity: 0.8
             selected: root.timelineSelection.indexOf(clipId) !== -1
             onTrimmingIn: {

@@ -201,8 +201,8 @@ Item {
         anchors.top: compositionRoot.top
         anchors.right: compositionRoot.right
         anchors.left: compositionRoot.left
-        anchors.topMargin: displayHeight * 1.2
-        height: parentTrack.height - displayHeight * 1.2 + Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3
+        anchors.topMargin: displayHeight
+        height: parentTrack.height - displayHeight + (compositionRoot.selected ? Math.min(Logic.getTrackHeightByPos(Logic.getTrackIndexFromId(parentTrack.trackInternalId) + 1) / 3, root.baseUnit) : 0)
         color: selected ? 'mediumpurple' : Qt.darker('mediumpurple')
         border.color: selected ? root.selectionColor : grouped ? root.groupColor : borderColor
         border.width: isGrabbed ? 8 : 1.5
