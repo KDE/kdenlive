@@ -21,6 +21,7 @@
 #include "assets/keyframes/model/corners/cornershelper.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "assets/keyframes/model/rotoscoping/rotohelper.hpp"
+#include "assets/keyframes/model/keyframemonitorhelper.hpp"
 #include "assets/keyframes/view/keyframeview.hpp"
 #include "assets/model/assetparametermodel.hpp"
 #include "assets/view/widgets/keyframeimport.h"
@@ -98,6 +99,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
     connect(monitor, &Monitor::seekPosition, this, &KeyframeWidget::monitorSeek, Qt::UniqueConnection);
+    connect(monitor, &Monitor::seekToKeyframe, this, &KeyframeWidget::slotSeekToKeyframe, Qt::UniqueConnection);
     m_time = new TimecodeDisplay(pCore->timecode(), this);
     m_time->setRange(0, duration - 1);
 
@@ -342,10 +344,11 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         int inPos = m_model->data(index, AssetParameterModel::ParentInRole).toInt();
         QPair<int, int> range(inPos, inPos + m_model->data(index, AssetParameterModel::ParentDurationRole).toInt());
         const QString value = m_keyframes->getInterpolatedValue(getPosition(), index).toString();
+        m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
         QRect rect;
         double opacity = 0;
         QStringList vals = value.split(QLatin1Char(' '));
-        if (vals.count() >= 4) {
+        if (vals.count() > 3) {
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
             if (vals.count() > 4) {
                 opacity = locale.toDouble(vals.at(4));
@@ -505,4 +508,11 @@ void KeyframeWidget::slotRemoveNextKeyframes()
 {
     int pos = m_time->getValue() + m_model->data(m_index, AssetParameterModel::ParentInRole).toInt();
     m_keyframes->removeNextKeyframes(GenTime(pos, pCore->getCurrentFps()));
+}
+
+
+void KeyframeWidget::slotSeekToKeyframe(int ix)
+{
+    int pos = m_keyframes->getPosAtIndex(ix).frames(pCore->getCurrentFps());
+    slotSetPosition(pos, true);
 }

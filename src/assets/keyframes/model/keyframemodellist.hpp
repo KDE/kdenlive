@@ -96,6 +96,9 @@ public:
     /* @brief Returns true if we only have no keyframe
      */
     bool isEmpty() const;
+    /* @brief Returns the number of keyframes
+     */
+    int count() const;
 
     /* @brief Returns the keyframe located after given position.
        If there is a keyframe at given position it is ignored.
@@ -136,6 +139,9 @@ public:
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
     
+    /** @brief Return position of the nth keyframe (ix = nth)*/
+    GenTime getPosAtIndex(int ix);
+
     /** @brief Check that all keyframable parameters have the same keyframes on loading
      *  (that's how our model works) */
     void checkConsistency();
