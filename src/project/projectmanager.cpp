@@ -78,6 +78,10 @@ ProjectManager::ProjectManager(QObject *parent)
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
     m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
 
+    QAction *saveCopyAction = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Copy…"), this);
+    pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
+    connect(saveCopyAction,  &QAction::triggered, this, [this]{ saveFileAs(true); });
+
     QAction *backupAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Open Backup File"), this);
     pCore->window()->addAction(QStringLiteral("open_backup"), backupAction);
     connect(backupAction, SIGNAL(triggered(bool)), SLOT(slotOpenBackup()));
@@ -298,7 +302,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     return true;
 }
 
-bool ProjectManager::saveFileAs(const QString &outputFileName)
+bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
 {
     pCore->monitorManager()->pauseActiveMonitor();
     // Sync document properties
@@ -319,29 +323,33 @@ bool ProjectManager::saveFileAs(const QString &outputFileName)
     // Save timeline thumbnails
     QStringList thumbKeys = pCore->window()->getMainTimeline()->controller()->getThumbKeys();
     ThumbnailCache::get()->saveCachedThumbs(thumbKeys);
-    m_project->setUrl(url);
-    // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
-    // saved under file name
-    // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
-    // This timer is set by KdenliveDoc::setModified()
-    const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
-    QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(outputFileName).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
-    if (m_project->m_autosave == nullptr) {
-        // The temporary file is not opened or created until actually needed.
-        // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
-        m_project->m_autosave = new KAutoSaveFile(autosaveUrl, m_project);
-    } else {
-        m_project->m_autosave->setManagedFile(autosaveUrl);
-    }
+    if (!saveACopy) {
+        m_project->setUrl(url);
+        // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
+        // saved under file name
+        // actual saving by KdenliveDoc::slotAutoSave() called by a timer 3 seconds after the document has been edited
+        // This timer is set by KdenliveDoc::setModified()
+        const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
+        QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(outputFileName).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
+        if (m_project->m_autosave == nullptr) {
+            // The temporary file is not opened or created until actually needed.
+            // The file filename does not have to exist for KAutoSaveFile to be constructed (if it exists, it will not be touched).
+            m_project->m_autosave = new KAutoSaveFile(autosaveUrl, m_project);
+        } else {
+            m_project->m_autosave->setManagedFile(autosaveUrl);
+        }
 
-    pCore->window()->setWindowTitle(m_project->description());
-    m_project->setModified(false);
+        pCore->window()->setWindowTitle(m_project->description());
+        m_project->setModified(false);
+    }
     m_recentFilesAction->addUrl(url);
     // remember folder for next project opening
     KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), saveFolder);
     saveRecentFiles();
-    m_fileRevert->setEnabled(true);
-    pCore->window()->m_undoView->stack()->setClean();
+    if (!saveACopy) {
+        m_fileRevert->setEnabled(true);
+        pCore->window()->m_undoView->stack()->setClean();
+    }
 
     return true;
 }
@@ -353,9 +361,12 @@ void ProjectManager::saveRecentFiles()
     config->sync();
 }
 
-bool ProjectManager::saveFileAs()
+bool ProjectManager::saveFileAs(bool saveACopy)
 {
     QFileDialog fd(pCore->window());
+    if (saveACopy) {
+        fd.setWindowTitle(i18n("Save Copy"));
+    }
     fd.setDirectory(m_project->url().isValid() ? m_project->url().adjusted(QUrl::RemoveFilename).toLocalFile() : KdenliveSettings::defaultprojectfolder());
     fd.setNameFilter(getProjectNameFilters(false));
     fd.setAcceptMode(QFileDialog::AcceptSave);
@@ -374,7 +385,7 @@ bool ProjectManager::saveFileAs()
         file.open(QIODevice::ReadWrite | QIODevice::Text);
         file.close();
     }
-    return saveFileAs(outputFile);
+    return saveFileAs(outputFile, saveACopy);
 }
 
 bool ProjectManager::saveFile()

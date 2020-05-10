@@ -111,16 +111,19 @@ public slots:
     bool saveFile();
 
     /** @brief Shows a save file dialog for saving the project.
+     * @param saveACopy Default is false. If true, the file title of the dialog is set to "Save Copy…"
      * @return Whether the file was saved. */
-    bool saveFileAs();
+    bool saveFileAs(bool saveACopy = false);
 
     /** @brief Set properties to match outputFileName and save the document.
-     * Creates an autosave version of the output file too, at
+     * Creates an autosave version of the output file too (only if not in copymode), at
      * ~/.kde/data/stalefiles/kdenlive/ \n
      * that will be actually written in KdenliveDoc::slotAutoSave()
      * @param outputFileName The URL to save to / The document's URL.
+     * @param saveACopy Default is false. If true, the file will be saved but isn’t opened afterwards. Besides no autosave version will be created
      * @return Whether we had success. */
-    bool saveFileAs(const QString &outputFileName);
+    bool saveFileAs(const QString &outputFileName, bool saveACopy = false);
+
     /** @brief Close currently opened document. Returns false if something went wrong (cannot save modifications, ...). */
     bool closeCurrentDocument(bool saveChanges = true, bool quit = false);
 

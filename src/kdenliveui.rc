@@ -2,6 +2,11 @@
 <kpartgui name="kdenlive" version="181" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
+      <Action name="file_save"/>
+      <Action name="file_save_as"/>
+      <Action name="file_save_copy"/>
+      <Action name="file_revert"/>
+      <Separator />
       <Action name="dvd_wizard" />
       <Action name="transcode_clip" />
       <Action name="export_project" />
