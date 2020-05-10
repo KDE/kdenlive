@@ -872,7 +872,7 @@
       <label>True if slideshow default method is MIME type.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="monitorscene_directupdate" type="Bool">
       <label>Update parameters while monitor scene changes.</label>
       <default>false</default>
@@ -884,14 +884,14 @@
 
     <entry name="enableaudiospectrum" type="Bool">
       <label>Send frames to audiospectrum scope for live analysis.</label>
-      <default>false</default>
+      <default>true</default>
     </entry>
 
     <entry name="showstopmotionthumbs" type="Bool">
       <label>Show sequence thumbnails in stopmotion widget.</label>
       <default>true</default>
     </entry> 
-    
+
     <entry name="captureinterval" type="Int">
       <label>Interval between each capture (in seconds).</label>
       <default>5</default>
