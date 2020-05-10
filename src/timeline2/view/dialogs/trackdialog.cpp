@@ -40,7 +40,7 @@ TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int tr
     connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
     connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), [this] (int count) {
-        tracks_count->setSuffix(count > 1 ? i18n(" tracks") : i18n(" track"));
+        tracks_count->setSuffix(i18np(" track", " tracks", count));
         track_name->setEnabled(count == 1);
     });
     if (deleteMode) {
