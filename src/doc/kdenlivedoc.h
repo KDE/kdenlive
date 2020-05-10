@@ -20,7 +20,7 @@
 /*! \class KdenliveDoc
     \brief Represents a kdenlive project file
 
-   Instances of KdeliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
+   Instances of KdenliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
 */
 #ifndef KDENLIVEDOC_H
 #define KDENLIVEDOC_H

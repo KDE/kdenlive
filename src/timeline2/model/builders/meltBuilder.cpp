@@ -296,7 +296,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            qDebug() << "Looking for clip clip " << clip->parent().get("kdenlive:id") << " = " << clip->parent().get("kdenlive:clipname");
+            qDebug() << "Looking for clip with ID " << clip->parent().get("kdenlive:id") << " and name " << clip->parent().get("kdenlive:clipname");
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
                 // This is a bin clip, already processed no need to change id
