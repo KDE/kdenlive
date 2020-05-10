@@ -29,6 +29,7 @@ public:
     int samplingRate() const;
     int channels() const;
     QMap <int, QString> streams() const;
+    QMap <int, QString> activeStreams() const;
     int bitrate() const;
     const QString &samplingFormat() const;
     int audio_index() const;
@@ -36,10 +37,13 @@ public:
     void dumpInfo() const;
     void setAudioIndex(const std::shared_ptr<Mlt::Producer> &producer, int ix);
     QMap<int, QString> streamInfo(Mlt::Properties sourceProperties);
+    void updateActiveStreams(const QString &activeStreams);
+    void renameStream(int ix, const QString streamName);
 
 private:
     int m_audioStreamIndex;
     QMap <int, QString> m_audioStreams;
+    QList <int> m_activeStreams;
     int m_ffmpegAudioIndex;
     int m_samplingRate;
     int m_channels;

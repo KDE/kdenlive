@@ -2373,7 +2373,7 @@ void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forc
     }
     m_propertiesPanel->setProperty("clipId", clip->AbstractProjectItem::clipId());
     // Setup timeline targets
-    emit setupTargets(clip->hasVideo(), clip->audioStreams());
+    emit setupTargets(clip->hasVideo(), clip->activeStreams());
     auto *lay = static_cast<QVBoxLayout *>(m_propertiesPanel->layout());
     if (lay == nullptr) {
         lay = new QVBoxLayout(m_propertiesPanel);
@@ -2417,6 +2417,17 @@ void Bin::reloadMonitorStreamIfActive(const QString &id)
 {
     if (m_monitor->activeClipId() == id) {
         m_monitor->reloadActiveStream();
+    }
+}
+
+void Bin::updateTargets(const QString &id)
+{
+    if (m_monitor->activeClipId() != id) {
+        return;
+    }
+    std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
+    if (clip) {
+        emit setupTargets(clip->hasVideo(), clip->activeStreams());
     }
 }
 

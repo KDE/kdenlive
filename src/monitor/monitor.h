@@ -37,6 +37,7 @@ class SnapModel;
 class ProjectClip;
 class MonitorManager;
 class QSlider;
+class QToolButton;
 class KDualAction;
 class KSelectAction;
 class KMessageWidget;
@@ -210,7 +211,8 @@ private:
     QMenu *m_playMenu;
     QMenu *m_markerMenu;
     QMenu *m_audioChannels;
-    QActionGroup *m_audioChannelsGroup;
+    QToolButton *m_streamsButton;
+    QAction *m_streamAction;
     QPoint m_DragStartPosition;
     /** true if selected clip is transition, false = selected clip is clip.
      *  Necessary because sometimes we get two signals, e.g. we get a clip and we get selected transition = nullptr. */

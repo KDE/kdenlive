@@ -1047,6 +1047,14 @@ QMap <int, QString> ClipController::audioStreams() const
     return {};
 }
 
+QMap <int, QString> ClipController::activeStreams() const
+{
+    if (m_audioInfo) {
+        return m_audioInfo->activeStreams();
+    }
+    return {};
+}
+
 int ClipController::audioStreamsCount() const
 {
     if (m_audioInfo) {
@@ -1054,3 +1062,4 @@ int ClipController::audioStreamsCount() const
     }
     return 0;
 }
+

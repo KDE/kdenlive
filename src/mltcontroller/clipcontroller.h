@@ -97,6 +97,9 @@ public:
 
     /** @brief Returns this clip's producer. */
     virtual std::shared_ptr<Mlt::Producer> thumbProducer() = 0;
+    
+    /** @brief Rename an audio stream. */
+    virtual void renameAudioStream(int id, QString name) = 0;
 
     /** @brief Returns the clip's duration */
     GenTime getPlaytime() const;
@@ -207,8 +210,10 @@ public:
     /** @brief Append an effect to this producer's effect list */
     bool addEffect(const QString &effectId);
 
-    /** @brief Returns the list of audio streams indexes for this clip */
+    /** @brief Returns the list of all audio streams indexes for this clip */
     QMap <int, QString> audioStreams() const;
+    /** @brief Returns the list of active audio streams indexes for this clip */
+    QMap <int, QString> activeStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
 

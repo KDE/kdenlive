@@ -983,7 +983,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         QStringLiteral("force_colorspace"), QStringLiteral("force_tff"),           QStringLiteral("force_progressive"), QStringLiteral("video_delay")
     };
     QStringList forceReloadProperties{QStringLiteral("autorotate"),  QStringLiteral("templatetext"),   QStringLiteral("resource"),
-                                      QStringLiteral("force_fps"),   QStringLiteral("set.test_image"), QStringLiteral("set.test_audio"),
+                                      QStringLiteral("force_fps"),   QStringLiteral("set.test_image"),
                                       QStringLiteral("video_index")};
     QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"),
                      QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation")};
@@ -1102,6 +1102,15 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             updateTimelineClips(updateRoles);
         }
     } else {
+        if (properties.contains(QStringLiteral("kdenlive:active_streams")) && m_audioInfo) {
+            // Clip is a multi audio stream and currently in clip monitor, update target tracks
+            m_audioInfo->updateActiveStreams(properties.value(QStringLiteral("kdenlive:active_streams")));
+            pCore->bin()->updateTargets(clipId());
+            if (!audioStreamChanged) {
+                pCore->bin()->reloadMonitorStreamIfActive(clipId());
+                refreshPanel = true;
+            }
+        }
         if (audioStreamChanged) {
             refreshAudioInfo();
             audioThumbReady();
@@ -1562,5 +1571,18 @@ void ProjectClip::setClipStatus(AbstractProjectItem::CLIPSTATUS status)
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::IconOverlay);
+    }
+}
+
+void ProjectClip::renameAudioStream(int id, QString name)
+{
+    if (m_audioInfo) {
+        m_audioInfo->renameStream(id, name);
+        QString prop = QString("kdenlive:streamname.%1").arg(id);
+        m_masterProducer->set(prop.toUtf8().constData(), name.toUtf8().constData());
+        if (m_audioInfo->activeStreams().keys().contains(id)) {
+            pCore->bin()->updateTargets(clipId());
+        }
+        pCore->bin()->reloadMonitorStreamIfActive(clipId());
     }
 }

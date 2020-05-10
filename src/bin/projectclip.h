@@ -230,6 +230,9 @@ public:
      */
     int getAudioStreamFfmpegIndex(int mltStream);
     void setClipStatus(AbstractProjectItem::CLIPSTATUS status) override;
+    /** @brief Rename an audio stream for this clip
+     */
+    void renameAudioStream(int id, QString name) override;
 
 protected:
     friend class ClipModel;

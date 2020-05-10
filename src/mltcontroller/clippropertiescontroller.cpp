@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QTextEdit>
 #include <QToolBar>
 #include <QUrl>
+#include <QListWidgetItem>
 #include <QVBoxLayout>
 
 AnalysisTree::AnalysisTree(QWidget *parent)
@@ -168,6 +169,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     , m_properties(new Mlt::Properties(controller->properties()))
     , m_audioStream(nullptr)
     , m_textEdit(nullptr)
+    , m_audioStreamsView(nullptr)
 {
     m_controller->mirrorOriginalProperties(m_sourceProperties);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -182,6 +184,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->setDocumentMode(true);
     m_tabWidget->setTabPosition(QTabWidget::East);
     auto *forcePage = new QScrollArea(this);
+    auto *forceAudioPage = new QScrollArea(this);
     m_propertiesPage = new QWidget(this);
     m_markersPage = new QWidget(this);
     m_metaPage = new QWidget(this);
@@ -248,6 +251,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     // Force properties
     auto *vbox = new QVBoxLayout;
     vbox->setSpacing(0);
+    
+    // Force Audio properties
+    auto *audioVbox = new QVBoxLayout;
+    audioVbox->setSpacing(0);
+
     if (m_type == ClipType::Text || m_type == ClipType::SlideShow || m_type == ClipType::TextTemplate) {
         QPushButton *editButton = new QPushButton(i18n("Edit Clip"), this);
         connect(editButton, &QAbstractButton::clicked, this, &ClipPropertiesController::editClip);
@@ -598,8 +606,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         // Audio index
         QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
         if (!audioStreamsInfo.isEmpty()) {
+            QList <int> enabledStreams = m_controller->activeStreams().keys();
             QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
+            m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), m_sourceProperties.get("kdenlive:active_streams"));
             hlay = new QHBoxLayout;
 
             KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
@@ -610,44 +620,94 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             tbv->setDefaultAction(ac);
             tbv->setAutoRaise(true);
             hlay->addWidget(tbv);
-            hlay->addWidget(new QLabel(i18n("Audio stream")));
-            m_audioStream = new QComboBox(this);
+            hlay->addWidget(new QLabel(i18n("Audio streams")));
+            audioVbox->addLayout(hlay);
+            m_audioStreamsView = new QListWidget(this);
+            m_audioStreamsView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+            audioVbox->addWidget(m_audioStreamsView);
+            //m_audioStream = new QComboBox(this);
             QMapIterator<int, QString> i(audioStreamsInfo);
             while (i.hasNext()) {
                 i.next();
-                m_audioStream->addItem(i.value(), i.key());
+                QListWidgetItem *item = new QListWidgetItem(i.value(), m_audioStreamsView);
+                item->setData(Qt::UserRole, i.key());
+                // Store oringinal name
+                item->setData(Qt::UserRole + 1, i.value());
+                item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable);
+                if (enabledStreams.contains(i.key())) {
+                    item->setCheckState(Qt::Checked);
+                } else {
+                    item->setCheckState(Qt::Unchecked);
+                }
             }
-            if (m_audioStream->count() > 1) {
-                m_audioStream->addItem(i18n("Merge all streams"), INT_MAX);
+            if (audioStreamsInfo.count() > 1) {
+                QListWidgetItem *item = new QListWidgetItem(i18n("Merge all streams"), m_audioStreamsView);
+                item->setData(Qt::UserRole, INT_MAX);
+                item->setData(Qt::UserRole + 1, item->text());
+                item->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+                if (enabledStreams.contains(INT_MAX)) {
+                    item->setCheckState(Qt::Checked);
+                } else {
+                    item->setCheckState(Qt::Unchecked);
+                }
             }
-            if (!vix.isEmpty() && vix.toInt() != -1) {
-                m_audioStream->setCurrentIndex(m_audioStream->findData(QVariant(vix)));
-            }
+            connect(m_audioStreamsView, &QListWidget::itemChanged, [this] (QListWidgetItem *item) {
+                if (!item) {
+                    return;
+                }
+                bool checked = item->checkState() == Qt::Checked;
+                int streamId = item->data(Qt::UserRole).toInt();
+                bool streamModified = false;
+                QString currentStreams = m_originalProperties.value(QStringLiteral("kdenlive:active_streams"));
+                QStringList activeStreams = currentStreams.split(QLatin1Char(';'));
+                if (activeStreams.contains(QString::number(streamId))) {
+                    if (!checked) {
+                        // Stream was unselected
+                        activeStreams.removeAll(QString::number(streamId));
+                        streamModified = true;
+                    }
+                } else if (checked) {
+                    // Stream was selected
+                    activeStreams << QString::number(streamId);
+                    activeStreams.sort();
+                    streamModified = true;
+                }
+                if (streamModified) {
+                    if (activeStreams.isEmpty()) {
+                        activeStreams << QStringLiteral("-1");
+                    }
+                    QMap<QString, QString> properties;
+                    properties.insert(QStringLiteral("kdenlive:active_streams"), activeStreams.join(QLatin1Char(';')));
+                    emit updateClipProperties(m_id, m_originalProperties, properties);
+                    m_originalProperties = properties;
+                } else if (item->text() != item->data(Qt::UserRole + 1).toString()) {
+                    // Rename event
+                    QString txt = item->text();
+                    int row = m_audioStreamsView->row(item) + 1;
+                    if (!txt.startsWith(QString("%1|").arg(row))) {
+                        txt.prepend(QString("%1|").arg(row));
+                    }
+                    m_controller->renameAudioStream(streamId, txt);
+                    QSignalBlocker bk(m_audioStreamsView);
+                    item->setText(txt);
+                    item->setData(Qt::UserRole + 1, txt);
+                }
+            });
             ac->setActive(vix.toInt() == -1);
-            m_audioStream->setEnabled(vix.toInt() > -1);
-            m_audioStream->setVisible(audioStreamsInfo.size() > 0);
-            connect(ac, &KDualAction::activeChanged, [this](bool activated) {
+            connect(ac, &KDualAction::activeChanged, [this, audioStreamsInfo](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
-                    m_audioStream->setEnabled(false);
+                    properties.insert(QStringLiteral("kdenlive:active_streams"), QStringLiteral("-1"));
                 } else {
-                    m_audioStream->setEnabled(true);
-                    vindx = m_audioStream->currentData().toInt();
+                    properties.insert(QStringLiteral("kdenlive:active_streams"), QString());
+                    vindx = audioStreamsInfo.firstKey();
                 }
                 properties.insert(QStringLiteral("audio_index"), QString::number(vindx));
                 properties.insert(QStringLiteral("set.test_audio"), vindx > -1 ? QStringLiteral("0") : QStringLiteral("1"));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-            QObject::connect(m_audioStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this]() {
-                QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("audio_index"), QString::number(m_audioStream->currentData().toInt()));
-                emit updateClipProperties(m_id, m_originalProperties, properties);
-                m_originalProperties = properties;
-            });
-            hlay->addWidget(m_audioStream);
-            vbox->addLayout(hlay);
 
             // Audio sync
             hlay = new QHBoxLayout;
@@ -668,7 +728,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 m_originalProperties = properties;
             });
             hlay->addWidget(spinSync);
-            vbox->addLayout(hlay);
+            audioVbox->addLayout(hlay);
         }
 
         // Colorspace
@@ -712,13 +772,21 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         vbox->addLayout(hlay);
         hlay->addStretch(10);
     }
+    // Force properties page
     QWidget *forceProp = new QWidget(this);
     forceProp->setLayout(vbox);
     forcePage->setWidget(forceProp);
     forcePage->setWidgetResizable(true);
+    // Force audio properties page
+    QWidget *forceAudioProp = new QWidget(this);
+    forceAudioProp->setLayout(audioVbox);
+    forceAudioPage->setWidget(forceAudioProp);
+    forceAudioPage->setWidgetResizable(true);
+
     vbox->addStretch(10);
     m_tabWidget->addTab(m_propertiesPage, QString());
     m_tabWidget->addTab(forcePage, QString());
+    m_tabWidget->addTab(forceAudioPage, QString());
     m_tabWidget->addTab(m_markersPage, QString());
     m_tabWidget->addTab(m_metaPage, QString());
     m_tabWidget->addTab(m_analysisPage, QString());
@@ -726,12 +794,14 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     m_tabWidget->setTabToolTip(0, i18n("File info"));
     m_tabWidget->setTabIcon(1, QIcon::fromTheme(QStringLiteral("document-edit")));
     m_tabWidget->setTabToolTip(1, i18n("Properties"));
-    m_tabWidget->setTabIcon(2, QIcon::fromTheme(QStringLiteral("bookmark-new")));
-    m_tabWidget->setTabToolTip(2, i18n("Markers"));
-    m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("view-grid")));
-    m_tabWidget->setTabToolTip(3, i18n("Metadata"));
-    m_tabWidget->setTabIcon(4, QIcon::fromTheme(QStringLiteral("visibility")));
-    m_tabWidget->setTabToolTip(4, i18n("Analysis"));
+    m_tabWidget->setTabIcon(2, QIcon::fromTheme(QStringLiteral("audio-volume-high")));
+    m_tabWidget->setTabToolTip(2, i18n("Audio Properties"));
+    m_tabWidget->setTabIcon(3, QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    m_tabWidget->setTabToolTip(3, i18n("Markers"));
+    m_tabWidget->setTabIcon(4, QIcon::fromTheme(QStringLiteral("view-grid")));
+    m_tabWidget->setTabToolTip(4, i18n("Metadata"));
+    m_tabWidget->setTabIcon(5, QIcon::fromTheme(QStringLiteral("visibility")));
+    m_tabWidget->setTabToolTip(5, i18n("Analysis"));
     m_tabWidget->setCurrentIndex(KdenliveSettings::properties_panel_page());
     if (m_type == ClipType::Color) {
         m_tabWidget->setTabEnabled(0, false);
@@ -776,13 +846,21 @@ void ClipPropertiesController::slotReloadProperties()
             m_originalProperties.insert(QStringLiteral("kdenlive:proxy"), proxy);
             emit proxyModified(proxy);
         }
-        if (m_audioStream && m_audioStream->isEnabled()) {
+        if (m_audioStreamsView && m_audioStreamsView->count() > 0) {
             int audio_ix = m_properties->get_int("audio_index");
+            m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), m_properties->get("kdenlive:active_streams"));
             if (audio_ix != m_originalProperties.value(QStringLiteral("audio_index")).toInt()) {
                 QSignalBlocker bk(m_audioStream);
                 m_originalProperties.insert(QStringLiteral("audio_index"), QString::number(audio_ix));
                 // update combo
-                m_audioStream->setCurrentIndex(m_audioStream->findData(audio_ix));
+                //m_audioStream->setCurrentIndex(m_audioStream->findData(audio_ix));
+            }
+            QList <int> enabledStreams = m_controller->activeStreams().keys();
+            QSignalBlocker bk(m_audioStreamsView);
+            for (int ix = 0; ix < m_audioStreamsView->count(); ix++) {
+                QListWidgetItem *item = m_audioStreamsView->item(ix);
+                int stream = item->data(Qt::UserRole).toInt();
+                item->setCheckState(enabledStreams.contains(stream) ? Qt::Checked : Qt::Unchecked);
             }
         }
         break;
@@ -1390,14 +1468,14 @@ void ClipPropertiesController::slotTextChanged()
 
 void ClipPropertiesController::slotDeleteSelectedMarkers()
 {
-    if (m_tabWidget->currentIndex() == 2) {
+    if (m_tabWidget->currentIndex() == 3) {
         slotDeleteMarker();
     }
 }
 
 void ClipPropertiesController::slotSelectAllMarkers()
 {
-    if (m_tabWidget->currentIndex() == 2) {
+    if (m_tabWidget->currentIndex() == 3) {
         m_markerTree->selectAll();
     }
 }

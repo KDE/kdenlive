@@ -147,12 +147,8 @@ void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audi
     }
     emit hasAudioTargetChanged();
     emit hasVideoTargetChanged();
-    //if (m_videoTargetActive) {
-        setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : videoTrack);
-    //}
-    //if (m_audioTargetActive) {
-        setAudioTarget((m_hasAudioTarget > 0 && (m_lastAudioTarget.size() == audioTargets.size())) ? m_lastAudioTarget : audioTracks);
-    //}
+    setVideoTarget(m_hasVideoTarget && (m_lastVideoTarget > -1) ? m_lastVideoTarget : videoTrack);
+    setAudioTarget(audioTracks);
 }
 
 std::shared_ptr<TimelineItemModel> TimelineController::getModel() const
@@ -2438,7 +2434,11 @@ const QString TimelineController::audioTargetName(int tid) const
         if (m_binAudioTargets.contains(streamIndex)) {
             QString targetName = m_binAudioTargets.value(streamIndex);
             return targetName.isEmpty() ? QChar('x') : targetName.at(0);
+        } else {
+            qDebug()<<"STREAM INDEX NOT IN TARGET : "<<streamIndex<<" = "<<m_binAudioTargets;
         }
+    } else {
+        qDebug()<<"TRACK NOT IN TARGET : "<<tid<<" = "<<m_model->m_audioTarget.keys();
     }
     return QString();
 }

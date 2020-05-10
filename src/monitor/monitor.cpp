@@ -141,7 +141,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     , m_contextMenu(nullptr)
     , m_markerMenu(nullptr)
     , m_audioChannels(nullptr)
-    , m_audioChannelsGroup(nullptr)
     , m_loopClipTransition(true)
     , m_editMarker(nullptr)
     , m_forceSizeFactor(0)
@@ -277,10 +276,48 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_toolbar->addAction(manager->getAction(QStringLiteral("insert_project_tree")));
         m_toolbar->setToolTip(i18n("Insert Zone to Project Bin"));
         m_toolbar->addSeparator();
+        m_streamsButton = new QToolButton(this);
+        m_streamsButton->setPopupMode(QToolButton::InstantPopup);
+        m_streamsButton->setIcon(QIcon::fromTheme(QStringLiteral("speaker")));
+        m_streamAction = m_toolbar->addWidget(m_streamsButton);
         m_audioChannels = new QMenu(this);
-        m_audioChannels->setIcon(QIcon::fromTheme(QStringLiteral("speaker")));
-        m_toolbar->addAction(m_audioChannels->menuAction());
-        m_audioChannels->menuAction()->setVisible(false);
+        m_streamsButton->setMenu(m_audioChannels);
+        m_streamAction->setVisible(false);
+        connect(m_audioChannels, &QMenu::triggered, [this] () {
+            m_audioChannels->show();
+            QList <QAction*> actions = m_audioChannels->actions();
+            QMap <int, QString> enabledStreams;
+            for (const auto act : actions) {
+                if (act->isChecked()) {
+                    // Audio stream is selected
+                    enabledStreams.insert(act->data().toInt(), act->text().remove(QLatin1Char('&')));
+                }
+            }
+            if (!enabledStreams.isEmpty()) {
+                // Only 1 stream wanted, easy
+                m_glMonitor->getControllerProxy()->setAudioStream(enabledStreams.first());
+                QMap <QString, QString> props;
+                props.insert(QStringLiteral("audio_index"), QString::number(enabledStreams.firstKey()));
+                if (enabledStreams.count() > 1) {
+                    // Mix audio channels
+                    
+                }
+                QList <int> streams = enabledStreams.keys();
+                QStringList astreams;
+                for (const int st : streams) {
+                    astreams << QString::number(st);
+                }
+                props.insert(QStringLiteral("kdenlive:active_streams"), astreams.join(QLatin1Char(';')));
+                m_controller->setProperties(props, true);
+            } else {
+                // No active stream
+                m_glMonitor->getControllerProxy()->setAudioStream(QString());
+                QMap <QString, QString> props;
+                props.insert(QStringLiteral("audio_index"), QStringLiteral("-1"));
+                props.insert(QStringLiteral("kdenlive:active_streams"), QStringLiteral("-1"));
+                m_controller->setProperties(props, true);
+            }
+        });
     } else if (id == Kdenlive::ProjectMonitor) {
         connect(m_glMonitor, &GLWidget::paused, m_monitorManager, &MonitorManager::cleanMixer);
     }
@@ -1420,47 +1457,36 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
     m_glMonitor->getControllerProxy()->resetZone();
     if (controller) {
         m_audioChannels->clear();
-        delete m_audioChannelsGroup;
-        m_audioChannelsGroup = nullptr;
         if (m_controller->audioInfo()) {
             QMap<int, QString> audioStreamsInfo = m_controller->audioStreams();
             if (audioStreamsInfo.size() > 1) {
-                // Multi stream clip
-                m_audioChannelsGroup = new QActionGroup(this);
+                 // Multi stream clip
                 QMapIterator<int, QString> i(audioStreamsInfo);
-                int activeStream = m_controller->getProducerIntProperty(QLatin1String("audio_index"));
+                QList <int> activeStreams = m_controller->activeStreams().keys();
                 QAction *ac;
                 while (i.hasNext()) {
                     i.next();
                     ac = m_audioChannels->addAction(i.value());
                     ac->setData(i.key());
                     ac->setCheckable(true);
-                    if (i.key() == activeStream) {
+                    if (activeStreams.contains(i.key())) {
                         ac->setChecked(true);
                         m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
                     }
-                    m_audioChannelsGroup->addAction(ac);
                 }
                 ac = m_audioChannels->addAction(i18n("Merge all streams"));
                 ac->setData(INT_MAX);
                 ac->setCheckable(true);
-                if (activeStream == INT_MAX) {
+                if (activeStreams.contains(INT_MAX)) {
                     ac->setChecked(true);
                 }
-                m_audioChannelsGroup->addAction(ac);
-                connect(m_audioChannelsGroup, &QActionGroup::triggered, [this] (QAction *act) {
-                    int selectedStream = act->data().toInt();
-                    m_glMonitor->getControllerProxy()->setAudioStream(act->text().remove(QLatin1Char('&')));
-                    QMap <QString, QString> props;
-                    props.insert(QStringLiteral("audio_index"), QString::number(selectedStream));
-                    m_controller->setProperties(props, true);
-                });
-                m_audioChannels->menuAction()->setVisible(true);
+                m_streamAction->setVisible(true);
             } else {
-                m_audioChannels->menuAction()->setVisible(false);
+                m_streamAction->setVisible(false);
             }
         } else {
-            m_audioChannels->menuAction()->setVisible(false);
+            m_streamAction->setVisible(false);
+            //m_audioChannels->menuAction()->setVisible(false);
         }
         connect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
         connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
@@ -1506,7 +1532,8 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
-        m_audioChannels->menuAction()->setVisible(false);
+        //m_audioChannels->menuAction()->setVisible(false);
+        m_streamAction->setVisible(false);
     }
     if (slotActivateMonitor()) {
         start();
@@ -1517,14 +1544,26 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
 void Monitor::reloadActiveStream()
 {
     if (m_controller) {
-        int activeStream = m_controller->getProducerIntProperty(QLatin1String("audio_index"));
-        QList <QAction*> actions = m_audioChannels->actions();
-        QSignalBlocker bk(m_audioChannelsGroup);
-        for (QAction *ac : actions) {
-            if (ac->data().toInt() == activeStream) {
+        QList <QAction *> acts = m_audioChannels->actions();
+        QSignalBlocker bk(m_audioChannels);
+        QList <int> activeStreams = m_controller->activeStreams().keys();
+        QMap <int, QString> streams = m_controller->audioStreams();
+        qDebug()<<"==== REFRESHING MONITOR STREAMS: "<<activeStreams;
+        bool displayedStream = false;
+        for (auto ac : acts) {
+            int val = ac->data().toInt();
+            if (streams.contains(val)) {
+                // Update stream name in case of renaming
+                ac->setText(streams.value(val));
+            }
+            if (activeStreams.contains(val)) {
                 ac->setChecked(true);
-                m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
-                break;
+                if (!displayedStream) {
+                    m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
+                    displayedStream = true;
+                }
+            } else {
+                ac->setChecked(false);
             }
         }
     }

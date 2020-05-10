@@ -35,6 +35,7 @@ class QMimeData;
 class QTextEdit;
 class QLabel;
 class QComboBox;
+class QListWidget;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -114,6 +115,7 @@ private:
     QTreeView *m_markerTree;
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
+    QListWidget *m_audioStreamsView;
     void fillProperties();
 
 signals:

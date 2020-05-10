@@ -33,35 +33,45 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
             memset(property, 0, 200);
             snprintf(property, sizeof(property), "meta.media.%d.codec.channels", ix);
             int chan = producer->get_int(property);
-            QString channelDescription = QString("%1|").arg(streamIndex++);
-            switch (chan) {
-                case 1:
-                    channelDescription.append(i18n("Mono "));
-                    break;
-                case 2:
-                    channelDescription.append(i18n("Stereo "));
-                    break;
-                default:
-                    channelDescription.append(i18n("%1 channels ", chan));
-                    break;
-            }
-            // Frequency
             memset(property, 0, 200);
-            snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", ix);
-            QString frequency(producer->get(property));
-            if (frequency.endsWith(QLatin1String("000"))) {
-                frequency.chop(3);
-                frequency.append(i18n("kHz "));
+            snprintf(property, sizeof(property), "kdenlive:streamname.%d", ix);
+            QString channelDescription = producer->get(property);
+            if (channelDescription.isEmpty()) {
+                channelDescription = QString("%1|").arg(streamIndex++);
+                switch (chan) {
+                    case 1:
+                        channelDescription.append(i18n("Mono "));
+                        break;
+                    case 2:
+                        channelDescription.append(i18n("Stereo "));
+                        break;
+                    default:
+                        channelDescription.append(i18n("%1 channels ", chan));
+                        break;
+                }
+                // Frequency
+                memset(property, 0, 200);
+                snprintf(property, sizeof(property), "meta.media.%d.codec.sample_rate", ix);
+                QString frequency(producer->get(property));
+                if (frequency.endsWith(QLatin1String("000"))) {
+                    frequency.chop(3);
+                    frequency.append(i18n("kHz "));
+                } else {
+                    frequency.append(i18n("Hz "));
+                }
+                channelDescription.append(frequency);
+                memset(property, 0, 200);
+                snprintf(property, sizeof(property), "meta.media.%d.codec.name", ix);
+                channelDescription.append(producer->get(property));
             } else {
-                frequency.append(i18n("Hz "));
+                streamIndex++;
             }
-            channelDescription.append(frequency);
-            memset(property, 0, 200);
-            snprintf(property, sizeof(property), "meta.media.%d.codec.name", ix);
-            channelDescription.append(producer->get(property));
             m_audioStreams.insert(ix, channelDescription);
         }
     }
+    QString active = producer->get("kdenlive:active_streams");
+    updateActiveStreams(active);
+    
     if (audioStreamIndex > -1) {
         QByteArray key;
         key = QStringLiteral("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
@@ -75,7 +85,6 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
 
         key = QStringLiteral("meta.media.%1.codec.channels").arg(audioStreamIndex).toLocal8Bit();
         m_channels = producer->get_int(key.data());
-
         setAudioIndex(producer, m_audioStreamIndex);
     }
 }
@@ -95,6 +104,19 @@ int AudioStreamInfo::channels() const
 QMap <int, QString> AudioStreamInfo::streams() const
 {
     return m_audioStreams;
+}
+
+QMap <int, QString> AudioStreamInfo::activeStreams() const
+{
+    QMap <int, QString> active;
+    QMapIterator<int, QString> i(m_audioStreams);
+    while (i.hasNext()) {
+        i.next();
+        if (m_activeStreams.contains(i.key())) {
+            active.insert(i.key(), i.value());
+        }
+    }
+    return active;
 }
 
 int AudioStreamInfo::bitrate() const
@@ -134,6 +156,28 @@ void AudioStreamInfo::setAudioIndex(const std::shared_ptr<Mlt::Producer> &produc
         if (audioStreams.count() > 1 && m_audioStreamIndex < audioStreams.count()) {
             m_ffmpegAudioIndex = audioStreams.indexOf(m_audioStreamIndex);
         }
+    }
+}
+
+void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
+{
+    // -1 = disable all audio
+    // empty = enable all audio
+    m_activeStreams.clear();
+    if (activeStreams.isEmpty()) {
+        m_activeStreams = m_audioStreams.keys();
+        return;
+    }
+    QStringList st = activeStreams.split(QLatin1Char(';'));
+    for (const QString &s : st) {
+        m_activeStreams << s.toInt();
+    }
+}
+
+void AudioStreamInfo::renameStream(int ix, const QString streamName)
+{
+    if (m_audioStreams.contains(ix)) {
+        m_audioStreams.insert(ix, streamName);
     }
 }
 
