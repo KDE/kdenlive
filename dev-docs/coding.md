@@ -1,7 +1,10 @@
 # Coding and Resources
 
-* [All Qt5 classes][qt5c]
+* Qt5
+  * [All Qt5 classes][qt5c]
+  * [Signals and Slots][qt-sig]
 * [MLT introduction][mlt-intro].
+* [The KDE Frameworks][kf]
 
 ## Configuration
 
@@ -28,3 +31,5 @@ KdenliveSettings::setLogscale(true);
 [sett]: ../src/kdenlivesettings.kcfg
 [mlt-intro]: https://www.mltframework.org/docs/framework/
 [qt5c]: https://doc.qt.io/qt-5/classes.html
+[qt-sig]: https://doc.qt.io/qt-5/signalsandslots.html
+[kf]: https://api.kde.org/frameworks-api/frameworks-apidocs/frameworks/index.html
