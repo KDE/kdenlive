@@ -328,6 +328,9 @@ void MainWindow::init()
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
     QDockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
+    connect(spectrumDock, &QDockWidget::visibilityChanged, [&](bool visible) {
+        m_audioSpectrum->dockVisible(visible);
+    });
     // Close library and audiospectrum on first run
     screenGrabDock->close();
     libraryDock->close();

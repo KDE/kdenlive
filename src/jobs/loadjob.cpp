@@ -145,11 +145,14 @@ std::shared_ptr<Mlt::Producer> LoadJob::loadPlaylist(QString &resource)
         // This is currently crashing so I guess we'd better reject it for now
         if (!pCore->getCurrentProfile()->isCompatible(xmlProfile.get())) {
             m_errorMessage.append(i18n("Playlist has a different framerate (%1/%2fps), not recommended.", xmlProfile->frame_rate_num(), xmlProfile->frame_rate_den()));
+            QString loader = resource;
+            loader.prepend(QStringLiteral("consumer:"));
+            pCore->getCurrentProfile()->set_explicit(1);
+            return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), loader.toUtf8().constData());
+        } else {
+            m_errorMessage.append(i18n("No matching profile"));
+            return nullptr;
         }
-        QString loader = resource;
-        loader.prepend(QStringLiteral("consumer:"));
-        pCore->getCurrentProfile()->set_explicit(1);
-        return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), loader.toUtf8().constData());
     }
     pCore->getCurrentProfile()->set_explicit(1);
     return std::make_shared<Mlt::Producer>(pCore->getCurrentProfile()->profile(), "xml", resource.toUtf8().constData());
@@ -351,7 +354,7 @@ bool LoadJob::startJob()
             QMetaObject::invokeMethod(pCore.get(), "displayBinMessage", Qt::QueuedConnection, Q_ARG(const QString &, m_errorMessage),
                                   Q_ARG(int, (int)KMessageWidget::Warning));
         }
-        if (m_resource.endsWith(QLatin1String(".kdenlive"))) {
+        if (m_producer && m_resource.endsWith(QLatin1String(".kdenlive"))) {
             QFile f(m_resource);
             QDomDocument doc;
             doc.setContent(&f, false);
