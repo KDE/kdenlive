@@ -80,6 +80,7 @@ class AudioGraphSpectrum : public ScopeWidget
 public:
     AudioGraphSpectrum(MonitorManager *manager, QWidget *parent = nullptr);
     ~AudioGraphSpectrum() override;
+    void dockVisible(bool visible);
 
 private:
     MonitorManager *m_manager;
