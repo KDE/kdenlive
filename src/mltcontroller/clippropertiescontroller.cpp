@@ -609,7 +609,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             QList <int> enabledStreams = m_controller->activeStreams().keys();
             QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
-            m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), m_sourceProperties.get("kdenlive:active_streams"));
+            QStringList streamString;
+            for (int streamIx : enabledStreams) {
+                streamString << QString::number(streamIx);
+            }
+            m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), streamString.join(QLatin1Char(';')));
             hlay = new QHBoxLayout;
 
             KDualAction *ac = new KDualAction(i18n("Disable audio"), i18n("Enable audio"), this);
