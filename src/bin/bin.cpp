@@ -61,10 +61,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KRatingPainter>
 #include <KMessageBox>
 #include <KXMLGUIFactory>
+#include <KIO/OpenFileManagerWindowJob>
 
 #include <QToolBar>
 #include <QCryptographicHash>
-#include <QDesktopServices>
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
@@ -1512,10 +1512,10 @@ void Bin::slotLocateClip()
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
-            QUrl url = QUrl::fromLocalFile(currentItem->url()).adjusted(QUrl::RemoveFilename);
+            QUrl url = QUrl::fromLocalFile(currentItem->url()); //.adjusted(QUrl::RemoveFilename);
             bool exists = QFile(url.toLocalFile()).exists();
             if (currentItem->hasUrl() && exists) {
-                QDesktopServices::openUrl(url);
+                KIO::highlightInFileManager({url});
                 qCDebug(KDENLIVE_LOG) << "  / / " + url.toString();
             } else {
                 if (!exists) {
