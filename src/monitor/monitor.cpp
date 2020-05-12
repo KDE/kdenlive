@@ -295,13 +295,8 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             }
             if (!enabledStreams.isEmpty()) {
                 // Only 1 stream wanted, easy
-                m_glMonitor->getControllerProxy()->setAudioStream(enabledStreams.first());
                 QMap <QString, QString> props;
                 props.insert(QStringLiteral("audio_index"), QString::number(enabledStreams.firstKey()));
-                if (enabledStreams.count() > 1) {
-                    // Mix audio channels
-                    
-                }
                 QList <int> streams = enabledStreams.keys();
                 QStringList astreams;
                 for (const int st : streams) {
@@ -311,7 +306,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 m_controller->setProperties(props, true);
             } else {
                 // No active stream
-                m_glMonitor->getControllerProxy()->setAudioStream(QString());
                 QMap <QString, QString> props;
                 props.insert(QStringLiteral("audio_index"), QStringLiteral("-1"));
                 props.insert(QStringLiteral("kdenlive:active_streams"), QStringLiteral("-1"));
@@ -1462,7 +1456,13 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (audioStreamsInfo.size() > 1) {
                  // Multi stream clip
                 QMapIterator<int, QString> i(audioStreamsInfo);
-                QList <int> activeStreams = m_controller->activeStreams().keys();
+                QMap <int, QString> activeStreams = m_controller->activeStreams();
+                if (activeStreams.size() > 1) {
+                    m_glMonitor->getControllerProxy()->setAudioStream(i18n("%1 audio streams", activeStreams.size()));
+                    // TODO: Mix audio channels
+                } else {
+                    m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
+                }
                 QAction *ac;
                 while (i.hasNext()) {
                     i.next();
@@ -1471,7 +1471,6 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                     ac->setCheckable(true);
                     if (activeStreams.contains(i.key())) {
                         ac->setChecked(true);
-                        m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
                     }
                 }
                 ac = m_audioChannels->addAction(i18n("Merge all streams"));
@@ -1517,7 +1516,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             }
             m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
             if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-                m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QUrl() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
+                m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QList<QUrl>() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
             }
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
@@ -1549,7 +1548,13 @@ void Monitor::reloadActiveStream()
         QList <int> activeStreams = m_controller->activeStreams().keys();
         QMap <int, QString> streams = m_controller->audioStreams();
         qDebug()<<"==== REFRESHING MONITOR STREAMS: "<<activeStreams;
-        bool displayedStream = false;
+        if (activeStreams.size() > 1) {
+            m_glMonitor->getControllerProxy()->setAudioStream(i18n("%1 audio streams", activeStreams.size()));
+            // TODO: Mix audio channels
+        } else {
+            m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
+        }
+        prepareAudioThumb();
         for (auto ac : acts) {
             int val = ac->data().toInt();
             if (streams.contains(val)) {
@@ -1558,10 +1563,6 @@ void Monitor::reloadActiveStream()
             }
             if (activeStreams.contains(val)) {
                 ac->setChecked(true);
-                if (!displayedStream) {
-                    m_glMonitor->getControllerProxy()->setAudioStream(ac->text().remove(QLatin1Char('&')));
-                    displayedStream = true;
-                }
             } else {
                 ac->setChecked(false);
             }

@@ -110,7 +110,7 @@ bool ThumbnailCache::hasThumbnail(const QString &binId, int pos, bool volatileOn
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = pos < 0 ? getAudioKey(binId, &ok) : getKey(binId, pos, &ok);
+    auto key = pos < 0 ? getAudioKey(binId, &ok).first() : getKey(binId, pos, &ok);
     if (ok && m_volatileCache->contains(key)) {
         return true;
     }
@@ -125,7 +125,7 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
-    auto key = getAudioKey(binId, &ok);
+    auto key = getAudioKey(binId, &ok).first();
     if (ok && m_volatileCache->contains(key)) {
         return m_volatileCache->get(key);
     }
@@ -140,16 +140,21 @@ QImage ThumbnailCache::getAudioThumbnail(const QString &binId, bool volatileOnly
     return QImage();
 }
 
-const QUrl ThumbnailCache::getAudioThumbPath(const QString &binId) const
+const QList <QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
 {
     QMutexLocker locker(&m_mutex);
     bool ok = false;
     auto key = getAudioKey(binId, &ok);
     QDir thumbFolder = getDir(true, &ok);
-    if (ok && thumbFolder.exists(key)) {
-        return QUrl::fromLocalFile(thumbFolder.absoluteFilePath(key));
+    QList <QUrl> pathList;
+    if (ok) {
+        for (const QString &p : key) {
+            if (thumbFolder.exists(p)) {
+                pathList <<QUrl::fromLocalFile(thumbFolder.absoluteFilePath(p));
+            }
+        }
     }
-    return QUrl();
+    return pathList;
 }
 
 QImage ThumbnailCache::getThumbnail(const QString &binId, int pos, bool volatileOnly) const
@@ -242,7 +247,9 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId, bool reloadAu
                 if (reloadAudio) {
                     auto key = getAudioKey(binId, &ok);
                     if (ok) {
-                        QFile::remove(audioThumbFolder.absoluteFilePath(key));
+                        for (const QString &p : key) {
+                            QFile::remove(audioThumbFolder.absoluteFilePath(p));
+                        }
                     }
                 }
             } else {
@@ -277,18 +284,38 @@ QString ThumbnailCache::getKey(const QString &binId, int pos, bool *ok)
 }
 
 // static
-QString ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
+QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
 {
     auto binClip = pCore->projectItemModel()->getClipByBinID(binId);
     *ok = binClip != nullptr;
     if (ok) {
-        int audio = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
-        if (audio > -1) {
-            return binClip->hash() + QLatin1Char('_') + QString::number(audio) + QStringLiteral(".png");
+        QString streams = binClip->getProducerProperty(QStringLiteral("kdenlive:active_streams"));
+        if (streams.isEmpty()) {
+            // activate all audio streams
+            QList <int> streamIxes = binClip->audioStreams().keys();
+            if (streamIxes.size() > 1) {
+                QStringList streamsList;
+                for (const int st : streamIxes) {
+                    streamsList << QString("%1_%2.png").arg(binClip->hash()).arg(st);
+                }
+                return streamsList;
+            }
         }
-        return binClip->hash() + QStringLiteral(".png");
+        if (streams.size() == 1) {
+            int audio = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
+            if (audio > -1) {
+                return {QString("%1_%2.png").arg(binClip->hash()).arg(audio)};
+            }
+            return {binClip->hash() + QStringLiteral(".png")};
+        }
+        QStringList streamsList;
+        QStringList streamIndexes = streams.split(QLatin1Char(';'));
+        for (const QString st : streamIndexes) {
+            streamsList << QString("%1_%2.png").arg(binClip->hash()).arg(st);
+        }
+        return streamsList;
     }
-    return QString();
+    return {};
 }
 
 // static

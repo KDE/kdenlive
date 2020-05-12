@@ -328,7 +328,7 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     }
 }
 
-void MonitorProxy::setAudioThumb(const QUrl thumbPath)
+void MonitorProxy::setAudioThumb(const QList <QUrl> thumbPath)
 {
     m_audioThumb = thumbPath;
     emit audioThumbChanged();
