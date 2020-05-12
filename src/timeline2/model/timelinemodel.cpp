@@ -1069,14 +1069,37 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             mirror = -1;
         }
         bool canMirrorDrop = !useTargets && mirror > -1;
+        QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
             if (!useTargets) {
+                int streamsCount = m_audioTarget.keys().count();
                 target_track = {mirror};
+                QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                if (streamsCount > audioTids.count() + 1) {
+                    pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", streamsCount), ErrorMessage);
+                    res = false;
+                } else {
+                    while (streamsCount > 1 && !audioTids.isEmpty()) {
+                    target_track << audioTids.takeFirst();
+                    streamsCount--;
+                    }
+                }
+                QList <int> aTargets = m_audioTarget.values();
+                std::sort(aTargets.begin(), aTargets.end());
+                for (int i = 0; i < target_track.count(); ++i) {
+                    dropTargets.insert(target_track.at(i), aTargets.at(i));
+                }
             }
             if (target_track.isEmpty()) {
                 // No available track for splitting, abort
                 pCore->displayMessage(i18n("No available track for split operation"), ErrorMessage);
                 res = false;
+            }
+            if (!res) {
+                bool undone = local_undo();
+                Q_ASSERT(undone);
+                id = -1;
+                return false;
             }
             // Process all mirror insertions
             std::function<bool(void)> audio_undo = []() { return true; };
@@ -1085,7 +1108,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             for (int &target_ix : target_track) {
                 if (!audioDrop) {
                     if (!useTargets) {
-                        audioStream = master->getProducerIntProperty("audio_index");
+                        audioStream = dropTargets.value(target_ix); //master->getProducerIntProperty("audio_index");
                     } else {
                         audioStream = m_audioTarget.value(target_ix);
                     }
