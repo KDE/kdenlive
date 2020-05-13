@@ -290,7 +290,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
     *ok = binClip != nullptr;
     if (ok) {
         QString streams = binClip->getProducerProperty(QStringLiteral("kdenlive:active_streams"));
-        if (streams.isEmpty()) {
+        if (streams.isEmpty() || streams == QString::number(INT_MAX)) {
             // activate all audio streams
             QList <int> streamIxes = binClip->audioStreams().keys();
             if (streamIxes.size() > 1) {
@@ -301,7 +301,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
                 return streamsList;
             }
         }
-        if (streams.size() == 1) {
+        if (streams.size() < 2) {
             int audio = binClip->getProducerIntProperty(QStringLiteral("audio_index"));
             if (audio > -1) {
                 return {QString("%1_%2.png").arg(binClip->hash()).arg(audio)};
