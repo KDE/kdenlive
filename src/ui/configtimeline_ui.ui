@@ -6,45 +6,11 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
-    <height>450</height>
+    <width>488</width>
+    <height>460</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_autoscroll">
-     <property name="text">
-      <string>Autoscroll while playing</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>23</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_verticalzoom">
-     <property name="text">
-      <string>Zoom using vertical drag in ruler</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_showmarkers">
-     <property name="text">
-      <string>Display clip markers comments</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0" colspan="4">
     <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
      <property name="text">
@@ -89,7 +55,14 @@
      </item>
     </layout>
    </item>
-   <item row="7" column="0">
+   <item row="5" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_automatictransitions">
+     <property name="text">
+      <string>Create new transitions as automatic transitions</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Raise properties pane when selecting in timeline</string>
@@ -117,13 +90,6 @@
        </widget>
       </item>
      </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="kcfg_automatictransitions">
-     <property name="text">
-      <string>Create new transitions as automatic transitions</string>
-     </property>
     </widget>
    </item>
    <item row="0" column="0" colspan="4">
@@ -174,6 +140,66 @@
        </layout>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>23</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_verticalzoom">
+     <property name="text">
+      <string>Zoom using vertical drag in ruler</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_autoscroll">
+     <property name="text">
+      <string>Autoscroll while playing</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_showmarkers">
+     <property name="text">
+      <string>Display clip markers comments</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>For clips with multiple audio streams, enable </string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1" colspan="3">
+    <widget class="QComboBox" name="kcfg_multistream">
+     <item>
+      <property name="text">
+       <string>All streams</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>First stream</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>First 2 streams</string>
+      </property>
+     </item>
     </widget>
    </item>
   </layout>

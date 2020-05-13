@@ -254,6 +254,11 @@
       <default>false</default>
     </entry>
 
+    <entry name="multistream" type="Int">
+      <label>Should we enable all audio streams by default.</label>
+      <default>0</default>
+    </entry>
+
     <entry name="videothumbnails" type="Bool">
       <label>Display video thumbnails in timeline.</label>
       <default>true</default>

@@ -861,8 +861,6 @@ void ClipPropertiesController::slotReloadProperties()
             if (audio_ix != m_originalProperties.value(QStringLiteral("audio_index")).toInt()) {
                 QSignalBlocker bk(m_audioStream);
                 m_originalProperties.insert(QStringLiteral("audio_index"), QString::number(audio_ix));
-                // update combo
-                //m_audioStream->setCurrentIndex(m_audioStream->findData(audio_ix));
             }
             QList <int> enabledStreams = m_controller->activeStreams().keys();
             qDebug()<<"=== GOT ACTIVE STREAMS: "<<enabledStreams;

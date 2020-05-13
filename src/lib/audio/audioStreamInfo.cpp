@@ -9,6 +9,7 @@ the Free Software Foundation, either version 3 of the License, or
 */
 
 #include "audioStreamInfo.h"
+#include "kdenlivesettings.h"
 
 #include "kdenlive_debug.h"
 #include <KLocalizedString>
@@ -71,7 +72,15 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
     }
     QString active = producer->get("kdenlive:active_streams");
     updateActiveStreams(active);
-    
+    if (m_audioStreams.count() > 1 && active.isEmpty()) {
+        // initialize enabled streams
+        QStringList streamString;
+        for (int streamIx : m_activeStreams) {
+            streamString << QString::number(streamIx);
+        }
+        producer->set("kdenlive:active_streams", streamString.join(QLatin1Char(';')).toUtf8().constData());
+    }
+
     if (audioStreamIndex > -1) {
         QByteArray key;
         key = QStringLiteral("meta.media.%1.codec.sample_fmt").arg(audioStreamIndex).toLocal8Bit();
@@ -166,10 +175,31 @@ void AudioStreamInfo::setAudioIndex(const std::shared_ptr<Mlt::Producer> &produc
 void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
 {
     // -1 = disable all audio
-    // empty = enable all audio
+    // empty = enable all audio or first depending on config
     m_activeStreams.clear();
     if (activeStreams.isEmpty()) {
-        m_activeStreams = m_audioStreams.keys();
+        switch (KdenliveSettings::multistream()) {
+            case 1:
+                // Enable first stream only
+                m_activeStreams << m_audioStreams.firstKey();
+                break;
+            case 2:
+                // Enable the first two streams only
+                {
+                    QList <int> str = m_audioStreams.keys();
+                    while (!str.isEmpty()) {
+                        m_activeStreams << str.takeFirst();
+                        if (m_activeStreams.size() == 2) {
+                            break;
+                        }
+                    }
+                    break;
+                }
+            default:
+                // Enable all streams
+                m_activeStreams = m_audioStreams.keys();
+                break;
+        }
         return;
     }
     QStringList st = activeStreams.split(QLatin1Char(';'));
@@ -184,4 +214,3 @@ void AudioStreamInfo::renameStream(int ix, const QString streamName)
         m_audioStreams.insert(ix, streamName);
     }
 }
-
