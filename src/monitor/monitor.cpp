@@ -283,14 +283,32 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioChannels = new QMenu(this);
         m_streamsButton->setMenu(m_audioChannels);
         m_streamAction->setVisible(false);
-        connect(m_audioChannels, &QMenu::triggered, [this] () {
-            m_audioChannels->show();
+        connect(m_audioChannels, &QMenu::triggered, [this] (QAction *ac) {
+            //m_audioChannels->show();
             QList <QAction*> actions = m_audioChannels->actions();
             QMap <int, QString> enabledStreams;
-            for (const auto act : actions) {
-                if (act->isChecked()) {
-                    // Audio stream is selected
-                    enabledStreams.insert(act->data().toInt(), act->text().remove(QLatin1Char('&')));
+            if (ac->data().toInt() == INT_MAX) {
+                // Merge stream selected, clear all others
+                enabledStreams.clear();
+                enabledStreams.insert(INT_MAX, i18n("Merged streams"));
+                // Disable all other streams
+                QSignalBlocker bk(m_audioChannels);
+                for (auto act : actions) {
+                    if (act->isChecked() && act != ac) {
+                        act->setChecked(false);
+                    }
+                }
+            } else {
+                for (auto act : actions) {
+                    if (act->isChecked()) {
+                        // Audio stream is selected
+                        if (act->data().toInt() == INT_MAX) {
+                            QSignalBlocker bk(m_audioChannels);
+                            act->setChecked(false);
+                        } else {
+                            enabledStreams.insert(act->data().toInt(), act->text().remove(QLatin1Char('&')));
+                        }
+                    }
                 }
             }
             if (!enabledStreams.isEmpty()) {

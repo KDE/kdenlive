@@ -42,6 +42,11 @@ Item {
         font: fixedFont
     }
 
+    Timer {
+        id: thumbTimer
+        interval: 3000; running: false;
+    }
+
     signal editCurrentMarker()
 
     onDurationChanged: {
@@ -128,7 +133,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse)
+                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || thumbTimer.running)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
@@ -179,6 +184,9 @@ Item {
                 Repeater {
                     id: streamThumb
                     model: controller.audioThumb.length
+                    onCountChanged: {
+                        thumbTimer.start()
+                    }
                     property double streamHeight: parent.height / streamThumb.count
                     Item {
                         anchors.fill: parent

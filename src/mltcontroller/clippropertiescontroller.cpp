@@ -629,7 +629,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             m_audioStreamsView = new QListWidget(this);
             m_audioStreamsView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
             audioVbox->addWidget(m_audioStreamsView);
-            //m_audioStream = new QComboBox(this);
             QMapIterator<int, QString> i(audioStreamsInfo);
             while (i.hasNext()) {
                 i.next();
@@ -672,6 +671,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     }
                 } else if (checked) {
                     // Stream was selected
+                    if (streamId == INT_MAX) {
+                        // merge all streams should not have any other stream selected
+                        activeStreams.clear();
+                    } else {
+                        activeStreams.removeAll(QString::number(INT_MAX));
+                    }
                     activeStreams << QString::number(streamId);
                     activeStreams.sort();
                     streamModified = true;
@@ -860,6 +865,7 @@ void ClipPropertiesController::slotReloadProperties()
                 //m_audioStream->setCurrentIndex(m_audioStream->findData(audio_ix));
             }
             QList <int> enabledStreams = m_controller->activeStreams().keys();
+            qDebug()<<"=== GOT ACTIVE STREAMS: "<<enabledStreams;
             QSignalBlocker bk(m_audioStreamsView);
             for (int ix = 0; ix < m_audioStreamsView->count(); ix++) {
                 QListWidgetItem *item = m_audioStreamsView->item(ix);

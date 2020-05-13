@@ -110,10 +110,14 @@ QMap <int, QString> AudioStreamInfo::activeStreams() const
 {
     QMap <int, QString> active;
     QMapIterator<int, QString> i(m_audioStreams);
-    while (i.hasNext()) {
-        i.next();
-        if (m_activeStreams.contains(i.key())) {
-            active.insert(i.key(), i.value());
+    if (m_activeStreams.size() == 1 && m_activeStreams.contains(INT_MAX)) {
+        active.insert(INT_MAX, i18n("Merged streams"));
+    } else {
+        while (i.hasNext()) {
+            i.next();
+            if (m_activeStreams.contains(i.key())) {
+                active.insert(i.key(), i.value());
+            }
         }
     }
     return active;
