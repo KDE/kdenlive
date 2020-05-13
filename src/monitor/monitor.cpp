@@ -1458,7 +1458,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 QMapIterator<int, QString> i(audioStreamsInfo);
                 QMap <int, QString> activeStreams = m_controller->activeStreams();
                 if (activeStreams.size() > 1) {
-                    m_glMonitor->getControllerProxy()->setAudioStream(i18n("%1 audio streams", activeStreams.size()));
+                    m_glMonitor->getControllerProxy()->setAudioStream(i18np("%1 audio stream", "%1 audio streams", activeStreams.size()));
                     // TODO: Mix audio channels
                 } else {
                     m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
@@ -1549,7 +1549,7 @@ void Monitor::reloadActiveStream()
         QMap <int, QString> streams = m_controller->audioStreams();
         qDebug()<<"==== REFRESHING MONITOR STREAMS: "<<activeStreams;
         if (activeStreams.size() > 1) {
-            m_glMonitor->getControllerProxy()->setAudioStream(i18n("%1 audio streams", activeStreams.size()));
+            m_glMonitor->getControllerProxy()->setAudioStream(i18np("%1 audio stream", "%1 audio streams", activeStreams.size()));
             // TODO: Mix audio channels
         } else {
             m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
