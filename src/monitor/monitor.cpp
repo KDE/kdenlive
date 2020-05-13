@@ -1551,8 +1551,10 @@ void Monitor::reloadActiveStream()
         if (activeStreams.size() > 1) {
             m_glMonitor->getControllerProxy()->setAudioStream(i18np("%1 audio stream", "%1 audio streams", activeStreams.size()));
             // TODO: Mix audio channels
-        } else {
+        } else if (!activeStreams.isEmpty()) {
             m_glMonitor->getControllerProxy()->setAudioStream(m_controller->activeStreams().first());
+        } else {
+            m_glMonitor->getControllerProxy()->setAudioStream(QString());
         }
         prepareAudioThumb();
         for (auto ac : acts) {
