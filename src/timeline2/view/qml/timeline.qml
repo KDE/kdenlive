@@ -159,6 +159,16 @@ Rectangle {
             return -1;
         }
     }
+    function getMouseX() {
+        if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
+            return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) - scrollView.contentX
+        }
+        if (tracksArea.containsMouse) {
+            return tracksArea.mouseX
+        } else {
+            return -1;
+        }
+    }
 
     function getScrollPos() {
         return scrollView.contentX
@@ -297,7 +307,7 @@ Rectangle {
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
         if (root.zoomOnMouse >= 0) {
-            scrollView.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - tracksArea.mouseX)
+            scrollView.contentX = Math.max(0, root.zoomOnMouse * timeline.scaleFactor - getMouseX())
             root.zoomOnMouse = -1
         } else {
             scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
