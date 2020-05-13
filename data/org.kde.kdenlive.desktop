@@ -121,6 +121,7 @@ Comment[zh_TW]=來自 KDE 的非線性影像編輯器
 Type=Application
 Exec=kdenlive %F
 Icon=kdenlive
+StartupWMClass=kdenlive
 X-DocPath=kdenlive/index.html
 X-DocPath[cs]=https://cs.wikibooks.org/wiki/Kdenlive
 Terminal=false
