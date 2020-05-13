@@ -521,6 +521,7 @@ Rectangle {
                 controller.requestItemDeletion(clipBeingDroppedId, false)
                 clearDropData()
             } else {
+                processDrop()
                 // Clip is dropped
             }
         }
