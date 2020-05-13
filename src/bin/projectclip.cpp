@@ -1551,15 +1551,15 @@ QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
     const QString cachePath = getAudioThumbPath(stream);
     // checking for cached thumbs
     QImage image(cachePath);
-    int channels = m_audioInfo->channels();
     if (!image.isNull()) {
+        int channels = m_audioInfo->channels();
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p = image.pixel(i / channels, i % channels);
-            audioLevels << qRed(p);
-            audioLevels << qGreen(p);
-            audioLevels << qBlue(p);
-            audioLevels << qAlpha(p);
+            audioLevels << (uint8_t)qRed(p);
+            audioLevels << (uint8_t)qGreen(p);
+            audioLevels << (uint8_t)qBlue(p);
+            audioLevels << (uint8_t)qAlpha(p);
         }
     }
     return audioLevels;

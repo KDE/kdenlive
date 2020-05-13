@@ -328,7 +328,7 @@ bool AudioThumbJob::startJob()
     m_channels = m_binClip->audioInfo()->channels();
     m_channels = m_channels <= 0 ? 2 : m_channels;
 
-    m_lengthInFrames = m_prod->get_length();
+    m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));

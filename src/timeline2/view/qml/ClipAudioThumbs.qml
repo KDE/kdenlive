@@ -47,8 +47,10 @@ Row {
             binId: clipRoot.binId
             audioStream: Math.abs(clipRoot.audioStream)
             isFirstChunk: index == 0
-            showItem: waveform.visible && (index * waveform.maxWidth < (clipRoot.scrollStart + scrollView.contentItem.width)) && ((index * waveform.maxWidth + width) > clipRoot.scrollStart)
+            showItem: waveform.visible && (index * waveform.maxWidth < (clipRoot.scrollStart + scrollView.width)) && ((index * waveform.maxWidth + width) > clipRoot.scrollStart)
             format: timeline.audioThumbFormat
+            drawInPoint: Math.max(0, clipRoot.scrollStart - (index * waveform.maxWidth))
+            drawOutPoint: (clipRoot.scrollStart + scrollView.width - (index * waveform.maxWidth))
             waveInPoint: clipRoot.speed < 0 ? (Math.round(clipRoot.outPoint - (index * waveform.maxWidth / clipRoot.timeScale) * Math.abs(clipRoot.speed)) * channels) : (Math.round((clipRoot.inPoint + (index * waveform.maxWidth / clipRoot.timeScale)) * clipRoot.speed) * channels)
             waveOutPoint: clipRoot.speed < 0 ? (waveInPoint - Math.ceil(width / clipRoot.timeScale * Math.abs(clipRoot.speed)) * channels) : (waveInPoint + Math.round(width / clipRoot.timeScale * clipRoot.speed) * channels)
             fillColor: activePalette.text
