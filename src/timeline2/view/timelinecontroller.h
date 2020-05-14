@@ -418,7 +418,7 @@ public:
     bool positionIsInItem(int id);
     /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
-    QPoint getTracksCount() const;
+    QPair<int, int>getTracksCount() const;
     /* @brief Request monitor refresh if item (clip or composition) is under timeline cursor
      */
     void refreshItem(int id);
@@ -536,6 +536,9 @@ public:
     QMap <int, QString> getCurrentTargets(int trackId, int &activeTargetStream);
     /** @brief Define audio stream target for a track index */
     void assignAudioTarget(int trackId, int stream);
+
+    /** @brief Add tracks to project */
+    void addTracks(int videoTracks, int audioTracks);
 
 public slots:
     void resetView();

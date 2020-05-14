@@ -2737,7 +2737,7 @@ void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const 
     */
 }
 
-void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions)
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions, bool showCloseButton)
 {
     // Remove existing actions if any
     QList<QAction *> acts = m_infoMessage->actions();
@@ -2752,7 +2752,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
         m_infoMessage->addAction(action);
         connect(action, &QAction::triggered, this, &Bin::slotMessageActionTriggered);
     }
-    m_infoMessage->setCloseButtonVisible(actions.isEmpty());
+    m_infoMessage->setCloseButtonVisible(showCloseButton || actions.isEmpty());
     m_infoMessage->setMessageType(type);
     m_infoMessage->animatedShow();
 }
@@ -4055,3 +4055,34 @@ void Bin::slotBack()
     }
 }
 
+void Bin::checkProjectAudioTracks(int minimumTracksCount)
+{
+    int requestedTracks = minimumTracksCount - pCore->projectManager()->tracksCount().second;
+    const QString currentClipId = m_monitor->activeClipId();
+    if (requestedTracks > 0) {
+        QList<QAction *> list;
+        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Add Tracks"), this);
+        connect(ac, &QAction::triggered, [requestedTracks]() {
+            pCore->projectManager()->addAudioTracks(requestedTracks);
+        });
+        QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
+        connect(ac2, &QAction::triggered, [this, currentClipId]() {
+            selectClipById(currentClipId);
+            for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                if (w->parentWidget() && w->parentWidget()->parentWidget()) {
+                    // Raise panel
+                    w->parentWidget()->parentWidget()->raise();
+                }
+                // Show audio tab
+                static_cast<ClipPropertiesController *>(w)->activatePage(2);
+            }
+        });
+        QAction *ac3 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Don't ask again"), this);
+        connect(ac3, &QAction::triggered, [&]() {
+            KdenliveSettings::setMultistream_checktrack(false);
+        });
+        //QAction *ac4 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
+        list << ac << ac2 << ac3; // << ac4;
+        doDisplayMessage(i18n("Your project needs more audio tracks to handle all streams. Add %1 audio tracks ?", requestedTracks), KMessageWidget::Information, list, true);
+    }
+}

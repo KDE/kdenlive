@@ -1036,3 +1036,13 @@ void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
     openFile(QUrl::fromLocalFile(convertedFile));
     pCore->displayBinMessage(i18n("Project profile changed"), KMessageWidget::Information);
 }
+
+QPair<int, int> ProjectManager::tracksCount()
+{
+    return pCore->window()->getMainTimeline()->controller()->getTracksCount();
+}
+
+void ProjectManager::addAudioTracks(int tracksCount)
+{
+    pCore->window()->getMainTimeline()->controller()->addTracks(0, tracksCount);
+}

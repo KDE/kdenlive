@@ -1474,6 +1474,11 @@ void ClipPropertiesController::slotTextChanged()
     m_originalProperties = properties;
 }
 
+void ClipPropertiesController::activatePage(int ix)
+{
+    m_tabWidget->setCurrentIndex(ix);
+}
+
 void ClipPropertiesController::slotDeleteSelectedMarkers()
 {
     if (m_tabWidget->currentIndex() == 3) {

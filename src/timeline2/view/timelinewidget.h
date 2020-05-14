@@ -48,7 +48,7 @@ public:
     TimelineController *controller();
     std::shared_ptr<TimelineItemModel> model();
     void setTool(ProjectTool tool);
-    QPoint getTracksCount() const;
+    QPair<int, int>getTracksCount() const;
     /* @brief calculate zoom level for a scale */
     int zoomForScale(double value) const;
     /* @brief Give keyboard focus to timeline qml */

@@ -371,7 +371,7 @@ public slots:
     void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>());
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false);
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString &logInfo);
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
@@ -387,6 +387,8 @@ public slots:
     PlaylistState::ClipState getClipState(int itemId) const;
     /** @brief Adjust project profile to current clip. */
     void adjustProjectProfileToItem();
+    /** @brief Check and propose auto adding audio tracks. */
+    void checkProjectAudioTracks(int minimumTracksCount);
 
 protected:
     /* This function is called whenever an item is selected to propagate signals

@@ -516,6 +516,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
             }
         });
     }
+    if (KdenliveSettings::multistream_checktrack() && !isIncludedInTimeline() && activeStreams().count() > 1) {
+        // Check we have enough tracks in the project for its audio streams
+        //pCore->bin()->checkProjectAudioTracks(activeStreams().count());
+    }
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
     return true;

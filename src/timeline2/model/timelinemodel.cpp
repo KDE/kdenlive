@@ -1076,7 +1076,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 target_track = {mirror};
                 QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                 if (streamsCount > audioTids.count() + 1) {
-                    pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", streamsCount), ErrorMessage);
+                    // Project has not enough tracks to handle this clip
+                    //pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", streamsCount), ErrorMessage);
                     res = false;
                 } else {
                     while (streamsCount > 1 && !audioTids.isEmpty()) {

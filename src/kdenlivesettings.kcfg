@@ -259,6 +259,11 @@
       <default>0</default>
     </entry>
 
+    <entry name="multistream_checktrack" type="Bool">
+      <label>Check if project has enough tracks on multi stream clips, and propose to add new tracks.</label>
+      <default>true</default>
+    </entry>
+
     <entry name="videothumbnails" type="Bool">
       <label>Display video thumbnails in timeline.</label>
       <default>true</default>

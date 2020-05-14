@@ -1824,9 +1824,9 @@ void MainWindow::slotRefreshProfiles()
 void MainWindow::slotEditProjectSettings()
 {
     KdenliveDoc *project = pCore->currentDoc();
-    QPoint p = getMainTimeline()->getTracksCount();
+    QPair <int, int> p = getMainTimeline()->getTracksCount();
 
-    ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.x(), p.y(),
+    ProjectSettings *w = new ProjectSettings(project, project->metadata(), getMainTimeline()->controller()->extractCompositionLumas(), p.first, p.second,
                                              project->projectTempFolder(), true, !project->isModified(), this);
     connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     // connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));

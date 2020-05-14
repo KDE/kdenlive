@@ -136,6 +136,9 @@ void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audi
             }
             ++it;
         }
+        if (KdenliveSettings::multistream_checktrack() && audioTargets.count() > tracks.count()) {
+            pCore->bin()->checkProjectAudioTracks(audioTargets.count());
+        }
         QMapIterator <int, QString>st(audioTargets);
         while (st.hasNext()) {
             st.next();
@@ -1404,13 +1407,12 @@ void TimelineController::refreshItem(int id)
     }
 }
 
-QPoint TimelineController::getTracksCount() const
+QPair<int, int> TimelineController::getTracksCount() const
 {
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getTracksCount", Q_RETURN_ARG(QVariant, returnedValue));
     QVariantList tracks = returnedValue.toList();
-    QPoint p(tracks.at(0).toInt(), tracks.at(1).toInt());
-    return p;
+    return {tracks.at(0).toInt(), tracks.at(1).toInt()};
 }
 
 QStringList TimelineController::extractCompositionLumas() const
@@ -3389,4 +3391,33 @@ QMap <int, QString> TimelineController::getCurrentTargets(int trackId, int &acti
         activeTargetStream = -1;
     }
     return m_binAudioTargets;
+}
+
+void TimelineController::addTracks(int videoTracks, int audioTracks)
+{
+    bool result = false;
+    int total = videoTracks + audioTracks;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (int ix = 0; videoTracks + audioTracks > 0; ++ix) {
+        int newTid;
+        if (audioTracks > 0) {
+            result = m_model->requestTrackInsertion(0, newTid, QString(), true, undo, redo);
+            audioTracks--;
+        } else {
+            result = m_model->requestTrackInsertion(-1, newTid, QString(), false, undo, redo);
+            videoTracks--;
+        }
+        if (result) {
+            m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
+        } else {
+            break;
+        }
+    }
+    if (result) {
+        pCore->pushUndo(undo, redo, i18np("Insert Track", "Insert Tracks", total));
+    } else {
+        pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
+        undo();
+    }
 }
