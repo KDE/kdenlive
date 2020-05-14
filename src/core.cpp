@@ -337,7 +337,8 @@ const QString &Core::getCurrentProfilePath() const
 bool Core::setCurrentProfile(const QString &profilePath)
 {
     if (m_currentProfile == profilePath) {
-        // no change required
+        // no change required, ensure timecode has correct fps
+        m_timecode.setFormat(getCurrentProfile()->fps());
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
