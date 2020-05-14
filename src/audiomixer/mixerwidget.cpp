@@ -150,7 +150,10 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     // Build audio meter widget
     m_audioMeterWidget.reset(new AudioLevelWidget(width(), this));
     // initialize for stereo display
-    m_audioMeterWidget->setAudioValues({-100, -100});
+    for (int i = 0; i < m_channels; i++) {
+        m_audioData << -100;
+    }
+    m_audioMeterWidget->setAudioValues(m_audioData);
 
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);
@@ -414,7 +417,7 @@ void MixerWidget::updateAudioLevel(int pos)
         m_audioMeterWidget->setAudioValues(m_levels.value(pos));
         //m_levels.remove(pos);
     } else {
-        m_audioMeterWidget->setAudioValues({-100, -100});
+        m_audioMeterWidget->setAudioValues(m_audioData);
     }
 }
 
@@ -423,7 +426,7 @@ void MixerWidget::reset()
 {
     QMutexLocker lk(&m_storeMutex);
     m_levels.clear();
-    m_audioMeterWidget->setAudioValues({-100, -100});
+    m_audioMeterWidget->setAudioValues(m_audioData);
 }
 
 void MixerWidget::clear()

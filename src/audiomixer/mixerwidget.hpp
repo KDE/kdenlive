@@ -104,6 +104,7 @@ private:
     QLabel *m_trackLabel;
     QMutex m_storeMutex;
     int m_lastVolume;
+    QVector <double>m_audioData;
     Mlt::Event *m_listener;
     bool m_recording;
     /** @Update track label to reflect state */
