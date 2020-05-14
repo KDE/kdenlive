@@ -920,5 +920,8 @@ bool Core::enableMultiTrack(bool enable)
 
 int Core::audioChannels()
 {
-    return currentDoc()->audioChannels();
+    if (m_projectManager && m_projectManager->current()) {
+        return m_projectManager->current()->audioChannels();
+    }
+    return 2;
 }
