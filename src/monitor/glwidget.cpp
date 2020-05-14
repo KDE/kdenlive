@@ -1141,6 +1141,7 @@ int GLWidget::reconfigure()
             dropFrames = -dropFrames;
         }
         m_consumer->set("real_time", dropFrames);
+        m_consumer->set("channels", pCore->audioChannels());
         if (KdenliveSettings::previewScaling() > 1) {
             m_consumer->set("scale", 1.0 / KdenliveSettings::previewScaling());
         }

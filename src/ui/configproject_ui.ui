@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>486</width>
-    <height>310</height>
+    <width>579</width>
+    <height>250</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -17,7 +17,20 @@
    <property name="topMargin">
     <number>0</number>
    </property>
-   <item row="5" column="0" colspan="5">
+   <item row="0" column="0" colspan="7">
+    <widget class="QGroupBox" name="profile_box">
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QSpinBox" name="kcfg_audiotracks"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QSpinBox" name="kcfg_videotracks"/>
+   </item>
+   <item row="5" column="0" colspan="7">
     <widget class="QPlainTextEdit" name="previewparams">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
@@ -30,27 +43,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>58</width>
-       <height>22</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" colspan="5">
-    <widget class="QGroupBox" name="profile_box">
-     <property name="flat">
-      <bool>true</bool>
+   <item row="1" column="2">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Audio tracks</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="5">
+   <item row="3" column="0" colspan="7">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QCheckBox" name="kcfg_customprojectfolder">
@@ -60,7 +60,7 @@
       </widget>
      </item>
      <item>
-      <widget class="KUrlRequester" name="projecturl">
+      <widget class="KUrlRequester" name="projecturl" native="true">
        <property name="enabled">
         <bool>false</bool>
        </property>
@@ -68,13 +68,7 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="1">
-    <widget class="QSpinBox" name="kcfg_videotracks"/>
-   </item>
-   <item row="1" column="3">
-    <widget class="QSpinBox" name="kcfg_audiotracks"/>
-   </item>
-   <item row="4" column="0" colspan="5">
+   <item row="4" column="0" colspan="7">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QLabel" name="label_25">
@@ -118,13 +112,6 @@
      </item>
     </layout>
    </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Audio tracks</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="label_6">
      <property name="text">
@@ -144,6 +131,38 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Audio channels</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QComboBox" name="kcfg_audio_channels">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <item>
+      <property name="text">
+       <string>2 channels (stereo)</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4 channels</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6 channels</string>
+      </property>
+     </item>
+    </widget>
    </item>
   </layout>
  </widget>

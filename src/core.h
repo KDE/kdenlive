@@ -221,6 +221,8 @@ public:
     int undoIndex() const;
     /** @brief Enable / disable monitor multitrack view. Returns false if multitrack was not previously enabled */
     bool enableMultiTrack(bool enable);
+    /** @brief Returns number of audio channels for this project. */
+    int audioChannels();
 
 private:
     explicit Core();

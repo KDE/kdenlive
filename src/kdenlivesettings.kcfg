@@ -144,6 +144,11 @@
       <default>2</default>
     </entry>
 
+    <entry name="audio_channels" type="Int">
+      <label>Default number of audio channels per track.</label>
+      <default>0</default>
+    </entry>
+
     <entry name="enableproxy" type="Bool">
       <label>Enable proxy clips.</label>
       <default>false</default>

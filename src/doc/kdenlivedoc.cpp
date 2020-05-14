@@ -71,7 +71,7 @@
 const double DOCUMENTVERSION = 0.99;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                         const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent)
+                         const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
     : QObject(parent)
     , m_autosave(nullptr)
     , m_url(url)
@@ -106,9 +106,10 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     m_documentProperties[QStringLiteral("generateimageproxy")] = QString::number((int)KdenliveSettings::generateimageproxy());
     m_documentProperties[QStringLiteral("proxyimageminsize")] = QString::number(KdenliveSettings::proxyimageminsize());
     m_documentProperties[QStringLiteral("proxyimagesize")] = QString::number(KdenliveSettings::proxyimagesize());
-    m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.y());
-    m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.y() - 1);
-    m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.y());
+    m_documentProperties[QStringLiteral("videoTarget")] = QString::number(tracks.second);
+    m_documentProperties[QStringLiteral("audioTarget")] = QString::number(tracks.second - 1);
+    m_documentProperties[QStringLiteral("activeTrack")] = QString::number(tracks.second);
+    m_documentProperties[QStringLiteral("audioChannels")] = QString::number(audioChannels);
     m_documentProperties[QStringLiteral("enableTimelineZone")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zonein")] = QLatin1Char('0');
     m_documentProperties[QStringLiteral("zoneout")] = QStringLiteral("75");
@@ -250,7 +251,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     if (!success) {
         m_url.clear();
         pCore->setCurrentProfile(profileName);
-        m_document = createEmptyDocument(tracks.x(), tracks.y());
+        m_document = createEmptyDocument(tracks.first, tracks.second);
         updateProjectProfile(false);
     } else {
         m_clipsCount = m_document.elementsByTagName(QLatin1String("entry")).size();
@@ -1759,4 +1760,9 @@ QMap <QString, QString> KdenliveDoc::getProjectTags()
         tags.insert(QStringLiteral("#00ffff"), i18n("Cyan"));
     }
     return tags;
+}
+
+int KdenliveDoc::audioChannels() const
+{
+    return getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
 }

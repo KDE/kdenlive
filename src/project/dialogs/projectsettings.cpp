@@ -63,8 +63,7 @@ public:
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks,
-                                 const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, QStringList lumas, int videotracks, int audiotracks, int audiochannels, const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
     : QDialog(parent)
     , m_savedProject(savedProject)
     , m_lumas(std::move(lumas))
@@ -88,6 +87,11 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     video_thumbs->setChecked(KdenliveSettings::videothumbnails());
     audio_tracks->setValue(audiotracks);
     video_tracks->setValue(videotracks);
+    if (audiochannels == 4) {
+        audio_channels->setCurrentIndex(1);
+    } else if (audiochannels == 6) {
+        audio_channels->setCurrentIndex(2);
+    }
     connect(generate_proxy, &QAbstractButton::toggled, proxy_minsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
@@ -187,6 +191,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     if (readOnlyTracks) {
         video_tracks->setEnabled(false);
         audio_tracks->setEnabled(false);
+        audio_channels->setEnabled(false);
     }
 
     metadata_list->setItemDelegateForColumn(0, new NoEditDelegate(this));
@@ -472,12 +477,21 @@ QUrl ProjectSettings::selectedFolder() const
     return project_folder->url();
 }
 
-QPoint ProjectSettings::tracks() const
+QPair<int, int> ProjectSettings::tracks() const
 {
-    QPoint p;
-    p.setX(video_tracks->value());
-    p.setY(audio_tracks->value());
-    return p;
+    return {video_tracks->value(), audio_tracks->value()};
+}
+
+int ProjectSettings::audioChannels() const
+{
+    switch (audio_channels->currentIndex()) {
+        case 1:
+            return 4;
+        case 2:
+            return 6;
+        default:
+            return 2;
+    }
 }
 
 bool ProjectSettings::enableVideoThumbs() const

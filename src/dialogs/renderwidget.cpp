@@ -1404,6 +1404,8 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         consumer.setAttribute(QStringLiteral("in"), in);
         consumer.setAttribute(QStringLiteral("out"), out);
     }
+    // Audio Channels
+    consumer.setAttribute(QStringLiteral("channels"), pCore->audioChannels());
 
     // Check if the rendering profile is different from project profile,
     // in which case we need to use the producer_comsumer from MLT

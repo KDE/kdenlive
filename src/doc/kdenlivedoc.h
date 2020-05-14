@@ -58,7 +58,7 @@ class KdenliveDoc : public QObject
     Q_OBJECT
 public:
     KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
-                const QMap<QString, QString> &metadata, const QPoint &tracks, bool *openBackup, MainWindow *parent = nullptr);
+                const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
     friend class LoadJob;
     /** @brief Get current document's producer. */
@@ -157,6 +157,8 @@ public:
     int clipsCount() const;
     /** @brief Returns a list of project tags (color / description) */
     QMap <QString, QString> getProjectTags();
+    /** @brief Returns the number of audio channels for this project */
+    int audioChannels() const;
 
 private:
     QUrl m_url;

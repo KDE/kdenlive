@@ -1545,7 +1545,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         // hasEffects =  controller->hasEffects();
     } else {
         loadQmlScene(MonitorSceneDefault);
-        m_glMonitor->setProducer(nullptr, isActive());
+        m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_audioMeterWidget->audioChannels = 0;
         m_glMonitor->getControllerProxy()->setClipProperties(-1, ClipType::Unknown, false, QString());
@@ -2255,6 +2255,7 @@ void Monitor::requestSeek(int pos)
 
 void Monitor::setProducer(std::shared_ptr<Mlt::Producer> producer, int pos)
 {
+    m_audioMeterWidget->audioChannels = pCore->audioChannels();
     m_glMonitor->setProducer(std::move(producer), isActive(), pos);
 }
 

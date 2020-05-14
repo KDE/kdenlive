@@ -143,7 +143,13 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     QString projectFolder;
     QMap<QString, QString> documentProperties;
     QMap<QString, QString> documentMetadata;
-    QPoint projectTracks(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks());
+    QPair<int, int> projectTracks{KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()};
+    int audioChannels = 2;
+    if (KdenliveSettings::audio_channels() == 1) {
+        audioChannels = 4;
+    } else if (KdenliveSettings::audio_channels() == 2) {
+        audioChannels = 6;
+    }
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
@@ -159,8 +165,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             documentProperties.insert(QStringLiteral("storagefolder"), projectFolder + documentId);
         }
     } else {
-        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), QStringList(), projectTracks.x(), projectTracks.y(),
-                                                          KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), QStringList(), projectTracks.first, projectTracks.second, audioChannels, KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
@@ -179,11 +184,13 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         profileName = w->selectedProfile();
         projectFolder = w->storageFolder();
         projectTracks = w->tracks();
+        audioChannels = w->audioChannels();
         documentProperties.insert(QStringLiteral("enableproxy"), QString::number((int)w->useProxy()));
         documentProperties.insert(QStringLiteral("generateproxy"), QString::number((int)w->generateProxy()));
         documentProperties.insert(QStringLiteral("proxyminsize"), QString::number(w->proxyMinSize()));
         documentProperties.insert(QStringLiteral("proxyparams"), w->proxyParams());
         documentProperties.insert(QStringLiteral("proxyextension"), w->proxyExtension());
+        documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number((int)w->generateImageProxy()));
         QString preview = w->selectedPreview();
         if (!preview.isEmpty()) {
@@ -203,8 +210,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     bool openBackup;
     m_notesPlugin->clear();
     documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
-    KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
-                                       &openBackup, pCore->window());
+    KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     ThumbnailCache::get()->clearCache();
     pCore->bin()->setDocument(doc);
@@ -516,10 +522,16 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
+    int audioChannels = 2;
+    if (KdenliveSettings::audio_channels() == 1) {
+        audioChannels = 4;
+    } else if (KdenliveSettings::audio_channels() == 2) {
+        audioChannels = 6;
+    }
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
                                        KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile(),
                                        QMap<QString, QString>(), QMap<QString, QString>(),
-                                       QPoint(KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()), &openBackup, pCore->window());
+                                       {KdenliveSettings::videotracks(), KdenliveSettings::audiotracks()}, audioChannels, &openBackup, pCore->window());
     if (stale == nullptr) {
         const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
         QUrl autosaveUrl = QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));

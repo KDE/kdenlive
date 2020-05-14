@@ -917,3 +917,8 @@ bool Core::enableMultiTrack(bool enable)
     }
     return false;
 }
+
+int Core::audioChannels()
+{
+    return currentDoc()->audioChannels();
+}

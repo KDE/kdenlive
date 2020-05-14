@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>733</width>
-    <height>571</height>
+    <height>511</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,7 +51,7 @@
           </widget>
          </item>
          <item>
-          <widget class="KUrlRequester" name="project_folder">
+          <widget class="KUrlRequester" name="project_folder" native="true">
            <property name="enabled">
             <bool>false</bool>
            </property>
@@ -95,17 +95,36 @@
           <widget class="QSpinBox" name="audio_tracks"/>
          </item>
          <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Audio channels</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>67</width>
-             <height>20</height>
-            </size>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="audio_channels">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-          </spacer>
+           <item>
+            <property name="text">
+             <string>2 channels (stereo)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>4 channels</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>6 channels</string>
+            </property>
+           </item>
+          </widget>
          </item>
         </layout>
        </item>
