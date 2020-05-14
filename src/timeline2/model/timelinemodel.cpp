@@ -1525,7 +1525,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             if (!upperTrackIsAudio) {
                 // Dragging an audio clip up, check that upper video clip has an available video track
                 int targetPos = upperTrack - delta_track;
-                if (targetPos <0 || getTrackById_const(getTrackIndexFromPosition(targetPos))->isAudioTrack()) {
+                if (moveMirrorTracks && (targetPos <0 || getTrackById_const(getTrackIndexFromPosition(targetPos))->isAudioTrack())) {
                     delta_track = 0;
                 }
             } else {
@@ -1537,7 +1537,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
     }
-
     if (delta_track == 0 && updateView) {
         updateView = false;
         allowViewRefresh = false;
@@ -1586,23 +1585,13 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                 old_forced_track[item.first] = m_allCompositions[item.first]->getForcedTrack();
             }
         }
-        if (!moveMirrorTracks) {
-            if (masterIsAudio) {
-                // Master clip is audio, so reverse delta for video clips
-                video_delta = 0;
-            } else {
-                audio_delta = 0;
-            }
+        if (masterIsAudio) {
+            // Master clip is audio, so reverse delta for video clips
+            video_delta = -delta_track;
         } else {
-            if (masterIsAudio) {
-                // Master clip is audio, so reverse delta for video clips
-                video_delta = -delta_track;
-            } else {
-                audio_delta = -delta_track;
-            }
+            audio_delta = -delta_track;
         }
     }
-
     // We need to insert depending on the move direction to avoid confusing the view
     // std::reverse(std::begin(sorted_clips), std::end(sorted_clips));
     bool updateThisView = allowViewRefresh;
@@ -1686,8 +1675,10 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_track_id = old_track_ids[item.first];
             int current_track_position = getTrackPosition(current_track_id);
             int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
+            if (!moveMirrorTracks && item.first != itemId) {
+                d = 0;
+            }
             int target_track_position = current_track_position + d;
-
             if (target_track_position >= 0 && target_track_position < getTracksCount()) {
                 auto it = m_allTracks.cbegin();
                 std::advance(it, target_track_position);
