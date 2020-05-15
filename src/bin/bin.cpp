@@ -1992,8 +1992,19 @@ void Bin::slotInitView(QAction *action)
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
         if (item) {
-            item->setRating(rating);
-            emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
+            uint previousRating = item->rating();
+            Fun undo = [this, item, index, previousRating]() {
+                item->setRating(previousRating);
+                emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
+                return true; 
+            };
+            Fun redo = [this, item, index, rating]() {
+                item->setRating(rating);
+                emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
+                return true; 
+            };
+            redo();
+            pCore->pushUndo(undo, redo, i18n("Edit rating"));
         } else {
             emit displayBinMessage(i18n("Cannot set rating on this item"), KMessageWidget::Information);
         }
