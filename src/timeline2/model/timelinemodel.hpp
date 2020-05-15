@@ -822,6 +822,8 @@ protected:
 
     // The preferred audio target for clip insertion in the form {timeline track id, bin clip stream index}
     QMap <int, int> m_audioTarget;
+    /** @brief The list of audio streams available from the selected bin clip, in the form: {stream index, stream description} */
+    QMap <int, QString> m_binAudioTargets;
     // The preferred video target for clip insertion or -1 if not defined
     int m_videoTarget;
     // Timeline editing mode

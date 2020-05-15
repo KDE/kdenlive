@@ -120,7 +120,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
 {
     int videoTrack = -1;
-    m_binAudioTargets = audioTargets;
+    m_model->m_binAudioTargets = audioTargets;
     QMap<int, int> audioTracks;
     m_hasVideoTarget = hasVideo;
     m_hasAudioTarget = audioTargets.size();
@@ -1161,7 +1161,7 @@ void TimelineController::assignAudioTarget(int trackId, int stream)
 
 int TimelineController::getFirstUnassignedStream() const
 {
-    QList <int> keys = m_binAudioTargets.keys();
+    QList <int> keys = m_model->m_binAudioTargets.keys();
     QList <int> assigned = m_model->m_audioTarget.values();
     for (int k : keys) {
         if (!assigned.contains(k)) {
@@ -2431,13 +2431,13 @@ QVariantList TimelineController::lastAudioTarget() const
 
 const QString TimelineController::audioTargetName(int tid) const
 {
-    if (m_model->m_audioTarget.contains(tid) && m_binAudioTargets.size() > 1) {
+    if (m_model->m_audioTarget.contains(tid) && m_model->m_binAudioTargets.size() > 1) {
         int streamIndex = m_model->m_audioTarget.value(tid);
-        if (m_binAudioTargets.contains(streamIndex)) {
-            QString targetName = m_binAudioTargets.value(streamIndex);
+        if (m_model->m_binAudioTargets.contains(streamIndex)) {
+            QString targetName = m_model->m_binAudioTargets.value(streamIndex);
             return targetName.isEmpty() ? QChar('x') : targetName.at(0);
         } else {
-            qDebug()<<"STREAM INDEX NOT IN TARGET : "<<streamIndex<<" = "<<m_binAudioTargets;
+            qDebug()<<"STREAM INDEX NOT IN TARGET : "<<streamIndex<<" = "<<m_model->m_binAudioTargets;
         }
     } else {
         qDebug()<<"TRACK NOT IN TARGET : "<<tid<<" = "<<m_model->m_audioTarget.keys();
@@ -3381,7 +3381,7 @@ void TimelineController::expandActiveClip()
 
 QMap <int, QString> TimelineController::getCurrentTargets(int trackId, int &activeTargetStream)
 {
-    if (m_binAudioTargets.size() < 2) {
+    if (m_model->m_binAudioTargets.size() < 2) {
         activeTargetStream = -1;
         return QMap <int, QString>();
     }
@@ -3390,7 +3390,7 @@ QMap <int, QString> TimelineController::getCurrentTargets(int trackId, int &acti
     } else {
         activeTargetStream = -1;
     }
-    return m_binAudioTargets;
+    return m_model->m_binAudioTargets;
 }
 
 void TimelineController::addTracks(int videoTracks, int audioTracks)

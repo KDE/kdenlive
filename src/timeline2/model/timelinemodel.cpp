@@ -1072,7 +1072,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
             if (!useTargets) {
-                int streamsCount = m_audioTarget.keys().count();
+                int streamsCount = m_binAudioTargets.keys().count();
                 target_track = {mirror};
                 QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                 if (streamsCount > audioTids.count() + 1) {
@@ -1085,7 +1085,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     streamsCount--;
                     }
                 }
-                QList <int> aTargets = m_audioTarget.values();
+                QList <int> aTargets = m_binAudioTargets.keys();
                 std::sort(aTargets.begin(), aTargets.end());
                 for (int i = 0; i < target_track.count(); ++i) {
                     dropTargets.insert(target_track.at(i), aTargets.at(i));
