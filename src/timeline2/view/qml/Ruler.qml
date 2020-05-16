@@ -19,7 +19,7 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
-Rectangle {
+Item {
     id: rulerRoot
     // The standard width for labels. Depends on format used (frame number or full timecode)
     property int labelSize: fontMetrics.boundingRect(timeline.timecode(36000)).width
@@ -59,8 +59,6 @@ Rectangle {
         tickRepeater.model = 0
         tickRepeater.model = scrollView.width / rulerRoot.tickSpacing + 2
     }
-    color: root.color
-    clip: true
 
     // Timeline preview stuff
     Repeater {

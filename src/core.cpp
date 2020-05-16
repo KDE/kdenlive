@@ -337,7 +337,8 @@ const QString &Core::getCurrentProfilePath() const
 bool Core::setCurrentProfile(const QString &profilePath)
 {
     if (m_currentProfile == profilePath) {
-        // no change required
+        // no change required, ensure timecode has correct fps
+        m_timecode.setFormat(getCurrentProfile()->fps());
         return true;
     }
     if (ProfileRepository::get()->profileExists(profilePath)) {
@@ -633,9 +634,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     }
 }
 
-void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions)
+void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions);
+    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions, showClose, messageCategory);
 }
 
 void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
@@ -915,4 +916,12 @@ bool Core::enableMultiTrack(bool enable)
         return true;
     }
     return false;
+}
+
+int Core::audioChannels()
+{
+    if (m_projectManager && m_projectManager->current()) {
+        return m_projectManager->current()->audioChannels();
+    }
+    return 2;
 }

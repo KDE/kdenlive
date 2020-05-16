@@ -149,7 +149,7 @@ protected:
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
-    int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position = -1);
+    int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position);
     int setProducer(const QString &file);
     QString frameToTime(int frames) const;
 

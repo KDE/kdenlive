@@ -6,42 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>391</width>
-    <height>450</height>
+    <width>531</width>
+    <height>505</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="2">
+   <item row="3" column="0" colspan="4">
     <widget class="QCheckBox" name="kcfg_autoscroll">
      <property name="text">
       <string>Autoscroll while playing</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>23</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="4" column="0" colspan="3">
-    <widget class="QCheckBox" name="kcfg_verticalzoom">
-     <property name="text">
-      <string>Zoom using vertical drag in ruler</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QCheckBox" name="kcfg_showmarkers">
-     <property name="text">
-      <string>Display clip markers comments</string>
      </property>
     </widget>
    </item>
@@ -49,6 +22,56 @@
     <widget class="QCheckBox" name="kcfg_ffmpegaudiothumbnails">
      <property name="text">
       <string>Use FFmpeg for audio thumbnails (faster)</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="4">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Raise properties pane when selecting in timeline</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="kcfg_raisepropsclips">
+        <property name="text">
+         <string>Clips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
+        <property name="text">
+         <string>Transitions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="kcfg_raisepropstracks">
+        <property name="text">
+         <string>Tracks</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>231</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="0" colspan="4">
+    <widget class="QCheckBox" name="kcfg_automatictransitions">
+     <property name="text">
+      <string>Create new transitions as automatic transitions</string>
      </property>
     </widget>
    </item>
@@ -89,99 +112,130 @@
      </item>
     </layout>
    </item>
-   <item row="7" column="0">
-    <widget class="QGroupBox" name="groupBox_2">
-     <property name="title">
-      <string>Raise properties pane when selecting in timeline</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QCheckBox" name="kcfg_raisepropsclips">
-        <property name="text">
-         <string>Clips</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_raisepropstransitions">
-        <property name="text">
-         <string>Transitions</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="kcfg_raisepropstracks">
-        <property name="text">
-         <string>Tracks</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QCheckBox" name="kcfg_automatictransitions">
-     <property name="text">
-      <string>Create new transitions as automatic transitions</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0" colspan="4">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
       <string>Thumbnails</string>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
        <widget class="QCheckBox" name="kcfg_videothumbnails">
         <property name="text">
          <string>Video</string>
         </property>
        </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QCheckBox" name="kcfg_audiothumbnails">
-          <property name="text">
-           <string>Audio</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QCheckBox" name="kcfg_displayallchannels">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="text">
-           <string>Separate channels</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
+      <item row="0" column="1">
+       <widget class="QCheckBox" name="kcfg_audiothumbnails">
+        <property name="text">
+         <string>Audio</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QCheckBox" name="kcfg_displayallchannels">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Separate channels</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>23</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="0" colspan="3">
+    <widget class="QCheckBox" name="kcfg_verticalzoom">
+     <property name="text">
+      <string>Zoom using vertical drag in ruler</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="4">
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string>Multi stream audio clips</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="1">
+       <widget class="QComboBox" name="kcfg_multistream">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>All audio streams</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>First audio stream</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>First 2 audio streams</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>On import, enable</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QCheckBox" name="kcfg_multistream_checktrack">
+        <property name="text">
+         <string>Check if project contains enough tracks</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QCheckBox" name="kcfg_showmarkers">
+     <property name="text">
+      <string>Display clip markers comments</string>
+     </property>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>kcfg_videothumbnails</tabstop>
-  <tabstop>kcfg_audiothumbnails</tabstop>
-  <tabstop>kcfg_displayallchannels</tabstop>
   <tabstop>kcfg_ffmpegaudiothumbnails</tabstop>
   <tabstop>kcfg_showmarkers</tabstop>
   <tabstop>kcfg_autoscroll</tabstop>

@@ -120,7 +120,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
 void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
 {
     int videoTrack = -1;
-    m_binAudioTargets = audioTargets;
+    m_model->m_binAudioTargets = audioTargets;
     QMap<int, int> audioTracks;
     m_hasVideoTarget = hasVideo;
     m_hasAudioTarget = audioTargets.size();
@@ -135,6 +135,9 @@ void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audi
                 tracks << (*it)->getId();
             }
             ++it;
+        }
+        if (KdenliveSettings::multistream_checktrack() && audioTargets.count() > tracks.count()) {
+            pCore->bin()->checkProjectAudioTracks(QString(), audioTargets.count());
         }
         QMapIterator <int, QString>st(audioTargets);
         while (st.hasNext()) {
@@ -1158,7 +1161,7 @@ void TimelineController::assignAudioTarget(int trackId, int stream)
 
 int TimelineController::getFirstUnassignedStream() const
 {
-    QList <int> keys = m_binAudioTargets.keys();
+    QList <int> keys = m_model->m_binAudioTargets.keys();
     QList <int> assigned = m_model->m_audioTarget.values();
     for (int k : keys) {
         if (!assigned.contains(k)) {
@@ -1404,13 +1407,12 @@ void TimelineController::refreshItem(int id)
     }
 }
 
-QPoint TimelineController::getTracksCount() const
+QPair<int, int> TimelineController::getTracksCount() const
 {
     QVariant returnedValue;
     QMetaObject::invokeMethod(m_root, "getTracksCount", Q_RETURN_ARG(QVariant, returnedValue));
     QVariantList tracks = returnedValue.toList();
-    QPoint p(tracks.at(0).toInt(), tracks.at(1).toInt());
-    return p;
+    return {tracks.at(0).toInt(), tracks.at(1).toInt()};
 }
 
 QStringList TimelineController::extractCompositionLumas() const
@@ -2429,13 +2431,13 @@ QVariantList TimelineController::lastAudioTarget() const
 
 const QString TimelineController::audioTargetName(int tid) const
 {
-    if (m_model->m_audioTarget.contains(tid) && m_binAudioTargets.size() > 1) {
+    if (m_model->m_audioTarget.contains(tid) && m_model->m_binAudioTargets.size() > 1) {
         int streamIndex = m_model->m_audioTarget.value(tid);
-        if (m_binAudioTargets.contains(streamIndex)) {
-            QString targetName = m_binAudioTargets.value(streamIndex);
+        if (m_model->m_binAudioTargets.contains(streamIndex)) {
+            QString targetName = m_model->m_binAudioTargets.value(streamIndex);
             return targetName.isEmpty() ? QChar('x') : targetName.at(0);
         } else {
-            qDebug()<<"STREAM INDEX NOT IN TARGET : "<<streamIndex<<" = "<<m_binAudioTargets;
+            qDebug()<<"STREAM INDEX NOT IN TARGET : "<<streamIndex<<" = "<<m_model->m_binAudioTargets;
         }
     } else {
         qDebug()<<"TRACK NOT IN TARGET : "<<tid<<" = "<<m_model->m_audioTarget.keys();
@@ -3379,7 +3381,7 @@ void TimelineController::expandActiveClip()
 
 QMap <int, QString> TimelineController::getCurrentTargets(int trackId, int &activeTargetStream)
 {
-    if (m_binAudioTargets.size() < 2) {
+    if (m_model->m_binAudioTargets.size() < 2) {
         activeTargetStream = -1;
         return QMap <int, QString>();
     }
@@ -3388,5 +3390,34 @@ QMap <int, QString> TimelineController::getCurrentTargets(int trackId, int &acti
     } else {
         activeTargetStream = -1;
     }
-    return m_binAudioTargets;
+    return m_model->m_binAudioTargets;
+}
+
+void TimelineController::addTracks(int videoTracks, int audioTracks)
+{
+    bool result = false;
+    int total = videoTracks + audioTracks;
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    for (int ix = 0; videoTracks + audioTracks > 0; ++ix) {
+        int newTid;
+        if (audioTracks > 0) {
+            result = m_model->requestTrackInsertion(0, newTid, QString(), true, undo, redo);
+            audioTracks--;
+        } else {
+            result = m_model->requestTrackInsertion(-1, newTid, QString(), false, undo, redo);
+            videoTracks--;
+        }
+        if (result) {
+            m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
+        } else {
+            break;
+        }
+    }
+    if (result) {
+        pCore->pushUndo(undo, redo, i18np("Insert Track", "Insert Tracks", total));
+    } else {
+        pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
+        undo();
+    }
 }

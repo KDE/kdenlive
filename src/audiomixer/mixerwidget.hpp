@@ -87,7 +87,8 @@ protected:
     std::shared_ptr<Mlt::Filter> m_levelFilter;
     std::shared_ptr<Mlt::Filter> m_monitorFilter;
     std::shared_ptr<Mlt::Filter> m_balanceFilter;
-    QMap<int, QPair<double, double>> m_levels;
+    QMap<int, QVector<double>> m_levels;
+    int m_channels;
     KDualAction *m_muteAction;
     QSpinBox *m_balanceSpin;
     QDial *m_balanceDial;
@@ -103,6 +104,7 @@ private:
     QLabel *m_trackLabel;
     QMutex m_storeMutex;
     int m_lastVolume;
+    QVector <double>m_audioData;
     Mlt::Event *m_listener;
     bool m_recording;
     /** @Update track label to reflect state */

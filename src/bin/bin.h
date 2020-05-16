@@ -371,7 +371,7 @@ public slots:
     void slotExpandUrl(const ItemInfo &info, const QString &url, QUndoCommand *command);
     /** @brief Abort all ongoing operations to prepare close. */
     void abortOperations();
-    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>());
+    void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions = QList<QAction *>(), bool showCloseButton = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString &logInfo);
     /** @brief Reset all clip usage to 0 */
     void resetUsageCount();
@@ -387,6 +387,11 @@ public slots:
     PlaylistState::ClipState getClipState(int itemId) const;
     /** @brief Adjust project profile to current clip. */
     void adjustProjectProfileToItem();
+    /** @brief Check and propose auto adding audio tracks.
+     * @param clipId The clip whose streams have to be checked
+     * @param minimumTracksCount the number of active streams for this clip
+     */
+    void checkProjectAudioTracks(QString clipId, int minimumTracksCount);
 
 protected:
     /* This function is called whenever an item is selected to propagate signals
@@ -454,6 +459,7 @@ private:
     QToolButton *m_filterButton;
     /** @brief The info widget for failed jobs. */
     KMessageWidget *m_infoMessage;
+    BinMessage::BinCategory m_currentMessage;
     QStringList m_errorLog;
     InvalidDialog *m_invalidClipDialog;
     /** @brief Set to true if widget just gained focus (means we have to update effect stack . */

@@ -418,7 +418,7 @@ public:
     bool positionIsInItem(int id);
     /* @brief Returns the number of tracks (audioTrakcs, videoTracks)
      */
-    QPoint getTracksCount() const;
+    QPair<int, int>getTracksCount() const;
     /* @brief Request monitor refresh if item (clip or composition) is under timeline cursor
      */
     void refreshItem(int id);
@@ -537,6 +537,9 @@ public:
     /** @brief Define audio stream target for a track index */
     void assignAudioTarget(int trackId, int stream);
 
+    /** @brief Add tracks to project */
+    void addTracks(int videoTracks, int audioTracks);
+
 public slots:
     void resetView();
     void setAudioTarget(QMap<int, int> tracks);
@@ -586,8 +589,6 @@ private:
     int m_hasAudioTarget {0};
     bool m_hasVideoTarget {false};
     int m_lastVideoTarget {-1};
-    /** @brief The list of audio streams available from the selected bin clip, in the form: {stream index, stream description} */
-    QMap <int, QString> m_binAudioTargets;
     /** @brief The last combination of audio targets in the form: {timeline track id, bin stream index} */
     QMap <int, int> m_lastAudioTarget;
     bool m_videoTargetActive {true};

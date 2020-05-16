@@ -86,7 +86,12 @@ void MixerWidget::property_changed( mlt_service , MixerWidget *widget, char *nam
         mlt_properties filter_props = MLT_FILTER_PROPERTIES( widget->m_monitorFilter->get_filter());
         int pos = mlt_properties_get_int(filter_props, "_position");
         if (!widget->m_levels.contains(pos)) {
-            widget->m_levels[pos] = {IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.0")), IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.1"))};
+            QVector<double> levels;
+            for (int i = 0; i < widget->m_channels; i++) {
+                levels << IEC_Scale(mlt_properties_get_double(filter_props, QString("_audio_level.%1").arg(i).toUtf8().constData()));
+            }
+            widget->m_levels[pos] = std::move(levels);
+            //{IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.0")), IEC_Scale(mlt_properties_get_double(filter_props, "_audio_level.1"))};
             if (widget->m_levels.size() > widget->m_maxLevels) {
                 widget->m_levels.erase(widget->m_levels.begin());
             }
@@ -101,6 +106,7 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_levelFilter(nullptr)
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
+    , m_channels(pCore->audioChannels())
     , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
@@ -119,6 +125,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_levelFilter(nullptr)
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
+    , m_channels(pCore->audioChannels())
     , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
@@ -143,7 +150,10 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     // Build audio meter widget
     m_audioMeterWidget.reset(new AudioLevelWidget(width(), this));
     // initialize for stereo display
-    m_audioMeterWidget->setAudioValues({-100, -100});
+    for (int i = 0; i < m_channels; i++) {
+        m_audioData << -100;
+    }
+    m_audioMeterWidget->setAudioValues(m_audioData);
 
     // Build volume widget
     m_volumeSlider = new QSlider(Qt::Vertical, this);
@@ -404,10 +414,10 @@ void MixerWidget::updateAudioLevel(int pos)
 {
     QMutexLocker lk(&m_storeMutex);
     if (m_levels.contains(pos)) {
-        m_audioMeterWidget->setAudioValues({m_levels.value(pos).first, m_levels.value(pos).second});
+        m_audioMeterWidget->setAudioValues(m_levels.value(pos));
         //m_levels.remove(pos);
     } else {
-        m_audioMeterWidget->setAudioValues({-100, -100});
+        m_audioMeterWidget->setAudioValues(m_audioData);
     }
 }
 
@@ -416,7 +426,7 @@ void MixerWidget::reset()
 {
     QMutexLocker lk(&m_storeMutex);
     m_levels.clear();
-    m_audioMeterWidget->setAudioValues({-100, -100});
+    m_audioMeterWidget->setAudioValues(m_audioData);
 }
 
 void MixerWidget::clear()

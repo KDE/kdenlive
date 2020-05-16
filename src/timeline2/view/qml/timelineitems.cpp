@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainter>
 #include <QPainterPath>
 #include <QQuickPaintedItem>
+#include <QElapsedTimer>
 #include <cmath>
 
 const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
@@ -79,6 +80,8 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_OBJECT
     Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
     Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
+    Q_PROPERTY(int drawInPoint MEMBER m_drawInPoint NOTIFY propertyChanged)
+    Q_PROPERTY(int drawOutPoint MEMBER m_drawOutPoint NOTIFY propertyChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
@@ -94,12 +97,12 @@ public:
         // setClip(true);
         setEnabled(false);
         m_showItem = false;
+        m_precisionFactor = 1;
         //setRenderTarget(QQuickPaintedItem::FramebufferObject);
         //setMipmap(true);
         setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
             if (!m_binId.isEmpty() && m_audioLevels.isEmpty() && m_stream >= 0) {
-                m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
                 update();
             }
         });
@@ -107,7 +110,6 @@ public:
             update();
         });
     }
-    
     bool showItem() const
     {
         return m_showItem;
@@ -135,80 +137,115 @@ public:
                 return;
             }
         }
-        qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width();
+        qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
+        //qDebug()<<"== GOT DIMENSIONS FOR WAVE: "<<(m_outPoint - m_inPoint)<<", WID: "<<width();
         QPen pen = painter->pen();
         pen.setColor(m_color);
-        pen.setWidthF(0);
         painter->setBrush(m_color);
+        pen.setCapStyle(Qt::FlatCap);
+        double increment = qMax(1., 1. / qAbs(indicesPrPixel));
+        int h = height();
+        double offset = 0;
+        bool pathDraw = increment > 1.2;
+        if (increment > 1. && !pathDraw) {
+            pen.setWidth(ceil(increment));
+            offset = pen.width() / 2.;
+        } else if (pathDraw) {
+            pen.setWidthF(0);
+        }
+        painter->setPen(pen);
+        QPainterPath path;
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
-            QPainterPath path;
-            path.moveTo(-1, height());
             double i = 0;
-            double increment = qMax(1., 1 / qAbs(indicesPrPixel));
             double level;
-            int lastIdx = -1;
-            for (; i <= width(); i += increment) {
-                int idx = m_inPoint + int(i * indicesPrPixel);
+            int j = 0;
+            if (m_drawInPoint > 0) {
+                j = m_drawInPoint / increment;
+            }
+            if (pathDraw) {
+                path.moveTo(j - 1, height());
+            }
+            for (; i <= width() && i < m_drawOutPoint; j++) {
+                i = j * increment;
+                int idx = m_precisionFactor * m_inPoint + int(i * indicesPrPixel);
+                idx += idx % m_channels;
+                i -= offset;
                 if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
                     break;
                 }
-                if (lastIdx == idx) {
-                    continue;
-                }
-                lastIdx = idx;
                 level = m_audioLevels.at(idx) / 255.;
-                for (int j = 1; j < m_channels; j++) {
-                    level = qMax(level, m_audioLevels.at(idx + j) / 255.);
+                for (int k = 1; k < m_channels; k++) {
+                    level = qMax(level, m_audioLevels.at(idx + k) / 255.);
                 }
-                path.lineTo(i, height() - level * height());
+                if (pathDraw) {
+                    path.lineTo(i, height() - level * height());
+                } else {
+                    painter->drawLine(i, h, i, h - (h * level));
+                }
             }
-            path.lineTo(i, height());
-            painter->drawPath(path);
+            if (pathDraw) {
+                path.lineTo(i, height());
+                painter->drawPath(path);
+            }
         } else {
-            double channelHeight = height() / (2 * m_channels);
-            QFont font = painter->font();
-            font.setPixelSize(channelHeight - 1);
-            painter->setFont(font);
+            double channelHeight = (double)height() / m_channels;
             // Draw separate channels
             double i = 0;
-            double increment = qMax(1., 1 / indicesPrPixel);
             double level;
-            QRectF bgRect(0, 0, width(), 2 * channelHeight);
-            QVector<QPainterPath> channelPaths(m_channels);
+            QRectF bgRect(0, 0, width(), channelHeight);
+            // Path for vector drawing
+            //qDebug()<<"==== DRAWING FROM: "<<m_drawInPoint<<" - "<<m_drawOutPoint<<", FIRST: "<<m_firstChunk;
             for (int channel = 0; channel < m_channels; channel++) {
-                double y = height() - (2 * channel * channelHeight) - channelHeight;
-                channelPaths[channel].moveTo(-1, y);
+                // y is channel median pos
+                double y = (channel * channelHeight) + channelHeight / 2;
+                path.moveTo(-1, y);
                 painter->setOpacity(0.2);
                 if (channel % 2 == 0) {
                     // Add dark background on odd channels
-                    bgRect.moveTo(0, y - channelHeight);
+                    bgRect.moveTo(0, channel * channelHeight);
                     painter->fillRect(bgRect, Qt::black);
                 }
                 // Draw channel median line
+                painter->setOpacity(0.5);
+                pen.setWidthF(0);
                 painter->setPen(pen);
                 painter->drawLine(QLineF(0., y, width(), y));
+                pen.setWidth(ceil(increment));
+                painter->setPen(pathDraw ? Qt::NoPen : pen);
                 painter->setOpacity(1);
-                int lastIdx = -1;
-                for (i = 0; i <= width(); i += increment) {
-                    int idx = m_inPoint + ceil(i * indicesPrPixel);
-                    if (lastIdx == idx) {
-                        continue;
-                    }
-                    lastIdx = idx;
+                i = 0;
+                int j = 0;
+                if (m_drawInPoint > 0) {
+                    j = m_drawInPoint / increment;
+                }
+                if (pathDraw) {
+                    path.moveTo(m_drawInPoint - 1, y);
+                }
+                for (; i <= width() && i < m_drawOutPoint; j++) {
+                    i = j * increment;
+                    int idx = m_precisionFactor * m_inPoint + ceil(i * indicesPrPixel);
+                    idx += idx % m_channels;
+                    i -= offset;
                     idx += channel;
                     if (idx >= m_audioLevels.length() || idx < 0) break;
-                    level = m_audioLevels.at(idx) * channelHeight / 255.;
-                    channelPaths[channel].lineTo(i, y - level);
+                    if (pathDraw) {
+                        level = m_audioLevels.at(idx) * channelHeight / 510.;
+                        path.lineTo(i, y - level);
+                    } else {
+                        level = m_audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
+                        painter->drawLine(i, y - level, i, y + level);
+                    }
+                }
+                if (pathDraw) {
+                    path.lineTo(i, y);
+                    painter->drawPath(path);
+                    QTransform tr(1, 0, 0, -1, 0, 2 * y);
+                    painter->drawPath(tr.map(path));
                 }
                 if (m_firstChunk && m_channels > 1 && m_channels < 7) {
-                    painter->drawText(2, y + channelHeight, chanelNames[channel]);
+                    painter->drawText(2, y + channelHeight / 2, chanelNames[channel]);
                 }
-                channelPaths[channel].lineTo(i, y);
-                painter->setPen(Qt::NoPen);
-                painter->drawPath(channelPaths.value(channel));
-                QTransform tr(1, 0, 0, -1, 0, 2 * y);
-                painter->drawPath(tr.map(channelPaths.value(channel)));
             }
         }
     }
@@ -224,11 +261,15 @@ private:
     QVector<uint8_t> m_audioLevels;
     int m_inPoint;
     int m_outPoint;
+    // Pixels outside the view, can be dropped
+    int m_drawInPoint;
+    int m_drawOutPoint;
     QString m_binId;
     QColor m_color;
     bool m_format;
     bool m_showItem;
     int m_channels;
+    int m_precisionFactor;
     int m_stream;
     bool m_firstChunk;
 };

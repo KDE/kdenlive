@@ -282,7 +282,7 @@ bool AudioThumbJob::computeWithFFMPEG()
     // m_errorMessage += err;
     // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
     qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
-    return false;
+    return m_done;
 }
 
 void AudioThumbJob::updateFfmpegProgress()
@@ -328,7 +328,7 @@ bool AudioThumbJob::startJob()
     m_channels = m_binClip->audioInfo()->channels();
     m_channels = m_channels <= 0 ? 2 : m_channels;
 
-    m_lengthInFrames = m_prod->get_length();
+    m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
     if ((m_prod == nullptr) || !m_prod->is_valid()) {
         m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
@@ -353,7 +353,9 @@ bool AudioThumbJob::startJob()
         m_done = false;
 
         bool ok = m_binClip->clipType() == ClipType::Playlist ? (KdenliveSettings::audiothumbnails() ? false : true) : computeWithFFMPEG();
-        ok = ok ? ok : computeWithMlt();
+        if (!m_done) {
+            ok = ok ? ok : computeWithMlt();
+        }
         Q_ASSERT(ok == m_done);
 
         if (ok && m_done && !m_audioLevels.isEmpty()) {

@@ -89,6 +89,14 @@ public:
      */
     void saveWithUpdatedProfile(const QString &updatedProfile);
 
+    /** @brief Get the number of tracks in this projec (video, audio).
+     */
+    QPair<int, int> tracksCount();
+
+    /** @brief Add requested audio tracks number to projet.
+     */
+    void addAudioTracks(int tracksCount);
+
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);
     void newFile(bool showProjectSettings = true);

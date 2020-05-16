@@ -42,6 +42,11 @@ Item {
         font: fixedFont
     }
 
+    Timer {
+        id: thumbTimer
+        interval: 3000; running: false;
+    }
+
     signal editCurrentMarker()
 
     onDurationChanged: {
@@ -128,7 +133,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse)
+                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || thumbTimer.running)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
@@ -176,10 +181,31 @@ Item {
                     width: (controller.zoneOut - controller.zoneIn) * timeScale
                     visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
                 }
-                Image {
-                    anchors.fill: parent
-                    source: controller.audioThumb
-                    asynchronous: true
+                Repeater {
+                    id: streamThumb
+                    model: controller.audioThumb.length
+                    onCountChanged: {
+                        thumbTimer.start()
+                    }
+                    property double streamHeight: parent.height / streamThumb.count
+                    Item {
+                        anchors.fill: parent
+                        Image {
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            height: streamThumb.streamHeight
+                            y: model.index * height
+                            source: controller.audioThumb[model.index]
+                            asynchronous: true
+                        }
+                        Rectangle {
+                            width: parent.width
+                            y: (model.index + 1) * streamThumb.streamHeight
+                            height: 1
+                            visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
+                            color: 'black'
+                        }
+                    }
                 }
                 Rectangle {
                     color: "red"

@@ -394,7 +394,7 @@ void TimelineWidget::setTool(ProjectTool tool)
     rootObject()->setProperty("activeTool", (int)tool);
 }
 
-QPoint TimelineWidget::getTracksCount() const
+QPair<int, int> TimelineWidget::getTracksCount() const
 {
     return m_proxy->getTracksCount();
 }

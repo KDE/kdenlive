@@ -63,6 +63,7 @@ public:
      */
     explicit ClipPropertiesController(ClipController *controller, QWidget *parent);
     ~ClipPropertiesController() override;
+    void activatePage(int ix);
 
 public slots:
     void slotReloadProperties();

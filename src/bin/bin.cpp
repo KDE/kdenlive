@@ -61,10 +61,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <KRatingPainter>
 #include <KMessageBox>
 #include <KXMLGUIFactory>
+#include <KIO/OpenFileManagerWindowJob>
 
 #include <QToolBar>
 #include <QCryptographicHash>
-#include <QDesktopServices>
 #include <QDrag>
 #include <QFile>
 #include <QMenu>
@@ -117,7 +117,7 @@ public:
                     rect.adjust(option.rect.width() / 12, 0, 0, 0);
                     int rate = 0;
                     if (me->pos().x() > rect.x()) {
-                        rate = KRatingPainter::getRatingFromPosition(rect, Qt::AlignLeft, qApp->layoutDirection(), me->pos());
+                        rate = KRatingPainter::getRatingFromPosition(rect, Qt::AlignLeft | Qt::AlignVCenter, qApp->layoutDirection(), me->pos());
                     }
                     if (rate > -1) {
                         // Full star rating only
@@ -360,7 +360,7 @@ public:
             painter->setOpacity(1);
             if (index.data(AbstractProjectItem::ItemTypeRole).toInt() != AbstractProjectItem::FolderItem) {
                 r1.adjust(r1.width() / 12, 0, 0, 0);
-                KRatingPainter::paintRating(painter, r1, Qt::AlignLeft, index.data().toInt());
+                KRatingPainter::paintRating(painter, r1, Qt::AlignLeft | Qt::AlignVCenter, index.data().toInt());
             }
         } else {
             QStyledItemDelegate::paint(painter, option, index);
@@ -1512,14 +1512,14 @@ void Bin::slotLocateClip()
             currentItem = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
         }
         if (currentItem) {
-            QUrl url = QUrl::fromLocalFile(currentItem->url()).adjusted(QUrl::RemoveFilename);
+            QUrl url = QUrl::fromLocalFile(currentItem->url()); //.adjusted(QUrl::RemoveFilename);
             bool exists = QFile(url.toLocalFile()).exists();
             if (currentItem->hasUrl() && exists) {
-                QDesktopServices::openUrl(url);
+                KIO::highlightInFileManager({url});
                 qCDebug(KDENLIVE_LOG) << "  / / " + url.toString();
             } else {
                 if (!exists) {
-                    pCore->displayMessage(i18n("Could not locate %1", url.toString()), ErrorMessage, 300);
+                    pCore->displayMessage(i18n("Could not locate %1", url.toString()), MessageType::ErrorMessage, 300);
                 }
                 return;
             }
@@ -1992,8 +1992,19 @@ void Bin::slotInitView(QAction *action)
         const QModelIndex index = m_proxyModel->mapToSource(ix);
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(index);
         if (item) {
-            item->setRating(rating);
-            emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
+            uint previousRating = item->rating();
+            Fun undo = [this, item, index, previousRating]() {
+                item->setRating(previousRating);
+                emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
+                return true; 
+            };
+            Fun redo = [this, item, index, rating]() {
+                item->setRating(rating);
+                emit m_itemModel->dataChanged(index, index, {AbstractProjectItem::DataRating});
+                return true; 
+            };
+            redo();
+            pCore->pushUndo(undo, redo, i18n("Edit rating"));
         } else {
             emit displayBinMessage(i18n("Cannot set rating on this item"), KMessageWidget::Information);
         }
@@ -2737,7 +2748,7 @@ void Bin::slotUpdateJobStatus(const QString &id, int jobType, int status, const 
     */
 }
 
-void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions)
+void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QList<QAction *> &actions, bool showCloseButton, BinMessage::BinCategory messageCategory)
 {
     // Remove existing actions if any
     QList<QAction *> acts = m_infoMessage->actions();
@@ -2746,13 +2757,14 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
         m_infoMessage->removeAction(a);
         delete a;
     }
+    m_currentMessage = messageCategory;
     m_infoMessage->setText(text);
     m_infoMessage->setWordWrap(text.length() > 35);
     for (QAction *action : actions) {
         m_infoMessage->addAction(action);
         connect(action, &QAction::triggered, this, &Bin::slotMessageActionTriggered);
     }
-    m_infoMessage->setCloseButtonVisible(actions.isEmpty());
+    m_infoMessage->setCloseButtonVisible(showCloseButton || actions.isEmpty());
     m_infoMessage->setMessageType(type);
     m_infoMessage->animatedShow();
 }
@@ -2760,6 +2772,7 @@ void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type
 void Bin::doDisplayMessage(const QString &text, KMessageWidget::MessageType type, const QString &logInfo)
 {
     // Remove existing actions if any
+    m_currentMessage = BinMessage::BinCategory::InformationMessage;
     QList<QAction *> acts = m_infoMessage->actions();
     while (!acts.isEmpty()) {
         QAction *a = acts.takeFirst();
@@ -2864,7 +2877,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
         }
     }
     if (moveCommand->childCount() == 0) {
-        pCore->displayMessage(i18n("No valid clip to insert"), InformationMessage, 500);
+        pCore->displayMessage(i18n("No valid clip to insert"), MessageType::InformationMessage, 500);
     } else {
         m_doc->commandStack()->push(moveCommand);
     }
@@ -2888,7 +2901,7 @@ void Bin::slotAddEffect(QString id, const QStringList &effectData)
             return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to apply an effect"), InformationMessage, 500);
+    pCore->displayMessage(i18n("Select a clip to apply an effect"), MessageType::InformationMessage, 500);
 }
 
 void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &parent)
@@ -2922,7 +2935,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             res = std::static_pointer_cast<ProjectClip>(parentItem)->addEffect(effectData.constFirst());
         }
         if (!res) {
-            pCore->displayMessage(i18n("Cannot add effect to clip"), InformationMessage);
+            pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::InformationMessage);
         } else {
             m_proxyModel->selectionModel()->clearSelection();
             const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
@@ -2968,14 +2981,14 @@ void Bin::slotTagDropped(const QString &tag, const QModelIndex &parent)
             return;
         }
     }
-    pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
+    pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::InformationMessage);
 }
 
 void Bin::switchTag(const QString &tag, bool add)
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     if (indexes.isEmpty()) {
-        pCore->displayMessage(i18n("Select a clip to add a tag"), InformationMessage);
+        pCore->displayMessage(i18n("Select a clip to add a tag"), MessageType::InformationMessage);
     }
     // Check for folders
     QList <QString> allClips;
@@ -3554,6 +3567,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
 void Bin::slotResetInfoMessage()
 {
     m_errorLog.clear();
+    m_currentMessage = BinMessage::BinCategory::NoMessage;
     QList<QAction *> actions = m_infoMessage->actions();
     for (int i = 0; i < actions.count(); ++i) {
         m_infoMessage->removeAction(actions.at(i));
@@ -4055,3 +4069,43 @@ void Bin::slotBack()
     }
 }
 
+void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
+{
+    if (m_currentMessage == BinMessage::BinCategory::ProfileMessage) {
+        // Don't show this message if another one is active
+        return;
+    }
+    int requestedTracks = minimumTracksCount - pCore->projectManager()->tracksCount().second;
+    if (requestedTracks > 0) {
+        if (clipId.isEmpty()) {
+            clipId = m_monitor->activeClipId();
+        }
+        QList<QAction *> list;
+        QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Add Tracks"), this);
+        connect(ac, &QAction::triggered, [requestedTracks]() {
+            pCore->projectManager()->addAudioTracks(requestedTracks);
+        });
+        QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
+        connect(ac2, &QAction::triggered, [this, clipId]() {
+            selectClipById(clipId);
+            for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
+                if (w->parentWidget() && w->parentWidget()->parentWidget()) {
+                    // Raise panel
+                    w->parentWidget()->parentWidget()->raise();
+                }
+                // Show audio tab
+                static_cast<ClipPropertiesController *>(w)->activatePage(2);
+            }
+        });
+        QAction *ac3 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Don't ask again"), this);
+        connect(ac3, &QAction::triggered, [&]() {
+            KdenliveSettings::setMultistream_checktrack(false);
+        });
+        //QAction *ac4 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
+        list << ac << ac2 << ac3; // << ac4;
+        doDisplayMessage(i18n("Your project needs more audio tracks to handle all streams. Add %1 audio tracks ?", requestedTracks), KMessageWidget::Information, list, true, BinMessage::BinCategory::StreamsMessage);
+    } else if (m_currentMessage == BinMessage::BinCategory::StreamsMessage) {
+        // Clip streams number ok for the project, hide message
+        m_infoMessage->animatedHide();
+    }
+}

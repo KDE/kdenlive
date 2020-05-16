@@ -176,6 +176,10 @@ public:
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
+    /* @brief returns the number of video and audio tracks */
+    QPair<int, int> getAVtracksCount() const;
+    /* @brief returns the ids of all audio or video tracks */
+    QList<int> getTracksIds(bool audio) const;
 
     /* @brief returns the ids of all the tracks */
     std::unordered_set<int> getAllTracksIds() const;
@@ -822,6 +826,8 @@ protected:
 
     // The preferred audio target for clip insertion in the form {timeline track id, bin clip stream index}
     QMap <int, int> m_audioTarget;
+    /** @brief The list of audio streams available from the selected bin clip, in the form: {stream index, stream description} */
+    QMap <int, QString> m_binAudioTargets;
     // The preferred video target for clip insertion or -1 if not defined
     int m_videoTarget;
     // Timeline editing mode
