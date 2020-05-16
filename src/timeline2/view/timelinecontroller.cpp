@@ -137,7 +137,7 @@ void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audi
             ++it;
         }
         if (KdenliveSettings::multistream_checktrack() && audioTargets.count() > tracks.count()) {
-            pCore->bin()->checkProjectAudioTracks(audioTargets.count());
+            pCore->bin()->checkProjectAudioTracks(QString(), audioTargets.count());
         }
         QMapIterator <int, QString>st(audioTargets);
         while (st.hasNext()) {

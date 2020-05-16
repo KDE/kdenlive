@@ -516,10 +516,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
             }
         });
     }
-    if (KdenliveSettings::multistream_checktrack() && !isIncludedInTimeline() && activeStreams().count() > 1) {
-        // Check we have enough tracks in the project for its audio streams
-        //pCore->bin()->checkProjectAudioTracks(activeStreams().count());
-    }
     replaceInTimeline();
     updateTimelineClips({TimelineModel::IsProxyRole});
     return true;
@@ -1112,6 +1108,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             pCore->bin()->updateTargets(clipId());
             if (!audioStreamChanged) {
                 pCore->bin()->reloadMonitorStreamIfActive(clipId());
+                pCore->bin()->checkProjectAudioTracks(clipId(), m_audioInfo->activeStreams().count());
                 refreshPanel = true;
             }
         }

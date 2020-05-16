@@ -634,9 +634,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
     }
 }
 
-void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions)
+void Core::displayBinMessage(const QString &text, int type, const QList<QAction *> &actions, bool showClose, BinMessage::BinCategory messageCategory)
 {
-    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions);
+    m_binWidget->doDisplayMessage(text, (KMessageWidget::MessageType)type, actions, showClose, messageCategory);
 }
 
 void Core::displayBinLogMessage(const QString &text, int type, const QString &logInfo)
