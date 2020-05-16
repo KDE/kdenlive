@@ -4068,6 +4068,10 @@ void Bin::slotBack()
 
 void Bin::checkProjectAudioTracks(int minimumTracksCount)
 {
+    if (m_infoMessage->isVisible()) {
+        // Don't show this message if another one is active
+        return;
+    }
     int requestedTracks = minimumTracksCount - pCore->projectManager()->tracksCount().second;
     const QString currentClipId = m_monitor->activeClipId();
     if (requestedTracks > 0) {

@@ -176,6 +176,10 @@ public:
 
     /* @brief returns the number of tracks */
     int getTracksCount() const;
+    /* @brief returns the number of video and audio tracks */
+    QPair<int, int> getAVtracksCount() const;
+    /* @brief returns the ids of all audio or video tracks */
+    QList<int> getTracksIds(bool audio) const;
 
     /* @brief returns the ids of all the tracks */
     std::unordered_set<int> getAllTracksIds() const;

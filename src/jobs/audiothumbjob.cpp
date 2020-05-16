@@ -282,7 +282,7 @@ bool AudioThumbJob::computeWithFFMPEG()
     // m_errorMessage += err;
     // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
     qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
-    return false;
+    return m_done;
 }
 
 void AudioThumbJob::updateFfmpegProgress()
@@ -353,7 +353,9 @@ bool AudioThumbJob::startJob()
         m_done = false;
 
         bool ok = m_binClip->clipType() == ClipType::Playlist ? (KdenliveSettings::audiothumbnails() ? false : true) : computeWithFFMPEG();
-        ok = ok ? ok : computeWithMlt();
+        if (!m_done) {
+            ok = ok ? ok : computeWithMlt();
+        }
         Q_ASSERT(ok == m_done);
 
         if (ok && m_done && !m_audioLevels.isEmpty()) {

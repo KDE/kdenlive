@@ -83,6 +83,7 @@ Rectangle {
             }
         }
         onClicked: {
+            console.log('TRACK ID: ', trackId)
             parent.forceActiveFocus()
             nameEdit.visible = false
             if (mouse.button == Qt.LeftButton) {

@@ -173,6 +173,37 @@ int TimelineModel::getTracksCount() const
     return count - 1;
 }
 
+QPair<int, int> TimelineModel::getAVtracksCount() const
+{
+    QPair <int, int> tracks{0, 0};
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->isAudioTrack()) {
+            tracks.second++;
+        } else {
+            tracks.first++;
+        }
+        ++it;
+    }
+    if (m_overlayTrackCount > -1) {
+        tracks.first -= m_overlayTrackCount;
+    }
+    return tracks;
+}
+
+QList<int> TimelineModel::getTracksIds(bool audio) const
+{
+    QList <int> trackIds;
+    auto it = m_allTracks.cbegin();
+    while (it != m_allTracks.cend()) {
+        if ((*it)->isAudioTrack() == audio) {
+            trackIds.insert(-1, (*it)->getId());
+        }
+        ++it;
+    }
+    return trackIds;
+}
+
 int TimelineModel::getTrackIndexFromPosition(int pos) const
 {
     Q_ASSERT(pos >= 0 && pos < (int)m_allTracks.size());
@@ -1041,15 +1072,44 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
         bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         int audioStream = -1;
-        if (audioDrop) {
-            if (useTargets) {
-                audioStream = m_audioTarget.first();
+        
+        if (!useTargets) {
+            // Drag and drop, calculate target tracks
+            if (audioDrop) {
+                if (m_binAudioTargets.count() > 1) {
+                    // Dropping a clip with several audio streams
+                    int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
+                    QList <int> keys = m_binAudioTargets.keys();
+                    if (tracksBelow < keys.count() - 1) {
+                        // We don't have enough audio tracks below, check above
+                        QList <int> audioTrackIds = getTracksIds(true);
+                        qDebug()<<"==== GOT AUIO TIDS: "<<audioTrackIds;
+                        if (audioTrackIds.count() < keys.count()) {
+                            // Not enough audio tracks
+                            pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", keys.count()), ErrorMessage);
+                            return false;
+                        }
+                        trackId = audioTrackIds.at(audioTrackIds.count() - keys.count());
+                    }
+                }
+                audioStream = m_binAudioTargets.firstKey();
             } else {
-                audioStream = master->getProducerIntProperty("audio_index");
+                // Dropping video, ensure we have enough audio tracks for its streams
+                int mirror = getMirrorTrackId(trackId);
+                QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                if (audioTids.count() < m_binAudioTargets.count() - 1) {
+                    return false;
+                }
+                
             }
+        } else if (audioDrop) {
+            // Using our targets
+            audioStream = m_audioTarget.first();
         }
+        
         res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), audioDrop ? audioStream : -1, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
+        qDebug()<<"==== INSERTED FIRST AUDIO STREAM: "<<audioStream<<", ON TK: "<<trackId<<"\n-----";
         QList <int> target_track;
         if (audioDrop) {
             if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked()) {
@@ -1064,6 +1124,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             }
         }
         qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
+        
+        // Get mirror track
         int mirror = getMirrorTrackId(trackId);
         if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
             mirror = -1;
@@ -1071,25 +1133,38 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         bool canMirrorDrop = !useTargets && mirror > -1;
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
+            int streamsCount = 0;
             if (!useTargets) {
-                int streamsCount = m_binAudioTargets.keys().count();
-                target_track = {mirror};
-                QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
-                if (streamsCount > audioTids.count() + 1) {
-                    // Project has not enough tracks to handle this clip
-                    //pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", streamsCount), ErrorMessage);
-                    res = false;
+                target_track.clear();
+                QList <int> audioTids;
+                if (!audioDrop) {
+                    // insert audio mirror track
+                    target_track << mirror;
+                    audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                 } else {
-                    while (streamsCount > 1 && !audioTids.isEmpty()) {
+                    qDebug()<<"=== AUDIO DROP; BELOW TK: "<<trackId;
+                    audioTids = getLowerTracksId(trackId, TrackType::AudioTrack);
+                }
+                streamsCount = m_binAudioTargets.keys().count() + (audioDrop ? -1 : 0);
+                
+                qDebug()<<"=== GOT AUDIO STRAMS: "<<streamsCount<<"\nAUDIO IDS: "<<audioTids;
+                while (streamsCount > 0 && !audioTids.isEmpty()) {
                     target_track << audioTids.takeFirst();
                     streamsCount--;
-                    }
                 }
                 QList <int> aTargets = m_binAudioTargets.keys();
+                if (audioDrop) {
+                    aTargets.removeAll(audioStream);
+                }
+                qDebug()<<"========\nPOSSIBLE TARGET TKS: "<<target_track<<"\nRQSTED AUDIO TARGETS: "<<aTargets<<"\n===========";
                 std::sort(aTargets.begin(), aTargets.end());
-                for (int i = 0; i < target_track.count(); ++i) {
+                for (int i = 0; i < target_track.count() && i < aTargets.count() ; ++i) {
                     dropTargets.insert(target_track.at(i), aTargets.at(i));
                 }
+                if (audioDrop) {
+                    target_track << mirror;
+                }
+                qDebug()<<"==== GOT DROP AUDIO TARGETS: "<<dropTargets;
             }
             if (target_track.isEmpty()) {
                 // No available track for splitting, abort
@@ -1106,17 +1181,33 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             std::function<bool(void)> audio_undo = []() { return true; };
             std::function<bool(void)> audio_redo = []() { return true; };
             std::unordered_set<int> createdMirrors = {id};
+            int mirrorAudioStream = -1;
             for (int &target_ix : target_track) {
-                if (!audioDrop) {
-                    if (!useTargets) {
-                        audioStream = dropTargets.value(target_ix); //master->getProducerIntProperty("audio_index");
-                    } else {
-                        audioStream = m_audioTarget.value(target_ix);
+                qDebug()<<"=== TESTING MIRRONR ON TK: "<<target_ix;
+                bool currentDropIsAudio = !audioDrop;
+                if (!useTargets && m_binAudioTargets.keys().count() > 1 && dropTargets.contains(target_ix)) {
+                    // Audio clip dropped first but has other streams
+                    currentDropIsAudio = true;
+                    mirrorAudioStream = dropTargets.value(target_ix);
+                    qDebug()<<"==== TESTING STREAM DROP: "<<mirrorAudioStream;
+                    if (mirrorAudioStream == audioStream) {
+                        qDebug()<<"==== TESTING STREAM DROP ABORTED ";
+                        continue;
                     }
+                }
+                else if (currentDropIsAudio) {
+                    if (!useTargets) {
+                        mirrorAudioStream = dropTargets.value(target_ix);
+                        qDebug()<<"==== TESTING OTHER STREAM DROP: "<<mirrorAudioStream;
+                    } else {
+                        mirrorAudioStream = m_audioTarget.value(target_ix);
+                    }
+                } else {
+                    qDebug()<<"=== DROPPING VIDEO, STREAMS: "<<streamsCount;
                 }
                 // QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
                 int newId;
-                res = requestClipCreation(binClipId, newId, audioDrop ? PlaylistState::VideoOnly : PlaylistState::AudioOnly, audioDrop ? -1 : audioStream, 1.0, false, audio_undo, audio_redo);
+                res = requestClipCreation(binClipId, newId, currentDropIsAudio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, currentDropIsAudio ? mirrorAudioStream : -1, 1.0, false, audio_undo, audio_redo);
                 if (res) {
                     res = requestClipMove(newId, target_ix, position, true, true, true, true, audio_undo, audio_redo);
                     // use lazy evaluation to group only if move was successful
