@@ -39,6 +39,8 @@ KeyframeView::KeyframeView(std::shared_ptr<KeyframeModelList> model, int duratio
     , m_currentKeyframeOriginal(-1)
     , m_hoverKeyframe(-1)
     , m_scale(1)
+    , m_zoomFactor(1)
+    , m_zoomStart(0)
     , m_zoomHandle(0,1)
     , m_hoverZoomIn(false)
     , m_hoverZoomOut(false)
@@ -187,7 +189,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
             bool ok;
             GenTime position(pos + offset, pCore->getCurrentFps());
             auto keyframe = m_model->getClosestKeyframe(position, &ok);
-            if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
+            if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
                 m_currentKeyframeOriginal = keyframe.first.frames(pCore->getCurrentFps()) - offset;
                 // Select and seek to keyframe
                 m_currentKeyframe = m_currentKeyframeOriginal;
@@ -282,7 +284,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
     if (event->y() < m_lineHeight) {
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
-        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
+        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale * m_zoomFactor < QApplication::startDragDistance()) {
             m_hoverKeyframe = keyframe.first.frames(pCore->getCurrentFps()) - offset;
             setCursor(Qt::PointingHandCursor);
             m_hoverZoomIn = false;
@@ -355,7 +357,7 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         GenTime position(pos + offset, pCore->getCurrentFps());
         bool ok;
         auto keyframe = m_model->getClosestKeyframe(position, &ok);
-        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset) * m_scale < ceil(m_lineHeight / 1.5)) {
+        if (ok && qAbs(keyframe.first.frames(pCore->getCurrentFps()) - pos - offset)* m_scale * m_zoomFactor < QApplication::startDragDistance()) {
             if (keyframe.first.frames(pCore->getCurrentFps()) != offset) {
                 m_model->removeKeyframe(keyframe.first);
                 if (keyframe.first.frames(pCore->getCurrentFps()) == m_currentKeyframe + offset) {
@@ -399,9 +401,9 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     // p.translate(0, m_lineHeight);
     int headOffset = m_lineHeight / 2;
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    double zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
+    m_zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
     double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
-    double zoomFactor = (width() - 2 * m_offset) / (zoomEnd - zoomStart);
+    m_zoomFactor = (width() - 2 * m_offset) / (zoomEnd - m_zoomStart);
 
     /*
      * keyframes
@@ -415,11 +417,11 @@ void KeyframeView::paintEvent(QPaintEvent *event)
             p.setBrush(m_colKeyframe);
         }
         double scaledPos = pos * m_scale;
-        if (scaledPos < zoomStart || scaledPos > zoomEnd) {
+        if (scaledPos < m_zoomStart || scaledPos > zoomEnd) {
             continue;
         }
-        scaledPos -= zoomStart;
-        scaledPos *= zoomFactor;
+        scaledPos -= m_zoomStart;
+        scaledPos *= m_zoomFactor;
         scaledPos += m_offset;
         p.drawLine(QPointF(scaledPos, headOffset), QPointF(scaledPos, m_lineHeight - 1));
         switch (keyframe.second.first) {
@@ -454,9 +456,9 @@ void KeyframeView::paintEvent(QPaintEvent *event)
      */
     if (m_position >= 0 && m_position < m_duration) {
         double scaledPos = m_position * m_scale;
-        if (scaledPos >= zoomStart && scaledPos <= zoomEnd) {
-            scaledPos -= zoomStart;
-            scaledPos *= zoomFactor;
+        if (scaledPos >= m_zoomStart && scaledPos <= zoomEnd) {
+            scaledPos -= m_zoomStart;
+            scaledPos *= m_zoomFactor;
             scaledPos += m_offset;
             QPolygon pa(3);
             int cursorwidth = (m_zoomHeight - m_lineHeight) / 1.8;

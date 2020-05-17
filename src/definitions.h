@@ -140,7 +140,7 @@ enum MessageType { DefaultMessage, ProcessingJobMessage, OperationCompletedMessa
 
 namespace BinMessage {
     enum BinCategory { NoMessage = 0, ProfileMessage, StreamsMessage, InformationMessage };
-};
+}
 
 enum TrackType { AudioTrack = 0, VideoTrack = 1, AnyTrack = 2 };
 
