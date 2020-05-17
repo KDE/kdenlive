@@ -1411,7 +1411,7 @@ Rectangle {
                             timeline.editGuide(model.frame)
                             drag.target = undefined
                         }
-                        onClicked: proxy.position = guideBase.x / timeline.scaleFactor
+                        onClicked: proxy.position = model.frame
                     }
                 }
                 Text {
