@@ -76,6 +76,8 @@ private:
     int m_zoomHeight;
     int m_offset;
     double m_scale;
+    double m_zoomFactor;
+    double m_zoomStart;
     /** @brief The zoom factor (start, end - between 0 and 1) */
     QPointF m_zoomHandle;
     QPointF m_lastZoomHandle;
