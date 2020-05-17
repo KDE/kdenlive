@@ -33,3 +33,24 @@ Kdenlive and MLT use a number of resources like frei0r for video effects.
                           └──────┘└──────┘└───┘└─────────────┘
 ```
 <!-- http://marklodato.github.io/js-boxdrawing/ for drawing -->
+
+
+## Class Diagram
+
+A class diagram can be generated with Doxygen and GraphViz with the commands
+below. Instead of docker, you can also run `doxygen` directly.
+
+```bash
+# Generate a Doxyfile (configuration file)
+docker run -it --rm -v $(pwd):/data hrektts/doxygen doxygen -g
+
+# Now edit the file and set the following variables:
+# EXTRACT_ALL   = YES
+# HAVE_DOT      = YES
+# UML_LOOK      = YES
+# RECURSIVE     = YES
+# INPUT         = src
+
+# Now run Doxygen to generate the docs and UML files
+docker run -it --rm -v $(pwd):/data hrektts/doxygen doxygen Doxyfile
+```
