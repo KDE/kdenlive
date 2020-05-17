@@ -619,7 +619,13 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
+
+    QLocale currentLocale;
+    qDebug() << "Current locale is " << currentLocale;
+    QLocale::setDefault(QLocale(QLocale::Russian, QLocale::Russia));
     const QByteArray sceneData = sceneList.toString().toUtf8();
+    QLocale::setDefault(currentLocale);
+
     file.write(sceneData);
     if (!file.commit()) {
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));

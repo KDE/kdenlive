@@ -31,6 +31,7 @@
 #include <QJsonObject>
 #include <QLocale>
 #include <QString>
+#include <effects/effectsrepository.hpp>
 
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
                                          QObject *parent)
@@ -58,6 +59,22 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             separator = QLocale::c().decimalPoint();
             oldSeparator = effectLocale.decimalPoint();
         }
+    }
+
+    qDebug() << "Listing all effects in the repository:";
+    auto allEffects = EffectsRepository::get()->getNames();
+    for (const auto &effect : allEffects) {
+        qDebug() << "Asset ID " << effect.first << " with name " << effect.second;
+    }
+
+    if (EffectsRepository::get()->exists(assetId)) {
+        qDebug() << "Asset " << assetId << " found in the repository. Description: " << EffectsRepository::get()->getDescription(assetId);
+        QString str;
+        QTextStream stream(&str);
+        EffectsRepository::get()->getXml(assetId).save(stream, 4);
+        qDebug() << "Asset XML: " << str;
+    } else {
+        qDebug() << "Asset not found in repo: " << assetId;
     }
 
     qDebug() << "XML parsing of " << assetId << ". found : " << nodeList.count();
