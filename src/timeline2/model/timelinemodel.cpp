@@ -1145,7 +1145,8 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     qDebug()<<"=== AUDIO DROP; BELOW TK: "<<trackId;
                     audioTids = getLowerTracksId(trackId, TrackType::AudioTrack);
                 }
-                streamsCount = m_binAudioTargets.keys().count() + (audioDrop ? -1 : 0);
+                // First audio stream already inserted in target_track or in timeline
+                streamsCount = m_binAudioTargets.keys().count() - 1;
                 
                 qDebug()<<"=== GOT AUDIO STRAMS: "<<streamsCount<<"\nAUDIO IDS: "<<audioTids;
                 while (streamsCount > 0 && !audioTids.isEmpty()) {
@@ -1156,7 +1157,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 if (audioDrop) {
                     aTargets.removeAll(audioStream);
                 }
-                qDebug()<<"========\nPOSSIBLE TARGET TKS: "<<target_track<<"\nRQSTED AUDIO TARGETS: "<<aTargets<<"\n===========";
+                //qDebug()<<"========\nPOSSIBLE TARGET TKS: "<<target_track<<"\nRQSTED AUDIO TARGETS: "<<aTargets<<"\n===========";
                 std::sort(aTargets.begin(), aTargets.end());
                 for (int i = 0; i < target_track.count() && i < aTargets.count() ; ++i) {
                     dropTargets.insert(target_track.at(i), aTargets.at(i));
@@ -1164,7 +1165,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 if (audioDrop) {
                     target_track << mirror;
                 }
-                qDebug()<<"==== GOT DROP AUDIO TARGETS: "<<dropTargets;
+                //qDebug()<<"==== GOT DROP AUDIO TARGETS: "<<dropTargets<<", FINAL TARGET TKS: "<<target_track;
             }
             if (target_track.isEmpty()) {
                 // No available track for splitting, abort
