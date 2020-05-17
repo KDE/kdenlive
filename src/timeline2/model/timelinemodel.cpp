@@ -1043,12 +1043,25 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (!pCore->projectItemModel()->hasClip(bid)) {
         return false;
     }
+    
+    bool audioDrop = false;
+    if (!useTargets) {
+        audioDrop = getTrackById_const(trackId)->isAudioTrack();
+        if (audioDrop) {
+            if (dropType == PlaylistState::VideoOnly) {
+                return false;
+            }
+        } else if (dropType == PlaylistState::AudioOnly) {
+            return false;
+        }
+    }
+    
     std::shared_ptr<ProjectClip> master = pCore->projectItemModel()->getClipByBinID(bid);
     type = master->clipType();
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
     }
-    if (dropType == PlaylistState::Disabled && (type == ClipType::AV || type == ClipType::Playlist)) {
+    if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) && (type == ClipType::AV || type == ClipType::Playlist)) {
         if (!m_audioTarget.isEmpty() && m_videoTarget == -1 && useTargets) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget.firstKey();
@@ -1070,16 +1083,14 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
             return false;
         }
-        bool audioDrop = getTrackById_const(trackId)->isAudioTrack();
         int audioStream = -1;
-        
+        QList <int> keys = m_binAudioTargets.keys();
         if (!useTargets) {
             // Drag and drop, calculate target tracks
             if (audioDrop) {
-                if (m_binAudioTargets.count() > 1) {
+                if (keys.count() > 1) {
                     // Dropping a clip with several audio streams
                     int tracksBelow = getLowerTracksId(trackId, TrackType::AudioTrack).count();
-                    QList <int> keys = m_binAudioTargets.keys();
                     if (tracksBelow < keys.count() - 1) {
                         // We don't have enough audio tracks below, check above
                         QList <int> audioTrackIds = getTracksIds(true);
@@ -1092,12 +1103,17 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         trackId = audioTrackIds.at(audioTrackIds.count() - keys.count());
                     }
                 }
-                audioStream = m_binAudioTargets.firstKey();
+                audioStream = keys.first();
             } else {
                 // Dropping video, ensure we have enough audio tracks for its streams
                 int mirror = getMirrorTrackId(trackId);
                 QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
-                if (audioTids.count() < m_binAudioTargets.count() - 1) {
+                if (audioTids.count() < keys.count() - 1) {
+                    // CHeck if ptoject has enough audio tracks
+                    if (keys.count() > getTracksIds(true).count()) {
+                        // Not enough audio tracks in the project
+                        pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", keys.count()), ErrorMessage);
+                    }
                     return false;
                 }
                 
@@ -1107,12 +1123,12 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             audioStream = m_audioTarget.first();
         }
         
-        res = requestClipCreation(binClipId, id, getTrackById_const(trackId)->trackType(), audioDrop ? audioStream : -1, 1.0, false, local_undo, local_redo);
+        res = requestClipCreation(bid, id, getTrackById_const(trackId)->trackType(), audioDrop ? audioStream : -1, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
         qDebug()<<"==== INSERTED FIRST AUDIO STREAM: "<<audioStream<<", ON TK: "<<trackId<<"\n-----";
         QList <int> target_track;
         if (audioDrop) {
-            if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked()) {
+            if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked() && dropType != PlaylistState::AudioOnly) {
                 target_track << m_videoTarget;
             }
         } else if (useTargets) {
@@ -1126,11 +1142,11 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         qDebug() << "CLIP HAS A+V: " << master->hasAudioAndVideo();
         
         // Get mirror track
-        int mirror = getMirrorTrackId(trackId);
+        int mirror = dropType == PlaylistState::Disabled ? getMirrorTrackId(trackId) : -1;
         if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
             mirror = -1;
         }
-        bool canMirrorDrop = !useTargets && mirror > -1;
+        bool canMirrorDrop = !useTargets && (mirror > -1 || keys.count() > 1);
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
             int streamsCount = 0;
@@ -1162,7 +1178,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 for (int i = 0; i < target_track.count() && i < aTargets.count() ; ++i) {
                     dropTargets.insert(target_track.at(i), aTargets.at(i));
                 }
-                if (audioDrop) {
+                if (audioDrop && mirror > -1) {
                     target_track << mirror;
                 }
                 //qDebug()<<"==== GOT DROP AUDIO TARGETS: "<<dropTargets<<", FINAL TARGET TKS: "<<target_track;
@@ -1208,7 +1224,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
                 // QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
                 int newId;
-                res = requestClipCreation(binClipId, newId, currentDropIsAudio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, currentDropIsAudio ? mirrorAudioStream : -1, 1.0, false, audio_undo, audio_redo);
+                res = requestClipCreation(bid, newId, currentDropIsAudio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, currentDropIsAudio ? mirrorAudioStream : -1, 1.0, false, audio_undo, audio_redo);
                 if (res) {
                     res = requestClipMove(newId, target_ix, position, true, true, true, true, audio_undo, audio_redo);
                     // use lazy evaluation to group only if move was successful
