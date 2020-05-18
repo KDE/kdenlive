@@ -2861,7 +2861,7 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
             // There is a clip, cut
             res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, {currentTrack});
     }
     res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
@@ -2968,7 +2968,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
             }
         }
     } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
-        QList<int> processedTracks;
+        QVector<int> processedTracks;
         for (int item : sorted_clips) {
             int target_track = new_track_ids[item];
             if (processedTracks.contains(target_track)) {
@@ -2983,7 +2983,7 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 res = res && TimelineFunctions::requestClipCut(m_model, startClipId, target_position, undo, redo);
             }
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo);
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(min, max), undo, redo, processedTracks);
     }
     for (int item : sorted_clips) {
         if (m_model->isClip(item)) {

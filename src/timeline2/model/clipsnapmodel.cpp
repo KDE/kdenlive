@@ -89,17 +89,17 @@ void ClipSnapModel::removeAllSnaps()
     }
 }
 
-void ClipSnapModel::allSnaps(std::vector<int> &snaps)
+void ClipSnapModel::allSnaps(std::vector<int> &snaps, int offset)
 {
-    snaps.push_back(m_position);
+    snaps.push_back(m_position - offset);
     if (auto ptr = m_registeredSnap.lock()) {
         for (const auto &snap : m_snapPoints) {
             if (snap >= m_inPoint * m_speed && snap < m_outPoint * m_speed) {
-                snaps.push_back(m_speed < 0 ? ceil(m_outPoint + m_position + snap / m_speed - m_inPoint) : ceil(m_position + snap / m_speed - m_inPoint));
+                snaps.push_back(m_speed < 0 ? ceil(m_outPoint + m_position + snap / m_speed - m_inPoint - offset) : ceil(m_position + snap / m_speed - m_inPoint - offset));
             }
         }
     }
-    snaps.push_back(m_position + m_outPoint - m_inPoint + 1);
+    snaps.push_back(m_position + m_outPoint - m_inPoint + 1 - offset);
 }
 
 void ClipSnapModel::registerSnapModel(const std::weak_ptr<SnapModel> &snapModel, int position, int in, int out, double speed)

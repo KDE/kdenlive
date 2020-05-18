@@ -640,11 +640,6 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
     QWriteLocker locker(&m_lock);
     TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline)
     Q_ASSERT(m_allClips.count(clipId) > 0);
-    if (m_allClips[clipId]->getPosition() == position && m_allClips[clipId]->getFakeTrackId() == trackId) {
-        TRACE_RES(true);
-        qDebug()<<"........\nABORTING MOVE; SAME POS/TRACK\n..........";
-        return true;
-    }
     if (m_groups->isInGroup(clipId)) {
         // element is in a group.
         int groupId = m_groups->getRootId(clipId);
@@ -738,20 +733,21 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     TRACE(clipId, trackId, position, cursorPosition, snapDistance);
     Q_ASSERT(isClip(clipId));
     Q_ASSERT(isTrack(trackId));
-    int currentPos = getClipPosition(clipId);
+    int currentPos = m_editMode == TimelineMode::NormalEdit ? getClipPosition(clipId) : m_allClips[clipId]->getFakePosition();
+    int offset = m_editMode == TimelineMode::NormalEdit ? 0 : getClipPosition(clipId) - currentPos;
     int sourceTrackId = (m_editMode != TimelineMode::NormalEdit) ? m_allClips[clipId]->getFakeTrackId() : getClipTrackId(clipId);
     if (sourceTrackId > -1 && getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(sourceTrackId)->isAudioTrack()) {
         // Trying move on incompatible track type, stay on same track
         trackId = sourceTrackId;
     }
-    if (currentPos == position && m_editMode == TimelineMode::NormalEdit && sourceTrackId == trackId) {
+    if (currentPos == position && sourceTrackId == trackId) {
         TRACE_RES(position);
         return {position, trackId};
     }
     bool after = position > currentPos;
     if (snapDistance > 0) {
-        // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::vector<int> ignored_pts;
+        // For snapping, we must ignore all in/outs of the clips of the group being moved
         std::unordered_set<int> all_items = {clipId};
         if (m_groups->isInGroup(clipId)) {
             int groupId = m_groups->getRootId(clipId);
@@ -760,17 +756,16 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         for (int current_clipId : all_items) {
             if (getItemTrackId(current_clipId) != -1) {
                 if (isClip(current_clipId)) {
-                    m_allClips[current_clipId]->allSnaps(ignored_pts);
+                    m_allClips[current_clipId]->allSnaps(ignored_pts, offset);
                 } else {
                     // Composition
-                    int in = getItemPosition(current_clipId);
+                    int in = getItemPosition(current_clipId) - offset;
                     ignored_pts.push_back(in);
                     ignored_pts.push_back(in + getItemPlaytime(current_clipId));
                 }
             }
         }
-        int snapped = getBestSnapPos(currentPos, position - currentPos, m_editMode == TimelineMode::NormalEdit ? ignored_pts : std::vector<int>(),
-                                     cursorPosition, snapDistance);
+        int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance);
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
@@ -779,9 +774,6 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     // we check if move is possible
     bool possible = (m_editMode == TimelineMode::NormalEdit) ? requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false)
                                                            : requestFakeClipMove(clipId, trackId, position, true, false, false);
-    /*} else {
-        possible = requestClipMoveAttempt(clipId, trackId, position);
-    }*/
     if (possible) {
         TRACE_RES(position);
         if (m_editMode != TimelineMode::NormalEdit) {
@@ -2906,7 +2898,9 @@ int TimelineModel::suggestSnapPoint(int pos, int snapDistance)
 int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> pts, int cursorPosition, int snapDistance)
 {
     if (!pts.empty()) {
-        m_snaps->ignore(pts);
+        if (m_editMode == TimelineMode::NormalEdit) {
+            m_snaps->ignore(pts);
+        }
     } else {
         return -1;
     }
@@ -2927,7 +2921,9 @@ int TimelineModel::getBestSnapPos(int referencePos, int diff, std::vector<int> p
             }
         }
     }
-    m_snaps->unIgnore();
+    if (m_editMode == TimelineMode::NormalEdit) {
+        m_snaps->unIgnore();
+    }
     m_snaps->removePoint(cursorPosition);
     return closest;
 }

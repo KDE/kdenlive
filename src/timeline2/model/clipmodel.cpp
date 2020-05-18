@@ -93,9 +93,9 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     return id;
 }
 
-void ClipModel::allSnaps(std::vector<int> &snaps)
+void ClipModel::allSnaps(std::vector<int> &snaps, int offset)
 {
-    m_clipMarkerModel->allSnaps(snaps);
+    m_clipMarkerModel->allSnaps(snaps, offset);
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,

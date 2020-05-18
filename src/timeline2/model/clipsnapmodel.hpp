@@ -54,7 +54,7 @@ public:
     void updateSnapModelPos(int newPos);
     void updateSnapModelInOut(std::pair<int, int> newInOut);
     /* @brief Retrieve all snap points */
-    void allSnaps(std::vector<int> &snaps);
+    void allSnaps(std::vector<int> &snaps, int offset = 0);
 
 
 private:

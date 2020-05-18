@@ -414,7 +414,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     bool result = true;
     QVector<int> affectedTracks;
     auto it = timeline->m_allTracks.cbegin();
-    if (!useTargets && overwrite) {
+    if (!useTargets) {
         // Timeline drop in overwrite mode
         for (int target_track : trackIds) {
             if (!timeline->getTrackById_const(target_track)->isLocked()) {
@@ -424,7 +424,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     } else {
         while (it != timeline->m_allTracks.cend()) {
             int target_track = (*it)->getId();
-            if (!useTargets || timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+            if (timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
                 affectedTracks << target_track;
             } else if (trackIds.contains(target_track)) {
                 // Track is marked as target but not active, remove it
