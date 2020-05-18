@@ -2015,32 +2015,61 @@ bool TimelineController::insertClipZone(const QString &binId, int tid, int posit
         dropType = PlaylistState::VideoOnly;
         bid = bid.remove(0, 1);
     }
-    int aTrack = -1;
+    QList <int> audioTracks;
     int vTrack = -1;
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(bid);
     if (out <= in) {
         out = (int)clip->frameDuration() - 1;
     }
+    QList <int> audioStreams = m_model->m_binAudioTargets.keys();
     if (dropType == PlaylistState::VideoOnly) {
         vTrack = tid;
     } else if (dropType == PlaylistState::AudioOnly) {
-        aTrack = tid;
+        audioTracks << tid;
+        if (audioStreams.size() > 1) {
+            // insert the other audio streams
+            QList <int> lower = m_model->getLowerTracksId(tid, TrackType::AudioTrack);
+            while (audioStreams.size() > 1 && !lower.isEmpty()) {
+                audioTracks << lower.takeFirst();
+                audioStreams.takeFirst();
+            }
+        }
     } else {
         if (m_model->getTrackById_const(tid)->isAudioTrack()) {
-            aTrack = tid;
-            vTrack = clip->hasAudioAndVideo() ? m_model->getMirrorVideoTrackId(aTrack) : -1;
+            audioTracks << tid;
+            if (audioStreams.size() > 1) {
+                // insert the other audio streams
+                QList <int> lower = m_model->getLowerTracksId(tid, TrackType::AudioTrack);
+                while (audioStreams.size() > 1 && !lower.isEmpty()) {
+                    audioTracks << lower.takeFirst();
+                    audioStreams.takeFirst();
+                }
+            }
+            vTrack = clip->hasAudioAndVideo() ? m_model->getMirrorVideoTrackId(tid) : -1;
         } else {
             vTrack = tid;
-            aTrack = clip->hasAudioAndVideo() ? m_model->getMirrorAudioTrackId(vTrack) : -1;
+            if (clip->hasAudioAndVideo()) {
+                int firstAudio = m_model->getMirrorAudioTrackId(vTrack);
+                audioTracks << firstAudio;
+                if (audioStreams.size() > 1) {
+                    // insert the other audio streams
+                    QList <int> lower = m_model->getLowerTracksId(firstAudio, TrackType::AudioTrack);
+                    while (audioStreams.size() > 1 && !lower.isEmpty()) {
+                        audioTracks << lower.takeFirst();
+                        audioStreams.takeFirst();
+                    }
+                }
+            }
         }
     }
     QList<int> target_tracks;
     if (vTrack > -1) {
         target_tracks << vTrack;
     }
-    if (aTrack > -1) {
-        target_tracks << aTrack;
+    if (!audioTracks.isEmpty()) {
+        target_tracks << audioTracks;
     }
+    qDebug()<<"=====================\n\nREADY TO INSERT IN TRACKS: "<<audioTracks<<" / VIDEO: "<<vTrack<<"\n\n=========";
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool overwrite = m_model->m_editMode == TimelineMode::OverwriteEdit;

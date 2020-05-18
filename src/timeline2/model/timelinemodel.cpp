@@ -724,7 +724,7 @@ bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position
     return res;
 }
 
-int TimelineModel::suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance)
+QVariantList TimelineModel::suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance)
 {
     if (isClip(itemId)) {
         return suggestClipMove(itemId, trackId, position, cursorPosition, snapDistance);
@@ -732,21 +732,21 @@ int TimelineModel::suggestItemMove(int itemId, int trackId, int position, int cu
     return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance);
 }
 
-int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool moveMirrorTracks)
+QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool moveMirrorTracks)
 {
     QWriteLocker locker(&m_lock);
     TRACE(clipId, trackId, position, cursorPosition, snapDistance);
     Q_ASSERT(isClip(clipId));
     Q_ASSERT(isTrack(trackId));
     int currentPos = getClipPosition(clipId);
-    int sourceTrackId = getClipTrackId(clipId);
+    int sourceTrackId = (m_editMode != TimelineMode::NormalEdit) ? m_allClips[clipId]->getFakeTrackId() : getClipTrackId(clipId);
     if (sourceTrackId > -1 && getTrackById_const(trackId)->isAudioTrack() != getTrackById_const(sourceTrackId)->isAudioTrack()) {
         // Trying move on incompatible track type, stay on same track
         trackId = sourceTrackId;
     }
     if (currentPos == position && m_editMode == TimelineMode::NormalEdit && sourceTrackId == trackId) {
         TRACE_RES(position);
-        return position;
+        return {position, trackId};
     }
     bool after = position > currentPos;
     if (snapDistance > 0) {
@@ -784,25 +784,27 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
     }*/
     if (possible) {
         TRACE_RES(position);
-        return position;
+        if (m_editMode != TimelineMode::NormalEdit) {
+            trackId = m_allClips[clipId]->getFakeTrackId();
+        }
+        return {position, trackId};
     }
     if (sourceTrackId == -1) {
-        // not clear what to do hear, if the current move doesn't work. We could try to find empty space, but it might end up being far away...
+        // not clear what to do here, if the current move doesn't work. We could try to find empty space, but it might end up being far away...
         TRACE_RES(currentPos);
-        return currentPos;
+        return {currentPos, -1};
     }
     // Find best possible move
     if (!m_groups->isInGroup(clipId)) {
         // Try same track move
         if (trackId != sourceTrackId && sourceTrackId != -1) {
-            qDebug() << "// TESTING SAME TRACVK MOVE: " << trackId << " = " << sourceTrackId;
             trackId = sourceTrackId;
             possible = requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false);
             if (!possible) {
                 qDebug() << "CANNOT MOVE CLIP : " << clipId << " ON TK: " << trackId << ", AT POS: " << position;
             } else {
                 TRACE_RES(position);
-                return position;
+                return {position, trackId};
             }
         }
 
@@ -816,16 +818,22 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
             }
         } else {
             TRACE_RES(currentPos);
-            return currentPos;
+            return {currentPos, sourceTrackId};
         }
         possible = requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false);
         TRACE_RES(possible ? position : currentPos);
-        return possible ? position : currentPos;
+        if (possible) {
+            return {position, trackId};
+        }
+        return {currentPos, sourceTrackId};
     }
     if (trackId != sourceTrackId) {
         // Try same track move
         possible = requestClipMove(clipId, sourceTrackId, position, moveMirrorTracks, true, false, false);
-        return possible ? position : currentPos;
+        if (possible) {
+            return {position, sourceTrackId};
+        }
+        return {currentPos, sourceTrackId};
     }
     // find best pos for groups
     int groupId = m_groups->getRootId(clipId);
@@ -889,14 +897,14 @@ int TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cu
         possible = requestClipMove(clipId, trackId, updatedPos, moveMirrorTracks, true, false, false);
         if (possible) {
             TRACE_RES(updatedPos);
-            return updatedPos;
+            return {updatedPos, trackId};
         }
     }
     TRACE_RES(currentPos);
-    return currentPos;
+    return {currentPos, sourceTrackId};
 }
 
-int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance)
+QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance)
 {
     QWriteLocker locker(&m_lock);
     TRACE(compoId, trackId, position, cursorPosition, snapDistance);
@@ -910,7 +918,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     }
     if (currentPos == position && currentTrack == trackId) {
         TRACE_RES(position);
-        return position;
+        return {position, trackId};
     }
 
     if (snapDistance > 0) {
@@ -943,7 +951,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     qDebug() << "Original move success" << possible;
     if (possible) {
         TRACE_RES(position);
-        return position;
+        return {position, trackId};
     }
     /*bool after = position > currentPos;
     int blank_length = getTrackById(trackId)->getBlankSizeNearComposition(compoId, after);
@@ -956,7 +964,7 @@ int TimelineModel::suggestCompositionMove(int compoId, int trackId, int position
     }
     return position;*/
     TRACE_RES(currentPos);
-    return currentPos;
+    return {currentPos, currentTrack};
 }
 
 bool TimelineModel::requestClipCreation(const QString &binClipId, int &id, PlaylistState::ClipState state, int audioStream, double speed, bool warp_pitch, Fun &undo, Fun &redo)
@@ -1227,7 +1235,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 } else {
                     qDebug()<<"=== DROPPING VIDEO, STREAMS: "<<streamsCount;
                 }
-                // QList<int> possibleTracks = m_audioTarget >= 0 ? QList<int>() << m_audioTarget : getLowerTracksId(trackId, TrackType::AudioTrack);
                 int newId;
                 res = requestClipCreation(binIdWithInOut, newId, currentDropIsAudio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly, currentDropIsAudio ? mirrorAudioStream : -1, 1.0, false, audio_undo, audio_redo);
                 if (res) {
@@ -1448,6 +1455,8 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     // Check if there is a track move
 
     // First, remove clips
+    bool hasAudio = false;
+    bool hasVideo = false;
     std::unordered_map<int, int> old_track_ids, old_position, old_forced_track;
     for (int item : all_items) {
         int old_trackId = getItemTrackId(item);
@@ -1455,7 +1464,13 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
         if (old_trackId != -1) {
             if (isClip(item)) {
                 old_position[item] = m_allClips[item]->getPosition();
+                if (!hasAudio && getTrackById_const(old_trackId)->isAudioTrack()) {
+                    hasAudio = true;
+                } else if (!hasVideo && !getTrackById_const(old_trackId)->isAudioTrack()) {
+                    hasVideo = true;
+                }
             } else {
+                hasVideo = true;
                 old_position[item] = m_allCompositions[item]->getPosition();
                 old_forced_track[item] = m_allCompositions[item]->getForcedTrack();
             }
@@ -1468,9 +1483,17 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
 
     if (getTrackById(old_track_ids[clipId])->isAudioTrack()) {
         // Master clip is audio, so reverse delta for video clips
-        video_delta = -delta_track;
+        if (hasAudio) {
+            video_delta = -delta_track;
+        } else {
+            video_delta = 0;
+        }
     } else {
-        audio_delta = -delta_track;
+        if (hasVideo) {
+            audio_delta = -delta_track;
+        } else {
+            audio_delta = 0;
+        }
     }
     bool trackChanged = false;
 
@@ -1478,7 +1501,7 @@ bool TimelineModel::requestFakeGroupMove(int clipId, int groupId, int delta_trac
     for (int item : all_items) {
         int current_track_id = old_track_ids[item];
         int current_track_position = getTrackPosition(current_track_id);
-        int d = getTrackById(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
+        int d = getTrackById_const(current_track_id)->isAudioTrack() ? audio_delta : video_delta;
         int target_track_position = current_track_position + d;
         if (target_track_position >= 0 && target_track_position < getTracksCount()) {
             auto it = m_allTracks.cbegin();

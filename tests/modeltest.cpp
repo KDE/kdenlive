@@ -1786,8 +1786,8 @@ TEST_CASE("Snapping", "[Snapping]")
         int beg = 30;
         // in the absence of other clips, a valid move shouldn't be modified
         for (int snap = -1; snap <= 5; ++snap) {
-            REQUIRE(timeline->suggestClipMove(cid2, tid2, beg, -1, snap) == beg);
-            REQUIRE(timeline->suggestClipMove(cid2, tid2, beg + length, -1, snap) == beg + length);
+            REQUIRE(timeline->suggestClipMove(cid2, tid2, beg, -1, snap).at(0) == beg);
+            REQUIRE(timeline->suggestClipMove(cid2, tid2, beg + length, -1, snap).at(0) == beg + length);
             REQUIRE(timeline->checkConsistency());
         }
 
@@ -1797,11 +1797,11 @@ TEST_CASE("Snapping", "[Snapping]")
         // Now a clip in second track should snap to beginning
         auto check_snap = [&](int pos, int perturb, int snap) {
             if (snap >= perturb) {
-                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos + perturb, -1, snap) == pos);
-                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos - perturb, -1, snap) == pos);
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos + perturb, -1, snap).at(0) == pos);
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos - perturb, -1, snap).at(0) == pos);
             } else {
-                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos + perturb, -1, snap) == pos + perturb);
-                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos - perturb, -1, snap) == pos - perturb);
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos + perturb, -1, snap).at(0) == pos + perturb);
+                REQUIRE(timeline->suggestClipMove(cid2, tid2, pos - perturb, -1, snap).at(0) == pos - perturb);
             }
         };
         for (int snap = -1; snap <= 5; ++snap) {

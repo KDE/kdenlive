@@ -374,7 +374,7 @@ public:
     bool requestFakeGroupMove(int clipId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
                               bool allowViewRefresh = true);
 
-    /* @brief Given an intended move, try to suggest a more valid one
+    /** @brief Given an intended move, try to suggest a more valid one
        (accounting for snaps and missing UI calls)
        @param clipId id of the clip to
        move
@@ -383,10 +383,11 @@ public:
        @param snapDistance the maximum distance for a snap result, -1 for no snapping
         of the clip
        @param dontRefreshMasterClip when false, no view refresh is attempted
+       @returns  a list in the form {position, trackId}
         */
-    Q_INVOKABLE int suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
-    Q_INVOKABLE int suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true);
-    Q_INVOKABLE int suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
+    Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
+    Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true);
+    Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
 
     /* @brief Request clip insertion at given position. This action is undoable
        Returns true on success. If it fails, nothing is modified.

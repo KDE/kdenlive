@@ -513,8 +513,9 @@ Rectangle {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
                         if (clipBeingDroppedId > -1) {
-                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
-                            fakeTrack = timeline.activeTrack
+                            var moveData = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
+                            fakeFrame = moveData[0]
+                            fakeTrack = moveData[1]
                         } else {
                             drag.accepted = false
                         }
@@ -538,22 +539,32 @@ Rectangle {
             if (clipBeingMovedId == -1) {
                 var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
+                    //timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
+                    var targetTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
-                    if (clipBeingDroppedId >= 0) {
-                        fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
-                        fakeTrack = timeline.activeTrack
+                    if (clipBeingDroppedId > -1) {
+                        var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
+                        fakeFrame = moveData[0]
+                        fakeTrack = moveData[1]
+                        timeline.activeTrack = fakeTrack
+                        console.log('+++ GOT DRAG FAKE TRACK: ', moveData[1])
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
                         frame = controller.suggestSnapPoint(frame, root.snapping)
                         if (controller.normalEdit()) {
-                            clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
+                            timeline.activeTrack = targetTrack
+                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, frame, drag.getDataAsString('kdenlive/producerslist'), false, true)
                         } else {
                             // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
-                            clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
-                            fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
-                            fakeTrack = timeline.activeTrack
+                            clipBeingDroppedId = insertAndMaybeGroup(targetTrack, timeline.fullDuration, clipBeingDroppedData)
+                            if (clipBeingDroppedId > -1) {
+                                var moveData = controller.suggestClipMove(clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
+                                fakeFrame = moveData[0]
+                                fakeTrack = moveData[1]
+                                timeline.activeTrack = fakeTrack
+                                console.log('+++ GOT DRAG FAKE TWO TRACK: ', moveData[1])
+                            }
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     }
@@ -596,7 +607,7 @@ Rectangle {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0) {
                         //fakeFrame = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, Math.floor(root.snapping))
-                        fakeTrack = timeline.activeTrack
+                        //fakeTrack = timeline.activeTrack
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
@@ -907,7 +918,7 @@ Rectangle {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)
+                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     }
                     scim = true
@@ -1180,8 +1191,9 @@ Rectangle {
                                                 }
                                             }
                                             if (dragProxy.isComposition) {
-                                                dragFrame = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
-                                                timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
+                                                var moveData = controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
+                                                dragFrame = moveData[0]
+                                                timeline.activeTrack = moveData[1]
                                             } else {
                                                 if (!controller.normalEdit() && dragProxy.masterObject.parent != dragContainer) {
                                                     var pos = dragProxy.masterObject.mapToGlobal(dragProxy.masterObject.x, dragProxy.masterObject.y)
@@ -1191,8 +1203,10 @@ Rectangle {
                                                     dragProxy.masterObject.y = pos.y
                                                     //console.log('bringing item to front')
                                                 }
-                                                dragFrame = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
-                                                timeline.activeTrack = timeline.getItemMovingTrack(dragProxy.draggedItem)
+                                                var moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
+                                                dragFrame = moveData[0]
+                                                timeline.activeTrack = moveData[1]
+                                                //timeline.getItemMovingTrack(dragProxy.draggedItem)
                                             }
                                             var delta = dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
