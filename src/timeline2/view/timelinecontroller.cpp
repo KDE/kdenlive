@@ -2847,15 +2847,20 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
     qDebug() << "//////\n//////\nENDING FAKE MNOVE: " << trackId << ", POS: " << position;
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
+    int startPos = m_model->getClipPosition(clipId);
     int duration = m_model->getClipPlaytime(clipId);
     int currentTrack = m_model->m_allClips[clipId]->getCurrentTrackId();
     bool res = true;
     if (currentTrack > -1) {
-        res = res && m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo, false, false);
+        res = m_model->getTrackById(currentTrack)->requestClipDeletion(clipId, updateView, invalidateTimeline, undo, redo, false, false);
     }
     if (m_model->m_editMode == TimelineMode::OverwriteEdit) {
         res = res && TimelineFunctions::liftZone(m_model, trackId, QPoint(position, position + duration), undo, redo);
     } else if (m_model->m_editMode == TimelineMode::InsertEdit) {
+        // Remove space from previous location
+        if (currentTrack > -1) {
+            res = res && TimelineFunctions::removeSpace(m_model, {startPos,startPos + duration}, undo, redo, {currentTrack}, false);
+        }
         int startClipId = m_model->getClipByPosition(trackId, position);
         if (startClipId > -1) {
             // There is a clip, cut
@@ -2945,6 +2950,10 @@ bool TimelineController::endFakeGroupMove(int clipId, int groupId, int delta_tra
                 min = min < 0 ? old_position[item] + delta_pos : qMin(min, old_position[item] + delta_pos);
                 max = max < 0 ? old_position[item] + delta_pos + duration : qMax(max, old_position[item] + delta_pos + duration);
                 ok = ok && m_model->getTrackById(old_trackId)->requestClipDeletion(item, updateThisView, finalMove, undo, redo, false, false);
+                if (m_model->m_editMode == TimelineMode::InsertEdit) {
+                    // Lift space left by removed clip
+                    ok = ok && TimelineFunctions::removeSpace(m_model, {old_position[item],old_position[item] + duration}, undo, redo, {old_trackId}, false);
+                }
             } else {
                 // ok = ok && getTrackById(old_trackId)->requestCompositionDeletion(item, updateThisView, local_undo, local_redo);
                 old_position[item] = m_model->m_allCompositions[item]->getPosition();

@@ -386,7 +386,7 @@ bool TimelineFunctions::extractZone(const std::shared_ptr<TimelineItemModel> &ti
         result = result && TimelineFunctions::liftZone(timeline, trackId, zone, undo, redo);
     }
     if (result && !liftOnly) {
-        result = TimelineFunctions::removeSpace(timeline, -1, zone, undo, redo, tracks);
+        result = TimelineFunctions::removeSpace(timeline, zone, undo, redo, tracks);
     }
     pCore->pushUndo(undo, redo, liftOnly ? i18n("Lift zone") : i18n("Extract zone"));
     return result;
@@ -501,18 +501,24 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     return true;
 }
 
-bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks)
+bool TimelineFunctions::removeSpace(const std::shared_ptr<TimelineItemModel> &timeline, QPoint zone, Fun &undo, Fun &redo, QVector<int> allowedTracks, bool useTargets)
 {
-    Q_UNUSED(trackId)
     std::unordered_set<int> clips;
-    auto it = timeline->m_allTracks.cbegin();
-    while (it != timeline->m_allTracks.cend()) {
-        int target_track = (*it)->getId();
-        if (timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
-            std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.y() - 1, -1, true);
+    if (useTargets) {
+        auto it = timeline->m_allTracks.cbegin();
+        while (it != timeline->m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (timeline->getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+                std::unordered_set<int> subs = timeline->getItemsInRange(target_track, zone.y() - 1, -1, true);
+                clips.insert(subs.begin(), subs.end());
+            }
+            ++it;
+        }
+    } else {
+        for (int &tid : allowedTracks) {
+            std::unordered_set<int> subs = timeline->getItemsInRange(tid, zone.y() - 1, -1, true);
             clips.insert(subs.begin(), subs.end());
         }
-        ++it;
     }
     if (clips.size() == 0) {
         // TODO: inform user no change will be performed
