@@ -870,7 +870,11 @@ void TimelineController::setOutPoint()
 void TimelineController::editMarker(int cid, int position)
 {
     if (cid == -1) {
-        cid = m_root->property("mainItemId").toInt();
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
@@ -895,7 +899,11 @@ void TimelineController::editMarker(int cid, int position)
 void TimelineController::addMarker(int cid, int position)
 {
     if (cid == -1) {
-        cid = m_root->property("mainItemId").toInt();
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
@@ -913,10 +921,29 @@ void TimelineController::addMarker(int cid, int position)
     clip->getMarkerModel()->editMarkerGui(pos, qApp->activeWindow(), true, clip.get());
 }
 
+int TimelineController::getMainSelectedClip() const
+{
+    int clipId = m_root->property("mainItemId").toInt();
+    if (clipId == -1) {
+        std::unordered_set<int> sel = m_model->getCurrentSelection();
+        for (int i : sel) {
+            if (m_model->isClip(i)) {
+                clipId = i;
+                break;
+            }
+        }
+    }
+    return clipId;
+}
+
 void TimelineController::addQuickMarker(int cid, int position)
 {
     if (cid == -1) {
-        cid = m_root->property("mainItemId").toInt();
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
@@ -938,7 +965,11 @@ void TimelineController::addQuickMarker(int cid, int position)
 void TimelineController::deleteMarker(int cid, int position)
 {
     if (cid == -1) {
-        cid = m_root->property("mainItemId").toInt();
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     Q_ASSERT(m_model->isClip(cid));
     double speed = m_model->getClipSpeed(cid);
@@ -959,7 +990,11 @@ void TimelineController::deleteMarker(int cid, int position)
 void TimelineController::deleteAllMarkers(int cid)
 {
     if (cid == -1) {
-        cid = m_root->property("mainItemId").toInt();
+        cid = getMainSelectedClip();
+        if (cid == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     Q_ASSERT(m_model->isClip(cid));
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(getClipBinId(cid));
@@ -1846,7 +1881,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
         clipId = getMainSelectedItem(false, true);
     }*/
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        clipId = getMainSelectedClip();
     }
     if (clipId == -1) {
         pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);
@@ -1955,7 +1990,17 @@ void TimelineController::extractZone(QPoint zone, bool liftOnly)
 void TimelineController::extract(int clipId)
 {
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        std::unordered_set<int> sel = m_model->getCurrentSelection();
+        for (int i : sel) {
+            if (m_model->isClip(i)) {
+                clipId = i;
+                break;
+            }
+        }
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     int in = m_model->getClipPosition(clipId);
     int out = in + m_model->getClipPlaytime(clipId);
@@ -1987,7 +2032,11 @@ void TimelineController::extract(int clipId)
 void TimelineController::saveZone(int clipId)
 {
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     int in = m_model->getClipIn(clipId);
     int out = in + m_model->getClipPlaytime(clipId);
@@ -2212,7 +2261,11 @@ void TimelineController::switchEnableState(std::unordered_set<int> selection)
 void TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
 {
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     if (offset == -1) {
         offset = m_root->property("mainFrame").toInt();
@@ -2237,7 +2290,11 @@ void TimelineController::addCompositionToClip(const QString &assetId, int clipId
 void TimelineController::addEffectToClip(const QString &assetId, int clipId)
 {
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     qDebug() << "/// ADDING ASSET: " << assetId;
     m_model->addClipEffect(clipId, assetId);
@@ -2271,7 +2328,11 @@ void TimelineController::splitVideo(int clipId)
 void TimelineController::setAudioRef(int clipId)
 {
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     m_audioRef = clipId;
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
@@ -2290,7 +2351,11 @@ void TimelineController::alignAudio(int clipId)
 {
     // find other clip
     if (clipId == -1) {
-        clipId = m_root->property("mainItemId").toInt();
+        clipId = getMainSelectedClip();
+        if (clipId == -1) {
+            pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+            return;
+        }
     }
     if (m_audioRef == -1 || m_audioRef == clipId) {
         pCore->displayMessage(i18n("Set audio reference before attempting to align"), InformationMessage, 500);
@@ -2621,7 +2686,17 @@ double TimelineController::fps() const
 void TimelineController::editItemDuration(int id)
 {
     if (id == -1) {
-        id = m_root->property("mainItemId").toInt(); //getMainSelectedItem(false, true);
+        id = m_root->property("mainItemId").toInt();
+        if (id == -1) {
+            std::unordered_set<int> sel = m_model->getCurrentSelection();
+            if (!sel.empty()) {
+                id = *sel.begin();
+            }
+            if (id == -1) {
+                pCore->displayMessage(i18n("No clip selected"), InformationMessage, 500);
+                return;
+            }
+        }
     }
     if (id == -1 || !m_model->isItem(id)) {
         pCore->displayMessage(i18n("No item to edit"), InformationMessage, 500);

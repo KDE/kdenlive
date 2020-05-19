@@ -236,6 +236,7 @@ public:
      * only return the id if timeline cursor is inside item
      */
     int getMainSelectedItem(bool restrictToCurrentPos = true, bool allowComposition = false);
+    int getMainSelectedClip() const;
 
     /* @brief Do we want to display video thumbnails
      */
