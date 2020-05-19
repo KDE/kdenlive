@@ -1219,14 +1219,20 @@ void MainWindow::setupActions()
     toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     if (KdenliveSettings::gpu_accel()) {
-    /*QString styleBorderless = QStringLiteral("QToolButton { border-width: 0px;margin: 1px 3px 0px;padding: 0px;}");*/
         QLabel *warnLabel = new QLabel(i18n("Experimental GPU processing enabled - not for production"), this);
         warnLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
-    // m_trimLabel->setAutoFillBackground(true);
         warnLabel->setAlignment(Qt::AlignHCenter);
         warnLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; color:black;padding-left:2px;padding-right:2px}"));
         toolbar->addWidget(warnLabel);
     }
+
+    m_trimLabel = new QLabel(QString(), this);
+    m_trimLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
+    m_trimLabel->setAlignment(Qt::AlignHCenter);
+    //m_trimLabel->setStyleSheet(QStringLiteral("QLabel { background-color :red; }"));
+
+
+    toolbar->addWidget(m_trimLabel);
     toolbar->addAction(m_buttonAutomaticTransition);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
@@ -2974,8 +2980,15 @@ void MainWindow::slotChangeEdit(QAction *action)
     TimelineMode::EditMode mode = TimelineMode::NormalEdit;
     if (action == m_overwriteEditTool) {
         mode = TimelineMode::OverwriteEdit;
+        m_trimLabel->setText(i18n("Overwrite"));
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :darkGreen; }"));
     } else if (action == m_insertEditTool) {
         mode = TimelineMode::InsertEdit;
+        m_trimLabel->setText(i18n("Insert"));
+        m_trimLabel->setStyleSheet(QStringLiteral("QLabel { padding-left: 2; padding-right: 2; background-color :red; }"));
+    } else {
+        m_trimLabel->setText(QString());
+        m_trimLabel->setStyleSheet(QString());
     }
     getMainTimeline()->controller()->getModel()->setEditMode(mode);
 }

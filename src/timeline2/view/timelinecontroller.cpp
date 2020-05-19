@@ -2938,10 +2938,13 @@ bool TimelineController::endFakeMove(int clipId, int position, bool updateView, 
         }
         int startClipId = m_model->getClipByPosition(trackId, position);
         if (startClipId > -1) {
-            // There is a clip, cut
-            res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
+            // There is a clip at insert pos
+            if (m_model->getClipPosition(startClipId) != position) {
+                // If position is in the middle of the clip, cut it
+                res = res && TimelineFunctions::requestClipCut(m_model, startClipId, position, undo, redo);
+            }
         }
-        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, {currentTrack});
+        res = res && TimelineFunctions::requestInsertSpace(m_model, QPoint(position, position + duration), undo, redo, {trackId});
     }
     res = res && m_model->getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, invalidateTimeline, undo, redo);
     if (res) {
