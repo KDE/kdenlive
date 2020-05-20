@@ -2684,7 +2684,11 @@ void TimelineController::updateClipActions()
         } else if (actionData == QLatin1Char('U')) {
             enableAction = m_model->m_groups->isInGroup(item);
         } else if (actionData == QLatin1Char('A')) {
-            enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
+            if (m_model->m_groups->isInGroup(item) && m_model->m_groups->getType(m_model->m_groups->getRootId(item)) == GroupType::AVSplit) {
+                enableAction = true;
+            } else {
+                enableAction = clip && clip->clipState() == PlaylistState::AudioOnly;
+            }
         } else if (actionData == QLatin1Char('V')) {
             enableAction = clip && clip->clipState() == PlaylistState::VideoOnly;
         } else if (actionData == QLatin1Char('D')) {
