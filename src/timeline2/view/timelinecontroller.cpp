@@ -1170,6 +1170,10 @@ void TimelineController::switchAudioTarget(int trackId)
         m_model->m_audioTarget.remove(trackId);
     } else {
         //TODO: use track description
+        if (m_model->m_binAudioTargets.count() == 1) {
+            // Only one audio stream, remove previous and switch
+            m_model->m_audioTarget.clear();
+        }
         int ix = getFirstUnassignedStream();
         if (ix > -1) {
             m_model->m_audioTarget.insert(trackId, ix);

@@ -107,7 +107,7 @@ Rectangle {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 1
-        
+
         MouseArea {
             id: targetArea
             anchors.fill: parent
