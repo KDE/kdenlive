@@ -2055,6 +2055,19 @@ void Bin::slotInitView(QAction *action)
         m_showRating->setChecked(!view->isColumnHidden(7));
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
+        connect(view->header(), &QHeaderView::sortIndicatorChanged, [this] (int ix, Qt::SortOrder order) {
+            QSignalBlocker bk(m_sortDescend);
+            QSignalBlocker bk2(m_sortGroup);
+            m_sortDescend->setChecked(order == Qt::DescendingOrder);
+            QList <QAction*> actions = m_sortGroup->actions();
+            for (auto ac : actions) {
+                if (ac->data().toInt() == ix) {
+                    ac->setChecked(true);
+                    break;
+                }
+            }
+            
+        });
         connect(view, &MyTreeView::focusView, this, &Bin::slotGotFocus);
     } else if (m_listType == BinIconView) {
         m_itemView->setItemDelegate(m_binListViewDelegate);
