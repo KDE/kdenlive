@@ -101,7 +101,7 @@ Rectangle {
         }
         width: 2 * fontMetrics.boundingRect("M").width
         height: trackHeadRoot.height
-        verticalAlignment: Text.AlignVCenter
+        verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignHCenter
         visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget > 0 : timeline.hasVideoTarget
         anchors.top: parent.top
@@ -132,6 +132,26 @@ Rectangle {
                             timeline.videoTarget = trackHeadRoot.trackId;
                         }
                     }
+                }
+            }
+            ToolButton {
+                focusPolicy: Qt.NoFocus
+                visible: trackHeadRoot.isAudio && timeline.clipTargets > 1 && trackHeadRoot.height > (2 * expandButton.height)
+                background: Rectangle {
+                    color: Qt.darker(trackTarget.bgColor, 1.5)
+                    border.color: activePalette.light
+                }
+                anchors.bottom: parent.bottom
+                width: parent.width
+                height: width
+                contentItem: Item {
+                    Image {
+                        source: "image://icon/go-down"
+                        anchors.fill: parent
+                    }
+                }
+                onClicked: {
+                    root.showTargetMenu(trackId)
                 }
             }
         }

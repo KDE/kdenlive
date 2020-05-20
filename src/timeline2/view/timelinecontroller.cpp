@@ -2553,6 +2553,11 @@ int TimelineController::hasAudioTarget() const
     return m_hasAudioTarget;
 }
 
+int TimelineController::clipTargets() const
+{
+    return m_model->m_binAudioTargets.size();
+}
+
 bool TimelineController::hasVideoTarget() const
 {
     return m_hasVideoTarget;
