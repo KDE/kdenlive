@@ -103,7 +103,7 @@ Rectangle {
         height: trackHeadRoot.height
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
-        visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget > 0 : timeline.hasVideoTarget           
+        visible: trackHeadRoot.isAudio ? timeline.hasAudioTarget > 0 : timeline.hasVideoTarget
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.margins: 1

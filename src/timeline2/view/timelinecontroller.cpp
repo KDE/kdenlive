@@ -2533,7 +2533,7 @@ const QString TimelineController::audioTargetName(int tid) const
         int streamIndex = m_model->m_audioTarget.value(tid);
         if (m_model->m_binAudioTargets.contains(streamIndex)) {
             QString targetName = m_model->m_binAudioTargets.value(streamIndex);
-            return targetName.isEmpty() ? QChar('x') : targetName.at(0);
+            return targetName.isEmpty() ? QChar('x') : targetName.section(QLatin1Char('|'), 0, 0);
         } else {
             qDebug()<<"STREAM INDEX NOT IN TARGET : "<<streamIndex<<" = "<<m_model->m_binAudioTargets;
         }
