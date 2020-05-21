@@ -314,10 +314,10 @@ bool AudioThumbJob::startJob()
         // Clip was deleted
         return false;
     }
+    m_successful = true;
     if (m_binClip->audioChannels() == 0 || m_binClip->audioThumbCreated()) {
         // nothing to do
         m_done = true;
-        m_successful = true;
         return true;
     }
     m_thumbSize = QSize(1000, 1000 / pCore->getCurrentDar());
