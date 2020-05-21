@@ -150,10 +150,6 @@ Rectangle {
         return Logic.getTrackYFromMltIndex(a_track)
     }
 
-    function getTracksCount() {
-        return Logic.getTracksList()
-    }
-
     function getMousePos() {
         if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
             return (dragProxy.masterObject.x + dragProxy.masterObject.mouseXPos) / timeline.scaleFactor

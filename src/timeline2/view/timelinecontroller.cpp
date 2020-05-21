@@ -1448,10 +1448,7 @@ void TimelineController::refreshItem(int id)
 
 QPair<int, int> TimelineController::getTracksCount() const
 {
-    QVariant returnedValue;
-    QMetaObject::invokeMethod(m_root, "getTracksCount", Q_RETURN_ARG(QVariant, returnedValue));
-    QVariantList tracks = returnedValue.toList();
-    return {tracks.at(0).toInt(), tracks.at(1).toInt()};
+    return m_model->getAVtracksCount();
 }
 
 QStringList TimelineController::extractCompositionLumas() const
