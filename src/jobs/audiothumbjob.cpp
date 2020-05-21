@@ -207,12 +207,13 @@ bool AudioThumbJob::computeWithFFMPEG()
             if (m_ffmpegProcess) {
                 disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
                 m_ffmpegProcess->kill();
+                m_successful = false;
             }
         });
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
         disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
-        if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
+        if (m_successful && m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
             int dataSize = 0;
             std::vector<const qint16 *> rawChannels;
             std::vector<QByteArray> sourceChannels;
@@ -357,6 +358,11 @@ bool AudioThumbJob::startJob()
             ok = ok ? ok : computeWithMlt();
         }
         Q_ASSERT(ok == m_done);
+        if (!m_successful) {
+            // Job was aborted
+            m_done = true;
+            return false;
+        }
 
         if (ok && m_done && !m_audioLevels.isEmpty()) {
             // Put into an image for caching.
