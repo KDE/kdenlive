@@ -1633,6 +1633,10 @@ void MainWindow::setupActions()
     });
     timelineActions->addAction(QStringLiteral("master_effects"), masterEffectStack);
 
+    QAction *switchTrackTarget = new QAction(QIcon(), i18n("Switch Track Target Audio Stream"), this);
+    connect(switchTrackTarget, &QAction::triggered, this, &MainWindow::slotSwitchTrackAudioStream);
+    timelineActions->addAction(QStringLiteral("switch_target_stream"), switchTrackTarget);
+    
     QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
@@ -2616,6 +2620,11 @@ void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
     getCurrentTimeline()->controller()->deleteTrack(-1);
+}
+
+void MainWindow::slotSwitchTrackAudioStream()
+{
+    getCurrentTimeline()->showTargetMenu();
 }
 
 void MainWindow::slotShowTrackRec()

@@ -264,10 +264,24 @@ void TimelineWidget::showHeaderMenu()
     m_headerMenu->popup(m_clickPos);
 }
 
-void TimelineWidget::showTargetMenu(int ix)
+void TimelineWidget::showTargetMenu(int tid)
 {
     int currentTargetStream;
-    QMap<int, QString> possibleTargets = m_proxy->getCurrentTargets(ix, currentTargetStream);
+    if (tid == -1) {
+        // Called through shortcut
+        tid = m_proxy->activeTrack();
+        if (tid == -1) {
+            return;
+        }
+        if (m_proxy->clipTargets() < 2 || !model()->isAudioTrack(tid)) {
+            pCore->displayMessage(i18n("No available stream"), MessageType::InformationMessage);
+            return;
+        }
+        QVariant returnedValue;
+        QMetaObject::invokeMethod(rootObject(), "getActiveTrackStreamPos", Q_RETURN_ARG(QVariant, returnedValue));
+        m_clickPos = QPoint(5, mapToGlobal(QPoint(0, y())).y() + returnedValue.toInt());
+    }
+    QMap<int, QString> possibleTargets = m_proxy->getCurrentTargets(tid, currentTargetStream);
     m_targetsMenu->clear();
     if (m_targetsGroup) {
         delete m_targetsGroup;
@@ -284,9 +298,9 @@ void TimelineWidget::showTargetMenu(int ix)
             ac->setChecked(true);
         }
     }
-    connect(m_targetsGroup, &QActionGroup::triggered, [this, ix] (QAction *action) {
+    connect(m_targetsGroup, &QActionGroup::triggered, [this, tid] (QAction *action) {
         int targetStream = action->data().toInt();
-        m_proxy->assignAudioTarget(ix, targetStream);
+        m_proxy->assignAudioTarget(tid, targetStream);
     });
     if (m_targetsMenu->isEmpty() || possibleTargets.isEmpty()) {
         m_headerMenu->popup(m_clickPos);

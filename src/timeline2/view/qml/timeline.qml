@@ -58,6 +58,10 @@ Rectangle {
             mainItemId = -1
         }
     }
+    
+    function getActiveTrackStreamPos() {
+        return Logic.getTrackYFromId(timeline.activeTrack) + rulercontainer.height
+    }
 
     function updatePalette() {
         root.color = activePalette.window

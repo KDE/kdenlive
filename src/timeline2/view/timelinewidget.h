@@ -72,6 +72,8 @@ public slots:
     void updateTransitionFavorites();
     /* @brief Bin clip drag ended, make sure we correctly processed the drop */
     void endDrag();
+    /* @brief Show menu to switch track target audio stream */
+    void showTargetMenu(int tid = -1);
 
 private slots:
     void slotUngrabHack();
@@ -80,7 +82,6 @@ private slots:
     void showTimelineMenu();
     void showRulerMenu();
     void showHeaderMenu();
-    void showTargetMenu(int ix);
 
 private:
     TimelineController *m_proxy;

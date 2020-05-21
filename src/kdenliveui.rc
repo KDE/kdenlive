@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="180" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="181" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="dvd_wizard" />
@@ -136,6 +136,7 @@
         <Action name="master_effects" />
         <Action name="insert_track" />
         <Action name="delete_track" />
+        <Action name="switch_target_stream" />
 	<Separator />
 	<Action name="select_track" />
 	<Action name="select_all_tracks" />

@@ -384,6 +384,8 @@ private slots:
     void slotSeparateAudioChannel();
     void slotInsertTrack();
     void slotDeleteTrack();
+    /** @brief Show context menu to switch current track target audio stream. */
+    void slotSwitchTrackAudioStream();
     void slotShowTrackRec();
     /** @brief Select all clips in active track. */
     void slotSelectTrack();
