@@ -364,13 +364,13 @@ void ClipController::updateProducer(const std::shared_ptr<Mlt::Producer> &produc
     *m_masterProducer = producer.get();
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
-    setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
-    checkAudioVideo();
-    // Pass properties from previous producer
-    m_properties->pass_list(passProperties, passList);
     if (!m_masterProducer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// WARNING, USING INVALID PRODUCER";
     } else {
+        // Pass properties from previous producer
+        m_properties->pass_list(passProperties, passList);
+        checkAudioVideo();
+        setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
         m_effectStack->resetService(m_masterProducer);
         emitProducerChanged(m_controllerBinId, producer);
         // URL and name should not be updated otherwise when proxying a clip we cannot find back the original url

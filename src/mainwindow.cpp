@@ -1636,7 +1636,7 @@ void MainWindow::setupActions()
     QAction *switchTrackTarget = new QAction(QIcon(), i18n("Switch Track Target Audio Stream"), this);
     connect(switchTrackTarget, &QAction::triggered, this, &MainWindow::slotSwitchTrackAudioStream);
     timelineActions->addAction(QStringLiteral("switch_target_stream"), switchTrackTarget);
-    switchTrackTarget->setShortcut(Qt::Key_Apostrophe);
+    actionCollection()->setDefaultShortcut(switchTrackTarget, Qt::Key_Apostrophe);
     
     QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
