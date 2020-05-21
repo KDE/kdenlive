@@ -279,7 +279,7 @@ void TimelineWidget::showTargetMenu(int tid)
         }
         QVariant returnedValue;
         QMetaObject::invokeMethod(rootObject(), "getActiveTrackStreamPos", Q_RETURN_ARG(QVariant, returnedValue));
-        m_clickPos = QPoint(5, mapToGlobal(QPoint(0, y())).y() + returnedValue.toInt());
+        m_clickPos = mapToGlobal(QPoint(5, y())) + QPoint(0, returnedValue.toInt());
     }
     QMap<int, QString> possibleTargets = m_proxy->getCurrentTargets(tid, currentTargetStream);
     m_targetsMenu->clear();
