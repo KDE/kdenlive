@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="182" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="183" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -34,9 +34,9 @@
       <Action name="project_clean" />
       <Action name="project_render" />
       <Action name="project_adjust_profile" />
-      <Action name="project_settings" />
-      <Action name="open_backup" />
       <Action name="archive_project" />
+      <Action name="open_backup" />
+      <Action name="project_settings" />
     </Menu>
 
     <Menu name="tool" ><text>Tool</text>
@@ -198,6 +198,7 @@
       <Separator />
       <Action name="mark_in" />
       <Action name="mark_out" />
+      <Action name="insert_project_tree" />
       <Separator />
       <Action name="monitor_fullscreen" />
       <Action name="monitor_multitrack" />
@@ -225,8 +226,6 @@
           <Action name="mlt_mute" />
       </Menu>
       <Action name="switch_monitor" />
-      <Action name="insert_project_tree" />
-      <Action name="insert_timeline" />
     </Menu>
     <Menu name="view" noMerge="1" ><text>View</text>
     <Action name="fullscreen" />
