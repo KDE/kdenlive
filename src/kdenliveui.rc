@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="181" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="182" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
