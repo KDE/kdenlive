@@ -2053,6 +2053,9 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
         m_showRating->setChecked(!view->isColumnHidden(7));
+        if (m_sortGroup->checkedAction()) {
+            view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(), m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
+        }
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sortIndicatorChanged, [this] (int ix, Qt::SortOrder order) {
