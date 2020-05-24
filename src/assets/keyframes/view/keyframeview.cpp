@@ -238,12 +238,12 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
         if (m_hoverZoomIn || m_hoverZoomOut || m_hoverZoom) {
             // Moving zoom handles
             if (m_hoverZoomIn) {
-                m_zoomHandle.setX(qMax(0., (double)(event->x() - m_offset) / (width() - 2 * m_offset)));
+                m_zoomHandle.setX(qMin(qMax(0., (double)(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.y() - 0.015));
                 update();
                 return;
             }
             if (m_hoverZoomOut) {
-                m_zoomHandle.setY(qMin(1., (double)(event->x() - m_offset) / (width() - 2 * m_offset)));
+                m_zoomHandle.setY(qMax(qMin(1., (double)(event->x() - m_offset) / (width() - 2 * m_offset)), m_zoomHandle.x() + 0.015));
                 update();
                 return;
             }
