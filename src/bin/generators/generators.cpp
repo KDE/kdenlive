@@ -121,10 +121,15 @@ void Generators::getGenerators(const QStringList &producers, QMenu *menu)
     const QStringList generatorFolders =
         QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("generators"), QStandardPaths::LocateDirectory);
     const QStringList filters = QStringList() << QStringLiteral("*.xml");
+    QStringList parsedGenerators;
     for (const QString &folder : generatorFolders) {
         QDir directory(folder);
         const QStringList filesnames = directory.entryList(filters, QDir::Files);
         for (const QString &fname : filesnames) {
+            if (parsedGenerators.contains(fname)) {
+                continue;
+            }
+            parsedGenerators << fname;
             QPair<QString, QString> result = parseGenerator(directory.absoluteFilePath(fname), producers);
             if (!result.first.isEmpty()) {
                 QAction *action = menu->addAction(i18n(result.first.toUtf8().data()));
