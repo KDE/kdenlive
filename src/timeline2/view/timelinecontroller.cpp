@@ -2159,22 +2159,13 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
     int aTrack = -1;
     int vTrack = -1;
-    if (clip->hasAudio()) {
+    if (clip->hasAudio() && !m_model->m_audioTarget.isEmpty()) {
         aTrack = m_model->m_audioTarget.firstKey();
     }
     if (clip->hasVideo()) {
         vTrack = videoTarget();
     }
-    /*if (aTrack == -1 && vTrack == -1) {
-        // No target tracks defined, use active track
-        if (m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
-            aTrack = m_activeTrack;
-            vTrack = m_model->getMirrorVideoTrackId(aTrack);
-        } else {
-            vTrack = m_activeTrack;
-            aTrack = m_model->getMirrorAudioTrackId(vTrack);
-        }
-    }*/
+
     int insertPoint;
     QPoint sourceZone;
     if (useRuler() && m_zone != QPoint()) {
