@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="183" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="184" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -17,7 +17,7 @@
       <Action name="project_find" />
       <Action name="project_find_next" />
     </Menu>
-    <Menu name="go" noMerge="1"><text>Project</text>
+    <Menu name="go" noMerge="1"><text>&amp;Project</text>
       <Action name="add_clip" />
       <Action name="add_color_clip" />
       <Action name="add_slide_clip" />
@@ -49,7 +49,7 @@
       <Action name="spacer_tool" />
     </Menu>
 
-    <Menu name="clip" ><text>Clip</text>
+    <Menu name="clip" ><text>&amp;Clip</text>
           <Menu name="marker_menu" ><text>Markers</text>
         <Action name="add_clip_marker" />
         <Action name="add_marker_guide_quickly" />
@@ -82,7 +82,7 @@
       <Action name="delete_clip" />
     </Menu>
 
-    <Menu name="timeline" ><text>Timeline</text>
+    <Menu name="timeline" ><text>T&amp;imeline</text>
       <Menu name="keyboard_selection" ><text>Selection</text>
 	  <Action name="select_timeline_clip" />
 	  <Action name="select_add_timeline_clip" />
@@ -122,7 +122,7 @@
             <Action name="expand_timeline_clip" />
       </Menu>
       <Action name="grab_item" />
-      <Menu name="guide_menu" ><text>Guides</text>
+      <Menu name="guide_menu" ><text>&amp;Guides</text>
 		<Action name="add_guide" />
 		<Action name="edit_guide" />
 		<Action name="delete_guide" />

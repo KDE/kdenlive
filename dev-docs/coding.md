@@ -5,6 +5,7 @@
   * [Signals and Slots][qt-sig]
 * [MLT introduction][mlt-intro].
 * [The KDE Frameworks][kf]
+  * [XMLGUI Technology][xmlgui-tut] (e.g. for the `kdenliveui.rc` file)
 
 ## Configuration
 
@@ -33,3 +34,4 @@ KdenliveSettings::setLogscale(true);
 [qt5c]: https://doc.qt.io/qt-5/classes.html
 [qt-sig]: https://doc.qt.io/qt-5/signalsandslots.html
 [kf]: https://api.kde.org/frameworks-api/frameworks-apidocs/frameworks/index.html
+[xmlgui-tut]: https://techbase.kde.org/Development/Architecture/KDE4/XMLGUI_Technology
