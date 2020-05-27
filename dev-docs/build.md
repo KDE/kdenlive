@@ -45,7 +45,7 @@ JOBS=4
 
 # MLT
 cd mlt
-./configure --enable-gpl --enable-gpl3 --prefix=/home/soft/kdenlive
+./configure --enable-gpl --enable-gpl3 --prefix=$INSTALL_PREFIX
 make -j$JOBS
 make install
 # 'sudo make install' if INSTALL_PREFIX is not user-writable
@@ -116,8 +116,11 @@ cd opencv-4.3.0
 mkdir build
 cd build
 cmake .. -DCMAKE_INSTALL_PREFIX=$INSTALL_PREFIX \
+  -DOPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.3.0/modules \
   -DOPENCV_GENERATE_PKGCONFIG=ON -DBUILD_LIST=tracking -DOPENCV_BUILD_3RDPARTY_LIBS=OFF
 ```
+
+Then you will have to rebuild MLT appending `--enable-opencv` to `configure` line!
 
 ### Building frei0r
 
