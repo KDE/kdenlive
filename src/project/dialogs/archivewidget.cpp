@@ -761,15 +761,25 @@ bool ArchiveWidget::processProjectFile()
         if (e.isNull()) {
             continue;
         }
+        bool isTimewarp = Xml::getXmlProperty(e, QStringLiteral("mlt_service")) == QLatin1String("timewarp");
         QString src = Xml::getXmlProperty(e, QStringLiteral("resource"));
         if (!src.isEmpty()) {
+            if (isTimewarp) {
+                // Timewarp needs to be handled separately.
+                src = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));
+            }
             if (QFileInfo(src).isRelative()) {
                 src.prepend(root);
             }
             QUrl srcUrl = QUrl::fromLocalFile(src);
             QUrl dest = m_replacementList.value(srcUrl);
             if (!dest.isEmpty()) {
-                Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
+                if (isTimewarp) {
+                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed"))).arg(dest.toLocalFile()));
+                } else {
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
+                }
             }
         }
         src = Xml::getXmlProperty(e, QStringLiteral("kdenlive:proxy"));
