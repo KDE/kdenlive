@@ -516,6 +516,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_progressDialog->show();
     bool openBackup;
     m_notesPlugin->clear();
+
     KdenliveDoc *doc = new KdenliveDoc(stale ? QUrl::fromLocalFile(stale->fileName()) : url, QString(), pCore->window()->m_commandStack,
                                        KdenliveSettings::default_profile().isEmpty() ? pCore->getCurrentProfile()->path() : KdenliveSettings::default_profile(),
                                        QMap<QString, QString>(), QMap<QString, QString>(),
@@ -528,13 +529,15 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     } else {
         doc->m_autosave = stale;
         stale->setParent(doc);
-        // if loading from an autosave of unnamed file then keep unnamed
+        // if loading from an autosave of unnamed file, or restor failed then keep unnamed
+        bool loadingFailed = doc->url().isEmpty();
         if (url.fileName().contains(QStringLiteral("_untitled.kdenlive"))) {
             doc->setUrl(QUrl());
-        } else {
+            doc->setModified(true);
+        } else if (!loadingFailed) {
             doc->setUrl(url);
         }
-        doc->setModified(true);
+        doc->setModified(!loadingFailed);
         stale->setParent(doc);
     }
     m_progressDialog->setLabelText(i18n("Loading clips"));
@@ -613,8 +616,11 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         closeCurrentDocument(false);
         doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr);
         if (m_project) {
-            m_project->setUrl(projectFile);
-            m_project->setModified(true);
+            if (!m_project->url().isEmpty()) {
+                // Only update if restore succeeded
+                m_project->setUrl(projectFile);
+                m_project->setModified(true);
+            }
             pCore->window()->setWindowTitle(m_project->description());
             result = true;
         }

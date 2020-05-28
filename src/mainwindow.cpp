@@ -2231,7 +2231,6 @@ void MainWindow::connectDocument()
     }
     m_zoomSlider->setValue(project->zoom().x());
     m_commandStack->setActiveStack(project->commandStack().get());
-
     setWindowTitle(project->description());
     setWindowModified(project->isModified());
     m_saveAction->setEnabled(project->isModified());
