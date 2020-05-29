@@ -637,18 +637,20 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
 
 void PreviewManager::invalidatePreview(int startFrame, int endFrame)
 {
+    if (m_previewTrack == nullptr) {
+        return;
+    }
     int chunkSize = KdenliveSettings::timelinechunks();
     int start = startFrame - startFrame % chunkSize;
-    int end = endFrame - endFrame % chunkSize + chunkSize;
+    int end = endFrame - endFrame % chunkSize;
 
     std::sort(m_renderedChunks.begin(), m_renderedChunks.end());
     m_previewGatherTimer.stop();
     abortRendering();
     m_tractor->lock();
-    bool hasPreview = m_previewTrack != nullptr;
     bool chunksChanged = false;
     for (int i = start; i <= end; i += chunkSize) {
-        if (m_renderedChunks.contains(i) && hasPreview) {
+        if (m_renderedChunks.contains(i)) {
             int ix = m_previewTrack->get_clip_index_at(i);
             if (m_previewTrack->is_blank(ix)) {
                 continue;
@@ -663,12 +665,12 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
             }
         }
     }
+    m_tractor->unlock();
     if (chunksChanged) {
         m_previewTrack->consolidate_blanks();
         m_controller->renderedChunksChanged();
         m_controller->dirtyChunksChanged();
     }
-    m_tractor->unlock();
     m_previewGatherTimer.start();
 }
 

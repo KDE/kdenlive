@@ -33,7 +33,7 @@ public:
     explicit DocUndoStack(QUndoGroup *parent = Q_NULLPTR);
     void push(QUndoCommand *cmd);
 signals:
-    void invalidate();
+    void invalidate(int ix);
 };
 
 #endif

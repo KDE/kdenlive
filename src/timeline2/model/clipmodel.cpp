@@ -163,6 +163,8 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     }
     int in = m_producer->get_in();
     int out = m_producer->get_out();
+    int oldIn = m_position;
+    int oldOut = m_position + out - in;
     int old_in = in, old_out = out;
     // check if there is enough space on the chosen side
     if (!m_endlessResize) {
@@ -217,13 +219,30 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         roles.push_back(TimelineModel::OutPointRole);
     }
 
-    Fun operation = [this, inPoint, outPoint, roles, track_operation]() {
+    Fun operation = [this, inPoint, outPoint, roles, oldIn, oldOut, right, logUndo, track_operation]() {
         if (track_operation()) {
             setInOut(inPoint, outPoint);
             if (m_currentTrackId > -1) {
                 if (auto ptr = m_parent.lock()) {
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                     ptr->notifyChange(ix, ix, roles);
+                    // invalidate timeline preview
+                    if (logUndo) {                        
+                        if (right) {
+                            int newOut = m_position + getOut() - getIn();
+                            if (oldOut < newOut) {
+                                ptr->invalidateZone(oldOut, newOut);
+                            } else {
+                                ptr->invalidateZone(newOut, oldOut);
+                            }
+                        } else {
+                            if (oldIn < m_position) {
+                                ptr->invalidateZone(oldIn, m_position);
+                            } else {
+                                ptr->invalidateZone(m_position, oldIn);
+                            }
+                        }
+                    }
                 }
             }
             return true;
@@ -247,13 +266,29 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
                 }
             }
-            reverse = [this, old_in, old_out, track_reverse, roles]() {
+            reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {
                 if (track_reverse()) {
                     setInOut(old_in, old_out);
                     if (m_currentTrackId > -1) {
                         if (auto ptr = m_parent.lock()) {
                             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                             ptr->notifyChange(ix, ix, roles);
+                            if (logUndo) {                        
+                                if (right) {
+                                    int newOut = m_position + getOut() - getIn();
+                                    if (oldOut < newOut) {
+                                        ptr->invalidateZone(oldOut, newOut);
+                                    } else {
+                                        ptr->invalidateZone(newOut, oldOut);
+                                    }
+                                } else {
+                                    if (oldIn < m_position) {
+                                        ptr->invalidateZone(oldIn, m_position);
+                                    } else {
+                                        ptr->invalidateZone(m_position, oldIn);
+                                    }
+                                }
+                            }
                         }
                     }
                     return true;

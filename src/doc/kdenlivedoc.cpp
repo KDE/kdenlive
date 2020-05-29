@@ -86,7 +86,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
-    connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack);
+    connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
 
     // init default document properties
@@ -1616,10 +1616,10 @@ void KdenliveDoc::initProxySettings()
     m_proxyExtension = params.section(QLatin1Char(';'), 1);
 }
 
-void KdenliveDoc::checkPreviewStack()
+void KdenliveDoc::checkPreviewStack(int ix)
 {
     // A command was pushed in the middle of the stack, remove all cached data from last undos
-    emit removeInvalidUndo(m_commandStack->count());
+    emit removeInvalidUndo(ix);
 }
 
 void KdenliveDoc::saveMltPlaylist(const QString &fileName)
