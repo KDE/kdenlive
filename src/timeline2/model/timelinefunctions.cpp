@@ -1307,7 +1307,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
         int trackPos = prod.attribute(QStringLiteral("track")).toInt();
-        if (trackPos < 0 || trackPos >= projectTracks.first.size() + projectTracks.second.size()) {
+        if (trackPos < 0) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);
             semaphore.release(1);
             return false;
