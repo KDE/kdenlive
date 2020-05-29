@@ -52,6 +52,8 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
                 m_playlist.set("hide", 1);
             }
         }
+        // For now we never use the second playlist, only planned for same track transitions
+        m_playlists[1].set("hide", 3);
         m_track->set("kdenlive:trackheight", KdenliveSettings::trackheight());
         m_effectStack = EffectStackModel::construct(m_mainPlaylist, {ObjectType::TimelineTrack, m_id}, ptr->m_undoStack);
         // TODO
@@ -536,7 +538,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                     if (old_out < new_out) {
                         ptr->checkRefresh(old_out, new_out);
                     } else {
-                        ptr->checkRefresh(old_in, old_out);
+                        ptr->checkRefresh(new_out, old_out);
                     }
                 } else if (old_in < new_in) {
                     ptr->checkRefresh(old_in, new_in);
@@ -783,11 +785,12 @@ void TrackModel::setProperty(const QString &name, const QString &value)
 {
     QWriteLocker locker(&m_lock);
     m_track->set(name.toUtf8().constData(), value.toUtf8().constData());
-    // Hide property mus be defined at playlist level or it won't be saved
+    // Hide property must be defined at playlist level or it won't be saved
     if (name == QLatin1String("kdenlive:audio_track") || name == QLatin1String("hide")) {
-        for (auto &m_playlist : m_playlists) {
+        m_playlists[0].set(name.toUtf8().constData(), value.toInt());
+        /*for (auto &m_playlist : m_playlists) {
             m_playlist.set(name.toUtf8().constData(), value.toInt());
-        }
+        }*/
     }
 }
 

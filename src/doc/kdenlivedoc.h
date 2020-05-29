@@ -228,7 +228,7 @@ private slots:
     void switchProfile(std::unique_ptr<ProfileParam> &profile, const QString &id, const QDomElement &xml);
     void slotSwitchProfile(const QString &profile_path, bool reloadThumbs);
     /** @brief Check if we did a new action invalidating more recent undo items. */
-    void checkPreviewStack();
+    void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
     void guidesChanged();
 
