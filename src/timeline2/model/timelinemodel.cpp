@@ -1111,13 +1111,16 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                         trackId = audioTrackIds.at(audioTrackIds.count() - keys.count());
                     }
                 }
+                if (keys.isEmpty()) {
+                    return false;
+                }
                 audioStream = keys.first();
             } else {
                 // Dropping video, ensure we have enough audio tracks for its streams
                 int mirror = getMirrorTrackId(trackId);
                 QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                 if (audioTids.count() < keys.count() - 1) {
-                    // CHeck if ptoject has enough audio tracks
+                    // Check if project has enough audio tracks
                     if (keys.count() > getTracksIds(true).count()) {
                         // Not enough audio tracks in the project
                         pCore->displayMessage(i18n("Not enough audio tracks for all streams (%1)", keys.count()), ErrorMessage);
@@ -1152,7 +1155,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         if (mirror > -1 && getTrackById_const(mirror)->isLocked()) {
             mirror = -1;
         }
-        bool canMirrorDrop = !useTargets && (mirror > -1 || keys.count() > 1);
+        bool canMirrorDrop = !useTargets && ((mirror > -1 && (audioDrop || !keys.isEmpty())) || keys.count() > 1);
         QMap<int, int> dropTargets;
         if (res && (canMirrorDrop || !target_track.isEmpty()) && master->hasAudioAndVideo()) {
             int streamsCount = 0;

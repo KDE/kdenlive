@@ -494,6 +494,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         }
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
+    pCore->bin()->updateTargets(clipId());
     for (auto &p : m_audioProducers) {
         m_effectStack->removeService(p.second);
     }
