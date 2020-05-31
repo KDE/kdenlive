@@ -82,6 +82,18 @@ void KeyframeView::slotSetPosition(int pos, bool isInRange)
         m_position = pos;
         int offset = pCore->getItemIn(m_model->getOwnerId());
         emit atKeyframe(m_model->hasKeyframe(pos + offset), m_model->singleKeyframe());
+        double zoomPos = (double) m_position / m_duration;
+        if (zoomPos < m_zoomHandle.x()) {
+            double interval = m_zoomHandle.y() - m_zoomHandle.x();
+            zoomPos = qBound(0.0, zoomPos - interval / 5, 1.0);
+            m_zoomHandle.setX(zoomPos);
+            m_zoomHandle.setY(zoomPos + interval);
+        } else if (zoomPos > m_zoomHandle.y()) {
+            double interval = m_zoomHandle.y() - m_zoomHandle.x();
+            zoomPos = qBound(0.0, zoomPos + interval / 5, 1.0);
+            m_zoomHandle.setX(zoomPos - interval);
+            m_zoomHandle.setY(zoomPos);
+        }
         update();
     }
 }
