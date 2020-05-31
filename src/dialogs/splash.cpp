@@ -20,55 +20,41 @@
  ***************************************************************************/
 
 #include "splash.hpp"
+#include <QStyle>
+#include <QStyleOptionProgressBar>
 
-#include <KDeclarative/KDeclarative>
-#include <QQmlContext>
-#include <QQuickItem>
-#include <QQuickWindow>
-#include <QStandardPaths>
-#include <kdeclarative_version.h>
-
-Splash::Splash(QObject *parent)
-    : QObject(parent)
-    , m_engine(new QQmlEngine())
-    , childItem(nullptr)
+Splash::Splash(const QPixmap &pixmap)
+    : QSplashScreen(pixmap)
+    , m_progress(0)
 {
-    KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(m_engine);
-    kdeclarative.setupEngine(m_engine);
-    kdeclarative.setupContext();
-    component = new QQmlComponent(m_engine);
-    QQuickWindow::setDefaultAlphaBuffer(true);
-    component->loadUrl(QUrl(QStringLiteral("qrc:/qml/splash.qml")));
-    if (component->isLoading())
-        QObject::connect(component, SIGNAL(statusChanged(QQmlComponent::Status)),
-                         this, SLOT(continueLoading()));
-    else {
-        continueLoading();
+}
+
+
+void Splash::showProgressMessage(const QString &message, int progress)
+{
+    m_progress = qBound(0, progress, 100);
+    if (!message.isEmpty()) {
+        showMessage(message, Qt::AlignRight | Qt::AlignBottom, Qt::white);
     }
+    repaint();
 }
 
-void Splash::continueLoading()
+void Splash::drawContents(QPainter *painter)
 {
-    if (component->isReady()) {
-        childItem = qobject_cast<QQuickWindow*>(component->create());
-    } else {
-        qWarning() << component->errorString();
-    }
-}
-Splash::~Splash()
-{
-    delete childItem;
-    delete component;
-    delete m_engine;
+  QSplashScreen::drawContents(painter);
+
+  // Set style for progressbar...
+  QStyleOptionProgressBar pbstyle;
+  pbstyle.initFrom(this);
+  pbstyle.state = QStyle::State_Enabled;
+  pbstyle.textVisible = false;
+  pbstyle.minimum = 0;
+  pbstyle.maximum = 100;
+  pbstyle.progress = m_progress;
+  pbstyle.invertedAppearance = false;
+  pbstyle.rect = QRect(4, height() - 24, width() / 2, 20); // Where is it.
+
+  // Draw it...
+  style()->drawControl(QStyle::CE_ProgressBar, &pbstyle, painter, this);
 }
 
-void Splash::endSplash()
-{
-    if (childItem) {
-        QMetaObject::invokeMethod(childItem, "endSplash");
-    } else {
-        qDebug()<<"** ERROR NO SPLASH COMPO";
-    }
-    emit sigEndSplash();
-}

@@ -20,6 +20,7 @@
 
 #include "core.h"
 #include "logger.hpp"
+#include "dialogs/splash.hpp"
 #include <config-kdenlive.h>
 
 #include <mlt++/Mlt.h>
@@ -100,7 +101,7 @@ int main(int argc, char *argv[])
 
     QPixmap pixmap(":/pics/splash-background.png");
     qApp->processEvents(QEventLoop::AllEvents);
-    QSplashScreen splash(pixmap);
+    Splash splash(pixmap);
     qApp->processEvents(QEventLoop::AllEvents);
     splash.showMessage(i18n("Version %1", QString(KDENLIVE_VERSION)), Qt::AlignRight | Qt::AlignBottom, Qt::white);
     splash.show();
@@ -252,8 +253,9 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
-    QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &QSplashScreen::showMessage);    
+    QMetaObject::Connection connection = QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
     pCore->initGUI(url, clipsToLoad);
+    QObject::disconnect( connection );
     splash.finish(pCore->window());
     int result = app.exec();
     Core::clean();

@@ -272,7 +272,7 @@ signals:
     void finalizeRecording(const QString &captureFile);
     void autoScrollChanged();
     /** @brief Send a message to splash screen if still displayed */
-    void loadingMessageUpdated(const QString &, int align = Qt::AlignRight | Qt::AlignBottom, const QColor col = QColor(Qt::white));
+    void loadingMessageUpdated(const QString &, int progress = 0);
 };
 
 #endif

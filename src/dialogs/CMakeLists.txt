@@ -8,5 +8,6 @@ set(kdenlive_SRCS
   dialogs/renderwidget.cpp
   dialogs/titletemplatedialog.cpp
   dialogs/wizard.cpp
+  dialogs/splash.cpp
   PARENT_SCOPE)
 
