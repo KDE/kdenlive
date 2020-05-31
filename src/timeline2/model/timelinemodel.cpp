@@ -1118,7 +1118,10 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             } else {
                 // Dropping video, ensure we have enough audio tracks for its streams
                 int mirror = getMirrorTrackId(trackId);
-                QList <int> audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                QList <int> audioTids = {};
+                if (mirror > -1) {
+                   audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
+                }
                 if (audioTids.count() < keys.count() - 1) {
                     // Check if project has enough audio tracks
                     if (keys.count() > getTracksIds(true).count()) {
