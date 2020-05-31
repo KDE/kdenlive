@@ -522,15 +522,18 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_fileRevert->setEnabled(true);
 
     delete m_progressDialog;
+    m_progressDialog == nullptr;
     ThumbnailCache::get()->clearCache();
     pCore->monitorManager()->resetDisplay();
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    m_progressDialog = new QProgressDialog(pCore->window());
-    m_progressDialog->setWindowTitle(i18n("Loading project"));
-    m_progressDialog->setCancelButton(nullptr);
-    m_progressDialog->setLabelText(i18n("Loading project"));
-    m_progressDialog->setMaximum(0);
-    m_progressDialog->show();
+    if (pCore->window()->isVisible()) {
+        m_progressDialog = new QProgressDialog(pCore->window());
+        m_progressDialog->setWindowTitle(i18n("Loading project"));
+        m_progressDialog->setCancelButton(nullptr);
+        m_progressDialog->setLabelText(i18n("Loading project"));
+        m_progressDialog->setMaximum(0);
+        m_progressDialog->show();
+    }
     bool openBackup;
     m_notesPlugin->clear();
     int audioChannels = 2;
@@ -563,8 +566,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         doc->setModified(!loadingFailed);
         stale->setParent(doc);
     }
-    m_progressDialog->setLabelText(i18n("Loading clips"));
-    m_progressDialog->setMaximum(doc->clipsCount());
+    if (m_progressDialog) {
+        m_progressDialog->setLabelText(i18n("Loading clips"));
+        m_progressDialog->setMaximum(doc->clipsCount());
+    }
 
     // TODO refac delete this
     pCore->bin()->setDocument(doc);

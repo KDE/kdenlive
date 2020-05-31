@@ -201,12 +201,16 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     connect(m_producerQueue, SIGNAL(removeInvalidProxy(QString,bool)), m_binWidget, SLOT(slotRemoveInvalidProxy(QString,bool)));*/
 
     m_mainWindow->init();
+    if (!Url.isEmpty()) {
+        emit loadingMessageUpdated(i18n("Loading project..."));
+    }
     projectManager()->init(Url, clipsToLoad);
     if (qApp->isSessionRestored()) {
         // NOTE: we are restoring only one window, because Kdenlive only uses one MainWindow
         m_mainWindow->restore(1, false);
     }
-    QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
+    pCore->projectManager()->slotLoadOnOpen();
+    //QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadOnOpen", Qt::QueuedConnection);
     m_mainWindow->show();
     QThreadPool::globalInstance()->setMaxThreadCount(qMin(4, QThreadPool::globalInstance()->maxThreadCount()));
 }

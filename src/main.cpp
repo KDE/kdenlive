@@ -252,6 +252,7 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
+    QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &QSplashScreen::showMessage);    
     pCore->initGUI(url, clipsToLoad);
     splash.finish(pCore->window());
     int result = app.exec();

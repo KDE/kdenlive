@@ -16,6 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "undohelper.hpp"
 #include <QMutex>
 #include <QObject>
+#include <QColor>
 #include <QUrl>
 #include <memory>
 #include <QPoint>
@@ -270,6 +271,8 @@ signals:
     void showConfigDialog(int, int);
     void finalizeRecording(const QString &captureFile);
     void autoScrollChanged();
+    /** @brief Send a message to splash screen if still displayed */
+    void loadingMessageUpdated(const QString &, int align = Qt::AlignRight | Qt::AlignBottom, const QColor col = QColor(Qt::white));
 };
 
 #endif

@@ -973,7 +973,10 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
         Mlt::Playlist playlist((mlt_playlist)retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
             qDebug() << "playlist is valid";
-
+            if (progressDialog == nullptr && playlist.count() > 0) {
+                // Display message on splash screen
+                pCore->loadingMessageUpdated(i18n("Loading project clips..."));
+            }
             // Load bin clips
             qDebug() << "init bin";
             // Load folders
