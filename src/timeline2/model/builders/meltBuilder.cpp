@@ -281,14 +281,15 @@ PlaylistState::ClipState inferState(const std::shared_ptr<Mlt::Producer> &prod, 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QProgressDialog *progressDialog)
 {
-    for (int i = 0; i < track.count(); i++) {
+    int max = track.count();
+    for (int i = 0; i < max; i++) {
         if (track.is_blank(i)) {
             continue;
         }
         if (progressDialog) {
             progressDialog->setValue(progressDialog->value() + 1);
         } else {
-            pCore->loadingMessageUpdated(QString(), 100 * i / track.count());
+            pCore->loadingMessageUpdated(QString(), 1);
         }
         std::shared_ptr<Mlt::Producer> clip(track.get_clip(i));
         int position = track.clip_start(i);

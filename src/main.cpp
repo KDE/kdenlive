@@ -253,10 +253,11 @@ int main(int argc, char *argv[])
     }
     qApp->processEvents(QEventLoop::AllEvents);
     Core::build(!parser.value(QStringLiteral("config")).isEmpty(), parser.value(QStringLiteral("mlt-path")));
-    QMetaObject::Connection connection = QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+    QObject::connect(pCore.get(), &Core::loadingMessageUpdated, &splash, &Splash::showProgressMessage, Qt::DirectConnection);
+    QObject::connect(pCore.get(), &Core::closeSplash, [&] () {
+        splash.finish(pCore->window());
+    });
     pCore->initGUI(url, clipsToLoad);
-    QObject::disconnect( connection );
-    splash.finish(pCore->window());
     int result = app.exec();
     Core::clean();
 

@@ -201,6 +201,8 @@ private:
     KRecentFilesAction *m_recentFilesAction;
     NotesPlugin *m_notesPlugin;
     QProgressDialog *m_progressDialog{nullptr};
+    /** @brief If true, means we are still opening Kdenlive, send messages to splash screen */
+    bool m_loading;
     void saveRecentFiles();
 };
 

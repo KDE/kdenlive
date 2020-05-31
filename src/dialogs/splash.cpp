@@ -21,18 +21,31 @@
 
 #include "splash.hpp"
 #include <QStyle>
-#include <QStyleOptionProgressBar>
 
 Splash::Splash(const QPixmap &pixmap)
     : QSplashScreen(pixmap)
     , m_progress(0)
 {
+    // Set style for progressbar...
+    m_pbStyle.initFrom(this);
+    m_pbStyle.state = QStyle::State_Enabled;
+    m_pbStyle.textVisible = false;
+    m_pbStyle.minimum = 0;
+    m_pbStyle.maximum = 100;
+    m_pbStyle.progress = 0;
+    m_pbStyle.invertedAppearance = false;
+    m_pbStyle.rect = QRect(4, pixmap.height() - 24, pixmap.width() / 2, 20); // Where is it.
 }
 
 
-void Splash::showProgressMessage(const QString &message, int progress)
+void Splash::showProgressMessage(const QString &message, int progress, int max)
 {
-    m_progress = qBound(0, progress, 100);
+    if (max > -1) {
+        m_pbStyle.maximum = max;
+    }
+    if (progress > 0) {
+        m_progress++;
+    }
     if (!message.isEmpty()) {
         showMessage(message, Qt::AlignRight | Qt::AlignBottom, Qt::white);
     }
@@ -44,17 +57,10 @@ void Splash::drawContents(QPainter *painter)
   QSplashScreen::drawContents(painter);
 
   // Set style for progressbar...
-  QStyleOptionProgressBar pbstyle;
-  pbstyle.initFrom(this);
-  pbstyle.state = QStyle::State_Enabled;
-  pbstyle.textVisible = false;
-  pbstyle.minimum = 0;
-  pbstyle.maximum = 100;
-  pbstyle.progress = m_progress;
-  pbstyle.invertedAppearance = false;
-  pbstyle.rect = QRect(4, height() - 24, width() / 2, 20); // Where is it.
+  m_pbStyle.progress = m_progress;
+  //m_pbStyle.rect = QRect(4, height() - 24, width() / 2, 20); // Where is it.
 
   // Draw it...
-  style()->drawControl(QStyle::CE_ProgressBar, &pbstyle, painter, this);
+  style()->drawControl(QStyle::CE_ProgressBar, &m_pbStyle, painter, this);
 }
 

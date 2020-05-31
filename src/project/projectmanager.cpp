@@ -64,6 +64,7 @@ static QString getProjectNameFilters(bool ark=true) {
 ProjectManager::ProjectManager(QObject *parent)
     : QObject(parent)
     , m_mainTimelineModel(nullptr)
+    , m_loading(false)
 
 {
     m_fileRevert = KStandardAction::revert(this, SLOT(slotRevert()), pCore->window()->actionCollection());
@@ -101,6 +102,7 @@ ProjectManager::~ProjectManager() = default;
 
 void ProjectManager::slotLoadOnOpen()
 {
+    m_loading = true;
     if (m_startUrl.isValid()) {
         openFile();
     } else if (KdenliveSettings::openlastproject()) {
@@ -120,6 +122,8 @@ void ProjectManager::slotLoadOnOpen()
         pCore->bin()->droppedUrls(urls);
     }
     m_loadClipsOnOpen.clear();
+    m_loading = false;
+    pCore->closeSplash();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -522,11 +526,11 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     m_fileRevert->setEnabled(true);
 
     delete m_progressDialog;
-    m_progressDialog == nullptr;
+    m_progressDialog = nullptr;
     ThumbnailCache::get()->clearCache();
     pCore->monitorManager()->resetDisplay();
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    if (pCore->window()->isVisible()) {
+    if (!m_loading) {
         m_progressDialog = new QProgressDialog(pCore->window());
         m_progressDialog->setWindowTitle(i18n("Loading project"));
         m_progressDialog->setCancelButton(nullptr);
@@ -569,6 +573,8 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
     if (m_progressDialog) {
         m_progressDialog->setLabelText(i18n("Loading clips"));
         m_progressDialog->setMaximum(doc->clipsCount());
+    } else {
+        pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
     // TODO refac delete this

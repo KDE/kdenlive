@@ -1001,7 +1001,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 if (progressDialog) {
                     progressDialog->setValue(i);
                 } else {
-                    pCore->loadingMessageUpdated(QString(), 100 * i / max);
+                    pCore->loadingMessageUpdated(QString(), 1);
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 if (prod->is_blank() || !prod->is_valid()) {
