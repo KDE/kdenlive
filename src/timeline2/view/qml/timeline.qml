@@ -1284,7 +1284,7 @@ Rectangle {
                 color: 'red'
                 width: Math.max(1, 1 * timeline.scaleFactor)
                 opacity: (width > 2) ? 0.5 : 1
-                height: root.height - vertScroll.height - ruler.height
+                height: tracksContainerArea.height
                 x: 0
                 //x: root.consumerPosition * timeline.scaleFactor - scrollView.contentX
                 y: ruler.height

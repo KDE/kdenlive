@@ -131,7 +131,8 @@ Item {
         id: mouseArea
         anchors.fill: displayRect
         acceptedButtons: Qt.RightButton
-        hoverEnabled: true
+        enabled: root.activeTool === 0
+        hoverEnabled: root.activeTool === 0
         Keys.onShortcutOverride: event.accepted = compositionRoot.isGrabbed && (event.key === Qt.Key_Left || event.key === Qt.Key_Right || event.key === Qt.Key_Up || event.key === Qt.Key_Down || event.key === Qt.Key_Escape)
         Keys.onLeftPressed: {
             var offset = event.modifiers === Qt.ShiftModifier ? timeline.fps() : 1
@@ -304,6 +305,7 @@ Item {
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
+            visible: root.activeTool === 0
 
             onPressed: {
                 root.autoScrolling = false
@@ -354,6 +356,7 @@ Item {
             drag.target: parent
             drag.axis: Drag.XAxis
             drag.smoothed: false
+            visible: root.activeTool === 0
 
             onPressed: {
                 root.autoScrolling = false

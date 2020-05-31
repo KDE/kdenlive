@@ -385,6 +385,7 @@ Rectangle {
                 x: -clipRoot.border.width
                 height: parent.height
                 width: root.baseUnit / 2
+                visible: root.activeTool === 0
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 hoverEnabled: true
                 drag.target: trimInMouseArea
@@ -473,6 +474,7 @@ Rectangle {
                 height: parent.height
                 width: root.baseUnit / 2
                 hoverEnabled: true
+                visible: root.activeTool === 0
                 enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
                 property bool shiftTrim: false
                 property bool controlTrim: false
