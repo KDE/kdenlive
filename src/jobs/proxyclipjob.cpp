@@ -281,7 +281,7 @@ bool ProxyJob::startJob()
         }
 
         // Make sure we keep the stream order
-        parameters << QStringLiteral("-map") << QStringLiteral("0");
+        parameters << QStringLiteral("-sn") << QStringLiteral("-dn") << QStringLiteral("-map") << QStringLiteral("0");
         parameters << dest;
         qDebug()<<"/// FULL PROXY PARAMS:\n"<<parameters<<"\n------";
         m_jobProcess = new QProcess;
