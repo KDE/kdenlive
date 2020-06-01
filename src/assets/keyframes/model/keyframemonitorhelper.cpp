@@ -55,7 +55,7 @@ void KeyframeMonitorHelper::addIndex(const QPersistentModelIndex &index)
     m_indexes << index;
 }
 
-void KeyframeMonitorHelper::refreshParams(int pos)
+void KeyframeMonitorHelper::refreshParams(int /* pos */ )
 {
     QVariantList points;
     QVariantList types;

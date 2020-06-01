@@ -919,12 +919,11 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
     }
     Mlt::Properties mlt_prop;
     QString animData;
-    int in = 0;
     int out = 0;
     bool useOpacity = false;
     if (auto ptr = m_model.lock()) {
         ptr->passProperties(mlt_prop);
-        in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
+        ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
         out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();

@@ -2807,7 +2807,6 @@ void TimelineController::updateClipActions()
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
     }
-    bool enablePositionActions = positionIsInItem(item);
     for (QAction *act : clipActions) {
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
