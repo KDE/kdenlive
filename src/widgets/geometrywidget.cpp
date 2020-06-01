@@ -241,14 +241,18 @@ void GeometryWidget::slotFitToHeight()
 }
 void GeometryWidget::slotResize(double value)
 {
-    m_spinWidth->blockSignals(true);
-    m_spinHeight->blockSignals(true);
-    int w = m_originalSize->isChecked() ? m_sourceSize.width() : m_defaultSize.width();
-    int h = m_originalSize->isChecked() ? m_sourceSize.height() : m_defaultSize.height();
-    m_spinWidth->setValue(w * value / 100.0);
-    m_spinHeight->setValue(h * value / 100.0);
-    m_spinWidth->blockSignals(false);
-    m_spinHeight->blockSignals(false);
+    QSignalBlocker bkh(m_spinHeight);
+    QSignalBlocker bkw(m_spinWidth);
+    QSignalBlocker bkx(m_spinX);
+    QSignalBlocker bky(m_spinY);
+    int w = (m_originalSize->isChecked() ? m_sourceSize.width() : m_defaultSize.width()) * value / 100.0;
+    int h = (m_originalSize->isChecked() ? m_sourceSize.height() : m_defaultSize.height()) * value / 100.0;
+    int delta_x = (m_spinWidth->value() - w) / 2;
+    int delta_y = (m_spinHeight->value() - h) / 2;
+    m_spinWidth->setValue(w);
+    m_spinHeight->setValue(h);
+    m_spinX->setValue(m_spinX->value() + delta_x);
+    m_spinY->setValue(m_spinY->value() + delta_y);
     slotAdjustRectKeyframeValue();
 }
 
