@@ -138,7 +138,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
 QString ClipCreator::createClipFromFile(const QString &path, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model, Fun &undo, Fun &redo,
                                         const std::function<void(const QString &)> &readyCallBack)
 {
-    qDebug() << "/////////// createClipFromFile" << path << parentFolder << path;
+    qDebug() << "/////////// createClipFromFile" << path << parentFolder;
     QDomDocument xml = getXmlFromUrl(path);
     if (xml.isNull()) {
         return QStringLiteral("-1");
