@@ -48,8 +48,20 @@ void LayoutManagement::initializeLayouts()
     if (m_loadLayout == nullptr || saveLayout == nullptr) {
         return;
     }
-    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layoutGroup(config, "Layouts");
+    // If we don't have any layout saved, check in main config file
+    if (!layoutGroup.exists()) {
+        config = KSharedConfig::openConfig();
+        KConfigGroup layoutGroup2(config, "Layouts");
+        if (layoutGroup2.exists()) {
+            // Migrate to new config file
+            layoutGroup2.copyTo(&layoutGroup);
+        }
+    }
+    if (!layoutGroup.exists()) {
+        return;
+    }
     QStringList entries = layoutGroup.keyList();
     QList<QAction *> loadActions = m_loadLayout->actions();
     QList<QAction *> saveActions = saveLayout->actions();
@@ -89,7 +101,7 @@ void LayoutManagement::slotLoadLayout(QAction *action)
         return;
     }
 
-    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layouts(config, "Layouts");
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
     pCore->window()->restoreState(state);
@@ -105,7 +117,7 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     if (layoutName.isEmpty()) {
         return;
     }
-    KSharedConfigPtr config = KSharedConfig::openConfig();
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layouts(config, "Layouts");
     layouts.deleteEntry(originallayoutName);
 
