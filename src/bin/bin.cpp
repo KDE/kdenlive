@@ -613,6 +613,10 @@ bool MyTreeView::isEditing() const
 void MyTreeView::setEditing(bool edit)
 {
     setState(edit ? QAbstractItemView::EditingState : QAbstractItemView::NoState);
+    if (!edit) {
+        // Ensure edited item is selected
+        emit selectCurrent();
+    }
 }
 
 bool MyTreeView::performDrag()
@@ -1742,15 +1746,16 @@ void Bin::slotAddFolder()
     if (m_listType == BinTreeView) {
         // Make sure parent folder is expanded
         if (parentFolder->clipId().toInt() > -1) {
-            auto ix = m_itemModel->getIndexFromItem(parentFolder);
+            auto parentIx = m_itemModel->getIndexFromItem(parentFolder);
             auto *view = static_cast<QTreeView *>(m_itemView);
-            view->expand(m_proxyModel->mapFromSource(ix));
+            view->expand(m_proxyModel->mapFromSource(parentIx));
         }
     }
 
     // Edit folder name
     auto folder = m_itemModel->getFolderByBinId(newId);
     auto ix = m_itemModel->getIndexFromItem(folder);
+    
     // Scroll to ensure folder is visible
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
     qDebug() << "selecting" << ix;
@@ -1765,6 +1770,17 @@ void Bin::slotAddFolder()
                                                    QItemSelectionModel::Select);
         }
         m_itemView->edit(m_proxyModel->mapFromSource(ix));
+    }
+}
+
+void Bin::ensureCurrent()
+{
+    const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedRows(0);
+    for (const QModelIndex &ix : indexes) {
+        if (!ix.isValid()) {
+            continue;
+        }
+        m_itemView->setCurrentIndex(ix);
     }
 }
 
@@ -2016,6 +2032,7 @@ void Bin::slotInitView(QAction *action)
         view->setWordWrap(true);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
         connect(view, &MyTreeView::processDragEnd, this, &Bin::processDragEnd);
+        connect(view, &MyTreeView::selectCurrent, this, &Bin::ensureCurrent);
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);

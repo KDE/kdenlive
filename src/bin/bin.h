@@ -117,6 +117,7 @@ signals:
     void updateDragMode(PlaylistState::ClipState type);
     void displayBinFrame(QModelIndex ix, int frame);
     void processDragEnd();
+    void selectCurrent();
 };
 
 class SmallJobLabel : public QPushButton
@@ -288,6 +289,8 @@ private slots:
     void slotSetSorting();
     /** @brief Show/hide date column */
     void slotShowColumn(bool show);
+    /** @brief Ensure current item is selected */
+    void ensureCurrent();
     /** @brief Go to parent folder */
     void slotBack();
     /** @brief Setup the bin view type (icon view, tree view, ...).
