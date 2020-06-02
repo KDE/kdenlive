@@ -258,10 +258,12 @@ Rectangle {
         root.moveSelectedTrack(-1)
     }
 
-    property int headerWidth: timeline.headerWidth()
     property int activeTool: 0
     property real baseUnit: fontMetrics.font.pixelSize
     property real fontUnit: fontMetrics.font.pointSize
+    property int collapsedHeight: Math.max(28, baseUnit * 1.8)
+    property int minHeaderWidth: 6 * collapsedHeight
+    property int headerWidth: Math.max(minHeaderWidth, timeline.headerWidth())
     property color selectedTrackColor: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.2)
     property color frameColor: Qt.rgba(activePalette.shadow.r, activePalette.shadow.g, activePalette.shadow.b, 0.3)
     property bool autoScrolling: timeline.autoScroll
@@ -298,7 +300,6 @@ Rectangle {
     property int scrollMin: scrollView.contentX / timeline.scaleFactor
     property int scrollMax: scrollMin + scrollView.contentItem.width / timeline.scaleFactor
     property double dar: 16/9
-    property int collapsedHeight: Math.max(28, baseUnit * 1.8)
     property bool paletteUnchanged: true
 
     onSeekingFinishedChanged : {
@@ -747,7 +748,7 @@ Rectangle {
                             cursorShape: Qt.SizeHorCursor
                             drag.target: parent
                             drag.axis: Drag.XAxis
-                            drag.minimumX: 2 * baseUnit
+                            drag.minimumX: root.minHeaderWidth
                             property double startX
                             property double originalX
                             drag.smoothed: false
@@ -764,7 +765,7 @@ Rectangle {
                             onPositionChanged: {
                                 if (mouse.buttons === Qt.LeftButton) {
                                     parent.opacity = 0.5
-                                    headerWidth = Math.max(10, mapToItem(null, x, y).x + 2)
+                                    headerWidth = Math.max( root.minHeaderWidth, mapToItem(null, x, y).x + 2)
                                     timeline.setHeaderWidth(headerWidth)
                                 }
                             }

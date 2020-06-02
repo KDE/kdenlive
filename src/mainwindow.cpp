@@ -1782,10 +1782,6 @@ bool MainWindow::readOptions()
         int trackHeight = qMax(50, (int) (2.2 * baseUnit + 6));
         KdenliveSettings::setTrackheight(trackHeight);
     }
-    if (KdenliveSettings::headerwidth() == 0) {
-        int trackWidth = qMax(50, 6 * (baseUnit + 2));
-        KdenliveSettings::setHeaderwidth(trackWidth);
-    }
     bool firstRun = false;
     KConfigGroup initialGroup(config, "version");
     if (!initialGroup.exists() || KdenliveSettings::sdlAudioBackend().isEmpty()) {
