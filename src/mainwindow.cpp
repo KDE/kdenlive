@@ -4070,6 +4070,11 @@ void MainWindow::slotExpandClip()
     getCurrentTimeline()->controller()->expandActiveClip();
 }
 
+bool MainWindow::timelineVisible() const
+{
+    return !centralWidget()->isHidden();
+}
+
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

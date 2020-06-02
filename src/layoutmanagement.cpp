@@ -104,6 +104,12 @@ void LayoutManagement::slotLoadLayout(QAction *action)
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layouts(config, "Layouts");
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
+    bool timelineVisible = true;
+    if (state.startsWith("NO-TL")) {
+        timelineVisible = false;
+        state.remove(0, 5);
+    }
+    pCore->window()->centralWidget()->setHidden(!timelineVisible);
     pCore->window()->restoreState(state);
 }
 
@@ -122,6 +128,9 @@ void LayoutManagement::slotSaveLayout(QAction *action)
     layouts.deleteEntry(originallayoutName);
 
     QByteArray st = pCore->window()->saveState();
+    if (!pCore->window()->timelineVisible()) {
+        st.prepend("NO-TL");
+    }
     layoutName.append('_' + QString::number(layoutId));
     layouts.writeEntry(layoutName, st.toBase64());
     initializeLayouts();

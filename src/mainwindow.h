@@ -128,6 +128,9 @@ public:
 
     /** @brief Returns a pointer to the current timeline */
     TimelineWidget *getCurrentTimeline() const;
+    
+    /** @brief Returns true if the timeline widget is visible */
+    bool timelineVisible() const;
 
 protected:
     /** @brief Closes the window.
