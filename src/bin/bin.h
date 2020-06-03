@@ -196,6 +196,8 @@ public:
 
     /** @brief Get a clip from it's id */
     std::shared_ptr<ProjectClip> getBinClip(const QString &id);
+    /** @brief Get a clip's name from it's id */
+    const QString getBinClipName(const QString &id) const;
 
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"

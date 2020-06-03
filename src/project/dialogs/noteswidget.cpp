@@ -65,8 +65,12 @@ void NotesWidget::mousePressEvent(QMouseEvent *e)
         QTextEdit::mousePressEvent(e);
         return;
     }
-    // qCDebug(KDENLIVE_LOG)<<"+++++++++\nCLICKED NACHOR: "<<anchor;
-    emit seekProject(anchor.toInt());
+    if (anchor.contains(QLatin1Char('#'))) {
+        // That's a Bin Clip reference.
+        pCore->selectBinClip(anchor.section(QLatin1Char('#'), 0, 0), anchor.section(QLatin1Char('#'), 1).toInt(), QPoint());
+    } else {
+        emit seekProject(anchor.toInt());
+    }
     e->setAccepted(true);
 }
 

@@ -42,9 +42,22 @@ void NotesPlugin::showDock()
 
 void NotesPlugin::slotInsertTimecode()
 {
-    int frames = pCore->monitorManager()->projectMonitor()->position();
-    QString position = pCore->timecode().getTimecodeFromFrames(frames);
-    m_widget->insertHtml(QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + position + QStringLiteral("</a> "));
+    if (pCore->monitorManager()->isActive(Kdenlive::ClipMonitor)) {
+        // Add a note on the current bin clip
+        int frames = pCore->monitorManager()->clipMonitor()->position();
+        QString position = pCore->timecode().getTimecodeFromFrames(frames);
+        QString binId = pCore->monitorManager()->clipMonitor()->activeClipId();
+        if (binId.isEmpty()) {
+            pCore->displayMessage(i18n("Cannot add note, no clip selected in project bin"), InformationMessage);
+            return;
+        }
+        QString clipName = pCore->bin()->getBinClipName(binId);
+        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3(%4)</a> ").arg(binId).arg(frames).arg(clipName).arg(position));
+    } else {
+        int frames = pCore->monitorManager()->projectMonitor()->position();
+        QString position = pCore->timecode().getTimecodeFromFrames(frames);
+        m_widget->insertHtml(QStringLiteral("<a href=\"") + QString::number(frames) + QStringLiteral("\">") + position + QStringLiteral("</a> "));
+    }
 }
 
 NotesWidget *NotesPlugin::widget()
