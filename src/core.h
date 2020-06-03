@@ -224,6 +224,8 @@ public:
     bool enableMultiTrack(bool enable);
     /** @brief Returns number of audio channels for this project. */
     int audioChannels();
+    /** @brief Add guides in the project. */
+    void addGuides(QList <int> guides);
 
 private:
     explicit Core();

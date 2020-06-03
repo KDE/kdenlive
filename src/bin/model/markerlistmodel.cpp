@@ -95,6 +95,32 @@ bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type, F
     return false;
 }
 
+bool MarkerListModel::addMarkers(QMap <GenTime, QString> markers, int type)
+{
+    QWriteLocker locker(&m_lock);
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    QMapIterator<GenTime, QString> i(markers);
+    bool rename = false;
+    bool res = true;
+    while (i.hasNext() && res) {
+        i.next();
+        if (m_markerList.count(i.key()) > 0) {
+            rename = true;
+        }
+        res = addMarker(i.key(), i.value(), type, undo, redo);
+    }
+    if (res) {
+        if (rename) {
+            PUSH_UNDO(undo, redo, m_guide ? i18n("Rename guide") : i18n("Rename marker"));
+        } else {
+            PUSH_UNDO(undo, redo, m_guide ? i18n("Add guide") : i18n("Add marker"));
+        }
+    }
+    return res;
+}
+
 bool MarkerListModel::addMarker(GenTime pos, const QString &comment, int type)
 {
     QWriteLocker locker(&m_lock);

@@ -928,3 +928,13 @@ int Core::audioChannels()
     }
     return 2;
 }
+
+void Core::addGuides(QList <int> guides)
+{
+    QMap <GenTime, QString> markers;
+    for (int pos : guides) {
+        GenTime p(pos, pCore->getCurrentFps());
+        markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+    }
+    pCore->currentDoc()->getGuideModel()->addMarkers(markers);
+}

@@ -199,6 +199,9 @@ public:
     /** @brief Get a clip's name from it's id */
     const QString getBinClipName(const QString &id) const;
 
+    /** @brief Add markers on clip @param binId at @param positions */ 
+    void addClipMarker(const QString binId, QList<int> positions);
+
     /** @brief Returns a list of selected clip ids.
      *  @param allowSubClips: if true, will include subclip ids in the form: "master clip id/in/out"
      */

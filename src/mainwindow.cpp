@@ -1637,7 +1637,7 @@ void MainWindow::setupActions()
     connect(switchTrackTarget, &QAction::triggered, this, &MainWindow::slotSwitchTrackAudioStream);
     timelineActions->addAction(QStringLiteral("switch_target_stream"), switchTrackTarget);
     actionCollection()->setDefaultShortcut(switchTrackTarget, Qt::Key_Apostrophe);
-    
+
     QAction *deleteTrack = new QAction(QIcon(), i18n("Delete Track"), this);
     connect(deleteTrack, &QAction::triggered, this, &MainWindow::slotDeleteTrack);
     timelineActions->addAction(QStringLiteral("delete_track"), deleteTrack);
@@ -1737,7 +1737,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
               Qt::SHIFT + Qt::ALT + Qt::Key_A);
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
-              QIcon::fromTheme(QStringLiteral("bookmark")));
+              QIcon::fromTheme(QStringLiteral("bookmark-new")));
 
     pCore->bin()->setupMenu();
 
@@ -2559,15 +2559,7 @@ void MainWindow::slotAddMarkerGuideQuickly()
     }
 
     if (m_clipMonitor->isActive()) {
-        std::shared_ptr<ProjectClip> clip(m_clipMonitor->currentController());
-        GenTime pos(m_clipMonitor->position(), pCore->getCurrentFps());
-
-        if (!clip) {
-            m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
-            return;
-        }
-        CommentedTime marker(pos, pCore->currentDoc()->timecode().getDisplayTimecode(pos, false), KdenliveSettings::default_marker_type());
-        clip->getMarkerModel()->addMarker(marker.time(), marker.comment(), marker.markerType());
+        pCore->bin()->addClipMarker(m_clipMonitor->activeClipId(), {m_clipMonitor->position()});
     } else {
         int selectedClip = getMainTimeline()->controller()->getMainSelectedItem();
         if (selectedClip == -1) {

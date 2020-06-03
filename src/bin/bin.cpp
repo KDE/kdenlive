@@ -4156,3 +4156,18 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         m_infoMessage->animatedHide();
     }
 }
+
+void Bin::addClipMarker(const QString binId, QList<int> positions)
+{
+    std::shared_ptr<ProjectClip> clip = getBinClip(binId);
+    if (!clip) {
+        pCore->displayMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
+        return;
+    }
+    QMap <GenTime, QString> markers;
+    for (int pos : positions) {
+        GenTime p(pos, pCore->getCurrentFps());
+        markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
+    }
+    clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
+}

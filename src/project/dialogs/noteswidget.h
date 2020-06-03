@@ -41,13 +41,21 @@ protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mousePressEvent(QMouseEvent *e) override;
     void insertFromMimeData(const QMimeData *source) override;
+    void contextMenuEvent(QContextMenuEvent *event) override;
 
-private slots:
-    void slotFillNotesMenu(const QPoint &pos);
+public slots:
+    void createMarkers();
+    void assignProjectNote();
+
+private:
+    QAction *m_markerAction;
+    void createMarker(QStringList anchors);
+    QPair <QStringList, QList <QPoint> > getSelectedAnchors();
 
 signals:
     void insertNotesTimecode();
     void seekProject(int);
+    void reAssign(QStringList anchors, QList <QPoint> points);
 };
 
 #endif

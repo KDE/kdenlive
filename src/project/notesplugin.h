@@ -17,6 +17,7 @@ class NotesWidget;
 class KdenliveDoc;
 class ProjectManager;
 class QDockWidget;
+class QToolBar;
 
 /**
  * @class NotesPlugin
@@ -39,10 +40,13 @@ private slots:
     void setProject(KdenliveDoc *document);
     /** @brief Insert current timecode/cursor position into the widget. */
     void slotInsertTimecode();
+    /** @brief Re-assign timestamps to current Bin Clip. */
+    void slotReAssign(QStringList anchors, QList <QPoint> points);
 
 private:
     NotesWidget *m_widget;
     QDockWidget *m_notesDock;
+    QToolBar *m_tb;
 };
 
 #endif
