@@ -1,0 +1,100 @@
+<gui name="kdenlive" version="1">
+  <ActionProperties>
+    <Action name="file_open" shortcut="Ctrl+O"/>
+    <Action name="file_save_as" shortcut="Ctrl+Shift+S"/>
+    <Action name="file_new" shortcut="Ctrl+N"/>
+    <Action name="monitor_play" shortcut="Space"/>
+    <Action name="monitor_pause" shortcut="K"/>
+    <Action name="monitor_fullscreen" shortcut="`"/>
+    <Action name="monitor_seek_backward" shortcut="J"/>
+    <Action name="monitor_seek_backward-one-frame" shortcut="Left"/>
+    <Action name="monitor_seek_backward-one-second" shortcut="Shift+Left"/>
+    <Action name="monitor_seek_forward" shortcut="L"/>
+    <Action name="seek_start" shortcut="Ctrl+Home"/>
+    <Action name="seek_end" shortcut="Ctrl+End"/>
+    <Action name="monitor_seek_forward-one-frame" shortcut="Right"/>
+    <Action name="monitor_seek_forward-one-second" shortcut="Shift+Right"/>
+    <Action name="seek_zone_start" shortcut="Shift+I"/>
+    <Action name="seek_zone_end" shortcut="Shift+O"/>
+    <Action name="mark_in" shortcut="I"/>
+    <Action name="mark_out" shortcut="O"/>
+    <Action name="collapse_expand" shortcut="&lt;"/>
+    <Action name="view_zoom_in" shortcut="=; Ctrl+="/>
+    <Action name="view_zoom_out" shortcut="-"/>
+    <Action name="select_tool" shortcut="V"/>
+    <Action name="razor_tool" shortcut="C"/>
+    <Action name="spacer_tool" shortcut="A"/>
+    <Action name="automatic_transition" shortcut="Ctrl+D"/>
+    <Action name="zoom_fit" shortcut="\"/>
+    <Action name="project_render" shortcut="Ctrl+Return"/>
+    <Action name="monitor_play_zone" shortcut="Ctrl+Space"/>
+    <Action name="monitor_loop_zone" shortcut="Alt+Space"/>
+    <Action name="import_project" shortcut="Ctrl+I"/>
+    <Action name="switch_monitor" shortcut="T"/>
+    <Action name="monitor_seek_snap_backward" shortcut="Alt+Left"/>
+    <Action name="monitor_seek_guide_backward" shortcut="Ctrl+Left"/>
+    <Action name="seek_clip_start" shortcut="Up"/>
+    <Action name="seek_clip_end" shortcut="Down"/>
+    <Action name="monitor_seek_snap_forward" shortcut="Alt+Right"/>
+    <Action name="monitor_seek_guide_forward" shortcut="Ctrl+Right"/>
+    <Action name="align_playhead" shortcut="P"/>
+    <Action name="grab_item" shortcut="Shift+G"/>
+    <Action name="overwrite_to_in_point" shortcut="."/>
+    <Action name="insert_to_in_point" shortcut=","/>
+    <Action name="remove_extract" shortcut="Shift+X"/>
+    <Action name="remove_lift" shortcut="Z"/>
+    <Action name="prerender_timeline_zone" shortcut="Return"/>
+    <Action name="select_timeline_clip" shortcut="+"/>
+    <Action name="select_add_timeline_clip" shortcut="Alt++"/>
+    <Action name="select_timeline_transition" shortcut="Shift++"/>
+    <Action name="deselect_timeline_transition" shortcut="Shift+-"/>
+    <Action name="select_add_timeline_transition" shortcut="Shift+D"/>
+    <Action name="add_marker_guide_quickly" shortcut="M"/>
+    <Action name="add_clip_marker" shortcut="Ctrl+1"/>
+    <Action name="edit_item_speed" shortcut="Ctrl+R"/>
+    <Action name="cut_timeline_clip" shortcut="Ctrl+K"/>
+    <Action name="delete_timeline_clip" shortcut="Del"/>
+    <Action name="resize_timeline_clip_start" shortcut="Q"/>
+    <Action name="resize_timeline_clip_end" shortcut="W"/>
+    <Action name="paste_effects" shortcut="Ctrl+Alt+V"/>
+    <Action name="group_clip" shortcut="Ctrl+G"/>
+    <Action name="ungroup_clip" shortcut="Ctrl+Shift+G"/>
+    <Action name="edit_copy" shortcut="Ctrl+C; Ctrl+Ins"/>
+    <Action name="edit_paste" shortcut="Ctrl+V; Shift+Ins"/>
+    <Action name="select_all_tracks" shortcut="Ctrl+A"/>
+    <Action name="unselect_all_tracks" shortcut="Ctrl+Shift+A"/>
+    <Action name="file_save" shortcut="Ctrl+S"/>
+    <Action name="options_show_menubar" shortcut="Ctrl+M"/>
+    <Action name="file_quit" shortcut="Ctrl+Q"/>
+    <Action name="options_configure" shortcut="Ctrl+Shift+,"/>
+    <Action name="fullscreen" shortcut="Ctrl+Shift+F"/>
+    <Action name="edit_undo" shortcut="Ctrl+Z"/>
+    <Action name="edit_redo" shortcut="Ctrl+Shift+Z"/>
+    <Action name="switch_track_lock" shortcut="Shift+L"/>
+    <Action name="switch_all_track_lock" shortcut="Ctrl+Shift+L"/>
+    <Action name="switch_track_target" shortcut="Shift+T"/>
+    <Action name="switch_all_targets" shortcut="Shift+A"/>
+    <Action name="activate_all_targets" shortcut="Alt+Shift+A"/>
+    <Action name="add_text_clip" shortcut="Ctrl+T"/>
+    <Action name="duplicate_clip" shortcut="Ctrl+?"/>
+    <Action name="clip_properties" shortcut="Ctrl+Shift+H"/>
+    <Action name="renamefile" shortcut="F2"/>
+    <Action name="go_up" shortcut="Alt+Up"/>
+    <Action name="extract_frame" shortcut="S"/>
+    <Action name="audiomixer_button" shortcut="("/>
+    <Action name="transition_gain" shortcut="G"/>
+    <Action name="load_layout1" shortcut="Ctrl+!"/>
+    <Action name="load_layout2" shortcut="Ctrl+@"/>
+    <Action name="load_layout3" shortcut="Ctrl+#"/>
+    <Action name="load_layout4" shortcut="Ctrl+$"/>
+    <Action name="Timeline" shortcut="#"/>
+    <Action name="Screen Grab" shortcut="F5"/>
+    <Action name="Project Bin" shortcut="!"/>
+    <Action name="Effect/Composition Stack" shortcut="%"/>
+    <Action name="Effects" shortcut="&amp;"/>
+    <Action name="Clip Monitor" shortcut="@"/>
+    <Action name="Project Monitor" shortcut="$"/>
+    <Action name="help_contents" shortcut="F1"/>
+    <Action name="help_whats_this" shortcut="Shift+F1"/>
+  </ActionProperties>
+</gui>
