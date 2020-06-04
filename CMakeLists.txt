@@ -18,13 +18,6 @@ if(POLICY CMP0053)
     cmake_policy(SET CMP0053 NEW)
 endif()
 
-if(BUILD_FUZZING)
-  set(CMAKE_CXX_FLAGS "${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
-endif()
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option")
-endif()
-
 # To be switched on when releasing.
 option(RELEASE_BUILD "Remove Git revision from program version" ON)
 option(BUILD_TESTING "Build tests" ON)
@@ -125,7 +118,15 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 set(FFMPEG_SUFFIX "" CACHE STRING "FFmpeg custom suffix")
 configure_file(config-kdenlive.h.cmake config-kdenlive.h @ONLY)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wno-suggest-override")
+set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
+
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unknown-warning-option")
+endif()
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-suggest-override")
+    set(KDENLIVE_CXX_FLAGS  "${DEFAULT_CXX_FLAGS} -Wall -pedantic -Wextra")
+endif()
 
 # Sources
 add_subdirectory(src)
@@ -143,31 +144,11 @@ else()
     install(FILES kdenlive.categories DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 endif()
 
-############################
 # Tests
-############################
-
 if(BUILD_TESTING)
-    message(STATUS "Building tests")
     add_subdirectory(tests)
-
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -fexceptions")
-    include_directories(
-        ${CMAKE_BINARY_DIR}
-        ${CMAKE_BINARY_DIR}/src
-        ${MLT_INCLUDE_DIR}
-        ${MLTPP_INCLUDE_DIR}
-        src)
-    add_executable(runTests ${Tests_SRCS})
-    set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
-    target_link_libraries(runTests kdenliveLib)
-    add_test(NAME runTests COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/runTests -d yes)
 endif()
-
-if(BUILD_FUZZING)
-    message(STATUS "Building fuzzing")
-	set(CMAKE_CXX_COMPILER /usr/bin/clang++)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDENLIVE_CXX_FLAGS} -fsanitize=fuzzer-no-link,address")
+if(BUILD_FUZZING AND ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang"))
     add_subdirectory(fuzzer)
 endif()
 

@@ -1,35 +1,24 @@
-############################
-# Tests
-############################
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall -fexceptions")
-string (REPLACE "-std=gnu++11" "" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-
-
-SET(Tests_SRCS
-    tests/TestMain.cpp
-    tests/abortutil.cpp
-    tests/compositiontest.cpp
-    tests/effectstest.cpp
-    tests/groupstest.cpp
-    tests/keyframetest.cpp
-    tests/markertest.cpp
-    tests/modeltest.cpp
-    tests/regressions.cpp
-    tests/snaptest.cpp
-    tests/test_utils.cpp
-    tests/timewarptest.cpp
-    tests/treetest.cpp
-    tests/trimmingtest.cpp
-    PARENT_SCOPE
+if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
+endif()
+set(Tests_SRCS
+    TestMain.cpp
+    abortutil.cpp
+    compositiontest.cpp
+    effectstest.cpp
+    groupstest.cpp
+    keyframetest.cpp
+    markertest.cpp
+    modeltest.cpp
+    regressions.cpp
+    snaptest.cpp
+    test_utils.cpp
+    timewarptest.cpp
+    treetest.cpp
+    trimmingtest.cpp
 )
-
-include_directories(
-    ${CMAKE_BINARY_DIR}
-    ${CMAKE_BINARY_DIR}/src
-    ${MLT_INCLUDE_DIR}
-    ${MLTPP_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/external
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib
-    ../src
-    )
-
+include_directories(${MLT_INCLUDE_DIR} ..)
+add_executable(runTests ${Tests_SRCS})
+set_property(TARGET runTests PROPERTY CXX_STANDARD 14)
+target_link_libraries(runTests kdenliveLib)
+add_test(NAME runTests COMMAND ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/runTests -d yes)
