@@ -802,7 +802,7 @@ Rectangle {
             }
             onPressed: {
                 focus = true
-                shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height)
+                shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
                 if (mouse.buttons === Qt.MidButton || (root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress)) {
                     clickX = mouseX
                     clickY = mouseY
@@ -1095,7 +1095,7 @@ Rectangle {
                                     enabled: root.activeTool == 0
                                     onPressed: {
                                         console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
-                                        if (mouse.modifiers & Qt.ControlModifier || mouse.modifiers & Qt.ShiftModifier) {
+                                        if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
                                             console.log('+++++++++++++++++++ Shift abort+++++++++++++')
                                             return
@@ -1106,7 +1106,7 @@ Rectangle {
                                             return
                                         }
                                         dragFrame = -1
-                                        moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier)
+                                        moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && !(mouse.modifiers == (Qt.ShiftModifier | Qt.AltModifier))
                                         timeline.activeTrack = dragProxy.sourceTrack
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
                                             controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
