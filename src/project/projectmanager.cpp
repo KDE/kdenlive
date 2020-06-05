@@ -586,6 +586,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
+    doc->loadDocumentGuides();
 
     if (!updateTimeline(m_project->getDocumentProperty(QStringLiteral("position")).toInt())) {
         delete m_progressDialog;

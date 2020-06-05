@@ -1275,6 +1275,14 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
     return m_documentProperties;
 }
 
+void KdenliveDoc::loadDocumentGuides()
+{
+    QString guides = m_documentProperties.value(QStringLiteral("guides"));
+    if (!guides.isEmpty()) {
+        m_guideModel->importFromJson(guides, true);
+    }
+}
+
 void KdenliveDoc::loadDocumentProperties()
 {
     QDomNodeList list = m_document.elementsByTagName(QStringLiteral("playlist"));
@@ -1303,12 +1311,6 @@ void KdenliveDoc::loadDocumentProperties()
                         value.prepend(m_documentRoot);
                     }
                     m_documentProperties.insert(name, value);
-                } else if (name == QStringLiteral("guides")) {
-                    QString guides = e.firstChild().nodeValue();
-                    if (!guides.isEmpty()) {
-                        QMetaObject::invokeMethod(m_guideModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, guides), Q_ARG(bool, true),
-                                                  Q_ARG(bool, false));
-                    }
                 } else {
                     m_documentProperties.insert(name, e.firstChild().nodeValue());
                 }

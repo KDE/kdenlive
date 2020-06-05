@@ -100,6 +100,8 @@ public:
     QPoint zone() const;
     /** @brief Returns target tracks (video, audio). */
     QPair<int, int> targetTracks() const;
+    /** @brief Load document guides from properties. */
+    void loadDocumentGuides();
     void setDocumentProperty(const QString &name, const QString &value);
     virtual const QString getDocumentProperty(const QString &name, const QString &defaultValue = QString()) const;
 
