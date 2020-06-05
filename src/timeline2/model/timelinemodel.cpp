@@ -3157,8 +3157,8 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         Mlt::Transition &transition = *m_allCompositions[compo.second].get();
         transition.set_tracks(aTrack, compo.first);
         int ret = field->plant_transition(transition, aTrack, compo.first);
-        qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
-                 << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;
+        /*qDebug() << "Planting composition " << compo.second << "in " << aTrack << "/" << compo.first << "IN = " << m_allCompositions[compo.second]->getIn()
+                 << "OUT = " << m_allCompositions[compo.second]->getOut() << "ret=" << ret;*/
 
         mlt_service consumer = mlt_service_consumer(transition.get_service());
         Q_ASSERT(consumer != nullptr);
@@ -3182,7 +3182,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
 
 bool TimelineModel::unplantComposition(int compoId)
 {
-    qDebug() << "Unplanting" << compoId;
+    //qDebug() << "Unplanting" << compoId;
     Mlt::Transition &transition = *m_allCompositions[compoId].get();
     mlt_service consumer = mlt_service_consumer(transition.get_service());
     Q_ASSERT(consumer != nullptr);
