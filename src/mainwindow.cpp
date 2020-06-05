@@ -287,7 +287,10 @@ void MainWindow::init()
     connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteGuide);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
-    connect(m_loopClip, &QAction::triggered, m_projectMonitor, &Monitor::slotLoopClip);
+    connect(m_loopClip, &QAction::triggered, [&]() {
+        QPoint inOut = getMainTimeline()->controller()->selectionInOut();
+        m_projectMonitor->slotLoopClip(inOut);
+    });
 
     pCore->monitorManager()->initMonitors(m_clipMonitor, m_projectMonitor);
     connect(m_clipMonitor, &Monitor::addMasterEffect, pCore->bin(), &Bin::slotAddEffect);
@@ -2128,8 +2131,10 @@ void MainWindow::connectDocument()
     m_projectMonitor->slotLoadClipZone(project->zone());
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getMainTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
-    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, pCore->library(), &LibraryWidget::enableAddSelection,
-            Qt::UniqueConnection);
+    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, [&] (bool selected) {
+        m_loopClip->setEnabled(selected);
+        pCore->library()->enableAddSelection(selected);
+    });
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
             Qt::UniqueConnection);
     connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {

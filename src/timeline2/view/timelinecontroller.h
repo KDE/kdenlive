@@ -542,6 +542,8 @@ public:
 
     /** @brief Add tracks to project */
     void addTracks(int videoTracks, int audioTracks);
+    /** @brief Get in/out of currently selected items */
+    QPoint selectionInOut() const;
 
 public slots:
     void resetView();

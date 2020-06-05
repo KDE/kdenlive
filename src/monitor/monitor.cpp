@@ -1429,10 +1429,10 @@ void Monitor::slotLoopZone()
     }
 }
 
-void Monitor::slotLoopClip()
+void Monitor::slotLoopClip(QPoint inOut)
 {
     slotActivateMonitor();
-    bool ok = m_glMonitor->loopClip();
+    bool ok = m_glMonitor->loopClip(inOut);
     if (ok) {
         m_playAction->setActive(true);
     }
