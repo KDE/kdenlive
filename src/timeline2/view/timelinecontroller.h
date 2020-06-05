@@ -528,6 +528,8 @@ public:
     void collapseActiveTrack();
     /** @brief Expand MLT playlist to its contained clips/compositions */
     void expandActiveClip();
+    /** @brief Get in/out of currently selected items */
+    QPoint selectionInOut() const;
 
 public slots:
     void resetView();

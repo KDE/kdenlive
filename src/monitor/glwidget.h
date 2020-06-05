@@ -123,7 +123,7 @@ public:
     void setRulerInfo(int duration, const std::shared_ptr<MarkerListModel> &model = nullptr);
     MonitorProxy *getControllerProxy();
     bool playZone(bool loop = false);
-    bool loopClip();
+    bool loopClip(QPoint inOut);
     void startConsumer();
     void stop();
     int rulerHeight() const;
@@ -231,6 +231,7 @@ private:
     bool m_sendFrame;
     bool m_isZoneMode;
     bool m_isLoopMode;
+    int m_loopIn;
     QPoint m_offset;
     MonitorProxy *m_proxy;
     std::shared_ptr<Mlt::Producer> m_blackClip;

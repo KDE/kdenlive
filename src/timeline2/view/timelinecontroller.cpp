@@ -2656,6 +2656,35 @@ void TimelineController::editItemDuration(int id)
     }
 }
 
+QPoint TimelineController::selectionInOut() const
+{
+    std::unordered_set<int> ids = m_model->getCurrentSelection();
+    std::unordered_set<int> items_list;
+    for (int i : ids) {
+        if (m_model->isGroup(i)) {
+            std::unordered_set<int> children = m_model->m_groups->getLeaves(i);
+            items_list.insert(children.begin(), children.end());
+        } else {
+            items_list.insert(i);
+        }
+    }
+    int in = -1;
+    int out = -1;
+    for (int id : items_list) {
+        if (m_model->isClip(id) || m_model->isComposition(id)) {
+            int itemIn = m_model->getItemPosition(id);
+            int itemOut = itemIn + m_model->getItemPlaytime(id);
+            if (in < 0 || itemIn < in) {
+                in = itemIn;
+            }
+            if (itemOut > out) {
+                out = itemOut;
+            }
+        }
+    }
+    return QPoint(in, out);
+}
+
 void TimelineController::updateClipActions()
 {
     if (m_model->getCurrentSelection().empty()) {

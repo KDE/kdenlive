@@ -91,6 +91,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_sendFrame(false)
     , m_isZoneMode(false)
     , m_isLoopMode(false)
+    , m_loopIn(0)
     , m_offset(QPoint(0, 0))
     , m_fbo(nullptr)
     , m_shareContext(nullptr)
@@ -690,14 +691,14 @@ bool GLWidget::checkFrameNumber(int pos, int offset, bool isPlaying)
 {
     const double speed = m_producer->get_speed();
     m_proxy->positionFromConsumer(pos, isPlaying);
-    int maxPos = (m_isZoneMode || m_isLoopMode) ? m_proxy->zoneOut() : m_producer->get_int("out");
+    int maxPos = m_producer->get_int("out");
     if (m_isLoopMode || m_isZoneMode) {
         if (isPlaying && pos >= maxPos) {
             m_consumer->purge();
             if (!m_isLoopMode) {
                 return false;
             }
-            m_producer->seek(m_proxy->zoneIn());
+            m_producer->seek(m_isZoneMode ? m_proxy->zoneIn() : m_loopIn);
             m_producer->set_speed(1.0);
             m_consumer->set("refresh", 1);
             return true;
@@ -1624,7 +1625,7 @@ void GLWidget::switchPlay(bool play, double speed)
     if (!m_producer || !m_consumer) {
         return;
     }
-    if (m_isZoneMode) {
+    if (m_isZoneMode || m_isLoopMode) {
         resetZoneMode();
     }
     if (play) {
@@ -1669,23 +1670,24 @@ bool GLWidget::playZone(bool loop)
     return true;
 }
 
-bool GLWidget::loopClip()
+bool GLWidget::loopClip(QPoint inOut)
 {
-    if (!m_producer || m_proxy->zoneOut() <= m_proxy->zoneIn()) {
-        pCore->displayMessage(i18n("Select a zone to play"), InformationMessage, 500);
+    if (!m_producer || inOut.y() <= inOut.x()) {
+        pCore->displayMessage(i18n("Select a clip to play"), InformationMessage, 500);
         return false;
     }
-    m_producer->seek(0);
+    m_loopIn = inOut.x();
+    m_producer->seek(inOut.x());
     m_producer->set_speed(0);
     m_consumer->purge();
-    m_producer->set("out", m_producer->get_playtime());
+    m_producer->set("out", inOut.y());
     m_producer->set_speed(1.0);
     if (m_consumer->is_stopped()) {
         m_consumer->start();
     }
     m_consumer->set("scrub_audio", 0);
     m_consumer->set("refresh", 1);
-    m_isZoneMode = true;
+    m_isZoneMode = false;
     m_isLoopMode = true;
     return true;
 }
@@ -1696,6 +1698,7 @@ void GLWidget::resetZoneMode()
         return;
     }
     m_producer->set("out", m_producer->get_length());
+    m_loopIn = 0;
     m_isZoneMode = false;
     m_isLoopMode = false;
 }
@@ -1745,7 +1748,7 @@ void GLWidget::stop()
     // why this lock?
     QMutexLocker locker(&m_mltMutex);
     if (m_producer) {
-        if (m_isZoneMode) {
+        if (m_isZoneMode || m_isLoopMode) {
             resetZoneMode();
         }
         m_producer->set_speed(0.0);

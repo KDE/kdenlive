@@ -289,7 +289,7 @@ public slots:
     void slotPlayZone();
     void slotLoopZone();
     /** @brief Loops the selected item (clip or transition). */
-    void slotLoopClip();
+    void slotLoopClip(QPoint inOut);
     void slotForward(double speed = 0, bool allowNormalPlay = false) override;
     void slotRewind(double speed = 0) override;
     void slotRewindOneFrame(int diff = 1);
