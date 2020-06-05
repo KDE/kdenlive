@@ -37,14 +37,6 @@
 
 const double log_factor = 1.0 / log10(1.0 / 127);
 
-static inline double levelToDB(double level)
-{
-    if (level <= 0) {
-        return -100;
-    }
-    return 100 * (1.0 - log10(level) * log_factor);
-}
-
 MixerManager::MixerManager(QWidget *parent)
     : QWidget(parent)
     , m_masterMixer(nullptr)

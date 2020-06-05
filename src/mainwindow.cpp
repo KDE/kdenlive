@@ -1378,7 +1378,7 @@ void MainWindow::setupActions()
         overlayAudioInfo->setEnabled(toggled);
     });
 
-#if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
+#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     // Monitor resolution scaling
     m_scaleGroup = new QActionGroup(this);
     m_scaleGroup->setExclusive(true);

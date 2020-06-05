@@ -64,10 +64,12 @@ const int IMAGEITEM = 7;
 const int RECTITEM = 3;
 const int TEXTITEM = 8;
 
+/*
 const int NOEFFECT = 0;
 const int BLUREFFECT = 1;
 const int SHADOWEFFECT = 2;
 const int TYPEWRITEREFFECT = 3;
+*/
 
 void TitleWidget::refreshTemplateBoxContents()
 {

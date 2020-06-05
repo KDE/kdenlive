@@ -56,7 +56,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
 #endif
 
     QString conditionalInfo;
-    for (const QVariant jobElement : filterData) {
+    for (const QVariant &jobElement : filterData) {
         QStringList d = jobElement.toStringList();
         if (d.size() == 2) {
             if (d.at(0) == QLatin1String("conditionalinfo")) {
@@ -118,7 +118,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
         }
         std::unordered_map<QString, QVariant> fParams;
         std::unordered_map<QString, QString> fData;
-        for (const QVariant jobElement : filterData) {
+        for (const QVariant &jobElement : filterData) {
             QStringList d = jobElement.toStringList();
             if (d.size() == 2)
             fData.insert({d.at(0), d.at(1)});

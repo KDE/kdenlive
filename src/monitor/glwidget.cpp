@@ -1834,7 +1834,7 @@ void GLWidget::setConsumerProperty(const QString &name, const QString &value)
 
 void GLWidget::updateScaling()
 {
-#if LIBMLT_VERSION_INT >= MLT_VERSION_PREVIEW_SCALE
+#if LIBMLT_VERSION_INT >= QT_VERSION_CHECK(6,20,0)
     int previewHeight = pCore->getCurrentFrameSize().height();
     switch (KdenliveSettings::previewScaling()) {
         case 2:
