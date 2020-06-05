@@ -285,7 +285,7 @@ Rectangle {
     property int spacerFrame: -1
     property int spacerClickFrame: -1
     property real timeScale: timeline.scaleFactor
-    property int snapping: (timeline.snap && (timeScale < 2 * baseUnit)) ? Math.floor(baseUnit / (timeScale > 3 ? timeScale / 2 : timeScale)) : -1
+    property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
     property int trackHeight
     property int copiedClip: -1
