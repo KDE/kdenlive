@@ -85,7 +85,13 @@ MltConnection::MltConnection(const QString &mltPath)
     // Disable VDPAU that crashes in multithread environment.
     // TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
+
+    // After initialising the MLT factory, set the locale back from user default to C
+    // to ensure numbers are always serialised with . as decimal point.
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
+    std::setlocale(LC_ALL, "C");
+    ::qputenv("LC_ALL", "C");
+
     locateMeltAndProfilesPath(mltPath);
 
     // Retrieve the list of available producers.

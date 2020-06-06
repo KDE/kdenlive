@@ -17,9 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "framework/mlt_version.h"
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
+#include <QtGlobal>
 #include <QApplication>
 #include <QDir>
 #include <QDomDocument>
@@ -79,7 +79,13 @@ int main(int argc, char **argv)
 #endif
             args.removeFirst();
             QDir baseFolder(target);
+
+            // After initialising the MLT factory, set the locale back from user default to C
+            // to ensure numbers are always serialised with . as decimal point.
             Mlt::Factory::init();
+            std::setlocale(LC_ALL, "C");
+            ::qputenv("LC_ALL", "C");
+
             Mlt::Profile profile(profilePath.toUtf8().constData());
             profile.set_explicit(1);
             Mlt::Producer prod(profile, nullptr, playlist.toUtf8().constData());
