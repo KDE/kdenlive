@@ -17,13 +17,19 @@ the Free Software Foundation, either version 3 of the License, or
 #include "project/projectmanager.h"
 #include "klocalizedstring.h"
 
+#include <QStyle>
+
 NotesPlugin::NotesPlugin(ProjectManager *projectManager)
     : QObject(projectManager)
 {
     QWidget *container = new QWidget();
     auto *lay = new QVBoxLayout();
+    lay->setSpacing(0);
     m_tb = new QToolBar();
     m_tb->setToolButtonStyle(Qt::ToolButtonIconOnly);
+    int size = container->style()->pixelMetric(QStyle::PM_SmallIconSize);
+    QSize iconSize(size, size);
+    m_tb->setIconSize(iconSize);
     lay->addWidget(m_tb);
     m_widget = new NotesWidget();
     lay->addWidget(m_widget);
