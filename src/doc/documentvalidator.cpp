@@ -185,14 +185,6 @@ bool DocumentValidator::validate(const double currentVersion)
                                     "\"%2\". Change your computer settings or you might not be able to correctly open the project.",
                                     documentLocale.decimalPoint(), QLocale().decimalPoint()));
         }
-        // locale conversion might need to be redone
-        // TODO reload repositories
-        /*#ifndef Q_OS_MAC
-                initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
-        #else
-                initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC_MASK, nullptr)));
-        #endif
-        */
     }
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {

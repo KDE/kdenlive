@@ -128,19 +128,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
         j.next();
         m_documentMetadata[j.key()] = j.value();
     }
-    /*if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
-        qDebug()<<"* * ** AARCH DOCUMENT  PROBLEM;";
-        exit(1);
-        setlocale(LC_NUMERIC, "");
-        QLocale systemLocale = QLocale::system();
-        systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-        QLocale::setDefault(systemLocale);
-        // locale conversion might need to be redone
-        ///TODO: how to reset repositories...
-        //EffectsRepository::get()->init();
-        //TransitionsRepository::get()->init();
-        //initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
-    }*/
     *openBackup = false;
     if (url.isValid()) {
         QFile file(url.toLocalFile());
@@ -1274,7 +1261,6 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
     m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
-    ;
     if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
         m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     }

@@ -41,6 +41,7 @@ MltPreview::MltPreview()
     Mlt::Factory::init();
     std::setlocale(LC_ALL, "C");
     ::qputenv("LC_ALL", "C");
+    qDebug() << "LC_ALL set to C after initialising MLT";
 }
 
 MltPreview::~MltPreview()

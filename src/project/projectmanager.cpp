@@ -282,27 +282,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             m_project = nullptr;
         }
     }
-    /*  // Make sure to reset locale to system's default
-        QString requestedLocale = QLocale::system().name();
-        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.contains(QStringLiteral("LC_NUMERIC"))) {
-            requestedLocale = env.value(QStringLiteral("LC_NUMERIC"));
-        }
-        qDebug()<<"//////////// RESETTING LOCALE TO: "<<requestedLocale;
-
-    #ifdef Q_OS_MAC
-        setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
-    #elif defined(Q_OS_WIN)
-        std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
-    #else
-        QLocale newLocale(requestedLocale);
-        char *separator = localeconv()->decimal_point;
-        if (QString::fromUtf8(separator) != QString(newLocale.decimalPoint())) {
-            pCore->displayBinMessage(i18n("There is a locale conflict on your system, project might get corrupt"), KMessageWidget::Warning);
-        }
-        setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
-    #endif
-        QLocale::setDefault(newLocale);*/
     return true;
 }
 

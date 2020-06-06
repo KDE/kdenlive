@@ -38,13 +38,6 @@ template <typename AssetType> AbstractAssetsRepository<AssetType>::AbstractAsset
 
 template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
 {
-// Warning: Mlt::Factory::init() resets the locale to the default system value, make sure we keep correct locale
-#ifndef Q_OS_MAC
-    setlocale(LC_NUMERIC, nullptr);
-#else
-    setlocale(LC_NUMERIC_MASK, nullptr);
-#endif
-
     // Parse blacklist
     parseAssetList(assetBlackListPath(), m_blacklist);
 

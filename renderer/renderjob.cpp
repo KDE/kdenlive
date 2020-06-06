@@ -80,11 +80,6 @@ RenderJob::~RenderJob()
     m_logfile.close();
 }
 
-void RenderJob::setLocale(const QString &locale)
-{
-    qputenv("LC_NUMERIC", locale.toUtf8().constData());
-}
-
 void RenderJob::slotAbort(const QString &url)
 {
     if (m_dest == url) {

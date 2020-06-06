@@ -91,6 +91,7 @@ MltConnection::MltConnection(const QString &mltPath)
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
     std::setlocale(LC_ALL, "C");
     ::qputenv("LC_ALL", "C");
+    qDebug() << "LC_ALL set to C after initialising MLT";
 
     locateMeltAndProfilesPath(mltPath);
 
