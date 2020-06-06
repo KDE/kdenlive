@@ -1106,7 +1106,7 @@ Rectangle {
                                             return
                                         }
                                         dragFrame = -1
-                                        moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && !(mouse.modifiers == (Qt.ShiftModifier | Qt.AltModifier))
+                                        moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && (Qt.platform.os != "windows" || !(mouse.modifiers & Qt.AltModifier))
                                         timeline.activeTrack = dragProxy.sourceTrack
                                         if (timeline.selection.indexOf(dragProxy.draggedItem) == -1) {
                                             controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ true)
