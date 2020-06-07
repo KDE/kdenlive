@@ -39,9 +39,9 @@ public slots:
 private:
     int m_progress;
     QStyleOptionProgressBar m_pbStyle;
-    
+
 protected:
-    void drawContents(QPainter *painter);
+    void drawContents(QPainter *painter) override;
 };
 
 #endif
