@@ -43,6 +43,7 @@
 #include "kdenlive_debug.h"
 #include <KDBusService>
 #include <KIconTheme>
+#include <kiconthemes_version.h>
 #include <QResource>
 #include <QApplication>
 #include <QCommandLineOption>
@@ -150,6 +151,10 @@ int main(int argc, char *argv[])
         KConfigGroup cg(config, "UiSettings");
         cg.writeEntry("ColorScheme", "Breeze Dark");
     }
+#if KICONTHEMES_VERSION < QT_VERSION_CHECK(5,60,0)
+    // work around bug in Kirigami2 resetting icon theme path
+    qputenv("XDG_CURRENT_DESKTOP","KDE");
+#endif
 
     // Init DBus services
     KDBusService programDBusService;
