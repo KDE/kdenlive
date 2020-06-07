@@ -85,7 +85,7 @@ ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
 qt5_wrap_cpp(kdenlive_MOC definitions.h)
 set_property(SOURCE definitions.h PROPERTY SKIP_AUTOMOC ON)
 
-add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC})
+add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} ${kdenlive_MOC} lib/localeHandling.cpp lib/localeHandling.h)
 
 qt5_add_resources(kdenlive_extra_SRCS icons.qrc ui/resources.qrc uiresources.qrc)
 ## Icon for Windows and OSX

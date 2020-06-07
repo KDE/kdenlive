@@ -25,6 +25,7 @@
 
 #include <QMap>
 #include <QUrl>
+#include <QtCore/QLocale>
 
 class DocumentValidator
 {
@@ -43,6 +44,7 @@ private:
     bool m_modified;
     /** @brief Upgrade from a previous Kdenlive document version. */
     bool upgrade(double version, const double currentVersion);
+    bool upgradeTo100(const QLocale &documentLocale);
     /** @brief Pass producer properties from previous Kdenlive versions. */
     void updateProducerInfo(const QDomElement &prod, const QDomElement &source);
     /** @brief Make sur we don't have orphaned producers (that are not in Bin). */

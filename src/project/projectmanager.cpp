@@ -51,6 +51,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QProgressDialog>
 #include <QTimeZone>
 #include <audiomixer/mixermanager.hpp>
+#include <lib/localeHandling.h>
 
 static QString getProjectNameFilters(bool ark=true) {
     auto filter = i18n("Kdenlive project (*.kdenlive)");
@@ -217,7 +218,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     bool openBackup;
     m_notesPlugin->clear();
-    documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     ThumbnailCache::get()->clearCache();
@@ -857,15 +857,34 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
 {
     Q_UNUSED(scrollPos);
     pCore->jobManager()->slotCancelJobs();
-    /*qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
-    QFile file("/tmp/data.xml");
-    if (file.open(QIODevice::ReadWrite)) {
-        QTextStream stream(&file);
-        stream << m_project->getProjectXml() << endl;
-    }*/
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
+
+    auto lcNumericCategory = m_project->getLcNumeric();
+    if (lcNumericCategory.isEmpty() || lcNumericCategory == "C") {
+        // Default locale is C. All fine, no number format issues to expect.
+    } else {
+        qDebug() << "Document uses the locale " << lcNumericCategory << ", switching locale for loading the document";
+        QString newLocale = LocaleHandling::setLocale(lcNumericCategory);
+        if (newLocale.isEmpty()) {
+            qDebug() << "Could not switch locale. Is it installed?";
+            auto res =
+                KMessageBox::warningYesNo(qApp->activeWindow(), i18n("This project file uses the locale %1 but it is not installed on the system. Load anyway? "
+                                                                     "Warning: Loaded project may be corrupted or cause a crash.",
+                                                                     lcNumericCategory));
+            if (res == KMessageBox::No) {
+                newFile(false);
+                return false;
+            } else {
+                qDebug() << "WARNING: Loading project with locale " << lcNumericCategory << " which is not found on the system.";
+            }
+        } else {
+            qDebug() << "Locale successfully switched to " << newLocale;
+        }
+    }
+
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
+
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
     if (tractor.count() == 0) {
@@ -907,13 +926,16 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
-    //pCore->window()->getMainTimeline()->controller()->setTargetTracks(m_project->targetTracks());
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
     if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
+
+    // Reset locale to C to ensure numbers are serialised correctly
+    LocaleHandling::resetLocale();
+
     return true;
 }
 

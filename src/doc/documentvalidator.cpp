@@ -44,6 +44,7 @@
 #endif
 
 #include <QStandardPaths>
+#include <lib/localeHandling.h>
 #include <utility>
 DocumentValidator::DocumentValidator(const QDomDocument &doc, QUrl documentUrl)
     : m_doc(doc)
@@ -78,114 +79,25 @@ bool DocumentValidator::validate(const double currentVersion)
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         // Check document numeric separator (added in Kdenlive 16.12.1
         QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
-        QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString());
-        QChar numericalSeparator;
-        if (!sep.isEmpty()) {
-            numericalSeparator = sep.at(0);
-        }
-        bool error = false;
-        if (!numericalSeparator.isNull() && numericalSeparator != QLocale().decimalPoint()) {
-            qCDebug(KDENLIVE_LOG) << " * ** LOCALE CHANGE REQUIRED: " << numericalSeparator << "!=" << QLocale().decimalPoint() << " / "
-                                  << QLocale::system().decimalPoint();
-            // Change locale to match document
-            QString requestedLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"));
-            documentLocale = QLocale(requestedLocale);
-#ifdef Q_OS_WIN
-            // Most locales don't work on windows, so use C whenever possible
-            if (numericalSeparator == QLatin1Char('.')) {
-#else
-            if (numericalSeparator != documentLocale.decimalPoint() && numericalSeparator == QLatin1Char('.')) {
-#endif
-                requestedLocale = QStringLiteral("C");
-                documentLocale = QLocale::c();
-            }
-#ifdef Q_OS_MAC
-            setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
-#elif defined(Q_OS_WIN)
-            std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
-#else
-        setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
-#endif
-            if (numericalSeparator != documentLocale.decimalPoint()) {
-                // Parse installed locales to find one matching
-                const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
-                QLocale matching;
-                for (const QLocale &loc : list) {
-                    if (loc.decimalPoint() == numericalSeparator) {
-                        matching = loc;
-                        qCDebug(KDENLIVE_LOG) << "Warning, document locale: " << mlt.attribute(QStringLiteral("LC_NUMERIC"))
-                                              << " is not available, using: " << loc.name();
-#ifndef Q_OS_MAC
-                        setlocale(LC_NUMERIC, loc.name().toUtf8().constData());
-#else
-                        setlocale(LC_NUMERIC_MASK, loc.name().toUtf8().constData());
-#endif
-                        documentLocale = matching;
-                        break;
-                    }
-                }
-                error = numericalSeparator != documentLocale.decimalPoint();
-            }
-        } else if (numericalSeparator.isNull()) {
-// Change locale to match document
-#ifndef Q_OS_MAC
-            const QString newloc = QString::fromLatin1(setlocale(LC_NUMERIC, mlt.attribute(QStringLiteral("LC_NUMERIC")).toUtf8().constData()));
-#else
-            const QString newloc = setlocale(LC_NUMERIC_MASK, mlt.attribute("LC_NUMERIC").toUtf8().constData());
-#endif
-            documentLocale = QLocale(mlt.attribute(QStringLiteral("LC_NUMERIC")));
-            error = newloc.isEmpty();
-        } else {
-            // Document separator matching system separator
-            documentLocale = QLocale();
-        }
-        if (error) {
+        QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString("."));
+        QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C");
+        qDebug() << "LOCALE: Document uses " << sep << " as decimal point and " << mltLocale << " as locale";
+
+        auto localeMatch = LocaleHandling::getQLocaleForDecimalPoint(mltLocale, sep);
+        qDebug() << "Searching for locale: Found " << localeMatch.first << " with match type " << (int)localeMatch.second;
+
+        if (localeMatch.second == LocaleHandling::MatchType::NoMatch) {
             // Requested locale not available, ask for install
             KMessageBox::sorry(QApplication::activeWindow(),
                                i18n("The document was created in \"%1\" locale, which is not installed on your system. Please install that language pack. "
                                     "Until then, Kdenlive might not be able to correctly open the document.",
-                                    mlt.attribute(QStringLiteral("LC_NUMERIC"))));
+                                    mltLocale));
         }
 
-        // Make sure Qt locale and C++ locale have the same numeric separator, might not be the case
-        // With some locales since C++ and Qt use a different database for locales
-        // localeconv()->decimal_point does not give reliable results on Windows
+        documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
+        documentLocale = localeMatch.first;
+    }
 
-#ifndef Q_OS_WIN
-        char *separator = localeconv()->decimal_point;
-        if (QString::fromUtf8(separator) != QString(documentLocale.decimalPoint())) {
-            KMessageBox::sorry(QApplication::activeWindow(),
-                               i18n("There is a locale conflict on your system. The document uses locale %1 which uses a \"%2\" as numeric separator (in "
-                                    "system libraries) but Qt expects \"%3\". You might not be able to correctly open the project.",
-                                    mlt.attribute(QStringLiteral("LC_NUMERIC")), documentLocale.decimalPoint(), separator));
-            // qDebug()<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
-            // HACK: There is a locale conflict, so set locale to at least have correct decimal point
-            if (strncmp(separator, ".", 1) == 0) {
-                documentLocale = QLocale::c();
-            } else if (strncmp(separator, ",", 1) == 0) {
-                documentLocale = QLocale(QStringLiteral("fr_FR.UTF-8"));
-            }
-        }
-#endif
-    }
-    documentLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-    if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
-        // If loading an older MLT file without LC_NUMERIC, set locale to C which was previously the default
-        if (!mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-#ifndef Q_OS_MAC
-            setlocale(LC_NUMERIC, "C");
-#else
-            setlocale(LC_NUMERIC_MASK, "C");
-#endif
-        }
-        QLocale::setDefault(documentLocale);
-        if (documentLocale.decimalPoint() != QLocale().decimalPoint()) {
-            KMessageBox::sorry(QApplication::activeWindow(),
-                               i18n("There is a locale conflict. The document uses a \"%1\" as numeric separator, but your computer is configured to use "
-                                    "\"%2\". Change your computer settings or you might not be able to correctly open the project.",
-                                    documentLocale.decimalPoint(), QLocale().decimalPoint()));
-        }
-    }
     double version = -1;
     if (kdenliveDoc.isNull() || !kdenliveDoc.hasAttribute(QStringLiteral("version"))) {
         // Newer Kdenlive document version
@@ -223,121 +135,11 @@ bool DocumentValidator::validate(const double currentVersion)
         checkOrphanedProducers();
     }
 
-    return true;
-    /*
-    // Check the syntax (this will be replaced by XSD validation with Qt 4.6)
-    // and correct some errors
-    {
-        // Return (or create) the tractor
-        QDomElement tractor = mlt.firstChildElement("tractor");
-        if (tractor.isNull()) {
-            m_modified = true;
-            tractor = m_doc.createElement("tractor");
-            tractor.setAttribute("global_feed", "1");
-            tractor.setAttribute("in", "0");
-            tractor.setAttribute("out", "-1");
-            tractor.setAttribute("id", "maintractor");
-            mlt.appendChild(tractor);
-        }
-
-        // Make sure at least one track exists, and they're equal in number to
-        // to the maximum between MLT and Kdenlive playlists and tracks
-        //
-        // In older Kdenlive project files, one playlist is not a real track (the black track), we have: track count = playlist count- 1
-        // In newer Qt5 Kdenlive, the Bin playlist should not appear as a track. So we should have: track count = playlist count- 2
-        int trackOffset = 1;
-        QDomNodeList playlists = m_doc.elementsByTagName("playlist");
-    // Remove "main bin" playlist that simply holds the bin's clips and is not a real playlist
-    for (int i = 0; i < playlists.count(); ++i) {
-        QString playlistId = playlists.at(i).toElement().attribute("id");
-        if (playlistId == BinController::binPlaylistId()) {
-        // remove pseudo-playlist
-        //playlists.at(i).parentNode().removeChild(playlists.at(i));
-                trackOffset = 2;
-        break;
-        }
+    if (version < 1.00) {
+        upgradeTo100(documentLocale);
     }
 
-        int tracksMax = playlists.count() - trackOffset; // Remove the black track and bin track
-        QDomNodeList tracks = tractor.elementsByTagName("track");
-        tracksMax = qMax(tracks.count() - 1, tracksMax);
-        QDomNodeList tracksinfo = kdenliveDoc.elementsByTagName("trackinfo");
-        tracksMax = qMax(tracksinfo.count(), tracksMax);
-        tracksMax = qMax(1, tracksMax); // Force existence of one track
-        if (playlists.count() - trackOffset < tracksMax ||
-                tracks.count() < tracksMax ||
-                tracksinfo.count() < tracksMax) {
-            qCDebug(KDENLIVE_LOG) << "//// WARNING, PROJECT IS CORRUPTED, MISSING TRACK";
-            m_modified = true;
-            int difference;
-            // use the MLT tracks as reference
-            if (tracks.count() - 1 < tracksMax) {
-                // Looks like one MLT track is missing, remove the extra Kdenlive track if there is one.
-                if (tracksinfo.count() != tracks.count() - 1) {
-                    // The Kdenlive tracks are not ok, clear and rebuild them
-                    QDomNode tinfo = kdenliveDoc.firstChildElement("tracksinfo");
-                    QDomNode tnode = tinfo.firstChild();
-                    while (!tnode.isNull()) {
-                        tinfo.removeChild(tnode);
-                        tnode = tinfo.firstChild();
-                    }
-
-                    for (int i = 1; i < tracks.count(); ++i) {
-                        QString hide = tracks.at(i).toElement().attribute("hide");
-                        QDomElement newTrack = m_doc.createElement("trackinfo");
-                        if (hide == "video") {
-                            // audio track;
-                            newTrack.setAttribute("type", "audio");
-                            newTrack.setAttribute("blind", 1);
-                            newTrack.setAttribute("mute", 0);
-                            newTrack.setAttribute("lock", 0);
-                        } else {
-                            newTrack.setAttribute("blind", 0);
-                            newTrack.setAttribute("mute", 0);
-                            newTrack.setAttribute("lock", 0);
-                        }
-                        tinfo.appendChild(newTrack);
-                    }
-                }
-            }
-
-            if (playlists.count() - 1 < tracksMax) {
-                difference = tracksMax - (playlists.count() - 1);
-                for (int i = 0; i < difference; ++i) {
-                    QDomElement playlist = m_doc.createElement("playlist");
-                    mlt.appendChild(playlist);
-                }
-            }
-            if (tracks.count() - 1 < tracksMax) {
-                difference = tracksMax - (tracks.count() - 1);
-                for (int i = 0; i < difference; ++i) {
-                    QDomElement track = m_doc.createElement("track");
-                    tractor.appendChild(track);
-                }
-            }
-            if (tracksinfo.count() < tracksMax) {
-                QDomElement tracksinfoElm = kdenliveDoc.firstChildElement("tracksinfo");
-                if (tracksinfoElm.isNull()) {
-                    tracksinfoElm = m_doc.createElement("tracksinfo");
-                    kdenliveDoc.appendChild(tracksinfoElm);
-                }
-                difference = tracksMax - tracksinfo.count();
-                for (int i = 0; i < difference; ++i) {
-                    QDomElement trackinfo = m_doc.createElement("trackinfo");
-                    trackinfo.setAttribute("mute", "0");
-                    trackinfo.setAttribute("locked", "0");
-                    tracksinfoElm.appendChild(trackinfo);
-                }
-            }
-        }
-        // TODO: check the tracks references
-        // TODO: check internal mix transitions
-    }
-
-    updateEffects();
-
     return true;
-    */
 }
 
 bool DocumentValidator::upgrade(double version, const double currentVersion)
@@ -557,37 +359,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             }
         }
 
-        /*
-            QDomNodeList filters = m_doc.elementsByTagName("filter");
-            max = filters.count();
-            QString last_id;
-            int effectix = 0;
-            for (int i = 0; i < max; ++i) {
-                QDomElement filt = filters.at(i).toElement();
-                QDomNamedNodeMap attrs = filt.attributes();
-        QString current_id = filt.attribute("kdenlive_id");
-        if (current_id != last_id) {
-            effectix++;
-            last_id = current_id;
-        }
-        QDomElement e = m_doc.createElement("property");
-                e.setAttribute("name", "kdenlive_ix");
-                QDomText value = m_doc.createTextNode(QString::number(1));
-                e.appendChild(value);
-                filt.appendChild(e);
-                for (int j = 0; j < attrs.count(); ++j) {
-                    QDomAttr a = attrs.item(j).toAttr();
-                    if (!a.isNull()) {
-                        //qCDebug(KDENLIVE_LOG) << " FILTER; adding :" << a.name() << ':' << a.value();
-                        QDomElement e = m_doc.createElement("property");
-                        e.setAttribute("name", a.name());
-                        QDomText value = m_doc.createTextNode(a.value());
-                        e.appendChild(value);
-                        filt.appendChild(e);
-                    }
-                }
-            }*/
-
         // fix slowmotion
         QDomNodeList producers = westley.toElement().elementsByTagName(QStringLiteral("producer"));
         max = producers.count();
@@ -607,15 +378,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         max = producers.count();
         for (int i = 0; i < max; ++i) {
             QDomElement prod = producers.at(0).toElement();
-            // add resource also as a property (to allow path correction in setNewResource())
-            // TODO: will it work with slowmotion? needs testing
-            /*if (!prod.attribute("resource").isEmpty()) {
-                QDomElement prop_resource = m_doc.createElement("property");
-                prop_resource.setAttribute("name", "resource");
-                QDomText resource = m_doc.createTextNode(prod.attribute("resource"));
-                prop_resource.appendChild(resource);
-                prod.appendChild(prop_resource);
-            }*/
             QDomNode m = prod.firstChild();
             if (!m.isNull()) {
                 if (m.toElement().tagName() == QLatin1String("markers")) {
@@ -686,11 +448,6 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                             }
                         }
                         prod.setAttribute(QStringLiteral("xmldata"), tdoc.toString());
-                        // mbd todo: This clearly does not work, as every title gets the same name - trying to leave it empty
-                        // QStringList titleInfo = TitleWidget::getFreeTitleInfo(projectFolder());
-                        // prod.setAttribute("titlename", titleInfo.at(0));
-                        // prod.setAttribute("resource", titleInfo.at(1));
-                        ////qCDebug(KDENLIVE_LOG)<<"TITLE DATA:\n"<<tdoc.toString();
                         prod.removeChild(m);
                     } // End conversion of title clips.
 
@@ -1959,6 +1716,66 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
             Xml::setXmlProperty(masterProducers.at(i).toElement(), QStringLiteral("kdenlive:clipzones"), QString(json.toJson()));
         }
     }
+    m_modified = true;
+    return true;
+}
+
+auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> bool {
+
+    auto decimalPoint = documentLocale.decimalPoint();
+    if (decimalPoint != '.') {
+        qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
+
+        auto props = m_doc.elementsByTagName(QStringLiteral("property"));
+        qDebug() << "Found " << props.count() << " properties.";
+        for (int i = 0; i < props.count(); i++) {
+            QString propName = props.at(i).attributes().namedItem("name").nodeValue();
+            QDomElement element = props.at(i).toElement();
+            if (element.childNodes().size() == 1) {
+                QDomText text = element.firstChild().toText();
+                if (!text.isNull()) {
+
+                    QList<QString> propsToReplace;
+                    propsToReplace
+                        << QStringLiteral("length")
+                        << QStringLiteral("kdenlive:duration")
+                        << QStringLiteral("kdenlive:original_length");
+
+                    bool doReplace = propName.endsWith("frame_rate") || (propsToReplace.indexOf(propName) >= 0);
+
+                    if (doReplace) {
+                        QString originalValue = text.nodeValue();
+                        QString newValue = originalValue.replace(decimalPoint, '.');
+                        text.setNodeValue(newValue);
+                        qDebug() << "Decimal separator: Converted " << propName << " from " << originalValue << " to "
+                                 << newValue;
+                    } else {
+                        qDebug() << "Not converting: " << propName;
+                    }
+                }
+            }
+        }
+
+        auto producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        for (int i = 0; i < producers.count(); i++) {
+            auto attributes = producers.at(i).attributes();
+            QList<QDomNode> attributesToConvert;
+            attributesToConvert << attributes.namedItem("in") << attributes.namedItem("out");
+
+            for (QDomNode &attr : attributesToConvert) {
+                if (!attr.isNull()) {
+                    QString originalValue = attr.nodeValue();
+                    QString newValue = originalValue.replace(decimalPoint, '.');
+                    attr.setNodeValue(newValue);
+                    qDebug() << "Decimal separator: Converted producer attribute " << attr.nodeName() << " from " << originalValue << " to " << newValue;
+                }
+            }
+        }
+
+    } else {
+        qDebug() << "Decimal point is OK";
+    }
+
     m_modified = true;
     return true;
 }

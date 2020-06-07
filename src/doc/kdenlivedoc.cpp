@@ -303,8 +303,14 @@ const QByteArray KdenliveDoc::getProjectXml()
 {
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
+    // TODO This is a getter – should not have any side effects! Fix or rename!
     m_document.clear();
+    qDebug() << "Project XML: " << result;
     return result;
+}
+
+QString KdenliveDoc::getLcNumeric() {
+    return m_document.documentElement().attribute("LC_NUMERIC");
 }
 
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
@@ -1261,8 +1267,8 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
     m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
-    if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
-        m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
+    if (m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
+        m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
     return m_documentProperties;
 }

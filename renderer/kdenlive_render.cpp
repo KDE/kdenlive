@@ -17,15 +17,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include "../src/lib/localeHandling.h"
 #include "mlt++/Mlt.h"
 #include "renderjob.h"
-#include <QtGlobal>
 #include <QApplication>
 #include <QDir>
 #include <QDomDocument>
+#include <QObject>
 #include <QString>
 #include <QStringList>
-#include <QObject>
+#include <QtGlobal>
 #include <cstdio>
 
 int main(int argc, char **argv)
@@ -83,8 +84,7 @@ int main(int argc, char **argv)
             // After initialising the MLT factory, set the locale back from user default to C
             // to ensure numbers are always serialised with . as decimal point.
             Mlt::Factory::init();
-            std::setlocale(LC_ALL, "C");
-            ::qputenv("LC_ALL", "C");
+            LocaleHandling::resetLocale();
 
             Mlt::Profile profile(profilePath.toUtf8().constData());
             profile.set_explicit(1);

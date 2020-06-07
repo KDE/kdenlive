@@ -63,6 +63,7 @@ public:
     friend class LoadJob;
     /** @brief Get current document's producer. */
     const QByteArray getProjectXml();
+    QString getLcNumeric();
     double fps() const;
     int width() const;
     int height() const;

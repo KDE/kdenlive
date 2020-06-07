@@ -15,16 +15,16 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "mlt_config.h"
 #include <KUrlRequesterDialog>
-#include <config-kdenlive.h>
 #include <klocalizedstring.h>
 #include <QtConcurrent>
 
 #include "kdenlive_debug.h"
 #include <QFile>
 #include <QStandardPaths>
+#include <framework/mlt_log.h>
+#include <lib/localeHandling.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
-#include <framework/mlt_log.h>
 
 static void mlt_log_handler(void *service, int mlt_level, const char *format, va_list args)
 {
@@ -89,9 +89,10 @@ MltConnection::MltConnection(const QString &mltPath)
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
-    std::setlocale(LC_ALL, "C");
-    ::qputenv("LC_ALL", "C");
-    qDebug() << "LC_ALL set to C after initialising MLT";
+    LocaleHandling::resetLocale();
+
+    auto locale = strdup(std::setlocale(LC_ALL, nullptr));
+    qDebug() << "NEW LC_ALL" << locale;
 
     locateMeltAndProfilesPath(mltPath);
 
