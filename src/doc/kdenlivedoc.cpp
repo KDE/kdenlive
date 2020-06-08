@@ -68,7 +68,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.99;
+const double DOCUMENTVERSION = 1.00;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
@@ -306,11 +306,10 @@ int KdenliveDoc::clipsCount() const
 }
 
 
-const QByteArray KdenliveDoc::getProjectXml()
+const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
-    // TODO This is a getter – should not have any side effects! Fix or rename!
     m_document.clear();
     qDebug() << "Project XML: " << result;
     return result;
@@ -1275,6 +1274,7 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
     }
     m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
     if (m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
+        // "kdenlive:docproperties.decimalPoint" was removed in document version 100
         m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
     return m_documentProperties;

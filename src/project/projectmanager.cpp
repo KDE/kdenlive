@@ -883,7 +883,8 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         }
     }
 
-    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
+                                                            m_project->getAndClearProjectXml().constData()));
 
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);

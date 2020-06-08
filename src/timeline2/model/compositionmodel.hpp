@@ -45,7 +45,7 @@ class CompositionModel : public MoveableItem<Mlt::Transition>, public AssetParam
 protected:
     /* This constructor is not meant to be called, call the static construct instead */
     CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
-                     const QString &transitionId);
+                     const QString &transitionId, const QString &originalDecimalPoint);
 
 public:
     /* @brief Creates a composition, which then registers itself to the parent timeline
@@ -54,7 +54,7 @@ public:
        @param transitionId is the id of the transition to be inserted
        @param id Requested id of the clip. Automatic if -1
     */
-    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id = -1,
+    static int construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int id = -1,
                          std::unique_ptr<Mlt::Properties> sourceProperties = nullptr);
 
     friend class TrackModel;

@@ -1738,18 +1738,14 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 if (!text.isNull()) {
 
                     QList<QString> propsToReplace;
-                    /*
                     propsToReplace
-                        << QStringLiteral("length")
-                        << QStringLiteral("kdenlive:duration")
-                        << QStringLiteral("kdenlive:original_length");
-                    */
+                        << QStringLiteral("warp_speed");
 
                     bool doReplace = propName.endsWith("frame_rate") || (propsToReplace.indexOf(propName) >= 0);
 
                     if (doReplace) {
                         QString originalValue = text.nodeValue();
-                        QString newValue = originalValue.replace(decimalPoint, '.');
+                        QString newValue = QString(originalValue).replace(decimalPoint, '.');
                         text.setNodeValue(newValue);
                         qDebug() << "Decimal separator: Converted " << propName << " from " << originalValue << " to "
                                  << newValue;

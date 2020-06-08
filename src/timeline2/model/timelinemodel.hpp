@@ -598,7 +598,7 @@ public:
                                      bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
     bool requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false);
+                                     std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove = false, QString originalDecimalPoint = QString());
 
     /* @brief This function change the global (timeline-wise) enabled state of the effects
        It disables/enables track and clip effects (recursively)

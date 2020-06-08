@@ -62,12 +62,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
     }
 
-    qDebug() << "Listing all effects in the repository:";
-    auto allEffects = EffectsRepository::get()->getNames();
-    for (const auto &effect : allEffects) {
-        qDebug() << "Asset ID " << effect.first << " with name " << effect.second;
-    }
-
     if (EffectsRepository::get()->exists(assetId)) {
         qDebug() << "Asset " << assetId << " found in the repository. Description: " << EffectsRepository::get()->getDescription(assetId);
         QString str;
@@ -134,12 +128,20 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
+            if (!originalDecimalPoint.isEmpty()) {
+                value.replace(QRegExp("(=\\d+),(\\d+)"), "\\1.\\2");
+                qDebug() << "Decimal point conversion: " << name << "=" << value;
+            }
         } else if (currentRow.type == ParamType::List) {
             // Despite its name, a list type parameter is a single value *chosen from* a list.
             // If it contains a non-“.” decimal separator, it is very likely wrong.
             if (!originalDecimalPoint.isEmpty()) {
-                value = value.replace(originalDecimalPoint, ".");
+                value.replace(originalDecimalPoint, ".");
                 qDebug() << "Decial point conversion: " << name << "=" << value;
+            }
+        } else if (currentRow.type == ParamType::Animated) {
+            if (!originalDecimalPoint.isEmpty()) {
+                qDebug() << "PROBABLY ISSUE " << name << value;
             }
         }
         if (!name.isEmpty()) {

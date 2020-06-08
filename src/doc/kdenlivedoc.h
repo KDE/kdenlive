@@ -62,7 +62,7 @@ public:
     ~KdenliveDoc() override;
     friend class LoadJob;
     /** @brief Get current document's producer. */
-    const QByteArray getProjectXml();
+    const QByteArray getAndClearProjectXml();
     QString getLcNumeric();
     double fps() const;
     int width() const;
