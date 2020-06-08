@@ -86,10 +86,9 @@ Rectangle {
         id: rulerTicks
         model: ruler.width / frameSize + 2
         Rectangle {
-            property int realPos: index
-            x: realPos * frameSize
+            x: index * frameSize
             anchors.bottom: ruler.bottom
-            height: (realPos % 4)? ((realPos % 2) ? 3 : 7) : 12
+            height: (index % 5) ? ruler.height / 4 : ruler.height / 2
             width: 1
             color: activePalette.windowText
             opacity: 0.5
