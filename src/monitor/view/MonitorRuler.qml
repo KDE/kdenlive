@@ -36,17 +36,34 @@ Rectangle {
     {
         var projectFps = controller.fps()
         root.timeScale = width / root.duration
-        if (root.duration < 10 * projectFps) {
-            root.frameSize = projectFps * root.timeScale * 0.2
-        } else if (duration < 100 * projectFps) {
+        var displayedLength = root.duration / projectFps;
+        if (displayedLength < 2 ) {
+            // 1 frame tick
+            root.frameSize = root.timeScale
+        } else if (displayedLength < 30) {
+            // 1 second tick
             frameSize = projectFps * root.timeScale
-        } else if (duration < 400 * projectFps) {
-            root.frameSize = projectFps * root.timeScale * 2
+        } else if (displayedLength < 150) {
+            // 5 second tick
+            frameSize = 5 * projectFps * root.timeScale
+        } else if (displayedLength < 300) {
+            // 10 second tick
+            frameSize = 10 * projectFps * root.timeScale
+        } else if (displayedLength < 900) {
+            // 30 second tick
+            frameSize = 30 * projectFps * root.timeScale
+        } else if (displayedLength < 1800) {
+            // 1 min. tick
+            frameSize = 60 * projectFps * root.timeScale
+        } else if (displayedLength < 9000) {
+            // 5 min tick
+            frameSize = 300 * projectFps * root.timeScale
+        } else if (displayedLength < 18000) {
+            // 10 min tick
+            frameSize = 600 * projectFps * root.timeScale
         } else {
-            root.frameSize = projectFps * root.timeScale * 4
-            while (root.frameSize < 10) {
-                root.frameSize *= 4
-            }
+            // 30 min tick
+            frameSize = 18000 * projectFps * root.timeScale
         }
     }
 
