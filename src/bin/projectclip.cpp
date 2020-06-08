@@ -124,9 +124,9 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
     return self;
 }
 
-void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer)
+void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint)
 {
-    m_effectStack->importEffects(producer, PlaylistState::Disabled, true);
+    m_effectStack->importEffects(producer, PlaylistState::Disabled, true, originalDecimalPoint);
 }
 
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)

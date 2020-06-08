@@ -33,7 +33,7 @@ class DocumentValidator
 public:
     DocumentValidator(const QDomDocument &doc, QUrl documentUrl);
     bool isProject() const;
-    bool validate(const double currentVersion);
+    QPair<bool, QString> validate(const double currentVersion);
     bool isModified() const;
     /** @brief Check if the project contains references to Movit stuff (GLSL), and try to convert if wanted. */
     bool checkMovit();
@@ -44,7 +44,14 @@ private:
     bool m_modified;
     /** @brief Upgrade from a previous Kdenlive document version. */
     bool upgrade(double version, const double currentVersion);
-    bool upgradeTo100(const QLocale &documentLocale);
+
+    /**
+     * Changes the decimal separator to . if it is something else.
+     * @param documentLocale Locale which is used by the document
+     * @return the original decimal point, if it was something else than “.”, or an empty string otherwise.
+     */
+    QString upgradeTo100(const QLocale &documentLocale);
+
     /** @brief Pass producer properties from previous Kdenlive versions. */
     void updateProducerInfo(const QDomElement &prod, const QDomElement &source);
     /** @brief Make sur we don't have orphaned producers (that are not in Bin). */

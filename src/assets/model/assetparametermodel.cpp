@@ -32,9 +32,10 @@
 #include <QLocale>
 #include <QString>
 #include <effects/effectsrepository.hpp>
+#define DEBUG_LOCALE false
 
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
-                                         QObject *parent)
+                                         const QString& originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
@@ -43,7 +44,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     , m_keyframes(nullptr)
 {
     Q_ASSERT(m_asset->is_valid());
-    QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
+    QDomNodeList parameterNodes = assetXml.elementsByTagName(QStringLiteral("parameter"));
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
 
@@ -77,11 +78,23 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         qDebug() << "Asset not found in repo: " << assetId;
     }
 
-    qDebug() << "XML parsing of " << assetId << ". found : " << nodeList.count();
-    for (int i = 0; i < nodeList.count(); ++i) {
-        QDomElement currentParameter = nodeList.item(i).toElement();
+    qDebug() << "XML parsing of " << assetId << ". found" << parameterNodes.count() << "parameters";
+
+    if (DEBUG_LOCALE) {
+        QString str;
+        QTextStream stream(&str);
+        assetXml.save(stream, 1);
+        qDebug() << "XML to parse: " << str;
+    }
+    if (!originalDecimalPoint.isEmpty()) {
+        qDebug() << "Original decimal point was different:" << originalDecimalPoint << "Values will be converted if required.";
+    }
+    for (int i = 0; i < parameterNodes.count(); ++i) {
+        QDomElement currentParameter = parameterNodes.item(i).toElement();
 
         // Convert parameters if we need to
+        // Note: This is not directly related to the originalDecimalPoint parameter.
+        // Is it still required? Does it work correctly for non-number values (e.g. lists which contain commas)?
         if (needsLocaleConversion) {
             QDomNamedNodeMap attrs = currentParameter.attributes();
             for (int k = 0; k < attrs.count(); ++k) {
@@ -120,6 +133,13 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         } else if (currentRow.type == ParamType::KeyframeParam || currentRow.type == ParamType::AnimatedRect) {
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
+            }
+        } else if (currentRow.type == ParamType::List) {
+            // Despite its name, a list type parameter is a single value *chosen from* a list.
+            // If it contains a non-“.” decimal separator, it is very likely wrong.
+            if (!originalDecimalPoint.isEmpty()) {
+                value = value.replace(originalDecimalPoint, ".");
+                qDebug() << "Decial point conversion: " << name << "=" << value;
             }
         }
         if (!name.isEmpty()) {
@@ -264,7 +284,6 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         }
     } else {
         m_asset->set(name.toLatin1().constData(), paramValue.toUtf8().constData());
-        qDebug() << " = = SET EFFECT PARAM: " << name << " = " << paramValue;
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = paramValue;
             if (m_keyframes) {
@@ -278,6 +297,7 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
             m_fixedParams[name] = paramValue;
         }
     }
+    qDebug() << " = = SET EFFECT PARAM: " << name << " = " << m_asset->get(name.toLatin1().constData());
 }
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)

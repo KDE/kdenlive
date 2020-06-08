@@ -163,6 +163,12 @@ public:
     /** @brief Returns the number of audio channels for this project */
     int audioChannels() const;
 
+    /**
+     * If the document used a decimal point different than “.”, it is stored in this property.
+     * @return Original decimal point, or an empty string if it was “.” already
+     */
+    QString &modifiedDecimalPoint();
+
 private:
     QUrl m_url;
     QDomDocument m_document;
@@ -192,6 +198,8 @@ private:
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
     std::shared_ptr<MarkerListModel> m_guideModel;
+
+    QString m_modifiedDecimalPoint;
 
     QString searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash) const;
 

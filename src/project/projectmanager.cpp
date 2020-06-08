@@ -863,7 +863,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     auto lcNumericCategory = m_project->getLcNumeric();
     if (lcNumericCategory.isEmpty() || lcNumericCategory == "C") {
         // Default locale is C. All fine, no number format issues to expect.
-    } else {
+    } else if (false) {
         qDebug() << "Document uses the locale " << lcNumericCategory << ", switching locale for loading the document";
         QString newLocale = LocaleHandling::setLocale(lcNumericCategory);
         if (newLocale.isEmpty()) {
@@ -906,7 +906,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }

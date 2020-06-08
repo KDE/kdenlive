@@ -53,12 +53,12 @@ DocumentValidator::DocumentValidator(const QDomDocument &doc, QUrl documentUrl)
 {
 }
 
-bool DocumentValidator::validate(const double currentVersion)
+QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
 {
     QDomElement mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
     // At least the root element must be there
     if (mlt.isNull()) {
-        return false;
+        return QPair<bool, QString>(false, QString());
     }
     QDomElement kdenliveDoc = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
     QString rootDir = mlt.attribute(QStringLiteral("root"));
@@ -128,18 +128,19 @@ bool DocumentValidator::validate(const double currentVersion)
     }
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion)) {
-        return false;
+        return QPair<bool, QString>(false, QString());
     }
 
     if (version < 0.97) {
         checkOrphanedProducers();
     }
 
+    QString changedDecimalPoint;
     if (version < 1.00) {
-        upgradeTo100(documentLocale);
+        changedDecimalPoint = upgradeTo100(documentLocale);
     }
 
-    return true;
+    return QPair<bool, QString>(true, changedDecimalPoint);
 }
 
 bool DocumentValidator::upgrade(double version, const double currentVersion)
@@ -1720,8 +1721,9 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
     return true;
 }
 
-auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> bool {
+auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
 
+    bool modified = false;
     auto decimalPoint = documentLocale.decimalPoint();
     if (decimalPoint != '.') {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
@@ -1736,10 +1738,12 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> bool {
                 if (!text.isNull()) {
 
                     QList<QString> propsToReplace;
+                    /*
                     propsToReplace
                         << QStringLiteral("length")
                         << QStringLiteral("kdenlive:duration")
                         << QStringLiteral("kdenlive:original_length");
+                    */
 
                     bool doReplace = propName.endsWith("frame_rate") || (propsToReplace.indexOf(propName) >= 0);
 
@@ -1756,12 +1760,14 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> bool {
             }
         }
 
+        modified = true;
+
     } else {
         qDebug() << "Decimal point is OK";
     }
 
-    m_modified = true;
-    return true;
+    m_modified |= modified;
+    return modified ? decimalPoint : QString();
 }
 
 void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset)

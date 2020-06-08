@@ -904,7 +904,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     return found;
 }
 
-void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, QString originalDecimalPoint)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -932,12 +932,12 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             std::shared_ptr<EffectItemModel> effect;
             if (alreadyExist) {
                 // effect is already plugged in the service
-                effect = EffectItemModel::construct(std::move(filter), shared_from_this());
+                effect = EffectItemModel::construct(std::move(filter), shared_from_this(), originalDecimalPoint);
             } else {
                 // duplicate effect
                 std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(effectId);
                 asset->inherit(*(filter));
-                effect = EffectItemModel::construct(std::move(asset), shared_from_this());
+                effect = EffectItemModel::construct(std::move(asset), shared_from_this(), originalDecimalPoint);
             }
             if (effect->isAudio()) {
                 if (state == PlaylistState::VideoOnly) {

@@ -206,7 +206,14 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
                      * and recover it if needed). It is NOT a passive operation
                      */
                     // TODO: backup the document or alert the user?
-                    success = validator.validate(DOCUMENTVERSION);
+                    auto validationResult = validator.validate(DOCUMENTVERSION);
+                    success = validationResult.first;
+
+                    if (!validationResult.second.isEmpty()) {
+                        qDebug() << "DECIMAL POINT has changed to ., was " << validationResult.second;
+                        m_modifiedDecimalPoint = validationResult.second;
+                    }
+
                     if (success && !KdenliveSettings::gpu_accel()) {
                         success = validator.checkMovit();
                     }
@@ -1765,4 +1772,8 @@ QMap <QString, QString> KdenliveDoc::getProjectTags()
 int KdenliveDoc::audioChannels() const
 {
     return getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
+}
+
+QString& KdenliveDoc::modifiedDecimalPoint() {
+    return m_modifiedDecimalPoint;
 }
