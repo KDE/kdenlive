@@ -1756,22 +1756,6 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> bool {
             }
         }
 
-        auto producers = m_doc.elementsByTagName(QStringLiteral("producer"));
-        for (int i = 0; i < producers.count(); i++) {
-            auto attributes = producers.at(i).attributes();
-            QList<QDomNode> attributesToConvert;
-            attributesToConvert << attributes.namedItem("in") << attributes.namedItem("out");
-
-            for (QDomNode &attr : attributesToConvert) {
-                if (!attr.isNull()) {
-                    QString originalValue = attr.nodeValue();
-                    QString newValue = originalValue.replace(decimalPoint, '.');
-                    attr.setNodeValue(newValue);
-                    qDebug() << "Decimal separator: Converted producer attribute " << attr.nodeName() << " from " << originalValue << " to " << newValue;
-                }
-            }
-        }
-
     } else {
         qDebug() << "Decimal point is OK";
     }

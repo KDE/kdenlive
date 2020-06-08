@@ -18,10 +18,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include <klocalizedstring.h>
 #include <QtConcurrent>
 
-#include "kdenlive_debug.h"
-#include <QFile>
-#include <QStandardPaths>
-#include <framework/mlt_log.h>
 #include <lib/localeHandling.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
