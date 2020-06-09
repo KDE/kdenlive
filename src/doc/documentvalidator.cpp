@@ -1725,9 +1725,14 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
 
     bool modified = false;
     auto decimalPoint = documentLocale.decimalPoint();
+
     if (decimalPoint != '.') {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
+        // List of properties which always need to be fixed
+        QList<QString> generalPropertiesToFix = {"warp_speed"};
+
+        // Fix properties just by name, anywhere in the file
         auto props = m_doc.elementsByTagName(QStringLiteral("property"));
         qDebug() << "Found " << props.count() << " properties.";
         for (int i = 0; i < props.count(); i++) {
@@ -1737,11 +1742,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 QDomText text = element.firstChild().toText();
                 if (!text.isNull()) {
 
-                    QList<QString> propsToReplace;
-                    propsToReplace
-                        << QStringLiteral("warp_speed");
-
-                    bool doReplace = propName.endsWith("frame_rate") || (propsToReplace.indexOf(propName) >= 0);
+                    bool doReplace = propName.endsWith("frame_rate") || (generalPropertiesToFix.indexOf(propName) >= 0);
 
                     if (doReplace) {
                         QString originalValue = text.nodeValue();
@@ -1749,11 +1750,50 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                         text.setNodeValue(newValue);
                         qDebug() << "Decimal separator: Converted " << propName << " from " << originalValue << " to "
                                  << newValue;
-                    } else {
-                        qDebug() << "Not converting: " << propName;
                     }
                 }
             }
+        }
+
+
+        QList<QString> filterPropertiesToFix = {
+                "version",
+        };
+
+        // Fix filter specific properties.
+        // The first entry is the filter (MLT service) name, the second entry a list of properties to fix.
+        // Warning: This list may not be complete!
+        QMap <QString, QList<QString> > servicePropertiesToFix;
+        servicePropertiesToFix.insert("panner", {"start"});
+        servicePropertiesToFix.insert("volume", {"level"});
+
+        // Fix filter properties.
+        // Note that effect properties will be fixed when the effect is loaded
+        // as there is more information available about the parameter type.
+        auto filters = m_doc.elementsByTagName(QStringLiteral("filter"));
+        qDebug() << "Found" << filters.count() << "filters.";
+        for (int i = 0; i < filters.count(); i++) {
+            QDomElement filter = filters.at(i).toElement();
+            QString mltService = Xml::getXmlProperty(filter, "mlt_service");
+
+            QList<QString> propertiesToFix;
+            propertiesToFix.append(filterPropertiesToFix);
+
+            if (servicePropertiesToFix.contains(mltService)) {
+                propertiesToFix.append(servicePropertiesToFix.value(mltService));
+            }
+
+            qDebug() << "Found MLT service" << mltService << "and will fix decimal separators for" << propertiesToFix;
+
+            for (const QString &property : propertiesToFix) {
+                QString value = Xml::getXmlProperty(filter, property);
+                if (!value.isEmpty()) {
+                    QString newValue = QString(value).replace(decimalPoint, ".");
+                    Xml::setXmlProperty(filter, property, newValue);
+                    qDebug() << "Filter property" << mltService << "changed from " << value << "to" << newValue;
+                }
+            }
+
         }
 
         modified = true;
