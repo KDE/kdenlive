@@ -1,4 +1,4 @@
-set(mltpreview_SRCS mltpreview.cpp)
+set(mltpreview_SRCS mltpreview.cpp ../src/lib/localeHandling.cpp)
 
 include_directories(
   ${MLT_INCLUDE_DIR}

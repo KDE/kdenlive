@@ -23,11 +23,6 @@
 #include <QApplication>
 #include <QDir>
 #include <QDomDocument>
-#include <QObject>
-#include <QString>
-#include <QStringList>
-#include <QtGlobal>
-#include <cstdio>
 
 int main(int argc, char **argv)
 {
