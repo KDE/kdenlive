@@ -85,7 +85,7 @@ void EffectStackModel::removeService(const std::shared_ptr<Mlt::Service> &servic
     std::vector<int> to_delete;
     for (int i = int(m_childServices.size()) - 1; i >= 0; --i) {
         auto ptr = m_childServices[uint(i)].lock();
-        if (service->get_int("_childid") == ptr->get_int("_childid")) {
+        if (ptr && service->get_int("_childid") == ptr->get_int("_childid")) {
             for (int j = 0; j < rootItem->childCount(); ++j) {
                 std::static_pointer_cast<EffectItemModel>(rootItem->child(j))->unplantClone(ptr);
             }
