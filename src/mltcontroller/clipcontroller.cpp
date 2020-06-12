@@ -62,33 +62,6 @@ ClipController::ClipController(const QString &clipId, const std::shared_ptr<Mlt:
     }
     if (m_properties) {
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
-        m_service = m_properties->get("mlt_service");
-        if (m_service == QLatin1String("qtext")) {
-            // Placeholder clip, find real service
-            QString originalService = m_properties->get("kdenlive:orig_service");
-            if (!originalService.isEmpty()) {
-                m_service = originalService;
-            }
-        }
-        QString proxy = m_properties->get("kdenlive:proxy");
-        QString path = m_properties->get("resource");
-        if (proxy.length() > 2) {
-            if (QFileInfo(path).isRelative()) {
-                path.prepend(pCore->currentDoc()->documentRoot());
-                m_properties->set("resource", path.toUtf8().constData());
-            }
-            // This is a proxy producer, read original url from kdenlive property
-            path = m_properties->get("kdenlive:originalurl");
-            if (QFileInfo(path).isRelative()) {
-                path.prepend(pCore->currentDoc()->documentRoot());
-            }
-            m_usesProxy = true;
-        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
-                   path != QLatin1String("<producer>")) {
-            path.prepend(pCore->currentDoc()->documentRoot());
-            m_properties->set("resource", path.toUtf8().constData());
-        }
-        m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
         checkAudioVideo();
     } else {
@@ -115,7 +88,6 @@ const std::unique_ptr<AudioStreamInfo> &ClipController::audioInfo() const
 void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &producer)
 {
     qDebug() << "################### ClipController::addmasterproducer";
-    QString documentRoot = pCore->currentDoc()->documentRoot();
     m_masterProducer = producer;
     m_properties = new Mlt::Properties(m_masterProducer->get_properties());
     m_producerLock.unlock();
@@ -144,21 +116,6 @@ void ClipController::addMasterProducer(const std::shared_ptr<Mlt::Producer> &pro
     } else {
         checkAudioVideo();
         setProducerProperty(QStringLiteral("kdenlive:id"), m_controllerBinId);
-        QString proxy = m_properties->get("kdenlive:proxy");
-        m_service = m_properties->get("mlt_service");
-        QString path = m_properties->get("resource");
-        m_usesProxy = false;
-        if (proxy.length() > 2) {
-            // This is a proxy producer, read original url from kdenlive property
-            path = m_properties->get("kdenlive:originalurl");
-            if (QFileInfo(path).isRelative()) {
-                path.prepend(documentRoot);
-            }
-            m_usesProxy = true;
-        } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative()) {
-            path.prepend(documentRoot);
-        }
-        m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
         getInfoForProducer();
         emitProducerChanged(m_controllerBinId, producer);
     }
@@ -215,6 +172,37 @@ void ClipController::getProducerXML(QDomDocument &document, bool includeMeta, bo
 void ClipController::getInfoForProducer()
 {
     QReadLocker lock(&m_producerLock);
+    m_service = m_properties->get("mlt_service");
+    if (m_service == QLatin1String("qtext")) {
+        // Placeholder clip, find real service
+        QString originalService = m_properties->get("kdenlive:orig_service");
+        if (!originalService.isEmpty()) {
+            m_service = originalService;
+        }
+    }
+    QString proxy = m_properties->get("kdenlive:proxy");
+    QString path = m_properties->get("resource");
+    if (proxy.length() > 2) {
+        if (QFileInfo(path).isRelative()) {
+            path.prepend(pCore->currentDoc()->documentRoot());
+            m_properties->set("resource", path.toUtf8().constData());
+        }
+        // This is a proxy producer, read original url from kdenlive property
+        path = m_properties->get("kdenlive:originalurl");
+        if (QFileInfo(path).isRelative()) {
+            path.prepend(pCore->currentDoc()->documentRoot());
+        }
+        m_usesProxy = true;
+    } else if (m_service != QLatin1String("color") && m_service != QLatin1String("colour") && !path.isEmpty() && QFileInfo(path).isRelative() &&
+                   path != QLatin1String("<producer>")) {
+        path.prepend(pCore->currentDoc()->documentRoot());
+        m_properties->set("resource", path.toUtf8().constData());
+    }
+    m_path = path.isEmpty() ? QString() : QFileInfo(path).absoluteFilePath();
+    QString origurl = m_properties->get("kdenlive:originalurl");
+    if (!origurl.isEmpty()) {
+        m_properties->set("kdenlive:originalurl", m_path.toUtf8().constData());
+    }
     date = QFileInfo(m_path).lastModified();
     m_videoIndex = -1;
     int audioIndex = -1;

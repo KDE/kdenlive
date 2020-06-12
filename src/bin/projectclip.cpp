@@ -1003,6 +1003,21 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             passProperties.insert(i.key(), i.value());
         }
     }
+    if (properties.contains(QStringLiteral("resource"))) {
+        // Clip source was changed, update important stuff
+        refreshPanel = true;
+        reload = true;
+        if (m_clipType == ClipType::Color) {
+            refreshOnly = true;
+            updateRoles << TimelineModel::ResourceRole;
+        } else {
+            // Clip resource changed, update thumbnail, name, clear hash
+            refreshOnly = false;
+            resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
+            getInfoForProducer();
+            updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
+        }
+    }
     if (properties.contains(QStringLiteral("kdenlive:proxy"))) {
         QString value = properties.value(QStringLiteral("kdenlive:proxy"));
         // If value is "-", that means user manually disabled proxy on this clip
@@ -1028,18 +1043,6 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             if (forceReloadProperties.contains(k)) {
                 refreshPanel = true;
                 reload = true;
-                if (m_clipType == ClipType::Color) {
-                    refreshOnly = true;
-                    updateRoles << TimelineModel::ResourceRole;
-                } else {
-                    // Clip resource changed, update thumbnail, name, clear hash
-                    refreshOnly = false;
-                    if (propKeys.contains(QStringLiteral("resource"))) {
-                        resetProducerProperty(QStringLiteral("kdenlive:file_hash"));
-                        setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
-                        updateRoles << TimelineModel::ResourceRole << TimelineModel::MaxDurationRole << TimelineModel::NameRole;
-                    }
-                }
                 break;
             }
         }
