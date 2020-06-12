@@ -902,16 +902,6 @@ void MainWindow::saveProperties(KConfigGroup &config)
     }
 }
 
-void MainWindow::readProperties(const KConfigGroup &config)
-{
-    // read properties here
-    KXmlGuiWindow::readProperties(config);
-    // TODO: fix session management
-    /*if (qApp->isSessionRestored()) {
-    pCore->projectManager()->openFile(QUrl::fromLocalFile(config.readEntry("kdenlive_lastUrl", QString())));
-    }*/
-}
-
 void MainWindow::saveNewToolbarConfig()
 {
     KXmlGuiWindow::saveNewToolbarConfig();
