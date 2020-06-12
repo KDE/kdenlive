@@ -149,8 +149,6 @@ protected:
     /** @brief Saves the file and the window properties when saving the session. */
     void saveProperties(KConfigGroup &config) override;
 
-    /** @brief Restores the window and the file when a session is loaded. */
-    void readProperties(const KConfigGroup &config) override;
     void saveNewToolbarConfig() override;
 
 private:
