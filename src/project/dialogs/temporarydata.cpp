@@ -217,12 +217,11 @@ TemporaryData::TemporaryData(KdenliveDoc *doc, bool currentProjectOnly, QWidget 
         lay->addWidget(tab);
     }
     setLayout(lay);
-    if (globalOnly) {
+    if (globalOnly && !currentProjectOnly) {
         updateGlobalInfo();
     } else {
         updateDataInfo();
     }
-    processProxyDirectory();
 }
 
 void TemporaryData::updateDataInfo()
@@ -752,6 +751,7 @@ void TemporaryData::updateGlobalInfo()
     m_globalDirectories.removeAll(QStringLiteral("attica"));
     m_globalDirectories.removeAll(QStringLiteral("proxy"));
     m_globalDelete->setEnabled(!m_globalDirectories.isEmpty());
+    processProxyDirectory();
     processglobalDirectories();
     m_listWidget->blockSignals(false);
 }
