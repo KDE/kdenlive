@@ -252,7 +252,12 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             doc.appendChild(eff);
             res.xml = eff;
             return true;
+        } else {
+            qDebug() << "Invalid title/identifier for " << assetId;
+            qDebug() << metadata->get("title") << "/" << metadata->get("identifier");
         }
+    } else {
+        qDebug() << "Metadata for" << assetId << "is invalid.";
     }
     return false;
 }

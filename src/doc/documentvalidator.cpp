@@ -46,6 +46,7 @@
 #include <QStandardPaths>
 #include <lib/localeHandling.h>
 #include <utility>
+
 DocumentValidator::DocumentValidator(const QDomDocument &doc, QUrl documentUrl)
     : m_doc(doc)
     , m_url(std::move(documentUrl))
@@ -1744,12 +1745,23 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
 
                     bool doReplace = propName.endsWith("frame_rate") || (generalPropertiesToFix.indexOf(propName) >= 0);
 
-                    if (doReplace) {
-                        QString originalValue = text.nodeValue();
-                        QString newValue = QString(originalValue).replace(decimalPoint, '.');
-                        text.setNodeValue(newValue);
+                    bool replaced = true;
+                    QString originalValue = text.nodeValue();
+                    QString value(originalValue);
+                    if (propName == "resource") {
+                        // Fix entries like <property name="resource">0,500000:/path/to/video
+                        value.replace(QRegExp("^(\\d+)" + QString(decimalPoint) + "(\\d+:))"), "\\1.\\2");
+                    } else if (doReplace) {
+                        // Just replace decimal point
+                        value.replace(decimalPoint, '.');
+                    } else {
+                        replaced = false;
+                    }
+
+                    if (replaced) {
+                        text.setNodeValue(value);
                         qDebug() << "Decimal separator: Converted " << propName << " from " << originalValue << " to "
-                                 << newValue;
+                                 << value;
                     }
                 }
             }
@@ -1766,6 +1778,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         QMap <QString, QList<QString> > servicePropertiesToFix;
         servicePropertiesToFix.insert("panner", {"start"});
         servicePropertiesToFix.insert("volume", {"level"});
+        servicePropertiesToFix.insert("lumaliftgaingamma", {"lift", "gain", "gamma"});
 
         // Fix filter properties.
         // Note that effect properties will be fixed when the effect is loaded

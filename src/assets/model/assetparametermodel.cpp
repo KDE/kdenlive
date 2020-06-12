@@ -129,7 +129,13 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
             if (!originalDecimalPoint.isEmpty()) {
-                value.replace(QRegExp("(=\\d+),(\\d+)"), "\\1.\\2");
+                if (currentRow.type == ParamType::KeyframeParam) {
+                    // Fix values like <position>=1,5
+                    value.replace(QRegExp(R"((=\d+),(\d+))"), "\\1.\\2");
+                } else {
+                    // Fix values like <position>=50 20 1920 1080 0,75
+                    value.replace(QRegExp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
+                }
                 qDebug() << "Decimal point conversion: " << name << "=" << value;
             }
         } else if (currentRow.type == ParamType::List) {

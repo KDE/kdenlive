@@ -47,7 +47,7 @@ enum class ParamType {
     Switch,
     RestrictedAnim, // animated 1 dimensional param with linear support only
     Animated,
-    AnimatedRect,
+    AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
     Geometry,
     Addedgeometry,
     KeyframeParam,
