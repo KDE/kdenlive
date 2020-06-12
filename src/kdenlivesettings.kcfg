@@ -28,6 +28,10 @@
   </group>
 
   <group name="misc">
+    <entry name="cleanCacheMonths" type="Int">
+      <label>Number of months to discard cache data.</label>
+      <default>6</default>
+    </entry>
     <entry name="openlastproject" type="Bool">
       <label>Open last project on startup.</label>
       <default>false</default>
@@ -961,7 +965,7 @@
       <label>Show additional controls in the c0rners on-monitor widget.</label>
       <default>false</default>
     </entry>
-    
+
     <entry name="projectloading_avformatnovalidate" type="Bool">
       <label>Do not validate the video files when loading a project for the sake of speed.</label>
       <default>false</default>
@@ -971,12 +975,12 @@
       <label>Display audio levels.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="enable_recording_preview" type="Bool">
       <label>Should we display video frames while capturing.</label>
       <default>true</default>
     </entry>
-    
+
     <entry name="add_new_clip" type="Bool">
       <label>Add cut clips to project after transcoding.</label>
       <default>true</default>

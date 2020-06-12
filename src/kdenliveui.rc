@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="184" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="185" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -242,6 +242,7 @@
       <ActionList name="dock_actions" />
     </Menu>
     <Menu name="settings" >
+      <Action name="manage_cache" />
       <Action name="run_wizard" />
       <Menu name="qt_opengl" ><text>OpenGL Backend</text>
         <Action name="opengl_auto" />

@@ -34,6 +34,7 @@ class QLabel;
 class QGridLayout;
 class QTreeWidget;
 class QPushButton;
+class QToolButton;
 
 /**
  * @class ChartWidget
@@ -101,11 +102,13 @@ private:
     ChartWidget *m_globalPie;
     QLabel *m_previewSize;
     QLabel *m_proxySize;
+    QLabel *m_totalProxySize;
     QLabel *m_audioSize;
     QLabel *m_thumbSize;
     QLabel *m_currentSize;
     QLabel *m_globalSize;
     QLabel *m_selectedSize;
+    QLabel *m_backupSize;
     QWidget *m_currentPage;
     QWidget *m_globalPage;
     QTreeWidget *m_listWidget;
@@ -117,12 +120,14 @@ private:
     QString m_processingDirectory;
     QDir m_globalDir;
     QStringList m_proxies;
-    QPushButton *m_globalDelete;
+    QToolButton *m_globalDelete;
     void updateDataInfo();
     void updateGlobalInfo();
     void updateTotal();
     void buildGlobalCacheDialog(int minHeight);
     void processglobalDirectories();
+    void processBackupDirectories();
+    void processProxyDirectory();
 
 private slots:
     void gotPreviewSize(KJob *job);
@@ -130,14 +135,21 @@ private slots:
     void gotAudioSize(KJob *job);
     void gotThumbSize(KJob *job);
     void gotFolderSize(KJob *job);
+    void gotBackupSize(KJob *job);
+    void gotProjectProxySize(KJob *job);
     void refreshGlobalPie();
     void deletePreview();
+    void deleteProjectProxy();
     void deleteProxy();
     void deleteAudio();
     void deleteThumbs();
     void deleteCurrentCacheData();
+    void deleteBackup();
+    void cleanBackup();
     void openCacheFolder();
     void deleteSelected();
+    void cleanCache();
+    void cleanProxy();
 
 signals:
     void disableProxies();
