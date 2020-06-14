@@ -83,8 +83,10 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     , ClipController(id, std::move(producer))
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
-    if (producer->get_int("_placeholder") == 1 || producer->get_int("_missingsource") == 1) {
+    if (producer->get_int("_placeholder") == 1) {
         m_clipStatus = StatusMissing;
+    } else if (producer->get_int("_missingsource") == 1) {
+        m_clipStatus = StatusProxyOnly;
     } else {
         m_clipStatus = StatusReady;
     }
@@ -879,7 +881,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
 
 bool ProjectClip::isReady() const
 {
-    return m_clipStatus == StatusReady;
+    return m_clipStatus == StatusReady || m_clipStatus == StatusProxyOnly;
 }
 
 QPoint ProjectClip::zone() const

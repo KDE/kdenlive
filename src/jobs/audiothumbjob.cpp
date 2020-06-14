@@ -114,7 +114,7 @@ bool AudioThumbJob::computeWithMlt()
 bool AudioThumbJob::computeWithFFMPEG()
 {
     QString filePath = m_prod->get("kdenlive:originalurl");
-    if (filePath.isEmpty()) {
+    if (filePath.isEmpty() || !QFile::exists(filePath)) {
         filePath = m_prod->get("resource");
     }
     m_ffmpegProcess.reset(new QProcess);
