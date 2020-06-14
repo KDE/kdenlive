@@ -29,7 +29,7 @@ public:
     
     /** @brief Function that parses through a subtitle file */ 
     void parseSubtitle();
-    void addSubtitle(int ix,GenTime start,GenTime end, QString str);
+    void addSubtitle(GenTime start,GenTime end, QString str);
     GenTime stringtoTime(QString str);
 
 private:
