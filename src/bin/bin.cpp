@@ -228,9 +228,9 @@ public:
                 }
                 // Add audio/video icons for selective drag
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
-                if (clipStatus == AbstractProjectItem::StatusMissing) {
+                if (clipStatus == AbstractProjectItem::StatusMissing || clipStatus == AbstractProjectItem::StatusProxyOnly) {
                     painter->save();
-                    painter->setPen(QPen(Qt::red, 3));
+                    painter->setPen(QPen(clipStatus == AbstractProjectItem::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
                     painter->drawRect(m_thumbRect);
                     painter->restore();
                 } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
@@ -1415,7 +1415,7 @@ void Bin::slotReloadClip()
         }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
-            if (currentItem->clipStatus() == AbstractProjectItem::StatusMissing) {
+            if (currentItem->clipStatus() == AbstractProjectItem::StatusMissing || currentItem->clipStatus() == AbstractProjectItem::StatusProxyOnly) {
                 // Don't attempt to reload missing clip
                 emit displayBinMessage(i18n("Missing source clip"), KMessageWidget::Warning);
                 return;

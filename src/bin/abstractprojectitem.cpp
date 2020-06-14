@@ -261,7 +261,7 @@ void AbstractProjectItem::setClipStatus(CLIPSTATUS status)
 
 bool AbstractProjectItem::statusReady() const
 {
-    return m_clipStatus == StatusReady;
+    return m_clipStatus == StatusReady || m_clipStatus == StatusProxyOnly;
 }
 
 AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
