@@ -211,6 +211,9 @@ protected:
     /** @brief Returns the producer's duration, or -1 if it can be resized without limit  */
     int getMaxDuration() const;
 
+    /** @brief Returns true if the parent Bin Clip uses a proxy  */
+    bool isProxied() const;
+
     /*@brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();
 

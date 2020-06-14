@@ -273,8 +273,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return result;
         }
         case IsProxyRole: {
-            const QString proxy = clip->getProperty("kdenlive:proxy");
-            return proxy.size() > 2;
+            return clip->isProxied();
         }
         case FakeTrackIdRole:
             return clip->getFakeTrackId();

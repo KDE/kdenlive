@@ -1755,7 +1755,7 @@ void Bin::slotAddFolder()
     // Edit folder name
     auto folder = m_itemModel->getFolderByBinId(newId);
     auto ix = m_itemModel->getIndexFromItem(folder);
-    
+
     // Scroll to ensure folder is visible
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
     qDebug() << "selecting" << ix;
@@ -4170,4 +4170,22 @@ void Bin::addClipMarker(const QString binId, QList<int> positions)
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
+}
+
+void Bin::checkMissingProxies()
+{
+    if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0) {
+        return;
+    }
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    QList<std::shared_ptr<ProjectClip>> toProxy;
+    for (auto clip : clipList) {
+        if (clip->getProducerIntProperty(QStringLiteral("_replaceproxy")) > 0) {
+            clip->resetProducerProperty(QStringLiteral("_replaceproxy"));
+            toProxy << clip;
+        }
+    }
+    if (!toProxy.isEmpty()) {
+        pCore->currentDoc()->slotProxyCurrentItem(true, toProxy);
+    }
 }
