@@ -1730,8 +1730,16 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
     if (decimalPoint != '.') {
         qDebug() << "Decimal point is NOT OK and needs fixing. Converting to . from " << decimalPoint;
 
+        auto fixTimecode = [decimalPoint] (QString &value) {
+            QRegExp reTimecode("(\\d+:\\d+:\\d+)" + QString(decimalPoint) + "(\\d+)");
+            QRegExp reValue("(=\\d+)" + QString(decimalPoint) + "(\\d+)");
+            value.replace(reTimecode, "\\1.\\2")
+                    .replace(reValue, "\\1.\\2");
+        };
+
+
         // List of properties which always need to be fixed
-        QList<QString> generalPropertiesToFix = {"warp_speed"};
+        QList<QString> generalPropertiesToFix = {"warp_speed", "length"};
 
         // Fix properties just by name, anywhere in the file
         auto props = m_doc.elementsByTagName(QStringLiteral("property"));
@@ -1743,24 +1751,23 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 QDomText text = element.firstChild().toText();
                 if (!text.isNull()) {
 
-                    bool doReplace = propName.endsWith("frame_rate") || (generalPropertiesToFix.indexOf(propName) >= 0);
+                    bool autoReplace = propName.endsWith("frame_rate") || (generalPropertiesToFix.indexOf(propName) >= 0);
 
-                    bool replaced = true;
                     QString originalValue = text.nodeValue();
                     QString value(originalValue);
                     if (propName == "resource") {
                         // Fix entries like <property name="resource">0,500000:/path/to/video
-                        value.replace(QRegExp("^(\\d+)" + QString(decimalPoint) + "(\\d+:))"), "\\1.\\2");
-                    } else if (doReplace) {
+                        value.replace(QRegExp("^(\\d+)" + QString(decimalPoint) + "(\\d+:)"), "\\1.\\2");
+                    } else if (autoReplace) {
                         // Just replace decimal point
                         value.replace(decimalPoint, '.');
                     } else {
-                        replaced = false;
+                        fixTimecode(value);
                     }
 
-                    if (replaced) {
+                    if (originalValue != value) {
                         text.setNodeValue(value);
-                        qDebug() << "Decimal separator: Converted " << propName << " from " << originalValue << " to "
+                        qDebug() << "Decimal point: Converted " << propName << " from " << originalValue << " to "
                                  << value;
                     }
                 }
@@ -1780,6 +1787,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         servicePropertiesToFix.insert("volume", {"level"});
         servicePropertiesToFix.insert("lumaliftgaingamma", {"lift", "gain", "gamma"});
 
+
         // Fix filter properties.
         // Note that effect properties will be fixed when the effect is loaded
         // as there is more information available about the parameter type.
@@ -1796,17 +1804,46 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 propertiesToFix.append(servicePropertiesToFix.value(mltService));
             }
 
-            qDebug() << "Found MLT service" << mltService << "and will fix decimal separators for" << propertiesToFix;
+            qDebug() << "Decimal point: Found MLT service" << mltService << "and will fix " << propertiesToFix;
 
             for (const QString &property : propertiesToFix) {
                 QString value = Xml::getXmlProperty(filter, property);
                 if (!value.isEmpty()) {
                     QString newValue = QString(value).replace(decimalPoint, ".");
-                    Xml::setXmlProperty(filter, property, newValue);
-                    qDebug() << "Filter property" << mltService << "changed from " << value << "to" << newValue;
+                    if (value != newValue) {
+                        Xml::setXmlProperty(filter, property, newValue);
+                        qDebug() << "Decimal point: Property" << mltService << "converted from " << value << "to" << newValue;
+                    }
                 }
             }
 
+        }
+
+        auto fixAttribute = [fixTimecode](QDomElement &el, const QString &attributeName) {
+            if (el.nodeName() == "blank") {
+                qDebug() << "This is a blank!";
+            }
+            if (el.hasAttribute(attributeName)) {
+                QString oldValue = el.attribute(attributeName, "");
+                QString newValue(oldValue);
+                fixTimecode(newValue);
+                if (oldValue != newValue) {
+                    el.setAttribute(attributeName, newValue);
+                    qDebug() << "Decimal point: Converted" << oldValue << "to" << newValue << "in" << el.nodeName() << attributeName;
+                }
+            }
+        };
+
+        // Fix attributes
+        QList<QString> tagsToFix = {"producer", "filter", "tractor", "entry", "transition", "blank"};
+        for (const QString &tag : tagsToFix) {
+            QDomNodeList elements = m_doc.elementsByTagName(tag);
+            for (int i = 0; i < elements.count(); i++) {
+                QDomElement el = elements.at(i).toElement();
+                fixAttribute(el, "in");
+                fixAttribute(el, "out");
+                fixAttribute(el, "length");
+            }
         }
 
         modified = true;
