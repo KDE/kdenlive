@@ -191,3 +191,39 @@ void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString str)
     model->m_subtitleList[start] = {str, end};
     model->endInsertRows();
 }
+
+QHash<int, QByteArray> SubtitleModel::roleNames() const 
+{
+    QHash<int, QByteArray> roles;
+    roles[SubtitleRole] = "subtitle";
+    roles[StartPosRole] = "startposition";
+    roles[EndPosRole] = "endposition";
+    roles[StartFrameRole] = "startframe";
+    roles[EndFrameRole] = "endframe";
+    return roles;
+}
+
+QVariant SubtitleModel::data(const QModelIndex& index, int role) const
+{   
+    if (index.row() < 0 || index.row() >= static_cast<int>(m_subtitleList.size()) || !index.isValid()) {
+        return QVariant();
+    }
+    auto it = m_subtitleList.begin();
+    std::advance(it, index.row());
+    switch (role) {
+    case Qt::DisplayRole:
+    case Qt::EditRole:
+    case SubtitleRole:
+        return it->second.first;
+    case StartPosRole:
+        return it->first.seconds();
+    case EndPosRole:
+        return it->second.second.seconds();
+    case StartFrameRole:
+    case Qt::UserRole:
+        return it->first.frames(pCore->getCurrentFps());
+    case EndFrameRole:
+        return it->second.second.frames(pCore->getCurrentFps());
+    }
+    return QVariant();
+}
