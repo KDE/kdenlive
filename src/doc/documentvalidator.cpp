@@ -1785,6 +1785,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         QMap <QString, QList<QString> > servicePropertiesToFix;
         servicePropertiesToFix.insert("panner", {"start"});
         servicePropertiesToFix.insert("volume", {"level"});
+        servicePropertiesToFix.insert("window", {"gain"});
         servicePropertiesToFix.insert("lumaliftgaingamma", {"lift", "gain", "gamma"});
 
 
