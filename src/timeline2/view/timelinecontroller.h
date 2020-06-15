@@ -512,6 +512,8 @@ public:
     void resetPreview();
     /** @brief Set target tracks (video, audio) */
     void setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets);
+    /** @brief Restore Bin Clip original target tracks (video, audio) */
+    void restoreTargetTracks();
     /** @brief Return asset's display name from it's id (effect or composition) */
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */

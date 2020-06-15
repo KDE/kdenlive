@@ -1729,6 +1729,7 @@ void MainWindow::setupActions()
               Qt::SHIFT + Qt::Key_A);
     addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
               Qt::SHIFT + Qt::ALT + Qt::Key_A);
+    addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()));
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")));
 

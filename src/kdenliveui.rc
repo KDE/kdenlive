@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="185" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="186" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -153,6 +153,7 @@
         <Action name="switch_active_target" />
         <Action name="switch_all_targets" />
         <Action name="activate_all_targets" />
+        <Action name="restore_all_sources" />
       </Menu>
       <Separator />
       <Menu name="video_effects_menu" ><text>Add Effect</text>

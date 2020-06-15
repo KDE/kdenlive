@@ -804,6 +804,11 @@ void ProjectManager::slotMakeAllTrackActive()
     pCore->window()->getMainTimeline()->controller()->makeAllTrackActive();
 }
 
+void ProjectManager::slotRestoreTargetTracks()
+{
+    pCore->window()->getMainTimeline()->controller()->restoreTargetTracks();
+}
+
 void ProjectManager::slotSwitchAllTrackLock()
 {
     pCore->window()->getMainTimeline()->controller()->switchTrackLock(true);

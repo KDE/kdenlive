@@ -117,6 +117,11 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
+void TimelineController::restoreTargetTracks()
+{
+    setTargetTracks(m_hasVideoTarget, m_model->m_binAudioTargets);
+}
+
 void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
 {
     int videoTrack = -1;
