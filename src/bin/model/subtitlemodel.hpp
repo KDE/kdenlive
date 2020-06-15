@@ -38,6 +38,9 @@ private:
     //To get subtitle file from effects parameter:
     //std::unique_ptr<Mlt::Properties> m_asset;
     //std::shared_ptr<AssetParameterModel> m_model;
+protected:
+    /** @brief Helper function that retrieves a pointer to the subtitle model*/
+    static std::shared_ptr<SubtitleModel> getModel();
 
 };
 Q_DECLARE_METATYPE(SubtitleModel *)

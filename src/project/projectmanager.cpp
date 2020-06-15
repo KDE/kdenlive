@@ -27,6 +27,7 @@ the Free Software Foundation, either version 3 of the License, or
 
 // Temporary for testing
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 
 #include "profiles/profilerepository.hpp"
 #include "project/notesplugin.h"
@@ -1078,4 +1079,9 @@ QPair<int, int> ProjectManager::tracksCount()
 void ProjectManager::addAudioTracks(int tracksCount)
 {
     pCore->window()->getMainTimeline()->controller()->addTracks(0, tracksCount);
+}
+
+std::shared_ptr<SubtitleModel> ProjectManager::getSubtitleModel()
+{
+    return current()->getSubtitleModel();
 }

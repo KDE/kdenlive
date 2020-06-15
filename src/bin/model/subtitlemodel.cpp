@@ -5,6 +5,7 @@
 
 SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
+    , m_undoStack(std::move(undo_stack))
 {
 
 }
@@ -56,7 +57,7 @@ void SubtitleModel::parseSubtitle()
                     start = srtTime[0];
                     startPos= stringtoTime(start);
                     end = srtTime[2];
-                    startPos= stringtoTime(start);
+                    startPos = stringtoTime(start);
                 } else {
                     r++;
                     if (comment != "")
@@ -131,7 +132,7 @@ void SubtitleModel::parseSubtitle()
                     } else {
                         QString EventDialogue;
                         QStringList dialogue;
-                        start ="";end ="";comment="";
+                        start = "";end = "";comment = "";
                         EventDialogue += line;
                         dialogue = EventDialogue.split(": ")[1].split(',');
                         QString remainingStr = "," + EventDialogue.split(": ")[1].section(',', maxSplit);
@@ -159,8 +160,8 @@ void SubtitleModel::parseSubtitle()
 GenTime SubtitleModel::stringtoTime(QString str)
 {
     QStringList total,secs;
-    int hours=0, mins=0, seconds=0, ms=0;
-    double total_sec=0;
+    double hours = 0, mins = 0, seconds = 0, ms = 0;
+    double total_sec = 0;
     total = str.split(':');
     hours = atoi(total[0].toStdString().c_str());
     mins = atoi(total[1].toStdString().c_str());
@@ -170,7 +171,7 @@ GenTime SubtitleModel::stringtoTime(QString str)
         secs = total[2].split(','); //srt file
     seconds = atoi(secs[0].toStdString().c_str());
     ms = atoi(secs[1].toStdString().c_str());
-    total_sec= hours *3600 + mins *60 + seconds + ms * 0.001 ;
+    total_sec = hours *3600 + mins *60 + seconds + ms * 0.001 ;
     GenTime pos= GenTime(total_sec);
     return pos;
 }

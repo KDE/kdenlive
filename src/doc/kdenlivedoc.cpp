@@ -23,6 +23,7 @@
 #include "bin/binplaylist.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
@@ -1770,4 +1771,9 @@ int KdenliveDoc::audioChannels() const
 
 QString& KdenliveDoc::modifiedDecimalPoint() {
     return m_modifiedDecimalPoint;
+}
+
+std::shared_ptr<SubtitleModel> KdenliveDoc::getSubtitleModel() const
+{
+    return m_subtitleModel;
 }

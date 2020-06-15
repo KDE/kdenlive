@@ -30,6 +30,7 @@ class KAutoSaveFile;
 class KJob;
 class KdenliveDoc;
 class MarkerListModel;
+class SubtitleModel;
 class NotesPlugin;
 class Project;
 class QAction;
@@ -96,6 +97,11 @@ public:
     /** @brief Add requested audio tracks number to projet.
      */
     void addAudioTracks(int tracksCount);
+
+    /** @brief Return the current Subtitle Model
+        The method is virtual to allow mocking
+     */
+    virtual std::shared_ptr<SubtitleModel> getSubtitleModel();
 
 public slots:
     void newFile(QString profileName, bool showProjectSettings = true);

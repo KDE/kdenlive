@@ -44,6 +44,7 @@ class ProjectClip;
 class MarkerListModel;
 class Render;
 class ProfileParam;
+class SubtitleModel;
 
 class QUndoGroup;
 class QUndoCommand;
@@ -162,11 +163,14 @@ public:
     /** @brief Returns the number of audio channels for this project */
     int audioChannels() const;
 
+
     /**
      * If the document used a decimal point different than “.”, it is stored in this property.
      * @return Original decimal point, or an empty string if it was “.” already
      */
     QString &modifiedDecimalPoint();
+    /** @brief Returns a pointer to the subtitle model */
+    std::shared_ptr<SubtitleModel> getSubtitleModel() const;
 
 private:
     QUrl m_url;
@@ -197,6 +201,7 @@ private:
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
     std::shared_ptr<MarkerListModel> m_guideModel;
+    std::shared_ptr<SubtitleModel> m_subtitleModel;
 
     QString m_modifiedDecimalPoint;
 
