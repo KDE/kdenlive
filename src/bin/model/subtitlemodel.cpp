@@ -175,3 +175,19 @@ GenTime SubtitleModel::stringtoTime(QString str)
     GenTime pos= GenTime(total_sec);
     return pos;
 }
+
+void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString str)
+{
+    auto model = getModel(); //gets model shared ptr
+    Q_ASSERT(model->m_subtitleList.count(start)==0); //returns warning if sub at start time position already exists ,i.e. count !=0
+    auto it= model->m_subtitleList.lower_bound(start); // returns the key and its value *just* greater than start.
+    Q_ASSERT(it->first < model->m_subtitleList.end()->second.second); // returns warning if added subtitle start time is less than last subtitle's end time
+    int insertRow= static_cast<int>(model->m_subtitleList.size());//converts the returned unsigned size() to signed int
+    /* For adding it in the middle of the list */
+    if (it != model->m_subtitleList.end()) { // check if the subtitle greater than added subtitle is not the same as the last one
+        insertRow = static_cast<int>(std::distance(model->m_subtitleList.begin(), it));
+    }
+    model->beginInsertRows(QModelIndex(), insertRow, insertRow);
+    model->m_subtitleList[start] = {str, end};
+    model->endInsertRows();
+}
