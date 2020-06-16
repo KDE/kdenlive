@@ -39,6 +39,7 @@ class QListWidget;
 class QGroupBox;
 class QCheckBox;
 class QButtonGroup;
+class QSpinBox;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -121,10 +122,12 @@ private:
     QTextEdit *m_textEdit;
     QListWidget *m_audioStreamsView;
     QGroupBox *m_audioEffectGroup;
-    QCheckBox *m_swapChanels;
+    QCheckBox *m_swapChannels;
+    QCheckBox *m_normalize;
     QButtonGroup *m_copyChannelGroup;
     QCheckBox *m_copyChannel1;
     QCheckBox *m_copyChannel2;
+    QSpinBox *m_gain;
     /** @brief The selected audio stream. */
     int m_activeAudioStreams;
     void fillProperties();
