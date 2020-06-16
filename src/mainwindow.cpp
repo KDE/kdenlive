@@ -1323,10 +1323,10 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme(QStringLiteral("media-optical")));
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
-    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("E&xport project"), this);
+    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport"), this);
     connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
     addAction(QStringLiteral("export_project"), exportAction);
-    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("&Import project"), this);
+    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("OpenTimelineIO &Import"), this);
     connect(importAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotImportProject);
     addAction(QStringLiteral("import_project"), importAction);
 
