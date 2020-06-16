@@ -609,6 +609,17 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 m_audioProducers[trackId] = cloneProducer(true);
                 m_audioProducers[trackId]->set("set.test_audio", 0);
                 m_audioProducers[trackId]->set("set.test_image", 1);
+                if (m_streamEffects.contains(audioStream)) {
+                    QStringList effects = m_streamEffects.value(audioStream);
+                    for (const QString effect : effects) {
+                        Mlt::Filter filt(*m_audioProducers[trackId]->profile(), effect.toUtf8().constData());
+                        if (filt.is_valid()) {
+                            // Add stream effect markup
+                            filt.set("kdenlive:stream", 1);
+                            m_audioProducers[trackId]->attach(filt);
+                        }
+                    }
+                }
                 if (audioStream > -1) {
                     m_audioProducers[trackId]->set("audio_index", audioStream);
                 }
@@ -622,7 +633,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         }
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
-            // We need to get an audio producer, if none exists
+            // We need to get an video producer, if none exists
             if (m_videoProducers.count(trackId) == 0) {
                 m_videoProducers[trackId] = cloneProducer(true);
                 m_videoProducers[trackId]->set("set.test_audio", 1);
@@ -1592,4 +1603,113 @@ void ProjectClip::renameAudioStream(int id, QString name)
         }
         pCore->bin()->reloadMonitorStreamIfActive(clipId());
     }
+}
+
+void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName)
+{
+    QString addedEffectName;
+    QMap <QString, QString> effectParams;
+    if (effectName.contains(QLatin1Char(' '))) {
+        // effect has parameters
+        QStringList params = effectName.split(QLatin1Char(' '));
+        addedEffectName = params.takeFirst();
+        for (const QString &p : params) {
+            QStringList paramValue = p.split(QLatin1Char('='));
+            if (paramValue.size() == 2) {
+                effectParams.insert(paramValue.at(0), paramValue.at(1));
+            }
+        }
+    } else {
+        addedEffectName = effectName;
+    }
+    QStringList effects;
+    if (m_streamEffects.contains(streamIndex)) {
+        QStringList readEffects = m_streamEffects.value(streamIndex);
+        // Remove effect if present (parameters might have changed
+        for (const QString effect : readEffects) {
+            if (effect == addedEffectName || effect.startsWith(addedEffectName + QStringLiteral(" "))) {
+                continue;
+            }
+            effects << effect;
+        }
+        effects << effectName;
+    } else {
+        effects = QStringList({effectName});
+    }
+    m_streamEffects.insert(streamIndex, effects);
+    setProducerProperty(QString("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
+    for (auto &p : m_audioProducers) {
+        int stream = p.first / 100;
+        if (stream == streamIndex) {
+            Mlt::Filter filt(*p.second->profile(), addedEffectName.toUtf8().constData());
+            if (filt.is_valid()) {
+                // Add stream effect markup
+                filt.set("kdenlive:stream", 1);
+                // Set parameters
+                QMapIterator<QString, QString> i(effectParams);
+                while (i.hasNext()) {
+                    i.next();
+                    filt.set(i.key().toUtf8().constData(), i.value().toUtf8().constData());
+                }
+                p.second->attach(filt);
+            }
+        }
+    }
+}
+
+void ProjectClip::removeAudioStreamEffect(int streamIndex, QString effectName)
+{
+    QStringList effects;
+    if (effectName.contains(QLatin1Char(' '))) {
+        effectName = effectName.section(QLatin1Char(' '), 0, 0);
+    }
+    if (m_streamEffects.contains(streamIndex)) {
+        QStringList readEffects = m_streamEffects.value(streamIndex);
+        // Remove effect if present (parameters might have changed
+        for (const QString effect : readEffects) {
+            if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
+                continue;
+            }
+            effects << effect;
+        }
+        if (effects.isEmpty()) {
+            m_streamEffects.remove(streamIndex);
+            resetProducerProperty(QString("kdenlive:stream:%1").arg(streamIndex));
+        } else {
+            m_streamEffects.insert(streamIndex, effects);
+            setProducerProperty(QString("kdenlive:stream:%1").arg(streamIndex), effects.join(QLatin1Char('#')));
+        }
+    } else {
+        // No effects for this stream, this is not expected, abort
+        return;
+    }
+    for (auto &p : m_audioProducers) {
+        int stream = p.first / 100;
+        if (stream == streamIndex) {
+            int max = p.second->filter_count();
+            for (int i = 0; i < max; i++) {
+                std::shared_ptr<Mlt::Filter> fl(p.second->filter(i));
+                if (!fl->is_valid()) {
+                    continue;
+                }
+                if (fl->get_int("kdenlive:stream") != 1)  {
+                    // This is not an audio stream effect
+                    continue;
+                }
+                if (fl->get("mlt_service") == effectName) {
+                    p.second->detach(*fl.get());
+                    break;
+                }
+            }
+        }
+    }
+}
+
+QStringList ProjectClip::getAudioStreamEffect(int streamIndex) const
+{
+    QStringList effects;
+    if (m_streamEffects.contains(streamIndex)) {
+        effects = m_streamEffects.value(streamIndex);
+    }
+    return effects;
 }

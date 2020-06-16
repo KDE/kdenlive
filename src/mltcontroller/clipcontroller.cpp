@@ -263,6 +263,13 @@ void ClipController::getInfoForProducer()
     }
     if (audioIndex > -1 || m_clipType == ClipType::Playlist) {
         m_audioInfo = std::make_unique<AudioStreamInfo>(m_masterProducer, audioIndex);
+        // Load stream effects
+        for (int stream : m_audioInfo->streams().keys()) {
+            QString streamEffect = m_properties->get(QString("kdenlive:stream:%1").arg(stream).toUtf8().constData());
+            if (!streamEffect.isEmpty()) {
+                m_streamEffects.insert(stream, streamEffect.split(QChar('#')));
+            }
+        }
     }
 
     if (!m_hasLimitedDuration) {

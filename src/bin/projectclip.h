@@ -233,6 +233,12 @@ public:
     /** @brief Rename an audio stream for this clip
      */
     void renameAudioStream(int id, QString name) override;
+    /** @brief Add an audio effect on a specific audio stream for this clip. */
+    void addAudioStreamEffect(int streamIndex, const QString effectName) override;
+    /** @brief Remove an audio effect on a specific audio stream for this clip. */
+    void removeAudioStreamEffect(int streamIndex, QString effectName) override;
+    /** @brief Get the list of audio stream effects for a defined stream. */
+    QStringList getAudioStreamEffect(int streamIndex) const override;
 
 protected:
     friend class ClipModel;

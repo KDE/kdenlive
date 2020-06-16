@@ -36,6 +36,9 @@ class QTextEdit;
 class QLabel;
 class QComboBox;
 class QListWidget;
+class QGroupBox;
+class QCheckBox;
+class QButtonGroup;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -117,7 +120,16 @@ private:
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
     QListWidget *m_audioStreamsView;
+    QGroupBox *m_audioEffectGroup;
+    QCheckBox *m_swapChanels;
+    QButtonGroup *m_copyChannelGroup;
+    QCheckBox *m_copyChannel1;
+    QCheckBox *m_copyChannel2;
+    /** @brief The selected audio stream. */
+    int m_activeAudioStreams;
     void fillProperties();
+    /** @brief Add/remove icon beside audio stream to indicate effects. */
+    void updateStreamIcon(int row, int streamIndex);
 
 signals:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);
