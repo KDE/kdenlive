@@ -1821,9 +1821,6 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         }
 
         auto fixAttribute = [fixTimecode](QDomElement &el, const QString &attributeName) {
-            if (el.nodeName() == "blank") {
-                qDebug() << "This is a blank!";
-            }
             if (el.hasAttribute(attributeName)) {
                 QString oldValue = el.attribute(attributeName, "");
                 QString newValue(oldValue);
@@ -1839,6 +1836,9 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         QList<QString> tagsToFix = {"producer", "filter", "tractor", "entry", "transition", "blank"};
         for (const QString &tag : tagsToFix) {
             QDomNodeList elements = m_doc.elementsByTagName(tag);
+            if (tag == "producer") {
+                qDebug() << "Fixing producers ..";
+            }
             for (int i = 0; i < elements.count(); i++) {
                 QDomElement el = elements.at(i).toElement();
                 fixAttribute(el, "in");

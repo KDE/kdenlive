@@ -80,7 +80,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         assetXml.save(stream, 1);
         qDebug() << "XML to parse: " << str;
     }
-    if (!originalDecimalPoint.isEmpty()) {
+    bool fixDecimalPoint = !originalDecimalPoint.isEmpty();
+    if (fixDecimalPoint) {
         qDebug() << "Original decimal point was different:" << originalDecimalPoint << "Values will be converted if required.";
     }
     for (int i = 0; i < parameterNodes.count(); ++i) {
@@ -113,6 +114,9 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
             value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
         }
+        if (name == "variance") {
+            qDebug() << "Hey";
+        }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
             m_fixedParams[name] = value;
@@ -128,33 +132,68 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             if (!value.contains(QLatin1Char('='))) {
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
-            if (!originalDecimalPoint.isEmpty()) {
-                if (currentRow.type == ParamType::KeyframeParam) {
+        }
+
+        if (fixDecimalPoint) {
+            bool converted = true;
+            switch (currentRow.type) {
+                case ParamType::KeyframeParam:
+                case ParamType::Position:
                     // Fix values like <position>=1,5
                     value.replace(QRegExp(R"((=\d+),(\d+))"), "\\1.\\2");
-                } else {
+                    break;
+                case ParamType::AnimatedRect:
                     // Fix values like <position>=50 20 1920 1080 0,75
                     value.replace(QRegExp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
-                }
+                    break;
+                case ParamType::List:
+                    // Despite its name, a list type parameter is a single value *chosen from* a list.
+                    // If it contains a non-“.” decimal separator, it is very likely wrong.
+                    // Fall-through, treat like Double
+                case ParamType::Double:
+                case ParamType::Hidden:
+                case ParamType::Bezier_spline:
+                    value.replace(originalDecimalPoint, ".");
+                    break;
+                case ParamType::Bool:
+                case ParamType::Color:
+                case ParamType::Fontfamily:
+                case ParamType::Keywords:
+                case ParamType::Readonly:
+                case ParamType::RestrictedAnim: // Fine because unsupported
+                case ParamType::Animated: // Fine because unsupported
+                case ParamType::Addedgeometry: // Fine because unsupported
+                case ParamType::Url:
+                    // All fine
+                    converted = false;
+                    break;
+                case ParamType::ColorWheel:
+                case ParamType::Curve:
+                case ParamType::Geometry:
+                case ParamType::Switch:
+                case ParamType::Wipe:
+                    // Pretty sure that those are fine
+                    converted = false;
+                    break;
+                case ParamType::Roto_spline: // Not sure because cannot test
+                case ParamType::Filterjob:
+                    // Not sure if fine
+                    converted = false;
+                    break;
+            }
+            if (converted) {
                 qDebug() << "Decimal point conversion: " << name << "=" << value;
-            }
-        } else if (currentRow.type == ParamType::List) {
-            // Despite its name, a list type parameter is a single value *chosen from* a list.
-            // If it contains a non-“.” decimal separator, it is very likely wrong.
-            if (!originalDecimalPoint.isEmpty()) {
-                value.replace(originalDecimalPoint, ".");
-                qDebug() << "Decial point conversion: " << name << "=" << value;
-            }
-        } else if (currentRow.type == ParamType::Animated) {
-            if (!originalDecimalPoint.isEmpty()) {
-                qDebug() << "PROBABLY ISSUE " << name << value;
+            } else {
+                qDebug() << "No fixing needed for" << name << "=" << value;
             }
         }
+
         if (!name.isEmpty()) {
             internalSetParameter(name, value);
             // Keep track of param order
             m_paramOrder.push_back(name);
         }
+
         if (isFixed) {
             // fixed parameters are not displayed so we don't store them.
             continue;
@@ -173,6 +212,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
     }
+
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
     emit modelChanged();
 }
