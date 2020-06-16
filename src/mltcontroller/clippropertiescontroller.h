@@ -76,6 +76,7 @@ public slots:
     void slotFillAnalysisData();
     void slotDeleteSelectedMarkers();
     void slotSelectAllMarkers();
+    void updateStreamInfo(int streamIndex);
 
 private slots:
     void slotColorModified(const QColor &newcolor);

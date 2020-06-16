@@ -1172,6 +1172,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
     auto *panel = new ClipPropertiesController(static_cast<ClipController *>(this), parent);
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
+    connect(this, &ProjectClip::updateStreamInfo, panel, &ClipPropertiesController::updateStreamInfo);
     connect(panel, &ClipPropertiesController::requestProxy, [this](bool doProxy) {
         QList<std::shared_ptr<ProjectClip>> clipList{std::static_pointer_cast<ProjectClip>(shared_from_this())};
         pCore->currentDoc()->slotProxyCurrentItem(doProxy, clipList);
@@ -1603,6 +1604,58 @@ void ProjectClip::renameAudioStream(int id, QString name)
         }
         pCore->bin()->reloadMonitorStreamIfActive(clipId());
     }
+}
+
+void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectName)
+{
+    QStringList readEffects = m_streamEffects.value(streamIndex);
+    QString oldEffect;
+    // Remove effect if present (parameters might have changed
+    for (const QString effect : readEffects) {
+        if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
+            oldEffect = effect;
+            break;
+        }
+    }
+    Fun redo = [this, streamIndex, effectName]() {
+        addAudioStreamEffect(streamIndex, effectName);
+        emit updateStreamInfo(streamIndex);
+        return true; };
+    Fun undo = [this, streamIndex, effectName, oldEffect]() {
+        if (!oldEffect.isEmpty()) {
+            // restore previous parameter value
+            addAudioStreamEffect(streamIndex, oldEffect);
+        } else {
+            removeAudioStreamEffect(streamIndex, effectName);
+        }
+        emit updateStreamInfo(streamIndex);
+        return true;
+    };
+    addAudioStreamEffect(streamIndex, effectName);
+    pCore->pushUndo(undo, redo, i18n("Add stream effect"));
+}
+
+void ProjectClip::requestRemoveStreamEffect(int streamIndex, const QString effectName)
+{
+    QStringList readEffects = m_streamEffects.value(streamIndex);
+    QString oldEffect = effectName;
+    // Remove effect if present (parameters might have changed
+    for (const QString effect : readEffects) {
+        if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
+            oldEffect = effect;
+            break;
+        }
+    }
+    Fun undo = [this, streamIndex, effectName, oldEffect]() {
+        addAudioStreamEffect(streamIndex, oldEffect);
+        emit updateStreamInfo(streamIndex);
+        return true; };
+    Fun redo = [this, streamIndex, effectName]() {
+        removeAudioStreamEffect(streamIndex, effectName);
+        emit updateStreamInfo(streamIndex);
+        return true; };
+    removeAudioStreamEffect(streamIndex, effectName);
+    pCore->pushUndo(undo, redo, i18n("Remove stream effect"));
 }
 
 void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName)

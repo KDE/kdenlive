@@ -762,10 +762,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 }
                 if (state == Qt::Checked) {
                     // Add swap channels effect
-                    m_controller->addAudioStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
+                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
                 } else {
                     // Remove swap channels effect
-                    m_controller->removeAudioStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
+                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("dynamic_loudness"));
                 }
                 updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
             });
@@ -780,10 +780,10 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 }
                 if (state == Qt::Checked) {
                     // Add swap channels effect
-                    m_controller->addAudioStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
+                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
                 } else {
                     // Remove swap channels effect
-                    m_controller->removeAudioStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
+                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("channelswap"));
                 }
                 updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
             });
@@ -810,12 +810,12 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     m_copyChannel1->setChecked(false);
                 }
                 if (m_copyChannel1->isChecked()) {
-                    m_controller->addAudioStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=0 to=1"));
+                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=0 to=1"));
                 } else if (m_copyChannel2->isChecked()) {
-                    m_controller->addAudioStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=1 to=0"));
+                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy from=1 to=0"));
                 } else {
                     // Remove swap channels effect
-                    m_controller->removeAudioStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy"));
+                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("channelcopy"));
                 }
                 updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
             });
@@ -832,9 +832,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 }
                 if (value == 0) {
                     // Remove effect
-                    m_controller->removeAudioStreamEffect(m_activeAudioStreams, QStringLiteral("volume"));
+                    m_controller->requestRemoveStreamEffect(m_activeAudioStreams, QStringLiteral("volume"));
                 } else {
-                    m_controller->addAudioStreamEffect(m_activeAudioStreams, QString("volume level=%1").arg(value));
+                    m_controller->requestAddStreamEffect(m_activeAudioStreams, QString("volume level=%1").arg(value));
                 }
                 updateStreamIcon(m_audioStreamsView->currentRow(), m_activeAudioStreams);
             });
@@ -1627,5 +1627,41 @@ void ClipPropertiesController::slotSelectAllMarkers()
 {
     if (m_tabWidget->currentIndex() == 3) {
         m_markerTree->selectAll();
+    }
+}
+
+void ClipPropertiesController::updateStreamInfo(int streamIndex)
+{
+    QStringList effects = m_controller->getAudioStreamEffect(m_activeAudioStreams);
+    QListWidgetItem *item = nullptr;
+    for (int ix = 0; ix < m_audioStreamsView->count(); ix++) {
+        QListWidgetItem *it = m_audioStreamsView->item(ix);
+        int stream = it->data(Qt::UserRole).toInt();
+        if (stream == m_activeAudioStreams) {
+            item = it;
+            break;
+        }
+    }
+    if (item) {
+        item->setIcon(effects.isEmpty() ? QIcon() : QIcon::fromTheme(QStringLiteral("favorite")));
+    }
+    if (streamIndex == m_activeAudioStreams) {
+        QSignalBlocker bk(m_swapChannels);
+        QSignalBlocker bk1(m_copyChannelGroup);
+        QSignalBlocker bk2(m_normalize);
+        m_swapChannels->setChecked(effects.contains(QLatin1String("channelswap")));
+        m_copyChannel1->setChecked(effects.contains(QStringLiteral("channelcopy from=0 to=1")));
+        m_copyChannel2->setChecked(effects.contains(QStringLiteral("channelcopy from=1 to=0")));
+        m_normalize->setChecked(effects.contains(QStringLiteral("dynamic_loudness")));
+        int gain = 0;
+        for (const QString st : effects) {
+            if (st.startsWith(QLatin1String("volume "))) {
+                QSignalBlocker bk3(m_gain);
+                gain = st.section(QLatin1Char('='), 1).toInt();
+                break;
+            }
+        }
+        QSignalBlocker bk3(m_gain);
+        m_gain->setValue(gain);
     }
 }

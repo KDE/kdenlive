@@ -102,9 +102,9 @@ public:
     virtual void renameAudioStream(int id, QString name) = 0;
 
     /** @brief Add an audio effect on a specific audio stream for this clip. */
-    virtual void addAudioStreamEffect(int streamIndex, const QString effectName) = 0;
+    virtual void requestAddStreamEffect(int streamIndex, const QString effectName) = 0;
     /** @brief Remove an audio effect on a specific audio stream for this clip. */
-    virtual void removeAudioStreamEffect(int streamIndex, const QString effectName) = 0;
+    virtual void requestRemoveStreamEffect(int streamIndex, const QString effectName) = 0;
     virtual QStringList getAudioStreamEffect(int streamIndex) const = 0;
 
     /** @brief Returns the clip's duration */
