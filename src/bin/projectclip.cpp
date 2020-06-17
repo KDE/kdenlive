@@ -206,11 +206,11 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail()
 {
+    audioThumbReady();
     if (!KdenliveSettings::audiothumbnails()) {
         return;
     }
     m_audioThumbCreated = true;
-    audioThumbReady();
     updateTimelineClips({TimelineModel::ReloadThumbRole});
 }
 

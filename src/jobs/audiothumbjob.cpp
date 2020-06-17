@@ -353,9 +353,16 @@ bool AudioThumbJob::startJob()
         }
         m_done = false;
 
-        bool ok = m_binClip->clipType() == ClipType::Playlist ? (KdenliveSettings::audiothumbnails() ? false : true) : computeWithFFMPEG();
-        if (!m_done) {
-            ok = ok ? ok : computeWithMlt();
+        bool ok = false;
+        if (m_binClip->clipType() == ClipType::Playlist) {
+            if (KdenliveSettings::audiothumbnails()) {
+                ok = computeWithMlt();
+            }
+        } else {
+            ok = computeWithFFMPEG();
+            if (!ok && KdenliveSettings::audiothumbnails()) {
+                ok = computeWithMlt();
+            }
         }
         Q_ASSERT(ok == m_done);
         if (!m_successful) {
