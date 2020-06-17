@@ -117,6 +117,9 @@ bool AudioThumbJob::computeWithFFMPEG()
     if (filePath.isEmpty() || !QFile::exists(filePath)) {
         filePath = m_prod->get("resource");
     }
+    if (!QFile::exists(filePath)) {
+        return false;
+    }
     m_ffmpegProcess.reset(new QProcess);
     QString thumbPath = m_binClip->getAudioThumbPath(m_audioStream, true);
     int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);
@@ -148,11 +151,14 @@ bool AudioThumbJob::computeWithFFMPEG()
         if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
             if (m_dataInCache || !KdenliveSettings::audiothumbnails()) {
                 m_done = true;
-                return true;
             }
         }
     }
-    if (!m_dataInCache && !m_done && KdenliveSettings::audiothumbnails()) {
+    if (!KdenliveSettings::audiothumbnails()) {
+        // We only wanted the thumb generation
+        return m_done;
+    }
+    if (!m_dataInCache && !m_done) {
         // Generate timeline audio thumbnail data
         m_audioLevels.clear();
         std::vector<std::unique_ptr<QTemporaryFile>> channelFiles;
@@ -273,10 +279,6 @@ bool AudioThumbJob::computeWithFFMPEG()
             m_done = true;
             return true;
         }
-    }
-    if (!KdenliveSettings::audiothumbnails()) {
-        // We only wanted the thumb generation
-        return true;
     }
     QString err = m_ffmpegProcess->readAllStandardError();
     m_ffmpegProcess.reset();
