@@ -285,7 +285,9 @@ Rectangle {
     property int clipBeingMovedId: -1
     property int consumerPosition: proxy.position
     property int spacerGroup: -1
+    property int spacerTrack: -1
     property int spacerFrame: -1
+    property int finalSpacerFrame: -1
     property int spacerClickFrame: -1
     property real timeScale: timeline.scaleFactor
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
@@ -834,8 +836,8 @@ Rectangle {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY
                         var frame = (scrollView.contentX + mouse.x) / timeline.scaleFactor
-                        var track = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId : -1
-                        spacerGroup = timeline.requestSpacerStartOperation(track, frame)
+                        spacerTrack = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId : -1
+                        spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
                         if (spacerGroup > -1) {
                             drag.axis = Drag.XAxis
                             Drag.active = true
@@ -919,7 +921,7 @@ Rectangle {
                         // Move group
                         var track = controller.getItemTrackId(spacerGroup)
                         var frame = Math.round((mouse.x + scrollView.contentX) / timeline.scaleFactor) + spacerFrame - spacerClickFrame
-                        frame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
+                        finalSpacerFrame = controller.suggestItemMove(spacerGroup, track, frame, root.consumerPosition, (mouse.modifiers & Qt.ShiftModifier) ? 0 : root.snapping)[0]
                         continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY)
                     }
                     scim = true
@@ -962,9 +964,9 @@ Rectangle {
                     }
                     return
                 }
-                if (spacerGroup > -1) {
+                if (spacerGroup > -1 && finalSpacerFrame > -1) {
                     var frame = controller.getItemPosition(spacerGroup)
-                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, frame);
+                    timeline.requestSpacerEndOperation(spacerGroup, spacerFrame, finalSpacerFrame, spacerTrack);
                     spacerClickFrame = -1
                     spacerFrame = -1
                     spacerGroup = -1

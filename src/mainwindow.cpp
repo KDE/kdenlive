@@ -2984,6 +2984,16 @@ void MainWindow::slotChangeEdit(QAction *action)
         m_trimLabel->setStyleSheet(QString());
     }
     getMainTimeline()->controller()->getModel()->setEditMode(mode);
+    if (mode == TimelineMode::InsertEdit) {
+        // Disable spacer tool in insert mode
+        if (m_buttonSpacerTool->isChecked()) {
+            m_buttonSelectTool->setChecked(true);
+            slotSetTool(SelectTool);
+        }
+        m_buttonSpacerTool->setEnabled(false);
+    } else {
+        m_buttonSpacerTool->setEnabled(true);
+    }
 }
 
 void MainWindow::slotSetTool(ProjectTool tool)

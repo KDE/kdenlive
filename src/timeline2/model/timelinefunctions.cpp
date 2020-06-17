@@ -248,7 +248,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             }
     }
     return count > 0;
-}
+}   
 
 bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> timeline, int position)
 {
@@ -303,7 +303,7 @@ int TimelineFunctions::requestSpacerStartOperation(const std::shared_ptr<Timelin
     return -1;
 }
 
-bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition)
+bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack)
 {
     // Move group back to original position
     int track = timeline->getItemTrackId(itemId);
@@ -317,12 +317,33 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    //int res = timeline->requestClipsGroup(clips, undo, redo, GroupType::Selection);
-    int res = timeline->m_groups->getRootId(itemId);
+    int mainGroup = timeline->m_groups->getRootId(itemId);
     bool final = false;
-    if (res > -1 || clips.size() == 1) {
+    bool liftOk = true;
+    if (timeline->m_editMode == TimelineMode::OverwriteEdit && endPosition < startPosition) {
+        // Remove zone between end and start pos
+        if (affectedTrack == -1) {
+            // touch all tracks
+            auto it = timeline->m_allTracks.cbegin();
+            while (it != timeline->m_allTracks.cend()) {
+                int target_track = (*it)->getId();
+                if (!timeline->getTrackById_const(target_track)->isLocked()) {
+                    liftOk = liftOk && TimelineFunctions::liftZone(timeline, target_track, QPoint(endPosition, startPosition), undo, redo);
+                }
+                ++it;
+            }
+        } else {
+            liftOk = TimelineFunctions::liftZone(timeline, affectedTrack, QPoint(endPosition, startPosition), undo, redo);
+        }
+        // The lift operation destroys selection group, so regroup now
         if (clips.size() > 1) {
-            final = timeline->requestGroupMove(itemId, res, 0, endPosition - startPosition, true, true, undo, redo);
+            timeline->requestSetSelection(clips);
+            mainGroup = timeline->m_groups->getRootId(itemId);
+        }
+    }
+    if (liftOk && (mainGroup > -1 || clips.size() == 1)) {
+        if (clips.size() > 1) {
+            final = timeline->requestGroupMove(itemId, mainGroup, 0, endPosition - startPosition, true, true, undo, redo);
         } else {
             // only 1 clip to be moved
             if (isClip) {
@@ -340,6 +361,8 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
             pCore->pushUndo(undo, redo, i18n("Remove space"));
         }
         return true;
+    } else {
+        undo();
     }
     return false;
 }
@@ -1726,7 +1749,7 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
         return false;
     }
     int start = timeline->getItemPosition(cid);
-    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration);
+    requestSpacerEndOperation(timeline, cid, start, start - spaceDuration, affectAllTracks ? -1 : trackId);
     return true;
 }
 
