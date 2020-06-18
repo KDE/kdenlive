@@ -33,6 +33,7 @@
   <name xml:lang="sv">Kdenlive</name>
   <name xml:lang="tr">Kdenlive</name>
   <name xml:lang="uk">Kdenlive</name>
+  <name xml:lang="x-test">xxKdenlivexx</name>
   <name xml:lang="zh-CN">Kdenlive</name>
   <name xml:lang="zh-TW">Kdenlive</name>
   <summary>Video Editor</summary>
@@ -65,6 +66,7 @@
   <summary xml:lang="sv">Videoeditor</summary>
   <summary xml:lang="tr">Video Düzenleyicisi</summary>
   <summary xml:lang="uk">Відеоредактор</summary>
+  <summary xml:lang="x-test">xxVideo Editorxx</summary>
   <summary xml:lang="zh-CN">视频编辑器</summary>
   <summary xml:lang="zh-TW">影像編輯器</summary>
   <description>
@@ -97,6 +99,7 @@
     <p xml:lang="sv">Kdenlive är en icke-linjär videoeditor. Den är baserad på MLT-ramverket och accepterar många ljud- och videoformat, låter dig lägga till effekter, övergångar och återge med valfritt format.</p>
     <p xml:lang="tr">Kdenlive doğrusal olmayan bir video düzenleyicisidir. MLT çalışma çerçevesi tabanlıdır ve birçok ses ile video biçimini destekleyerek; efektler ve geçişler eklemenizi ve istediğiniz biçime dönüştürmenizi sağlar.</p>
     <p xml:lang="uk">Kdenlive — нелінійний відеоредактор. Програму засновано на наборі засобів MLT, вона може працювати з даними у багатьох форматах зберігання відео та звукових даних, дозволяє додавати ефекти, переходи та надає змогу зберегти результати редагування у вибраному вами форматі.</p>
+    <p xml:lang="x-test">xxKdenlive is a non linear video editor. It is based on the MLT framework and accepts many audio and video formats, allows you to add effects, transitions and render into the format of your choice.xx</p>
     <p xml:lang="zh-CN">Kdenlive 是一个非线性视频编辑器。它基于 MLT 框架并且支持许多音频和视频格式，允许您添加特效，转场并渲染为您想要的格式。</p>
     <p xml:lang="zh-TW">Kdenlive 是一套非線性的影像編輯器。基於 MLT 框架，可接受許多影音格式，讓您可以加入特效，過場並轉編碼成您選擇的格式。</p>
     <p>Features:</p>
@@ -129,6 +132,7 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
+    <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
     <ul>
@@ -161,6 +165,7 @@
       <li xml:lang="sv">Intuitivt gränssnitt med flera spår.</li>
       <li xml:lang="tr">Sezgisel çok parçalı arayüz.</li>
       <li xml:lang="uk">Інтуїтивно зрозумілий інтерфейс для роботи з декількома доріжками одночасно.</li>
+      <li xml:lang="x-test">xxIntuitive multitrack interface.xx</li>
       <li xml:lang="zh-CN">直观的多轨界面。</li>
       <li xml:lang="zh-TW">直覺的多軌介面</li>
       <li>Many effects and transitions.</li>
@@ -192,6 +197,7 @@
       <li xml:lang="sv">Många effekter och övergångar.</li>
       <li xml:lang="tr">Birçok efekt ve geçiş.</li>
       <li xml:lang="uk">Багато ефектів та переходів.</li>
+      <li xml:lang="x-test">xxMany effects and transitions.xx</li>
       <li xml:lang="zh-CN">提供许多特效和转场。</li>
       <li xml:lang="zh-TW">許多特效與轉場效果。</li>
       <li>Color scopes</li>
@@ -223,6 +229,7 @@
       <li xml:lang="sv">Färgoscilloskop</li>
       <li xml:lang="tr">Renk kapsamları</li>
       <li xml:lang="uk">Контексти кольорів</li>
+      <li xml:lang="x-test">xxColor scopesxx</li>
       <li xml:lang="zh-CN">颜色范围</li>
       <li xml:lang="zh-TW">顏色範圍</li>
       <li>Basic DVD Wizard</li>
@@ -254,6 +261,7 @@
       <li xml:lang="sv">Enkel dvd-guide</li>
       <li xml:lang="tr">Temel DVD Sihirbazı</li>
       <li xml:lang="uk">Базовий майстер створення DVD.</li>
+      <li xml:lang="x-test">xxBasic DVD Wizardxx</li>
       <li xml:lang="zh-CN">基础 DVD 向导</li>
       <li xml:lang="zh-TW">基本 DVD 精靈</li>
     </ul>
@@ -290,6 +298,7 @@
       <caption xml:lang="sk">Kdenlive časová os</caption>
       <caption xml:lang="sv">Kdenlive tidslinje</caption>
       <caption xml:lang="uk">Монтажний стіл Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Timelinexx</caption>
       <caption xml:lang="zh-CN">Kdenlive 时间线</caption>
       <caption xml:lang="zh-TW">Kdenlive 時間軸</caption>
       <image type="source">https://cdn.kde.org/screenshots/kdenlive/k2.png</image>
@@ -316,6 +325,7 @@
       <caption xml:lang="sk">Kdenlive prispôsobenie zvuku</caption>
       <caption xml:lang="sv">Kdenlive ljudjusteringar</caption>
       <caption xml:lang="uk">Коригування звукових даних у Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Audio Adjustmentsxx</caption>
       <caption xml:lang="zh-CN">Kdenlive 音频调整</caption>
       <caption xml:lang="zh-TW">Kdenlive 音訊調整</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k1.png</image>
@@ -344,6 +354,7 @@
       <caption xml:lang="sk">Kdenlive efekty</caption>
       <caption xml:lang="sv">Kdenlive effekter</caption>
       <caption xml:lang="uk">Ефекти Kdenlive</caption>
+      <caption xml:lang="x-test">xxKdenlive Effectsxx</caption>
       <caption xml:lang="zh-CN">Kdenlive 特效</caption>
       <caption xml:lang="zh-TW">Kdenlive 特效</caption>
       <image>https://cdn.kde.org/screenshots/kdenlive/k3.png</image>
