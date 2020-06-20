@@ -58,6 +58,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     m_errorMessage.clear();
     std::unordered_map<QString, QString> binIdCorresp;
     pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, progressDialog);
+    pCore->bin()->checkMissingProxies();
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
                                  QLatin1String("black_track")};

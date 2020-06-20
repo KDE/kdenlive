@@ -354,7 +354,7 @@ public:
     Q_INVOKABLE int requestSpacerStartOperation(int trackId, int position);
     /* @brief Request a spacer operation
      */
-    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition);
+    Q_INVOKABLE bool requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack);
     /* @brief Request a Fade in effect for clip
      */
     Q_INVOKABLE void adjustFade(int cid, const QString &effectId, int duration, int initialDuration);
@@ -512,6 +512,8 @@ public:
     void resetPreview();
     /** @brief Set target tracks (video, audio) */
     void setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets);
+    /** @brief Restore Bin Clip original target tracks (video, audio) */
+    void restoreTargetTracks();
     /** @brief Return asset's display name from it's id (effect or composition) */
     Q_INVOKABLE const QString getAssetName(const QString &assetId, bool isTransition);
     /** @brief Set keyboard grabbing on current selection */

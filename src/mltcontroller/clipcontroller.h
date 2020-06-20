@@ -97,9 +97,15 @@ public:
 
     /** @brief Returns this clip's producer. */
     virtual std::shared_ptr<Mlt::Producer> thumbProducer() = 0;
-    
+
     /** @brief Rename an audio stream. */
     virtual void renameAudioStream(int id, QString name) = 0;
+
+    /** @brief Add an audio effect on a specific audio stream for this clip. */
+    virtual void requestAddStreamEffect(int streamIndex, const QString effectName) = 0;
+    /** @brief Remove an audio effect on a specific audio stream for this clip. */
+    virtual void requestRemoveStreamEffect(int streamIndex, const QString effectName) = 0;
+    virtual QStringList getAudioStreamEffect(int streamIndex) const = 0;
 
     /** @brief Returns the clip's duration */
     GenTime getPlaytime() const;
@@ -244,6 +250,7 @@ protected:
     std::shared_ptr<MarkerListModel> m_markerModel;
     bool m_hasAudio;
     bool m_hasVideo;
+    QMap<int, QStringList> m_streamEffects;
     /** @brief Store clip url temporarily while the clip controller has not been created. */
     QString m_temporaryUrl;
     std::shared_ptr<Mlt::Producer> m_thumbsProducer;

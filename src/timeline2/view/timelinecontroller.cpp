@@ -117,6 +117,11 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
+void TimelineController::restoreTargetTracks()
+{
+    setTargetTracks(m_hasVideoTarget, m_model->m_binAudioTargets);
+}
+
 void TimelineController::setTargetTracks(bool hasVideo, QMap <int, QString> audioTargets)
 {
     int videoTrack = -1;
@@ -1372,10 +1377,10 @@ int TimelineController::requestSpacerStartOperation(int trackId, int position)
     return itemId;
 }
 
-bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition)
+bool TimelineController::requestSpacerEndOperation(int clipId, int startPosition, int endPosition, int affectedTrack)
 {
     QMutexLocker lk(&m_metaMutex);
-    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition);
+    bool result = TimelineFunctions::requestSpacerEndOperation(m_model, clipId, startPosition, endPosition, affectedTrack);
     return result;
 }
 
@@ -1819,7 +1824,8 @@ void TimelineController::insertSpace(int trackId, int frame)
         delete d;
         return;
     }
-    int cid = requestSpacerStartOperation(d->affectAllTracks() ? -1 : trackId, frame);
+    bool affectAllTracks = d->affectAllTracks();
+    int cid = requestSpacerStartOperation(affectAllTracks ? -1 : trackId, frame);
     int spaceDuration = d->selectedDuration().frames(pCore->getCurrentFps());
     delete d;
     if (cid == -1) {
@@ -1827,7 +1833,7 @@ void TimelineController::insertSpace(int trackId, int frame)
         return;
     }
     int start = m_model->getItemPosition(cid);
-    requestSpacerEndOperation(cid, start, start + spaceDuration);
+    requestSpacerEndOperation(cid, start, start + spaceDuration, affectAllTracks ? -1 : trackId);
 }
 
 void TimelineController::removeSpace(int trackId, int frame, bool affectAllTracks)

@@ -154,6 +154,8 @@ public slots:
     void slotSwitchAllTrackActive();
     /** @brief Make all tracks active or inactive */
     void slotMakeAllTrackActive();
+    /** @brief Restore current clip target tracks */
+    void slotRestoreTargetTracks();
 
     /** @brief Un/Set current track as target */
     void slotSwitchTrackTarget();

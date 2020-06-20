@@ -56,11 +56,11 @@ void Splash::drawContents(QPainter *painter)
 {
   QSplashScreen::drawContents(painter);
 
-  // Set style for progressbar...
-  m_pbStyle.progress = m_progress;
-  //m_pbStyle.rect = QRect(4, height() - 24, width() / 2, 20); // Where is it.
-
-  // Draw it...
-  style()->drawControl(QStyle::CE_ProgressBar, &m_pbStyle, painter, this);
+  if (m_progress > 0) {
+    // Set style for progressbar and draw it
+    m_pbStyle.progress = m_progress;
+    // Draw it...
+    style()->drawControl(QStyle::CE_ProgressBar, &m_pbStyle, painter, this);
+  }
 }
 

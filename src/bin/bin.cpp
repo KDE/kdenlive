@@ -228,9 +228,9 @@ public:
                 }
                 // Add audio/video icons for selective drag
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
-                if (clipStatus == AbstractProjectItem::StatusMissing) {
+                if (clipStatus == AbstractProjectItem::StatusMissing || clipStatus == AbstractProjectItem::StatusProxyOnly) {
                     painter->save();
-                    painter->setPen(QPen(Qt::red, 3));
+                    painter->setPen(QPen(clipStatus == AbstractProjectItem::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
                     painter->drawRect(m_thumbRect);
                     painter->restore();
                 } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
@@ -1415,7 +1415,7 @@ void Bin::slotReloadClip()
         }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
-            if (currentItem->clipStatus() == AbstractProjectItem::StatusMissing) {
+            if (currentItem->clipStatus() == AbstractProjectItem::StatusMissing || currentItem->clipStatus() == AbstractProjectItem::StatusProxyOnly) {
                 // Don't attempt to reload missing clip
                 emit displayBinMessage(i18n("Missing source clip"), KMessageWidget::Warning);
                 return;
@@ -1755,7 +1755,7 @@ void Bin::slotAddFolder()
     // Edit folder name
     auto folder = m_itemModel->getFolderByBinId(newId);
     auto ix = m_itemModel->getIndexFromItem(folder);
-    
+
     // Scroll to ensure folder is visible
     m_itemView->scrollTo(m_proxyModel->mapFromSource(ix), QAbstractItemView::PositionAtCenter);
     qDebug() << "selecting" << ix;
@@ -4170,4 +4170,22 @@ void Bin::addClipMarker(const QString binId, QList<int> positions)
         markers.insert(p, pCore->currentDoc()->timecode().getDisplayTimecode(p, false));
     }
     clip->getMarkerModel()->addMarkers(markers, KdenliveSettings::default_marker_type());
+}
+
+void Bin::checkMissingProxies()
+{
+    if (m_itemModel->getRootFolder() == nullptr || m_itemModel->getRootFolder()->childCount() == 0) {
+        return;
+    }
+    QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
+    QList<std::shared_ptr<ProjectClip>> toProxy;
+    for (auto clip : clipList) {
+        if (clip->getProducerIntProperty(QStringLiteral("_replaceproxy")) > 0) {
+            clip->resetProducerProperty(QStringLiteral("_replaceproxy"));
+            toProxy << clip;
+        }
+    }
+    if (!toProxy.isEmpty()) {
+        pCore->currentDoc()->slotProxyCurrentItem(true, toProxy);
+    }
 }

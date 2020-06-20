@@ -49,7 +49,12 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QTimer>
+#include <kio_version.h>
 #include <QXmlStreamWriter>
+
+#if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
+#include <KIO/OpenUrlJob>
+#endif
 
 // Recommended MLT version
 const int mltVersionMajor = MLT_MIN_MAJOR_VERSION;
@@ -915,13 +920,11 @@ bool Wizard::isOk() const
 
 void Wizard::slotOpenManual()
 {
+#if KIO_VERSION >= QT_VERSION_CHECK(5,71,0)
+    KIO::OpenUrlJob(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"));
+#else
     KRun::runUrl(QUrl(QStringLiteral("https://kdenlive.org/troubleshooting")), QStringLiteral("text/html"), this, KRun::RunFlags());
-}
-
-void Wizard::slotShowWebInfos()
-{
-    KRun::runUrl(QUrl("https://kdenlive.org/discover/" + QString(kdenlive_version).section(QLatin1Char(' '), 0, 0)), QStringLiteral("text/html"), this,
-                 KRun::RunFlags());
+#endif
 }
 
 void Wizard::slotSaveCaptureFormat()

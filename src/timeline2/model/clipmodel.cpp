@@ -914,3 +914,9 @@ const QString ClipModel::clipName()
 {
     return pCore->projectItemModel()->getClipByBinID(m_binClipId)->clipName();
 }
+
+bool ClipModel::isProxied() const
+{
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
+    return binClip->hasProxy();
+}

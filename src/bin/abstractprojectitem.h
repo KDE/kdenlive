@@ -146,7 +146,7 @@ public:
         ClipHasAudioAndVideo
     };
 
-    enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting };
+    enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting, StatusProxyOnly };
 
     virtual void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
     AbstractProjectItem::CLIPSTATUS clipStatus() const;

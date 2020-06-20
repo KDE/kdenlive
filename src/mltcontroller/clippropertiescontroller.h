@@ -36,6 +36,10 @@ class QTextEdit;
 class QLabel;
 class QComboBox;
 class QListWidget;
+class QGroupBox;
+class QCheckBox;
+class QButtonGroup;
+class QSpinBox;
 
 class AnalysisTree : public QTreeWidget
 {
@@ -72,6 +76,7 @@ public slots:
     void slotFillAnalysisData();
     void slotDeleteSelectedMarkers();
     void slotSelectAllMarkers();
+    void updateStreamInfo(int streamIndex);
 
 private slots:
     void slotColorModified(const QColor &newcolor);
@@ -117,7 +122,18 @@ private:
     AnalysisTree *m_analysisTree;
     QTextEdit *m_textEdit;
     QListWidget *m_audioStreamsView;
+    QGroupBox *m_audioEffectGroup;
+    QCheckBox *m_swapChannels;
+    QCheckBox *m_normalize;
+    QButtonGroup *m_copyChannelGroup;
+    QCheckBox *m_copyChannel1;
+    QCheckBox *m_copyChannel2;
+    QSpinBox *m_gain;
+    /** @brief The selected audio stream. */
+    int m_activeAudioStreams;
     void fillProperties();
+    /** @brief Add/remove icon beside audio stream to indicate effects. */
+    void updateStreamIcon(int row, int streamIndex);
 
 signals:
     void updateClipProperties(const QString &, const QMap<QString, QString> &, const QMap<QString, QString> &);

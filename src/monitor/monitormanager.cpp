@@ -153,12 +153,20 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
             if (!m_clipMonitor->monitorIsFullScreen()) {
                 m_clipMonitor->parentWidget()->raise();
             }
+            if (!m_clipMonitor->isVisible()) {
+                m_activeMonitor = m_projectMonitor;
+                return false;
+            }
             emit updateOverlayInfos(name, KdenliveSettings::displayClipMonitorInfo());
             m_projectMonitor->displayAudioMonitor(false);
             m_clipMonitor->displayAudioMonitor(true);
         } else if (name == Kdenlive::ProjectMonitor) {
             if (!m_projectMonitor->monitorIsFullScreen()) {
                 m_projectMonitor->parentWidget()->raise();
+            }
+            if (!m_projectMonitor->isVisible()) {
+                m_activeMonitor = m_clipMonitor;
+                return false;
             }
             emit updateOverlayInfos(name, KdenliveSettings::displayProjectMonitorInfo());
             m_clipMonitor->displayAudioMonitor(false);
@@ -591,7 +599,7 @@ void MonitorManager::slotSetOutPoint()
     } else if (m_activeMonitor == m_projectMonitor) {
         QPoint sourceZone = m_projectMonitor->getZoneInfo();
         QPoint destZone = sourceZone;
-        destZone.setY(m_projectMonitor->position());
+        destZone.setY(m_projectMonitor->position() + 1);
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }

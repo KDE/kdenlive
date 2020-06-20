@@ -37,6 +37,7 @@
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
 #include <utility>
+
 const int hashRole = Qt::UserRole;
 const int sizeRole = Qt::UserRole + 1;
 const int idRole = Qt::UserRole + 2;
@@ -541,7 +542,19 @@ bool DocumentChecker::hasErrorInClips()
         if (!infoLabel.isEmpty()) {
             infoLabel.append(QStringLiteral("\n"));
         }
-        infoLabel.append(i18n("Missing proxies will be recreated after opening."));
+        infoLabel.append(i18n("Missing proxies can be recreated on opening."));
+        m_ui.rebuildProxies->setChecked(true);
+        connect(m_ui.rebuildProxies, &QCheckBox::stateChanged, [missingProxies] (int state) {
+            for (QDomElement e : missingProxies) {
+                if (state == Qt::Checked) {
+                    e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
+                } else {
+                    e.removeAttribute(QStringLiteral("_replaceproxy"));
+                }
+            }
+        });
+    } else {
+        m_ui.rebuildProxies->setVisible(false);
     }
     if (!missingSources.isEmpty()) {
         if (!infoLabel.isEmpty()) {
@@ -579,6 +592,8 @@ bool DocumentChecker::hasErrorInClips()
         m_missingProxyIds << id;
         // Tell Kdenlive to recreate proxy
         e.setAttribute(QStringLiteral("_replaceproxy"), QStringLiteral("1"));
+        // Remove reference to missing proxy
+        Xml::setXmlProperty(e, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
         // Replace proxy url with real clip in MLT producers
         QDomElement mltProd;
         int prodsCount = documentProducers.count();

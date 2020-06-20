@@ -1070,7 +1070,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         useTargets = false;
     }
     if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) && (type == ClipType::AV || type == ClipType::Playlist)) {
-        if (!m_audioTarget.isEmpty() && m_videoTarget == -1 && useTargets) {
+        if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio
             trackId = m_audioTarget.firstKey();
             if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
@@ -1122,7 +1122,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 if (mirror > -1) {
                    audioTids = getLowerTracksId(mirror, TrackType::AudioTrack);
                 }
-                if (audioTids.count() < keys.count() - 1) {
+                if (audioTids.count() < keys.count() - 1 || (mirror == -1 && !keys.isEmpty())) {
                     // Check if project has enough audio tracks
                     if (keys.count() > getTracksIds(true).count()) {
                         // Not enough audio tracks in the project

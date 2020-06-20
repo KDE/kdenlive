@@ -78,7 +78,6 @@ private slots:
     void slotCheckStandard();
     void slotCheckSelectedItem();
     void slotCheckMlt();
-    void slotShowWebInfos();
     void slotDetectWebcam();
     void slotUpdateCaptureParameters();
     void slotSaveCaptureFormat();

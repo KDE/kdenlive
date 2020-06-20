@@ -902,16 +902,6 @@ void MainWindow::saveProperties(KConfigGroup &config)
     }
 }
 
-void MainWindow::readProperties(const KConfigGroup &config)
-{
-    // read properties here
-    KXmlGuiWindow::readProperties(config);
-    // TODO: fix session management
-    /*if (qApp->isSessionRestored()) {
-    pCore->projectManager()->openFile(QUrl::fromLocalFile(config.readEntry("kdenlive_lastUrl", QString())));
-    }*/
-}
-
 void MainWindow::saveNewToolbarConfig()
 {
     KXmlGuiWindow::saveNewToolbarConfig();
@@ -1333,10 +1323,10 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("dvd_wizard"), i18n("DVD Wizard"), this, SLOT(slotDvdWizard()), QIcon::fromTheme(QStringLiteral("media-optical")));
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
-    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("E&xport project"), this);
+    QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport"), this);
     connect(exportAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotExportProject);
     addAction(QStringLiteral("export_project"), exportAction);
-    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("&Import project"), this);
+    QAction *importAction = new QAction(QIcon::fromTheme(QStringLiteral("document-import")), i18n("OpenTimelineIO &Import"), this);
     connect(importAction, &QAction::triggered, &m_otioConvertions, &OtioConvertions::slotImportProject);
     addAction(QStringLiteral("import_project"), importAction);
 
@@ -1739,6 +1729,7 @@ void MainWindow::setupActions()
               Qt::SHIFT + Qt::Key_A);
     addAction(QStringLiteral("activate_all_targets"), i18n("Switch All Tracks Active"), pCore->projectManager(), SLOT(slotMakeAllTrackActive()), QIcon(),
               Qt::SHIFT + Qt::ALT + Qt::Key_A);
+    addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()));
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")));
 
@@ -2993,6 +2984,16 @@ void MainWindow::slotChangeEdit(QAction *action)
         m_trimLabel->setStyleSheet(QString());
     }
     getMainTimeline()->controller()->getModel()->setEditMode(mode);
+    if (mode == TimelineMode::InsertEdit) {
+        // Disable spacer tool in insert mode
+        if (m_buttonSpacerTool->isChecked()) {
+            m_buttonSelectTool->setChecked(true);
+            slotSetTool(SelectTool);
+        }
+        m_buttonSpacerTool->setEnabled(false);
+    } else {
+        m_buttonSpacerTool->setEnabled(true);
+    }
 }
 
 void MainWindow::slotSetTool(ProjectTool tool)

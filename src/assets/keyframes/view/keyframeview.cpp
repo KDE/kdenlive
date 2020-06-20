@@ -196,7 +196,7 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
     int pos = ((event->x() - m_offset) / zoomFactor + zoomStart ) / m_scale;
     pos = qBound(0, pos, m_duration - 1);
     if (event->button() == Qt::LeftButton) {
-        if (event->y() < m_lineHeight) {    
+        if (event->y() < m_lineHeight) {
             // mouse click in keyframes area
             bool ok;
             GenTime position(pos + offset, pCore->getCurrentFps());
@@ -409,19 +409,66 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     Q_UNUSED(event)
 
     QStylePainter p(this);
-    m_scale = (width() - 2 * m_offset) / (double)(m_duration - 1);
-    // p.translate(0, m_lineHeight);
+    int maxWidth = width() - 2 * m_offset;
+    m_scale = maxWidth / (double)(m_duration - 1);
     int headOffset = m_lineHeight / 2;
     int offset = pCore->getItemIn(m_model->getOwnerId());
-    m_zoomStart = m_zoomHandle.x() * (width() - 2 * m_offset);
-    double zoomEnd = m_zoomHandle.y() * (width() - 2 * m_offset);
-    m_zoomFactor = (width() - 2 * m_offset) / (zoomEnd - m_zoomStart);
+    m_zoomStart = m_zoomHandle.x() * maxWidth;
+    double zoomEnd = m_zoomHandle.y() * maxWidth;
+    m_zoomFactor = maxWidth / (zoomEnd - m_zoomStart);
+    /* ticks */
+    double fps = pCore->getCurrentFps();
+    int displayedLength = m_duration / m_zoomFactor / fps;
+    double factor = 1;
+    if (displayedLength < 2) {
+        // 1 frame tick
+    } else if (displayedLength < 30 ) {
+        // 1 sec tick
+        factor = fps;
+    } else if (displayedLength < 150) {
+        // 5 sec tick
+        factor = 5 * fps;
+    } else if (displayedLength < 300) {
+        // 10 sec tick
+        factor = 10 * fps;
+    } else if (displayedLength < 900) {
+        // 30 sec tick
+        factor = 30 * fps;
+    } else if (displayedLength < 1800) {
+        // 1 min. tick
+        factor = 60 * fps;
+    } else if (displayedLength < 9000) {
+        // 5 min tick
+        factor = 300 * fps;
+    } else if (displayedLength < 18000) {
+        // 10 min tick
+        factor = 600 * fps;
+    } else {
+        // 30 min tick
+        factor = 1800 * fps;
+    }
+
+    // Position of left border in frames
+    double tickOffset = m_zoomStart * m_zoomFactor;
+    double frameSize = factor * m_scale * m_zoomFactor;
+    int base = tickOffset / frameSize;
+    tickOffset = frameSize - (tickOffset - (base * frameSize));
+    // Draw frame ticks
+    int scaledTick = 0;
+    for (int i = 0; i < maxWidth / frameSize; i++) {
+        scaledTick = m_offset + (i * frameSize) + tickOffset;
+        if (scaledTick >= maxWidth + m_offset) {
+            break;
+        }
+        p.drawLine(QPointF(scaledTick , m_lineHeight + 1), QPointF(scaledTick, m_lineHeight - 3));
+    }
+
 
     /*
      * keyframes
      */
     for (const auto &keyframe : *m_model.get()) {
-        int pos = keyframe.first.frames(pCore->getCurrentFps()) - offset;
+        int pos = keyframe.first.frames(fps) - offset;
         if (pos < 0) continue;
         if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colSelected);
@@ -454,7 +501,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     }
 
     p.setPen(palette().dark().color());
-    
+
     /*
      * Time-"line"
      */
@@ -480,7 +527,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
             p.drawPolygon(position);
         }
     }
-    
+
     // Zoom bar
     p.setPen(Qt::NoPen);
     p.setBrush(palette().mid());
