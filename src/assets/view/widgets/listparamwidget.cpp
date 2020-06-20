@@ -128,16 +128,8 @@ void ListParamWidget::slotRefresh()
         if (names.count() != values.count()) {
             names = values;
         }
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
         for (int i = 0; i < names.count(); i++) {
-            QString val = values.at(i);
-            bool ok;
-            double num = val.toDouble(&ok);
-            if (ok) {
-                val = locale.toString(num);
-            }
-            m_list->addItem(names.at(i), val);
+            m_list->addItem(names.at(i), values.at(i));
         }
         if (!value.isEmpty()) {
             int ix = m_list->findData(value);

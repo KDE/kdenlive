@@ -1740,7 +1740,12 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
 
         // List of properties which always need to be fixed
         // Example: <property name="aspect_ratio">1,00247</property>
-        QList<QString> generalPropertiesToFix = {"warp_speed", "length", "aspect_ratio"};
+        QList<QString> generalPropertiesToFix = {
+                "warp_speed",
+                "length",
+                "aspect_ratio",
+                "kdenlive:clipanalysis.motion_vector_list",
+        };
 
         // Fix properties just by name, anywhere in the file
         auto props = m_doc.elementsByTagName(QStringLiteral("property"));

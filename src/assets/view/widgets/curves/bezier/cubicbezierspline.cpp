@@ -17,9 +17,6 @@
  ***************************************************************************/
 
 #include "cubicbezierspline.h"
-#include <QLocale>
-#include <QStringList>
-#include <QVector>
 #include <cmath>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
@@ -66,8 +63,6 @@ void CubicBezierSpline::fromString(const QString &spline)
 QString CubicBezierSpline::toString() const
 {
     QStringList spline;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const BPoint &p : m_points) {
         spline << QStringLiteral("%1;%2#%3;%4#%5;%6")
                 .arg(QString::number(p.h1.x(), 'f'), QString::number(p.h1.y(), 'f'), QString::number(p.p.x(), 'f'),

@@ -910,8 +910,6 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
 
 void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params, bool update)
 {
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     ObjectType itemId;
     if (!update) {
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
@@ -919,11 +917,7 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
         m_ownerId.first = ObjectType::NoItem;
     }
     for (const auto &param : params) {
-        if (param.second.type() == QVariant::Double) {
-            setParameter(param.first, locale.toString(param.second.toDouble()), false);
-        } else {
-            setParameter(param.first, param.second.toString(), false);
-        }
+        setParameter(param.first, param.second.toString(), false);
     }
     if (m_keyframes) {
         m_keyframes->refresh();

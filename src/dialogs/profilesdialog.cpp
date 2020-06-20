@@ -331,7 +331,7 @@ void ProfilesDialog::slotUpdateDisplay(QString currentProfilePath)
         m_view.profiles_list->blockSignals(false);
         return;
     }
-    QLocale locale;
+    QLocale locale; // Used for UI output → OK
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_selectedProfileIndex = m_view.profiles_list->currentIndex();
     if (currentProfilePath.isEmpty()) {

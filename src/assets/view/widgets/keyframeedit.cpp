@@ -441,7 +441,7 @@ void KeyframeEdit::slotAdjustKeyframeInfo(bool seek)
     m_position->setRange(min, max, true);
     m_position->setPosition(getPos(item->row()));
     m_position->blockSignals(false);
-    QLocale locale;
+    QLocale locale; // Used to convert user input → OK
 
     for (int col = 0; col < keyframe_list->columnCount(); ++col) {
         DoubleWidget *doubleparam = static_cast<DoubleWidget *>(m_slidersLayout->itemAtPosition(col, 0)->widget());

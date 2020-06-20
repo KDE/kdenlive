@@ -646,7 +646,7 @@ void KeyframeImport::importSelectedData()
     Fun redo = []() { return true; };
     // Geometry target
     int finalAlign = m_alignCombo->currentIndex();
-    QLocale locale;
+    QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &ix : m_indexes) {
         // update keyframes in other indexes
