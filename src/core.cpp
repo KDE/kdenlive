@@ -286,7 +286,7 @@ MixerManager *Core::mixer()
 void Core::initLocale()
 {
     qDebug() << "Using modified system locale without group separator for numbers";
-    QLocale systemLocale = QLocale();
+    QLocale systemLocale = QLocale(); // For disabling group separator by default → OK
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     QLocale::setDefault(systemLocale);
 }

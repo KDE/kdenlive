@@ -44,7 +44,7 @@ QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPo
     const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
     QLocale matching = QLocale::c();
 
-    QLocale locale;
+    QLocale locale; // Best matching locale
     MatchType matchType = MatchType::NoMatch;
 
     for (const QLocale &loc : list) {

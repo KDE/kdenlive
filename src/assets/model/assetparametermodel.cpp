@@ -29,7 +29,6 @@
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QLocale>
 #include <QString>
 #include <effects/effectsrepository.hpp>
 #define DEBUG_LOCALE false
@@ -52,7 +51,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     QChar separator, oldSeparator;
     // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
+        QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC"))); // Check if effect has a special locale → probably OK
         if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
             needsLocaleConversion = true;
             separator = QLocale::c().decimalPoint();

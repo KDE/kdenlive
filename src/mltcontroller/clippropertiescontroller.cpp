@@ -453,9 +453,6 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     }
 
     if (m_type == ClipType::AV || m_type == ClipType::Video) {
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
-
         // Fps
         QString force_fps = m_properties->get("force_fps");
         m_originalProperties.insert(QStringLiteral("force_fps"), force_fps.isEmpty() ? QStringLiteral("-") : force_fps);
@@ -471,7 +468,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         if (force_fps.isEmpty()) {
             spin->setValue(controller->originalFps());
         } else {
-            spin->setValue(locale.toDouble(force_fps));
+            spin->setValue(force_fps.toDouble());
         }
         connect(box, &QAbstractButton::toggled, spin, &QWidget::setEnabled);
         box->setChecked(!force_fps.isEmpty());
@@ -855,12 +852,11 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             spinSync->setValue(qRound(1000 * m_sourceProperties.get_double("video_delay")));
             spinSync->setObjectName(QStringLiteral("video_delay"));
             if (spinSync->value() != 0) {
-                m_originalProperties.insert(QStringLiteral("video_delay"), locale.toString(m_sourceProperties.get_double("video_delay")));
+                m_originalProperties.insert(QStringLiteral("video_delay"), QString::number(m_sourceProperties.get_double("video_delay"), 'f'));
             }
-            //QObject::connect(spinSync, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this, spinSync]() {
-            QObject::connect(spinSync, &QSpinBox::editingFinished, [this, spinSync, locale]() {
+            QObject::connect(spinSync, &QSpinBox::editingFinished, [this, spinSync]() {
                 QMap<QString, QString> properties;
-                properties.insert(QStringLiteral("video_delay"), locale.toString(spinSync->value() / 1000.));
+                properties.insert(QStringLiteral("video_delay"), QString::number(spinSync->value() / 1000., 'f'));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
@@ -1053,8 +1049,6 @@ void ClipPropertiesController::slotEnableForce(int state)
     }
     QString param = box->objectName();
     QMap<QString, QString> properties;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (state == Qt::Unchecked) {
         // The force property was disable, remove it / reset default if necessary
         if (param == QLatin1String("force_duration")) {
@@ -1090,7 +1084,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             if (!spin) {
                 return;
             }
-            properties.insert(param, locale.toString(spin->value()));
+            properties.insert(param, QString::number(spin->value(), 'f'));
         } else if (param == QLatin1String("threads")) {
             auto *spin = findChild<QSpinBox *>(param + QStringLiteral("_value"));
             if (!spin) {
@@ -1115,7 +1109,7 @@ void ClipPropertiesController::slotEnableForce(int state)
             }
             properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
             properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
-            properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double)spin->value() / spin2->value()));
+            properties.insert(QStringLiteral("force_aspect_ratio"), QString::number((double)spin->value() / spin2->value(), 'f'));
         }
     }
     if (properties.isEmpty()) {
@@ -1133,9 +1127,7 @@ void ClipPropertiesController::slotValueChanged(double value)
     }
     QString param = box->objectName().section(QLatin1Char('_'), 0, -2);
     QMap<QString, QString> properties;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    properties.insert(param, locale.toString(value));
+    properties.insert(param, QString::number(value, 'f'));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }
@@ -1163,9 +1155,7 @@ void ClipPropertiesController::slotAspectValueChanged(int)
     QMap<QString, QString> properties;
     properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
     properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    properties.insert(QStringLiteral("force_aspect_ratio"), locale.toString((double)spin->value() / spin2->value()));
+    properties.insert(QStringLiteral("force_aspect_ratio"), QString::number((double)spin->value() / spin2->value(), 'f'));
     emit updateClipProperties(m_id, m_originalProperties, properties);
     m_originalProperties = properties;
 }

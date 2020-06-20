@@ -21,7 +21,6 @@
 #define LUMALIFTGAINPARAMWIDGET_H
 
 #include "abstractparamwidget.hpp"
-#include <QLocale>
 #include <QWidget>
 #include <QDomElement>
 

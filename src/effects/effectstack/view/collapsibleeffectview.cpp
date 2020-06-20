@@ -65,17 +65,12 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
     }
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    // decoframe->setProperty("active", true);
-    // m_info.fromString(effect.attribute(QStringLiteral("kdenlive_info")));
-    // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));
     buttonDown->setToolTip(i18n("Move effect down"));
     buttonDel->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-deleffect")));
     buttonDel->setToolTip(i18n("Delete effect"));
-    // buttonUp->setEnabled(canMoveUp);
-    // buttonDown->setEnabled(!lastEffect);
 
     if (effectId == QLatin1String("speed")) {
         // Speed effect is a "pseudo" effect, cannot be moved
@@ -87,9 +82,6 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         setAcceptDrops(true);
     }
 
-    // checkAll->setToolTip(i18n("Enable/Disable all effects"));
-    // buttonShowComments->setIcon(QIcon::fromTheme("help-about"));
-    // buttonShowComments->setToolTip(i18n("Show additional information for the parameters"));
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_collapse = new KDualAction(i18n("Collapse Effect"), i18n("Expand Effect"), this);
     m_collapse->setActiveIcon(QIcon::fromTheme(QStringLiteral("arrow-right")));
@@ -449,14 +441,8 @@ void CollapsibleEffectView::slotSaveEffect()
     // Adjust param values
     QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
     QMap<QString, QString> values;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : currentValues) {
-        if (param.second.type() == QVariant::Double) {
-            values.insert(param.first, locale.toString(param.second.toDouble()));
-        } else {
-            values.insert(param.first, param.second.toString());
-        }
+        values.insert(param.first, param.second.toString());
     }
     QDomNodeList params = effect.elementsByTagName("parameter");
     for (int i = 0; i < params.count(); ++i) {
@@ -473,12 +459,7 @@ void CollapsibleEffectView::slotSaveEffect()
     effect.setAttribute(QStringLiteral("id"), name);
     QString masterType = effect.attribute(QLatin1String("type"));
     effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
-    /*
-    if (m_paramWidget) {
-        int in = m_paramWidget->range().x();
-        EffectsController::offsetKeyframes(in, effect);
-    }
-    */
+
     QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
     effect.removeChild(effectname);
     effectname = doc.createElement(QStringLiteral("name"));
@@ -509,18 +490,12 @@ QDomDocument CollapsibleEffectView::toXml() const
     QDomElement effect = doc.createElement(QStringLiteral("effect"));
     doc.appendChild(effect);
     effect.setAttribute(QStringLiteral("id"), effectId);
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : currentValues) {
         QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
         effect.appendChild(xmlParam);
         xmlParam.setAttribute(QStringLiteral("name"), param.first);
         QString value;
-        if (param.second.type() == QVariant::Double) {
-            value = locale.toString(param.second.toDouble());
-        } else {
-            value = param.second.toString();
-        }
+        value = param.second.toString();
         QDomText val = doc.createTextNode(value);
         xmlParam.appendChild(val);
     }
@@ -799,25 +774,6 @@ void CollapsibleEffectView::dropEvent(QDropEvent *event)
             }
             event->setDropAction(Qt::MoveAction);
             event->accept();
-            /*
-            EffectInfo info;
-            info.fromString(subeffects.at(0).toElement().attribute(QStringLiteral("kdenlive_info")));
-            if (info.groupIndex >= 0) {
-                // Moving group
-                QList<int> effectsIds;
-                // Collect moved effects ids
-                for (int i = 0; i < subeffects.count(); ++i) {
-                    QDomElement effect = subeffects.at(i).toElement();
-                    effectsIds << effect.attribute(QStringLiteral("kdenlive_ix")).toInt();
-                }
-                // emit moveEffect(effectsIds, currentEffectIx, info.groupIndex, info.groupName);
-            } else {
-                // group effect dropped from effect list
-                if (m_info.groupIndex > -1) {
-                    // TODO: Should we merge groups??
-                }
-                emit addEffect(e);
-            }*/
             emit addEffect(e);
             return;
         }

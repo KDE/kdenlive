@@ -572,6 +572,9 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 
 bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 {
+    QLocale currentLocale; // For restoring after XML export
+    qDebug() << "Current locale is " << currentLocale;
+    QLocale::setDefault(QLocale::c()); // Not sure if helpful …
     QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
         // Make sure we don't save if scenelist is corrupted
@@ -618,8 +621,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         return false;
     }
 
-    QLocale currentLocale;
-    qDebug() << "Current locale is " << currentLocale;
     const QByteArray sceneData = sceneList.toString().toUtf8();
     QLocale::setDefault(currentLocale);
 

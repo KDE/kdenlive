@@ -89,7 +89,7 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     }
     for (QModelIndex ix : m_indexes) {
         QVariant previousVal = m_model->data(ix, AssetParameterModel::ValueRole);
-        m_oldValues << previousVal.toString());
+        m_oldValues << previousVal.toString();
     }
 }
 
