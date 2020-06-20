@@ -978,7 +978,8 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 pCore->loadingMessageUpdated(i18n("Loading project clips..."));
             }
             // Load bin clips
-            qDebug() << "init bin";
+            auto currentLocale = strdup(setlocale(LC_ALL, nullptr));
+            qDebug() << "Init bin; Current LC_ALL" << currentLocale;
             // Load folders
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());

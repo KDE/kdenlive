@@ -311,7 +311,6 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
     m_document.clear();
-    qDebug() << "Project XML: " << result;
     return result;
 }
 
@@ -621,7 +620,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 
     QLocale currentLocale;
     qDebug() << "Current locale is " << currentLocale;
-    QLocale::setDefault(QLocale(QLocale::Russian, QLocale::Russia));
     const QByteArray sceneData = sceneList.toString().toUtf8();
     QLocale::setDefault(currentLocale);
 

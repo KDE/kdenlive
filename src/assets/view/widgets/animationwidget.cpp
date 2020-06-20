@@ -1070,8 +1070,6 @@ const QMap<QString, QString> AnimationWidget::getAnimation()
             int pos;
             mlt_keyframe_type type;
             QString key;
-            QLocale locale;
-            locale.setNumberOptions(QLocale::OmitGroupSeparator);
             QStringList result;
             int duration = m_outPoint;
             for (int j = 0; j < m_animController.key_count(); ++j) {
@@ -1092,7 +1090,7 @@ const QMap<QString, QString> AnimationWidget::getAnimation()
                     key.append(QStringLiteral("="));
                     break;
                 }
-                key.append(locale.toString(val));
+                key.append(QString::number(val, 'f'));
                 result << key;
             }
             animationResults.insert(i.key(), result.join(QLatin1Char(';')));

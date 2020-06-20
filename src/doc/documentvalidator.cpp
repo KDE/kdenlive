@@ -1739,7 +1739,8 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
 
 
         // List of properties which always need to be fixed
-        QList<QString> generalPropertiesToFix = {"warp_speed", "length"};
+        // Example: <property name="aspect_ratio">1,00247</property>
+        QList<QString> generalPropertiesToFix = {"warp_speed", "length", "aspect_ratio"};
 
         // Fix properties just by name, anywhere in the file
         auto props = m_doc.elementsByTagName(QStringLiteral("property"));
@@ -1751,7 +1752,9 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 QDomText text = element.firstChild().toText();
                 if (!text.isNull()) {
 
-                    bool autoReplace = propName.endsWith("frame_rate") || (generalPropertiesToFix.indexOf(propName) >= 0);
+                    bool autoReplace = propName.endsWith("frame_rate")
+                            || propName.endsWith("aspect_ratio")
+                            || (generalPropertiesToFix.indexOf(propName) >= 0);
 
                     QString originalValue = text.nodeValue();
                     QString value(originalValue);
@@ -1827,7 +1830,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 fixTimecode(newValue);
                 if (oldValue != newValue) {
                     el.setAttribute(attributeName, newValue);
-                    qDebug() << "Decimal point: Converted" << oldValue << "to" << newValue << "in" << el.nodeName() << attributeName;
+                    qDebug() << "Decimal point: Converted" << el.nodeName() << attributeName << "from" << oldValue << "to" << newValue;
                 }
             }
         };
@@ -1836,9 +1839,6 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         QList<QString> tagsToFix = {"producer", "filter", "tractor", "entry", "transition", "blank"};
         for (const QString &tag : tagsToFix) {
             QDomNodeList elements = m_doc.elementsByTagName(tag);
-            if (tag == "producer") {
-                qDebug() << "Fixing producers ..";
-            }
             for (int i = 0; i < elements.count(); i++) {
                 QDomElement el = elements.at(i).toElement();
                 fixAttribute(el, "in");
@@ -1848,6 +1848,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
         }
 
         modified = true;
+        qDebug() << "Decimal point: New XML: " << m_doc.toString(-1);
 
     } else {
         qDebug() << "Decimal point is OK";

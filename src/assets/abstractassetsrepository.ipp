@@ -142,8 +142,6 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             QDomElement eff = doc.createElement(QStringLiteral("effect"));
             eff.setAttribute(QStringLiteral("tag"), id);
             eff.setAttribute(QStringLiteral("id"), id);
-            QLocale locale;
-            ////qCDebug(KDENLIVE_LOG)<<"Effect: "<<id;
 
             Mlt::Properties param_props((mlt_properties)metadata->get_data("parameters"));
             for (int j = 0; param_props.is_valid() && j < param_props.count(); ++j) {
@@ -165,10 +163,10 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                 if (paramType == QLatin1String("float")) {
                     // Float must be converted using correct locale
                     if (paramdesc.get("maximum")) {
-                        params.setAttribute(QStringLiteral("max"), locale.toString(paramdesc.get_double("maximum")));
+                        params.setAttribute(QStringLiteral("max"), QString::number(paramdesc.get_double("maximum"), 'f'));
                     }
                     if (paramdesc.get("minimum")) {
-                        params.setAttribute(QStringLiteral("min"), locale.toString(paramdesc.get_double("minimum")));
+                        params.setAttribute(QStringLiteral("min"), QString::number(paramdesc.get_double("minimum"), 'f'));
                     }
                 } else {
                     if (paramdesc.get("maximum")) {
@@ -214,12 +212,12 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
                     if (paramType == QLatin1String("float")) {
                         // floats have to be converted using correct locale
                         if (paramdesc.get("default")) {
-                            params.setAttribute(QStringLiteral("default"), locale.toString(paramdesc.get_double("default")));
+                            params.setAttribute(QStringLiteral("default"), QString::number(paramdesc.get_double("default"), 'f'));
                         }
                         if (paramdesc.get("value")) {
-                            params.setAttribute(QStringLiteral("value"), locale.toString(paramdesc.get_double("value")));
+                            params.setAttribute(QStringLiteral("value"), QString::number(paramdesc.get_double("value"), 'f'));
                         } else {
-                            params.setAttribute(QStringLiteral("value"), locale.toString(paramdesc.get_double("default")));
+                            params.setAttribute(QStringLiteral("value"), QString::number(paramdesc.get_double("default"), 'f'));
                         }
                     } else {
                         if (paramdesc.get("default")) {

@@ -51,8 +51,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     bool needsLocaleConversion = false;
     QChar separator, oldSeparator;
     // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
         if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
@@ -112,10 +110,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         currentRow.xml = currentParameter;
         if (value.isEmpty()) {
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
-            value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
-        }
-        if (name == "variance") {
-            qDebug() << "Hey";
+            value = defaultValue.toString();
+            qDebug() << "QLocale: Default value is" << defaultValue << "parsed:" << value;
         }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
@@ -136,6 +132,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
 
         if (fixDecimalPoint) {
             bool converted = true;
+            QString originalValue(value);
             switch (currentRow.type) {
                 case ParamType::KeyframeParam:
                 case ParamType::Position:
@@ -146,12 +143,14 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                     // Fix values like <position>=50 20 1920 1080 0,75
                     value.replace(QRegExp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
                     break;
+                case ParamType::ColorWheel:
+                    // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
+                case ParamType::Double:
+                case ParamType::Hidden:
                 case ParamType::List:
                     // Despite its name, a list type parameter is a single value *chosen from* a list.
                     // If it contains a non-“.” decimal separator, it is very likely wrong.
                     // Fall-through, treat like Double
-                case ParamType::Double:
-                case ParamType::Hidden:
                 case ParamType::Bezier_spline:
                     value.replace(originalDecimalPoint, ".");
                     break;
@@ -167,7 +166,6 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                     // All fine
                     converted = false;
                     break;
-                case ParamType::ColorWheel:
                 case ParamType::Curve:
                 case ParamType::Geometry:
                 case ParamType::Switch:
@@ -182,7 +180,11 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                     break;
             }
             if (converted) {
-                qDebug() << "Decimal point conversion: " << name << "=" << value;
+                if (value != originalValue) {
+                    qDebug() << "Decimal point conversion: " << name << "converted from" << originalValue << "to" << value;
+                } else {
+                    qDebug() << "Decimal point conversion: " << name << " is already ok: " << value;
+                }
             } else {
                 qDebug() << "No fixing needed for" << name << "=" << value;
             }
@@ -287,8 +289,6 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
 void AssetParameterModel::internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex)
 {
     Q_ASSERT(m_asset->is_valid());
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
     if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -316,13 +316,7 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         }
     }
     bool conversionSuccess = true;
-    double doubleValue = 0;
-    if (paramValue.simplified().contains(QLatin1Char(' '))) {
-        // Some locale interpret a space as thousands separator
-        conversionSuccess = false;
-    } else {
-        doubleValue = locale.toDouble(paramValue, &conversionSuccess);
-    }
+    double doubleValue = paramValue.toDouble(&conversionSuccess);
     if (conversionSuccess) {
         m_asset->set(name.toLatin1().constData(), doubleValue);
         if (m_fixedParams.count(name) == 0) {
@@ -640,9 +634,12 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         if (attribute == QLatin1String("default")) {
             return content.toDouble();
         }
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
-        return locale.toDouble(content);
+        bool ok;
+        double converted = content.toDouble(&ok);
+        if (!ok) {
+            qDebug() << "QLocale: Could not load double parameter" << content;
+        }
+        return converted;
     }
     if (attribute == QLatin1String("default")) {
         if (type == ParamType::RestrictedAnim) {
@@ -656,11 +653,6 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                 return res;
             }
             return defaultValue.isNull() ? content : defaultValue;
-        } else if (type == ParamType::Bezier_spline) {
-            QLocale locale;
-            if (locale.decimalPoint() != QLocale::c().decimalPoint()) {
-                return content.replace(QLocale::c().decimalPoint(), locale.decimalPoint());
-            }
         }
     }
     return content;

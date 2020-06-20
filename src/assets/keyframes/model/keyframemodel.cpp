@@ -442,8 +442,12 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
     case NormalizedValueRole: {
         if (m_paramType == ParamType::AnimatedRect) {
             const QString &data = it->second.second.toString();
-            QLocale locale;
-            return locale.toDouble(data.section(QLatin1Char(' '), -1));
+            bool ok;
+            double converted = data.section(QLatin1Char(' '), -1).toDouble(&ok);
+            if (!ok) {
+                qDebug() << "QLocale: Could not convert animated rect opacity" << data;
+            }
+            return converted;
         }
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
@@ -713,7 +717,6 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    QLocale locale;
     disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
     removeAllKeyframes(undo, redo);
     int in = 0;
@@ -749,7 +752,7 @@ void KeyframeModel::parseAnimProperty(const QString &prop)
         case ParamType::AnimatedRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
             if (useOpacity) {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(rect.o, 0, 'f'));
             } else {
                 value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h));
             }
@@ -782,7 +785,6 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
     removeAllKeyframes(undo, redo);
 
     Mlt::Properties mlt_prop;
-    QLocale locale;
     int in = 0;
     bool useOpacity = true;
     if (auto ptr = m_model.lock()) {
@@ -812,7 +814,7 @@ void KeyframeModel::resetAnimProperty(const QString &prop)
         case ParamType::AnimatedRect: {
             mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
             if (useOpacity) {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(locale.toString(rect.o)));
+                value = QVariant(QStringLiteral("%1 %2 %3 %4 %5").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h).arg(QString::number(rect.o, 'f')));
             } else {
                 value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(rect.x).arg(rect.y).arg(rect.w).arg(rect.h));
             }
@@ -877,10 +879,8 @@ QVariant KeyframeModel::getInterpolatedValue(int p) const
 QVariant KeyframeModel::updateInterpolated(const QVariant &interpValue, double val)
 {
     QStringList vals = interpValue.toString().split(QLatin1Char(' '));
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (!vals.isEmpty()) {
-        vals[vals.size() - 1] = locale.toString(val);
+        vals[vals.size() - 1] = QString::number(val, 'f');
     }
     return vals.join(QLatin1Char(' '));
 }
@@ -938,14 +938,13 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         return QVariant();
     } else if (m_paramType == ParamType::AnimatedRect) {
         if (!animData.isEmpty()) {
-            QLocale locale;
             mlt_prop.set("key", animData.toUtf8().constData());
             // This is a fake query to force the animation to be parsed
             (void)mlt_prop.anim_get_double("key", 0, out);
             mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
             QString res = QStringLiteral("%1 %2 %3 %4").arg((int)rect.x).arg((int)rect.y).arg((int)rect.w).arg((int)rect.h);
             if (useOpacity) {
-                res.append(QStringLiteral(" %1").arg(locale.toString(rect.o)));
+                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
             }
             return QVariant(res);
         }

@@ -413,14 +413,12 @@ void GeometryWidget::setValue(const QRect r, double opacity)
 const QString GeometryWidget::getValue() const
 {
     if (m_opacity) {
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
         return QStringLiteral("%1 %2 %3 %4 %5")
             .arg(m_spinX->value())
             .arg(m_spinY->value())
             .arg(m_spinWidth->value())
             .arg(m_spinHeight->value())
-            .arg(locale.toString(m_opacity->value() / m_opacityFactor));
+            .arg(QString::number(m_opacity->value() / m_opacityFactor, 'f'));
     }
     return QStringLiteral("%1 %2 %3 %4").arg(m_spinX->value()).arg(m_spinY->value()).arg(m_spinWidth->value()).arg(m_spinHeight->value());
 }

@@ -113,13 +113,11 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
     keyframe_list->blockSignals(true);
 
     // Retrieve parameters from the model
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     QString name = m_model->data(index, Qt::DisplayRole).toString();
     double value = 0; // locale.toDouble(m_model->data(index, AssetParameterModel::ValueRole).toString());
     double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
     double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
-    double defaultValue = locale.toDouble(m_model->data(index, AssetParameterModel::DefaultRole).toString());
+    double defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toDouble();
     QString comment = m_model->data(index, AssetParameterModel::CommentRole).toString();
     QString suffix = m_model->data(index, AssetParameterModel::SuffixRole).toString();
     int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
@@ -130,14 +128,6 @@ void KeyframeEdit::addParameter(QModelIndex index, int activeKeyframe)
     keyframe_list->setHorizontalHeaderItem(columnId, new QTableWidgetItem(name));
     DoubleWidget *doubleparam = new DoubleWidget(name, value, min, max, m_model->data(index, AssetParameterModel::FactorRole).toDouble(), defaultValue, comment,
                                                  -1, suffix, decimals, m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
-
-    /*DoubleParameterWidget *doubleparam = new DoubleParameterWidget(
-        paramName, 0, m_params.at(columnId).attribute(QStringLiteral("min")).toDouble(), m_params.at(columnId).attribute(QStringLiteral("max")).toDouble(),
-        m_params.at(columnId).attribute(QStringLiteral("default")).toDouble(), comment, columnId, m_params.at(columnId).attribute(QStringLiteral("suffix")),
-        m_params.at(columnId).attribute(QStringLiteral("decimals")).toInt(), false, this);*/
-
-    // Connect signal
-    // connect(doubleparam, &DoubleWidget::valueChanged, [this, locale, index](double value) { emit valueChanged(index, locale.toString(value)); });
 
     connect(doubleparam, &DoubleWidget::valueChanged, this, &KeyframeEdit::slotAdjustKeyframeValue);
     connect(this, SIGNAL(showComments(bool)), doubleparam, SLOT(slotShowComment(bool)));
