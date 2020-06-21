@@ -865,29 +865,6 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
 
-    auto lcNumericCategory = m_project->getLcNumeric();
-    if (lcNumericCategory.isEmpty() || lcNumericCategory == "C") {
-        // Default locale is C. All fine, no number format issues to expect.
-    } else if (false) {
-        qDebug() << "Document uses the locale " << lcNumericCategory << ", switching locale for loading the document";
-        QString newLocale = LocaleHandling::setLocale(lcNumericCategory);
-        if (newLocale.isEmpty()) {
-            qDebug() << "Could not switch locale. Is it installed?";
-            auto res =
-                KMessageBox::warningYesNo(qApp->activeWindow(), i18n("This project file uses the locale %1 but it is not installed on the system. Load anyway? "
-                                                                     "Warning: Loaded project may be corrupted or cause a crash.",
-                                                                     lcNumericCategory));
-            if (res == KMessageBox::No) {
-                newFile(false);
-                return false;
-            } else {
-                qDebug() << "WARNING: Loading project with locale " << lcNumericCategory << " which is not found on the system.";
-            }
-        } else {
-            qDebug() << "Locale successfully switched to " << newLocale;
-        }
-    }
-
     QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
                                                             m_project->getAndClearProjectXml().constData()));
 

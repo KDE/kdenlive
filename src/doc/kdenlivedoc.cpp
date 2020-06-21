@@ -314,10 +314,6 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
     return result;
 }
 
-QString KdenliveDoc::getLcNumeric() {
-    return m_document.documentElement().attribute("LC_NUMERIC");
-}
-
 QDomDocument KdenliveDoc::createEmptyDocument(int videotracks, int audiotracks)
 {
     QList<TrackInfo> tracks;

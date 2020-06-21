@@ -76,11 +76,11 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
 
     QLocale documentLocale = QLocale::c(); // Document locale for conversion. Previous MLT / Kdenlive versions used C locale by default
 
-    if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        // Check document numeric separator (added in Kdenlive 16.12.1
+    if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) { // Backwards compatibility
+        // Check document numeric separator (added in Kdenlive 16.12.1 and removed in Kdenlive 20.08)
         QDomElement main_playlist = mlt.firstChildElement(QStringLiteral("playlist"));
         QString sep = Xml::getXmlProperty(main_playlist, "kdenlive:docproperties.decimalPoint", QString("."));
-        QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C");
+        QString mltLocale = mlt.attribute(QStringLiteral("LC_NUMERIC"), "C"); // Backwards compatibility
         qDebug() << "LOCALE: Document uses " << sep << " as decimal point and " << mltLocale << " as locale";
 
         auto localeMatch = LocaleHandling::getQLocaleForDecimalPoint(mltLocale, sep);
@@ -1821,7 +1821,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                     QString newValue = QString(value).replace(decimalPoint, ".");
                     if (value != newValue) {
                         Xml::setXmlProperty(filter, property, newValue);
-                        qDebug() << "Decimal point: Property" << mltService << "converted from " << value << "to" << newValue;
+                        qDebug() << "Decimal point: Converted service property" << mltService << "from " << value << "to" << newValue;
                     }
                 }
             }
