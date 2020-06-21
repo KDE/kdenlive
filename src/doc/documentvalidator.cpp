@@ -74,8 +74,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
         mlt.setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     }
 
-    // Previous MLT / Kdenlive versions used C locale by default
-    QLocale documentLocale = QLocale::c();
+    QLocale documentLocale = QLocale::c(); // Document locale for conversion. Previous MLT / Kdenlive versions used C locale by default
 
     if (mlt.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
         // Check document numeric separator (added in Kdenlive 16.12.1
@@ -109,7 +108,7 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
         version = documentLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);
         if (!ok) {
             // Could not parse version number, there is probably a conflict in decimal separator
-            QLocale tempLocale = QLocale(mlt.attribute(QStringLiteral("LC_NUMERIC")));
+            QLocale tempLocale = QLocale(mlt.attribute(QStringLiteral("LC_NUMERIC"))); // Try parsing version number with document locale
             version = tempLocale.toDouble(kdenliveDoc.attribute(QStringLiteral("version")), &ok);
             if (!ok) {
                 version = kdenliveDoc.attribute(QStringLiteral("version")).toDouble(&ok);
@@ -1337,21 +1336,21 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                     QStringList conversionParams = keyframeFilterToConvert.value(id);
                     int offset = eff.attribute(QStringLiteral("in")).toInt();
                     int out = eff.attribute(QStringLiteral("out")).toInt();
-                    convertKeyframeEffect(eff, conversionParams, values, offset);
+                    convertKeyframeEffect_093(eff, conversionParams, values, offset);
                     Xml::removeXmlProperty(eff, conversionParams.at(0));
                     Xml::removeXmlProperty(eff, conversionParams.at(1));
                     for (int k = j + 1; k < effects.count(); k++) {
                         QDomElement subEffect = effects.at(k).toElement();
                         QString subId = Xml::getXmlProperty(subEffect, QStringLiteral("kdenlive_id"));
                         if (subId == id) {
-                            convertKeyframeEffect(subEffect, conversionParams, values, offset);
+                            convertKeyframeEffect_093(subEffect, conversionParams, values, offset);
                             out = subEffect.attribute(QStringLiteral("out")).toInt();
                             entry.removeChild(subEffect);
                             k--;
                         }
                     }
                     QStringList parsedValues;
-                    QLocale locale;
+                    QLocale locale; // Used for conversion of pre-1.0 version → OK
                     locale.setNumberOptions(QLocale::OmitGroupSeparator);
                     QMapIterator<int, double> l(values);
                     if (id == QLatin1String("volume")) {
@@ -1439,7 +1438,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
         QDomNodeList props = main_playlist.elementsByTagName(QStringLiteral("property"));
         QJsonArray guidesList;
         QMap<QString, QJsonArray> markersList;
-        QLocale locale;
+        QLocale locale; // Used for conversion of pre-1.0 version → OK
         for (int i = 0; i < props.count(); ++i) {
             QDomNode n = props.at(i);
             QString prop = n.toElement().attribute(QStringLiteral("name"));
@@ -1745,6 +1744,7 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
                 "length",
                 "aspect_ratio",
                 "kdenlive:clipanalysis.motion_vector_list",
+                "kdenlive:original.meta.attr.com.apple.quicktime.rating.user.markup",
         };
 
         // Fix properties just by name, anywhere in the file
@@ -1852,6 +1852,15 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
             }
         }
 
+        auto mltElements = m_doc.elementsByTagName("mlt");
+        for (int i = 0; i < mltElements.count(); i++) {
+            QDomElement mltElement = mltElements.at(i).toElement();
+            if (mltElement.hasAttribute("LC_NUMERIC")) {
+                qDebug() << "Removing LC_NUMERIC=" << mltElement.attribute("LC_NUMERIC") << "from root node";
+                mltElement.removeAttribute("LC_NUMERIC");
+            }
+        }
+
         modified = true;
         qDebug() << "Decimal point: New XML: " << m_doc.toString(-1);
 
@@ -1863,9 +1872,9 @@ auto DocumentValidator::upgradeTo100(const QLocale &documentLocale) -> QString {
     return modified ? decimalPoint : QString();
 }
 
-void DocumentValidator::convertKeyframeEffect(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset)
+void DocumentValidator::convertKeyframeEffect_093(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset)
 {
-    QLocale locale;
+    QLocale locale; // Used for upgrading to pre-1.0 version → OK
     int in = effect.attribute(QStringLiteral("in")).toInt() - offset;
     values.insert(in, locale.toDouble(Xml::getXmlProperty(effect, params.at(0))));
     QString endValue = Xml::getXmlProperty(effect, params.at(1));
@@ -2113,14 +2122,12 @@ QString DocumentValidator::factorizeGeomValue(const QString &value, double facto
 {
     const QStringList vals = value.split(QLatin1Char(';'));
     QString result;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (int i = 0; i < vals.count(); i++) {
         const QString &s = vals.at(i);
         QString key = s.section(QLatin1Char('='), 0, 0);
         QString val = s.section(QLatin1Char('='), 1, 1);
-        double v = locale.toDouble(val) / factor;
-        result.append(key + QLatin1Char('=') + locale.toString(v));
+        double v = val.toDouble() / factor;
+        result.append(key + QLatin1Char('=') + QString::number(v, 'f'));
         if (i + 1 < vals.count()) {
             result.append(QLatin1Char(';'));
         }

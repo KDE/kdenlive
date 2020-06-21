@@ -61,7 +61,7 @@ private:
     QString factorizeGeomValue(const QString &value, double factor);
     /** @brief Kdenlive <= 0.9.10 saved title clip item position/opacity with locale which was wrong, fix. */
     void fixTitleProducerLocale(QDomElement &producer);
-    void convertKeyframeEffect(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset);
+    void convertKeyframeEffect_093(const QDomElement &effect, const QStringList &params, QMap<int, double> &values, int offset);
 };
 
 #endif
