@@ -2659,7 +2659,7 @@ void Bin::setupMenu()
     connect(addClip, &QAction::triggered, this, &Bin::slotAddClip);
 
     setupAddClipAction(addClipMenu, ClipType::Color, QStringLiteral("add_color_clip"), i18n("Add Color Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-color-clip")));
-    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Slideshow Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
+    setupAddClipAction(addClipMenu, ClipType::SlideShow, QStringLiteral("add_slide_clip"), i18n("Add Image Sequence"), QIcon::fromTheme(QStringLiteral("kdenlive-add-slide-clip")));
     setupAddClipAction(addClipMenu, ClipType::Text, QStringLiteral("add_text_clip"), i18n("Add Title Clip"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
     setupAddClipAction(addClipMenu, ClipType::TextTemplate, QStringLiteral("add_text_template_clip"), i18n("Add Template Title"), QIcon::fromTheme(QStringLiteral("kdenlive-add-text-clip")));
 
