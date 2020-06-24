@@ -943,10 +943,8 @@ void Monitor::slotStartDrag()
     }
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);
-    /*QPixmap pix = m_currentClip->thumbnail();
-    drag->setPixmap(pix);
-    drag->setHotSpot(QPoint(0, 50));*/
     drag->exec(Qt::MoveAction);
+    pCore->bin()->processDragEnd();
 }
 
 // virtual
