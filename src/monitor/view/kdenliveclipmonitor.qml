@@ -18,6 +18,9 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    property double zoomStart: 0
+    property double zoomFactor: 1
+    property int zoomOffset: 0
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
@@ -138,6 +141,7 @@ Item {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 Label {
                     id: clipStreamLabel
@@ -263,7 +267,7 @@ Item {
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
-                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? audioThumb.height : 0
+                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset
                 }
             }
             Label {
@@ -281,7 +285,7 @@ Item {
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? audioThumb.height : 0
+                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset
                 }
             }
             Label {
@@ -290,6 +294,7 @@ Item {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && controller.position == controller.zoneIn
                 text: i18n("In Point")
@@ -306,6 +311,7 @@ Item {
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && controller.position + 1 == controller.zoneOut
                 text: i18n("Out Point")
@@ -330,6 +336,7 @@ Item {
                 anchors {
                     left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && text != ""
                 height: inPoint.height

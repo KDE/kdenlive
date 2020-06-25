@@ -23,6 +23,8 @@ Item {
     property bool showFps: false
     property bool showSafezone: false
     property bool showAudiothumb: false
+    property double zoomStart: 0
+    property double zoomFactor: 1
     property real baseUnit: fontMetrics.font.pixelSize * 0.8
     property int duration: 300
     property int mouseRulerPos: 0

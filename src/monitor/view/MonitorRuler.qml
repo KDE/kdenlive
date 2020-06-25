@@ -1,6 +1,4 @@
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Styles 1.4
-import QtQuick.Window 2.2
+import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import QtQuick 2.11
 
@@ -10,13 +8,141 @@ Rectangle {
     color: activePalette.base
     property bool containsMouse: rulerMouseArea.containsMouse
     property bool seekingFinished : controller.seekFinished
+    property double rulerZoomWidth: root.zoomFactor * width
+    property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
     Rectangle {
         color: activePalette.light
         width: parent.width
         height: 1
     }
+    Rectangle {
+        id: zoomBackground
+        height: root.baseUnit
+        color: activePalette.base
+        visible: false
+        onVisibleChanged: {
+            root.zoomOffset = visible ? height : 0
+        }
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.top
+        }
+        Item {
+            id: zoomHandleContainer
+            property int previousX: 0
+            property int previousWidth: zoomHandleContainer.width
+            anchors.fill: parent
+            anchors.margins: 3
+            Rectangle {
+                id: zoomBar
+                radius: height / 2
+                color: (zoomArea.containsMouse ||  zoomArea.pressed) ? activePalette.highlight : activePalette.text
+                height: parent.height
+                width: parent.width
+                MouseArea {
+                    id: zoomArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    drag.target: zoomBar
+                    drag.axis: Drag.XAxis
+                    drag.smoothed: false
+                    drag.minimumX: 0
+                    drag.maximumX: zoomHandleContainer.width - zoomBar.width
+                    onPositionChanged: {
+                        root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                    }
+                    onDoubleClicked: {
+                        if (zoomBar.x == 0 && zoomBar.width == zoomHandleContainer.width) {
+                            // Restore previous pos
+                            zoomBar.width = zoomHandleContainer.previousWidth
+                            zoomBar.x = zoomHandleContainer.previousX
+                            root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                            root.zoomFactor = zoomBar.width / zoomHandleContainer.width
+                        } else {
+                            zoomHandleContainer.previousWidth = zoomBar.width
+                            zoomHandleContainer.previousX = zoomBar.x
+                            zoomBar.x = 0
+                            zoomBar.width = zoomHandleContainer.width
+                            root.zoomStart = 0
+                            root.zoomFactor = 1
+                        }
+                    }
+                }
+            }
+            MouseArea {
+                id: zoomStart
+                anchors.left: zoomBar.left
+                anchors.leftMargin: - root.baseUnit / 2
+                anchors.bottom: zoomBar.bottom
+                width: root.baseUnit
+                height: zoomBar.height
+                hoverEnabled: true
+                cursorShape: Qt.SizeHorCursor
+                onPressed: {
+                    anchors.left = undefined
+                }
+                onReleased: {
+                    anchors.left = zoomBar.left
+                }
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        var updatedPos = Math.max(0, x + mouseX + root.baseUnit / 2)
+                        updatedPos = Math.min(updatedPos, zoomBar.x + zoomBar.width - root.baseUnit / 2)
+                        zoomBar.width = zoomBar.x + zoomBar.width - updatedPos
+                        zoomBar.x = updatedPos
+                        root.zoomStart = updatedPos / zoomHandleContainer.width
+                        root.zoomFactor = zoomBar.width / zoomHandleContainer.width
+                    }
+                }
+            }
+            MouseArea {
+                id: zoomEnd
+                anchors.left: zoomBar.right
+                anchors.leftMargin: - root.baseUnit / 2
+                anchors.bottom: zoomBar.bottom
+                width: root.baseUnit
+                height: zoomBar.height
+                hoverEnabled: true
+                cursorShape: Qt.SizeHorCursor
+                onPressed: {
+                    anchors.left = undefined
+                }
+                onReleased: {
+                    anchors.left = zoomBar.right
+                }
+                onPositionChanged: {
+                    if (mouse.buttons === Qt.LeftButton) {
+                        var updatedPos = Math.min(zoomHandleContainer.width, x + mouseX + root.baseUnit / 2)
+                        updatedPos = Math.max(updatedPos, zoomBar.x + root.baseUnit / 2)
+                        zoomBar.width = updatedPos - zoomBar.x
+                        root.zoomFactor = zoomBar.width / zoomHandleContainer.width
+                    }
+                }
+            }
+        }
+        ToolTip {
+            visible: zoomArea.containsMouse
+            delay: 1000
+            timeout: 5000
+            background: Rectangle {
+                color: activePalette.alternateBase
+                border.color: activePalette.light
+            }
+            contentItem: Label {
+                color: activePalette.text
+                font: fixedFont
+                text: controller.toTimecode((root.duration + 1 )* root.zoomFactor)
+            }
+        }
+    }
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
+    }
+
+    onRulerZoomWidthChanged: {
+        updateRuler()
     }
 
     Timer {
@@ -28,16 +154,16 @@ Rectangle {
         ruler.color = activePalette.base
         // Enforce repaint
         rulerTicks.model = 0
-        rulerTicks.model = ruler.width / frameSize + 2
+        rulerTicks.model = ruler.rulerZoomWidth / frameSize + 2
         playhead.fillColor = activePalette.windowText
     }
 
     function updateRuler()
     {
         var projectFps = controller.fps()
-        root.timeScale = width / root.duration
-        var displayedLength = root.duration / projectFps;
-        if (displayedLength < 2 ) {
+        root.timeScale = ruler.width / root.duration / root.zoomFactor
+        var displayedLength = root.duration * root.zoomFactor / projectFps;
+        if (displayedLength < 3 ) {
             // 1 frame tick
             root.frameSize = root.timeScale
         } else if (displayedLength < 30) {
@@ -72,7 +198,7 @@ Rectangle {
         id: zone
         visible: controller.zoneOut > controller.zoneIn
         color: activePalette.highlight
-        x: controller.zoneIn * root.timeScale
+        x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
         width: (controller.zoneOut - controller.zoneIn) * root.timeScale
         anchors.bottom: parent.bottom
         height: ruler.height / 2
@@ -86,7 +212,7 @@ Rectangle {
         id: rulerTicks
         model: ruler.width / frameSize + 2
         Rectangle {
-            x: index * frameSize
+            x: index * frameSize - (ruler.rulerZoomOffset % frameSize)
             anchors.bottom: ruler.bottom
             height: (index % 5) ? ruler.height / 4 : ruler.height / 2
             width: 1
@@ -101,7 +227,7 @@ Rectangle {
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
-                controller.position = Math.min(pos / root.timeScale, root.duration);
+                controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
             }
         }
         onPositionChanged: {
@@ -109,8 +235,39 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = pos
                 if (pressed) {
-                    controller.position = Math.min(pos / root.timeScale, root.duration);
+                    controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
                 }
+            }
+        }
+        onWheel: {
+            if (wheel.modifiers & Qt.ControlModifier) {
+                if (wheel.angleDelta.y < 0) {
+                    // zoom out
+                    root.zoomFactor = Math.min(1, root.zoomFactor * 1.2)
+                    if (root.zoomFactor == 1) {
+                        root.zoomStart = 0
+                        zoomBackground.visible = false
+                    } else {
+                        var middle = root.zoomStart + root.zoomFactor / 2
+                        middle = Math.max(0, middle - root.zoomFactor / 2)
+                        if (middle + root.zoomFactor > 1) {
+                            middle = 1 - root.zoomFactor
+                        }
+                        root.zoomStart = middle
+                    }
+                } else {
+                    // zoom in
+                    zoomBackground.visible = true
+                    var middle = wheel.x / rulerMouseArea.width / 1.2 //root.zoomStart + root.zoomFactor / 2
+                    root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
+                    var startPos = Math.max(0, middle - root.zoomFactor / 2)
+                    if (startPos + root.zoomFactor > 1) {
+                        startPos = 1 - root.zoomFactor
+                    }
+                    root.zoomStart = startPos
+                }
+                zoomBar.x = root.zoomStart * zoomHandleContainer.width
+                zoomBar.width = root.zoomFactor * zoomHandleContainer.width
             }
         }
     }
@@ -120,7 +277,7 @@ Rectangle {
         width: inLabel.contentWidth + 4
         height: inLabel.contentHeight + 2
         property int centerPos: zone.x + zone.width / 2 - inLabel.contentWidth / 2
-        x: centerPos < 0 ? 0 : centerPos > ruler.width - inLabel.contentWidth ? ruler.width - inLabel.contentWidth : centerPos
+        x: centerPos < 0 ? 0 : centerPos > ruler.width - inLabel.contentWidth ? ruler.width - inLabel.contentWidth - 2 : centerPos
         color: activePalette.alternateBase
         anchors.bottom: ruler.top
         Label {
@@ -136,7 +293,7 @@ Rectangle {
     // monitor zone
     Rectangle {
         id: inZoneMarker
-        x: controller.zoneIn * root.timeScale
+        x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         width: 1
@@ -144,7 +301,7 @@ Rectangle {
         visible: controller.zoneOut > controller.zoneIn && (rulerMouseArea.containsMouse || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
     }
     Rectangle {
-        x: controller.zoneOut * root.timeScale
+        x: controller.zoneOut * root.timeScale - ruler.rulerZoomOffset
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         width: 1
@@ -159,7 +316,7 @@ Rectangle {
         opacity: 1
         anchors.top: ruler.top
         fillColor: activePalette.windowText
-        x: controller.position * root.timeScale - (width / 2)
+        x: controller.position * root.timeScale - (width / 2) - ruler.rulerZoomOffset
     }
     Rectangle {
         id: trimIn
@@ -189,7 +346,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    controller.zoneIn = Math.round(trimIn.x / root.timeScale)
+                    controller.zoneIn = Math.round((trimIn.x + ruler.rulerZoomOffset) / root.timeScale)
                 }
             }
         }
@@ -222,7 +379,7 @@ Rectangle {
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
-                    controller.zoneOut = Math.round((trimOut.x + trimOut.width) / root.timeScale)
+                    controller.zoneOut = Math.round((trimOut.x + trimOut.width + ruler.rulerZoomOffset) / root.timeScale)
                 }
             }
         }
@@ -238,7 +395,7 @@ Rectangle {
                 id: markerBase
                 width: 1
                 height: parent.height
-                x: (model.frame) * root.timeScale;
+                x: (model.frame) * root.timeScale - ruler.rulerZoomOffset;
                 color: model.color
             }
             Rectangle {
@@ -278,15 +435,5 @@ Rectangle {
             }
         }
     }
-
-    /*Rectangle {
-        id: seekCursor
-        visible: controller.seekPosition > -1
-        color: activePalette.highlight
-        width: 4
-        height: ruler.height
-        opacity: 0.5
-        x: controller.seekPosition * root.timeScale
-        y: 0
-    }*/
 }
+
