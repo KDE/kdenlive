@@ -7,6 +7,32 @@
 * [The KDE Frameworks][kf]
   * [XMLGUI Technology][xmlgui-tut] (e.g. for the `kdenliveui.rc` file)
 
+
+## Locale handling
+
+Locales are important e.g. for formatting numbers in a way that the user is
+familiar with. Some countries would write `12500.42` as `12.000,42`, for
+example.
+
+Since 20.08, Kdenlive follows the following rules:
+
+* When parsing data (by Kdenlive or by other libraries like MLT), **the `C`
+  locale is used.** This is especially important for project files. The reason
+  is that for passing data between programs, the format has to be well-defined
+  and *not* depend on where the user happens to live.
+* When presenting data to the user, the user’s locale is used.
+
+MLT uses the C locale which is set by `setlocale()` and which must be set to
+`C`. If it is set to e.g. `hu_HU.utf-8`, which uses `,` as decimal separator,
+properties are converted to this format upon saving the project file, and the
+project file ends up corrupted.
+
+In Kdenlive, `QLocale` should only be used in one case: when data is shown to
+the user or read from the user. Usually that is handled by Qt already. A
+`QDoubleSpinBox`, for example, presents the double value in the user’s local
+number format.
+
+
 ## Configuration
 
 Named settings are stored in [`kdenlivesettings.kcfg`][sett]. To add a new
