@@ -17,6 +17,11 @@ Item {
     property color overlayColor: 'cyan'
     property double scalex : 1
     property double scaley : 1
+    // Zoombar properties
+    property double zoomStart: 0
+    property double zoomFactor: 1
+    property int zoomOffset: 0
+    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     property double offsetx : 0

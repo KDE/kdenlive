@@ -17,6 +17,11 @@ Item {
     property point center
     property double scalex
     property double scaley
+    // Zoombar properties
+    property double zoomStart: 0
+    property double zoomFactor: 1
+    property int zoomOffset: 0
+    property bool showZoomBar: false
     property double stretch : 1
     property double sourcedar : 1
     property double offsetx : 0

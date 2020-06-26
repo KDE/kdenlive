@@ -23,6 +23,11 @@ Item {
     property double offsety
     property double scalex
     property double scaley
+    // Zoombar properties
+    property double zoomStart: 0
+    property double zoomFactor: 1
+    property int zoomOffset: 0
+    property bool showZoomBar: false
 
     signal qmlMoveSplit()
 

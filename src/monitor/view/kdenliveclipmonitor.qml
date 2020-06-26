@@ -18,9 +18,11 @@ Item {
     property double zoom
     property double scalex
     property double scaley
+    // Zoombar properties
     property double zoomStart: 0
     property double zoomFactor: 1
     property int zoomOffset: 0
+    property bool showZoomBar: false
     property bool dropped: false
     property string fps: '-'
     property bool showMarkers: false
@@ -136,7 +138,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || thumbTimer.running)
+                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || thumbTimer.running || root.showZoomBar)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left

@@ -15,11 +15,12 @@ Rectangle {
         width: parent.width
         height: 1
     }
+
+    // Zoom bar container
     Rectangle {
-        id: zoomBackground
         height: root.baseUnit
         color: activePalette.base
-        visible: false
+        visible: root.showZoomBar
         onVisibleChanged: {
             root.zoomOffset = visible ? height : 0
         }
@@ -246,7 +247,7 @@ Rectangle {
                     root.zoomFactor = Math.min(1, root.zoomFactor * 1.2)
                     if (root.zoomFactor == 1) {
                         root.zoomStart = 0
-                        zoomBackground.visible = false
+                        root.showZoomBar = false
                     } else {
                         var middle = root.zoomStart + root.zoomFactor / 2
                         middle = Math.max(0, middle - root.zoomFactor / 2)
@@ -257,7 +258,7 @@ Rectangle {
                     }
                 } else {
                     // zoom in
-                    zoomBackground.visible = true
+                    root.showZoomBar = true
                     var middle = wheel.x / rulerMouseArea.width / 1.2 //root.zoomStart + root.zoomFactor / 2
                     root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
                     var startPos = Math.max(0, middle - root.zoomFactor / 2)
