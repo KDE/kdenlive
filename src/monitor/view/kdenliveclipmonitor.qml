@@ -19,8 +19,11 @@ Item {
     property double scalex
     property double scaley
     // Zoombar properties
+    // The start position of the zoomed area, between 0 and 1
     property double zoomStart: 0
+    // The zoom factor (between 0 and 1). 0.5 means 2x zoom
     property double zoomFactor: 1
+    // The pixel height of zoom bar, used to offset markers info
     property int zoomOffset: 0
     property bool showZoomBar: false
     property bool dropped: false
@@ -41,7 +44,7 @@ Item {
     property color overlayColor: 'cyan'
     property bool isClipMonitor: true
     property int dragType: 0
-
+    
     FontMetrics {
         id: fontMetrics
         font: fixedFont
@@ -56,6 +59,11 @@ Item {
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
+        // Reset zoom on clip change
+        root.zoomStart = 0
+        root.zoomFactor = 1
+        root.showZoomBar = false
+        root.zoomOffset = 0
     }
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
@@ -183,8 +191,8 @@ Item {
                     color: "yellow"
                     opacity: 0.3
                     height: parent.height
-                    x: controller.zoneIn * timeScale
-                    width: (controller.zoneOut - controller.zoneIn) * timeScale
+                    x: controller.zoneIn * timeScale / root.zoomFactor - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                    width: (controller.zoneOut - controller.zoneIn) * timeScale / root.zoomFactor
                     visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
                 }
                 Repeater {
@@ -202,6 +210,10 @@ Item {
                             height: streamThumb.streamHeight
                             y: model.index * height
                             source: controller.audioThumb[model.index]
+                            transform: [
+                                Translate { x: (-audioThumb.width * root.zoomStart)},
+                                Scale {xScale: 1/root.zoomFactor}
+                            ]
                             asynchronous: true
                         }
                         Rectangle {
@@ -217,17 +229,36 @@ Item {
                     color: "red"
                     width: 1
                     height: parent.height
-                    x: controller.position * timeScale
+                    x: controller.position * timeScale / root.zoomFactor - (audioThumb.width/root.zoomFactor * root.zoomStart)
                 }
                 MouseArea {
                     id: thumbMouseArea
                     anchors.fill: parent
-                    acceptedButtons: Qt.NoButton
+                    acceptedButtons: audioThumb.isAudioClip ? Qt.NoButton : Qt.LeftButton
                     hoverEnabled: true
+                    onPressed: {
+                        var pos = Math.max(mouseX, 0)
+                        pos += audioThumb.width/root.zoomFactor * root.zoomStart
+                        pos *= root.zoomFactor
+                        controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+                    }
                     onPositionChanged: {
-                        if (mouse.modifiers & Qt.ShiftModifier) {
+                        if (mouse.modifiers & Qt.ShiftModifier || (pressed && !audioThumb.isAudioClip)) {
                             var pos = Math.max(mouseX, 0)
+                            pos += audioThumb.width/root.zoomFactor * root.zoomStart
+                            pos *= root.zoomFactor
                             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+                        }
+                    }
+                    onWheel: {
+                        if (wheel.modifiers & Qt.ControlModifier) {
+                            if (wheel.angleDelta.y < 0) {
+                                // zoom out
+                                clipMonitorRuler.zoomOutRuler(wheel.x)
+                            } else {
+                                // zoom in
+                                clipMonitorRuler.zoomInRuler(wheel.x)
+                            }
                         }
                     }
                 }

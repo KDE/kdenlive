@@ -8,12 +8,46 @@ Rectangle {
     color: activePalette.base
     property bool containsMouse: rulerMouseArea.containsMouse
     property bool seekingFinished : controller.seekFinished
+    // The width of the visible part
     property double rulerZoomWidth: root.zoomFactor * width
+    // The pixel offset
     property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
     Rectangle {
         color: activePalette.light
         width: parent.width
         height: 1
+    }
+
+    function zoomInRuler(xPos)
+    {
+        root.showZoomBar = true
+        var middle = xPos / rulerMouseArea.width / 1.2
+        root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
+        var startPos = Math.max(0, middle - root.zoomFactor / 2)
+        if (startPos + root.zoomFactor > 1) {
+            startPos = 1 - root.zoomFactor
+        }
+        root.zoomStart = startPos
+        zoomBar.x = root.zoomStart * zoomHandleContainer.width
+        zoomBar.width = root.zoomFactor * zoomHandleContainer.width
+    }
+    
+    function zoomOutRuler(xPos)
+    {
+        root.zoomFactor = Math.min(1, root.zoomFactor * 1.2)
+        if (root.zoomFactor == 1) {
+            root.zoomStart = 0
+            root.showZoomBar = false
+        } else {
+            var middle = root.zoomStart + root.zoomFactor / 2
+            middle = Math.max(0, middle - root.zoomFactor / 2)
+            if (middle + root.zoomFactor > 1) {
+                middle = 1 - root.zoomFactor
+            }
+            root.zoomStart = middle
+        }
+        zoomBar.x = root.zoomStart * zoomHandleContainer.width
+        zoomBar.width = root.zoomFactor * zoomHandleContainer.width
     }
 
     // Zoom bar container
@@ -68,6 +102,17 @@ Rectangle {
                             zoomBar.width = zoomHandleContainer.width
                             root.zoomStart = 0
                             root.zoomFactor = 1
+                        }
+                    }
+                    onWheel: {
+                        if (wheel.modifiers & Qt.ControlModifier) {
+                            if (wheel.angleDelta.y < 0) {
+                                // zoom out
+                                zoomOutRuler(wheel.x)
+                            } else {
+                                // zoom in
+                                zoomInRuler(wheel.x)
+                            }
                         }
                     }
                 }
@@ -199,8 +244,8 @@ Rectangle {
         id: zone
         visible: controller.zoneOut > controller.zoneIn
         color: activePalette.highlight
-        x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
-        width: (controller.zoneOut - controller.zoneIn) * root.timeScale
+        x: controller.zoneIn * root.timeScale / root.zoomFactor - ruler.rulerZoomOffset
+        width: (controller.zoneOut - controller.zoneIn) * root.timeScale / root.zoomFactor
         anchors.bottom: parent.bottom
         height: ruler.height / 2
         opacity: 0.8
@@ -228,7 +273,7 @@ Rectangle {
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
-                controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+                controller.position = Math.min((pos + ruler.rulerZoomOffset)*root.zoomFactor / root.timeScale, root.duration);
             }
         }
         onPositionChanged: {
@@ -236,7 +281,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = pos
                 if (pressed) {
-                    controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+                    controller.position = Math.min((pos + ruler.rulerZoomOffset)*root.zoomFactor / root.timeScale, root.duration);
                 }
             }
         }
@@ -244,31 +289,11 @@ Rectangle {
             if (wheel.modifiers & Qt.ControlModifier) {
                 if (wheel.angleDelta.y < 0) {
                     // zoom out
-                    root.zoomFactor = Math.min(1, root.zoomFactor * 1.2)
-                    if (root.zoomFactor == 1) {
-                        root.zoomStart = 0
-                        root.showZoomBar = false
-                    } else {
-                        var middle = root.zoomStart + root.zoomFactor / 2
-                        middle = Math.max(0, middle - root.zoomFactor / 2)
-                        if (middle + root.zoomFactor > 1) {
-                            middle = 1 - root.zoomFactor
-                        }
-                        root.zoomStart = middle
-                    }
+                    zoomOutRuler(wheel.x)
                 } else {
                     // zoom in
-                    root.showZoomBar = true
-                    var middle = wheel.x / rulerMouseArea.width / 1.2 //root.zoomStart + root.zoomFactor / 2
-                    root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
-                    var startPos = Math.max(0, middle - root.zoomFactor / 2)
-                    if (startPos + root.zoomFactor > 1) {
-                        startPos = 1 - root.zoomFactor
-                    }
-                    root.zoomStart = startPos
+                    zoomInRuler(wheel.x)
                 }
-                zoomBar.x = root.zoomStart * zoomHandleContainer.width
-                zoomBar.width = root.zoomFactor * zoomHandleContainer.width
             }
         }
     }
@@ -294,7 +319,7 @@ Rectangle {
     // monitor zone
     Rectangle {
         id: inZoneMarker
-        x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
+        x: controller.zoneIn * root.timeScale/ root.zoomFactor - ruler.rulerZoomOffset
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         width: 1
@@ -302,7 +327,7 @@ Rectangle {
         visible: controller.zoneOut > controller.zoneIn && (rulerMouseArea.containsMouse || trimOutMouseArea.containsMouse || trimOutMouseArea.pressed || trimInMouseArea.containsMouse)
     }
     Rectangle {
-        x: controller.zoneOut * root.timeScale - ruler.rulerZoomOffset
+        x: controller.zoneOut * root.timeScale/ root.zoomFactor - ruler.rulerZoomOffset
         anchors.bottom: parent.bottom
         anchors.top: parent.top
         width: 1
@@ -317,7 +342,7 @@ Rectangle {
         opacity: 1
         anchors.top: ruler.top
         fillColor: activePalette.windowText
-        x: controller.position * root.timeScale - (width / 2) - ruler.rulerZoomOffset
+        x: controller.position * root.timeScale / root.zoomFactor - (width / 2) - ruler.rulerZoomOffset
     }
     Rectangle {
         id: trimIn

@@ -135,6 +135,7 @@ Item {
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
             }
             Label {
@@ -152,6 +153,7 @@ Item {
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
             }
             Label {
@@ -160,6 +162,7 @@ Item {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && controller.position == controller.zoneIn
                 text: i18n("In Point")
@@ -176,6 +179,7 @@ Item {
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && controller.position + 1 == controller.zoneOut
                 text: i18n("Out Point")
@@ -199,6 +203,7 @@ Item {
                 anchors {
                     left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
+                    bottomMargin: root.zoomOffset
                 }
                 visible: root.showMarkers && text != ""
                 text: controller.markerComment
