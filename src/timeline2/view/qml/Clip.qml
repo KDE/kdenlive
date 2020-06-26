@@ -41,6 +41,7 @@ Rectangle {
     property bool isAudio: false
     property int audioChannels
     property int audioStream: -1
+    property bool multiStream: false
     property int aStreamIndex: 0
     property bool showKeyframes: false
     property bool isGrabbed: false
@@ -586,7 +587,7 @@ Rectangle {
                     Text {
                         // Clip name text
                         id: label
-                        property string clipNameString: (clipRoot.isAudio && clipRoot.audioStream > -1) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
+                        property string clipNameString: (clipRoot.isAudio && clipRoot.multiStream) ? ((clipRoot.audioStream > 10000 ? 'Merged' : clipRoot.aStreamIndex) + '|' + clipName ) : clipName
                         text: (clipRoot.speed != 1.0 ? ('[' + Math.round(clipRoot.speed*100) + '%] ') : '') + clipNameString
                         font: miniFont
                         anchors {

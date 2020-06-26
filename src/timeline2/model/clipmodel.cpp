@@ -592,13 +592,15 @@ int ClipModel::audioChannels() const
     return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioChannels();
 }
 
-int ClipModel::audioStream() const
+bool ClipModel::audioMultiStream() const
 {
     READ_LOCK();
-    if (pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamsCount() > 1) {
-        return m_producer->parent().get_int("audio_index");
-    }
-    return -m_producer->parent().get_int("audio_index");
+    return pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreamsCount() > 1;
+}
+
+int ClipModel::audioStream() const
+{
+    return m_producer->parent().get_int("audio_index");
 }
 
 int ClipModel::audioStreamIndex() const

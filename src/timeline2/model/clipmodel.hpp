@@ -196,6 +196,8 @@ protected:
     int audioChannels() const;
     /** @brief Returns the active audio stream for this clip (or -1 if we only have 1 stream */
     int audioStream() const;
+    /** @brief Returns true if we have multiple audio streams in the master clip */
+    bool audioMultiStream() const;
     /** @brief Returns the list of available audio stream indexes for the bin clip */
     int audioStreamIndex() const;
 

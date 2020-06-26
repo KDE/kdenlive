@@ -212,6 +212,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[IsAudioRole] = "audio";
     roles[AudioChannelsRole] = "audioChannels";
     roles[AudioStreamRole] = "audioStream";
+    roles[AudioMultiStreamRole] = "multiStream";
     roles[AudioStreamIndexRole] = "audioStreamIndex";
     roles[IsCompositeRole] = "composite";
     roles[IsLockedRole] = "locked";
@@ -290,6 +291,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->audioChannels();
         case AudioStreamRole:
             return clip->audioStream();
+        case AudioMultiStreamRole:
+            return clip->audioMultiStream();
         case AudioStreamIndexRole:
             return clip->audioStreamIndex();
         case HasAudio:
