@@ -166,6 +166,7 @@ Rectangle {
                 clipRoot.y = pos.y
             }
             clipRoot.y = Logic.getTrackById(clipRoot.fakeTid).y
+            clipRoot.height = Logic.getTrackById(clipRoot.fakeTid).height
         }
     }
 
