@@ -387,7 +387,7 @@ Item {
         Rectangle {
             // Audio or video only drag zone
             x: 2
-            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 : parent.height - height - 2
+            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - root.zoomOffset : parent.height - height - 2 - root.zoomOffset
             width: childrenRect.width
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
