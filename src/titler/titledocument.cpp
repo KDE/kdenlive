@@ -132,13 +132,9 @@ QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *en
     QDomElement main = doc.createElement(QStringLiteral("kdenlivetitle"));
     main.setAttribute(QStringLiteral("width"), m_width);
     main.setAttribute(QStringLiteral("height"), m_height);
-// Save locale
-#ifndef Q_OS_MAC
-    const char *locale = setlocale(LC_NUMERIC, nullptr);
-#else
-    const char *locale = setlocale(LC_NUMERIC_MASK, nullptr);
-#endif
-    main.setAttribute(QStringLiteral("LC_NUMERIC"), locale);
+
+    // Save locale. Since 20.08, we always use the C locale for serialising.
+    main.setAttribute(QStringLiteral("LC_NUMERIC"), "C");
     doc.appendChild(main);
     QTextCursor cur;
     QTextBlockFormat format;

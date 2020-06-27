@@ -42,12 +42,12 @@ class KeyframeModelList;
 
 enum class ParamType {
     Double,
-    List,
+    List, // Value can be chosen from a list of pre-defined ones
     Bool,
     Switch,
     RestrictedAnim, // animated 1 dimensional param with linear support only
     Animated,
-    AnimatedRect,
+    AnimatedRect, // Animated rects have X, Y, width, height, and opacity (in [0,1])
     Geometry,
     Addedgeometry,
     KeyframeParam,
@@ -71,7 +71,18 @@ class AssetParameterModel : public QAbstractListModel, public enable_shared_from
     Q_OBJECT
 
 public:
+    /**
+     *
+     * @param asset
+     * @param assetXml XML to parse, from project file
+     * @param assetId
+     * @param ownerId
+     * @param originalDecimalPoint If a decimal point other than “.” was used, try to replace all occurrences by a “.”
+     * so numbers are parsed correctly.
+     * @param parent
+     */
     explicit AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
+                                 const QString& originalDecimalPoint = QString(),
                                  QObject *parent = nullptr);
     ~AssetParameterModel() override;
     enum DataRoles {

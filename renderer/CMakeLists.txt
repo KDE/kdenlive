@@ -9,6 +9,7 @@ include_directories(
 set(kdenlive_render_SRCS
   kdenlive_render.cpp
   renderjob.cpp
+  ../src/lib/localeHandling.cpp
 )
 
 add_executable(kdenlive_render ${kdenlive_render_SRCS})

@@ -139,7 +139,7 @@ ProfileWidget::~ProfileWidget() = default;
 
 void ProfileWidget::refreshFpsCombo()
 {
-    QLocale locale;
+    QLocale locale; // Used for UI → OK
     QVariant currentValue;
     if (m_fpsFilt->count() > 1) {
         // remember last selected value

@@ -273,8 +273,12 @@ public slots:
     /** @brief Delete the proxy file */
     void deleteProxy();
 
-    /** @brief imports effect from a given producer */
-    void importEffects(const std::shared_ptr<Mlt::Producer> &producer);
+    /**
+     * Imports effect from a given producer
+     * @param producer Producer containing the effects
+     * @param originalDecimalPoint Decimal point to convert to “.”; See AssetParameterModel
+     */
+    void importEffects(const std::shared_ptr<Mlt::Producer> &producer, QString originalDecimalPoint = QString());
 
 private:
     /** @brief Generate and store file hash if not available. */

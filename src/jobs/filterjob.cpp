@@ -83,9 +83,7 @@ QHash<ProjectClip *, AbstractClipJob *> FilterJob::prepareJob(const QList<Projec
                                                                  : QUrl::fromLocalFile(sources.constFirst()).adjusted(QUrl::RemoveFilename),
                                               multipleSelection, QApplication::activeWindow());
         if (d->exec() == QDialog::Accepted) {
-            QLocale locale;
-            locale.setNumberOptions(QLocale::OmitGroupSeparator);
-            QString speedString = QStringLiteral("timewarp:%1:").arg(locale.toString(d->speed() / 100));
+            QString speedString = QStringLiteral("timewarp:%1:").arg(QString::number(d->speed() / 100, 'f'));
             QDir destFolder;
             if (multipleSelection) {
                 destFolder = QDir(d->selectedUrl().toLocalFile());

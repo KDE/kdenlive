@@ -1633,7 +1633,6 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
     int offset = copiedItems.documentElement().attribute(QStringLiteral("offset")).toInt();
 
     bool res = true;
-    QLocale locale;
     std::unordered_map<int, int> correspondingIds;
     for (int i = 0; i < clips.count(); i++) {
         QDomElement prod = clips.at(i).toElement();
@@ -1653,7 +1652,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             return false;
         }
         int pos = prod.attribute(QStringLiteral("position")).toInt() - offset;
-        double speed = locale.toDouble(prod.attribute(QStringLiteral("speed")));
+        double speed = prod.attribute(QStringLiteral("speed")).toDouble();
         bool warp_pitch = false;
         if (!qFuzzyCompare(speed, 1.)) {
             warp_pitch = prod.attribute(QStringLiteral("warp_pitch")).toInt();
@@ -1772,7 +1771,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     container.setAttribute(QStringLiteral("offset"), pos);
     container.setAttribute(QStringLiteral("documentid"), QStringLiteral("000000"));
     // Process producers
-    QLocale locale;
     QList <int> processedProducers;
     QMap <QString, int> producerMap;
     QMap <QString, double> producerSpeed;
@@ -1818,7 +1816,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         QString mltService = Xml::getXmlProperty(currentProd, QStringLiteral("mlt_service"));
         if (mltService == QLatin1String("timewarp")) {
             // Speed producer
-            double speed = locale.toDouble(Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")));
+            double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
             Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
             producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
             qDebug()<<"===== CLIP SPEED RESOURCE: "<<Xml::getXmlProperty(currentProd, QLatin1String("resource"))<<" = "<<clipId;

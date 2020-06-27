@@ -21,7 +21,6 @@
 #define LUMALIFTGAINPARAMWIDGET_H
 
 #include "abstractparamwidget.hpp"
-#include <QLocale>
 #include <QWidget>
 #include <QDomElement>
 
@@ -46,7 +45,6 @@ public:
     void updateEffect(QDomElement &effect);
 
 private:
-    QLocale m_locale;
     ColorWheel *m_lift;
     ColorWheel *m_gamma;
     ColorWheel *m_gain;

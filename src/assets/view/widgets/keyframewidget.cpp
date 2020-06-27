@@ -237,8 +237,7 @@ void KeyframeWidget::slotRefreshParams()
             if (vals.count() >= 4) {
                 rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
                 if (vals.count() > 4) {
-                    QLocale locale;
-                    opacity = locale.toDouble(vals.at(4));
+                    opacity = vals.at(4).toDouble();
                 }
             }
             ((GeometryWidget *)w.second)->setValue(rect, opacity);
@@ -329,8 +328,6 @@ void KeyframeWidget::resetKeyframes()
 
 void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 {
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // Retrieve parameters from the model
     QString name = m_model->data(index, Qt::DisplayRole).toString();
     QString comment = m_model->data(index, AssetParameterModel::CommentRole).toString();
@@ -351,7 +348,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         if (vals.count() > 3) {
             rect = QRect(vals.at(0).toInt(), vals.at(1).toInt(), vals.at(2).toInt(), vals.at(3).toInt());
             if (vals.count() > 4) {
-                opacity = locale.toDouble(vals.at(4));
+                opacity = vals.at(4).toDouble();
             }
         }
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
@@ -385,11 +382,11 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
             }
         }
         double value = m_keyframes->getInterpolatedValue(getPosition(), index).toDouble();
-        double min = locale.toDouble(m_model->data(index, AssetParameterModel::MinRole).toString());
-        double max = locale.toDouble(m_model->data(index, AssetParameterModel::MaxRole).toString());
+        double min = m_model->data(index, AssetParameterModel::MinRole).toDouble();
+        double max = m_model->data(index, AssetParameterModel::MaxRole).toDouble();
         double defaultValue = m_model->data(index, AssetParameterModel::DefaultRole).toDouble();
         int decimals = m_model->data(index, AssetParameterModel::DecimalsRole).toInt();
-        double factor = locale.toDouble(m_model->data(index, AssetParameterModel::FactorRole).toString());
+        double factor = m_model->data(index, AssetParameterModel::FactorRole).toDouble();
         factor = qFuzzyIsNull(factor) ? 1 : factor;
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals, m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged,

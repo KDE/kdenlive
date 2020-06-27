@@ -155,7 +155,7 @@ bool ProxyJob::startJob()
         mltParameters.append(QStringLiteral("terminate_on_pause=1"));
 
         // TODO: currently, when rendering an xml file through melt, the display ration is lost, so we enforce it manually
-        mltParameters << QStringLiteral("aspect=") + QLocale().toString(display_ratio);
+        mltParameters << QStringLiteral("aspect=") + QString::number(display_ratio, 'f');
 
         // Ask for progress reporting
         mltParameters << QStringLiteral("progress=1");

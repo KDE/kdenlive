@@ -27,9 +27,9 @@
 #include <utility>
 
 EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_ptr<Mlt::Properties> effect, const QDomElement &xml, const QString &effectId,
-                                 const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled)
+                                 const std::shared_ptr<AbstractTreeModel> &stack, bool isEnabled, QString originalDecimalPoint)
     : AbstractEffectItem(EffectItemType::Effect, effectData, stack, false, isEnabled)
-    , AssetParameterModel(std::move(effect), xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId())
+    , AssetParameterModel(std::move(effect), xml, effectId, std::static_pointer_cast<EffectStackModel>(stack)->getOwnerId(), originalDecimalPoint)
     , m_childId(0)
 {
     connect(this, &AssetParameterModel::updateChildren, [&](const QString &name) {
@@ -63,20 +63,22 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(const QString &effec
     return self;
 }
 
-// static
-std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack)
+std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt::Properties> effect, std::shared_ptr<AbstractTreeModel> stack, QString originalDecimalPoint)
 {
     QString effectId = effect->get("kdenlive_id");
     if (effectId.isEmpty()) {
         effectId = effect->get("mlt_service");
     }
     Q_ASSERT(EffectsRepository::get()->exists(effectId));
+
+    // Get the effect XML and add parameter values from the project file
     QDomElement xml = EffectsRepository::get()->getXml(effectId);
     QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
     for (int i = 0; i < params.count(); ++i) {
         QDomElement currentParameter = params.item(i).toElement();
         QString paramName = currentParameter.attribute(QStringLiteral("name"));
         QString paramValue = effect->get(paramName.toUtf8().constData());
+        qDebug() << effectId << ": Setting parameter " << paramName << " to " << paramValue;
         currentParameter.setAttribute(QStringLiteral("value"), paramValue);
     }
 
@@ -84,7 +86,7 @@ std::shared_ptr<EffectItemModel> EffectItemModel::construct(std::unique_ptr<Mlt:
     data << EffectsRepository::get()->getName(effectId) << effectId;
 
     bool disable = effect->get_int("disable") == 0;
-    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, disable));
+    std::shared_ptr<EffectItemModel> self(new EffectItemModel(data, std::move(effect), xml, effectId, stack, disable, originalDecimalPoint));
     baseFinishConstruct(self);
     return self;
 }
@@ -109,7 +111,7 @@ void EffectItemModel::loadClone(const std::weak_ptr<Mlt::Service> &service)
             QString effName = filt->get("kdenlive_id");
             if (effName == m_assetId && filt->get_int("_kdenlive_processed") == 0) {
                 if (auto ptr2 = m_model.lock()) {
-                    effect = EffectItemModel::construct(std::move(filt), ptr2);
+                    effect = EffectItemModel::construct(std::move(filt), ptr2, QString());
                     int childId = ptr->get_int("_childid");
                     if (childId == 0) {
                         childId = m_childId++;

@@ -182,9 +182,9 @@ private slots:
 
 signals:
     void docOpened(KdenliveDoc *document);
-    //     void projectOpened(Project *project);
 
 protected:
+    /** @brief Update the timeline according to the MLT XML */
     bool updateTimeline(int pos = -1, int scrollPos = -1);
 
 private:

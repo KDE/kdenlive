@@ -224,14 +224,8 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
             }
         }
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
         for (const auto &param : params) {
-            if (param.second.type() == QVariant::Double) {
-                Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
-            } else {
-                Xml::setXmlProperty(sub, param.first, param.second.toString());
-            }
+            Xml::setXmlProperty(sub, param.first, param.second.toString());
         }
         container.appendChild(sub);
     }
@@ -263,14 +257,8 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
         }
     }
     QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const auto &param : params) {
-        if (param.second.type() == QVariant::Double) {
-            Xml::setXmlProperty(sub, param.first, locale.toString(param.second.toDouble()));
-        } else {
-            Xml::setXmlProperty(sub, param.first, param.second.toString());
-        }
+        Xml::setXmlProperty(sub, param.first, param.second.toString());
     }
     container.appendChild(sub);
     return container;
@@ -904,7 +892,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
     return found;
 }
 
-void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist)
+void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service, PlaylistState::ClipState state, bool alreadyExist, QString originalDecimalPoint)
 {
     QWriteLocker locker(&m_lock);
     m_loadingExisting = alreadyExist;
@@ -932,12 +920,12 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             std::shared_ptr<EffectItemModel> effect;
             if (alreadyExist) {
                 // effect is already plugged in the service
-                effect = EffectItemModel::construct(std::move(filter), shared_from_this());
+                effect = EffectItemModel::construct(std::move(filter), shared_from_this(), originalDecimalPoint);
             } else {
                 // duplicate effect
                 std::unique_ptr<Mlt::Filter> asset = EffectsRepository::get()->getEffect(effectId);
                 asset->inherit(*(filter));
-                effect = EffectItemModel::construct(std::move(asset), shared_from_this());
+                effect = EffectItemModel::construct(std::move(asset), shared_from_this(), originalDecimalPoint);
             }
             if (effect->isAudio()) {
                 if (state == PlaylistState::VideoOnly) {

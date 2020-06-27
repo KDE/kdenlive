@@ -29,16 +29,16 @@
 #include <utility>
 
 CompositionModel::CompositionModel(std::weak_ptr<TimelineModel> parent, std::unique_ptr<Mlt::Transition> transition, int id, const QDomElement &transitionXml,
-                                   const QString &transitionId)
+                                   const QString &transitionId, const QString &originalDecimalPoint)
     : MoveableItem<Mlt::Transition>(std::move(parent), id)
-    , AssetParameterModel(std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id})
+    , AssetParameterModel(std::move(transition), transitionXml, transitionId, {ObjectType::TimelineComposition, m_id}, originalDecimalPoint)
     , m_a_track(-1)
     , m_duration(0)
 {
     m_compositionName = TransitionsRepository::get()->getName(transitionId);
 }
 
-int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, int id,
+int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, const QString &transitionId, const QString &originalDecimalPoint, int id,
                                 std::unique_ptr<Mlt::Properties> sourceProperties)
 {
     std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(transitionId);
@@ -64,7 +64,7 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
             transition->set("force_track", sourceProperties->get_int("force_track"));
         }
     }
-    std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, std::move(transition), id, xml, transitionId));
+    std::shared_ptr<CompositionModel> composition(new CompositionModel(parent, std::move(transition), id, xml, transitionId, originalDecimalPoint));
     id = composition->m_id;
 
     if (auto ptr = parent.lock()) {

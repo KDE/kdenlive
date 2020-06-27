@@ -29,7 +29,7 @@ ProjectSortProxyModel::ProjectSortProxyModel(QObject *parent)
     , m_searchType(0)
     , m_searchRating(0)
 {
-    m_collator.setLocale(QLocale());
+    m_collator.setLocale(QLocale()); // Locale used for sorting → OK
     m_collator.setCaseSensitivity(Qt::CaseInsensitive);
     m_collator.setNumericMode(true);
     m_selection = new QItemSelectionModel(this);

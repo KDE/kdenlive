@@ -19,15 +19,14 @@
  ***************************************************************************/
 
 #include "mltpreview.h"
+#include "../src/lib/localeHandling.h"
 
 #include <QImage>
 #include <QVarLengthArray>
+#include <QtGlobal>
 
 #include <QDebug>
 #include <krandomsequence.h>
-#include <unistd.h>
-
-#define DBG_AREA
 
 extern "C" {
 Q_DECL_EXPORT ThumbCreator *new_creator()
@@ -38,7 +37,10 @@ Q_DECL_EXPORT ThumbCreator *new_creator()
 
 MltPreview::MltPreview()
 {
+    // After initialising the MLT factory, set the locale back from user default to C
+    // to ensure numbers are always serialised with . as decimal point.
     Mlt::Factory::init();
+    LocaleHandling::resetLocale();
 }
 
 MltPreview::~MltPreview()

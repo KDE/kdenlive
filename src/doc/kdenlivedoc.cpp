@@ -68,7 +68,7 @@
 #include <xlocale.h>
 #endif
 
-const double DOCUMENTVERSION = 0.99;
+const double DOCUMENTVERSION = 1.00;
 
 KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                          const QMap<QString, QString> &metadata, const QPair<int, int> &tracks, int audioChannels, bool *openBackup, MainWindow *parent)
@@ -128,19 +128,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
         j.next();
         m_documentMetadata[j.key()] = j.value();
     }
-    /*if (QLocale().decimalPoint() != QLocale::system().decimalPoint()) {
-        qDebug()<<"* * ** AARCH DOCUMENT  PROBLEM;";
-        exit(1);
-        setlocale(LC_NUMERIC, "");
-        QLocale systemLocale = QLocale::system();
-        systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
-        QLocale::setDefault(systemLocale);
-        // locale conversion might need to be redone
-        ///TODO: how to reset repositories...
-        //EffectsRepository::get()->init();
-        //TransitionsRepository::get()->init();
-        //initEffects::parseEffectFiles(pCore->getMltRepository(), QString::fromLatin1(setlocale(LC_NUMERIC, nullptr)));
-    }*/
     *openBackup = false;
     if (url.isValid()) {
         QFile file(url.toLocalFile());
@@ -219,7 +206,14 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
                      * and recover it if needed). It is NOT a passive operation
                      */
                     // TODO: backup the document or alert the user?
-                    success = validator.validate(DOCUMENTVERSION);
+                    auto validationResult = validator.validate(DOCUMENTVERSION);
+                    success = validationResult.first;
+
+                    if (!validationResult.second.isEmpty()) {
+                        qDebug() << "DECIMAL POINT has changed to ., was " << validationResult.second;
+                        m_modifiedDecimalPoint = validationResult.second;
+                    }
+
                     if (success && !KdenliveSettings::gpu_accel()) {
                         success = validator.checkMovit();
                     }
@@ -312,7 +306,7 @@ int KdenliveDoc::clipsCount() const
 }
 
 
-const QByteArray KdenliveDoc::getProjectXml()
+const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
@@ -574,6 +568,9 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 
 bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 {
+    QLocale currentLocale; // For restoring after XML export
+    qDebug() << "Current locale is " << currentLocale;
+    QLocale::setDefault(QLocale::c()); // Not sure if helpful …
     QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
         // Make sure we don't save if scenelist is corrupted
@@ -619,7 +616,10 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
         return false;
     }
+
     const QByteArray sceneData = sceneList.toString().toUtf8();
+    QLocale::setDefault(currentLocale);
+
     file.write(sceneData);
     if (!file.commit()) {
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
@@ -1268,9 +1268,9 @@ QMap<QString, QString> KdenliveDoc::documentProperties()
                                     m_projectFolder + QLatin1Char('/') + m_documentProperties.value(QStringLiteral("documentid")));
     }
     m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
-    ;
-    if (!m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
-        m_documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
+    if (m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
+        // "kdenlive:docproperties.decimalPoint" was removed in document version 100
+        m_documentProperties.remove(QStringLiteral("decimalPoint"));
     }
     return m_documentProperties;
 }
@@ -1767,4 +1767,8 @@ QMap <QString, QString> KdenliveDoc::getProjectTags()
 int KdenliveDoc::audioChannels() const
 {
     return getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
+}
+
+QString& KdenliveDoc::modifiedDecimalPoint() {
+    return m_modifiedDecimalPoint;
 }

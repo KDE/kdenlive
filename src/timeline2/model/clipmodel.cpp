@@ -99,7 +99,7 @@ void ClipModel::allSnaps(std::vector<int> &snaps, int offset)
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid)
+                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -128,7 +128,7 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
     }
     clip->setClipState_lambda(state)();
     parent->registerClip(clip);
-    clip->m_effectStack->importEffects(producer, state, result.second);
+    clip->m_effectStack->importEffects(producer, state, result.second, originalDecimalPoint);
     clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
     return id;
 }
@@ -777,7 +777,6 @@ void ClipModel::setFakePosition(int fid)
 
 QDomElement ClipModel::toXml(QDomDocument &document)
 {
-    QLocale locale;
     QDomElement container = document.createElement(QStringLiteral("clip"));
     container.setAttribute(QStringLiteral("binid"), m_binClipId);
     container.setAttribute(QStringLiteral("id"), m_id);
@@ -802,7 +801,7 @@ QDomElement ClipModel::toXml(QDomDocument &document)
             }
         }
     }
-    container.setAttribute(QStringLiteral("speed"), locale.toString(m_speed));
+    container.setAttribute(QStringLiteral("speed"), QString::number(m_speed, 'f'));
     container.setAttribute(QStringLiteral("audioStream"), getIntProperty(QStringLiteral("audio_index")));
     if (!qFuzzyCompare(m_speed, 1.)) {
         container.setAttribute(QStringLiteral("warp_pitch"), getIntProperty(QStringLiteral("warp_pitch")));

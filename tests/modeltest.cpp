@@ -1952,7 +1952,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     }
     SECTION("Can't move composition on locked track")
     {
-        int compo = CompositionModel::construct(timeline, aCompo);
+        int compo = CompositionModel::construct(timeline, aCompo, QString());
         timeline->setTrackLockedState(tid1, true);
         REQUIRE(timeline->getTrackById(tid1)->isLocked());
         REQUIRE(timeline->checkConsistency());
@@ -2025,7 +2025,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     }
     SECTION("Can't resize composition on locked track")
     {
-        int compo = CompositionModel::construct(timeline, aCompo);
+        int compo = CompositionModel::construct(timeline, aCompo, QString());
         REQUIRE(timeline->requestCompositionMove(compo, tid1, 2));
         REQUIRE(timeline->requestItemResize(compo, 20, true) == 20);
 

@@ -3038,13 +3038,13 @@ bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int
 }
 
 bool TimelineModel::requestCompositionInsertion(const QString &transitionId, int trackId, int compositionTrack, int position, int length,
-                                                std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove)
+                                                std::unique_ptr<Mlt::Properties> transProps, int &id, Fun &undo, Fun &redo, bool finalMove, QString originalDecimalPoint)
 {
     qDebug() << "Inserting compo track" << trackId << "pos" << position << "length" << length;
     int compositionId = TimelineModel::getNextId();
     id = compositionId;
     Fun local_undo = deregisterComposition_lambda(compositionId);
-    CompositionModel::construct(shared_from_this(), transitionId, compositionId, std::move(transProps));
+    CompositionModel::construct(shared_from_this(), transitionId, originalDecimalPoint, compositionId, std::move(transProps));
     auto composition = m_allCompositions[compositionId];
     Fun local_redo = [composition, this]() {
         // We capture a shared_ptr to the composition, which means that as long as this undo object lives, the composition object is not deleted. To insert it

@@ -234,13 +234,10 @@ void ArchiveOrg::slotParseResults(KJob *job)
                             QMap<QString, QVariant> filesMetaDataList = fileMetaData.toMap();
                             QMap<QString, QVariant>::const_iterator k = filesMetaDataList.constBegin();
                             while (k != filesMetaDataList.constEnd()) {
-                                // qCDebug(KDENLIVE_LOG)<< k.key()<<": "<<k.value().toString();
                                 if (k.key() == QLatin1String("format")) {
-                                    //   qCDebug(KDENLIVE_LOG)<<"Format: "<<k.value().toString();
                                     format = k.value().toString();
                                 } else if (k.key() == QLatin1String("size")) {
-                                    fileSize = QLocale::system().toString(k.value().toInt() / 1024);
-                                    //  qCDebug(KDENLIVE_LOG)<<" fileSize: "<<k.value().toInt()/1024;
+                                    fileSize = QLocale().toString(k.value().toInt() / 1024);
                                 } else if (k.key() == QLatin1String("length")) {
                                     minsLong = QString::number(k.value().toFloat() / 60, 'f', 1);
                                 }
@@ -258,11 +255,8 @@ void ArchiveOrg::slotParseResults(KJob *job)
                                     QStringLiteral("min) ") +
                                     QStringLiteral("</td><td><a href=\"%1\">%2</a></td></tr>").arg(sDownloadUrl + QStringLiteral("_import"), i18n("Import"));
                         }
-                        // if (format==QLatin1String("Animated GIF"))// widget does not run through the frames of the animated gif
                         if (format == QLatin1String("Thumbnail") && !bThumbNailFound) {
                             sThumbUrl = QStringLiteral("https://archive.org/download/") + m_metaInfo.value(QStringLiteral("id")) + j.key();
-                            // m_metaInfo.insert(QStringLiteral("preview"), sPreviewUrl);
-                            //  qCDebug(KDENLIVE_LOG)<<" sPreviewUrl: "<<sPreviewUrl;
                             bThumbNailFound = true;
                             emit gotThumb(sThumbUrl);
                         }

@@ -285,30 +285,8 @@ MixerManager *Core::mixer()
 
 void Core::initLocale()
 {
-    QLocale systemLocale = QLocale();
-#ifndef Q_OS_MAC
-    setlocale(LC_NUMERIC, nullptr);
-#else
-    setlocale(LC_NUMERIC_MASK, nullptr);
-#endif
-
-// localeconv()->decimal_point does not give reliable results on Windows
-#ifndef Q_OS_WIN
-    char *separator = localeconv()->decimal_point;
-    if (QString::fromUtf8(separator) != QChar(systemLocale.decimalPoint())) {
-        // qCDebug(KDENLIVE_LOG)<<"------\n!!! system locale is not similar to Qt's locale... be prepared for bugs!!!\n------";
-        // HACK: There is a locale conflict, so set locale to C
-        // Make sure to override exported values or it won't work
-        qputenv("LANG", "C");
-#ifndef Q_OS_MAC
-        setlocale(LC_NUMERIC, "C");
-#else
-        setlocale(LC_NUMERIC_MASK, "C");
-#endif
-        systemLocale = QLocale::c();
-    }
-#endif
-
+    qDebug() << "Using modified system locale without group separator for numbers";
+    QLocale systemLocale = QLocale(); // For disabling group separator by default → OK
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     QLocale::setDefault(systemLocale);
 }

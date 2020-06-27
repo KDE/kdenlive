@@ -51,6 +51,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QProgressDialog>
 #include <QTimeZone>
 #include <audiomixer/mixermanager.hpp>
+#include <lib/localeHandling.h>
 
 static QString getProjectNameFilters(bool ark=true) {
     auto filter = i18n("Kdenlive project (*.kdenlive)");
@@ -217,7 +218,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     bool openBackup;
     m_notesPlugin->clear();
-    documentProperties.insert(QStringLiteral("decimalPoint"), QLocale().decimalPoint());
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     ThumbnailCache::get()->clearCache();
@@ -282,27 +282,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             m_project = nullptr;
         }
     }
-    /*  // Make sure to reset locale to system's default
-        QString requestedLocale = QLocale::system().name();
-        QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-        if (env.contains(QStringLiteral("LC_NUMERIC"))) {
-            requestedLocale = env.value(QStringLiteral("LC_NUMERIC"));
-        }
-        qDebug()<<"//////////// RESETTING LOCALE TO: "<<requestedLocale;
-
-    #ifdef Q_OS_MAC
-        setlocale(LC_NUMERIC_MASK, requestedLocale.toUtf8().constData());
-    #elif defined(Q_OS_WIN)
-        std::locale::global(std::locale(requestedLocale.toUtf8().constData()));
-    #else
-        QLocale newLocale(requestedLocale);
-        char *separator = localeconv()->decimal_point;
-        if (QString::fromUtf8(separator) != QString(newLocale.decimalPoint())) {
-            pCore->displayBinMessage(i18n("There is a locale conflict on your system, project might get corrupt"), KMessageWidget::Warning);
-        }
-        setlocale(LC_NUMERIC, requestedLocale.toUtf8().constData());
-    #endif
-        QLocale::setDefault(newLocale);*/
     return true;
 }
 
@@ -883,15 +862,12 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
 {
     Q_UNUSED(scrollPos);
     pCore->jobManager()->slotCancelJobs();
-    /*qDebug() << "Loading xml"<<m_project->getProjectXml().constData();
-    QFile file("/tmp/data.xml");
-    if (file.open(QIODevice::ReadWrite)) {
-        QTextStream stream(&file);
-        stream << m_project->getProjectXml() << endl;
-    }*/
     pCore->window()->getMainTimeline()->loading = true;
     pCore->window()->slotSwitchTimelineZone(m_project->getDocumentProperty(QStringLiteral("enableTimelineZone")).toInt() == 1);
-    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string", m_project->getProjectXml().constData()));
+
+    QScopedPointer<Mlt::Producer> xmlProd(new Mlt::Producer(pCore->getCurrentProfile()->profile(), "xml-string",
+                                                            m_project->getAndClearProjectXml().constData()));
+
     Mlt::Service s(*xmlProd);
     Mlt::Tractor tractor(s);
     if (tractor.count() == 0) {
@@ -913,7 +889,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     // Add snap point at projec start
     m_mainTimelineModel->addSnap(0);
     pCore->window()->getMainTimeline()->setModel(m_mainTimelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
-    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog)) {
+    if (!constructTimelineFromMelt(m_mainTimelineModel, tractor, m_progressDialog, m_project->modifiedDecimalPoint())) {
         //TODO: act on project load failure
         qDebug()<<"// Project failed to load!!";
     }
@@ -933,13 +909,16 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
     pCore->window()->getMainTimeline()->controller()->setZone(m_project->zone(), false);
-    //pCore->window()->getMainTimeline()->controller()->setTargetTracks(m_project->targetTracks());
     pCore->window()->getMainTimeline()->controller()->setScrollPos(m_project->getDocumentProperty(QStringLiteral("scrollPos")).toInt());
     int activeTrackPosition = m_project->getDocumentProperty(QStringLiteral("activeTrack"), QString::number( - 1)).toInt();
     if (activeTrackPosition > -1 && activeTrackPosition < m_mainTimelineModel->getTracksCount()) {
         pCore->window()->getMainTimeline()->controller()->setActiveTrack(m_mainTimelineModel->getTrackIndexFromPosition(activeTrackPosition));
     }
     m_mainTimelineModel->setUndoStack(m_project->commandStack());
+
+    // Reset locale to C to ensure numbers are serialised correctly
+    LocaleHandling::resetLocale();
+
     return true;
 }
 

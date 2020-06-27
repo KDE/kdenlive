@@ -29,11 +29,12 @@
 #include <QDir>
 #include <QJsonArray>
 #include <QJsonObject>
-#include <QLocale>
 #include <QString>
+#include <effects/effectsrepository.hpp>
+#define DEBUG_LOCALE false
 
 AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset, const QDomElement &assetXml, const QString &assetId, ObjectId ownerId,
-                                         QObject *parent)
+                                         const QString& originalDecimalPoint, QObject *parent)
     : QAbstractListModel(parent)
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
@@ -42,17 +43,15 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     , m_keyframes(nullptr)
 {
     Q_ASSERT(m_asset->is_valid());
-    QDomNodeList nodeList = assetXml.elementsByTagName(QStringLiteral("parameter"));
+    QDomNodeList parameterNodes = assetXml.elementsByTagName(QStringLiteral("parameter"));
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
     m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
 
     bool needsLocaleConversion = false;
     QChar separator, oldSeparator;
     // Check locale, default effects xml has no LC_NUMERIC defined and always uses the C locale
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     if (assetXml.hasAttribute(QStringLiteral("LC_NUMERIC"))) {
-        QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC")));
+        QLocale effectLocale = QLocale(assetXml.attribute(QStringLiteral("LC_NUMERIC"))); // Check if effect has a special locale → probably OK
         if (QLocale::c().decimalPoint() != effectLocale.decimalPoint()) {
             needsLocaleConversion = true;
             separator = QLocale::c().decimalPoint();
@@ -60,11 +59,36 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
     }
 
-    qDebug() << "XML parsing of " << assetId << ". found : " << nodeList.count();
-    for (int i = 0; i < nodeList.count(); ++i) {
-        QDomElement currentParameter = nodeList.item(i).toElement();
+    if (EffectsRepository::get()->exists(assetId)) {
+        qDebug() << "Asset " << assetId << " found in the repository. Description: " << EffectsRepository::get()->getDescription(assetId);
+#if false
+        QString str;
+        QTextStream stream(&str);
+        EffectsRepository::get()->getXml(assetId).save(stream, 4);
+        qDebug() << "Asset XML: " << str;
+#endif
+    } else {
+        qDebug() << "Asset not found in repo: " << assetId;
+    }
+
+    qDebug() << "XML parsing of " << assetId << ". found" << parameterNodes.count() << "parameters";
+
+    if (DEBUG_LOCALE) {
+        QString str;
+        QTextStream stream(&str);
+        assetXml.save(stream, 1);
+        qDebug() << "XML to parse: " << str;
+    }
+    bool fixDecimalPoint = !originalDecimalPoint.isEmpty();
+    if (fixDecimalPoint) {
+        qDebug() << "Original decimal point was different:" << originalDecimalPoint << "Values will be converted if required.";
+    }
+    for (int i = 0; i < parameterNodes.count(); ++i) {
+        QDomElement currentParameter = parameterNodes.item(i).toElement();
 
         // Convert parameters if we need to
+        // Note: This is not directly related to the originalDecimalPoint parameter.
+        // Is it still required? Does it work correctly for non-number values (e.g. lists which contain commas)?
         if (needsLocaleConversion) {
             QDomNamedNodeMap attrs = currentParameter.attributes();
             for (int k = 0; k < attrs.count(); ++k) {
@@ -87,7 +111,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         currentRow.xml = currentParameter;
         if (value.isEmpty()) {
             QVariant defaultValue = parseAttribute(m_ownerId, QStringLiteral("default"), currentParameter);
-            value = defaultValue.type() == QVariant::Double ? locale.toString(defaultValue.toDouble()) : defaultValue.toString();
+            value = defaultValue.toString();
+            qDebug() << "QLocale: Default value is" << defaultValue << "parsed:" << value;
         }
         bool isFixed = (type == QLatin1String("fixed"));
         if (isFixed) {
@@ -105,11 +130,73 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
                 value.prepend(QStringLiteral("%1=").arg(pCore->getItemIn(m_ownerId)));
             }
         }
+
+        if (fixDecimalPoint) {
+            bool converted = true;
+            QString originalValue(value);
+            switch (currentRow.type) {
+                case ParamType::KeyframeParam:
+                case ParamType::Position:
+                    // Fix values like <position>=1,5
+                    value.replace(QRegExp(R"((=\d+),(\d+))"), "\\1.\\2");
+                    break;
+                case ParamType::AnimatedRect:
+                    // Fix values like <position>=50 20 1920 1080 0,75
+                    value.replace(QRegExp(R"((=\d+ \d+ \d+ \d+ \d+),(\d+))"), "\\1.\\2");
+                    break;
+                case ParamType::ColorWheel:
+                    // Colour wheel has 3 separate properties: prop_r, prop_g and prop_b, always numbers
+                case ParamType::Double:
+                case ParamType::Hidden:
+                case ParamType::List:
+                    // Despite its name, a list type parameter is a single value *chosen from* a list.
+                    // If it contains a non-“.” decimal separator, it is very likely wrong.
+                    // Fall-through, treat like Double
+                case ParamType::Bezier_spline:
+                    value.replace(originalDecimalPoint, ".");
+                    break;
+                case ParamType::Bool:
+                case ParamType::Color:
+                case ParamType::Fontfamily:
+                case ParamType::Keywords:
+                case ParamType::Readonly:
+                case ParamType::RestrictedAnim: // Fine because unsupported
+                case ParamType::Animated: // Fine because unsupported
+                case ParamType::Addedgeometry: // Fine because unsupported
+                case ParamType::Url:
+                    // All fine
+                    converted = false;
+                    break;
+                case ParamType::Curve:
+                case ParamType::Geometry:
+                case ParamType::Switch:
+                case ParamType::Wipe:
+                    // Pretty sure that those are fine
+                    converted = false;
+                    break;
+                case ParamType::Roto_spline: // Not sure because cannot test
+                case ParamType::Filterjob:
+                    // Not sure if fine
+                    converted = false;
+                    break;
+            }
+            if (converted) {
+                if (value != originalValue) {
+                    qDebug() << "Decimal point conversion: " << name << "converted from" << originalValue << "to" << value;
+                } else {
+                    qDebug() << "Decimal point conversion: " << name << " is already ok: " << value;
+                }
+            } else {
+                qDebug() << "No fixing needed for" << name << "=" << value;
+            }
+        }
+
         if (!name.isEmpty()) {
             internalSetParameter(name, value);
             // Keep track of param order
             m_paramOrder.push_back(name);
         }
+
         if (isFixed) {
             // fixed parameters are not displayed so we don't store them.
             continue;
@@ -128,6 +215,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
         m_asset->set("effect", effectParam.join(QLatin1Char(' ')).toUtf8().constData());
     }
+
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
     emit modelChanged();
 }
@@ -202,8 +290,6 @@ void AssetParameterModel::setParameter(const QString &name, int value, bool upda
 void AssetParameterModel::internalSetParameter(const QString &name, const QString &paramValue, const QModelIndex &paramIndex)
 {
     Q_ASSERT(m_asset->is_valid());
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     // TODO: this does not really belong here, but I don't see another way to do it so that undo works
     if (data(paramIndex, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Curve) {
 #if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
@@ -231,13 +317,7 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         }
     }
     bool conversionSuccess = true;
-    double doubleValue = 0;
-    if (paramValue.simplified().contains(QLatin1Char(' '))) {
-        // Some locale interpret a space as thousands separator
-        conversionSuccess = false;
-    } else {
-        doubleValue = locale.toDouble(paramValue, &conversionSuccess);
-    }
+    double doubleValue = paramValue.toDouble(&conversionSuccess);
     if (conversionSuccess) {
         m_asset->set(name.toLatin1().constData(), doubleValue);
         if (m_fixedParams.count(name) == 0) {
@@ -247,7 +327,6 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
         }
     } else {
         m_asset->set(name.toLatin1().constData(), paramValue.toUtf8().constData());
-        qDebug() << " = = SET EFFECT PARAM: " << name << " = " << paramValue;
         if (m_fixedParams.count(name) == 0) {
             m_params[name].value = paramValue;
             if (m_keyframes) {
@@ -261,6 +340,7 @@ void AssetParameterModel::internalSetParameter(const QString &name, const QStrin
             m_fixedParams[name] = paramValue;
         }
     }
+    qDebug() << " = = SET EFFECT PARAM: " << name << " = " << m_asset->get(name.toLatin1().constData());
 }
 
 void AssetParameterModel::setParameter(const QString &name, const QString &paramValue, bool update, const QModelIndex &paramIndex)
@@ -555,9 +635,12 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
         if (attribute == QLatin1String("default")) {
             return content.toDouble();
         }
-        QLocale locale;
-        locale.setNumberOptions(QLocale::OmitGroupSeparator);
-        return locale.toDouble(content);
+        bool ok;
+        double converted = content.toDouble(&ok);
+        if (!ok) {
+            qDebug() << "QLocale: Could not load double parameter" << content;
+        }
+        return converted;
     }
     if (attribute == QLatin1String("default")) {
         if (type == ParamType::RestrictedAnim) {
@@ -571,11 +654,6 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
                 return res;
             }
             return defaultValue.isNull() ? content : defaultValue;
-        } else if (type == ParamType::Bezier_spline) {
-            QLocale locale;
-            if (locale.decimalPoint() != QLocale::c().decimalPoint()) {
-                return content.replace(QLocale::c().decimalPoint(), locale.decimalPoint());
-            }
         }
     }
     return content;
@@ -833,8 +911,6 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
 
 void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> &params, bool update)
 {
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     ObjectType itemId;
     if (!update) {
         // Change itemId to NoItem to ensure we don't send any update like refreshProjectItem that would trigger monitor refreshes.
@@ -842,11 +918,7 @@ void AssetParameterModel::setParameters(const QVector<QPair<QString, QVariant>> 
         m_ownerId.first = ObjectType::NoItem;
     }
     for (const auto &param : params) {
-        if (param.second.type() == QVariant::Double) {
-            setParameter(param.first, locale.toString(param.second.toDouble()), false);
-        } else {
-            setParameter(param.first, param.second.toString(), false);
-        }
+        setParameter(param.first, param.second.toString(), false);
     }
     if (m_keyframes) {
         m_keyframes->refresh();

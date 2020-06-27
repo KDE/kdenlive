@@ -38,6 +38,7 @@
 #include "profiles/profilemodel.hpp"
 #include "timeline2/view/qml/timelineitems.h"
 #include <mlt++/Mlt.h>
+#include <lib/localeHandling.h>
 
 #ifndef GL_UNPACK_ROW_LENGTH
 #ifdef GL_UNPACK_ROW_LENGTH_EXT
@@ -1369,6 +1370,7 @@ void GLWidget::resetConsumer(bool fullReset)
 
 const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
 {
+    LocaleHandling::resetLocale();
     QString playlist;
     qCDebug(KDENLIVE_LOG) << " * * *Setting document xml root: " << root;
     Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());

@@ -32,15 +32,13 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     m_lay = new QVBoxLayout(this);
     m_lay->setContentsMargins(0, 0, 0, 0);
     m_lay->setSpacing(0);
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
 
     // Retrieve parameters from the model
     QString name = m_model->data(m_index, Qt::DisplayRole).toString();
-    double value = locale.toDouble(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
+    double value = m_model->data(m_index, AssetParameterModel::ValueRole).toDouble();
     double min = m_model->data(m_index, AssetParameterModel::MinRole).toDouble();
     double max = m_model->data(m_index, AssetParameterModel::MaxRole).toDouble();
-    double defaultValue = locale.toDouble(m_model->data(m_index, AssetParameterModel::DefaultRole).toString());
+    double defaultValue = m_model->data(m_index, AssetParameterModel::DefaultRole).toDouble();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     QString suffix = m_model->data(m_index, AssetParameterModel::SuffixRole).toString();
     int decimals = m_model->data(m_index, AssetParameterModel::DecimalsRole).toInt();
@@ -51,16 +49,14 @@ DoubleParamWidget::DoubleParamWidget(std::shared_ptr<AssetParameterModel> model,
     setMinimumHeight(m_doubleWidget->height());
 
     // Connect signal
-    connect(m_doubleWidget, &DoubleWidget::valueChanged, [this, locale](double val) { emit valueChanged(m_index, locale.toString(val), true); });
+    connect(m_doubleWidget, &DoubleWidget::valueChanged, [this](double val) { emit valueChanged(m_index, QString::number(val, 'f'), true); });
     slotRefresh();
 }
 
 void DoubleParamWidget::slotRefresh()
 {
     QSignalBlocker bk(m_doubleWidget);
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    double value = locale.toDouble(m_model->data(m_index, AssetParameterModel::ValueRole).toString());
+    double value = m_model->data(m_index, AssetParameterModel::ValueRole).toDouble();
     m_doubleWidget->setValue(value);
 }
 

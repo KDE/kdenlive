@@ -407,7 +407,6 @@ template <typename CurveWidget_t> void CurveParamWidget<CurveWidget_t>::slotRefr
 {
     if (m_model->data(m_index, AssetParameterModel::TypeRole).template value<ParamType>() == ParamType::Curve) {
         QList<QPointF> points;
-        QLocale locale;
         // Rounding gives really weird results. (int) (10 * 0.3) gives 2! So for now, add 0.5 to get correct result
         int number = m_model->data(m_index, AssetParameterModel::Enum3Role).toDouble() * 10 + 0.5;
         int start = m_model->data(m_index, AssetParameterModel::MinRole).toInt();

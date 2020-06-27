@@ -15,16 +15,12 @@ the Free Software Foundation, either version 3 of the License, or
 #include "mainwindow.h"
 #include "mlt_config.h"
 #include <KUrlRequesterDialog>
-#include <config-kdenlive.h>
 #include <klocalizedstring.h>
 #include <QtConcurrent>
 
-#include "kdenlive_debug.h"
-#include <QFile>
-#include <QStandardPaths>
+#include <lib/localeHandling.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
-#include <framework/mlt_log.h>
 
 static void mlt_log_handler(void *service, int mlt_level, const char *format, va_list args)
 {
@@ -85,7 +81,15 @@ MltConnection::MltConnection(const QString &mltPath)
     // Disable VDPAU that crashes in multithread environment.
     // TODO: make configurable
     setenv("MLT_NO_VDPAU", "1", 1);
+
+    // After initialising the MLT factory, set the locale back from user default to C
+    // to ensure numbers are always serialised with . as decimal point.
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
+    LocaleHandling::resetLocale();
+
+    auto locale = strdup(std::setlocale(LC_ALL, nullptr));
+    qDebug() << "NEW LC_ALL" << locale;
+
     locateMeltAndProfilesPath(mltPath);
 
     // Retrieve the list of available producers.

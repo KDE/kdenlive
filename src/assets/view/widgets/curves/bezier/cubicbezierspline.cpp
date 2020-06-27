@@ -17,9 +17,6 @@
  ***************************************************************************/
 
 #include "cubicbezierspline.h"
-#include <QLocale>
-#include <QStringList>
-#include <QVector>
 #include <cmath>
 
 /** @brief For sorting a Bezier spline. Whether a is before b. */
@@ -44,7 +41,6 @@ CubicBezierSpline &CubicBezierSpline::operator=(const CubicBezierSpline &spline)
 void CubicBezierSpline::fromString(const QString &spline)
 {
     m_points.clear();
-    QLocale locale;
     const QStringList bpoints = spline.split(QLatin1Char('|'));
     for (const QString &bpoint : bpoints) {
         const QStringList points = bpoint.split(QLatin1Char('#'));
@@ -52,7 +48,7 @@ void CubicBezierSpline::fromString(const QString &spline)
         for (const QString &point : points) {
             const QStringList xy = point.split(QLatin1Char(';'));
             if (xy.count() == 2) {
-                values.append(QPointF(locale.toDouble(xy.at(0)), locale.toDouble(xy.at(1))));
+                values.append(QPointF(xy.at(0).toDouble(), xy.at(1).toDouble()));
             }
         }
         if (values.count() == 3) {
@@ -67,12 +63,11 @@ void CubicBezierSpline::fromString(const QString &spline)
 QString CubicBezierSpline::toString() const
 {
     QStringList spline;
-    QLocale locale;
-    locale.setNumberOptions(QLocale::OmitGroupSeparator);
     for (const BPoint &p : m_points) {
         spline << QStringLiteral("%1;%2#%3;%4#%5;%6")
-                      .arg(locale.toString(p.h1.x()), locale.toString(p.h1.y()), locale.toString(p.p.x()), locale.toString(p.p.y()), locale.toString(p.h2.x()),
-                           locale.toString(p.h2.y()));
+                .arg(QString::number(p.h1.x(), 'f'), QString::number(p.h1.y(), 'f'), QString::number(p.p.x(), 'f'),
+                     QString::number(p.p.y(), 'f'), QString::number(p.h2.x(), 'f'),
+                     QString::number(p.h2.y(), 'f'));
     }
     return spline.join(QLatin1Char('|'));
 }

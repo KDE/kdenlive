@@ -2089,11 +2089,6 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
         m_missingMessage->animatedShow();
     }
     title_duration->setText(m_tc.getTimecode(GenTime(duration, m_fps)));
-    /*if (doc.documentElement().hasAttribute("out")) {
-    GenTime duration = GenTime(doc.documentElement().attribute("out").toDouble() / 1000.0);
-    title_duration->setText(m_tc.getTimecode(duration));
-    }
-    else title_duration->setText(m_tc.getTimecode(GenTime(5000)));*/
 
     QDomElement e = doc.documentElement();
     m_transformations.clear();
