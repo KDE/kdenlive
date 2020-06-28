@@ -440,6 +440,9 @@ void MainWindow::init()
     tabifyDockWidget(m_effectStackDock, pCore->bin()->clipPropertiesDock());
     bool firstRun = readOptions();
 
+    setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+
     // Build effects menu
     m_effectsMenu = new QMenu(i18n("Add Effect"), this);
     m_effectActions = new KActionCategory(i18n("Effects"), actionCollection());
