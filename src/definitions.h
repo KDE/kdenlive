@@ -260,6 +260,34 @@ private:
     int m_type{0};
 };
 
+class SubtitledTime
+{
+public:
+    SubtitledTime();
+    SubtitledTime(const GenTime &start, QString sub, const GenTime &end);
+    
+    QString subtitle();
+    GenTime start();
+    GenTime end();
+    
+    void setSubtitle(const QString &sub);
+    void setEndTime(const GenTime &end);
+    
+    /* Implementation of > operator; Works identically as with basic types. */
+    bool operator>(const SubtitledTime &op) const;
+    /* Implementation of < operator; Works identically as with basic types. */
+    bool operator<(const SubtitledTime &op) const;
+    /* Implementation of == operator; Works identically as with basic types. */
+    bool operator==(const SubtitledTime &op) const;
+    /* Implementation of != operator; Works identically as with basic types. */
+    bool operator!=(const SubtitledTime &op) const;
+    
+private:
+    GenTime m_starttime;
+    QString m_subtitle;
+    GenTime m_endtime;
+};
+
 QDebug operator<<(QDebug qd, const ItemInfo &info);
 
 // we provide hash function for qstring and QPersistentModelIndex
