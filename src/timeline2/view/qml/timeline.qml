@@ -1271,6 +1271,7 @@ Rectangle {
                                     z: 100
                                 }
                                 Repeater { id: guidesRepeater; model: guidesDelegateModel }
+                                Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                             }
                             Rectangle {
                                 id: cursor
@@ -1462,6 +1463,23 @@ Rectangle {
         onSelectionChanged: {
             if (dragProxy.draggedItem > -1 && !timeline.exists(dragProxy.draggedItem)) {
                 endDrag()
+            }
+        }
+    }
+
+
+    DelegateModel {
+        id: subtitleDelegateModel
+        model: subtitleModel
+        Item{
+            id: subtitleRoot
+            visible : true
+            Rectangle {
+                id: subtitleStartBase
+                width: 1
+                height: tracksContainer.height
+                x: model.startframe * timeScale;
+                color: 'red'
             }
         }
     }
