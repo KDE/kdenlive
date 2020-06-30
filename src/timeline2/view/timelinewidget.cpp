@@ -172,6 +172,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
     setFont(ft);
     rootContext()->setContextProperty("miniFont", font());
+    rootContext()->setContextProperty("subtitleModel", pCore->projectManager()->current()->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
