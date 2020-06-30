@@ -6,6 +6,7 @@
 SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
+    , m_lock(QReadWriteLock::Recursive)
 {
 }
 
@@ -190,6 +191,7 @@ void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString str)
     model->beginInsertRows(QModelIndex(), insertRow, insertRow);
     model->m_subtitleList[start] = {str, end};
     model->endInsertRows();
+    model->addSnapPoint(start);
 }
 
 QHash<int, QByteArray> SubtitleModel::roleNames() const 
@@ -243,4 +245,34 @@ QList<SubtitledTime> SubtitleModel::getAllSubtitles() const
         subtitle << s;
     }
     return subtitle;
+}
+
+void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)
+{
+    // make sure ptr is valid
+    if (auto ptr = snapModel.lock()) {
+        // ptr is valid, we store it
+        m_regSnaps.push_back(snapModel);
+
+        for (const auto &subtitle : m_subtitleList) {
+            qDebug() << " REGISTERING SUBTITLE: " << subtitle.first.frames(pCore->getCurrentFps());
+            ptr->addPoint(subtitle.first.frames(pCore->getCurrentFps()));
+        }
+    } else {
+        qDebug() << "Error: added snapmodel for subtitle is null";
+        Q_ASSERT(false);
+    }
+}
+
+void SubtitleModel::addSnapPoint(GenTime startpos)
+{
+    std::vector<std::weak_ptr<SnapInterface>> validSnapModels;
+    for (const auto &snapModel : m_regSnaps) {
+        if (auto ptr = snapModel.lock()) {
+            validSnapModels.push_back(snapModel);
+            ptr->addPoint(startpos.frames(pCore->getCurrentFps()));
+        }
+    }
+    // Update the list of snapModel known to be valid
+    std::swap(m_regSnaps, validSnapModels);
 }

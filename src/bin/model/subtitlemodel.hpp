@@ -15,6 +15,7 @@
 #include <mlt++/MltProperties.h>
 
 class DocUndoStack;
+class SnapInterface;
 class AssetParameterModel;
 
 /* @brief This class is the model for a list of subtitles.
@@ -39,18 +40,26 @@ public:
 
     /** @brief Returns all subtitles in the model */
     QList<SubtitledTime> getAllSubtitles() const;
-    
+
+    /** @brief Registers a snap model to the subtitle model */
+    void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
+
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
     //To get subtitle file from effects parameter:
     //std::unique_ptr<Mlt::Properties> m_asset;
     //std::shared_ptr<AssetParameterModel> m_model;
+    
+    std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
+    mutable QReadWriteLock m_lock;
 
 protected:
     /** @brief Helper function that retrieves a pointer to the subtitle model*/
     static std::shared_ptr<SubtitleModel> getModel();
-    
+    /** @brief Add start time as snap in the registered snap model */
+    void addSnapPoint(GenTime startpos);
+
 };
 Q_DECLARE_METATYPE(SubtitleModel *)
 #endif // SUBTITLEMODEL_HPP
