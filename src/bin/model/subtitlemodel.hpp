@@ -1,6 +1,7 @@
 #ifndef SUBTITLEMODEL_HPP
 #define SUBTITLEMODEL_HPP
 
+#include "bin/bin.h"
 #include "definitions.h"
 #include "gentime.h"
 #include "undohelper.hpp"
@@ -34,7 +35,11 @@ public:
     GenTime stringtoTime(QString str);
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;// overide the same function of QAbstractListModel
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
+    /** @brief Returns all subtitles in the model */
+    QList<SubtitledTime> getAllSubtitles() const;
+    
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
@@ -45,6 +50,7 @@ private:
 protected:
     /** @brief Helper function that retrieves a pointer to the subtitle model*/
     static std::shared_ptr<SubtitleModel> getModel();
+    
 };
 Q_DECLARE_METATYPE(SubtitleModel *)
 #endif // SUBTITLEMODEL_HPP

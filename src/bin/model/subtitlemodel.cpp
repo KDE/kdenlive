@@ -7,13 +7,13 @@ SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *pa
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
 {
-
 }
 
 std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
 {
     return pCore->projectManager()->getSubtitleModel();
 }
+
 void SubtitleModel::parseSubtitle()
 {
     //QModelIndex index;
@@ -226,4 +226,21 @@ QVariant SubtitleModel::data(const QModelIndex& index, int role) const
         return it->second.second.frames(pCore->getCurrentFps());
     }
     return QVariant();
+}
+
+int SubtitleModel::rowCount(const QModelIndex &parent) const
+{
+    if (parent.isValid())
+        return 0;
+    return static_cast<int>(m_subtitleList.size());
+}
+
+QList<SubtitledTime> SubtitleModel::getAllSubtitles() const
+{
+    QList<SubtitledTime> subtitle;
+    for (const auto &subtitles : m_subtitleList) {
+        SubtitledTime s(subtitles.first, subtitles.second.first, subtitles.second.second);
+        subtitle << s;
+    }
+    return subtitle;
 }
