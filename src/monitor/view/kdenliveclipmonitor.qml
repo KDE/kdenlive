@@ -191,8 +191,8 @@ Item {
                     color: "yellow"
                     opacity: 0.3
                     height: parent.height
-                    x: controller.zoneIn * timeScale / root.zoomFactor - (audioThumb.width/root.zoomFactor * root.zoomStart)
-                    width: (controller.zoneOut - controller.zoneIn) * timeScale / root.zoomFactor
+                    x: controller.zoneIn * timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                    width: (controller.zoneOut - controller.zoneIn) * timeScale
                     visible: controller.zoneIn > 0 || controller.zoneOut < duration - 1
                 }
                 Repeater {
@@ -229,7 +229,7 @@ Item {
                     color: "red"
                     width: 1
                     height: parent.height
-                    x: controller.position * timeScale / root.zoomFactor - (audioThumb.width/root.zoomFactor * root.zoomStart)
+                    x: controller.position * timeScale - (audioThumb.width/root.zoomFactor * root.zoomStart)
                 }
                 MouseArea {
                     id: thumbMouseArea
@@ -239,14 +239,12 @@ Item {
                     onPressed: {
                         var pos = Math.max(mouseX, 0)
                         pos += audioThumb.width/root.zoomFactor * root.zoomStart
-                        pos *= root.zoomFactor
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
                     onPositionChanged: {
                         if (mouse.modifiers & Qt.ShiftModifier || (pressed && !audioThumb.isAudioClip)) {
                             var pos = Math.max(mouseX, 0)
                             pos += audioThumb.width/root.zoomFactor * root.zoomStart
-                            pos *= root.zoomFactor
                             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                         }
                     }

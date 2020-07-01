@@ -21,13 +21,21 @@ Rectangle {
     function zoomInRuler(xPos)
     {
         root.showZoomBar = true
-        var middle = xPos / rulerMouseArea.width / 1.2
+        var currentX = playhead.x
+        var currentCursor = playhead.x + playhead.width / 2 + ruler.rulerZoomOffset
+        
+        // Adjust zoom factor
         root.zoomFactor = Math.min(1, root.zoomFactor / 1.2)
-        var startPos = Math.max(0, middle - root.zoomFactor / 2)
-        if (startPos + root.zoomFactor > 1) {
-            startPos = 1 - root.zoomFactor
+        if (root.zoomFactor * zoomHandleContainer.width < root.baseUnit / 2) {
+            // Don't allow too large zoom
+            root.zoomFactor = root.baseUnit / 2 / zoomHandleContainer.width
         }
-        root.zoomStart = startPos
+        // Always try to have cursor pos centered in zoom
+        var cursorPos = Math.max(0, controller.position / root.duration - root.zoomFactor / 2)
+        if (cursorPos + root.zoomFactor > 1) {
+            cursorPos = 1 - root.zoomFactor
+        }
+        root.zoomStart = cursorPos
         zoomBar.x = root.zoomStart * zoomHandleContainer.width
         zoomBar.width = root.zoomFactor * zoomHandleContainer.width
     }
@@ -39,12 +47,12 @@ Rectangle {
             root.zoomStart = 0
             root.showZoomBar = false
         } else {
-            var middle = root.zoomStart + root.zoomFactor / 2
-            middle = Math.max(0, middle - root.zoomFactor / 2)
-            if (middle + root.zoomFactor > 1) {
-                middle = 1 - root.zoomFactor
+            // Always try to have cursor pos centered in zoom
+            var cursorPos = Math.max(0, controller.position / root.duration - root.zoomFactor / 2)
+            if (cursorPos + root.zoomFactor > 1) {
+                cursorPos = 1 - root.zoomFactor
             }
-            root.zoomStart = middle
+            root.zoomStart = cursorPos
         }
         zoomBar.x = root.zoomStart * zoomHandleContainer.width
         zoomBar.width = root.zoomFactor * zoomHandleContainer.width
@@ -273,7 +281,7 @@ Rectangle {
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
                 var pos = Math.max(mouseX, 0)
-                controller.position = Math.min((pos + ruler.rulerZoomOffset)*root.zoomFactor / root.timeScale, root.duration);
+                controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
             }
         }
         onPositionChanged: {
@@ -281,7 +289,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 root.mouseRulerPos = pos
                 if (pressed) {
-                    controller.position = Math.min((pos + ruler.rulerZoomOffset)*root.zoomFactor / root.timeScale, root.duration);
+                    controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
                 }
             }
         }
@@ -342,7 +350,7 @@ Rectangle {
         opacity: 1
         anchors.top: ruler.top
         fillColor: activePalette.windowText
-        x: controller.position * root.timeScale / root.zoomFactor - (width / 2) - ruler.rulerZoomOffset
+        x: controller.position * root.timeScale - (width / 2) - ruler.rulerZoomOffset
     }
     Rectangle {
         id: trimIn
