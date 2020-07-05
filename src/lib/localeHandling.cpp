@@ -11,6 +11,8 @@ the Free Software Foundation, either version 3 of the License, or
 #include "localeHandling.h"
 #include <QtCore/QDebug>
 #include <QtCore/QList>
+#include <QtGlobal>
+#include <locale.h>
 
 auto LocaleHandling::setLocale(const QString &lcName) -> QString
 {
@@ -18,7 +20,11 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
     QList<QString> localesToTest;
     localesToTest << lcName << lcName + ".utf-8" << lcName + ".UTF-8" << lcName + ".utf8" << lcName + ".UTF8";
     for (const auto &locale : localesToTest) {
+#ifdef Q_OS_FREEBSD
+        auto *result = setlocale(LC_ALL, locale.toStdString().c_str());
+#else
         auto *result = std::setlocale(LC_ALL, locale.toStdString().c_str());
+#endif
         if (result != nullptr) {
             ::qputenv("LC_ALL", locale.toStdString().c_str());
             newLocale = locale;
@@ -33,7 +39,11 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 
 void LocaleHandling::resetLocale()
 {
+#ifdef Q_OS_FREEBSD
+    setlocale(LC_ALL, "C");
+#else
     std::setlocale(LC_ALL, "C");
+#endif
     ::qputenv("LC_ALL", "C");
     qDebug() << "LC_ALL reset to C";
 }
