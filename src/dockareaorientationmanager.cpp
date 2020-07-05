@@ -16,11 +16,11 @@ the Free Software Foundation, either version 3 of the License, or
 DockAreaOrientationManager::DockAreaOrientationManager(QObject *parent)
     : QObject(parent)
 {
-    m_verticalAction = new QAction(i18n("Arrange Dock Areas In Columns"), this);
+    m_verticalAction = new QAction(QIcon::fromTheme(QStringLiteral("object-columns")), i18n("Arrange Dock Areas In Columns"), this);
     pCore->window()->addAction(QStringLiteral("vertical_dockareaorientation"), m_verticalAction);
     connect(m_verticalAction, &QAction::triggered, this, &DockAreaOrientationManager::slotVerticalOrientation);
 
-    m_horizontalAction = new QAction(i18n("Arrange Dock Areas In Rows"), this);
+    m_horizontalAction = new QAction(QIcon::fromTheme(QStringLiteral("object-rows")), i18n("Arrange Dock Areas In Rows"), this);
     pCore->window()->addAction(QStringLiteral("horizontal_dockareaorientation"), m_horizontalAction);
     connect(m_horizontalAction, &QAction::triggered, this, &DockAreaOrientationManager::slotHorizontalOrientation);
 }
