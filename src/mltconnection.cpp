@@ -19,6 +19,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QtConcurrent>
 
 #include <lib/localeHandling.h>
+#include <locale.h>
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
 
@@ -87,7 +88,11 @@ MltConnection::MltConnection(const QString &mltPath)
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
     LocaleHandling::resetLocale();
 
+#ifdef Q_OS_FREEBSD
+    auto locale = strdup(setlocale(LC_ALL, nullptr));
+#else
     auto locale = strdup(std::setlocale(LC_ALL, nullptr));
+#endif
     qDebug() << "NEW LC_ALL" << locale;
 
     locateMeltAndProfilesPath(mltPath);
