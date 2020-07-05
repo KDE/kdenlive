@@ -31,6 +31,7 @@
 #include "dialogs/wizard.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "dockareaorientationmanager.h"
 #include "effects/effectlist/view/effectlistwidget.hpp"
 #include "effectslist/effectbasket.h"
 #include "hidetitlebars.h"
@@ -452,6 +453,7 @@ void MainWindow::init()
 
     new LayoutManagement(this);
     new HideTitleBars(this);
+    new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
 
