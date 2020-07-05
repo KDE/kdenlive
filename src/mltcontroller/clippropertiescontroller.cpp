@@ -56,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <KSqueezedTextLabel>
 #include <QMenu>
 #include <QMimeData>
 #include <QMimeDatabase>
@@ -178,7 +179,9 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
-    m_clipLabel = new QLabel(controller->clipName());
+    m_clipLabel = new KSqueezedTextLabel(this);
+    m_clipLabel->setTextElideMode(Qt::ElideLeft);
+    m_clipLabel->setText(controller->clipUrl());
     lay->addWidget(m_clipLabel);
     m_tabWidget = new QTabWidget(this);
     lay->addWidget(m_tabWidget);

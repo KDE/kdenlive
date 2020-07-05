@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 class ClipController;
 class QMimeData;
 class QTextEdit;
-class QLabel;
+class KSqueezedTextLabel;
 class QComboBox;
 class QListWidget;
 class QGroupBox;
@@ -101,7 +101,7 @@ private slots:
 private:
     ClipController *m_controller;
     QTabWidget *m_tabWidget;
-    QLabel *m_clipLabel;
+    KSqueezedTextLabel *m_clipLabel;
     Timecode m_tc;
     QString m_id;
     ClipType::ProducerType m_type;
