@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include <KIO/Global>
-
+#include <KIO/OpenFileManagerWindowJob>
 #include "kdenlive_debug.h"
 #include <KMessageBox>
 #include <QCheckBox>
@@ -56,7 +56,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <KSqueezedTextLabel>
 #include <QMenu>
 #include <QMimeData>
 #include <QMimeDatabase>
@@ -68,6 +67,47 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QListWidgetItem>
 #include <QButtonGroup>
 #include <QVBoxLayout>
+
+ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
+    : QLabel(parent)
+{
+}
+
+void ElidedLinkLabel::setLabelText(const QString &text, const QString &link)
+{
+    m_text = text;
+    m_link = link;
+    int width = currentWidth();
+    updateText(width);
+}
+
+void ElidedLinkLabel::updateText(int width)
+{
+    if (m_link.isEmpty()) {
+        setText(fontMetrics().elidedText(m_text, Qt::ElideLeft, width));
+    } else {
+        setText(QString("<a href=\"%1\">%2</a>").arg(m_link).arg(fontMetrics().elidedText(m_text, Qt::ElideLeft, width)));
+    }
+}
+
+int ElidedLinkLabel::currentWidth() const
+{
+    int width = 0;
+    if (isVisible()) {
+        width = contentsRect().width();
+    } else {
+        QMargins mrg = contentsMargins();
+        width = sizeHint().width() - mrg.left() - mrg.right();
+    }
+    return width;
+}
+
+void ElidedLinkLabel::resizeEvent(QResizeEvent *event)
+{
+    int diff = event->size().width() - event->oldSize().width();
+    updateText(currentWidth() + diff);
+    QLabel::resizeEvent(event);
+}
 
 AnalysisTree::AnalysisTree(QWidget *parent)
     : QTreeWidget(parent)
@@ -179,9 +219,16 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
     setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
     auto *lay = new QVBoxLayout;
     lay->setContentsMargins(0, 0, 0, 0);
-    m_clipLabel = new KSqueezedTextLabel(this);
-    m_clipLabel->setTextElideMode(Qt::ElideLeft);
-    m_clipLabel->setText(controller->clipUrl());
+    m_clipLabel = new ElidedLinkLabel(this);
+    
+    if (m_type == ClipType::Color || controller->clipUrl().isEmpty()) {
+        m_clipLabel->setLabelText(controller->clipName(), QString());
+    } else {
+        m_clipLabel->setLabelText(controller->clipUrl(), controller->clipUrl());
+    }
+    connect(m_clipLabel, &QLabel::linkActivated, [](const QString &link) {
+        KIO::highlightInFileManager({QUrl::fromLocalFile(link)});
+    });
     lay->addWidget(m_clipLabel);
     m_tabWidget = new QTabWidget(this);
     lay->addWidget(m_tabWidget);

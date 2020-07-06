@@ -27,19 +27,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
 #include <QTreeWidget>
+#include <QLabel>
 
 #include <mlt++/Mlt.h>
 
 class ClipController;
 class QMimeData;
 class QTextEdit;
-class KSqueezedTextLabel;
 class QComboBox;
 class QListWidget;
 class QGroupBox;
 class QCheckBox;
 class QButtonGroup;
 class QSpinBox;
+
+class ElidedLinkLabel : public QLabel
+{
+    Q_OBJECT
+
+public:
+    explicit ElidedLinkLabel(QWidget *parent = nullptr);
+    void setLabelText(const QString &text, const QString &link);
+    void updateText(int width);
+    int currentWidth() const;
+
+private:
+    QString m_text;
+    QString m_link;
+
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+};
 
 class AnalysisTree : public QTreeWidget
 {
@@ -101,7 +119,7 @@ private slots:
 private:
     ClipController *m_controller;
     QTabWidget *m_tabWidget;
-    KSqueezedTextLabel *m_clipLabel;
+    ElidedLinkLabel *m_clipLabel;
     Timecode m_tc;
     QString m_id;
     ClipType::ProducerType m_type;
