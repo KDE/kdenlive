@@ -67,6 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QListWidgetItem>
 #include <QButtonGroup>
 #include <QVBoxLayout>
+#include <QResizeEvent>
 
 ElidedLinkLabel::ElidedLinkLabel(QWidget *parent)
     : QLabel(parent)
