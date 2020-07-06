@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1666</width>
-    <height>1188</height>
+    <width>1096</width>
+    <height>726</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -351,14 +351,14 @@
          <property name="flat">
           <bool>false</bool>
          </property>
-         <property name="color" stdset="0">
+         <property name="color">
           <color>
            <red>255</red>
            <green>0</green>
            <blue>0</blue>
           </color>
          </property>
-         <property name="defaultColor" stdset="0">
+         <property name="defaultColor">
           <color>
            <red>255</red>
            <green>0</green>
@@ -643,8 +643,8 @@
                    <rect>
                     <x>0</x>
                     <y>0</y>
-                    <width>544</width>
-                    <height>506</height>
+                    <width>344</width>
+                    <height>433</height>
                    </rect>
                   </property>
                   <layout class="QGridLayout" name="gridLayout_9">
@@ -821,14 +821,14 @@
                           <verstretch>0</verstretch>
                          </sizepolicy>
                         </property>
-                        <property name="color" stdset="0">
+                        <property name="color">
                          <color alpha="100">
                           <red>0</red>
                           <green>0</green>
                           <blue>0</blue>
                          </color>
                         </property>
-                        <property name="alphaChannelEnabled" stdset="0">
+                        <property name="alphaChannelEnabled">
                          <bool>true</bool>
                         </property>
                        </widget>
@@ -982,14 +982,14 @@
                      <property name="flat">
                       <bool>false</bool>
                      </property>
-                     <property name="color" stdset="0">
+                     <property name="color">
                       <color>
                        <red>255</red>
                        <green>255</green>
                        <blue>255</blue>
                       </color>
                      </property>
-                     <property name="defaultColor" stdset="0">
+                     <property name="defaultColor">
                       <color>
                        <red>0</red>
                        <green>0</green>
@@ -1047,14 +1047,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color" stdset="0">
+                 <property name="color">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor" stdset="0">
+                 <property name="defaultColor">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1112,14 +1112,14 @@
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="color" stdset="0">
+                 <property name="color">
                   <color>
                    <red>0</red>
                    <green>0</green>
                    <blue>0</blue>
                   </color>
                  </property>
-                 <property name="defaultColor" stdset="0">
+                 <property name="defaultColor">
                   <color>
                    <red>0</red>
                    <green>0</green>
@@ -1231,14 +1231,14 @@
                <verstretch>0</verstretch>
               </sizepolicy>
              </property>
-             <property name="color" stdset="0">
+             <property name="color">
               <color>
                <red>0</red>
                <green>0</green>
                <blue>0</blue>
               </color>
              </property>
-             <property name="defaultColor" stdset="0">
+             <property name="defaultColor">
               <color>
                <red>0</red>
                <green>0</green>
@@ -1479,12 +1479,35 @@
       </widget>
      </item>
      <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
+      <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="createButton">
+       <property name="text">
+        <string>Create</string>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::MenuButtonPopup</enum>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextOnly</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
        </property>
       </widget>
      </item>
@@ -1506,38 +1529,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>TitleWidget_UI</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>253</x>
-     <y>558</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>TitleWidget_UI</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>321</x>
-     <y>558</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>gradient_color</sender>
    <signal>toggled(bool)</signal>

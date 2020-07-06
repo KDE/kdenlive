@@ -148,6 +148,7 @@ private:
     QAction *m_selectRects;
     QAction *m_selectImages;
     QAction *m_unselectAll;
+    QAction *m_createTitleAction;
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
 
@@ -243,8 +244,8 @@ public slots:
     void itemRotateX(int);
     void itemRotateY(int);
     void itemRotateZ(int);
-    /** Save a title to a title file */
-    void saveTitle(QUrl url = QUrl());
+    /** Save a title to a title file, returns the saved url or empty if error */
+    QUrl saveTitle(QUrl url = QUrl());
     /** Load a title from a title file */
     void loadTitle(QUrl url = QUrl());
     void slotGotBackground(const QImage &img);

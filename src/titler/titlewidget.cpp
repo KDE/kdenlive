@@ -17,6 +17,7 @@
 
 #include "titlewidget.h"
 #include "core.h"
+#include "bin/bin.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
@@ -49,6 +50,7 @@
 #include <QTextCursor>
 #include <QTimer>
 #include <QToolBar>
+#include <QMenu>
 
 #include <QStandardPaths>
 #include <iostream>
@@ -549,7 +551,25 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(anim_end, &QAbstractButton::toggled, this, &TitleWidget::slotAnimEnd);
     connect(templateBox, SIGNAL(currentIndexChanged(int)), this, SLOT(templateIndexChanged(int)));
 
-    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(KdenliveSettings::hastitleproducer());
+    createButton->setEnabled(KdenliveSettings::hastitleproducer());
+    QMenu *addMenu = new QMenu(this);
+    addMenu->addAction(i18n("Save and add to project"));
+    m_createTitleAction = new QAction(i18n("Create Title"), this);
+    createButton->setMenu(addMenu);
+    connect(addMenu, &QMenu::triggered, [this]() {
+        const QUrl url = saveTitle();
+        if (!url.isEmpty()) {
+            pCore->bin()->slotAddClipToProject(url);
+            done(QDialog::Rejected);
+        }
+    });
+    createButton->setDefaultAction(m_createTitleAction);
+    connect(m_createTitleAction, &QAction::triggered, [this]() {
+        done(QDialog::Accepted);
+    });
+    connect(cancelButton, &QPushButton::clicked, [this]() {
+        done(QDialog::Rejected);
+    });
     if (titletemplates.isEmpty()) {
         refreshTitleTemplates(m_projectTitlePath);
     }
@@ -1979,7 +1999,7 @@ void TitleWidget::loadTitle(QUrl url)
     }
 }
 
-void TitleWidget::saveTitle(QUrl url)
+QUrl TitleWidget::saveTitle(QUrl url)
 {
     if (anim_start->isChecked()) {
         slotAnimStart(false);
@@ -2021,8 +2041,11 @@ void TitleWidget::saveTitle(QUrl url)
     if (url.isValid()) {
         if (!m_titledocument.saveDocument(url, m_startViewport, m_endViewport, m_tc.getFrameCount(title_duration->text()), embed_image)) {
             KMessageBox::error(this, i18n("Cannot write to file %1", url.toLocalFile()));
+        } else {
+            return url;
         }
     }
+    return QUrl();
 }
 
 void TitleWidget::downloadTitleTemplates()
@@ -2140,6 +2163,11 @@ void TitleWidget::setXml(const QDomDocument &doc, const QString &id)
     endViewportX->setValue(m_endViewport->data(0).toInt());
     endViewportY->setValue(m_endViewport->data(1).toInt());
     endViewportSize->setValue(m_endViewport->data(2).toInt());*/
+    
+    createButton->setMenu(nullptr);
+    createButton->setPopupMode(QToolButton::DelayedPopup);
+    m_createTitleAction->setText(i18n("Update Title"));
+    
 
     QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     slotSelectTool();
