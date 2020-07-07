@@ -226,12 +226,12 @@ public:
                     }
                     m_thumbRect = r;
                 }
-                // Add audio/video icons for selective drag
+                // Draw frame in case of missing source
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
                 if (clipStatus == AbstractProjectItem::StatusMissing || clipStatus == AbstractProjectItem::StatusProxyOnly) {
                     painter->save();
                     painter->setPen(QPen(clipStatus == AbstractProjectItem::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
-                    painter->drawRect(m_thumbRect);
+                    painter->drawRect(m_thumbRect.adjusted(0, 0, -1, -1));
                     painter->restore();
                 } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
                     // Draw 'photo' frame to identify image clips
@@ -277,7 +277,7 @@ public:
                         subText.append(QString::asprintf(" [%d]", usage));
                     }
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
-
+                    // Add audio/video icons for selective drag
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist) && (opt.state & QStyle::State_MouseOver)) {
                         bounding.moveLeft(bounding.right() + (2 * textMargin));
@@ -427,7 +427,10 @@ public:
             QStyledItemDelegate::paint(painter, option, index);
             int adjust = (opt.rect.width() - opt.decorationSize.width()) / 2;
             QRect rect(opt.rect.x(), opt.rect.y(), opt.decorationSize.width(), opt.decorationSize.height());
-            m_thumbRect = adjust > 0 && adjust < rect.width() ? rect.adjusted(adjust, 0, -adjust, 0) : rect;
+            if (adjust > 0 && adjust < rect.width()) {
+                rect.translate(adjust, 0);
+            }
+            m_thumbRect = rect;
 
             //Tags
             QString tags = index.data(AbstractProjectItem::DataTag).toString();
@@ -462,6 +465,37 @@ public:
             } else {
                 //m_audioDragRect = QRect();
                 //m_videoDragRect = QRect();
+            }
+            // Draw frame in case of missing source
+            AbstractProjectItem::CLIPSTATUS clipStatus = (AbstractProjectItem::CLIPSTATUS)index.data(AbstractProjectItem::ClipStatus).toInt();
+            if (clipStatus == AbstractProjectItem::StatusMissing || clipStatus == AbstractProjectItem::StatusProxyOnly) {
+                painter->save();
+                painter->setPen(QPen(clipStatus == AbstractProjectItem::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
+                painter->drawRect(m_thumbRect);
+                painter->restore();
+            } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
+                // Draw 'photo' frame to identify image clips
+                painter->save();
+                int penWidth = m_thumbRect.height() / 14;
+                penWidth += penWidth % 2;
+                painter->setPen(QPen(QColor(255, 255, 255, 160), penWidth));
+                penWidth /= 2;
+                painter->drawRoundedRect(m_thumbRect.adjusted(penWidth, penWidth, -penWidth - 1, -penWidth + 1), 4, 4);
+                painter->setPen(QPen(Qt::black, 1));
+                painter->drawRoundedRect(m_thumbRect.adjusted(0, 0, -1, 1), 4, 4);
+                painter->restore();
+            }
+            int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
+            if (type == AbstractProjectItem::ClipItem) {
+                // Overlay icon if necessary
+                QVariant v = index.data(AbstractProjectItem::IconOverlay);
+                if (!v.isNull()) {
+                    QRect r = m_thumbRect;
+                    QIcon reload = QIcon::fromTheme(v.toString());
+                    r.setTop(r.bottom() - (opt.rect.height() - r.height()));
+                    r.setWidth(r.height());
+                    reload.paint(painter, r);
+                }
             }
         }
     }
