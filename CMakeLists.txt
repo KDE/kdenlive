@@ -1,4 +1,4 @@
-project(Kdenlive)
+cmake_minimum_required(VERSION 3.0)
 
 # An odd patch version number means development version, while an even one means
 # stable release. An additional number can be used for bugfix-only releases.
@@ -10,7 +10,8 @@ set(KDE_APPLICATIONS_VERSION_MICRO "70")
 
 set(KDENLIVE_VERSION ${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO})
 
-cmake_minimum_required(VERSION 3.0)
+project(Kdenlive VERSION ${KDENLIVE_VERSION})
+
 if(POLICY CMP0063)
   cmake_policy(SET CMP0063 NEW)
 endif()
