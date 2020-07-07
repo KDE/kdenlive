@@ -570,9 +570,8 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(cancelButton, &QPushButton::clicked, [this]() {
         done(QDialog::Rejected);
     });
-    if (titletemplates.isEmpty()) {
-        refreshTitleTemplates(m_projectTitlePath);
-    }
+    refreshTitleTemplates(m_projectTitlePath);
+
     // templateBox->setIconSize(QSize(60,60));
     refreshTemplateBoxContents();
     m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
