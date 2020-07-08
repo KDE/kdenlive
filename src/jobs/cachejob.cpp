@@ -28,12 +28,14 @@
 #include "klocalizedstring.h"
 #include "macros.hpp"
 #include "utils/thumbnailcache.hpp"
-#include <QImage>
-#include <QScopedPointer>
-#include <QThread>
 #include <mlt++/MltProducer.h>
 
 #include <set>
+
+#include <QImage>
+#include <QScopedPointer>
+#include <QThread>
+#include <QtConcurrent>
 
 CacheJob::CacheJob(const QString &binId, int thumbsCount, int inPoint, int outPoint)
     : AbstractClipJob(CACHEJOB, binId)
@@ -86,13 +88,10 @@ bool CacheJob::startJob()
         return false;
     }
     int duration = m_outPoint > 0 ? m_outPoint - m_inPoint : (int)m_binClip->frameDuration();
-    if (m_thumbsCount * 5 > duration) {
-        m_thumbsCount = duration / 10;
-    }
     std::set<int> frames;
-    double steps = qMax(pCore->getCurrentFps(), (double)duration / m_thumbsCount);
+    int steps = qCeil(qMax(pCore->getCurrentFps(), (double)duration / m_thumbsCount));
     int pos = m_inPoint;
-    for (int i = 1; i <= m_thumbsCount && pos <= duration; ++i) {
+    for (int i = 1; i <= m_thumbsCount && pos <= m_inPoint + duration; ++i) {
         frames.insert(pos);
         pos = m_inPoint + (steps * i);
     }
@@ -115,7 +114,7 @@ bool CacheJob::startJob()
         frame->set("rescale.interp", "nearest");
         if (frame != nullptr && frame->is_valid()) {
             QImage result = KThumb::getFrame(frame.data(), 0, 0, m_fullWidth);
-            ThumbnailCache::get()->storeThumbnail(m_clipId, i, result, true);
+            QtConcurrent::run(ThumbnailCache::get().get(), &ThumbnailCache::storeThumbnail, m_clipId, i, result, true);
         }
         m_semaphore.release(1);
     }

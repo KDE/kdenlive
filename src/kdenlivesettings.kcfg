@@ -25,6 +25,10 @@
       <label>User added clip file extensions.</label>
       <default></default>
     </entry>
+    <entry name="hoverPreview" type="Bool">
+      <label>Generate and show video preview when moving mouse over clip thumbnail.</label>
+      <default>false</default>
+    </entry>
   </group>
 
   <group name="misc">

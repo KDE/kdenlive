@@ -200,16 +200,18 @@ bool ProjectSubClip::hasAudioAndVideo() const
 
 void ProjectSubClip::getThumbFromPercent(int percent)
 {
-    // extract a maximum of 50 frames for bin preview
-    percent += percent%2;
-    int framePos = (m_outPoint - m_inPoint) * percent / 100;
+    // extract a maximum of 30 frames for bin preview
+    int duration = m_outPoint - m_inPoint;
+    int steps = qCeil(qMax(pCore->getCurrentFps(), (double)duration / 30));
+    int framePos = duration * percent / 100;
+    framePos -= framePos%steps;
     if (ThumbnailCache::get()->hasThumbnail(m_parentClipId, m_inPoint + framePos)) {
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_parentClipId, m_inPoint + framePos));
     } else {
         // Generate percent thumbs
         int id;
         if (!pCore->jobManager()->hasPendingJob(m_parentClipId, AbstractClipJob::CACHEJOB, &id)) {
-            pCore->jobManager()->startJob<CacheJob>({m_parentClipId}, -1, QString(), 25, m_inPoint, m_outPoint);
+            pCore->jobManager()->startJob<CacheJob>({m_parentClipId}, -1, QString(), 30, m_inPoint, m_outPoint);
         }
     }
 }

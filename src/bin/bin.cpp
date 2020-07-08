@@ -559,7 +559,7 @@ void MyListView::mousePressEvent(QMouseEvent *event)
 
 void MyListView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->modifiers() == Qt::ShiftModifier) {
+    if (KdenliveSettings::hoverPreview()) {
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
             QAbstractItemDelegate *del = itemDelegate(index);
@@ -614,7 +614,7 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
         if (distance >= QApplication::startDragDistance()) {
             dragged = performDrag();
         }
-    } else if (event->modifiers() == Qt::ShiftModifier) {
+    } else if (KdenliveSettings::hoverPreview()) {
         QModelIndex index = indexAt(event->pos());
         if (index.isValid()) {
             QAbstractItemDelegate *del = itemDelegate(index);
@@ -1009,6 +1009,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     disableEffects->setCheckable(true);
     disableEffects->setChecked(false);
     pCore->window()->actionCollection()->addAction(QStringLiteral("disable_bin_effects"), disableEffects);
+    
+    QAction *hoverPreview = new QAction(i18n("Show video preview in thumbnails"), this);
+    hoverPreview->setCheckable(true);
+    hoverPreview->setChecked(KdenliveSettings::hoverPreview());
+    connect(hoverPreview, &QAction::triggered, [] (bool checked) {
+        KdenliveSettings::setHoverPreview(checked);
+    });
+    connect(disableEffects, &QAction::triggered, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
+    disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 
     listType->setToolBarMode(KSelectAction::MenuMode);
     connect(listType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered), this, &Bin::slotInitView);
@@ -1039,6 +1048,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     settingsMenu->addAction(m_showDesc);
     settingsMenu->addAction(m_showRating);
     settingsMenu->addAction(disableEffects);
+    settingsMenu->addAction(hoverPreview);
 
     // Show tags panel
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);

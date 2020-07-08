@@ -511,7 +511,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_videoProducers.clear();
     m_timewarpProducers.clear();
     emit refreshPropertiesPanel();
-    if (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist) {
+    if (KdenliveSettings::hoverPreview() && (m_clipType == ClipType::AV || m_clipType == ClipType::Video || m_clipType == ClipType::Playlist)) {
         QTimer::singleShot(1000, this, [this]() {
             int loadjobId;
             if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &loadjobId)) {
@@ -1534,17 +1534,18 @@ void ProjectClip::updateZones()
 
 void ProjectClip::getThumbFromPercent(int percent)
 {
-    // extract a maximum of 50 frames for bin preview
-    percent += percent%2;
+    // extract a maximum of 30 frames for bin preview
     int duration = getFramePlaytime();
+    int steps = qCeil(qMax(pCore->getCurrentFps(), (double)duration / 30));
     int framePos = duration * percent / 100;
+    framePos -= framePos%steps;
     if (ThumbnailCache::get()->hasThumbnail(m_binId, framePos)) {
         setThumbnail(ThumbnailCache::get()->getThumbnail(m_binId, framePos));
     } else {
         // Generate percent thumbs
         int id;
         if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
-            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString(), 50);
+            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
         }
     }
 }
