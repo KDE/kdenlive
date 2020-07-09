@@ -215,6 +215,7 @@ Item {
                                 Scale {xScale: 1/root.zoomFactor}
                             ]
                             asynchronous: true
+                            cache: false
                         }
                         Rectangle {
                             width: parent.width
@@ -270,6 +271,12 @@ Item {
                 }
                 color: "white"
                 text: clipName
+                onTextChanged: {
+                    if (thumbTimer.running) {
+                        thumbTimer.stop()
+                    }
+                    thumbTimer.start()
+                }
                 background: Rectangle {
                     color: "#222277"
                 }

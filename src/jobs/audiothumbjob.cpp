@@ -322,8 +322,27 @@ bool AudioThumbJob::startJob()
         m_done = true;
         return true;
     }
-    m_thumbSize = QSize(1000, 1000 / pCore->getCurrentDar());
     m_prod = m_binClip->originalProducer();
+    if ((m_prod == nullptr) || !m_prod->is_valid()) {
+        m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
+        m_done = true;
+        m_successful = false;
+        return false;
+    }
+    m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
+    int thumbResolution = 1000;
+    
+    // Increase audio thumb resolution for longer clips to get a better resolution
+    if (m_lengthInFrames > 30000) {
+        // More than 20 minutes at 25fps
+        if (m_lengthInFrames > 90000) {
+            // More than 1 hour at 25fps
+            thumbResolution = 3000;
+        } else {
+            thumbResolution = 2000;
+        }
+    }
+    m_thumbSize = QSize(thumbResolution, 1000 / pCore->getCurrentDar());
 
     m_frequency = m_binClip->audioInfo()->samplingRate();
     m_frequency = m_frequency <= 0 ? 48000 : m_frequency;
@@ -331,14 +350,7 @@ bool AudioThumbJob::startJob()
     m_channels = m_binClip->audioInfo()->channels();
     m_channels = m_channels <= 0 ? 2 : m_channels;
 
-    m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
-    if ((m_prod == nullptr) || !m_prod->is_valid()) {
-        m_errorMessage.append(i18n("Audio thumbs: cannot open project file %1", m_binClip->url()));
-        m_done = true;
-        m_successful = false;
-        return false;
-    }
     QMapIterator<int, QString> st(streams);
     while (st.hasNext()) {
         st.next();
