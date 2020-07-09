@@ -1897,11 +1897,11 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     bool pitchCompensate = m_model->m_allClips[clipId]->getIntProperty(QStringLiteral("warp_pitch"));
     if (qFuzzyCompare(speed, -1)) {
         speed = 100 * m_model->getClipSpeed(clipId);
-        double duration = m_model->getItemPlaytime(clipId);
+        int duration = m_model->getItemPlaytime(clipId);
         // this is the max speed so that the clip is at least one frame long
-        double maxSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId));
+        double maxSpeed = duration * qAbs(speed);
         // this is the min speed so that the clip doesn't bump into the next one on track
-        double minSpeed = 100. * duration * qAbs(m_model->getClipSpeed(clipId)) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)));
+        double minSpeed = duration * qAbs(speed) / (duration + double(m_model->getBlankSizeNearClip(clipId, true)));
 
         // if there is a split partner, we must also take it into account
         int partner = m_model->getClipSplitPartner(clipId);
@@ -1912,7 +1912,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
             minSpeed = std::max(minSpeed, minSpeed2);
             maxSpeed = std::min(maxSpeed, maxSpeed2);
         }
-        QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), minSpeed, maxSpeed, speed < 0, pitchCompensate));
+        QScopedPointer<SpeedDialog> d(new SpeedDialog(QApplication::activeWindow(), std::abs(speed), duration, minSpeed, maxSpeed, speed < 0, pitchCompensate));
         if (d->exec() != QDialog::Accepted) {
             return;
         }
