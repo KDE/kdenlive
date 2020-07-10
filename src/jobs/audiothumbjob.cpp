@@ -153,6 +153,8 @@ bool AudioThumbJob::computeWithFFMPEG()
                 m_done = true;
             }
         }
+    } else {
+        m_done = true;
     }
     if (!KdenliveSettings::audiothumbnails()) {
         // We only wanted the thumb generation
@@ -352,6 +354,7 @@ bool AudioThumbJob::startJob()
 
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
     QMapIterator<int, QString> st(streams);
+    m_done = true;
     while (st.hasNext()) {
         st.next();
         int stream = st.key();
@@ -433,22 +436,22 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     QImage oldImage;
     QImage result;
     if (m_binClip->clipType() == ClipType::Audio) {
-        oldImage = m_binClip->thumbnail(m_thumbSize.width(), m_thumbSize.height()).toImage();
-        result = ThumbnailCache::get()->getAudioThumbnail(m_clipId);
+        oldImage = m_binClip->thumbnail(200, 200 / pCore->getCurrentDar()).toImage();
+        result = ThumbnailCache::get()->getAudioThumbnail(m_clipId).scaled(200, 200 / pCore->getCurrentDar());
     }
 
     // note that the image is moved into lambda, it won't be available from this class anymore
     auto operation = [clip = m_binClip, image = std::move(result)]() {
         clip->updateAudioThumbnail();
         if (!image.isNull() && clip->clipType() == ClipType::Audio) {
-            clip->setThumbnail(image.scaled(200, 200 / pCore->getCurrentDar()));
+            clip->setThumbnail(image);
         }
         return true;
     };
     auto reverse = [clip = m_binClip, image = std::move(oldImage)]() {
         clip->updateAudioThumbnail();
         if (!image.isNull() && clip->clipType() == ClipType::Audio) {
-            clip->setThumbnail(image.scaled(200, 200 / pCore->getCurrentDar()));
+            clip->setThumbnail(image);
         }
         return true;
     };
