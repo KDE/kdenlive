@@ -628,6 +628,16 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         QAction *setThumbFrame =
             m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
+        QAction *alwaysShowAudio =
+            new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Always show audio thumbnails"), this);
+        alwaysShowAudio->setCheckable(true);
+        connect(alwaysShowAudio, &QAction::triggered, [this](bool checked) {
+            KdenliveSettings::setAlwaysShowMonitorAudio(checked);
+            m_glMonitor->rootObject()->setProperty("permanentAudiothumb", checked);
+        });
+        alwaysShowAudio->setChecked(KdenliveSettings::alwaysShowMonitorAudio());
+        m_contextMenu->addAction(alwaysShowAudio);
+        m_configMenu->addAction(alwaysShowAudio);
     }
 
     if (overlayMenu) {

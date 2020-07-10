@@ -113,6 +113,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     } else if (!(KdenliveSettings::displayProjectMonitorInfo() & 0x01)) {
         m_rulerHeight = 0;
     }
+    m_displayRulerHeight = m_rulerHeight;
 
     setPersistentOpenGLContext(true);
     setPersistentSceneGraph(true);
@@ -226,7 +227,7 @@ void GLWidget::initializeGL()
 void GLWidget::resizeGL(int width, int height)
 {
     int x, y, w, h;
-    height -= m_rulerHeight;
+    height -= m_displayRulerHeight;
     double this_aspect = (double)width / height;
 
     // Special case optimization to negate odd effect of sample aspect ratio
@@ -518,7 +519,7 @@ void GLWidget::paintGL()
     f->glDisable(GL_BLEND);
     f->glDisable(GL_DEPTH_TEST);
     f->glDepthMask(GL_FALSE);
-    f->glViewport(0, (m_rulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
+    f->glViewport(0, (m_displayRulerHeight * devicePixelRatio() * 0.5 + 0.5), width, height);
     check_error(f);
     f->glClearColor(m_bgColor.redF(), m_bgColor.greenF(), m_bgColor.blueF(), 0);
     f->glClear(GL_COLOR_BUFFER_BIT);
@@ -640,6 +641,12 @@ void GLWidget::slotZoom(bool zoomIn)
             setZoom(m_zoom / 2);
         }
     }
+}
+
+void GLWidget::updateRulerHeight(int addedHeight)
+{
+    m_displayRulerHeight =  m_rulerHeight > 0 ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 + addedHeight : 0;
+    resizeGL(width(), height());
 }
 
 void GLWidget::requestSeek(int position)
@@ -1870,6 +1877,7 @@ void GLWidget::updateScaling()
 void GLWidget::switchRuler(bool show)
 {
     m_rulerHeight = show ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 : 0;
+    m_displayRulerHeight = m_rulerHeight;
     resizeGL(width(), height());
     m_proxy->rulerHeightChanged();
 }

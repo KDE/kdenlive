@@ -196,7 +196,10 @@ protected:
     std::shared_ptr<Mlt::Consumer> m_consumer;
     std::shared_ptr<Mlt::Producer> m_producer;
     int m_id;
+    /** @brief The height of the qml ruler */
     int m_rulerHeight;
+    /** @brief The height of the qml ruler and audio thumbs */
+    int m_displayRulerHeight;
     QColor m_bgColor;
 
 private:
@@ -257,6 +260,8 @@ protected:
     SharedFrame m_sharedFrame;
     QOpenGLContext *m_shareContext;
 
+    /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
+    void updateRulerHeight(int addedHeight);
     bool acquireSharedFrameTextures();
     void bindShaderProgram();
     void createGPUAccelFragmentProg();

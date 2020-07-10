@@ -820,6 +820,11 @@
       <label>index of current guides overlay for project monitor.</label>
       <default>0</default>
     </entry>
+    
+    <entry name="alwaysShowMonitorAudio" type="Bool">
+      <label>Always display audio thumbs in clip monitor.</label>
+      <default>false</default>
+    </entry>
 
     <entry name="displayAudioOverlay" type="Bool">
       <label>Show audio overlay info on monitor.</label>

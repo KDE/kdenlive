@@ -55,6 +55,11 @@ int MonitorProxy::rulerHeight() const
     return q->m_rulerHeight;
 }
 
+void MonitorProxy::setRulerHeight(int addedHeight)
+{
+    q->updateRulerHeight(addedHeight);
+}
+
 void MonitorProxy::seek(int delta, uint modifiers)
 {
     q->mouseSeek(delta, modifiers);
@@ -313,9 +318,17 @@ QString MonitorProxy::toTimecode(int frames) const
 
 void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName)
 {
+    if (clipId != m_clipId) {
+        m_clipId = clipId;
+        emit clipIdChanged();
+    }
     if (hasAV != m_hasAV) {
         m_hasAV = hasAV;
         emit clipHasAVChanged();
+    }
+    if (type != m_clipType) {
+        m_clipType = type;
+        emit clipTypeChanged();
     }
     if (clipName == m_clipName) {
         m_clipName.clear();
@@ -323,14 +336,6 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     }
     m_clipName = clipName;
     emit clipNameChanged();
-    if (type != m_clipType) {
-        m_clipType = type;
-        emit clipTypeChanged();
-    }
-    if (clipId != m_clipId) {
-        m_clipId = clipId;
-        emit clipIdChanged();
-    }
 }
 
 void MonitorProxy::setAudioThumb(const QList <QUrl> thumbPath)

@@ -32,7 +32,10 @@ Item {
     property bool showTimecode: false
     property bool showFps: false
     property bool showSafezone: false
+    // Display hover audio thumbnails overlay
     property bool showAudiothumb: false
+    // Always display audio thumbs under video
+    property bool permanentAudiothumb: false
     property bool showToolbar: false
     property string clipName: controller.clipName
     property real baseUnit: fontMetrics.font.pixelSize
@@ -83,6 +86,20 @@ Item {
         // Animate clip name
         clipNameLabel.opacity = 1
         showAnimate.restart()
+        // adjust monitor image size if audio thumb is displayed
+        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
+    }
+    
+    onZoomOffsetChanged: {
+        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
     }
 
     function updatePalette() {
@@ -133,6 +150,7 @@ Item {
             width: root.profile.x * root.scalex
             height: root.profile.y * root.scaley
             anchors.centerIn: parent
+            anchors.verticalCenterOffset : (root.permanentAudiothumb && audioThumb.visible) ? -(audioThumb.height + root.zoomOffset) / 2 : -root.zoomOffset / 2
 
             Loader {
                 anchors.fill: parent
@@ -161,7 +179,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
+                property bool stateVisible: (root.permanentAudiothumb || clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
@@ -186,7 +204,15 @@ Item {
                 height: isAudioClip ? parent.height : parent.height / 6
                 //font.pixelSize * 3
                 width: parent.width
-                visible: root.showAudiothumb && (isAudioClip || controller.clipType == ProducerType.AV)
+                visible: (root.permanentAudiothumb || root.showAudiothumb) && (isAudioClip || controller.clipType == ProducerType.AV)
+                onStateVisibleChanged: {
+                    // adjust monitor image size
+                    if (stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+                        controller.rulerHeight = audioThumb.height + root.zoomOffset
+                    } else {
+                        controller.rulerHeight = root.zoomOffset
+                    }
+                }
 
                 states: [
                     State { when: audioThumb.stateVisible || audioThumb.isAudioClip;
@@ -199,7 +225,7 @@ Item {
                 } ]
                 Rectangle {
                     color: activePalette.base
-                    opacity: audioThumb.isAudioClip ? 1 : 0.6
+                    opacity: audioThumb.isAudioClip || root.permanentAudiothumb ? 1 : 0.6
                     anchors.fill: parent
                 }
                 Rectangle {
