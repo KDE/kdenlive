@@ -38,12 +38,12 @@ SlideshowClip::SlideshowClip(const Timecode &tc, QString clipFolder, ProjectClip
 {
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_view.setupUi(this);
-    setWindowTitle(i18n("Add Slideshow Clip"));
+    setWindowTitle(i18n("Add Image Sequence"));
     if (clip) {
         m_view.clip_name->setText(clip->name());
         m_view.groupBox->setHidden(true);
     } else {
-        m_view.clip_name->setText(i18n("Slideshow Clip"));
+        m_view.clip_name->setText(i18n("Image Sequence"));
     }
     m_view.folder_url->setMode(KFile::Directory);
     m_view.folder_url->setUrl(QUrl::fromLocalFile(KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder"))));
