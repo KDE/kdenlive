@@ -628,6 +628,16 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         QAction *setThumbFrame =
             m_contextMenu->addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18n("Set current image as thumbnail"), this, SLOT(slotSetThumbFrame()));
         m_configMenu->addAction(setThumbFrame);
+        QAction *alwaysShowAudio =
+            new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Always show audio thumbnails"), this);
+        alwaysShowAudio->setCheckable(true);
+        connect(alwaysShowAudio, &QAction::triggered, [this](bool checked) {
+            KdenliveSettings::setAlwaysShowMonitorAudio(checked);
+            m_glMonitor->rootObject()->setProperty("permanentAudiothumb", checked);
+        });
+        alwaysShowAudio->setChecked(KdenliveSettings::alwaysShowMonitorAudio());
+        m_contextMenu->addAction(alwaysShowAudio);
+        m_configMenu->addAction(alwaysShowAudio);
     }
 
     if (overlayMenu) {
@@ -677,9 +687,10 @@ void Monitor::slotForceSize(QAction *a)
     case 50:
         // resize full size
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        profileHeight += m_glMonitor->m_displayRulerHeight;
         m_videoWidget->setMinimumSize(profileWidth, profileHeight);
         m_videoWidget->setMaximumSize(profileWidth, profileHeight);
-        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
+        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height()));
         break;
     default:
         // Free resize
@@ -1028,12 +1039,18 @@ void Monitor::keyPressEvent(QKeyEvent *event)
 void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 {
     if ((modifiers & Qt::ShiftModifier) != 0u) {
+        if ((modifiers & Qt::ControlModifier) != 0u) {
+            // Shift + Ctrl wheel zooms monitor
+            m_glMonitor->slotZoom(eventDelta > 0);
+            return;
+        }
+        // Shift wheel seeks one second
         int delta = qRound(pCore->getCurrentFps());
         if (eventDelta > 0) {
-            delta = 0 - delta;
+            delta = -delta;
         }
-        delta = qMax(0, m_glMonitor->getCurrentPos() - delta);
-        m_glMonitor->getControllerProxy()->setPosition(qMin(delta, m_glMonitor->duration() - 1));
+        delta = qBound(0, m_glMonitor->getCurrentPos() + delta, m_glMonitor->duration() - 1);
+        m_glMonitor->getControllerProxy()->setPosition(delta);
     } else if ((modifiers & Qt::AltModifier) != 0u) {
         if (eventDelta >= 0) {
             emit seekToPreviousSnap();

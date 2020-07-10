@@ -12,10 +12,54 @@ Rectangle {
     property double rulerZoomWidth: root.zoomFactor * width
     // The pixel offset
     property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
+    
+    property int playheadPosition: controller.position
     Rectangle {
         color: activePalette.light
         width: parent.width
         height: 1
+    }
+    
+    Timer {
+        id: scrollTimer
+        interval: 200; running: false;
+        onTriggered: {
+            if (rulerMouseArea.pressed) {
+                // Check if seeking ruler
+                var pos = Math.max(rulerMouseArea.mouseX, 0)
+                root.mouseRulerPos = pos
+                controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+            } else if (root.showAudiothumb) {
+                // Check if seeking audio thumbnail zone
+                root.updateScrolling()
+            }
+        }
+    }
+    
+    onPlayheadPositionChanged: {
+        if (root.zoomFactor == 1) {
+            return
+        }
+        var scaledPosition = ruler.playheadPosition * root.timeScale - ruler.rulerZoomOffset
+        if (scaledPosition < root.baseUnit) {
+            if (scaledPosition < 0) {
+                zoomBar.x = Math.max(0, zoomBar.x + (scaledPosition * root.zoomFactor ) - (zoomBar.width / 2))
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+            } else {
+                zoomBar.x = Math.max(0, zoomBar.x - root.baseUnit * root.zoomFactor)
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                scrollTimer.start()
+            }
+        } else if (scaledPosition > zoomHandleContainer.width - root.baseUnit) {
+            if (scaledPosition > zoomHandleContainer.width) {
+                zoomBar.x = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + (scaledPosition * root.zoomFactor) - (zoomBar.width / 2))
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+            } else {
+                zoomBar.x = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + root.baseUnit * root.zoomFactor)
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                scrollTimer.start()
+            }
+        }
     }
 
     function zoomInRuler(xPos)
@@ -60,8 +104,13 @@ Rectangle {
 
     // Zoom bar container
     Rectangle {
+        id: zoomContainer
+        SystemPalette { id: barPalette; colorGroup: SystemPalette.Disabled }
         height: root.baseUnit
-        color: activePalette.base
+        property bool hoveredBar: zoomArea.containsMouse || zoomArea.pressed || zoomStart.isActive || zoomEnd.isActive
+        color: hoveredBar ? barPalette.text : activePalette.dark
+        border.color: activePalette.dark
+        border.width: 1
         visible: root.showZoomBar
         onVisibleChanged: {
             root.zoomOffset = visible ? height : 0
@@ -71,16 +120,38 @@ Rectangle {
             right: parent.right
             bottom: parent.top
         }
+        MouseArea {
+            anchors.fill: parent
+            onWheel: {
+                if (wheel.modifiers & Qt.ControlModifier) {
+                    if (wheel.angleDelta.y < 0) {
+                        // zoom out
+                        zoomOutRuler(wheel.x)
+                    } else {
+                        // zoom in
+                        zoomInRuler(wheel.x)
+                    }
+                } else {
+                    if (wheel.angleDelta.y < 0) {
+                        var newPos = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + 10)
+                        zoomBar.x = newPos
+                    } else {
+                        var newPos = Math.max(0, zoomBar.x - 10)
+                        zoomBar.x = newPos
+                    }
+                    root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                }
+            }
+        }
         Item {
             id: zoomHandleContainer
             property int previousX: 0
             property int previousWidth: zoomHandleContainer.width
             anchors.fill: parent
-            anchors.margins: 3
+            anchors.margins: 1
             Rectangle {
                 id: zoomBar
-                radius: height / 2
-                color: (zoomArea.containsMouse ||  zoomArea.pressed) ? activePalette.highlight : activePalette.text
+                color: zoomContainer.hoveredBar ? activePalette.highlight : barPalette.text
                 height: parent.height
                 width: parent.width
                 MouseArea {
@@ -121,12 +192,22 @@ Rectangle {
                                 // zoom in
                                 zoomInRuler(wheel.x)
                             }
+                        } else {
+                            if (wheel.angleDelta.y < 0) {
+                                var newPos = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + 10)
+                                zoomBar.x = newPos
+                            } else {
+                                var newPos = Math.max(0, zoomBar.x - 10)
+                                zoomBar.x = newPos
+                            }
+                            root.zoomStart = zoomBar.x / zoomHandleContainer.width
                         }
                     }
                 }
             }
             MouseArea {
                 id: zoomStart
+                property bool isActive: zoomStart.containsMouse || zoomStart.pressed
                 anchors.left: zoomBar.left
                 anchors.leftMargin: - root.baseUnit / 2
                 anchors.bottom: zoomBar.bottom
@@ -136,9 +217,11 @@ Rectangle {
                 cursorShape: Qt.SizeHorCursor
                 onPressed: {
                     anchors.left = undefined
+                    startHandleRect.anchors.fill = undefined
                 }
                 onReleased: {
                     anchors.left = zoomBar.left
+                    startHandleRect.anchors.fill = zoomStart
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -148,11 +231,24 @@ Rectangle {
                         zoomBar.x = updatedPos
                         root.zoomStart = updatedPos / zoomHandleContainer.width
                         root.zoomFactor = zoomBar.width / zoomHandleContainer.width
+                        startHandleRect.x = mouseX
+                    }
+                }
+                Rectangle {
+                    id: startHandleRect
+                    anchors.fill: parent
+                    radius: height / 2
+                    color: zoomStart.isActive ? activePalette.text : barPalette.light
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.leftMargin: height / 2
+                        color: parent.color
                     }
                 }
             }
             MouseArea {
                 id: zoomEnd
+                property bool isActive: zoomEnd.containsMouse || zoomEnd.pressed
                 anchors.left: zoomBar.right
                 anchors.leftMargin: - root.baseUnit / 2
                 anchors.bottom: zoomBar.bottom
@@ -162,9 +258,11 @@ Rectangle {
                 cursorShape: Qt.SizeHorCursor
                 onPressed: {
                     anchors.left = undefined
+                    endHandleRect.anchors.fill = undefined
                 }
                 onReleased: {
                     anchors.left = zoomBar.right
+                    endHandleRect.anchors.fill = zoomEnd
                 }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
@@ -172,6 +270,18 @@ Rectangle {
                         updatedPos = Math.max(updatedPos, zoomBar.x + root.baseUnit / 2)
                         zoomBar.width = updatedPos - zoomBar.x
                         root.zoomFactor = zoomBar.width / zoomHandleContainer.width
+                        endHandleRect.x = mouseX
+                    }
+                }
+                Rectangle {
+                    id: endHandleRect
+                    anchors.fill: parent
+                    radius: height / 2
+                    color: zoomEnd.isActive ? activePalette.text : barPalette.light
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.rightMargin: height / 2
+                        color: parent.color
                     }
                 }
             }
@@ -277,6 +387,7 @@ Rectangle {
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent
+        propagateComposedEvents: true
         hoverEnabled: true
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
@@ -302,6 +413,8 @@ Rectangle {
                     // zoom in
                     zoomInRuler(wheel.x)
                 }
+            } else {
+                wheel.accepted = false
             }
         }
     }
@@ -350,7 +463,7 @@ Rectangle {
         opacity: 1
         anchors.top: ruler.top
         fillColor: activePalette.windowText
-        x: controller.position * root.timeScale - (width / 2) - ruler.rulerZoomOffset
+        x: controller.position * root.timeScale - ruler.rulerZoomOffset - (width / 2)
     }
     Rectangle {
         id: trimIn

@@ -147,7 +147,6 @@ public:
 protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
-    void wheelEvent(QWheelEvent *event) override;
     /** @brief Update producer, should ONLY be called from monitor */
     int setProducer(const std::shared_ptr<Mlt::Producer> &producer, bool isActive, int position);
     int setProducer(const QString &file);
@@ -197,7 +196,10 @@ protected:
     std::shared_ptr<Mlt::Consumer> m_consumer;
     std::shared_ptr<Mlt::Producer> m_producer;
     int m_id;
+    /** @brief The height of the qml ruler */
     int m_rulerHeight;
+    /** @brief The height of the qml ruler and audio thumbs */
+    int m_displayRulerHeight;
     QColor m_bgColor;
 
 private:
@@ -258,6 +260,8 @@ protected:
     SharedFrame m_sharedFrame;
     QOpenGLContext *m_shareContext;
 
+    /** @brief adjust monitor ruler size (for example if we want to display audio thumbs permanently) */
+    void updateRulerHeight(int addedHeight);
     bool acquireSharedFrameTextures();
     void bindShaderProgram();
     void createGPUAccelFragmentProg();

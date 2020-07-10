@@ -360,7 +360,9 @@ Item {
         property bool centerContainsMouse
         hoverEnabled: true
         cursorShape: (!root.isDefined || pointContainsMouse || centerContainsMouse || addedPointIndex >= 0 || resizeContainsMouse > 0 ) ? Qt.PointingHandCursor : Qt.ArrowCursor
-
+        onWheel: {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
         onDoubleClicked: {
             if (root.isDefined) {
                 if (root.displayResize) {

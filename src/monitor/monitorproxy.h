@@ -42,7 +42,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int seekFinished MEMBER m_seekFinished NOTIFY seekFinishedChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
-    Q_PROPERTY(int rulerHeight READ rulerHeight NOTIFY rulerHeightChanged)
+    Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
     Q_PROPERTY(QList <QUrl> audioThumb MEMBER m_audioThumb NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
@@ -71,6 +71,7 @@ public:
      * */
     int getPosition() const;
     Q_INVOKABLE bool setPosition(int pos);
+    Q_INVOKABLE void seek(int delta, uint modifiers);
     void positionFromConsumer(int pos, bool playing);
     void setMarkerComment(const QString &comment);
     int zoneIn() const;
@@ -93,6 +94,7 @@ public:
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
     void setAudioThumb(const QList <QUrl> thumbPath = QList <QUrl>());
     void setAudioStream(const QString &name);
+    void setRulerHeight(int height);
 
 signals:
     void positionChanged(int);
