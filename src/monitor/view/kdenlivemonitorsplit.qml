@@ -52,6 +52,9 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         acceptedButtons: Qt.LeftButton
+        onWheel: {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
         onPressed: {
             root.percentage = (mouseX - (root.width - (root.profile.x * root.scalex)) / 2) / (root.profile.x * root.scalex)
             root.splitterPos = mouseX

@@ -189,6 +189,9 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+        onWheel: {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
 
         readonly property bool containsMouse: {
               if (isMoving) {

@@ -71,6 +71,7 @@ public:
      * */
     int getPosition() const;
     Q_INVOKABLE bool setPosition(int pos);
+    Q_INVOKABLE void seek(int delta, uint modifiers);
     void positionFromConsumer(int pos, bool playing);
     void setMarkerComment(const QString &comment);
     int zoneIn() const;

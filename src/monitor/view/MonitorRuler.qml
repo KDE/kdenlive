@@ -12,10 +12,54 @@ Rectangle {
     property double rulerZoomWidth: root.zoomFactor * width
     // The pixel offset
     property double rulerZoomOffset: root.zoomStart * width / root.zoomFactor
+    
+    property int playheadPosition: controller.position
     Rectangle {
         color: activePalette.light
         width: parent.width
         height: 1
+    }
+    
+    Timer {
+        id: scrollTimer
+        interval: 200; running: false;
+        onTriggered: {
+            if (rulerMouseArea.pressed) {
+                // Check if seeking ruler
+                var pos = Math.max(rulerMouseArea.mouseX, 0)
+                root.mouseRulerPos = pos
+                controller.position = Math.min((pos + ruler.rulerZoomOffset) / root.timeScale, root.duration);
+            } else if (root.showAudiothumb) {
+                // Check if seeking audio thumbnail zone
+                root.updateScrolling()
+            }
+        }
+    }
+    
+    onPlayheadPositionChanged: {
+        if (root.zoomFactor == 1) {
+            return
+        }
+        var scaledPosition = ruler.playheadPosition * root.timeScale - ruler.rulerZoomOffset
+        if (scaledPosition < root.baseUnit) {
+            if (scaledPosition < 0) {
+                zoomBar.x = Math.max(0, zoomBar.x + (scaledPosition * root.zoomFactor ) - (zoomBar.width / 2))
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+            } else {
+                zoomBar.x = Math.max(0, zoomBar.x - root.baseUnit * root.zoomFactor)
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                scrollTimer.start()
+            }
+        } else if (scaledPosition > zoomHandleContainer.width - root.baseUnit) {
+            if (scaledPosition > zoomHandleContainer.width) {
+                zoomBar.x = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + (scaledPosition * root.zoomFactor) - (zoomBar.width / 2))
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+            } else {
+                zoomBar.x = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + root.baseUnit * root.zoomFactor)
+                root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                scrollTimer.start()
+            }
+        }
     }
 
     function zoomInRuler(xPos)
@@ -71,6 +115,29 @@ Rectangle {
             right: parent.right
             bottom: parent.top
         }
+        MouseArea {
+            anchors.fill: parent
+            onWheel: {
+                if (wheel.modifiers & Qt.ControlModifier) {
+                    if (wheel.angleDelta.y < 0) {
+                        // zoom out
+                        zoomOutRuler(wheel.x)
+                    } else {
+                        // zoom in
+                        zoomInRuler(wheel.x)
+                    }
+                } else {
+                    if (wheel.angleDelta.y < 0) {
+                        var newPos = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + 10)
+                        zoomBar.x = newPos
+                    } else {
+                        var newPos = Math.max(0, zoomBar.x - 10)
+                        zoomBar.x = newPos
+                    }
+                    root.zoomStart = zoomBar.x / zoomHandleContainer.width
+                }
+            }
+        }
         Item {
             id: zoomHandleContainer
             property int previousX: 0
@@ -113,6 +180,7 @@ Rectangle {
                         }
                     }
                     onWheel: {
+                        console.log('GOT ZOOM WHEEL OK')
                         if (wheel.modifiers & Qt.ControlModifier) {
                             if (wheel.angleDelta.y < 0) {
                                 // zoom out
@@ -121,6 +189,15 @@ Rectangle {
                                 // zoom in
                                 zoomInRuler(wheel.x)
                             }
+                        } else {
+                            if (wheel.angleDelta.y < 0) {
+                                var newPos = Math.min(zoomHandleContainer.width - zoomBar.width, zoomBar.x + 10)
+                                zoomBar.x = newPos
+                            } else {
+                                var newPos = Math.max(0, zoomBar.x - 10)
+                                zoomBar.x = newPos
+                            }
+                            root.zoomStart = zoomBar.x / zoomHandleContainer.width
                         }
                     }
                 }
@@ -277,6 +354,7 @@ Rectangle {
     MouseArea {
         id: rulerMouseArea
         anchors.fill: parent
+        propagateComposedEvents: true
         hoverEnabled: true
         onPressed: {
             if (mouse.buttons === Qt.LeftButton) {
@@ -302,6 +380,8 @@ Rectangle {
                     // zoom in
                     zoomInRuler(wheel.x)
                 }
+            } else {
+                wheel.accepted = false
             }
         }
     }
@@ -350,7 +430,7 @@ Rectangle {
         opacity: 1
         anchors.top: ruler.top
         fillColor: activePalette.windowText
-        x: controller.position * root.timeScale - (width / 2) - ruler.rulerZoomOffset
+        x: controller.position * root.timeScale - ruler.rulerZoomOffset - (width / 2)
     }
     Rectangle {
         id: trimIn

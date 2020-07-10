@@ -68,6 +68,9 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
+        onWheel: {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
     }
     SceneToolBar {
         id: sceneToolBar

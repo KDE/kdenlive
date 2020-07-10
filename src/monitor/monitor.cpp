@@ -1028,12 +1028,18 @@ void Monitor::keyPressEvent(QKeyEvent *event)
 void Monitor::slotMouseSeek(int eventDelta, uint modifiers)
 {
     if ((modifiers & Qt::ShiftModifier) != 0u) {
+        if ((modifiers & Qt::ControlModifier) != 0u) {
+            // Shift + Ctrl wheel zooms monitor
+            m_glMonitor->slotZoom(eventDelta > 0);
+            return;
+        }
+        // Shift wheel seeks one second
         int delta = qRound(pCore->getCurrentFps());
         if (eventDelta > 0) {
-            delta = 0 - delta;
+            delta = -delta;
         }
-        delta = qMax(0, m_glMonitor->getCurrentPos() - delta);
-        m_glMonitor->getControllerProxy()->setPosition(qMin(delta, m_glMonitor->duration() - 1));
+        delta = qBound(0, m_glMonitor->getCurrentPos() + delta, m_glMonitor->duration() - 1);
+        m_glMonitor->getControllerProxy()->setPosition(delta);
     } else if ((modifiers & Qt::AltModifier) != 0u) {
         if (eventDelta >= 0) {
             emit seekToPreviousSnap();

@@ -642,20 +642,6 @@ void GLWidget::slotZoom(bool zoomIn)
     }
 }
 
-void GLWidget::wheelEvent(QWheelEvent *event)
-{
-    if (((event->modifiers() & Qt::ControlModifier) != 0u) && ((event->modifiers() & Qt::ShiftModifier) != 0u)) {
-        slotZoom(event->delta() > 0);
-        return;
-    }
-    if ((event->modifiers() & Qt::ControlModifier) != 0u) {
-        QQuickView::wheelEvent(event);
-        return;
-    }
-    emit mouseSeek(event->delta(), (uint)event->modifiers());
-    event->accept();
-}
-
 void GLWidget::requestSeek(int position)
 {
     m_consumer->set("scrub_audio", 1);

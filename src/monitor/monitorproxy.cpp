@@ -55,6 +55,11 @@ int MonitorProxy::rulerHeight() const
     return q->m_rulerHeight;
 }
 
+void MonitorProxy::seek(int delta, uint modifiers)
+{
+    q->mouseSeek(delta, modifiers);
+}
+
 int MonitorProxy::overlayType() const
 {
     return (q->m_id == (int)Kdenlive::ClipMonitor ? KdenliveSettings::clipMonitorOverlayGuides() : KdenliveSettings::projectMonitorOverlayGuides());

@@ -44,6 +44,7 @@ Item {
     property color overlayColor: 'cyan'
     property bool isClipMonitor: true
     property int dragType: 0
+    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset
     
     FontMetrics {
         id: fontMetrics
@@ -56,6 +57,16 @@ Item {
     }
 
     signal editCurrentMarker()
+
+    function updateScrolling()
+    {
+        if (thumbMouseArea.pressed) {
+            var pos = Math.max(thumbMouseArea.mouseX, 0)
+            pos += audioThumb.width/root.zoomFactor * root.zoomStart
+            controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+            
+        }
+    }
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
@@ -92,7 +103,11 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
+        onWheel: {
+            controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
+        }
     }
+
     SceneToolBar {
         id: sceneToolBar
         barContainsMouse: sceneToolBar.rightSide ? barOverArea.mouseX >= x - 10 : barOverArea.mouseX < x + width + 10
@@ -146,7 +161,7 @@ Item {
 
             Item {
                 id: audioThumb
-                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || thumbTimer.running || root.showZoomBar)
+                property bool stateVisible: (clipMonitorRuler.containsMouse || thumbMouseArea.containsMouse || dragZone.opacity == 1 || thumbTimer.running || root.showZoomBar)
                 property bool isAudioClip: controller.clipType == ProducerType.Audio
                 anchors {
                     left: parent.left
@@ -236,6 +251,7 @@ Item {
                     anchors.fill: parent
                     acceptedButtons: audioThumb.isAudioClip ? Qt.NoButton : Qt.LeftButton
                     hoverEnabled: true
+                    propagateComposedEvents: true
                     onPressed: {
                         var pos = Math.max(mouseX, 0)
                         pos += audioThumb.width/root.zoomFactor * root.zoomStart
@@ -257,7 +273,10 @@ Item {
                                 // zoom in
                                 clipMonitorRuler.zoomInRuler(wheel.x)
                             }
+                        } else {
+                            wheel.accepted = false
                         }
+                        
                     }
                 }
             }
@@ -298,7 +317,7 @@ Item {
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
-                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset
+                    bottomMargin: overlayMargin
                 }
             }
             Label {
@@ -316,7 +335,7 @@ Item {
                 anchors {
                     right: timecode.visible ? timecode.left : parent.right
                     bottom: parent.bottom
-                    bottomMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset
+                    bottomMargin: overlayMargin
                 }
             }
             Label {
@@ -325,7 +344,7 @@ Item {
                 anchors {
                     left: parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
+                    bottomMargin: overlayMargin
                 }
                 visible: root.showMarkers && controller.position == controller.zoneIn
                 text: i18n("In Point")
@@ -342,7 +361,7 @@ Item {
                 anchors {
                     left: inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
+                    bottomMargin: overlayMargin
                 }
                 visible: root.showMarkers && controller.position + 1 == controller.zoneOut
                 text: i18n("Out Point")
@@ -367,7 +386,7 @@ Item {
                 anchors {
                     left: outPoint.visible ? outPoint.right : inPoint.visible ? inPoint.right : parent.left
                     bottom: parent.bottom
-                    bottomMargin: root.zoomOffset
+                    bottomMargin: overlayMargin
                 }
                 visible: root.showMarkers && text != ""
                 height: inPoint.height
@@ -384,13 +403,14 @@ Item {
 
         Rectangle {
             // Audio or video only drag zone
+            id: dragZone
             x: 2
-            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - root.zoomOffset : parent.height - height - 2 - root.zoomOffset
+            y: inPoint.visible || outPoint.visible || marker.visible ? parent.height - inPoint.height - height - 2 - overlayMargin : parent.height - height - 2 - overlayMargin
             width: childrenRect.width
             height: childrenRect.height
             color: Qt.rgba(activePalette.highlight.r, activePalette.highlight.g, activePalette.highlight.b, 0.7)
             radius: 4
-            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || (barOverArea.containsMouse && barOverArea.mouseY >= y)) ? 1 : 0
+            opacity: (dragAudioArea.containsMouse || dragVideoArea.containsMouse  || thumbMouseArea.containsMouse || (barOverArea.containsMouse && (barOverArea.mouseY >= (parent.height - inPoint.height - height - 2 - (audioThumb.height + root.zoomOffset) - root.baseUnit)))) ? 1 : 0
             visible: controller.clipHasAV
             onOpacityChanged: {
                 if (opacity == 1) {
