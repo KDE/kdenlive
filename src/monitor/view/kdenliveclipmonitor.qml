@@ -232,7 +232,7 @@ Item {
                     NumberAnimation { property: "opacity"; duration: audioThumb.isAudioClip ? 0 : 500}
                 } ]
                 Rectangle {
-                    color: activePalette.base
+                    color: activePalette.dark
                     opacity: audioThumb.isAudioClip || root.permanentAudiothumb ? 1 : 0.6
                     anchors.fill: parent
                 }
