@@ -101,6 +101,14 @@ Item {
             controller.rulerHeight = root.zoomOffset
         }
     }
+    
+    onHeightChanged: {
+        if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
+            controller.rulerHeight = audioThumb.height + root.zoomOffset
+        } else {
+            controller.rulerHeight = root.zoomOffset
+        }
+    }
 
     function updatePalette() {
         clipMonitorRuler.forceRepaint()

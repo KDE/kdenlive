@@ -687,9 +687,10 @@ void Monitor::slotForceSize(QAction *a)
     case 50:
         // resize full size
         setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+        profileHeight += m_glMonitor->m_displayRulerHeight;
         m_videoWidget->setMinimumSize(profileWidth, profileHeight);
         m_videoWidget->setMaximumSize(profileWidth, profileHeight);
-        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height() + m_glMonitor->getControllerProxy()->rulerHeight()));
+        setMinimumSize(QSize(profileWidth, profileHeight + m_toolbar->height()));
         break;
     default:
         // Free resize
