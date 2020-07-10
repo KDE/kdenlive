@@ -330,16 +330,16 @@ bool AudioThumbJob::startJob()
         return false;
     }
     m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
-    int thumbResolution = 1000;
+    int thumbResolution = 3000;
     
     // Increase audio thumb resolution for longer clips to get a better resolution
-    if (m_lengthInFrames > 30000) {
-        // More than 20 minutes at 25fps
+    if (m_lengthInFrames > 10000) {
+        // More than 10 minutes at 25fps
         if (m_lengthInFrames > 90000) {
             // More than 1 hour at 25fps
-            thumbResolution = 3000;
+            thumbResolution = 10000;
         } else {
-            thumbResolution = 2000;
+            thumbResolution = 6000;
         }
     }
     m_thumbSize = QSize(thumbResolution, 1000 / pCore->getCurrentDar());
@@ -441,14 +441,14 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     auto operation = [clip = m_binClip, image = std::move(result)]() {
         clip->updateAudioThumbnail();
         if (!image.isNull() && clip->clipType() == ClipType::Audio) {
-            clip->setThumbnail(image);
+            clip->setThumbnail(image.scaled(200, 200 / pCore->getCurrentDar()));
         }
         return true;
     };
     auto reverse = [clip = m_binClip, image = std::move(oldImage)]() {
         clip->updateAudioThumbnail();
         if (!image.isNull() && clip->clipType() == ClipType::Audio) {
-            clip->setThumbnail(image);
+            clip->setThumbnail(image.scaled(200, 200 / pCore->getCurrentDar()));
         }
         return true;
     };
