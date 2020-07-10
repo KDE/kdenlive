@@ -342,6 +342,19 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         connect(timePos, &TimecodeDisplay::timeCodeEditingFinished, this, &ClipPropertiesController::slotDurationChanged);
         connect(this, &ClipPropertiesController::updateTimeCodeFormat, timePos, &TimecodeDisplay::slotUpdateTimeCodeFormat);
         connect(this, SIGNAL(modified(int)), timePos, SLOT(setValue(int)));
+        
+        // Autorotate
+         if (m_type == ClipType::Image) {
+            int autorotate = m_properties->get_int("disable_exif");
+            m_originalProperties.insert(QStringLiteral("disable_exif"), QString::number(autorotate));
+            hlay = new QHBoxLayout;
+            box = new QCheckBox(i18n("Disable autorotate"), this);
+            connect(box, &QCheckBox::stateChanged, this, &ClipPropertiesController::slotEnableForce);
+            box->setObjectName(QStringLiteral("disable_exif"));
+            box->setChecked(autorotate == 1);
+            hlay->addWidget(box);
+            vbox->addLayout(hlay);
+        }
         // connect(this, static_cast<void(ClipPropertiesController::*)(int)>(&ClipPropertiesController::modified), timePos, &TimecodeDisplay::setValue);
     }
     if (m_type == ClipType::TextTemplate) {
@@ -1161,6 +1174,8 @@ void ClipPropertiesController::slotEnableForce(int state)
             properties.insert(QStringLiteral("force_aspect_den"), QString::number(spin2->value()));
             properties.insert(QStringLiteral("force_aspect_num"), QString::number(spin->value()));
             properties.insert(QStringLiteral("force_aspect_ratio"), QString::number((double)spin->value() / spin2->value(), 'f'));
+        } else if (param == QLatin1String("disable_exif")) {
+            properties.insert(QStringLiteral("disable_exif"), QString::number(1));
         }
     }
     if (properties.isEmpty()) {
