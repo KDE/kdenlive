@@ -423,6 +423,19 @@ std::shared_ptr<ProjectFolder> ProjectItemModel::getFolderByBinId(const QString 
     return nullptr;
 }
 
+QList <std::shared_ptr<ProjectFolder> > ProjectItemModel::getFolders()
+{
+    READ_LOCK();
+    QList <std::shared_ptr<ProjectFolder> > folders;
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::FolderItem) {
+            folders << std::static_pointer_cast<ProjectFolder>(c);
+        }
+    }
+    return folders;
+}
+
 const QString ProjectItemModel::getFolderIdByName(const QString &folderName)
 {
     READ_LOCK();
@@ -881,7 +894,7 @@ QStringList ProjectItemModel::getClipByUrl(const QFileInfo &url) const
     return result;
 }
 
-bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
+bool ProjectItemModel::loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp)
 {
     QWriteLocker locker(&m_lock);
     // At this point, we expect the folders properties to have a name of the form "x.y" where x is the id of the parent folder and y the id of the child.
@@ -938,6 +951,7 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders)
                 Q_ASSERT(undone);
                 return false;
             }
+            binIdCorresp[QString::number(current)] = id;
             newIds[current] = id;
         }
         for (int c : downLinks[current]) {
@@ -962,7 +976,7 @@ bool ProjectItemModel::isIdFree(const QString &id) const
     return true;
 }
 
-void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QProgressDialog *progressDialog)
+void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog)
 {
     QWriteLocker locker(&m_lock);
     clean();
@@ -983,8 +997,9 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
             // Load folders
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());
+            expandedFolders = QString(playlistProps.get("kdenlive:expandedFolders")).split(QLatin1Char(';'));
             folderProperties.pass_values(playlistProps, "kdenlive:folder.");
-            loadFolders(folderProperties);
+            loadFolders(folderProperties, binIdCorresp);
 
             // Read notes
             QString notes = playlistProps.get("kdenlive:documentnotes");

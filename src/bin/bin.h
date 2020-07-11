@@ -285,6 +285,10 @@ public:
     void invalidateClip(const QString &binId);
     /** @brief Recreate missing proxies on document opening */
     void checkMissingProxies();
+    /** @brief Save folder state (expanded or not) */
+    void saveFolderState();
+    /** @brief Load folder state (expanded or not) */
+    void loadFolderState(QStringList foldersToExpand);
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();
