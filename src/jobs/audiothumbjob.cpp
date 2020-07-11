@@ -153,6 +153,8 @@ bool AudioThumbJob::computeWithFFMPEG()
                 m_done = true;
             }
         }
+    } else {
+        m_done = true;
     }
     if (!KdenliveSettings::audiothumbnails()) {
         // We only wanted the thumb generation
@@ -330,16 +332,16 @@ bool AudioThumbJob::startJob()
         return false;
     }
     m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
-    int thumbResolution = 1000;
+    int thumbResolution = 3000;
     
     // Increase audio thumb resolution for longer clips to get a better resolution
-    if (m_lengthInFrames > 30000) {
-        // More than 20 minutes at 25fps
+    if (m_lengthInFrames > 10000) {
+        // More than 10 minutes at 25fps
         if (m_lengthInFrames > 90000) {
             // More than 1 hour at 25fps
-            thumbResolution = 3000;
+            thumbResolution = 10000;
         } else {
-            thumbResolution = 2000;
+            thumbResolution = 6000;
         }
     }
     m_thumbSize = QSize(thumbResolution, 1000 / pCore->getCurrentDar());
@@ -352,6 +354,7 @@ bool AudioThumbJob::startJob()
 
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
     QMapIterator<int, QString> st(streams);
+    m_done = true;
     while (st.hasNext()) {
         st.next();
         int stream = st.key();
@@ -433,8 +436,8 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     QImage oldImage;
     QImage result;
     if (m_binClip->clipType() == ClipType::Audio) {
-        oldImage = m_binClip->thumbnail(m_thumbSize.width(), m_thumbSize.height()).toImage();
-        result = ThumbnailCache::get()->getAudioThumbnail(m_clipId);
+        oldImage = m_binClip->thumbnail(200, 200 / pCore->getCurrentDar()).toImage();
+        result = ThumbnailCache::get()->getAudioThumbnail(m_clipId).scaled(200, 200 / pCore->getCurrentDar());
     }
 
     // note that the image is moved into lambda, it won't be available from this class anymore

@@ -265,6 +265,7 @@ Item {
                             ]
                             asynchronous: true
                             cache: false
+                            smooth: false
                         }
                         Rectangle {
                             width: parent.width
@@ -284,16 +285,24 @@ Item {
                 MouseArea {
                     id: thumbMouseArea
                     anchors.fill: parent
-                    acceptedButtons: audioThumb.isAudioClip ? Qt.NoButton : Qt.LeftButton
+                    acceptedButtons: Qt.LeftButton
                     hoverEnabled: true
                     propagateComposedEvents: true
                     onPressed: {
+                        if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                            mouse.accepted = false
+                            return
+                        }
                         var pos = Math.max(mouseX, 0)
                         pos += audioThumb.width/root.zoomFactor * root.zoomStart
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
                     onPositionChanged: {
-                        if (mouse.modifiers & Qt.ShiftModifier || (pressed && !audioThumb.isAudioClip)) {
+                        if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                            mouse.accepted = false
+                            return
+                        }
+                        if (mouse.modifiers & Qt.ShiftModifier || pressed) {
                             var pos = Math.max(mouseX, 0)
                             pos += audioThumb.width/root.zoomFactor * root.zoomStart
                             controller.setPosition(Math.min(pos / root.timeScale, root.duration));
@@ -312,6 +321,35 @@ Item {
                             wheel.accepted = false
                         }
                         
+                    }
+                    Rectangle {
+                        id: audioSeekZone
+                        width: parent.width
+                        height: parent.height / 6
+                        anchors.centerIn: parent
+                        anchors.verticalCenterOffset: audioThumb.isAudioClip ? parent.height * 5 / 12 : 0
+                        visible: audioThumb.isAudioClip && thumbMouseArea.containsMouse && thumbMouseArea.mouseY > y
+                        color: 'yellow'
+                        opacity: 0.5
+                        Rectangle {
+                            width: parent.width
+                            height: 1
+                            color: '#000'
+                            anchors.top: parent.top
+                        }
+                        // frame ticks
+                        Repeater {
+                            id: rulerAudioTicks
+                            model: parent.width / root.frameSize + 2
+                            Rectangle {
+                                x: index * root.frameSize - (clipMonitorRuler.rulerZoomOffset % root.frameSize)
+                                anchors.top: audioSeekZone.top
+                                height: (index % 5) ? audioSeekZone.height / 6 : audioSeekZone.height / 3
+                                width: 1
+                                color: '#000'
+                                opacity: 0.8
+                            }
+                        }
                     }
                 }
             }

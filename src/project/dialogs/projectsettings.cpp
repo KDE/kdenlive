@@ -590,7 +590,7 @@ QStringList ProjectSettings::extractPlaylistUrls(const QString &path)
     for (int i = 0; i < files.count(); ++i) {
         QDomElement e = files.at(i).toElement();
         QString type = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-        if (type != QLatin1String("colour")) {
+        if (type != QLatin1String("colour") && type != QLatin1String("color")) {
             QString url = Xml::getXmlProperty(e, QStringLiteral("resource"));
             if (type == QLatin1String("timewarp")) {
                 url = Xml::getXmlProperty(e, QStringLiteral("warp_resource"));

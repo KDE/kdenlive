@@ -996,11 +996,8 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         QStringLiteral("force_aspect_ratio"), QStringLiteral("set.force_full_luma"), QStringLiteral("full_luma"),         QStringLiteral("threads"),
         QStringLiteral("force_colorspace"), QStringLiteral("force_tff"),           QStringLiteral("force_progressive"), QStringLiteral("video_delay")
     };
-    QStringList forceReloadProperties{QStringLiteral("autorotate"),  QStringLiteral("templatetext"),   QStringLiteral("resource"),
-                                      QStringLiteral("force_fps"),   QStringLiteral("set.test_image"),
-                                      QStringLiteral("video_index")};
-    QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"),
-                     QStringLiteral("softness"),      QStringLiteral("crop"),      QStringLiteral("animation")};
+    QStringList forceReloadProperties{QStringLiteral("autorotate"), QStringLiteral("templatetext"),   QStringLiteral("resource"), QStringLiteral("force_fps"),   QStringLiteral("set.test_image"), QStringLiteral("video_index"), QStringLiteral("disable_exif")};
+    QStringList keys{QStringLiteral("luma_duration"), QStringLiteral("luma_file"), QStringLiteral("fade"),     QStringLiteral("ttl"), QStringLiteral("softness"), QStringLiteral("crop"), QStringLiteral("animation")};
     QVector<int> updateRoles;
     while (i.hasNext()) {
         i.next();
@@ -1055,6 +1052,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         for (const QString &k : propKeys) {
             if (forceReloadProperties.contains(k)) {
                 refreshPanel = true;
+                refreshOnly = false;
                 reload = true;
                 break;
             }
