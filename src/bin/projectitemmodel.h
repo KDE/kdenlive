@@ -78,6 +78,8 @@ public:
 
     /** @brief Gets a folder by its id. If none is found, nullptr is returned */
     std::shared_ptr<ProjectFolder> getFolderByBinId(const QString &binId);
+    /** @brief Gets a list of all folders in this project */
+    QList <std::shared_ptr<ProjectFolder> > getFolders();
     /** @brief Gets a id folder by its name. If none is found, empty string returned */
     const QString getFolderIdByName(const QString &folderName);
 
@@ -105,10 +107,10 @@ public:
     std::shared_ptr<AbstractProjectItem> getBinItemByIndex(const QModelIndex &index) const;
 
     /* @brief Load the folders given the property containing them */
-    bool loadFolders(Mlt::Properties &folders);
+    bool loadFolders(Mlt::Properties &folders, std::unordered_map<QString, QString> &binIdCorresp);
 
     /* @brief Parse a bin playlist from the document tractor and reconstruct the tree */
-    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QProgressDialog *progressDialog = nullptr);
+    void loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tractor *modelTractor, std::unordered_map<QString, QString> &binIdCorresp, QStringList &expandedFolders, QProgressDialog *progressDialog = nullptr);
 
     /** @brief Save document properties in MLT's bin playlist */
     void saveDocumentProperties(const QMap<QString, QString> &props, const QMap<QString, QString> &metadata, std::shared_ptr<MarkerListModel> guideModel);

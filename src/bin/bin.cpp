@@ -4233,3 +4233,40 @@ void Bin::checkMissingProxies()
         pCore->currentDoc()->slotProxyCurrentItem(true, toProxy);
     }
 }
+
+void Bin::saveFolderState()
+{
+    // Check folder state (expanded or not)
+    if (m_itemView == nullptr || m_listType != BinTreeView) {
+        // Folder state is only valid in tree view mode
+        return;
+    }
+    auto *view = static_cast<QTreeView *>(m_itemView);
+    QList <std::shared_ptr<ProjectFolder> > folders = m_itemModel->getFolders();
+    QStringList expandedFolders;
+    for (const auto &folder : folders) {
+        QModelIndex ix = m_itemModel->getIndexFromItem(folder);
+        if (view->isExpanded(m_proxyModel->mapFromSource(ix))) {
+            // Save expanded state
+            expandedFolders << folder->clipId();
+        }
+    }
+    m_itemModel->saveProperty(QStringLiteral("kdenlive:expandedFolders"), expandedFolders.join(QLatin1Char(';')));
+}
+
+void Bin::loadFolderState(QStringList foldersToExpand)
+{
+    // Check folder state (expanded or not)
+    if (m_itemView == nullptr || m_listType != BinTreeView) {
+        // Folder state is only valid in tree view mode
+        return;
+    }
+    auto *view = static_cast<QTreeView *>(m_itemView);
+    for (const QString &id : foldersToExpand) {
+        std::shared_ptr<ProjectFolder> folder = m_itemModel->getFolderByBinId(id);
+        if (folder) {
+            QModelIndex ix = m_itemModel->getIndexFromItem(folder);
+            view->setExpanded(m_proxyModel->mapFromSource(ix), true);
+        }
+    }
+}

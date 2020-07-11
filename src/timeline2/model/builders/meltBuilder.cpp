@@ -57,8 +57,17 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     timeline->requestReset(undo, redo);
     m_errorMessage.clear();
     std::unordered_map<QString, QString> binIdCorresp;
-    pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, progressDialog);
+    QStringList expandedFolders;
+    pCore->projectItemModel()->loadBinPlaylist(&tractor, timeline->tractor(), binIdCorresp, expandedFolders, progressDialog);
     pCore->bin()->checkMissingProxies();
+    QStringList foldersToExpand;
+    // Find updated ids for expanded folders
+    for (const QString &folderId : expandedFolders) {
+        if (binIdCorresp.count(folderId) > 0) {
+            foldersToExpand << binIdCorresp.at(folderId);
+        }
+    }
+    pCore->bin()->loadFolderState(foldersToExpand);
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
                                  QLatin1String("black_track")};
