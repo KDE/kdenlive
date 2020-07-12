@@ -109,6 +109,8 @@ public:
     bool removeKeyFrame(int frame);
     /** Update a keyframe in all model parameters (with value updated only in first parameter)*/
     bool updateKeyFrame(int oldFrame, int newFrame, QVariant normalisedVal);
+    /** Returns true if active effect has a keyframe at pos p*/
+    bool hasKeyFrame(int frame);
     /** Remove unwanted fade effects, mostly after a cut operation */
     void cleanFadeEffects(bool outEffects, Fun &undo, Fun &redo);
 

@@ -175,6 +175,8 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, F
         return updateKeyframe(pos, result);
     }
     if (oldPos != pos && hasKeyframe(pos)) {
+        // Move rejected, another keyframe is here
+        qDebug()<<"==== MOVE REJECTED!!";
         return false;
     }
     KeyframeType oldType = m_keyframeList[oldPos].first;

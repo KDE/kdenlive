@@ -1276,3 +1276,18 @@ bool EffectStackModel::updateKeyFrame(int oldFrame, int newFrame, QVariant norma
     }
     return listModel->updateKeyframe(GenTime(oldFrame, pCore->getCurrentFps()), GenTime(newFrame, pCore->getCurrentFps()), std::move(normalisedVal));
 }
+
+bool EffectStackModel::hasKeyFrame(int frame)
+{
+    if (rootItem->childCount() == 0) return false;
+    int ix = 0;
+    if (auto ptr = m_masterService.lock()) {
+        ix = ptr->get_int("kdenlive:activeeffect");
+    }
+    if (ix < 0) {
+        return false;
+    }
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+    return listModel->hasKeyframe(frame);
+}

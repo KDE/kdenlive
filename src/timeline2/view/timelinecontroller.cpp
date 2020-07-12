@@ -3248,6 +3248,18 @@ void TimelineController::updateEffectKeyframe(int cid, int oldFrame, int newFram
     }
 }
 
+bool TimelineController::hasKeyframeAt(int cid, int frame)
+{
+    if (m_model->isClip(cid)) {
+        std::shared_ptr<EffectStackModel> destStack = m_model->getClipEffectStackModel(cid);
+        return destStack->hasKeyFrame(frame);
+    } else if (m_model->isComposition(cid)) {
+        std::shared_ptr<KeyframeModelList> listModel = m_model->m_allCompositions[cid]->getKeyframeModel();
+        return listModel->hasKeyframe(frame);
+    }
+    return false;
+}
+
 bool TimelineController::darkBackground() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
