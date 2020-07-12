@@ -468,7 +468,13 @@ void TimelineController::deleteSelectedClips()
         return;
     }
     // only need to delete the first item, the others will be deleted in cascade
-    m_model->requestItemDeletion(*sel.begin());
+    if (m_model->m_editMode == TimelineMode::InsertEdit) {
+        // In insert mode, perform an extract operation (don't leave gaps)
+        extract(*sel.begin());
+    }
+    else {
+        m_model->requestItemDeletion(*sel.begin());
+    }
 }
 
 int TimelineController::getMainSelectedItem(bool restrictToCurrentPos, bool allowComposition)
