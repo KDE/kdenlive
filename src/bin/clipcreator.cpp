@@ -236,11 +236,6 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             QString folderId;
             Fun local_undo = []() { return true; };
             Fun local_redo = []() { return true; };
-            bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
-            if (!folderCreated) {
-                continue;
-            }
-            createdItem = folderId;
             QStringList result = dir.entryList(QDir::Files);
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
             QList<QUrl> folderFiles;
@@ -272,6 +267,12 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     }
                 }
                 if (!sublist.isEmpty()) {
+                    // Create main folder
+                    bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+                    if (!folderCreated) {
+                        continue;
+                    }
+                    createdItem = folderId;
                     // load subfolders
                     const QString clipId = createClipsFromList(sublist, checkRemovable, folderId, model, undo, redo, false);
                     if (createdItem.isEmpty() && clipId != QLatin1String("-1")) {
@@ -279,6 +280,12 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                     }
                 }
             } else {
+                // Create main folder
+                bool folderCreated = pCore->projectItemModel()->requestAddFolder(folderId, dir.dirName(), parentFolder, local_undo, local_redo);
+                if (!folderCreated) {
+                    continue;
+                }
+                createdItem = folderId;
                 const QString clipId = createClipsFromList(folderFiles, checkRemovable, folderId, model, local_undo, local_redo, false);
                 if (clipId.isEmpty() || clipId == QLatin1String("-1")) {
                     local_undo();
