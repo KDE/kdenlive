@@ -313,7 +313,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             if (checkRemovable && isOnRemovableDevice(file) && !isOnRemovableDevice(pCore->currentDoc()->projectDataFolder())) {
                 int answer = KMessageBox::warningContinueCancel(
                     QApplication::activeWindow(),
-                    i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position. You "
+                    i18n("Clip <b>%1</b><br /> is on a removable device, will not be available when device is unplugged or mounted at a different position.\nYou "
                          "may want to copy it first to your hard-drive. Would you like to add it anyways?",
                          file.path()),
                     i18n("Removable device"), KStandardGuiItem::cont(), KStandardGuiItem::cancel(), QStringLiteral("confirm_removable_device"));

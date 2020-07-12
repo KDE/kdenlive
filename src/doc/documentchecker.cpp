@@ -478,7 +478,7 @@ bool DocumentChecker::hasErrorInClips()
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPMISSING);
         item->setData(0, clipTypeRole, (int)type);
-        item->setData(0, idRole, e.attribute(QStringLiteral("id")));
+        item->setData(0, idRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         item->setToolTip(0, i18n("Missing item"));
 
         if (status == TITLE_IMAGE_ELEMENT) {
@@ -644,7 +644,6 @@ bool DocumentChecker::hasErrorInClips()
         for (int i = 0; i < max; ++i) {
             QDomElement e = missingSources.at(i).toElement();
             QString realPath = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
-            QString id = e.attribute(QStringLiteral("id"));
             // Tell Kdenlive the source is missing
             e.setAttribute(QStringLiteral("_missingsource"), QStringLiteral("1"));
             QTreeWidgetItem *subitem = new QTreeWidgetItem(item, QStringList() << i18n("Source clip"));
@@ -656,7 +655,7 @@ bool DocumentChecker::hasErrorInClips()
             subitem->setData(0, statusRole, CLIPMISSING);
             // int t = e.attribute("type").toInt();
             subitem->setData(0, typeRole, Xml::getXmlProperty(e, QStringLiteral("mlt_service")));
-            subitem->setData(0, idRole, id);
+            subitem->setData(0, idRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
         }
     }
     if (max > 0) {
@@ -1067,6 +1066,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
     QDomNodeList properties;
     int t = child->data(0, typeRole).toInt();
     QString id = child->data(0, idRole).toString();
+    qDebug()<<"==== FIXING PRODUCER WITH ID: "<<id;
     if (child->data(0, statusRole).toInt() == CLIPOK) {
         QString fixedResource = child->text(1);
         if (t == TITLE_IMAGE_ELEMENT) {
@@ -1110,12 +1110,12 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
             }*/
             for (int i = 0; i < producers.count(); ++i) {
                 e = producers.item(i).toElement();
-                if (e.attribute(QStringLiteral("id")).section(QLatin1Char('_'), 0, 0) == id ||
-                    e.attribute(QStringLiteral("id")).section(QLatin1Char(':'), 1, 1) == id || e.attribute(QStringLiteral("id")) == id) {
+                if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == id) {
                     // Fix clip
                     QString resource = getProperty(e, QStringLiteral("resource"));
                     QString service = getProperty(e, QStringLiteral("mlt_service"));
                     QString updatedResource = fixedResource;
+                    qDebug()<<"===== UPDATING RESOURCE FOR: "<<id<<": "<<resource<<" > "<<fixedResource;
                     if (resource.contains(QRegExp(QStringLiteral("\\?[0-9]+\\.[0-9]+(&amp;strobe=[0-9]+)?$")))) {
                         updatedResource.append(QLatin1Char('?') + resource.section(QLatin1Char('?'), -1));
                     }
@@ -1131,7 +1131,7 @@ void DocumentChecker::fixClipItem(QTreeWidgetItem *child, const QDomNodeList &pr
         // QString id = child->data(0, idRole).toString();
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
-            if (e.attribute("id") == id) {
+            if (Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")) == id) {
                 // Fix clip
                 setProperty(e, QStringLiteral("_placeholder"), QStringLiteral("1"));
                 setProperty(e, QStringLiteral("kdenlive:orig_service"), getProperty(e, QStringLiteral("mlt_service")));
