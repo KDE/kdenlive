@@ -148,7 +148,7 @@ Rectangle
                             if (newPos < 1) {
                                 newPos = 1
                             }
-                            if (newPos != dragPos) {
+                            if (newPos != dragPos && (newPos == 0 || !timeline.hasKeyframeAt(masterObject.clipId, frame + newPos))) {
                                 dragPos = newPos
                                 parent.x = newPos * timeScale
                                 keyframecanvas.requestPaint()
@@ -222,7 +222,7 @@ Rectangle
                                     if (frame + newPos <= inPoint) {
                                         newPos = inPoint + 1 - frame
                                     }
-                                    if (newPos != dragPos) {
+                                    if (newPos != dragPos && (newPos == 0 || !timeline.hasKeyframeAt(masterObject.clipId, frame + newPos))) {
                                         dragPos = newPos
                                         parent.x = newPos * timeScale - root.baseUnit / 2
                                         keyframecanvas.requestPaint()

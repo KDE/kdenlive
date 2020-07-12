@@ -399,6 +399,7 @@ public:
     Q_INVOKABLE void addEffectKeyframe(int cid, int frame, double val);
     Q_INVOKABLE void removeEffectKeyframe(int cid, int frame);
     Q_INVOKABLE void updateEffectKeyframe(int cid, int oldFrame, int newFrame, const QVariant &normalizedValue = QVariant());
+    Q_INVOKABLE bool hasKeyframeAt(int cid, int frame);
 
     /** @brief Make current timeline track active/inactive*/
     Q_INVOKABLE void switchTrackActive(int trackId = -1);
