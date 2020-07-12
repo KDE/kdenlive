@@ -1259,6 +1259,27 @@ void Bin::abortOperations()
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
+    if (event->type() == QEvent::MouseButtonPress) {
+        if (m_itemView && m_listType == BinTreeView) {
+        // Folder state is only valid in tree view mode
+            auto *mouseEvent = static_cast<QMouseEvent *>(event);
+            if (mouseEvent->button() == Qt::LeftButton && mouseEvent->modifiers() & Qt::ShiftModifier) {
+                QModelIndex idx = m_itemView->indexAt(mouseEvent->pos());
+                if (idx.isValid() && idx.column() == 0 && m_proxyModel) {
+                    std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
+                    if (item->itemType() == AbstractProjectItem::FolderItem) {
+                        QTreeView *tView = static_cast<QTreeView *>(m_itemView);
+                        if (!tView->isExpanded(idx)) {
+                            tView->expandAll();
+                        } else {
+                            tView->collapseAll();
+                        }
+                    }
+                    return true;
+                }
+            }
+        }
+    }
     if (event->type() == QEvent::MouseButtonRelease) {
         if (!m_monitor->isActive()) {
             m_monitor->slotActivateMonitor();
@@ -1266,9 +1287,8 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
         bool success = QWidget::eventFilter(obj, event);
         if (m_gainedFocus) {
             auto *mouseEvent = static_cast<QMouseEvent *>(event);
-            auto *view = qobject_cast<QAbstractItemView *>(obj->parent());
-            if (view) {
-                QModelIndex idx = view->indexAt(mouseEvent->pos());
+            if (m_itemView) {
+                QModelIndex idx = m_itemView->indexAt(mouseEvent->pos());
                 m_gainedFocus = false;
                 if (idx.isValid() && m_proxyModel) {
                     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
@@ -1294,14 +1314,13 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
     }
     if (event->type() == QEvent::MouseButtonDblClick) {
         auto *mouseEvent = static_cast<QMouseEvent *>(event);
-        auto *view = qobject_cast<QAbstractItemView *>(obj->parent());
-        if (view) {
-            QModelIndex idx = view->indexAt(mouseEvent->pos());
+        if (m_itemView) {
+            QModelIndex idx = m_itemView->indexAt(mouseEvent->pos());
             if (!idx.isValid()) {
                 // User double clicked on empty area
                 slotAddClip();
             } else {
-                slotItemDoubleClicked(idx, mouseEvent->pos());
+                slotItemDoubleClicked(idx, mouseEvent->pos(), mouseEvent->modifiers());
             }
         } else {
             qCDebug(KDENLIVE_LOG) << " +++++++ NO VIEW-------!!";
@@ -2299,7 +2318,7 @@ void Bin::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos)
+void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint modifiers)
 {
     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     if (m_listType == BinIconView) {
@@ -2314,7 +2333,17 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos)
             IconRect.setWidth((double)IconRect.height() / m_itemView->iconSize().height() * m_itemView->iconSize().width());
             if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
                 auto *view = static_cast<QTreeView *>(m_itemView);
-                view->setExpanded(ix, !view->isExpanded(ix));
+                bool expand = !view->isExpanded(ix);
+                // Expand all items on shift + double click
+                if (modifiers & Qt::ShiftModifier) {
+                    if (expand) {
+                        view->expandAll();
+                    } else {
+                        view->collapseAll();
+                    }
+                } else {
+                    view->setExpanded(ix, expand);
+                }
                 return;
             }
         }

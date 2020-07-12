@@ -363,7 +363,7 @@ public slots:
     /** @brief Reload clip thumbnail - when frame for thumbnail changed */
     void slotRefreshClipThumbnail(const QString &id);
     void slotDeleteClip();
-    void slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos);
+    void slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint modifiers);
     void slotSwitchClipProperties(const std::shared_ptr<ProjectClip> &clip);
     void slotSwitchClipProperties();
     /** @brief Creates a new folder with optional name, and returns new folder's id */
