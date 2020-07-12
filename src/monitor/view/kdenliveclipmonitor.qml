@@ -47,7 +47,7 @@ Item {
     property color overlayColor: 'cyan'
     property bool isClipMonitor: true
     property int dragType: 0
-    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset
+    property int overlayMargin: (audioThumb.stateVisible && !audioThumb.isAudioClip && audioThumb.visible) ? (audioThumb.height + root.zoomOffset) : root.zoomOffset + (audioThumb.isAudioClip && audioSeekZone.visible) ? audioSeekZone.height : 0
     
     FontMetrics {
         id: fontMetrics
