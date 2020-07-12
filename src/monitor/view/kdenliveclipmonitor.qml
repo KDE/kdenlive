@@ -128,6 +128,13 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.NoButton
         anchors.fill: parent
+        onPositionChanged: {
+            if (mouse.modifiers & Qt.ShiftModifier) {
+                var pos = Math.max(mouseX, 0)
+                pos += width/root.zoomFactor * root.zoomStart
+                controller.setPosition(Math.min(pos / root.timeScale, root.duration));
+            }
+        }
         onWheel: {
             controller.seek(wheel.angleDelta.x + wheel.angleDelta.y, wheel.modifiers)
         }
@@ -298,7 +305,7 @@ Item {
                         controller.setPosition(Math.min(pos / root.timeScale, root.duration));
                     }
                     onPositionChanged: {
-                        if (audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
+                        if (!(mouse.modifiers & Qt.ShiftModifier) && audioThumb.isAudioClip && mouseY < audioSeekZone.y) {
                             mouse.accepted = false
                             return
                         }
