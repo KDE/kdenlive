@@ -727,6 +727,14 @@ QVariantList TimelineModel::suggestItemMove(int itemId, int trackId, int positio
     return suggestCompositionMove(itemId, trackId, position, cursorPosition, snapDistance);
 }
 
+int TimelineModel::adjustFrame(int frame, int trackId)
+{
+    if (m_editMode == TimelineMode::InsertEdit && isTrack(trackId)) {
+        frame = qMin(frame, getTrackById_const(trackId)->trackDuration());
+    }
+    return frame;
+}
+
 QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance, bool moveMirrorTracks)
 {
     QWriteLocker locker(&m_lock);
@@ -743,6 +751,14 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     if (currentPos == position && sourceTrackId == trackId) {
         TRACE_RES(position);
         return {position, trackId};
+    }
+    if (m_editMode == TimelineMode::InsertEdit) {
+        int maxPos = getTrackById_const(trackId)->trackDuration();
+        if (m_allClips[clipId]->getCurrentTrackId() == trackId) {
+            maxPos -= m_allClips[clipId]->getPlaytime();
+        }
+        qDebug()<<"=== TRYING CLIP MOVE AT: "<<position<<", MAX TK: "<<getTrackById_const(trackId)->trackDuration();
+        position = qMin(position, maxPos);
     }
     bool after = position > currentPos;
     if (snapDistance > 0) {

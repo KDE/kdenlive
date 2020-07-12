@@ -514,7 +514,8 @@ Rectangle {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
                         // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
-                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, timeline.fullDuration, clipBeingDroppedData)
+                        frame = controller.adjustFrame(frame, timeline.activeTrack)
+                        clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                         if (clipBeingDroppedId > -1) {
                             var moveData = controller.suggestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, root.consumerPosition, root.snapping)
                             fakeFrame = moveData[0]

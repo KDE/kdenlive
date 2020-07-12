@@ -389,6 +389,9 @@ public:
     Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true);
     Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
+    /** @brief returns the frame pos adjusted to edit mode
+    */
+    Q_INVOKABLE int adjustFrame(int frame, int trackId);
 
     /* @brief Request clip insertion at given position. This action is undoable
        Returns true on success. If it fails, nothing is modified.
