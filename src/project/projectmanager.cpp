@@ -429,6 +429,11 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     const QString projectId = QCryptographicHash::hash(url.fileName().toUtf8(), QCryptographicHash::Md5).toHex();
     QUrl autosaveUrl = newFile ? url : QUrl::fromLocalFile(QFileInfo(url.path()).absoluteDir().absoluteFilePath(projectId + QStringLiteral(".kdenlive")));
     QList<KAutoSaveFile *> staleFiles = KAutoSaveFile::staleFiles(autosaveUrl);
+    QFileInfo sourceInfo(url.toLocalFile());
+    QDateTime sourceTime;
+    if (sourceInfo.exists()) {
+        sourceTime = QFileInfo(url.toLocalFile()).lastModified();
+    }
     KAutoSaveFile *orphanedFile = nullptr;
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instance
@@ -436,14 +441,16 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         for (KAutoSaveFile *stale : staleFiles) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {
                 // Found orphaned autosave file
-                orphanedFile = stale;
-                break;
+                if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
+                    orphanedFile = stale;
+                    break;
+                }
             }
         }
     }
 
     if (orphanedFile) {
-        if (KMessageBox::questionYesNo(nullptr, i18n("Auto-saved files exist. Do you want to recover them now?"), i18n("File Recovery"),
+        if (KMessageBox::questionYesNo(nullptr, i18n("Auto-saved file exist. Do you want to recover now?"), i18n("File Recovery"),
                                        KGuiItem(i18n("Recover")), KGuiItem(i18n("Do not recover"))) == KMessageBox::Yes) {
             doOpenFile(url, orphanedFile);
             return true;
