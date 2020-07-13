@@ -29,6 +29,7 @@
 #include "mainwindow.h"
 #include "projectitemmodel.h"
 #include "titler/titledocument.h"
+#include "dialogs/clipcreationdialog.h"
 #include "utils/devices.hpp"
 #include "xml/xml.hpp"
 #include <KMessageBox>
@@ -229,34 +230,21 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
         if (!QFile::exists(file.toLocalFile())) {
             continue;
         }
+        QFileInfo info(file.toLocalFile());
         QMimeType mType = db.mimeTypeForUrl(file);
-        if (mType.inherits(QLatin1String("inode/directory"))) {
+        if (info.isDir()) {
             // user dropped a folder, import its files
-            QDir dir(file.path());
+            QDir dir(file.toLocalFile());
             QString folderId;
             Fun local_undo = []() { return true; };
             Fun local_redo = []() { return true; };
-            QStringList result = dir.entryList(QDir::Files);
             QStringList subfolders = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+            dir.setNameFilters(ClipCreationDialog::getExtensions());
+            QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
             for (const QString &path : result) {
                 QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(path));
-                // Check file is of a supported type
-                mType = db.mimeTypeForUrl(url);
-                QString mimeAliases = mType.name();
-                bool isValid = mimeAliases.contains(QLatin1String("video/"));
-                if (!isValid) {
-                    isValid = mimeAliases.contains(QLatin1String("audio/"));
-                }
-                if (!isValid) {
-                    isValid = mimeAliases.contains(QLatin1String("image/"));
-                }
-                if (!isValid && (mType.inherits(QLatin1String("video/mlt-playlist")) || mType.inherits(QLatin1String("application/x-kdenlivetitle")))) {
-                    isValid = true;
-                }
-                if (isValid) {
-                    folderFiles.append(url);
-                }
+                folderFiles.append(url);
             }
             if (folderFiles.isEmpty()) {
                 QList<QUrl> sublist;
