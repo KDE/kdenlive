@@ -90,6 +90,7 @@ TimelineController::~TimelineController()
 void TimelineController::prepareClose()
 {
     // Clear roor so we don't call its methods anymore
+    QObject::disconnect( m_deleteConnection );
     m_ready = false;
     m_root = nullptr;
     // Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
@@ -105,7 +106,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_model = std::move(model);
     m_activeSnaps.clear();
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
-    connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
+    m_deleteConnection = connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
         if (m_ready) {
             QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
         }

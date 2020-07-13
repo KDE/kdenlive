@@ -282,6 +282,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             m_project = nullptr;
         }
     }
+    m_mainTimelineModel.reset();
     return true;
 }
 
