@@ -62,7 +62,7 @@ void SpeedJob::configureConsumer()
     m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "xml", m_destUrl.toUtf8().constData());
     m_consumer->set("terminate_on_pause", 1);
     m_consumer->set("title", "Speed Change");
-    m_consumer->set("real_time", -KdenliveSettings::mltthreads());
+    m_consumer->set("real_time", -1);
 }
 
 void SpeedJob::configureProducer()

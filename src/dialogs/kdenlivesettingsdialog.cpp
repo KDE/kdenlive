@@ -122,8 +122,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configEnv.ffmpegurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffmpegpath"));
     m_configEnv.ffplayurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffplaypath"));
     m_configEnv.ffprobeurl->lineEdit()->setObjectName(QStringLiteral("kcfg_ffprobepath"));
-    int maxThreads = QThread::idealThreadCount();
-    m_configEnv.kcfg_mltthreads->setMaximum(maxThreads > 2 ? maxThreads : 8);
     m_configEnv.tmppathurl->setMode(KFile::Directory);
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);

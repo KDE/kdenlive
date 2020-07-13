@@ -146,7 +146,7 @@ bool MeltJob::startJob()
     }
     /*
     if (!m_consumerParams.contains(QStringLiteral("real_time"))) {
-        m_consumer->set("real_time", -KdenliveSettings::mltthreads());
+        m_consumer->set("real_time", -1);
     }
     */
 
