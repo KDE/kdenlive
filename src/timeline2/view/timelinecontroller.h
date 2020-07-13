@@ -614,6 +614,7 @@ private:
     std::vector<int> m_activeSnaps;
     int m_snapStackIndex;
     QMetaObject::Connection m_connection;
+    QMetaObject::Connection m_deleteConnection;
 
     void initializePreview();
     bool darkBackground() const;
