@@ -765,7 +765,15 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
         }
         int position = timeline->getClipPosition(cid);
         int track = timeline->getClipTrackId(cid);
-        QList<int> possibleTracks = audioTarget >= 0 ? QList<int>() << audioTarget : timeline->getLowerTracksId(track, TrackType::AudioTrack);
+        QList<int> possibleTracks;
+        if (audioTarget >= 0) {
+            possibleTracks = {audioTarget};
+        } else {
+            int mirror = timeline->getMirrorAudioTrackId(track);
+            if (mirror > -1) {
+                possibleTracks = {mirror};
+            }
+        }
         if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort
             undo();
@@ -816,7 +824,16 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
             continue;
         }
         int position = timeline->getClipPosition(cid);
-        QList<int> possibleTracks = QList<int>() << videoTarget;
+        int track = timeline->getClipTrackId(cid);
+        QList<int> possibleTracks;
+        if (videoTarget >= 0) {
+            possibleTracks = {videoTarget};
+        } else {
+            int mirror = timeline->getMirrorVideoTrackId(track);
+            if (mirror > -1) {
+                possibleTracks = {mirror};
+            }
+        }
         if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort
             undo();
