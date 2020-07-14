@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>566</width>
-    <height>441</height>
+    <width>514</width>
+    <height>379</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -27,33 +27,13 @@
        <string>MLT environment</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="1" colspan="3">
+       <item row="0" column="1" colspan="2">
         <widget class="KUrlRequester" name="ffmpegurl"/>
        </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_6">
+       <item row="3" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Processing threads</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="3">
-        <widget class="KUrlRequester" name="ffplayurl"/>
-       </item>
-       <item row="4" column="1" colspan="3">
-        <widget class="KUrlRequester" name="rendererpathurl"/>
-       </item>
-       <item row="5" column="3">
-        <widget class="QLabel" name="label_7">
-         <property name="text">
-          <string>(&gt;1 is experimental)</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Melt path</string>
+          <string>MLT profiles folder</string>
          </property>
         </widget>
        </item>
@@ -64,14 +44,21 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label">
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_14">
          <property name="text">
-          <string>MLT profiles folder</string>
+          <string>FFprobe</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Melt path</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
         <spacer name="verticalSpacer_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -84,9 +71,6 @@
          </property>
         </spacer>
        </item>
-       <item row="3" column="1" colspan="3">
-        <widget class="KUrlRequester" name="mltpathurl"/>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_13">
          <property name="text">
@@ -94,27 +78,16 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1" colspan="2">
-        <widget class="QSpinBox" name="kcfg_mltthreads">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-        </widget>
+       <item row="1" column="1" colspan="2">
+        <widget class="KUrlRequester" name="ffplayurl"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_14">
-         <property name="text">
-          <string>FFprobe</string>
-         </property>
-        </widget>
+       <item row="3" column="1" colspan="2">
+        <widget class="KUrlRequester" name="mltpathurl"/>
        </item>
-       <item row="2" column="1" colspan="3">
+       <item row="4" column="1" colspan="2">
+        <widget class="KUrlRequester" name="rendererpathurl"/>
+       </item>
+       <item row="2" column="1" colspan="2">
         <widget class="KUrlRequester" name="ffprobeurl"/>
        </item>
       </layout>

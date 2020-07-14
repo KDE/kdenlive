@@ -1032,7 +1032,7 @@ Rectangle {
                                 border.width: 1
                                 border.color: root.frameColor
                                 height: model.trackHeight
-                                color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
+                                color: (model.item == timeline.activeTrack) ? Qt.tint(getTrackColor(model.audio, false), selectedTrackColor) : getTrackColor(model.audio, false)
                             }
                         }
                     }

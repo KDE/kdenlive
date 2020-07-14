@@ -88,8 +88,14 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
 {
     QDomDocument xml;
+    QUrl fileUrl = QUrl::fromLocalFile(path);
+    if (fileUrl.matches(pCore->currentDoc()->url(), QUrl::RemoveScheme | QUrl::NormalizePathSegments)) {
+        // Cannot embed a project in itself
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));        
+        return xml;
+    }
     QMimeDatabase db;
-    QMimeType type = db.mimeTypeForUrl(QUrl::fromLocalFile(path));
+    QMimeType type = db.mimeTypeForUrl(fileUrl);
 
     QDomElement prod;
     qDebug()<<"=== GOT DROPPPED MIME: "<<type.name();

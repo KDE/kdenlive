@@ -2474,7 +2474,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
                 emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
             }
         } else {
-            for (int i = position; i < getTracksCount(); i++) {
+            for (int i = position; i < (int)m_allTracks.size(); i++) {
                 QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
                 emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
             }
@@ -2658,11 +2658,11 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // we now insert in the list
     auto posIt = m_allTracks.begin();
     std::advance(posIt, pos);
+    beginInsertRows(QModelIndex(), pos, pos);
     auto it = m_allTracks.insert(posIt, std::move(track));
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
-    beginInsertRows(QModelIndex(), pos, pos);
     endInsertRows();
     int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
     mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));

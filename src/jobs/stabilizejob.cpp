@@ -53,7 +53,7 @@ void StabilizeJob::configureConsumer()
     m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "xml", m_destUrl.toUtf8().constData());
     m_consumer->set("all", 1);
     m_consumer->set("title", "Stabilized");
-    m_consumer->set("real_time", -KdenliveSettings::mltthreads());
+    m_consumer->set("real_time", -1);
 }
 
 void StabilizeJob::configureFilter()
