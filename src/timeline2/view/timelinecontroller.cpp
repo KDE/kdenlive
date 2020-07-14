@@ -2895,7 +2895,7 @@ void TimelineController::updateClipActions()
                         }
                     }
                 }
-                act->setText(state == PlaylistState::AudioOnly ? i18n("Split video") : i18n("Split audio"));
+                act->setText(state == PlaylistState::AudioOnly ? i18n("Restore video") : i18n("Restore audio"));
             }
         } else if (actionData == QLatin1Char('W')) {
             enableAction = clip != nullptr;

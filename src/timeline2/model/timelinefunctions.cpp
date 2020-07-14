@@ -777,7 +777,7 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
         if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort
             undo();
-            pCore->displayMessage(i18n("No available audio track for split operation"), ErrorMessage);
+            pCore->displayMessage(i18n("No available audio track for restore operation"), ErrorMessage);
             return false;
         }
         int newId;
@@ -785,7 +785,7 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
-            pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
+            pCore->displayMessage(i18n("Audio restore failed"), ErrorMessage);
             return false;
         }
         bool success = false;
@@ -798,14 +798,14 @@ bool TimelineFunctions::requestSplitAudio(const std::shared_ptr<TimelineItemMode
         if (!success) {
             bool undone = undo();
             Q_ASSERT(undone);
-            pCore->displayMessage(i18n("Audio split failed"), ErrorMessage);
+            pCore->displayMessage(i18n("Audio restore failed"), ErrorMessage);
             return false;
         }
         done = true;
     }
     if (done) {
         timeline->requestSetSelection(clips, undo, redo);
-        pCore->pushUndo(undo, redo, i18n("Split Audio"));
+        pCore->pushUndo(undo, redo, i18n("Restore Audio"));
     }
     return done;
 }
@@ -837,7 +837,7 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
         if (possibleTracks.isEmpty()) {
             // No available audio track for splitting, abort
             undo();
-            pCore->displayMessage(i18n("No available video track for split operation"), ErrorMessage);
+            pCore->displayMessage(i18n("No available video track for restore operation"), ErrorMessage);
             return false;
         }
         int newId;
@@ -845,7 +845,7 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
         if (!res) {
             bool undone = undo();
             Q_ASSERT(undone);
-            pCore->displayMessage(i18n("Video split failed"), ErrorMessage);
+            pCore->displayMessage(i18n("Video restore failed"), ErrorMessage);
             return false;
         }
         bool success = false;
@@ -858,13 +858,13 @@ bool TimelineFunctions::requestSplitVideo(const std::shared_ptr<TimelineItemMode
         if (!success) {
             bool undone = undo();
             Q_ASSERT(undone);
-            pCore->displayMessage(i18n("Video split failed"), ErrorMessage);
+            pCore->displayMessage(i18n("Video restore failed"), ErrorMessage);
             return false;
         }
         done = true;
     }
     if (done) {
-        pCore->pushUndo(undo, redo, i18n("Split Video"));
+        pCore->pushUndo(undo, redo, i18n("Restore Video"));
     }
     return done;
 }

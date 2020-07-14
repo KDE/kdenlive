@@ -1517,7 +1517,7 @@ void MainWindow::setupActions()
     editClipMarker->setObjectName(QStringLiteral("edit_marker"));
     editClipMarker->setData('P');
 
-    QAction *splitAudio = addAction(QStringLiteral("clip_split"), i18n("Split Audio"), this, SLOT(slotSplitAV()),
+    QAction *splitAudio = addAction(QStringLiteral("clip_split"), i18n("Restore Audio"), this, SLOT(slotSplitAV()),
                                     QIcon::fromTheme(QStringLiteral("document-new")), QKeySequence(), clipActionCategory);
     // "S" will be handled specifically to change the action name depending on current selection
     splitAudio->setData('S');
