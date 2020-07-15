@@ -276,6 +276,8 @@ Rectangle {
     property color lockedColor: timeline.lockedColor
     property color selectionColor: timeline.selectionColor
     property color groupColor: timeline.groupColor
+    property color thumbColor1: timeline.thumbColor1
+    property color thumbColor2: timeline.thumbColor2
     property int mainItemId: -1
     property int mainFrame: 0
     property int clipBeingDroppedId: -1

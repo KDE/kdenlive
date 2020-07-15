@@ -78,7 +78,8 @@ private:
 class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
+    Q_PROPERTY(QColor fillColor1 MEMBER m_color NOTIFY propertyChanged)
+    Q_PROPERTY(QColor fillColor2 MEMBER m_color2 NOTIFY propertyChanged)
     Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
     Q_PROPERTY(int drawInPoint MEMBER m_drawInPoint NOTIFY propertyChanged)
     Q_PROPERTY(int drawOutPoint MEMBER m_drawOutPoint NOTIFY propertyChanged)
@@ -154,12 +155,12 @@ public:
             pen.setWidthF(0);
         }
         painter->setPen(pen);
-        QPainterPath path;
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
             double level;
             int j = 0;
+            QPainterPath path;
             if (m_drawInPoint > 0) {
                 j = m_drawInPoint / increment;
             }
@@ -199,14 +200,17 @@ public:
             for (int channel = 0; channel < m_channels; channel++) {
                 // y is channel median pos
                 double y = (channel * channelHeight) + channelHeight / 2;
+                QPainterPath path;
                 path.moveTo(-1, y);
-                painter->setOpacity(0.2);
                 if (channel % 2 == 0) {
                     // Add dark background on odd channels
+                    painter->setOpacity(0.2);
                     bgRect.moveTo(0, channel * channelHeight);
                     painter->fillRect(bgRect, Qt::black);
                 }
                 // Draw channel median line
+                pen.setColor(channel % 2 == 0 ? m_color : m_color2);
+                painter->setBrush(channel % 2 == 0 ? m_color : m_color2);
                 painter->setOpacity(0.5);
                 pen.setWidthF(0);
                 painter->setPen(pen);
@@ -266,6 +270,7 @@ private:
     int m_drawOutPoint;
     QString m_binId;
     QColor m_color;
+    QColor m_color2;
     bool m_format;
     bool m_showItem;
     int m_channels;

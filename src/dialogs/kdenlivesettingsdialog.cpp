@@ -23,6 +23,9 @@
 #include "dialogs/profilesdialog.h"
 #include "encodingprofilesdialog.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
+#include "timeline2/view/timelinewidget.h"
+#include "timeline2/view/timelinecontroller.h"
 #include "profiles/profilemodel.hpp"
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
@@ -143,6 +146,11 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_page2 = addPage(p2, i18n("Environment"));
     m_page2->setIcon(QIcon::fromTheme(QStringLiteral("application-x-executable-script")));
 
+    QWidget *p10 = new QWidget;
+    m_configColors.setupUi(p10);
+    m_page10 = addPage(p10, i18n("Colors"));
+    m_page10->setIcon(QIcon::fromTheme(QStringLiteral("color-management")));
+    
     QWidget *p4 = new QWidget;
     m_configCapture.setupUi(p4);
     // Remove ffmpeg tab, unused
@@ -218,7 +226,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configShuttle.kcfg_enableshuttle->setDisabled(true);
 #endif /* USE_JOGSHUTTLE */
     m_page5 = addPage(p5, i18n("JogShuttle"));
-    m_page5->setIcon(QIcon::fromTheme(QStringLiteral("jog-dial")));
+    m_page5->setIcon(QIcon::fromTheme(QStringLiteral("dialog-input-devices")));
 
     QWidget *p6 = new QWidget;
     m_configSdl.setupUi(p6);
@@ -991,6 +999,12 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configSdl.kcfg_window_background->color() != KdenliveSettings::window_background()) {
         KdenliveSettings::setWindow_background(m_configSdl.kcfg_window_background->color());
         emit updateMonitorBg();
+    }
+    
+    if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() || m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
+        KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
+        KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
+        pCore->window()->getMainTimeline()->controller()->colorsChanged();
     }
 
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {

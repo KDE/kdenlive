@@ -125,13 +125,12 @@ bool AudioThumbJob::computeWithFFMPEG()
     int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);
     if (!QFile::exists(thumbPath)) {
         // Generate thumbnail used in monitor overlay
-        QStringList args;
-        args << QStringLiteral("-hide_banner") << QStringLiteral("-y")<< QStringLiteral("-i") << QUrl::fromLocalFile(filePath).toLocalFile() << QString("-filter_complex");
+        QStringList args = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-i"), QUrl::fromLocalFile(filePath).toLocalFile(), QString("-filter_complex")};
         if (m_audioStream >= 0) {
-            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(audioStreamIndex).arg(m_thumbSize.width()).arg(m_thumbSize.height());
+            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(audioStreamIndex).arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name()).arg(KdenliveSettings::thumbColor2().name());
         } else {
             // Only 1 audio stream in clip
-            args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=0xffdddd|0xddffdd").arg(m_thumbSize.width()).arg(m_thumbSize.height());
+            args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name()).arg(KdenliveSettings::thumbColor2().name());
         }
         args << QStringLiteral("-frames:v") << QStringLiteral("1");
         args << thumbPath;
