@@ -33,6 +33,7 @@
 #include "ui_configsdl_ui.h"
 #include "ui_configtimeline_ui.h"
 #include "ui_configtranscode_ui.h"
+#include "ui_configcolors_ui.h"
 
 class ProfileWidget;
 
@@ -97,8 +98,10 @@ private:
     KPageWidgetItem *m_page6;
     KPageWidgetItem *m_page7;
     KPageWidgetItem *m_page8;
+    KPageWidgetItem *m_page10;
     Ui::ConfigEnv_UI m_configEnv;
     Ui::ConfigMisc_UI m_configMisc;
+    Ui::ConfigColors_UI m_configColors;
     Ui::ConfigTimeline_UI m_configTimeline;
     Ui::ConfigCapture_UI m_configCapture;
     Ui::ConfigJogShuttle_UI m_configShuttle;

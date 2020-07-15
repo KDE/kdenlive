@@ -647,8 +647,10 @@ void MonitorManager::updateBgColor()
 {
     if (m_projectMonitor) {
         m_projectMonitor->updateBgColor();
+        m_projectMonitor->forceMonitorRefresh();
     }
     if (m_clipMonitor) {
         m_clipMonitor->updateBgColor();
+        m_clipMonitor->forceMonitorRefresh();
     }
 }

@@ -3316,7 +3316,7 @@ QColor TimelineController::targetTextColor() const
 QColor TimelineController::audioColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::PositiveText).color();
+    return scheme.foreground(KColorScheme::PositiveText).color().darker(200);
 }
 
 QColor TimelineController::titleColor() const
@@ -3332,6 +3332,16 @@ QColor TimelineController::imageColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::NeutralText).color();
+}
+
+QColor TimelineController::thumbColor1() const
+{
+    return KdenliveSettings::thumbColor1();
+}
+
+QColor TimelineController::thumbColor2() const
+{
+    return KdenliveSettings::thumbColor2();
 }
 
 QColor TimelineController::slideshowColor() const
