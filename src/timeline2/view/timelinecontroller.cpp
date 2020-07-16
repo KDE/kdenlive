@@ -1165,12 +1165,13 @@ void TimelineController::setPosition(int position)
 
 void TimelineController::setAudioTarget(QMap<int, int> tracks)
 {
-    if ((!tracks.isEmpty() && !m_model->isTrack(tracks.firstKey())) || m_hasAudioTarget == 0) {
-        return;
-    }
     // Clear targets before re-adding to trigger qml refresh
     m_model->m_audioTarget.clear();
     emit audioTargetChanged();
+
+    if ((!tracks.isEmpty() && !m_model->isTrack(tracks.firstKey())) || m_hasAudioTarget == 0) {
+        return;
+    }
 
     m_model->m_audioTarget = tracks;
     emit audioTargetChanged();
@@ -1192,6 +1193,32 @@ void TimelineController::switchAudioTarget(int trackId)
         }
     }
     emit audioTargetChanged();
+}
+
+void TimelineController::assignCurrentTarget(int index)
+{
+    if (m_activeTrack == -1 || !m_model->isTrack(m_activeTrack)) {
+        pCore->displayMessage(i18n("No active track"), InformationMessage, 500);
+        return;
+    }
+    bool isAudio = m_model->isAudioTrack(m_activeTrack);
+    if (isAudio) {
+        // Select audio target stream
+        if (index >= 0 && index < m_model->m_binAudioTargets.size()) {
+            // activate requested stream
+            int stream = m_model->m_binAudioTargets.keys().at(index);
+            assignAudioTarget(m_activeTrack, stream);
+        } else {
+            // Remove audio target
+            m_model->m_audioTarget.remove(m_activeTrack);
+            emit audioTargetChanged();
+        }
+        return;
+    } else {
+        // Select video target stream
+        setVideoTarget(m_activeTrack);
+        return;
+    }
 }
 
 void TimelineController::assignAudioTarget(int trackId, int stream)
@@ -1225,6 +1252,7 @@ int TimelineController::getFirstUnassignedStream() const
 void TimelineController::setVideoTarget(int track)
 {
     if ((track > -1 && !m_model->isTrack(track)) || !m_hasVideoTarget) {
+        m_model->m_videoTarget = -1;
         return;
     }
     m_model->m_videoTarget = track;
@@ -2313,7 +2341,9 @@ bool TimelineController::splitAV()
         if (clip->clipState() == PlaylistState::AudioOnly) {
             return TimelineFunctions::requestSplitVideo(m_model, cid, videoTarget());
         } else {
-            return TimelineFunctions::requestSplitAudio(m_model, cid, m_model->m_audioTarget.firstKey());
+            QVariantList aTargets = audioTarget();
+            int targetTrack = aTargets.isEmpty() ? -1 : aTargets.first().toInt();
+            return TimelineFunctions::requestSplitAudio(m_model, cid, targetTrack);
         }
     }
     pCore->displayMessage(i18n("No clip found to perform AV split operation"), InformationMessage, 500);
@@ -2322,7 +2352,9 @@ bool TimelineController::splitAV()
 
 void TimelineController::splitAudio(int clipId)
 {
-    TimelineFunctions::requestSplitAudio(m_model, clipId, m_model->m_audioTarget.firstKey());
+    QVariantList aTargets = audioTarget();
+    int targetTrack = aTargets.isEmpty() ? -1 : aTargets.first().toInt();
+    TimelineFunctions::requestSplitAudio(m_model, clipId, targetTrack);
 }
 
 void TimelineController::splitVideo(int clipId)
@@ -2871,7 +2903,25 @@ void TimelineController::updateClipActions()
         } else if (actionData == QLatin1Char('X') || actionData == QLatin1Char('S')) {
             enableAction = clip && clip->canBeVideo() && clip->canBeAudio();
             if (enableAction && actionData == QLatin1Char('S')) {
-                act->setText(clip->clipState() == PlaylistState::AudioOnly ? i18n("Split video") : i18n("Split audio"));
+                PlaylistState::ClipState state = clip->clipState();
+                if (m_model->m_groups->isInGroup(item)) {
+                    // Check if all clips in the group have have same state (audio or video)
+                    int targetRoot = m_model->m_groups->getRootId(item);
+                    if (m_model->isGroup(targetRoot)) {
+                        std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
+                        for (int current_id : sub) {
+                            if (current_id == item) {
+                                continue;
+                            }
+                            if (m_model->isClip(current_id) && m_model->getClipPtr(current_id)->clipState() != state) {
+                                // Group with audio and video clips, disable split action
+                                enableAction = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                act->setText(state == PlaylistState::AudioOnly ? i18n("Restore video") : i18n("Restore audio"));
             }
         } else if (actionData == QLatin1Char('W')) {
             enableAction = clip != nullptr;
@@ -3292,7 +3342,7 @@ QColor TimelineController::targetTextColor() const
 QColor TimelineController::audioColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
-    return scheme.foreground(KColorScheme::PositiveText).color();
+    return scheme.foreground(KColorScheme::PositiveText).color().darker(200);
 }
 
 QColor TimelineController::titleColor() const
@@ -3308,6 +3358,16 @@ QColor TimelineController::imageColor() const
 {
     KColorScheme scheme(QApplication::palette().currentColorGroup());
     return scheme.foreground(KColorScheme::NeutralText).color();
+}
+
+QColor TimelineController::thumbColor1() const
+{
+    return KdenliveSettings::thumbColor1();
+}
+
+QColor TimelineController::thumbColor2() const
+{
+    return KdenliveSettings::thumbColor2();
 }
 
 QColor TimelineController::slideshowColor() const
@@ -3392,13 +3452,14 @@ void TimelineController::finishRecording(const QString &recordedFile)
         if (m_recordTrack == -1) {
             return;
         }
+        std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
+        if (!clip) {
+            return;
+        }
+        pCore->bin()->selectClipById(binId);
         qDebug() << "callback " << binId << " " << m_recordTrack << ", MAXIMUM SPACE: " << m_recordStart.second;
         if (m_recordStart.second > 0) {
             // Limited space on track
-            std::shared_ptr<ProjectClip> clip = pCore->bin()->getBinClip(binId);
-            if (!clip) {
-                return;
-            }
             int out = qMin((int)clip->frameDuration() - 1, m_recordStart.second - 1);
             QString binClipId = QString("%1/%2/%3").arg(binId).arg(0).arg(out);
             m_model->requestClipInsertion(binClipId, m_recordTrack, m_recordStart.first, id, true, true, false);

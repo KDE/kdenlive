@@ -276,6 +276,8 @@ Rectangle {
     property color lockedColor: timeline.lockedColor
     property color selectionColor: timeline.selectionColor
     property color groupColor: timeline.groupColor
+    property color thumbColor1: timeline.thumbColor1
+    property color thumbColor2: timeline.thumbColor2
     property int mainItemId: -1
     property int mainFrame: 0
     property int clipBeingDroppedId: -1
@@ -1032,7 +1034,7 @@ Rectangle {
                                 border.width: 1
                                 border.color: root.frameColor
                                 height: model.trackHeight
-                                color: tracksRepeater.itemAt(index) ? ((tracksRepeater.itemAt(index).trackInternalId === timeline.activeTrack) ? Qt.tint(getTrackColor(tracksRepeater.itemAt(index).isAudio, false), selectedTrackColor) : getTrackColor(tracksRepeater.itemAt(index).isAudio, false)) : 'red'
+                                color: (model.item == timeline.activeTrack) ? Qt.tint(getTrackColor(model.audio, false), selectedTrackColor) : getTrackColor(model.audio, false)
                             }
                         }
                     }

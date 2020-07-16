@@ -880,6 +880,17 @@
       <label>Color to preselect in the color clip dialog.</label>
       <default>#000000</default>
     </entry>
+    
+    
+    <entry name="thumbColor1" type="Color">
+      <label>Color to draw even audio channels.</label>
+      <default>#2ac1a0</default>
+    </entry>
+    
+    <entry name="thumbColor2" type="Color">
+      <label>Color to draw odd audio channels.</label>
+      <default>#2ed172</default>
+    </entry>
 
     <entry name="rescalekeepratio" type="Bool">
       <label>Keep aspect ratio in render dialog rescale widget.</label>

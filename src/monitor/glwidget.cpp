@@ -1135,7 +1135,7 @@ int GLWidget::reconfigure()
             // m_producer->set_speed(0.0);
         }
 
-        int dropFrames = realTime();
+        int dropFrames = 1;
         if (!KdenliveSettings::monitor_dropframes()) {
             dropFrames = -dropFrames;
         }
@@ -1330,15 +1330,6 @@ void GLWidget::setOffsetY(int y, int max)
         rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0 - 10 : 0);
     }
     update();
-}
-
-int GLWidget::realTime() const
-{
-    // C & D
-    if (m_glslManager) {
-        return 1;
-    }
-    return KdenliveSettings::mltthreads();
 }
 
 std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
@@ -1778,7 +1769,7 @@ void GLWidget::setDropFrames(bool drop)
     // why this lock?
     QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
-        int dropFrames = realTime();
+        int dropFrames = 1;
         if (!drop) {
             dropFrames = -dropFrames;
         }

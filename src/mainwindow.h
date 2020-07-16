@@ -490,6 +490,12 @@ private slots:
     void slotSaveZoneToBin();
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void slotExpandClip();
+    /** @brief Focus and activate an audio track from a shortcut sequence */
+    void slotActivateAudioTrackSequence();
+    /** @brief Focus and activate a video track from a shortcut sequence */
+    void slotActivateVideoTrackSequence();
+    /** @brief Select target for current track */
+    void slotActivateTarget();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -112,7 +112,6 @@ public:
     void resetConsumer(bool fullReset);
     void lockMonitor();
     void releaseMonitor();
-    int realTime() const;
     int droppedFrames() const;
     void resetDrops();
     bool checkFrameNumber(int pos, int offset, bool isPlaying);

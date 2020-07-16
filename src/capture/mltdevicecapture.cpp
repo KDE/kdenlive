@@ -361,7 +361,7 @@ bool MltDeviceCapture::slotStartCapture(const QString &params, const QString &pa
     auto *renderProps = new Mlt::Properties;
     renderProps->set("mlt_service", "avformat");
     renderProps->set("target", path.toUtf8().constData());
-    renderProps->set("real_time", -KdenliveSettings::mltthreads());
+    renderProps->set("real_time", -1);
     renderProps->set("terminate_on_pause", 0); // was commented out. restoring it  fixes mantis#3415 - FFmpeg recording freezes
     // without this line a call to mlt_properties_get_int(terminate on pause) for in mlt/src/modules/core/consumer_multi.c is returning 1
     // and going into and endless loop.

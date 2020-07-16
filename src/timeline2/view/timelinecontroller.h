@@ -75,6 +75,8 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor titleColor READ titleColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor imageColor READ imageColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
+    Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
     Q_PROPERTY(QColor slideshowColor READ slideshowColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetColor READ targetColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetTextColor READ targetTextColor NOTIFY colorsChanged)
@@ -164,6 +166,8 @@ public:
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor titleColor() const;
     Q_INVOKABLE QColor imageColor() const;
+    Q_INVOKABLE QColor thumbColor1() const;
+    Q_INVOKABLE QColor thumbColor2() const;
     Q_INVOKABLE QColor slideshowColor() const;
     Q_INVOKABLE QColor targetColor() const;
     Q_INVOKABLE QColor targetTextColor() const;
@@ -542,6 +546,8 @@ public:
     QMap <int, QString> getCurrentTargets(int trackId, int &activeTargetStream);
     /** @brief Define audio stream target for a track index */
     void assignAudioTarget(int trackId, int stream);
+    /** @brief Define a stream target for current track from the stream index */
+    void assignCurrentTarget(int index);
 
     /** @brief Add tracks to project */
     void addTracks(int videoTracks, int audioTracks);

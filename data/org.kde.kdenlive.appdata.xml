@@ -276,8 +276,8 @@
   <screenshots>
     <screenshot type="default">
       <caption>Kdenlive Timeline</caption>
-      <caption xml:lang="ca">Línia del temps del Kdenlive</caption>
-      <caption xml:lang="ca-valencia">Línia del temps del Kdenlive</caption>
+      <caption xml:lang="ca">Línia de temps del Kdenlive</caption>
+      <caption xml:lang="ca-valencia">Línia de temps del Kdenlive</caption>
       <caption xml:lang="cs">Časová osa Kdenlive</caption>
       <caption xml:lang="da">Kdenlive tidslinje</caption>
       <caption xml:lang="de">Kdenlive-Zeitleiste</caption>
