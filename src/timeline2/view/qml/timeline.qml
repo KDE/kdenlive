@@ -305,6 +305,7 @@ Rectangle {
     property int scrollMax: scrollMin + scrollView.contentItem.width / timeline.scaleFactor
     property double dar: 16/9
     property bool paletteUnchanged: true
+    property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5

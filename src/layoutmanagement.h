@@ -26,9 +26,11 @@ public:
 
 private slots:
     /** @brief Saves the widget layout. */
-    void slotSaveLayout(QAction *action);
+    void slotSaveLayout();
     /** @brief Loads a saved widget layout. */
     void slotLoadLayout(QAction *action);
+    /** @brief Manage layout. */
+    void slotManageLayouts();
     void slotOnGUISetupDone();
 
 private:
