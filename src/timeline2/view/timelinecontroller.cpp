@@ -1195,6 +1195,32 @@ void TimelineController::switchAudioTarget(int trackId)
     emit audioTargetChanged();
 }
 
+void TimelineController::assignCurrentTarget(int index)
+{
+    if (m_activeTrack == -1 || !m_model->isTrack(m_activeTrack)) {
+        pCore->displayMessage(i18n("No active track"), InformationMessage, 500);
+        return;
+    }
+    bool isAudio = m_model->isAudioTrack(m_activeTrack);
+    if (isAudio) {
+        // Select audio target stream
+        if (index >= 0 && index < m_model->m_binAudioTargets.size()) {
+            // activate requested stream
+            int stream = m_model->m_binAudioTargets.keys().at(index);
+            assignAudioTarget(m_activeTrack, stream);
+        } else {
+            // Remove audio target
+            m_model->m_audioTarget.remove(m_activeTrack);
+            emit audioTargetChanged();
+        }
+        return;
+    } else {
+        // Select video target stream
+        setVideoTarget(m_activeTrack);
+        return;
+    }
+}
+
 void TimelineController::assignAudioTarget(int trackId, int stream)
 {
     QList <int> assignedStreams = m_model->m_audioTarget.values();

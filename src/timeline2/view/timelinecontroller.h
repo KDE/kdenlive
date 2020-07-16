@@ -546,6 +546,8 @@ public:
     QMap <int, QString> getCurrentTargets(int trackId, int &activeTargetStream);
     /** @brief Define audio stream target for a track index */
     void assignAudioTarget(int trackId, int stream);
+    /** @brief Define a stream target for current track from the stream index */
+    void assignCurrentTarget(int index);
 
     /** @brief Add tracks to project */
     void addTracks(int videoTracks, int audioTracks);

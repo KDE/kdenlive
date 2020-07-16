@@ -1573,11 +1573,11 @@ void MainWindow::setupActions()
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
-    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, Qt::Key_1);
+    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, QKeySequence(Qt::CTRL + Qt::Key_1));
     connect(resizeStart, &QAction::triggered, this, &MainWindow::slotResizeItemStart);
 
     QAction *resizeEnd = new QAction(QIcon(), i18n("Resize Item End"), this);
-    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, Qt::Key_2);
+    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, QKeySequence(Qt::CTRL + Qt::Key_2));
     connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
     QAction *pasteEffects = addAction(QStringLiteral("paste_effects"), i18n("Paste Effects"), this, SLOT(slotPasteEffects()),
@@ -1734,6 +1734,24 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()));
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    
+    
+    // Build activate track shortcut sequences
+    QList <int> keysequence{Qt::Key_1, Qt::Key_2, Qt::Key_3, Qt::Key_4, Qt::Key_5, Qt::Key_6, Qt::Key_7, Qt::Key_8, Qt::Key_9};
+    for (int i = 1; i < 10; i++) {
+        QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
+        ac->setData(i - 1);
+        connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
+        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT + keysequence[i-1]), timelineActions);
+        QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
+        ac2->setData(i - 1);
+        connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
+        addAction(QString("activate_video_%1").arg(i), ac2, QKeySequence(keysequence[i-1]), timelineActions);
+        QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
+        ac2->setData(i - 1);
+        connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
+        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::Key_Q, keysequence[i-1]), timelineActions);
+    }
 
     pCore->bin()->setupMenu();
 
@@ -4071,6 +4089,30 @@ bool MainWindow::timelineVisible() const
     return !centralWidget()->isHidden();
 }
 
+void MainWindow::slotActivateAudioTrackSequence()
+{
+    auto *action = qobject_cast<QAction *>(sender());
+    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(true);
+    int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
+    int tid = trackIds.at(trackPos);
+    getCurrentTimeline()->controller()->setActiveTrack(tid);
+}
+
+void MainWindow::slotActivateVideoTrackSequence()
+{
+    auto *action = qobject_cast<QAction *>(sender());
+    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(false);
+    int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
+    int tid = trackIds.at(trackIds.count() - 1 - trackPos);
+    getCurrentTimeline()->controller()->setActiveTrack(tid);
+}
+
+void MainWindow::slotActivateTarget()
+{
+    auto *action = qobject_cast<QAction *>(sender());
+    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(false);
+    getCurrentTimeline()->controller()->assignCurrentTarget(action->data().toInt());
+}
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW
