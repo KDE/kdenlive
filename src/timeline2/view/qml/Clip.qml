@@ -365,10 +365,17 @@ Rectangle {
                             onClicked: proxy.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
                         }
                     }
+                    TextMetrics {
+                        id: textMetrics
+                        font: miniFont
+                        text: model.comment
+                        elide: root.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                        elideWidth: root.maxLabelWidth
+                    }
                     Text {
                         id: mlabel
-                        visible: timeline.showMarkers && parent.width > width * 1.5
-                        text: model.comment
+                        visible: timeline.showMarkers && textMetrics.elideWidth > root.baseUnit
+                        text: textMetrics.elidedText
                         font: miniFont
                         x: markerBase.x
                         anchors {
