@@ -74,7 +74,9 @@ Rectangle {
     }
 
     MouseArea {
+        id: headerMouseArea
         anchors.fill: parent
+        hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: {
             timeline.activeTrack = trackId
@@ -493,6 +495,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     propagateComposedEvents: true
+                    cursorShape: Qt.IBeamCursor
                     onDoubleClicked: {
                         nameEdit.visible = true
                         nameEdit.focus = true
@@ -502,16 +505,6 @@ Rectangle {
                         timeline.showTrackAsset(trackId)
                         timeline.activeTrack = trackId
                         trackHeadRoot.focus = true
-                    }
-                    onEntered: {
-                        if (nameEdit.visible == false && trackName == '') {
-                            placeHolder.visible = true
-                        }
-                    }
-                    onExited: {
-                        if (placeHolder.visible == true) {
-                            placeHolder.visible = false
-                        }
                     }
                 }
                 Label {
@@ -524,7 +517,7 @@ Rectangle {
                 }
                 Label {
                     id: placeHolder
-                    visible: false
+                    visible: trackName == '' && (trackNameMouseArea.containsMouse || headerMouseArea.containsMouse)
                     enabled: false
                     text: i18n("Edit track name")
                     anchors.verticalCenter: parent.verticalCenter
