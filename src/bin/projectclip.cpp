@@ -334,19 +334,34 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
+            bool hashChanged = false;
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
             m_thumbsProducer.reset();
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
             }
+            if (type == ClipType::Audio || type == ClipType::AV) {
+                // Check if source file was changed and rebuild audio data if necessary
+                QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
+                if (!clipHash.isEmpty()) {
+                    if (clipHash != getFileHash()) {
+                        // Source clip has changed, rebuild data
+                        hashChanged = true;
+                    }
+                }
+                
+            }
             ThumbnailCache::get()->invalidateThumbsForClip(clipId(), reloadAudio);
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
-            if (audioStreamChanged) {
+            if (audioStreamChanged || hashChanged) {
                 discardAudioThumb();
-                pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+            } else {
+                // refresh bin/monitor mini thumb only
+                discardAudioThumb(true);
             }
+            pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
         }
     }
 }
@@ -1274,19 +1289,32 @@ int ProjectClip::audioChannels() const
     return audioInfo()->channels();
 }
 
-void ProjectClip::discardAudioThumb()
+void ProjectClip::discardAudioThumb(bool miniThumbOnly)
 {
     if (!m_audioInfo) {
         return;
     }
-    QString audioThumbPath = getAudioThumbPath(audioInfo()->ffmpeg_audio_index());
-    if (!audioThumbPath.isEmpty()) {
-        QFile::remove(audioThumbPath);
+    pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
+    QString audioThumbPath;
+    QList <int> streams = m_audioInfo->streams().keys();
+    if (!miniThumbOnly) {
+        // Delete audio thumbnail data
+        for (int &st : streams) {
+            audioThumbPath = getAudioThumbPath(st);
+            if (!audioThumbPath.isEmpty()) {
+                QFile::remove(audioThumbPath);
+            }
+        }
     }
-    qCDebug(KDENLIVE_LOG) << "////////////////////  DISCARD AUDIO THUMBS";
+    // Delete mini thumb
+    for (int &st : streams) {
+        audioThumbPath = getAudioThumbPath(st, true);
+        if (!audioThumbPath.isEmpty()) {
+            QFile::remove(audioThumbPath);
+        }
+    }
     m_audioThumbCreated = false;
     refreshAudioInfo();
-    pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
 }
 
 int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)

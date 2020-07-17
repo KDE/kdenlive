@@ -185,7 +185,7 @@ public:
     /** @brief Returns the list of this clip's subclip's ids. */
     QStringList subClipIds() const;
     /** @brief Delete cached audio thumb - needs to be recreated */
-    void discardAudioThumb();
+    void discardAudioThumb(bool miniThumbOnly = false);
     /** @brief Get path for this clip's audio thumbnail */
     const QString getAudioThumbPath(int stream, bool miniThumb = false);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/

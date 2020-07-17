@@ -83,11 +83,11 @@ void LayoutManagement::initializeLayouts()
             layoutGroup2.copyTo(&layoutGroup);
         }
     }
+    m_loadLayout->clear();
     if (!layoutGroup.exists()) {
         return;
     }
     QStringList entries = layoutGroup.keyList();
-    m_loadLayout->clear();
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     int i = 1;
     for (const QString &layoutName : entries) {

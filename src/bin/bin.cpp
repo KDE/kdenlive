@@ -1464,6 +1464,7 @@ void Bin::slotDeleteClip()
 
 void Bin::slotReloadClip()
 {
+    qDebug()<<"---------\nRELOADING CLIP\n----------------";
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != 0) {
@@ -1509,7 +1510,7 @@ void Bin::slotReloadClip()
                     }
                 }
             }
-            currentItem->reloadProducer(false, true);
+            currentItem->reloadProducer(false);
         }
     }
 }
@@ -3941,7 +3942,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
-            clip->discardAudioThumb();
+            clip->discardAudioThumb(false);
             // We need to set a temporary id before all outdated producers are replaced;
             int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
             if (reloadThumbs) {
