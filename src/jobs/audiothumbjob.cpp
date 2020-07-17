@@ -159,7 +159,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         // We only wanted the thumb generation
         return m_done;
     }
-    if (!m_dataInCache && !m_done) {
+    if (!QFile::exists(m_cachePath) && !m_dataInCache && !m_done) {
         // Generate timeline audio thumbnail data
         m_audioLevels.clear();
         std::vector<std::unique_ptr<QTemporaryFile>> channelFiles;
@@ -354,23 +354,16 @@ bool AudioThumbJob::startJob()
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
     QMapIterator<int, QString> st(streams);
     m_done = true;
+    ClipType::ProducerType type = m_binClip->clipType();
     while (st.hasNext()) {
         st.next();
         int stream = st.key();
         // Generate one thumb per stream
         m_audioStream = stream;
         m_cachePath = m_binClip->getAudioThumbPath(stream);
-
-        // checking for cached thumbs
-        QImage image(m_cachePath);
-        if (!image.isNull()) {
-            // Audio cache already exists
-            continue;
-        }
         m_done = false;
-
         bool ok = false;
-        if (m_binClip->clipType() == ClipType::Playlist) {
+        if (type == ClipType::Playlist) {
             if (KdenliveSettings::audiothumbnails()) {
                 ok = computeWithMlt();
             }
@@ -387,10 +380,10 @@ bool AudioThumbJob::startJob()
             return false;
         }
 
-        if (ok && m_done && !m_audioLevels.isEmpty()) {
+        if (ok && !QFile::exists(m_cachePath) && m_done && !m_audioLevels.isEmpty()) {
             // Put into an image for caching.
             int count = m_audioLevels.size();
-            image = QImage((int)lrint((count + 3) / 4.0 / m_channels), m_channels, QImage::Format_ARGB32);
+            QImage image((int)lrint((count + 3) / 4.0 / m_channels), m_channels, QImage::Format_ARGB32);
             int n = image.width() * image.height();
             for (int i = 0; i < n; i++) {
                 QRgb p;
