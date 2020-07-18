@@ -84,6 +84,8 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
 {
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
+    m_subtitleModel.reset(new SubtitleModel (m_commandStack, this));
+    connect(m_subtitleModel.get(), &SubtitleModel::modelChanged, this, &KdenliveDoc::subtitlesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
@@ -1296,6 +1298,7 @@ void KdenliveDoc::loadDocumentProperties()
         if (pl.isNull()) {
             return;
         }
+        QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
         QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
         QString name;
         QDomElement e;
@@ -1776,4 +1779,10 @@ QString& KdenliveDoc::modifiedDecimalPoint() {
 std::shared_ptr<SubtitleModel> KdenliveDoc::getSubtitleModel() const
 {
     return m_subtitleModel;
+}
+
+void KdenliveDoc::subtitlesChanged()
+{
+    m_subtitleModel->parseSubtitle();
+    return;
 }

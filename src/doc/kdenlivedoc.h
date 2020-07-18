@@ -246,6 +246,7 @@ private slots:
     void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
     void guidesChanged();
+    void subtitlesChanged();
 
 signals:
     void resetProjectList();
