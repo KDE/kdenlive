@@ -8,6 +8,21 @@ SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *pa
     , m_undoStack(std::move(undo_stack))
     , m_lock(QReadWriteLock::Recursive)
 {
+    //qDebug()<< "subtitle constructor";
+    setup();
+}
+
+void SubtitleModel::setup()
+{
+    // We connect the signals of the abstractitemmodel to a more generic one.
+    connect(this, &SubtitleModel::columnsMoved, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::columnsRemoved, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::columnsInserted, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::rowsMoved, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::rowsRemoved, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::rowsInserted, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::modelReset, this, &SubtitleModel::modelChanged);
+    connect(this, &SubtitleModel::dataChanged, this, &SubtitleModel::modelChanged);
 }
 
 std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
@@ -22,8 +37,8 @@ void SubtitleModel::parseSubtitle()
     //QString filename(m_asset->get(paramName.toUtf8().constData()));
     QString filePath= "path_to_subtitle_file.srt";
     QString start,end,comment;
-    GenTime startPos, endPos;
     QString timeLine;
+    GenTime startPos, endPos;
     int index = 0, turn = 0,r = 0;
     /*
      * turn = 0 -> Parse next subtitle line [srt] (or) Parse next section [ssa]

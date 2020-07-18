@@ -27,11 +27,10 @@ class SubtitleModel:public QAbstractListModel
 
 public:
     /* @brief Construct a subtitle list bound to the timeline */
-    SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole };
     /** @brief Function that parses through a subtitle file */ 
-    void parseSubtitle();
     void addSubtitle(GenTime start,GenTime end, QString str);
     GenTime stringtoTime(QString str);
     QVariant data(const QModelIndex &index, int role) const override;
@@ -44,6 +43,9 @@ public:
     /** @brief Registers a snap model to the subtitle model */
     void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
 
+public slots:
+    void parseSubtitle();
+
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
@@ -54,11 +56,15 @@ private:
     std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
     mutable QReadWriteLock m_lock;
 
+signals:
+    void modelChanged();
+    
 protected:
     /** @brief Helper function that retrieves a pointer to the subtitle model*/
     static std::shared_ptr<SubtitleModel> getModel();
     /** @brief Add start time as snap in the registered snap model */
     void addSnapPoint(GenTime startpos);
+    void setup();
 
 };
 Q_DECLARE_METATYPE(SubtitleModel *)
