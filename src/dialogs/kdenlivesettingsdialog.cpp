@@ -30,6 +30,7 @@
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
+#include "wizard.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -69,7 +70,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 {
     KdenliveSettings::setV4l_format(0);
     QWidget *p1 = new QWidget;
-    QFontInfo ftInfo(font());
     m_configMisc.setupUi(p1);
     m_page1 = addPage(p1, i18n("Misc"));
     m_page1->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
@@ -115,7 +115,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configTimeline.setupUi(p3);
     m_page3 = addPage(p3, i18n("Timeline"));
     m_page3->setIcon(QIcon::fromTheme(QStringLiteral("video-display")));
-    m_configTimeline.kcfg_trackheight->setMinimum(ftInfo.pixelSize() * 1.5);
 
     QWidget *p2 = new QWidget;
     m_configEnv.setupUi(p2);
@@ -855,6 +854,30 @@ void KdenliveSettingsDialog::updateSettings()
     }
     KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
+    if (m_configEnv.ffmpegurl->text().isEmpty()) {
+        QString infos;
+        QString warnings;
+        Wizard::slotCheckPrograms(infos, warnings);
+        m_configEnv.ffmpegurl->setText(KdenliveSettings::ffmpegpath());
+        m_configEnv.ffplayurl->setText(KdenliveSettings::ffplaypath());
+        m_configEnv.ffprobeurl->setText(KdenliveSettings::ffprobepath());
+    }
+    
+    if (m_configTimeline.kcfg_trackheight->value() == 0) {
+        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+        // Default unit for timeline.qml objects size
+        int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+        int trackHeight = qMax(50, (int) (2.2 * baseUnit + 6));
+        m_configTimeline.kcfg_trackheight->setValue(trackHeight);
+    } else {
+        QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
+        // Default unit for timeline.qml objects size
+        int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
+        if (m_configTimeline.kcfg_trackheight->value() < baseUnit) {
+            m_configTimeline.kcfg_trackheight->setValue(baseUnit);
+        }
+    }
+    
     bool resetConsumer = false;
     bool fullReset = false;
     bool updateCapturePath = false;

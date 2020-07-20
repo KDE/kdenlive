@@ -49,6 +49,7 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QTimer>
+#include <QApplication>
 #include <kio_version.h>
 #include <QXmlStreamWriter>
 
@@ -626,24 +627,24 @@ void Wizard::checkMissingCodecs()
     }*/
 }
 
-void Wizard::slotCheckPrograms()
+void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
 {
     bool allIsOk = true;
 
     // Check first in same folder as melt exec
-    const QStringList mltpath = QStringList() << QFileInfo(KdenliveSettings::rendererpath()).canonicalPath();
+    const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
     QString exepath;
     if (KdenliveSettings::ffmpegpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffmpegpath())) {
-        exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
+        exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
         if (exepath.isEmpty()) {
-            exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
+            exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
         }
-        qDebug() << "Unable to find FFMpeg binary...";
+        qDebug() << "Found FFMpeg binary: "<<exepath;
         if (exepath.isEmpty()) {
             // Check for libav version
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
             if (exepath.isEmpty()) {
-                m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
+                warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
                 allIsOk = false;
             }
         }
@@ -658,7 +659,7 @@ void Wizard::slotCheckPrograms()
             // Check for libav version
             playpath = QStandardPaths::findExecutable(QStringLiteral("avplay"));
             if (playpath.isEmpty()) {
-                m_infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
+                infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
             }
         }
     }
@@ -672,7 +673,7 @@ void Wizard::slotCheckPrograms()
             // Check for libav version
             probepath = QStandardPaths::findExecutable(QStringLiteral("avprobe"));
             if (probepath.isEmpty()) {
-                m_infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
+                infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
             }
         }
     }
@@ -910,7 +911,7 @@ void Wizard::slotCheckMlt()
     if (m_systemCheckIsOk) {
         checkMltComponents();
     }
-    slotCheckPrograms();
+    slotCheckPrograms(m_infos, m_warnings);
 }
 
 bool Wizard::isOk() const
