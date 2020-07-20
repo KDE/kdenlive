@@ -33,6 +33,7 @@
 #include <qdom.h>
 
 #include <kautosavefile.h>
+#include "../bin/model/subtitlemodel.hpp"
 
 #include "definitions.h"
 #include "gentime.h"

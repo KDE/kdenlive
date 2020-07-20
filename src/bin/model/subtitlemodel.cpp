@@ -1,7 +1,7 @@
 #include "subtitlemodel.hpp"
 #include "core.h"
 #include "project/projectmanager.h"
-
+#include "timeline2/model/snapmodel.hpp"
 
 SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
@@ -31,7 +31,7 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
 }
 
 void SubtitleModel::parseSubtitle()
-{
+{   qDebug()<<"Parsing started";
     //QModelIndex index;
     //int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
     //QString filename(m_asset->get(paramName.toUtf8().constData()));
@@ -207,6 +207,7 @@ void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString str)
     model->m_subtitleList[start] = {str, end};
     model->endInsertRows();
     model->addSnapPoint(start);
+    qDebug()<<"Added to model";
 }
 
 QHash<int, QByteArray> SubtitleModel::roleNames() const 
