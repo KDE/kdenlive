@@ -177,7 +177,7 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
     m_view.profiles_list->clear();
     // Retrieve the list from the repository
     QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
-    for (const auto &p : profiles) {
+    for (const auto &p : qAsConst(profiles)) {
         m_view.profiles_list->addItem(p.first, p.second);
     }
 

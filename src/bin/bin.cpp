@@ -260,7 +260,7 @@ public:
                     QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
                     tagRect.setWidth(r1.height() / 3.5);
                     tagRect.setHeight(tagRect.width());
-                    for (const QString &color : t) {
+                    for (const QString &color : qAsConst(t)) {
                         painter->setBrush(QColor(color));
                         painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
                         tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
@@ -439,7 +439,7 @@ public:
                 QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
                 tagRect.setWidth(m_thumbRect.height() / 5);
                 tagRect.setHeight(tagRect.width());
-                for (const QString &color : t) {
+                for (const QString &color : qAsConst(t)) {
                     painter->setBrush(QColor(color));
                     painter->drawRoundedRect(tagRect, tagRect.height() / 2, tagRect.height() / 2);
                     tagRect.moveTop(tagRect.bottom() + tagRect.height() / 4);
@@ -1082,7 +1082,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         int rateFilters = 0;
         int typeFilters = 0;
         QStringList tagFilters;
-        for (QAction *ac : list) {
+        for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
                 QString actionData = ac->data().toString();
                 if (actionData.startsWith(QLatin1Char('#'))) {
@@ -1096,7 +1096,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         }
         // Type actions
         list = m_filterTypeGroup.actions();
-        for (QAction *ac : list) {
+        for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
                 typeFilters = ac->data().toInt();
                 break;
@@ -1117,7 +1117,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
             QSignalBlocker bk(m_filterMenu);
             QList<QAction *> list = m_filterMenu->actions();
             list << m_filterTypeGroup.actions();
-            for (QAction *ac : list) {
+            for (QAction *ac : qAsConst(list)) {
                 ac->setChecked(false);
             }
             m_proxyModel->slotClearSearchFilters();
@@ -1128,7 +1128,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         int rateFilters = 0;
         int typeFilters = 0;
         QStringList tagFilters;
-        for (QAction *ac : list) {
+        for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
                 QString actionData = ac->data().toString();
                 if (actionData.startsWith(QLatin1Char('#'))) {
@@ -1142,7 +1142,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         }
         // Type actions
         list = m_filterTypeGroup.actions();
-        for (QAction *ac : list) {
+        for (QAction *ac : qAsConst(list)) {
             if (ac->isChecked()) {
                 typeFilters = ac->data().toInt();
                 break;
@@ -1606,7 +1606,7 @@ void Bin::slotDuplicateClip()
         items << m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
     }
     QString lastId;
-    for (auto item : items) {
+    for (const auto &item : qAsConst(items)) {
         if (item->itemType() == AbstractProjectItem::ClipItem) {
             auto currentItem = std::static_pointer_cast<ProjectClip>(item);
             if (currentItem) {
@@ -2144,7 +2144,7 @@ void Bin::slotInitView(QAction *action)
             QSignalBlocker bk2(m_sortGroup);
             m_sortDescend->setChecked(order == Qt::DescendingOrder);
             QList <QAction*> actions = m_sortGroup->actions();
-            for (auto ac : actions) {
+            for (auto ac : qAsConst(actions)) {
                 if (ac->data().toInt() == ix) {
                     ac->setChecked(true);
                     break;
@@ -2984,7 +2984,7 @@ void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)
         }
     }
     if (!folderIds.isEmpty()) {
-        for (QString id : folderIds) {
+        for (QString id : qAsConst(folderIds)) {
             id.remove(0, 1);
             std::shared_ptr<ProjectFolder> currentItem = m_itemModel->getFolderByBinId(id);
             if (!currentItem) {
@@ -3873,7 +3873,7 @@ void Bin::refreshProxySettings()
         m_doc->slotProxyCurrentItem(false, clipList, false, masterCommand);
     } else {
         QList<std::shared_ptr<ProjectClip>> toProxy;
-        for (const std::shared_ptr<ProjectClip> &clp : clipList) {
+        for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
             ClipType::ProducerType t = clp->clipType();
             if (t == ClipType::Playlist) {
                 toProxy << clp;
@@ -3904,7 +3904,7 @@ QStringList Bin::getProxyHashList()
 {
     QStringList list;
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clp : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
         if (clp->clipType() == ClipType::AV || clp->clipType() == ClipType::Video || clp->clipType() == ClipType::Playlist) {
             list << clp->hash();
         }
@@ -3927,7 +3927,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     emit openClip(std::shared_ptr<ProjectClip>());
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, false, false);
         // Make sure we reload clip length
@@ -3960,7 +3960,7 @@ void Bin::checkAudioThumbs()
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (auto clip : clipList) {
+    for (const auto &clip : qAsConst(clipList)) {
         ClipType::ProducerType type = clip->clipType();
         if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
             pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, -1, QString());
@@ -3984,7 +3984,7 @@ void Bin::resetUsageCount()
 void Bin::getBinStats(uint *used, uint *unused, qint64 *usedSize, qint64 *unusedSize)
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         if (clip->refCount() == 0) {
             *unused += 1;
             *unusedSize += clip->getProducerInt64Property(QStringLiteral("kdenlive:file_size"));
@@ -4004,7 +4004,7 @@ void Bin::rebuildProxies()
 {
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
-    for (const std::shared_ptr<ProjectClip> &clp : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clp : qAsConst(clipList)) {
         if (clp->hasProxy()) {
             toProxy << clp;
             // Abort all pending jobs
@@ -4151,7 +4151,7 @@ void Bin::invalidateClip(const QString &binId)
     std::shared_ptr<ProjectClip> clip = getBinClip(binId);
     if (clip && clip->clipType() != ClipType::Audio) {
         QList<int> ids = clip->timelineInstances();
-        for (int i : ids) {
+        for (int i : qAsConst(ids)) {
             pCore->invalidateItem({ObjectType::TimelineClip,i});
         }
     }
@@ -4253,7 +4253,7 @@ void Bin::checkMissingProxies()
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     QList<std::shared_ptr<ProjectClip>> toProxy;
-    for (auto clip : clipList) {
+    for (const auto &clip : qAsConst(clipList)) {
         if (clip->getProducerIntProperty(QStringLiteral("_replaceproxy")) > 0) {
             clip->resetProducerProperty(QStringLiteral("_replaceproxy"));
             toProxy << clip;
@@ -4274,7 +4274,7 @@ void Bin::saveFolderState()
     auto *view = static_cast<QTreeView *>(m_itemView);
     QList <std::shared_ptr<ProjectFolder> > folders = m_itemModel->getFolders();
     QStringList expandedFolders;
-    for (const auto &folder : folders) {
+    for (const auto &folder : qAsConst(folders)) {
         QModelIndex ix = m_itemModel->getIndexFromItem(folder);
         if (view->isExpanded(m_proxyModel->mapFromSource(ix))) {
             // Save expanded state

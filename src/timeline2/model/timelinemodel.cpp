@@ -1998,7 +1998,7 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
             changedItems << i.key();
         }
     }
-    for (int id : changedItems) {
+    for (int id : qAsConst(changedItems)) {
         QPair<int, int> endItemPos = endData.value(id);
         result = result & requestItemResize(id, endItemPos.second, right, true, undo, redo, false);
         if (!result) {

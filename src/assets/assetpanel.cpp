@@ -65,7 +65,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchCompoButton = new QComboBox(this);
     m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : allTransitions) {
+    for (const auto &transition : qAsConst(allTransitions)) {
         m_switchCompoButton->addItem(transition.second, transition.first);
     }
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&]() {

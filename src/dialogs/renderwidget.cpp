@@ -486,7 +486,7 @@ void RenderWidget::reloadGuides()
         if (!markers.isEmpty()) {
             m_view.guide_start->addItem(i18n("Beginning"), "0");
             m_view.create_chapter->setEnabled(true);
-            for (auto marker : markers) {
+            for (const auto &marker : qAsConst(markers)) {
                 GenTime pos = marker.time();
                 const QString guidePos = Timecode::getStringTimecode(pos.frames(fps), fps);
                 m_view.guide_start->addItem(marker.comment() + QLatin1Char('/') + guidePos, pos.seconds());
@@ -794,7 +794,7 @@ int RenderWidget::getNewStuff(const QString &configFile)
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : entries) {
+    for (const KNS3::Entry &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
@@ -1644,7 +1644,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         return;
     }
     QList<RenderJobItem *> jobList;
-    for (const QString &pl : playlists) {
+    for (const QString &pl : qAsConst(playlists)) {
         renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << renderedFile);
         renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
         QStringList argsJob = {KdenliveSettings::rendererpath(), pl, renderedFile, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
@@ -2097,7 +2097,7 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
     // We should parse customprofiles.xml in last position, so that user profiles
     // can also override profiles installed by KNewStuff
     fileList.removeAll(QStringLiteral("customprofiles.xml"));
-    for (const QString &filename : fileList) {
+    for (const QString &filename : qAsConst(fileList)) {
         parseFile(directory.absoluteFilePath(filename), true);
     }
     if (QFile::exists(exportFolder + QStringLiteral("customprofiles.xml"))) {
@@ -2170,7 +2170,7 @@ void RenderWidget::parseMltPresets()
             groupItem->setExpanded(true);
         }
         QStringList profiles = root.entryList(QDir::Files, QDir::Name);
-        for (const QString &prof : profiles) {
+        for (const QString &prof : qAsConst(profiles)) {
             QTreeWidgetItem *item = loadFromMltPreset(groupName, root.absoluteFilePath(prof), prof);
             if (!item) {
                 continue;

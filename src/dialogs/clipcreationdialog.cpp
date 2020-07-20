@@ -83,7 +83,7 @@ QStringList ClipCreationDialog::getExtensions()
 
     QMimeDatabase db;
     QStringList allExtensions;
-    for (const QString &mimeType : mimeTypes) {
+    for (const QString &mimeType : qAsConst(mimeTypes)) {
         QMimeType mime = db.mimeTypeForName(mimeType);
         if (mime.isValid()) {
             allExtensions.append(mime.globPatterns());

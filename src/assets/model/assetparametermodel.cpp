@@ -224,7 +224,7 @@ void AssetParameterModel::prepareKeyframes()
 {
     if (m_keyframes) return;
     int ix = 0;
-    for (const auto &name : m_rows) {
+    for (const auto &name : qAsConst(m_rows)) {
         if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
             m_params.at(name).type == ParamType::Roto_spline) {
             addKeyframeParam(index(ix, 0));
@@ -769,7 +769,7 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                         toDelete << i;
                     }
                 }
-                for (int i : toDelete) {
+                for (int i : qAsConst(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {
@@ -819,7 +819,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
                         toDelete << i;
                     }
                 }
-                for (int i : toDelete) {
+                for (int i : qAsConst(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {

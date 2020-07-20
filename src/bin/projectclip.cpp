@@ -626,7 +626,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 m_audioProducers[trackId]->set("set.test_image", 1);
                 if (m_streamEffects.contains(audioStream)) {
                     QStringList effects = m_streamEffects.value(audioStream);
-                    for (const QString effect : effects) {
+                    for (const QString &effect : qAsConst(effects)) {
                         Mlt::Filter filt(*m_audioProducers[trackId]->profile(), effect.toUtf8().constData());
                         if (filt.is_valid()) {
                             // Add stream effect markup
@@ -1638,7 +1638,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
     QStringList readEffects = m_streamEffects.value(streamIndex);
     QString oldEffect;
     // Remove effect if present (parameters might have changed
-    for (const QString effect : readEffects) {
+    for (const QString &effect : qAsConst(readEffects)) {
         if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
             oldEffect = effect;
             break;
@@ -1667,7 +1667,7 @@ void ProjectClip::requestRemoveStreamEffect(int streamIndex, const QString effec
     QStringList readEffects = m_streamEffects.value(streamIndex);
     QString oldEffect = effectName;
     // Remove effect if present (parameters might have changed
-    for (const QString effect : readEffects) {
+    for (const QString &effect : qAsConst(readEffects)) {
         if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
             oldEffect = effect;
             break;
@@ -1693,7 +1693,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
         // effect has parameters
         QStringList params = effectName.split(QLatin1Char(' '));
         addedEffectName = params.takeFirst();
-        for (const QString &p : params) {
+        for (const QString &p : qAsConst(params)) {
             QStringList paramValue = p.split(QLatin1Char('='));
             if (paramValue.size() == 2) {
                 effectParams.insert(paramValue.at(0), paramValue.at(1));
@@ -1706,7 +1706,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
     if (m_streamEffects.contains(streamIndex)) {
         QStringList readEffects = m_streamEffects.value(streamIndex);
         // Remove effect if present (parameters might have changed
-        for (const QString effect : readEffects) {
+        for (const QString &effect : qAsConst(readEffects)) {
             if (effect == addedEffectName || effect.startsWith(addedEffectName + QStringLiteral(" "))) {
                 continue;
             }
@@ -1746,7 +1746,7 @@ void ProjectClip::removeAudioStreamEffect(int streamIndex, QString effectName)
     if (m_streamEffects.contains(streamIndex)) {
         QStringList readEffects = m_streamEffects.value(streamIndex);
         // Remove effect if present (parameters might have changed
-        for (const QString effect : readEffects) {
+        for (const QString &effect : qAsConst(readEffects)) {
             if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
                 continue;
             }

@@ -141,7 +141,7 @@ TagWidget::TagWidget(QWidget *parent)
 void TagWidget::setTagData(const QString tagData)
 {
     QStringList colors = tagData.toLower().split(QLatin1Char(';'));
-    for (DragButton *tb : tags) {
+    for (DragButton *tb : qAsConst(tags)) {
         const QString color = tb->tag();
         tb->defaultAction()->setChecked(colors.contains(color));
     }
@@ -176,7 +176,7 @@ void TagWidget::showTagsConfig()
     l->addWidget(&lab);
     l->addWidget(&list);
     l->addWidget(buttonBox);
-    for (DragButton *tb : tags) {
+    for (DragButton *tb : qAsConst(tags)) {
         const QString color = tb->tag();
         const QString desc = tb->description();
         QIcon ic = tb->icon();

@@ -404,7 +404,7 @@ void KisCubicCurve::removePoint(int idx)
 const QString KisCubicCurve::toString() const
 {
     QString sCurve;
-    for (const QPointF &pair : d->data->points) {
+    for (const QPointF &pair : qAsConst(d->data->points)) {
         sCurve += QString::number(pair.x());
         sCurve += QStringLiteral("/");
         sCurve += QString::number(pair.y());

@@ -49,7 +49,7 @@ EffectsRepository::EffectsRepository()
     if (!invalidEffect.isEmpty()) {
         pCore->displayMessage(i18n("Some of your favorite effects are invalid and were removed: %1", invalidEffect.join(QLatin1Char(','))), ErrorMessage);
         QStringList newFavorites = KdenliveSettings::favorite_effects();
-        for (const QString &effect : invalidEffect) {
+        for (const QString &effect : qAsConst(invalidEffect)) {
             newFavorites.removeAll(effect);
         }
         KdenliveSettings::setFavorite_effects(newFavorites);
@@ -267,7 +267,7 @@ QPair <QStringList, QStringList> EffectsRepository::fixDeprecatedEffects()
     filter << QStringLiteral("*.xml");
     QStringList fileList = current_dir.entryList(filter, QDir::Files);
     QStringList failed;
-    for (const auto &file : fileList) {
+    for (const auto &file : qAsConst(fileList)) {
         QString path = current_dir.absoluteFilePath(file);
         QPair <QString, QString> fixResult = fixCustomAssetFile(path);
         if (!fixResult.first.isEmpty()) {
@@ -347,7 +347,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
                         if (currentValue.contains(QLatin1Char('='))) {
                             QStringList valueStr = currentValue.split(QLatin1Char(';'));
                             QStringList resultStr;
-                            for (const QString &val : valueStr) {
+                            for (const QString &val : qAsConst(valueStr)) {
                                 if (val.contains(QLatin1Char('='))) {
                                     QString frame = val.section(QLatin1Char('='), 0, 0);
                                     QString frameVal = val.section(QLatin1Char('='), 1);

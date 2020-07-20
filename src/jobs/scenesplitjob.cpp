@@ -131,7 +131,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QJsonArray list;
         int ix = 1;
         int lastCut = 0;
-        for (const QString &marker : markerData) {
+        for (const QString &marker : qAsConst(markerData)) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
                 continue;
@@ -154,7 +154,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QMap<QString, QString> zoneData;
         QJsonArray list;
         QJsonDocument json(list);
-        for (const QString &marker : markerData) {
+        for (const QString &marker : qAsConst(markerData)) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {
                 continue;

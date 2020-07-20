@@ -293,13 +293,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 enabledStreams.insert(INT_MAX, i18n("Merged streams"));
                 // Disable all other streams
                 QSignalBlocker bk(m_audioChannels);
-                for (auto act : actions) {
+                for (auto act : qAsConst(actions)) {
                     if (act->isChecked() && act != ac) {
                         act->setChecked(false);
                     }
                 }
             } else {
-                for (auto act : actions) {
+                for (auto act : qAsConst(actions)) {
                     if (act->isChecked()) {
                         // Audio stream is selected
                         if (act->data().toInt() == INT_MAX) {
@@ -317,7 +317,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 props.insert(QStringLiteral("audio_index"), QString::number(enabledStreams.firstKey()));
                 QList <int> streams = enabledStreams.keys();
                 QStringList astreams;
-                for (const int st : streams) {
+                for (const int st : qAsConst(streams)) {
                     astreams << QString::number(st);
                 }
                 props.insert(QStringLiteral("kdenlive:active_streams"), astreams.join(QLatin1Char(';')));
@@ -817,7 +817,7 @@ void Monitor::slotShowMenu(const QPoint pos)
             }
             if (model) {
                 QList<CommentedTime> markersList = model->getAllMarkers();
-                for (CommentedTime mkr : markersList) {
+                for (const CommentedTime &mkr : qAsConst(markersList)) {
                     QAction *a = m_markerMenu->addAction(mkr.comment());
                     a->setData(mkr.time().frames(pCore->getCurrentFps()));
                 }
@@ -1591,7 +1591,7 @@ void Monitor::reloadActiveStream()
             m_glMonitor->getControllerProxy()->setAudioStream(QString());
         }
         prepareAudioThumb();
-        for (auto ac : acts) {
+        for (auto ac : qAsConst(acts)) {
             int val = ac->data().toInt();
             if (streams.contains(val)) {
                 // Update stream name in case of renaming

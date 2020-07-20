@@ -187,7 +187,7 @@ void MainWindow::init()
         defaultStyle->setChecked(true);
     }
 
-    for (const QString &style : availableStyles) {
+    for (const QString &style : qAsConst(availableStyles)) {
         auto *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
         a->setData(style);
@@ -1759,7 +1759,7 @@ void MainWindow::setupActions()
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
     // m_transitions = new QAction*[transitions.count()];
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : allTransitions) {
+    for (const auto &transition : qAsConst(allTransitions)) {
         auto *transAction = new QAction(transition.first, this);
         transAction->setData(transition.second);
         transAction->setIconVisibleInMenu(false);
@@ -2343,7 +2343,7 @@ void MainWindow::slotPreferences(int page, int option)
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
     QRegExp ampEx("&{1,1}");
-    for (const QString &action_name : m_actionNames) {
+    for (const QString &action_name : qAsConst(m_actionNames)) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);
         actions[action_text] = action_name;
@@ -3201,7 +3201,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : entries) {
+    for (const KNS3::Entry &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
@@ -3324,13 +3324,13 @@ void MainWindow::loadDockActions()
     // Sort actions
     QMap<QString, QAction *> sorted;
     QStringList sortedList;
-    for (QAction *a : list) {
+    for (QAction *a : qAsConst(list)) {
         sorted.insert(a->text(), a);
         sortedList << a->text();
     }
     QList<QAction *> orderedList;
     sortedList.sort(Qt::CaseInsensitive);
-    for (const QString &text : sortedList) {
+    for (const QString &text : qAsConst(sortedList)) {
         orderedList << sorted.value(text);
     }
     unplugActionList(QStringLiteral("dock_actions"));
@@ -3441,7 +3441,7 @@ void MainWindow::buildDynamicActions()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : docks) {
+    for (auto dock : qAsConst(docks)) {
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;
@@ -3707,7 +3707,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
         return;
     }
     QList<QAction *> actions = monitorOverlay->actions();
-    for (QAction *ac : actions) {
+    for (QAction *ac : qAsConst(actions)) {
         int mid = ac->data().toInt();
         if (mid == 0x010) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
@@ -3741,7 +3741,7 @@ void MainWindow::doChangeStyle()
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : tabbed) {
+    for (auto tab : qAsConst(tabbed)) {
         if (tab->objectName() == otherWidget) {
             return true;
         }
@@ -3756,7 +3756,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     }
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
     //qDebug()<<"=== FOUND DOCKS: "<<docks.count();
-    for (QDockWidget *dock : docks) {
+    for (QDockWidget *dock : qAsConst(docks)) {
         QWidget *bar = dock->titleBarWidget();
         if (dock->isFloating()) {
             if (bar) {
@@ -3774,7 +3774,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             continue;
         }
         bool hasVisibleDockSibling = false;
-        for (QDockWidget *sub : docked) {
+        for (QDockWidget *sub : qAsConst(docked)) {
             if (sub->toggleViewAction()->isChecked() && !sub->isTopLevel()) {
                 // we have another docked widget, so tabs are visible and can be used instead of title bars
                 hasVisibleDockSibling = true;

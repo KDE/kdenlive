@@ -537,7 +537,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     auto list = json.array();
-    for (const auto &entry : list) {
+    for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;

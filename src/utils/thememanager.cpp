@@ -50,14 +50,14 @@ ThemeManager::ThemeManager(QObject *parent)
     QList<QAction *> actions = themesMenu->actions();
     QStringList existing;
     QList<QAction *> duplicates;
-    for (QAction *ac : actions) {
+    for (QAction *ac : qAsConst(actions)) {
         if (existing.contains(ac->text())) {
             duplicates << ac;
         } else {
             existing << ac->text();
         }
     }
-    for (QAction *ac : duplicates) {
+    for (QAction *ac : qAsConst(duplicates)) {
         themesMenu->removeAction(ac);
     }
     qDeleteAll(duplicates);

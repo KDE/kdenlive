@@ -819,7 +819,7 @@ bool ClipModel::checkConsistency()
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
     auto instances = binClip->timelineInstances();
     bool found = false;
-    for (const auto &i : instances) {
+    for (const auto &i : qAsConst(instances)) {
         if (i == m_id) {
             found = true;
             break;

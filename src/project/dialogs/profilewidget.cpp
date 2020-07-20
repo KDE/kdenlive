@@ -149,7 +149,7 @@ void ProfileWidget::refreshFpsCombo()
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
     m_fpsFilt->addItem(i18n("Any"), -1);
     auto all_fps = ProfileRepository::get()->getAllFps();
-    for (double fps : all_fps) {
+    for (double fps : qAsConst(all_fps)) {
         m_fpsFilt->addItem(locale.toString(fps), fps);
     }
     if (currentValue.isValid()) {

@@ -37,7 +37,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
         names = QStringList({i18n("Logging"), i18n("Editing"), i18n("Audio"), i18n("Effects"), i18n("Color Correction")});
         QList <QByteArray> layoutData = {"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"};
         int i = 0;
-        for (const QString &layoutName : names) {
+        for (const QString &layoutName : qAsConst(names)) {
             if (i > 1) {
                 i = 0;
             }
@@ -46,7 +46,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
         }
     }
     int i = 1;
-    for (const QString &layoutName : names) {
+    for (const QString &layoutName : qAsConst(names)) {
         QAction *load = new QAction(QIcon(), i18n("Layout %1: %2", i, layoutName), this);
         load->setData(layoutName);
         layoutActions->addAction("load_layout" + QString::number(i), load);
@@ -90,7 +90,7 @@ void LayoutManagement::initializeLayouts()
     QStringList entries = layoutGroup.keyList();
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     int i = 1;
-    for (const QString &layoutName : entries) {
+    for (const QString &layoutName : qAsConst(entries)) {
         QAction *load = new QAction(QIcon(), i18n("Layout %1: %2", i, layoutName), this);
         load->setData(layoutName);
         layoutActions->addAction("load_layout" + QString::number(i), load);
@@ -164,7 +164,7 @@ void LayoutManagement::slotManageLayouts()
     });
     tb.setToolTip(i18n("Delete Layout"));
     l->addWidget(&tb); 
-    for (const QString &name : names) {
+    for (const QString &name : qAsConst(names)) {
         QListWidgetItem *item = new QListWidgetItem(name, &list);
         item->setData(Qt::UserRole, name);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);

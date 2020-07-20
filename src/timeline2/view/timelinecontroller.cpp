@@ -1062,7 +1062,7 @@ void TimelineController::addAsset(const QVariantMap &data)
             }
         }
         bool foundMatch = false;
-        for (int id : effectSelection) {
+        for (int id : qAsConst(effectSelection)) {
             if (m_model->addClipEffect(id, effect, false)) {
                 foundMatch = true;
             }
@@ -1241,7 +1241,7 @@ int TimelineController::getFirstUnassignedStream() const
 {
     QList <int> keys = m_model->m_binAudioTargets.keys();
     QList <int> assigned = m_model->m_audioTarget.values();
-    for (int k : keys) {
+    for (int k : qAsConst(keys)) {
         if (!assigned.contains(k)) {
             return k;
         }
@@ -1795,10 +1795,10 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
 #else
     QStringList dirtyList = dirty.split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
-    for (const QString &frame : chunksList) {
+    for (const QString &frame : qAsConst(chunksList)) {
         renderedChunks << frame.toInt();
     }
-    for (const QString &frame : dirtyList) {
+    for (const QString &frame : qAsConst(dirtyList)) {
         dirtyChunks << frame.toInt();
     }
     m_disablePreview->blockSignals(true);
@@ -1904,7 +1904,7 @@ void TimelineController::invalidateTrack(int tid)
     if (!m_timelinePreview || !m_model->isTrack(tid) || m_model->getTrackById_const(tid)->isAudioTrack()) {
         return;
     }
-    for (auto clp : m_model->getTrackById_const(tid)->m_allClips) {
+    for (const auto &clp : m_model->getTrackById_const(tid)->m_allClips) {
         invalidateItem(clp.first);
     }
 }
@@ -2616,10 +2616,10 @@ void TimelineController::resetTrackHeight()
 void TimelineController::selectAll()
 {
     std::unordered_set<int> ids;
-    for (auto clp : m_model->m_allClips) {
+    for (const auto &clp : m_model->m_allClips) {
         ids.insert(clp.first);
     }
-    for (auto clp : m_model->m_allCompositions) {
+    for (const auto &clp : m_model->m_allCompositions) {
         ids.insert(clp.first);
     }
     m_model->requestSetSelection(ids);
@@ -2628,10 +2628,10 @@ void TimelineController::selectAll()
 void TimelineController::selectCurrentTrack()
 {
     std::unordered_set<int> ids;
-    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
+    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allClips) {
         ids.insert(clp.first);
     }
-    for (auto clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
+    for (const auto &clp : m_model->getTrackById_const(m_activeTrack)->m_allCompositions) {
         ids.insert(clp.first);
     }
     m_model->requestSetSelection(ids);
@@ -2865,7 +2865,7 @@ QPoint TimelineController::selectionInOut() const
 void TimelineController::updateClipActions()
 {
     if (m_model->getCurrentSelection().empty()) {
-        for (QAction *act : clipActions) {
+        for (QAction *act : qAsConst(clipActions)) {
             act->setEnabled(false);
         }
         emit timelineClipSelected(false);
@@ -2881,7 +2881,7 @@ void TimelineController::updateClipActions()
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
     }
-    for (QAction *act : clipActions) {
+    for (QAction *act : qAsConst(clipActions)) {
         bool enableAction = true;
         const QChar actionData = act->data().toChar();
         if (actionData == QLatin1Char('G')) {

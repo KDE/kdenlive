@@ -85,7 +85,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         QDir current_dir(dir);
         QStringList filter {QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto &file : fileList) {
+        for (const auto &file : qAsConst(fileList)) {
             QString path = current_dir.absoluteFilePath(file);
             parseCustomAssetFile(path, customAssets);
         }

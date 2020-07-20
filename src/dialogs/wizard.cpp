@@ -564,7 +564,7 @@ void Wizard::checkMissingCodecs()
     // can also override profiles installed by KNewStuff
     QStringList requiredACodecs;
     QStringList requiredVCodecs;
-    for (const QString &filename : profilesList) {
+    for (const QString &filename : qAsConst(profilesList)) {
         QDomDocument doc;
         QFile file(filename);
         doc.setContent(&file, false);
@@ -749,7 +749,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();
-        for (const QString &glob : missingGlobs) {
+        for (const QString &glob : qAsConst(missingGlobs)) {
             if (!extensions.contains(glob)) {
                 extensions << glob;
             }
@@ -782,7 +782,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
             writer.writeEndElement(); // comment
         }
 
-        for (const QString &pattern : extensions) {
+        for (const QString &pattern : qAsConst(extensions)) {
             writer.writeStartElement(nsUri, QStringLiteral("glob"));
             writer.writeAttribute(QStringLiteral("pattern"), pattern);
             writer.writeEndElement(); // glob

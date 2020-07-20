@@ -248,13 +248,13 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             dir.setNameFilters(ClipCreationDialog::getExtensions());
             QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
-            for (const QString &path : result) {
+            for (const QString &path : qAsConst(result)) {
                 QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(path));
                 folderFiles.append(url);
             }
             if (folderFiles.isEmpty()) {
                 QList<QUrl> sublist;
-                for (const QString &sub : subfolders) {
+                for (const QString &sub : qAsConst(subfolders)) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;
@@ -291,7 +291,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 }
                 // Check subfolders
                 QList<QUrl> sublist;
-                for (const QString &sub : subfolders) {
+                for (const QString &sub : qAsConst(subfolders)) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;

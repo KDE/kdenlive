@@ -247,11 +247,11 @@ void MltConnection::refreshLumas()
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     QStringList allImagefiles;
-    for (const QString &folder : customLumas) {
+    for (const QString &folder : qAsConst(customLumas)) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
         QString format;
-        for (const QString &f : folders) {
+        for (const QString &f : qAsConst(folders)) {
             QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
             if (f == QLatin1String("HD")) {
@@ -263,7 +263,7 @@ void MltConnection::refreshLumas()
             if (MainWindow::m_lumaFiles.contains(format)) {
                 imagefiles = MainWindow::m_lumaFiles.value(format);
             }
-            for (const QString &fname : filesnames) {
+            for (const QString &fname : qAsConst(filesnames)) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             MainWindow::m_lumaFiles.insert(format, imagefiles);

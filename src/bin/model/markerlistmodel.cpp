@@ -412,7 +412,7 @@ bool MarkerListModel::importFromJson(const QString &data, bool ignoreConflicts, 
         return false;
     }
     auto list = json.array();
-    for (const auto &entry : list) {
+    for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;

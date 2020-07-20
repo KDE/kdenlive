@@ -116,7 +116,7 @@ bool ProxyJob::startJob()
         }
 
         bool skipNext = false;
-        for (const QString &s : params) {
+        for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;

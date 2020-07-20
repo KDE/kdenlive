@@ -104,7 +104,7 @@ KeyframeImport::KeyframeImport(const QString &animData, std::shared_ptr<AssetPar
     }
     auto list = json.array();
     int ix = 0;
-    for (const auto &entry : list) {
+    for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;
@@ -648,7 +648,7 @@ void KeyframeImport::importSelectedData()
     int finalAlign = m_alignCombo->currentIndex();
     QLocale locale; // Import from clipboard – OK to use locale here?
     locale.setNumberOptions(QLocale::OmitGroupSeparator);
-    for (const auto &ix : m_indexes) {
+    for (const auto &ix : qAsConst(m_indexes)) {
         // update keyframes in other indexes
         KeyframeModel *km = kfrModel->getKeyModel(ix);
         qDebug()<<"== "<<ix<<" = "<<m_targetCombo->currentData().toModelIndex();

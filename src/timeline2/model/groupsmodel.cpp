@@ -830,7 +830,7 @@ void GroupsModel::adjustOffset(QJsonArray &updatedNodes, QJsonObject childObject
 {
     auto value = childObject.value(QLatin1String("children"));
     auto children = value.toArray();
-    for (auto c : children) {
+    for (const auto &c : qAsConst(children)) {
         if (!c.isObject()) {
             continue;
         }
@@ -869,7 +869,7 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
     auto list = json.array();
     QJsonArray newGroups;
     bool ok = true;
-    for (auto elem : list) {
+    for (const auto &elem : qAsConst(list)) {
         if (!elem.isObject()) {
             qDebug() << "Error : Expected json object while parsing groups";
             local_undo();

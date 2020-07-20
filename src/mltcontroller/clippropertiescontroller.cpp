@@ -632,7 +632,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             hlay->addWidget(new QLabel(i18n("Video stream")));
             auto *videoStream = new QComboBox(this);
             int ix = 1;
-            for (int stream : m_videoStreams) {
+            for (int stream : qAsConst(m_videoStreams)) {
                 videoStream->addItem(i18n("Video stream %1", ix), stream);
                 ix++;
             }
@@ -673,7 +673,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             QString vix = m_sourceProperties.get("audio_index");
             m_originalProperties.insert(QStringLiteral("audio_index"), vix);
             QStringList streamString;
-            for (int streamIx : enabledStreams) {
+            for (int streamIx : qAsConst(enabledStreams)) {
                 streamString << QString::number(streamIx);
             }
             m_originalProperties.insert(QStringLiteral("kdenlive:active_streams"), streamString.join(QLatin1Char(';')));
@@ -733,7 +733,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     m_copyChannel2->setChecked(effects.contains(QStringLiteral("channelcopy from=1 to=0")));
                     m_normalize->setChecked(effects.contains(QStringLiteral("dynamic_loudness")));
                     int gain = 0;
-                    for (const QString st : effects) {
+                    for (const QString &st : qAsConst(effects)) {
                         if (st.startsWith(QLatin1String("volume "))) {
                             QSignalBlocker bk3(m_gain);
                             gain = st.section(QLatin1Char('='), 1).toInt();
@@ -1400,7 +1400,7 @@ void ClipPropertiesController::slotDeleteMarker()
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
 
-        for (GenTime pos : positions) {
+        for (GenTime pos : qAsConst(positions)) {
             markerModel->removeMarker(pos, undo, redo);
         }
         pCore->pushUndo(undo, redo, i18n("Delete marker"));
@@ -1502,7 +1502,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
             m_controller->setProducerProperty(QStringLiteral("kdenlive:exiftool"), 1);
             QTreeWidgetItem *exif = nullptr;
             QStringList list = res.split(QLatin1Char('\n'));
-            for (const QString &tagline : list) {
+            for (const QString &tagline : qAsConst(list)) {
                 if (tagline.startsWith(QLatin1String("-File")) || tagline.startsWith(QLatin1String("-ExifTool"))) {
                     continue;
                 }
@@ -1533,7 +1533,7 @@ void ClipPropertiesController::slotFillMeta(QTreeWidget *tree)
                 }
                 QTreeWidgetItem *exif = nullptr;
                 QStringList list = res.split(QLatin1Char('\n'));
-                for (const QString &tagline : list) {
+                for (const QString &tagline : qAsConst(list)) {
                     if (m_type != ClipType::Image && !tagline.startsWith(QLatin1String("-H264"))) {
                         continue;
                     }
@@ -1710,7 +1710,7 @@ void ClipPropertiesController::updateStreamInfo(int streamIndex)
         m_copyChannel2->setChecked(effects.contains(QStringLiteral("channelcopy from=1 to=0")));
         m_normalize->setChecked(effects.contains(QStringLiteral("dynamic_loudness")));
         int gain = 0;
-        for (const QString st : effects) {
+        for (const QString &st : qAsConst(effects)) {
             if (st.startsWith(QLatin1String("volume "))) {
                 QSignalBlocker bk3(m_gain);
                 gain = st.section(QLatin1Char('='), 1).toInt();

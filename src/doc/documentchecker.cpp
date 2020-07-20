@@ -390,7 +390,7 @@ bool DocumentChecker::hasErrorInClips()
         filters << service;
     }
     QStringList processed;
-    for (const QString &id : filters) {
+    for (const QString &id : qAsConst(filters)) {
         if (!processed.contains(id) && !EffectsRepository::get()->exists(id)) {
             m_missingFilters << id;
         }
@@ -517,7 +517,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
 
-    for (const QString &font : m_missingFonts) {
+    for (const QString &font : qAsConst(m_missingFonts)) {
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);

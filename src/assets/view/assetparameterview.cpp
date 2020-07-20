@@ -73,7 +73,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             updatePreset->setEnabled(false);
             deletePreset->setEnabled(false);
         }
-        for (const QString &pName : presets) {
+        for (const QString &pName : qAsConst(presets)) {
             QAction *ac = m_presetMenu->addAction(pName, this, SLOT(slotLoadPreset()));
             m_presetGroup->addAction(ac);
             ac->setData(pName);

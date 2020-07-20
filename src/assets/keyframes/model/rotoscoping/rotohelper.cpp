@@ -65,7 +65,7 @@ void RotoHelper::refreshParams(int pos)
     if (!keyframes->isEmpty()) {
         QVariant splineData = keyframes->getInterpolatedValue(pos, m_indexes.first());
         QList<BPoint> p = getPoints(splineData, pCore->getCurrentFrameSize());
-        for (const auto &i : p) {
+        for (const auto &i : qAsConst(p)) {
             centerPoints << QVariant(i.p);
             controlPoints << QVariant(i.h1);
             controlPoints << QVariant(i.h2);

@@ -148,7 +148,7 @@ const QList <QUrl> ThumbnailCache::getAudioThumbPath(const QString &binId) const
     QDir thumbFolder = getDir(true, &ok);
     QList <QUrl> pathList;
     if (ok) {
-        for (const QString &p : key) {
+        for (const QString &p : qAsConst(key)) {
             if (thumbFolder.exists(p)) {
                 pathList <<QUrl::fromLocalFile(thumbFolder.absoluteFilePath(p));
             }
@@ -247,7 +247,7 @@ void ThumbnailCache::invalidateThumbsForClip(const QString &binId, bool reloadAu
                 if (reloadAudio) {
                     auto key = getAudioKey(binId, &ok);
                     if (ok) {
-                        for (const QString &p : key) {
+                        for (const QString &p : qAsConst(key)) {
                             QFile::remove(audioThumbFolder.absoluteFilePath(p));
                         }
                     }
@@ -295,7 +295,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
             QList <int> streamIxes = binClip->audioStreams().keys();
             if (streamIxes.size() > 1) {
                 QStringList streamsList;
-                for (const int st : streamIxes) {
+                for (const int st : qAsConst(streamIxes)) {
                     streamsList << QString("%1_%2.png").arg(binClip->hash()).arg(st);
                 }
                 return streamsList;
@@ -310,7 +310,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
         }
         QStringList streamsList;
         QStringList streamIndexes = streams.split(QLatin1Char(';'));
-        for (const QString &st : streamIndexes) {
+        for (const QString &st : qAsConst(streamIndexes)) {
             streamsList << QString("%1_%2.png").arg(binClip->hash()).arg(st);
         }
         return streamsList;

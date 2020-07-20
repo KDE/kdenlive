@@ -71,7 +71,7 @@ void ChartWidget::paintEvent(QPaintEvent *event)
     const QRectF pieRect(5, 5, pieWidth, pieWidth);
     int ix = 0;
     int previous = 0;
-    for (int val : m_segments) {
+    for (int val : qAsConst(m_segments)) {
         if (val == 0) {
             ix++;
             continue;
@@ -341,7 +341,7 @@ void TemporaryData::updateTotal()
         button->widget()->setEnabled(m_totalCurrent > 0);
     }
     QList<int> segments;
-    for (KIO::filesize_t size : m_currentSizes) {
+    for (KIO::filesize_t size : qAsConst(m_currentSizes)) {
         if (m_totalCurrent == 0) {
             segments << 0;
         } else {
@@ -388,7 +388,7 @@ void TemporaryData::cleanBackup()
     QFileInfoList files = backupFolder.entryInfoList(QDir::Files, QDir::Time);
     QStringList oldFiles;
     QDateTime current = QDateTime::currentDateTime();
-    for (const QFileInfo &f : files) {
+    for (const QFileInfo &f : qAsConst(files)) {
         if (f.lastModified().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             oldFiles << f.fileName();
         }
@@ -402,7 +402,7 @@ void TemporaryData::cleanBackup()
         return;
     }
     if (backupFolder.dirName() == QLatin1String(".backup")) {
-        for (const QString &f : oldFiles) {
+        for (const QString &f : qAsConst(oldFiles)) {
             backupFolder.remove(f);
         }
         processBackupDirectories();
@@ -430,7 +430,7 @@ void TemporaryData::cleanCache()
         }
     }
     QStringList folders;
-    for (auto *item : emptyDirs) {
+    for (auto *item : qAsConst(emptyDirs)) {
         folders << item->data(0, Qt::UserRole).toString();
     }
     if (folders.isEmpty()) {
@@ -443,7 +443,7 @@ void TemporaryData::cleanCache()
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    for (const QString &folder : folders) {
+    for (const QString &folder : qAsConst(folders)) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData();
@@ -475,7 +475,7 @@ void TemporaryData::deleteProjectProxy()
         KMessageBox::Continue) {
         return;
     }
-    for (const QString &file : files) {
+    for (const QString &file : qAsConst(files)) {
         dir.remove(file);
     }
     emit disableProxies();
@@ -817,7 +817,7 @@ void TemporaryData::refreshGlobalPie()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     KIO::filesize_t currentSize = 0;
-    for (QTreeWidgetItem *current : list) {
+    for (QTreeWidgetItem *current : qAsConst(list)) {
         if (current) {
             currentSize += current->data(1, Qt::UserRole).toULongLong();
         }
@@ -836,7 +836,7 @@ void TemporaryData::deleteSelected()
 {
     QList<QTreeWidgetItem *> list = m_listWidget->selectedItems();
     QStringList folders;
-    for (QTreeWidgetItem *current : list) {
+    for (QTreeWidgetItem *current : qAsConst(list)) {
         if (current) {
             folders << current->data(0, Qt::UserRole).toString();
         }
@@ -846,7 +846,7 @@ void TemporaryData::deleteSelected()
         return;
     }
     const QString currentId = m_doc->getDocumentProperty(QStringLiteral("documentid"));
-    for (const QString &folder : folders) {
+    for (const QString &folder : qAsConst(folders)) {
         if (folder == currentId) {
             // Trying to delete current project's tmp folder. Do not delete, but clear it
             deleteCurrentCacheData();
@@ -883,7 +883,7 @@ void TemporaryData::cleanProxy()
     QStringList oldFiles;
     QDateTime current = QDateTime::currentDateTime();
     KIO::filesize_t size = 0;
-    for (const QFileInfo &f : files) {
+    for (const QFileInfo &f : qAsConst(files)) {
         if (f.lastModified().addMonths(KdenliveSettings::cleanCacheMonths()) < current) {
             oldFiles << f.fileName();
             size += f.size();
@@ -897,7 +897,7 @@ void TemporaryData::cleanProxy()
         KMessageBox::Continue) {
         return;
     }
-    for (const QString &f : oldFiles) {
+    for (const QString &f : qAsConst(oldFiles)) {
         proxies.remove(f);
     }
     processProxyDirectory();

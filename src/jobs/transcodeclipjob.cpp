@@ -90,7 +90,7 @@ bool TranscodeJob::startJob()
         QStringList params = m_transcodeParams.split(QLatin1Char('-'), Qt::SkipEmptyParts);
 #endif
         QStringList mltParameters;
-        for (const QString &s : params) {
+        for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
             if (t.count(QLatin1Char(' ')) == 0) {
                 t.append(QLatin1String("=1"));
@@ -156,7 +156,7 @@ bool TranscodeJob::startJob()
         parameters << QStringLiteral("-v") << QStringLiteral("error");
         QStringList params = m_transcodeParams.split(QLatin1Char(' '));
         QStringList finalParams{QStringLiteral("-i"),source};
-        for (const QString &s : params) {
+        for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
             if (t.startsWith(QLatin1String("%1"))) {
                 parameters << t.replace(QLatin1String("%1"), m_destUrl);

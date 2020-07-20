@@ -213,7 +213,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     if (clipsToCut.isEmpty()) {
         return true;
     }
-    for (int cid : clipsToCut) {
+    for (int cid : qAsConst(clipsToCut)) {
         count++;
         int newId;
         bool res = processClipCut(timeline, cid, position, newId, undo, redo);
@@ -256,7 +256,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
 
-    for (auto track: timeline->m_allTracks) {
+    for (const auto &track: timeline->m_allTracks) {
         if (!track->isLocked()) {
             affectedTracks << track;
         }
@@ -268,7 +268,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     }
 
     unsigned count = 0;
-    for (auto track: affectedTracks) {
+    for (auto track: qAsConst(affectedTracks)) {
         int clipId = track->getClipByPosition(position);
         if (clipId > -1) {
             // Found clip at position in track, cut it. Update undo/redo as we go.
@@ -463,7 +463,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
     result = breakAffectedGroups(timeline, affectedTracks, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
     if (overwrite) {
         // Cut all tracks
-        for (int target_track : affectedTracks) {
+        for (int target_track : qAsConst(affectedTracks)) {
             result = result && TimelineFunctions::liftZone(timeline, target_track, QPoint(insertFrame, insertFrame + (zone.y() - zone.x())), undo, redo);
             if (!result) {
                 qDebug() << "// LIFTING ZONE FAILED\n";
@@ -472,7 +472,7 @@ bool TimelineFunctions::insertZone(const std::shared_ptr<TimelineItemModel> &tim
         }
     } else {
         // Cut all tracks
-        for (int target_track : affectedTracks) {
+        for (int target_track : qAsConst(affectedTracks)) {
             int startClipId = timeline->getClipByPosition(target_track, insertFrame);
             if (startClipId > -1) {
                 // There is a clip, cut it
@@ -1311,7 +1311,7 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
     }
     QDomElement container2 = copiedItems.createElement(QStringLiteral("bin"));
     container.appendChild(container2);
-    for (const QString &id : binIds) {
+    for (const QString &id : qAsConst(binIds)) {
         std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(id);
         QDomDocument tmp;
         container2.appendChild(clip->toXml(tmp));
@@ -1513,7 +1513,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
         masterIx = projectTracks.first.indexOf(trackId);
         audioMaster = true;
     }
-    for (int tk : videoTracks) {
+    for (int tk : qAsConst(videoTracks)) {
         int newPos = masterIx + tk - masterSourceTrack;
         if (newPos < 0 || newPos >= projectTracks.second.size()) {
             pCore->displayMessage(i18n("Not enough tracks to paste clipboard"), InformationMessage, 500);

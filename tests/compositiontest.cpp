@@ -10,7 +10,7 @@ TEST_CASE("Basic creation/deletion of a composition", "[CompositionModel]")
     REQUIRE(!transitions.isEmpty());
 
     // Look for a compo
-    for (const auto &trans : transitions) {
+    for (const auto &trans : qAsConst(transitions)) {
         if (TransitionsRepository::get()->isComposition(trans.first)) {
             aCompo = trans.first;
             break;

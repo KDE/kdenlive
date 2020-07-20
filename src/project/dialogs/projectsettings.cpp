@@ -345,12 +345,12 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
-    for (const QString &file : m_lumas) {
+    for (const QString &file : qAsConst(m_lumas)) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         switch (clip->clipType()) {
         case ClipType::Color:
             // ignore color clips in list, there is no real file

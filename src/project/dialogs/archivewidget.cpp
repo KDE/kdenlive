@@ -116,7 +116,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     QMap<QString, QString> playlistUrls;
     QMap<QString, QString> proxyUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         ClipType::ProducerType t = clip->clipType();
         QString id = clip->binId();
         if (t == ClipType::Color) {
@@ -385,7 +385,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     directory.append(QLatin1Char('/'));
                 }
                 qint64 totalSize = 0;
-                for (const QString &path : result) {
+                for (const QString &path : qAsConst(result)) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages << directory + path;
@@ -467,7 +467,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 qint64 totalSize = 0;
-                for (const QString &path : result) {
+                for (const QString &path : qAsConst(result)) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
                         slideImages << dir.absoluteFilePath(path);
@@ -919,7 +919,7 @@ void ArchiveWidget::createArchive()
     archive.open(QIODevice::WriteOnly);
 
     // Create folders
-    for (const QString &path : m_foldersList) {
+    for (const QString &path : qAsConst(m_foldersList)) {
         archive.writeDir(path, user, group);
     }
 

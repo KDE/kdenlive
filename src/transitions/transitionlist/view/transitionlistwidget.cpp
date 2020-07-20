@@ -87,7 +87,7 @@ int TransitionListWidget::getNewStuff(const QString &configFile)
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : entries) {
+    for (const KNS3::Entry &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }

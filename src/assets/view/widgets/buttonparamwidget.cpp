@@ -56,7 +56,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
 #endif
 
     QString conditionalInfo;
-    for (const QVariant &jobElement : filterData) {
+    for (const QVariant &jobElement : qAsConst(filterData)) {
         QStringList d = jobElement.toStringList();
         if (d.size() == 2) {
             if (d.at(0) == QLatin1String("conditionalinfo")) {
@@ -68,7 +68,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
     }
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
     m_displayConditional = true;
-    for (const auto &param : filterParams) {
+    for (const auto &param : qAsConst(filterParams)) {
         if (param.first == m_keyParam) {
             if (!param.second.toString().isEmpty()) {
                 m_displayConditional = false;
@@ -123,7 +123,7 @@ ButtonParamWidget::ButtonParamWidget(std::shared_ptr<AssetParameterModel> model,
             if (d.size() == 2)
             fData.insert({d.at(0), d.at(1)});
         }
-        for (const auto &param : filterLastParams) {
+        for (const auto &param : qAsConst(filterLastParams)) {
             if (param.first != m_keyParam) {
                 fParams.insert({param.first, param.second});
             }
@@ -153,7 +153,7 @@ void ButtonParamWidget::slotRefresh()
 {
     QVector<QPair<QString, QVariant>> filterParams = m_model->getAllParameters();
     m_displayConditional = true;
-    for (const auto &param : filterParams) {
+    for (const auto &param : qAsConst(filterParams)) {
         if (param.first == m_keyParam && !param.second.isNull()) {
             m_displayConditional = false;
             break;

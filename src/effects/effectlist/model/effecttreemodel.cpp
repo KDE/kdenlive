@@ -69,7 +69,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
             QStringList list = groups.at(i).toElement().attribute(QStringLiteral("list")).split(QLatin1Char(','), Qt::SkipEmptyParts);
 #endif
             auto groupItem = self->rootItem->appendChild(QList<QVariant>{groupName, QStringLiteral("root")});
-            for (const QString &effect : list) {
+            for (const QString &effect : qAsConst(list)) {
                 effectCategory[effect] = groupItem;
             }
         }
@@ -87,7 +87,7 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     // We parse effects
     auto allEffects = EffectsRepository::get()->getNames();
     QString favCategory = QStringLiteral("kdenlive:favorites");
-    for (const auto &effect : allEffects) {
+    for (const auto &effect : qAsConst(allEffects)) {
         auto targetCategory = miscCategory;
         AssetListType::AssetType type = EffectsRepository::get()->getType(effect.first);
         if (effectCategory.contains(effect.first)) {

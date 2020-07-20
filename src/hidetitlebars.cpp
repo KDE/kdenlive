@@ -30,13 +30,13 @@ void HideTitleBars::slotInstallRightClick()
 {
     // install right click
     QList<QTabBar *> tabs = pCore->window()->findChildren<QTabBar *>();
-    for (QTabBar *tab : tabs) {
+    for (QTabBar *tab : qAsConst(tabs)) {
         tab->setContextMenuPolicy(Qt::CustomContextMenu);
         connect(tab, &QWidget::customContextMenuRequested, this, &HideTitleBars::slotSwitchTitleBars);
     }
     // connect
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
-    for (QDockWidget *dock : docks) {
+    for (QDockWidget *dock : qAsConst(docks)) {
         connect(dock, &QDockWidget::dockLocationChanged, pCore->window(), &MainWindow::slotUpdateDockLocation);
         connect(dock, &QDockWidget::topLevelChanged, pCore->window(), &MainWindow::updateDockTitleBars);
     }
@@ -46,7 +46,7 @@ void HideTitleBars::slotInstallRightClick()
 void HideTitleBars::slotShowTitleBars(bool show)
 {
     QList<QDockWidget *> docks = pCore->window()->findChildren<QDockWidget *>();
-    for (QDockWidget *dock : docks) {
+    for (QDockWidget *dock : qAsConst(docks)) {
         QWidget *bar = dock->titleBarWidget();
         auto handleRemoveBar = [&dock, &bar]() -> void {
             if (bar) {

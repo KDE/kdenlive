@@ -148,7 +148,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
     if (dirtyChunks.isEmpty()) {
         dirtyChunks = m_dirtyChunks;
     }
-    for (const auto &frame : previewChunks) {
+    for (const auto &frame : qAsConst(previewChunks)) {
         const QString fileName = m_cacheDir.absoluteFilePath(QStringLiteral("%1.%2").arg(frame.toInt()).arg(m_extension));
         QFile file(fileName);
         if (file.exists()) {
@@ -167,7 +167,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
         m_controller->renderedChunksChanged();
     }
     if (!dirtyChunks.isEmpty()) {
-        for (const auto &i : dirtyChunks) {
+        for (const auto &i : qAsConst(dirtyChunks)) {
             if (!m_dirtyChunks.contains(i)) {
                 m_dirtyChunks << i;
             }
@@ -415,7 +415,7 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     abortRendering();
     m_tractor->lock();
     bool hasPreview = m_previewTrack != nullptr;
-    for (const auto &ix : m_renderedChunks) {
+    for (const auto &ix : qAsConst(m_renderedChunks)) {
         m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix.toInt()).arg(m_extension));
         if (!m_dirtyChunks.contains(ix)) {
             m_dirtyChunks << ix;
@@ -478,7 +478,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         abortRendering();
         m_tractor->lock();
         bool hasPreview = m_previewTrack != nullptr;
-        for (int ix : toRemove) {
+        for (int ix : qAsConst(toRemove)) {
             m_cacheDir.remove(QStringLiteral("%1.%2").arg(ix).arg(m_extension));
             if (!hasPreview) {
                 continue;
@@ -633,7 +633,7 @@ void PreviewManager::slotRemoveInvalidUndo(int ix)
     }
     QStringList dirs = m_undoDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     bool ok;
-    for (const QString &dir : dirs) {
+    for (const QString &dir : qAsConst(dirs)) {
         if (dir.toInt(&ok) >= ix && ok) {
             QDir tmp = m_undoDir;
             if (tmp.cd(dir)) {

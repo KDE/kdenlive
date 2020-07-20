@@ -1560,7 +1560,7 @@ void KdenliveDoc::selectPreviewProfile()
             }
         }
         bool rateFound = false;
-        for (const QString &arg : data) {
+        for (const QString &arg : qAsConst(data)) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
                 double fps = arg.section(QLatin1Char('='), 1).toDouble();

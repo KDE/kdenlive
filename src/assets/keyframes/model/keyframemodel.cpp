@@ -236,7 +236,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         times << m.first;
     }
     bool res = true;
-    for (const auto &t : times) {
+    for (const auto &t : qAsConst(times)) {
         res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
     }
     if (res && logUndo) {

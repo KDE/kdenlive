@@ -211,7 +211,7 @@ void TimelineWidget::showClipMenu(int cid)
         isAudioTrack = model()->isAudioTrack(tid);
     }
     m_favCompositions->setEnabled(!isAudioTrack);
-    for (auto ac : effects) {
+    for (auto ac : qAsConst(effects)) {
         const QString &id = ac->data().toString();
         if (EffectsRepository::get()->isAudioEffect(id) != isAudioTrack) {
             ac->setVisible(false);
@@ -232,7 +232,7 @@ void TimelineWidget::showHeaderMenu()
     bool isAudio = m_proxy->isActiveTrackAudio();
     QList <QAction *> menuActions = m_headerMenu->actions();
     QList <QAction *> audioActions;
-    for (QAction *ac : menuActions) {
+    for (QAction *ac : qAsConst(menuActions)) {
         if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels")) {
             audioActions << ac;
         }
@@ -241,20 +241,20 @@ void TimelineWidget::showHeaderMenu()
         // Video track
         int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
         QList <QAction *> actions = m_thumbsMenu->actions();
-        for (QAction *ac : actions) {
+        for (QAction *ac : qAsConst(actions)) {
             if (ac->data().toInt() == currentThumbs) {
                 ac->setChecked(true);
                 break;
             }
         }
         m_thumbsMenu->menuAction()->setVisible(true);
-        for (auto ac : audioActions) {
+        for (auto ac : qAsConst(audioActions)) {
             ac->setVisible(false);
         }
     } else {
         // Audio track
         m_thumbsMenu->menuAction()->setVisible(false);
-        for (auto ac : audioActions) {
+        for (auto ac : qAsConst(audioActions)) {
             ac->setVisible(true);
             if (ac->data().toString() == QLatin1String("show_track_record")) {
                 ac->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
@@ -317,7 +317,7 @@ void TimelineWidget::showRulerMenu()
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
-    for (auto guide : guides) {
+    for (const auto &guide : guides) {
         ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
@@ -338,7 +338,7 @@ void TimelineWidget::showTimelineMenu()
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
-    for (auto guide : guides) {
+    for (const auto &guide : guides) {
         ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);

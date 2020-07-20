@@ -83,7 +83,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     connect(mixer.get(), &MixerWidget::toggleSolo, [&](int trid, bool solo) {
         if (!solo) {
             // unmute
-            for (int id : m_soloMuted) {
+            for (int id : qAsConst(m_soloMuted)) {
                 if (m_mixers.count(id) > 0) {
                     m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
                 }
@@ -92,14 +92,14 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         } else {
             if (!m_soloMuted.isEmpty()) {
                 // Another track was solo, discard first
-                for (int id : m_soloMuted) {
+                for (int id : qAsConst(m_soloMuted)) {
                     if (m_mixers.count(id) > 0) {
                         m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
                     }
                 }
                 m_soloMuted.clear();
             }
-            for (auto item : m_mixers) {
+            for (const auto &item : m_mixers) {
                 if (item.first != trid && !item.second->isMute()) {
                     m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
                     m_soloMuted << item.first;
@@ -184,7 +184,7 @@ void MixerManager::recordStateChanged(int tid, bool recording)
 void MixerManager::connectMixer(bool doConnect)
 {
     m_visibleMixerManager = doConnect;
-    for (auto item : m_mixers) {
+    for (const auto &item : m_mixers) {
         item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse());
     }
     if (m_masterMixer != nullptr) {
@@ -222,7 +222,7 @@ QSize MixerManager::sizeHint() const
 
 void MixerManager::pauseMonitoring(bool pause)
 {
-    for (auto item : m_mixers) {
+    for (const auto &item : m_mixers) {
         item.second->pauseMonitoring(pause);
     }
     if (m_masterMixer != nullptr) {
