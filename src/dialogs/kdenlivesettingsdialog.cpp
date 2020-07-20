@@ -30,6 +30,7 @@
 #include "profiles/profilerepository.hpp"
 #include "profilesdialog.h"
 #include "project/dialogs/profilewidget.h"
+#include "wizard.h"
 
 #ifdef USE_V4L
 #include "capture/v4lcapture.h"
@@ -855,6 +856,15 @@ void KdenliveSettingsDialog::updateSettings()
     }
     KdenliveSettings::setDefault_profile(m_pw->selectedProfile());
 
+    if (m_configEnv.ffmpegurl->text().isEmpty()) {
+        QString infos;
+        QString warnings;
+        Wizard::slotCheckPrograms(infos, warnings);
+        m_configEnv.ffmpegurl->setText(KdenliveSettings::ffmpegpath());
+        m_configEnv.ffplayurl->setText(KdenliveSettings::ffplaypath());
+        m_configEnv.ffprobeurl->setText(KdenliveSettings::ffprobepath());
+    }
+    
     bool resetConsumer = false;
     bool fullReset = false;
     bool updateCapturePath = false;

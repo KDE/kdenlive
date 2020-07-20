@@ -51,6 +51,7 @@ public:
     void adjustSettings();
     bool isOk() const;
     static void testHwEncoders();
+    static void slotCheckPrograms(QString &infos, QString &warnings);
 
 private:
     Ui::WizardStandard_UI m_standard;
@@ -69,7 +70,6 @@ private:
     QMap<QString, QString> m_dvProfiles;
     QMap<QString, QString> m_hdvProfiles;
     QMap<QString, QString> m_otherProfiles;
-    void slotCheckPrograms();
     void checkMltComponents();
     void checkMissingCodecs();
     void updateHwStatus();
