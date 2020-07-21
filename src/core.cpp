@@ -771,6 +771,15 @@ void Core::triggerAction(const QString &name)
     }
 }
 
+const QString Core::actionText(const QString &name)
+{
+    QAction *action = m_mainWindow->actionCollection()->action(name);
+    if (action) {
+        return action->toolTip();
+    }
+    return QString();
+}
+
 void Core::clean()
 {
     m_self.reset();

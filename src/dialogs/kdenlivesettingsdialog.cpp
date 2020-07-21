@@ -869,7 +869,7 @@ void KdenliveSettingsDialog::updateSettings()
         int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
         int trackHeight = qMax(50, (int) (2.2 * baseUnit + 6));
         m_configTimeline.kcfg_trackheight->setValue(trackHeight);
-    } else {
+    } else if (m_configTimeline.kcfg_trackheight->value() != KdenliveSettings::trackheight()) {
         QFont ft = QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont);
         // Default unit for timeline.qml objects size
         int baseUnit = qMax(28, (int) (QFontInfo(ft).pixelSize() * 1.8 + 0.5));
