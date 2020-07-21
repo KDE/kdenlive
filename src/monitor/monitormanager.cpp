@@ -134,7 +134,7 @@ bool MonitorManager::projectMonitorVisible() const
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
 {
     if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
-        return false;
+        return true;
     }
     if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
         return false;
