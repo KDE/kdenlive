@@ -173,7 +173,7 @@ Rectangle {
             }
         }
         ToolTip {
-            visible: targetArea.containsMouse
+            visible: targetArea.containsMouse && !targetMouse.hovered
             font: miniFont
             delay: 1500
             timeout: 5000

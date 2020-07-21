@@ -1744,7 +1744,7 @@ void MainWindow::setupActions()
         connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
         addAction(QString("activate_video_%1").arg(i), ac2, QKeySequence(keysequence[i-1]), timelineActions);
         QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
-        ac2->setData(i - 1);
+        ac3->setData(i - 1);
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
         addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::Key_Q, keysequence[i-1]), timelineActions);
     }
@@ -4107,8 +4107,10 @@ void MainWindow::slotActivateVideoTrackSequence()
 void MainWindow::slotActivateTarget()
 {
     auto *action = qobject_cast<QAction *>(sender());
-    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(false);
-    getCurrentTimeline()->controller()->assignCurrentTarget(action->data().toInt());
+    if (action) {
+        int ix = action->data().toInt();
+        getCurrentTimeline()->controller()->assignCurrentTarget(ix);
+    }
 }
 
 #ifdef DEBUG_MAINW
