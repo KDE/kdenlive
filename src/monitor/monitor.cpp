@@ -162,7 +162,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
-    connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
 
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -1184,7 +1183,9 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(pos);
     m_monitorManager->cleanMixer();
 }
@@ -1230,19 +1231,25 @@ int Monitor::getZoneEnd()
 
 void Monitor::slotZoneStart()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneIn());
 }
 
 void Monitor::slotZoneEnd()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneOut() - 1);
 }
 
 void Monitor::slotRewind(double speed)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed > -1) {
@@ -1265,7 +1272,9 @@ void Monitor::slotRewind(double speed)
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
@@ -1294,13 +1303,17 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
 
 void Monitor::slotRewindOneFrame(int diff)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(qMax(0, m_glMonitor->getCurrentPos() - diff));
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     if (m_id == Kdenlive::ClipMonitor) {
         m_glMonitor->getControllerProxy()->setPosition(qMin(m_glMonitor->duration() - 1, m_glMonitor->getCurrentPos() + diff));
     } else {
@@ -1362,7 +1375,9 @@ void Monitor::slotRefreshMonitor(bool visible)
 
 void Monitor::forceMonitorRefresh()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->refresh();
 }
 
@@ -1379,10 +1394,9 @@ void Monitor::refreshMonitorIfActive(bool directUpdate)
 
 void Monitor::pause()
 {
-    if (!m_playAction->isActive()) {
+    if (!m_playAction->isActive() || !slotActivateMonitor()) {
         return;
     }
-    slotActivateMonitor();
     m_glMonitor->switchPlay(false);
     m_playAction->setActive(false);
     resetSpeedInfo();
@@ -1397,7 +1411,9 @@ void Monitor::switchPlay(bool play)
 
 void Monitor::slotSwitchPlay()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->switchPlay(m_playAction->isActive());
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
@@ -1428,7 +1444,9 @@ void Monitor::resetPlayOrLoopZone(const QString &binId)
 
 void Monitor::slotPlayZone()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     bool ok = m_glMonitor->playZone();
     if (ok) {
         m_playAction->setActive(true);
@@ -1437,7 +1455,9 @@ void Monitor::slotPlayZone()
 
 void Monitor::slotLoopZone()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     bool ok = m_glMonitor->playZone(true);
     if (ok) {
         m_playAction->setActive(true);
@@ -1446,7 +1466,9 @@ void Monitor::slotLoopZone()
 
 void Monitor::slotLoopClip(QPoint inOut)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     bool ok = m_glMonitor->loopClip(inOut);
     if (ok) {
         m_playAction->setActive(true);
@@ -1629,7 +1651,9 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (/* DISABLES CODE */ (true)) {
         return;
     }
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     // render->prepareProfileReset(tc.fps());
     // TODO: this is a temporary profile for DVD preview, it should not alter project profile
     // pCore->setCurrentProfile(profile);
@@ -2258,7 +2282,9 @@ void Monitor::panView(QPoint diff)
 
 void Monitor::processSeek(int pos)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     pause();
     m_glMonitor->requestSeek(pos);
     m_monitorManager->cleanMixer();
@@ -2289,7 +2315,9 @@ void Monitor::slotSeekPosition(int pos)
 
 void Monitor::slotStart()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->switchPlay(false);
     m_glMonitor->getControllerProxy()->setPosition(0);
     resetSpeedInfo();
@@ -2297,7 +2325,9 @@ void Monitor::slotStart()
 
 void Monitor::slotEnd()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->switchPlay(false);
     resetSpeedInfo();
     if (m_id == Kdenlive::ClipMonitor) {

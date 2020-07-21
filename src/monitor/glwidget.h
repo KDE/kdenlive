@@ -185,7 +185,6 @@ signals:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
-    void activateMonitor();
 
 protected:
     Mlt::Filter *m_glslManager;
