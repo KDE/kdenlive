@@ -137,6 +137,7 @@ Rectangle {
                 }
             }
             ToolButton {
+                id: targetMouse
                 focusPolicy: Qt.NoFocus
                 visible: trackHeadRoot.isAudio && timeline.clipTargets > 1 && trackHeadRoot.height > (2 * expandButton.height)
                 background: Rectangle {
@@ -154,6 +155,20 @@ Rectangle {
                 }
                 onClicked: {
                     root.showTargetMenu(trackId)
+                }
+                ToolTip {
+                    visible: targetMouse.hovered
+                    font: miniFont
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: timeline.actionText("switch_target_stream")
+                    }
                 }
             }
         }

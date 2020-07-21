@@ -518,7 +518,7 @@ void MainWindow::init()
             }
         }
     }
-    updateActionsToolTip();
+
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     m_timelineToolBar->setProperty("otherToolbar", true);
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
@@ -742,6 +742,7 @@ void MainWindow::init()
     if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
+    updateActionsToolTip();
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
 #ifdef USE_JOGSHUTTLE
@@ -804,25 +805,20 @@ void MainWindow::updateActionsToolTip()
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
         for (QAction *tempAction : coll->actions()) {
+            if (tempAction == m_timeFormatButton) {
+                continue;
+            }
             // find the shortcut pattern and delete (note the preceding space in the RegEx)
-            QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
-            // append shortcut if it exists for action
-            if (tempAction->shortcut() == QKeySequence()) {
+            QString toolTip = KLocalizedString::removeAcceleratorMarker(tempAction->toolTip());
+            QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+            QKeySequence shortCut = tempAction->shortcut();
+            if (shortCut == QKeySequence()) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
-                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
+                tempAction->setToolTip(QString("%1 (%2)").arg(strippedTooltip).arg(shortCut.toString()));
             }
-            connect(tempAction, &QAction::changed, this, &MainWindow::updateAction);
         }
     }
-}
-
-void MainWindow::updateAction()
-{
-    auto *action = qobject_cast<QAction *>(sender());
-    QString toolTip = KLocalizedString::removeAcceleratorMarker(action->toolTip());
-    QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
-    action->setToolTip(i18nc("@info:tooltip Tooltip of toolbar button", "%1 (%2)", strippedTooltip, action->shortcut().toString()));
 }
 
 MainWindow::~MainWindow()
@@ -2319,6 +2315,7 @@ void MainWindow::slotEditKeys()
     }
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.configure();
+    updateActionsToolTip();
 }
 
 void MainWindow::slotPreferences(int page, int option)

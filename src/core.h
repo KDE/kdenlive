@@ -258,7 +258,10 @@ private:
     QMutex m_thumbProfileMutex;
 
 public slots:
+    /** @brief Trigger (launch) an action by its actionCollection name */
     void triggerAction(const QString &name);
+    /** @brief Get an action's descriptive text by its actionCollection name */
+    const QString actionText(const QString &name);
     /** @brief display a user info/warning message in the project bin */
     void displayBinMessage(const QString &text, int type, const QList<QAction *> &actions = QList<QAction *>(), bool showClose = false, BinMessage::BinCategory messageCategory = BinMessage::BinCategory::NoMessage);
     void displayBinLogMessage(const QString &text, int type, const QString &logInfo);
