@@ -40,7 +40,12 @@ LayoutManagement::LayoutManagement(QObject *parent)
     QAction *manageLayout = new QAction(i18n("Manage Layouts"), pCore->window()->actionCollection());
     layoutActions->addAction(QStringLiteral("manage_layout"), manageLayout);
     connect(manageLayout, &QAction::triggered, this, &LayoutManagement::slotManageLayouts);
-    connect(pCore->window(), &MainWindow::GUISetupDone, this, &LayoutManagement::slotOnGUISetupDone);
+    // Create 9 layout actions
+    for (int i = 1; i < 10; i++) {
+        QAction *load = new QAction(QIcon(), QString(), this);
+        m_layoutActions <<layoutActions->addAction("load_layout" + QString::number(i), load);
+    }
+    initializeLayouts();
 }
 
 void LayoutManagement::initializeLayouts()
@@ -67,7 +72,7 @@ void LayoutManagement::initializeLayouts()
             layoutGroup2.copyTo(&layoutGroup);
         }
     }
-    m_loadLayout->clear();
+    m_loadLayout->removeAllActions();
     KConfigGroup layoutOrder(config, "Order");
     QStringList entries;
     if (!layoutOrder.exists()) {
@@ -99,14 +104,25 @@ void LayoutManagement::initializeLayouts()
             j++;
         }
     }
-    KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
-    int i = 1;
-    for (const QString &layoutName : entries) {
-        QAction *load = new QAction(QIcon(), i18n("Layout %1: %2", i, layoutName), this);
+    for (int i = 1; i < 10; i++) {
+        QString layoutName;
+        if (i <= entries.count()) {
+            layoutName = entries.at(i - 1);
+        }
+        QAction *load = m_layoutActions.at(i - 1);
+        if (layoutName.isEmpty()) {
+            load->setText(QString());
+            load->setIcon(QIcon());
+        } else {
+            load->setText(i18n("Layout %1: %2", i, layoutName));
+        }
         load->setData(layoutName);
-        layoutActions->addAction("load_layout" + QString::number(i), load);
-        m_loadLayout->addAction(load);
-        i++;
+        if (!layoutName.isEmpty()) {
+            load->setEnabled(true);
+            m_loadLayout->addAction(load);
+        } else {
+            load->setEnabled(false);
+        }
     }
 }
 
@@ -266,17 +282,12 @@ void LayoutManagement::slotManageLayouts()
     // Update order and new names
     for (int i = 0; i < list.count(); i++) {
         QListWidgetItem *item = list.item(i);
-        order.writeEntry(QString::number(i + 1), item->data(Qt::UserRole).toString());
+        order.writeEntry(QString::number(i + 1), item->text());
         if (item->text() != item->data(Qt::UserRole).toString() && !item->text().isEmpty()) {
             layouts.writeEntry(item->text(), layouts.readEntry(item->data(Qt::UserRole).toString()));
             layouts.deleteEntry(item->data(Qt::UserRole).toString());
         }
     }
     config->reparseConfiguration();
-    initializeLayouts();
-}
-
-void LayoutManagement::slotOnGUISetupDone()
-{
     initializeLayouts();
 }
