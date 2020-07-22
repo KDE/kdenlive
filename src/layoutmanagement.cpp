@@ -17,8 +17,11 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QListWidget>
+#include <QMenuBar>
+#include <QButtonGroup>
 
 #include <KConfigGroup>
+#include <KColorScheme>
 #include <KSharedConfig>
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
@@ -45,6 +48,21 @@ LayoutManagement::LayoutManagement(QObject *parent)
         QAction *load = new QAction(QIcon(), QString(), this);
         m_layoutActions <<layoutActions->addAction("load_layout" + QString::number(i), load);
     }
+    MainWindow *main = pCore->window();
+    m_container = new QWidget(main);
+    m_containerGrp = new QButtonGroup(m_container);
+    QVBoxLayout *l1 = new QVBoxLayout;
+    l1->addStretch();
+    m_containerLayout = new QHBoxLayout;
+    m_containerLayout->setSpacing(0);
+    m_containerLayout->setContentsMargins(0, 0, 0, 0);
+    l1->addLayout(m_containerLayout);
+    m_container->setLayout(l1);
+    KColorScheme scheme(main->palette().currentColorGroup(), KColorScheme::Button);
+    QColor bg = scheme.background(KColorScheme::AlternateBackground).color();
+    QString style = QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(main->fontInfo().pixelSize()/2);
+    m_container->setStyleSheet(style);
+    main->menuBar()->setCornerWidget(m_container, Qt::TopRightCorner);
     initializeLayouts();
 }
 
@@ -52,6 +70,11 @@ void LayoutManagement::initializeLayouts()
 {
     if (m_loadLayout == nullptr) {
         return;
+    }
+    MainWindow *main = pCore->window();
+    // Delete existing buttons
+    while (auto item = m_containerLayout->takeAt(0)) {
+      delete item->widget();
     }
     
     // Load default base layouts
@@ -63,6 +86,7 @@ void LayoutManagement::initializeLayouts()
     // Load User defined layouts
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"), KConfig::NoCascade);
     KConfigGroup layoutGroup(config, "Layouts");
+    KConfigGroup layoutOrder(config, "Order");
     // If we don't have any layout saved, check in main config file
     if (!layoutGroup.exists()) {
         config = KSharedConfig::openConfig();
@@ -72,20 +96,24 @@ void LayoutManagement::initializeLayouts()
             layoutGroup2.copyTo(&layoutGroup);
         }
     }
+    if (!layoutGroup.exists()) {
+        defaultLayout.copyTo(&layoutGroup);
+        defaultOrder.copyTo(&layoutOrder);
+    }
     m_loadLayout->removeAllActions();
-    KConfigGroup layoutOrder(config, "Order");
     QStringList entries;
+    bool addedDefault = false;
     if (!layoutOrder.exists()) {
         // This is an old or newly created config file, import defaults
         defaultLayouts = defaultOrder.entryMap().values();
         entries = layoutGroup.keyList();
+        addedDefault = true;
     } else {
         // User sorted list
         entries = layoutOrder.entryMap().values();
     }
     
     // Add default layouts to user config in they don't exist
-    bool addedDefault = false;
     for (const QString &lay : defaultLayouts)
     {
         if (!entries.contains(lay)) {
@@ -115,6 +143,15 @@ void LayoutManagement::initializeLayouts()
             load->setIcon(QIcon());
         } else {
             load->setText(i18n("Layout %1: %2", i, layoutName));
+            if (i < 6) {
+                QPushButton *lab = new QPushButton(i18n(layoutName.toUtf8().constData()), m_container);
+                connect(lab, &QPushButton::clicked, load, &QAction::trigger);
+                lab->setCheckable(true);
+                lab->setFlat(true);
+                lab->setFont(main->menuBar()->font());
+                m_containerGrp->addButton(lab);
+                m_containerLayout->addWidget(lab);
+            }
         }
         load->setData(layoutName);
         if (!layoutName.isEmpty()) {
@@ -124,6 +161,8 @@ void LayoutManagement::initializeLayouts()
             load->setEnabled(false);
         }
     }
+    // Required to trigger a refresh of the container buttons
+    main->menuBar()->resize(main->menuBar()->sizeHint());
 }
 
 void LayoutManagement::slotLoadLayout(QAction *action)

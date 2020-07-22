@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="189" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="192" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -284,14 +284,6 @@
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>
 	<Action name="project_render_button" />
-  </ToolBar>
-  <ToolBar name="layoutsToolBar"  fullWidth="false" newline="true" noMerge="1" position="top">
-    <text>Layouts</text>
-	<Action name="load_layout1" />
-    <Action name="load_layout2" />
-    <Action name="load_layout3" />
-    <Action name="load_layout4" />
-    <Action name="load_layout5" />
   </ToolBar>
 </kpartgui>
 

@@ -261,8 +261,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_speedLabel = new QLabel(this);
     m_speedLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
-    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
-    bg = scheme.background(KColorScheme::PositiveBackground).color();
+    QColor bg = scheme.background(KColorScheme::PositiveBackground).color();
     m_speedLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_speedLabel->sizeHint().height()/4));
     m_toolbar->addWidget(m_speedLabel);
     m_speedLabel->setFixedWidth(0);
