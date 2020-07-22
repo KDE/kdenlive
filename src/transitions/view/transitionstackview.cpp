@@ -82,7 +82,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
         emit seekToTransPos(pos + clipIn);
     });
-    initKeyframeView(true);
+    emit initKeyframeView(true);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     m_lay->addStretch(10);
     slotRefresh();

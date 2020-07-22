@@ -96,12 +96,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
-    connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() {
+    connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             video_tracks->setValue(1);
         }
     });
-    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this] () {
+    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this] () {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             audio_tracks->setValue(1);
         }
@@ -670,7 +670,7 @@ void ProjectSettings::slotExportToText()
     fd.setMimeTypeFilters(QStringList() << "text/plain");
     if (fd.exec() != QDialog::Accepted) { return; }
     
-    const QString savePath = fd.selectedFiles().first();
+    const QString savePath = fd.selectedFiles().constFirst();
     
     QString text;
     text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');

@@ -63,7 +63,7 @@ TrackModel::TrackModel(const std::weak_ptr<TimelineModel> &parent, int id, const
         QObject::connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&](const QModelIndex &, const QModelIndex &, QVector<int> roles) {
             if (auto ptr2 = m_parent.lock()) {
                 QModelIndex ix = ptr2->makeTrackIndexFromID(m_id);
-                ptr2->dataChanged(ix, ix, roles);
+                emit ptr2->dataChanged(ix, ix, roles);
             }
         });
     } else {
@@ -162,7 +162,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
                     ptr->checkRefresh(new_in, new_out);
                 }
                 if (!audioOnly && finalMove && !isAudioTrack()) {
-                    ptr->invalidateZone(new_in, new_out);
+                    emit ptr->invalidateZone(new_in, new_out);
                 }
             }
             return true;
@@ -281,7 +281,7 @@ void TrackModel::replugClip(int clipId)
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         m_playlists[target_track].insert_at(clip_position, *clip, 1);
         if (!clip->isAudioOnly() && !isAudioTrack()) {
-            ptr->invalidateZone(clip->getIn(), clip->getOut());
+            emit ptr->invalidateZone(clip->getIn(), clip->getOut());
         }
         if (!clip->isAudioOnly() && !isHidden() && !isAudioTrack()) {
             // only refresh monitor if not an audio track and not hidden
@@ -335,7 +335,7 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                 ptr->m_snaps->removePoint(old_out);
                 if (finalMove) {
                     if (!audioOnly && !isAudioTrack()) {
-                        ptr->invalidateZone(old_in, old_out);
+                        emit ptr->invalidateZone(old_in, old_out);
                     }
                     if (!groupMove && target_clip >= m_playlists[target_track].count()) {
                         // deleted last clip in playlist
@@ -1055,8 +1055,8 @@ Fun TrackModel::requestCompositionResize_lambda(int compoId, int in, int out, bo
             ptr->checkRefresh(old_in, old_out);
             ptr->checkRefresh(new_in, new_out);
             if (logUndo) {
-                ptr->invalidateZone(old_in, old_out);
-                ptr->invalidateZone(new_in, new_out);
+                emit ptr->invalidateZone(old_in, old_out);
+                emit ptr->invalidateZone(new_in, new_out);
             }
             // ptr->adjustAssetRange(compoId, new_in, new_out);
         } else {
@@ -1155,7 +1155,7 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, 
         ptr->m_snaps->removePoint(old_in);
         ptr->m_snaps->removePoint(old_out);
         if (finalMove) {
-            ptr->invalidateZone(old_in, old_out);
+            emit ptr->invalidateZone(old_in, old_out);
         }
         return true;
     };
@@ -1208,7 +1208,7 @@ Fun TrackModel::requestCompositionInsertion_lambda(int compoId, int position, bo
                 ptr->m_snaps->addPoint(new_out);
                 m_compoPos[new_in] = composition->getId();
                 if (finalMove) {
-                    ptr->invalidateZone(new_in, new_out);
+                    emit ptr->invalidateZone(new_in, new_out);
                 }
                 return true;
             }
@@ -1329,7 +1329,7 @@ void TrackModel::lock()
     setProperty(QStringLiteral("kdenlive:locked_track"), QStringLiteral("1"));
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
+        emit ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
     }
 }
 void TrackModel::unlock()
@@ -1337,7 +1337,7 @@ void TrackModel::unlock()
     setProperty(QStringLiteral("kdenlive:locked_track"), (char *)nullptr);
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeTrackIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
+        emit ptr->dataChanged(ix, ix, {TimelineModel::IsLockedRole});
     }
 }
 

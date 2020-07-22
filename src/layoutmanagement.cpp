@@ -238,7 +238,7 @@ void LayoutManagement::slotManageLayouts()
     QToolButton tb(&d);
     tb.setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     tb.setAutoRaise(true);
-    connect(&tb, &QToolButton::clicked, [this, &layouts, &list]() {
+    connect(&tb, &QToolButton::clicked, this, [this, &layouts, &list]() {
         if (list.currentItem()) {
             layouts.deleteEntry(list.currentItem()->data(Qt::UserRole).toString());
             delete list.currentItem();

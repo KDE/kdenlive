@@ -134,7 +134,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
     m_view->setModel(effectParamModel, frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
-    connect(m_view, &AssetParameterView::activateEffect, [this]() {
+    connect(m_view, &AssetParameterView::activateEffect, this, [this]() {
         if (!decoframe->property("active").toBool()) {
             // Activate effect if not already active
             emit activateEffect(m_model);
@@ -147,7 +147,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
     lay->addWidget(m_view);
-    connect(m_keyframesButton, &QToolButton::toggled, [this](bool toggle) {
+    connect(m_keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
         m_view->toggleKeyframes(toggle);
     });
     if (!effectParamModel->hasMoreThanOneKeyframe()) {
@@ -346,7 +346,7 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
     if (active) {
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     }
-    m_view->initKeyframeView(active);
+    emit m_view->initKeyframeView(active);
 }
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
@@ -393,14 +393,14 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectName = EffectsRepository::get()->getName(effectId);
     std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    m_view->initKeyframeView(!disable);
+    emit m_view->initKeyframeView(!disable);
     emit activateEffect(m_model);
 }
 
 void CollapsibleEffectView::updateScene()
 {
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    m_view->initKeyframeView(m_model->isEnabled());
+    emit m_view->initKeyframeView(m_model->isEnabled());
 }
 
 void CollapsibleEffectView::slotDeleteEffect()
@@ -485,7 +485,6 @@ QDomDocument CollapsibleEffectView::toXml() const
     QString effectId = m_model->getAssetId();
     // Adjust param values
     QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-    QMap<QString, QString> values;
 
     QDomElement effect = doc.createElement(QStringLiteral("effect"));
     doc.appendChild(effect);

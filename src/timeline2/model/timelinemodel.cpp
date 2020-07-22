@@ -1190,7 +1190,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     audioTids = getLowerTracksId(trackId, TrackType::AudioTrack);
                 }
                 // First audio stream already inserted in target_track or in timeline
-                streamsCount = m_binAudioTargets.keys().count() - 1;
+                streamsCount = m_binAudioTargets.count() - 1;
                 qDebug()<<"=== GOT AUDIO STRAMS: "<<streamsCount<<"\nAUDIO IDS: "<<audioTids;
                 while (streamsCount > 0 && !audioTids.isEmpty()) {
                     target_track << audioTids.takeFirst();
@@ -1229,7 +1229,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             for (int &target_ix : target_track) {
                 qDebug()<<"=== TESTING MIRRONR ON TK: "<<target_ix;
                 bool currentDropIsAudio = !audioDrop;
-                if (!useTargets && m_binAudioTargets.keys().count() > 1 && dropTargets.contains(target_ix)) {
+                if (!useTargets && m_binAudioTargets.count() > 1 && dropTargets.contains(target_ix)) {
                     // Audio clip dropped first but has other streams
                     currentDropIsAudio = true;
                     mirrorAudioStream = dropTargets.value(target_ix);

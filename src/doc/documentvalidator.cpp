@@ -1543,7 +1543,7 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                         item.insert(QLatin1String("leaf"), QJsonValue(QLatin1String("clip")));
                         QString pos = elements.at(h).toElement().attribute(QStringLiteral("position"));
                         QString track = trackIndex.value(elements.at(h).toElement().attribute(QStringLiteral("track")));
-                        item.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
+                        item.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track, pos)));
                         array.push_back(item);
                     }
                     QJsonObject currentGroup;

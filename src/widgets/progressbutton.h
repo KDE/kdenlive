@@ -36,7 +36,7 @@ class QAction;
 
 class ProgressButton : public QToolButton
 {
-    Q_PROPERTY(int progress READ progress WRITE setProgress)
+    Q_PROPERTY(int progress READ progress WRITE setProgress NOTIFY progressChanged)
     Q_OBJECT
 public:
     explicit ProgressButton(const QString &text, double max = 100, QWidget *parent = nullptr);
@@ -59,6 +59,9 @@ private:
     QStyleOptionToolButton m_buttonStyle;
     /** @brief While rendering, replace real action by a fake on so that rendering is not triggered when clicking again. */
     QAction *m_dummyAction;
+
+signals:
+    void progressChanged();
 };
 
 #endif

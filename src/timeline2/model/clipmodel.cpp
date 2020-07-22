@@ -63,7 +63,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
             if (auto ptr = m_parent.lock()) {
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                 qDebug() << "// GOT CLIP STACK DATA CHANGE DONE: " << ix << " = " << roles;
-                ptr->dataChanged(ix, ix, roles);
+                emit ptr->dataChanged(ix, ix, roles);
             }
         }
     });
@@ -233,15 +233,15 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                         if (right) {
                             int newOut = m_position + getOut() - getIn();
                             if (oldOut < newOut) {
-                                ptr->invalidateZone(oldOut, newOut);
+                                emit ptr->invalidateZone(oldOut, newOut);
                             } else {
-                                ptr->invalidateZone(newOut, oldOut);
+                                emit ptr->invalidateZone(newOut, oldOut);
                             }
                         } else {
                             if (oldIn < m_position) {
-                                ptr->invalidateZone(oldIn, m_position);
+                                emit ptr->invalidateZone(oldIn, m_position);
                             } else {
-                                ptr->invalidateZone(m_position, oldIn);
+                                emit ptr->invalidateZone(m_position, oldIn);
                             }
                         }
                     }
@@ -279,15 +279,15 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                                 if (right) {
                                     int newOut = m_position + getOut() - getIn();
                                     if (oldOut < newOut) {
-                                        ptr->invalidateZone(oldOut, newOut);
+                                        emit ptr->invalidateZone(oldOut, newOut);
                                     } else {
-                                        ptr->invalidateZone(newOut, oldOut);
+                                        emit ptr->invalidateZone(newOut, oldOut);
                                     }
                                 } else {
                                     if (oldIn < m_position) {
-                                        ptr->invalidateZone(oldIn, m_position);
+                                        emit ptr->invalidateZone(oldIn, m_position);
                                     } else {
-                                        ptr->invalidateZone(m_position, oldIn);
+                                        emit ptr->invalidateZone(m_position, oldIn);
                                     }
                                 }
                             }
@@ -606,7 +606,6 @@ int ClipModel::audioStream() const
 int ClipModel::audioStreamIndex() const
 {
     READ_LOCK();
-    QVariantList list;
     QList <int> streams = pCore->projectItemModel()->getClipByBinID(m_binClipId)->audioStreams().keys();
     return streams.indexOf(m_producer->parent().get_int("audio_index")) + 1;
 }
@@ -690,7 +689,7 @@ Fun ClipModel::setClipState_lambda(PlaylistState::ClipState state)
             if (m_currentTrackId != -1 && ptr->isClip(m_id)) { // if this is false, the clip is being created. Don't update model in that case
                 refreshProducerFromBin(m_currentTrackId);
                 QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-                ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
+                emit ptr->dataChanged(ix, ix, {TimelineModel::StatusRole});
             }
             return true;
         }
@@ -858,7 +857,7 @@ void ClipModel::setOffset(int offset)
     m_positionOffset = offset;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::PositionOffsetRole});
+        emit ptr->dataChanged(ix, ix, {TimelineModel::PositionOffsetRole});
     }
 }
 
@@ -871,7 +870,7 @@ void ClipModel::setGrab(bool grab)
     m_grabbed = grab;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+        emit ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
     }
 }
 
@@ -885,7 +884,7 @@ void ClipModel::setSelected(bool sel)
     if (auto ptr = m_parent.lock()) {
         if (m_currentTrackId != -1) {
             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
-            ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+            emit ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
         }
     }
 }

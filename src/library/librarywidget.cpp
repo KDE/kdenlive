@@ -402,7 +402,7 @@ void LibraryWidget::slotMoveData(const QList<QUrl> &urls, QString dest)
             // Dropped an external file, attempt to copy it to library
             KIO::FileCopyJob *copyJob = KIO::file_copy(url, QUrl::fromLocalFile(dir.absoluteFilePath(url.fileName())));
             connect(copyJob, &KJob::result, this, &LibraryWidget::slotDownloadFinished);
-            connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotDownloadProgress(KJob *, ulong)));
+            connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotDownloadProgress(KJob*,ulong)));
         } else {
             // Internal drag/drop
             dir.rename(url.toLocalFile(), url.fileName());

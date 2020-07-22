@@ -58,7 +58,7 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
         if (!resource || resource[0] != '<' || resource[strlen(resource) - 1] != '>')
             mlt_type = mlt_properties_get(properties, "mlt_type" );
         if (service_name)
-            message = QString("[%1 %2 %3] ").arg(mlt_type).arg(service_name).arg(id);
+            message = QString("[%1 %2 %3] ").arg(mlt_type, service_name, id);
         else
             message = QString::asprintf("[%s %p] ", mlt_type, service);
         if (resource)

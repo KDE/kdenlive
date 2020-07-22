@@ -192,6 +192,9 @@ public:
     /* @brief Retrieves the next id available for attribution to a clip */
     int getFreeClipId();
 
+    /** @brief Check whether a given id is currently used or not*/
+    bool isIdFree(const QString &id) const;
+
     /** @brief Retrieve a list of proxy/original urls */
     QMap<QString, QString> getProxies(const QString &root);
 
@@ -231,8 +234,6 @@ public slots:
     void onItemUpdated(const std::shared_ptr<AbstractProjectItem> &item, int role);
     void onItemUpdated(const QString &binId, int role);
 
-    /** @brief Check whether a given id is currently used or not*/
-    bool isIdFree(const QString &id) const;
     void setDragType(PlaylistState::ClipState type);
     /** @brief Create the subclips defined in the parent clip.
     @param id is the id of the parent clip

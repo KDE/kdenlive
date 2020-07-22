@@ -69,7 +69,7 @@ void SpeedJob::configureProducer()
 {
     if (!qFuzzyCompare(m_speed, 1.0)) {
         QString resource = m_producer->get("resource");
-        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(QString::fromStdString(std::to_string(m_speed))).arg(resource).toUtf8().constData());
+        m_producer = std::make_unique<Mlt::Producer>(*m_profile.get(), "timewarp", QStringLiteral("%1:%2").arg(QString::fromStdString(std::to_string(m_speed)), resource).toUtf8().constData());
         if (m_in > 0) {
             m_in /= m_speed;
         }
@@ -170,7 +170,7 @@ int SpeedJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::vect
     // We are now all set to create the job. Note that we pass all the parameters directly through the lambda, hence there are no extra parameters to the
     // function
     using local_createFn_t = std::function<std::shared_ptr<SpeedJob>(const QString &)>;
-    return ptr->startJob<SpeedJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
+    return emit ptr->startJob<SpeedJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
 }
 
 bool SpeedJob::commitResult(Fun &undo, Fun &redo)

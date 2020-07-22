@@ -25,7 +25,6 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
 {
     // setup the comment
     setupUi(this);
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
 
     slotRefresh();

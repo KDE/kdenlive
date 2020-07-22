@@ -90,12 +90,12 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_page8->setIcon(QIcon::fromTheme(QStringLiteral("project-defaults")));
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
-    connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() {
+    connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
             m_configProject.kcfg_videotracks->setValue(1);
         }
     });
-    connect(m_configProject.kcfg_audiotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this] () {
+    connect(m_configProject.kcfg_audiotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this] () {
         if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
             m_configProject.kcfg_audiotracks->setValue(1);
         }
@@ -440,7 +440,7 @@ bool KdenliveSettingsDialog::initAudioRecDevice()
     m_configCapture.labelNoAudioDevices->setVisible(audioDevices.empty());
 
     m_configCapture.kcfg_defaultaudiocapture->addItems(audioDevices);
-    connect(m_configCapture.kcfg_defaultaudiocapture, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&]() {
+    connect(m_configCapture.kcfg_defaultaudiocapture, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
         QString currentDevice = m_configCapture.kcfg_defaultaudiocapture->currentText();
         KdenliveSettings::setDefaultaudiocapture(currentDevice);
     });
@@ -702,9 +702,9 @@ void KdenliveSettingsDialog::slotReadAudioDevices()
         if (!devicestr.startsWith(QLatin1Char(' ')) && devicestr.count(QLatin1Char(':')) > 1) {
             QString card = devicestr.section(QLatin1Char(':'), 0, 0).section(QLatin1Char(' '), -1);
             QString device = devicestr.section(QLatin1Char(':'), 1, 1).section(QLatin1Char(' '), -1);
-            m_configSdl.kcfg_audio_device->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("plughw:%1,%2").arg(card).arg(device));
+            m_configSdl.kcfg_audio_device->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(), QStringLiteral("plughw:%1,%2").arg(card, device));
             m_configCapture.kcfg_v4l_alsadevice->addItem(devicestr.section(QLatin1Char(':'), -1).simplified(),
-                                                         QStringLiteral("hw:%1,%2").arg(card).arg(device));
+                                                         QStringLiteral("hw:%1,%2").arg(card, device));
         }
     }
 }
@@ -1027,7 +1027,7 @@ void KdenliveSettingsDialog::updateSettings()
     if (m_configColors.kcfg_thumbColor1->color() != KdenliveSettings::thumbColor1() || m_configColors.kcfg_thumbColor2->color() != KdenliveSettings::thumbColor2()) {
         KdenliveSettings::setThumbColor1(m_configColors.kcfg_thumbColor1->color());
         KdenliveSettings::setThumbColor2(m_configColors.kcfg_thumbColor2->color());
-        pCore->window()->getMainTimeline()->controller()->colorsChanged();
+        emit pCore->window()->getMainTimeline()->controller()->colorsChanged();
     }
 
     if (m_configSdl.kcfg_volume->value() != KdenliveSettings::volume()) {
@@ -1082,7 +1082,7 @@ void KdenliveSettingsDialog::updateSettings()
 
     if (m_configTimeline.kcfg_autoscroll->isChecked() != KdenliveSettings::autoscroll()) {
         KdenliveSettings::setAutoscroll(m_configTimeline.kcfg_autoscroll->isChecked());
-        pCore->autoScrollChanged();
+        emit pCore->autoScrollChanged();
     }
 
     // Mimes

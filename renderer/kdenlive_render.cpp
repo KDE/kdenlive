@@ -29,7 +29,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QStringList args = app.arguments();
     QStringList preargs;
-    QString locale;
     if (args.count() >= 4) {
         // Remove program name
         args.removeFirst();
@@ -92,7 +91,7 @@ int main(int argc, char **argv)
             QLocale::setDefault(QLocale(localename));
             for (const QString &frame : qAsConst(chunks)) {
                 fprintf(stderr, "START:%d \n", frame.toInt());
-                QString fileName = QStringLiteral("%1.%2").arg(frame).arg(extension);
+                QString fileName = QStringLiteral("%1.%2").arg(frame,extension);
                 if (baseFolder.exists(fileName)) {
                     // Don't overwrite an existing file
                     fprintf(stderr, "DONE:%d \n", frame.toInt());

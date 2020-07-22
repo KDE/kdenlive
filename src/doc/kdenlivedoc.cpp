@@ -916,7 +916,6 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
     for (int i = 0; i < maxchild; ++i) {
         e = customeffects.at(i).toElement();
         const QString id = e.attribute(QStringLiteral("id"));
-        const QString tag = e.attribute(QStringLiteral("tag"));
         if (!id.isEmpty()) {
             // Check if effect exists or save it
             if (EffectsRepository::get()->exists(id)) {
@@ -1469,7 +1468,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         QList<QAction *> list;
         const QString profilePath = profile->path();
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
-        connect(ac, &QAction::triggered, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
+        connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2;
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
@@ -1510,12 +1509,12 @@ QAction *KdenliveDoc::getAction(const QString &name)
 
 void KdenliveDoc::previewProgress(int p)
 {
-    pCore->window()->setPreviewProgress(p);
+    emit pCore->window()->setPreviewProgress(p);
 }
 
 void KdenliveDoc::displayMessage(const QString &text, MessageType type, int timeOut)
 {
-    pCore->window()->displayMessage(text, type, timeOut);
+    emit pCore->window()->displayMessage(text, type, timeOut);
 }
 
 void KdenliveDoc::selectPreviewProfile()

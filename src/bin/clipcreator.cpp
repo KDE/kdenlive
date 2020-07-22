@@ -237,7 +237,6 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             continue;
         }
         QFileInfo info(file.toLocalFile());
-        QMimeType mType = db.mimeTypeForUrl(file);
         if (info.isDir()) {
             // user dropped a folder, import its files
             QDir dir(file.toLocalFile());

@@ -413,5 +413,5 @@ void AudioGraphSpectrum::processSpectrum()
     }
 
     // Update the audio signal widget
-    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(const QVector<double> &, bands));
+    QMetaObject::invokeMethod(m_graphWidget, "showAudio", Qt::QueuedConnection, Q_ARG(QVector<double>, bands));
 }

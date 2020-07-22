@@ -299,7 +299,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         if (progressDialog) {
             progressDialog->setValue(progressDialog->value() + 1);
         } else {
-            pCore->loadingMessageUpdated(QString(), 1);
+            emit pCore->loadingMessageUpdated(QString(), 1);
         }
         std::shared_ptr<Mlt::Producer> clip(track.get_clip(i));
         int position = track.clip_start(i);

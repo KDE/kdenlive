@@ -72,7 +72,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         return;
     }
     std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, this));
-    connect(mixer.get(), &MixerWidget::muteTrack, [&](int id, bool mute) {
+    connect(mixer.get(), &MixerWidget::muteTrack, this, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
     if (m_visibleMixerManager) {
@@ -80,7 +80,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     }
     connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
-    connect(mixer.get(), &MixerWidget::toggleSolo, [&](int trid, bool solo) {
+    connect(mixer.get(), &MixerWidget::toggleSolo, this, [&](int trid, bool solo) {
         if (!solo) {
             // unmute
             for (int id : qAsConst(m_soloMuted)) {
@@ -143,7 +143,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     // Insert master mixer
     m_model = model;
-    connect(m_model.get(), &TimelineItemModel::dataChanged, [&](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles) {
+    connect(m_model.get(), &TimelineItemModel::dataChanged, this, [&](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles) {
         if (roles.contains(TimelineModel::IsDisabledRole)) {
             int id = (int) topLeft.internalId();
             if (m_mixers.count(id) > 0) {
@@ -160,7 +160,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         m_masterBox->removeWidget(m_masterMixer.get());
     }
     m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), this));
-    connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
+    connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
     if (m_visibleMixerManager) {

@@ -77,7 +77,7 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_treeView->header()->hide();
     QItemSelectionModel *selectionModel = m_treeView->selectionModel();
     connect(selectionModel, &QItemSelectionModel::currentRowChanged, this, &ProfileWidget::slotChangeSelection);
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, [&](const QItemSelection &selected, const QItemSelection &deselected) {
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, [&](const QItemSelection &selected, const QItemSelection &deselected) {
         QModelIndex current, old;
         if (!selected.indexes().isEmpty()) {
             current = selected.indexes().front();

@@ -87,7 +87,7 @@ void ElidedLinkLabel::updateText(int width)
     if (m_link.isEmpty()) {
         setText(fontMetrics().elidedText(m_text, Qt::ElideLeft, width));
     } else {
-        setText(QString("<a href=\"%1\">%2</a>").arg(m_link).arg(fontMetrics().elidedText(m_text, Qt::ElideLeft, width)));
+        setText(QString("<a href=\"%1\">%2</a>").arg(m_link, fontMetrics().elidedText(m_text, Qt::ElideLeft, width)));
     }
 }
 
@@ -454,7 +454,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             pbox->setCheckState(Qt::Unchecked);
         }
         pbox->setEnabled(pCore->projectManager()->current()->getDocumentProperty(QStringLiteral("enableproxy")).toInt() != 0);
-        connect(pbox, &QCheckBox::stateChanged, [this, pbox](int state) {
+        connect(pbox, &QCheckBox::stateChanged, this, [this, pbox](int state) {
             emit requestProxy(state == Qt::PartiallyChecked);
             if (state == Qt::Checked) {
                 QSignalBlocker bk(pbox);
@@ -462,7 +462,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             }
         });
         connect(this, &ClipPropertiesController::enableProxy, pbox, &QCheckBox::setEnabled);
-        connect(this, &ClipPropertiesController::proxyModified, [this, pbox, bg, lab](const QString &pxy) {
+        connect(this, &ClipPropertiesController::proxyModified, this, [this, pbox, bg, lab](const QString &pxy) {
             bool hasProxyClip = pxy.length() > 2;
             QSignalBlocker bk(pbox);
             pbox->setCheckState(hasProxyClip ? Qt::Checked : Qt::Unchecked);
@@ -480,7 +480,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         auto *tb = new QToolButton(this);
         tb->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
         tb->setAutoRaise(true);
-        connect(tb, &QToolButton::clicked, [this, proxy]() { emit deleteProxy(); });
+        connect(tb, &QToolButton::clicked, this, [this, proxy]() { emit deleteProxy(); });
         tb->setToolTip(i18n("Delete proxy file"));
         groupLay->addWidget(tb);
         // Folder button
@@ -493,19 +493,19 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
         tb->setPopupMode(QToolButton::InstantPopup);
 
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open folder"), this);
-        connect(ac, &QAction::triggered, [this]() {
+        connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(QFileInfo(pxy).path()));
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Play proxy clip"), this);
-        connect(ac, &QAction::triggered, [this]() {
+        connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QDesktopServices::openUrl(QUrl::fromLocalFile(pxy));
         });
         pMenu->addAction(ac);
         ac = new QAction(QIcon::fromTheme(QStringLiteral("edit-copy")), i18n("Copy file location to clipboard"), this);
-        connect(ac, &QAction::triggered, [this]() {
+        connect(ac, &QAction::triggered, this, [this]() {
             QString pxy = m_properties->get("kdenlive:proxy");
             QGuiApplication::clipboard()->setText(pxy);
         });
@@ -642,7 +642,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             ac->setActive(vix.toInt() == -1);
             videoStream->setEnabled(vix.toInt() > -1);
             videoStream->setVisible(m_videoStreams.size() > 1);
-            connect(ac, &KDualAction::activeChanged, [this, videoStream](bool activated) {
+            connect(ac, &KDualAction::activeChanged, this, [this, videoStream](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
@@ -656,7 +656,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 emit updateClipProperties(m_id, m_originalProperties, properties);
                 m_originalProperties = properties;
             });
-            QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [this, videoStream]() {
+            QObject::connect(videoStream, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this, videoStream]() {
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("video_index"), QString::number(videoStream->currentData().toInt()));
                 emit updateClipProperties(m_id, m_originalProperties, properties);
@@ -719,7 +719,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     item->setCheckState(Qt::Unchecked);
                 }
             }
-            connect(m_audioStreamsView, &QListWidget::currentRowChanged, [this] (int row) {
+            connect(m_audioStreamsView, &QListWidget::currentRowChanged, this, [this] (int row) {
                 if (row > -1) {
                     m_audioEffectGroup->setEnabled(true);
                     QListWidgetItem *item = m_audioStreamsView->item(row);
@@ -747,7 +747,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                     m_audioEffectGroup->setEnabled(false);
                 }
             });
-            connect(m_audioStreamsView, &QListWidget::itemChanged, [this] (QListWidgetItem *item) {
+            connect(m_audioStreamsView, &QListWidget::itemChanged, this, [this] (QListWidgetItem *item) {
                 if (!item) {
                     return;
                 }
@@ -796,7 +796,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
                 }
             });
             ac->setActive(vix.toInt() == -1);
-            connect(ac, &KDualAction::activeChanged, [this, audioStreamsInfo](bool activated) {
+            connect(ac, &KDualAction::activeChanged, this, [this, audioStreamsInfo](bool activated) {
                 QMap<QString, QString> properties;
                 int vindx = -1;
                 if (activated) {
@@ -816,7 +816,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             QVBoxLayout *vbox = new QVBoxLayout;
             // Normalize
             m_normalize = new QCheckBox(i18n("Normalize"), this);
-            connect(m_normalize, &QCheckBox::stateChanged, [this] (int state) {
+            connect(m_normalize, &QCheckBox::stateChanged, this, [this] (int state) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -834,7 +834,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
 
             // Swap channels
             m_swapChannels = new QCheckBox(i18n("Swap Channels"), this);
-            connect(m_swapChannels, &QCheckBox::stateChanged, [this] (int state) {
+            connect(m_swapChannels, &QCheckBox::stateChanged, this, [this] (int state) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -862,7 +862,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             copyLay->addWidget(m_copyChannel2);
             copyLay->addStretch(1);
             vbox->addLayout(copyLay);
-            connect(m_copyChannelGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), [this] (QAbstractButton *but, bool) {
+            connect(m_copyChannelGroup, QOverload<QAbstractButton *, bool>::of(&QButtonGroup::buttonToggled), this, [this] (QAbstractButton *but, bool) {
                 if (but == m_copyChannel1) {
                     QSignalBlocker bk(m_copyChannelGroup);
                     m_copyChannel2->setChecked(false);
@@ -886,7 +886,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             m_gain = new QSpinBox(this);
             m_gain->setRange(-100, 60);
             m_gain->setSuffix(i18n("dB"));
-            connect(m_gain, QOverload<int>::of(&QSpinBox::valueChanged), [this] (int value) {
+            connect(m_gain, QOverload<int>::of(&QSpinBox::valueChanged), this, [this] (int value) {
                 if (m_activeAudioStreams == -1) {
                     // No stream selected, abort
                     return;
@@ -918,7 +918,7 @@ ClipPropertiesController::ClipPropertiesController(ClipController *controller, Q
             if (spinSync->value() != 0) {
                 m_originalProperties.insert(QStringLiteral("video_delay"), QString::number(m_sourceProperties.get_double("video_delay"), 'f'));
             }
-            QObject::connect(spinSync, &QSpinBox::editingFinished, [this, spinSync]() {
+            QObject::connect(spinSync, &QSpinBox::editingFinished, this, [this, spinSync]() {
                 QMap<QString, QString> properties;
                 properties.insert(QStringLiteral("video_delay"), QString::number(spinSync->value() / 1000., 'f'));
                 emit updateClipProperties(m_id, m_originalProperties, properties);

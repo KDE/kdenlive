@@ -128,16 +128,16 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
-    connect(m_favEffects, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_favEffects, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->addEffectToClip(ac->data().toString());
     });
-    connect(m_favCompositions, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_favCompositions, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->addCompositionToClip(ac->data().toString());
     });
-    connect(m_guideMenu, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_guideMenu, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->setPosition(ac->data().toInt());
     });
-    connect(m_thumbsMenu, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_thumbsMenu, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
     // Fix qml focus issue
@@ -298,7 +298,7 @@ void TimelineWidget::showTargetMenu(int tid)
             ac->setChecked(true);
         }
     }
-    connect(m_targetsGroup, &QActionGroup::triggered, [this, tid] (QAction *action) {
+    connect(m_targetsGroup, &QActionGroup::triggered, this, [this, tid] (QAction *action) {
         int targetStream = action->data().toInt();
         m_proxy->assignAudioTarget(tid, targetStream);
     });
@@ -374,7 +374,7 @@ void TimelineWidget::slotFitZoom()
     }
     m_proxy->setScaleFactorOnMouse(scale, false);
     // Update zoom slider
-    m_proxy->updateZoom(scale);
+    emit m_proxy->updateZoom(scale);
     QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
 }
 
@@ -457,19 +457,19 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     switch(event->type()) {
         case QEvent::Enter:
             if (!hasFocus()) {
-                pCore->window()->focusTimeline(true, true);
+                emit pCore->window()->focusTimeline(true, true);
             }
             break;
         case QEvent::Leave:
             if (!hasFocus()) {
-                pCore->window()->focusTimeline(false, true);
+                emit pCore->window()->focusTimeline(false, true);
             }
             break;
         case QEvent::FocusOut:
-            pCore->window()->focusTimeline(false, false);
+            emit pCore->window()->focusTimeline(false, false);
             break;
         case QEvent::FocusIn:
-            pCore->window()->focusTimeline(true, false);
+            emit pCore->window()->focusTimeline(true, false);
             break;
         default:
             break;

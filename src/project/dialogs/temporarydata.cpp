@@ -588,7 +588,7 @@ void TemporaryData::buildGlobalCacheDialog(int minHeight)
     m_listWidget->setAlternatingRowColors(true);
     m_listWidget->setSortingEnabled(true);
     m_listWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    connect(m_listWidget, &QTreeWidget::itemDoubleClicked, [&](QTreeWidgetItem *item, int) {
+    connect(m_listWidget, &QTreeWidget::itemDoubleClicked, this, [&](QTreeWidgetItem *item, int) {
         QDesktopServices::openUrl(QUrl::fromLocalFile(m_globalDir.absoluteFilePath(item->data(0, Qt::UserRole).toString())));
     });
     treeLay->addWidget(m_listWidget);

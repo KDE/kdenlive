@@ -35,7 +35,7 @@ using std::vector;
 
 static const QChar DELIMITER = ';';
 static const QChar KEY_VALUE_SEP = '=';
-static const QString BUTTON_PREFIX(QStringLiteral("button"));
+static const QLatin1String BUTTON_PREFIX("button");
 
 QStringList JogShuttleConfig::actionMap(const QString &actionsConfig)
 {
@@ -49,7 +49,7 @@ QStringList JogShuttleConfig::actionMap(const QString &actionsConfig)
             continue;
         }
         // skip the 'button' prefix
-        int button_id = parts[0].midRef(BUTTON_PREFIX.length()).toInt();
+        int button_id = parts[0].midRef(BUTTON_PREFIX.size()).toInt();
         // fprintf(stderr, " - Handling map key='%s' (ID=%d), value='%s'\n", parts[0].data().toLatin1(), button_id, parts[1].data().toLatin1()); // DBG
         while (actionMap.size() <= button_id) {
             actionMap << QString();

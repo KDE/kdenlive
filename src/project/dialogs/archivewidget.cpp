@@ -636,7 +636,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, &KJob::result, [this] (KJob *jb) {
+            connect(job, &KJob::result, this, [this] (KJob *jb) {
                 slotArchivingFinished(jb, false);
             });
             connect(job, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
@@ -658,7 +658,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, &KJob::result, [this] (KJob *jb) {
+        connect(m_copyJob, &KJob::result, this, [this] (KJob *jb) {
             slotArchivingFinished(jb, false);
         });
         connect(m_copyJob, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
@@ -776,7 +776,7 @@ bool ArchiveWidget::processProjectFile()
             if (!dest.isEmpty()) {
                 if (isTimewarp) {
                     Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed"))).arg(dest.toLocalFile()));
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
                 } else {
                     Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
                 }

@@ -535,7 +535,7 @@ void ResourceWidget::slotChangeService()
     }
 
     connect(m_currentService, SIGNAL(gotMetaInfo(QString)), this, SLOT(slotSetMetadata(QString)));
-    connect(m_currentService, SIGNAL(gotMetaInfo(QMap<QString, QString>)), this, SLOT(slotDisplayMetaInfo(QMap<QString, QString>)));
+    connect(m_currentService, SIGNAL(gotMetaInfo(QMap<QString,QString>)), this, SLOT(slotDisplayMetaInfo(QMap<QString,QString>)));
     connect(m_currentService, &AbstractService::maxPages, this, &ResourceWidget::slotSetMaximum);
     connect(m_currentService, &AbstractService::searchInfo, search_info, &QLabel::setText);
     connect(m_currentService, &AbstractService::gotThumb, this, &ResourceWidget::slotLoadThumb);

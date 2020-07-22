@@ -30,7 +30,6 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
     setupUi(this);
 
     // setup the comment
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     labelComment->setText(comment);
     setToolTip(comment);
@@ -49,7 +48,7 @@ UrlParamWidget::UrlParamWidget(std::shared_ptr<AssetParameterModel> model, QMode
     slotRefresh();
 
     // emit the signal of the base class when appropriate
-    connect(this->urlwidget, &KUrlRequester::textChanged, [this]() {
+    connect(this->urlwidget, &KUrlRequester::textChanged, this, [this]() {
         QFileInfo info(urlwidget->url().toLocalFile());
         if (info.exists() && info.isFile()) {
             emit valueChanged(m_index, this->urlwidget->url().toLocalFile(), true);

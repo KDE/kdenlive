@@ -113,7 +113,7 @@ int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::
             // We are now all set to create the job. Note that we pass all the parameters directly through the lambda, hence there are no extra parameters to
             // the function
             using local_createFn_t = std::function<std::shared_ptr<StabilizeJob>(const QString &)>;
-            return ptr->startJob<StabilizeJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
+            return emit ptr->startJob<StabilizeJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
         }
     }
     return -1;

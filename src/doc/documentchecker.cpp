@@ -599,7 +599,6 @@ bool DocumentChecker::hasErrorInClips()
         int prodsCount = documentProducers.count();
         for (int j = 0; j < prodsCount; ++j) {
             mltProd = documentProducers.at(j).toElement();
-            QString prodId = mltProd.attribute(QStringLiteral("id"));
             QString parentId = Xml::getXmlProperty(mltProd, QStringLiteral("kdenlive:id"));
             bool slowmotion = false;
             if (parentId.startsWith(QLatin1String("slowmotion"))) {
@@ -1248,7 +1247,6 @@ void DocumentChecker::slotDeleteSelected()
         QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
 
         QDomNode mlt = m_doc.elementsByTagName(QStringLiteral("mlt")).at(0);
-        QDomNode kdenlivedoc = m_doc.elementsByTagName(QStringLiteral("kdenlivedoc")).at(0);
 
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();

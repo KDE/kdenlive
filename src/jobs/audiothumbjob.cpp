@@ -127,10 +127,10 @@ bool AudioThumbJob::computeWithFFMPEG()
         // Generate thumbnail used in monitor overlay
         QStringList args = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-i"), QUrl::fromLocalFile(filePath).toLocalFile(), QString("-filter_complex")};
         if (m_audioStream >= 0) {
-            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(audioStreamIndex).arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name()).arg(KdenliveSettings::thumbColor2().name());
+            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(audioStreamIndex).arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name(), KdenliveSettings::thumbColor2().name());
         } else {
             // Only 1 audio stream in clip
-            args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name()).arg(KdenliveSettings::thumbColor2().name());
+            args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name(), KdenliveSettings::thumbColor2().name());
         }
         args << QStringLiteral("-frames:v") << QStringLiteral("1");
         args << thumbPath;
@@ -194,9 +194,9 @@ bool AudioThumbJob::computeWithFFMPEG()
              << channelFiles[0]->fileName();
         } else {
             QString aformat = QStringLiteral("[a%1]%2=100,channelsplit=channel_layout=%3")
-                              .arg(audioStreamIndex >= 0 ? ":" + QString::number(audioStreamIndex) : QString())
-                              .arg(isFFmpeg ? "aresample=async" : "aformat=sample_rates")
-                              .arg(m_channels > 2 ? "5.1" : "stereo");
+                              .arg(audioStreamIndex >= 0 ? ":" + QString::number(audioStreamIndex) : QString(),
+                                   isFFmpeg ? "aresample=async" : "aformat=sample_rates",
+                                   m_channels > 2 ? "5.1" : "stereo");
             for (int i = 0; i < m_channels; ++i) {
                 aformat.append(QStringLiteral("[0:%1]").arg(i));
             }

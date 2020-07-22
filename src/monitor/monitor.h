@@ -112,6 +112,7 @@ public:
     QString getMarkerThumb(GenTime pos);
     int getZoneStart();
     int getZoneEnd();
+    QPoint getZoneInfo() const;
     void setUpEffectGeometry(const QRect &r, const QVariantList &list = QVariantList(), const QVariantList &types = QVariantList());
     /** @brief Set a property on the effect scene */
     void setEffectSceneProperty(const QString &name, const QVariant &value);
@@ -311,7 +312,6 @@ public slots:
     void slotSeekToPreviousSnap();
     void adjustRulerSize(int length, const std::shared_ptr<MarkerListModel> &markerModel = nullptr);
     void setTimePos(const QString &pos);
-    QPoint getZoneInfo() const;
     /** @brief Display the on monitor effect scene (to adjust geometry over monitor). */
     void slotShowEffectScene(MonitorSceneType sceneType, bool temporary = false, QVariant sceneData = QVariant());
     bool effectSceneDisplayed(MonitorSceneType effectType);

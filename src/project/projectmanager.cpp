@@ -124,7 +124,7 @@ void ProjectManager::slotLoadOnOpen()
     }
     m_loadClipsOnOpen.clear();
     m_loading = false;
-    pCore->closeSplash();
+    emit pCore->closeSplash();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -277,7 +277,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->jobManager()->slotCancelJobs();
             pCore->bin()->abortOperations();
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-            pCore->window()->clearAssetPanel();
+            emit pCore->window()->clearAssetPanel();
             delete m_project;
             m_project = nullptr;
         }
@@ -561,7 +561,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         m_progressDialog->setLabelText(i18n("Loading clips"));
         m_progressDialog->setMaximum(doc->clipsCount());
     } else {
-        pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
+        emit pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
     // TODO refac delete this
@@ -835,7 +835,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
     // Move tmp folder (thumbnails, timeline preview)
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
-    connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotMoveProgress(KJob *, ulong)));
+    connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
     m_project->moveProjectData(src, dest);
 }
 
@@ -905,7 +905,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
     int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
-    pCore->currentDoc()->updateCompositionMode(compositing);
+    emit pCore->currentDoc()->updateCompositionMode(compositing);
     if (compositing < 2) {
         pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
     }
@@ -913,7 +913,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         m_mainTimelineModel->loadGroups(groupsData);
     }
     connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
-    pCore->monitorManager()->updatePreviewScaling();
+    emit pCore->monitorManager()->updatePreviewScaling();
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
@@ -958,7 +958,6 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended
-    QString message;
     bool saveInTempFile = false;
     if (m_project && m_project->isModified()) {
         switch (
