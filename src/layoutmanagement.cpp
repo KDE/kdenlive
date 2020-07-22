@@ -195,18 +195,28 @@ void LayoutManagement::slotLoadLayout(QAction *action)
 
 void LayoutManagement::slotSaveLayout()
 {
-    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal);
+    QAbstractButton *button = m_containerGrp->checkedButton();
+    QString saveName;
+    if (button) {
+        saveName = button->text();
+    }
+    QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
     if (layoutName.isEmpty()) {
         return;
     }
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layouts(config, "Layouts");
+    KConfigGroup order(config, "Order");
 
     QByteArray st = pCore->window()->saveState();
     if (!pCore->window()->timelineVisible()) {
         st.prepend("NO-TL");
     }
     layouts.writeEntry(layoutName, st.toBase64());
+    int pos = order.keyList().last().toInt() + 1;
+    order.writeEntry(QString::number(pos), layoutName);
+    
+    config->reparseConfiguration();
     initializeLayouts();
 }
 
