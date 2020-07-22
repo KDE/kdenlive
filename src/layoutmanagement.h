@@ -31,13 +31,12 @@ private slots:
     void slotLoadLayout(QAction *action);
     /** @brief Manage layout. */
     void slotManageLayouts();
-    void slotOnGUISetupDone();
 
 private:
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
-
     KSelectAction *m_loadLayout;
+    QList <QAction *> m_layoutActions;
 };
 
 #endif

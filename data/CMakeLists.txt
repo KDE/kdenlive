@@ -22,6 +22,7 @@ install(FILES
   timeline_vthumbs.png
   kdenliveeffectscategory.rc
   kdenlivetranscodingrc
+  kdenlivedefaultlayouts.rc
 
   DESTINATION ${DATA_INSTALL_DIR}/kdenlive)
 install(FILES  kdenlive.notifyrc DESTINATION ${KNOTIFYRC_INSTALL_DIR})

@@ -257,6 +257,7 @@ void MainWindow::init()
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
     setupActions();
+    new LayoutManagement(this);
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
 
@@ -451,7 +452,6 @@ void MainWindow::init()
 
     auto *scmanager = new ScopeManager(this);
 
-    new LayoutManagement(this);
     new HideTitleBars(this);
     new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
