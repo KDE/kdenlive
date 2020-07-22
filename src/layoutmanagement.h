@@ -36,7 +36,6 @@ private slots:
 private:
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
-
     KSelectAction *m_loadLayout;
 };
 
