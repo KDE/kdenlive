@@ -143,7 +143,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
         break;
     }
     connect(kfType, static_cast<void (KSelectAction::*)(QAction *)>(&KSelectAction::triggered),
-            [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
+            this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
     auto *container = new QMenu(this);
     container->addAction(copy);
     container->addAction(paste);
@@ -164,8 +164,8 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_lay->addWidget(m_toolbar);
     monitorSeek(monitor->position());
 
-    connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&]() { slotSetPosition(-1, true); });
-    connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p) { slotSetPosition(p, true); });
+    connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, this, [&]() { slotSetPosition(-1, true); });
+    connect(m_keyframeview, &KeyframeView::seekToPos, this, [&](int p) { slotSetPosition(p, true); });
     connect(m_keyframeview, &KeyframeView::atKeyframe, this, &KeyframeWidget::slotAtKeyframe);
     connect(m_keyframeview, &KeyframeView::modified, this, &KeyframeWidget::slotRefreshParams);
     connect(m_keyframeview, &KeyframeView::activateEffect, this, &KeyframeWidget::activateEffect);
@@ -210,7 +210,7 @@ void KeyframeWidget::slotEditKeyframeType(QAction *action)
 {
     int type = action->data().toInt();
     m_keyframeview->slotEditType(type, m_index);
-    activateEffect();
+    emit activateEffect();
 }
 
 void KeyframeWidget::slotRefreshParams()
@@ -356,8 +356,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         GeometryWidget *geomWidget = new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, opacity, m_sourceFrameSize, false,
                                                         m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), integerOpacity, this);
         connect(geomWidget, &GeometryWidget::valueChanged,
-                [this, index](const QString v) {
-                    activateEffect();
+                this, [this, index](const QString v) {
+                    emit activateEffect();
                     m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
         paramWidget = geomWidget;
     } else if (type == ParamType::Roto_spline) {
@@ -390,8 +390,8 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
         factor = qFuzzyIsNull(factor) ? 1 : factor;
         auto doubleWidget = new DoubleWidget(name, value, min, max, factor, defaultValue, comment, -1, suffix, decimals, m_model->data(index, AssetParameterModel::OddRole).toBool(), this);
         connect(doubleWidget, &DoubleWidget::valueChanged,
-                [this, index](double v) {
-            activateEffect();
+                this, [this, index](double v) {
+            emit activateEffect();
             m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index);
         });
         paramWidget = doubleWidget;
@@ -432,7 +432,7 @@ void KeyframeWidget::connectMonitor(bool active)
 
 void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex &index, const QVariant &res)
 {
-    activateEffect();
+    emit activateEffect();
     if (m_keyframes->isEmpty()) {
         GenTime pos(pCore->getItemIn(m_model->getOwnerId()) + m_time->getValue(), pCore->getCurrentFps());
         if (m_time->getValue() > 0) {

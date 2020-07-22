@@ -205,7 +205,7 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     emit dataChanged(start, end, QVector<int>());
     emit enabledChange(!isEnabled());
     // Update timeline child producers
-    AssetParameterModel::updateChildren(QStringLiteral("disable"));
+    emit AssetParameterModel::updateChildren(QStringLiteral("disable"));
 }
 
 void EffectItemModel::setCollapsed(bool collapsed)

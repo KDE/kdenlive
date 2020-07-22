@@ -229,12 +229,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(buttonAlignCenter, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
-    connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] () {
+    connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&] () {
         slotValueChanged(ValueWidth);
     });
 
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
-    connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] (int state) {
+    connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&] (int state) {
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
         displayBackgroundFrame();
     });
@@ -502,7 +502,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     graphicsView->scene()->addItem(m_frameImage);
 
     bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
-    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&] (int ix) {
+    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&] (int ix) {
         KdenliveSettings::setTitlerbg(ix);
         displayBackgroundFrame();
     });
@@ -556,7 +556,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     addMenu->addAction(i18n("Save and add to project"));
     m_createTitleAction = new QAction(i18n("Create Title"), this);
     createButton->setMenu(addMenu);
-    connect(addMenu, &QMenu::triggered, [this]() {
+    connect(addMenu, &QMenu::triggered, this, [this]() {
         const QUrl url = saveTitle();
         if (!url.isEmpty()) {
             pCore->bin()->slotAddClipToProject(url);
@@ -564,10 +564,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
         }
     });
     createButton->setDefaultAction(m_createTitleAction);
-    connect(m_createTitleAction, &QAction::triggered, [this]() {
+    connect(m_createTitleAction, &QAction::triggered, this, [this]() {
         done(QDialog::Accepted);
     });
-    connect(cancelButton, &QPushButton::clicked, [this]() {
+    connect(cancelButton, &QPushButton::clicked, this, [this]() {
         done(QDialog::Rejected);
     });
     refreshTitleTemplates(m_projectTitlePath);
@@ -2500,8 +2500,8 @@ void TitleWidget::slotResize200()
 
 void TitleWidget::slotAddEffect(int /*ix*/)
 {
-    QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
     /*
+        QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
         int effect = effect_list->itemData(ix).toInt();
         if (list.size() == 1) {
             if (effect == NOEFFECT)
@@ -3055,7 +3055,6 @@ void TitleWidget::storeGradient(const QString &gradientData)
 
 void TitleWidget::loadGradients()
 {
-    QMap<QString, QString> gradients;
     gradients_combo->blockSignals(true);
     gradients_rect_combo->blockSignals(true);
     QString grad_data = gradients_combo->currentData().toString();

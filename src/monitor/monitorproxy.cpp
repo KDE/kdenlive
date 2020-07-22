@@ -62,7 +62,7 @@ void MonitorProxy::setRulerHeight(int addedHeight)
 
 void MonitorProxy::seek(int delta, uint modifiers)
 {
-    q->mouseSeek(delta, modifiers);
+    emit q->mouseSeek(delta, modifiers);
 }
 
 int MonitorProxy::overlayType() const

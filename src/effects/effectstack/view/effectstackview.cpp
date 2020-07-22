@@ -252,7 +252,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
         connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
-        connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
+        connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
@@ -361,7 +361,7 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
         for (int j = topLeft.column(); j <= bottomRight.column(); ++j) {
             CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, j, topLeft.parent())));
             if (w) {
-                w->refresh();
+                emit w->refresh();
             }
         }
     }
@@ -495,7 +495,7 @@ void EffectStackView::slotSaveStack()
         out << doc.toString();
     }
     file.close();
-    reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+    emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
 
 /*

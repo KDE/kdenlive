@@ -311,7 +311,7 @@ QStringList ThumbnailCache::getAudioKey(const QString &binId, bool *ok)
         QStringList streamsList;
         QStringList streamIndexes = streams.split(QLatin1Char(';'));
         for (const QString &st : qAsConst(streamIndexes)) {
-            streamsList << QString("%1_%2.png").arg(binClip->hash()).arg(st);
+            streamsList << QString("%1_%2.png").arg(binClip->hash(), st);
         }
         return streamsList;
     }

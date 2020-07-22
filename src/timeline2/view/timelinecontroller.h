@@ -549,6 +549,8 @@ public:
     void assignAudioTarget(int trackId, int stream);
     /** @brief Define a stream target for current track from the stream index */
     void assignCurrentTarget(int index);
+    /** @brief Get the first unassigned target audio stream. */
+    int getFirstUnassignedStream() const;
 
     /** @brief Add tracks to project */
     void addTracks(int videoTracks, int audioTracks);
@@ -561,8 +563,6 @@ public slots:
     Q_INVOKABLE void switchAudioTarget(int trackId);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
-    /** @brief Get the first unassigned target audio stream. */
-    int getFirstUnassignedStream() const;
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);

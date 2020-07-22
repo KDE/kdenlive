@@ -156,7 +156,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
                 ix = ptr->makeCompositionIndexFromID(child);
             }
             if (ix.isValid()) {
-                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+                emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }
         m_downLink[id].clear();
@@ -329,7 +329,7 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
                 ix = ptr->makeCompositionIndexFromID(id);
             }
             if (ix.isValid()) {
-                ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+                emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
             }
         }
         if (getType(groupId) == GroupType::Leaf) {
@@ -356,7 +356,7 @@ void GroupsModel::removeFromGroup(int id)
             ix = ptr->makeCompositionIndexFromID(id);
         }
         if (ix.isValid()) {
-            ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+            emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
         }
         if (m_downLink[parent].size() == 0) {
             downgradeToLeaf(parent);
@@ -884,7 +884,6 @@ bool GroupsModel::fromJsonWithOffset(const QString &data, const QMap<int, int> &
             continue;
         }
         // Adjust offset
-        auto children = value.toArray();
         adjustOffset(updatedNodes, obj, offset, trackMap);
         QJsonObject currentGroup;
         currentGroup.insert(QLatin1String("children"), QJsonValue(updatedNodes));

@@ -91,7 +91,7 @@ private:
 class MyTreeView : public QTreeView
 {
     Q_OBJECT
-    Q_PROPERTY(bool editing READ isEditing WRITE setEditing)
+    Q_PROPERTY(bool editing READ isEditing WRITE setEditing NOTIFY editingChanged)
 public:
     explicit MyTreeView(QWidget *parent = nullptr);
     void setEditing(bool edit);
@@ -118,6 +118,7 @@ signals:
     void displayBinFrame(QModelIndex ix, int frame);
     void processDragEnd();
     void selectCurrent();
+    void editingChanged();
 };
 
 class SmallJobLabel : public QPushButton
@@ -198,6 +199,10 @@ public:
     std::shared_ptr<ProjectClip> getBinClip(const QString &id);
     /** @brief Get a clip's name from it's id */
     const QString getBinClipName(const QString &id) const;
+    /** @brief Returns the duration of a given clip. */
+    size_t getClipDuration(int itemId) const;
+    /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
+    PlaylistState::ClipState getClipState(int itemId) const;
 
     /** @brief Add markers on clip @param binId at @param positions */ 
     void addClipMarker(const QString binId, QList<int> positions);
@@ -395,10 +400,6 @@ public slots:
     void droppedUrls(const QList<QUrl> &urls, const QString &folderInfo = QString());
     /** @brief Returns the effectstack of a given clip. */
     std::shared_ptr<EffectStackModel> getClipEffectStack(int itemId);
-    /** @brief Returns the duration of a given clip. */
-    size_t getClipDuration(int itemId) const;
-    /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
-    PlaylistState::ClipState getClipState(int itemId) const;
     /** @brief Adjust project profile to current clip. */
     void adjustProjectProfileToItem();
     /** @brief Check and propose auto adding audio tracks.

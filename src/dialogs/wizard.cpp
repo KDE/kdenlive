@@ -158,7 +158,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         m_startLayout->addWidget(cbn);
         cbn->setChecked(KdenliveSettings::nvencEnabled());
         QPushButton *pb = new QPushButton(i18n("Check hardware acceleration"), this);
-        connect(pb, &QPushButton::clicked, [&, cb, cbn, pb]() {
+        connect(pb, &QPushButton::clicked, this, [&, cb, cbn, pb]() {
             testHwEncoders();
             pb->setEnabled(false);
             cb->setChecked(KdenliveSettings::vaapiEnabled());

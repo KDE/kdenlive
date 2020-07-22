@@ -1610,7 +1610,7 @@ void GLWidget::refreshSceneLayout()
         return;
     }
     QSize s = pCore->getCurrentFrameSize();
-    m_proxy->profileChanged();
+    emit m_proxy->profileChanged();
     rootObject()->setProperty("scalex", (double)m_rect.width() / s.width() * m_zoom);
     rootObject()->setProperty("scaley", (double)m_rect.height() / s.height() * m_zoom);
 }
@@ -1870,5 +1870,5 @@ void GLWidget::switchRuler(bool show)
     m_rulerHeight = show ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 : 0;
     m_displayRulerHeight = m_rulerHeight;
     resizeGL(width(), height());
-    m_proxy->rulerHeightChanged();
+    emit m_proxy->rulerHeightChanged();
 }

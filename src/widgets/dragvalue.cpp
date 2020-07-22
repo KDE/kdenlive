@@ -107,7 +107,7 @@ DragValue::DragValue(const QString &label, double defaultValue, int decimals, do
         connect(m_doubleEdit, SIGNAL(valueChanged(double)), this, SLOT(slotSetValue(double)));
         connect(m_doubleEdit, &QAbstractSpinBox::editingFinished, this, &DragValue::slotEditingFinished);
     }
-    connect(m_label, SIGNAL(valueChanged(double, bool)), this, SLOT(setValueFromProgress(double, bool)));
+    connect(m_label, SIGNAL(valueChanged(double,bool)), this, SLOT(setValueFromProgress(double,bool)));
     connect(m_label, &CustomLabel::resetValue, this, &DragValue::slotReset);
     setLayout(l);
     if (m_intEdit) {

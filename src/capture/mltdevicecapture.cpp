@@ -153,7 +153,6 @@ void MltDeviceCapture::stop()
         // if (!m_mltConsumer->is_stopped()) m_mltConsumer->stop();
     }
     if (m_mltProducer) {
-        QList<Mlt::Producer *> prods;
         Mlt::Service service(m_mltProducer->parent().get_service());
         mlt_service_lock(service.get_service());
         if (service.type() == tractor_type) {

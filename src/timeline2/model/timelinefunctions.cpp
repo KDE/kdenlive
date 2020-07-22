@@ -667,14 +667,14 @@ void TimelineFunctions::showClipKeyframes(const std::shared_ptr<TimelineItemMode
 {
     timeline->m_allClips[clipId]->setShowKeyframes(value);
     QModelIndex modelIndex = timeline->makeClipIndexFromID(clipId);
-    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
+    emit timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
 void TimelineFunctions::showCompositionKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int compoId, bool value)
 {
     timeline->m_allCompositions[compoId]->setShowKeyframes(value);
     QModelIndex modelIndex = timeline->makeCompositionIndexFromID(compoId);
-    timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
+    emit timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
 bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection)
@@ -891,7 +891,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
         timeline->getCompositionPtr(cid)->setATrack(aTrack, aTrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(aTrack - 1));
         field->unlock();
         timeline->replantCompositions(cid, true);
-        timeline->invalidateZone(start, end);
+        emit timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
         return true;
     };
@@ -903,7 +903,7 @@ void TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
         timeline->getCompositionPtr(cid)->setATrack(previousATrack, previousATrack <= 0 ? -1 : timeline->getTrackIndexFromPosition(previousATrack - 1));
         field->unlock();
         timeline->replantCompositions(cid, true);
-        timeline->invalidateZone(start, end);
+        emit timeline->invalidateZone(start, end);
         timeline->checkRefresh(start, end);
         return true;
     };
@@ -1072,7 +1072,7 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     }
     field->unlock();
     if (refresh) {
-        timeline->requestMonitorRefresh();
+        emit timeline->requestMonitorRefresh();
     }
     return trackNames;
 }
@@ -1169,7 +1169,6 @@ void TimelineFunctions::saveTimelineSelection(const std::shared_ptr<TimelineItem
                 Mlt::Transition newComposition(*newTractor.profile(), t->get("mlt_service"));
                 Mlt::Properties sourceProps(t->get_properties());
                 newComposition.inherit(sourceProps);
-                QString id(t->get("kdenlive_id"));
                 int in = qMax(0, t->get_in() - offset);
                 int out = t->get_out() - offset;
                 newComposition.set_in_and_out(in, out);

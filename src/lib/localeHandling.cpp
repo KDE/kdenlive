@@ -52,7 +52,6 @@ QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPo
 {
     // Parse installed locales to find one matching
     const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
-    QLocale matching = QLocale::c();
 
     QLocale locale; // Best matching locale
     MatchType matchType = MatchType::NoMatch;

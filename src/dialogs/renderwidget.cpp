@@ -361,7 +361,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         m_view.parallel_process->setEnabled(false);
     }
     m_view.field_order->setEnabled(false);
-    connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int index) { m_view.field_order->setEnabled(index == 2); });
+    connect(m_view.scanning_list, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int index) { m_view.field_order->setEnabled(index == 2); });
     refreshView();
     focusFirstVisibleItem();
     adjustSize();
@@ -1153,9 +1153,6 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
     emit selectedRenderProfile(renderProps);
 
     QString playlistPath;
-    QString mltSuffix(QStringLiteral(".mlt"));
-    QList<QString> playlistPaths;
-    QList<QString> trackNames;
     QString renderName;
 
     if (delayedRendering) {
@@ -1575,7 +1572,7 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
         if (renderArgs.contains(QStringLiteral("libx265"))) {
             if (pass == 1 || pass == 2) {
                 QString x265params = myConsumer.attribute("x265-params");
-                x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(mytarget.replace(":", "\\:") + "_2pass.log").arg(x265params);
+                x265params = QString("pass=%1:stats=%2:%3").arg(pass).arg(mytarget.replace(":", "\\:") + "_2pass.log", x265params);
                 myConsumer.setAttribute("x265-params", x265params);
             }
         } else {
@@ -1664,7 +1661,11 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     checkRenderStatus();
 
     // create full playlistPaths
-    /*for (int i = 0; i < tracksCount; i++) {
+    /*
+    QString mltSuffix(QStringLiteral(".mlt"));
+    QList<QString> playlistPaths;
+    QList<QString> trackNames;
+    for (int i = 0; i < tracksCount; i++) {
         QString plPath(playlistPath);
 
         // add track number to path name
@@ -2390,7 +2391,6 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
 
     while (!groups.item(i).isNull()) {
         documentElement = groups.item(i).toElement();
-        QDomNode gname = documentElement.elementsByTagName(QStringLiteral("groupname")).at(0);
         groupName = documentElement.attribute(QStringLiteral("name"), i18nc("Attribute Name", "Custom"));
         extension = documentElement.attribute(QStringLiteral("extension"), QString());
         renderer = documentElement.attribute(QStringLiteral("renderer"), QString());

@@ -338,9 +338,9 @@ bool Core::setCurrentProfile(const QString &profilePath)
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
-        m_mainWindow->updateRenderWidgetProfile();
+        emit m_mainWindow->updateRenderWidgetProfile();
         pCore->monitorManager()->resetProfiles();
-        pCore->monitorManager()->updatePreviewScaling();
+        emit pCore->monitorManager()->updatePreviewScaling();
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
             checkProfileValidity();
@@ -356,7 +356,7 @@ void Core::checkProfileValidity()
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_binWidget) {
-            m_binWidget->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
+            emit m_binWidget->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
         }
     }
 }
@@ -606,9 +606,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {
         if (type == ProcessingJobMessage || type == OperationCompletedMessage) {
-            m_mainWindow->displayProgressMessage(message, type, timeout);
+            emit m_mainWindow->displayProgressMessage(message, type, timeout);
         } else {
-            m_mainWindow->displayMessage(message, type, timeout);
+            emit m_mainWindow->displayMessage(message, type, timeout);
         }
     } else {
         qDebug() << message;
@@ -627,7 +627,7 @@ void Core::displayBinLogMessage(const QString &text, int type, const QString &lo
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed) emit m_mainWindow->clearAssetPanel(itemId);
 }
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
@@ -854,7 +854,7 @@ int Core::getDurationFromString(const QString &time)
 
 void Core::processInvalidFilter(const QString service, const QString id, const QString message)
 {
-    if (m_guiConstructed) m_mainWindow->assetPanelWarning(service, id, message);
+    if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
 }
 
 void Core::updateProjectTags(QMap <QString, QString> tags)
@@ -872,7 +872,7 @@ void Core::updateProjectTags(QMap <QString, QString> tags)
     int i = 1;
     while (j.hasNext()) {
         j.next();
-        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.key()).arg(j.value()));
+        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.key(), j.value()));
         i++;
     }
 }

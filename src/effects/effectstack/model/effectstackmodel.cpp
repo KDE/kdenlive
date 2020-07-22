@@ -594,7 +594,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 keyframes->resizeKeyframes(oldIn, oldIn + oldDuration, newIn, out - 1, offset, adjustFromEnd, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
                 Fun refresh = [effect, index]() {
-                    effect->dataChanged(index, index, QVector<int>());
+                    emit effect->dataChanged(index, index, QVector<int>());
                     return true;
                 };
                 refresh();
@@ -772,7 +772,7 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
     bool res = redo();
     if (res) {
         Fun update = [this]() {
-            this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
+            emit this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
             return true;
         };
         update();
@@ -887,7 +887,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
         }
     }
     if (found) {
-        modelChanged();
+        emit modelChanged();
     }
     return found;
 }
@@ -977,7 +977,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
         }
     }
     m_loadingExisting = false;
-    modelChanged();
+    emit modelChanged();
 }
 
 void EffectStackModel::setActiveEffect(int ix)

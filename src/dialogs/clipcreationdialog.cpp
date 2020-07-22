@@ -60,7 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 QStringList ClipCreationDialog::getExtensions()
 {
     // Build list of MIME types
-    QStringList mimeTypes = QStringList() << QStringLiteral("") << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist")
+    QStringList mimeTypes = QStringList() << QLatin1String("") << QStringLiteral("application/x-kdenlivetitle") << QStringLiteral("video/mlt-playlist")
                                           << QStringLiteral("text/plain") << QStringLiteral("application/x-kdenlive");
 
     // Video MIMEs

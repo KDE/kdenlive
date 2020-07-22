@@ -862,7 +862,6 @@ void KeyframeModel::parseRotoProperty(const QString &prop)
     QJsonDocument doc = QJsonDocument::fromJson(prop.toLatin1(), &jsonError);
     QVariant data = doc.toVariant();
     if (data.canConvert(QVariant::Map)) {
-        QList<int> keyframes;
         QMap<QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {

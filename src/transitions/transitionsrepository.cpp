@@ -150,7 +150,7 @@ QString TransitionsRepository::assetPreferredListPath() const
 {
     // Transitions do not have "Main" filter implemented, so we return an empty
     // string instead of path to a file with that list
-    return QStringLiteral("");
+    return QLatin1String("");
 }
 
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const

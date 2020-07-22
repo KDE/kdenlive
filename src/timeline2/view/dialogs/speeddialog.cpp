@@ -70,7 +70,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
         m_durationDisplay = new TimecodeDisplay(pCore->timecode());
         m_durationDisplay->setValue(m_duration);
         ui->durationLayout->addWidget(m_durationDisplay);
-        connect(m_durationDisplay, &TimecodeDisplay::timeCodeEditingFinished, [this, infoMessage, speed, minSpeed](int value) {
+        connect(m_durationDisplay, &TimecodeDisplay::timeCodeEditingFinished, this, [this, infoMessage, speed, minSpeed](int value) {
             if (value < 1) {
                 value = 1;
                 m_durationDisplay->setValue(value);
@@ -88,7 +88,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
         });
     }
 
-    connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&, speed] (double value) {
+    connect(ui->speedSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&, speed] (double value) {
         QSignalBlocker bk(ui->speedSlider);
         ui->speedSlider->setValue(qLn(value) * 12);
         if (m_durationDisplay) {
@@ -99,7 +99,7 @@ SpeedDialog::SpeedDialog(QWidget *parent, double speed, int duration, double min
         }
         ui->buttonBox->button((QDialogButtonBox::Ok))->setEnabled(!qFuzzyIsNull(value));
     });
-    connect(ui->speedSlider, &QSlider::valueChanged, [this, infoMessage, speed] (int value) {
+    connect(ui->speedSlider, &QSlider::valueChanged, this, [this, infoMessage, speed] (int value) {
         double res = qExp(value / 12.);
         QSignalBlocker bk(ui->speedSpin);
         checkSpeed(infoMessage, res);

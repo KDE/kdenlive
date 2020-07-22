@@ -65,7 +65,7 @@ DragButton::DragButton(int ix, const QString tag, const QString description, QWi
     ac->setCheckable(true);
     setDefaultAction(ac);
     pCore->window()->actionCollection()->addAction(QString("tag_%1").arg(ix), ac);
-    connect(ac, &QAction::triggered, [&] (bool checked) {
+    connect(ac, &QAction::triggered, this, [&] (bool checked) {
         emit switchTag(m_tag, checked);
     });
 }
@@ -131,7 +131,7 @@ TagWidget::TagWidget(QWidget *parent)
     QAction *ca = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure"), this);
     config->setAutoRaise(true);
     config->setDefaultAction(ca);
-    connect(config, &QToolButton::triggered, [&]() {
+    connect(config, &QToolButton::triggered, this, [&]() {
         showTagsConfig ();
     });
     lay->addWidget(config);

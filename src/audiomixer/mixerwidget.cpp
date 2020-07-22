@@ -165,7 +165,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_volumeSpin->setSuffix(i18n("dB"));
     m_volumeSpin->setFrame(false);
 
-    connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double val) {
+    connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&](double val) {
         m_volumeSlider->setValue(fromDB(val));
     });
 
@@ -239,7 +239,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
 
     connect(m_balanceDial, &QDial::valueChanged, m_balanceSpin, &QSpinBox::setValue);
 
-    connect(m_muteAction, &KDualAction::activeChangedByUser, [&](bool active) {
+    connect(m_muteAction, &KDualAction::activeChangedByUser, this, [&](bool active) {
         if (m_tid == -1) {
             // Muting master, special case
             if (m_levelFilter) {
@@ -263,7 +263,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     mute->setAutoRaise(true);
 
     // Setup default width
-    QFontMetrics fm(font());
     setFixedWidth(3 * mute->sizeHint().width());
 
     if (m_tid > -1) {
@@ -273,7 +272,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_solo->setIcon(QIcon::fromTheme("headphones"));
         m_solo->setToolTip(i18n("Solo mode"));
         m_solo->setAutoRaise(true);
-        connect(m_solo, &QToolButton::toggled, [&](bool toggled) {
+        connect(m_solo, &QToolButton::toggled, this, [&](bool toggled) {
             emit toggleSolo(m_tid, toggled);
             updateLabel();
         });
@@ -282,8 +281,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_record->setToolTip(i18n("Record"));
         m_record->setCheckable(true);
         m_record->setAutoRaise(true);
-        connect(m_record, &QToolButton::clicked, [&]() {
-            m_manager->recordAudio(m_tid);
+        connect(m_record, &QToolButton::clicked, this, [&]() {
+            emit m_manager->recordAudio(m_tid);
         });
     } else {
         m_collapse = new QToolButton(this);
@@ -292,19 +291,19 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_collapse->setCheckable(true);
         m_collapse->setAutoRaise(true);
         m_collapse->setChecked(KdenliveSettings::mixerCollapse() );
-        connect(m_collapse, &QToolButton::clicked, [&]() {
+        connect(m_collapse, &QToolButton::clicked, this, [&]() {
             KdenliveSettings::setMixerCollapse(m_collapse->isChecked());
             m_collapse->setIcon(m_collapse->isChecked() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
             m_manager->collapseMixers();
         });
     }
 
-    connect(m_volumeSlider, &QSlider::valueChanged, [&](int value) {
+    connect(m_volumeSlider, &QSlider::valueChanged, this, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
         if (m_recording) {
             m_volumeSpin->setValue(value);
             KdenliveSettings::setAudiocapturevolume(value);
-            m_manager->updateRecVolume();
+            emit m_manager->updateRecVolume();
             //TODO update capture volume
         } else if (m_levelFilter != nullptr) {
             double dbValue = 0;
@@ -318,18 +317,18 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_levelFilter->set("level", dbValue);
             m_levelFilter->set("disable", value == 60 ? 1 : 0);
             m_levels.clear();
-            m_manager->purgeCache();
+            emit m_manager->purgeCache();
             pCore->setDocumentModified();
         }
     });
-    connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int value) {
+    connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
         QSignalBlocker bk(m_balanceDial);
         m_balanceDial->setValue(value);
         if (m_balanceFilter != nullptr) {
             m_balanceFilter->set("start", (value + 50) / 100.);
             m_balanceFilter->set("disable", value == 0 ? 1 : 0);
             m_levels.clear();
-            m_manager->purgeCache();
+            emit m_manager->purgeCache();
             pCore->setDocumentModified();
         }
     });
@@ -398,7 +397,7 @@ void MixerWidget::updateLabel()
         m_trackLabel->setPalette(pal);
     } else if (m_muteAction->isActive()) {
         QPalette pal = m_trackLabel->palette();
-        pal.setColor(QPalette::Window, QColor("#ff8c00"));
+        pal.setColor(QPalette::Window, QColor(0xff8c00));
         m_trackLabel->setPalette(pal);
     } else if (m_solo && m_solo->isChecked()) {
         QPalette pal = m_trackLabel->palette();

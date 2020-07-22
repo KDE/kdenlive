@@ -76,7 +76,7 @@ void NotesPlugin::slotInsertTimecode()
             return;
         }
         QString clipName = pCore->bin()->getBinClipName(binId);
-        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId).arg(frames).arg(clipName).arg(position));
+        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId, frames).arg(clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
@@ -117,10 +117,10 @@ void NotesPlugin::slotReAssign(QStringList anchors, QList <QPoint> points)
         QString pos = pCore->timecode().getTimecodeFromFrames(position);
         if (!binId.isEmpty()) {
             QString clipName = pCore->bin()->getBinClipName(binId);
-            cur.insertHtml(QString("<a href=\"%1\">%2:%3</a> ").arg(updatedLink).arg(clipName).arg(pos));
+            cur.insertHtml(QString("<a href=\"%1\">%2:%3</a> ").arg(updatedLink).arg(clipName, pos));
         } else {
             // Timestamp relative to project timeline
-            cur.insertHtml(QString("<a href=\"%1\">%2</a> ").arg(updatedLink).arg(pos));
+            cur.insertHtml(QString("<a href=\"%1\">%2</a> ").arg(updatedLink, pos));
         }
         ix++;
     }

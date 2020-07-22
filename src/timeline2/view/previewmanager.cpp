@@ -164,7 +164,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
         }
     }
     if (!previewChunks.isEmpty()) {
-        m_controller->renderedChunksChanged();
+        emit m_controller->renderedChunksChanged();
     }
     if (!dirtyChunks.isEmpty()) {
         for (const auto &i : qAsConst(dirtyChunks)) {
@@ -172,7 +172,7 @@ void PreviewManager::loadChunks(QVariantList previewChunks, QVariantList dirtyCh
                 m_dirtyChunks << i;
             }
         }
-        m_controller->dirtyChunksChanged();
+        emit m_controller->dirtyChunksChanged();
     }
 }
 
@@ -184,8 +184,8 @@ void PreviewManager::deletePreviewTrack()
     m_previewTrack = nullptr;
     m_dirtyChunks.clear();
     m_renderedChunks.clear();
-    m_controller->dirtyChunksChanged();
-    m_controller->renderedChunksChanged();
+    emit m_controller->dirtyChunksChanged();
+    emit m_controller->renderedChunksChanged();
     m_tractor->unlock();
 }
 
@@ -376,8 +376,8 @@ void PreviewManager::invalidatePreviews(const QVariantList chunks)
         }
         if (!foundChunks.isEmpty()) {
             std::sort(foundChunks.begin(), foundChunks.end());
-            m_controller->dirtyChunksChanged();
-            m_controller->renderedChunksChanged();
+            emit m_controller->dirtyChunksChanged();
+            emit m_controller->renderedChunksChanged();
             reloadChunks(foundChunks);
         }
     }
@@ -439,8 +439,8 @@ void PreviewManager::clearPreviewRange(bool resetZones)
     if (resetZones) {
         m_dirtyChunks.clear();
     }
-    m_controller->renderedChunksChanged();
-    m_controller->dirtyChunksChanged();
+    emit m_controller->renderedChunksChanged();
+    emit m_controller->dirtyChunksChanged();
 }
 
 void PreviewManager::addPreviewRange(const QPoint zone, bool add)
@@ -467,7 +467,7 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
     }
     if (add) {
         qDebug() << "CHUNKS CHANGED: " << m_dirtyChunks;
-        m_controller->dirtyChunksChanged();
+        emit m_controller->dirtyChunksChanged();
         if (m_previewProcess.state() == QProcess::NotRunning && KdenliveSettings::autopreview()) {
             m_previewTimer.start();
         }
@@ -492,8 +492,8 @@ void PreviewManager::addPreviewRange(const QPoint zone, bool add)
         if (hasPreview) {
             m_previewTrack->consolidate_blanks();
         }
-        m_controller->renderedChunksChanged();
-        m_controller->dirtyChunksChanged();
+        emit m_controller->renderedChunksChanged();
+        emit m_controller->dirtyChunksChanged();
         m_tractor->unlock();
         if (isRendering || KdenliveSettings::autopreview()) {
             m_previewTimer.start();
@@ -545,7 +545,7 @@ void PreviewManager::receivedStderr()
         if (result.startsWith(QLatin1String("START:"))) {
             workingPreview = result.section(QLatin1String("START:"), 1).simplified().toInt();
             qDebug() << "// GOT START INFO: " << workingPreview;
-            m_controller->workingPreviewChanged();
+            emit m_controller->workingPreviewChanged();
         } else if (result.startsWith(QLatin1String("DONE:"))) {
             int chunk = result.section(QLatin1String("DONE:"), 1).simplified().toInt();
             m_processedChunks++;
@@ -610,7 +610,7 @@ void PreviewManager::processEnded(int, QProcess::ExitStatus status)
         pCore->currentDoc()->previewProgress(1000);
     }
     workingPreview = -1;
-    m_controller->workingPreviewChanged();
+    emit m_controller->workingPreviewChanged();
 }
 
 void PreviewManager::slotProcessDirtyChunks()
@@ -676,8 +676,8 @@ void PreviewManager::invalidatePreview(int startFrame, int endFrame)
     m_tractor->unlock();
     if (chunksChanged) {
         m_previewTrack->consolidate_blanks();
-        m_controller->renderedChunksChanged();
-        m_controller->dirtyChunksChanged();
+        emit m_controller->renderedChunksChanged();
+        emit m_controller->dirtyChunksChanged();
     }
     m_previewGatherTimer.start();
 }
@@ -729,7 +729,7 @@ void PreviewManager::gotPreviewRender(int frame, const QString &file, int progre
         if (prod.is_valid()) {
             m_dirtyChunks.removeAll(frame);
             m_renderedChunks << frame;
-            m_controller->renderedChunksChanged();
+            emit m_controller->renderedChunksChanged();
             prod.set("mlt_service", "avformat-novalidate");
             prod.set("mute_on_pause", 1);
             qDebug() << "|||| PLUGGING PREVIEW CHUNK AT: " << frame;
@@ -754,7 +754,7 @@ void PreviewManager::corruptedChunk(int frame, const QString &fileName)
     m_previewProcess.waitForFinished();
     if (workingPreview >= 0) {
         workingPreview = -1;
-        m_controller->workingPreviewChanged();
+        emit m_controller->workingPreviewChanged();
     }
     emit previewRender(0, m_errorLog, -1);
     m_cacheDir.remove(fileName);

@@ -85,7 +85,7 @@ void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
                 QString s = QStringLiteral("meta.media.audio_level.%1").arg(i);
                 levels << (int)levelToDB(mFrame.get_double(s.toLatin1().constData()));
             }
-            QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
+            QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(QVector<int>, levels));
         }
     }
 }

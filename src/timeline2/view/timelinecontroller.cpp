@@ -106,7 +106,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     m_model = std::move(model);
     m_activeSnaps.clear();
     connect(m_model.get(), &TimelineItemModel::requestClearAssetView, pCore.get(), &Core::clearAssetPanel);
-    m_deleteConnection = connect(m_model.get(), &TimelineItemModel::checkItemDeletion, [this] (int id) {
+    m_deleteConnection = connect(m_model.get(), &TimelineItemModel::checkItemDeletion, this, [this] (int id) {
         if (m_ready) {
             QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
         }
@@ -271,7 +271,6 @@ int TimelineController::selectedTrack() const
 
 void TimelineController::selectCurrentItem(ObjectType type, bool select, bool addToCurrent)
 {
-    QList<int> toSelect;
     int currentClip = type == ObjectType::TimelineClip ? m_model->getClipByPosition(m_activeTrack, pCore->getTimelinePosition())
                                                        : m_model->getCompositionByPosition(m_activeTrack, pCore->getTimelinePosition());
     if (currentClip == -1) {
@@ -674,7 +673,7 @@ void TimelineController::switchTrackRecord(int tid)
     }
     QModelIndex ix = m_model->makeTrackIndexFromID(tid);
     if (ix.isValid()) {
-        m_model->dataChanged(ix, ix, {TimelineModel::AudioRecordRole});
+        emit m_model->dataChanged(ix, ix, {TimelineModel::AudioRecordRole});
     }
 }
 
@@ -705,7 +704,7 @@ void TimelineController::checkTrackDeletion(int selectedTrackIx)
 
 void TimelineController::showConfig(int page, int tab)
 {
-    pCore->showConfigDialog(page, tab);
+    emit pCore->showConfigDialog(page, tab);
 }
 
 void TimelineController::gotoNextSnap()
@@ -1118,7 +1117,7 @@ void TimelineController::adjustAllTrackHeight(int trackId, int height)
     int tracksCount = m_model->getTracksCount();
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
-    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+    emit m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
 void TimelineController::collapseAllTrackHeight(int trackId, bool collapse, int collapsedHeight)
@@ -1139,7 +1138,7 @@ void TimelineController::collapseAllTrackHeight(int trackId, bool collapse, int 
     int tracksCount = m_model->getTracksCount();
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
-    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+    emit m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
 void TimelineController::defaultTrackHeight(int trackId)
@@ -1147,7 +1146,7 @@ void TimelineController::defaultTrackHeight(int trackId)
     if (trackId > -1) {
         m_model->getTrackById(trackId)->setProperty(QStringLiteral("kdenlive:trackheight"), QString::number(KdenliveSettings::trackheight()));
         QModelIndex modelStart = m_model->makeTrackIndexFromID(trackId);
-        m_model->dataChanged(modelStart, modelStart, {TimelineModel::HeightRole});
+        emit m_model->dataChanged(modelStart, modelStart, {TimelineModel::HeightRole});
         return;
     }
     auto it = m_model->m_allTracks.cbegin();
@@ -1159,7 +1158,7 @@ void TimelineController::defaultTrackHeight(int trackId)
     int tracksCount = m_model->getTracksCount();
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
-    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+    emit m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
 void TimelineController::setPosition(int position)
@@ -2270,7 +2269,7 @@ void TimelineController::updateClip(int clipId, const QVector<int> &roles)
 {
     QModelIndex ix = m_model->makeClipIndexFromID(clipId);
     if (ix.isValid()) {
-        m_model->dataChanged(ix, ix, roles);
+        emit m_model->dataChanged(ix, ix, roles);
     }
 }
 
@@ -2379,7 +2378,7 @@ void TimelineController::setAudioRef(int clipId)
     m_audioRef = clipId;
     std::unique_ptr<AudioEnvelope> envelope(new AudioEnvelope(getClipBinId(clipId), clipId));
     m_audioCorrelator.reset(new AudioCorrelation(std::move(envelope)));
-    connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, [&](int cid, int shift) {
+    connect(m_audioCorrelator.get(), &AudioCorrelation::gotAudioAlignData, this, [&](int cid, int shift) {
         int pos = m_model->getClipPosition(m_audioRef) + shift - m_model->getClipIn(m_audioRef);
         bool result = m_model->requestClipMove(cid, m_model->getClipTrackId(cid), pos, true, true, true);
         if (!result) {
@@ -2615,7 +2614,7 @@ void TimelineController::resetTrackHeight()
     }
     QModelIndex modelStart = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(0));
     QModelIndex modelEnd = m_model->makeTrackIndexFromID(m_model->getTrackIndexFromPosition(tracksCount - 1));
-    m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
+    emit m_model->dataChanged(modelStart, modelEnd, {TimelineModel::HeightRole});
 }
 
 void TimelineController::selectAll()

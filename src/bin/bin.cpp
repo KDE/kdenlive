@@ -124,7 +124,7 @@ public:
                         if (rate %2 == 1) {
                             rate++;
                         }
-                        static_cast<ProjectSortProxyModel *>(model)->updateRating(index, (uint) rate);
+                        emit static_cast<ProjectSortProxyModel *>(model)->updateRating(index, (uint) rate);
                     }
                 }
             }
@@ -905,10 +905,10 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(m_slider, &QAbstractSlider::valueChanged, this, &Bin::slotSetIconSize);
     auto *tb1 = new QToolButton(this);
     tb1->setIcon(QIcon::fromTheme(QStringLiteral("zoom-in")));
-    connect(tb1, &QToolButton::clicked, [&]() { m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum())); });
+    connect(tb1, &QToolButton::clicked, this, [&]() { m_slider->setValue(qMin(m_slider->value() + 1, m_slider->maximum())); });
     auto *tb2 = new QToolButton(this);
     tb2->setIcon(QIcon::fromTheme(QStringLiteral("zoom-out")));
-    connect(tb2, &QToolButton::clicked, [&]() { m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum())); });
+    connect(tb2, &QToolButton::clicked, this, [&]() { m_slider->setValue(qMax(m_slider->value() - 1, m_slider->minimum())); });
     lay->addWidget(tb2);
     lay->addWidget(m_slider);
     lay->addWidget(tb1);
@@ -938,7 +938,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_sortDescend = new QAction(i18n("Descending"), this);
     m_sortDescend->setCheckable(true);
     m_sortDescend->setChecked(KdenliveSettings::binSorting() > 99);
-    connect(m_sortDescend, &QAction::triggered, [&] () {
+    connect(m_sortDescend, &QAction::triggered, this, [&] () {
         if (m_sortGroup->checkedAction()) {
             int actionData = m_sortGroup->checkedAction()->data().toInt();
             if ((m_itemView != nullptr) && m_listType == BinTreeView) {
@@ -991,7 +991,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     sort->addAction(sortByDesc);
     sort->addSeparator();
     sort->addAction(m_sortDescend);
-    connect(m_sortGroup, &QActionGroup::triggered, [&] (QAction *ac) {
+    connect(m_sortGroup, &QActionGroup::triggered, this, [&] (QAction *ac) {
         int actionData = ac->data().toInt();
         if ((m_itemView != nullptr) && m_listType == BinTreeView) {
             auto *view = static_cast<QTreeView *>(m_itemView);
@@ -1003,7 +1003,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     });
 
     QAction *disableEffects = new QAction(i18n("Disable Bin Effects"), this);
-    connect(disableEffects, &QAction::triggered, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
+    connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
     disableEffects->setData("disable_bin_effects");
     disableEffects->setCheckable(true);
@@ -1016,7 +1016,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     connect(hoverPreview, &QAction::triggered, [] (bool checked) {
         KdenliveSettings::setHoverPreview(checked);
     });
-    connect(disableEffects, &QAction::triggered, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
+    connect(disableEffects, &QAction::triggered, this, [this](bool disable) { this->setBinEffectsEnabled(!disable); });
     disableEffects->setIcon(QIcon::fromTheme(QStringLiteral("favorite")));
 
     listType->setToolBarMode(KSelectAction::MenuMode);
@@ -1054,7 +1054,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_tagAction = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Tags Panel"), this);
     m_tagAction->setCheckable(true);
     m_toolbar->addAction(m_tagAction);
-    connect(m_tagAction, &QAction::triggered, [&] (bool triggered) {
+    connect(m_tagAction, &QAction::triggered, this, [&] (bool triggered) {
        if (triggered) {
            m_tagsWidget->setVisible(true);
        } else {
@@ -1073,7 +1073,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_filterButton->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_filterButton->setMenu(m_filterMenu);
 
-    connect(m_filterButton, &QToolButton::toggled, [this] (bool toggle) {
+    connect(m_filterButton, &QToolButton::toggled, this, [this] (bool toggle) {
         if (!toggle) {
             m_proxyModel->slotClearSearchFilters();
             return;
@@ -1111,7 +1111,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
         m_proxyModel->slotSetFilters(tagFilters, rateFilters, typeFilters);
     });
 
-    connect(m_filterMenu, &QMenu::triggered, [this](QAction *action) {
+    connect(m_filterMenu, &QMenu::triggered, this, [this](QAction *action) {
         if (action->data().toString().isEmpty()) {
             // Clear filters action
             QSignalBlocker bk(m_filterMenu);
@@ -1186,7 +1186,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     m_infoLabel->setMenu(m_jobsMenu);
     m_infoLabel->setAction(infoAction);
 
-    connect(m_discardCurrentClipJobs, &QAction::triggered, [&]() {
+    connect(m_discardCurrentClipJobs, &QAction::triggered, this, [&]() {
         const QString currentId = m_monitor->activeClipId();
         if (!currentId.isEmpty()) {
             pCore->jobManager()->discardJobs(currentId);
@@ -1223,7 +1223,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // m_infoMessage->setWordWrap(true);
     m_infoMessage->hide();
     connect(this, &Bin::requesteInvalidRemoval, this, &Bin::slotQueryRemoval);
-    connect(this, SIGNAL(displayBinMessage(QString, KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString, KMessageWidget::MessageType)));
+    connect(this, SIGNAL(displayBinMessage(QString,KMessageWidget::MessageType)), this, SLOT(doDisplayMessage(QString,KMessageWidget::MessageType)));
     wheelAccumulatedDelta = 0;
 }
 
@@ -4207,7 +4207,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
             pCore->projectManager()->addAudioTracks(requestedTracks);
         });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
-        connect(ac2, &QAction::triggered, [this, clipId]() {
+        connect(ac2, &QAction::triggered, this, [this, clipId]() {
             selectClipById(clipId);
             for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
                 if (w->parentWidget() && w->parentWidget()->parentWidget()) {

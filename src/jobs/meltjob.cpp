@@ -34,7 +34,7 @@
 #include <mlt++/Mlt.h>
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
-    self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
+    emit self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
 }
 
 MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, int in, int out)

@@ -413,9 +413,9 @@ void MonitorManager::setupActions()
 
     m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
     m_multiTrack->setCheckable(true);
-    connect(m_multiTrack, &QAction::triggered, [&](bool checked) {
+    connect(m_multiTrack, &QAction::triggered, this, [&](bool checked) {
         if (m_projectMonitor) {
-            m_projectMonitor->multitrackView(checked, true);
+            emit m_projectMonitor->multitrackView(checked, true);
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
@@ -588,7 +588,7 @@ void MonitorManager::slotSetInPoint()
         if (destZone.x() > destZone.y()) {
             destZone.setY(qMin(pCore->projectDuration(), destZone.x() + (sourceZone.y() - sourceZone.x())));
         }
-        m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 
@@ -603,7 +603,7 @@ void MonitorManager::slotSetOutPoint()
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }
-        m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 

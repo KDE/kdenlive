@@ -70,12 +70,12 @@ QString ThumbnailProvider::cacheKey(Mlt::Properties &properties, const QString &
     time = time.left(time.size() - 1);
     QString key;
     if (hash.isEmpty()) {
-        key = QString("%1 %2 %3").arg(service).arg(resource).arg(time);
+        key = QString("%1 %2 %3").arg(service).arg(resource, time);
         QCryptographicHash hash2(QCryptographicHash::Sha1);
         hash2.addData(key.toUtf8());
         key = hash2.result().toHex();
     } else {
-        key = QString("%1 %2").arg(hash).arg(time);
+        key = QString("%1 %2").arg(hash, time);
     }
     return key;
 }

@@ -62,7 +62,7 @@ ThemeManager::ThemeManager(QObject *parent)
     }
     qDeleteAll(duplicates);
 
-    connect(themesMenu, &QMenu::triggered, [this, manager](QAction *action) {
+    connect(themesMenu, &QMenu::triggered, this, [this, manager](QAction *action) {
         QModelIndex schemeIndex = manager->indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
         const QString path = manager->model()->data(schemeIndex, Qt::UserRole).toString();
         slotSchemeChanged(action, path);

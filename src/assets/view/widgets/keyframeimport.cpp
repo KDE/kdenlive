@@ -372,7 +372,6 @@ void KeyframeImport::updateDestinationRange()
         m_destMin.setEnabled(true);
         m_destMax.setEnabled(true);
         m_limitRange->setEnabled(true);
-        QString tag = m_targetCombo->currentData().toString();
         double min = m_model->data(m_targetCombo->currentData().toModelIndex(), AssetParameterModel::MinRole).toDouble();
         double max = m_model->data(m_targetCombo->currentData().toModelIndex(), AssetParameterModel::MaxRole).toDouble();
         m_destMin.setRange(min, max);
