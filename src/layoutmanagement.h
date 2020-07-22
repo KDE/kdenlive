@@ -16,6 +16,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 class KSelectAction;
 class QAction;
+class QButtonGroup;
+class QHBoxLayout;
 
 class LayoutManagement : public QObject
 {
@@ -35,6 +37,9 @@ private slots:
 private:
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
+    QWidget *m_container;
+    QButtonGroup *m_containerGrp;
+    QHBoxLayout *m_containerLayout;
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
 };
