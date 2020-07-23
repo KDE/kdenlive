@@ -131,6 +131,9 @@ public:
     
     /** @brief Returns true if the timeline widget is visible */
     bool timelineVisible() const;
+    
+    /** @brief Raise (show) the clip or project monitor */
+    void raiseMonitor(bool clipMonitor);
 
 protected:
     /** @brief Closes the window.

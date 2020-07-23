@@ -3715,9 +3715,16 @@ void MainWindow::slotChangeStyle(QAction *a)
     KdenliveSettings::setWidgetstyle(style);
     doChangeStyle();
     // Monitor refresh is necessary
-    if (pCore->monitorManager()->isActive(Kdenlive::ClipMonitor)) {
+    raiseMonitor(pCore->monitorManager()->isActive(Kdenlive::ClipMonitor));
+}
+
+void MainWindow::raiseMonitor(bool clipMonitor)
+{
+    if (clipMonitor) {
+        m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
     } else {
+        m_projectMonitorDock->show();
         m_projectMonitorDock->raise();
     }
 }

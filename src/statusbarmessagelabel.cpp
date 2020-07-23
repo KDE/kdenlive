@@ -23,6 +23,8 @@
 
 #include "statusbarmessagelabel.h"
 #include "kdenlivesettings.h"
+#include "core.h"
+#include "mainwindow.h"
 
 #include <KNotification>
 #include <kcolorscheme.h>
@@ -220,7 +222,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         iconName = "dialog-information";
         m_pixmap->setCursor(Qt::ArrowCursor);
         QPropertyAnimation *anim = new QPropertyAnimation(this, "color", this);
-        anim->setDuration(1500);
+        anim->setDuration(3000);
         anim->setEasingCurve(QEasingCurve::InOutQuad);
         anim->setKeyValueAt(0.2, parentWidget()->palette().highlight().color());
         anim->setEndValue(parentWidget()->palette().window().color());
@@ -247,7 +249,7 @@ bool StatusBarMessageLabel::slotMessageTimeout()
         anim->setStartValue(bgColor);
         anim->setEndValue(bgColor);
         anim->setEasingCurve(QEasingCurve::OutCubic);
-        anim->setDuration(1500);
+        anim->setDuration(3000);
         anim->start(QPropertyAnimation::DeleteWhenStopped);
         break;
     }
@@ -281,6 +283,18 @@ void StatusBarMessageLabel::resizeEvent(QResizeEvent *event)
 
 void StatusBarMessageLabel::slotShowJobLog(const QString &text)
 {
+    // Special actions
+    if (text.startsWith(QLatin1Char('#'))) {
+        if (text == QLatin1String("#projectmonitor")) {
+            // Raise project monitor
+            pCore->window()->raiseMonitor(false);
+            return;
+        } else if (text == QLatin1String("#clipmonitor")) {
+            // Raise project monitor
+            pCore->window()->raiseMonitor(true);
+            return;
+        }
+    }
     QDialog d(this);
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     QWidget *mainWidget = new QWidget(this);

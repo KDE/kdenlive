@@ -154,6 +154,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
                 m_clipMonitor->parentWidget()->raise();
             }
             if (!m_clipMonitor->isVisible()) {
+                pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"), MessageType::InformationMessage);
                 m_activeMonitor = m_projectMonitor;
                 return false;
             }
@@ -165,6 +166,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
                 m_projectMonitor->parentWidget()->raise();
             }
             if (!m_projectMonitor->isVisible()) {
+                pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"), MessageType::InformationMessage);
                 m_activeMonitor = m_clipMonitor;
                 return false;
             }
