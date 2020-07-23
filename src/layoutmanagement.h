@@ -17,6 +17,7 @@ the Free Software Foundation, either version 3 of the License, or
 class KSelectAction;
 class QAction;
 class QButtonGroup;
+class QAbstractButton;
 class QHBoxLayout;
 
 class LayoutManagement : public QObject
@@ -29,6 +30,8 @@ public:
 private slots:
     /** @brief Saves the widget layout. */
     void slotSaveLayout();
+    /** @brief Loads a layout from its button. */
+    void activateLayout(QAbstractButton *button);
     /** @brief Loads a saved widget layout. */
     void slotLoadLayout(QAction *action);
     /** @brief Manage layout. */
@@ -42,6 +45,8 @@ private:
     QHBoxLayout *m_containerLayout;
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
+    /** @brief Load a layout by its name. */
+    bool loadLayout(const QString &layoutId);
 };
 
 #endif
