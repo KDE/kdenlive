@@ -51,6 +51,7 @@ LayoutManagement::LayoutManagement(QObject *parent)
     MainWindow *main = pCore->window();
     m_container = new QWidget(main);
     m_containerGrp = new QButtonGroup(m_container);
+    connect(m_containerGrp, QOverload<QAbstractButton *>::of(&QButtonGroup::buttonClicked), this, &LayoutManagement::activateLayout);
     QVBoxLayout *l1 = new QVBoxLayout;
     l1->addStretch();
     m_containerLayout = new QHBoxLayout;
@@ -145,7 +146,6 @@ void LayoutManagement::initializeLayouts()
             load->setText(i18n("Layout %1: %2", i, layoutName));
             if (i < 6) {
                 QPushButton *lab = new QPushButton(i18n(layoutName.toUtf8().constData()), m_container);
-                connect(lab, &QPushButton::clicked, load, &QAction::trigger);
                 lab->setCheckable(true);
                 lab->setFlat(true);
                 lab->setFont(main->menuBar()->font());
@@ -165,6 +165,14 @@ void LayoutManagement::initializeLayouts()
     main->menuBar()->resize(main->menuBar()->sizeHint());
 }
 
+void LayoutManagement::activateLayout(QAbstractButton *button)
+{
+    if (!button) {
+        return;
+    }
+    loadLayout(button->text());
+}
+
 void LayoutManagement::slotLoadLayout(QAction *action)
 {
     if (!action) {
@@ -175,11 +183,30 @@ void LayoutManagement::slotLoadLayout(QAction *action)
     if (layoutId.isEmpty()) {
         return;
     }
+    if (loadLayout(layoutId)) {
+        // Activate layout button
+        QList<QAbstractButton *>buttons = m_containerGrp->buttons();
+        bool buttonFound = false;
+        for (auto *button : buttons) {
+            if (button->text() == layoutId) {
+                QSignalBlocker bk(m_containerGrp);
+                button->setChecked(true);
+                buttonFound = true;
+            }
+        }
+        if (!buttonFound && m_containerGrp->checkedButton()) {
+            m_containerGrp->checkedButton()->setChecked(false);
+        }
+    }
+}
+
+bool LayoutManagement::loadLayout(const QString &layoutId)
+{
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layouts(config, "Layouts");
     if (!layouts.hasKey(layoutId)) {
         // Error, layout not found
-        return;
+        return false;
     }
     QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
     bool timelineVisible = true;
@@ -189,6 +216,7 @@ void LayoutManagement::slotLoadLayout(QAction *action)
     }
     pCore->window()->centralWidget()->setHidden(!timelineVisible);
     pCore->window()->restoreState(state);
+    return true;
 }
 
 void LayoutManagement::slotSaveLayout()
@@ -211,11 +239,21 @@ void LayoutManagement::slotSaveLayout()
         st.prepend("NO-TL");
     }
     layouts.writeEntry(layoutName, st.toBase64());
-    int pos = order.keyList().last().toInt() + 1;
-    order.writeEntry(QString::number(pos), layoutName);
+    if (!order.entryMap().values().contains(layoutName)) {
+        int pos = order.keyList().last().toInt() + 1;
+        order.writeEntry(QString::number(pos), layoutName);
+    }
     
     config->reparseConfiguration();
     initializeLayouts();
+    // Activate layout button
+    QList<QAbstractButton *>buttons = m_containerGrp->buttons();
+    for (auto *button : buttons) {
+        if (button->text() == layoutName) {
+            QSignalBlocker bk(m_containerGrp);
+            button->setChecked(true);
+        }
+    }
 }
 
 void LayoutManagement::slotManageLayouts()
