@@ -146,6 +146,7 @@ void LayoutManagement::initializeLayouts()
             load->setText(i18n("Layout %1: %2", i, layoutName));
             if (i < 6) {
                 QPushButton *lab = new QPushButton(i18n(layoutName.toUtf8().constData()), m_container);
+                lab->setFocusPolicy(Qt::NoFocus);
                 lab->setCheckable(true);
                 lab->setFlat(true);
                 lab->setFont(main->menuBar()->font());
