@@ -1659,6 +1659,8 @@ void Bin::setDocument(KdenliveDoc *project)
         m_proxyModel->selectionModel()->blockSignals(true);
     }
     setEnabled(false);
+    // Cleanup references in the cli properties dialog
+    showClipProperties(nullptr);
 
     // Cleanup previous project
     m_itemModel->clean();
@@ -2528,6 +2530,9 @@ void Bin::reloadMonitorIfActive(const QString &id)
 {
     if (m_monitor->activeClipId() == id || m_monitor->activeClipId().isEmpty()) {
         slotOpenCurrent();
+        if (m_monitor->activeClipId() == id) {
+            showClipProperties(getBinClip(id), true);
+        }
     }
 }
 
