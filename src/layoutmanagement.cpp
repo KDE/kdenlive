@@ -197,7 +197,9 @@ void LayoutManagement::slotLoadLayout(QAction *action)
             }
         }
         if (!buttonFound && m_containerGrp->checkedButton()) {
+            m_containerGrp->setExclusive(false);
             m_containerGrp->checkedButton()->setChecked(false);
+            m_containerGrp->setExclusive(true);
         }
     }
 }
