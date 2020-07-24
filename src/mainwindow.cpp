@@ -1746,7 +1746,7 @@ void MainWindow::setupActions()
         QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
         ac3->setData(i - 1);
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
-        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::Key_Q, keysequence[i-1]), timelineActions);
+        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::Key_Period, keysequence[i-1]), timelineActions);
     }
 
     pCore->bin()->setupMenu();
