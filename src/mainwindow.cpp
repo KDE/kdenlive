@@ -1569,11 +1569,11 @@ void MainWindow::setupActions()
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
-    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, QKeySequence(Qt::CTRL + Qt::Key_1));
+    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, QKeySequence(Qt::Key_ParenLeft));
     connect(resizeStart, &QAction::triggered, this, &MainWindow::slotResizeItemStart);
 
     QAction *resizeEnd = new QAction(QIcon(), i18n("Resize Item End"), this);
-    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, QKeySequence(Qt::CTRL + Qt::Key_2));
+    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, QKeySequence(Qt::Key_ParenRight));
     connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
     QAction *pasteEffects = addAction(QStringLiteral("paste_effects"), i18n("Paste Effects"), this, SLOT(slotPasteEffects()),
@@ -1746,7 +1746,7 @@ void MainWindow::setupActions()
         QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
         ac3->setData(i - 1);
         connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
-        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::Key_Period, keysequence[i-1]), timelineActions);
+        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL, keysequence[i-1]), timelineActions);
     }
 
     pCore->bin()->setupMenu();
