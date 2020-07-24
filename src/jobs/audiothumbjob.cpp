@@ -152,7 +152,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 m_done = true;
             }
         }
-    } else {
+    } else if (!KdenliveSettings::audiothumbnails()) {
         m_done = true;
     }
     if (!KdenliveSettings::audiothumbnails()) {
