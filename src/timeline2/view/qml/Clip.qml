@@ -341,7 +341,7 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: parent.height
-                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (Math.round(model.frame / clipRoot.speed) - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
+                        x: clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
                     Rectangle {
