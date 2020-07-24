@@ -139,7 +139,7 @@ public:
             }
         }
         qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
-        //qDebug()<<"== GOT DIMENSIONS FOR WAVE: "<<(m_outPoint - m_inPoint)<<", WID: "<<width();
+        //qDebug()<<"== GOT DIMENSIONS FOR WAVE: "<<m_inPoint<<"-"<<m_outPoint<<", WID: "<<width();
         QPen pen = painter->pen();
         pen.setColor(m_color);
         painter->setBrush(m_color);

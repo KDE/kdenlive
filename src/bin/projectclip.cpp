@@ -457,9 +457,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_clipStatus = StatusReady;
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
-    if (!hasProxy()) {
-        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_binId);
-    }
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::DataDuration);
@@ -511,7 +508,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         }
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
-    pCore->bin()->updateTargets(clipId());
     for (auto &p : m_audioProducers) {
         m_effectStack->removeService(p.second);
     }
