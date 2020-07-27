@@ -155,6 +155,7 @@ public:
             pen.setWidthF(0);
         }
         painter->setPen(pen);
+        int startPos = m_inPoint / indicesPrPixel;
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
@@ -169,7 +170,7 @@ public:
             }
             for (; i <= width() && i < m_drawOutPoint; j++) {
                 i = j * increment;
-                int idx = m_precisionFactor * m_inPoint + int(i * indicesPrPixel);
+                int idx = ceil((startPos + i) * indicesPrPixel);
                 idx += idx % m_channels;
                 i -= offset;
                 if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
@@ -228,7 +229,7 @@ public:
                 }
                 for (; i <= width() && i < m_drawOutPoint; j++) {
                     i = j * increment;
-                    int idx = m_precisionFactor * m_inPoint + ceil(i * indicesPrPixel);
+                    int idx = ceil((startPos + i) * indicesPrPixel);
                     idx += idx % m_channels;
                     i -= offset;
                     idx += channel;
