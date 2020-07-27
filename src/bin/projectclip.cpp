@@ -760,6 +760,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     // Color, image and text clips always use master producer in timeline
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                     m_effectStack->loadService(m_videoProducers[tid]);
+                } else {
+                    // Ensure clip out = length - 1 so that effects work correctly
+                    if (out != master->parent().get_length() - 1) {
+                        master->parent().set("out", master->parent().get_length() - 1);
+                    }
                 }
                 return {master, true};
             }

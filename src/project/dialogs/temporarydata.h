@@ -73,12 +73,15 @@ private:
     {
         int column = treeWidget()->sortColumn();
         switch (column) {
-        case 0:
-            return text(column).toLower() < other.text(column).toLower();
-            break;
-        default:
-            return data(column, Qt::UserRole) < other.data(column, Qt::UserRole);
-            break;
+            case 1:
+                return data(column, Qt::UserRole).toULongLong() < other.data(column, Qt::UserRole).toULongLong();
+                break;
+            case 2:
+                return data(column, Qt::UserRole).toDateTime() < other.data(column, Qt::UserRole).toDateTime();
+                break;
+            default:
+                return text(column).toLower() < other.text(column).toLower();
+                break;
         }
     }
 };
