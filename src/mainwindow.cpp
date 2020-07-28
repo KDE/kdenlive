@@ -257,7 +257,7 @@ void MainWindow::init()
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
     setupActions();
-    new LayoutManagement(this);
+    LayoutManagement *layoutManager = new LayoutManagement(this);
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
 
@@ -514,7 +514,7 @@ void MainWindow::init()
             if (current->availableSize().height() < 1000) {
                 resize(current->availableSize());
             } else {
-                resize(current->availableSize() / 1.5);
+                resize(current->availableSize() / 1.2);
             }
         }
     }
@@ -743,6 +743,7 @@ void MainWindow::init()
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
     updateActionsToolTip();
+    layoutManager->loadLayout(QStringLiteral("Editing"), true);
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
 #ifdef USE_JOGSHUTTLE

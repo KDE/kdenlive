@@ -132,6 +132,7 @@ void LayoutManagement::initializeLayouts()
             layoutOrder.writeEntry(QString::number(j), entry);
             j++;
         }
+        config->reparseConfiguration();
     }
     for (int i = 1; i < 10; i++) {
         QString layoutName;
@@ -171,7 +172,7 @@ void LayoutManagement::activateLayout(QAbstractButton *button)
     if (!button) {
         return;
     }
-    loadLayout(button->text());
+    loadLayout(button->text(), false);
 }
 
 void LayoutManagement::slotLoadLayout(QAction *action)
@@ -184,7 +185,26 @@ void LayoutManagement::slotLoadLayout(QAction *action)
     if (layoutId.isEmpty()) {
         return;
     }
-    if (loadLayout(layoutId)) {
+    loadLayout(layoutId, true);
+}
+
+bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
+{
+    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
+    KConfigGroup layouts(config, "Layouts");
+    if (!layouts.hasKey(layoutId)) {
+        // Error, layout not found
+        return false;
+    }
+    QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
+    bool timelineVisible = true;
+    if (state.startsWith("NO-TL")) {
+        timelineVisible = false;
+        state.remove(0, 5);
+    }
+    pCore->window()->centralWidget()->setHidden(!timelineVisible);
+    pCore->window()->restoreState(state);
+    if (selectButton) {
         // Activate layout button
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
         bool buttonFound = false;
@@ -201,24 +221,6 @@ void LayoutManagement::slotLoadLayout(QAction *action)
             m_containerGrp->setExclusive(true);
         }
     }
-}
-
-bool LayoutManagement::loadLayout(const QString &layoutId)
-{
-    KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
-    KConfigGroup layouts(config, "Layouts");
-    if (!layouts.hasKey(layoutId)) {
-        // Error, layout not found
-        return false;
-    }
-    QByteArray state = QByteArray::fromBase64(layouts.readEntry(layoutId).toLatin1());
-    bool timelineVisible = true;
-    if (state.startsWith("NO-TL")) {
-        timelineVisible = false;
-        state.remove(0, 5);
-    }
-    pCore->window()->centralWidget()->setHidden(!timelineVisible);
-    pCore->window()->restoreState(state);
     return true;
 }
 

@@ -26,6 +26,8 @@ class LayoutManagement : public QObject
 
 public:
     explicit LayoutManagement(QObject *parent);
+    /** @brief Load a layout by its name. */
+    bool loadLayout(const QString &layoutId, bool selectButton);
 
 private slots:
     /** @brief Saves the widget layout. */
@@ -45,8 +47,6 @@ private:
     QHBoxLayout *m_containerLayout;
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
-    /** @brief Load a layout by its name. */
-    bool loadLayout(const QString &layoutId);
 };
 
 #endif
