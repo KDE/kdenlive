@@ -66,6 +66,7 @@ signals:
     void purgeCache();
     void clearMixers();
     void updateRecVolume();
+    void showEffectStack(int tid);
 
 protected:
     std::unordered_map<int, std::shared_ptr<MixerWidget>> m_mixers;
