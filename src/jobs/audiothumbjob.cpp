@@ -280,6 +280,8 @@ bool AudioThumbJob::computeWithFFMPEG()
             m_done = true;
             return true;
         }
+    } else {
+        m_done = true;
     }
     QString err = m_ffmpegProcess->readAllStandardError();
     m_ffmpegProcess.reset();
