@@ -25,6 +25,7 @@
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -3662,4 +3663,13 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
         pCore->displayMessage(i18n("Could not insert track"), InformationMessage, 500);
         undo();
     }
+}
+
+void TimelineController::editSubtitles(int startFrame, int oldEndFrame, int newEndFrame)
+{
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    GenTime startPos(startFrame, pCore->getCurrentFps());
+    GenTime endpos(oldEndFrame, pCore->getCurrentFps());
+    GenTime newendPos(newEndFrame, pCore->getCurrentFps());
+    subtitleModel->editEndPos(startPos, endpos, newendPos);
 }

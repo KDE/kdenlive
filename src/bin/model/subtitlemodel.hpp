@@ -44,6 +44,13 @@ public:
 
     /** @brief Registers a snap model to the subtitle model */
     void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
+    
+    /** @brief Edit subtitle end timing
+        @param startPos is start timing position of subtitles
+        @param oldPos is the old position of the end time
+        @param pos defines the new position of the end time
+    */
+    void editEndPos(GenTime startPos, GenTime oldEndPos, GenTime newEndPos);
 
 public slots:
     /** @brief Function that parses through a subtitle file */

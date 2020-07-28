@@ -299,3 +299,13 @@ void SubtitleModel::addSnapPoint(GenTime startpos)
     // Update the list of snapModel known to be valid
     std::swap(m_regSnaps, validSnapModels);
 }
+
+void SubtitleModel::editEndPos(GenTime startPos, GenTime oldEndPos, GenTime newEndPos)
+{
+    auto model = getModel();
+    if(oldEndPos == newEndPos) return;
+    int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
+    model->m_subtitleList[startPos].second = newEndPos;
+    emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << EndPosRole);
+    return;
+}

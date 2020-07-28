@@ -556,6 +556,8 @@ public:
     void addTracks(int videoTracks, int audioTracks);
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
+    /** @brief Edit the subtitle end timings */
+    void editSubtitles(int startFrame, int oldEndFrame, int newEndFrame);
 
 public slots:
     void resetView();
