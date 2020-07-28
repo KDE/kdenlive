@@ -1,4 +1,5 @@
 #include "subtitlemodel.hpp"
+#include "bin/bin.h"
 #include "core.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/snapmodel.hpp"
@@ -39,7 +40,7 @@ void SubtitleModel::parseSubtitle()
     QString start,end,comment;
     QString timeLine;
     GenTime startPos, endPos;
-    int index = 0, turn = 0,r = 0;
+    int turn = 0,r = 0;
     /*
      * turn = 0 -> Parse next subtitle line [srt] (or) Parse next section [ssa]
      * turn = 1 -> Add string to timeLine
@@ -62,7 +63,7 @@ void SubtitleModel::parseSubtitle()
             line = line.simplified();
             if (line.compare("")) {
                 if (!turn) {
-                    index=atoi(line.toStdString().c_str());
+                    // index=atoi(line.toStdString().c_str());
                     turn++;
                     continue;
                 }
@@ -90,7 +91,8 @@ void SubtitleModel::parseSubtitle()
                 comment = timeLine = "";
                 turn = 0; r = 0;
             }            
-        }        
+        }  
+        srtFile.close();
     } else if (filePath.contains(".ass")) {
         qDebug()<< "ass File";
         QString startTime,endTime,text;
@@ -109,16 +111,16 @@ void SubtitleModel::parseSubtitle()
             line = line.simplified();
             if (line.compare("")) {
                 if (!turn) {
-                    qDebug() << " turn = 0  " << line;
+                    //qDebug() << " turn = 0  " << line;
                     //check if it is script info, event,or v4+ style
                     if (line.replace(" ","").contains("ScriptInfo")) {
-                        qDebug()<< "Script Info";
+                        //qDebug()<< "Script Info";
                         section = "Script Info";
                         turn++;
                         //qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Styles")) {
-                        qDebug()<< "V4 Styles";
+                        //qDebug()<< "V4 Styles";
                         section = "V4 Styles";
                         turn++;
                         //qDebug()<< "turn" << turn;
@@ -130,7 +132,7 @@ void SubtitleModel::parseSubtitle()
                         continue;
                     }
                 }
-                qDebug() << "\n turn != 0  " << turn<< line;
+                //qDebug() << "\n turn != 0  " << turn<< line;
                 if (section.contains("Events")) {
                     //if it is event
                     QStringList format;
@@ -170,14 +172,16 @@ void SubtitleModel::parseSubtitle()
                 text = startTime = endTime = "";
             }
         }
+        assFile.close();
     }
 }
 
-GenTime SubtitleModel::stringtoTime(QString str)
+GenTime SubtitleModel::stringtoTime(QString &str)
 {
     QStringList total,secs;
     double hours = 0, mins = 0, seconds = 0, ms = 0;
     double total_sec = 0;
+    GenTime pos;
     total = str.split(':');
     hours = atoi(total[0].toStdString().c_str());
     mins = atoi(total[1].toStdString().c_str());
@@ -188,16 +192,20 @@ GenTime SubtitleModel::stringtoTime(QString str)
     seconds = atoi(secs[0].toStdString().c_str());
     ms = atoi(secs[1].toStdString().c_str());
     total_sec = hours *3600 + mins *60 + seconds + ms * 0.001 ;
-    GenTime pos= GenTime(total_sec);
+    pos= GenTime(total_sec);
     return pos;
 }
 
-void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString str)
+void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString &str)
 {
     auto model = getModel(); //gets model shared ptr
-    Q_ASSERT(model->m_subtitleList.count(start)==0); //returns warning if sub at start time position already exists ,i.e. count !=0
+    //Q_ASSERT(model->m_subtitleList.count(start)==0); //returns warning if sub at start time position already exists ,i.e. count !=0
+    if(m_subtitleList[start].first == str){
+        qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
+        return;
+    }
     auto it= model->m_subtitleList.lower_bound(start); // returns the key and its value *just* greater than start.
-    Q_ASSERT(it->first < model->m_subtitleList.end()->second.second); // returns warning if added subtitle start time is less than last subtitle's end time
+    //Q_ASSERT(it->first < model->m_subtitleList.end()->second.second); // returns warning if added subtitle start time is less than last subtitle's end time
     int insertRow= static_cast<int>(model->m_subtitleList.size());//converts the returned unsigned size() to signed int
     /* For adding it in the middle of the list */
     if (it != model->m_subtitleList.end()) { // check if the subtitle greater than added subtitle is not the same as the last one
@@ -238,8 +246,7 @@ QVariant SubtitleModel::data(const QModelIndex& index, int role) const
     case EndPosRole:
         return it->second.second.seconds();
     case StartFrameRole:
-    case Qt::UserRole:
-        return it->first.frames(pCore->getCurrentFps());
+            return it->first.frames(pCore->getCurrentFps());
     case EndFrameRole:
         return it->second.second.frames(pCore->getCurrentFps());
     }
@@ -269,7 +276,7 @@ void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)
     if (auto ptr = snapModel.lock()) {
         // ptr is valid, we store it
         m_regSnaps.push_back(snapModel);
-
+        // we now add the already existing subtitles to the snap
         for (const auto &subtitle : m_subtitleList) {
             qDebug() << " REGISTERING SUBTITLE: " << subtitle.first.frames(pCore->getCurrentFps());
             ptr->addPoint(subtitle.first.frames(pCore->getCurrentFps()));

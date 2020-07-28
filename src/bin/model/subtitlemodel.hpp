@@ -31,8 +31,10 @@ public:
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole };
     /** @brief Function that parses through a subtitle file */ 
-    void addSubtitle(GenTime start,GenTime end, QString str);
-    GenTime stringtoTime(QString str);
+    void addSubtitle(GenTime start,GenTime end, QString &str);
+    /** @brief Converts string of time to GenTime */ 
+    GenTime stringtoTime(QString &str);
+    /** @brief Return model data item according to the role passed */ 
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;// overide the same function of QAbstractListModel
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -44,6 +46,7 @@ public:
     void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
 
 public slots:
+    /** @brief Function that parses through a subtitle file */
     void parseSubtitle();
 
 private:
@@ -64,6 +67,7 @@ protected:
     static std::shared_ptr<SubtitleModel> getModel();
     /** @brief Add start time as snap in the registered snap model */
     void addSnapPoint(GenTime startpos);
+    /** @brief Connect changes in model with signal */
     void setup();
 
 };

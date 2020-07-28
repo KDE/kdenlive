@@ -91,6 +91,7 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
+    QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
 
     // init default document properties
     m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
