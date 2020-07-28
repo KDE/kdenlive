@@ -3954,7 +3954,9 @@ void Bin::reloadAllProducers(bool reloadThumbs)
                 ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId(), true);
             }
             pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
-            pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
+            if (KdenliveSettings::audiothumbnails()) {
+                pCore->jobManager()->startJob<AudioThumbJob>({clip->clipId()}, jobId, QString());
+            }
         }
     }
 }

@@ -709,8 +709,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
         ClipType::ProducerType type = new_clip->clipType();
-        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-            pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
+        if (KdenliveSettings::audiothumbnails()) {
+            if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
+                pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
+            }
         }
     }
     return res;
@@ -745,7 +747,9 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
         if (new_clip->isReady() || new_clip->sourceExists()) {
             int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
             pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
-            pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
+            if (KdenliveSettings::audiothumbnails()) {
+                pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
+            }
         }
     }
     return res;
