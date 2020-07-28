@@ -1463,12 +1463,27 @@ Rectangle {
         Item {
             id: subtitleRoot
             visible : true
+            z: 20
             Rectangle {
                 id: subtitleStartBase
-                width: 1
+                width: (model.endframe - model.startframe) * timeScale
                 height: tracksContainer.height
                 x: model.startframe * timeScale;
-                color: 'red'
+                color: 'steelblue'
+                border {
+                    width: 2
+                    color: 'blue'
+                }
+                Text {
+                    id: subtitleText
+                    anchors.fill: parent
+                    visible: true
+                    text: model.subtitle
+                    color: 'white'
+                    wrapMode: Text.WordWrap
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                }
             }
         }
     }
