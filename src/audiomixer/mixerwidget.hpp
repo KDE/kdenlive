@@ -91,7 +91,7 @@ protected:
     int m_channels;
     KDualAction *m_muteAction;
     QSpinBox *m_balanceSpin;
-    QDial *m_balanceDial;
+    QSlider *m_balanceSlider;
     QDoubleSpinBox *m_volumeSpin;
     int m_maxLevels;
 

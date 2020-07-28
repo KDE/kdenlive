@@ -660,6 +660,7 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             field->plant_transition(*transition.get(), 0, trackPos);
             if (hasMixer) {
                 pCore->mixer()->registerTrack((*it)->getId(), (*it)->getTrackService(), getTrackTagById((*it)->getId()));
+                connect(pCore->mixer(), &MixerManager::showEffectStack, this, &TimelineItemModel::showTrackEffectStack);
             }
         }
         ++it;

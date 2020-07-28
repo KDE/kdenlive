@@ -111,6 +111,13 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
             QMetaObject::invokeMethod(m_root, "checkDeletion", Qt::QueuedConnection, Q_ARG(QVariant, id));
         }
     });
+    connect(m_model.get(), &TimelineItemModel::showTrackEffectStack, this, [&](int tid) {
+        if (tid > -1) {
+            showTrackAsset(tid);
+        } else {
+            showMasterEffects();
+        }
+    });
     connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->requestMonitorRefresh(); });
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);

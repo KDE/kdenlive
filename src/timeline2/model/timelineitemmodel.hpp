@@ -119,5 +119,6 @@ protected:
 signals:
     /** @brief Triggered when a video track visibility changed */
     void trackVisibilityChanged();
+    void showTrackEffectStack(int tid);
 };
 #endif
