@@ -100,6 +100,7 @@ private:
     std::unordered_map<QPersistentModelIndex, QWidget *> m_parameters;
     int m_baseHeight;
     int m_addedHeight;
+    bool m_effectIsSelected;
 
 signals:
     void addIndex(QPersistentModelIndex ix);

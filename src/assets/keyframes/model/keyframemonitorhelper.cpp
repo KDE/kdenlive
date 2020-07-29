@@ -38,7 +38,7 @@ KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<A
 bool KeyframeMonitorHelper::connectMonitor(bool activate)
 {
     if (activate == m_active) {
-        return false;
+        return true;
     }
     m_active = activate;
     if (activate) {
