@@ -746,7 +746,9 @@ void MainWindow::init()
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
     updateActionsToolTip();
-    layoutManager->loadLayout(QStringLiteral("Editing"), true);
+    if (firstRun) {
+        layoutManager->loadLayout(QStringLiteral("Editing"), true);
+    }
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
 #ifdef USE_JOGSHUTTLE
