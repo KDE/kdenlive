@@ -79,9 +79,8 @@ int main(int argc, char *argv[])
     //TODO: is it a good option ?
     QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts, true);
 
-#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
-    QCoreApplication::setAttribute(Qt::AA_X11InitThreads);
-#elif defined(Q_OS_WIN)
+    
+#if defined(Q_OS_WIN)
     KSharedConfigPtr configWin = KSharedConfig::openConfig("kdenliverc");
     KConfigGroup grp1(configWin, "misc");
     if (grp1.exists()) {
