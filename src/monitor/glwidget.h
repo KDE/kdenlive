@@ -242,6 +242,8 @@ private:
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
     void resetZoneMode();
+    /** @brief Restart consumer, keeping preview scaling settings */
+    bool restartConsumer();
 
     /* OpenGL context management. Interfaces to MLT according to the configured render pipeline.
      */
