@@ -334,6 +334,15 @@ void LayoutManagement::slotManageLayouts()
             currentNames << list.item(i)->data(Qt::UserRole).toString();
         }
         int pos = 0;
+        // Reset selected layout if it is a default one
+        if (list.currentItem()) {
+            QString selectedName = list.currentItem()->data(Qt::UserRole).toString();
+            if (defaultLayoutNames.contains(selectedName)) {
+                layouts.writeEntry(selectedName, defaultLayout.readEntry(selectedName));
+            }
+        }
+
+        // Re-add missing default layouts
         for (const QString &name : defaultLayoutNames) {
             if (!currentNames.contains(name)) {
                 // Insert default layout
