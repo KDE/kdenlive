@@ -176,9 +176,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_balanceSlider->setTickInterval(50);
     m_balanceSlider->setToolTip(i18n("Balance"));
 
-    QLabel *labelLeft = new QLabel(i18n("L"), this);
+    QLabel *labelLeft = new QLabel(i18nc("Left", "L"), this);
     labelLeft->setAlignment(Qt::AlignHCenter);
-    QLabel *labelRight = new QLabel(i18n("R"), this);
+    QLabel *labelRight = new QLabel(i18nc("Right", "R"), this);
     labelLeft->setAlignment(Qt::AlignHCenter);
 
     m_balanceSpin = new QSpinBox(this);
