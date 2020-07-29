@@ -361,7 +361,9 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
                 // refresh bin/monitor mini thumb only
                 discardAudioThumb(true);
             }
-            emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+            if (KdenliveSettings::audiothumbnails()) {
+                emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+            }
         }
     }
 }
