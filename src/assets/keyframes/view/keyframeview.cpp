@@ -114,13 +114,13 @@ void KeyframeView::slotAddKeyframe(int pos)
 
 void KeyframeView::slotAddRemove()
 {
+    emit activateEffect();
     int offset = pCore->getItemIn(m_model->getOwnerId());
     if (m_model->hasKeyframe(m_position + offset)) {
         slotRemoveKeyframe(m_position);
     } else {
         slotAddKeyframe(m_position);
     }
-    emit activateEffect();
 }
 
 void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
@@ -150,6 +150,7 @@ void KeyframeView::setDuration(int dur)
 
 void KeyframeView::slotGoToNext()
 {
+    emit activateEffect();
     if (m_position == m_duration - 1) {
         return;
     }
@@ -164,11 +165,11 @@ void KeyframeView::slotGoToNext()
         // no keyframe after current position
         emit seekToPos(m_duration - 1);
     }
-    emit activateEffect();
 }
 
 void KeyframeView::slotGoToPrev()
 {
+    emit activateEffect();
     if (m_position == 0) {
         return;
     }
@@ -183,7 +184,6 @@ void KeyframeView::slotGoToPrev()
         // no keyframe after current position
         emit seekToPos(m_duration - 1);
     }
-    emit activateEffect();
 }
 
 void KeyframeView::mousePressEvent(QMouseEvent *event)

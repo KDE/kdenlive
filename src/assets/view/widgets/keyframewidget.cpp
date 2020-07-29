@@ -52,6 +52,7 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
     , m_baseHeight(0)
     , m_addedHeight(0)
+    , m_effectIsSelected(false)
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_lay = new QVBoxLayout(this);
@@ -243,7 +244,7 @@ void KeyframeWidget::slotRefreshParams()
             ((GeometryWidget *)w.second)->setValue(rect, opacity);
         }
     }
-    if (m_monitorHelper) {
+    if (m_monitorHelper && m_effectIsSelected) {
         m_monitorHelper->refreshParams(pos);
         return;
     }
@@ -407,6 +408,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 void KeyframeWidget::slotInitMonitor(bool active)
 {
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    m_effectIsSelected = active;
     if (m_keyframeview) {
         m_keyframeview->initKeyframePos();
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
@@ -417,7 +419,7 @@ void KeyframeWidget::slotInitMonitor(bool active)
 void KeyframeWidget::connectMonitor(bool active)
 {
     if (m_monitorHelper) {
-        if (m_monitorHelper->connectMonitor(active)) {
+        if (m_monitorHelper->connectMonitor(active) && m_effectIsSelected) {
             slotRefreshParams();
         }
     }
