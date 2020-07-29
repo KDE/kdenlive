@@ -511,10 +511,13 @@ void MainWindow::init()
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
     if (firstRun) {
         if (QScreen *current = QApplication::primaryScreen()) {
-            if (current->availableSize().height() < 1000) {
+            int screenHeight = current->availableSize().height();
+            if (screenHeight < 1000) {
                 resize(current->availableSize());
-            } else {
+            } else if (screenHeight < 2000) {
                 resize(current->availableSize() / 1.2);
+            } else {
+                resize(current->availableSize() / 1.6);
             }
         }
     }
