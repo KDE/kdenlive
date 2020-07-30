@@ -8,4 +8,5 @@ avfilter_lut3d.xml
 unsharp.xml
 subtitles.xml
 eq.xml
+equalizer.xml
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
