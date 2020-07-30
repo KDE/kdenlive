@@ -338,9 +338,10 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     emit clipNameChanged();
 }
 
-void MonitorProxy::setAudioThumb(const QList <QUrl> thumbPath)
+void MonitorProxy::setAudioThumb(const QList <int> streamIndexes, QList <int> channels)
 {
-    m_audioThumb = thumbPath;
+    m_audioChannels = channels;
+    m_audioStreams = streamIndexes;
     emit audioThumbChanged();
 }
 
@@ -355,4 +356,19 @@ QPoint MonitorProxy::profile()
 {
     QSize s = pCore->getCurrentFrameSize();
     return QPoint(s.width(), s.height());
+}
+
+QColor MonitorProxy::thumbColor1() const
+{
+    return KdenliveSettings::thumbColor1();
+}
+
+QColor MonitorProxy::thumbColor2() const
+{
+    return KdenliveSettings::thumbColor2();
+}
+
+bool MonitorProxy::audioThumbFormat() const
+{
+    return KdenliveSettings::displayallchannels();
 }

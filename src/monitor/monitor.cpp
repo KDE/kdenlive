@@ -1189,6 +1189,12 @@ void Monitor::slotSeek(int pos)
     emit m_monitorManager->cleanMixer();
 }
 
+void Monitor::refreshAudioThumbs()
+{
+    emit m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
+    emit m_glMonitor->getControllerProxy()->colorsChanged();
+}
+
 void Monitor::checkOverlay(int pos)
 {
     if (m_qmlManager->sceneType() != MonitorSceneDefault) {
@@ -1570,11 +1576,21 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 m_playAction->setActive(false);
             }
             m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-                m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QList<QUrl>() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
-            }
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
+            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+                qDebug()<<"=======\n\nSETTING AUDIO DATA IN MON\n\n=========";
+                if (m_audioMeterWidget->audioChannels == 0) {
+                    m_glMonitor->getControllerProxy()->setAudioThumb();
+                } else {
+                    QList<int> streamIndexes = m_controller->activeStreams().keys();
+                    if (streamIndexes.count() == 1 && streamIndexes.at(0) == INT_MAX) {
+                        // Display all streams
+                        streamIndexes = m_controller->audioStreams().keys();
+                    }
+                    m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
+                }
+            }
             m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         } else {
             qDebug()<<"*************** CONTROLLER NOT READY";
@@ -2208,7 +2224,15 @@ void Monitor::slotEditInlineMarker()
 void Monitor::prepareAudioThumb()
 {
     if (m_controller) {
-        m_glMonitor->getControllerProxy()->setAudioThumb(ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
+        m_glMonitor->getControllerProxy()->setAudioThumb();
+        if (!m_controller->audioStreams().isEmpty()) {
+            QList<int> streamIndexes = m_controller->activeStreams().keys();
+            if (streamIndexes.count() == 1 && streamIndexes.at(0) == INT_MAX) {
+                // Display all streams
+                streamIndexes = m_controller->audioStreams().keys();
+            }
+            m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
+        }
     }
 }
 

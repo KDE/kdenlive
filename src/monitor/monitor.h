@@ -160,6 +160,8 @@ public:
     /** @brief Returns true if monitor is currently fullscreen */
     bool monitorIsFullScreen() const;
     void reloadActiveStream();
+    /** @brief Trigger a refresh of audio thumbs colors */
+    void refreshAudioThumbs();
     
 
 protected:

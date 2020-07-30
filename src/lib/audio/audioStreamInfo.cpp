@@ -68,6 +68,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
                 streamIndex++;
             }
             m_audioStreams.insert(ix, channelDescription);
+            m_audioChannels.insert(ix, chan);
         }
     }
     QString active = producer->get("kdenlive:active_streams");
@@ -113,6 +114,22 @@ int AudioStreamInfo::channels() const
 QMap <int, QString> AudioStreamInfo::streams() const
 {
     return m_audioStreams;
+}
+
+QList <int> AudioStreamInfo::streamChannels() const
+{
+    if (m_activeStreams.size() == 1 && m_activeStreams.contains(INT_MAX)) {
+        return m_audioChannels.values();
+    }
+    QList <int> activeChannels;
+    QMapIterator<int, QString> i(m_audioStreams);
+    while (i.hasNext()) {
+        i.next();
+        if (m_activeStreams.contains(i.key())) {
+            activeChannels << m_audioChannels.value(i.key());
+        }
+    }
+    return activeChannels;
 }
 
 QMap <int, QString> AudioStreamInfo::activeStreams() const

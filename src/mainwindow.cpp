@@ -2611,6 +2611,9 @@ void MainWindow::slotSeparateAudioChannel()
 {
     KdenliveSettings::setDisplayallchannels(!KdenliveSettings::displayallchannels());
     emit getCurrentTimeline()->controller()->audioThumbFormatChanged();
+    if (m_clipMonitor) {
+        emit m_clipMonitor->refreshAudioThumbs();
+    }
 }
 
 void MainWindow::slotInsertTrack()

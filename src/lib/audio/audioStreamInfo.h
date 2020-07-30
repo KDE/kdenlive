@@ -28,7 +28,11 @@ public:
 
     int samplingRate() const;
     int channels() const;
+    /** @brief returns a list of audio stream index > stream description */
     QMap <int, QString> streams() const;
+    /** @brief returns a list of audio stream index > channels per stream */
+    QList <int> streamChannels() const;
+    /** @brief returns a list of enabled audio stream indexes > stream description */
     QMap <int, QString> activeStreams() const;
     int bitrate() const;
     const QString &samplingFormat() const;
@@ -43,6 +47,7 @@ public:
 private:
     int m_audioStreamIndex;
     QMap <int, QString> m_audioStreams;
+    QMap <int, int> m_audioChannels;
     QList <int> m_activeStreams;
     int m_ffmpegAudioIndex;
     int m_samplingRate;

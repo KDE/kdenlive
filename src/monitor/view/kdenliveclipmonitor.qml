@@ -44,6 +44,8 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
+    property color thumbColor1: controller.thumbColor1
+    property color thumbColor2: controller.thumbColor2
     property color overlayColor: 'cyan'
     property bool isClipMonitor: true
     property int dragType: 0
@@ -253,33 +255,35 @@ Item {
                 }
                 Repeater {
                     id: streamThumb
-                    model: controller.audioThumb.length
+                    model: controller.audioStreams.length
                     onCountChanged: {
                         thumbTimer.start()
                     }
-                    property double streamHeight: parent.height / streamThumb.count
+                    property double streamHeight: audioThumb.height / streamThumb.count
                     Item {
-                        anchors.fill: parent
-                        Image {
-                            anchors.left: parent.left
-                            anchors.right: parent.right
+                        TimelineWaveform {
+                            width: audioThumb.width
                             height: streamThumb.streamHeight
                             y: model.index * height
-                            source: controller.audioThumb[model.index]
-                            transform: [
-                                Translate { x: (-audioThumb.width * root.zoomStart)},
-                                Scale {xScale: 1/root.zoomFactor}
-                            ]
-                            asynchronous: true
-                            cache: false
-                            smooth: false
+                            channels: controller.audioChannels[model.index]
+                            binId: controller.clipId
+                            audioStream: controller.audioStreams[model.index] //clipRoot.audioStream
+                            isFirstChunk: false
+                            showItem: audioThumb.visible
+                            format: controller.audioThumbFormat
+                            drawInPoint: 0
+                            drawOutPoint: audioThumb.width
+                            waveInPoint: (root.duration - 1) * root.zoomStart * channels
+                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * channels
+                            fillColor1: root.thumbColor1
+                            fillColor2: root.thumbColor2
                         }
                         Rectangle {
                             width: parent.width
                             y: (model.index + 1) * streamThumb.streamHeight
                             height: 1
                             visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
-                            color: 'black'
+                            color: 'yellow'
                         }
                     }
                 }

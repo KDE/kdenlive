@@ -86,6 +86,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
+    Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
     Q_PROPERTY(int audioStream MEMBER m_stream)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)

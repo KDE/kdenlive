@@ -1044,6 +1044,14 @@ QMap <int, QString> ClipController::audioStreams() const
     return {};
 }
 
+QList <int> ClipController::activeStreamChannels() const
+{
+    if (!audioInfo()) {
+        return QList <int>();
+    }
+    return audioInfo()->streamChannels();
+}
+
 QMap <int, QString> ClipController::activeStreams() const
 {
     if (m_audioInfo) {

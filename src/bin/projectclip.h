@@ -179,7 +179,7 @@ public:
 
     /** @brief Returns the number of audio channels. */
     int audioChannels() const;
-    /** @brief get data analysis value. */
+     /** @brief get data analysis value. */
     QStringList updatedAnalysisData(const QString &name, const QString &data, int offset);
     QMap<QString, QString> analysisData(bool withPrefix = false);
     /** @brief Returns the list of this clip's subclip's ids. */
