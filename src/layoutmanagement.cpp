@@ -72,6 +72,10 @@ void LayoutManagement::initializeLayouts()
     if (m_loadLayout == nullptr) {
         return;
     }
+    QString current;
+    if (m_containerGrp->checkedButton()) {
+        current = m_containerGrp->checkedButton()->text();
+    }
     MainWindow *main = pCore->window();
     // Delete existing buttons
     while (auto item = m_containerLayout->takeAt(0)) {
@@ -146,13 +150,16 @@ void LayoutManagement::initializeLayouts()
         } else {
             load->setText(i18n("Layout %1: %2", i, layoutName));
             if (i < 6) {
-                QPushButton *lab = new QPushButton(i18n(layoutName.toUtf8().constData()), m_container);
+                QPushButton *lab = new QPushButton(layoutName, m_container);
                 lab->setFocusPolicy(Qt::NoFocus);
                 lab->setCheckable(true);
                 lab->setFlat(true);
                 lab->setFont(main->menuBar()->font());
                 m_containerGrp->addButton(lab);
                 m_containerLayout->addWidget(lab);
+                if (!current.isEmpty() && current == layoutName) {
+                    lab->setChecked(true);
+                }
             }
         }
         load->setData(layoutName);
@@ -267,6 +274,10 @@ void LayoutManagement::slotManageLayouts()
     KConfigGroup layouts(config, "Layouts");
     KConfigGroup order(config, "Order");
     QStringList names = order.entryMap().values();
+    QString current;
+    if (m_containerGrp->checkedButton()) {
+        current = m_containerGrp->checkedButton()->text();
+    }
     QDialog d(pCore->window());
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok);
     auto *l = new QVBoxLayout;
@@ -322,7 +333,7 @@ void LayoutManagement::slotManageLayouts()
     tb4.setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
     tb4.setAutoRaise(true);
     tb4.setToolTip(i18n("Reset"));
-    connect(&tb4, &QToolButton::clicked, [&list, &layouts]() {
+    connect(&tb4, &QToolButton::clicked, [this, &config, &list, &layouts, current]() {
         // Load default base layouts
         KConfig defaultConfig(QStringLiteral("kdenlivedefaultlayouts.rc"), KConfig::CascadeConfig, QStandardPaths::AppDataLocation);
         KConfigGroup defaultOrder(&defaultConfig, "Order");
@@ -339,6 +350,10 @@ void LayoutManagement::slotManageLayouts()
             QString selectedName = list.currentItem()->data(Qt::UserRole).toString();
             if (defaultLayoutNames.contains(selectedName)) {
                 layouts.writeEntry(selectedName, defaultLayout.readEntry(selectedName));
+                if (!current.isEmpty() && selectedName == current) {
+                    config->reparseConfiguration();
+                    loadLayout(current, false);
+                }
             }
         }
 
@@ -352,8 +367,8 @@ void LayoutManagement::slotManageLayouts()
                 list.insertItem(pos, item);
                 // Write layout data
                 layouts.writeEntry(name, defaultLayout.readEntry(name));
-                pos++;
             }
+            pos++;
         }
     });
     l2->addWidget(&tb4);
@@ -371,7 +386,14 @@ void LayoutManagement::slotManageLayouts()
         item->setData(Qt::UserRole, name);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     }
-    list.setCurrentRow(0);
+    int ix = 0;
+    if (!current.isEmpty()) {
+        QList<QListWidgetItem *> res = list.findItems(current, Qt::MatchExactly);
+        if (!res.isEmpty()) {
+            ix = list.row(res.first());
+        }
+    }
+    list.setCurrentRow(ix);
     l->addWidget(buttonBox);
     d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
