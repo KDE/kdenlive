@@ -1,0 +1,23 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.equalizer" type="audio">
+	<name>Audio Equalizer (avfilter)</name>
+	<description>Apply two-pole peaking equalization (EQ) filter</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.f" max="24000" min="0" default="500">
+		<name>Central Frequency</name>
+	</parameter>
+    <parameter type="list" name="av.t" default="q" paramlist="h;q;o;s;k">>
+		<name>Width Type</name>
+        <paramlistdisplay>Hertz,Q-Factor,Octave,Slope,None</paramlistdisplay>
+	</parameter>
+        <parameter type="constant" name="av.w" max="24000" min="1" default="100">
+		<name>Band Width</name>
+	</parameter>
+    <parameter type="constant" name="av.g" max="600" min="-600" default="0" decimals="2">
+		<name>Gain</name>
+	</parameter>
+    <parameter type="constant" name="av.m" max="1" min="0" default="1" decimals="2">
+		<name>Mix</name>
+	</parameter>
+</effect>
+
