@@ -44,7 +44,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 std::unique_ptr<Core> Core::m_self;
 Core::Core()
-    : m_thumbProfile(nullptr)
+    : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
 }

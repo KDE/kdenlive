@@ -121,6 +121,14 @@ QMap <int, int> AudioStreamInfo::streamChannels() const
     return m_audioChannels;
 }
 
+int AudioStreamInfo::channelsForStream(int stream) const
+{
+    if (m_audioChannels.contains(stream)) {
+        return m_audioChannels.value(stream);
+    }
+    return m_channels;
+}
+
 QList <int> AudioStreamInfo::activeStreamChannels() const
 {
     if (m_activeStreams.size() == 1 && m_activeStreams.contains(INT_MAX)) {

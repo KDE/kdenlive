@@ -393,9 +393,6 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
 const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
 {
     READ_LOCK();
-    if (binId.contains(QLatin1Char('_'))) {
-        return getAudioLevelsByBinID(binId.section(QLatin1Char('_'), 0, 0), stream);
-    }
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {

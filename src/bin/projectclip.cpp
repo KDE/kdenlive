@@ -220,8 +220,6 @@ void ProjectClip::updateAudioThumbnail()
             pen.setColor(Qt::white);
             painter.setPen(pen);
             int streamCount = 0;
-            qreal indicesPrPixel = qreal(getFramePlaytime()) / img.width();
-            double increment = qMax(1., 1. / qAbs(indicesPrPixel));
             if (streams.count() > 0) {
                 double streamHeight = iconHeight / streams.count();
                 QMapIterator<int, QString> st(streams);
@@ -230,17 +228,20 @@ void ProjectClip::updateAudioThumbnail()
                     int channels = channelsList.value(st.key());
                     double channelHeight = (double) streamHeight / channels;
                     const QVector <uint8_t> audioLevels = audioFrameCache(st.key());
+                    qreal indicesPrPixel = qreal(audioLevels.length()) / img.width();
+                    int idx;
                     for (int channel = 0; channel < channels; channel++) {
                         double y = (streamHeight * streamCount) + (channel * channelHeight) + channelHeight / 2;
                         for (int i = 0; i <= img.width(); i++) {
-                            double j = i * increment;
-                            int idx = j * indicesPrPixel;
+                            idx = ceil(i * indicesPrPixel);
                             idx += idx % channels;
                             idx += channel;
-                            if (idx >= audioLevels.length() || idx < 0) break;
-                                double level = audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
-                                painter.drawLine(i, y - level, i, y + level);
+                            if (idx >= audioLevels.length() || idx < 0) {
+                                break;
                             }
+                            double level = audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
+                            painter.drawLine(i, y - level, i, y + level);
+                        }
                     }
                     streamCount++;
                 }
@@ -353,7 +354,7 @@ size_t ProjectClip::frameDuration() const
     return (size_t)getFramePlaytime();
 }
 
-void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy)
+void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudioReload)
 {
     // we find if there are some loading job on that clip
     int loadjobId = -1;
@@ -399,7 +400,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy)
             ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
-            if (!isProxy && hashChanged) {
+            if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
             }
             if (KdenliveSettings::audiothumbnails()) {
@@ -1622,7 +1623,7 @@ void ProjectClip::setRating(uint rating)
     pCore->currentDoc()->setModified(true);
 }
 
-QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
+const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
 {
     QVector <uint8_t> audioLevels;
     if (stream == -1) {
@@ -1632,12 +1633,19 @@ QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             return audioLevels;
         }
     }
+    QString key = QString("%1:%2").arg(m_binId).arg(stream);
+    QByteArray audioData;
+    if (pCore->audioThumbCache.find(key, &audioData)) {
+        QDataStream in(audioData);
+        in >> audioLevels;
+        return audioLevels;
+    }
     // convert cached image
     const QString cachePath = getAudioThumbPath(stream);
     // checking for cached thumbs
     QImage image(cachePath);
     if (!image.isNull()) {
-        int channels = m_audioInfo->channels();
+        int channels = m_audioInfo->channelsForStream(stream);
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p = image.pixel(i / channels, i % channels);
@@ -1647,6 +1655,11 @@ QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             audioLevels << (uint8_t)qAlpha(p);
         }
     }
+    // populate vector
+    QDataStream st(&audioData, QIODevice::WriteOnly);
+    st << audioLevels;
+    pCore->audioThumbCache.insert(key, audioData);
+    qDebug()<<"=== AUDIO THUMBS TOTAL : "<<pCore->audioThumbCache.totalSize()<<" // "<<pCore->audioThumbCache.freeSize();
     return audioLevels;
 }
 

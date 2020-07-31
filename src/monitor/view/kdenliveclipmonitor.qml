@@ -261,13 +261,15 @@ Item {
                     }
                     property double streamHeight: audioThumb.height / streamThumb.count
                     Item {
+                        anchors.fill: parent
                         TimelineWaveform {
-                            width: audioThumb.width
+                            anchors.right: parent.right
+                            anchors.left: parent.left
                             height: streamThumb.streamHeight
                             y: model.index * height
                             channels: controller.audioChannels[model.index]
                             binId: controller.clipId
-                            audioStream: controller.audioStreams[model.index] //clipRoot.audioStream
+                            audioStream: controller.audioStreams[model.index]
                             isFirstChunk: false
                             showItem: audioThumb.visible
                             format: controller.audioThumbFormat

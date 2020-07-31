@@ -104,8 +104,13 @@ public:
         //setMipmap(true);
         setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
-            if (!m_binId.isEmpty() && m_audioLevels.isEmpty() && m_stream >= 0) {
-                update();
+            if (!m_binId.isEmpty()) {
+                if (m_audioLevels.isEmpty() && m_stream >= 0) {
+                    update();
+                } else {
+                    // Clip changed, reset levels
+                    m_audioLevels.clear();
+                }
             }
         });
         connect(this, &TimelineWaveform::propertyChanged, [&]() {
@@ -140,7 +145,6 @@ public:
             }
         }
         qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
-        //qDebug()<<"== GOT DIMENSIONS FOR WAVE: "<<m_inPoint<<"-"<<m_outPoint<<", WID: "<<width();
         QPen pen = painter->pen();
         pen.setColor(m_color);
         painter->setBrush(m_color);

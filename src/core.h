@@ -20,6 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 #include <QPoint>
+#include <KSharedDataCache>
 #include "timecode.h"
 
 class Bin;
@@ -226,6 +227,7 @@ public:
     int audioChannels();
     /** @brief Add guides in the project. */
     void addGuides(QList <int> guides);
+    KSharedDataCache audioThumbCache;
 
 private:
     explicit Core();

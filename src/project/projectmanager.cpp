@@ -264,6 +264,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    pCore->audioThumbCache.clear();
     pCore->jobManager()->slotCancelJobs();
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();

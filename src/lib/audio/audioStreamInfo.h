@@ -32,6 +32,8 @@ public:
     QMap <int, QString> streams() const;
     /** @brief returns a list of audio stream index > channels per stream */
     QMap <int, int> streamChannels() const;
+    /** @brief returns the channel count for a stream */
+    int channelsForStream(int stream) const;
     /** @brief returns a list of audio channels per active stream */
     QList <int> activeStreamChannels() const;
     /** @brief returns a list of enabled audio stream indexes > stream description */

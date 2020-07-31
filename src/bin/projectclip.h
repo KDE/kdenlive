@@ -81,7 +81,7 @@ protected:
 public:
     ~ProjectClip() override;
 
-    void reloadProducer(bool refreshOnly = false, bool isProxy = false);
+    void reloadProducer(bool refreshOnly = false, bool isProxy = false, bool forceAudioReload = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     // virtual void hash() = 0;
@@ -225,7 +225,7 @@ public:
     void getThumbFromPercent(int percent);
     /** @brief Return audio cache for a stream
      */
-    QVector <uint8_t> audioFrameCache(int stream = -1);
+    const QVector <uint8_t> audioFrameCache(int stream = -1);
     /** @brief Return FFmpeg's audio stream index for an MLT audio stream index
      */
     int getAudioStreamFfmpegIndex(int mltStream);
@@ -288,6 +288,7 @@ private:
     QFuture<void> m_thumbThread;
     QList<int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
+    QMap <QString, QByteArray> m_audioLevels;
 
     // This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled
     void createDisabledMasterProducer();
