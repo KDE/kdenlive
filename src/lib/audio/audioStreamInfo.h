@@ -31,7 +31,9 @@ public:
     /** @brief returns a list of audio stream index > stream description */
     QMap <int, QString> streams() const;
     /** @brief returns a list of audio stream index > channels per stream */
-    QList <int> streamChannels() const;
+    QMap <int, int> streamChannels() const;
+    /** @brief returns a list of audio channels per active stream */
+    QList <int> activeStreamChannels() const;
     /** @brief returns a list of enabled audio stream indexes > stream description */
     QMap <int, QString> activeStreams() const;
     int bitrate() const;

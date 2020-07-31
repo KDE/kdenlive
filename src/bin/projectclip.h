@@ -81,7 +81,7 @@ protected:
 public:
     ~ProjectClip() override;
 
-    void reloadProducer(bool refreshOnly = false, bool audioStreamChanged = false, bool reloadAudio = true);
+    void reloadProducer(bool refreshOnly = false, bool isProxy = false);
 
     /** @brief Returns a unique hash identifier used to store clip thumbnails. */
     // virtual void hash() = 0;
@@ -185,9 +185,9 @@ public:
     /** @brief Returns the list of this clip's subclip's ids. */
     QStringList subClipIds() const;
     /** @brief Delete cached audio thumb - needs to be recreated */
-    void discardAudioThumb(bool miniThumbOnly = false);
+    void discardAudioThumb();
     /** @brief Get path for this clip's audio thumbnail */
-    const QString getAudioThumbPath(int stream, bool miniThumb = false);
+    const QString getAudioThumbPath(int stream);
     /** @brief Returns true if this producer has audio and can be splitted on timeline*/
     bool isSplittable() const;
 

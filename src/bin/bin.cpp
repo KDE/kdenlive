@@ -2517,13 +2517,13 @@ void Bin::slotEditClipCommand(const QString &id, const QMap<QString, QString> &o
     m_doc->commandStack()->push(command);
 }
 
-void Bin::reloadClip(const QString &id, bool reloadAudio)
+void Bin::reloadClip(const QString &id)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (!clip) {
         return;
     }
-    clip->reloadProducer(false, false, reloadAudio);
+    clip->reloadProducer(false, false);
 }
 
 void Bin::reloadMonitorIfActive(const QString &id)
@@ -3947,11 +3947,11 @@ void Bin::reloadAllProducers(bool reloadThumbs)
         if (!xml.isNull()) {
             clip->setClipStatus(AbstractProjectItem::StatusWaiting);
             pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
-            clip->discardAudioThumb(false);
+            clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
             int jobId = pCore->jobManager()->startJob<LoadJob>({clip->clipId()}, -1, QString(), xml);
             if (reloadThumbs) {
-                ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId(), true);
+                ThumbnailCache::get()->invalidateThumbsForClip(clip->clipId());
             }
             pCore->jobManager()->startJob<ThumbJob>({clip->clipId()}, jobId, QString(), -1, true, true);
             if (KdenliveSettings::audiothumbnails()) {

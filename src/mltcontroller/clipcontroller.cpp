@@ -1049,7 +1049,7 @@ QList <int> ClipController::activeStreamChannels() const
     if (!audioInfo()) {
         return QList <int>();
     }
-    return audioInfo()->streamChannels();
+    return audioInfo()->activeStreamChannels();
 }
 
 QMap <int, QString> ClipController::activeStreams() const

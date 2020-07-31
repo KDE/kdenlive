@@ -207,6 +207,50 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 void ProjectClip::updateAudioThumbnail()
 {
     emit audioThumbReady();
+    if (m_clipType == ClipType::Audio) {
+        QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
+        if (thumb.isNull()) {
+            int iconHeight = QFontInfo(qApp->font()).pixelSize() * 3.5;
+            QImage img(QSize(iconHeight * pCore->getCurrentDar(), iconHeight), QImage::Format_ARGB32);
+            img.fill(Qt::darkGray);
+            QMap <int, QString> streams = audioInfo()->streams();
+            QMap <int, int> channelsList = audioInfo()->streamChannels();
+            QPainter painter(&img);
+            QPen pen = painter.pen();
+            pen.setColor(Qt::white);
+            painter.setPen(pen);
+            int streamCount = 0;
+            qreal indicesPrPixel = qreal(getFramePlaytime()) / img.width();
+            double increment = qMax(1., 1. / qAbs(indicesPrPixel));
+            if (streams.count() > 0) {
+                double streamHeight = iconHeight / streams.count();
+                QMapIterator<int, QString> st(streams);
+                while (st.hasNext()) {
+                    st.next();
+                    int channels = channelsList.value(st.key());
+                    double channelHeight = (double) streamHeight / channels;
+                    const QVector <uint8_t> audioLevels = audioFrameCache(st.key());
+                    for (int channel = 0; channel < channels; channel++) {
+                        double y = (streamHeight * streamCount) + (channel * channelHeight) + channelHeight / 2;
+                        for (int i = 0; i <= img.width(); i++) {
+                            double j = i * increment;
+                            int idx = j * indicesPrPixel;
+                            idx += idx % channels;
+                            idx += channel;
+                            if (idx >= audioLevels.length() || idx < 0) break;
+                                double level = audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
+                                painter.drawLine(i, y - level, i, y + level);
+                            }
+                    }
+                    streamCount++;
+                }
+            }
+            thumb = img;
+            // Cache thumbnail
+            ThumbnailCache::get()->storeThumbnail(m_binId, 0, thumb, true);
+        }
+        setThumbnail(thumb);
+    }
     if (!KdenliveSettings::audiothumbnails()) {
         return;
     }
@@ -309,7 +353,7 @@ size_t ProjectClip::frameDuration() const
     return (size_t)getFramePlaytime();
 }
 
-void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool reloadAudio)
+void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy)
 {
     // we find if there are some loading job on that clip
     int loadjobId = -1;
@@ -319,7 +363,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
-        ThumbnailCache::get()->invalidateThumbsForClip(clipId(), false);
+        ThumbnailCache::get()->invalidateThumbsForClip(clipId());
         pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         m_thumbsProducer.reset();
         emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
@@ -352,14 +396,11 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
                 }
                 
             }
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId(), reloadAudio);
+            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
             emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
-            if (audioStreamChanged || hashChanged) {
+            if (!isProxy && hashChanged) {
                 discardAudioThumb();
-            } else {
-                // refresh bin/monitor mini thumb only
-                discardAudioThumb(true);
             }
             if (KdenliveSettings::audiothumbnails()) {
                 emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
@@ -1124,7 +1165,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
             emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         } else {
-            reloadProducer(refreshOnly, audioStreamChanged, audioStreamChanged || (!refreshOnly && !properties.contains(QStringLiteral("kdenlive:proxy"))));
+            reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
@@ -1292,7 +1333,7 @@ int ProjectClip::audioChannels() const
     return audioInfo()->channels();
 }
 
-void ProjectClip::discardAudioThumb(bool miniThumbOnly)
+void ProjectClip::discardAudioThumb()
 {
     if (!m_audioInfo) {
         return;
@@ -1300,18 +1341,16 @@ void ProjectClip::discardAudioThumb(bool miniThumbOnly)
     pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
     QString audioThumbPath;
     QList <int> streams = m_audioInfo->streams().keys();
-    if (!miniThumbOnly) {
-        // Delete audio thumbnail data
-        for (int &st : streams) {
-            audioThumbPath = getAudioThumbPath(st);
-            if (!audioThumbPath.isEmpty()) {
-                QFile::remove(audioThumbPath);
-            }
+    // Delete audio thumbnail data
+    for (int &st : streams) {
+        audioThumbPath = getAudioThumbPath(st);
+        if (!audioThumbPath.isEmpty()) {
+            QFile::remove(audioThumbPath);
         }
     }
-    // Delete mini thumb
+    // Delete thumbnail
     for (int &st : streams) {
-        audioThumbPath = getAudioThumbPath(st, true);
+        audioThumbPath = getAudioThumbPath(st);
         if (!audioThumbPath.isEmpty()) {
             QFile::remove(audioThumbPath);
         }
@@ -1332,9 +1371,9 @@ int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)
     return -1;
 }
 
-const QString ProjectClip::getAudioThumbPath(int stream, bool miniThumb)
+const QString ProjectClip::getAudioThumbPath(int stream)
 {
-    if (audioInfo() == nullptr && !miniThumb) {
+    if (audioInfo() == nullptr) {
         return QString();
     }
     bool ok = false;
@@ -1348,10 +1387,6 @@ const QString ProjectClip::getAudioThumbPath(int stream, bool miniThumb)
     }
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     audioPath.append(QLatin1Char('_') + QString::number(stream));
-    if (miniThumb) {
-        audioPath.append(QStringLiteral(".png"));
-        return audioPath;
-    }
     int roundedFps = (int)pCore->getCurrentFps();
     audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
     return audioPath;

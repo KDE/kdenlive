@@ -120,46 +120,13 @@ bool AudioThumbJob::computeWithFFMPEG()
     if (!QFile::exists(filePath)) {
         return false;
     }
-    m_ffmpegProcess.reset(new QProcess);
-    QString thumbPath = m_binClip->getAudioThumbPath(m_audioStream, true);
-    int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);
-    if (!QFile::exists(thumbPath)) {
-        // Generate thumbnail used in monitor overlay
-        QStringList args = {QStringLiteral("-hide_banner"), QStringLiteral("-y"), QStringLiteral("-i"), QUrl::fromLocalFile(filePath).toLocalFile(), QString("-filter_complex")};
-        if (m_audioStream >= 0) {
-            args << QString("[a:%1]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(audioStreamIndex).arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name(), KdenliveSettings::thumbColor2().name());
-        } else {
-            // Only 1 audio stream in clip
-            args << QString("[a]showwavespic=s=%2x%3:split_channels=1:scale=cbrt:colors=%4|%5").arg(m_thumbSize.width()).arg(m_thumbSize.height()).arg(KdenliveSettings::thumbColor1().name(), KdenliveSettings::thumbColor2().name());
-        }
-        args << QStringLiteral("-frames:v") << QStringLiteral("1");
-        args << thumbPath;
-        qDebug()<<"=== FFARGS: "<<args;
-        connect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress, Qt::UniqueConnection);
-        connect(this, &AudioThumbJob::jobCanceled, [&] () {
-            if (m_ffmpegProcess) {
-                disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
-                m_ffmpegProcess->kill();
-            }
-            m_done = true;
-            m_successful = false;
-        });
-        m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
-        m_ffmpegProcess->waitForFinished(-1);
-        disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
-        if (m_ffmpegProcess->exitStatus() != QProcess::CrashExit) {
-            if (m_dataInCache || !KdenliveSettings::audiothumbnails()) {
-                m_done = true;
-            }
-        }
-    } else if (!KdenliveSettings::audiothumbnails()) {
-        m_done = true;
-    }
+
     if (!KdenliveSettings::audiothumbnails()) {
         // We only wanted the thumb generation
         return m_done;
     }
-    if (!QFile::exists(m_cachePath) && !m_dataInCache && !m_done) {
+    int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);
+    if (!QFile::exists(m_cachePath) && !m_dataInCache) {
         // Generate timeline audio thumbnail data
         m_audioLevels.clear();
         std::vector<std::unique_ptr<QTemporaryFile>> channelFiles;
@@ -184,9 +151,9 @@ bool AudioThumbJob::computeWithFFMPEG()
         args << QStringLiteral("-filter_complex");
         if (m_channels == 1) {
             if (m_audioStream >= 0) {
-                args << QStringLiteral("[a:%1]aformat=channel_layouts=mono,%2=100").arg(audioStreamIndex).arg(isFFmpeg ? "aresample=async" : "sample_rates");
+                args << QStringLiteral("[a:%1]aformat=channel_layouts=mono,%2=100").arg(audioStreamIndex).arg(isFFmpeg ? "aresample=1500:async" : "sample_rates");
             } else {
-                args << QStringLiteral("[a]aformat=channel_layouts=mono,%1=100").arg(isFFmpeg ? "aresample=async" : "sample_rates");
+                args << QStringLiteral("[a]aformat=channel_layouts=mono,%1=100").arg(isFFmpeg ? "aresample=1500:async" : "sample_rates");
             }
             /*args << QStringLiteral("-map") << QStringLiteral("0:a%1").arg(m_audioStream > 0 ? ":" + QString::number(audioStreamIndex) : QString())*/
             args << QStringLiteral("-c:a") << QStringLiteral("pcm_s16le") << QStringLiteral("-frames:v") 
@@ -195,7 +162,7 @@ bool AudioThumbJob::computeWithFFMPEG()
         } else {
             QString aformat = QStringLiteral("[a%1]%2=100,channelsplit=channel_layout=%3")
                               .arg(audioStreamIndex >= 0 ? ":" + QString::number(audioStreamIndex) : QString(),
-                                   isFFmpeg ? "aresample=async" : "aformat=sample_rates",
+                                   isFFmpeg ? "aresample=1500:async" : "aformat=sample_rates",
                                    m_channels > 2 ? "5.1" : "stereo");
             for (int i = 0; i < m_channels; ++i) {
                 aformat.append(QStringLiteral("[0:%1]").arg(i));
@@ -279,15 +246,16 @@ bool AudioThumbJob::computeWithFFMPEG()
             }
             m_done = true;
             return true;
+        } else {
+            QString err = m_ffmpegProcess->readAllStandardError();
+            m_ffmpegProcess.reset();
+            // m_errorMessage += err;
+            // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
+            qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
         }
     } else {
         m_done = true;
     }
-    QString err = m_ffmpegProcess->readAllStandardError();
-    m_ffmpegProcess.reset();
-    // m_errorMessage += err;
-    // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
-    qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
     return m_done;
 }
 
@@ -333,20 +301,6 @@ bool AudioThumbJob::startJob()
         return false;
     }
     m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
-    int thumbResolution = 3000;
-    
-    // Increase audio thumb resolution for longer clips to get a better resolution
-    if (m_lengthInFrames > 10000) {
-        // More than 10 minutes at 25fps
-        if (m_lengthInFrames > 90000) {
-            // More than 1 hour at 25fps
-            thumbResolution = 10000;
-        } else {
-            thumbResolution = 6000;
-        }
-    }
-    m_thumbSize = QSize(thumbResolution, 1000 / pCore->getCurrentDar());
-
     m_frequency = m_binClip->audioInfo()->samplingRate();
     m_frequency = m_frequency <= 0 ? 48000 : m_frequency;
 
@@ -354,12 +308,16 @@ bool AudioThumbJob::startJob()
     m_channels = m_channels <= 0 ? 2 : m_channels;
 
     QMap <int, QString> streams = m_binClip->audioInfo()->streams();
+    QMap <int, int> audioChannels = m_binClip->audioInfo()->streamChannels();
     QMapIterator<int, QString> st(streams);
     m_done = true;
     ClipType::ProducerType type = m_binClip->clipType();
     while (st.hasNext()) {
         st.next();
         int stream = st.key();
+        if (audioChannels.contains(stream)) {
+            m_channels = audioChannels.value(stream);
+        }
         // Generate one thumb per stream
         m_audioStream = stream;
         m_cachePath = m_binClip->getAudioThumbPath(stream);
@@ -427,26 +385,13 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_successful) {
         return false;
     }
-    QImage oldImage;
-    QImage result;
-    if (m_binClip->clipType() == ClipType::Audio) {
-        oldImage = m_binClip->thumbnail(200, 200 / pCore->getCurrentDar()).toImage();
-        result = ThumbnailCache::get()->getAudioThumbnail(m_clipId).scaled(200, 200 / pCore->getCurrentDar());
-    }
 
-    // note that the image is moved into lambda, it won't be available from this class anymore
-    auto operation = [clip = m_binClip, image = std::move(result)]() {
+    auto operation = [clip = m_binClip]() {
         clip->updateAudioThumbnail();
-        if (!image.isNull() && clip->clipType() == ClipType::Audio) {
-            clip->setThumbnail(image);
-        }
         return true;
     };
-    auto reverse = [clip = m_binClip, image = std::move(oldImage)]() {
+    auto reverse = [clip = m_binClip]() {
         clip->updateAudioThumbnail();
-        if (!image.isNull() && clip->clipType() == ClipType::Audio) {
-            clip->setThumbnail(image);
-        }
         return true;
     };
     bool ok = operation();
