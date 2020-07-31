@@ -1654,12 +1654,11 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             audioLevels << (uint8_t)qBlue(p);
             audioLevels << (uint8_t)qAlpha(p);
         }
+        // populate vector
+        QDataStream st(&audioData, QIODevice::WriteOnly);
+        st << audioLevels;
+        pCore->audioThumbCache.insert(key, audioData);
     }
-    // populate vector
-    QDataStream st(&audioData, QIODevice::WriteOnly);
-    st << audioLevels;
-    pCore->audioThumbCache.insert(key, audioData);
-    qDebug()<<"=== AUDIO THUMBS TOTAL : "<<pCore->audioThumbCache.totalSize()<<" // "<<pCore->audioThumbCache.freeSize();
     return audioLevels;
 }
 
