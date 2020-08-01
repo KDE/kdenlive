@@ -372,3 +372,14 @@ bool MonitorProxy::audioThumbFormat() const
 {
     return KdenliveSettings::displayallchannels();
 }
+
+void MonitorProxy::switchAutoKeyframe()
+{
+    KdenliveSettings::setAutoKeyframe(!KdenliveSettings::autoKeyframe());
+    emit autoKeyframeChanged();
+}
+
+bool MonitorProxy::autoKeyframe() const
+{
+    return KdenliveSettings::autoKeyframe();
+}

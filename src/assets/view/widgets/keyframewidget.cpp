@@ -446,6 +446,9 @@ void KeyframeWidget::slotUpdateKeyframesFromMonitor(const QPersistentModelIndex 
         m_keyframes->updateKeyframe(pos, res, index);
     } else if (m_keyframes->hasKeyframe(getPosition()) || m_keyframes->singleKeyframe()) {
         GenTime pos(getPosition(), pCore->getCurrentFps());
+        if (m_keyframes->singleKeyframe() && KdenliveSettings::autoKeyframe() && m_neededScene == MonitorSceneType::MonitorSceneRoto) {
+            m_keyframes->addKeyframe(pos, KeyframeType::Linear);
+        }
         m_keyframes->updateKeyframe(pos, res, index);
     }
 }

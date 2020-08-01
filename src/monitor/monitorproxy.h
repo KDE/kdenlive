@@ -49,6 +49,7 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
     Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
     Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
+    Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     /** @brief: Returns true if current clip in monitor has Audio and Video
      * */
@@ -97,6 +98,8 @@ public:
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE double fps() const;
+    Q_INVOKABLE void switchAutoKeyframe();
+    Q_INVOKABLE bool autoKeyframe() const;
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
     void setAudioThumb(const QList <int> streamIndexes = QList <int>(), QList <int> channels = QList <int>());
@@ -129,6 +132,7 @@ signals:
     void colorsChanged();
     void audioThumbFormatChanged();
     void profileChanged();
+    void autoKeyframeChanged();
 
 private:
     GLWidget *q;
