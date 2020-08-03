@@ -23,10 +23,10 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 #ifdef Q_OS_FREEBSD
         auto *result = setlocale(LC_ALL, locale.toStdString().c_str());
 #else
-        auto *result = std::setlocale(LC_ALL, locale.toStdString().c_str());
+        auto *result = std::setlocale(LC_NUMERIC, locale.toStdString().c_str());
 #endif
         if (result != nullptr) {
-            ::qputenv("LC_ALL", locale.toStdString().c_str());
+            ::qputenv("LC_NUMERIC", locale.toStdString().c_str());
             newLocale = locale;
             break;
         }
@@ -40,12 +40,12 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 void LocaleHandling::resetLocale()
 {
 #ifdef Q_OS_FREEBSD
-    setlocale(LC_ALL, "C");
+    setlocale(LC_NUMERIC, "C");
 #else
-    std::setlocale(LC_ALL, "C");
+    std::setlocale(LC_NUMERIC, "C");
 #endif
-    ::qputenv("LC_ALL", "C");
-    qDebug() << "LC_ALL reset to C";
+    ::qputenv("LC_NUMERIC", "C");
+    qDebug() << "LC_NUMERIC reset to C";
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)
