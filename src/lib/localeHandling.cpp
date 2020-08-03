@@ -21,7 +21,7 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
     localesToTest << lcName << lcName + ".utf-8" << lcName + ".UTF-8" << lcName + ".utf8" << lcName + ".UTF8";
     for (const auto &locale : qAsConst(localesToTest)) {
 #ifdef Q_OS_FREEBSD
-        auto *result = setlocale(LC_ALL, locale.toStdString().c_str());
+        auto *result = setlocale(LC_NUMERIC, locale.toStdString().c_str());
 #else
         auto *result = std::setlocale(LC_NUMERIC, locale.toStdString().c_str());
 #endif
