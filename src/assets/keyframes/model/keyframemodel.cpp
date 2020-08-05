@@ -298,8 +298,12 @@ bool KeyframeModel::updateKeyframe(int pos, double newVal)
 {
     GenTime Pos(pos, pCore->getCurrentFps());
     if (auto ptr = m_model.lock()) {
-        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+        if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+            min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        }
         double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
@@ -454,8 +458,12 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
             Q_ASSERT(m_index.isValid());
-            double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-            double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+            double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+            double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+            if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+                min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+                max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+            }
             double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
             double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
             int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
@@ -890,8 +898,12 @@ QVariant KeyframeModel::updateInterpolated(const QVariant &interpValue, double v
 QVariant KeyframeModel::getNormalizedValue(double newVal) const
 {
     if (auto ptr = m_model.lock()) {
-        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+        if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+            min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        }
         double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();

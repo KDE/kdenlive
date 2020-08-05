@@ -440,6 +440,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(m_ownerId, QStringLiteral("decimals"), element);
     case OddRole:
         return element.attribute(QStringLiteral("odd")) == QLatin1String("1");
+    case VisualMinRole:
+        return parseAttribute(m_ownerId, QStringLiteral("visualmin"), element);
+    case VisualMaxRole:
+        return parseAttribute(m_ownerId, QStringLiteral("visualmax"), element);
     case DefaultRole:
         return parseAttribute(m_ownerId, QStringLiteral("default"), element);
     case FilterRole:
