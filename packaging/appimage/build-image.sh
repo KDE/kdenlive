@@ -168,8 +168,9 @@ rm $APPDIR/usr/lib/libGL.so.1 || true
 rm $APPDIR/usr/lib/libasound.so.2 || true
 
 
-# libxcb should be removed
-rm $APPDIR/usr/lib/libxcb* || true
+# libxcb and libxcb-dri{2,3} should be removed
+rm $APPDIR/usr/lib/libxcb.so* || true
+rm $APPDIR/usr/lib/libxcb-dri{2,3}.so* || true
 
 rm $APPDIR/usr/lib/libgcrypt.so.20 || true
 
