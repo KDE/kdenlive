@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="pillar_echo" id="pillar_echo">
+	<name>Pillar Echo</name>
+	<description>Create an echo effect (blur) outside of an area of interest.</description>
+	<author>Meltytech, LLC</author>
+	<parameter type="animatedrect" name="rect" default="25% 0% 50% 100%" fixed="1" opacity="false">
+		<name>Rectangle</name>
+	</parameter>
+	<parameter type="constant" name="blur" max="50" min="0" default="4" suffix="%">
+		<name>Blur</name>
+	</parameter>
+</effect>

@@ -28,6 +28,7 @@ mute.xml
 normalise.xml
 oldfilm.xml
 pan_zoom.xml
+pillar_echo.xml
 obscure.xml
 region.xml
 rotation.xml
