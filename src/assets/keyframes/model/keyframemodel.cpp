@@ -305,9 +305,9 @@ bool KeyframeModel::updateKeyframe(int pos, double newVal)
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
         double realValue;
         if (logRole == -1) {
-            // Logarythmic scale for lower than norm values
+            // Logarythmic scale
             if (newVal >= 0.5) {
-                realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                realValue = norm + pow(2 * (newVal - 0.5), 10.0 / 6) * (max / factor - norm);
             } else {
                 realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
             }
@@ -461,11 +461,12 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
             int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
             double linear = val * factor;
             if (logRole == -1) {
-                // Logarythmic scale for lower than norm values
-                if (linear >= norm) {
-                    return 0.5 + (linear - norm) / (max * factor - norm) * 0.5;
-                }
+                // Logarythmic scale
                 // transform current value to 0..1 scale
+                if (linear >= norm) {
+                    double scaled = (linear - norm) / (max * factor - norm);
+                    return 0.5 + pow(scaled, 0.6) * 0.5;
+                }
                 double scaled = (linear - norm) / (min * factor - norm);
                 // Log scale
                 return 0.5 - pow(scaled, 0.6) * 0.5;
@@ -896,9 +897,9 @@ QVariant KeyframeModel::getNormalizedValue(double newVal) const
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
         double realValue;
         if (logRole == -1) {
-            // Logarythmic scale for lower than norm values
+            // Logarythmic scale
             if (newVal >= 0.5) {
-                realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                realValue = norm + pow(2 * (newVal - 0.5), 10.0 / 6) * (max / factor - norm);
             } else {
                 realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
             }

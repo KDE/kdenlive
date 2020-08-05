@@ -371,6 +371,7 @@ signals:
     void acceptRipple(bool);
     void switchTrimMode(int);
     void activateTrack(int);
+    void autoKeyframeChanged();
 };
 
 #endif

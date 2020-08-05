@@ -811,6 +811,11 @@
       <label>Divide monitor resolution by this factor to speedup preview.</label>
       <default>1</default>
     </entry>
+    
+    <entry name="autoKeyframe" type="Bool">
+      <label>Automatically create a new keyframe on keyframe move.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="clipMonitorOverlayGuides" type="Int">
       <label>index of current guides overlay for clip monitor.</label>

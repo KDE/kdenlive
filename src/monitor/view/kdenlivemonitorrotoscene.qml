@@ -36,6 +36,7 @@ Item {
     onScaleyChanged: canvas.requestPaint()
     onSourcedarChanged: refreshdar()
     property bool iskeyframe : true
+    property bool autoKeyframe: controller.autoKeyframe
     property bool isDefined: false
     property int requestedKeyFrame : -1
     property int requestedSubKeyFrame : -1
@@ -70,6 +71,13 @@ Item {
 
     onIskeyframeChanged: {
         console.log('KEYFRAME CHANGED: ', iskeyframe)
+        if (root.displayResize && !controller.autoKeyframe) {
+            root.displayResize = false
+        }
+        canvas.requestPaint()
+    }
+
+    onAutoKeyframeChanged: {
         canvas.requestPaint()
     }
 
@@ -161,7 +169,7 @@ Item {
                     }
                     c2 = convertPoint(root.centerPointsTypes[2*i])
                     ctx.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, p1.x, p1.y);
-                    if (iskeyframe && !root.displayResize) {
+                    if ((iskeyframe || autoKeyframe) && !root.displayResize) {
                         // Draw control points and segments
                         if (subkf) {
                             ctx.fillStyle = Qt.rgba(1, 1, 0, 0.8)
@@ -365,6 +373,9 @@ Item {
         }
         onDoubleClicked: {
             if (root.isDefined) {
+                if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                }
                 if (root.displayResize) {
                     // Disable resize mode
                     root.displayResize = false
@@ -448,7 +459,13 @@ Item {
         }
 
         onPositionChanged: {
-            if (root.iskeyframe == false) return;
+            if (pressed && root.iskeyframe == false) {
+                if (controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                } else {
+                    return;
+                }
+            }
             if (pressed) {
                 if (root.resizeContainsMouse > 0) {
                     // resizing shape
@@ -543,7 +560,7 @@ Item {
                     canvas.requestPaint()
                     root.effectPolygonChanged()
                 }
-            } else if (root.centerPoints.length > 0) {
+            } else if ((root.iskeyframe || controller.autoKeyframe) && root.centerPoints.length > 0) {
               // Check if we are over a keyframe
               if (!root.displayResize) {
                   addPointPossible = Qt.point(0, 0)
@@ -675,6 +692,7 @@ Item {
     EffectToolBar {
         id: effectToolBar
         barContainsMouse: effectToolBar.rightSide ? global.mouseX >= x - 10 : global.mouseX < x + width + 10
+        showAutoKeyframe: true
         onBarContainsMouseChanged: {
             effectToolBar.opacity = 1
             effectToolBar.visible = effectToolBar.barContainsMouse

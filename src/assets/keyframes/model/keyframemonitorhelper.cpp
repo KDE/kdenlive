@@ -130,3 +130,4 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
         break;
     }
 }
+
