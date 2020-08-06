@@ -362,8 +362,8 @@ Rectangle {
         id: zone
         visible: controller.zoneOut > controller.zoneIn
         color: activePalette.highlight
-        x: controller.zoneIn * root.timeScale / root.zoomFactor - ruler.rulerZoomOffset
-        width: (controller.zoneOut - controller.zoneIn) * root.timeScale / root.zoomFactor
+        x: controller.zoneIn * root.timeScale - ruler.rulerZoomOffset
+        width: (controller.zoneOut - controller.zoneIn) * root.timeScale
         anchors.bottom: parent.bottom
         height: ruler.height / 2
         opacity: 0.8
