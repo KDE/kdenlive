@@ -76,11 +76,11 @@ void NotesPlugin::slotInsertTimecode()
             return;
         }
         QString clipName = pCore->bin()->getBinClipName(binId);
-        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId, frames).arg(clipName, position));
+        m_widget->insertHtml(QString("<a href=\"%1#%2\">%3:%4</a> ").arg(binId, QString::number(frames)).arg(clipName, position));
     } else {
         int frames = pCore->monitorManager()->projectMonitor()->position();
         QString position = pCore->timecode().getTimecodeFromFrames(frames);
-        m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(frames).arg(position));
+        m_widget->insertHtml(QString("<a href=\"%1\">%2</a> ").arg(QString::number(frames), position));
     }
 }
 
