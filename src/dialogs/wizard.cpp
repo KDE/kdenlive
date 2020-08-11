@@ -470,6 +470,10 @@ void Wizard::checkMltComponents()
             // MLT >= 6.6.0 and SDL2 module
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl2_audio"));
             KdenliveSettings::setAudiobackend(QStringLiteral("sdl2_audio"));
+#if defined(Q_OS_WIN)
+            // Use wasapi by default on Windows
+            KdenliveSettings::setAudiodrivername(QStringLiteral("wasapi"));
+#endif
         } else if (consumersItemList.contains(QStringLiteral("sdl_audio"))) {
             // MLT < 6.6.0
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl_audio"));
