@@ -755,6 +755,8 @@ bool EffectStackModel::removeFade(bool fromStart)
             toRemove.push_back(i);
         }
     }
+    // Let's put index in reverse order so we don't mess when deleting
+    std::reverse( toRemove.begin(), toRemove.end() );
     for (int i : toRemove) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         removeEffect(effect);
