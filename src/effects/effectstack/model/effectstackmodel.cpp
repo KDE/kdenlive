@@ -284,6 +284,10 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
         } else if (state != PlaylistState::VideoOnly) {
             continue;
         }
+        if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+            pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+            return false;
+        }
         bool effectEnabled = true;
         if (Xml::hasXmlProperty(node, QLatin1String("disable"))) {
             effectEnabled = Xml::getXmlProperty(node, QLatin1String("disable")).toInt() != 1;
@@ -365,6 +369,10 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
+    if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+        return false;
+    }
     bool enabled = sourceEffect->isEnabled();
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), enabled);
     effect->setParameters(sourceEffect->getAllParameters());
@@ -408,6 +416,10 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
+    if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+        return false;
+    }
     std::unordered_set<int> previousFadeIn = m_fadeIns;
     std::unordered_set<int> previousFadeOut = m_fadeOuts;
     if (EffectsRepository::get()->isGroup(effectId)) {
@@ -915,6 +927,10 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             const QString effectId = qstrdup(filter->get("kdenlive_id"));
+            if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+                pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+                continue;
+            }
             if (filter->get_int("disable") == 0) {
                 effectEnabled = true;
             }
@@ -1292,4 +1308,14 @@ bool EffectStackModel::hasKeyFrame(int frame)
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     return listModel->hasKeyframe(frame);
+}
+
+bool EffectStackModel::hasEffect(const QString &assetId) const
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId() == assetId) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -286,6 +286,14 @@ template <typename AssetType> AssetType AbstractAssetsRepository<AssetType>::get
     return m_assets.at(assetId).type;
 }
 
+template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isUnique(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        return m_assets.at(assetId).xml.hasAttribute(QStringLiteral("unique"));
+    }
+    return false;
+}
+
 template <typename AssetType> QString AbstractAssetsRepository<AssetType>::getName(const QString &assetId) const
 {
     Q_ASSERT(m_assets.count(assetId) > 0);

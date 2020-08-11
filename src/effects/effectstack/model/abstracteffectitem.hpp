@@ -53,6 +53,8 @@ public:
 
     /* @brief Return true if the effect or effect group applies only to audio */
     virtual bool isAudio() const = 0;
+    /* @brief Return true if this effect can only have one instance in an effect stack */
+    virtual bool isUnique() const = 0;
 
     /* @brief This function plants the effect into the given service in last position
      */

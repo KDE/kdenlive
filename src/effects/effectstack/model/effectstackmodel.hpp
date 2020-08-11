@@ -142,6 +142,9 @@ public:
     /* @brief This is a convenience function that helps check if the tree is in a valid state */
     bool checkConsistency() override;
 
+    /* @brief Return true if an asset id is already added to this effect stack */
+    bool hasEffect(const QString &assetId) const;
+
 public slots:
     /* @brief Delete an effect from the stack */
     void removeEffect(const std::shared_ptr<EffectItemModel> &effect);

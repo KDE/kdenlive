@@ -223,3 +223,8 @@ bool EffectItemModel::isAudio() const
     AssetListType::AssetType type = EffectsRepository::get()->getType(m_assetId);
     return  type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
 }
+
+bool EffectItemModel::isUnique() const
+{
+    return EffectsRepository::get()->isUnique(m_assetId);
+}
