@@ -91,10 +91,14 @@ enum {
 };
 
 // Render job roles
-const int ParametersRole = Qt::UserRole + 1;
-const int TimeRole = Qt::UserRole + 2;
-const int ProgressRole = Qt::UserRole + 3;
-const int ExtraInfoRole = Qt::UserRole + 5;
+enum {
+    ParametersRole = Qt::UserRole + 1,
+    StartTimeRole,
+    ProgressRole,
+    ExtraInfoRole = ProgressRole + 2, // vpinon: don't understand why, else spurious message displayed
+    LastTimeRole,
+    LastFrameRole
+};
 
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
@@ -1073,7 +1077,7 @@ void RenderWidget::focusFirstVisibleItem(const QString &profile)
             }
         }
     }
-    if (item) {
+    if (item && item->parent()) {
         m_view.formats->setCurrentItem(item);
         item->parent()->setExpanded(true);
         refreshParams();
@@ -1624,7 +1628,10 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
             QStringList argsJob = {KdenliveSettings::rendererpath(), playlistPath, renderedFile,
                                    QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
             renderItem->setData(1, ParametersRole, argsJob);
-            renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
+            QDateTime t = QDateTime::currentDateTime();
+            renderItem->setData(1, StartTimeRole, t);
+            renderItem->setData(1, LastTimeRole, t);
+            renderItem->setData(1, LastFrameRole, in);
             if (!exportAudio) {
                 renderItem->setData(1, ExtraInfoRole, i18n("Video without audio track"));
             } else {
@@ -1643,7 +1650,10 @@ void RenderWidget::generateRenderFiles(QDomDocument doc, const QString &playlist
     QList<RenderJobItem *> jobList;
     for (const QString &pl : qAsConst(playlists)) {
         renderItem = new RenderJobItem(m_view.running_jobs, QStringList() << QString() << renderedFile);
-        renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
+        QDateTime t = QDateTime::currentDateTime();
+        renderItem->setData(1, StartTimeRole, t);
+        renderItem->setData(1, LastTimeRole, t);
+        renderItem->setData(1, LastFrameRole, in);
         QStringList argsJob = {KdenliveSettings::rendererpath(), pl, renderedFile, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         qDebug() << "* CREATED JOB WITH ARGS: " << argsJob;
@@ -1718,7 +1728,9 @@ void RenderWidget::checkRenderStatus()
     // Find first waiting job
     while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
-            item->setData(1, TimeRole, QDateTime::currentDateTime());
+            QDateTime t = QDateTime::currentDateTime();
+            item->setData(1, StartTimeRole, t);
+            item->setData(1, LastTimeRole, t);
             waitingJob = true;
             startRendering(item);
             // Check for 2 pass encoding
@@ -2479,7 +2491,7 @@ void RenderWidget::parseFile(const QString &exportFile, bool editable)
     }
 }
 
-void RenderWidget::setRenderJob(const QString &dest, int progress)
+void RenderWidget::setRenderJob(const QString &dest, int progress, int frame)
 {
     RenderJobItem *item;
     QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
@@ -2495,20 +2507,28 @@ void RenderWidget::setRenderJob(const QString &dest, int progress)
     item->setStatus(RUNNINGJOB);
     if (progress == 0) {
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
-        item->setData(1, TimeRole, QDateTime::currentDateTime());
         slotCheckJob();
     } else {
-        QDateTime startTime = item->data(1, TimeRole).toDateTime();
+        QDateTime startTime = item->data(1, StartTimeRole).toDateTime();
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
+        int dt = elapsedTime - item->data(1, LastTimeRole).toInt();
+        if (dt == 0) {
+            return;
+        }
         qint64 remaining = elapsedTime * (100 - progress) / progress;
-        int days = static_cast<int>(remaining / 86400);
-        int remainingSecs = static_cast<int>(remaining % 86400);
-        QTime when = QTime(0, 0, 0, 0);
-        when = when.addSecs(remainingSecs);
-        QString est = (days > 0) ? i18np("%1 day ", "%1 days ", days) : QString();
+        int days = int(remaining / 86400);
+        int remainingSecs = int(remaining % 86400);
+        QTime when = QTime(0, 0, 0, 0).addSecs(remainingSecs);
+        QString est = i18n("Remaining time ");
+        if (days > 0) {
+            est.append(i18np("%1 day ", "%1 days ", days));
+        }
         est.append(when.toString(QStringLiteral("hh:mm:ss")));
-        QString t = i18n("Remaining time %1", est);
-        item->setData(1, Qt::UserRole, t);
+        int speed = (frame - item->data(1, LastFrameRole).toInt()) / dt;
+        est.append(i18n(" (frame %1 @ %2 fps)", frame, speed));
+        item->setData(1, Qt::UserRole, est);
+        item->setData(1, LastTimeRole, elapsedTime);
+        item->setData(1, LastFrameRole, frame);
     }
 }
 
@@ -2527,7 +2547,7 @@ void RenderWidget::setRenderStatus(const QString &dest, int status, const QStrin
     if (status == -1) {
         // Job finished successfully
         item->setStatus(FINISHEDJOB);
-        QDateTime startTime = item->data(1, TimeRole).toDateTime();
+        QDateTime startTime = item->data(1, StartTimeRole).toDateTime();
         qint64 elapsedTime = startTime.secsTo(QDateTime::currentDateTime());
         int days = static_cast<int>(elapsedTime / 86400);
         int secs = static_cast<int>(elapsedTime % 86400);
@@ -2738,7 +2758,9 @@ void RenderWidget::slotStartScript()
         renderItem->setStatus(WAITINGJOB);
         renderItem->setIcon(0, QIcon::fromTheme(QStringLiteral("media-playback-pause")));
         renderItem->setData(1, Qt::UserRole, i18n("Waiting..."));
-        renderItem->setData(1, TimeRole, QDateTime::currentDateTime());
+        QDateTime t = QDateTime::currentDateTime();
+        renderItem->setData(1, StartTimeRole, t);
+        renderItem->setData(1, LastTimeRole, t);
         QStringList argsJob = {KdenliveSettings::rendererpath(), path, destination, QStringLiteral("-pid:%1").arg(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         checkRenderStatus();
@@ -2884,7 +2906,7 @@ bool RenderWidget::startWaitingRenderJobs()
 
     QTextStream outStream(&file);
 #ifndef Q_OS_WIN
-    outStream << "#! /bin/sh" << '\n' << '\n';
+    outStream << "#!/bin/sh\n\n";
 #endif
     auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {

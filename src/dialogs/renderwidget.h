@@ -123,7 +123,7 @@ public:
     ~RenderWidget() override;
     void setGuides(std::weak_ptr<MarkerListModel> guidesModel);
     void focusFirstVisibleItem(const QString &profile = QString());
-    void setRenderJob(const QString &dest, int progress = 0);
+    void setRenderJob(const QString &dest, int progress = 0, int frame = 0);
     void setRenderStatus(const QString &dest, int status, const QString &error);
     void updateDocumentPath();
     void reloadProfiles();
