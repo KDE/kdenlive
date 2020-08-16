@@ -1464,9 +1464,10 @@ Rectangle {
             id: subtitleRoot
             visible : true
             z: 20
+            property int duration : (model.endframe - model.startframe) * timeScale
             Rectangle {
                 id: subtitleStartBase
-                width: (model.endframe - model.startframe) * timeScale
+                width: duration
                 height: tracksContainer.height
                 x: model.startframe * timeScale;
                 /*Text {
@@ -1505,6 +1506,57 @@ Rectangle {
                     }
                     color: 'black'
                     padding: 0
+                }
+                Rectangle {
+                    // end position resize handle
+                    id: rightend
+                    width: 4
+                    height: parent.height
+                    anchors.right: subtitleBase.right
+                    anchors.top: subtitleBase.top
+                    color: 'blue' // to distinguish the resize handle
+                    Drag.active: endMouseArea.drag.active
+                    Drag.proposedAction: Qt.MoveAction
+                    visible: true
+                    MouseArea {
+                        id: endMouseArea
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        height: parent.height
+                        width: 4
+                        hoverEnabled: true
+                        enabled: pressed
+                        property bool sizeChanged: false
+                        property int newEnd: -1
+                        property int oldMouseX
+                        cursorShape: Qt.SizeHorCursor
+                        drag.target: rightend
+                        drag.axis: Drag.XAxis
+                        drag.smoothed: false
+
+                        onPressed: {
+                            root.autoScrolling = false
+                            anchors.right = undefined
+                            oldMouseX = mouseX
+
+                        }
+                        onPositionChanged: {
+                            if (pressed) {
+                                newEnd = Math.round((mouseX + width) / timeScale)
+                                if (mouseX != oldMouseX) {
+                                    sizeChanged = true
+                                    duration = duration + (mouseX - oldMouseX)/ timeScale
+                                }
+                            }
+                        }
+                        onReleased: {
+                            root.autoScrolling = timeline.autoScroll
+                            //anchors.right = parent.right
+                            if (mouseX != oldMouseX || sizeChanged) {
+                                timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, newEnd)
+                            }
+                        }
+                    }
                 }
             }
         }
