@@ -558,6 +558,8 @@ public:
     QPoint selectionInOut() const;
     /** @brief Edit the subtitle text and/or end timings */
     Q_INVOKABLE void editSubtitle(int startFrame, QString text, int endFrame);
+    /** @brief Move position of subtitle */
+    Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame);
 
 public slots:
     void resetView();

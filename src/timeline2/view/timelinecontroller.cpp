@@ -3673,3 +3673,12 @@ void TimelineController::editSubtitle(int startFrame, QString text, int endFrame
     GenTime endPos(endFrame, pCore->getCurrentFps());
     subtitleModel->editSubtitle(startPos, text, endPos);
 }
+
+void TimelineController::moveSubtitle(int oldStartFrame, int newStartFrame)
+{
+    qDebug()<<"Moving existing subtitle in controller from"<<oldStartFrame<<" to "<<newStartFrame;
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    GenTime oldStartPos(oldStartFrame, pCore->getCurrentFps());
+    GenTime newStartPos(newStartFrame, pCore->getCurrentFps());
+    subtitleModel->moveSubtitle(oldStartPos, newStartPos);
+}

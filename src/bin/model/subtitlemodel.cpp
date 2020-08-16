@@ -204,6 +204,11 @@ void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString &str)
         qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
         return;
     }
+    if(model->m_subtitleList.count(start) > 0 ){
+        qDebug()<<"Start time already in model";
+        editSubtitle(start, str, end);
+        return;
+    }
     auto it= model->m_subtitleList.lower_bound(start); // returns the key and its value *just* greater than start.
     //Q_ASSERT(it->first < model->m_subtitleList.end()->second.second); // returns warning if added subtitle start time is less than last subtitle's end time
     int insertRow= static_cast<int>(model->m_subtitleList.size());//converts the returned unsigned size() to signed int
@@ -334,4 +339,19 @@ void SubtitleModel::removeSubtitle(GenTime pos)
     model->beginRemoveRows(QModelIndex(), row, row);
     model->m_subtitleList.erase(pos);
     model->endRemoveRows();
+}
+
+void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos)
+{
+    qDebug()<<"Moving Subtitle";
+    auto model = getModel();
+    if(model->m_subtitleList.count(oldPos) <= 0){
+        //is not present in model only
+        return;
+    }
+    QString subtitleText = model->m_subtitleList[oldPos].first ;
+    GenTime endPos = model->m_subtitleList[oldPos].second;
+    removeSubtitle(oldPos);
+    addSubtitle(newPos, endPos, subtitleText);
+    return;
 }
