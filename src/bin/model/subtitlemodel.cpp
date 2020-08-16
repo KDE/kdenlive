@@ -321,3 +321,17 @@ void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenT
     emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << SubtitleRole);
     return;
 }
+
+void SubtitleModel::removeSubtitle(GenTime pos)
+{
+    qDebug()<<"Deleting subtitle in model";
+    auto model = getModel();
+    if(model->m_subtitleList.count(pos) <= 0){
+        qDebug()<<"No Subtitle at pos in model";
+        return;
+    }
+    int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(pos)));
+    model->beginRemoveRows(QModelIndex(), row, row);
+    model->m_subtitleList.erase(pos);
+    model->endRemoveRows();
+}

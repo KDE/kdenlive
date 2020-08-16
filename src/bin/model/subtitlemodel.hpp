@@ -59,6 +59,9 @@ public:
     */
     void editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos);
 
+    /** @brief Remove subtitle at start position (pos) */
+    void removeSubtitle(GenTime pos);
+
 public slots:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle();
