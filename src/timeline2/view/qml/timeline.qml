@@ -1469,12 +1469,7 @@ Rectangle {
                 width: (model.endframe - model.startframe) * timeScale
                 height: tracksContainer.height
                 x: model.startframe * timeScale;
-                color: 'steelblue'
-                border {
-                    width: 2
-                    color: 'blue'
-                }
-                Text {
+                /*Text {
                     id: subtitleText
                     anchors.fill: parent
                     visible: true
@@ -1483,6 +1478,33 @@ Rectangle {
                     wrapMode: Text.WordWrap
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
+                }*/
+                TextField {
+                    id: subtitleEdit
+                    font: miniFont
+                    activeFocusOnPress: true
+                    onEditingFinished: {
+                        subtitleEdit.focus = false
+                        timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor)
+                    }
+                    anchors {
+                        bottom: parent.bottom
+                    }
+                    visible: true && text != ""
+                    text: model.subtitle
+                    height: subtitleBase.height
+                    width: subtitleBase.width
+                    wrapMode: TextField.WordWrap
+                    horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
+                    background: Rectangle {
+                            color: 'yellow'
+                            border {
+                                width: 1
+                                color: 'orange'
+                            }
+                    }
+                    color: 'black'
+                    padding: 0
                 }
             }
         }
