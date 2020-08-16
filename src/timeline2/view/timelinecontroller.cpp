@@ -3665,11 +3665,11 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     }
 }
 
-void TimelineController::editSubtitles(int startFrame, int oldEndFrame, int newEndFrame)
+void TimelineController::editSubtitle(int startFrame, QString text, int endFrame)
 {
+    qDebug()<<"Editing existing subtitle in controller at:"<<startFrame;
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
     GenTime startPos(startFrame, pCore->getCurrentFps());
-    GenTime endpos(oldEndFrame, pCore->getCurrentFps());
-    GenTime newendPos(newEndFrame, pCore->getCurrentFps());
-    subtitleModel->editEndPos(startPos, endpos, newendPos);
+    GenTime endPos(endFrame, pCore->getCurrentFps());
+    subtitleModel->editSubtitle(startPos, text, endPos);
 }

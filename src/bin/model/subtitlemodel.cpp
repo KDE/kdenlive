@@ -309,3 +309,15 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime oldEndPos, GenTime newE
     emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << EndPosRole);
     return;
 }
+
+void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos)
+{
+    qDebug()<<"Editing existing subtitle in model";
+    auto model = getModel();
+    int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
+    model->m_subtitleList[startPos].first = newSubtitleText ;
+    model->m_subtitleList[startPos].second = endPos;
+    qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].first<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+    emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << SubtitleRole);
+    return;
+}

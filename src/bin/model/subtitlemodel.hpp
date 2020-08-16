@@ -52,6 +52,13 @@ public:
     */
     void editEndPos(GenTime startPos, GenTime oldEndPos, GenTime newEndPos);
 
+    /** @brief Edit subtitle , i.e. text and/or end time
+        @param startPos is start timing position of subtitles
+        @param newSubtitleText is (new) subtitle text
+        @param endPos defines the (new) position of the end time
+    */
+    void editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos);
+
 public slots:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle();
