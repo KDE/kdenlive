@@ -1269,13 +1269,16 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
                     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
                     if (item->itemType() == AbstractProjectItem::FolderItem) {
                         QTreeView *tView = static_cast<QTreeView *>(m_itemView);
-                        if (!tView->isExpanded(idx)) {
-                            tView->expandAll();
-                        } else {
-                            tView->collapseAll();
+                        QRect r = tView->visualRect(idx);
+                        if (mouseEvent->pos().x() < r.x()) {
+                            if (!tView->isExpanded(idx)) {
+                                tView->expandAll();
+                            } else {
+                                tView->collapseAll();
+                            }
+                            return true;
                         }
                     }
-                    return true;
                 }
             }
         }
