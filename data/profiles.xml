@@ -57,6 +57,18 @@
    audioqualities="3,5,7" defaultaudioquality="5"
    args="f=asf vcodec=wmv2 acodec=wmav2 qscale=%quality aq=%audioquality"/>
  </group>
+ <group name="GPU | testing" renderer="avformat" type"av">
+  <profile name="NVENC H264 CBR" extension="mp4"
+   args="f=mp4 vcodec=nvenc_h264 vb=30000k rc=cbr acodec=aac ab=192k"/>
+  <profile name="NVENC H264 VBR" extension="mp4"
+   args="f=mp4 vcodec=nvenc_h264 vb=30000k minrate=20000k maxrate=60000k acodec=aac ab=192k"/>
+  <profile name="NVENC H265" extension="mp4"
+   args="f=mp4 vcodec=hevc_nvenc vb=30000k acodec=aac ab=192k"/>
+  <profile name="VAAPI Intel H264" extension="mp4"
+   args="f=mp4 vaapi_device=/dev/dri/renderD128 vf=’format=nv12,hwupload’ vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
+  <profile name="VAAPI AMD H264" extension="mp4"
+   args="f=mp4 hwaccel=vaapi hwaccel_device=renderD129 hwaccel_output_format=vaapi vcodec=h264_vaapi vb=30000k acodec=aac ab=192k"/>
+ </group>
  <group name="Audio only" renderer="avformat" type="audio">
   <profile name="AC3" extension="ac3" audiobitrates="192,64" defaultaudiobitrate="160" args="ab=%audiobitrate+'k' vn=1"/>
   <profile name="ALAC" extension="mov" args="f=mov acodec=alac vn=1 video_off=1"/>
