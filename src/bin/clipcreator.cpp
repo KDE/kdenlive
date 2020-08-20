@@ -98,7 +98,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
     QMimeType type = db.mimeTypeForUrl(fileUrl);
 
     QDomElement prod;
-    qDebug()<<"=== GOT DROPPPED MIME: "<<type.name();
+    qDebug()<<"=== GOT DROPPED MIME: "<<type.name();
     if (type.name().startsWith(QLatin1String("image/"))) {
         int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
