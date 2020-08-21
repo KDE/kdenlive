@@ -1466,7 +1466,7 @@ Rectangle {
             z: 20
             property int duration : (model.endframe - model.startframe) * timeScale
             Rectangle {
-                id: subtitleStartBase
+                id: subtitleBase
                 width: duration
                 height: tracksContainer.height
                 x: model.startframe * timeScale;
@@ -1488,9 +1488,7 @@ Rectangle {
                         subtitleEdit.focus = false
                         timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor)
                     }
-                    anchors {
-                        bottom: parent.bottom
-                    }
+                    anchors.fill: parent
                     visible: true && text != ""
                     text: model.subtitle
                     height: subtitleBase.height
@@ -1511,24 +1509,25 @@ Rectangle {
                     // end position resize handle
                     id: rightend
                     width: 4
-                    height: parent.height
+                    height: subtitleBase.height
+                    x: model.endframe * timeScale;
                     anchors.right: subtitleBase.right
                     anchors.top: subtitleBase.top
                     color: 'blue' // to distinguish the resize handle
-                    Drag.active: endMouseArea.drag.active
-                    Drag.proposedAction: Qt.MoveAction
+                    //Drag.active: endMouseArea.drag.active
+                    //Drag.proposedAction: Qt.MoveAction
                     visible: true
                     MouseArea {
                         id: endMouseArea
-                        anchors.right: parent.right
-                        anchors.top: parent.top
+                        anchors.fill: parent
                         height: parent.height
                         width: 4
                         hoverEnabled: true
-                        enabled: pressed
+                        enabled: true
                         property bool sizeChanged: false
                         property int newEnd: -1
                         property int oldMouseX
+                        acceptedButtons: Qt.LeftButton
                         cursorShape: Qt.SizeHorCursor
                         drag.target: rightend
                         drag.axis: Drag.XAxis
@@ -1536,7 +1535,7 @@ Rectangle {
 
                         onPressed: {
                             root.autoScrolling = false
-                            anchors.right = undefined
+                            //rightend.anchors.right = undefined
                             oldMouseX = mouseX
 
                         }
@@ -1545,13 +1544,13 @@ Rectangle {
                                 newEnd = Math.round((mouseX + width) / timeScale)
                                 if (mouseX != oldMouseX) {
                                     sizeChanged = true
-                                    duration = duration + (mouseX - oldMouseX)/ timeScale
+                                    duration = subtitleBase.width + (mouseX - oldMouseX)/ timeScale
                                 }
                             }
                         }
                         onReleased: {
                             root.autoScrolling = timeline.autoScroll
-                            //anchors.right = parent.right
+                            rightend.anchors.right = subtitleBase.right
                             if (mouseX != oldMouseX || sizeChanged) {
                                 timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, newEnd)
                             }
