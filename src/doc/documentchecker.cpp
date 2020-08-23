@@ -37,6 +37,7 @@
 #include <QStandardPaths>
 #include <QTreeWidgetItem>
 #include <utility>
+#include <kurlrequester.h>
 
 const int hashRole = Qt::UserRole;
 const int sizeRole = Qt::UserRole + 1;
@@ -767,6 +768,8 @@ void DocumentChecker::slotSearchClips()
             if (type != ClipType::SlideShow) {
                 // Slideshows cannot be found with hash / size
                 clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
+            } else {
+                clipPath = searchPathRecursively(searchDir, child->text(1), type);
             }
             if (clipPath.isEmpty()) {
                 clipPath = searchPathRecursively(searchDir, QUrl::fromLocalFile(child->text(1)).fileName(), type);
@@ -846,25 +849,37 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
 QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType::ProducerType type) const
 {
     QString foundFileName;
-    QStringList filters;
+    bool patternSlideshow = true;
+    QDir searchDir(dir);
+    QStringList filesAndDirs;
     if (type == ClipType::SlideShow) {
         if (fileName.contains(QLatin1Char('%'))) {
-            filters << fileName.section(QLatin1Char('%'), 0, -2) + QLatin1Char('*');
+            searchDir.setNameFilters({fileName.section(QLatin1Char('%'), 0, -2) + QLatin1Char('*')});
+            filesAndDirs = searchDir.entryList(QDir::Files | QDir::Readable);
+            
         } else {
-            return QString();
+            patternSlideshow = false;
+            QString slideDirName = QFileInfo(fileName).dir().dirName();
+            searchDir.setNameFilters({slideDirName});
+            filesAndDirs = searchDir.entryList(QDir::Dirs | QDir::Readable);
         }
     } else {
-        filters << fileName;
+        searchDir.setNameFilters({fileName});
+        filesAndDirs = searchDir.entryList(QDir::Files | QDir::Readable);
     }
-    QDir searchDir(dir);
-    searchDir.setNameFilters(filters);
-    QStringList filesAndDirs = searchDir.entryList(QDir::Files | QDir::Readable);
     if (!filesAndDirs.isEmpty()) {
         // File Found
         if (type == ClipType::SlideShow) {
-            return searchDir.absoluteFilePath(fileName);
+            if (patternSlideshow) {
+                return searchDir.absoluteFilePath(fileName);
+            } else {
+                // mime type slideshow
+                searchDir.cd(filesAndDirs.first());
+                return searchDir.absoluteFilePath(QFileInfo(fileName).fileName());
+            }
+        } else {
+            return searchDir.absoluteFilePath(filesAndDirs.first());
         }
-        return searchDir.absoluteFilePath(filesAndDirs.at(0));
     }
     searchDir.setNameFilters(QStringList());
     filesAndDirs = searchDir.entryList(QDir::Dirs | QDir::Readable | QDir::Executable | QDir::NoDotAndDotDot);
@@ -928,13 +943,25 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         return;
     }
     //|| t == TITLE_IMAGE_ELEMENT) {
-
-    QUrl url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(item->text(1)), m_dialog, i18n("Enter new location for file"));
+    ClipType::ProducerType type = (ClipType::ProducerType)item->data(0, clipTypeRole).toInt();
+    QUrl url;
+    if (type == ClipType::SlideShow) {
+        QString path = QFileInfo(item->text(1)).dir().absolutePath();
+        QPointer<KUrlRequesterDialog> dlg(new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Enter new location for file"), m_dialog));
+        dlg->urlRequester()->setMode(KFile::Directory | KFile::ExistingOnly);
+        if (dlg->exec() != QDialog::Accepted) {
+            delete dlg;
+            return;
+        }
+        url = QUrl::fromLocalFile(QDir(dlg->selectedUrl().path()).absoluteFilePath(QFileInfo(item->text(1)).fileName()));
+        delete dlg;
+    } else {
+        url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(item->text(1)), m_dialog, i18n("Enter new location for file"));
+    }
     if (!url.isValid()) {
         return;
     }
     item->setText(1, url.toLocalFile());
-    ClipType::ProducerType type = (ClipType::ProducerType)item->data(0, clipTypeRole).toInt();
     bool fixed = false;
     if (type == ClipType::SlideShow && QFile::exists(url.adjusted(QUrl::RemoveFilename).toLocalFile())) {
         fixed = true;
