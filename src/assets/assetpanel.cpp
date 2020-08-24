@@ -138,6 +138,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_effectStackWidget->setVisible(false);
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
+    connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
@@ -403,6 +404,13 @@ void AssetPanel::collapseCurrentEffect()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->switchCollapsed();
     }
+}
+
+void AssetPanel::scrollTo(QRect rect)
+{
+    // Ensure the scrollview widget adapted its height to the effectstackview height change
+    m_sc->widget()->adjustSize();
+    m_sc->ensureVisible(0, rect.y(), 0, rect.height());
 }
 
 void AssetPanel::slotCheckWheelEventFilter()

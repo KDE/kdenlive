@@ -104,6 +104,8 @@ private slots:
     void showKeyframes(bool enable);
     /** Enable / disable effect stack */
     void enableStack(bool enable);
+    /** Scroll effects view */
+    void scrollTo(QRect rect);
 
 signals:
     void doSplitEffect(bool);
