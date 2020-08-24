@@ -1464,10 +1464,12 @@ Rectangle {
             id: subtitleRoot
             visible : true
             z: 20
-            property int duration : (model.endframe - model.startframe) * timeScale
+            property real duration : (model.endframe - model.startframe) 
+            property int oldStartX
+            property double oldStartFrame: subtitleBase.x
             Rectangle {
                 id: subtitleBase
-                width: duration
+                width: duration * timeScale
                 height: tracksContainer.height
                 x: model.startframe * timeScale;
                 /*Text {
@@ -1475,7 +1477,7 @@ Rectangle {
                     anchors.fill: parent
                     visible: true
                     text: model.subtitle
-                    color: 'white'
+                    color: 'black'
                     wrapMode: Text.WordWrap
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
@@ -1505,55 +1507,125 @@ Rectangle {
                     color: 'black'
                     padding: 0
                 }
-                Rectangle {
-                    // end position resize handle
-                    id: rightend
+            }
+            Rectangle {
+                id: leftstart
+                width: 4
+                height: subtitleBase.height
+                x: model.startframe * timeScale;
+                anchors.top: subtitleBase.top
+                anchors.left: subtitleBase.left
+                color: 'green'
+                visible: true
+                MouseArea {
+                    // Right resize handle to change end timing
+                    id: startMouseArea
+                    anchors.fill: parent
+                    height: parent.height
+                    width: 2
+                    hoverEnabled: true
+                    enabled: true
+                    property bool sizeChanged: false
+                    property int newStart: -1
+                    property int diff: -1
+                    property double delta: -1
+                    acceptedButtons: Qt.LeftButton
+                    cursorShape: Qt.SizeHorCursor
+                    drag.target: leftstart
+                    drag.axis: Drag.XAxis
+//                            drag.smoothed: false
+                    onPressed: {
+                        console.log('IT IS PRESSED')
+                        root.autoScrolling = false
+                        //rightend.anchors.right = undefined
+                        oldStartX = mouseX
+                        oldStartFrame = subtitleBase.x
+                        console.log(oldStartFrame)
+                        console.log(subtitleBase.x)
+                        
+
+                    }
+                    onPositionChanged: {
+                        if (pressed) {
+                            //console.log('POSITION CHANGED')
+                            newStart = Math.round((subtitleBase.x + (mouseX-oldStartX)) / timeScale)
+                            //diff = (mouseX - oldStartX) / timeScale
+                            if (mouseX != oldStartX) {
+                                sizeChanged = true
+                                diff = (mouseX - oldStartX) / timeScale
+                                subtitleBase.x = subtitleBase.x + diff
+                                console.log("oldStartFrame",oldStartFrame/timeline.scaleFactor,"subtitleBase",subtitleBase.x/timeline.scaleFactor)
+                                console.log("duration:", duration)
+                                delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
+                                console.log("Diff:",diff,"Delta:", delta)
+                                console.log("new duration =", subtitleBase.width/timeScale - delta )
+                                //timeline.moveSubtitle(oldStartX/ timeScale, subtitleBase.x/timeline.scaleFactor)
+                            }
+                        }
+                    }
+                    onReleased: {
+                        console.log('its RELEASED')
+                        root.autoScrolling = timeline.autoScroll
+                        //rightend.anchors.right = subtitleBase.right
+                        if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
+                            console.log("subtitleBase.x::",subtitleBase.x/timeline.scaleFactor,":",subtitleBase.x/timeline.scaleFactor + delta)
+                            console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame",oldStartFrame/timeline.scaleFactor + delta)
+                            timeline.moveSubtitle(oldStartFrame/timeline.scaleFactor , oldStartFrame/timeline.scaleFactor + delta)
+                        }
+                    }
+                }
+                
+            }
+            Rectangle {
+                // end position resize handle
+                id: rightend
+                width: 4
+                height: subtitleBase.height
+                x: model.endframe * timeScale;
+                anchors.right: subtitleBase.right
+                anchors.top: subtitleBase.top
+                color: 'blue' // to distinguish the resize handle
+                //Drag.active: endMouseArea.drag.active
+                //Drag.proposedAction: Qt.MoveAction
+                visible: true
+                MouseArea {
+                    id: endMouseArea
+                    anchors.fill: parent
+                    height: parent.height
                     width: 4
-                    height: subtitleBase.height
-                    x: model.endframe * timeScale;
-                    anchors.right: subtitleBase.right
-                    anchors.top: subtitleBase.top
-                    color: 'blue' // to distinguish the resize handle
-                    //Drag.active: endMouseArea.drag.active
-                    //Drag.proposedAction: Qt.MoveAction
-                    visible: true
-                    MouseArea {
-                        id: endMouseArea
-                        anchors.fill: parent
-                        height: parent.height
-                        width: 4
-                        hoverEnabled: true
-                        enabled: true
-                        property bool sizeChanged: false
-                        property int newEnd: -1
-                        property int oldMouseX
-                        acceptedButtons: Qt.LeftButton
-                        cursorShape: Qt.SizeHorCursor
-                        drag.target: rightend
-                        drag.axis: Drag.XAxis
-                        drag.smoothed: false
+                    hoverEnabled: true
+                    enabled: true
+                    property bool sizeChanged: false
+                    property int newEnd: -1
+                    property int oldMouseX
+                    acceptedButtons: Qt.LeftButton
+                    cursorShape: Qt.SizeHorCursor
+                    drag.target: rightend
+                    drag.axis: Drag.XAxis
+                    drag.smoothed: false
 
-                        onPressed: {
-                            root.autoScrolling = false
-                            //rightend.anchors.right = undefined
-                            oldMouseX = mouseX
+                    onPressed: {
+                        root.autoScrolling = false
+                        //rightend.anchors.right = undefined
+                        oldMouseX = mouseX
 
-                        }
-                        onPositionChanged: {
-                            if (pressed) {
-                                newEnd = Math.round((mouseX + width) / timeScale)
-                                if (mouseX != oldMouseX) {
-                                    sizeChanged = true
-                                    duration = subtitleBase.width + (mouseX - oldMouseX)/ timeScale
-                                }
+                    }
+                    onPositionChanged: {
+                        if (pressed) {
+                            newEnd = Math.round((mouseX + width) / timeScale)
+                            if (mouseX != oldMouseX) {
+                                sizeChanged = true
+                                //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
+                                duration = (subtitleBase.width/timeScale + (mouseX - oldMouseX)/timeScale) 
                             }
                         }
-                        onReleased: {
-                            root.autoScrolling = timeline.autoScroll
-                            rightend.anchors.right = subtitleBase.right
-                            if (mouseX != oldMouseX || sizeChanged) {
-                                timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, newEnd)
-                            }
+                    }
+                    onReleased: {
+                        root.autoScrolling = timeline.autoScroll
+                        rightend.anchors.right = subtitleBase.right
+                        if (mouseX != oldMouseX || sizeChanged) {
+                            timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, newEnd)
+                            sizeChanged = false
                         }
                     }
                 }
