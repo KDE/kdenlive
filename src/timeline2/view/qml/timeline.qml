@@ -1469,7 +1469,7 @@ Rectangle {
             property double oldStartFrame: subtitleBase.x
             Rectangle {
                 id: subtitleBase
-                width: duration * timeScale
+                width: duration * timeScale // to make width change wrt timeline scale factor
                 height: tracksContainer.height
                 x: model.startframe * timeScale;
                 /*Text {
@@ -1529,6 +1529,7 @@ Rectangle {
                     property int newStart: -1
                     property int diff: -1
                     property double delta: -1
+                    property double oldDelta: 0
                     acceptedButtons: Qt.LeftButton
                     cursorShape: Qt.SizeHorCursor
                     drag.target: leftstart
@@ -1539,7 +1540,7 @@ Rectangle {
                         root.autoScrolling = false
                         //rightend.anchors.right = undefined
                         oldStartX = mouseX
-                        oldStartFrame = subtitleBase.x
+                        oldStartFrame = subtitleBase.x // the original start frame of subtitle
                         console.log(oldStartFrame)
                         console.log(subtitleBase.x)
                         
@@ -1555,11 +1556,14 @@ Rectangle {
                                 diff = (mouseX - oldStartX) / timeScale
                                 subtitleBase.x = subtitleBase.x + diff
                                 console.log("oldStartFrame",oldStartFrame/timeline.scaleFactor,"subtitleBase",subtitleBase.x/timeline.scaleFactor)
-                                console.log("duration:", duration)
+                                console.log("Duration:", duration)
                                 delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
-                                console.log("Diff:",diff,"Delta:", delta)
-                                console.log("new duration =", subtitleBase.width/timeScale - delta )
-                                //timeline.moveSubtitle(oldStartX/ timeScale, subtitleBase.x/timeline.scaleFactor)
+                                var diffDelta = delta - oldDelta //update the change in start frame differece
+                                oldDelta = delta
+                                //console.log("Diff:",diff,"Delta:", delta, "Delta_Diff",diffDelta)
+                                console.log("New duration =", subtitleBase.width/timeScale - delta )
+                                duration = duration - diffDelta //update duration to enable resizing
+                                //console.log("Delta duration =", duration )
                             }
                         }
                     }
@@ -1574,7 +1578,6 @@ Rectangle {
                         }
                     }
                 }
-                
             }
             Rectangle {
                 // end position resize handle
