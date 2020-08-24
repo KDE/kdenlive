@@ -260,7 +260,7 @@ private:
 
 public slots:
     void slotReloadEffects(const QStringList &paths);
-    Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
+    Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
     Q_SCRIPTABLE void addProjectClip(const QString &url);
     Q_SCRIPTABLE void addTimelineClip(const QString &url);

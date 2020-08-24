@@ -2044,11 +2044,11 @@ void MainWindow::slotCheckRenderStatus()
         m_renderWidget->missingClips(pCore->bin()->hasMissingClips());*/
 }
 
-void MainWindow::setRenderingProgress(const QString &url, int progress)
+void MainWindow::setRenderingProgress(const QString &url, int progress, int frame)
 {
     emit setRenderProgress(progress);
     if (m_renderWidget) {
-        m_renderWidget->setRenderJob(url, progress);
+        m_renderWidget->setRenderJob(url, progress, frame);
     }
 }
 
