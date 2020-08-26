@@ -1408,6 +1408,7 @@ void Bin::slotAddClip()
     // Check if we are in a folder
     QString parentFolder = getCurrentFolder();
     ClipCreationDialog::createClipsCommand(m_doc, parentFolder, m_itemModel);
+    pCore->window()->raiseBin();
 }
 
 std::shared_ptr<ProjectClip> Bin::getFirstSelectedClip()
@@ -2957,6 +2958,7 @@ void Bin::slotCreateProjectClip()
     default:
         break;
     }
+    pCore->window()->raiseBin();
 }
 
 void Bin::slotItemDropped(const QStringList &ids, const QModelIndex &parent)

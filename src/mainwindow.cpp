@@ -3087,11 +3087,17 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     }
 }
 
+void MainWindow::raiseBin()
+{
+    m_projectBinDock->setVisible(true);
+    m_projectBinDock->raise();
+}
+
 void MainWindow::slotClipInProjectTree()
 {
     QList<int> ids = getMainTimeline()->controller()->selection();
     if (!ids.isEmpty()) {
-        m_projectBinDock->raise();
+        raiseBin();
         ObjectId id(ObjectType::TimelineClip, ids.constFirst());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);

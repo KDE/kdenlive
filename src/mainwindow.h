@@ -131,6 +131,8 @@ public:
     
     /** @brief Returns true if the timeline widget is visible */
     bool timelineVisible() const;
+    /** @brief Raise (show) the project bin*/
+    void raiseBin();
 
 protected:
     /** @brief Closes the window.
