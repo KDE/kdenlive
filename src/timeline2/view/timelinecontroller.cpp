@@ -3480,6 +3480,7 @@ void TimelineController::finishRecording(const QString &recordedFile)
     };
     QString binId =
         ClipCreator::createClipFromFile(recordedFile, pCore->projectItemModel()->getRootFolder()->clipId(), pCore->projectItemModel(), undo, redo, callBack);
+    pCore->window()->raiseBin();
     if (binId != QStringLiteral("-1")) {
         pCore->pushUndo(undo, redo, i18n("Record audio"));
     }

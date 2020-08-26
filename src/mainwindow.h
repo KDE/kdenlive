@@ -134,6 +134,8 @@ public:
     
     /** @brief Raise (show) the clip or project monitor */
     void raiseMonitor(bool clipMonitor);
+    /** @brief Raise (show) the project bin*/
+    void raiseBin();
 
 protected:
     /** @brief Closes the window.
