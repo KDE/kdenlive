@@ -1868,11 +1868,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
     }
-    if (updatePositionOnly) {
-        update_model();
-        PUSH_LAMBDA(update_model, local_redo);
-        PUSH_LAMBDA(update_model, local_undo);
-    }
+    update_model();
+    PUSH_LAMBDA(update_model, local_redo);
+    PUSH_LAMBDA(update_model, local_undo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
