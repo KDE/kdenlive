@@ -1154,7 +1154,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
 
         res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioDrop ? audioStream : -1, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
-        qDebug()<<"==== INSERTED FIRST AUDIO STREAM: "<<audioStream<<", ON TK: "<<trackId<<"\n-----";
         QList <int> target_track;
         if (audioDrop) {
             if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked() && dropType != PlaylistState::AudioOnly) {
@@ -1162,6 +1161,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             }
         } else if (useTargets) {
             QList <int> targetIds = m_audioTarget.keys();
+            targetIds.removeAll(trackId);
             for (int &ix : targetIds) {
                 if (!getTrackById_const(ix)->isLocked() && allowedTracks.contains(ix)) {
                     target_track << ix;
