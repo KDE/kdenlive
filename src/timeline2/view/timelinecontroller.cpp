@@ -2212,7 +2212,13 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     int aTrack = -1;
     int vTrack = -1;
     if (clip->hasAudio() && !m_model->m_audioTarget.isEmpty()) {
-        aTrack = m_model->m_audioTarget.firstKey();
+        QList<int> audioTracks = m_model->m_audioTarget.keys();
+        for (int tid : audioTracks) {
+            if (m_model->getTrackById_const(tid)->shouldReceiveTimelineOp()) {
+                aTrack = tid;
+                break;
+            }
+        }
     }
     if (clip->hasVideo()) {
         vTrack = videoTarget();
