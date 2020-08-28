@@ -702,6 +702,7 @@ Rectangle {
                 }
                 Column {
                     id: trackHeaders
+                    y: subtitleTrack.height
                     spacing: 0
                     Repeater {
                         id: trackHeaderRepeater
@@ -1026,6 +1027,7 @@ Rectangle {
                     // It is important that these are not part of the track visual hierarchy;
                     // otherwise, the clips will be obscured by the Track's background.
                     Column {
+                        y: subtitleTrack.height
                         topPadding: -scrollView.contentY
                         Repeater {
                             model: multitrack
@@ -1068,9 +1070,16 @@ Rectangle {
                         contentWidth: tracksContainerArea.width
                         contentHeight: tracksContainerArea.height
                         Item {
+                            id: subtitleTrack
+                            width: tracksContainerArea.width
+                            height: 50
+                            Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
+                        }
+                        Item {
                             id: tracksContainerArea
                             width: Math.max(scrollView.width - vertScroll.width, timeline.fullDuration * timeScale)
                             height: trackHeaders.height
+                            y: subtitleTrack.height
                             //Math.max(trackHeaders.height, scrollView.contentHeight - scrollView.__horizontalScrollBar.height)
                             //color: root.color
                             Item {
@@ -1271,7 +1280,6 @@ Rectangle {
                                     z: 100
                                 }
                                 Repeater { id: guidesRepeater; model: guidesDelegateModel }
-                                Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                             }
                             Rectangle {
                                 id: cursor
@@ -1463,6 +1471,7 @@ Rectangle {
         Item {
             id: subtitleRoot
             visible : true
+            height: parent.height
             z: 20
             property real duration : (model.endframe - model.startframe) 
             property int oldStartX
@@ -1470,7 +1479,7 @@ Rectangle {
             Rectangle {
                 id: subtitleBase
                 width: duration * timeScale // to make width change wrt timeline scale factor
-                height: tracksContainer.height
+                height: parent.height
                 x: model.startframe * timeScale;
                 /*Text {
                     id: subtitleText
@@ -1522,7 +1531,7 @@ Rectangle {
                     id: startMouseArea
                     anchors.fill: parent
                     height: parent.height
-                    width: 2
+                    width: 4
                     hoverEnabled: true
                     enabled: true
                     property bool sizeChanged: false
@@ -1568,11 +1577,10 @@ Rectangle {
                         }
                     }
                     onReleased: {
-                        console.log('its RELEASED')
+                        //console.log('its RELEASED')
                         root.autoScrolling = timeline.autoScroll
                         //rightend.anchors.right = subtitleBase.right
                         if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
-                            console.log("subtitleBase.x::",subtitleBase.x/timeline.scaleFactor,":",subtitleBase.x/timeline.scaleFactor + delta)
                             console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame",oldStartFrame/timeline.scaleFactor + delta)
                             timeline.moveSubtitle(oldStartFrame/timeline.scaleFactor , oldStartFrame/timeline.scaleFactor + delta)
                         }
