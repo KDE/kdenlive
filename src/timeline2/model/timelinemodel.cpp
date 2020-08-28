@@ -1148,11 +1148,16 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
             }
         } else if (audioDrop) {
-            // Using our targets
+            // Drag & drop, use our first audio target
             audioStream = m_audioTarget.first();
+        } else {
+            // Using target tracks
+            if (m_audioTarget.contains(trackId)) {
+                audioStream = m_audioTarget.value(trackId);
+            }
         }
 
-        res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioDrop ? audioStream : -1, 1.0, false, local_undo, local_redo);
+        res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioStream, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
         QList <int> target_track;
         if (audioDrop) {
