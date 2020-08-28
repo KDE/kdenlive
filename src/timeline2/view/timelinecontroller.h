@@ -557,7 +557,7 @@ public:
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
     /** @brief Create same track transition between clips */
-    void sameTrack();
+    void mixClip();
 
 public slots:
     void resetView();

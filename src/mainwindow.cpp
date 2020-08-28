@@ -1131,10 +1131,10 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
     
-    QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Same Track"), this);
-    addAction(QStringLiteral("same_track"), sameTrack, Qt::Key_U);
+    QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Mix Clips"), this);
+    addAction(QStringLiteral("mix_clip"), sameTrack, Qt::Key_U);
     connect(sameTrack, &QAction::triggered, [this]() {
-       getCurrentTimeline()->controller()->sameTrack(); 
+       getCurrentTimeline()->controller()->mixClip(); 
     });
     
     // toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
