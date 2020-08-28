@@ -123,7 +123,7 @@ public:
     QVariant getProperty(const QString &name) const;
     void setProperty(const QString &name, const QString &value);
     /** @brief Create a composition between 2 same track clips */
-    bool requestClipMix(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    bool requestClipMix(std::pair<int, int> clipIds, int mixDuration, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
     /** @brief Get in/out position for mix composition */
     std::pair<int, int> getMixInfo(int position) const;
     /** @brief Delete a mix composition */
@@ -149,7 +149,7 @@ protected:
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
     */
-    Fun requestClipResize_lambda(int clipId, int in, int out, bool right);
+    Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool allowMix = false);
 
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.

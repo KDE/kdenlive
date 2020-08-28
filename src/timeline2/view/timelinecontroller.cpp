@@ -3672,13 +3672,43 @@ void TimelineController::mixClip()
     if (sel.empty()) {
         return;
     }
-    int idToMove = *sel.begin();
-    // Mix duration currently hardcoded to 75 frames
-    int mixPosition = m_model->getItemPosition(idToMove) - 75;
+    int selectedTrack = -1;
+    int idToMove = -1;
+    for (int s : sel) {
+        if (!m_model->isClip(s)) {
+            continue;
+        }
+        int tid = m_model->getItemTrackId(s);
+        if (selectedTrack == -1) {
+            selectedTrack = tid;
+            idToMove = s;
+            break;
+        }
+    }
+    if (idToMove == -1) {
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        return;
+    }
+    int cursor = pCore->getTimelinePosition();
+    int cid2 = -1;
+    int mixPosition = m_model->getItemPosition(idToMove);
+    int clipDuration =  m_model->getItemPlaytime(idToMove);
+    std::pair<int, int> clipsToMix;
+    if (cursor < mixPosition + clipDuration) {
+        // Mix at start of selected clip
+        cid2 = m_model->getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+        clipsToMix.first = cid2;
+        clipsToMix.second = idToMove;
+    } else {
+        // Mix at end of selected clip
+        mixPosition += clipDuration + 1;
+        cid2 = m_model->getTrackById_const(selectedTrack)->getClipByPosition(mixPosition);
+        clipsToMix.first = idToMove;
+        clipsToMix.second = cid2;
+    }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    int selectedTrack = m_model->getItemTrackId(idToMove);
-    bool result = m_model->requestClipMixMove(idToMove, selectedTrack, mixPosition, true, true, true, undo, redo, false);
+    bool result = m_model->requestClipMix(clipsToMix, selectedTrack, mixPosition, true, true, true, undo, redo, false);
     pCore->pushUndo(undo, redo, i18n("Create mix"));
 }
 

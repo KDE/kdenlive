@@ -668,13 +668,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 }
 
 
-bool TimelineModel::requestClipMixMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
+bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
     // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
     if (trackId == -1) {
         return false;
     }
-    Q_ASSERT(isClip(clipId));
+    Q_ASSERT(isClip(clipIds.first));
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
     bool ok = true;
@@ -683,20 +683,22 @@ bool TimelineModel::requestClipMixMove(int clipId, int trackId, int position, bo
     // Move on same track, simply inform the view
     updateView = false;
     notifyViewOnly = true;
-    update_model = [clipId, this, trackId, invalidateTimeline]() {
+    int mixDuration = 8;
+    update_model = [clipIds, this, trackId, position, invalidateTimeline, mixDuration]() {
         qDebug()<<"==== PROCESSING UPDATE MODEL";
-        QModelIndex modelIndex = makeClipIndexFromID(clipId);
+        QModelIndex modelIndex = makeClipIndexFromID(clipIds.second);
         notifyChange(modelIndex, modelIndex, StartRole);
+        QModelIndex modelIndex2 = makeClipIndexFromID(clipIds.first);
+        notifyChange(modelIndex2, modelIndex2, DurationRole);
         if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
-            int in = getClipPosition(clipId);
-            emit invalidateZone(in, in + getClipPlaytime(clipId));
+            emit invalidateZone(position - mixDuration, position + mixDuration);
         }
         return true;
     };
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_undo);
     }
-    ok = getTrackById(trackId)->requestClipMix(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
+    ok = getTrackById(trackId)->requestClipMix(clipIds, mixDuration, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qDebug() << "-------------\nMIX FAILED, REVERTING\n\n-------------------";
         bool undone = local_undo();
@@ -707,7 +709,7 @@ bool TimelineModel::requestClipMixMove(int clipId, int trackId, int position, bo
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_redo);
     }
-    qDebug()<<"======== FINISHED MIX CREATION FOR CLIP: "<<clipId;
+    qDebug()<<"======== FINISHED MIX CREATION FOR CLIP: "<<clipIds;
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return ok;
 
