@@ -45,6 +45,8 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , m_speed(speed)
     , m_fakeTrack(-1)
     , m_positionOffset(0)
+    , m_subPlaylistIndex(0)
+    , m_mixDuration(0)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -646,6 +648,16 @@ void ClipModel::setPosition(int pos)
 {
     MoveableItem::setPosition(pos);
     m_clipMarkerModel->updateSnapModelPos(pos);
+}
+
+void ClipModel::setMixDuration(int mix)
+{
+    m_mixDuration = mix;
+}
+
+int ClipModel::getMixDuration() const
+{
+    return m_mixDuration;
 }
 
 void ClipModel::setInOut(int in, int out)

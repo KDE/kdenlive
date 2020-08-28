@@ -197,6 +197,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[FakeTrackIdRole] = "fakeTrackId";
     roles[FakePositionRole] = "fakePosition";
     roles[StartRole] = "start";
+    roles[MixRole] = "mixDuration";
     roles[DurationRole] = "duration";
     roles[MaxDurationRole] = "maxDuration";
     roles[MarkersRole] = "markers";
@@ -333,6 +334,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->fadeIn();
         case FadeOutRole:
             return clip->fadeOut();
+        case MixRole:
+            return clip->getMixDuration();
         case ReloadThumbRole:
             return clip->forceThumbReload;
         case PositionOffsetRole:

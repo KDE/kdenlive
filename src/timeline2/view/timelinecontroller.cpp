@@ -3664,3 +3664,46 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
         undo();
     }
 }
+
+void TimelineController::sameTrack()
+{
+    qDebug()<<"=== PROCESS SAME TRACK COMPO";
+    auto sel = m_model->getCurrentSelection();
+    if (sel.empty()) {
+        return;
+    }
+    QList <int> selectedItems;
+    int selectedTrack = -1;
+    for (int s : sel) {
+        int tid = m_model->getItemTrackId(s);
+        if (selectedTrack == -1) {
+            selectedTrack = tid;
+            selectedItems << s;
+        } else if (tid == selectedTrack) {
+            // We found our second clip
+            selectedItems << s;
+            break;
+        }
+    }
+    if (selectedItems.count() == 2) {
+        int mixPosition;
+        int idToMove;
+        if (m_model->getItemPosition(selectedItems.at(0)) < m_model->getItemPosition(selectedItems.at(1))) {
+            mixPosition = m_model->getItemPosition(selectedItems.at(0)) + m_model->getItemPlaytime(selectedItems.at(0)) - 75;
+            idToMove = selectedItems.at(1);
+        } else {
+            mixPosition = m_model->getItemPosition(selectedItems.at(1)) + m_model->getItemPlaytime(selectedItems.at(1)) - 75;
+            idToMove = selectedItems.at(0);
+        }
+        /*if (m_model->m_groups->isInGroup(idToMove)) {
+            // TODO
+        } else*/ {
+            std::function<bool(void)> undo = []() { return true; };
+            std::function<bool(void)> redo = []() { return true; };
+            bool result = m_model->requestClipMixMove(idToMove, selectedTrack, mixPosition, true, true, true, undo, redo, false);
+            pCore->pushUndo(undo, redo, i18n("Create mix"));
+        }
+        //m_model->getTrackById(selectedTrack)->mergeClips(selectedItems);
+    }
+}
+

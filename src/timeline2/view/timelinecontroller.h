@@ -556,6 +556,8 @@ public:
     void addTracks(int videoTracks, int audioTracks);
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
+    /** @brief Create same track transition between clips */
+    void sameTrack();
 
 public slots:
     void resetView();

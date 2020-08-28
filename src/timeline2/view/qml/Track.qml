@@ -70,6 +70,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "mixDuration"
+                    value: model.mixDuration
+                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                }
+                Binding {
+                    target: loader.item
                     property: "selected"
                     value: model.selected
                     when: loader.status == Loader.Ready && model.clipType != ProducerType.Track

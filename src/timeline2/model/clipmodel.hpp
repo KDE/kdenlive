@@ -101,6 +101,8 @@ public:
     void setFakeTrackId(int fid);
     int getFakePosition() const;
     void setFakePosition(int fid);
+    void setMixDuration(int mix);
+    int getMixDuration() const;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
 
@@ -248,6 +250,9 @@ protected:
 
     // Remember last set track, so that we don't unnecessarily refresh the producer when deleting and re-adding a clip on same track
     int m_lastTrackId = -1;
+
+    // Duration of a same track mix.
+    int m_mixDuration;
 };
 
 #endif

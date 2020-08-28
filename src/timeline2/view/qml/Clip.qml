@@ -33,6 +33,7 @@ Rectangle {
     property string effectNames
     property bool isProxy: false
     property int modelStart
+    property int mixDuration: 0
     property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
@@ -329,6 +330,16 @@ Rectangle {
             anchors.margins: clipRoot.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
+            
+            Rectangle {
+                // Mix indicator
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: clipRoot.mixDuration * timeScale
+                color: 'red'
+                opacity: 0.5
+            }
 
             Repeater {
                 // Clip markers

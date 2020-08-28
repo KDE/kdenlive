@@ -609,6 +609,40 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             return true;
         };
     }
+    Fun move_mix = []() { return true; };
+    Fun restore_mix = []() { return true; };
+    if (m_allClips[clipId]->getMixDuration() > 0) {
+        std::pair<int, int> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
+        int offset = position - mixData.first;
+        qDebug()<<"==== MIX UPDATED: "<<mixData.second<<", OFFSET: "<<offset;
+        if (finalMove && (old_trackId != trackId || position >= mixData.first + mixData.second)) {;
+            // Clip moved to another track, or outside of mix duration, delete mix
+            move_mix = [this, old_trackId, clipId]() {
+                qDebug()<<"======\nRESETTING SUB PLAYLIST\n====";
+                m_allClips[clipId]->setSubPlaylistIndex(0);
+                return getTrackById_const(old_trackId)->deleteMix(clipId);
+            };
+            restore_mix = [this, old_trackId, clipId, mixData]() {
+                m_allClips[clipId]->setSubPlaylistIndex(1);
+                return getTrackById_const(old_trackId)->createMix(clipId, mixData);
+            };
+            qDebug()<<"========\n\n\nDELETED MIX\n\n================";
+            move_mix();
+            UPDATE_UNDO_REDO(move_mix, restore_mix, local_undo, local_redo);
+        } else if (old_trackId == trackId) {
+            // Clip moved on same track, resize mix
+            move_mix = [this, old_trackId, clipId, position]() {
+                return getTrackById_const(old_trackId)->resizeMix(clipId, position);
+            };
+            restore_mix = [this, old_trackId, clipId, position]() {
+                return getTrackById_const(old_trackId)->resizeMix(clipId, position);
+            };
+            move_mix();
+            UPDATE_UNDO_REDO(move_mix, restore_mix, local_undo, local_redo);
+        }
+    }
+        
+        
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
@@ -633,6 +667,52 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
+}
+
+
+bool TimelineModel::requestClipMixMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
+{
+    // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
+    if (trackId == -1) {
+        return false;
+    }
+    Q_ASSERT(isClip(clipId));
+    std::function<bool(void)> local_undo = []() { return true; };
+    std::function<bool(void)> local_redo = []() { return true; };
+    bool ok = true;
+    bool notifyViewOnly = false;
+    Fun update_model = []() { return true; };
+    // Move on same track, simply inform the view
+    updateView = false;
+    notifyViewOnly = true;
+    update_model = [clipId, this, trackId, invalidateTimeline]() {
+        qDebug()<<"==== PROCESSING UPDATE MODEL";
+        QModelIndex modelIndex = makeClipIndexFromID(clipId);
+        notifyChange(modelIndex, modelIndex, StartRole);
+        if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
+            int in = getClipPosition(clipId);
+            emit invalidateZone(in, in + getClipPlaytime(clipId));
+        }
+        return true;
+    };
+    if (notifyViewOnly) {
+        PUSH_LAMBDA(update_model, local_undo);
+    }
+    ok = getTrackById(trackId)->requestClipMix(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
+    if (!ok) {
+        qDebug() << "-------------\nMIX FAILED, REVERTING\n\n-------------------";
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    update_model();
+    if (notifyViewOnly) {
+        PUSH_LAMBDA(update_model, local_redo);
+    }
+    qDebug()<<"======== FINISHED MIX CREATION FOR CLIP: "<<clipId;
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return ok;
+
 }
 
 bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)

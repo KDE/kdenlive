@@ -117,6 +117,7 @@ public:
         IsProxyRole,  /// clip only
         ServiceRole,  /// clip only
         StartRole,    /// clip only
+        MixRole,    /// clip only
         BinIdRole,    /// clip only
         TrackIdRole,
         FakeTrackIdRole,
@@ -354,6 +355,8 @@ public:
        @param logUndo if set to false, no undo object is stored
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
+    
+    bool requestClipMixMove(int clipId, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /* @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is

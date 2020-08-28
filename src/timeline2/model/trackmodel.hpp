@@ -37,6 +37,19 @@ class ClipModel;
 class CompositionModel;
 class EffectStackModel;
 
+class MixInfo
+{
+
+public:
+    int firstClipId;
+    int secondClipId;
+    int firstClipOut;
+    int secondClipIn;
+    int secondClipDuration;
+    int mixPosition;
+    int mixDuration;
+};
+
 /* @brief This class represents a Track object, as viewed by the backend.
    To allow same track transitions, a Track object corresponds to two Mlt::Playlist, between which we can switch when required by the transitions.
    In general, the Gui associated with it will send modification queries (such as resize or move), and this class authorize them or not depending on the
@@ -109,6 +122,16 @@ public:
     // TODO make protected
     QVariant getProperty(const QString &name) const;
     void setProperty(const QString &name, const QString &value);
+    /** @brief Create a composition between 2 same track clips */
+    bool requestClipMix(int clipId, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
+    /** @brief Get in/out position for mix composition */
+    std::pair<int, int> getMixInfo(int position) const;
+    /** @brief Delete a mix composition */
+    bool deleteMix(int clipId);
+    /** @brief Create a mix composition */
+    bool createMix(int clipId, std::pair<int, int> mixData);
+    /** @brief Resize a mix composition */
+    bool resizeMix(int clipId, int offset);
 
 protected:
     /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -281,6 +304,7 @@ private:
     std::shared_ptr<Mlt::Tractor> m_track;
     std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
+    QList <MixInfo> m_mixList;
 
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
                                                                             ordered structure to store the clips, since we use their ids order as row order*/
@@ -295,6 +319,7 @@ private:
 
 protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
+    std::unordered_map<int, std::shared_ptr<Mlt::Transition>> m_sameCompositions;
 };
 
 #endif

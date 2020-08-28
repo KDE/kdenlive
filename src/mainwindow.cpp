@@ -1131,6 +1131,12 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
     
+    QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Same Track"), this);
+    addAction(QStringLiteral("same_track"), sameTrack, Qt::Key_U);
+    connect(sameTrack, &QAction::triggered, [this]() {
+       getCurrentTimeline()->controller()->sameTrack(); 
+    });
+    
     // toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 
     /*QWidget * actionWidget;
