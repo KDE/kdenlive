@@ -615,15 +615,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         std::pair<int, int> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         int offset = position - mixData.first;
         qDebug()<<"==== MIX UPDATED: "<<mixData.second<<", OFFSET: "<<offset;
-        if (finalMove && (old_trackId != trackId || position >= mixData.first + mixData.second)) {;
+        if (old_trackId != trackId || position >= mixData.first + mixData.second) {;
             // Clip moved to another track, or outside of mix duration, delete mix
             move_mix = [this, old_trackId, clipId]() {
                 qDebug()<<"======\nRESETTING SUB PLAYLIST\n====";
-                m_allClips[clipId]->setSubPlaylistIndex(0);
                 return getTrackById_const(old_trackId)->deleteMix(clipId);
             };
             restore_mix = [this, old_trackId, clipId, mixData]() {
-                m_allClips[clipId]->setSubPlaylistIndex(1);
                 return getTrackById_const(old_trackId)->createMix(clipId, mixData);
             };
             qDebug()<<"========\n\n\nDELETED MIX\n\n================";

@@ -136,6 +136,9 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
     if (auto ptr = m_parent.lock()) {
         Q_ASSERT(ptr->getClipPtr(clipId)->getCurrentTrackId() == -1);
         target_playlist = ptr->getClipPtr(clipId)->getSubPlaylistIndex();
+        if (target_playlist == 1 && ptr->getClipPtr(clipId)->getMixDuration() == 0) {
+            target_playlist = 0;
+        }
         qDebug()<<"==== GOT TRARGET PLAYLIST: "<<target_playlist;
     } else {
         qDebug() << "impossible to get parent timeline";
@@ -1371,6 +1374,7 @@ bool TrackModel::requestClipMix(int clipId, int position, bool updateView, bool 
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipId));
         source_track = movedClip->getSubPlaylistIndex();
         clipInitialPos = movedClip->getPosition();
+        movedClip->setMixDuration(mixInfo.mixDuration);
         mixInfo.mixDuration = clipInitialPos - position;
         mixInfo.mixPosition = position;
     } else {
