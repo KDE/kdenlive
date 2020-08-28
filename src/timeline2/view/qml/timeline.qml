@@ -1281,15 +1281,15 @@ Rectangle {
                                 }
                                 Repeater { id: guidesRepeater; model: guidesDelegateModel }
                             }
-                            Rectangle {
-                                id: cursor
-                                visible: root.consumerPosition > -1
-                                color: root.textColor
-                                width: Math.max(1, 1 * timeline.scaleFactor)
-                                opacity: (width > 2) ? 0.5 : 1
-                                height: parent.height
-                                x: root.consumerPosition * timeline.scaleFactor
-                            }
+                        }
+                        Rectangle {
+                            id: cursor
+                            visible: root.consumerPosition > -1
+                            color: root.textColor
+                            width: Math.max(1, 1 * timeline.scaleFactor)
+                            opacity: (width > 2) ? 0.5 : 1
+                            height: tracksContainerArea.height + subtitleTrack.height
+                            x: root.consumerPosition * timeline.scaleFactor
                         }
                     }
                 }
