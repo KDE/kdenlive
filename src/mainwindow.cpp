@@ -418,13 +418,13 @@ void MainWindow::init()
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
-    connect(mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
+    connect(m_mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
         pCore->mixer()->connectMixer(visible);
         showMixer->setChecked(visible);
     });
-    connect(showMixer, &QAction::triggered, this, [&, mixerDock]() {
-        if (mixerDock->isVisible() && !mixerDock->visibleRegion().isEmpty()) {
-            mixerDock->close();
+    connect(showMixer, &QAction::triggered, this, [&, m_mixerDock]() {
+        if (m_mixerDock->isVisible() && !m_mixerDock->visibleRegion().isEmpty()) {
+            m_mixerDock->close();
         } else {
             m_mixerDock->show();
             m_mixerDock->raise();
