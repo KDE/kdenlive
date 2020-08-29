@@ -1065,6 +1065,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         binIdWithInOut.remove(0, 1);
     }
     if (!pCore->projectItemModel()->hasClip(bid)) {
+        qDebug()<<"=== NO CLIP FOUND IN BIN FOR ID: "<<bid;
         return false;
     }
 
@@ -1086,22 +1087,29 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         useTargets = false;
     }
     if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) && (type == ClipType::AV || type == ClipType::Playlist)) {
+        bool useAudioTarget = false;
         if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio
-            trackId = m_audioTarget.firstKey();
-            if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
-                trackId = -1;
-            }
+            useAudioTarget = true;
         } else if (useTargets && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
             // Video target set but locked
-            trackId = m_audioTarget.firstKey();
-            if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
-                trackId = -1;
+            useAudioTarget = true;
+        }
+        if (useAudioTarget) {
+            // Find first possible audio target
+            QList <int> audioTargetTracks = m_audioTarget.keys();
+            trackId = -1;
+            for (int tid : audioTargetTracks) {
+                if (tid > -1 && !getTrackById_const(tid)->isLocked() && allowedTracks.contains(tid)) {
+                    trackId = tid;
+                    break;
+                }
             }
         }
         if (trackId == -1) {
             if (!allowedTracks.isEmpty()) {
                 // No active tracks, aborting
+                qDebug()<<"=== NO ACTIVE TRACK FOUND; ABORTING!!!";
                 return true;
             }
             pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
