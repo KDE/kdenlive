@@ -414,7 +414,7 @@ void MainWindow::init()
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
-    QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
@@ -426,15 +426,15 @@ void MainWindow::init()
         if (mixerDock->isVisible() && !mixerDock->visibleRegion().isEmpty()) {
             mixerDock->close();
         } else {
-            mixerDock->show();
-            mixerDock->raise();
+            m_mixerDock->show();
+            m_mixerDock->raise();
         }
     });
 
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
-    mixerDock->close();
+    m_mixerDock->close();
 
     /// Tabify Widgets
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
@@ -3699,9 +3699,13 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     return dockWidget;
 }
 
+bool MainWindow::isMixedTabbed() const
+{
+    return !tabifiedDockWidgets(m_mixerDock).isEmpty();
+}
+
 void MainWindow::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
 {
-    qDebug()<<"== UPDATING DOCK LOCATION FOR: "<<dockLocationArea;
     if (dockLocationArea == Qt::NoDockWidgetArea) {
         updateDockTitleBars(false);
     } else {
@@ -3774,7 +3778,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             }
             continue;
         }
-        QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
+        QList<QDockWidget *> docked = tabifiedDockWidgets(dock);
         if (docked.isEmpty()) {
             if (bar) {
                 dock->setTitleBarWidget(nullptr);

@@ -122,6 +122,9 @@ public:
     QList<QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
     bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
+    
+    /** @brief Returns true if mixer widget is tabbed */
+    bool isMixedTabbed() const;
 
     /** @brief Returns a ptr to the main timeline widget of the project */
     TimelineWidget *getMainTimeline() const;
@@ -178,6 +181,7 @@ private:
     AudioGraphSpectrum *m_audioSpectrum;
 
     QDockWidget *m_undoViewDock;
+    QDockWidget *m_mixerDock;
 
     KSelectAction *m_timeFormatButton;
     KSelectAction *m_compositeAction;
