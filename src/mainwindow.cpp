@@ -422,7 +422,7 @@ void MainWindow::init()
         pCore->mixer()->connectMixer(visible);
         showMixer->setChecked(visible);
     });
-    connect(showMixer, &QAction::triggered, this, [&, m_mixerDock]() {
+    connect(showMixer, &QAction::triggered, this, [&]() {
         if (m_mixerDock->isVisible() && !m_mixerDock->visibleRegion().isEmpty()) {
             m_mixerDock->close();
         } else {
