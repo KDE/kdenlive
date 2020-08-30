@@ -1692,7 +1692,17 @@ void Monitor::resetConsumer(bool fullReset)
 
 const QString Monitor::sceneList(const QString &root, const QString &fullPath)
 {
-    return m_glMonitor->sceneList(root, fullPath);
+    // on Windows, the xml consumer doesn't follow LC_NUMERIC, so enforce locale
+#ifdef Q_OS_WIN
+    QLocale currentLocale; // For restoring after XML export
+    qDebug() << "Current locale is " << currentLocale;
+    QLocale::setDefault(QLocale::c()); // Not sure if helpful
+#endif
+    const QString resultScene = m_glMonitor->sceneList(root, fullPath);
+#ifdef Q_OS_WIN
+    QLocale::setDefault(currentLocale);
+#endif
+    return resultScene;
 }
 
 void Monitor::updateClipZone(const QPoint zone)
