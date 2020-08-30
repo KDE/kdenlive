@@ -452,7 +452,8 @@ void MainWindow::init()
 
     auto *scmanager = new ScopeManager(this);
 
-    new HideTitleBars(this);
+    HideTitleBars *titleBars = new HideTitleBars(this);
+    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &HideTitleBars::updateTitleBars);
     new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();

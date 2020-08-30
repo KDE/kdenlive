@@ -47,6 +47,10 @@ private:
     QHBoxLayout *m_containerLayout;
     KSelectAction *m_loadLayout;
     QList <QAction *> m_layoutActions;
+
+signals:
+    /** @brief Layout changed, ensure title bars are correctly displayed. */
+    void updateTitleBars();
 };
 
 #endif
