@@ -228,6 +228,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
             m_containerGrp->setExclusive(true);
         }
     }
+    emit updateTitleBars();
     return true;
 }
 
