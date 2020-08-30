@@ -20,6 +20,7 @@
 #include "monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "lib/localeHandling.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -1694,13 +1695,14 @@ const QString Monitor::sceneList(const QString &root, const QString &fullPath)
 {
     // on Windows, the xml consumer doesn't follow LC_NUMERIC, so enforce locale
 #ifdef Q_OS_WIN
-    QLocale currentLocale; // For restoring after XML export
+    auto currentLocale = strdup(setlocale(LC_ALL, nullptr));
+    std::setlocale(LC_ALL, "C");
     qDebug() << "Current locale is " << currentLocale;
-    QLocale::setDefault(QLocale::c()); // Not sure if helpful
 #endif
     const QString resultScene = m_glMonitor->sceneList(root, fullPath);
 #ifdef Q_OS_WIN
-    QLocale::setDefault(currentLocale);
+    std::setlocale(LC_ALL, currentLocale);
+    LocaleHandling::resetLocale();
 #endif
     return resultScene;
 }
