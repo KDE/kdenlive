@@ -1697,10 +1697,12 @@ const QString Monitor::sceneList(const QString &root, const QString &fullPath)
 #ifdef Q_OS_WIN
     auto currentLocale = strdup(setlocale(LC_ALL, nullptr));
     std::setlocale(LC_ALL, "C");
+    ::qputenv("LC_ALL", "C");
     qDebug() << "Current locale is " << currentLocale;
 #endif
     const QString resultScene = m_glMonitor->sceneList(root, fullPath);
 #ifdef Q_OS_WIN
+    ::qputenv("LC_ALL", currentLocale);
     std::setlocale(LC_ALL, currentLocale);
     LocaleHandling::resetLocale();
 #endif
