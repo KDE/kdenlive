@@ -21,12 +21,12 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
     localesToTest << lcName << lcName + ".utf-8" << lcName + ".UTF-8" << lcName + ".utf8" << lcName + ".UTF8";
     for (const auto &locale : localesToTest) {
 #ifdef Q_OS_FREEBSD
-        auto *result = setlocale(LC_NUMERIC, locale.toStdString().c_str());
+        auto *result = setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
 #else
-        auto *result = std::setlocale(LC_NUMERIC, locale.toStdString().c_str());
+        auto *result = std::setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
 #endif
         if (result != nullptr) {
-            ::qputenv("LC_NUMERIC", locale.toStdString().c_str());
+            ::qputenv(MLT_LC_NAME, locale.toStdString().c_str());
             newLocale = locale;
             break;
         }
@@ -40,11 +40,11 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 void LocaleHandling::resetLocale()
 {
 #ifdef Q_OS_FREEBSD
-    setlocale(LC_NUMERIC, "C");
+    setlocale(MLT_LC_CATEGORY, "C");
 #else
-    std::setlocale(LC_NUMERIC, "C");
+    std::setlocale(MLT_LC_CATEGORY, "C");
 #endif
-    ::qputenv("LC_NUMERIC", "C");
+    ::qputenv(MLT_LC_NAME, "C");
     qDebug() << "LC_NUMERIC reset to C";
 }
 

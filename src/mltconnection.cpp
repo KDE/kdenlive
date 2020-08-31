@@ -89,9 +89,9 @@ MltConnection::MltConnection(const QString &mltPath)
     LocaleHandling::resetLocale();
 
 #ifdef Q_OS_FREEBSD
-    auto locale = strdup(setlocale(LC_ALL, nullptr));
+    auto locale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
 #else
-    auto locale = strdup(std::setlocale(LC_ALL, nullptr));
+    auto locale = strdup(std::setlocale(MLT_LC_CATEGORY, nullptr));
 #endif
     qDebug() << "NEW LC_ALL" << locale;
 
