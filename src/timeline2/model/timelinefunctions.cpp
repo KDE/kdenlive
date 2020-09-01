@@ -384,7 +384,7 @@ bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemMo
             std::unordered_set<int> all_children = timeline->m_groups->getLeaves(groupId);
             for (int child: all_children) {
                 int childTrackId = timeline->getItemTrackId(child);
-                if (!tracks.contains(childTrackId)) {
+                if (!tracks.contains(childTrackId) && timeline->m_groups->isInGroup(child)) {
                     // This item should not be affected by the operation, ungroup it
                     result = result && timeline->requestClipUngroup(child, undo, redo);
                 }
