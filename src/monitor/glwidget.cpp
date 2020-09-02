@@ -1292,6 +1292,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 void GLWidget::purgeCache()
 {
     if (m_consumer) {
+        //m_consumer->set("buffer", 1);
         m_consumer->purge();
         m_producer->seek(m_proxy->getPosition() + 1);
     }
@@ -1365,7 +1366,8 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
     // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
     // xmlConsumer.set("no_meta", 1);
-    xmlConsumer.connect(*m_producer.get());
+    Mlt::Service s(m_producer->get_service());
+    xmlConsumer.connect(s);
     xmlConsumer.run();
     playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
     return playlist;
