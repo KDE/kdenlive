@@ -431,7 +431,7 @@ void CustomLabel::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton) {
         m_dragStartPosition = m_dragLastPosition = e->pos();
         e->accept();
-    } else if (e->button() == Qt::MidButton) {
+    } else if (e->button() == Qt::MiddleButton) {
         emit resetValue();
         m_dragStartPosition = QPoint(-1, -1);
     } else {
@@ -487,7 +487,7 @@ void CustomLabel::mouseMoveEvent(QMouseEvent *e)
 
 void CustomLabel::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (e->button() == Qt::MidButton) {
+    if (e->button() == Qt::MiddleButton) {
         e->accept();
         return;
     }

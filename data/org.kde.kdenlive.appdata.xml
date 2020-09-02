@@ -267,6 +267,7 @@
     </ul>
   </description>
   <releases>
+    <release version="20.08.1" date="2020-09-03"/>
     <release version="20.08.0" date="2020-08-13"/>
     <release date="2020-04-15" version="20.07.70"/>
   </releases>
