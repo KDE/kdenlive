@@ -362,7 +362,7 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
-                            onClicked: proxy.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
+                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
                         }
                     }
                     TextMetrics {
