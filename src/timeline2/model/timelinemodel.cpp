@@ -1029,7 +1029,18 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     TRACE(binClipId, trackId, position, id, logUndo, refreshView, useTargets);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo);
+    QVector<int> allowedTracks;
+    if (useTargets) {
+        auto it = m_allTracks.cbegin();
+        while (it != m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+                allowedTracks << target_track;
+            }
+            ++it;
+        }
+    }
+    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, allowedTracks);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
