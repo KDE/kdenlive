@@ -13,6 +13,15 @@ the Free Software Foundation, either version 3 of the License, or
 
 #include <QtCore/QLocale>
 #include <QtCore/QString>
+
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#   define MLT_LC_CATEGORY LC_NUMERIC
+#   define MLT_LC_NAME     "LC_NUMERIC"
+#else
+#   define MLT_LC_CATEGORY LC_ALL
+#   define MLT_LC_NAME     "LC_ALL"
+#endif
+
 class LocaleHandling
 {
 public:

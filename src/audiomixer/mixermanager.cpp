@@ -21,6 +21,8 @@
 
 #include "mixermanager.hpp"
 #include "mixerwidget.hpp"
+#include "core.h"
+#include "mainwindow.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "kdenlivesettings.h"
 
@@ -199,7 +201,9 @@ void MixerManager::collapseMixers()
         m_expandedWidth = width();
         m_channelsBox->setFixedWidth(0);
         //m_line->setMaximumWidth(0);
-        setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+        if (!pCore->window()->isMixedTabbed()) {
+            setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+        }
     } else {
         //m_line->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);

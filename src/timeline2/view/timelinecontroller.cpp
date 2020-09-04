@@ -617,7 +617,6 @@ void TimelineController::addTrack(int tid)
             int newTid;
             result = m_model->requestTrackInsertion(d->selectedTrackPosition(), newTid, d->trackName(), d->addAudioTrack(), undo, redo);
             if (result) {
-                m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
                 if (addAVTrack) {
                     int newTid2;
                     int mirrorPos = 0;
@@ -626,9 +625,6 @@ void TimelineController::addTrack(int tid)
                         mirrorPos = m_model->getTrackMltIndex(mirrorId);
                     }
                     result = m_model->requestTrackInsertion(mirrorPos, newTid2, d->trackName(), true, undo, redo);
-                    if (result) {
-                        m_model->setTrackProperty(newTid2, "kdenlive:timeline_active", QStringLiteral("1"));
-                    }
                 }
                 if (audioRecTrack) {
                     m_model->setTrackProperty(newTid, "kdenlive:audio_rec", QStringLiteral("1"));
@@ -2212,7 +2208,13 @@ int TimelineController::insertZone(const QString &binId, QPoint zone, bool overw
     int aTrack = -1;
     int vTrack = -1;
     if (clip->hasAudio() && !m_model->m_audioTarget.isEmpty()) {
-        aTrack = m_model->m_audioTarget.firstKey();
+        QList<int> audioTracks = m_model->m_audioTarget.keys();
+        for (int tid : audioTracks) {
+            if (m_model->getTrackById_const(tid)->shouldReceiveTimelineOp()) {
+                aTrack = tid;
+                break;
+            }
+        }
     }
     if (clip->hasVideo()) {
         vTrack = videoTarget();
@@ -3651,9 +3653,7 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
             result = m_model->requestTrackInsertion(-1, newTid, QString(), false, undo, redo);
             videoTracks--;
         }
-        if (result) {
-            m_model->setTrackProperty(newTid, "kdenlive:timeline_active", QStringLiteral("1"));
-        } else {
+        if (!result) {
             break;
         }
     }

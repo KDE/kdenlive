@@ -40,6 +40,11 @@ void HideTitleBars::slotInstallRightClick()
         connect(dock, &QDockWidget::dockLocationChanged, pCore->window(), &MainWindow::slotUpdateDockLocation);
         connect(dock, &QDockWidget::topLevelChanged, pCore->window(), &MainWindow::updateDockTitleBars);
     }
+    updateTitleBars();
+}
+
+void HideTitleBars::updateTitleBars()
+{
     slotShowTitleBars(KdenliveSettings::showtitlebars());
 }
 

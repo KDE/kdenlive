@@ -57,7 +57,7 @@
    audioqualities="3,5,7" defaultaudioquality="5"
    args="f=asf vcodec=wmv2 acodec=wmav2 qscale=%quality aq=%audioquality"/>
  </group>
- <group name="GPU | testing" renderer="avformat" type"av">
+ <group name="GPU | testing" renderer="avformat" type="av">
   <profile name="NVENC H264 CBR" extension="mp4"
    args="f=mp4 vcodec=nvenc_h264 vb=30000k rc=cbr acodec=aac ab=192k"/>
   <profile name="NVENC H264 VBR" extension="mp4"

@@ -629,8 +629,9 @@ TEST_CASE("FuzzBug2")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         {
-            int res = timeline_0->requestClipsGroup({3, 2}, true, GroupType::AVSplit);
-            REQUIRE(res == -1);
+            // Grouping 2 audio clips as AVSplit, this is now possible with multiple streams
+            //int res = timeline_0->requestClipsGroup({3, 2}, true, GroupType::AVSplit);
+            //REQUIRE(res == -1);
         }
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
@@ -667,6 +668,10 @@ TEST_CASE("FuzzBug3")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         TrackModel::construct(timeline_0, -1, 0, "0", true);
+        // Setup timeline audio drop info
+        QMap <int, QString>audioInfo;
+        audioInfo.insert(1,QStringLiteral("stream1"));
+        timeline_0->m_binAudioTargets = audioInfo;
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
@@ -819,7 +824,7 @@ TEST_CASE("FuzzBug5")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
-        createProducerWithSound(reg_profile, binModel);
+        createProducerWithSound(reg_profile, binModel);       
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
         undoStack->undo();
@@ -844,11 +849,26 @@ TEST_CASE("FuzzBug5")
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
         undoStack->redo();
+        
+        // Setup timeline audio drop info
+        QMap <int, QString>audioInfo;
+        audioInfo.insert(1,QStringLiteral("stream1"));
+        timeline_1->m_binAudioTargets = audioInfo;
+        timeline_1->m_videoTarget = 5;
+        QMap <int, int>audioTarget;
+        audioTarget.insert(6,1);
+        timeline_1->m_audioTarget = audioTarget;
+        
+        /*timeline_1->setTrackProperty(4, "kdenlive:timeline_active", QStringLiteral("1"));
+        timeline_1->setTrackProperty(5, "kdenlive:timeline_active", QStringLiteral("1"));
+        timeline_1->setTrackProperty(6, "kdenlive:timeline_active", QStringLiteral("1"));*/
+        
         REQUIRE(timeline_0->checkConsistency());
         REQUIRE(timeline_1->checkConsistency());
         {
             int dummy_3;
             bool res = timeline_1->requestClipInsertion("2", 5, 0, dummy_3, true, false, true);
+            qDebug()<<"==== INSERTED FIRST CLIP DURATION: "<<timeline_1->getClipPlaytime(dummy_3);
             REQUIRE(res == true);
         }
         REQUIRE(timeline_0->checkConsistency());
@@ -1284,6 +1304,11 @@ TEST_CASE("FuzzBug11")
         undoStack->redo();
         REQUIRE(timeline_0->checkConsistency());
         createProducerWithSound(reg_profile, binModel);
+        
+        // Setup timeline audio drop info
+        QMap <int, QString>audioInfo;
+        audioInfo.insert(1,QStringLiteral("stream1"));
+        timeline_0->m_binAudioTargets = audioInfo;
         REQUIRE(timeline_0->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline_0->checkConsistency());
