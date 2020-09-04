@@ -29,7 +29,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
