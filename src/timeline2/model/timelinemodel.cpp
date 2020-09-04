@@ -685,11 +685,10 @@ bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, int trackId, int
     notifyViewOnly = true;
     int mixDuration = 8;
     update_model = [clipIds, this, trackId, position, invalidateTimeline, mixDuration]() {
-        qDebug()<<"==== PROCESSING UPDATE MODEL";
         QModelIndex modelIndex = makeClipIndexFromID(clipIds.second);
-        notifyChange(modelIndex, modelIndex, StartRole);
+        notifyChange(modelIndex, modelIndex, {StartRole,DurationRole});
         QModelIndex modelIndex2 = makeClipIndexFromID(clipIds.first);
-        notifyChange(modelIndex2, modelIndex2, DurationRole);
+        notifyChange(modelIndex2, modelIndex2, {DurationRole});
         if (invalidateTimeline && !getTrackById_const(trackId)->isAudioTrack()) {
             emit invalidateZone(position - mixDuration, position + mixDuration);
         }

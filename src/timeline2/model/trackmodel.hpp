@@ -246,7 +246,7 @@ protected:
 
     /* @brief This is an helper function that returns the sub-playlist in which the clip is inserted, along with its index in the playlist
      @param position the position of the target clip*/
-    std::pair<int, int> getClipIndexAt(int position);
+    std::pair<int, int> getClipIndexAt(int position, int playlist = -1);
     QSharedPointer<Mlt::Producer> getClipProducer(int clipId);
 
     /* @brief This is an helper function that checks in all playlists if the given position is a blank */
