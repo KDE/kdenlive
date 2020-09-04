@@ -748,7 +748,8 @@ void MainWindow::init()
 
     updateActionsToolTip();
     if (firstRun) {
-        layoutManager->loadLayout(QStringLiteral("Editing"), true);
+        // Load editing layout
+        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
     }
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
