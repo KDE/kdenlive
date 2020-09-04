@@ -66,7 +66,7 @@
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
-
+#include "lib/localeHandling.h"
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
@@ -510,6 +510,7 @@ void MainWindow::init()
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
+    LocaleHandling::resetLocale();
     if (firstRun) {
         if (QScreen *current = QApplication::primaryScreen()) {
             int screenHeight = current->availableSize().height();
