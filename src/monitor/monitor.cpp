@@ -20,6 +20,7 @@
 #include "monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "lib/localeHandling.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"

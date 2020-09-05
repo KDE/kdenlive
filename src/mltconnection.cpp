@@ -86,12 +86,11 @@ MltConnection::MltConnection(const QString &mltPath)
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
-    LocaleHandling::resetLocale();
 
 #ifdef Q_OS_FREEBSD
-    auto locale = strdup(setlocale(LC_ALL, nullptr));
+    auto locale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
 #else
-    auto locale = strdup(std::setlocale(LC_ALL, nullptr));
+    auto locale = strdup(std::setlocale(MLT_LC_CATEGORY, nullptr));
 #endif
     qDebug() << "NEW LC_ALL" << locale;
 

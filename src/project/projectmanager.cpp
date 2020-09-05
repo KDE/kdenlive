@@ -264,6 +264,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    ::mlt_pool_purge();
     pCore->audioThumbCache.clear();
     pCore->jobManager()->slotCancelJobs();
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
@@ -679,6 +680,11 @@ void ProjectManager::slotAutoSave()
             i.next();
             scene.replace(i.key(), i.value());
         }
+    }
+    if (!scene.contains(QLatin1String("<track "))) {
+        // In some unexplained cases, the MLT playlist is corrupted and all tracks are deleted. Don't save in that case.
+        pCore->displayMessage(i18n("Project was corrupted, cannot backup. Please close and reopen your project file to recover last backup"), ErrorMessage);
+        return;
     }
     m_project->slotAutoSave(scene);
     m_lastSave.start();

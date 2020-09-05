@@ -66,7 +66,7 @@
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
-
+#include "lib/localeHandling.h"
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
@@ -414,27 +414,27 @@ void MainWindow::init()
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
-    QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
-    connect(mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
+    connect(m_mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
         pCore->mixer()->connectMixer(visible);
         showMixer->setChecked(visible);
     });
-    connect(showMixer, &QAction::triggered, this, [&, mixerDock]() {
-        if (mixerDock->isVisible() && !mixerDock->visibleRegion().isEmpty()) {
-            mixerDock->close();
+    connect(showMixer, &QAction::triggered, this, [&]() {
+        if (m_mixerDock->isVisible() && !m_mixerDock->visibleRegion().isEmpty()) {
+            m_mixerDock->close();
         } else {
-            mixerDock->show();
-            mixerDock->raise();
+            m_mixerDock->show();
+            m_mixerDock->raise();
         }
     });
 
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
-    mixerDock->close();
+    m_mixerDock->close();
 
     /// Tabify Widgets
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
@@ -452,7 +452,8 @@ void MainWindow::init()
 
     auto *scmanager = new ScopeManager(this);
 
-    new HideTitleBars(this);
+    HideTitleBars *titleBars = new HideTitleBars(this);
+    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &HideTitleBars::updateTitleBars);
     new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
@@ -509,6 +510,7 @@ void MainWindow::init()
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
+    LocaleHandling::resetLocale();
     if (firstRun) {
         if (QScreen *current = QApplication::primaryScreen()) {
             int screenHeight = current->availableSize().height();
@@ -747,7 +749,8 @@ void MainWindow::init()
 
     updateActionsToolTip();
     if (firstRun) {
-        layoutManager->loadLayout(QStringLiteral("Editing"), true);
+        // Load editing layout
+        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
     }
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
@@ -3704,9 +3707,13 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     return dockWidget;
 }
 
+bool MainWindow::isMixedTabbed() const
+{
+    return !tabifiedDockWidgets(m_mixerDock).isEmpty();
+}
+
 void MainWindow::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
 {
-    qDebug()<<"== UPDATING DOCK LOCATION FOR: "<<dockLocationArea;
     if (dockLocationArea == Qt::NoDockWidgetArea) {
         updateDockTitleBars(false);
     } else {
@@ -3786,7 +3793,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             }
             continue;
         }
-        QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
+        QList<QDockWidget *> docked = tabifiedDockWidgets(dock);
         if (docked.isEmpty()) {
             if (bar) {
                 dock->setTitleBarWidget(nullptr);
