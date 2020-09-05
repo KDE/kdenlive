@@ -3689,26 +3689,71 @@ void TimelineController::mixClip()
         pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
         return;
     }
-    int cursor = pCore->getTimelinePosition();
-    int cid2 = -1;
     int mixPosition = m_model->getItemPosition(idToMove);
     int clipDuration =  m_model->getItemPlaytime(idToMove);
     std::pair<int, int> clipsToMix;
-    if (cursor < mixPosition + clipDuration) {
+    // Check if we have a clip before and/or after
+    int previousClip = m_model->getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+    int nextClip = m_model->getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+    if (previousClip > -1 && nextClip > -1) {
+        // We have a clip before and a clip after, check timeline cursor position to decide where to mix
+        int cursor = pCore->getTimelinePosition();
+        if (cursor < mixPosition + clipDuration / 2) {
+            nextClip = -1;
+        } else {
+            previousClip = -1;
+        }
+    }
+    if (nextClip == -1) {
+        if (previousClip == -1) {
+            // No clip to mix, abort
+            pCore->displayMessage(i18n("No adjacent clip to perform mix"), InformationMessage, 500);
+            return;
+        }
         // Mix at start of selected clip
-        cid2 = m_model->getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
-        clipsToMix.first = cid2;
+        clipsToMix.first = previousClip;
         clipsToMix.second = idToMove;
     } else {
         // Mix at end of selected clip
-        mixPosition += clipDuration + 1;
-        cid2 = m_model->getTrackById_const(selectedTrack)->getClipByPosition(mixPosition);
+        mixPosition += clipDuration;
         clipsToMix.first = idToMove;
-        clipsToMix.second = cid2;
+        clipsToMix.second = nextClip;
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = m_model->requestClipMix(clipsToMix, selectedTrack, mixPosition, true, true, true, undo, redo, false);
-    pCore->pushUndo(undo, redo, i18n("Create mix"));
+    if (result) {
+        // Check if this is an AV split group
+        if (m_model->m_groups->isInGroup(idToMove)) {
+            int parentGroup = m_model->m_groups->getRootId(idToMove);
+            if (parentGroup > -1 && m_model->m_groups->getType(parentGroup) == GroupType::AVSplit) {
+                std::unordered_set<int> sub = m_model->m_groups->getLeaves(parentGroup);
+                // Perform mix on split clip
+                for (int current_id : sub) {
+                    if (current_id == idToMove) {
+                        continue;
+                    }
+                    int splitTrack = m_model->m_allClips[current_id]->getCurrentTrackId();
+                    int splitId;
+                    if (previousClip == -1) {
+                        splitId = m_model->getTrackById_const(splitTrack)->getClipByPosition(mixPosition + 1);
+                        clipsToMix.first = current_id;
+                        clipsToMix.second = splitId;
+                    } else {
+                        splitId = m_model->getTrackById_const(splitTrack)->getClipByPosition(mixPosition - 1);
+                        clipsToMix.first = splitId;
+                        clipsToMix.second = current_id;
+                    }
+                    if (splitId > -1 && clipsToMix.first != clipsToMix.second) {
+                        result = m_model->requestClipMix(clipsToMix, splitTrack, mixPosition, true, true, true, undo, redo, false);
+                    }
+                }
+            }
+        }
+        pCore->pushUndo(undo, redo, i18n("Create mix"));
+    } else {
+        qDebug()<<"////// MIX OPERATION FAILED";
+        undo();
+    }
 }
 
