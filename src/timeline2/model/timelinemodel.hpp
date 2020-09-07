@@ -689,6 +689,8 @@ public:
     void prepareClose();
     /** @brief Import project's master effects */
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
+    /** @brief Create a mix selection with currently selected clip */
+    bool mixClip(int idToMove = -1);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

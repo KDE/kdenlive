@@ -667,6 +667,103 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return true;
 }
 
+bool TimelineModel::mixClip(int idToMove)
+{
+    int selectedTrack = -1;
+    if (idToMove == -1) {
+        auto sel = getCurrentSelection();
+        if (sel.empty()) {
+            return false;
+        }
+        for (int s : sel) {
+            if (!isClip(s)) {
+                continue;
+            }
+            if (selectedTrack == -1) {
+                idToMove = s;
+                break;
+            }
+        }
+    }
+    if (idToMove == -1 || !isClip(idToMove)) {
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        return false;
+    }
+    selectedTrack = getClipTrackId(idToMove);
+    if (selectedTrack == -1 || !isTrack(selectedTrack)) {
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        return false;
+    }
+    int mixPosition = getItemPosition(idToMove);
+    int clipDuration =  getItemPlaytime(idToMove);
+    std::pair<int, int> clipsToMix;
+    // Check if we have a clip before and/or after
+    int previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+    int nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+    if (previousClip > -1 && nextClip > -1) {
+        // We have a clip before and a clip after, check timeline cursor position to decide where to mix
+        int cursor = pCore->getTimelinePosition();
+        if (cursor < mixPosition + clipDuration / 2) {
+            nextClip = -1;
+        } else {
+            previousClip = -1;
+        }
+    }
+    if (nextClip == -1) {
+        if (previousClip == -1) {
+            // No clip to mix, abort
+            pCore->displayMessage(i18n("No adjacent clip to perform mix"), InformationMessage, 500);
+            return false;
+        }
+        // Mix at start of selected clip
+        clipsToMix.first = previousClip;
+        clipsToMix.second = idToMove;
+    } else {
+        // Mix at end of selected clip
+        mixPosition += clipDuration;
+        clipsToMix.first = idToMove;
+        clipsToMix.second = nextClip;
+    }
+    std::function<bool(void)> undo = []() { return true; };
+    std::function<bool(void)> redo = []() { return true; };
+    bool result = requestClipMix(clipsToMix, selectedTrack, mixPosition, true, true, true, undo,
+ redo, false);
+    if (result) {
+        // Check if this is an AV split group
+        if (m_groups->isInGroup(idToMove)) {
+            int parentGroup = m_groups->getRootId(idToMove);
+            if (parentGroup > -1 && m_groups->getType(parentGroup) == GroupType::AVSplit) {
+                std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
+                // Perform mix on split clip
+                for (int current_id : sub) {
+                    if (current_id == idToMove) {
+                        continue;
+                    }
+                    int splitTrack = m_allClips[current_id]->getCurrentTrackId();
+                    int splitId;
+                    if (previousClip == -1) {
+                        splitId = getTrackById_const(splitTrack)->getClipByPosition(mixPosition + 1);
+                        clipsToMix.first = current_id;
+                        clipsToMix.second = splitId;
+                    } else {
+                        splitId = getTrackById_const(splitTrack)->getClipByPosition(mixPosition - 1);
+                        clipsToMix.first = splitId;
+                        clipsToMix.second = current_id;
+                    }
+                    if (splitId > -1 && clipsToMix.first != clipsToMix.second) {
+                        result = requestClipMix(clipsToMix, splitTrack, mixPosition, true, true, true, undo, redo, false);
+                    }
+                }
+            }
+        }
+        pCore->pushUndo(undo, redo, i18n("Create mix"));
+        return result;
+    } else {
+        qDebug()<<"////// MIX OPERATION FAILED";
+        undo();
+        return false;
+    }
+}
 
 bool TimelineModel::requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove)
 {
