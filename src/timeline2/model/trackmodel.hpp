@@ -39,15 +39,12 @@ class EffectStackModel;
 
 class MixInfo
 {
-
 public:
     int firstClipId;
     int secondClipId;
-    int firstClipOut;
-    int secondClipIn;
-    int secondClipDuration;
-    int mixPosition;
-    int mixDuration;
+    std::pair<int, int> firstClipInOut;
+    std::pair<int, int> secondClipInOut;
+    std::pair<int, int> mixInOut;
 };
 
 /* @brief This class represents a Track object, as viewed by the backend.
@@ -124,14 +121,16 @@ public:
     void setProperty(const QString &name, const QString &value);
     /** @brief Create a composition between 2 same track clips */
     bool requestClipMix(std::pair<int, int> clipIds, int mixDuration, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
-    /** @brief Get in/out position for mix composition */
-    std::pair<int, int> getMixInfo(int position) const;
+    /** @brief Get clip ids and in/out position for mixes in this clip */
+    std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
-    bool deleteMix(int clipId);
+    bool deleteMix(int clipId, bool final);
     /** @brief Create a mix composition */
-    bool createMix(int clipId, std::pair<int, int> mixData);
-    /** @brief Resize a mix composition */
-    bool resizeMix(int clipId, int offset);
+    bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
+    /** @brief Resize a mix composition start pos */
+    bool resizeMixStart(int clipId, int offset);
+    /** @brief Resize a mix composition end pos */
+    bool resizeMixEnd(int clipId, int position);
 
 protected:
     /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -291,6 +290,10 @@ protected:
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /* @brief Returns true if we have a blank at position for duration */
     bool isAvailable(int position, int duration);
+    /* @brief Returns the number of same track transitions (mix) in this track */
+    int mixCount() const;
+    /* @brief Returns true if the track has a same track transition for this clip (cid) */
+    bool hasMix(int cid) const;
 
 public slots:
     /*Delete the current track and all its associated clips */
@@ -304,7 +307,8 @@ private:
     std::shared_ptr<Mlt::Tractor> m_track;
     std::shared_ptr<Mlt::Producer> m_mainPlaylist;
     Mlt::Playlist m_playlists[2];
-    QList <MixInfo> m_mixList;
+    // A list of clips having a same track transition, in the form: {first_clip_id, second_clip_id} where first_clip is placed before second_clip
+    QMap <int, int> m_mixList;
 
     std::map<int, std::shared_ptr<ClipModel>> m_allClips; /*this is important to keep an
                                                                             ordered structure to store the clips, since we use their ids order as row order*/
@@ -319,6 +323,7 @@ private:
 
 protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
+    // A list of same track transitions for this track, in the form: {second_clip_id, transition}
     std::unordered_map<int, std::shared_ptr<Mlt::Transition>> m_sameCompositions;
 };
 
