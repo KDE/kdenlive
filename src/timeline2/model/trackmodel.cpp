@@ -320,14 +320,14 @@ Fun TrackModel::requestClipDeletion_lambda(int clipId, bool updateView, bool fin
                 ptr->requestClearSelection(true);
             }
         }
-        auto clip_loc = getClipIndexAt(clip_position, m_allClips[clipId]->getSubPlaylistIndex());
+        int target_track = m_allClips[clipId]->getSubPlaylistIndex();
+        auto clip_loc = getClipIndexAt(clip_position, target_track);
         if (updateView) {
             int old_clip_index = getRowfromClip(clipId);
             auto ptr = m_parent.lock();
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
             ptr->_endRemoveRows();
         }
-        int target_track = m_allClips[clipId]->getSubPlaylistIndex();
         int target_clip = clip_loc.second;
         // lock MLT playlist so that we don't end up with invalid frames in monitor
         m_playlists[target_track].lock();
@@ -1572,8 +1572,6 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
         movedClip->setMixDuration(mixData.second);
-        QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
         // Insert mix transition
         if (isAudioTrack()) {
             std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));

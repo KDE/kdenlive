@@ -611,40 +611,46 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     Fun move_mix = []() { return true; };
     Fun restore_mix = []() { return true; };
+    Fun update_mix = []() { return true; };
     if (isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId)) {
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         if (mixData.first.firstClipId > -1) {
+            update_mix = [this, mixData]() {
+                QModelIndex ix = makeClipIndexFromID(mixData.first.secondClipId);
+                emit dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
+                return true;
+            };
             // We have a mix at clip start
             if (old_trackId != trackId || position >= mixData.first.firstClipInOut.second) {
                 // Clip moved to another track, or outside of mix duration, delete mix
-                move_mix = [this, old_trackId, clipId, finalMove]() {
+                int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
+                move_mix = [this, old_trackId, clipId, finalMove, subPlaylist]() {
                     bool result = getTrackById_const(old_trackId)->deleteMix(clipId, finalMove);
-                    qDebug()<<"======\nRESETTING SUB PLAYLIST, RESULT: "<<result<<"\n====";
+                    if (finalMove) {
+                        m_allClips[clipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0);
+                    }
                     return result;
                 };
-                restore_mix = [this, old_trackId, mixData]() {
-                    qDebug()<<"================0\nSTART RESTORING MIX\n\n================";
-                    m_allClips[mixData.first.secondClipId]->setSubPlaylistIndex(1);
+                restore_mix = [this, old_trackId, mixData, finalMove, subPlaylist]() {
+                    if (finalMove) {
+                        m_allClips[mixData.first.secondClipId]->setSubPlaylistIndex(subPlaylist);
+                    }
                     bool result = getTrackById_const(old_trackId)->createMix({mixData.first.firstClipId,mixData.first.secondClipId}, {mixData.first.secondClipInOut.first, mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first});
-                    qDebug()<<"====================\nCREATED MIX ON UNDO: "<<result<<"\n\n========";
                     return result;
                 };
             } else if (old_trackId == trackId) {
                 // Clip moved on same track, resize mix
                 move_mix = [this, old_trackId, clipId, position]() {
-                    qDebug()<<"================0\nMIX RESIZE PROCESS 1\n\n================";
                     return getTrackById_const(old_trackId)->resizeMixStart(clipId, position);
                 };
                 restore_mix = [this, old_trackId, clipId, mixData]() {
                     // Resize mix to oringinal start
-                    qDebug()<<"================0\nMIX RESIZE PROCESS 2\n\n================";
                     return getTrackById_const(old_trackId)->resizeMixStart(clipId, mixData.first.secondClipInOut.first);
                 };
             }
-            move_mix();
-            UPDATE_UNDO_REDO(move_mix, restore_mix, local_undo, local_redo);
         }
     }
+    PUSH_LAMBDA(update_mix, local_undo);
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
@@ -656,6 +662,8 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             return false;
         }
     }
+    move_mix();
+    UPDATE_UNDO_REDO(move_mix, restore_mix, local_undo, local_redo);
     ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
@@ -664,8 +672,10 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         return false;
     }
     update_model();
+    update_mix();
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_redo);
+        PUSH_LAMBDA(update_mix, local_redo);
     }
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;

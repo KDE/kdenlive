@@ -82,6 +82,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPlaytime(cid3) == 20);
         REQUIRE(timeline->getClipPosition(cid4) == 520);
         REQUIRE(timeline->getClipPlaytime(cid4) == 20);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
     };
@@ -102,6 +103,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid3) == 500);
         REQUIRE(timeline->getClipPlaytime(cid4) > 20);
         REQUIRE(timeline->getClipPosition(cid4) < 520);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
@@ -110,6 +112,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
+        
         state2();
         undoStack->undo();
         state0();
@@ -136,17 +139,16 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
-        qDebug()<<"==========MIX COLOR DONE; CHECKING STATE";
         state2();
-        // Move clip outside mix zone, should delete the mix
+        // Move clip outside mix zone, should delete the mix and move it back to playlist 0
         REQUIRE(timeline->requestClipMove(cid4, tid2, 600));
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-        qDebug()<<"==========MIX COLOR STARTING UNDO";
         undoStack->undo();
         state2();
     }
     
-    /*SECTION("Create mix and move AV clips")
+    SECTION("Create mix and move AV clips")
     {
         state0();
         REQUIRE(timeline->mixClip(cid2));
@@ -155,7 +157,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->requestClipMove(cid2, tid2, 200));
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
-    }*/
+    }
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();
