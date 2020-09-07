@@ -57,21 +57,33 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     // Resize clip
     REQUIRE(timeline->requestItemResize(cid1, 10, true, true));
-    REQUIRE(timeline->getClipPlaytime(cid1) == 10);
-    REQUIRE(timeline->getClipPosition(cid1) == 100);
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 110, cid2));
 
     // Resize clip
     REQUIRE(timeline->requestItemResize(cid2, 10, false, true));
-    REQUIRE(timeline->getClipPlaytime(cid2) == 10);
     REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
+    
+    auto state0 = [&]() {
+        REQUIRE(timeline->getClipPlaytime(cid1) == 10);
+        REQUIRE(timeline->getClipPosition(cid1) == 100);
+        REQUIRE(timeline->getClipPlaytime(cid2) == 10);
+        REQUIRE(timeline->getClipPosition(cid2) == 110);
+    };
+    
+    auto state1 = [&]() {
+        REQUIRE(timeline->getClipPlaytime(cid1) > 10);
+        REQUIRE(timeline->getClipPosition(cid1) == 100);
+        REQUIRE(timeline->getClipPlaytime(cid2) > 10);
+        REQUIRE(timeline->getClipPosition(cid2) < 110);
+    };
 
     SECTION("Create and delete mix")
     {
-        REQUIRE(timeline->getClipPosition(cid2) == 110);
+        state0();
         REQUIRE(timeline->mixClip(cid2));
-        REQUIRE(timeline->getClipPlaytime(cid1) > 10);
-        REQUIRE(timeline->getClipPosition(cid2) != 110);
+        state1();
+        undoStack->undo();
+        state0();
     }
 
     Logger::print_trace();
