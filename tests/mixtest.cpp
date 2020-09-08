@@ -89,6 +89,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     auto state1 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
+        qDebug()<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\nCLIPS: "<<timeline->getClipPosition(cid1)<<"-"<<timeline->getClipPlaytime(cid1)<<" / CID2: "<<timeline->getClipPosition(cid2)<<"-"<<timeline->getClipPlaytime(cid2);
         REQUIRE(timeline->getClipPlaytime(cid1) > 10);
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 10);
@@ -151,6 +152,8 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         undoStack->undo();
         state2();
+        undoStack->undo();
+        state0();
     }
     
     SECTION("Create mix and move AV clips")
@@ -159,15 +162,19 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->mixClip(cid2));
         state1();
         // Move clip inside mix zone, should resize the mix
-        /*REQUIRE(timeline->requestClipMove(cid2, tid2, 102));
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 100));
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         undoStack->undo();
-        state1();*/
+        state1();
         // Move clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 200));
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+        state0();
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
