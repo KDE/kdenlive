@@ -249,7 +249,7 @@ protected:
     QSharedPointer<Mlt::Producer> getClipProducer(int clipId);
 
     /* @brief This is an helper function that checks in all playlists if the given position is a blank */
-    bool isBlankAt(int position);
+    bool isBlankAt(int position, int playlist = -1);
 
     /* @brief This is an helper function that returns the end of the blank that covers given position */
     int getBlankEnd(int position);
@@ -289,7 +289,7 @@ protected:
     /* @brief Copy effects from anoter effect stack */
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
     /* @brief Returns true if we have a blank at position for duration */
-    bool isAvailable(int position, int duration);
+    bool isAvailable(int position, int duration, int playlist);
     /* @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
     /* @brief Returns true if the track has a same track transition for this clip (cid) */

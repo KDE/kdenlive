@@ -998,10 +998,13 @@ bool TrackModel::isLastClip(int position)
     return false;
 }
 
-bool TrackModel::isBlankAt(int position)
+bool TrackModel::isBlankAt(int position, int playlist)
 {
     READ_LOCK();
-    return m_playlists[0].is_blank_at(position) && m_playlists[1].is_blank_at(position);
+    if (playlist == -1) {
+        return m_playlists[0].is_blank_at(position) && m_playlists[1].is_blank_at(position);
+    }
+    return m_playlists[playlist].is_blank_at(position);
 }
 
 int TrackModel::getBlankStart(int position)
@@ -1361,15 +1364,14 @@ void TrackModel::unlock()
 }
 
 
-bool TrackModel::isAvailable(int position, int duration)
+bool TrackModel::isAvailable(int position, int duration, int playlist)
 {
-    //TODO: warning, does not work on second playlist
-    int start_clip = m_playlists[0].get_clip_index_at(position);
-    int end_clip = m_playlists[0].get_clip_index_at(position + duration - 1);
+    int start_clip = m_playlists[playlist].get_clip_index_at(position);
+    int end_clip = m_playlists[playlist].get_clip_index_at(position + duration - 1);
     if (start_clip != end_clip) {
         return false;
     }
-    return m_playlists[0].is_blank(start_clip);
+    return m_playlists[playlist].is_blank(start_clip);
 }
 
 bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bool updateView, bool finalMove, Fun &undo, Fun &redo, bool groupMove)

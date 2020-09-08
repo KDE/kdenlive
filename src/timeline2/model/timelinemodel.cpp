@@ -1982,8 +1982,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_in = item.second;
             int playtime = getClipPlaytime(item.first);
             int target_position = current_in + delta_pos;
+            int subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
             if (delta_pos < 0) {
-                if (!getTrackById_const(current_track_id)->isAvailable(target_position, playtime)) {
+                if (!getTrackById_const(current_track_id)->isAvailable(target_position, -delta_pos, subPlaylist)) {
                     if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
                         bool undone = local_undo();
@@ -1996,7 +1997,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             } else {
                 int moveEnd = target_position + playtime;
                 int moveStart = qMax(current_in + playtime, target_position);
-                if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart)) {
+                if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart, subPlaylist)) {
                     int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime);
                     if (newStart == current_in + playtime) {
                         // No move possible, abort
@@ -2017,6 +2018,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int target_position = current_in + delta_pos;
             ok = requestClipMove(item.first, current_track_id, target_position, moveMirrorTracks, updateThisView, finalMove, finalMove, local_undo, local_redo, true);
             if (!ok) {
+                qDebug()<<"=== MOVING CLIP ON TK: "<<current_track_id<<" FAILED!!";
                 break;
             }
         }

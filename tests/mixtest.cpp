@@ -140,6 +140,11 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         REQUIRE(timeline->mixClip(cid4));
         state2();
+        // Move clip inside mix zone, should resize the mix
+        REQUIRE(timeline->requestClipMove(cid4, tid2, 506));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        undoStack->undo();
+        state2();
         // Move clip outside mix zone, should delete the mix and move it back to playlist 0
         REQUIRE(timeline->requestClipMove(cid4, tid2, 600));
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
@@ -153,6 +158,12 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         REQUIRE(timeline->mixClip(cid2));
         state1();
+        // Move clip inside mix zone, should resize the mix
+        /*REQUIRE(timeline->requestClipMove(cid2, tid2, 102));
+        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        undoStack->undo();
+        state1();*/
         // Move clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 200));
         REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
