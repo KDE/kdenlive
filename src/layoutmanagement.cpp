@@ -26,9 +26,13 @@ the Free Software Foundation, either version 3 of the License, or
 #include <KXMLGUIFactory>
 #include <klocalizedstring.h>
 
+static QMap <QString, QString> translatedLayoutNames;
+
 LayoutManagement::LayoutManagement(QObject *parent)
     : QObject(parent)
 {
+    translatedLayoutNames = {{QStringLiteral("kdenlive_logging"), i18n("Logging")},{QStringLiteral("kdenlive_editing"), i18n("Editing")},{QStringLiteral("kdenlive_audio"), i18n("Audio")},{QStringLiteral("kdenlive_effects"), i18n("Effects")},{QStringLiteral("kdenlive_color"), i18n("Color")}};
+
     // Prepare layout actions
     KActionCategory *layoutActions = new KActionCategory(i18n("Layouts"), pCore->window()->actionCollection());
     m_loadLayout = new KSelectAction(i18n("Load Layout"), pCore->window()->actionCollection());
@@ -101,10 +105,6 @@ void LayoutManagement::initializeLayouts()
             layoutGroup2.copyTo(&layoutGroup);
         }
     }
-    if (!layoutGroup.exists()) {
-        defaultLayout.copyTo(&layoutGroup);
-        defaultOrder.copyTo(&layoutOrder);
-    }
     m_loadLayout->removeAllActions();
     QStringList entries;
     bool addedDefault = false;
@@ -127,7 +127,6 @@ void LayoutManagement::initializeLayouts()
             addedDefault = true;
         }
     }
-    
     if (addedDefault) {
         // Write updated order
         layoutOrder.deleteGroup();
@@ -142,15 +141,19 @@ void LayoutManagement::initializeLayouts()
         QString layoutName;
         if (i <= entries.count()) {
             layoutName = entries.at(i - 1);
+        } else {
+            break;
         }
         QAction *load = m_layoutActions.at(i - 1);
         if (layoutName.isEmpty()) {
             load->setText(QString());
             load->setIcon(QIcon());
         } else {
-            load->setText(i18n("Layout %1: %2", i, layoutName));
+            QString translatedName = translatedLayoutNames.contains(layoutName) ? translatedLayoutNames.value(layoutName) : layoutName;
+            load->setText(i18n("Layout %1: %2", i, translatedName));
             if (i < 6) {
-                QPushButton *lab = new QPushButton(layoutName, m_container);
+                QPushButton *lab = new QPushButton(translatedName, m_container);
+                lab->setProperty("layoutid", layoutName);
                 lab->setFocusPolicy(Qt::NoFocus);
                 lab->setCheckable(true);
                 lab->setFlat(true);
@@ -179,7 +182,7 @@ void LayoutManagement::activateLayout(QAbstractButton *button)
     if (!button) {
         return;
     }
-    loadLayout(button->text(), false);
+    loadLayout(button->property("layoutid").toString(), false);
 }
 
 void LayoutManagement::slotLoadLayout(QAction *action)
@@ -216,7 +219,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
         QList<QAbstractButton *>buttons = m_containerGrp->buttons();
         bool buttonFound = false;
         for (auto *button : buttons) {
-            if (button->text() == layoutId) {
+            if (button->property("layoutid").toString() == layoutId) {
                 QSignalBlocker bk(m_containerGrp);
                 button->setChecked(true);
                 buttonFound = true;
@@ -228,6 +231,7 @@ bool LayoutManagement::loadLayout(const QString &layoutId, bool selectButton)
             m_containerGrp->setExclusive(true);
         }
     }
+    emit updateTitleBars();
     return true;
 }
 
@@ -241,6 +245,13 @@ void LayoutManagement::slotSaveLayout()
     QString layoutName = QInputDialog::getText(pCore->window(), i18n("Save Layout"), i18n("Layout name:"), QLineEdit::Normal, saveName);
     if (layoutName.isEmpty()) {
         return;
+    }
+    if (saveName == layoutName) {
+        // No rename, check button id
+        if (button && button->property("layoutid").toString() != saveName) {
+            // This is a default layout, save under id
+            layoutName = button->property("layoutid").toString();
+        }
     }
     KSharedConfigPtr config = KSharedConfig::openConfig(QStringLiteral("kdenlive-layoutsrc"));
     KConfigGroup layouts(config, "Layouts");
@@ -359,9 +370,9 @@ void LayoutManagement::slotManageLayouts()
 
         // Re-add missing default layouts
         for (const QString &name : defaultLayoutNames) {
-            if (!currentNames.contains(name)) {
+            if (!currentNames.contains(name) && translatedLayoutNames.contains(name)) {
                 // Insert default layout
-                QListWidgetItem *item = new QListWidgetItem(name);
+                QListWidgetItem *item = new QListWidgetItem(translatedLayoutNames.value(name));
                 item->setData(Qt::UserRole, name);
                 item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
                 list.insertItem(pos, item);
@@ -381,8 +392,14 @@ void LayoutManagement::slotManageLayouts()
     l2->addStretch();
     
     // Add layouts to list
-    for (const QString &name : names) {
-        QListWidgetItem *item = new QListWidgetItem(name, &list);
+    QString visibleName;
+    for (const QString &name : qAsConst(names)) {
+        if (translatedLayoutNames.contains(name)) {
+            visibleName = translatedLayoutNames.value(name);
+        } else {
+            visibleName = name;
+        }
+        QListWidgetItem *item = new QListWidgetItem(visibleName, &list);
         item->setData(Qt::UserRole, name);
         item->setFlags(Qt::ItemIsEditable | Qt::ItemIsEnabled | Qt::ItemIsSelectable);
     }
@@ -405,10 +422,23 @@ void LayoutManagement::slotManageLayouts()
     // Update order and new names
     for (int i = 0; i < list.count(); i++) {
         QListWidgetItem *item = list.item(i);
-        order.writeEntry(QString::number(i + 1), item->text());
-        if (item->text() != item->data(Qt::UserRole).toString() && !item->text().isEmpty()) {
-            layouts.writeEntry(item->text(), layouts.readEntry(item->data(Qt::UserRole).toString()));
-            layouts.deleteEntry(item->data(Qt::UserRole).toString());
+        QString layoutId = item->data(Qt::UserRole).toString();
+        if (translatedLayoutNames.contains(layoutId)) {
+            // This is a default layout, no rename
+            if (item->text() != translatedLayoutNames.value(layoutId)) {
+                // A default layout was renamed
+                order.writeEntry(QString::number(i + 1), item->text());
+                layouts.writeEntry(item->text(), layouts.readEntry(layoutId));
+                layouts.deleteEntry(layoutId);
+            } else {
+                order.writeEntry(QString::number(i + 1), layoutId);
+            }
+            continue;
+        }
+        order.writeEntry(QString::number(i + 1), layoutId);
+        if (item->text() != layoutId && !item->text().isEmpty()) {
+            layouts.writeEntry(item->text(), layouts.readEntry(layoutId));
+            layouts.deleteEntry(layoutId);
         }
     }
     config->reparseConfiguration();
