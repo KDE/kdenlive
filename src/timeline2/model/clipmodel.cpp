@@ -229,7 +229,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                     ptr->notifyChange(ix, ix, roles);
                     // invalidate timeline preview
-                    if (logUndo) {                        
+                    if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {                        
                         if (right) {
                             int newOut = m_position + getOut() - getIn();
                             if (oldOut < newOut) {
@@ -275,7 +275,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                         if (auto ptr = m_parent.lock()) {
                             QModelIndex ix = ptr->makeClipIndexFromID(m_id);
                             ptr->notifyChange(ix, ix, roles);
-                            if (logUndo) {                        
+                            if (logUndo && !ptr->getTrackById_const(m_currentTrackId)->isAudioTrack()) {) {
                                 if (right) {
                                     int newOut = m_position + getOut() - getIn();
                                     if (oldOut < newOut) {
