@@ -41,7 +41,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
 
         // Create a request
     int tid1 = TrackModel::construct(timeline, -1, -1, QString(), true);
+    int tid3 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid2 = TrackModel::construct(timeline);
+    int tid4 = TrackModel::construct(timeline);
     
     // Create clip with audio
     QString binId = createProducerWithSound(profile_mix, binModel, 50);
@@ -89,12 +91,11 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     auto state1 = [&]() {
         REQUIRE(timeline->getClipsCount() == 6);
-        qDebug()<<"HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\nCLIPS: "<<timeline->getClipPosition(cid1)<<"-"<<timeline->getClipPlaytime(cid1)<<" / CID2: "<<timeline->getClipPosition(cid2)<<"-"<<timeline->getClipPlaytime(cid2);
         REQUIRE(timeline->getClipPlaytime(cid1) > 10);
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 10);
         REQUIRE(timeline->getClipPosition(cid2) < 110);
-        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
     
@@ -113,7 +114,6 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
-        
         state2();
         undoStack->undo();
         state0();
@@ -136,7 +136,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
     
-    SECTION("Create mix and move color clips")
+    SECTION("Create mix on color clips and move main (right side) clip")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
@@ -152,6 +152,38 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         undoStack->undo();
         state2();
+        // Move clip to another track, should delete mix
+        REQUIRE(timeline->requestClipMove(cid4, tid4, 600));
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state0();
+    }
+    
+    SECTION("Create mix on color clip and left side clip")
+    {
+        state0();
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // Move clip inside mix zone, should resize the mix
+        REQUIRE(timeline->requestClipMove(cid3, tid2, 502));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        undoStack->undo();
+        state2();
+        // Move clip outside mix zone, should delete the mix
+        REQUIRE(timeline->requestClipMove(cid3, tid2, 450));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        undoStack->undo();
+        state2();
+        // Move clip to another track, should delete mix
+        REQUIRE(timeline->requestClipMove(cid3, tid4, 600));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        undoStack->undo();
+        state2();
         undoStack->undo();
         state0();
     }
@@ -163,13 +195,13 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state1();
         // Move clip inside mix zone, should resize the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 100));
-        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         undoStack->undo();
         state1();
         // Move clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 200));
-        REQUIRE(timeline->getTrackById_const(tid1)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         undoStack->undo();
         state1();

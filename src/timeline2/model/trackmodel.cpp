@@ -1540,10 +1540,7 @@ std::pair<MixInfo, MixInfo> TrackModel::getMixInfo(int clipId) const
 
 bool TrackModel::deleteMix(int clipId, bool final)
 {
-    qDebug()<<"=== DELETING MIX FROM CLIP: "<<clipId;
-    if (m_sameCompositions.count(clipId) <= 0) {
-        return false;
-    }
+    Q_ASSERT(m_sameCompositions.count(clipId) > 0);
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipId));
         movedClip->setMixDuration(final ? 0 : 1);
@@ -1594,9 +1591,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
 
 bool TrackModel::resizeMixStart(int clipId, int position)
 {
-    if (m_sameCompositions.count(clipId) <= 0) {
-        return false;
-    }
+    Q_ASSERT(m_sameCompositions.count(clipId) > 0);
     if (auto ptr = m_parent.lock()) {
         Mlt::Transition &transition = *m_sameCompositions[clipId].get();
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipId));
@@ -1605,8 +1600,6 @@ bool TrackModel::resizeMixStart(int clipId, int position)
         transition.set_in_and_out(in, out);
         int updatedDuration = out - in;
         movedClip->setMixDuration(qMax(1, updatedDuration));
-        QModelIndex ix = ptr->makeClipIndexFromID(clipId);
-        emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
         return true;
     }
     return false;
@@ -1614,19 +1607,16 @@ bool TrackModel::resizeMixStart(int clipId, int position)
 
 bool TrackModel::resizeMixEnd(int clipId, int position)
 {
-    int secondClip = m_mixList.value(clipId, -1);
-    if (secondClip == -1) {
-        return false;
-    }
+    Q_ASSERT(m_sameCompositions.count(clipId) > 0);
     if (auto ptr = m_parent.lock()) {
-        Mlt::Transition &transition = *m_sameCompositions[secondClip].get();
-        std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(secondClip));
+        Mlt::Transition &transition = *m_sameCompositions[clipId].get();
+        std::shared_ptr<ClipModel> refClip(ptr->getClipPtr(clipId));
         int in = transition.get_in();
         int out = position;
         transition.set_in_and_out(in, out);
         int updatedDuration = out - in;
-        movedClip->setMixDuration(qMax(1, updatedDuration));
-        QModelIndex ix = ptr->makeClipIndexFromID(secondClip);
+        refClip->setMixDuration(qMax(1, updatedDuration));
+        QModelIndex ix = ptr->makeClipIndexFromID(clipId);
         emit ptr->dataChanged(ix, ix, {TimelineModel::MixRole});
         return true;
     }
@@ -1644,7 +1634,7 @@ bool TrackModel::hasMix(int cid) const
     if (m_mixList.contains(cid)) {
         return true;
     }
-    if (m_mixList.key(cid, -1) >= 0) {
+    if (m_sameCompositions.count(cid) > 0) {
         return true;
     }
     return false;

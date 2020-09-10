@@ -612,21 +612,25 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     Fun move_mix = []() { return true; };
     Fun restore_mix = []() { return true; };
     Fun update_mix = []() { return true; };
+    Fun move_mix_end = []() { return true; };
+    Fun restore_mix_end = []() { return true; };
+    Fun update_mix_end = []() { return true; };
     if (isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId)) {
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         if (mixData.first.firstClipId > -1) {
+            // We have a mix at clip start
             update_mix = [this, mixData]() {
                 QModelIndex ix = makeClipIndexFromID(mixData.first.secondClipId);
                 emit dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
                 return true;
             };
-            // We have a mix at clip start
             if (old_trackId != trackId || position >= mixData.first.firstClipInOut.second) {
                 // Clip moved to another track, or outside of mix duration, delete mix
                 int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
                 move_mix = [this, old_trackId, clipId, finalMove, subPlaylist]() {
                     bool result = getTrackById_const(old_trackId)->deleteMix(clipId, finalMove);
                     if (finalMove) {
+                        //TODO: check if there is another mix on this clip
                         m_allClips[clipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0);
                     }
                     return result;
@@ -649,8 +653,47 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 };
             }
         }
+        if (mixData.second.firstClipId > -1) {
+            // We have a mix at clip end
+            update_mix_end = [this, mixData]() {
+                QModelIndex ix = makeClipIndexFromID(mixData.second.secondClipId);
+                emit dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
+                return true;
+            };
+            int clipDuration = mixData.second.firstClipInOut.second - mixData.second.firstClipInOut.first;
+            if (old_trackId != trackId || (position + clipDuration <= mixData.second.secondClipInOut.first)) {
+                // Clip moved to another track, or outside of mix duration, delete mix
+                int subPlaylist = m_allClips[mixData.second.secondClipId]->getSubPlaylistIndex();
+                move_mix_end = [this, old_trackId, mixData, finalMove, subPlaylist]() {
+                    bool result = getTrackById_const(old_trackId)->deleteMix(mixData.second.secondClipId, finalMove);
+                    if (finalMove) {
+                        //TODO: check if there is another mix on this clip
+                        m_allClips[mixData.second.secondClipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0);
+                    }
+                    return result;
+                };
+                restore_mix_end = [this, old_trackId, mixData, finalMove, subPlaylist]() {
+                    if (finalMove) {
+                        m_allClips[mixData.second.secondClipId]->setSubPlaylistIndex(subPlaylist);
+                    }
+                    bool result = getTrackById_const(old_trackId)->createMix({mixData.second.firstClipId,mixData.second.secondClipId}, {mixData.second.secondClipInOut.first, mixData.second.firstClipInOut.second - mixData.second.secondClipInOut.first});
+                    return result;
+                };
+            } else if (old_trackId == trackId) {
+                // Clip moved on same track, resize mix
+                move_mix_end = [this, old_trackId, mixData, position, clipDuration]() {
+                    return getTrackById_const(old_trackId)->resizeMixEnd(mixData.second.secondClipId, position + clipDuration);
+                };
+                restore_mix_end = [this, old_trackId, mixData]() {
+                    // Resize mix to oringinal start
+                    return getTrackById_const(old_trackId)->resizeMixEnd(mixData.second.secondClipId, mixData.second.firstClipInOut.second);
+                };
+            }
+        }
     }
+    move_mix_end();
     PUSH_LAMBDA(update_mix, local_undo);
+    PUSH_LAMBDA(update_mix_end, local_undo);
     if (old_trackId != -1) {
         if (notifyViewOnly) {
             PUSH_LAMBDA(update_model, local_undo);
@@ -664,6 +707,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     }
     move_mix();
     UPDATE_UNDO_REDO(move_mix, restore_mix, local_undo, local_redo);
+    UPDATE_UNDO_REDO(move_mix_end, restore_mix_end, local_undo, local_redo);
     ok = getTrackById(trackId)->requestClipInsertion(clipId, position, updateView, finalMove, local_undo, local_redo, groupMove);
     if (!ok) {
         qDebug() << "-------------\n\nINSERTION FAILED, REVERTING\n\n-------------------";
@@ -676,6 +720,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     if (notifyViewOnly) {
         PUSH_LAMBDA(update_model, local_redo);
         PUSH_LAMBDA(update_mix, local_redo);
+        PUSH_LAMBDA(update_mix_end, local_redo);
     }
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
