@@ -124,13 +124,14 @@ public:
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */
-    bool deleteMix(int clipId, bool final);
-    /** @brief Create a mix composition */
+    bool deleteMix(int clipId, bool final, bool notify = true);
+    /** @brief Create a mix composition using clip ids */
     bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
-    /** @brief Resize a mix composition start pos */
-    bool resizeMixStart(int clipId, int offset);
-    /** @brief Resize a mix composition end pos */
-    bool resizeMixEnd(int clipId, int position);
+    /** @brief Create a mix composition using mix info */
+    bool createMix(MixInfo info, bool isAudio);
+    void syncronizeMixes(bool finalMove);
+    /** @brief Switch a clip from one playlist to the other */
+    bool switchPlaylist(int clipId, int position, int playlist);
 
 protected:
     /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items

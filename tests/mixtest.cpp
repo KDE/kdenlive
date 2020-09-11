@@ -123,19 +123,6 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
     
-    SECTION("Create and delete mix on AV clips")
-    {
-        state0();
-        REQUIRE(timeline->mixClip(cid2));
-        state1();
-        undoStack->undo();
-        state0();
-        undoStack->redo();
-        state1();
-        undoStack->undo();
-        state0();
-    }
-    
     SECTION("Create mix on color clips and move main (right side) clip")
     {
         state0();
@@ -163,7 +150,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
     
-    SECTION("Create mix on color clip and left side clip")
+    SECTION("Create mix on color clip and move left side clip")
     {
         state0();
         REQUIRE(timeline->mixClip(cid4));
@@ -184,6 +171,44 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
         undoStack->undo();
         state2();
+        undoStack->undo();
+        state0();
+    }
+    
+    SECTION("Create mix on color clips and group move")
+    {
+        state0();
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // Move clip inside mix zone, should resize the mix
+        auto g1 = std::unordered_set<int>({cid3, cid4});
+        REQUIRE(timeline->requestClipsGroup(g1));
+        // Move clip to another track, should delete mix
+        REQUIRE(timeline->requestClipMove(cid4, tid4, 600));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 1);
+        undoStack->undo();
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
+        state2();
+        // Move on same track
+        REQUIRE(timeline->requestClipMove(cid4, tid4, 800));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        undoStack->undo();
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        undoStack->undo();
+        state0();
+    }
+    
+    SECTION("Create and delete mix on AV clips")
+    {
+        state0();
+        REQUIRE(timeline->mixClip(cid2));
+        state1();
+        undoStack->undo();
+        state0();
+        undoStack->redo();
+        state1();
         undoStack->undo();
         state0();
     }

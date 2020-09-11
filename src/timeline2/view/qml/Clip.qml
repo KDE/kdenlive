@@ -338,7 +338,13 @@ Rectangle {
                 anchors.bottom: parent.bottom
                 width: clipRoot.mixDuration * timeScale
                 color: 'red'
-                opacity: 0.5
+                //opacity: 0.5
+                Text {
+                    text: clipRoot.mixDuration
+                    anchors {
+                        bottom: parent.bottom
+                    }
+                }
             }
 
             Repeater {
