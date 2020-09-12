@@ -654,16 +654,6 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         if (mixData.first.firstClipId > -1) {
             // We have a mix at clip start
-            bool mixGroupMove = false;
-            if (m_groups->isInGroup(clipId)) {
-                int parentGroup = m_groups->getRootId(clipId);
-                if (parentGroup > -1) {
-                    std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
-                    if (sub.count(mixData.first.firstClipId) > 0 && sub.count(mixData.first.secondClipId) > 0) {
-                        mixGroupMove = true;
-                    }
-                }
-            }
             sync_mix = [this, old_trackId, finalMove]() {
                 getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
                 return true;
@@ -4503,4 +4493,10 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     } else {
         undo();
     }
+}
+
+void TimelineModel::plantMix(int tid, Mlt::Transition &t)
+{
+    getTrackById_const(tid)->getTrackService()->plant_transition(t, 0, 1);
+    getTrackById_const(tid)->loadMix(t);
 }

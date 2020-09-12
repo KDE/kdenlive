@@ -417,6 +417,9 @@ public:
      *  @param compoId the name of the new composition we want to insert
      */
     void switchComposition(int cid, const QString &compoId);
+    /**  @brief Plant a same track composition in track tid
+     */
+    void plantMix(int tid, Mlt::Transition &t);
 
 protected:
     /* @brief Creates a new clip instance without inserting it.

@@ -1706,3 +1706,16 @@ bool TrackModel::hasMix(int cid) const
     }
     return false;
 }
+
+bool TrackModel::loadMix(Mlt::Transition &t)
+{
+    //TODO: manage case where both mix clips would start at same position
+    int in = t.get_in();
+    int out = t.get_out();
+    int cid1 = getClipByPosition(in);
+    int cid2 = getClipByPosition(out);
+    std::shared_ptr<Mlt::Transition>tr(&t);
+    m_sameCompositions[cid2] = tr;
+    m_mixList.insert(cid1, cid2);
+    return true;
+}

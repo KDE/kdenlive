@@ -132,6 +132,8 @@ public:
     void syncronizeMixes(bool finalMove);
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int playlist);
+    /** @brief Load a same track transition from project */
+    bool loadMix(Mlt::Transition &t);
 
 protected:
     /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items

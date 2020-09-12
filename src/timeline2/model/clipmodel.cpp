@@ -101,7 +101,7 @@ void ClipModel::allSnaps(std::vector<int> &snaps, int offset)
 }
 
 int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint)
+                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint, int playlist, int mixDuration)
 {
 
     // we hand the producer to the bin clip, and in return we get a cut to a good master producer
@@ -129,6 +129,8 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
         result.first->parent().set("warp_pitch", 1);
     }
     clip->setClipState_lambda(state)();
+    clip->setSubPlaylistIndex(playlist);
+    clip->setMixDuration(mixDuration);
     parent->registerClip(clip);
     clip->m_effectStack->importEffects(producer, state, result.second, originalDecimalPoint);
     clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
