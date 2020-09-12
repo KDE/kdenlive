@@ -192,10 +192,15 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid4)->mixCount() == 0);
         state2();
         // Move on same track
-        REQUIRE(timeline->requestClipMove(cid4, tid4, 800));
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->requestClipMove(cid4, tid3, 800));
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         undoStack->undo();
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        state2();
+        // Undo group
+        undoStack->undo();
+        // Undo mix
         undoStack->undo();
         state0();
     }
@@ -219,7 +224,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->mixClip(cid2));
         state1();
         // Move clip inside mix zone, should resize the mix
-        REQUIRE(timeline->requestClipMove(cid2, tid2, 100));
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 101));
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         undoStack->undo();
@@ -230,8 +235,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         undoStack->undo();
         state1();
+        /*// Undo mix
         undoStack->undo();
-        state0();
+        state0();*/
     }
     binModel->clean();
     pCore->m_projectManager = nullptr;
