@@ -151,7 +151,7 @@ protected:
        @param out is the new ending on the clip
        @param right is true if we change the right side of the clip, false otherwise
     */
-    Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool allowMix = false);
+    Fun requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix = false);
 
     /* @brief Performs an insertion of the given clip.
        Returns true if the operation succeeded, and otherwise, the track is not modified.
@@ -207,6 +207,8 @@ protected:
     int getBlankSizeNearClip(int clipId, bool after);
     int getBlankSizeNearComposition(int compoId, bool after);
     int getBlankStart(int position);
+    /* @brief Returns the start of the blank on a specific playlist */
+    int getBlankStart(int position, int track);
     int getBlankSizeAtPos(int frame);
     /* @brief Returns true if clip at position is the last on playlist
      * @param position the position in playlist
@@ -295,8 +297,12 @@ protected:
     bool isAvailable(int position, int duration, int playlist);
     /* @brief Returns the number of same track transitions (mix) in this track */
     int mixCount() const;
-    /* @brief Returns true if the track has a same track transition for this clip (cid) */
+    /** @brief Returns true if the track has a same track transition for this clip (cid) */
     bool hasMix(int cid) const;
+    /** @brief Returns true if this clip has a mix at start */
+    bool hasStartMix(int cid) const;
+    /** @brief Returns true if this clip has a mix at end */
+    bool hasEndMix(int cid) const;
 
 public slots:
     /*Delete the current track and all its associated clips */

@@ -155,7 +155,7 @@ void ClipModel::deregisterClipToBin()
 
 ClipModel::~ClipModel() = default;
 
-bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo)
+bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
     // qDebug() << "RESIZE CLIP" << m_id << "target size=" << size << "right=" << right << "endless=" << m_endlessResize << "length" <<
@@ -206,7 +206,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
             if (right && ptr->getTrackById_const(m_currentTrackId)->isLastClip(getPosition())) {
                 trackDuration = ptr->getTrackById_const(m_currentTrackId)->trackDuration();
             }
-            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right);
+            track_operation = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, inPoint, outPoint, right, hasMix);
         } else {
             qDebug() << "Error : Moving clip failed because parent timeline is not available anymore";
             Q_ASSERT(false);
@@ -224,7 +224,6 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
     } else {
         roles.push_back(TimelineModel::OutPointRole);
     }
-
     Fun operation = [this, inPoint, outPoint, roles, oldIn, oldOut, right, logUndo, track_operation]() {
         if (track_operation()) {
             setInOut(inPoint, outPoint);
@@ -256,7 +255,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
         return false;
     };
     if (operation()) {
-        Fun reverse = []() { return true; };
+        Fun reverse = [hasMix]() { return true; };
         if (logUndo) {
             // Now, we are in the state in which the timeline should be when we try to revert current action. So we can build the reverse action from here
             if (m_currentTrackId != -1) {
@@ -269,7 +268,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                             ptr->getTrackById(m_currentTrackId)->m_effectStack->adjustStackLength(true, 0, trackDuration, 0, newDuration, 0, undo, redo, logUndo);
                         }
                     }
-                    track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right);
+                    track_reverse = ptr->getTrackById(m_currentTrackId)->requestClipResize_lambda(m_id, old_in, old_out, right, hasMix);
                 }
             }
             reverse = [this, old_in, old_out, track_reverse, logUndo, oldIn, oldOut, right, roles]() {

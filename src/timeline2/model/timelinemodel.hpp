@@ -442,7 +442,7 @@ public:
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo);
+    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
     /* @brief Move a group to a specific position
        This action is undoable

@@ -536,7 +536,7 @@ int TrackModel::getBlankSizeNearComposition(int compoId, bool after)
     return length;
 }
 
-Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right, bool allowMix)
+Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right, bool hasMix)
 {
     QWriteLocker locker(&m_lock);
     int clip_position = m_allClips[clipId]->getPosition();
@@ -618,8 +618,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     int blank = -1;
     int other_blank_end = getBlankEnd(clip_position, (target_track + 1) % 2);
     if (right) {
-        if (target_clip == m_playlists[target_track].count() - 1 && (allowMix || other_blank_end >= out)) {
-            // clip is last, it can always be extended
+        if (target_clip == m_playlists[target_track].count() - 1 && (hasMix || other_blank_end >= out)) {            // clip is last, it can always be extended
             return [this, target_clip, target_track, in, out, update_snaps, clipId]() {
                 if (isLocked()) return false;
                 // color, image and title clips can have unlimited resize
@@ -654,7 +653,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     }
     if (m_playlists[target_track].is_blank(blank)) {
         int blank_length = m_playlists[target_track].clip_length(blank);
-        if (blank_length + delta >= 0 && (allowMix || other_blank_end >= out)) {
+        if (blank_length + delta >= 0 && (hasMix || other_blank_end >= out)) {
             return [blank_length, blank, right, clipId, delta, update_snaps, this, in, out, target_clip, target_track]() {
                 if (isLocked()) return false;
                 int target_clip_mutable = target_clip;
@@ -687,6 +686,8 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
                 m_playlists[target_track].unlock();
                 return err == 0;
             };
+        } else {
+            qDebug()<<"==== NOPE ABORT RESIZE";
         }
     }
 
@@ -1038,6 +1039,21 @@ int TrackModel::getBlankStart(int position)
         if (start > result) {
             result = start;
         }
+    }
+    return result;
+}
+
+int TrackModel::getBlankStart(int position, int track)
+{
+    READ_LOCK();
+    int result = 0;
+    if (!m_playlists[track].is_blank_at(position)) {
+        return position;
+    }
+    int clip_index = m_playlists[track].get_clip_index_at(position);
+    int start = m_playlists[track].clip_start(clip_index);
+    if (start > result) {
+        result = start;
     }
     return result;
 }
@@ -1456,7 +1472,6 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
         }
         return true;
     };
-    
     // lock MLT playlist so that we don't end up with invalid frames in monitor
     auto operation = requestClipDeletion_lambda(clipIds.second, updateView, finalMove, groupMove, finalMove);
     bool res = operation();
@@ -1616,6 +1631,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
         movedClip->setMixDuration(mixData.second);
+        qDebug()<<"==== CREATING MIX WITH DURATION:"<<mixData.second;
         QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
         emit ptr->dataChanged(ix, ix, {TimelineModel::MixRole});
         // Insert mix transition
@@ -1676,7 +1692,6 @@ void TrackModel::syncronizeMixes(bool finalMove)
             toDelete << secondClipId;
             m_mixList.remove(firstClip);
         } else {
-            qDebug()<<"=== ADJUSTING MIX FOR CID: "<<secondClipId<<" TO: "<<mixIn<<" - "<<mixOut;
             transition.set_in_and_out(mixIn, mixOut);
         }
         if (auto ptr = m_parent.lock()) {
@@ -1705,6 +1720,16 @@ bool TrackModel::hasMix(int cid) const
         return true;
     }
     return false;
+}
+
+bool TrackModel::hasStartMix(int cid) const
+{
+    return m_sameCompositions.count(cid) > 0;
+}
+
+bool TrackModel::hasEndMix(int cid) const
+{
+    return m_mixList.contains(cid);
 }
 
 bool TrackModel::loadMix(Mlt::Transition &t)

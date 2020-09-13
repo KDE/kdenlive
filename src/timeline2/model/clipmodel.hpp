@@ -166,7 +166,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
+    bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) override;
 
     void setCurrentTrackId(int tid, bool finalMove = true) override;
     void setPosition(int pos) override;
