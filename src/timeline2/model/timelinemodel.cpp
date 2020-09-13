@@ -2599,18 +2599,20 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     all_items.insert(itemId);
     if (isClip(itemId) && logUndo) {
         int tid = getItemTrackId(itemId);
-        if (right) {
-            if (getTrackById_const(tid)->hasEndMix(itemId)) {
+        if (tid > -1) {
+            if (right) {
+                if (getTrackById_const(tid)->hasEndMix(itemId)) {
+                    sync_mix = [this, tid, logUndo]() {
+                        getTrackById_const(tid)->syncronizeMixes(logUndo);
+                        return true;
+                    };
+                }
+            } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
                 sync_mix = [this, tid, logUndo]() {
                     getTrackById_const(tid)->syncronizeMixes(logUndo);
                     return true;
                 };
             }
-        } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
-            sync_mix = [this, tid, logUndo]() {
-                getTrackById_const(tid)->syncronizeMixes(logUndo);
-                return true;
-            };
         }
     }
     PUSH_LAMBDA(sync_mix, undo);
