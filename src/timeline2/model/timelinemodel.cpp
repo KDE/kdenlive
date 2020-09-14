@@ -2365,6 +2365,29 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
                 if (!mixTracks.contains(tid)) {
                     mixTracks << tid;
                 }
+                if (right) {
+                    if (getTrackById_const(tid)->hasEndMix(id)) {
+                        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
+                        QPair<int, int> endPos = endData.value(id);
+                        if (endPos.first + endPos.second <= mixData.second.secondClipInOut.first) {
+                            Fun sync_mix_undo = [this, tid, mixData]() {
+                                getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
+                                return true;
+                            };
+                            PUSH_LAMBDA(sync_mix_undo, undo);
+                        }
+                    }
+                } else if (getTrackById_const(tid)->hasStartMix(id)) {
+                    std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
+                    QPair<int, int> endPos = endData.value(id);
+                    if (endPos.first >= mixData.first.firstClipInOut.second) {
+                        Fun sync_mix_undo = [this, tid, mixData]() {
+                            getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                            return true;
+                        };
+                        PUSH_LAMBDA(sync_mix_undo, undo);
+                    }
+                }
             }
         }
     }
@@ -2508,14 +2531,20 @@ int TimelineModel::requestItemResizeInfo(int itemId, int in, int out, int size, 
         Fun temp_redo = []() { return true; };
         int trackId = getItemTrackId(itemId);
         if (right && size > out - in && isClip(itemId)) {
-            int playlist = m_allClips[itemId]->getSubPlaylistIndex();
+            int playlist = -1;
+            if (getTrackById_const(trackId)->hasEndMix(itemId)) {
+                playlist = m_allClips[itemId]->getSubPlaylistIndex();
+            }
             int targetPos = in + size - 1;
             if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
                 size = getTrackById_const(trackId)->getBlankEnd(out + 1, playlist) - in;
             }
         } else if (!right && size > (out - in) && isClip(itemId)) {
             int targetPos = out - size;
-            int playlist = m_allClips[itemId]->getSubPlaylistIndex();
+            int playlist = -1;
+            if (getTrackById_const(trackId)->hasStartMix(itemId)) {
+                playlist = m_allClips[itemId]->getSubPlaylistIndex();
+            }
             if (!getTrackById_const(trackId)->isBlankAt(targetPos, playlist)) {
                 size = out - getTrackById_const(trackId)->getBlankStart(in - 1, playlist);
             }
@@ -2590,32 +2619,46 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
         return -1;
     }
     int in = getItemPosition(itemId);
-    int out = in + getItemPlaytime(itemId);
+    int offset = getItemPlaytime(itemId);
+    int out = in + offset;
     size = requestItemResizeInfo(itemId, in, out, size, right, snapDistance);
+    offset -= size;
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     Fun sync_mix = []() { return true; };
+    Fun sync_mix_undo = []() { return true; };
     std::unordered_set<int> all_items;
+    QList <int> tracksWithMixes;
     all_items.insert(itemId);
-    if (isClip(itemId) && logUndo) {
+    if (logUndo && isClip(itemId)) {
         int tid = getItemTrackId(itemId);
         if (tid > -1) {
             if (right) {
                 if (getTrackById_const(tid)->hasEndMix(itemId)) {
-                    sync_mix = [this, tid, logUndo]() {
-                        getTrackById_const(tid)->syncronizeMixes(logUndo);
-                        return true;
-                    };
+                    tracksWithMixes << tid;
+                    std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+                    if (in + size <= mixData.second.secondClipInOut.first) {
+                        Fun sync_mix_undo = [this, tid, mixData]() {
+                            getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
+                            return true;
+                        };
+                        PUSH_LAMBDA(sync_mix_undo, undo);
+                    }
                 }
             } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
-                sync_mix = [this, tid, logUndo]() {
-                    getTrackById_const(tid)->syncronizeMixes(logUndo);
-                    return true;
-                };
+                tracksWithMixes << tid;
+                std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+                if (out - size >= mixData.first.firstClipInOut.second) {
+                    Fun sync_mix_undo = [this, tid, mixData]() {
+                        getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                        return true;
+                    };
+                    PUSH_LAMBDA(sync_mix_undo, undo);
+                }
             }
         }
     }
-    PUSH_LAMBDA(sync_mix, undo);
+    
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
         std::unordered_set<int> items = m_groups->getLeaves(groupId);
@@ -2629,19 +2672,65 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             }
             int start = getItemPosition(id);
             int end = start + getItemPlaytime(id);
+            bool resizeMix = false;
             if (right) {
                 if (out == end) {
                     all_items.insert(id);
+                    resizeMix = true;
                 }
             } else if (start == in) {
                 all_items.insert(id);
+                resizeMix = true;
+            }
+            if (logUndo && resizeMix && isClip(id)) {
+                qDebug()<<"=== RESIZING PROCESS MIX";
+                int tid = getItemTrackId(id);
+                if (tid > -1) {
+                    if (right) {
+                        if (getTrackById_const(tid)->hasEndMix(id)) {
+                            if (!tracksWithMixes.contains(tid)) {
+                                tracksWithMixes << tid;
+                            }
+                            std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
+                            if (end - offset <= mixData.second.secondClipInOut.first) {
+                                Fun sync_mix_undo = [this, tid, mixData]() {
+                                    getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
+                                    return true;
+                                };
+                                PUSH_LAMBDA(sync_mix_undo, undo);
+                            }
+                        }
+                    } else if (getTrackById_const(tid)->hasStartMix(id)) {
+                        if (!tracksWithMixes.contains(tid)) {
+                            tracksWithMixes << tid;
+                        }
+                        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
+                        if (start - offset >= mixData.first.firstClipInOut.second) {
+                            Fun sync_mix_undo = [this, tid, mixData]() {
+                                getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                                return true;
+                            };
+                            PUSH_LAMBDA(sync_mix_undo, undo);
+                        }
+                    }
+                }
             }
         }
+    }
+    if (logUndo && !tracksWithMixes.isEmpty()) {
+        sync_mix = [this, tracksWithMixes]() {
+            for (auto &t : tracksWithMixes) {
+                getTrackById_const(t)->syncronizeMixes(true);
+            }
+            return true;
+        };
     }
     bool result = true;
     int finalPos = right ? in + size : out - size;
     int finalSize;
     int resizedCount = 0;
+    PUSH_LAMBDA(sync_mix, undo);
+    PUSH_LAMBDA(sync_mix_undo, undo);
     for (int id : all_items) {
         int tid = getItemTrackId(id);
         if (tid > -1 && getTrackById_const(tid)->isLocked()) {
@@ -2688,19 +2777,19 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
             if (tid > -1) {
                 if (right) {
                     if (getTrackById_const(tid)->hasEndMix(itemId)) {
-                        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
+                        hasMix = true;
+                        /*std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
                         int mixDuration = mixData.second.firstClipInOut.second - (mixData.second.secondClipInOut.second - size);
                         m_allClips[mixData.second.secondClipId]->setMixDuration(mixDuration);
-                        hasMix = true;
                         QModelIndex ix = makeClipIndexFromID(mixData.second.secondClipId);
-                        emit dataChanged(ix, ix, {TimelineModel::MixRole});
+                        emit dataChanged(ix, ix, {TimelineModel::MixRole});*/
                     }
                 } else if (getTrackById_const(tid)->hasStartMix(itemId)) {
+                    hasMix = true;
                     std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
                     // We have a mix at clip start
                     int mixDuration = mixData.first.firstClipInOut.second - (mixData.first.secondClipInOut.second - size);
-                    m_allClips[itemId]->setMixDuration(mixDuration);
-                    hasMix = true;
+                    m_allClips[itemId]->setMixDuration(qMax(1, mixDuration));
                     QModelIndex ix = makeClipIndexFromID(itemId);
                     emit dataChanged(ix, ix, {TimelineModel::MixRole});
                 }
@@ -4585,4 +4674,21 @@ void TimelineModel::plantMix(int tid, Mlt::Transition &t)
 {
     getTrackById_const(tid)->getTrackService()->plant_transition(t, 0, 1);
     getTrackById_const(tid)->loadMix(t);
+}
+
+bool TimelineModel::resizeStartMix(int cid, int duration)
+{
+    Q_ASSERT(isClip(cid));
+    int tid = m_allClips[cid]->getCurrentTrackId();
+    if (tid > -1) {
+        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(cid);
+        if (mixData.first.firstClipId > -1) {
+            int clipToResize = mixData.first.firstClipId;
+            Q_ASSERT(isClip(clipToResize));
+            int updatedDuration = m_allClips[cid]->getPosition() + duration - m_allClips[clipToResize]->getPosition();
+            int result = requestItemResize(clipToResize, updatedDuration, true, true, 0, false);
+            return result > -1;
+        }
+    }
+    return false;
 }

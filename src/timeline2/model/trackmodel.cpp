@@ -1045,6 +1045,9 @@ int TrackModel::getBlankStart(int position)
 
 int TrackModel::getBlankStart(int position, int track)
 {
+    if (track == -1) {
+        return getBlankStart(position);
+    }
     READ_LOCK();
     int result = 0;
     if (!m_playlists[track].is_blank_at(position)) {
@@ -1060,6 +1063,9 @@ int TrackModel::getBlankStart(int position, int track)
 
 int TrackModel::getBlankEnd(int position, int track)
 {
+    if (track == -1) {
+        return getBlankEnd(position);
+    }
     READ_LOCK();
     // Q_ASSERT(m_playlists[track].is_blank_at(position));
     if (!m_playlists[track].is_blank_at(position)) {

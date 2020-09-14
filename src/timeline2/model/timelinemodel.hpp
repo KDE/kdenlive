@@ -694,6 +694,7 @@ public:
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
     /** @brief Create a mix selection with currently selected clip */
     bool mixClip(int idToMove = -1);
+    Q_INVOKABLE bool resizeStartMix(int cid, int duration);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel

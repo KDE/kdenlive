@@ -331,20 +331,110 @@ Rectangle {
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
             
-            Rectangle {
+            Item {
                 // Mix indicator
+                id: mixContainer
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
-                width: clipRoot.mixDuration * timeScale
-                color: 'red'
-                //opacity: 0.5
-                Text {
-                    text: clipRoot.mixDuration
-                    anchors {
-                        bottom: parent.bottom
+                width: clipRoot.mixDuration * clipRoot.timeScale
+                
+                Rectangle {
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    visible: clipRoot.mixDuration > 0
+                    gradient: Gradient {
+                        GradientStop { position: 0.0; color: "transparent" }
+                        GradientStop { position: 1.0; color: "red" }
+                    }
+                    Text {
+                        anchors.bottom: parent.bottom
+                        text: clipRoot.mixDuration
+                    }
+                    opacity: 0.7
+                    MouseArea {
+                        // Left resize handle
+                        id: trimInMixArea
+                        anchors.left: parent.left
+                        anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
+                        height: parent.height
+                        width: root.baseUnit / 2
+                        visible: root.activeTool === 0
+                        property int previousMix
+                        enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                        hoverEnabled: true
+                        drag.target: trimInMixArea
+                        drag.axis: Drag.XAxis
+                        drag.smoothed: false
+                        property bool sizeChanged: false
+                        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                        onPressed: {
+                            previousMix = clipRoot.mixDuration
+                            root.autoScrolling = false
+                            mixOut.opacity = 1
+                            anchors.left = undefined
+                            parent.anchors.right = undefined
+                        }
+                        onReleased: {
+                            controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale))
+                            root.autoScrolling = timeline.autoScroll
+                            if (sizeChanged) {
+                                sizeChanged = false
+                            }
+                            anchors.left = parent.left
+                            parent.anchors.right = mixContainer.right
+                            mixOut.opacity = 0.5
+                        }
+                        onPositionChanged: {
+                            if (mouse.buttons === Qt.LeftButton) {
+                                var currentFrame = Math.round(x / clipRoot.timeScale)
+                                if (currentFrame != previousMix) {
+                                    parent.width = currentFrame * clipRoot.timeScale
+                                    sizeChanged = true
+                                    //TODO: resize mix's other clip
+                                    //clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                                }
+                            }
+                        }
+                        onEntered: {
+                            if (!pressed) {
+                                mixOut.opacity = 1
+                            }
+                        }
+                        onExited: {
+                            mixOut.opacity = 0.5
+                        }
+                        Rectangle {
+                            id: mixOut
+                            anchors.left: parent.left
+                            width: clipRoot.border.width
+                            height: parent.height
+                            color: 'blue'
+                            opacity: 0.5
+                            Drag.active: trimInMixArea.drag.active
+                            Drag.proposedAction: Qt.MoveAction
+                            visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+
+                            ToolTip {
+                                visible: trimInMixArea.containsMouse && !trimInMixArea.pressed
+                                delay: 1000
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    font: miniFont
+                                    text: i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration))
+                                }
+                            }
+                        }
                     }
                 }
+                
             }
 
             Repeater {
