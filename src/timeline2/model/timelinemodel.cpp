@@ -571,7 +571,7 @@ bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, b
 bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove, QMap <int, int> moving_clips)
 {
     Q_UNUSED(moveMirrorTracks)
-    // qDebug() << "// FINAL MOVE: " << invalidateTimeline << ", UPDATE VIEW: " << updateView<<", FINAL: "<<finalMove;
+    //qDebug() << "//\n\nRQST CLIP MOVE\n\n//\n// FINAL MOVE: "<<finalMove<<", PLAYLIST: "<<m_allClips[clipId]->getSubPlaylistIndex();
     if (trackId == -1) {
         return false;
     }
@@ -649,7 +649,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 return result;
             };
         }
-    } else if (!groupMove && isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId)) {
+    } else if (finalMove && !groupMove && isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId)) {
         // Clip has a mix
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         if (mixData.first.firstClipId > -1) {
@@ -673,12 +673,12 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                         return result;
                     };
                 }
-            } else {
+            } else if (finalMove) {
                 // Clip moved to another track, delete mix
                 int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
-                update_playlist = [this, clipId, subPlaylist, old_trackId, finalMove]() {
+                update_playlist = [this, clipId, old_trackId, finalMove]() {
                     m_allClips[clipId]->setMixDuration(0);
-                    m_allClips[clipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0);
+                    m_allClips[clipId]->setSubPlaylistIndex(0);
                     getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
                     return true;
                 };
@@ -701,13 +701,11 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 if (finalMove && (position + clipDuration <= mixData.second.secondClipInOut.first)) {
                     int subPlaylist = m_allClips[mixData.second.secondClipId]->getSubPlaylistIndex();
                     update_playlist = [this, mixData, subPlaylist, trackId]() {
-                        m_allClips[mixData.second.secondClipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0);
                         bool result = getTrackById_const(trackId)->switchPlaylist(mixData.second.secondClipId, mixData.second.secondClipInOut.first, subPlaylist == 0 ? 1 : 0);
                         return result;
                     };
                     bool isAudio = getTrackById_const(trackId)->isAudioTrack();
                     update_playlist_undo = [this, mixData, subPlaylist, trackId, isAudio]() {
-                        m_allClips[mixData.second.secondClipId]->setSubPlaylistIndex(subPlaylist);
                         bool result = getTrackById_const(trackId)->switchPlaylist(mixData.second.secondClipId, mixData.second.secondClipInOut.first, subPlaylist);
                         result = result && getTrackById_const(trackId)->createMix(mixData.second, isAudio);
                         return result;
@@ -724,7 +722,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 };
             }
         }
-    } else if (groupMove && isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId) && old_trackId == trackId) {
+    } else if (finalMove && groupMove && isTrack(old_trackId) && getTrackById_const(old_trackId)->hasMix(clipId) && old_trackId == trackId) {
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(old_trackId)->getMixInfo(clipId);
         if (mixData.first.firstClipId > -1) {
             // Mix on clip start, check if mix is still in range
@@ -796,12 +794,14 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 bool TimelineModel::mixClip(int idToMove)
 {
     int selectedTrack = -1;
+    std::unordered_set<int> initialSelection;
     if (idToMove == -1) {
-        auto sel = getCurrentSelection();
-        if (sel.empty()) {
+        initialSelection = getCurrentSelection();
+        if (initialSelection.empty()) {
+            pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
             return false;
         }
-        for (int s : sel) {
+        for (int s : initialSelection) {
             if (!isClip(s)) {
                 continue;
             }
@@ -824,8 +824,21 @@ bool TimelineModel::mixClip(int idToMove)
     int clipDuration =  getItemPlaytime(idToMove);
     std::pair<int, int> clipsToMix;
     // Check if we have a clip before and/or after
-    int previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
-    int nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+    int previousClip = -1;
+    int nextClip = -1;
+    // Check if clip already has a mix
+    if (getTrackById_const(selectedTrack)->hasStartMix(idToMove)) {
+        if (getTrackById_const(selectedTrack)->hasEndMix(idToMove)) {
+            pCore->displayMessage(i18n("Clip already mixed"), InformationMessage, 500);
+            return false;
+        }
+        nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+    } else if (getTrackById_const(selectedTrack)->hasEndMix(idToMove)) {
+        previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+    } else {
+        previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+        nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+    }
     if (previousClip > -1 && nextClip > -1) {
         // We have a clip before and a clip after, check timeline cursor position to decide where to mix
         int cursor = pCore->getTimelinePosition();
@@ -883,10 +896,17 @@ bool TimelineModel::mixClip(int idToMove)
             }
         }
         pCore->pushUndo(undo, redo, i18n("Create mix"));
+        // Reselect clips
+        if (!initialSelection.empty()) {
+            requestSetSelection(initialSelection);
+        }
         return result;
     } else {
         qDebug()<<"////// MIX OPERATION FAILED";
         undo();
+        if (!initialSelection.empty()) {
+            requestSetSelection(initialSelection);
+        }
         return false;
     }
 }
@@ -971,6 +991,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     Q_ASSERT(m_allClips.count(clipId) > 0);
     if (m_allClips[clipId]->getPosition() == position && getClipTrackId(clipId) == trackId) {
         TRACE_RES(true);
+        qDebug()<<"=== ABORTING; NO MOVE";
         return true;
     }
     if (m_groups->isInGroup(clipId)) {
@@ -1059,7 +1080,6 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         if (m_allClips[clipId]->getCurrentTrackId() == trackId) {
             maxPos -= m_allClips[clipId]->getPlaytime();
         }
-        qDebug()<<"=== TRYING CLIP MOVE AT: "<<position<<", MAX TK: "<<getTrackById_const(trackId)->trackDuration();
         position = qMin(position, maxPos);
     }
     bool after = position > currentPos;
@@ -1092,6 +1112,7 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
     // we check if move is possible
     bool possible = (m_editMode == TimelineMode::NormalEdit) ? requestClipMove(clipId, trackId, position, moveMirrorTracks, true, false, false)
                                                            : requestFakeClipMove(clipId, trackId, position, true, false, false);
+
     if (possible) {
         TRACE_RES(position);
         if (m_editMode != TimelineMode::NormalEdit) {
@@ -1258,7 +1279,6 @@ QVariantList TimelineModel::suggestCompositionMove(int compoId, int trackId, int
     }
     // we check if move is possible
     bool possible = requestCompositionMove(compoId, trackId, position, true, false);
-    qDebug() << "Original move success" << possible;
     if (possible) {
         TRACE_RES(position);
         return {position, trackId};
@@ -1607,7 +1627,6 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         }
     } else {
         std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(bid);
-        qDebug() << "++++++++++++++++++\n\nCLIP INSERT TYPE 2 on TID: "<<trackId<<"\n\n+++++++++++++++++++";
         if (dropType == PlaylistState::Disabled) {
             dropType = getTrackById_const(trackId)->trackType();
         } else if (dropType != getTrackById_const(trackId)->trackType()) {
@@ -2122,8 +2141,11 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             int current_in = item.second;
             int playtime = getClipPlaytime(item.first);
             int target_position = current_in + delta_pos;
-            int subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
+            int subPlaylist = -1;
             if (delta_pos < 0) {
+                if (getTrackById_const(current_track_id)->hasStartMix(item.first)) {
+                    subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
+                }
                 if (!getTrackById_const(current_track_id)->isAvailable(target_position, -delta_pos, subPlaylist)) {
                     if (!getTrackById_const(current_track_id)->isBlankAt(current_in - 1)) {
                         // No move possible, abort
@@ -2137,6 +2159,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             } else {
                 int moveEnd = target_position + playtime;
                 int moveStart = qMax(current_in + playtime, target_position);
+                if (getTrackById_const(current_track_id)->hasEndMix(item.first)) {
+                    subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
+                }
                 if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart, subPlaylist)) {
                     int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime);
                     if (newStart == current_in + playtime) {
@@ -2153,7 +2178,6 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         for (const std::pair<int, int> &item : sorted_clips) {
             int current_track_id = getClipTrackId(item.first);
             if (!allowedTracks.isEmpty() && !allowedTracks.contains(current_track_id)) {
-                qDebug()<<"°°°°°°°°°°°°ABORTING CLIP MOVE: "<<item.first;
                 continue;
             }
             int current_in = item.second;
@@ -2608,9 +2632,6 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
 
 int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
-    if (logUndo) {
-        qDebug() << "---------------------\n---------------------\nRESIZE W/UNDO CALLED\n++++++++++++++++\n++++";
-    }
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isItem(itemId));
@@ -2683,7 +2704,6 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 resizeMix = true;
             }
             if (logUndo && resizeMix && isClip(id)) {
-                qDebug()<<"=== RESIZING PROCESS MIX";
                 int tid = getItemTrackId(id);
                 if (tid > -1) {
                     if (right) {

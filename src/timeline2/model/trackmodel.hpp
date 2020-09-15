@@ -262,7 +262,7 @@ protected:
     int getBlankEnd(int position, int track);
 
     /* @brief Returns the clip id on this track at position requested, or -1 if no clip */
-    int getClipByPosition(int position);
+    int getClipByPosition(int position, int playlist = -1);
 
     /* @brief Returns the composition id on this track starting position requested, or -1 if not found */
     int getCompositionByPosition(int position);
