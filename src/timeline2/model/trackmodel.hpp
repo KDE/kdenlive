@@ -131,7 +131,7 @@ public:
     bool createMix(MixInfo info, bool isAudio);
     void syncronizeMixes(bool finalMove);
     /** @brief Switch a clip from one playlist to the other */
-    bool switchPlaylist(int clipId, int position, int playlist);
+    bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */
     bool loadMix(Mlt::Transition &t);
 

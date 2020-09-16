@@ -80,6 +80,11 @@
       <label>Default image sequence frame duration.</label>
       <default>00:00:03:00</default>
     </entry>
+    
+    <entry name="mix_duration" type="String">
+      <label>Default mix transition duration.</label>
+      <default>00:00:01:00</default>
+    </entry>
 
     <entry name="autoimagesequence" type="Bool">
       <label>Automatically import image sequences.</label>

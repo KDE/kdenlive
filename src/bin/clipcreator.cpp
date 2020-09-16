@@ -100,7 +100,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
     QDomElement prod;
     qDebug()<<"=== GOT DROPPED MIME: "<<type.name();
     if (type.name().startsWith(QLatin1String("image/"))) {
-        int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
+        int duration = pCore->getDurationFromString(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
     } else if (type.inherits(QStringLiteral("application/x-kdenlivetitle"))) {
         // opening a title file
@@ -202,7 +202,7 @@ QString ClipCreator::createTitleTemplate(const QString &path, const QString &tex
 
     // Duration not found, we fall-back to defaults
     if (duration == 0) {
-        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
+        duration = pCore->getDurationFromString(KdenliveSettings::title_duration());
     }
     auto prod = createProducer(xml, ClipType::TextTemplate, path, name, duration, QString());
     if (!text.isEmpty()) {

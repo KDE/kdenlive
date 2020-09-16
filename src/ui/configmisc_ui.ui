@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>629</width>
-    <height>636</height>
+    <width>646</width>
+    <height>735</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
@@ -61,6 +61,23 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Title clips</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>Transitions</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="kcfg_title_duration"/>
+      </item>
       <item row="0" column="2">
        <widget class="QLabel" name="label_2">
         <property name="text">
@@ -71,12 +88,15 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="kcfg_color_duration"/>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_8">
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>Title clips</string>
+         <string>Fades</string>
         </property>
        </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="kcfg_transition_duration"/>
       </item>
       <item row="1" column="2">
        <widget class="QLabel" name="label_3">
@@ -85,34 +105,24 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="3">
-       <widget class="QLineEdit" name="kcfg_image_duration"/>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="kcfg_title_duration"/>
-      </item>
       <item row="1" column="3">
        <widget class="QLineEdit" name="kcfg_sequence_duration"/>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="kcfg_transition_duration"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>Transitions</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Fades</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="3">
        <widget class="QLineEdit" name="kcfg_fade_duration"/>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="kcfg_image_duration"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Mixes</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="kcfg_mix_duration"/>
       </item>
      </layout>
     </widget>

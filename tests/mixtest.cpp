@@ -125,6 +125,8 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     SECTION("Create mix on color clips and move main (right side) clip")
     {
+        // CID 3 length=20, pos=500, CID4 length=20, pos=520
+        // Default mix duration = 25 frames (12 before / 13 after)
         state0();
         REQUIRE(timeline->mixClip(cid4));
         state2();
@@ -220,6 +222,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     SECTION("Create mix and move AV clips")
     {
+        // CID 1 length=10, pos=100, CID2 length=10, pos=110
+        // Default mix duration = 25 frames (12 before / 13 after)
+        // Resize clip, should resize the mix
         state0();
         REQUIRE(timeline->mixClip(cid2));
         state1();
@@ -235,10 +240,36 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         undoStack->undo();
         state1();
-        /*// Undo mix
+        // Undo mix
         undoStack->undo();
-        state0();*/
+        state0();
     }
+    
+    SECTION("Create mix on color clip and resize")
+    {
+        state0();
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // CID 3 length=20, pos=500, CID4 length=20, pos=520
+        // Default mix duration = 25 frames (12 before / 13 after)
+        // Resize clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid3, 16, true) == 16);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state2();
+        // Resize clip outside mix zone, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid3, 4, true) == 4);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+        //state2();
+        undoStack->undo();
+        state0();
+    }
+    
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();

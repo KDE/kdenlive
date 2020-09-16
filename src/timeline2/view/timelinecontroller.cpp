@@ -382,10 +382,10 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
 {
     int id;
     int minimumPos = clipId > -1 ? m_model->getClipPosition(clipId) : offset;
-    int clip_duration = clipId > -1 ? m_model->getClipPlaytime(clipId) : pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int clip_duration = clipId > -1 ? m_model->getClipPlaytime(clipId) : pCore->getDurationFromString(KdenliveSettings::transition_duration());
     int endPos = minimumPos + clip_duration;
     int position = minimumPos;
-    int duration = qMin(clip_duration, pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()));
+    int duration = qMin(clip_duration, pCore->getDurationFromString(KdenliveSettings::transition_duration()));
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
     bool revert = offset > clip_duration / 2;
     int bottomId = 0;
@@ -425,13 +425,13 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
             }
         }
     }
-    int defaultLength = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int defaultLength = pCore->getDurationFromString(KdenliveSettings::transition_duration());
     bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == AssetListType::AssetType::VideoShortComposition;
     if (duration < 0 || (isShortComposition && duration > 1.5 * defaultLength)) {
         duration = defaultLength;
     } else if (duration <= 1) {
         // if suggested composition duration is lower than 4 frames, use default
-        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+        duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
         if (minimumPos + clip_duration - position < 3) {
             position = minimumPos + clip_duration - duration;
         }
@@ -461,7 +461,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
 int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int id;
-    int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
     if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, nullptr, id, logUndo)) {
         id = -1;
     }
@@ -1527,7 +1527,7 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
 {
     if (initialDuration == -2) {
         // Add default fade
-        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::fade_duration());
+        duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
         initialDuration = 0;
     }
     if (duration <= 0) {
