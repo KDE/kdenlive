@@ -65,7 +65,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     
     // Create AV clip 2
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 110, cid2));
-    REQUIRE(timeline->requestItemResize(cid2, 10, false, true));
+    REQUIRE(timeline->requestItemResize(cid2, 10, true, true));
     REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
     
     // Create color clip 1
@@ -95,6 +95,16 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid1) == 100);
         REQUIRE(timeline->getClipPlaytime(cid2) > 10);
         REQUIRE(timeline->getClipPosition(cid2) < 110);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+    };
+    
+    auto state3 = [&]() {
+        REQUIRE(timeline->getClipsCount() == 6);
+        REQUIRE(timeline->getClipPlaytime(cid1) > 30);
+        REQUIRE(timeline->getClipPosition(cid1) == 100);
+        REQUIRE(timeline->getClipPlaytime(cid2) > 30);
+        REQUIRE(timeline->getClipPosition(cid2) < 130);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
     };
@@ -210,6 +220,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     SECTION("Create and delete mix on AV clips")
     {
         state0();
+        REQUIRE(timeline->requestItemResize(cid2, 30, true, true) == 30);
+        REQUIRE(timeline->requestItemResize(cid2, 10, false, true) == 10);
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
         REQUIRE(timeline->mixClip(cid2));
         state1();
         undoStack->undo();
@@ -224,10 +237,14 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     {
         // CID 1 length=10, pos=100, CID2 length=10, pos=110
         // Default mix duration = 25 frames (12 before / 13 after)
+        // Resize CID2 so that it has some space to expand left
+        REQUIRE(timeline->requestItemResize(cid2, 30, true, true) == 30);
+        REQUIRE(timeline->requestItemResize(cid2, 10, false, true) == 10);
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 110));
         // Resize clip, should resize the mix
         state0();
         REQUIRE(timeline->mixClip(cid2));
-        state1();
+        //state1();
         // Move clip inside mix zone, should resize the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 101));
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
@@ -252,20 +269,88 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state2();
         // CID 3 length=20, pos=500, CID4 length=20, pos=520
         // Default mix duration = 25 frames (12 before / 13 after)
-        // Resize clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid3, 16, true) == 16);
+        // Resize left clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid3, 16, true, true) == 16);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         undoStack->undo();
         state2();
-        // Resize clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid3, 4, true) == 4);
+        // Resize left clip outside mix zone, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid3, 4, true, true) == 4);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
         undoStack->undo();
-        //state2();
+        state2();
+        // Resize right clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid4, 16, false, true) == 16);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state2();
+        // Resize right clip outside mix zone, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid4, 4, false, true) == 4);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+        state2();
+        undoStack->undo();
+        state0();
+    }
+    
+    SECTION("Create mix on AV clips and resize")
+    {
+        state0();
+        // CID 1 length=10, pos=100, CID2 length=10, pos=110
+        REQUIRE(timeline->m_allClips[cid1]->getPlaytime() == 10);
+        REQUIRE(timeline->m_allClips[cid2]->getPlaytime() == 10);
+        REQUIRE(timeline->requestItemResize(cid2, 50, true, true) == 50);
+        REQUIRE(timeline->requestItemResize(cid2, 30, false, true) == 30);
+        REQUIRE(timeline->requestClipMove(cid2, tid2, 130));
+        REQUIRE(timeline->requestItemResize(cid1, 30, true, true) == 30);
+        
+        REQUIRE(timeline->mixClip(cid2));
+        state3();
+        // CID 1 length=30, pos=100, CID2 length=30, pos=130
+        // Default mix duration = 25 frames (12 before / 13 after)
+        // Resize left clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid1, 25, true, true) == 25);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state3();
+        // Resize left clip outside mix zone, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid1, 10, true, true) == 10);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+        state3();
+        // Resize right clip, should resize the mix
+        REQUIRE(timeline->requestItemResize(cid2, 25, false, true) == 25);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 1);
+        undoStack->undo();
+        state3();
+        // Resize right clip outside mix zone, should delete the mix
+        REQUIRE(timeline->requestItemResize(cid2, 4, false, true) == 4);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
+        REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
+        REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid2]->getSubPlaylistIndex() == 0);
+        undoStack->undo();
+        state3();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
         undoStack->undo();
         state0();
     }

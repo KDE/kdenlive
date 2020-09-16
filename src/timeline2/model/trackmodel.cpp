@@ -137,10 +137,12 @@ bool TrackModel::switchPlaylist(int clipId, int position, int sourcePlaylist, in
     Q_ASSERT(!m_playlists[sourcePlaylist].is_blank_at(position) && m_playlists[destPlaylist].is_blank_at(position));
     int target_clip = m_playlists[sourcePlaylist].get_clip_index_at(position);
     std::unique_ptr<Mlt::Producer> prod(m_playlists[sourcePlaylist].replace_with_blank(target_clip));
+    m_playlists[sourcePlaylist].consolidate_blanks();
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
         int index = m_playlists[destPlaylist].insert_at(position, *clip, 1);
         clip->setSubPlaylistIndex(destPlaylist);
+        m_playlists[destPlaylist].consolidate_blanks();
         return index != -1;
     }
     return false;
@@ -698,7 +700,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
             qDebug()<<"==== NOPE ABORT RESIZE";
         }
     }
-
     return []() { return false; };
 }
 
@@ -1435,6 +1436,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     QWriteLocker locker(&m_lock);
     // By default, insertion occurs in topmost track
     // Find out the clip id at position
+    int firstClipPos;
     int secondClipPos;
     int secondClipDuration;
     int firstClipDuration;
@@ -1451,7 +1453,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
         std::shared_ptr<ClipModel> firstClip(ptr->getClipPtr(clipIds.first));
         firstClipDuration = firstClip->getPlaytime();
         // Ensure mix is not longer than clip
-        mixPosition = qMax(firstClip->getPosition(), secondClipPos - mixDuration / 2);
+        firstClipPos = firstClip->getPosition();
+        mixPosition = qMax(firstClipPos, secondClipPos - mixDuration / 2);
         int maxPos = qMin(secondClipPos + secondClipDuration, secondClipPos + mixDuration - (mixDuration / 2));
         mixDuration = qMin(mixDuration, maxPos - mixPosition);
         if (firstClip->getSubPlaylistIndex() == 1) {
@@ -1554,7 +1557,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     auto operation = requestClipDeletion_lambda(clipIds.second, updateView, finalMove, groupMove, finalMove);
     bool res = operation();
     if (res) {
-        Fun replay = [this, clipIds, dest_track, firstClipDuration, secondClipDuration, mixDuration, build_mix, secondClipPos, updateView, finalMove, groupMove, rearrange_playlists]() {
+        Fun replay = [this, clipIds, dest_track, firstClipPos, secondClipDuration, mixPosition, mixDuration, build_mix, secondClipPos, updateView, finalMove, groupMove, rearrange_playlists]() {
             if (auto ptr = m_parent.lock()) {
                 ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(dest_track);
             }
@@ -1566,8 +1569,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 std::function<bool(void)> local_undo = []() { return true; };
                 std::function<bool(void)> local_redo = []() { return true; };
                 if (auto ptr = m_parent.lock()) {
-                    result = ptr->getClipPtr(clipIds.second)->requestResize(secondClipDuration + mixDuration / 2, false, local_undo, local_redo, false);
-                    result = ptr->getClipPtr(clipIds.first)->requestResize(firstClipDuration + mixDuration / 2, true, local_undo, local_redo, false);
+                    result = ptr->getClipPtr(clipIds.second)->requestResize(secondClipPos + secondClipDuration - mixPosition, false, local_undo, local_redo, false);
+                    result = ptr->getClipPtr(clipIds.first)->requestResize(mixPosition + mixDuration - firstClipPos, true, local_undo, local_redo, false);
                     QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
                     emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
                 }
