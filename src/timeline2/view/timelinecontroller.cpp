@@ -1624,8 +1624,10 @@ bool TimelineController::createSplitOverlay(int clipId, std::shared_ptr<Mlt::Fil
     if (!m_timelinePreview) {
         initializePreview();
     }
-    m_timelinePreview->setOverlayTrack(overlay);
-    m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+    if(m_timelinePreview){
+        m_timelinePreview->setOverlayTrack(overlay);
+        m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
     return true;
 }
 
@@ -1808,15 +1810,20 @@ void TimelineController::loadPreview(const QString &chunks, const QString &dirty
     for (const QString &frame : qAsConst(dirtyList)) {
         dirtyChunks << frame.toInt();
     }
-    m_disablePreview->blockSignals(true);
-    m_disablePreview->setChecked(enable);
-    m_disablePreview->blockSignals(false);
-    if (!enable) {
-        m_timelinePreview->buildPreviewTrack();
-        m_usePreview = true;
-        m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+
+    if ( m_disablePreview ) {
+        m_disablePreview->blockSignals(true);
+        m_disablePreview->setChecked(enable);
+        m_disablePreview->blockSignals(false);
     }
-    m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
+    if ( m_timelinePreview ) {
+        if (!enable) {
+            m_timelinePreview->buildPreviewTrack();
+            m_usePreview = true;
+            m_model->m_overlayTrackCount = m_timelinePreview->addedTracks();
+        }
+        m_timelinePreview->loadChunks(renderedChunks, dirtyChunks, documentDate);
+    }
 }
 
 QMap<QString, QString> TimelineController::documentProperties()
