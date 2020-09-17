@@ -2018,26 +2018,27 @@ void MainWindow::slotRenderProject()
 {
     KdenliveDoc *project = pCore->currentDoc();
 
-    if (!m_renderWidget) {
-        if (project) {
-            m_renderWidget = new RenderWidget(project->useProxy(), this);
-            connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
-            connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
-            connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
-            connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
-            connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-            m_renderWidget->setGuides(project->getGuideModel());
-            m_renderWidget->updateDocumentPath();
-            m_renderWidget->setRenderProfile(project->getRenderProperties());
-        }
-        if (m_compositeAction->currentAction()) {
-            m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
-                                                                           ? i18n("Rendering using low quality track compositing")
-                                                                           : QString());
-        }
+    if ( !m_renderWidget && project ) {
+        m_renderWidget = new RenderWidget(project->useProxy(), this);
+        connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
+        connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
+        connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
+        connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
+        connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
+        m_renderWidget->setGuides(project->getGuideModel());
+        m_renderWidget->updateDocumentPath();
+        m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
+    if ( m_renderWidget && m_compositeAction && m_compositeAction->currentAction() ) {
+        m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
+                                                                        ? i18n("Rendering using low quality track compositing")
+                                                                        : QString());
+    }
+
     slotCheckRenderStatus();
-    m_renderWidget->show();
+    if ( m_renderWidget ) {
+        m_renderWidget->show();
+    }
     // m_renderWidget->showNormal();
 
     // What are the following lines supposed to do?
