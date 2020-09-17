@@ -1443,7 +1443,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     int source_track;
     int mixPosition;
     int dest_track = 1;
-    qDebug()<<"=========MIXING CLIPS: "<<clipIds;
+    bool remixPlaylists = false;
+    bool clipHasEndMix = false;
     if (auto ptr = m_parent.lock()) {
         // The clip that will be moved to playlist 1
         std::shared_ptr<ClipModel> secondClip(ptr->getClipPtr(clipIds.second));
@@ -1452,14 +1453,26 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
         source_track = secondClip->getSubPlaylistIndex();
         std::shared_ptr<ClipModel> firstClip(ptr->getClipPtr(clipIds.first));
         firstClipDuration = firstClip->getPlaytime();
-        // Ensure mix is not longer than clip
+        // Ensure mix is not longer than clip and doesn't overlap other mixes
         firstClipPos = firstClip->getPosition();
-        mixPosition = qMax(firstClipPos, secondClipPos - mixDuration / 2);
-        int maxPos = qMin(secondClipPos + secondClipDuration, secondClipPos + mixDuration - (mixDuration / 2));
-        mixDuration = qMin(mixDuration, maxPos - mixPosition);
         if (firstClip->getSubPlaylistIndex() == 1) {
             dest_track = 0;
         }
+        mixPosition = qMax(firstClipPos, secondClipPos - mixDuration / 2);
+        int maxPos = qMin(secondClipPos + secondClipDuration, secondClipPos + mixDuration - (mixDuration / 2));
+        if (hasStartMix(clipIds.first)) {
+            std::pair<MixInfo, MixInfo> mixData = getMixInfo(clipIds.first);
+            mixPosition = qMax(mixData.first.firstClipInOut.second, mixPosition);
+        }
+        if (hasEndMix(clipIds.second)) {
+            std::pair<MixInfo, MixInfo> mixData = getMixInfo(clipIds.second);
+            clipHasEndMix = true;
+            maxPos = qMin(mixData.second.secondClipInOut.first, maxPos);
+            if (ptr->m_allClips[mixData.second.secondClipId]->getSubPlaylistIndex() == dest_track) {
+                remixPlaylists = true;
+            }
+        }
+        mixDuration = qMin(mixDuration, maxPos - mixPosition);
     } else {
         // Error, timeline unavailable
         return false;
@@ -1468,13 +1481,14 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     // Rearrange subsequent mixes
     Fun rearrange_playlists = []() { return true; };
     Fun rearrange_playlists_undo = []() { return true; };
-    if (source_track != dest_track && hasEndMix(clipIds.second)) {
+    if (remixPlaylists && source_track != dest_track) {
         // A list of clip ids x playlists
         QMap<int, int> rearrangedPlaylists;
         int ix = 0;
         int moveId = m_mixList.value(clipIds.second, -1);
         while (moveId > -1) {
-            rearrangedPlaylists.insert(moveId, ix % 2 ? 1 - dest_track : dest_track);
+            int current = m_allClips[moveId]->getSubPlaylistIndex();
+            rearrangedPlaylists.insert(moveId, current);
             if (hasEndMix(moveId)) {
                 moveId = m_mixList.value(moveId, -1);
             } else {
@@ -1482,31 +1496,106 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             }
             ix++;
         }
+        
         rearrange_playlists = [this, rearrangedPlaylists]() {
             bool result = true;
+            // First, remove all clips on playlist 0
             QMapIterator<int, int> i(rearrangedPlaylists);
-            i.toBack();
-            while (i.hasPrevious()) {
-                i.previous();
-                result = switchPlaylist(i.key(), m_allClips[i.key()]->getPosition(), m_allClips[i.key()]->getSubPlaylistIndex(), i.value());
-                if (!result) {
-                    break;
+            while (i.hasNext()) {
+                i.next();
+                if (i.value() == 0) {
+                    int target_clip = m_playlists[0].get_clip_index_at(m_allClips[i.key()]->getPosition());
+                    std::unique_ptr<Mlt::Producer> prod(m_playlists[0].replace_with_blank(target_clip));
                 }
+                m_playlists[0].consolidate_blanks();
             }
-            return true;
+            // Then move all clips from playlist 1 to playlist 0
+            i.toFront();
+            if (auto ptr = m_parent.lock()) {
+                while (i.hasNext()) {
+                    i.next();
+                    if (i.value() == 1) {
+                        // Remove
+                        int pos = m_allClips[i.key()]->getPosition();
+                        int target_clip = m_playlists[1].get_clip_index_at(pos);
+                        std::unique_ptr<Mlt::Producer> prod(m_playlists[1].replace_with_blank(target_clip));
+                        // Replug
+                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        int index = m_playlists[0].insert_at(pos, *clip, 1);
+                        clip->setSubPlaylistIndex(0);
+                        m_playlists[0].consolidate_blanks();
+                    }
+                    m_playlists[1].consolidate_blanks();
+                }
+                // Finally replug playlist 0 clips in playlist 1 and fix transition direction
+                i.toFront();
+                while (i.hasNext()) {
+                    i.next();
+                    if (i.value() == 0) {
+                        int pos = m_allClips[i.key()]->getPosition();
+                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        int index = m_playlists[1].insert_at(pos, *clip, 1);
+                        clip->setSubPlaylistIndex(1);
+                        m_playlists[1].consolidate_blanks();
+                    }
+                    if (m_sameCompositions.count(i.key()) > 0) {
+                        // There is a mix at clip start, adjust direction
+                        Mlt::Transition &transition = *m_sameCompositions[i.key()].get();
+                        transition.set("reverse", i.value());
+                    }
+                }
+                return true;
+            } else return false;
         };
         rearrange_playlists_undo = [this, rearrangedPlaylists]() {
             bool result = true;
+            // First, remove all clips on playlist 1
             QMapIterator<int, int> i(rearrangedPlaylists);
-            i.toBack();
-            while (i.hasPrevious()) {
-                i.previous();
-                result = switchPlaylist(i.key(), m_allClips[i.key()]->getPosition(), m_allClips[i.key()]->getSubPlaylistIndex(), 1 - i.value());
-                if (!result) {
-                    break;
+            while (i.hasNext()) {
+                i.next();
+                if (i.value() == 0) {
+                    int target_clip = m_playlists[1].get_clip_index_at(m_allClips[i.key()]->getPosition());
+                    std::unique_ptr<Mlt::Producer> prod(m_playlists[1].replace_with_blank(target_clip));
                 }
+                m_playlists[1].consolidate_blanks();
             }
-            return true;
+            // Then move all clips from playlist 0 to playlist 1
+            i.toFront();
+            if (auto ptr = m_parent.lock()) {
+                while (i.hasNext()) {
+                    i.next();
+                    if (i.value() == 1) {
+                        // Remove
+                        int pos = m_allClips[i.key()]->getPosition();
+                        int target_clip = m_playlists[0].get_clip_index_at(pos);
+                        std::unique_ptr<Mlt::Producer> prod(m_playlists[0].replace_with_blank(target_clip));
+                        // Replug
+                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        int index = m_playlists[1].insert_at(pos, *clip, 1);
+                        clip->setSubPlaylistIndex(1);
+                        m_playlists[1].consolidate_blanks();
+                    }
+                    m_playlists[0].consolidate_blanks();
+                }
+                // Finally replug playlist 1 clips in playlist 0 and fix transition direction
+                i.toFront();
+                while (i.hasNext()) {
+                    i.next();
+                    if (i.value() == 0) {
+                        int pos = m_allClips[i.key()]->getPosition();
+                        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        int index = m_playlists[0].insert_at(pos, *clip, 1);
+                        clip->setSubPlaylistIndex(0);
+                        m_playlists[0].consolidate_blanks();
+                    }
+                    if (m_sameCompositions.count(i.key()) > 0) {
+                        // There is a mix at clip start, adjust direction
+                        Mlt::Transition &transition = *m_sameCompositions[i.key()].get();
+                        transition.set("reverse", 1 - i.value());
+                    }
+                }
+                return true;
+            } else return false;
         };
     }
     // Create mix compositing
@@ -1557,7 +1646,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     auto operation = requestClipDeletion_lambda(clipIds.second, updateView, finalMove, groupMove, finalMove);
     bool res = operation();
     if (res) {
-        Fun replay = [this, clipIds, dest_track, firstClipPos, secondClipDuration, mixPosition, mixDuration, build_mix, secondClipPos, updateView, finalMove, groupMove, rearrange_playlists]() {
+        Fun replay = [this, clipIds, dest_track, firstClipPos, secondClipDuration, mixPosition, mixDuration, build_mix, secondClipPos, clipHasEndMix, updateView, finalMove, groupMove, rearrange_playlists]() {
             if (auto ptr = m_parent.lock()) {
                 ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(dest_track);
             }
@@ -1569,8 +1658,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 std::function<bool(void)> local_undo = []() { return true; };
                 std::function<bool(void)> local_redo = []() { return true; };
                 if (auto ptr = m_parent.lock()) {
-                    result = ptr->getClipPtr(clipIds.second)->requestResize(secondClipPos + secondClipDuration - mixPosition, false, local_undo, local_redo, false);
-                    result = ptr->getClipPtr(clipIds.first)->requestResize(mixPosition + mixDuration - firstClipPos, true, local_undo, local_redo, false);
+                    result = ptr->getClipPtr(clipIds.second)->requestResize(secondClipPos + secondClipDuration - mixPosition, false, local_undo, local_redo, clipHasEndMix);
+                    result = result && ptr->getClipPtr(clipIds.first)->requestResize(mixPosition + mixDuration - firstClipPos, true, local_undo, local_redo, false);
                     QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
                     emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole});
                 }
@@ -1590,9 +1679,9 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             if (auto ptr = m_parent.lock()) {
                 ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(source_track);
             }
+            rearrange_playlists_undo();
             auto op = requestClipInsertion_lambda(clipIds.second, secondClipPos, updateView, finalMove, groupMove);
             op();
-            rearrange_playlists_undo();
             return true;
         };
         res = res && replay();

@@ -842,6 +842,10 @@ bool TimelineModel::mixClip(int idToMove)
         nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
     } else if (getTrackById_const(selectedTrack)->hasEndMix(idToMove)) {
         previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+        if (previousClip > -1 && getTrackById_const(selectedTrack)->hasEndMix(previousClip)) {
+            // Could happen if 2 clips before are mixed to full length
+            previousClip = -1;
+        }
     } else {
         previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
         nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);

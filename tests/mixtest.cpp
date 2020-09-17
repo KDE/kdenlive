@@ -355,6 +355,84 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
     
+    SECTION("Test chained mixes on color clips")
+    {
+        // Add 2 more color clips
+        int cid5;
+        int cid6;
+        int cid7;
+        state0();
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid6));
+        REQUIRE(timeline->requestItemResize(cid6, 20, true, true));
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 580, cid7));
+        REQUIRE(timeline->requestItemResize(cid7, 20, true, true));
+        
+        // Cid3 pos=500, duration=20
+        // Cid4 pos=520, duration=20
+        // Cid5 pos=540, duration=20
+        // Cid6 pos=560, duration=20
+        
+        // Mix 3 and 4
+        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        
+        // Mix 6 and 7
+        REQUIRE(timeline->mixClip(cid7));
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        
+        // Mix 5 and 6
+        REQUIRE(timeline->mixClip(cid6));
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 3);
+        
+        // Undo mix 5 and 6
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 2);
+        
+        // Undo mix 6 and 7
+        undoStack->undo();
+        REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
+        REQUIRE(timeline->m_allClips[cid5]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid6]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->m_allClips[cid7]->getSubPlaylistIndex() == 0);
+        REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
+        
+        // Undo mix 3 and 4
+        undoStack->undo();
+        
+        // Undo insert/resize ops
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        
+        state0();
+    }
+    
     binModel->clean();
     pCore->m_projectManager = nullptr;
     Logger::print_trace();
