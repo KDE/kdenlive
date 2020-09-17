@@ -2676,6 +2676,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         bool switchPlaylist = getTrackById_const(tid)->hasEndMix(mixData.second.secondClipId) == false && m_allClips[mixData.second.secondClipId]->getSubPlaylistIndex() == 1;
                         Fun sync_mix_undo = [this, tid, mixData]() {
                             getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
+                            getTrackById_const(tid)->syncronizeMixes(true);
                             return true;
                         };
                         // Move second clip to first playlist again
@@ -2697,6 +2698,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                     // Moved outside mix, delete
                     Fun sync_mix_undo = [this, tid, mixData]() {
                         getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                        getTrackById_const(tid)->syncronizeMixes(true);
                         return true;
                     };
                     bool switchPlaylist = getTrackById_const(tid)->hasEndMix(itemId) == false && m_allClips[itemId]->getSubPlaylistIndex() == 1;
@@ -2751,6 +2753,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                                 // Resized outside mix
                                 Fun sync_mix_undo = [this, tid, mixData]() {
                                     getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
+                                    getTrackById_const(tid)->syncronizeMixes(true);
                                     return true;
                                 };
                                 bool switchPlaylist = getTrackById_const(tid)->hasEndMix(mixData.second.secondClipId) == false && m_allClips[mixData.second.secondClipId]->getSubPlaylistIndex() == 1;
@@ -2776,6 +2779,7 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                             // Moved outside mix, remove
                             Fun sync_mix_undo = [this, tid, mixData]() {
                                 getTrackById_const(tid)->createMix(mixData.first, getTrackById_const(tid)->isAudioTrack());
+                                getTrackById_const(tid)->syncronizeMixes(true);
                                 return true;
                             };
                             bool switchPlaylist = getTrackById_const(tid)->hasEndMix(id) == false && m_allClips[id]->getSubPlaylistIndex() == 1;

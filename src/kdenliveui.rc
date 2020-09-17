@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="193" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="194" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -112,6 +112,7 @@
             <Action name="cut_timeline_clip" />
             <Action name="delete_timeline_clip" />
             <Action name="edit_item_duration" />
+            <Action name="mix_clip" />
             <Action name="edit_item_speed" />
             <Action name="clip_split" />
             <Action name="clip_switch" />
