@@ -157,7 +157,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             if (internal.isEmpty()) {
                 compositions << new Mlt::Transition(t);
                 if (id.isEmpty()) {
-                    qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service")<<", ON TRACK: "<<t.get_b_track()<<", INVALIDS: "<<invalidTracks;
+                    qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service")<<", ON TRACK: "<<t.get_b_track();
                     t.set("kdenlive_id", t.get("mlt_service"));
                 }
             }
