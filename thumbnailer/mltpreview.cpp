@@ -26,7 +26,6 @@
 #include <QtGlobal>
 
 #include <QDebug>
-#include <krandomsequence.h>
 
 extern "C" {
 Q_DECL_EXPORT ThumbCreator *new_creator()
