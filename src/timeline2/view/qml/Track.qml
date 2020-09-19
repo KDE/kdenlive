@@ -47,7 +47,7 @@ Item{
         id: trackModel
         delegate: Item {
             property var itemModel : model
-            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? 2 : 0
+            z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : 0
             Loader {
                 id: loader
                 Binding {
