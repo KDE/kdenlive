@@ -801,79 +801,81 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
 bool TimelineModel::mixClip(int idToMove)
 {
     int selectedTrack = -1;
-    std::unordered_set<int> initialSelection;
-    if (idToMove == -1) {
-        initialSelection = getCurrentSelection();
-        if (initialSelection.empty()) {
-            pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
-            return false;
+    std::unordered_set<int> initialSelection = getCurrentSelection();
+    if (idToMove == -1 && initialSelection.empty()) {
+        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        return false;
+    }
+    std::pair<int, int> clipsToMix;
+    int mixPosition = 0;
+    int previousClip = -1;
+    if (idToMove != -1) {
+        initialSelection = {idToMove};
+        idToMove = -1;
+    }
+    for (int s : initialSelection) {
+        if (!isClip(s)) {
+            continue;
         }
-        for (int s : initialSelection) {
-            if (!isClip(s)) {
+        selectedTrack = getClipTrackId(s);
+        if (selectedTrack == -1 || !isTrack(selectedTrack)) {
+            continue;
+        }
+        mixPosition = getItemPosition(s);
+        int clipDuration =  getItemPlaytime(s);    
+        // Check if we have a clip before and/or after
+        int nextClip = -1;
+        // Check if clip already has a mix
+        if (getTrackById_const(selectedTrack)->hasStartMix(s)) {
+            if (getTrackById_const(selectedTrack)->hasEndMix(s)) {
                 continue;
             }
-            if (selectedTrack == -1) {
-                idToMove = s;
-                break;
+            nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+        } else if (getTrackById_const(selectedTrack)->hasEndMix(s)) {
+            previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+            if (previousClip > -1 && getTrackById_const(selectedTrack)->hasEndMix(previousClip)) {
+                // Could happen if 2 clips before are mixed to full length
+                previousClip = -1;
+            }
+        } else {
+            previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+            nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+        }
+        if (previousClip > -1 && nextClip > -1) {
+            // We have a clip before and a clip after, check timeline cursor position to decide where to mix
+            int cursor = pCore->getTimelinePosition();
+            if (cursor < mixPosition + clipDuration / 2) {
+                nextClip = -1;
+            } else {
+                previousClip = -1;
             }
         }
+        if (nextClip == -1) {
+            if (previousClip == -1) {
+            // No clip to mix, abort
+                continue;
+            }
+            // Mix at start of selected clip
+            clipsToMix.first = previousClip;
+            clipsToMix.second = s;
+            idToMove = s;
+            break;
+        } else {
+            // Mix at end of selected clip
+            mixPosition += clipDuration;
+            clipsToMix.first = s;
+            clipsToMix.second = nextClip;
+            idToMove = s;
+            break;
+        }
     }
+    
     if (idToMove == -1 || !isClip(idToMove)) {
         pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
         return false;
     }
-    selectedTrack = getClipTrackId(idToMove);
-    if (selectedTrack == -1 || !isTrack(selectedTrack)) {
-        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
-        return false;
-    }
-    int mixPosition = getItemPosition(idToMove);
-    int clipDuration =  getItemPlaytime(idToMove);
-    std::pair<int, int> clipsToMix;
-    // Check if we have a clip before and/or after
-    int previousClip = -1;
-    int nextClip = -1;
-    // Check if clip already has a mix
-    if (getTrackById_const(selectedTrack)->hasStartMix(idToMove)) {
-        if (getTrackById_const(selectedTrack)->hasEndMix(idToMove)) {
-            pCore->displayMessage(i18n("Clip already mixed"), InformationMessage, 500);
-            return false;
-        }
-        nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
-    } else if (getTrackById_const(selectedTrack)->hasEndMix(idToMove)) {
-        previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
-        if (previousClip > -1 && getTrackById_const(selectedTrack)->hasEndMix(previousClip)) {
-            // Could happen if 2 clips before are mixed to full length
-            previousClip = -1;
-        }
-    } else {
-        previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
-        nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
-    }
-    if (previousClip > -1 && nextClip > -1) {
-        // We have a clip before and a clip after, check timeline cursor position to decide where to mix
-        int cursor = pCore->getTimelinePosition();
-        if (cursor < mixPosition + clipDuration / 2) {
-            nextClip = -1;
-        } else {
-            previousClip = -1;
-        }
-    }
-    if (nextClip == -1) {
-        if (previousClip == -1) {
-            // No clip to mix, abort
-            pCore->displayMessage(i18n("No adjacent clip to perform mix"), InformationMessage, 500);
-            return false;
-        }
-        // Mix at start of selected clip
-        clipsToMix.first = previousClip;
-        clipsToMix.second = idToMove;
-    } else {
-        // Mix at end of selected clip
-        mixPosition += clipDuration;
-        clipsToMix.first = idToMove;
-        clipsToMix.second = nextClip;
-    }
+
+    
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = requestClipMix(clipsToMix, selectedTrack, mixPosition, true, true, true, undo,
