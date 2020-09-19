@@ -6,17 +6,24 @@ set -e
 # Be verbose
 set -x
 
-# Make sure the base dependencies are installed
-#apt-get -y install build-essential perl python git '^libxcb.*-dev' libx11-xcb-dev \
-#	libglu1-mesa-dev libxrender-dev libxi-dev flex bison gperf libicu-dev ruby
-#apt-get -y install cmake3 wget tar bzip2 xz-utils libtool libfile-which-perl automake gcc-4.8 patch \
-#	g++-4.8 zlib1g-dev libglib2.0-dev libc6-dev libeigen3-dev libssl-dev \
-#	libcppunit-dev libstdc++-4.8-dev libfreetype6-dev libfontconfig1-dev liblcms2-dev \
-#	mesa-common-dev libaio-dev lzma liblzma-dev\
-#	libpulse-dev libsox-dev liblist-moreutils-perl libxml-parser-perl \
-#	libjack-dev autopoint language-pack-en-base
+#apt-get update && apt-get install -y apt-transport-https ca-certificates gnupg software-properties-common wget
+#wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add -
+#add-apt-repository -y ppa:openjdk-r/ppa && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main'
+
+## Update the system and bring in our core operating requirements
+#apt-get update && apt-get upgrade -y && apt-get install -y openssh-server openjdk-8-jre-headless
+
+## Some software demands a newer GCC because they're using C++14 stuff, which is just insane
+## We do this after the general system update to ensure it doesn't bring in any unnecessary updates
+#add-apt-repository -y ppa:ubuntu-toolchain-r/test && apt-get update
+
+## Now install the general dependencies we need for builds
+#apt-get install -y build-essential cmake git-core locales automake gcc-6 g++-6 libxml-parser-perl libpq-dev libaio-dev bison gettext gperf libasound2-dev libatkmm-1.6-dev libbz2-dev libcairo-perl libcap-dev libcups2-dev libdbus-1-dev libdrm-dev libegl1-mesa-dev libfontconfig1-dev libfreetype6-dev libgcrypt11-dev libgl1-mesa-dev libglib-perl libgsl0-dev libgsl0-dev gstreamer1.0-alsa libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgtk2-perl libjpeg-dev libnss3-dev libpci-dev libpng12-dev libpulse-dev libssl-dev libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-ugly libtiff5-dev libudev-dev libwebp-dev flex libmysqlclient-dev libx11-dev libxkbcommon-x11-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-util0-dev libxcb-res0-dev libxcb1-dev libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev libxfixes-dev libxi-dev libxrandr-dev libxrender-dev libxss-dev libxtst-dev mesa-common-dev liblist-moreutils-perl libtool libpixman-1-dev subversion
 
 #apt-get -y install libpixman-1-dev docbook-xml docbook-xsl libattr1-dev
+
+## Required for vaapi gpu encoding
+#apt-get -y install libva-dev
 
 # Read in our parameters
 export BUILD_PREFIX=$1
@@ -109,13 +116,16 @@ cmake --build . --target ext_x265  -j$CPU_CORES
 export CC=/usr/bin/gcc
 export CXX=/usr/bin/g++
 
-#cmake --build . --target ext_libvpx  -j$CPU_CORES
+cmake --build . --target ext_libvpx  -j$CPU_CORES
 
 export CC=/usr/bin/gcc-6
 export CXX=/usr/bin/g++-6
 
 
 cmake --build . --target ext_opus  -j$CPU_CORES
+cmake --build . --target ext_nv-codec-headers -j$CPU_CORES
+cmake --build . --target ext_amf  -j$CPU_CORES
+cmake --build . --target ext_mfx  -j$CPU_CORES
 cmake --build . --target ext_ffmpeg  -j$CPU_CORES
 cmake --build . --target ext_sox  -j$CPU_CORES
 cmake --build . --target ext_jack  -j$CPU_CORES
@@ -134,9 +144,9 @@ export CC=/usr/bin/gcc-6
 export CXX=/usr/bin/g++-6
 
 
-#cmake --build . --target ext_movit
-cmake --build . --target ext_frameworks
+##cmake --build . --target ext_movit
 
+cmake --build . --target ext_frameworks
 cmake --build . --config RelWithDebInfo --target ext_extra-cmake-modules -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kconfig             -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_breeze-icons        -- -j$CPU_CORES
@@ -168,13 +178,12 @@ cmake --build . --config RelWithDebInfo --target ext_kio                 -- -j$C
 cmake --build . --config RelWithDebInfo --target ext_knotifyconfig       -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kpackage                -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_knewstuff           -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_knotifications -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kdeclarative        -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kservice            -- -j$CPU_CORES
 cmake --build . --config RelWithDebInfo --target ext_kimageformats       -- -j$CPU_CORES
-cmake --build . --config RelWithDebInfo --target ext_knotifications -- -j$CPU_CORES
-#cmake --build . --config RelWithDebInfo --target ext_frameworkintegration -- -j$CPU_CORES
+cmake --build . --config RelWithDebInfo --target ext_frameworkintegration -- -j$CPU_CORES
 
 cmake --build . --target ext_breeze
 #cmake --build . --target ext_kwayland
-#cmake --build . --target ext_plasma-framework
 #cmake --build . --target ext_ruby
