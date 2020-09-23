@@ -659,7 +659,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 return true;
             };
             if (old_trackId == trackId) {
-                // We are moving a group on same track
+                // We are moving a clip on same track
                 if (finalMove && position >= mixData.first.firstClipInOut.second) {
                     int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
                     update_playlist = [this, clipId, subPlaylist]() {
@@ -1137,6 +1137,27 @@ QVariantList TimelineModel::suggestClipMove(int clipId, int trackId, int positio
         // qDebug() << "Starting suggestion " << clipId << position << currentPos << "snapped to " << snapped;
         if (snapped >= 0) {
             position = snapped;
+        }
+    }
+    if (sourceTrackId == trackId) {
+        // Same track move, check if there is a mix and limit move
+        std::pair<MixInfo, MixInfo> mixData = getTrackById_const(trackId)->getMixInfo(clipId);
+        if (mixData.first.firstClipId > -1) {
+            // Clip has start mix
+            int clipDuration = m_allClips[clipId]->getPlaytime();
+            // ensure we don't move before first clip
+            position = qMax(position, mixData.first.firstClipInOut.first);
+            if (position + clipDuration <= mixData.first.firstClipInOut.second) {
+                position = mixData.first.firstClipInOut.second - clipDuration + 2;
+            }
+        }
+        if (mixData.second.firstClipId > -1) {
+            // Clip has end mix
+            int clipDuration = m_allClips[clipId]->getPlaytime();
+            position = qMin(position, mixData.second.secondClipInOut.first);
+            if (position + clipDuration >= mixData.second.secondClipInOut.second) {
+                position = mixData.second.secondClipInOut.second - clipDuration - 2;
+            }
         }
     }
     // we check if move is possible
