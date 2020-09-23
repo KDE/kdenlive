@@ -2719,13 +2719,13 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                         adjust_mix = [this, tid, mixData, currentMixCut, itemId]() {
                             MixInfo secondMixData = getTrackById_const(tid)->getMixInfo(itemId).second;
                             int offset = mixData.second.firstClipInOut.second - secondMixData.firstClipInOut.second;
-                            m_allClips[secondMixData.secondClipId]->setMixDuration(secondMixData.firstClipInOut.second - secondMixData.secondClipInOut.first, currentMixCut - offset);
+                            getTrackById_const(tid)->setMixDuration(secondMixData.secondClipId, secondMixData.firstClipInOut.second - secondMixData.secondClipInOut.first, currentMixCut - offset);
                             QModelIndex ix = makeClipIndexFromID(secondMixData.secondClipId);
                             emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
                             return true;
                         };
-                        Fun adjust_mix_undo = [this, mixData, currentMixCut, currentMixDuration]() {
-                            m_allClips[mixData.second.secondClipId]->setMixDuration(currentMixDuration, currentMixCut);
+                        Fun adjust_mix_undo = [this, tid, mixData, currentMixCut, currentMixDuration]() {
+                            getTrackById_const(tid)->setMixDuration(mixData.second.secondClipId, currentMixDuration, currentMixCut);
                             QModelIndex ix = makeClipIndexFromID(mixData.second.secondClipId);
                             emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
                             return true;
@@ -2921,7 +2921,7 @@ bool TimelineModel::requestItemResize(int itemId, int size, bool right, bool log
                     std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
                     // We have a mix at clip start
                     int mixDuration = mixData.first.firstClipInOut.second - (mixData.first.secondClipInOut.second - size);
-                    m_allClips[itemId]->setMixDuration(qMax(1, mixDuration), m_allClips[itemId]->getMixCutPosition());
+                    getTrackById_const(tid)->setMixDuration(itemId, qMax(1, mixDuration), m_allClips[itemId]->getMixCutPosition());
                     QModelIndex ix = makeClipIndexFromID(itemId);
                     emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
                 }

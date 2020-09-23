@@ -1503,6 +1503,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 if (isAudioTrack()) {
                     std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));
                     t->set_in_and_out(mixPosition, mixPosition + mixDuration);
+                    t->set("kdenlive:mixcut", mixCutPos);
                     if (src_track == 0) {
                         t->set("reverse", 1);
                     }
@@ -1511,6 +1512,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 } else {
                     std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "luma"));
                     t->set_in_and_out(mixPosition, mixPosition + mixDuration);
+                    t->set("kdenlive:mixcut", mixCutPos);
                     if (src_track == 0) {
                         t->set("reverse", 1);
                     }
@@ -1707,6 +1709,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             if (isAudioTrack()) {
                 std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
+                t->set("kdenlive:mixcut", secondClipCut);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
@@ -1715,6 +1718,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             } else {
                 std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "luma"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
+                t->set("kdenlive:mixcut", secondClipCut);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
@@ -1937,6 +1941,12 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
     return false;
 }
 
+void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
+{
+    m_allClips[cid]->setMixDuration(mixDuration, mixCut);
+    m_sameCompositions[cid]->set("kdenlive:mixcut", mixCut);
+}
+
 void TrackModel::syncronizeMixes(bool finalMove)
 {
     QList<int>toDelete;
@@ -2027,5 +2037,6 @@ bool TrackModel::loadMix(Mlt::Transition &t)
     std::shared_ptr<Mlt::Transition>tr(&t);
     m_sameCompositions[cid2] = tr;
     m_mixList.insert(cid1, cid2);
+    setMixDuration(cid2, t.get_length() - 1, t.get_int("kdenlive:mixcut"));
     return true;
 }

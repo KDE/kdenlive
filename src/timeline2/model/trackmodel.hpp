@@ -136,6 +136,8 @@ public:
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */
     bool loadMix(Mlt::Transition &t);
+    /** @brief Set mix duration and mix cut pos on a clip */
+    void setMixDuration(int cid, int mixDuration, int mixCut);
 
 protected:
     /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
