@@ -809,6 +809,7 @@ bool TimelineModel::mixClip(int idToMove)
     std::pair<int, int> clipsToMix;
     int mixPosition = 0;
     int previousClip = -1;
+    int noSpaceInClip = 0;
     if (idToMove != -1) {
         initialSelection = {idToMove};
         idToMove = -1;
@@ -825,6 +826,7 @@ bool TimelineModel::mixClip(int idToMove)
         int clipDuration =  getItemPlaytime(s);    
         // Check if we have a clip before and/or after
         int nextClip = -1;
+        previousClip = -1;
         // Check if clip already has a mix
         if (getTrackById_const(selectedTrack)->hasStartMix(s)) {
             if (getTrackById_const(selectedTrack)->hasEndMix(s)) {
@@ -855,6 +857,12 @@ bool TimelineModel::mixClip(int idToMove)
             // No clip to mix, abort
                 continue;
             }
+            // Make sure we have enough space in clip to resize
+            int maxLength = m_allClips[previousClip]->getMaxDuration();
+            if ((m_allClips[s]->getMaxDuration() > -1 && m_allClips[s]->getIn() < 2) || (maxLength > -1 && m_allClips[previousClip]->getOut() + 2 >= maxLength)) {
+                noSpaceInClip = 1;
+                continue;
+            }
             // Mix at start of selected clip
             clipsToMix.first = previousClip;
             clipsToMix.second = s;
@@ -862,6 +870,12 @@ bool TimelineModel::mixClip(int idToMove)
             break;
         } else {
             // Mix at end of selected clip
+            // Make sure we have enough space in clip to resize
+            int maxLength = m_allClips[s]->getMaxDuration();
+            if ((m_allClips[nextClip]->getMaxDuration() > -1 && m_allClips[nextClip]->getIn() < 2) || (maxLength > -1 && m_allClips[s]->getOut() + 2 >= maxLength)) {
+                noSpaceInClip = 2;
+                continue;
+            }
             mixPosition += clipDuration;
             clipsToMix.first = s;
             clipsToMix.second = nextClip;
@@ -869,9 +883,12 @@ bool TimelineModel::mixClip(int idToMove)
             break;
         }
     }
-    
     if (idToMove == -1 || !isClip(idToMove)) {
-        pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        if (noSpaceInClip > 0) {
+            pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", noSpaceInClip == 1 ? i18n("start") : i18n("end")), InformationMessage, 500);
+        } else {
+            pCore->displayMessage(i18n("Select a clip to apply the mix"), InformationMessage, 500);
+        }
         return false;
     }
 
