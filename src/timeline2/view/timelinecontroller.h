@@ -40,6 +40,7 @@ class TimelineController : public QObject
     /* @brief holds a list of currently selected clips (list of clipId's)
      */
     Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
+    Q_PROPERTY(int selectedMix READ selectedMix NOTIFY selectedMixChanged)
     /* @brief holds the timeline zoom factor
      */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -343,6 +344,9 @@ public:
     /* @brief Get the list of currently selected clip id's
      */
     QList<int> selection() const;
+    /* @brief Returns the id of the currently selected mix's clip, -1 if no mix selected
+     */
+    int selectedMix() const;
 
     /* @brief Add an asset (effect, composition)
      */
@@ -557,7 +561,7 @@ public:
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
     /** @brief Create same track transition between clips */
-    void mixClip();
+    Q_INVOKABLE void mixClip(int cid = -1);
 
 public slots:
     void resetView();
@@ -632,6 +636,7 @@ private:
 signals:
     void selected(Mlt::Producer *producer);
     void selectionChanged();
+    void selectedMixChanged();
     void frameFormatChanged();
     void trackHeightChanged();
     void scaleFactorChanged();

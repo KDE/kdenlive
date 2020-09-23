@@ -122,6 +122,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
+    connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
@@ -302,6 +303,11 @@ QList<int> TimelineController::selection() const
     return items;
 }
 
+int TimelineController::selectedMix() const
+{
+    return m_model->m_selectedMix;
+}
+
 void TimelineController::selectItems(const QList<int> &ids)
 {
     std::unordered_set<int> ids_s(ids.begin(), ids.end());
@@ -472,6 +478,10 @@ void TimelineController::deleteSelectedClips()
 {
     auto sel = m_model->getCurrentSelection();
     if (sel.empty()) {
+        // Check if a mix is selected
+        if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
+            m_model->removeMix(m_model->m_selectedMix);
+        }
         return;
     }
     // only need to delete the first item, the others will be deleted in cascade
@@ -3665,8 +3675,8 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     }
 }
 
-void TimelineController::mixClip()
+void TimelineController::mixClip(int cid)
 {
-    m_model->mixClip();
+    m_model->mixClip(cid);
 }
 

@@ -117,7 +117,8 @@ public:
         IsProxyRole,  /// clip only
         ServiceRole,  /// clip only
         StartRole,    /// clip only
-        MixRole,    /// clip only
+        MixRole,    /// clip only, the duration of the mix
+        MixCutRole, /// The original cut position for the mix
         BinIdRole,    /// clip only
         TrackIdRole,
         FakeTrackIdRole,
@@ -420,6 +421,7 @@ public:
     /**  @brief Plant a same track composition in track tid
      */
     void plantMix(int tid, Mlt::Transition &t);
+    bool removeMix(int cid);
 
 protected:
     /* @brief Creates a new clip instance without inserting it.
@@ -671,6 +673,11 @@ public:
     Q_INVOKABLE bool requestClearSelection(bool onDeletion = false);
     // same function with undo/redo accumulation
     void requestClearSelection(bool onDeletion, Fun &undo, Fun &redo);
+    
+    /** @brief Select a given mix in timeline
+        @param cid clip id
+     */
+    Q_INVOKABLE void requestMixSelection(int cid);
 
     /** @brief Add the given item to the selection
         If @param clear is true, the selection is first cleared
@@ -791,6 +798,8 @@ signals:
 
     /* @brief Signal sent whenever the selection changes */
     void selectionChanged();
+    /* @brief Signal sent whenever the selected mix changes */
+    void selectedMixChanged();
     /* @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
@@ -834,6 +843,7 @@ protected:
     // item, or, finally, the id of a group which is not of type selection. The last case happens when the selection exactly matches an existing group
     // (in that case we cannot further group it because the selection would have only one child, which is prohibited by design)
     int m_currentSelection = -1;
+    int m_selectedMix = -1;
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;

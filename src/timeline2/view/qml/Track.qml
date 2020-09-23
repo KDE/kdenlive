@@ -47,6 +47,7 @@ Item{
         id: trackModel
         delegate: Item {
             property var itemModel : model
+            property bool clipItem: isClip(model.clipType)
             z: model.clipType == ProducerType.Composition ? 5 : model.mixDuration > 0 ? model.start / 25 : 0
             Loader {
                 id: loader
@@ -60,19 +61,25 @@ Item{
                     target: loader.item
                     property: "fakeTid"
                     value: model.fakeTrackId
-                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "fakePosition"
                     value: model.fakePosition
-                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "mixDuration"
                     value: model.mixDuration
-                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && loader.item && clipItem
+                }
+                Binding {
+                    target: loader.item
+                    property: "mixCut"
+                    value: model.mixCut
+                    when: loader.status == Loader.Ready && loader.item && clipItem
                 }
                 Binding {
                     target: loader.item
@@ -102,31 +109,31 @@ Item{
                     target: loader.item
                     property: "fadeIn"
                     value: model.fadeIn
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "positionOffset"
                     value: model.positionOffset
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "effectNames"
                     value: model.effectNames
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "clipStatus"
                     value: model.clipStatus
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "fadeOut"
                     value: model.fadeOut
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
@@ -192,34 +199,34 @@ Item{
                     target: loader.item
                     property: "clipResource"
                     value: model.resource
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "isProxy"
                     value: model.isProxy
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "maxDuration"
                     value: model.maxDuration
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "forceReloadThumb"
                     value: model.reloadThumb
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 Binding {
                     target: loader.item
                     property: "binId"
                     value: model.binId
-                    when: loader.status == Loader.Ready && isClip(model.clipType)
+                    when: loader.status == Loader.Ready && clipItem
                 }
                 sourceComponent: {
-                    if (isClip(model.clipType)) {
+                    if (clipItem) {
                         return clipDelegate
                     } else if (model.clipType == ProducerType.Composition) {
                         return compositionDelegate
@@ -231,7 +238,7 @@ Item{
                 onLoaded: {
                     item.clipId= model.item
                     item.parentTrack = trackRoot
-                    if (isClip(model.clipType)) {
+                    if (clipItem) {
                         console.log('loaded clip: ', model.start, ', ID: ', model.item, ', index: ', trackRoot.DelegateModel.itemsIndex,', TYPE:', model.clipType)
                         item.isAudio= model.audio
                         item.markers= model.markers

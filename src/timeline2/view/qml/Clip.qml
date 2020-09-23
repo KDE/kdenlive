@@ -34,6 +34,7 @@ Rectangle {
     property bool isProxy: false
     property int modelStart
     property int mixDuration: 0
+    property int mixCut: 0
     property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
@@ -353,7 +354,29 @@ Rectangle {
                         anchors.bottom: parent.bottom
                         text: clipRoot.mixDuration
                     }
-                    opacity: 0.7
+                    opacity: mixArea.containsMouse || root.selectedMix == clipRoot.clipId ? 1 : 0.5
+                    border.color: root.selectedMix == clipRoot.clipId ? root.selectionColor : "transparent"
+                    border.width: 2
+                    MouseArea {
+                        // Mix click mouse area
+                        id: mixArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onPressed: {
+                            console.log('MIX CLICKED: ', clipRoot.clipId)
+                            controller.requestMixSelection(clipRoot.clipId);
+                        }
+                    }
+                    Rectangle {
+                        id: mixCutPos
+                        anchors.right: parent.right
+                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: 2
+                        color: "#000"
+                    }
                     MouseArea {
                         // Left resize handle
                         id: trimInMixArea
@@ -376,6 +399,7 @@ Rectangle {
                             mixOut.opacity = 1
                             anchors.left = undefined
                             parent.anchors.right = undefined
+                            mixCutPos.anchors.right = undefined
                         }
                         onReleased: {
                             controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale))
@@ -386,6 +410,7 @@ Rectangle {
                             anchors.left = parent.left
                             parent.anchors.right = mixContainer.right
                             mixOut.opacity = 0.5
+                            mixCutPos.anchors.right = mixCutPos.parent.right
                         }
                         onPositionChanged: {
                             if (mouse.buttons === Qt.LeftButton) {
@@ -1053,7 +1078,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             drag.target: fadeInMouseArea
-            drag.minimumX: - Math.ceil(width / 2)
+            drag.minimumX: - 2*root.baseUnit
             drag.maximumX: container.width - width / 2
             drag.axis: Drag.XAxis
             drag.smoothed: false
@@ -1074,13 +1099,22 @@ Rectangle {
             onReleased: {
                 root.autoScrolling = timeline.autoScroll
                 fadeInTriangle.opacity = 0.4
-                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
+                if (startFadeIn == 0 && x < 0) {
+                    timeline.mixClip(clipRoot.clipId)
+                } else {
+                    timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
+                }
                 bubbleHelp.hide()
                 anchors.left = container.left
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((x + width / 2) / timeScale)
+                    if (delta < root.baseUnit) {
+                        fadeInControl.radius = 0
+                    } else {
+                        fadeInControl.radius = fadeInControl.width / 2
+                    }
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)
                     if (duration != clipRoot.fadeIn) {

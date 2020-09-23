@@ -101,8 +101,10 @@ public:
     void setFakeTrackId(int fid);
     int getFakePosition() const;
     void setFakePosition(int fid);
+    void setMixDuration(int mix, int offset);
     void setMixDuration(int mix);
     int getMixDuration() const;
+    int getMixCutPosition() const;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
 
@@ -253,6 +255,8 @@ protected:
 
     // Duration of a same track mix.
     int m_mixDuration;
+    // Position of the original cut, relative to mix right side
+    int m_mixCutPos;
 };
 
 #endif

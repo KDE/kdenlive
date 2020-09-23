@@ -47,6 +47,7 @@ ClipModel::ClipModel(const std::shared_ptr<TimelineModel> &parent, std::shared_p
     , m_positionOffset(0)
     , m_subPlaylistIndex(0)
     , m_mixDuration(0)
+    , m_mixCutPos(0)
 {
     m_producer->set("kdenlive:id", binClipId.toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
@@ -651,6 +652,18 @@ void ClipModel::setPosition(int pos)
     m_clipMarkerModel->updateSnapModelPos(pos);
 }
 
+void ClipModel::setMixDuration(int mix, int cutOffset)
+{
+    if (mix == 0) {
+        // Deleting a mix
+        m_mixCutPos = 0;
+    } else {
+        // Creating a new mix
+        m_mixCutPos = cutOffset;
+    }
+    m_mixDuration = mix;
+}
+
 void ClipModel::setMixDuration(int mix)
 {
     m_mixDuration = mix;
@@ -659,6 +672,11 @@ void ClipModel::setMixDuration(int mix)
 int ClipModel::getMixDuration() const
 {
     return m_mixDuration;
+}
+
+int ClipModel::getMixCutPosition() const
+{
+    return m_mixCutPos;
 }
 
 void ClipModel::setInOut(int in, int out)
