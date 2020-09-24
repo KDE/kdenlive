@@ -905,7 +905,7 @@ bool TimelineModel::mixClip(int idToMove)
                 std::unordered_set<int> sub = m_groups->getLeaves(parentGroup);
                 // Perform mix on split clip
                 for (int current_id : sub) {
-                    if (current_id == idToMove) {
+                    if (idToMove == current_id) {
                         continue;
                     }
                     int splitTrack = m_allClips[current_id]->getCurrentTrackId();

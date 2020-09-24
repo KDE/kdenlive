@@ -151,7 +151,7 @@ bool TrackModel::switchPlaylist(int clipId, int position, int sourcePlaylist, in
 Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updateView, bool finalMove, bool groupMove)
 {
     QWriteLocker locker(&m_lock);
-    qDebug()<<"== PROCESSING INSRET OF_: "<<clipId;
+    qDebug()<<"== PROCESSING INSERT OF : "<<clipId;
     // By default, insertion occurs in topmost track
     int target_playlist = 0;
     if (auto ptr = m_parent.lock()) {
@@ -594,7 +594,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     if (delta == 0) {
         return []() { return true; };
     }
-    // qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta;
+    // qDebug() << "RESIZING CLIP: " << clipId << " FROM: " << delta<<", ON PLAYLIST: "<<target_track;
     if (delta > 0) { // we shrink clip
         return [right, target_clip, target_track, clip_position, delta, in, out, clipId, update_snaps, this]() {
             if (isLocked()) return false;
@@ -1579,6 +1579,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
         secondClipCut = maxPos - secondClipPos;
     } else {
         // Error, timeline unavailable
+        qDebug()<<"=== ERROR NO TIMELINE!!!!";
         return false;
     }
     
@@ -1755,15 +1756,15 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(dest_track);
             }
             rearrange_playlists();
-            build_mix();
             auto op = requestClipInsertion_lambda(clipIds.second, secondClipPos, updateView, finalMove, groupMove);
             bool result = op();
             if (result) {
+                build_mix();
                 std::function<bool(void)> local_undo = []() { return true; };
                 std::function<bool(void)> local_redo = []() { return true; };
                 if (auto ptr = m_parent.lock()) {
-                    result = ptr->getClipPtr(clipIds.second)->requestResize(secondClipPos + secondClipDuration - mixPosition, false, local_undo, local_redo, clipHasEndMix);
-                    result = result && ptr->getClipPtr(clipIds.first)->requestResize(mixPosition + mixDuration - firstClipPos, true, local_undo, local_redo, false);
+                    result = ptr->getClipPtr(clipIds.second)->requestResize(secondClipPos + secondClipDuration - mixPosition, false, local_undo, local_redo, true, clipHasEndMix);
+                    result = result && ptr->getClipPtr(clipIds.first)->requestResize(mixPosition + mixDuration - firstClipPos, true, local_undo, local_redo, true, true);
                     QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
                     emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole,TimelineModel::MixCutRole});
                 }
