@@ -316,10 +316,10 @@ bool DocumentChecker::hasErrorInClips()
             }
         } else if (service.startsWith(QLatin1String("avformat"))) {
             // Check if file changed
-            QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
+            const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
             if (!hash.isEmpty()) {
-                QByteArray fileData = ProjectClip::calculateHash(resource).first;
-                if (hash != QCryptographicHash::hash(fileData, QCryptographicHash::Md5)) {
+                const QByteArray fileData = ProjectClip::calculateHash(resource).first.toHex();
+                if (hash != fileData) {
                     // Clip was changed, notify and trigger clip reload
                     Xml::removeXmlProperty(e, "kdenlive:file_hash");
                     m_changedClips.append(resource);
