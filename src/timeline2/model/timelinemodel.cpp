@@ -328,6 +328,13 @@ int TimelineModel::getTrackClipsCount(int trackId) const
     return count;
 }
 
+int TimelineModel::getClipByStartPosition(int trackId, int position) const
+{
+    READ_LOCK();
+    Q_ASSERT(isTrack(trackId));
+    return getTrackById_const(trackId)->getClipByStartPosition(position);
+}
+
 int TimelineModel::getClipByPosition(int trackId, int position) const
 {
     READ_LOCK();

@@ -620,6 +620,7 @@ public:
     /* @brief Get a timeline clip id by its position or -1 if not found
      */
     int getClipByPosition(int trackId, int position) const;
+    int getClipByStartPosition(int trackId, int position) const;
 
     /* @brief Get a timeline composition id by its starting position or -1 if not found
      */

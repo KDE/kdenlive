@@ -707,6 +707,17 @@ int TrackModel::getId() const
     return m_id;
 }
 
+int TrackModel::getClipByStartPosition(int position) const
+{
+    READ_LOCK();
+    for (auto &clip : m_allClips) {
+        if (clip.second->getPosition() == position) {
+            return clip.second->getId();
+        }
+    }
+    return -1;
+}
+
 int TrackModel::getClipByPosition(int position, int playlist)
 {
     READ_LOCK();
@@ -1748,7 +1759,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
         return true;
     };
     // lock MLT playlist so that we don't end up with invalid frames in monitor
-    auto operation = requestClipDeletion_lambda(clipIds.second, updateView, finalMove, groupMove, finalMove);
+    auto operation = requestClipDeletion_lambda(clipIds.second, updateView, finalMove, groupMove, false);
     bool res = operation();
     if (res) {
         Fun replay = [this, clipIds, dest_track, firstClipPos, secondClipDuration, mixPosition, mixDuration, build_mix, secondClipPos, clipHasEndMix, updateView, finalMove, groupMove, rearrange_playlists]() {
@@ -2035,6 +2046,9 @@ bool TrackModel::loadMix(Mlt::Transition &t)
     bool reverse = t.get_int("reverse") == 1;
     int cid1 = getClipByPosition(in, reverse ? 1 : 0);
     int cid2 = getClipByPosition(out, reverse ? 0 : 1);
+    if (cid1 < 0 || cid2 < 0) {
+        return false;
+    }
     std::shared_ptr<Mlt::Transition>tr(&t);
     m_sameCompositions[cid2] = tr;
     m_mixList.insert(cid1, cid2);

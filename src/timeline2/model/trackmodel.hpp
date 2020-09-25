@@ -267,6 +267,8 @@ protected:
 
     /* @brief Returns the clip id on this track at position requested, or -1 if no clip */
     int getClipByPosition(int position, int playlist = -1);
+    /* @brief Returns the clip id on this track that starts at position requested, or -1 if no clip */
+    int getClipByStartPosition(int position) const;
 
     /* @brief Returns the composition id on this track starting position requested, or -1 if not found */
     int getCompositionByPosition(int position);
