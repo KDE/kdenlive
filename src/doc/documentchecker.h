@@ -74,6 +74,7 @@ private:
     QStringList m_safeImages;
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
+    QStringList m_changedClips;
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);
