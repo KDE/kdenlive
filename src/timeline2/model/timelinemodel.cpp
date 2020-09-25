@@ -2005,6 +2005,7 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     QVector <int> tracksWithMix;
 
     // Separate clips from compositions to sort and check source tracks
+    QMap<std::pair<int, int>, int> mixesToDelete;
     for (int affectedItemId : all_items) {
         if (delta_track != 0) {
             // Check if an upper / lower move is possible
@@ -2020,9 +2021,22 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             sorted_clips.push_back({affectedItemId, m_allClips[affectedItemId]->getPosition()});
             sorted_clips_ids.push_back(affectedItemId);
             int current_track_id = getClipTrackId(affectedItemId);
-            if (!tracksWithMix.contains(current_track_id) && getTrackById_const(current_track_id)->hasMix(affectedItemId)) {
-                // There is a mix, prepare for update
-                tracksWithMix << current_track_id;
+            // Check if we have a mix in the group
+            if (getTrackById_const(current_track_id)->hasMix(affectedItemId)) {
+                if (delta_track != 0) {
+                    std::pair<MixInfo, MixInfo> mixData = getTrackById_const(current_track_id)->getMixInfo(affectedItemId);
+                    if (mixData.first.firstClipId > -1 && all_items.find(mixData.first.firstClipId) == all_items.end()) {
+                        // First part of the mix is not moving, delete start mix
+                        mixesToDelete.insert({mixData.first.firstClipId,affectedItemId}, current_track_id);
+                    }
+                    if (mixData.second.firstClipId > -1 && all_items.find(mixData.second.secondClipId) == all_items.end()) {
+                        // First part of the mix is not moving, delete start mix
+                        mixesToDelete.insert({affectedItemId, mixData.second.secondClipId}, current_track_id);
+                    }
+                } else if (!tracksWithMix.contains(current_track_id)) {
+                    // There is a mix, prepare for update
+                    tracksWithMix << current_track_id;
+                }
             }
         } else {
             sorted_compositions.push_back({affectedItemId, {m_allCompositions[affectedItemId]->getPosition(), getTrackMltIndex(m_allCompositions[affectedItemId]->getCurrentTrackId())}});
@@ -2133,6 +2147,16 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         // Keep track of old track for mixes
         oldTrackIds.insert(item.first, getClipTrackId(item.first));
     }
+    // First delete mixes that have to
+    if (finalMove && !mixesToDelete.isEmpty()) {
+        QMapIterator<std::pair<int, int>, int> i(mixesToDelete);
+        while (i.hasNext()) {
+            i.next();
+            // Delete mix
+            bool res = getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo);
+        }
+    }
+    
     // First, remove clips
     if (delta_track != 0) {
         // We delete our clips only if changing track
@@ -2167,6 +2191,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     }
 
     Fun sync_mix = [this, tracksWithMix, finalMove]() {
+        if (!finalMove) {
+            return true;
+        }
         for (int tid : tracksWithMix) {
             getTrackById_const(tid)->syncronizeMixes(finalMove);
         }
