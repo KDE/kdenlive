@@ -627,7 +627,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     if (m_tool == TITLE_RECTANGLE && (m_selectedItem != nullptr)) {
         setSelectedItem(m_selectedItem);
     }
-    if (m_createdText) {
+    if (m_createdText && m_selectedItem) {
         m_selectedItem->setSelected(true);
         auto *newText = static_cast<MyTextItem *>(m_selectedItem);
         QTextCursor cur(newText->document());
