@@ -699,6 +699,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     qDebug() << "warp LENGTH" << warpProducer->get_length();
     warpProducer->set("set.test_audio", 1);
     warpProducer->set("set.test_image", 1);
+    warpProducer->set("kdenlive:id", binId().toUtf8().constData());
     if (state == PlaylistState::AudioOnly) {
         warpProducer->set("set.test_audio", 0);
     }
