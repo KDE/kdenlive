@@ -165,6 +165,8 @@ public:
 
     /** @brief The clip hash created from the clip's resource. */
     const QString hash();
+    /** @brief Callculate a file hash from a path. */
+    static const QPair<QByteArray, qint64> calculateHash(const QString path);
 
     /** @brief Returns true if we are using a proxy for this clip. */
     bool hasProxy() const;

@@ -23,6 +23,7 @@
 #include "kdenlivesettings.h"
 #include "kthumb.h"
 #include "titler/titlewidget.h"
+#include "bin/projectclip.h"
 
 #include <KMessageBox>
 #include <KRecentDirs>
@@ -137,6 +138,7 @@ bool DocumentChecker::hasErrorInClips()
     m_safeImages.clear();
     m_safeFonts.clear();
     m_missingFonts.clear();
+    m_changedClips.clear();
     max = documentProducers.count();
     QStringList verifiedPaths;
     QStringList missingPaths;
@@ -281,6 +283,17 @@ bool DocumentChecker::hasErrorInClips()
                 m_missingClips.append(e);
                 missingPaths.append(resource);
             }
+        } else if (service.startsWith(QLatin1String("avformat"))) {
+            // Check if file changed
+            QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
+            if (!hash.isEmpty()) {
+                QByteArray fileData = ProjectClip::calculateHash(resource).first;
+                if (hash != QCryptographicHash::hash(fileData, QCryptographicHash::Md5)) {
+                    // Clip was changed, notify and trigger clip reload
+                    Xml::removeXmlProperty(e, "kdenlive:file_hash");
+                    m_changedClips.append(resource);
+                }
+            }
         }
         // Make sure we don't query same path twice
         verifiedPaths.append(resource);
@@ -410,7 +423,7 @@ bool DocumentChecker::hasErrorInClips()
         }
     }
     if (m_missingClips.isEmpty() && missingLumas.isEmpty() && missingProxies.isEmpty() && missingSources.isEmpty() && m_missingFonts.isEmpty() &&
-        m_missingFilters.isEmpty()) {
+        m_missingFilters.isEmpty() && m_changedClips.isEmpty()) {
         return false;
     }
 
@@ -522,9 +535,18 @@ bool DocumentChecker::hasErrorInClips()
         QString clipType = i18n("Title Font");
         QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
         item->setData(0, statusRole, CLIPPLACEHOLDER);
-        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-warning")));
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-information")));
         QString newft = QFontInfo(QFont(font)).family();
         item->setText(1, i18n("%1 will be replaced by %2", font, newft));
+        item->setData(0, typeRole, TITLE_FONT_ELEMENT);
+    }
+    
+    for (const QString &url : qAsConst(m_changedClips)) {
+        QString clipType = i18n("Modified Clips");
+        QTreeWidgetItem *item = new QTreeWidgetItem(m_ui.treeWidget, QStringList() << clipType);
+        item->setData(0, statusRole, CLIPPLACEHOLDER);
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-information")));
+        item->setText(1, i18n("Clip %1 will be reloaded", url));
         item->setData(0, typeRole, TITLE_FONT_ELEMENT);
     }
 
@@ -563,6 +585,13 @@ bool DocumentChecker::hasErrorInClips()
         }
         infoLabel.append(i18np("The project file contains a missing clip, you can still work with its proxy.",
                                "The project file contains %1 missing clips, you can still work with their proxies.", missingSources.count()));
+    }
+    if (!m_changedClips.isEmpty()) {
+        if (!infoLabel.isEmpty()) {
+            infoLabel.append(QStringLiteral("\n"));
+        }
+        infoLabel.append(i18np("The project file contains one modified clip, it will be reloaded.",
+                               "The project file contains %1 modified clips, they will be reloaded.", m_changedClips.count()));
     }
     if (!infoLabel.isEmpty()) {
         m_ui.infoLabel->setText(infoLabel);
