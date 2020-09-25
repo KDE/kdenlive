@@ -996,24 +996,9 @@ const QString ProjectClip::getFileHash()
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     default:
-        QFile file(clipUrl());
-        if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
-            /*
-             * 1 MB = 1 second per 450 files (or faster)
-             * 10 MB = 9 seconds per 450 files (or faster)
-             */
-            if (file.size() > 2000000) {
-                fileData = file.read(1000000);
-                if (file.seek(file.size() - 1000000)) {
-                    fileData.append(file.readAll());
-                }
-            } else {
-                fileData = file.readAll();
-            }
-            file.close();
-            ClipController::setProducerProperty(QStringLiteral("kdenlive:file_size"), QString::number(file.size()));
-            fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-        }
+        QPair<QByteArray, qint64> hashData = calculateHash(clipUrl());
+        fileHash = hashData.first;
+        ClipController::setProducerProperty(QStringLiteral("kdenlive:file_size"), QString::number(hashData.second));
         break;
     }
     if (fileHash.isEmpty()) {
@@ -1023,6 +1008,33 @@ const QString ProjectClip::getFileHash()
     QString result = fileHash.toHex();
     ClipController::setProducerProperty(QStringLiteral("kdenlive:file_hash"), result);
     return result;
+}
+
+
+const QPair<QByteArray, qint64> ProjectClip::calculateHash(const QString path)
+{
+    QFile file(path);
+    QByteArray fileHash;
+    qint64 fSize = 0;
+    if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+        /*
+        * 1 MB = 1 second per 450 files (or faster)
+        * 10 MB = 9 seconds per 450 files (or faster)
+        */
+        QByteArray fileData;
+        fSize = file.size();
+        if (fSize > 2000000) {
+            fileData = file.read(1000000);
+            if (file.seek(file.size() - 1000000)) {
+                fileData.append(file.readAll());
+            }
+        } else {
+            fileData = file.readAll();
+        }
+        file.close();
+        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+    }
+    return {fileHash, fSize};
 }
 
 double ProjectClip::getOriginalFps() const
