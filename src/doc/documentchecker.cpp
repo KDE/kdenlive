@@ -293,6 +293,20 @@ bool DocumentChecker::hasErrorInClips()
             }
         }
         if (!QFile::exists(resource)) {
+            if (service == QLatin1String("timewarp") && proxy == QLatin1String("-")) {
+                // In some corrupted cases, clips with speed effect kept a reference to proxy clip in warp_resource
+                QString original = Xml::getXmlProperty(e, QStringLiteral("kdenlive:originalurl"));
+                if (QFileInfo(original).isRelative()) {
+                    original.prepend(root);
+                }
+                if (original != resource && QFile::exists(original)) {
+                    // Fix timewarp producer
+                    Xml::setXmlProperty(e, QStringLiteral("warp_resource"), original);
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), Xml::getXmlProperty(e, QStringLiteral("warp_speed")) + QStringLiteral(":") + original);
+                    verifiedPaths.append(original);
+                    continue;
+                }
+            }
             // Missing clip found, make sure to omit timeline preview
             if (QFileInfo(resource).absolutePath().endsWith(QString("/%1/preview").arg(documentid))) {
                 // This is a timeline preview missing chunk, ignore
