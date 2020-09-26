@@ -20,6 +20,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import QtQml.Models 2.11
+import QtQuick.Shapes 1.11
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
 import com.enums 1.0
@@ -314,7 +315,7 @@ Rectangle {
             // Thumbs container
             id: thumbsLoader
             anchors.fill: parent
-            anchors.leftMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
+            anchors.leftMargin: parentTrack.isAudio ? 0 : clipRoot.border.width + mixContainer.width
             anchors.rightMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
             anchors.topMargin: clipRoot.border.width
             anchors.bottomMargin: clipRoot.border.width
@@ -341,20 +342,36 @@ Rectangle {
                 width: clipRoot.mixDuration * clipRoot.timeScale
                 
                 Rectangle {
+                    id: mixBackground
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
                     anchors.right: parent.right
                     visible: clipRoot.mixDuration > 0
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: "transparent" }
-                        GradientStop { position: 1.0; color: "red" }
+                    color: "mediumpurple"
+                    Shape {
+                        anchors.fill: mixBackground
+                        anchors.margins: border.width
+                        asynchronous: true
+                        opacity: 0.4
+                        ShapePath {
+                            fillColor: clipRoot.color
+                            strokeColor: "transparent"
+                            PathLine {x: 0; y: mixBackground.height}
+                            PathLine {x: mixBackground.width; y: mixBackground.height}
+                            PathLine {x: mixBackground.width; y: 0}
+                            PathLine {x: 0; y: mixBackground.height}
+                        }
+                        ShapePath {
+                            fillColor: "#fff"
+                            strokeColor: "transparent"
+                            PathLine {x: 0; y: 0}
+                            PathLine {x: mixBackground.width; y: mixBackground.height}
+                            PathLine {x: mixBackground.width; y: 0}
+                        }
                     }
-                    Text {
-                        anchors.bottom: parent.bottom
-                        text: clipRoot.mixDuration
-                    }
-                    opacity: mixArea.containsMouse || root.selectedMix == clipRoot.clipId ? 1 : 0.5
+
+                    opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || root.selectedMix == clipRoot.clipId ? 1 : 0.7
                     border.color: root.selectedMix == clipRoot.clipId ? root.selectionColor : "transparent"
                     border.width: 2
                     MouseArea {
@@ -364,7 +381,6 @@ Rectangle {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onPressed: {
-                            console.log('MIX CLICKED: ', clipRoot.clipId)
                             controller.requestMixSelection(clipRoot.clipId);
                         }
                     }
@@ -375,7 +391,7 @@ Rectangle {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         width: 2
-                        color: "#000"
+                        color: "indigo"
                     }
                     MouseArea {
                         // Left resize handle
@@ -409,6 +425,7 @@ Rectangle {
                             }
                             anchors.left = parent.left
                             parent.anchors.right = mixContainer.right
+                            mixBackground.anchors.bottom = mixContainer.bottom
                             mixOut.opacity = 0.5
                             mixCutPos.anchors.right = mixCutPos.parent.right
                         }
@@ -421,6 +438,12 @@ Rectangle {
                                     //TODO: resize mix's other clip
                                     //clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
                                 }
+                                if (x < mixCutPos.x) {
+                                    // This will delete the mix
+                                    mixBackground.anchors.bottom = mixContainer.top
+                                } else {
+                                    mixBackground.anchors.bottom = mixContainer.bottom
+                                }
                             }
                         }
                         onEntered: {
@@ -429,15 +452,16 @@ Rectangle {
                             }
                         }
                         onExited: {
-                            mixOut.opacity = 0.5
+                            if (!pressed) {
+                                mixOut.opacity = 0
+                            }
                         }
                         Rectangle {
                             id: mixOut
-                            anchors.left: parent.left
                             width: clipRoot.border.width
-                            height: parent.height
-                            color: 'blue'
-                            opacity: 0.5
+                            height: mixContainer.height
+                            color: 'darkorchid'
+                            opacity: 0
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
                             visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
@@ -555,6 +579,9 @@ Rectangle {
                         sizeChanged = false
                     }
                 }
+                onDoubleClicked: {
+                    timeline.mixClip(clipRoot.clipId, -1)
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         var currentFrame = Math.round((clipRoot.x + (x + clipRoot.border.width)) / timeScale)
@@ -644,6 +671,9 @@ Rectangle {
                         sizeChanged = false
                     }
                 }
+                onDoubleClicked: {
+                    timeline.mixClip(clipRoot.clipId, 1)
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         var newDuration = Math.round((x + width) / timeScale)
@@ -715,6 +745,7 @@ Rectangle {
             Item {
                 // Clipping container for clip names
                 anchors.fill: parent
+                anchors.leftMargin: mixContainer.width
                 clip: true
                 Rectangle {
                     // Clip name background
@@ -1078,7 +1109,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             drag.target: fadeInMouseArea
-            drag.minimumX: - 2*root.baseUnit
+            drag.minimumX: - Math.ceil(width / 2)
             drag.maximumX: container.width - width / 2
             drag.axis: Drag.XAxis
             drag.smoothed: false
@@ -1099,22 +1130,13 @@ Rectangle {
             onReleased: {
                 root.autoScrolling = timeline.autoScroll
                 fadeInTriangle.opacity = 0.4
-                if (startFadeIn == 0 && x < 0) {
-                    timeline.mixClip(clipRoot.clipId)
-                } else {
-                    timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
-                }
+                timeline.adjustFade(clipRoot.clipId, 'fadein', clipRoot.fadeIn, startFadeIn)
                 bubbleHelp.hide()
                 anchors.left = container.left
             }
             onPositionChanged: {
                 if (mouse.buttons === Qt.LeftButton) {
                     var delta = Math.round((x + width / 2) / timeScale)
-                    if (delta < root.baseUnit) {
-                        fadeInControl.radius = 0
-                    } else {
-                        fadeInControl.radius = fadeInControl.width / 2
-                    }
                     var duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)
                     if (duration != clipRoot.fadeIn) {

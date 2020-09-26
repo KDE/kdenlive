@@ -805,7 +805,7 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
     return true;
 }
 
-bool TimelineModel::mixClip(int idToMove)
+bool TimelineModel::mixClip(int idToMove, int delta)
 {
     int selectedTrack = -1;
     std::unordered_set<int> initialSelection = getCurrentSelection();
@@ -835,20 +835,24 @@ bool TimelineModel::mixClip(int idToMove)
         int nextClip = -1;
         previousClip = -1;
         // Check if clip already has a mix
-        if (getTrackById_const(selectedTrack)->hasStartMix(s)) {
+        if (delta > -1 && getTrackById_const(selectedTrack)->hasStartMix(s)) {
             if (getTrackById_const(selectedTrack)->hasEndMix(s)) {
                 continue;
             }
             nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
-        } else if (getTrackById_const(selectedTrack)->hasEndMix(s)) {
+        } else if (delta < 1 && getTrackById_const(selectedTrack)->hasEndMix(s)) {
             previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
             if (previousClip > -1 && getTrackById_const(selectedTrack)->hasEndMix(previousClip)) {
                 // Could happen if 2 clips before are mixed to full length
                 previousClip = -1;
             }
         } else {
-            previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
-            nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+            if (delta < 1) {
+                previousClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition - 1);
+            }
+            if (delta > -1) {
+                nextClip = getTrackById_const(selectedTrack)->getClipByPosition(mixPosition + clipDuration + 1);
+            }
         }
         if (previousClip > -1 && nextClip > -1) {
             // We have a clip before and a clip after, check timeline cursor position to decide where to mix
@@ -2863,6 +2867,26 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                                     PUSH_LAMBDA(sync_end_mix_undo2, sync_end_mix_undo);
                                 }
                                 PUSH_LAMBDA(sync_mix_undo, undo);
+                            } else {
+                                // Mix was resized, update cut position
+                                int currentMixDuration = m_allClips[mixData.second.secondClipId]->getMixDuration();
+                                int currentMixCut = m_allClips[mixData.second.secondClipId]->getMixCutPosition();
+                                Fun adjust_mix2 = [this, tid, mixData, currentMixCut, id]() {
+                                    MixInfo secondMixData = getTrackById_const(tid)->getMixInfo(id).second;
+                                    int offset = mixData.second.firstClipInOut.second - secondMixData.firstClipInOut.second;
+                                    getTrackById_const(tid)->setMixDuration(secondMixData.secondClipId, secondMixData.firstClipInOut.second - secondMixData.secondClipInOut.first, currentMixCut - offset);
+                                    QModelIndex ix = makeClipIndexFromID(secondMixData.secondClipId);
+                                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                                    return true;
+                                };
+                                Fun adjust_mix_undo = [this, tid, mixData, currentMixCut, currentMixDuration]() {
+                                    getTrackById_const(tid)->setMixDuration(mixData.second.secondClipId, currentMixDuration, currentMixCut);
+                                    QModelIndex ix = makeClipIndexFromID(mixData.second.secondClipId);
+                                    emit dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
+                                    return true;
+                                };
+                                PUSH_LAMBDA(adjust_mix2, adjust_mix);
+                                PUSH_LAMBDA(adjust_mix_undo, undo);
                             }
                         }
                     } else if (getTrackById_const(tid)->hasStartMix(id)) {

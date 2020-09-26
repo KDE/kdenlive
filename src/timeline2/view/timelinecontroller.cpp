@@ -3682,8 +3682,8 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     }
 }
 
-void TimelineController::mixClip(int cid)
+void TimelineController::mixClip(int cid, int delta)
 {
-    m_model->mixClip(cid);
+    m_model->mixClip(cid, delta);
 }
 

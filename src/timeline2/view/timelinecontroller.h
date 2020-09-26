@@ -560,8 +560,8 @@ public:
     void addTracks(int videoTracks, int audioTracks);
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
-    /** @brief Create same track transition between clips */
-    Q_INVOKABLE void mixClip(int cid = -1);
+    /** @brief Create a mix transition with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
+    Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
 
 public slots:
     void resetView();
