@@ -203,6 +203,7 @@ void SlideshowClip::slotEnableThumbs(int state)
         if (m_thumbJob) {
             disconnect(m_thumbJob, &KIO::PreviewJob::gotPreview, this, &SlideshowClip::slotSetPixmap);
             m_thumbJob->kill();
+            m_thumbJob->deleteLater();
             m_thumbJob = nullptr;
         }
     }
