@@ -1825,12 +1825,17 @@ std::pair<MixInfo, MixInfo> TrackModel::getMixInfo(int clipId) const
         startMix.firstClipId = m_mixList.key(clipId, -1);
         startMix.secondClipId = clipId;
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<ClipModel> clip1 = ptr->getClipPtr(startMix.firstClipId);
-            std::shared_ptr<ClipModel> clip2 = ptr->getClipPtr(startMix.secondClipId);
-            startMix.firstClipInOut.first = clip1->getPosition();
-            startMix.firstClipInOut.second = startMix.firstClipInOut.first + clip1->getPlaytime();
-            startMix.secondClipInOut.first = clip2->getPosition();
-            startMix.secondClipInOut.second = startMix.secondClipInOut.first + clip2->getPlaytime();
+            if (ptr->isClip(startMix.firstClipId)) {
+                std::shared_ptr<ClipModel> clip1 = ptr->getClipPtr(startMix.firstClipId);
+                std::shared_ptr<ClipModel> clip2 = ptr->getClipPtr(startMix.secondClipId);
+                startMix.firstClipInOut.first = clip1->getPosition();
+                startMix.firstClipInOut.second = startMix.firstClipInOut.first + clip1->getPlaytime();
+                startMix.secondClipInOut.first = clip2->getPosition();
+                startMix.secondClipInOut.second = startMix.secondClipInOut.first + clip2->getPlaytime();
+            } else {
+                // Clip was deleted
+                startMix.firstClipId = -1;
+            }
         }
     } else {
         startMix.firstClipId = -1;
@@ -1841,12 +1846,17 @@ std::pair<MixInfo, MixInfo> TrackModel::getMixInfo(int clipId) const
         endMix.firstClipId = clipId;
         endMix.secondClipId = secondClip;
         if (auto ptr = m_parent.lock()) {
-            std::shared_ptr<ClipModel> clip1 = ptr->getClipPtr(endMix.firstClipId);
-            std::shared_ptr<ClipModel> clip2 = ptr->getClipPtr(endMix.secondClipId);
-            endMix.firstClipInOut.first = clip1->getPosition();
-            endMix.firstClipInOut.second = endMix.firstClipInOut.first + clip1->getPlaytime();
-            endMix.secondClipInOut.first = clip2->getPosition();
-            endMix.secondClipInOut.second = endMix.secondClipInOut.first + clip2->getPlaytime();
+            if (ptr->isClip(secondClip)) {
+                std::shared_ptr<ClipModel> clip1 = ptr->getClipPtr(endMix.firstClipId);
+                std::shared_ptr<ClipModel> clip2 = ptr->getClipPtr(endMix.secondClipId);
+                endMix.firstClipInOut.first = clip1->getPosition();
+                endMix.firstClipInOut.second = endMix.firstClipInOut.first + clip1->getPlaytime();
+                endMix.secondClipInOut.first = clip2->getPosition();
+                endMix.secondClipInOut.second = endMix.secondClipInOut.first + clip2->getPlaytime();
+            } else {
+                // Clip was deleted
+                endMix.firstClipId = -1;
+            }
         }
     } else {
         endMix.firstClipId = -1;

@@ -1715,16 +1715,7 @@ bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool l
         return requestGroupDeletion(itemId, undo, redo);
     }
     if (isClip(itemId)) {
-        int tid = m_allClips[itemId]->getCurrentTrackId();
-        bool syncMix = false;
-        if (tid > -1) {
-            syncMix = getTrackById_const(tid)->hasMix(itemId);
-        }
-        bool result = requestClipDeletion(itemId, undo, redo);
-        if (syncMix) {
-            getTrackById_const(tid)->syncronizeMixes(logUndo);
-        }
-        return result;
+        return requestClipDeletion(itemId, undo, redo);
     }
     if (isComposition(itemId)) {
         return requestCompositionDeletion(itemId, undo, redo);
@@ -1762,7 +1753,14 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
 {
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo, false, true);
+        bool res = true;
+        if (getTrackById_const(trackId)->hasEndMix(clipId)) {
+            MixInfo mixData = getTrackById_const(trackId)->getMixInfo(clipId).second;
+            if (isClip(mixData.secondClipId)) {
+                res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, undo, redo);
+            }
+        }
+        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, true, undo, redo, false, true);
         if (!res) {
             undo();
             return false;
