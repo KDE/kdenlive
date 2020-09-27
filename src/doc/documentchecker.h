@@ -42,6 +42,7 @@ public:
      * @return
      */
     bool hasErrorInClips();
+    QString searchLuma(const QDir &dir, const QString &file) const;
 
 private slots:
     void acceptDialog();
@@ -52,7 +53,6 @@ private slots:
     QString getProperty(const QDomElement &effect, const QString &name);
     void updateProperty(const QDomElement &effect, const QString &name, const QString &value);
     void setProperty(QDomElement &effect, const QString &name, const QString &value);
-    QString searchLuma(const QDir &dir, const QString &file) const;
     /** @brief Check if images and fonts in this clip exists, returns a list of images that do exist so we don't check twice. */
     void checkMissingImagesAndFonts(const QStringList &images, const QStringList &fonts, const QString &id, const QString &baseClip);
     void slotCheckButtons();
@@ -74,6 +74,7 @@ private:
     QStringList m_safeImages;
     QStringList m_safeFonts;
     QStringList m_missingProxyIds;
+    QStringList m_changedClips;
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);

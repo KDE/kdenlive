@@ -53,7 +53,7 @@ EffectListWidget::EffectListWidget(QWidget *parent)
 
 void EffectListWidget::updateFavorite(const QModelIndex &index)
 {
-    m_proxyModel->dataChanged(index, index, QVector<int>());
+    emit m_proxyModel->dataChanged(index, index, QVector<int>());
     m_proxyModel->reloadFilterOnFavorite();
     emit reloadFavorites();
 }

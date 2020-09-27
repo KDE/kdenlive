@@ -88,11 +88,17 @@ QString ClipCreator::createColorClip(const QString &color, int duration, const Q
 QDomDocument ClipCreator::getXmlFromUrl(const QString &path)
 {
     QDomDocument xml;
+    QUrl fileUrl = QUrl::fromLocalFile(path);
+    if (fileUrl.matches(pCore->currentDoc()->url(), QUrl::RemoveScheme | QUrl::NormalizePathSegments)) {
+        // Cannot embed a project in itself
+        KMessageBox::sorry(QApplication::activeWindow(), i18n("You cannot add a project inside itself."), i18n("Cannot create clip"));        
+        return xml;
+    }
     QMimeDatabase db;
-    QMimeType type = db.mimeTypeForUrl(QUrl::fromLocalFile(path));
+    QMimeType type = db.mimeTypeForUrl(fileUrl);
 
     QDomElement prod;
-    qDebug()<<"=== GOT DROPPPED MIME: "<<type.name();
+    qDebug()<<"=== GOT DROPPED MIME: "<<type.name();
     if (type.name().startsWith(QLatin1String("image/"))) {
         int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::image_duration());
         prod = createProducer(xml, ClipType::Image, path, QString(), duration, QString());
@@ -231,7 +237,6 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             continue;
         }
         QFileInfo info(file.toLocalFile());
-        QMimeType mType = db.mimeTypeForUrl(file);
         if (info.isDir()) {
             // user dropped a folder, import its files
             QDir dir(file.toLocalFile());
@@ -242,13 +247,13 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
             dir.setNameFilters(ClipCreationDialog::getExtensions());
             QStringList result = dir.entryList(QDir::Files);
             QList<QUrl> folderFiles;
-            for (const QString &path : result) {
+            for (const QString &path : qAsConst(result)) {
                 QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(path));
                 folderFiles.append(url);
             }
             if (folderFiles.isEmpty()) {
                 QList<QUrl> sublist;
-                for (const QString &sub : subfolders) {
+                for (const QString &sub : qAsConst(subfolders)) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;
@@ -285,7 +290,7 @@ const QString ClipCreator::createClipsFromList(const QList<QUrl> &list, bool che
                 }
                 // Check subfolders
                 QList<QUrl> sublist;
-                for (const QString &sub : subfolders) {
+                for (const QString &sub : qAsConst(subfolders)) {
                     QUrl url = QUrl::fromLocalFile(dir.absoluteFilePath(sub));
                     if (!list.contains(url)) {
                         sublist << url;

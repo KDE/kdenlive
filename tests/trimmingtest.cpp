@@ -447,8 +447,15 @@ TEST_CASE("Advanced trimming operations", "[Trimming]")
     SECTION("Cut should preserve AV groups")
     {
         QString binId3 = createProducerWithSound(profile_trimming, binModel);
+        
         int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
         int tid5 = TrackModel::construct(timeline);
+    
+        // Setup timeline audio drop info
+        QMap <int, QString>audioInfo;
+        audioInfo.insert(1,QStringLiteral("stream1"));
+        timeline->m_binAudioTargets = audioInfo;
+        timeline->m_videoTarget = tid5;
 
         int cid6 = -1;
         int pos = 3;
@@ -558,6 +565,12 @@ TEST_CASE("Insert/delete", "[Trimming2]")
     int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid1 = TrackModel::construct(timeline);
     TrackModel::construct(timeline);
+    
+    // Setup timeline audio drop info
+    QMap <int, QString>audioInfo;
+    audioInfo.insert(1,QStringLiteral("stream1"));
+    timeline->m_binAudioTargets = audioInfo;
+    timeline->m_videoTarget = tid1;
 
     SECTION("Remove Space should preserve groups")
     {
@@ -728,6 +741,12 @@ TEST_CASE("Copy/paste", "[CP]")
     int tid2 = TrackModel::construct(timeline, -1, -1, QString(), true);
     int tid1 = TrackModel::construct(timeline);
     int tid1b = TrackModel::construct(timeline);
+    
+    // Setup timeline audio drop info
+    QMap <int, QString>audioInfo;
+    audioInfo.insert(1,QStringLiteral("stream1"));
+    timeline->m_binAudioTargets = audioInfo;
+    timeline->m_videoTarget = tid1;
 
     SECTION("Simple copy paste of one clip")
     {

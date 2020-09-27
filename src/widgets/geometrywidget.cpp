@@ -88,7 +88,7 @@ GeometryWidget::GeometryWidget(Monitor *monitor, QPair<int, int> range, const QR
     if (useOpacity) {
         m_opacity = new DragValue(i18n("Opacity"), 100, 0, 0, 100, -1, i18n("%"), true, false, this);
         m_opacity->setValue((int)(opacity * m_opacityFactor));
-        connect(m_opacity, &DragValue::valueChanged, [&]() { emit valueChanged(getValue()); });
+        connect(m_opacity, &DragValue::valueChanged, this, [&]() { emit valueChanged(getValue()); });
         horLayout2->addWidget(m_opacity);
     }
     horLayout2->addStretch(10);

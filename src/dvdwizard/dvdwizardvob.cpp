@@ -273,7 +273,7 @@ void DvdWizardVob::slotAddVobList(QList<QUrl> list)
             KRecentDirs::add(QStringLiteral(":KdenliveDvdFolder"), list.at(0).adjusted(QUrl::RemoveFilename).toLocalFile());
         }
     }
-    for (const QUrl &url : list) {
+    for (const QUrl &url : qAsConst(list)) {
         slotAddVobFile(url, QString(), false);
     }
     slotCheckVobList();

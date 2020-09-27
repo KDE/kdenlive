@@ -106,7 +106,6 @@ avfilter.drawbox
 avfilter.drawgraph
 avfilter.drawgrid
 avfilter.elbg
-avfilter.eq
 avfilter.floodfill
 avfilter.fspp
 avfilter.gblur

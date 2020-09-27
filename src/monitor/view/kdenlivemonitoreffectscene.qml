@@ -256,10 +256,11 @@ Item {
             top: parent.top
             left: parent.left
             }
-            visible: root.iskeyframe
             width: root.baseUnit
             height: width
             color: "red"
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -279,6 +280,9 @@ Item {
                 }
               }
               onPressed: {
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
@@ -336,7 +340,8 @@ Item {
             width: root.baseUnit
             height: width
             color: "red"
-            visible: root.iskeyframe
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -356,6 +361,9 @@ Item {
                 }
               }
               onPressed: {
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
@@ -402,7 +410,8 @@ Item {
             width: root.baseUnit
             height: width
             color: "red"
-            visible: root.iskeyframe
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -422,6 +431,9 @@ Item {
                 }
               }
               onPressed: {
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
@@ -468,7 +480,8 @@ Item {
             width: root.baseUnit
             height: width
             color: "red"
-            visible: root.iskeyframe
+            visible: root.iskeyframe || controller.autoKeyframe
+            opacity: root.iskeyframe ? 1 : 0.4
             MouseArea {
               property int oldMouseX
               property int oldMouseY
@@ -488,6 +501,9 @@ Item {
                 }
               }
               onPressed: {
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectsize.visible = true
@@ -547,11 +563,14 @@ Item {
               property int oldMouseX
               property int oldMouseY
               hoverEnabled: true
-              enabled: root.iskeyframe
-              cursorShape: root.iskeyframe ? Qt.SizeAllCursor : Qt.ArrowCursor
+              enabled: root.iskeyframe || controller.autoKeyframe
+              cursorShape: enabled ? Qt.SizeAllCursor : Qt.ArrowCursor
               onEntered: { framerect.hoverColor = '#ffff00'}
               onExited: { framerect.hoverColor = '#ffffff'}
               onPressed: {
+                  if (root.iskeyframe == false && controller.autoKeyframe) {
+                    controller.addRemoveKeyframe();
+                  }
                   oldMouseX = mouseX
                   oldMouseY = mouseY
                   effectpos.visible = true
@@ -578,6 +597,7 @@ Item {
     EffectToolBar {
         id: effectToolBar
         barContainsMouse: effectToolBar.rightSide ? global.mouseX >= x - 10 : global.mouseX < x + width + 10
+        showAutoKeyframe: true
         onBarContainsMouseChanged: {
             effectToolBar.opacity = 1
             effectToolBar.visible = effectToolBar.barContainsMouse

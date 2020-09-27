@@ -64,12 +64,9 @@ protected:
 private:
     std::shared_ptr<ProjectClip> m_binClip;
     std::shared_ptr<Mlt::Producer> m_prod;
-    QString m_miniThumbPath;
     QString m_cachePath;
-    QSize m_thumbSize;
     bool m_dataInCache;
     bool m_thumbInCache;
-
     bool m_done{false}, m_successful{false};
     int m_channels, m_frequency, m_lengthInFrames, m_audioStream;
     QVector <uint8_t>m_audioLevels;

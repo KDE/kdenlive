@@ -29,7 +29,6 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
-
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -44,7 +43,8 @@ the Free Software Foundation, either version 3 of the License, or
 
 std::unique_ptr<Core> Core::m_self;
 Core::Core()
-    : m_thumbProfile(nullptr)
+    : audioThumbCache(QStringLiteral("audioCache"), 2000000)
+    , m_thumbProfile(nullptr)
     , m_capture(new MediaCapture(this))
 {
 }
@@ -150,7 +150,7 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
         // we get the list of profiles
         QVector<QPair<QString, QString>> all_profiles = ProfileRepository::get()->getAllProfiles();
         QStringList all_descriptions;
-        for (const auto &profile : all_profiles) {
+        for (const auto &profile : qAsConst(all_profiles)) {
             all_descriptions << profile.first;
         }
 
@@ -159,7 +159,7 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
         QString item = QInputDialog::getItem(m_mainWindow, i18n("Select Default Profile"), i18n("Profile:"), all_descriptions, 0, false, &ok);
         if (ok) {
             ok = false;
-            for (const auto &profile : all_profiles) {
+            for (const auto &profile : qAsConst(all_profiles)) {
                 if (profile.first == item) {
                     m_profile = profile.second;
                     ok = true;
@@ -338,9 +338,9 @@ bool Core::setCurrentProfile(const QString &profilePath)
         // inform render widget
         m_timecode.setFormat(getCurrentProfile()->fps());
         profileChanged();
-        m_mainWindow->updateRenderWidgetProfile();
+        emit m_mainWindow->updateRenderWidgetProfile();
         pCore->monitorManager()->resetProfiles();
-        pCore->monitorManager()->updatePreviewScaling();
+        emit pCore->monitorManager()->updatePreviewScaling();
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
             checkProfileValidity();
@@ -356,7 +356,7 @@ void Core::checkProfileValidity()
     if (offset > 0) {
         // Profile is broken, warn user
         if (m_binWidget) {
-            m_binWidget->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
+            emit m_binWidget->displayBinMessage(i18n("Your project profile is invalid, rendering might fail."), KMessageWidget::Warning);
         }
     }
 }
@@ -606,9 +606,9 @@ void Core::displayMessage(const QString &message, MessageType type, int timeout)
 {
     if (m_mainWindow) {
         if (type == ProcessingJobMessage || type == OperationCompletedMessage) {
-            m_mainWindow->displayProgressMessage(message, type, timeout);
+            emit m_mainWindow->displayProgressMessage(message, type, timeout);
         } else {
-            m_mainWindow->displayMessage(message, type, timeout);
+            emit m_mainWindow->displayMessage(message, type, timeout);
         }
     } else {
         qDebug() << message;
@@ -627,7 +627,7 @@ void Core::displayBinLogMessage(const QString &text, int type, const QString &lo
 
 void Core::clearAssetPanel(int itemId)
 {
-    if (m_guiConstructed) m_mainWindow->clearAssetPanel(itemId);
+    if (m_guiConstructed) emit m_mainWindow->clearAssetPanel(itemId);
 }
 
 std::shared_ptr<EffectStackModel> Core::getItemEffectStack(int itemType, int itemId)
@@ -771,6 +771,15 @@ void Core::triggerAction(const QString &name)
     }
 }
 
+const QString Core::actionText(const QString &name)
+{
+    QAction *action = m_mainWindow->actionCollection()->action(name);
+    if (action) {
+        return action->toolTip();
+    }
+    return QString();
+}
+
 void Core::clean()
 {
     m_self.reset();
@@ -845,7 +854,7 @@ int Core::getDurationFromString(const QString &time)
 
 void Core::processInvalidFilter(const QString service, const QString id, const QString message)
 {
-    if (m_guiConstructed) m_mainWindow->assetPanelWarning(service, id, message);
+    if (m_guiConstructed) emit m_mainWindow->assetPanelWarning(service, id, message);
 }
 
 void Core::updateProjectTags(QMap <QString, QString> tags)
@@ -863,7 +872,7 @@ void Core::updateProjectTags(QMap <QString, QString> tags)
     int i = 1;
     while (j.hasNext()) {
         j.next();
-        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.key()).arg(j.value()));
+        currentDoc()->setDocumentProperty(QString("tag%1").arg(i), QString("%1:%2").arg(j.key(), j.value()));
         i++;
     }
 }

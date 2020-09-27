@@ -3,7 +3,7 @@
 	<name>Volume (keyframable)</name>
 	<description>Adjust audio volume with keyframes</description>
 	<author>Dan Dennedy</author>
-	<parameter type="animated" name="level" default="0" max="60" min="-100" suffix="dB" scale="-1">
+	<parameter type="animated" name="level" default="0" max="50" min="-100" visualmax="50" visualmin="-50" suffix="dB" scale="-1">
 		<name>Gain</name>
 	</parameter>
 </effect>

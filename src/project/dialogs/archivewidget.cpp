@@ -116,7 +116,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     QMap<QString, QString> playlistUrls;
     QMap<QString, QString> proxyUrls;
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         ClipType::ProducerType t = clip->clipType();
         QString id = clip->binId();
         if (t == ClipType::Color) {
@@ -385,7 +385,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QStringList
                     directory.append(QLatin1Char('/'));
                 }
                 qint64 totalSize = 0;
-                for (const QString &path : result) {
+                for (const QString &path : qAsConst(result)) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(directory + path).size();
                         slideImages << directory + path;
@@ -467,7 +467,7 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
                 QRegExp rx(regexp);
                 QStringList slideImages;
                 qint64 totalSize = 0;
-                for (const QString &path : result) {
+                for (const QString &path : qAsConst(result)) {
                     if (rx.exactMatch(path)) {
                         totalSize += QFileInfo(dir.absoluteFilePath(path)).size();
                         slideImages << dir.absoluteFilePath(path);
@@ -636,7 +636,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
-            connect(job, &KJob::result, [this] (KJob *jb) {
+            connect(job, &KJob::result, this, [this] (KJob *jb) {
                 slotArchivingFinished(jb, false);
             });
             connect(job, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
@@ -658,7 +658,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             KMessageBox::sorry(this, i18n("Cannot create directory %1", destUrl.toLocalFile()));
         }
         m_copyJob = KIO::copy(files, destUrl, KIO::HideProgressInfo);
-        connect(m_copyJob, &KJob::result, [this] (KJob *jb) {
+        connect(m_copyJob, &KJob::result, this, [this] (KJob *jb) {
             slotArchivingFinished(jb, false);
         });
         connect(m_copyJob, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
@@ -776,7 +776,7 @@ bool ArchiveWidget::processProjectFile()
             if (!dest.isEmpty()) {
                 if (isTimewarp) {
                     Xml::setXmlProperty(e, QStringLiteral("warp_resource"), dest.toLocalFile());
-                    Xml::setXmlProperty(e, QStringLiteral("resource"), QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed"))).arg(dest.toLocalFile()));
+                    Xml::setXmlProperty(e, QStringLiteral("resource"), QString("%1:%2").arg(Xml::getXmlProperty(e, QStringLiteral("warp_speed")), dest.toLocalFile()));
                 } else {
                     Xml::setXmlProperty(e, QStringLiteral("resource"), dest.toLocalFile());
                 }
@@ -919,7 +919,7 @@ void ArchiveWidget::createArchive()
     archive.open(QIODevice::WriteOnly);
 
     // Create folders
-    for (const QString &path : m_foldersList) {
+    for (const QString &path : qAsConst(m_foldersList)) {
         archive.writeDir(path, user, group);
     }
 

@@ -91,6 +91,7 @@ private:
     std::vector<CollapsibleEffectView *> m_widgets;
     AssetIconProvider *m_thumbnailer;
     QTimer m_scrollTimer;
+    QTimer m_timerHeight;
 
     /** @brief the frame size of the original clip this effect is applied on
      */
@@ -122,6 +123,7 @@ signals:
     void removeCurrentEffect();
     void blockWheenEvent(bool block);
     void checkScrollBar();
+    void scrollView(QRect);
 };
 
 #endif

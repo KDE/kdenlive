@@ -103,8 +103,8 @@ void OtioConvertions::slotExportProject()
     convert.waitForFinished();
     tmp.remove();
     if(convert.exitStatus() != QProcess::NormalExit || convert.exitCode() != 0) {
-        KMessageBox::error(pCore->window(), i18n("Project conversion failed:\n%1"),
-                           QString(convert.readAllStandardError()));
+        KMessageBox::error(pCore->window(), i18n("Project conversion failed:\n%1",
+                           QString(convert.readAllStandardError())));
         return;
     }
     pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);
@@ -136,8 +136,8 @@ void OtioConvertions::slotImportProject()
     convert.start(QStringLiteral("otioconvert"), {"-i", importFile, "-o", importedFile});
     convert.waitForFinished();
     if(convert.exitStatus() != QProcess::NormalExit || convert.exitCode() != 0 || !QFile::exists(importedFile)) {
-        KMessageBox::error(pCore->window(), i18n("Project conversion failed:\n%1"),
-                           QString(convert.readAllStandardError()));
+        KMessageBox::error(pCore->window(), i18n("Project conversion failed:\n%1",
+                           QString(convert.readAllStandardError())));
         return;
     }
     pCore->displayMessage(i18n("Project conversion complete"), InformationMessage);

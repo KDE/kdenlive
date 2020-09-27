@@ -41,7 +41,7 @@ BoolParamWidget::BoolParamWidget(std::shared_ptr<AssetParameterModel> model, QMo
     slotRefresh();
 
     // emit the signal of the base class when appropriate
-    connect(this->m_checkBox, &QCheckBox::stateChanged, [this](int state) {
+    connect(this->m_checkBox, &QCheckBox::stateChanged, this, [this](int state) {
         emit valueChanged(m_index, QString::number(state), true); });
 }
 

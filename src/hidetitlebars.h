@@ -27,6 +27,10 @@ class HideTitleBars : public QObject
 public:
     explicit HideTitleBars(QObject *parent = nullptr);
 
+public slots:
+    /** @brief Correctly hide/show dock widget title bars depending on position (floating, tabbed, docked) */
+    void updateTitleBars();
+
 private:
     QAction *m_switchAction;
 

@@ -83,7 +83,7 @@ int CutClipJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::ve
     QDir dir = finfo.absoluteDir();
     QString inString = QString::number((int)inTime.seconds());
     QString outString = QString::number((int)outTime.seconds());
-    QString path = dir.absoluteFilePath(fileName + QString("-%1-%2.").arg(inString).arg(outString) + transcoderExt);
+    QString path = dir.absoluteFilePath(fileName + QString("-%1-%2.").arg(inString, outString) + transcoderExt);
 
     QPointer<QDialog> d = new QDialog(QApplication::activeWindow());
     Ui::CutJobDialog_UI ui;

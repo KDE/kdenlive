@@ -77,7 +77,7 @@ void TitleWidget::refreshTemplateBoxContents()
 {
     templateBox->clear();
     templateBox->addItem(QString());
-    for (const TitleTemplate &t : titletemplates) {
+    for (const TitleTemplate &t : qAsConst(titletemplates)) {
         templateBox->addItem(t.icon, t.name, t.file);
     }
 }
@@ -229,12 +229,12 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     connect(buttonAlignCenter, &QAbstractButton::clicked, this, &TitleWidget::slotUpdateText);
     connect(edit_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
     connect(edit_rect_gradient, &QAbstractButton::clicked, this, &TitleWidget::slotEditGradient);
-    connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] () {
+    connect(preserveAspectRatio, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&] () {
         slotValueChanged(ValueWidth);
     });
 
     displayBg->setChecked(KdenliveSettings::titlerShowbg());
-    connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), [&] (int state) {
+    connect(displayBg, static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged), this, [&] (int state) {
         KdenliveSettings::setTitlerShowbg(state == Qt::Checked);
         displayBackgroundFrame();
     });
@@ -502,7 +502,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     graphicsView->scene()->addItem(m_frameImage);
 
     bgBox->setCurrentIndex(KdenliveSettings::titlerbg());
-    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [&] (int ix) {
+    connect(bgBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&] (int ix) {
         KdenliveSettings::setTitlerbg(ix);
         displayBackgroundFrame();
     });
@@ -556,7 +556,7 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
     addMenu->addAction(i18n("Save and add to project"));
     m_createTitleAction = new QAction(i18n("Create Title"), this);
     createButton->setMenu(addMenu);
-    connect(addMenu, &QMenu::triggered, [this]() {
+    connect(addMenu, &QMenu::triggered, this, [this]() {
         const QUrl url = saveTitle();
         if (!url.isEmpty()) {
             pCore->bin()->slotAddClipToProject(url);
@@ -564,10 +564,10 @@ TitleWidget::TitleWidget(const QUrl &url, const Timecode &tc, QString projectTit
         }
     });
     createButton->setDefaultAction(m_createTitleAction);
-    connect(m_createTitleAction, &QAction::triggered, [this]() {
+    connect(m_createTitleAction, &QAction::triggered, this, [this]() {
         done(QDialog::Accepted);
     });
-    connect(cancelButton, &QPushButton::clicked, [this]() {
+    connect(cancelButton, &QPushButton::clicked, this, [this]() {
         done(QDialog::Rejected);
     });
     refreshTitleTemplates(m_projectTitlePath);
@@ -649,7 +649,7 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
     // project templates
     QDir dir(projectPath);
     QStringList templateFiles = dir.entryList(filters, QDir::Files);
-    for (const QString &fname : templateFiles) {
+    for (const QString &fname : qAsConst(templateFiles)) {
         TitleTemplate t;
         t.name = fname;
         t.file = dir.absoluteFilePath(fname);
@@ -659,10 +659,10 @@ void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 
     // system templates
     QStringList titleTemplates = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("titles/"), QStandardPaths::LocateDirectory);
-    for (const QString &folderpath : titleTemplates) {
+    for (const QString &folderpath : qAsConst(titleTemplates)) {
         QDir folder(folderpath);
         QStringList filesnames = folder.entryList(filters, QDir::Files);
-        for (const QString &fname : filesnames) {
+        for (const QString &fname : qAsConst(filesnames)) {
             TitleTemplate t;
             t.name = fname;
             t.file = folder.absoluteFilePath(fname);
@@ -686,7 +686,7 @@ void TitleWidget::templateIndexChanged(int index)
         // mbt 1607: Add property to distinguish between unchanged template titles and user titles.
         // Text of unchanged template titles should be selected when clicked.
         QList<QGraphicsItem *> list = graphicsView->scene()->items();
-        for (QGraphicsItem *qgItem : list) {
+        for (QGraphicsItem *qgItem : qAsConst(list)) {
             if (qgItem->type() == TEXTITEM) {
                 auto *i = static_cast<MyTextItem *>(qgItem);
                 i->setProperty("isTemplate", "true");
@@ -771,7 +771,7 @@ void TitleWidget::slotImageTool()
     QList<QByteArray> supported = QImageReader::supportedImageFormats();
     QStringList mimeTypeFilters;
     QString allExtensions = i18n("All Images") + QStringLiteral(" (");
-    for (const QByteArray &mimeType : supported) {
+    for (const QByteArray &mimeType : qAsConst(supported)) {
         mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + QStringLiteral("( *.") + QString(mimeType) + QLatin1Char(')'));
         allExtensions.append(QStringLiteral("*.") + mimeType + QLatin1Char(' '));
     }
@@ -1095,7 +1095,7 @@ void TitleWidget::selectionChanged()
     // text input would only work for the text item that grabbed
     // the keyboard last.
     l = graphicsView->scene()->items();
-    for (QGraphicsItem *item : l) {
+    for (QGraphicsItem *item : qAsConst(l)) {
         if (item->type() == TEXTITEM && !item->isSelected()) {
             auto *i = static_cast<MyTextItem *>(item);
             i->clearFocus();
@@ -1135,7 +1135,7 @@ void TitleWidget::selectionChanged()
         */
         int firstType = l.at(0)->type();
         bool allEqual = true;
-        for (auto i : l) {
+        for (auto i : qAsConst(l)) {
             if (i->type() != firstType) {
                 allEqual = false;
                 break;
@@ -1153,7 +1153,7 @@ void TitleWidget::selectionChanged()
             value_x->setEnabled(true);
             value_y->setEnabled(true);
             bool containsTextitem = false;
-            for (auto i : l) {
+            for (auto i : qAsConst(l)) {
                 if (i->type() == TEXTITEM) {
                     containsTextitem = true;
                     break;
@@ -1729,7 +1729,7 @@ void TitleWidget::slotUpdateText()
 void TitleWidget::rectChanged()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    for (auto i : l) {
+    for (auto i : qAsConst(l)) {
         if (i->type() == RECTITEM && (settingUp == 0)) {
             auto *rec = static_cast<QGraphicsRectItem *>(i);
             QColor f = rectFColor->color();
@@ -1981,7 +1981,7 @@ void TitleWidget::loadTitle(QUrl url)
         items.removeAll(m_frameBorder);
         items.removeAll(m_frameBackground);
         items.removeAll(m_frameImage);
-        for (auto item : items) {
+        for (auto item : qAsConst(items)) {
             if (item->zValue() > -1000) {
                 delete item;
             }
@@ -2012,7 +2012,7 @@ QUrl TitleWidget::saveTitle(QUrl url)
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
     QGraphicsPixmapItem pix;
     int pixmapType = pix.type();
-    for (const QGraphicsItem *item : list) {
+    for (const QGraphicsItem *item : qAsConst(list)) {
         if (item->type() == pixmapType && item != m_frameImage) {
             embed_image = true;
             break;
@@ -2062,7 +2062,7 @@ int TitleWidget::getNewStuff(const QString &configFile)
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : entries) {
+    for (const KNS3::Entry &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
@@ -2500,8 +2500,8 @@ void TitleWidget::slotResize200()
 
 void TitleWidget::slotAddEffect(int /*ix*/)
 {
-    QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
     /*
+        QList<QGraphicsItem *> list = graphicsView->scene()->selectedItems();
         int effect = effect_list->itemData(ix).toInt();
         if (list.size() == 1) {
             if (effect == NOEFFECT)
@@ -2645,7 +2645,7 @@ void TitleWidget::slotZIndexBottom()
 void TitleWidget::slotSelectAll()
 {
     QList<QGraphicsItem *> l = graphicsView->scene()->items();
-    for (auto i : l) {
+    for (auto i : qAsConst(l)) {
         i->setSelected(true);
     }
 }
@@ -2655,14 +2655,14 @@ void TitleWidget::selectItems(int itemType)
     QList<QGraphicsItem *> l;
     if (!graphicsView->scene()->selectedItems().isEmpty()) {
         l = graphicsView->scene()->selectedItems();
-        for (auto i : l) {
+        for (auto i : qAsConst(l)) {
             if (i->type() != itemType) {
                 i->setSelected(false);
             }
         }
     } else {
         l = graphicsView->scene()->items();
-        for (auto i : l) {
+        for (auto i : qAsConst(l)) {
             if (i->type() == itemType) {
                 i->setSelected(true);
             }
@@ -2689,7 +2689,7 @@ void TitleWidget::slotSelectNone()
 {
     graphicsView->blockSignals(true);
     QList<QGraphicsItem *> l = graphicsView->scene()->items();
-    for (auto i : l) {
+    for (auto i : qAsConst(l)) {
         i->setSelected(false);
     }
     graphicsView->blockSignals(false);
@@ -3055,7 +3055,6 @@ void TitleWidget::storeGradient(const QString &gradientData)
 
 void TitleWidget::loadGradients()
 {
-    QMap<QString, QString> gradients;
     gradients_combo->blockSignals(true);
     gradients_rect_combo->blockSignals(true);
     QString grad_data = gradients_combo->currentData().toString();
@@ -3118,7 +3117,7 @@ const QString TitleWidget::titleSuggest()
     QList<QGraphicsItem *> list = graphicsView->scene()->items();
     int y = m_frameHeight;
     QString title;
-    for (QGraphicsItem *qgItem : list) {
+    for (QGraphicsItem *qgItem : qAsConst(list)) {
         if (qgItem->pos().y() < y && qgItem->type() == TEXTITEM) {
             auto *i = static_cast<MyTextItem *>(qgItem);
             QString currentTitle = i->toPlainText().simplified();
@@ -3133,7 +3132,7 @@ const QString TitleWidget::titleSuggest()
 
 void TitleWidget::showGuides(int state)
 {
-    for (QGraphicsLineItem *it : m_guides) {
+    for (QGraphicsLineItem *it : qAsConst(m_guides)) {
         it->setVisible(state == Qt::Checked);
     }
     KdenliveSettings::setTitlerShowGuides(state == Qt::Checked);
@@ -3195,7 +3194,7 @@ void TitleWidget::guideColorChanged(const QColor &col)
 {
     KdenliveSettings::setTitleGuideColor(col);
     QColor guideCol(col);
-    for (QGraphicsLineItem *it : m_guides) {
+    for (QGraphicsLineItem *it : qAsConst(m_guides)) {
         int alpha = it->pen().color().alpha();
         guideCol.setAlpha(alpha);
         QPen framePen(guideCol);

@@ -43,8 +43,6 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QPointer>
-#include <QTextEdit>
-#include <QFormLayout>
 
 #include <QComboBox>
 #include <KDualAction>
@@ -136,7 +134,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     const std::shared_ptr<AssetParameterModel> effectParamModel = std::static_pointer_cast<AssetParameterModel>(effectModel);
     m_view->setModel(effectParamModel, frameSize);
     connect(m_view, &AssetParameterView::seekToPos, this, &AbstractCollapsibleWidget::seekToPos);
-    connect(m_view, &AssetParameterView::activateEffect, [this]() {
+    connect(m_view, &AssetParameterView::activateEffect, this, [this]() {
         if (!decoframe->property("active").toBool()) {
             // Activate effect if not already active
             emit activateEffect(m_model);
@@ -149,7 +147,7 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
     lay->setContentsMargins(0, 0, 0, 0);
     lay->setSpacing(0);
     lay->addWidget(m_view);
-    connect(m_keyframesButton, &QToolButton::toggled, [this](bool toggle) {
+    connect(m_keyframesButton, &QToolButton::toggled, this, [this](bool toggle) {
         m_view->toggleKeyframes(toggle);
     });
     if (!effectParamModel->hasMoreThanOneKeyframe()) {
@@ -342,13 +340,13 @@ bool CollapsibleEffectView::isEnabled() const
 void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     // m_colorIcon->setEnabled(active);
-    // bool active = ix.row() == m_model->row(); 
+    // bool active = ix.row() == m_model->row();
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {
         pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
     }
-    m_view->initKeyframeView(active);
+    emit m_view->initKeyframeView(active);
 }
 
 void CollapsibleEffectView::mousePressEvent(QMouseEvent *e)
@@ -395,14 +393,14 @@ void CollapsibleEffectView::slotDisable(bool disable)
     QString effectName = EffectsRepository::get()->getName(effectId);
     std::static_pointer_cast<AbstractEffectItem>(m_model)->markEnabled(effectName, !disable);
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    m_view->initKeyframeView(!disable);
+    emit m_view->initKeyframeView(!disable);
     emit activateEffect(m_model);
 }
 
 void CollapsibleEffectView::updateScene()
 {
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
-    m_view->initKeyframeView(m_model->isEnabled());
+    emit m_view->initKeyframeView(m_model->isEnabled());
 }
 
 void CollapsibleEffectView::slotDeleteEffect()
@@ -419,93 +417,67 @@ void CollapsibleEffectView::slotEffectDown()
 {
     emit moveEffect(m_model->row() + 2, m_model);
 }
+
 void CollapsibleEffectView::slotSaveEffect()
 {
-   // QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
-    QDialog dialog(this);
-    QFormLayout form(&dialog);
-    QLineEdit *effectName = new QLineEdit(&dialog);
-    QTextEdit *descriptionBox = new QTextEdit(&dialog);
-    QString label_Name = QString("Name : ");
-    form.addRow(label_Name, effectName);
-    QString label = QString("Comments : ");
-    form.addRow(label, descriptionBox);
-    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-    form.addRow(&buttonBox);
-    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
+    if (name.trimmed().isEmpty()) {
+        return;
+    }
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    if (!dir.exists()) {
+        dir.mkpath(QStringLiteral("."));
+    }
 
-    if(dialog.exec() == QDialog::Accepted) {
-        QString name = effectName->text();
-        QString enteredDescription = descriptionBox->toPlainText();
-        if (name.trimmed().isEmpty()) {
+    if (dir.exists(name + QStringLiteral(".xml")))
+        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
             return;
         }
-        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-        if (!dir.exists()) {
-            dir.mkpath(QStringLiteral("."));
-        }
 
-        if (dir.exists(name + QStringLiteral(".xml")))
-            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
-                return;
-            }
-
-        QDomDocument doc;
-        // Get base effect xml
-        QString effectId = m_model->getAssetId();
-        QDomElement effect = EffectsRepository::get()->getXml(effectId);
-        // Adjust param values
-        QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-        QMap<QString, QString> values;
-        for (const auto &param : currentValues) {
-            values.insert(param.first, param.second.toString());
-        }
-        QDomNodeList params = effect.elementsByTagName("parameter");
-        for (int i = 0; i < params.count(); ++i) {
-            const QString paramName = params.item(i).toElement().attribute("name");
-            const QString paramType = params.item(i).toElement().attribute("type");
-            if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
-                continue;
-            }
-            params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
-        }
-        doc.appendChild(doc.importNode(effect, true));
-        effect = doc.firstChild().toElement();
-        effect.removeAttribute(QStringLiteral("kdenlive_ix"));
-        effect.setAttribute(QStringLiteral("id"), name);
-        QString masterType = effect.attribute(QLatin1String("type"));
-        effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
-
-        QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
-        effect.removeChild(effectname);
-        effectname = doc.createElement(QStringLiteral("name"));
-        QDomText nametext = doc.createTextNode(name);
-        effectname.appendChild(nametext);
-        effect.insertBefore(effectname, QDomNode());
-        QDomElement effectprops = effect.firstChildElement(QStringLiteral("properties"));
-        effectprops.setAttribute(QStringLiteral("id"), name);
-        effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
-        QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
-
-        if(!enteredDescription.trimmed().isEmpty()){
-            QDomElement root = doc.documentElement();
-            QDomElement nodelist = root.firstChildElement("description");
-            QDomElement newNodeTag = doc.createElement(QString("description"));
-            QDomText text = doc.createTextNode(enteredDescription);
-            newNodeTag.appendChild(text);
-            root.replaceChild(newNodeTag, nodelist);
-        }
-        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
-            QTextStream out(&file);
-            out << doc.toString();
-        }
-
-        file.close();
-        emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
-
+    QDomDocument doc;
+    // Get base effect xml
+    QString effectId = m_model->getAssetId();
+    QDomElement effect = EffectsRepository::get()->getXml(effectId);
+    // Adjust param values
+    QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
+    QMap<QString, QString> values;
+    for (const auto &param : qAsConst(currentValues)) {
+        values.insert(param.first, param.second.toString());
     }
+    QDomNodeList params = effect.elementsByTagName("parameter");
+    for (int i = 0; i < params.count(); ++i) {
+        const QString paramName = params.item(i).toElement().attribute("name");
+        const QString paramType = params.item(i).toElement().attribute("type");
+        if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
+            continue;
+        }
+        params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
+    }
+    doc.appendChild(doc.importNode(effect, true));
+    effect = doc.firstChild().toElement();
+    effect.removeAttribute(QStringLiteral("kdenlive_ix"));
+    effect.setAttribute(QStringLiteral("id"), name);
+    QString masterType = effect.attribute(QLatin1String("type"));
+    effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
+
+    QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
+    effect.removeChild(effectname);
+    effectname = doc.createElement(QStringLiteral("name"));
+    QDomText nametext = doc.createTextNode(name);
+    effectname.appendChild(nametext);
+    effect.insertBefore(effectname, QDomNode());
+    QDomElement effectprops = effect.firstChildElement(QStringLiteral("properties"));
+    effectprops.setAttribute(QStringLiteral("id"), name);
+    effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
+    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+        QTextStream out(&file);
+        out << doc.toString();
+    }
+    file.close();
+    emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
+
 QDomDocument CollapsibleEffectView::toXml() const
 {
     QDomDocument doc;
@@ -513,12 +485,11 @@ QDomDocument CollapsibleEffectView::toXml() const
     QString effectId = m_model->getAssetId();
     // Adjust param values
     QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-    QMap<QString, QString> values;
 
     QDomElement effect = doc.createElement(QStringLiteral("effect"));
     doc.appendChild(effect);
     effect.setAttribute(QStringLiteral("id"), effectId);
-    for (const auto &param : currentValues) {
+    for (const auto &param : qAsConst(currentValues)) {
         QDomElement xmlParam = doc.createElement(QStringLiteral("property"));
         effect.appendChild(xmlParam);
         xmlParam.setAttribute(QStringLiteral("name"), param.first);

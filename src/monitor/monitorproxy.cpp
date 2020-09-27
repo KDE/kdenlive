@@ -62,7 +62,7 @@ void MonitorProxy::setRulerHeight(int addedHeight)
 
 void MonitorProxy::seek(int delta, uint modifiers)
 {
-    q->mouseSeek(delta, modifiers);
+    emit q->mouseSeek(delta, modifiers);
 }
 
 int MonitorProxy::overlayType() const
@@ -338,9 +338,10 @@ void MonitorProxy::setClipProperties(int clipId, ClipType::ProducerType type, bo
     emit clipNameChanged();
 }
 
-void MonitorProxy::setAudioThumb(const QList <QUrl> thumbPath)
+void MonitorProxy::setAudioThumb(const QList <int> streamIndexes, QList <int> channels)
 {
-    m_audioThumb = thumbPath;
+    m_audioChannels = channels;
+    m_audioStreams = streamIndexes;
     emit audioThumbChanged();
 }
 
@@ -355,4 +356,30 @@ QPoint MonitorProxy::profile()
 {
     QSize s = pCore->getCurrentFrameSize();
     return QPoint(s.width(), s.height());
+}
+
+QColor MonitorProxy::thumbColor1() const
+{
+    return KdenliveSettings::thumbColor1();
+}
+
+QColor MonitorProxy::thumbColor2() const
+{
+    return KdenliveSettings::thumbColor2();
+}
+
+bool MonitorProxy::audioThumbFormat() const
+{
+    return KdenliveSettings::displayallchannels();
+}
+
+void MonitorProxy::switchAutoKeyframe()
+{
+    KdenliveSettings::setAutoKeyframe(!KdenliveSettings::autoKeyframe());
+    emit autoKeyframeChanged();
+}
+
+bool MonitorProxy::autoKeyframe() const
+{
+    return KdenliveSettings::autoKeyframe();
 }

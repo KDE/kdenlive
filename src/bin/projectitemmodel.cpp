@@ -39,6 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "projectclip.h"
 #include "projectfolder.h"
 #include "projectsubclip.h"
+#include "lib/localeHandling.h"
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
@@ -393,9 +394,6 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
 const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &binId, int stream)
 {
     READ_LOCK();
-    if (binId.contains(QLatin1Char('_'))) {
-        return getAudioLevelsByBinID(binId.section(QLatin1Char('_'), 0, 0), stream);
-    }
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
@@ -537,7 +535,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     auto list = json.array();
-    for (const auto &entry : list) {
+    for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid marker data";
             continue;
@@ -706,11 +704,13 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
     bool res = addItem(new_clip, parentId, undo, redo);
     qDebug() << "/////////// added " << res;
     if (res) {
-        int loadJob = pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
-        pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
+        int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
+        emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
         ClipType::ProducerType type = new_clip->clipType();
-        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
-            pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
+        if (KdenliveSettings::audiothumbnails()) {
+            if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Playlist || type == ClipType::Unknown) {
+                emit pCore->jobManager()->startJob<AudioThumbJob>({id}, loadJob, QString());
+            }
         }
     }
     return res;
@@ -744,8 +744,10 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
         new_clip->importEffects(producer);
         if (new_clip->isReady() || new_clip->sourceExists()) {
             int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
-            pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
-            pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
+            emit pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
+            if (KdenliveSettings::audiothumbnails()) {
+                emit pCore->jobManager()->startJob<AudioThumbJob>({id}, blocking, QString());
+            }
         }
     }
     return res;
@@ -770,7 +772,7 @@ bool ProjectItemModel::requestAddBinSubClip(QString &id, int in, int out, const 
     bool res = addItem(new_clip, subId, undo, redo);
     if (res) {
         int parentJob = pCore->jobManager()->getBlockingJobId(subId, AbstractClipJob::LOADJOB);
-        pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), -1, true);
+        emit pCore->jobManager()->startJob<ThumbJob>({id}, parentJob, QString(), -1, true);
     }
     return res;
 }
@@ -989,11 +991,11 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
             qDebug() << "playlist is valid";
             if (progressDialog == nullptr && playlist.count() > 0) {
                 // Display message on splash screen
-                pCore->loadingMessageUpdated(i18n("Loading project clips..."));
+                emit pCore->loadingMessageUpdated(i18n("Loading project clips..."));
             }
             // Load bin clips
-            auto currentLocale = strdup(setlocale(LC_ALL, nullptr));
-            qDebug() << "Init bin; Current LC_ALL" << currentLocale;
+            auto currentLocale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
+            qDebug() << "Init bin; Current LC" << currentLocale;
             // Load folders
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());
@@ -1017,7 +1019,7 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 if (progressDialog) {
                     progressDialog->setValue(i);
                 } else {
-                    pCore->loadingMessageUpdated(QString(), 1);
+                    emit pCore->loadingMessageUpdated(QString(), 1);
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 if (prod->is_blank() || !prod->is_valid()) {

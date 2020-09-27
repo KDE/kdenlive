@@ -78,13 +78,15 @@ private:
 class TimelineWaveform : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QColor fillColor MEMBER m_color NOTIFY propertyChanged)
+    Q_PROPERTY(QColor fillColor1 MEMBER m_color NOTIFY propertyChanged)
+    Q_PROPERTY(QColor fillColor2 MEMBER m_color2 NOTIFY propertyChanged)
     Q_PROPERTY(int waveInPoint MEMBER m_inPoint NOTIFY propertyChanged)
     Q_PROPERTY(int drawInPoint MEMBER m_drawInPoint NOTIFY propertyChanged)
     Q_PROPERTY(int drawOutPoint MEMBER m_drawOutPoint NOTIFY propertyChanged)
     Q_PROPERTY(int channels MEMBER m_channels NOTIFY audioChannelsChanged)
     Q_PROPERTY(QString binId MEMBER m_binId NOTIFY levelsChanged)
     Q_PROPERTY(int waveOutPoint MEMBER m_outPoint)
+    Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
     Q_PROPERTY(int audioStream MEMBER m_stream)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
@@ -102,8 +104,13 @@ public:
         //setMipmap(true);
         setTextureSize(QSize(1, 1));
         connect(this, &TimelineWaveform::levelsChanged, [&]() {
-            if (!m_binId.isEmpty() && m_audioLevels.isEmpty() && m_stream >= 0) {
-                update();
+            if (!m_binId.isEmpty()) {
+                if (m_audioLevels.isEmpty() && m_stream >= 0) {
+                    update();
+                } else {
+                    // Clip changed, reset levels
+                    m_audioLevels.clear();
+                }
             }
         });
         connect(this, &TimelineWaveform::propertyChanged, [&]() {
@@ -138,7 +145,6 @@ public:
             }
         }
         qreal indicesPrPixel = qreal(m_outPoint - m_inPoint) / width() * m_precisionFactor;
-        //qDebug()<<"== GOT DIMENSIONS FOR WAVE: "<<(m_outPoint - m_inPoint)<<", WID: "<<width();
         QPen pen = painter->pen();
         pen.setColor(m_color);
         painter->setBrush(m_color);
@@ -154,12 +160,13 @@ public:
             pen.setWidthF(0);
         }
         painter->setPen(pen);
-        QPainterPath path;
+        int startPos = m_inPoint / indicesPrPixel;
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
             double i = 0;
             double level;
             int j = 0;
+            QPainterPath path;
             if (m_drawInPoint > 0) {
                 j = m_drawInPoint / increment;
             }
@@ -168,7 +175,7 @@ public:
             }
             for (; i <= width() && i < m_drawOutPoint; j++) {
                 i = j * increment;
-                int idx = m_precisionFactor * m_inPoint + int(i * indicesPrPixel);
+                int idx = ceil((startPos + i) * indicesPrPixel);
                 idx += idx % m_channels;
                 i -= offset;
                 if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
@@ -199,14 +206,17 @@ public:
             for (int channel = 0; channel < m_channels; channel++) {
                 // y is channel median pos
                 double y = (channel * channelHeight) + channelHeight / 2;
+                QPainterPath path;
                 path.moveTo(-1, y);
-                painter->setOpacity(0.2);
                 if (channel % 2 == 0) {
                     // Add dark background on odd channels
+                    painter->setOpacity(0.2);
                     bgRect.moveTo(0, channel * channelHeight);
                     painter->fillRect(bgRect, Qt::black);
                 }
                 // Draw channel median line
+                pen.setColor(channel % 2 == 0 ? m_color : m_color2);
+                painter->setBrush(channel % 2 == 0 ? m_color : m_color2);
                 painter->setOpacity(0.5);
                 pen.setWidthF(0);
                 painter->setPen(pen);
@@ -224,7 +234,7 @@ public:
                 }
                 for (; i <= width() && i < m_drawOutPoint; j++) {
                     i = j * increment;
-                    int idx = m_precisionFactor * m_inPoint + ceil(i * indicesPrPixel);
+                    int idx = ceil((startPos + i) * indicesPrPixel);
                     idx += idx % m_channels;
                     i -= offset;
                     idx += channel;
@@ -266,6 +276,7 @@ private:
     int m_drawOutPoint;
     QString m_binId;
     QColor m_color;
+    QColor m_color2;
     bool m_format;
     bool m_showItem;
     int m_channels;

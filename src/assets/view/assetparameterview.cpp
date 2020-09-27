@@ -58,7 +58,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     const QString paramTag = model->getAssetId();
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/presets/"));
     const QString presetFile = dir.absoluteFilePath(QString("%1.json").arg(paramTag));
-    connect(this, &AssetParameterView::updatePresets, [this, presetFile](const QString &presetName) {
+    connect(this, &AssetParameterView::updatePresets, this, [this, presetFile](const QString &presetName) {
         m_presetMenu->clear();
         m_presetGroup.reset(new QActionGroup(this));
         m_presetGroup->setExclusive(true);
@@ -73,7 +73,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
             updatePreset->setEnabled(false);
             deletePreset->setEnabled(false);
         }
-        for (const QString &pName : presets) {
+        for (const QString &pName : qAsConst(presets)) {
             QAction *ac = m_presetMenu->addAction(pName, this, SLOT(slotLoadPreset()));
             m_presetGroup->addAction(ac);
             ac->setData(pName);
@@ -92,7 +92,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
         connect(w, &AbstractParamWidget::valuesChanged, this, &AssetParameterView::commitMultipleChanges);
         connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
         m_lay->addWidget(w);
-        connect(w, &AbstractParamWidget::updateHeight, [&](int h) {
+        connect(w, &AbstractParamWidget::updateHeight, this, [&](int h) {
             setFixedHeight(h + m_lay->contentsMargins().bottom());
             emit updateHeight();
         });
@@ -113,7 +113,7 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
                 connect(w, &AbstractParamWidget::valueChanged, this, &AssetParameterView::commitChanges);
                 connect(w, &AbstractParamWidget::seekToPos, this, &AssetParameterView::seekToPos);
                 connect(w, &AbstractParamWidget::activateEffect, this, &AssetParameterView::activateEffect);
-                connect(w, &AbstractParamWidget::updateHeight, [&]() {
+                connect(w, &AbstractParamWidget::updateHeight, this, [&]() {
                     setFixedHeight(contentHeight());
                     emit updateHeight();
                 });

@@ -1029,7 +1029,18 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     TRACE(binClipId, trackId, position, id, logUndo, refreshView, useTargets);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo);
+    QVector<int> allowedTracks;
+    if (useTargets) {
+        auto it = m_allTracks.cbegin();
+        while (it != m_allTracks.cend()) {
+            int target_track = (*it)->getId();
+            if (getTrackById_const(target_track)->shouldReceiveTimelineOp()) {
+                allowedTracks << target_track;
+            }
+            ++it;
+        }
+    }
+    bool result = requestClipInsertion(binClipId, trackId, position, id, logUndo, refreshView, useTargets, undo, redo, allowedTracks);
     if (result && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Insert Clip"));
     }
@@ -1065,6 +1076,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         binIdWithInOut.remove(0, 1);
     }
     if (!pCore->projectItemModel()->hasClip(bid)) {
+        qDebug()<<"=== NO CLIP FOUND IN BIN FOR ID: "<<bid;
         return false;
     }
 
@@ -1086,22 +1098,29 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
         useTargets = false;
     }
     if ((dropType == PlaylistState::Disabled || dropType == PlaylistState::AudioOnly) && (type == ClipType::AV || type == ClipType::Playlist)) {
+        bool useAudioTarget = false;
         if (useTargets && !m_audioTarget.isEmpty() && m_videoTarget == -1) {
             // If audio target is set but no video target, only insert audio
-            trackId = m_audioTarget.firstKey();
-            if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
-                trackId = -1;
-            }
+            useAudioTarget = true;
         } else if (useTargets && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
             // Video target set but locked
-            trackId = m_audioTarget.firstKey();
-            if (trackId > -1 && (getTrackById_const(trackId)->isLocked() || !allowedTracks.contains(trackId))) {
-                trackId = -1;
+            useAudioTarget = true;
+        }
+        if (useAudioTarget) {
+            // Find first possible audio target
+            QList <int> audioTargetTracks = m_audioTarget.keys();
+            trackId = -1;
+            for (int tid : audioTargetTracks) {
+                if (tid > -1 && !getTrackById_const(tid)->isLocked() && allowedTracks.contains(tid)) {
+                    trackId = tid;
+                    break;
+                }
             }
         }
         if (trackId == -1) {
             if (!allowedTracks.isEmpty()) {
                 // No active tracks, aborting
+                qDebug()<<"=== NO ACTIVE TRACK FOUND; ABORTING!!!";
                 return true;
             }
             pCore->displayMessage(i18n("No available track for insert operation"), ErrorMessage);
@@ -1148,13 +1167,17 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 }
             }
         } else if (audioDrop) {
-            // Using our targets
+            // Drag & drop, use our first audio target
             audioStream = m_audioTarget.first();
+        } else {
+            // Using target tracks
+            if (m_audioTarget.contains(trackId)) {
+                audioStream = m_audioTarget.value(trackId);
+            }
         }
 
-        res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioDrop ? audioStream : -1, 1.0, false, local_undo, local_redo);
+        res = requestClipCreation(binIdWithInOut, id, getTrackById_const(trackId)->trackType(), audioStream, 1.0, false, local_undo, local_redo);
         res = res && requestClipMove(id, trackId, position, true, refreshView, logUndo, logUndo, local_undo, local_redo);
-        qDebug()<<"==== INSERTED FIRST AUDIO STREAM: "<<audioStream<<", ON TK: "<<trackId<<"\n-----";
         QList <int> target_track;
         if (audioDrop) {
             if (m_videoTarget > -1 && !getTrackById_const(m_videoTarget)->isLocked() && dropType != PlaylistState::AudioOnly) {
@@ -1162,6 +1185,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             }
         } else if (useTargets) {
             QList <int> targetIds = m_audioTarget.keys();
+            targetIds.removeAll(trackId);
             for (int &ix : targetIds) {
                 if (!getTrackById_const(ix)->isLocked() && allowedTracks.contains(ix)) {
                     target_track << ix;
@@ -1190,7 +1214,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                     audioTids = getLowerTracksId(trackId, TrackType::AudioTrack);
                 }
                 // First audio stream already inserted in target_track or in timeline
-                streamsCount = m_binAudioTargets.keys().count() - 1;
+                streamsCount = m_binAudioTargets.count() - 1;
                 qDebug()<<"=== GOT AUDIO STRAMS: "<<streamsCount<<"\nAUDIO IDS: "<<audioTids;
                 while (streamsCount > 0 && !audioTids.isEmpty()) {
                     target_track << audioTids.takeFirst();
@@ -1229,7 +1253,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
             for (int &target_ix : target_track) {
                 qDebug()<<"=== TESTING MIRRONR ON TK: "<<target_ix;
                 bool currentDropIsAudio = !audioDrop;
-                if (!useTargets && m_binAudioTargets.keys().count() > 1 && dropTargets.contains(target_ix)) {
+                if (!useTargets && m_binAudioTargets.count() > 1 && dropTargets.contains(target_ix)) {
                     // Audio clip dropped first but has other streams
                     currentDropIsAudio = true;
                     mirrorAudioStream = dropTargets.value(target_ix);
@@ -1868,11 +1892,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
             }
         }
     }
-    if (updatePositionOnly) {
-        update_model();
-        PUSH_LAMBDA(update_model, local_redo);
-        PUSH_LAMBDA(update_model, local_undo);
-    }
+    update_model();
+    PUSH_LAMBDA(update_model, local_redo);
+    PUSH_LAMBDA(update_model, local_undo);
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
@@ -1998,7 +2020,7 @@ void TimelineModel::processGroupResize(QVariantList startPos, QVariantList endPo
             changedItems << i.key();
         }
     }
-    for (int id : changedItems) {
+    for (int id : qAsConst(changedItems)) {
         QPair<int, int> endItemPos = endData.value(id);
         result = result & requestItemResize(id, endItemPos.second, right, true, undo, redo, false);
         if (!result) {
@@ -2474,7 +2496,7 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
                 emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
             }
         } else {
-            for (int i = position; i < getTracksCount(); i++) {
+            for (int i = position; i < (int)m_allTracks.size(); i++) {
                 QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
                 emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
             }
@@ -2658,11 +2680,11 @@ void TimelineModel::registerTrack(std::shared_ptr<TrackModel> track, int pos, bo
     // we now insert in the list
     auto posIt = m_allTracks.begin();
     std::advance(posIt, pos);
+    beginInsertRows(QModelIndex(), pos, pos);
     auto it = m_allTracks.insert(posIt, std::move(track));
     // it now contains the iterator to the inserted element, we store it
     Q_ASSERT(m_iteratorTable.count(id) == 0); // check that id is not used (shouldn't happen)
     m_iteratorTable[id] = it;
-    beginInsertRows(QModelIndex(), pos, pos);
     endInsertRows();
     int cache = (int)QThread::idealThreadCount() + ((int)m_allTracks.size() + 1) * 2;
     mlt_service_cache_set_size(NULL, "producer_avformat", qMax(4, cache));

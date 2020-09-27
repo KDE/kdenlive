@@ -37,7 +37,7 @@ AudioEnvelope::AudioEnvelope(const QString &binId, int clipId, size_t offset, si
     m_envelopeSize = (size_t)m_producer->get_playtime();
 
     m_producer->set("set.test_image", 1);
-    connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { envelopeReady(this); });
+    connect(&m_watcher, &QFutureWatcherBase::finished, this, [this] { emit envelopeReady(this); });
     if (!m_producer || !m_producer->is_valid()) {
         qCDebug(KDENLIVE_LOG) << "// Cannot create envelope for producer: " << binId;
     } else {

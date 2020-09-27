@@ -132,7 +132,7 @@ RecManager::~RecManager() = default;
 
 void RecManager::showRecConfig()
 {
-    pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
+    emit pCore->showConfigDialog(4, m_device_selector->currentData().toInt());
 }
 
 QToolBar *RecManager::toolbar() const

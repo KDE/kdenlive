@@ -74,7 +74,9 @@ Rectangle {
     }
 
     MouseArea {
+        id: headerMouseArea
         anchors.fill: parent
+        hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onPressed: {
             timeline.activeTrack = trackId
@@ -135,6 +137,7 @@ Rectangle {
                 }
             }
             ToolButton {
+                id: targetMouse
                 focusPolicy: Qt.NoFocus
                 visible: trackHeadRoot.isAudio && timeline.clipTargets > 1 && trackHeadRoot.height > (2 * expandButton.height)
                 background: Rectangle {
@@ -153,10 +156,24 @@ Rectangle {
                 onClicked: {
                     root.showTargetMenu(trackId)
                 }
+                ToolTip {
+                    visible: targetMouse.hovered
+                    font: miniFont
+                    delay: 1500
+                    timeout: 5000
+                    background: Rectangle {
+                        color: activePalette.alternateBase
+                        border.color: activePalette.light
+                    }
+                    contentItem: Label {
+                        color: activePalette.text
+                        text: timeline.actionText("switch_target_stream")
+                    }
+                }
             }
         }
         ToolTip {
-            visible: targetArea.containsMouse
+            visible: targetArea.containsMouse && !targetMouse.hovered
             font: miniFont
             delay: 1500
             timeout: 5000
@@ -493,6 +510,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     propagateComposedEvents: true
+                    cursorShape: Qt.IBeamCursor
                     onDoubleClicked: {
                         nameEdit.visible = true
                         nameEdit.focus = true
@@ -502,16 +520,6 @@ Rectangle {
                         timeline.showTrackAsset(trackId)
                         timeline.activeTrack = trackId
                         trackHeadRoot.focus = true
-                    }
-                    onEntered: {
-                        if (nameEdit.visible == false && trackName == '') {
-                            placeHolder.visible = true
-                        }
-                    }
-                    onExited: {
-                        if (placeHolder.visible == true) {
-                            placeHolder.visible = false
-                        }
                     }
                 }
                 Label {
@@ -524,7 +532,7 @@ Rectangle {
                 }
                 Label {
                     id: placeHolder
-                    visible: false
+                    visible: trackName == '' && (trackNameMouseArea.containsMouse || headerMouseArea.containsMouse)
                     enabled: false
                     text: i18n("Edit track name")
                     anchors.verticalCenter: parent.verticalCenter

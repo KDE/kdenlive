@@ -65,10 +65,10 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_switchCompoButton = new QComboBox(this);
     m_switchCompoButton->setFrame(false);
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : allTransitions) {
+    for (const auto &transition : qAsConst(allTransitions)) {
         m_switchCompoButton->addItem(transition.second, transition.first);
     }
-    connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), [&]() {
+    connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
             emit switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         }
@@ -138,10 +138,11 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_effectStackWidget->setVisible(false);
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
+    connect(m_effectStackWidget, &EffectStackView::scrollView, this, &AssetPanel::scrollTo);
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
-    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
+    connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 }
 
 void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
@@ -217,7 +218,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     m_enableStackButton->setActive(effectsModel->isStackEnabled());
     if (showSplit) {
         m_splitButton->setEnabled(effectsModel->rowCount() > 0);
-        QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, [&]() {
+        QObject::connect(effectsModel.get(), &EffectStackModel::dataChanged, this, [&]() {
             if (m_effectStackWidget->isEmpty()) {
                 m_splitButton->setActive(false);
             }
@@ -394,7 +395,7 @@ void AssetPanel::enableStack(bool enable)
 void AssetPanel::deleteCurrentEffect()
 {
     if (m_effectStackWidget->isVisible()) {
-        m_effectStackWidget->removeCurrentEffect();
+        emit m_effectStackWidget->removeCurrentEffect();
     }
 }
 
@@ -403,6 +404,13 @@ void AssetPanel::collapseCurrentEffect()
     if (m_effectStackWidget->isVisible()) {
         m_effectStackWidget->switchCollapsed();
     }
+}
+
+void AssetPanel::scrollTo(QRect rect)
+{
+    // Ensure the scrollview widget adapted its height to the effectstackview height change
+    m_sc->widget()->adjustSize();
+    m_sc->ensureVisible(0, rect.y(), 0, rect.height());
 }
 
 void AssetPanel::slotCheckWheelEventFilter()
@@ -414,7 +422,7 @@ void AssetPanel::slotCheckWheelEventFilter()
         // widget has scroll bar,
         blockWheel = true;
     }
-    m_effectStackWidget->blockWheenEvent(blockWheel);
+    emit m_effectStackWidget->blockWheenEvent(blockWheel);
 }
 
 void AssetPanel::assetPanelWarning(const QString service, const QString /*id*/, const QString message)

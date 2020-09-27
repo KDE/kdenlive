@@ -96,12 +96,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imageminsize, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, image_label, &QWidget::setEnabled);
     connect(generate_imageproxy, &QAbstractButton::toggled, proxy_imagesize, &QWidget::setEnabled);
-    connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this]() {
+    connect(video_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             video_tracks->setValue(1);
         }
     });
-    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [this] () {
+    connect(audio_tracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this] () {
         if (video_tracks->value() + audio_tracks->value() <= 0) {
             audio_tracks->setValue(1);
         }
@@ -345,12 +345,12 @@ void ProjectSettings::slotUpdateFiles(bool cacheOnly)
     others->setExpanded(true);
     int count = 0;
     QStringList allFonts;
-    for (const QString &file : m_lumas) {
+    for (const QString &file : qAsConst(m_lumas)) {
         count++;
         new QTreeWidgetItem(images, QStringList() << file);
     }
     QList<std::shared_ptr<ProjectClip>> clipList = pCore->projectItemModel()->getRootFolder()->childClips();
-    for (const std::shared_ptr<ProjectClip> &clip : clipList) {
+    for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         switch (clip->clipType()) {
         case ClipType::Color:
             // ignore color clips in list, there is no real file
@@ -670,7 +670,7 @@ void ProjectSettings::slotExportToText()
     fd.setMimeTypeFilters(QStringList() << "text/plain");
     if (fd.exec() != QDialog::Accepted) { return; }
     
-    const QString savePath = fd.selectedFiles().first();
+    const QString savePath = fd.selectedFiles().constFirst();
     
     QString text;
     text.append(i18n("Project folder: %1", project_folder->url().toLocalFile()) + '\n');

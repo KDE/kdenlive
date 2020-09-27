@@ -46,7 +46,7 @@ TransitionsRepository::TransitionsRepository()
         pCore->displayMessage(i18n("Some of your favorite compositions are invalid and were removed: %1", invalidTransition.join(QLatin1Char(','))),
                               ErrorMessage);
         QStringList newFavorites = KdenliveSettings::favorite_transitions();
-        for (const QString &effect : invalidTransition) {
+        for (const QString &effect : qAsConst(invalidTransition)) {
             newFavorites.removeAll(effect);
         }
         KdenliveSettings::setFavorite_transitions(newFavorites);
@@ -150,7 +150,7 @@ QString TransitionsRepository::assetPreferredListPath() const
 {
     // Transitions do not have "Main" filter implemented, so we return an empty
     // string instead of path to a file with that list
-    return QStringLiteral("");
+    return QLatin1String("");
 }
 
 std::unique_ptr<Mlt::Transition> TransitionsRepository::getTransition(const QString &transitionId) const

@@ -128,16 +128,16 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
-    connect(m_favEffects, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_favEffects, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->addEffectToClip(ac->data().toString());
     });
-    connect(m_favCompositions, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_favCompositions, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->addCompositionToClip(ac->data().toString());
     });
-    connect(m_guideMenu, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_guideMenu, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->setPosition(ac->data().toInt());
     });
-    connect(m_thumbsMenu, &QMenu::triggered, [&] (QAction *ac) {
+    connect(m_thumbsMenu, &QMenu::triggered, this, [&] (QAction *ac) {
         m_proxy->setActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format"), ac->data().toString());
     });
     // Fix qml focus issue
@@ -211,7 +211,7 @@ void TimelineWidget::showClipMenu(int cid)
         isAudioTrack = model()->isAudioTrack(tid);
     }
     m_favCompositions->setEnabled(!isAudioTrack);
-    for (auto ac : effects) {
+    for (auto ac : qAsConst(effects)) {
         const QString &id = ac->data().toString();
         if (EffectsRepository::get()->isAudioEffect(id) != isAudioTrack) {
             ac->setVisible(false);
@@ -232,7 +232,7 @@ void TimelineWidget::showHeaderMenu()
     bool isAudio = m_proxy->isActiveTrackAudio();
     QList <QAction *> menuActions = m_headerMenu->actions();
     QList <QAction *> audioActions;
-    for (QAction *ac : menuActions) {
+    for (QAction *ac : qAsConst(menuActions)) {
         if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels")) {
             audioActions << ac;
         }
@@ -241,20 +241,20 @@ void TimelineWidget::showHeaderMenu()
         // Video track
         int currentThumbs = m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:thumbs_format")).toInt();
         QList <QAction *> actions = m_thumbsMenu->actions();
-        for (QAction *ac : actions) {
+        for (QAction *ac : qAsConst(actions)) {
             if (ac->data().toInt() == currentThumbs) {
                 ac->setChecked(true);
                 break;
             }
         }
         m_thumbsMenu->menuAction()->setVisible(true);
-        for (auto ac : audioActions) {
+        for (auto ac : qAsConst(audioActions)) {
             ac->setVisible(false);
         }
     } else {
         // Audio track
         m_thumbsMenu->menuAction()->setVisible(false);
-        for (auto ac : audioActions) {
+        for (auto ac : qAsConst(audioActions)) {
             ac->setVisible(true);
             if (ac->data().toString() == QLatin1String("show_track_record")) {
                 ac->setChecked(m_proxy->getActiveTrackProperty(QStringLiteral("kdenlive:audio_rec")).toInt() == 1);
@@ -298,7 +298,7 @@ void TimelineWidget::showTargetMenu(int tid)
             ac->setChecked(true);
         }
     }
-    connect(m_targetsGroup, &QActionGroup::triggered, [this, tid] (QAction *action) {
+    connect(m_targetsGroup, &QActionGroup::triggered, this, [this, tid] (QAction *action) {
         int targetStream = action->data().toInt();
         m_proxy->assignAudioTarget(tid, targetStream);
     });
@@ -317,7 +317,7 @@ void TimelineWidget::showRulerMenu()
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
-    for (auto guide : guides) {
+    for (const auto &guide : guides) {
         ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
@@ -338,7 +338,7 @@ void TimelineWidget::showTimelineMenu()
     m_editGuideAcion->setEnabled(false);
     double fps = pCore->getCurrentFps();
     int currentPos = rootObject()->property("consumerPosition").toInt();
-    for (auto guide : guides) {
+    for (const auto &guide : guides) {
         ac = new QAction(guide.comment(), this);
         int frame = guide.time().frames(fps);
         ac->setData(frame);
@@ -374,7 +374,7 @@ void TimelineWidget::slotFitZoom()
     }
     m_proxy->setScaleFactorOnMouse(scale, false);
     // Update zoom slider
-    m_proxy->updateZoom(scale);
+    emit m_proxy->updateZoom(scale);
     QMetaObject::invokeMethod(rootObject(), "goToStart", Q_ARG(QVariant, scrollPos));
 }
 
@@ -457,19 +457,19 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     switch(event->type()) {
         case QEvent::Enter:
             if (!hasFocus()) {
-                pCore->window()->focusTimeline(true, true);
+                emit pCore->window()->focusTimeline(true, true);
             }
             break;
         case QEvent::Leave:
             if (!hasFocus()) {
-                pCore->window()->focusTimeline(false, true);
+                emit pCore->window()->focusTimeline(false, true);
             }
             break;
         case QEvent::FocusOut:
-            pCore->window()->focusTimeline(false, false);
+            emit pCore->window()->focusTimeline(false, false);
             break;
         case QEvent::FocusIn:
-            pCore->window()->focusTimeline(true, false);
+            emit pCore->window()->focusTimeline(true, false);
             break;
         default:
             break;

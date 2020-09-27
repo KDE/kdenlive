@@ -38,7 +38,7 @@ KeyframeMonitorHelper::KeyframeMonitorHelper(Monitor *monitor, std::shared_ptr<A
 bool KeyframeMonitorHelper::connectMonitor(bool activate)
 {
     if (activate == m_active) {
-        return false;
+        return true;
     }
     m_active = activate;
     if (activate) {
@@ -60,7 +60,7 @@ void KeyframeMonitorHelper::refreshParams(int /* pos */ )
     QVariantList points;
     QVariantList types;
     std::shared_ptr<KeyframeModelList> keyframes = m_model->getKeyframeModel();
-    for (const auto &ix : m_indexes) {
+    for (const auto &ix : qAsConst(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::AnimatedRect) {
             continue;
@@ -96,7 +96,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
         qDebug() << "* * * *CENTER POINTS MISMATCH, aborting edit";
         return;
     }
-    for (const auto &ix : m_indexes) {
+    for (const auto &ix : qAsConst(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::AnimatedRect) {
             continue;
@@ -130,3 +130,4 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
         break;
     }
 }
+

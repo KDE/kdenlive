@@ -68,6 +68,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
                 streamIndex++;
             }
             m_audioStreams.insert(ix, channelDescription);
+            m_audioChannels.insert(ix, chan);
         }
     }
     QString active = producer->get("kdenlive:active_streams");
@@ -75,7 +76,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
     if (m_audioStreams.count() > 1 && active.isEmpty()) {
         // initialize enabled streams
         QStringList streamString;
-        for (int streamIx : m_activeStreams) {
+        for (int streamIx : qAsConst(m_activeStreams)) {
             streamString << QString::number(streamIx);
         }
         producer->set("kdenlive:active_streams", streamString.join(QLatin1Char(';')).toUtf8().constData());
@@ -113,6 +114,35 @@ int AudioStreamInfo::channels() const
 QMap <int, QString> AudioStreamInfo::streams() const
 {
     return m_audioStreams;
+}
+
+QMap <int, int> AudioStreamInfo::streamChannels() const
+{
+    return m_audioChannels;
+}
+
+int AudioStreamInfo::channelsForStream(int stream) const
+{
+    if (m_audioChannels.contains(stream)) {
+        return m_audioChannels.value(stream);
+    }
+    return m_channels;
+}
+
+QList <int> AudioStreamInfo::activeStreamChannels() const
+{
+    if (m_activeStreams.size() == 1 && m_activeStreams.contains(INT_MAX)) {
+        return m_audioChannels.values();
+    }
+    QList <int> activeChannels;
+    QMapIterator<int, QString> i(m_audioStreams);
+    while (i.hasNext()) {
+        i.next();
+        if (m_activeStreams.contains(i.key())) {
+            activeChannels << m_audioChannels.value(i.key());
+        }
+    }
+    return activeChannels;
 }
 
 QMap <int, QString> AudioStreamInfo::activeStreams() const
@@ -203,7 +233,7 @@ void AudioStreamInfo::updateActiveStreams(const QString &activeStreams)
         return;
     }
     QStringList st = activeStreams.split(QLatin1Char(';'));
-    for (const QString &s : st) {
+    for (const QString &s : qAsConst(st)) {
         m_activeStreams << s.toInt();
     }
 }

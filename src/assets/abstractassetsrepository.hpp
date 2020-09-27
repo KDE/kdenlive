@@ -49,6 +49,9 @@ public:
 
     /* @brief Return type of asset */
     AssetType getType(const QString &assetId) const;
+    
+    /* @brief Return type of asset */
+    bool isUnique(const QString &assetId) const;
 
     /* @brief Return name of asset */
     Q_INVOKABLE QString getName(const QString &assetId) const;

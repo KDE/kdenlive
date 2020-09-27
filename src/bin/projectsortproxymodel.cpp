@@ -124,6 +124,9 @@ bool ProjectSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex 
         if (leftData.type() == QVariant::DateTime) {
             return leftData.toDateTime() < rightData.toDateTime();
         }
+        if (leftData.type() == QVariant::Int) {
+            return leftData.toInt() < rightData.toInt();
+        }
         return m_collator.compare(leftData.toString(), rightData.toString()) < 0;
     }
     if (sortOrder() == Qt::AscendingOrder) {

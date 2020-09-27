@@ -53,6 +53,7 @@ public:
     @return nullptr, if no monitor could be found, or the monitor otherwise.
     */
     AbstractMonitor *monitor(Kdenlive::MonitorId monitorName);
+    bool isActive(Kdenlive::MonitorId id) const;
     void updateScopeSource();
     void clearScopeSource();
     /** @brief Change an MLT consumer property for both monitors. */
@@ -77,7 +78,6 @@ public slots:
     /** @brief Activates a monitor.
      * @param name name of the monitor to activate */
     bool activateMonitor(Kdenlive::MonitorId);
-    bool isActive(Kdenlive::MonitorId id) const;
     void slotPlay();
     void slotPause();
     void slotPlayZone();

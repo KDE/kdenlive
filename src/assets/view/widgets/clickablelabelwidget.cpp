@@ -38,7 +38,6 @@ ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParame
 {
     // setup the comment
     m_displayName = m_model->data(m_index, Qt::DisplayRole).toString();
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
     auto *layout = new QHBoxLayout(this);
@@ -50,12 +49,12 @@ ClickableLabelParamWidget::ClickableLabelParamWidget(std::shared_ptr<AssetParame
     layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_tb);
     layout->addWidget(m_label);
-    connect(m_tb, &QToolButton::clicked, [&]() {
+    connect(m_tb, &QToolButton::clicked, this, [&]() {
         QClipboard *clipboard = QApplication::clipboard();
         QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
         clipboard->setText(value);
     });
-    connect(m_label, &QLabel::linkActivated, [&](const QString &result) {
+    connect(m_label, &QLabel::linkActivated, this, [&](const QString &result) {
         QClipboard *clipboard = QApplication::clipboard();
         clipboard->setText(result);
     });

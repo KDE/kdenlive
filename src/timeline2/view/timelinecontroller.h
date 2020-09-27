@@ -75,6 +75,8 @@ class TimelineController : public QObject
     Q_PROPERTY(QColor audioColor READ audioColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor titleColor READ titleColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor imageColor READ imageColor NOTIFY colorsChanged)
+    Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
+    Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
     Q_PROPERTY(QColor slideshowColor READ slideshowColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetColor READ targetColor NOTIFY colorsChanged)
     Q_PROPERTY(QColor targetTextColor READ targetTextColor NOTIFY colorsChanged)
@@ -164,6 +166,8 @@ public:
     Q_INVOKABLE QColor audioColor() const;
     Q_INVOKABLE QColor titleColor() const;
     Q_INVOKABLE QColor imageColor() const;
+    Q_INVOKABLE QColor thumbColor1() const;
+    Q_INVOKABLE QColor thumbColor2() const;
     Q_INVOKABLE QColor slideshowColor() const;
     Q_INVOKABLE QColor targetColor() const;
     Q_INVOKABLE QColor targetTextColor() const;
@@ -231,6 +235,7 @@ public:
     Q_INVOKABLE void deleteSelectedClips();
 
     Q_INVOKABLE void triggerAction(const QString &name);
+    Q_INVOKABLE const QString actionText(const QString &name);
 
     /* @brief Returns id of the timeline selcted clip if there is only 1 clip selected
      * or an AVSplit group. If allowComposition is true, returns composition id if 
@@ -542,6 +547,10 @@ public:
     QMap <int, QString> getCurrentTargets(int trackId, int &activeTargetStream);
     /** @brief Define audio stream target for a track index */
     void assignAudioTarget(int trackId, int stream);
+    /** @brief Define a stream target for current track from the stream index */
+    void assignCurrentTarget(int index);
+    /** @brief Get the first unassigned target audio stream. */
+    int getFirstUnassignedStream() const;
 
     /** @brief Add tracks to project */
     void addTracks(int videoTracks, int audioTracks);
@@ -554,8 +563,6 @@ public slots:
     Q_INVOKABLE void switchAudioTarget(int trackId);
     Q_INVOKABLE void setVideoTarget(int track);
     Q_INVOKABLE void setActiveTrack(int track);
-    /** @brief Get the first unassigned target audio stream. */
-    int getFirstUnassignedStream() const;
     void addEffectToCurrentClip(const QStringList &effectData);
     /** @brief Dis / enable timeline preview. */
     void disablePreview(bool disable);

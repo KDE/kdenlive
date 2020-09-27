@@ -34,7 +34,7 @@
 #include <mlt++/Mlt.h>
 static void consumer_frame_render(mlt_consumer, MeltJob *self, mlt_frame frame_ptr)
 {
-    self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
+    emit self->jobProgress((int)(100 * mlt_frame_get_position(frame_ptr) / self->length));
 }
 
 MeltJob::MeltJob(const QString &binId, JOBTYPE type, bool useProducerProfile, int in, int out)
@@ -146,7 +146,7 @@ bool MeltJob::startJob()
     }
     /*
     if (!m_consumerParams.contains(QStringLiteral("real_time"))) {
-        m_consumer->set("real_time", -KdenliveSettings::mltthreads());
+        m_consumer->set("real_time", -1);
     }
     */
 

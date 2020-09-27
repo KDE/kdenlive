@@ -53,7 +53,7 @@ void StabilizeJob::configureConsumer()
     m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "xml", m_destUrl.toUtf8().constData());
     m_consumer->set("all", 1);
     m_consumer->set("title", "Stabilized");
-    m_consumer->set("real_time", -KdenliveSettings::mltthreads());
+    m_consumer->set("real_time", -1);
 }
 
 void StabilizeJob::configureFilter()
@@ -113,7 +113,7 @@ int StabilizeJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std::
             // We are now all set to create the job. Note that we pass all the parameters directly through the lambda, hence there are no extra parameters to
             // the function
             using local_createFn_t = std::function<std::shared_ptr<StabilizeJob>(const QString &)>;
-            return ptr->startJob<StabilizeJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
+            return emit ptr->startJob<StabilizeJob>(binIds, parentId, std::move(undoString), local_createFn_t(std::move(createFn)));
         }
     }
     return -1;

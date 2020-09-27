@@ -87,7 +87,7 @@ AssetMultiCommand::AssetMultiCommand(const std::shared_ptr<AssetParameterModel> 
     } else if (TransitionsRepository::get()->exists(id)) {
         setText(i18n("Edit %1", TransitionsRepository::get()->getName(id)));
     }
-    for (QModelIndex ix : m_indexes) {
+    for (QModelIndex ix : qAsConst(m_indexes)) {
         QVariant previousVal = m_model->data(ix, AssetParameterModel::ValueRole);
         m_oldValues << previousVal.toString();
     }
@@ -97,7 +97,7 @@ void AssetMultiCommand::undo()
 {
     int indx = 0;
     int max = m_indexes.size() - 1;
-    for (const QModelIndex &ix : m_indexes) {
+    for (const QModelIndex &ix : qAsConst(m_indexes)) {
         m_model->setParameter(m_model->data(ix, AssetParameterModel::NameRole).toString(), m_oldValues.at(indx), indx == max, ix);
         indx++;
     }
@@ -107,7 +107,7 @@ void AssetMultiCommand::redo()
 {
     int indx = 0;
     int max = m_indexes.size() - 1;
-    for (const QModelIndex &ix : m_indexes) {
+    for (const QModelIndex &ix : qAsConst(m_indexes)) {
         m_model->setParameter(m_model->data(ix, AssetParameterModel::NameRole).toString(), m_values.at(indx), m_updateView && indx == max, ix);
         indx++;
     }

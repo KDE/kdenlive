@@ -49,6 +49,7 @@
 #include <QStandardPaths>
 #include <QTemporaryFile>
 #include <QTimer>
+#include <QApplication>
 #include <kio_version.h>
 #include <QXmlStreamWriter>
 
@@ -157,7 +158,7 @@ Wizard::Wizard(bool autoClose, bool appImageCheck, QWidget *parent)
         m_startLayout->addWidget(cbn);
         cbn->setChecked(KdenliveSettings::nvencEnabled());
         QPushButton *pb = new QPushButton(i18n("Check hardware acceleration"), this);
-        connect(pb, &QPushButton::clicked, [&, cb, cbn, pb]() {
+        connect(pb, &QPushButton::clicked, this, [&, cb, cbn, pb]() {
             testHwEncoders();
             pb->setEnabled(false);
             cb->setChecked(KdenliveSettings::vaapiEnabled());
@@ -469,6 +470,10 @@ void Wizard::checkMltComponents()
             // MLT >= 6.6.0 and SDL2 module
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl2_audio"));
             KdenliveSettings::setAudiobackend(QStringLiteral("sdl2_audio"));
+#if defined(Q_OS_WIN)
+            // Use wasapi by default on Windows
+            KdenliveSettings::setAudiodrivername(QStringLiteral("wasapi"));
+#endif
         } else if (consumersItemList.contains(QStringLiteral("sdl_audio"))) {
             // MLT < 6.6.0
             KdenliveSettings::setSdlAudioBackend(QStringLiteral("sdl_audio"));
@@ -563,7 +568,7 @@ void Wizard::checkMissingCodecs()
     // can also override profiles installed by KNewStuff
     QStringList requiredACodecs;
     QStringList requiredVCodecs;
-    for (const QString &filename : profilesList) {
+    for (const QString &filename : qAsConst(profilesList)) {
         QDomDocument doc;
         QFile file(filename);
         doc.setContent(&file, false);
@@ -626,24 +631,24 @@ void Wizard::checkMissingCodecs()
     }*/
 }
 
-void Wizard::slotCheckPrograms()
+void Wizard::slotCheckPrograms(QString &infos, QString &warnings)
 {
     bool allIsOk = true;
 
     // Check first in same folder as melt exec
-    const QStringList mltpath = QStringList() << QFileInfo(KdenliveSettings::rendererpath()).canonicalPath();
+    const QStringList mltpath({QFileInfo(KdenliveSettings::rendererpath()).canonicalPath(), qApp->applicationDirPath()});
     QString exepath;
     if (KdenliveSettings::ffmpegpath().isEmpty() || !QFileInfo::exists(KdenliveSettings::ffmpegpath())) {
-        exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
+        exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX), mltpath);
         if (exepath.isEmpty()) {
-            exepath = QStandardPaths::findExecutable(QStringLiteral("ffmpeg%1").arg(FFMPEG_SUFFIX));
+            exepath = QStandardPaths::findExecutable(QString("ffmpeg%1").arg(FFMPEG_SUFFIX));
         }
-        qDebug() << "Unable to find FFMpeg binary...";
+        qDebug() << "Found FFMpeg binary: "<<exepath;
         if (exepath.isEmpty()) {
             // Check for libav version
             exepath = QStandardPaths::findExecutable(QStringLiteral("avconv"));
             if (exepath.isEmpty()) {
-                m_warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
+                warnings.append(i18n("<li>Missing app: <b>ffmpeg</b><br/>required for proxy clips and transcoding</li>"));
                 allIsOk = false;
             }
         }
@@ -658,7 +663,7 @@ void Wizard::slotCheckPrograms()
             // Check for libav version
             playpath = QStandardPaths::findExecutable(QStringLiteral("avplay"));
             if (playpath.isEmpty()) {
-                m_infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
+                infos.append(i18n("<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"));
             }
         }
     }
@@ -672,7 +677,7 @@ void Wizard::slotCheckPrograms()
             // Check for libav version
             probepath = QStandardPaths::findExecutable(QStringLiteral("avprobe"));
             if (probepath.isEmpty()) {
-                m_infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
+                infos.append(i18n("<li>Missing app: <b>ffprobe</b><br/>recommended for extra clip analysis</li>"));
             }
         }
     }
@@ -748,7 +753,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
     } else {
         QStringList extensions = mime.globPatterns();
         QString comment = mime.comment();
-        for (const QString &glob : missingGlobs) {
+        for (const QString &glob : qAsConst(missingGlobs)) {
             if (!extensions.contains(glob)) {
                 extensions << glob;
             }
@@ -781,7 +786,7 @@ void Wizard::installExtraMimes(const QString &baseName, const QStringList &globs
             writer.writeEndElement(); // comment
         }
 
-        for (const QString &pattern : extensions) {
+        for (const QString &pattern : qAsConst(extensions)) {
             writer.writeStartElement(nsUri, QStringLiteral("glob"));
             writer.writeAttribute(QStringLiteral("pattern"), pattern);
             writer.writeEndElement(); // glob
@@ -910,7 +915,7 @@ void Wizard::slotCheckMlt()
     if (m_systemCheckIsOk) {
         checkMltComponents();
     }
-    slotCheckPrograms();
+    slotCheckPrograms(m_infos, m_warnings);
 }
 
 bool Wizard::isOk() const

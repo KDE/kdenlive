@@ -16,6 +16,9 @@ the Free Software Foundation, either version 3 of the License, or
 
 class KSelectAction;
 class QAction;
+class QButtonGroup;
+class QAbstractButton;
+class QHBoxLayout;
 
 class LayoutManagement : public QObject
 {
@@ -23,19 +26,31 @@ class LayoutManagement : public QObject
 
 public:
     explicit LayoutManagement(QObject *parent);
+    /** @brief Load a layout by its name. */
+    bool loadLayout(const QString &layoutId, bool selectButton);
 
 private slots:
     /** @brief Saves the widget layout. */
-    void slotSaveLayout(QAction *action);
+    void slotSaveLayout();
+    /** @brief Loads a layout from its button. */
+    void activateLayout(QAbstractButton *button);
     /** @brief Loads a saved widget layout. */
     void slotLoadLayout(QAction *action);
-    void slotOnGUISetupDone();
+    /** @brief Manage layout. */
+    void slotManageLayouts();
 
 private:
     /** @brief Populates the "load layout" menu. */
     void initializeLayouts();
-
+    QWidget *m_container;
+    QButtonGroup *m_containerGrp;
+    QHBoxLayout *m_containerLayout;
     KSelectAction *m_loadLayout;
+    QList <QAction *> m_layoutActions;
+
+signals:
+    /** @brief Layout changed, ensure title bars are correctly displayed. */
+    void updateTitleBars();
 };
 
 #endif

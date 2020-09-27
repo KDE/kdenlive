@@ -29,7 +29,6 @@ int main(int argc, char **argv)
     QApplication app(argc, argv);
     QStringList args = app.arguments();
     QStringList preargs;
-    QString locale;
     if (args.count() >= 4) {
         // Remove program name
         args.removeFirst();
@@ -90,9 +89,9 @@ int main(int argc, char **argv)
             }
             const char *localename = prod.get_lcnumeric();
             QLocale::setDefault(QLocale(localename));
-            for (const QString &frame : chunks) {
+            for (const QString &frame : qAsConst(chunks)) {
                 fprintf(stderr, "START:%d \n", frame.toInt());
-                QString fileName = QStringLiteral("%1.%2").arg(frame).arg(extension);
+                QString fileName = QStringLiteral("%1.%2").arg(frame,extension);
                 if (baseFolder.exists(fileName)) {
                     // Don't overwrite an existing file
                     fprintf(stderr, "DONE:%d \n", frame.toInt());
@@ -101,7 +100,7 @@ int main(int argc, char **argv)
                 QScopedPointer<Mlt::Producer> playlst(prod.cut(frame.toInt(), frame.toInt() + chunkSize));
                 QScopedPointer<Mlt::Consumer> cons(
                     new Mlt::Consumer(profile, QString("avformat:%1").arg(baseFolder.absoluteFilePath(fileName)).toUtf8().constData()));
-                for (const QString &param : consumerParams) {
+                for (const QString &param : qAsConst(consumerParams)) {
                     if (param.contains(QLatin1Char('='))) {
                         cons->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toUtf8().constData());
                     }

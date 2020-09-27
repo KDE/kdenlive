@@ -224,7 +224,7 @@ QDomElement EffectStackModel::toXml(QDomDocument &document)
             }
         }
         QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
-        for (const auto &param : params) {
+        for (const auto &param : qAsConst(params)) {
             Xml::setXmlProperty(sub, param.first, param.second.toString());
         }
         container.appendChild(sub);
@@ -257,7 +257,7 @@ QDomElement EffectStackModel::rowToXml(int row, QDomDocument &document)
         }
     }
     QVector<QPair<QString, QVariant>> params = sourceEffect->getAllParameters();
-    for (const auto &param : params) {
+    for (const auto &param : qAsConst(params)) {
         Xml::setXmlProperty(sub, param.first, param.second.toString());
     }
     container.appendChild(sub);
@@ -283,6 +283,10 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             }
         } else if (state != PlaylistState::VideoOnly) {
             continue;
+        }
+        if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+            pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+            return false;
         }
         bool effectEnabled = true;
         if (Xml::hasXmlProperty(node, QLatin1String("disable"))) {
@@ -365,6 +369,10 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
     }
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(sourceItem);
     const QString effectId = sourceEffect->getAssetId();
+    if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+        return false;
+    }
     bool enabled = sourceEffect->isEnabled();
     auto effect = EffectItemModel::construct(effectId, shared_from_this(), enabled);
     effect->setParameters(sourceEffect->getAllParameters());
@@ -408,6 +416,10 @@ bool EffectStackModel::copyEffect(const std::shared_ptr<AbstractEffectItem> &sou
 bool EffectStackModel::appendEffect(const QString &effectId, bool makeCurrent)
 {
     QWriteLocker locker(&m_lock);
+    if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+        pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+        return false;
+    }
     std::unordered_set<int> previousFadeIn = m_fadeIns;
     std::unordered_set<int> previousFadeOut = m_fadeOuts;
     if (EffectsRepository::get()->isGroup(effectId)) {
@@ -594,7 +606,7 @@ bool EffectStackModel::adjustStackLength(bool adjustFromEnd, int oldIn, int oldD
                 keyframes->resizeKeyframes(oldIn, oldIn + oldDuration, newIn, out - 1, offset, adjustFromEnd, undo, redo);
                 QModelIndex index = getIndexFromItem(effect);
                 Fun refresh = [effect, index]() {
-                    effect->dataChanged(index, index, QVector<int>());
+                    emit effect->dataChanged(index, index, QVector<int>());
                     return true;
                 };
                 refresh();
@@ -755,6 +767,8 @@ bool EffectStackModel::removeFade(bool fromStart)
             toRemove.push_back(i);
         }
     }
+    // Let's put index in reverse order so we don't mess when deleting
+    std::reverse( toRemove.begin(), toRemove.end() );
     for (int i : toRemove) {
         std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
         removeEffect(effect);
@@ -772,7 +786,7 @@ void EffectStackModel::moveEffect(int destRow, const std::shared_ptr<AbstractEff
     bool res = redo();
     if (res) {
         Fun update = [this]() {
-            this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
+            emit this->dataChanged(QModelIndex(), QModelIndex(), {TimelineModel::EffectNamesRole});
             return true;
         };
         update();
@@ -887,7 +901,7 @@ bool EffectStackModel::importEffects(const std::shared_ptr<EffectStackModel> &so
         }
     }
     if (found) {
-        modelChanged();
+        emit modelChanged();
     }
     return found;
 }
@@ -913,6 +927,10 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 continue;
             }
             const QString effectId = qstrdup(filter->get("kdenlive_id"));
+            if (EffectsRepository::get()->isUnique(effectId) && hasEffect(effectId))  {
+                pCore->displayMessage(i18n("Effect %1 cannot be added twice.", EffectsRepository::get()->getName(effectId)), InformationMessage);
+                continue;
+            }
             if (filter->get_int("disable") == 0) {
                 effectEnabled = true;
             }
@@ -977,7 +995,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
         }
     }
     m_loadingExisting = false;
-    modelChanged();
+    emit modelChanged();
 }
 
 void EffectStackModel::setActiveEffect(int ix)
@@ -1071,7 +1089,7 @@ bool EffectStackModel::checkConsistency()
                 return false;
             }
             QVector<QPair<QString, QVariant>> params = allFilters[i]->getAllParameters();
-            for (const auto &val : params) {
+            for (const auto &val : qAsConst(params)) {
                 // Check parameters values
                 if (val.second != QVariant(mltFilter->get(val.first.toUtf8().constData()))) {
                     qDebug() << "ERROR: filter " << i << "PARAMETER MISMATCH: " << val.first << " = " << val.second
@@ -1290,4 +1308,14 @@ bool EffectStackModel::hasKeyFrame(int frame)
     std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
     std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
     return listModel->hasKeyframe(frame);
+}
+
+bool EffectStackModel::hasEffect(const QString &assetId) const
+{
+    for (int i = 0; i < rootItem->childCount(); ++i) {
+        if (std::static_pointer_cast<EffectItemModel>(rootItem->child(i))->getAssetId() == assetId) {
+            return true;
+        }
+    }
+    return false;
 }

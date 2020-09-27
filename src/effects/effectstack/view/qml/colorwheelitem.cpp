@@ -90,7 +90,7 @@ ColorWheelItem::ColorWheelItem(QQuickItem *parent)
     , m_defaultValue(1)
     , m_zeroShift(0)
 {
-    setAcceptedMouseButtons(Qt::LeftButton | Qt::MidButton);
+    setAcceptedMouseButtons(Qt::LeftButton | Qt::MiddleButton);
     setAcceptHoverEvents(true);
 }
 

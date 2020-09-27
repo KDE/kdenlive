@@ -50,6 +50,11 @@ The rest:
         - tag "comment": (optional) description of the parameter (support HTML formatting) (not yet supported by all widgets)
         - attribute "name": MLT filter parameter name
         - attribute "paramprefix": a string to be prepended to the parameter value before passing it to MLT
+        - attribute "suffix": a string to be appended to the parameter (for UI display only)
+        - attribute "min": the minimal accepted value
+        - attribute "max": the maximal accepted value
+        - attribute "visualmin": the minimal value displayed in timeline keyframes (can be > than min)
+        - attribute "visualmax": the maximal value displayed in timeline keyframes (can be < than max)
         - attribute "default": initial value, format depends on parameter type
         - attribute "optional": if it is set, it means that this parameter can have an empty value. So then loading a project, don't set its value to default
         - attribute "type": widget (GUI) to use

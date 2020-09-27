@@ -107,7 +107,9 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_scrollTimer.setSingleShot(true);
     m_scrollTimer.setInterval(250);
     connect(&m_scrollTimer, &QTimer::timeout, this, &EffectStackView::checkScrollBar);
-
+    
+    m_timerHeight.setSingleShot(true);
+    m_timerHeight.setInterval(50);
 }
 
 EffectStackView::~EffectStackView()
@@ -184,6 +186,7 @@ void EffectStackView::dropEvent(QDropEvent *event)
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize)
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
+    disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     m_mutex.lock();
     unsetModel(false);
     m_model = std::move(model);
@@ -227,8 +230,10 @@ void EffectStackView::loadEffects()
         // blank stack
         ObjectId item = m_model->getOwnerId();
         pCore->getMonitor(item.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)->slotShowEffectScene(MonitorSceneDefault);
+        updateTreeHeight();
         return;
     }
+    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     int active = qBound(0, m_model->getActiveEffect(), max - 1);
     QModelIndex activeIndex;
     for (int i = 0; i < max; i++) {
@@ -252,7 +257,7 @@ void EffectStackView::loadEffects()
         connect(view, &CollapsibleEffectView::createGroup, m_model.get(), &EffectStackModel::slotCreateGroup);
         connect(view, &CollapsibleEffectView::activateEffect, this, &EffectStackView::slotActivateEffect);
         connect(this, &EffectStackView::blockWheenEvent, view, &CollapsibleEffectView::blockWheenEvent);
-        connect(view, &CollapsibleEffectView::seekToPos, [this](int pos) {
+        connect(view, &CollapsibleEffectView::seekToPos, this, [this](int pos) {
             // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
             int clipIn = pCore->getItemPosition(m_model->getOwnerId());
             emit seekToPos(pos + clipIn);
@@ -266,9 +271,9 @@ void EffectStackView::loadEffects()
         view->buttonDown->setEnabled(i < max - 1);
         if (i == active) {
             activeIndex = ix;
+            m_effectsTree->setCurrentIndex(activeIndex);
         }
     }
-    updateTreeHeight();
     if (activeIndex.isValid()) {
         doActivateEffect(active, activeIndex, true);
     }
@@ -293,6 +298,7 @@ void EffectStackView::updateTreeHeight()
         }
     }
     m_effectsTree->setFixedHeight(totalHeight);
+    emit scrollView(m_effectsTree->visualRect(m_effectsTree->currentIndex()));
     m_scrollTimer.start();
 }
 
@@ -338,7 +344,7 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
         if (del) {
             del->setHeight(ix, newHeight);
-            QMetaObject::invokeMethod(this, "updateTreeHeight", Qt::QueuedConnection);
+            m_timerHeight.start();
         }
     }
 }
@@ -361,7 +367,7 @@ void EffectStackView::refresh(const QModelIndex &topLeft, const QModelIndex &bot
         for (int j = topLeft.column(); j <= bottomRight.column(); ++j) {
             CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(m_model->index(i, j, topLeft.parent())));
             if (w) {
-                w->refresh();
+                emit w->refresh();
             }
         }
     }
@@ -450,6 +456,7 @@ void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force
             }
         }
     }
+    m_effectsTree->setCurrentIndex(activeIx);
     m_model->setActiveEffect(row);
     CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIx));
     if (w) {
@@ -495,7 +502,7 @@ void EffectStackView::slotSaveStack()
         out << doc.toString();
     }
     file.close();
-    reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+    emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
 
 /*

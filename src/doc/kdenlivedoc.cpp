@@ -568,9 +568,6 @@ QDomDocument KdenliveDoc::xmlSceneList(const QString &scene)
 
 bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
 {
-    QLocale currentLocale; // For restoring after XML export
-    qDebug() << "Current locale is " << currentLocale;
-    QLocale::setDefault(QLocale::c()); // Not sure if helpful …
     QDomDocument sceneList = xmlSceneList(scene);
     if (sceneList.isNull()) {
         // Make sure we don't save if scenelist is corrupted
@@ -618,7 +615,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene)
     }
 
     const QByteArray sceneData = sceneList.toString().toUtf8();
-    QLocale::setDefault(currentLocale);
 
     file.write(sceneData);
     if (!file.commit()) {
@@ -916,7 +912,6 @@ void KdenliveDoc::saveCustomEffects(const QDomNodeList &customeffects)
     for (int i = 0; i < maxchild; ++i) {
         e = customeffects.at(i).toElement();
         const QString id = e.attribute(QStringLiteral("id"));
-        const QString tag = e.attribute(QStringLiteral("tag"));
         if (!id.isEmpty()) {
             // Check if effect exists or save it
             if (EffectsRepository::get()->exists(id)) {
@@ -1469,7 +1464,7 @@ void KdenliveDoc::switchProfile(std::unique_ptr<ProfileParam> &profile, const QS
         QList<QAction *> list;
         const QString profilePath = profile->path();
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Switch"), this);
-        connect(ac, &QAction::triggered, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
+        connect(ac, &QAction::triggered, this, [this, profilePath]() { this->slotSwitchProfile(profilePath, true); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2;
         pCore->displayBinMessage(i18n("Switch to clip profile %1?", profile->descriptiveString()), KMessageWidget::Information, list, false, BinMessage::BinCategory::ProfileMessage);
@@ -1510,12 +1505,12 @@ QAction *KdenliveDoc::getAction(const QString &name)
 
 void KdenliveDoc::previewProgress(int p)
 {
-    pCore->window()->setPreviewProgress(p);
+    emit pCore->window()->setPreviewProgress(p);
 }
 
 void KdenliveDoc::displayMessage(const QString &text, MessageType type, int timeOut)
 {
-    pCore->window()->displayMessage(text, type, timeOut);
+    emit pCore->window()->displayMessage(text, type, timeOut);
 }
 
 void KdenliveDoc::selectPreviewProfile()
@@ -1560,7 +1555,7 @@ void KdenliveDoc::selectPreviewProfile()
             }
         }
         bool rateFound = false;
-        for (const QString &arg : data) {
+        for (const QString &arg : qAsConst(data)) {
             if (arg.startsWith(QStringLiteral("r="))) {
                 rateFound = true;
                 double fps = arg.section(QLatin1Char('='), 1).toDouble();

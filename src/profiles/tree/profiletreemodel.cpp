@@ -83,7 +83,7 @@ std::shared_ptr<ProfileTreeModel> ProfileTreeModel::construct(QObject *parent)
     filtLambdas[2] = [](QVariant display_aspect_num, std::unique_ptr<ProfileModel> &ptr) {
         return display_aspect_num == -1 || ptr->display_aspect_num() == display_aspect_num;
     };
-    for (const auto &profile : profiles) {
+    for (const auto &profile : qAsConst(profiles)) {
         bool foundMatch = false;
         // we get a pointer to the profilemodel
         std::unique_ptr<ProfileModel> &ptr = ProfileRepository::get()->getProfile(profile.second);

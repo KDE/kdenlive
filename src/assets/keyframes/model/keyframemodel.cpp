@@ -236,7 +236,7 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         times << m.first;
     }
     bool res = true;
-    for (const auto &t : times) {
+    for (const auto &t : qAsConst(times)) {
         res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
     }
     if (res && logUndo) {
@@ -298,16 +298,20 @@ bool KeyframeModel::updateKeyframe(int pos, double newVal)
 {
     GenTime Pos(pos, pCore->getCurrentFps());
     if (auto ptr = m_model.lock()) {
-        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+        if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+            min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        }
         double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
         double realValue;
         if (logRole == -1) {
-            // Logarythmic scale for lower than norm values
+            // Logarythmic scale
             if (newVal >= 0.5) {
-                realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                realValue = norm + pow(2 * (newVal - 0.5), 10.0 / 6) * (max / factor - norm);
             } else {
                 realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
             }
@@ -454,18 +458,23 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
             Q_ASSERT(m_index.isValid());
-            double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-            double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+            double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+            double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+            if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+                min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+                max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+            }
             double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
             double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
             int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
             double linear = val * factor;
             if (logRole == -1) {
-                // Logarythmic scale for lower than norm values
-                if (linear >= norm) {
-                    return 0.5 + (linear - norm) / (max * factor - norm) * 0.5;
-                }
+                // Logarythmic scale
                 // transform current value to 0..1 scale
+                if (linear >= norm) {
+                    double scaled = (linear - norm) / (max * factor - norm);
+                    return 0.5 + pow(scaled, 0.6) * 0.5;
+                }
                 double scaled = (linear - norm) / (min * factor - norm);
                 // Log scale
                 return 0.5 - pow(scaled, 0.6) * 0.5;
@@ -862,7 +871,6 @@ void KeyframeModel::parseRotoProperty(const QString &prop)
     QJsonDocument doc = QJsonDocument::fromJson(prop.toLatin1(), &jsonError);
     QVariant data = doc.toVariant();
     if (data.canConvert(QVariant::Map)) {
-        QList<int> keyframes;
         QMap<QString, QVariant> map = data.toMap();
         QMap<QString, QVariant>::const_iterator i = map.constBegin();
         while (i != map.constEnd()) {
@@ -890,16 +898,20 @@ QVariant KeyframeModel::updateInterpolated(const QVariant &interpValue, double v
 QVariant KeyframeModel::getNormalizedValue(double newVal) const
 {
     if (auto ptr = m_model.lock()) {
-        double min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
-        double max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
+        double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
+        if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
+            min = ptr->data(m_index, AssetParameterModel::MinRole).toDouble();
+            max = ptr->data(m_index, AssetParameterModel::MaxRole).toDouble();
+        }
         double factor = ptr->data(m_index, AssetParameterModel::FactorRole).toDouble();
         double norm = ptr->data(m_index, AssetParameterModel::DefaultRole).toDouble();
         int logRole = ptr->data(m_index, AssetParameterModel::ScaleRole).toInt();
         double realValue;
         if (logRole == -1) {
-            // Logarythmic scale for lower than norm values
+            // Logarythmic scale
             if (newVal >= 0.5) {
-                realValue = norm + (2 * (newVal - 0.5) * (max / factor - norm));
+                realValue = norm + pow(2 * (newVal - 0.5), 10.0 / 6) * (max / factor - norm);
             } else {
                 realValue = norm - pow(2 * (0.5 - newVal), 10.0 / 6) * (norm - min / factor);
             }

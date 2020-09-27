@@ -341,7 +341,7 @@ Rectangle {
                         id: markerBase
                         width: 1
                         height: parent.height
-                        x: clipRoot.speed < 0 ? clipRoot.clipDuration * timeScale + (Math.round(model.frame / clipRoot.speed) - (clipRoot.maxDuration - clipRoot.outPoint)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
+                        x: clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) * timeScale - clipRoot.border.width : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint) * timeScale - clipRoot.border.width;
                         color: model.color
                     }
                     Rectangle {
@@ -362,13 +362,20 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
                             onDoubleClicked: timeline.editMarker(clipRoot.clipId, model.frame)
-                            onClicked: proxy.position = (clipRoot.x + markerBase.x) / timeline.scaleFactor
+                            onClicked: proxy.position = clipRoot.modelStart + (clipRoot.speed < 0 ? (clipRoot.maxDuration - clipRoot.inPoint) * timeScale + (Math.round(model.frame / clipRoot.speed)) : (Math.round(model.frame / clipRoot.speed) - clipRoot.inPoint))
                         }
+                    }
+                    TextMetrics {
+                        id: textMetrics
+                        font: miniFont
+                        text: model.comment
+                        elide: root.timeScale > 1 ? Text.ElideNone : Text.ElideRight
+                        elideWidth: root.maxLabelWidth
                     }
                     Text {
                         id: mlabel
-                        visible: timeline.showMarkers && parent.width > width * 1.5
-                        text: model.comment
+                        visible: timeline.showMarkers && textMetrics.elideWidth > root.baseUnit
+                        text: textMetrics.elidedText
                         font: miniFont
                         x: markerBase.x
                         anchors {

@@ -160,7 +160,7 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
                 kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
             }
             Fun refresh = [kfr]() {
-                kfr->modelChanged();
+                emit kfr->modelChanged();
                 return true;
             };
             refresh();
@@ -269,7 +269,7 @@ void CompositionModel::setGrab(bool grab)
     m_grabbed = grab;
     if (auto ptr = m_parent.lock()) {
         QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-        ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
+        emit ptr->dataChanged(ix, ix, {TimelineModel::GrabbedRole});
     }
 }
 
@@ -283,7 +283,7 @@ void CompositionModel::setSelected(bool sel)
     if (auto ptr = m_parent.lock()) {
         if (m_currentTrackId != -1) {
             QModelIndex ix = ptr->makeCompositionIndexFromID(m_id);
-            ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
+            emit ptr->dataChanged(ix, ix, {TimelineModel::SelectedRole});
         }
     }
 }

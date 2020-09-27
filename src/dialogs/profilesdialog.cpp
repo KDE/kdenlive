@@ -72,7 +72,7 @@ ProfilesDialog::ProfilesDialog(const QString &profileDescription, QWidget *paren
 
 void ProfilesDialog::connectDialog()
 {
-    connect(m_view.profiles_list, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), [&]() { slotUpdateDisplay(); });
+    connect(m_view.profiles_list, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentIndexChanged), this, [&]() { slotUpdateDisplay(); });
     connect(m_view.button_create, &QAbstractButton::clicked, this, &ProfilesDialog::slotCreateProfile);
     connect(m_view.button_save, &QAbstractButton::clicked, this, &ProfilesDialog::slotSaveProfile);
     connect(m_view.button_delete, &QAbstractButton::clicked, this, &ProfilesDialog::slotDeleteProfile);
@@ -177,7 +177,7 @@ void ProfilesDialog::fillList(const QString &selectedProfile)
     m_view.profiles_list->clear();
     // Retrieve the list from the repository
     QVector<QPair<QString, QString>> profiles = ProfileRepository::get()->getAllProfiles();
-    for (const auto &p : profiles) {
+    for (const auto &p : qAsConst(profiles)) {
         m_view.profiles_list->addItem(p.first, p.second);
     }
 

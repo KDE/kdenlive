@@ -783,7 +783,7 @@ void ClipController::clearBackupProperties()
             passProps << propName;
         }
     }
-    for (const QString &p : passProps) {
+    for (const QString &p : qAsConst(passProps)) {
         m_properties->set(p.toUtf8().constData(), (char *)nullptr);
     }
     m_properties->set("kdenlive:original.backup", (char *)nullptr);
@@ -1042,6 +1042,14 @@ QMap <int, QString> ClipController::audioStreams() const
         return m_audioInfo->streams();
     }
     return {};
+}
+
+QList <int> ClipController::activeStreamChannels() const
+{
+    if (!audioInfo()) {
+        return QList <int>();
+    }
+    return audioInfo()->activeStreamChannels();
 }
 
 QMap <int, QString> ClipController::activeStreams() const

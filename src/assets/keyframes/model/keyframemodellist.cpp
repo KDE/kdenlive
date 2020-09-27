@@ -363,7 +363,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                     QVariant value = param.second->getInterpolatedValue(new_in);
                     param.second->updateKeyframe(old_in, value, undo, redo);
                 }
-                for (auto frame : positions) {
+                for (auto frame : qAsConst(positions)) {
                     if (new_in > GenTime()) {
                         if (frame > new_in) {
                             param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
@@ -455,7 +455,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             for (const auto &param : m_parameters) {
                 QVariant value = param.second->getInterpolatedValue(new_out);
                 param.second->addKeyframe(new_out, type, value, true, undo, redo);
-                for (auto frame : positions) {
+                for (auto frame : qAsConst(positions)) {
                     param.second->removeKeyframe(frame, undo, redo);
                 }
             }

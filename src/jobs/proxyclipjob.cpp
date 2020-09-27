@@ -116,7 +116,7 @@ bool ProxyJob::startJob()
         }
 
         bool skipNext = false;
-        for (const QString &s : params) {
+        for (const QString &s : qAsConst(params)) {
             QString t = s.simplified();
             if (skipNext) {
                 skipNext = false;
@@ -377,14 +377,14 @@ bool ProxyJob::commitResult(Fun &undo, Fun &redo)
         binClip->setProducerProperty(QStringLiteral("_overwriteproxy"), QString());
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:proxy"));
         binClip->setProducerProperty(QStringLiteral("resource"), dest);
-        pCore->bin()->reloadClip(clipId, false);
+        pCore->bin()->reloadClip(clipId);
         return true;
     };
     auto reverse = [clipId = m_clipId]() {
         auto binClip = pCore->projectItemModel()->getClipByBinID(clipId);
         const QString dest = binClip->getProducerProperty(QStringLiteral("kdenlive:originalurl"));
         binClip->setProducerProperty(QStringLiteral("resource"), dest);
-        pCore->bin()->reloadClip(clipId, false);
+        pCore->bin()->reloadClip(clipId);
         return true;
     };
     bool ok = operation();

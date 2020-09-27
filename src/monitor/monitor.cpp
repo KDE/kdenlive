@@ -20,6 +20,7 @@
 #include "monitor.h"
 #include "bin/bin.h"
 #include "bin/projectclip.h"
+#include "lib/localeHandling.h"
 #include "core.h"
 #include "dialogs/profilesdialog.h"
 #include "doc/kdenlivedoc.h"
@@ -162,7 +163,6 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     connect(m_glMonitor, &GLWidget::panView, this, &Monitor::panView);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::requestSeek, this, &Monitor::processSeek, Qt::DirectConnection);
     connect(m_glMonitor->getControllerProxy(), &MonitorProxy::positionChanged, this, &Monitor::slotSeekPosition);
-    connect(m_glMonitor, &GLWidget::activateMonitor, this, &AbstractMonitor::slotActivateMonitor, Qt::DirectConnection);
 
     m_videoWidget = QWidget::createWindowContainer(qobject_cast<QWindow *>(m_glMonitor));
     m_videoWidget->setAcceptDrops(true);
@@ -212,7 +212,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     scalingAction->setToolTip(i18n("Preview resolution - lower resolution means faster preview"));
     // Combobox padding is bad, so manually add a space before text
     scalingAction->addItems({QStringLiteral(" ") + i18n("1:1"),QStringLiteral(" ") + i18n("720p"),QStringLiteral(" ") + i18n("540p"),QStringLiteral(" ") + i18n("360p"),QStringLiteral(" ") + i18n("270p")});
-    connect(scalingAction, QOverload<int>::of(&QComboBox::activated), [this] (int index) {
+    connect(scalingAction, QOverload<int>::of(&QComboBox::activated), this, [this] (int index) {
         switch (index) {
             case 1:
                 KdenliveSettings::setPreviewScaling(2);
@@ -229,11 +229,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
             default:
                 KdenliveSettings::setPreviewScaling(0);
         }
-        m_monitorManager->scalingChanged();
-        m_monitorManager->updatePreviewScaling();
+        emit m_monitorManager->scalingChanged();
+        emit m_monitorManager->updatePreviewScaling();
     });
 
-    connect(manager, &MonitorManager::updatePreviewScaling, [this, scalingAction]() {
+    connect(manager, &MonitorManager::updatePreviewScaling, this, [this, scalingAction]() {
         m_glMonitor->updateScaling();
         switch (KdenliveSettings::previewScaling()) {
             case 2:
@@ -262,8 +262,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     m_speedLabel = new QLabel(this);
     m_speedLabel->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Button);
-    QColor bg = scheme.background(KColorScheme::LinkBackground).color();
-    bg = scheme.background(KColorScheme::PositiveBackground).color();
+    QColor bg = scheme.background(KColorScheme::PositiveBackground).color();
     m_speedLabel->setStyleSheet(QString("padding-left: %4; padding-right: %4;background-color: rgb(%1,%2,%3);").arg(bg.red()).arg(bg.green()).arg(bg.blue()).arg(m_speedLabel->sizeHint().height()/4));
     m_toolbar->addWidget(m_speedLabel);
     m_speedLabel->setFixedWidth(0);
@@ -283,7 +282,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         m_audioChannels = new QMenu(this);
         m_streamsButton->setMenu(m_audioChannels);
         m_streamAction->setVisible(false);
-        connect(m_audioChannels, &QMenu::triggered, [this] (QAction *ac) {
+        connect(m_audioChannels, &QMenu::triggered, this, [this] (QAction *ac) {
             //m_audioChannels->show();
             QList <QAction*> actions = m_audioChannels->actions();
             QMap <int, QString> enabledStreams;
@@ -293,13 +292,13 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 enabledStreams.insert(INT_MAX, i18n("Merged streams"));
                 // Disable all other streams
                 QSignalBlocker bk(m_audioChannels);
-                for (auto act : actions) {
+                for (auto act : qAsConst(actions)) {
                     if (act->isChecked() && act != ac) {
                         act->setChecked(false);
                     }
                 }
             } else {
-                for (auto act : actions) {
+                for (auto act : qAsConst(actions)) {
                     if (act->isChecked()) {
                         // Audio stream is selected
                         if (act->data().toInt() == INT_MAX) {
@@ -317,7 +316,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
                 props.insert(QStringLiteral("audio_index"), QString::number(enabledStreams.firstKey()));
                 QList <int> streams = enabledStreams.keys();
                 QStringList astreams;
-                for (const int st : streams) {
+                for (const int st : qAsConst(streams)) {
                     astreams << QString::number(st);
                 }
                 props.insert(QStringLiteral("kdenlive:active_streams"), astreams.join(QLatin1Char(';')));
@@ -339,11 +338,11 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
         QAction *markOut = new QAction(QIcon::fromTheme(QStringLiteral("zone-out")), i18n("Set Zone Out"), this);
         m_toolbar->addAction(markIn);
         m_toolbar->addAction(markOut);
-        connect(markIn, &QAction::triggered, [&, manager]() {
+        connect(markIn, &QAction::triggered, this, [&, manager]() {
             m_monitorManager->activateMonitor(m_id);
             manager->getAction(QStringLiteral("mark_in"))->trigger();
         });
-        connect(markOut, &QAction::triggered, [&, manager]() {
+        connect(markOut, &QAction::triggered, this, [&, manager]() {
             m_monitorManager->activateMonitor(m_id);
             manager->getAction(QStringLiteral("mark_out"))->trigger();
         });
@@ -378,7 +377,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     // Per monitor forward action
     QAction *forward = new QAction(QIcon::fromTheme(QStringLiteral("media-seek-forward")), i18n("Forward"), this);
     m_toolbar->addAction(forward);
-    connect(forward, &QAction::triggered, [this]() {
+    connect(forward, &QAction::triggered, this, [this]() {
         Monitor::slotForward();
     });
 
@@ -631,7 +630,7 @@ void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QA
         QAction *alwaysShowAudio =
             new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-show-audiothumb")), i18n("Always show audio thumbnails"), this);
         alwaysShowAudio->setCheckable(true);
-        connect(alwaysShowAudio, &QAction::triggered, [this](bool checked) {
+        connect(alwaysShowAudio, &QAction::triggered, this, [this](bool checked) {
             KdenliveSettings::setAlwaysShowMonitorAudio(checked);
             m_glMonitor->rootObject()->setProperty("permanentAudiothumb", checked);
         });
@@ -817,7 +816,7 @@ void Monitor::slotShowMenu(const QPoint pos)
             }
             if (model) {
                 QList<CommentedTime> markersList = model->getAllMarkers();
-                for (CommentedTime mkr : markersList) {
+                for (const CommentedTime &mkr : qAsConst(markersList)) {
                     QAction *a = m_markerMenu->addAction(mkr.comment());
                     a->setData(mkr.time().frames(pCore->getCurrentFps()));
                 }
@@ -955,7 +954,7 @@ void Monitor::slotStartDrag()
     mimeData->setData(QStringLiteral("kdenlive/producerslist"), prodData);
     drag->setMimeData(mimeData);
     drag->exec(Qt::MoveAction);
-    pCore->bin()->processDragEnd();
+    emit pCore->bin()->processDragEnd();
 }
 
 // virtual
@@ -1082,7 +1081,7 @@ void Monitor::slotExtractCurrentZone()
     }
     GenTime inPoint(getZoneStart(), pCore->getCurrentFps());
     GenTime outPoint(getZoneEnd(), pCore->getCurrentFps());
-    pCore->jobManager()->startJob<CutClipJob>({m_controller->clipId()}, -1, QString(), inPoint, outPoint);
+    emit pCore->jobManager()->startJob<CutClipJob>({m_controller->clipId()}, -1, QString(), inPoint, outPoint);
 }
 
 std::shared_ptr<ProjectClip> Monitor::currentController() const
@@ -1184,9 +1183,17 @@ void Monitor::slotSeek()
 
 void Monitor::slotSeek(int pos)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(pos);
-    m_monitorManager->cleanMixer();
+    emit m_monitorManager->cleanMixer();
+}
+
+void Monitor::refreshAudioThumbs()
+{
+    emit m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
+    emit m_glMonitor->getControllerProxy()->colorsChanged();
 }
 
 void Monitor::checkOverlay(int pos)
@@ -1230,19 +1237,25 @@ int Monitor::getZoneEnd()
 
 void Monitor::slotZoneStart()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneIn());
 }
 
 void Monitor::slotZoneEnd()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(m_glMonitor->getControllerProxy()->zoneOut() - 1);
 }
 
 void Monitor::slotRewind(double speed)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed > -1) {
@@ -1265,7 +1278,9 @@ void Monitor::slotRewind(double speed)
 
 void Monitor::slotForward(double speed, bool allowNormalPlay)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     if (qFuzzyIsNull(speed)) {
         double currentspeed = m_glMonitor->playSpeed();
         if (currentspeed < 1) {
@@ -1294,13 +1309,17 @@ void Monitor::slotForward(double speed, bool allowNormalPlay)
 
 void Monitor::slotRewindOneFrame(int diff)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->getControllerProxy()->setPosition(qMax(0, m_glMonitor->getCurrentPos() - diff));
 }
 
 void Monitor::slotForwardOneFrame(int diff)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     if (m_id == Kdenlive::ClipMonitor) {
         m_glMonitor->getControllerProxy()->setPosition(qMin(m_glMonitor->duration() - 1, m_glMonitor->getCurrentPos() + diff));
     } else {
@@ -1317,9 +1336,9 @@ void Monitor::adjustRulerSize(int length, const std::shared_ptr<MarkerListModel>
     }
     m_timePos->setRange(0, length);
     if (markerModel) {
-        connect(markerModel.get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this, SLOT(checkOverlay()));
-        connect(markerModel.get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
-        connect(markerModel.get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+        connect(markerModel.get(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this, SLOT(checkOverlay()));
+        connect(markerModel.get(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(checkOverlay()));
+        connect(markerModel.get(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(checkOverlay()));
     }
 }
 
@@ -1362,7 +1381,9 @@ void Monitor::slotRefreshMonitor(bool visible)
 
 void Monitor::forceMonitorRefresh()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->refresh();
 }
 
@@ -1379,10 +1400,9 @@ void Monitor::refreshMonitorIfActive(bool directUpdate)
 
 void Monitor::pause()
 {
-    if (!m_playAction->isActive()) {
+    if (!m_playAction->isActive() || !slotActivateMonitor()) {
         return;
     }
-    slotActivateMonitor();
     m_glMonitor->switchPlay(false);
     m_playAction->setActive(false);
     resetSpeedInfo();
@@ -1397,7 +1417,9 @@ void Monitor::switchPlay(bool play)
 
 void Monitor::slotSwitchPlay()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->switchPlay(m_playAction->isActive());
     bool showDropped = false;
     if (m_id == Kdenlive::ClipMonitor) {
@@ -1428,7 +1450,9 @@ void Monitor::resetPlayOrLoopZone(const QString &binId)
 
 void Monitor::slotPlayZone()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     bool ok = m_glMonitor->playZone();
     if (ok) {
         m_playAction->setActive(true);
@@ -1437,7 +1461,9 @@ void Monitor::slotPlayZone()
 
 void Monitor::slotLoopZone()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     bool ok = m_glMonitor->playZone(true);
     if (ok) {
         m_playAction->setActive(true);
@@ -1446,7 +1472,9 @@ void Monitor::slotLoopZone()
 
 void Monitor::slotLoopClip(QPoint inOut)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     bool ok = m_glMonitor->loopClip(inOut);
     if (ok) {
         m_playAction->setActive(true);
@@ -1522,10 +1550,10 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             //m_audioChannels->menuAction()->setVisible(false);
         }
         connect(m_controller.get(), &ProjectClip::audioThumbReady, this, &Monitor::prepareAudioThumb);
-        connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &)), this,
+        connect(m_controller->getMarkerModel().get(), SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)), this,
                 SLOT(checkOverlay()));
-        connect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
-        connect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(const QModelIndex &, int, int)), this, SLOT(checkOverlay()));
+        connect(m_controller->getMarkerModel().get(), SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(checkOverlay()));
+        connect(m_controller->getMarkerModel().get(), SIGNAL(rowsRemoved(QModelIndex,int,int)), this, SLOT(checkOverlay()));
 
         if (m_recManager->toolbar()->isVisible()) {
             // we are in record mode, don't display clip
@@ -1549,11 +1577,21 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
                 m_playAction->setActive(false);
             }
             m_audioMeterWidget->audioChannels = controller->audioInfo() ? controller->audioInfo()->channels() : 0;
-            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
-                m_glMonitor->getControllerProxy()->setAudioThumb(m_audioMeterWidget->audioChannels == 0 ? QList<QUrl>() : ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
-            }
             m_controller->getMarkerModel()->registerSnapModel(m_snaps);
             m_glMonitor->getControllerProxy()->setClipProperties(controller->clipId().toInt(), controller->clipType(), controller->hasAudioAndVideo(), controller->clipName());
+            if (!m_controller->hasVideo() || KdenliveSettings::displayClipMonitorInfo() & 0x10) {
+                qDebug()<<"=======\n\nSETTING AUDIO DATA IN MON\n\n=========";
+                if (m_audioMeterWidget->audioChannels == 0) {
+                    m_glMonitor->getControllerProxy()->setAudioThumb();
+                } else {
+                    QList<int> streamIndexes = m_controller->activeStreams().keys();
+                    if (streamIndexes.count() == 1 && streamIndexes.at(0) == INT_MAX) {
+                        // Display all streams
+                        streamIndexes = m_controller->audioStreams().keys();
+                    }
+                    m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
+                }
+            }
             m_glMonitor->setProducer(m_controller->originalProducer(), isActive(), in);
         } else {
             qDebug()<<"*************** CONTROLLER NOT READY";
@@ -1591,7 +1629,7 @@ void Monitor::reloadActiveStream()
             m_glMonitor->getControllerProxy()->setAudioStream(QString());
         }
         prepareAudioThumb();
-        for (auto ac : acts) {
+        for (auto ac : qAsConst(acts)) {
             int val = ac->data().toInt();
             if (streams.contains(val)) {
                 // Update stream name in case of renaming
@@ -1629,7 +1667,9 @@ void Monitor::setCustomProfile(const QString &profile, const Timecode &tc)
     if (/* DISABLES CODE */ (true)) {
         return;
     }
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     // render->prepareProfileReset(tc.fps());
     // TODO: this is a temporary profile for DVD preview, it should not alter project profile
     // pCore->setCurrentProfile(profile);
@@ -1833,13 +1873,13 @@ bool Monitor::effectSceneDisplayed(MonitorSceneType effectType)
 void Monitor::slotSetVolume(int volume)
 {
     KdenliveSettings::setVolume(volume);
-    QIcon icon;
     double renderVolume = m_glMonitor->volume();
     m_glMonitor->setVolume((double)volume / 100.0);
     if (renderVolume > 0 && volume > 0) {
         return;
     }
-    /*if (volume == 0) {
+    /*QIcon icon;
+    if (volume == 0) {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-muted"));
     } else {
         icon = QIcon::fromTheme(QStringLiteral("audio-volume-medium"));
@@ -1861,7 +1901,7 @@ void Monitor::onFrameDisplayed(const SharedFrame &frame)
     if (!m_glMonitor->checkFrameNumber(frame.get_position(), m_offset, m_playAction->isActive())) {
         m_playAction->setActive(false);
     }
-    m_monitorManager->frameDisplayed(frame);
+    emit m_monitorManager->frameDisplayed(frame);
 }
 
 void Monitor::checkDrops()
@@ -2185,7 +2225,15 @@ void Monitor::slotEditInlineMarker()
 void Monitor::prepareAudioThumb()
 {
     if (m_controller) {
-        m_glMonitor->getControllerProxy()->setAudioThumb(ThumbnailCache::get()->getAudioThumbPath(m_controller->clipId()));
+        m_glMonitor->getControllerProxy()->setAudioThumb();
+        if (!m_controller->audioStreams().isEmpty()) {
+            QList<int> streamIndexes = m_controller->activeStreams().keys();
+            if (streamIndexes.count() == 1 && streamIndexes.at(0) == INT_MAX) {
+                // Display all streams
+                streamIndexes = m_controller->audioStreams().keys();
+            }
+            m_glMonitor->getControllerProxy()->setAudioThumb(streamIndexes, m_controller->activeStreamChannels());
+        }
     }
 }
 
@@ -2258,10 +2306,12 @@ void Monitor::panView(QPoint diff)
 
 void Monitor::processSeek(int pos)
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     pause();
     m_glMonitor->requestSeek(pos);
-    m_monitorManager->cleanMixer();
+    emit m_monitorManager->cleanMixer();
 }
 
 void Monitor::requestSeek(int pos)
@@ -2289,7 +2339,9 @@ void Monitor::slotSeekPosition(int pos)
 
 void Monitor::slotStart()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->switchPlay(false);
     m_glMonitor->getControllerProxy()->setPosition(0);
     resetSpeedInfo();
@@ -2297,7 +2349,9 @@ void Monitor::slotStart()
 
 void Monitor::slotEnd()
 {
-    slotActivateMonitor();
+    if (!slotActivateMonitor()) {
+        return;
+    }
     m_glMonitor->switchPlay(false);
     resetSpeedInfo();
     if (m_id == Kdenlive::ClipMonitor) {

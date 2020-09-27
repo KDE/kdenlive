@@ -112,7 +112,6 @@ public:
     void resetConsumer(bool fullReset);
     void lockMonitor();
     void releaseMonitor();
-    int realTime() const;
     int droppedFrames() const;
     void resetDrops();
     bool checkFrameNumber(int pos, int offset, bool isPlaying);
@@ -186,7 +185,6 @@ signals:
     void lockMonitor(bool);
     void passKeyEvent(QKeyEvent *);
     void panView(const QPoint &diff);
-    void activateMonitor();
 
 protected:
     Mlt::Filter *m_glslManager;
@@ -244,6 +242,8 @@ private:
     QOpenGLFramebufferObject *m_fbo;
     void refreshSceneLayout();
     void resetZoneMode();
+    /** @brief Restart consumer, keeping preview scaling settings */
+    bool restartConsumer();
 
     /* OpenGL context management. Interfaces to MLT according to the configured render pipeline.
      */

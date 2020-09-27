@@ -124,7 +124,7 @@ void ProjectManager::slotLoadOnOpen()
     }
     m_loadClipsOnOpen.clear();
     m_loading = false;
-    pCore->closeSplash();
+    emit pCore->closeSplash();
 }
 
 void ProjectManager::init(const QUrl &projectUrl, const QString &clipList)
@@ -264,6 +264,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             break;
         }
     }
+    ::mlt_pool_purge();
+    pCore->audioThumbCache.clear();
     pCore->jobManager()->slotCancelJobs();
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
@@ -277,7 +279,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             pCore->jobManager()->slotCancelJobs();
             pCore->bin()->abortOperations();
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
-            pCore->window()->clearAssetPanel();
+            emit pCore->window()->clearAssetPanel();
             delete m_project;
             m_project = nullptr;
         }
@@ -438,7 +440,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
     // Check if we can have a lock on one of the file,
     // meaning it is not handled by any Kdenlive instance
     if (!staleFiles.isEmpty()) {
-        for (KAutoSaveFile *stale : staleFiles) {
+        for (KAutoSaveFile *stale : qAsConst(staleFiles)) {
             if (stale->open(QIODevice::QIODevice::ReadWrite)) {
                 // Found orphaned autosave file
                 if (!sourceTime.isValid() || QFileInfo(stale->fileName()).lastModified() > sourceTime) {
@@ -457,7 +459,7 @@ bool ProjectManager::checkForBackupFile(const QUrl &url, bool newFile)
         }
     }
     // remove the stale files
-    for (KAutoSaveFile *stale : staleFiles) {
+    for (KAutoSaveFile *stale : qAsConst(staleFiles)) {
         stale->open(QIODevice::ReadWrite);
         delete stale;
     }
@@ -561,7 +563,7 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale)
         m_progressDialog->setLabelText(i18n("Loading clips"));
         m_progressDialog->setMaximum(doc->clipsCount());
     } else {
-        pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
+        emit pCore->loadingMessageUpdated(QString(), 0, doc->clipsCount());
     }
 
     // TODO refac delete this
@@ -678,6 +680,11 @@ void ProjectManager::slotAutoSave()
             i.next();
             scene.replace(i.key(), i.value());
         }
+    }
+    if (!scene.contains(QLatin1String("<track "))) {
+        // In some unexplained cases, the MLT playlist is corrupted and all tracks are deleted. Don't save in that case.
+        pCore->displayMessage(i18n("Project was corrupted, cannot backup. Please close and reopen your project file to recover last backup"), ErrorMessage);
+        return;
     }
     m_project->slotAutoSave(scene);
     m_lastSave.start();
@@ -835,7 +842,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
     // Move tmp folder (thumbnails, timeline preview)
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
-    connect(copyJob, SIGNAL(percent(KJob *, ulong)), this, SLOT(slotMoveProgress(KJob *, ulong)));
+    connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
     m_project->moveProjectData(src, dest);
 }
 
@@ -905,7 +912,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
     const QString groupsData = m_project->getDocumentProperty(QStringLiteral("groups"));
     // update track compositing
     int compositing = pCore->currentDoc()->getDocumentProperty(QStringLiteral("compositing"), QStringLiteral("2")).toInt();
-    pCore->currentDoc()->updateCompositionMode(compositing);
+    emit pCore->currentDoc()->updateCompositionMode(compositing);
     if (compositing < 2) {
         pCore->window()->getMainTimeline()->controller()->switchCompositing(compositing);
     }
@@ -913,7 +920,7 @@ bool ProjectManager::updateTimeline(int pos, int scrollPos)
         m_mainTimelineModel->loadGroups(groupsData);
     }
     connect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
-    pCore->monitorManager()->updatePreviewScaling();
+    emit pCore->monitorManager()->updatePreviewScaling();
     pCore->monitorManager()->projectMonitor()->slotActivateMonitor();
     pCore->monitorManager()->projectMonitor()->setProducer(m_mainTimelineModel->producer(), pos);
     pCore->monitorManager()->projectMonitor()->adjustRulerSize(m_mainTimelineModel->duration() - 1, m_project->getGuideModel());
@@ -958,7 +965,6 @@ std::shared_ptr<DocUndoStack> ProjectManager::undoStack()
 void ProjectManager::saveWithUpdatedProfile(const QString &updatedProfile)
 {
     // First backup current project with fps appended
-    QString message;
     bool saveInTempFile = false;
     if (m_project && m_project->isModified()) {
         switch (

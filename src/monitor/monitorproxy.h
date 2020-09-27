@@ -44,8 +44,13 @@ class MonitorProxy : public QObject
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(int rulerHeight READ rulerHeight WRITE setRulerHeight NOTIFY rulerHeightChanged)
     Q_PROPERTY(QString markerComment READ markerComment NOTIFY markerCommentChanged)
-    Q_PROPERTY(QList <QUrl> audioThumb MEMBER m_audioThumb NOTIFY audioThumbChanged)
+    Q_PROPERTY(QList <int> audioStreams MEMBER m_audioStreams NOTIFY audioThumbChanged)
+    Q_PROPERTY(QList <int> audioChannels MEMBER m_audioChannels NOTIFY audioThumbChanged)
     Q_PROPERTY(int overlayType READ overlayType WRITE setOverlayType NOTIFY overlayTypeChanged)
+    Q_PROPERTY(QColor thumbColor1 READ thumbColor1 NOTIFY colorsChanged)
+    Q_PROPERTY(QColor thumbColor2 READ thumbColor2 NOTIFY colorsChanged)
+    Q_PROPERTY(bool autoKeyframe READ autoKeyframe NOTIFY autoKeyframeChanged)
+    Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
     /** @brief: Returns true if current clip in monitor has Audio and Video
      * */
     Q_PROPERTY(bool clipHasAV MEMBER m_hasAV NOTIFY clipHasAVChanged)
@@ -72,6 +77,9 @@ public:
     int getPosition() const;
     Q_INVOKABLE bool setPosition(int pos);
     Q_INVOKABLE void seek(int delta, uint modifiers);
+    Q_INVOKABLE QColor thumbColor1() const;
+    Q_INVOKABLE QColor thumbColor2() const;
+    Q_INVOKABLE bool audioThumbFormat() const;
     void positionFromConsumer(int pos, bool playing);
     void setMarkerComment(const QString &comment);
     int zoneIn() const;
@@ -90,9 +98,11 @@ public:
     Q_INVOKABLE void startZoneMove();
     Q_INVOKABLE void endZoneMove();
     Q_INVOKABLE double fps() const;
+    Q_INVOKABLE void switchAutoKeyframe();
+    Q_INVOKABLE bool autoKeyframe() const;
     QPoint profile();
     void setClipProperties(int clipId, ClipType::ProducerType type, bool hasAV, const QString clipName);
-    void setAudioThumb(const QList <QUrl> thumbPath = QList <QUrl>());
+    void setAudioThumb(const QList <int> streamIndexes = QList <int>(), QList <int> channels = QList <int>());
     void setAudioStream(const QString &name);
     void setRulerHeight(int height);
 
@@ -119,7 +129,10 @@ signals:
     void clipTypeChanged();
     void clipIdChanged();
     void audioThumbChanged();
+    void colorsChanged();
+    void audioThumbFormatChanged();
     void profileChanged();
+    void autoKeyframeChanged();
 
 private:
     GLWidget *q;
@@ -127,7 +140,8 @@ private:
     int m_zoneIn;
     int m_zoneOut;
     bool m_hasAV;
-    QList <QUrl> m_audioThumb;
+    QList <int> m_audioStreams;
+    QList <int> m_audioChannels;
     QString m_markerComment;
     QString m_clipName;
     QString m_clipStream;

@@ -7,6 +7,7 @@
     <method name="setRenderingProgress">
       <arg name="url" type="s" direction="in"/>
       <arg name="progress" type="i" direction="in"/>
+      <arg name="frame" type="i" direction="in"/>
     </method>
     <method name="setRenderingFinished">
       <arg name="url" type="s" direction="in"/>

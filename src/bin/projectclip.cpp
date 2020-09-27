@@ -103,12 +103,12 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
     }
     // Make sure we have a hash for this clip
     hash();
-    connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&]() {
+    connect(m_markerModel.get(), &MarkerListModel::modelChanged, this, [&]() {
         setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson());
     });
     QString markers = getProducerProperty(QStringLiteral("kdenlive:markers"));
     if (!markers.isEmpty()) {
-        QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(const QString &, markers), Q_ARG(bool, true),
+        QMetaObject::invokeMethod(m_markerModel.get(), "importFromJson", Qt::QueuedConnection, Q_ARG(QString, markers), Q_ARG(bool, true),
                                   Q_ARG(bool, false));
     }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
@@ -122,7 +122,7 @@ std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QIc
 {
     std::shared_ptr<ProjectClip> self(new ProjectClip(id, thumb, model, producer));
     baseFinishConstruct(self);
-    QMetaObject::invokeMethod(model.get(), "loadSubClips", Qt::QueuedConnection, Q_ARG(const QString&, id), Q_ARG(const QString&, self->getProducerProperty(QStringLiteral("kdenlive:clipzones"))));
+    QMetaObject::invokeMethod(model.get(), "loadSubClips", Qt::QueuedConnection, Q_ARG(QString, id), Q_ARG(QString, self->getProducerProperty(QStringLiteral("kdenlive:clipzones"))));
     return self;
 }
 
@@ -153,7 +153,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     } else {
         m_name = i18n("Untitled");
     }
-    connect(m_markerModel.get(), &MarkerListModel::modelChanged, [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
+    connect(m_markerModel.get(), &MarkerListModel::modelChanged, this, [&]() { setProducerProperty(QStringLiteral("kdenlive:markers"), m_markerModel->toJson()); });
 }
 
 std::shared_ptr<ProjectClip> ProjectClip::construct(const QString &id, const QDomElement &description, const QIcon &thumb,
@@ -175,7 +175,7 @@ ProjectClip::~ProjectClip()
 
 void ProjectClip::connectEffectStack()
 {
-    connect(m_effectStack.get(), &EffectStackModel::dataChanged, [&]() {
+    connect(m_effectStack.get(), &EffectStackModel::dataChanged, this, [&]() {
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            AbstractProjectItem::IconOverlay);
@@ -206,7 +206,52 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail()
 {
-    audioThumbReady();
+    emit audioThumbReady();
+    if (m_clipType == ClipType::Audio) {
+        QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
+        if (thumb.isNull()) {
+            int iconHeight = QFontInfo(qApp->font()).pixelSize() * 3.5;
+            QImage img(QSize(iconHeight * pCore->getCurrentDar(), iconHeight), QImage::Format_ARGB32);
+            img.fill(Qt::darkGray);
+            QMap <int, QString> streams = audioInfo()->streams();
+            QMap <int, int> channelsList = audioInfo()->streamChannels();
+            QPainter painter(&img);
+            QPen pen = painter.pen();
+            pen.setColor(Qt::white);
+            painter.setPen(pen);
+            int streamCount = 0;
+            if (streams.count() > 0) {
+                double streamHeight = iconHeight / streams.count();
+                QMapIterator<int, QString> st(streams);
+                while (st.hasNext()) {
+                    st.next();
+                    int channels = channelsList.value(st.key());
+                    double channelHeight = (double) streamHeight / channels;
+                    const QVector <uint8_t> audioLevels = audioFrameCache(st.key());
+                    qreal indicesPrPixel = qreal(audioLevels.length()) / img.width();
+                    int idx;
+                    for (int channel = 0; channel < channels; channel++) {
+                        double y = (streamHeight * streamCount) + (channel * channelHeight) + channelHeight / 2;
+                        for (int i = 0; i <= img.width(); i++) {
+                            idx = ceil(i * indicesPrPixel);
+                            idx += idx % channels;
+                            idx += channel;
+                            if (idx >= audioLevels.length() || idx < 0) {
+                                break;
+                            }
+                            double level = audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
+                            painter.drawLine(i, y - level, i, y + level);
+                        }
+                    }
+                    streamCount++;
+                }
+            }
+            thumb = img;
+            // Cache thumbnail
+            ThumbnailCache::get()->storeThumbnail(m_binId, 0, thumb, true);
+        }
+        setThumbnail(thumb);
+    }
     if (!KdenliveSettings::audiothumbnails()) {
         return;
     }
@@ -309,7 +354,7 @@ size_t ProjectClip::frameDuration() const
     return (size_t)getFramePlaytime();
 }
 
-void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool reloadAudio)
+void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudioReload)
 {
     // we find if there are some loading job on that clip
     int loadjobId = -1;
@@ -319,10 +364,10 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
         // In that case, we only want a new thumbnail.
         // We thus set up a thumb job. We must make sure that there is no pending LOADJOB
         // Clear cache first
-        ThumbnailCache::get()->invalidateThumbsForClip(clipId(), false);
+        ThumbnailCache::get()->invalidateThumbsForClip(clipId());
         pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
         m_thumbsProducer.reset();
-        pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
+        emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
         if (loadjobId > -1) {
@@ -334,18 +379,32 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
         QDomDocument doc;
         QDomElement xml = toXml(doc);
         if (!xml.isNull()) {
+            bool hashChanged = false;
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::THUMBJOB);
             m_thumbsProducer.reset();
             ClipType::ProducerType type = clipType();
             if (type != ClipType::Color && type != ClipType::Image && type != ClipType::SlideShow) {
                 xml.removeAttribute("out");
             }
-            ThumbnailCache::get()->invalidateThumbsForClip(clipId(), reloadAudio);
+            if (type == ClipType::Audio || type == ClipType::AV) {
+                // Check if source file was changed and rebuild audio data if necessary
+                QString clipHash = getProducerProperty(QStringLiteral("kdenlive:file_hash"));
+                if (!clipHash.isEmpty()) {
+                    if (clipHash != getFileHash()) {
+                        // Source clip has changed, rebuild data
+                        hashChanged = true;
+                    }
+                }
+                
+            }
+            ThumbnailCache::get()->invalidateThumbsForClip(clipId());
             int loadJob = pCore->jobManager()->startJob<LoadJob>({clipId()}, loadjobId, QString(), xml);
-            pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
-            if (audioStreamChanged) {
+            emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadJob, QString(), -1, true, true);
+            if (forceAudioReload || (!isProxy && hashChanged)) {
                 discardAudioThumb();
-                pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+            }
+            if (KdenliveSettings::audiothumbnails()) {
+                emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
             }
         }
     }
@@ -442,9 +501,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     m_clipStatus = StatusReady;
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
-    if (!hasProxy()) {
-        if (auto ptr = m_model.lock()) emit std::static_pointer_cast<ProjectItemModel>(ptr)->refreshPanel(m_binId);
-    }
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::DataDuration);
@@ -460,11 +516,11 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         // automatic proxy generation enabled
         if (m_clipType == ClipType::Image && pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateimageproxy")).toInt() == 1) {
             if (getProducerIntProperty(QStringLiteral("meta.media.width")) >= KdenliveSettings::proxyimageminsize() &&
-                getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
+                getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
                 clipList << std::static_pointer_cast<ProjectClip>(shared_from_this());
             }
         } else if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("generateproxy")).toInt() == 1 &&
-                   (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QStringLiteral()) {
+                   (m_clipType == ClipType::AV || m_clipType == ClipType::Video) && getProducerProperty(QStringLiteral("kdenlive:proxy")) == QLatin1String()) {
             bool skipProducer = false;
             if (pCore->currentDoc()->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() == 1) {
                 QStringList externalParams = pCore->currentDoc()->getDocumentProperty(QStringLiteral("externalproxyparams")).split(QLatin1Char(';'));
@@ -496,7 +552,6 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         }
     }
     pCore->bin()->reloadMonitorIfActive(clipId());
-    pCore->bin()->updateTargets(clipId());
     for (auto &p : m_audioProducers) {
         m_effectStack->removeService(p.second);
     }
@@ -515,7 +570,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         QTimer::singleShot(1000, this, [this]() {
             int loadjobId;
             if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &loadjobId)) {
-                pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
+                emit pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
             }
         });
     }
@@ -611,7 +666,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 m_audioProducers[trackId]->set("set.test_image", 1);
                 if (m_streamEffects.contains(audioStream)) {
                     QStringList effects = m_streamEffects.value(audioStream);
-                    for (const QString effect : effects) {
+                    for (const QString &effect : qAsConst(effects)) {
                         Mlt::Filter filt(*m_audioProducers[trackId]->profile(), effect.toUtf8().constData());
                         if (filt.is_valid()) {
                             // Add stream effect markup
@@ -671,7 +726,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (resource.isEmpty() || resource == QLatin1String("<producer>")) {
             resource = m_service;
         }
-        QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed))).arg(resource);
+        QString url = QString("timewarp:%1:%2").arg(QString::fromStdString(std::to_string(speed)), resource);
         warpProducer.reset(new Mlt::Producer(*originalProducer()->profile(), url.toUtf8().constData()));
         qDebug() << "new producer: " << url;
         qDebug() << "warp LENGTH before" << warpProducer->get_length();
@@ -686,6 +741,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     qDebug() << "warp LENGTH" << warpProducer->get_length();
     warpProducer->set("set.test_audio", 1);
     warpProducer->set("set.test_image", 1);
+    warpProducer->set("kdenlive:id", binId().toUtf8().constData());
     if (state == PlaylistState::AudioOnly) {
         warpProducer->set("set.test_audio", 0);
     }
@@ -749,6 +805,11 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                     // Color, image and text clips always use master producer in timeline
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                     m_effectStack->loadService(m_videoProducers[tid]);
+                } else {
+                    // Ensure clip out = length - 1 so that effects work correctly
+                    if (out != master->parent().get_length() - 1) {
+                        master->parent().set("out", master->parent().get_length() - 1);
+                    }
                 }
                 return {master, true};
             }
@@ -936,24 +997,9 @@ const QString ProjectClip::getFileHash()
         fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
         break;
     default:
-        QFile file(clipUrl());
-        if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
-            /*
-             * 1 MB = 1 second per 450 files (or faster)
-             * 10 MB = 9 seconds per 450 files (or faster)
-             */
-            if (file.size() > 2000000) {
-                fileData = file.read(1000000);
-                if (file.seek(file.size() - 1000000)) {
-                    fileData.append(file.readAll());
-                }
-            } else {
-                fileData = file.readAll();
-            }
-            file.close();
-            ClipController::setProducerProperty(QStringLiteral("kdenlive:file_size"), QString::number(file.size()));
-            fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
-        }
+        QPair<QByteArray, qint64> hashData = calculateHash(clipUrl());
+        fileHash = hashData.first;
+        ClipController::setProducerProperty(QStringLiteral("kdenlive:file_size"), QString::number(hashData.second));
         break;
     }
     if (fileHash.isEmpty()) {
@@ -963,6 +1009,33 @@ const QString ProjectClip::getFileHash()
     QString result = fileHash.toHex();
     ClipController::setProducerProperty(QStringLiteral("kdenlive:file_hash"), result);
     return result;
+}
+
+
+const QPair<QByteArray, qint64> ProjectClip::calculateHash(const QString path)
+{
+    QFile file(path);
+    QByteArray fileHash;
+    qint64 fSize = 0;
+    if (file.open(QIODevice::ReadOnly)) { // write size and hash only if resource points to a file
+        /*
+        * 1 MB = 1 second per 450 files (or faster)
+        * 10 MB = 9 seconds per 450 files (or faster)
+        */
+        QByteArray fileData;
+        fSize = file.size();
+        if (fSize > 2000000) {
+            fileData = file.read(1000000);
+            if (file.seek(file.size() - 1000000)) {
+                fileData.append(file.readAll());
+            }
+        } else {
+            fileData = file.readAll();
+        }
+        file.close();
+        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+    }
+    return {fileHash, fSize};
 }
 
 double ProjectClip::getOriginalFps() const
@@ -1045,7 +1118,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             // A proxy was requested, make sure to keep original url
             setProducerProperty(QStringLiteral("kdenlive:originalurl"), url());
             backupOriginalProperties();
-            pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
+            emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         }
     } else if (!reload) {
         const QList<QString> propKeys = properties.keys();
@@ -1104,9 +1177,9 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         if (hasProxy()) {
             pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::PROXYJOB);
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
-            pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
+            emit pCore->jobManager()->startJob<ProxyJob>({clipId()}, -1, QString());
         } else {
-            reloadProducer(refreshOnly, audioStreamChanged, audioStreamChanged || (!refreshOnly && !properties.contains(QStringLiteral("kdenlive:proxy"))));
+            reloadProducer(refreshOnly, properties.contains(QStringLiteral("kdenlive:proxy")));
         }
         if (refreshOnly) {
             if (auto ptr = m_model.lock()) {
@@ -1129,7 +1202,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         }
         if (audioStreamChanged) {
             refreshAudioInfo();
-            audioThumbReady();
+            emit audioThumbReady();
             pCore->bin()->reloadMonitorStreamIfActive(clipId());
             refreshPanel = true;
         }
@@ -1171,7 +1244,7 @@ ClipPropertiesController *ProjectClip::buildProperties(QWidget *parent)
     connect(this, &ProjectClip::refreshPropertiesPanel, panel, &ClipPropertiesController::slotReloadProperties);
     connect(this, &ProjectClip::refreshAnalysisPanel, panel, &ClipPropertiesController::slotFillAnalysisData);
     connect(this, &ProjectClip::updateStreamInfo, panel, &ClipPropertiesController::updateStreamInfo);
-    connect(panel, &ClipPropertiesController::requestProxy, [this](bool doProxy) {
+    connect(panel, &ClipPropertiesController::requestProxy, this, [this](bool doProxy) {
         QList<std::shared_ptr<ProjectClip>> clipList{std::static_pointer_cast<ProjectClip>(shared_from_this())};
         pCore->currentDoc()->slotProxyCurrentItem(doProxy, clipList);
     });
@@ -1279,14 +1352,25 @@ void ProjectClip::discardAudioThumb()
     if (!m_audioInfo) {
         return;
     }
-    QString audioThumbPath = getAudioThumbPath(audioInfo()->ffmpeg_audio_index());
-    if (!audioThumbPath.isEmpty()) {
-        QFile::remove(audioThumbPath);
+    pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
+    QString audioThumbPath;
+    QList <int> streams = m_audioInfo->streams().keys();
+    // Delete audio thumbnail data
+    for (int &st : streams) {
+        audioThumbPath = getAudioThumbPath(st);
+        if (!audioThumbPath.isEmpty()) {
+            QFile::remove(audioThumbPath);
+        }
     }
-    qCDebug(KDENLIVE_LOG) << "////////////////////  DISCARD AUDIO THUMBS";
+    // Delete thumbnail
+    for (int &st : streams) {
+        audioThumbPath = getAudioThumbPath(st);
+        if (!audioThumbPath.isEmpty()) {
+            QFile::remove(audioThumbPath);
+        }
+    }
     m_audioThumbCreated = false;
     refreshAudioInfo();
-    pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::AUDIOTHUMBJOB);
 }
 
 int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)
@@ -1301,9 +1385,9 @@ int ProjectClip::getAudioStreamFfmpegIndex(int mltStream)
     return -1;
 }
 
-const QString ProjectClip::getAudioThumbPath(int stream, bool miniThumb)
+const QString ProjectClip::getAudioThumbPath(int stream)
 {
-    if (audioInfo() == nullptr && !miniThumb) {
+    if (audioInfo() == nullptr) {
         return QString();
     }
     bool ok = false;
@@ -1317,10 +1401,6 @@ const QString ProjectClip::getAudioThumbPath(int stream, bool miniThumb)
     }
     QString audioPath = thumbFolder.absoluteFilePath(clipHash);
     audioPath.append(QLatin1Char('_') + QString::number(stream));
-    if (miniThumb) {
-        audioPath.append(QStringLiteral(".png"));
-        return audioPath;
-    }
     int roundedFps = (int)pCore->getCurrentFps();
     audioPath.append(QStringLiteral("_%1_audio.png").arg(roundedFps));
     return audioPath;
@@ -1460,6 +1540,7 @@ bool ProjectClip::selfSoftDelete(Fun &undo, Fun &redo)
             continue;
         }
         if (auto timeline = clip.second.lock()) {
+            timeline->requestClipUngroup(clip.first, undo, redo);
             timeline->requestItemDeletion(clip.first, undo, redo);
         } else {
             qDebug() << "Error while deleting clip: timeline unavailable";
@@ -1543,7 +1624,7 @@ void ProjectClip::getThumbFromPercent(int percent)
         // Generate percent thumbs
         int id;
         if (!pCore->jobManager()->hasPendingJob(m_binId, AbstractClipJob::CACHEJOB, &id)) {
-            pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
+            emit pCore->jobManager()->startJob<CacheJob>({m_binId}, -1, QString());
         }
     }
 }
@@ -1555,7 +1636,7 @@ void ProjectClip::setRating(uint rating)
     pCore->currentDoc()->setModified(true);
 }
 
-QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
+const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
 {
     QVector <uint8_t> audioLevels;
     if (stream == -1) {
@@ -1565,12 +1646,19 @@ QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             return audioLevels;
         }
     }
+    QString key = QString("%1:%2").arg(m_binId).arg(stream);
+    QByteArray audioData;
+    if (pCore->audioThumbCache.find(key, &audioData)) {
+        QDataStream in(audioData);
+        in >> audioLevels;
+        return audioLevels;
+    }
     // convert cached image
     const QString cachePath = getAudioThumbPath(stream);
     // checking for cached thumbs
     QImage image(cachePath);
     if (!image.isNull()) {
-        int channels = m_audioInfo->channels();
+        int channels = m_audioInfo->channelsForStream(stream);
         int n = image.width() * image.height();
         for (int i = 0; i < n; i++) {
             QRgb p = image.pixel(i / channels, i % channels);
@@ -1579,6 +1667,10 @@ QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
             audioLevels << (uint8_t)qBlue(p);
             audioLevels << (uint8_t)qAlpha(p);
         }
+        // populate vector
+        QDataStream st(&audioData, QIODevice::WriteOnly);
+        st << audioLevels;
+        pCore->audioThumbCache.insert(key, audioData);
     }
     return audioLevels;
 }
@@ -1610,7 +1702,7 @@ void ProjectClip::requestAddStreamEffect(int streamIndex, const QString effectNa
     QStringList readEffects = m_streamEffects.value(streamIndex);
     QString oldEffect;
     // Remove effect if present (parameters might have changed
-    for (const QString effect : readEffects) {
+    for (const QString &effect : qAsConst(readEffects)) {
         if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
             oldEffect = effect;
             break;
@@ -1639,7 +1731,7 @@ void ProjectClip::requestRemoveStreamEffect(int streamIndex, const QString effec
     QStringList readEffects = m_streamEffects.value(streamIndex);
     QString oldEffect = effectName;
     // Remove effect if present (parameters might have changed
-    for (const QString effect : readEffects) {
+    for (const QString &effect : qAsConst(readEffects)) {
         if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
             oldEffect = effect;
             break;
@@ -1665,7 +1757,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
         // effect has parameters
         QStringList params = effectName.split(QLatin1Char(' '));
         addedEffectName = params.takeFirst();
-        for (const QString &p : params) {
+        for (const QString &p : qAsConst(params)) {
             QStringList paramValue = p.split(QLatin1Char('='));
             if (paramValue.size() == 2) {
                 effectParams.insert(paramValue.at(0), paramValue.at(1));
@@ -1678,7 +1770,7 @@ void ProjectClip::addAudioStreamEffect(int streamIndex, const QString effectName
     if (m_streamEffects.contains(streamIndex)) {
         QStringList readEffects = m_streamEffects.value(streamIndex);
         // Remove effect if present (parameters might have changed
-        for (const QString effect : readEffects) {
+        for (const QString &effect : qAsConst(readEffects)) {
             if (effect == addedEffectName || effect.startsWith(addedEffectName + QStringLiteral(" "))) {
                 continue;
             }
@@ -1718,7 +1810,7 @@ void ProjectClip::removeAudioStreamEffect(int streamIndex, QString effectName)
     if (m_streamEffects.contains(streamIndex)) {
         QStringList readEffects = m_streamEffects.value(streamIndex);
         // Remove effect if present (parameters might have changed
-        for (const QString effect : readEffects) {
+        for (const QString &effect : qAsConst(readEffects)) {
             if (effect == effectName || effect.startsWith(effectName + QStringLiteral(" "))) {
                 continue;
             }

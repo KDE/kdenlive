@@ -74,7 +74,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
-    connect(document(), SIGNAL(contentsChange(int, int, int)), this, SLOT(updateGeometry(int, int, int)));
+    connect(document(), SIGNAL(contentsChange(int,int,int)), this, SLOT(updateGeometry(int,int,int)));
 }
 
 Qt::Alignment MyTextItem::alignment() const
@@ -627,7 +627,7 @@ void GraphicsSceneRectMove::mouseReleaseEvent(QGraphicsSceneMouseEvent *e)
     if (m_tool == TITLE_RECTANGLE && (m_selectedItem != nullptr)) {
         setSelectedItem(m_selectedItem);
     }
-    if (m_createdText) {
+    if (m_createdText && m_selectedItem) {
         m_selectedItem->setSelected(true);
         auto *newText = static_cast<MyTextItem *>(m_selectedItem);
         QTextCursor cur(newText->document());
@@ -882,7 +882,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_resizeMode = NoResize;
         bool itemFound = false;
         QList<QGraphicsItem *> list = items(QRectF(p, QSizeF(4, 4)).toRect());
-        for (const QGraphicsItem *g : list) {
+        for (const QGraphicsItem *g : qAsConst(list)) {
             if (!(g->flags() & QGraphicsItem::ItemIsSelectable)) {
                 continue;
             }

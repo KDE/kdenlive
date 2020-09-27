@@ -41,13 +41,15 @@ class QProgressBar;
 
 class FlashLabel : public QWidget
 {
-    Q_PROPERTY(QColor color READ color WRITE setColor)
+    Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
     Q_OBJECT
 public:
     explicit FlashLabel(QWidget *parent = nullptr);
     ~FlashLabel() override;
     QColor color() const;
     void setColor(const QColor &);
+signals:
+    void colorChanged();
 };
 
 /**

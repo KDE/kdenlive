@@ -85,7 +85,7 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
         QDir current_dir(dir);
         QStringList filter {QStringLiteral("*.xml")};
         QStringList fileList = current_dir.entryList(filter, QDir::Files);
-        for (const auto &file : fileList) {
+        for (const auto &file : qAsConst(fileList)) {
             QString path = current_dir.absoluteFilePath(file);
             parseCustomAssetFile(path, customAssets);
         }
@@ -284,6 +284,14 @@ template <typename AssetType> AssetType AbstractAssetsRepository<AssetType>::get
 {
     Q_ASSERT(m_assets.count(assetId) > 0);
     return m_assets.at(assetId).type;
+}
+
+template <typename AssetType> bool AbstractAssetsRepository<AssetType>::isUnique(const QString &assetId) const
+{
+    if (m_assets.count(assetId) > 0) {
+        return m_assets.at(assetId).xml.hasAttribute(QStringLiteral("unique"));
+    }
+    return false;
 }
 
 template <typename AssetType> QString AbstractAssetsRepository<AssetType>::getName(const QString &assetId) const

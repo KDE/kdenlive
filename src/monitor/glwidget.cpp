@@ -342,7 +342,7 @@ static void uploadTextures(QOpenGLContext *context, const SharedFrame &frame, GL
 {
     int width = frame.get_image_width();
     int height = frame.get_image_height();
-    const uint8_t *image = frame.get_image();
+    const uint8_t *image = frame.get_image(mlt_image_yuv420p);
     QOpenGLFunctions *f = context->functions();
 
     // The planes of pixel data may not be a multiple of the default 4 bytes.
@@ -420,7 +420,7 @@ bool GLWidget::acquireSharedFrameTextures()
         // C & D
         m_contextSharedAccess.lock();
         if (m_sharedFrame.is_valid()) {
-            m_texture[0] = *((const GLuint *)m_sharedFrame.get_image());
+            m_texture[0] = *((const GLuint *)m_sharedFrame.get_image(mlt_image_glsl_texture));
         }
     }
 
@@ -656,9 +656,7 @@ void GLWidget::requestSeek(int position)
     if (!qFuzzyIsNull(m_producer->get_speed())) {
         m_consumer->purge();
     }
-    if (m_consumer->is_stopped()) {
-        m_consumer->start();
-    }
+    restartConsumer();
     m_consumer->set("refresh", 1);
 }
 
@@ -679,9 +677,7 @@ void GLWidget::refresh()
 {
     m_refreshTimer.stop();
     QMutexLocker locker(&m_mltMutex);
-    if (m_consumer->is_stopped()) {
-        m_consumer->start();
-    }
+    restartConsumer();
     m_consumer->set("refresh", 1);
 }
 
@@ -1135,7 +1131,7 @@ int GLWidget::reconfigure()
             // m_producer->set_speed(0.0);
         }
 
-        int dropFrames = realTime();
+        int dropFrames = 1;
         if (!KdenliveSettings::monitor_dropframes()) {
             dropFrames = -dropFrames;
         }
@@ -1296,6 +1292,7 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 void GLWidget::purgeCache()
 {
     if (m_consumer) {
+        //m_consumer->set("buffer", 1);
         m_consumer->purge();
         m_producer->seek(m_proxy->getPosition() + 1);
     }
@@ -1330,15 +1327,6 @@ void GLWidget::setOffsetY(int y, int max)
         rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0 - 10 : 0);
     }
     update();
-}
-
-int GLWidget::realTime() const
-{
-    // C & D
-    if (m_glslManager) {
-        return 1;
-    }
-    return KdenliveSettings::mltthreads();
 }
 
 std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
@@ -1378,7 +1366,8 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
     // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
     // xmlConsumer.set("no_meta", 1);
-    xmlConsumer.connect(*m_producer.get());
+    Mlt::Service s(m_producer->get_service());
+    xmlConsumer.connect(s);
     xmlConsumer.run();
     playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
     return playlist;
@@ -1497,10 +1486,6 @@ FrameRenderer::~FrameRenderer()
 
 void FrameRenderer::showFrame(Mlt::Frame frame)
 {
-    int width = 0;
-    int height = 0;
-    mlt_image_format format = mlt_image_yuv420p;
-    frame.get_image(format, width, height);
     // Save this frame for future use and to keep a reference to the GL Texture.
     m_displayFrame = SharedFrame(frame);
 
@@ -1528,12 +1513,6 @@ void FrameRenderer::showFrame(Mlt::Frame frame)
 void FrameRenderer::showGLFrame(Mlt::Frame frame)
 {
     if ((m_context != nullptr) && m_context->isValid()) {
-        int width = 0;
-        int height = 0;
-
-        frame.set("movit.convert.use_texture", 1);
-        mlt_image_format format = mlt_image_glsl_texture;
-        frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
         pipelineSyncToFrame(frame);
 
@@ -1552,12 +1531,8 @@ void FrameRenderer::showGLFrame(Mlt::Frame frame)
 void FrameRenderer::showGLNoSyncFrame(Mlt::Frame frame)
 {
     if ((m_context != nullptr) && m_context->isValid()) {
-        int width = 0;
-        int height = 0;
 
         frame.set("movit.convert.use_texture", 1);
-        mlt_image_format format = mlt_image_glsl_texture;
-        frame.get_image(format, width, height);
         m_context->makeCurrent(m_surface);
         m_context->functions()->glFinish();
 
@@ -1619,7 +1594,7 @@ void GLWidget::refreshSceneLayout()
         return;
     }
     QSize s = pCore->getCurrentFrameSize();
-    m_proxy->profileChanged();
+    emit m_proxy->profileChanged();
     rootObject()->setProperty("scalex", (double)m_rect.width() / s.width() * m_zoom);
     rootObject()->setProperty("scaley", (double)m_rect.height() / s.height() * m_zoom);
 }
@@ -1664,15 +1639,30 @@ bool GLWidget::playZone(bool loop)
     m_consumer->purge();
     m_producer->set("out", m_proxy->zoneOut());
     m_producer->set_speed(1.0);
-    if (m_consumer->is_stopped()) {
-        m_consumer->start();
-    }
+    restartConsumer();
     m_consumer->set("scrub_audio", 0);
     m_consumer->set("refresh", 1);
     m_isZoneMode = true;
     m_isLoopMode = loop;
     return true;
 }
+
+bool GLWidget::restartConsumer()
+{
+    int result = 0;
+    if (m_consumer->is_stopped()) {
+        // When restarting the consumer, we need to restore the preview scaling
+        int cWidth = m_consumer->get_int("width");
+        int cHeigth = m_consumer->get_int("height");
+        result = m_consumer->start();
+        if (cWidth > 0) {
+            m_consumer->set("width", cWidth);
+            m_consumer->set("height", cHeigth);
+        }
+    }
+    return result != -1;
+}
+
 
 bool GLWidget::loopClip(QPoint inOut)
 {
@@ -1686,9 +1676,7 @@ bool GLWidget::loopClip(QPoint inOut)
     m_consumer->purge();
     m_producer->set("out", inOut.y());
     m_producer->set_speed(1.0);
-    if (m_consumer->is_stopped()) {
-        m_consumer->start();
-    }
+    restartConsumer();
     m_consumer->set("scrub_audio", 0);
     m_consumer->set("refresh", 1);
     m_isZoneMode = false;
@@ -1731,7 +1719,7 @@ void GLWidget::startConsumer()
     if (m_consumer == nullptr) {
         return;
     }
-    if (m_consumer->is_stopped() && m_consumer->start() == -1) {
+    if (!restartConsumer()) {
         // ARGH CONSUMER BROKEN!!!!
         KMessageBox::error(
             qApp->activeWindow(),
@@ -1778,7 +1766,7 @@ void GLWidget::setDropFrames(bool drop)
     // why this lock?
     QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
-        int dropFrames = realTime();
+        int dropFrames = 1;
         if (!drop) {
             dropFrames = -dropFrames;
         }
@@ -1879,5 +1867,5 @@ void GLWidget::switchRuler(bool show)
     m_rulerHeight = show ? QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pixelSize() * 1.5 : 0;
     m_displayRulerHeight = m_rulerHeight;
     resizeGL(width(), height());
-    m_proxy->rulerHeightChanged();
+    emit m_proxy->rulerHeightChanged();
 }

@@ -57,6 +57,7 @@ public:
 
     /* @brief Return true if the effect applies only to audio */
     bool isAudio() const override;
+    bool isUnique() const override;
 
     void setCollapsed(bool collapsed);
     bool isCollapsed();

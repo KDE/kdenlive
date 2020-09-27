@@ -165,13 +165,21 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_volumeSpin->setSuffix(i18n("dB"));
     m_volumeSpin->setFrame(false);
 
-    connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), [&](double val) {
+    connect(m_volumeSpin, static_cast<void (QDoubleSpinBox::*)(double)>(&QDoubleSpinBox::valueChanged), this, [&](double val) {
         m_volumeSlider->setValue(fromDB(val));
     });
 
-    m_balanceDial = new QDial(this);
-    m_balanceDial->setRange(-50, 50);
-    m_balanceDial->setValue(0);
+    m_balanceSlider = new QSlider(Qt::Horizontal,this);
+    m_balanceSlider->setRange(-50, 50);
+    m_balanceSlider->setValue(0);
+    m_balanceSlider->setTickPosition(QSlider::TicksBelow);
+    m_balanceSlider->setTickInterval(50);
+    m_balanceSlider->setToolTip(i18n("Balance"));
+
+    QLabel *labelLeft = new QLabel(i18nc("Left", "L"), this);
+    labelLeft->setAlignment(Qt::AlignHCenter);
+    QLabel *labelRight = new QLabel(i18nc("Right", "R"), this);
+    labelLeft->setAlignment(Qt::AlignHCenter);
 
     m_balanceSpin = new QSpinBox(this);
     m_balanceSpin->setRange(-50, 50);
@@ -199,7 +207,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_balanceFilter = fl;
             int val = m_balanceFilter->get_double("start") * 100 - 50;
             m_balanceSpin->setValue(val);
-            m_balanceDial->setValue(val);
+            m_balanceSlider->setValue(val);
         }
     }
     // Build default filters if not found
@@ -237,9 +245,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
 
-    connect(m_balanceDial, &QDial::valueChanged, m_balanceSpin, &QSpinBox::setValue);
+    connect(m_balanceSlider, &QSlider::valueChanged, m_balanceSpin, &QSpinBox::setValue);
 
-    connect(m_muteAction, &KDualAction::activeChangedByUser, [&](bool active) {
+    connect(m_muteAction, &KDualAction::activeChangedByUser, this, [&](bool active) {
         if (m_tid == -1) {
             // Muting master, special case
             if (m_levelFilter) {
@@ -263,7 +271,6 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     mute->setAutoRaise(true);
 
     // Setup default width
-    QFontMetrics fm(font());
     setFixedWidth(3 * mute->sizeHint().width());
 
     if (m_tid > -1) {
@@ -273,7 +280,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_solo->setIcon(QIcon::fromTheme("headphones"));
         m_solo->setToolTip(i18n("Solo mode"));
         m_solo->setAutoRaise(true);
-        connect(m_solo, &QToolButton::toggled, [&](bool toggled) {
+        connect(m_solo, &QToolButton::toggled, this, [&](bool toggled) {
             emit toggleSolo(m_tid, toggled);
             updateLabel();
         });
@@ -282,8 +289,8 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_record->setToolTip(i18n("Record"));
         m_record->setCheckable(true);
         m_record->setAutoRaise(true);
-        connect(m_record, &QToolButton::clicked, [&]() {
-            m_manager->recordAudio(m_tid);
+        connect(m_record, &QToolButton::clicked, this, [&]() {
+            emit m_manager->recordAudio(m_tid);
         });
     } else {
         m_collapse = new QToolButton(this);
@@ -292,19 +299,27 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_collapse->setCheckable(true);
         m_collapse->setAutoRaise(true);
         m_collapse->setChecked(KdenliveSettings::mixerCollapse() );
-        connect(m_collapse, &QToolButton::clicked, [&]() {
+        connect(m_collapse, &QToolButton::clicked, this, [&]() {
             KdenliveSettings::setMixerCollapse(m_collapse->isChecked());
             m_collapse->setIcon(m_collapse->isChecked() ? QIcon::fromTheme("arrow-left") : QIcon::fromTheme("arrow-right"));
             m_manager->collapseMixers();
         });
     }
 
-    connect(m_volumeSlider, &QSlider::valueChanged, [&](int value) {
+    QToolButton *showEffects = new QToolButton(this);
+    showEffects->setIcon(QIcon::fromTheme("autocorrection"));
+    showEffects->setToolTip(i18n("Open Effect Stack"));
+    showEffects->setAutoRaise(true);
+    connect(showEffects, &QToolButton::clicked, this,  [&]() {
+        emit m_manager->showEffectStack(m_tid);
+    });
+
+    connect(m_volumeSlider, &QSlider::valueChanged, this, [&](int value) {
         QSignalBlocker bk(m_volumeSpin);
         if (m_recording) {
             m_volumeSpin->setValue(value);
             KdenliveSettings::setAudiocapturevolume(value);
-            m_manager->updateRecVolume();
+            emit m_manager->updateRecVolume();
             //TODO update capture volume
         } else if (m_levelFilter != nullptr) {
             double dbValue = 0;
@@ -318,18 +333,18 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_levelFilter->set("level", dbValue);
             m_levelFilter->set("disable", value == 60 ? 1 : 0);
             m_levels.clear();
-            m_manager->purgeCache();
+            emit m_manager->purgeCache();
             pCore->setDocumentModified();
         }
     });
-    connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [&](int value) {
-        QSignalBlocker bk(m_balanceDial);
-        m_balanceDial->setValue(value);
+    connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
+        QSignalBlocker bk(m_balanceSlider);
+        m_balanceSlider->setValue(value);
         if (m_balanceFilter != nullptr) {
             m_balanceFilter->set("start", (value + 50) / 100.);
             m_balanceFilter->set("disable", value == 0 ? 1 : 0);
             m_levels.clear();
-            m_manager->purgeCache();
+            emit m_manager->purgeCache();
             pCore->setDocumentModified();
         }
     });
@@ -350,9 +365,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     if (m_record) {
         buttonslay->addWidget(m_record);
     }
+    buttonslay->addWidget(showEffects);
     lay->addLayout(buttonslay);
-    lay->addWidget(m_balanceDial);
-    lay->addWidget(m_balanceSpin);
+    QGridLayout *balancelay = new QGridLayout;
+    balancelay->addWidget(m_balanceSlider, 0, 0, 1, 3);
+    balancelay->addWidget(labelLeft, 1, 0, 1, 1);
+    balancelay->addWidget(m_balanceSpin, 1, 1, 1, 1);
+    balancelay->addWidget(labelRight, 1, 2, 1, 1);
+    lay->addLayout(balancelay);
     QHBoxLayout *hlay = new QHBoxLayout;
     hlay->addWidget(m_audioMeterWidget.get());
     hlay->addWidget(m_volumeSlider);
@@ -369,7 +389,7 @@ void MixerWidget::mousePressEvent(QMouseEvent *event)
 {
     if(event->button() == Qt::RightButton) {
         QWidget *child = childAt(event->pos());
-        if (child == m_balanceDial) {
+        if (child == m_balanceSlider) {
             m_balanceSpin->setValue(0);
         } else if (child == m_volumeSlider) {
             m_volumeSlider->setValue(60);
@@ -386,7 +406,7 @@ void MixerWidget::setMute(bool mute)
     m_volumeSpin->setEnabled(!mute);
     m_audioMeterWidget->setEnabled(!mute);
     m_balanceSpin->setEnabled(!mute);
-    m_balanceDial->setEnabled(!mute);
+    m_balanceSlider->setEnabled(!mute);
     updateLabel();
 }
 
@@ -398,7 +418,7 @@ void MixerWidget::updateLabel()
         m_trackLabel->setPalette(pal);
     } else if (m_muteAction->isActive()) {
         QPalette pal = m_trackLabel->palette();
-        pal.setColor(QPalette::Window, QColor("#ff8c00"));
+        pal.setColor(QPalette::Window, QColor(0xff8c00));
         m_trackLabel->setPalette(pal);
     } else if (m_solo && m_solo->isChecked()) {
         QPalette pal = m_trackLabel->palette();
@@ -472,14 +492,14 @@ void MixerWidget::setRecordState(bool recording)
     QSignalBlocker bk2(m_volumeSlider);
     if (m_recording) {
         connect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);
-        m_balanceDial->setEnabled(false);
+        m_balanceSlider->setEnabled(false);
         m_balanceSpin->setEnabled(false);
         m_volumeSpin->setRange(0, 100);
         m_volumeSpin->setSuffix(QStringLiteral("%"));
         m_volumeSpin->setValue(KdenliveSettings::audiocapturevolume());
         m_volumeSlider->setValue(KdenliveSettings::audiocapturevolume());
     } else {
-        m_balanceDial->setEnabled(true);
+        m_balanceSlider->setEnabled(true);
         m_balanceSpin->setEnabled(true);
         int level = m_levelFilter->get_int("level");
         disconnect(pCore->getAudioDevice(), &MediaCapture::audioLevels, this, &MixerWidget::gotRecLevels);

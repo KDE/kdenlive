@@ -122,6 +122,9 @@ public:
     QList<QAction *> getExtraActions(const QString &name);
     /** @brief Returns true if docked widget is tabbed with another widget from its object name */
     bool isTabbedWith(QDockWidget *widget, const QString &otherWidget);
+    
+    /** @brief Returns true if mixer widget is tabbed */
+    bool isMixedTabbed() const;
 
     /** @brief Returns a ptr to the main timeline widget of the project */
     TimelineWidget *getMainTimeline() const;
@@ -131,6 +134,12 @@ public:
     
     /** @brief Returns true if the timeline widget is visible */
     bool timelineVisible() const;
+    
+    /** @brief Raise (show) the clip or project monitor */
+    void raiseMonitor(bool clipMonitor);
+
+    /** @brief Raise (show) the project bin*/
+    void raiseBin();
 
 protected:
     /** @brief Closes the window.
@@ -176,6 +185,7 @@ private:
     AudioGraphSpectrum *m_audioSpectrum;
 
     QDockWidget *m_undoViewDock;
+    QDockWidget *m_mixerDock;
 
     KSelectAction *m_timeFormatButton;
     KSelectAction *m_compositeAction;
@@ -257,7 +267,7 @@ private:
 
 public slots:
     void slotReloadEffects(const QStringList &paths);
-    Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress);
+    Q_SCRIPTABLE void setRenderingProgress(const QString &url, int progress, int frame);
     Q_SCRIPTABLE void setRenderingFinished(const QString &url, int status, const QString &error);
     Q_SCRIPTABLE void addProjectClip(const QString &url);
     Q_SCRIPTABLE void addTimelineClip(const QString &url);
@@ -477,7 +487,6 @@ private slots:
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
     void slotEditItemSpeed();
-    void updateAction();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */
@@ -490,6 +499,12 @@ private slots:
     void slotSaveZoneToBin();
     /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
     void slotExpandClip();
+    /** @brief Focus and activate an audio track from a shortcut sequence */
+    void slotActivateAudioTrackSequence();
+    /** @brief Focus and activate a video track from a shortcut sequence */
+    void slotActivateVideoTrackSequence();
+    /** @brief Select target for current track */
+    void slotActivateTarget();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -91,6 +91,8 @@ public:
         CommentRole,
         AlternateNameRole,
         MinRole,
+        VisualMinRole,
+        VisualMaxRole,
         MaxRole,
         DefaultRole,
         SuffixRole,

@@ -932,6 +932,10 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         QString binId3 = createProducerWithSound(profile_model, binModel);
 
         int cid6 = -1;
+        // Setup insert stream data
+        QMap <int, QString>audioInfo;
+        audioInfo.insert(1,QStringLiteral("stream1"));
+        timeline->m_binAudioTargets = audioInfo;
         REQUIRE(timeline->requestClipInsertion(binId3, tid5, 3, cid6, true, true, false));
         int cid7 = timeline->m_groups->getSplitPartner(cid6);
 
@@ -1842,7 +1846,7 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
     QString aCompo;
     // Look for a compo
     QVector<QPair<QString, QString>> transitions = TransitionsRepository::get()->getNames();
-    for (const auto &trans : transitions) {
+    for (const auto &trans : qAsConst(transitions)) {
         if (TransitionsRepository::get()->isComposition(trans.first)) {
             aCompo = trans.first;
             break;

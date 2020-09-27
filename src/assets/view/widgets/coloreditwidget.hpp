@@ -64,8 +64,6 @@ public slots:
 signals:
     /** @brief Emitted whenever a different color was chosen. */
     void modified(QColor = QColor());
-
-    void disableCurrentFilter(bool);
 };
 
 #endif

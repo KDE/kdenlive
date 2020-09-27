@@ -58,7 +58,7 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
         if (!resource || resource[0] != '<' || resource[strlen(resource) - 1] != '>')
             mlt_type = mlt_properties_get(properties, "mlt_type" );
         if (service_name)
-            message = QString("[%1 %2 %3] ").arg(mlt_type).arg(service_name).arg(id);
+            message = QString("[%1 %2 %3] ").arg(mlt_type, service_name, id);
         else
             message = QString::asprintf("[%s %p] ", mlt_type, service);
         if (resource)
@@ -86,12 +86,11 @@ MltConnection::MltConnection(const QString &mltPath)
     // After initialising the MLT factory, set the locale back from user default to C
     // to ensure numbers are always serialised with . as decimal point.
     m_repository = std::unique_ptr<Mlt::Repository>(Mlt::Factory::init());
-    LocaleHandling::resetLocale();
 
 #ifdef Q_OS_FREEBSD
-    auto locale = strdup(setlocale(LC_ALL, nullptr));
+    auto locale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
 #else
-    auto locale = strdup(std::setlocale(LC_ALL, nullptr));
+    auto locale = strdup(std::setlocale(MLT_LC_CATEGORY, nullptr));
 #endif
     qDebug() << "NEW LC_ALL" << locale;
 
@@ -247,11 +246,11 @@ void MltConnection::refreshLumas()
     QStringList customLumas = QStandardPaths::locateAll(QStandardPaths::AppDataLocation, QStringLiteral("lumas"), QStandardPaths::LocateDirectory);
     customLumas.append(QString(mlt_environment("MLT_DATA")) + QStringLiteral("/lumas"));
     QStringList allImagefiles;
-    for (const QString &folder : customLumas) {
+    for (const QString &folder : qAsConst(customLumas)) {
         QDir topDir(folder);
         QStringList folders = topDir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot);
         QString format;
-        for (const QString &f : folders) {
+        for (const QString &f : qAsConst(folders)) {
             QStringList imagefiles;
             QDir dir(topDir.absoluteFilePath(f));
             if (f == QLatin1String("HD")) {
@@ -263,7 +262,7 @@ void MltConnection::refreshLumas()
             if (MainWindow::m_lumaFiles.contains(format)) {
                 imagefiles = MainWindow::m_lumaFiles.value(format);
             }
-            for (const QString &fname : filesnames) {
+            for (const QString &fname : qAsConst(filesnames)) {
                 imagefiles.append(dir.absoluteFilePath(fname));
             }
             MainWindow::m_lumaFiles.insert(format, imagefiles);

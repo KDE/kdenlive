@@ -53,13 +53,13 @@ void NotesWidget::contextMenuEvent(QContextMenuEvent *event)
         }
         if (!anchors.isEmpty()) {
             a = new QAction(i18np("Create marker", "create markers", anchors.count()), menu);
-            connect(a, &QAction::triggered, [this, anchors] () {
+            connect(a, &QAction::triggered, this, [this, anchors] () {
                 createMarker(anchors);
             });
             menu->insertAction(menu->actions().at(1), a);
             if (!anchorPoints.isEmpty()) {
                 a = new QAction(i18n("Assign timestamps to current Bin Clip"), menu);
-                connect(a, &QAction::triggered, [this, anchors, anchorPoints] () {
+                connect(a, &QAction::triggered, this, [this, anchors, anchorPoints] () {
                     emit reAssign(anchors, anchorPoints);
                 });
                 menu->insertAction(menu->actions().at(2), a);
@@ -220,8 +220,7 @@ void NotesWidget::insertFromMimeData(const QMimeData *source)
     QString pastedText = source->text();
     // Check for timecodes
     QStringList words = pastedText.split(QLatin1Char(' '));
-    QMap <QString, QString> replacementPatterns;
-    for (const QString &w : words) {
+    for (const QString &w : qAsConst(words)) {
         if (w.size() > 4 && w.size() < 13 && w.count(QLatin1Char(':')) > 1) {
             // This is probably a timecode
             int frames = pCore->timecode().getFrameCount(w);

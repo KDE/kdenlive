@@ -19,14 +19,14 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
     QString newLocale;
     QList<QString> localesToTest;
     localesToTest << lcName << lcName + ".utf-8" << lcName + ".UTF-8" << lcName + ".utf8" << lcName + ".UTF8";
-    for (const auto &locale : localesToTest) {
+    for (const auto &locale : qAsConst(localesToTest)) {
 #ifdef Q_OS_FREEBSD
-        auto *result = setlocale(LC_ALL, locale.toStdString().c_str());
+        auto *result = setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
 #else
-        auto *result = std::setlocale(LC_ALL, locale.toStdString().c_str());
+        auto *result = std::setlocale(MLT_LC_CATEGORY, locale.toStdString().c_str());
 #endif
         if (result != nullptr) {
-            ::qputenv("LC_ALL", locale.toStdString().c_str());
+            ::qputenv(MLT_LC_NAME, locale.toStdString().c_str());
             newLocale = locale;
             break;
         }
@@ -40,19 +40,18 @@ auto LocaleHandling::setLocale(const QString &lcName) -> QString
 void LocaleHandling::resetLocale()
 {
 #ifdef Q_OS_FREEBSD
-    setlocale(LC_ALL, "C");
+    setlocale(MLT_LC_CATEGORY, "C");
 #else
-    std::setlocale(LC_ALL, "C");
+    std::setlocale(MLT_LC_CATEGORY, "C");
 #endif
-    ::qputenv("LC_ALL", "C");
-    qDebug() << "LC_ALL reset to C";
+    ::qputenv(MLT_LC_NAME, "C");
+    qDebug() << "LC_NUMERIC reset to C";
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)
 {
     // Parse installed locales to find one matching
     const QList<QLocale> list = QLocale::matchingLocales(QLocale::AnyLanguage, QLocale().script(), QLocale::AnyCountry);
-    QLocale matching = QLocale::c();
 
     QLocale locale; // Best matching locale
     MatchType matchType = MatchType::NoMatch;

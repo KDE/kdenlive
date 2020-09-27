@@ -28,7 +28,6 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     setupUi(this);
 
     // setup the comment
-    QString name = m_model->data(m_index, AssetParameterModel::NameRole).toString();
     QString comment = m_model->data(m_index, AssetParameterModel::CommentRole).toString();
     setToolTip(comment);
 
@@ -39,7 +38,7 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     QStringList kwrdNames = m_model->data(m_index, AssetParameterModel::ListNamesRole).toStringList();
     comboboxwidget->addItems(kwrdNames);
     int i = 0;
-    for (const QString &keywordVal : kwrdValues) {
+    for (const QString &keywordVal : qAsConst(kwrdValues)) {
         if (i >= comboboxwidget->count()) {
             break;
         }
@@ -53,11 +52,11 @@ KeywordParamWidget::KeywordParamWidget(std::shared_ptr<AssetParameterModel> mode
     setMinimumHeight(comboboxwidget->sizeHint().height());
 
     // emit the signal of the base class when appropriate
-    connect(lineeditwidget, &QLineEdit::editingFinished, [this]() { 
+    connect(lineeditwidget, &QLineEdit::editingFinished, this, [this]() { 
         emit valueChanged(m_index, lineeditwidget->text(), true);
     });
     connect(comboboxwidget, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            [this](int ix) {
+            this, [this](int ix) {
             if (ix > 0) {
                 QString comboval = comboboxwidget->itemData(ix).toString();
                 this->lineeditwidget->insert(comboval);

@@ -217,14 +217,14 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     }
 
     qDebug() << "END parsing of " << assetId << ". Number of found parameters" << m_rows.size();
-    emit modelChanged();
+    modelChanged();
 }
 
 void AssetParameterModel::prepareKeyframes()
 {
     if (m_keyframes) return;
     int ix = 0;
-    for (const auto &name : m_rows) {
+    for (const auto &name : qAsConst(m_rows)) {
         if (m_params.at(name).type == ParamType::KeyframeParam || m_params.at(name).type == ParamType::AnimatedRect ||
             m_params.at(name).type == ParamType::Roto_spline) {
             addKeyframeParam(index(ix, 0));
@@ -440,6 +440,10 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
         return parseAttribute(m_ownerId, QStringLiteral("decimals"), element);
     case OddRole:
         return element.attribute(QStringLiteral("odd")) == QLatin1String("1");
+    case VisualMinRole:
+        return parseAttribute(m_ownerId, QStringLiteral("visualmin"), element);
+    case VisualMaxRole:
+        return parseAttribute(m_ownerId, QStringLiteral("visualmax"), element);
     case DefaultRole:
         return parseAttribute(m_ownerId, QStringLiteral("default"), element);
     case FilterRole:
@@ -540,7 +544,7 @@ ParamType AssetParameterModel::paramTypeFromStr(const QString &type)
         return ParamType::Switch;
     } else if (type == QLatin1String("simplekeyframe")) {
         return ParamType::KeyframeParam;
-    } else if (type == QLatin1String("animatedrect")) {
+    } else if (type == QLatin1String("animatedrect") || type == QLatin1String("rect")) {
         return ParamType::AnimatedRect;
     } else if (type == QLatin1String("geometry")) {
         return ParamType::Geometry;
@@ -624,8 +628,30 @@ QVariant AssetParameterModel::parseAttribute(const ObjectId &owner, const QStrin
             .replace(QLatin1String("%height"), QString::number(height))
             .replace(QLatin1String("%out"), QString::number(out))
             .replace(QLatin1String("%fade"), QString::number(frame_duration));
-
-        if (type == ParamType::Double || type == ParamType::Hidden) {
+        if (type == ParamType::AnimatedRect && attribute == QLatin1String("default")) {
+            if (content.contains(QLatin1Char('%'))) {
+                // This is a generic default like: "25% 0% 50% 100%". Parse values
+                QStringList numbers = content.split(QLatin1Char(' '));
+                content.clear();
+                int ix = 0;
+                for ( QString &val : numbers) {
+                    if (val.endsWith(QLatin1Char('%'))) {
+                        val.chop(1);
+                        double n = val.toDouble()/100.;
+                        if (ix %2 == 0) {
+                            n *= width;
+                        } else {
+                            n *= height;
+                        }
+                        ix++;
+                        content.append(QString("%1 ").arg(qRound(n)));
+                    } else {
+                        content.append(QString("%1 ").arg(val));
+                    }
+                }
+            }
+        }
+        else if (type == ParamType::Double || type == ParamType::Hidden) {
             // Use a Mlt::Properties to parse mathematical operators
             Mlt::Properties p;
             p.set("eval", content.prepend(QLatin1Char('@')).toLatin1().constData());
@@ -769,7 +795,7 @@ void AssetParameterModel::deletePreset(const QString &presetFile, const QString 
                         toDelete << i;
                     }
                 }
-                for (int i : toDelete) {
+                for (int i : qAsConst(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {
@@ -819,7 +845,7 @@ void AssetParameterModel::savePreset(const QString &presetFile, const QString &p
                         toDelete << i;
                     }
                 }
-                for (int i : toDelete) {
+                for (int i : qAsConst(toDelete)) {
                     array.removeAt(i);
                 }
             } else if (loadDoc.isObject()) {

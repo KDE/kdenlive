@@ -125,7 +125,7 @@ QImage AudioSignal::renderAudioScope(uint, const audioShortVector &audioFrame, c
     }
     if (showdb) {
         // draw db value at related pixel
-        for (int l : m_dbscale) {
+        for (int l : qAsConst(m_dbscale)) {
             if (!horiz) {
                 double xf = pow(10.0, (double)l / 20.0) * (double)height();
                 p.drawText(width() - dbsize, height() - xf * 40.0 / 42.0 + 20, QString::number(l));

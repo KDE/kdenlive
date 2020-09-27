@@ -69,8 +69,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     }
     pCore->bin()->loadFolderState(foldersToExpand);
 
-    QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"),
-                                 QLatin1String("black_track")};
+    QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"), QLatin1String("black_track"), QLatin1String("overlay_track")};
     bool ok = true;
     qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////";
 
@@ -148,12 +147,17 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     while ((service != nullptr) && service->is_valid()) {
         if (service->type() == transition_type) {
             Mlt::Transition t((mlt_transition)service->get_service());
+            if (t.get_b_track() >= timeline->tractor()->count()) {
+                // Composition outside of available track, maybe because of a preview track
+                service.reset(service->producer());
+                continue;
+            }
             QString id(t.get("kdenlive_id"));
             QString internal(t.get("internal_added"));
             if (internal.isEmpty()) {
                 compositions << new Mlt::Transition(t);
                 if (id.isEmpty()) {
-                    qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
+                    qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service")<<", ON TRACK: "<<t.get_b_track();
                     t.set("kdenlive_id", t.get("mlt_service"));
                 }
             }
@@ -197,7 +201,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
     timeline->buildTrackCompositing();
 
     // load locked state as last step
-    for (int tid : lockedTracksIndexes) {
+    for (int tid : qAsConst(lockedTracksIndexes)) {
         timeline->setTrackLockedState(tid, true);
     }
 
@@ -299,7 +303,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         if (progressDialog) {
             progressDialog->setValue(progressDialog->value() + 1);
         } else {
-            pCore->loadingMessageUpdated(QString(), 1);
+            emit pCore->loadingMessageUpdated(QString(), 1);
         }
         std::shared_ptr<Mlt::Producer> clip(track.get_clip(i));
         int position = track.clip_start(i);

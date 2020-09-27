@@ -51,9 +51,8 @@ void CornersHelper::slotUpdateFromMonitorData(const QVariantList &v)
 void CornersHelper::refreshParams(int pos)
 {
     QVariantList points{QPointF(), QPointF(), QPointF(), QPointF()};
-    QList<double> coords;
     QSize frameSize = pCore->getCurrentFrameSize();
-    for (const auto &ix : m_indexes) {
+    for (const auto &ix : qAsConst(m_indexes)) {
         auto type = m_model->data(ix, AssetParameterModel::TypeRole).value<ParamType>();
         if (type != ParamType::KeyframeParam) {
             continue;

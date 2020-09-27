@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="187" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="192" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -231,14 +231,10 @@
     <Menu name="view" noMerge="1" ><text>View</text>
     <Action name="fullscreen" />
     <Separator />
-      <Menu name="layout_save_as" ><text>Save Layout As</text>
-	<Action name="save_layout1" />
-	<Action name="save_layout2" />
-	<Action name="save_layout3" />
-	<Action name="save_layout4" />
-      </Menu>
-      <Action name="load_layouts" />
-      <Menu name="dockareaoriantation" ><text>Dock Area Orientation</text>
+    <Action name="load_layouts" />
+    <Action name="save_layout" />
+    <Action name="manage_layout" />
+    <Menu name="dockareaoriantation" ><text>Dock Area Orientation</text>
         <Action name="vertical_dockareaorientation" />
         <Action name="horizontal_dockareaorientation" />
       </Menu>

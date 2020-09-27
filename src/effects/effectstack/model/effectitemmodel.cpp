@@ -205,7 +205,7 @@ void EffectItemModel::updateEnable(bool updateTimeline)
     emit dataChanged(start, end, QVector<int>());
     emit enabledChange(!isEnabled());
     // Update timeline child producers
-    AssetParameterModel::updateChildren(QStringLiteral("disable"));
+    emit AssetParameterModel::updateChildren(QStringLiteral("disable"));
 }
 
 void EffectItemModel::setCollapsed(bool collapsed)
@@ -222,4 +222,9 @@ bool EffectItemModel::isAudio() const
 {
     AssetListType::AssetType type = EffectsRepository::get()->getType(m_assetId);
     return  type == AssetListType::AssetType::Audio || type == AssetListType::AssetType::CustomAudio;
+}
+
+bool EffectItemModel::isUnique() const
+{
+    return EffectsRepository::get()->isUnique(m_assetId);
 }

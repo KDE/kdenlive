@@ -66,7 +66,7 @@
 #include "utils/resourcewidget.h"
 #include "utils/thememanager.h"
 #include "utils/otioconvertions.h"
-
+#include "lib/localeHandling.h"
 #include "profiles/profilerepository.hpp"
 #include "widgets/progressbutton.h"
 #include <config-kdenlive.h>
@@ -187,7 +187,7 @@ void MainWindow::init()
         defaultStyle->setChecked(true);
     }
 
-    for (const QString &style : availableStyles) {
+    for (const QString &style : qAsConst(availableStyles)) {
         auto *a = new QAction(style, stylesGroup);
         a->setCheckable(true);
         a->setData(style);
@@ -231,7 +231,7 @@ void MainWindow::init()
     topFrame->setFrameShape(QFrame::HLine);
     topFrame->setFixedHeight(1);
     topFrame->setLineWidth(1);
-    connect(this, &MainWindow::focusTimeline, [topFrame](bool focus, bool highlight) {
+    connect(this, &MainWindow::focusTimeline, this, [topFrame](bool focus, bool highlight) {
         if (focus) {
             KColorScheme scheme(QApplication::palette().currentColorGroup(), KColorScheme::Tooltip);
             if (highlight) {
@@ -257,6 +257,7 @@ void MainWindow::init()
     fr->setLineWidth(1);
     ctnLay->addWidget(fr);
     setupActions();
+    LayoutManagement *layoutManager = new LayoutManagement(this);
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
 
@@ -288,7 +289,7 @@ void MainWindow::init()
     connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteGuide);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
-    connect(m_loopClip, &QAction::triggered, [&]() {
+    connect(m_loopClip, &QAction::triggered, this, [&]() {
         QPoint inOut = getMainTimeline()->controller()->selectionInOut();
         m_projectMonitor->slotLoopClip(inOut);
     });
@@ -325,14 +326,14 @@ void MainWindow::init()
     QAction *recConfig = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18n("Configure Recording"), this);
     recToolbar->addAction(recConfig);
     connect(recConfig, &QAction::triggered, [&]() {
-        pCore->showConfigDialog(4, 0);
+        emit pCore->showConfigDialog(4, 0);
     });
     QDockWidget *screenGrabDock = addDock(i18n("Screen Grab"), QStringLiteral("screengrab"), grabWidget);
 
     // Audio spectrum scope
     m_audioSpectrum = new AudioGraphSpectrum(pCore->monitorManager());
     QDockWidget *spectrumDock = addDock(i18n("Audio Spectrum"), QStringLiteral("audiospectrum"), m_audioSpectrum);
-    connect(spectrumDock, &QDockWidget::visibilityChanged, [&](bool visible) {
+    connect(spectrumDock, &QDockWidget::visibilityChanged, this, [&](bool visible) {
         m_audioSpectrum->dockVisible(visible);
     });
     // Close library and audiospectrum on first run
@@ -346,16 +347,16 @@ void MainWindow::init()
     m_effectStackDock = addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
-    connect(m_assetPanel, &AssetPanel::switchCurrentComposition, [&](int cid, const QString &compositionId) {
+    connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this, [&](int cid, const QString &compositionId) {
         getMainTimeline()->controller()->getModel()->switchComposition(cid, compositionId);
     });
 
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
-    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, [&] () {
+    connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&] () {
         m_effectStackDock->raise();
     });
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
-    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, [&] () {
+    connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&] () {
         m_effectStackDock->raise();
     });
 
@@ -367,7 +368,7 @@ void MainWindow::init()
     });
     connect(this, &MainWindow::clearAssetPanel, m_assetPanel, &AssetPanel::clearAssetPanel);
     connect(this, &MainWindow::assetPanelWarning, m_assetPanel, &AssetPanel::assetPanelWarning);
-    connect(m_assetPanel, &AssetPanel::seekToPos, [this](int pos) {
+    connect(m_assetPanel, &AssetPanel::seekToPos, this, [this](int pos) {
         ObjectId oId = m_assetPanel->effectStackOwner();
         switch (oId.first) {
         case ObjectType::TimelineTrack:
@@ -413,27 +414,27 @@ void MainWindow::init()
     addAction(QStringLiteral("force_icon_theme"), iconAction);
     connect(iconAction, &QAction::triggered, this, &MainWindow::forceIconSet);
 
-    QDockWidget *mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
+    m_mixerDock = addDock(i18n("Audio Mixer"), QStringLiteral("mixer"), pCore->mixer());
     QAction *showMixer = new QAction(QIcon::fromTheme(QStringLiteral("view-media-equalizer")), i18n("Audio Mixer"), this);
     showMixer->setCheckable(true);
     addAction(QStringLiteral("audiomixer_button"), showMixer);
-    connect(mixerDock, &QDockWidget::visibilityChanged, [&, showMixer](bool visible) {
+    connect(m_mixerDock, &QDockWidget::visibilityChanged, this, [&, showMixer](bool visible) {
         pCore->mixer()->connectMixer(visible);
         showMixer->setChecked(visible);
     });
-    connect(showMixer, &QAction::triggered, [&, mixerDock]() {
-        if (mixerDock->isVisible() && !mixerDock->visibleRegion().isEmpty()) {
-            mixerDock->close();
+    connect(showMixer, &QAction::triggered, this, [&]() {
+        if (m_mixerDock->isVisible() && !m_mixerDock->visibleRegion().isEmpty()) {
+            m_mixerDock->close();
         } else {
-            mixerDock->show();
-            mixerDock->raise();
+            m_mixerDock->show();
+            m_mixerDock->raise();
         }
     });
 
     // Close non-general docks for the initial layout
     // only show important ones
     m_undoViewDock->close();
-    mixerDock->close();
+    m_mixerDock->close();
 
     /// Tabify Widgets
     tabifyDockWidget(m_clipMonitorDock, m_projectMonitorDock);
@@ -451,8 +452,8 @@ void MainWindow::init()
 
     auto *scmanager = new ScopeManager(this);
 
-    new LayoutManagement(this);
-    new HideTitleBars(this);
+    HideTitleBars *titleBars = new HideTitleBars(this);
+    connect(layoutManager, &LayoutManagement::updateTitleBars, titleBars, &HideTitleBars::updateTitleBars);
     new DockAreaOrientationManager(this);
     m_extraFactory = new KXMLGUIClient(this);
     buildDynamicActions();
@@ -509,16 +510,20 @@ void MainWindow::init()
     addAction(QStringLiteral("timeline_preview_button"), previewButtonAction);
 
     setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save | KXmlGuiWindow::Create);
+    LocaleHandling::resetLocale();
     if (firstRun) {
         if (QScreen *current = QApplication::primaryScreen()) {
-            if (current->availableSize().height() < 1000) {
+            int screenHeight = current->availableSize().height();
+            if (screenHeight < 1000) {
                 resize(current->availableSize());
+            } else if (screenHeight < 2000) {
+                resize(current->availableSize() / 1.2);
             } else {
-                resize(current->availableSize() / 1.5);
+                resize(current->availableSize() / 1.6);
             }
         }
     }
-    updateActionsToolTip();
+
     m_timelineToolBar->setToolButtonStyle(Qt::ToolButtonFollowStyle);
     m_timelineToolBar->setProperty("otherToolbar", true);
     timelinePreview->setToolButtonStyle(m_timelineToolBar->toolButtonStyle());
@@ -742,6 +747,11 @@ void MainWindow::init()
     if (!QDir(KdenliveSettings::currenttmpfolder()).isReadable())
         KdenliveSettings::setCurrenttmpfolder(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
 
+    updateActionsToolTip();
+    if (firstRun) {
+        // Load editing layout
+        layoutManager->loadLayout(QStringLiteral("kdenlive_editing"), true);
+    }
     QTimer::singleShot(0, this, &MainWindow::GUISetupDone);
 
 #ifdef USE_JOGSHUTTLE
@@ -804,25 +814,20 @@ void MainWindow::updateActionsToolTip()
     for (int i = 0; i < collections.count(); ++i) {
         KActionCollection *coll = collections.at(i);
         for (QAction *tempAction : coll->actions()) {
+            if (tempAction == m_timeFormatButton) {
+                continue;
+            }
             // find the shortcut pattern and delete (note the preceding space in the RegEx)
-            QString strippedTooltip = tempAction->toolTip().remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
-            // append shortcut if it exists for action
-            if (tempAction->shortcut() == QKeySequence()) {
+            QString toolTip = KLocalizedString::removeAcceleratorMarker(tempAction->toolTip());
+            QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
+            QKeySequence shortCut = tempAction->shortcut();
+            if (shortCut == QKeySequence()) {
                 tempAction->setToolTip(strippedTooltip);
             } else {
-                tempAction->setToolTip(strippedTooltip + QStringLiteral(" (") + tempAction->shortcut().toString() + QLatin1Char(')'));
+                tempAction->setToolTip(QString("%1 (%2)").arg(strippedTooltip).arg(shortCut.toString()));
             }
-            connect(tempAction, &QAction::changed, this, &MainWindow::updateAction);
         }
     }
-}
-
-void MainWindow::updateAction()
-{
-    auto *action = qobject_cast<QAction *>(sender());
-    QString toolTip = KLocalizedString::removeAcceleratorMarker(action->toolTip());
-    QString strippedTooltip = toolTip.remove(QRegExp(QStringLiteral("\\s\\(.*\\)")));
-    action->setToolTip(i18nc("@info:tooltip Tooltip of toolbar button", "%1 (%2)", strippedTooltip, action->shortcut().toString()));
 }
 
 MainWindow::~MainWindow()
@@ -1309,7 +1314,7 @@ void MainWindow::setupActions()
 
     QAction *resetAction = new QAction(QIcon::fromTheme(QStringLiteral("reload")), i18n("Reset configuration"), this);
     addAction(QStringLiteral("reset_config"), resetAction);
-    connect(resetAction, &QAction::triggered, [&]() {
+    connect(resetAction, &QAction::triggered, this, [&]() {
         slotRestart(true);
     });
 
@@ -1363,7 +1368,7 @@ void MainWindow::setupActions()
     overlayAudioInfo->setCheckable(true);
     overlayAudioInfo->setData(0x10);
 
-    connect(overlayInfo, &QAction::toggled, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo](bool toggled) {
+    connect(overlayInfo, &QAction::toggled, this, [&, overlayTCInfo, overlayFpsInfo, overlayMarkerInfo, overlayAudioInfo](bool toggled) {
         overlayTCInfo->setEnabled(toggled);
         overlayFpsInfo->setEnabled(toggled);
         overlayMarkerInfo->setEnabled(toggled);
@@ -1395,7 +1400,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("scale_16_preview"), scale_16);
     scale_16->setCheckable(true);
     scale_16->setData(16);
-    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, [scale_2, scale_4, scale_8, scale_16, scale_no]() {
+    connect(pCore->monitorManager(), &MonitorManager::scalingChanged, this, [scale_2, scale_4, scale_8, scale_16, scale_no]() {
         switch (KdenliveSettings::previewScaling()) {
             case 2:
                 scale_2->setChecked(true);
@@ -1414,12 +1419,12 @@ void MainWindow::setupActions()
                 break;
         }
     });
-    pCore->monitorManager()->scalingChanged();
-    connect(m_scaleGroup, &QActionGroup::triggered, [] (QAction *ac) {
+    emit pCore->monitorManager()->scalingChanged();
+    connect(m_scaleGroup, &QActionGroup::triggered, this, [] (QAction *ac) {
         int scaling = ac->data().toInt();
         KdenliveSettings::setPreviewScaling(scaling);
         // Clear timeline selection so that any qml monitor scene is reset
-        pCore->monitorManager()->updatePreviewScaling();
+        emit pCore->monitorManager()->updatePreviewScaling();
     });
 #endif
 
@@ -1517,7 +1522,7 @@ void MainWindow::setupActions()
     editClipMarker->setObjectName(QStringLiteral("edit_marker"));
     editClipMarker->setData('P');
 
-    QAction *splitAudio = addAction(QStringLiteral("clip_split"), i18n("Split Audio"), this, SLOT(slotSplitAV()),
+    QAction *splitAudio = addAction(QStringLiteral("clip_split"), i18n("Restore Audio"), this, SLOT(slotSplitAV()),
                                     QIcon::fromTheme(QStringLiteral("document-new")), QKeySequence(), clipActionCategory);
     // "S" will be handled specifically to change the action name depending on current selection
     splitAudio->setData('S');
@@ -1573,11 +1578,11 @@ void MainWindow::setupActions()
                     QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);
-    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, Qt::Key_1);
+    addAction(QStringLiteral("resize_timeline_clip_start"), resizeStart, QKeySequence(Qt::Key_ParenLeft));
     connect(resizeStart, &QAction::triggered, this, &MainWindow::slotResizeItemStart);
 
     QAction *resizeEnd = new QAction(QIcon(), i18n("Resize Item End"), this);
-    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, Qt::Key_2);
+    addAction(QStringLiteral("resize_timeline_clip_end"), resizeEnd, QKeySequence(Qt::Key_ParenRight));
     connect(resizeEnd, &QAction::triggered, this, &MainWindow::slotResizeItemEnd);
 
     QAction *pasteEffects = addAction(QStringLiteral("paste_effects"), i18n("Paste Effects"), this, SLOT(slotPasteEffects()),
@@ -1622,7 +1627,7 @@ void MainWindow::setupActions()
     timelineActions->addAction(QStringLiteral("insert_track"), insertTrack);
 
     QAction *masterEffectStack = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-composite")), i18n("Master effects"), this);
-    connect(masterEffectStack, &QAction::triggered, [&]() {
+    connect(masterEffectStack, &QAction::triggered, this, [&]() {
         pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
         getCurrentTimeline()->controller()->showMasterEffects();
     });
@@ -1696,7 +1701,7 @@ void MainWindow::setupActions()
     QAction *undo = KStandardAction::undo(m_commandStack, SLOT(undo()), actionCollection());
     undo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canUndoChanged, undo, &QAction::setEnabled);
-    connect(this, &MainWindow::enableUndo, [this, undo] (bool enable) {
+    connect(this, &MainWindow::enableUndo, this, [this, undo] (bool enable) {
         if (enable) {
             enable = m_commandStack->activeStack()->canUndo();
         }
@@ -1706,7 +1711,7 @@ void MainWindow::setupActions()
     QAction *redo = KStandardAction::redo(m_commandStack, SLOT(redo()), actionCollection());
     redo->setEnabled(false);
     connect(m_commandStack, &QUndoGroup::canRedoChanged, redo, &QAction::setEnabled);
-    connect(this, &MainWindow::enableUndo, [this, redo] (bool enable) {
+    connect(this, &MainWindow::enableUndo, this, [this, redo] (bool enable) {
         if (enable) {
             enable = m_commandStack->activeStack()->canRedo();
         }
@@ -1734,6 +1739,24 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("restore_all_sources"), i18n("Restore Current Clip Target Tracks"), pCore->projectManager(), SLOT(slotRestoreTargetTracks()));
     addAction(QStringLiteral("add_project_note"), i18n("Add Project Note"), pCore->projectManager(), SLOT(slotAddProjectNote()),
               QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    
+    
+    // Build activate track shortcut sequences
+    QList <int> keysequence{Qt::Key_1, Qt::Key_2, Qt::Key_3, Qt::Key_4, Qt::Key_5, Qt::Key_6, Qt::Key_7, Qt::Key_8, Qt::Key_9};
+    for (int i = 1; i < 10; i++) {
+        QAction *ac = new QAction(QIcon(), i18n("Select Audio Track %1", i), this);
+        ac->setData(i - 1);
+        connect(ac, &QAction::triggered, this, &MainWindow::slotActivateAudioTrackSequence);
+        addAction(QString("activate_audio_%1").arg(i), ac, QKeySequence(Qt::ALT + keysequence[i-1]), timelineActions);
+        QAction *ac2 = new QAction(QIcon(), i18n("Select Video Track %1", i), this);
+        ac2->setData(i - 1);
+        connect(ac2, &QAction::triggered, this, &MainWindow::slotActivateVideoTrackSequence);
+        addAction(QString("activate_video_%1").arg(i), ac2, QKeySequence(keysequence[i-1]), timelineActions);
+        QAction *ac3 = new QAction(QIcon(), i18n("Select Target %1", i), this);
+        ac3->setData(i - 1);
+        connect(ac3, &QAction::triggered, this, &MainWindow::slotActivateTarget);
+        addAction(QString("activate_target_%1").arg(i), ac3, QKeySequence(Qt::CTRL, keysequence[i-1]), timelineActions);
+    }
 
     pCore->bin()->setupMenu();
 
@@ -1741,7 +1764,7 @@ void MainWindow::setupActions()
     KActionCategory *transitionActions = new KActionCategory(i18n("Transitions"), actionCollection());
     // m_transitions = new QAction*[transitions.count()];
     auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : allTransitions) {
+    for (const auto &transition : qAsConst(allTransitions)) {
         auto *transAction = new QAction(transition.first, this);
         transAction->setData(transition.second);
         transAction->setIconVisibleInMenu(false);
@@ -1989,27 +2012,27 @@ void MainWindow::slotRenderProject()
 {
     KdenliveDoc *project = pCore->currentDoc();
 
-    if (!m_renderWidget) {
-        QString projectfolder = project ? project->projectDataFolder() + QDir::separator() : KdenliveSettings::defaultprojectfolder();
-        if (project) {
-            m_renderWidget = new RenderWidget(project->useProxy(), this);
-            connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
-            connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
-            connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
-            connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
-            connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
-            m_renderWidget->setGuides(project->getGuideModel());
-            m_renderWidget->updateDocumentPath();
-            m_renderWidget->setRenderProfile(project->getRenderProperties());
-        }
-        if (m_compositeAction->currentAction()) {
-            m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
-                                                                           ? i18n("Rendering using low quality track compositing")
-                                                                           : QString());
-        }
+    if ( !m_renderWidget && project ) {
+        m_renderWidget = new RenderWidget(project->useProxy(), this);
+        connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
+        connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
+        connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
+        connect(m_renderWidget, &RenderWidget::openDvdWizard, this, &MainWindow::slotDvdWizard);
+        connect(this, &MainWindow::updateRenderWidgetProfile, m_renderWidget, &RenderWidget::adjustViewToProfile);
+        m_renderWidget->setGuides(project->getGuideModel());
+        m_renderWidget->updateDocumentPath();
+        m_renderWidget->setRenderProfile(project->getRenderProperties());
     }
+    if ( m_renderWidget && m_compositeAction && m_compositeAction->currentAction() ) {
+        m_renderWidget->errorMessage(RenderWidget::CompositeError, m_compositeAction->currentAction()->data().toInt() == 1
+                                                                        ? i18n("Rendering using low quality track compositing")
+                                                                        : QString());
+    }
+
     slotCheckRenderStatus();
-    m_renderWidget->show();
+    if ( m_renderWidget ) {
+        m_renderWidget->show();
+    }
     // m_renderWidget->showNormal();
 
     // What are the following lines supposed to do?
@@ -2025,11 +2048,11 @@ void MainWindow::slotCheckRenderStatus()
         m_renderWidget->missingClips(pCore->bin()->hasMissingClips());*/
 }
 
-void MainWindow::setRenderingProgress(const QString &url, int progress)
+void MainWindow::setRenderingProgress(const QString &url, int progress, int frame)
 {
     emit setRenderProgress(progress);
     if (m_renderWidget) {
-        m_renderWidget->setRenderJob(url, progress);
+        m_renderWidget->setRenderJob(url, progress, frame);
     }
 }
 
@@ -2124,14 +2147,14 @@ void MainWindow::connectDocument()
     m_projectMonitor->slotLoadClipZone(project->zone());
     connect(m_projectMonitor, &Monitor::multitrackView, getMainTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getMainTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
-    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, [&] (bool selected) {
+    connect(getMainTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&] (bool selected) {
         m_loopClip->setEnabled(selected);
-        pCore->library()->enableAddSelection(selected);
+        emit pCore->library()->enableAddSelection(selected);
     });
     connect(pCore->library(), &LibraryWidget::saveTimelineSelection, getMainTimeline()->controller(), &TimelineController::saveTimelineSelection,
             Qt::UniqueConnection);
     connect(pCore->monitorManager(), &MonitorManager::frameDisplayed, [&](const SharedFrame &frame) {
-        pCore->mixer()->updateLevels(frame.get_position());
+        emit pCore->mixer()->updateLevels(frame.get_position());
         //QMetaObject::invokeMethod(this, "setAudioValues", Qt::QueuedConnection, Q_ARG(const QVector<int> &, levels));
     });
     connect(pCore->mixer(), &MixerManager::purgeCache, m_projectMonitor, &Monitor::purgeCache);
@@ -2301,6 +2324,7 @@ void MainWindow::slotEditKeys()
     }
     dialog.addCollection(actionCollection(), i18nc("general keyboard shortcuts", "General"));
     dialog.configure();
+    updateActionsToolTip();
 }
 
 void MainWindow::slotPreferences(int page, int option)
@@ -2325,7 +2349,7 @@ void MainWindow::slotPreferences(int page, int option)
     QMap<QString, QString> actions;
     KActionCollection *collection = actionCollection();
     QRegExp ampEx("&{1,1}");
-    for (const QString &action_name : m_actionNames) {
+    for (const QString &action_name : qAsConst(m_actionNames)) {
         QString action_text = collection->action(action_name)->text();
         action_text.remove(ampEx);
         actions[action_text] = action_name;
@@ -2334,7 +2358,7 @@ void MainWindow::slotPreferences(int page, int option)
     auto *dialog = new KdenliveSettingsDialog(actions, m_gpuAllowed, this);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::updateConfiguration);
     connect(dialog, &KConfigDialog::settingsChanged, this, &MainWindow::configurationChanged);
-    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, [this] (bool fullReset) {
+    connect(dialog, &KdenliveSettingsDialog::doResetConsumer, this, [this] (bool fullReset) {
         m_scaleGroup->setEnabled(!KdenliveSettings::external_display());
         pCore->projectManager()->slotResetConsumers(fullReset);
     });
@@ -2397,7 +2421,7 @@ void MainWindow::updateConfiguration()
 void MainWindow::slotSwitchVideoThumbs()
 {
     KdenliveSettings::setVideothumbnails(!KdenliveSettings::videothumbnails());
-    m_timelineTabs->showThumbnailsChanged();
+    emit m_timelineTabs->showThumbnailsChanged();
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
 }
 
@@ -2405,14 +2429,14 @@ void MainWindow::slotSwitchAudioThumbs()
 {
     KdenliveSettings::setAudiothumbnails(!KdenliveSettings::audiothumbnails());
     pCore->bin()->checkAudioThumbs();
-    m_timelineTabs->showAudioThumbnailsChanged();
+    emit m_timelineTabs->showAudioThumbnailsChanged();
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
 }
 
 void MainWindow::slotSwitchMarkersComments()
 {
     KdenliveSettings::setShowmarkers(!KdenliveSettings::showmarkers());
-    getMainTimeline()->controller()->showMarkersChanged();
+    emit getMainTimeline()->controller()->showMarkersChanged();
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
 }
 
@@ -2420,7 +2444,7 @@ void MainWindow::slotSwitchSnap()
 {
     KdenliveSettings::setSnaptopoints(!KdenliveSettings::snaptopoints());
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
-    getMainTimeline()->controller()->snapChanged();
+    emit getMainTimeline()->controller()->snapChanged();
 }
 
 void MainWindow::slotSwitchAutomaticTransition()
@@ -2443,7 +2467,7 @@ void MainWindow::slotDeleteItem()
                 return;
             }
             if (widget == pCore->bin()->clipPropertiesDock()) {
-                pCore->bin()->deleteMarkers();
+                emit pCore->bin()->deleteMarkers();
                 return;
             }
             widget = widget->parentWidget();
@@ -2469,7 +2493,6 @@ void MainWindow::slotAddClipMarker()
         m_messageLabel->setMessage(i18n("Cannot find clip to add marker"), ErrorMessage);
         return;
     }
-    QString id = clip->AbstractProjectItem::clipId();
     clip->getMarkerModel()->editMarkerGui(pos, this, true, clip.get());
 }
 
@@ -2489,7 +2512,6 @@ void MainWindow::slotDeleteClipMarker(bool allowGuideDeletion)
         return;
     }
 
-    QString id = clip->AbstractProjectItem::clipId();
     bool markerFound = false;
     CommentedTime marker = clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
@@ -2539,7 +2561,6 @@ void MainWindow::slotEditClipMarker()
         return;
     }
 
-    QString id = clip->AbstractProjectItem::clipId();
     bool markerFound = false;
     CommentedTime oldMarker = clip->getMarkerModel()->getMarker(pos, &markerFound);
     if (!markerFound) {
@@ -2593,7 +2614,10 @@ void MainWindow::slotRemoveAllSpace()
 void MainWindow::slotSeparateAudioChannel()
 {
     KdenliveSettings::setDisplayallchannels(!KdenliveSettings::displayallchannels());
-    getCurrentTimeline()->controller()->audioThumbFormatChanged();
+    emit getCurrentTimeline()->controller()->audioThumbFormatChanged();
+    if (m_clipMonitor) {
+        emit m_clipMonitor->refreshAudioThumbs();
+    }
 }
 
 void MainWindow::slotInsertTrack()
@@ -2631,7 +2655,7 @@ void MainWindow::slotSelectAllTracks()
             return;
         } 
         if (QApplication::focusWidget()->objectName() == QLatin1String("markers_list")) {
-            pCore->bin()->selectMarkers();
+            emit pCore->bin()->selectMarkers();
             return;
         }
     }
@@ -2857,13 +2881,13 @@ void MainWindow::slotZoomOut(bool zoomOnMouse)
 
 void MainWindow::slotFitZoom()
 {
-    m_timelineTabs->fitZoom();
+    emit m_timelineTabs->fitZoom();
 }
 
 void MainWindow::slotSetZoom(int value, bool zoomOnMouse)
 {
     value = qBound(m_zoomSlider->minimum(), value, m_zoomSlider->maximum());
-    m_timelineTabs->changeZoom(value, zoomOnMouse);
+    emit m_timelineTabs->changeZoom(value, zoomOnMouse);
     updateZoomSlider(value);
 }
 
@@ -3066,11 +3090,17 @@ void MainWindow::slotClipInTimeline(const QString &clipId, const QList<int> &ids
     }
 }
 
+void MainWindow::raiseBin()
+{
+    m_projectBinDock->setVisible(true);
+    m_projectBinDock->raise();
+}
+
 void MainWindow::slotClipInProjectTree()
 {
     QList<int> ids = getMainTimeline()->controller()->selection();
     if (!ids.isEmpty()) {
-        m_projectBinDock->raise();
+        raiseBin();
         ObjectId id(ObjectType::TimelineClip, ids.constFirst());
         int start = pCore->getItemIn(id);
         int duration = pCore->getItemDuration(id);
@@ -3183,7 +3213,7 @@ int MainWindow::getNewStuff(const QString &configFile)
     if (dialog->exec() != 0) {
         entries = dialog->changedEntries();
     }
-    for (const KNS3::Entry &entry : entries) {
+    for (const KNS3::Entry &entry : qAsConst(entries)) {
         if (entry.status() == KNS3::Entry::Installed) {
             qCDebug(KDENLIVE_LOG) << "// Installed files: " << entry.installedFiles();
         }
@@ -3306,13 +3336,13 @@ void MainWindow::loadDockActions()
     // Sort actions
     QMap<QString, QAction *> sorted;
     QStringList sortedList;
-    for (QAction *a : list) {
+    for (QAction *a : qAsConst(list)) {
         sorted.insert(a->text(), a);
         sortedList << a->text();
     }
     QList<QAction *> orderedList;
     sortedList.sort(Qt::CaseInsensitive);
-    for (const QString &text : sortedList) {
+    for (const QString &text : qAsConst(sortedList)) {
         orderedList << sorted.value(text);
     }
     unplugActionList(QStringLiteral("dock_actions"));
@@ -3336,7 +3366,7 @@ void MainWindow::buildDynamicActions()
             QAction *action = new QAction(i18n("Stabilize (%1)", stab), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered, [stab]() {
-                pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(true), {},
+                emit pCore->jobManager()->startJob<StabilizeJob>(pCore->bin()->selectedClipsIds(true), {},
                                                             i18np("Stabilize clip", "Stabilize clips", pCore->bin()->selectedClipsIds().size()), stab);
             });
             break;
@@ -3348,14 +3378,14 @@ void MainWindow::buildDynamicActions()
             QAction *action = new QAction(i18n("Automatic scene split"), m_extraFactory->actionCollection());
             ts->addAction(action->text(), action);
             connect(action, &QAction::triggered,
-                    [&]() { pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection")); });
+                    [&]() { emit pCore->jobManager()->startJob<SceneSplitJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Scene detection")); });
         }
     }
     if (true /* TODO: check if timewarp producer is available */) {
         QAction *action = new QAction(i18n("Duplicate clip with speed change"), m_extraFactory->actionCollection());
         ts->addAction(action->text(), action);
         connect(action, &QAction::triggered,
-                [&]() { pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Change clip speed")); });
+                [&]() { emit pCore->jobManager()->startJob<SpeedJob>(pCore->bin()->selectedClipsIds(true), {}, i18n("Change clip speed")); });
     }
 
     // TODO refac reimplement analyseclipjob
@@ -3396,7 +3426,7 @@ void MainWindow::buildDynamicActions()
         }
         connect(a, &QAction::triggered, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
-            pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first());
+            emit pCore->jobManager()->startJob<TranscodeJob>(pCore->bin()->selectedClipsIds(true), -1, QString(), transcodeData.first());
         });
         if (transList.count() > 2 && transList.at(2) == QLatin1String("audio")) {
             // This is an audio transcoding action
@@ -3423,7 +3453,7 @@ void MainWindow::buildDynamicActions()
     actionCollection()->addAction(showTimeline->text(), showTimeline);
 
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
-    for (auto dock : docks) {
+    for (auto dock : qAsConst(docks)) {
         QAction *dockInformations = dock->toggleViewAction();
         if (!dockInformations) {
             continue;
@@ -3490,7 +3520,7 @@ void MainWindow::slotUpdateTimecodeFormat(int ix)
     // m_effectStack->transitionConfig()->updateTimecodeFormat();
     // m_effectStack->updateTimecodeFormat();
     pCore->bin()->updateTimecodeFormat();
-    getMainTimeline()->controller()->frameFormatChanged();
+    emit getMainTimeline()->controller()->frameFormatChanged();
     m_timeFormatButton->setFont(QFontDatabase::systemFont(QFontDatabase::FixedFont));
 }
 
@@ -3672,9 +3702,13 @@ QDockWidget *MainWindow::addDock(const QString &title, const QString &objectName
     return dockWidget;
 }
 
+bool MainWindow::isMixedTabbed() const
+{
+    return !tabifiedDockWidgets(m_mixerDock).isEmpty();
+}
+
 void MainWindow::slotUpdateDockLocation(Qt::DockWidgetArea dockLocationArea)
 {
-    qDebug()<<"== UPDATING DOCK LOCATION FOR: "<<dockLocationArea;
     if (dockLocationArea == Qt::NoDockWidgetArea) {
         updateDockTitleBars(false);
     } else {
@@ -3689,7 +3723,7 @@ void MainWindow::slotUpdateMonitorOverlays(int id, int code)
         return;
     }
     QList<QAction *> actions = monitorOverlay->actions();
-    for (QAction *ac : actions) {
+    for (QAction *ac : qAsConst(actions)) {
         int mid = ac->data().toInt();
         if (mid == 0x010) {
             ac->setVisible(id == Kdenlive::ClipMonitor);
@@ -3704,9 +3738,16 @@ void MainWindow::slotChangeStyle(QAction *a)
     KdenliveSettings::setWidgetstyle(style);
     doChangeStyle();
     // Monitor refresh is necessary
-    if (pCore->monitorManager()->isActive(Kdenlive::ClipMonitor)) {
+    raiseMonitor(pCore->monitorManager()->isActive(Kdenlive::ClipMonitor));
+}
+
+void MainWindow::raiseMonitor(bool clipMonitor)
+{
+    if (clipMonitor) {
+        m_clipMonitorDock->show();
         m_clipMonitorDock->raise();
     } else {
+        m_projectMonitorDock->show();
         m_projectMonitorDock->raise();
     }
 }
@@ -3723,7 +3764,7 @@ void MainWindow::doChangeStyle()
 bool MainWindow::isTabbedWith(QDockWidget *widget, const QString &otherWidget)
 {
     QList<QDockWidget *> tabbed = tabifiedDockWidgets(widget);
-    for (auto tab : tabbed) {
+    for (auto tab : qAsConst(tabbed)) {
         if (tab->objectName() == otherWidget) {
             return true;
         }
@@ -3738,7 +3779,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
     }
     QList<QDockWidget *> docks = findChildren<QDockWidget *>();
     //qDebug()<<"=== FOUND DOCKS: "<<docks.count();
-    for (QDockWidget *dock : docks) {
+    for (QDockWidget *dock : qAsConst(docks)) {
         QWidget *bar = dock->titleBarWidget();
         if (dock->isFloating()) {
             if (bar) {
@@ -3747,7 +3788,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             }
             continue;
         }
-        QList<QDockWidget *> docked = pCore->window()->tabifiedDockWidgets(dock);
+        QList<QDockWidget *> docked = tabifiedDockWidgets(dock);
         if (docked.isEmpty()) {
             if (bar) {
                 dock->setTitleBarWidget(nullptr);
@@ -3756,7 +3797,7 @@ void MainWindow::updateDockTitleBars(bool isTopLevel)
             continue;
         }
         bool hasVisibleDockSibling = false;
-        for (QDockWidget *sub : docked) {
+        for (QDockWidget *sub : qAsConst(docked)) {
             if (sub->toggleViewAction()->isChecked() && !sub->isTopLevel()) {
                 // we have another docked widget, so tabs are visible and can be used instead of title bars
                 hasVisibleDockSibling = true;
@@ -4029,7 +4070,7 @@ void MainWindow::slotEditItemSpeed()
 void MainWindow::slotSwitchTimelineZone(bool active)
 {
     pCore->currentDoc()->setDocumentProperty(QStringLiteral("enableTimelineZone"), active ? QStringLiteral("1") : QStringLiteral("0"));
-    getCurrentTimeline()->controller()->useRulerChanged();
+    emit getCurrentTimeline()->controller()->useRulerChanged();
     QSignalBlocker blocker(m_useTimelineZone);
     m_useTimelineZone->setActive(active);
 }
@@ -4071,6 +4112,32 @@ bool MainWindow::timelineVisible() const
     return !centralWidget()->isHidden();
 }
 
+void MainWindow::slotActivateAudioTrackSequence()
+{
+    auto *action = qobject_cast<QAction *>(sender());
+    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(true);
+    int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
+    int tid = trackIds.at(trackPos);
+    getCurrentTimeline()->controller()->setActiveTrack(tid);
+}
+
+void MainWindow::slotActivateVideoTrackSequence()
+{
+    auto *action = qobject_cast<QAction *>(sender());
+    const QList<int> trackIds = getMainTimeline()->controller()->getModel()->getTracksIds(false);
+    int trackPos = qBound(0, action->data().toInt(), trackIds.count() - 1);
+    int tid = trackIds.at(trackIds.count() - 1 - trackPos);
+    getCurrentTimeline()->controller()->setActiveTrack(tid);
+}
+
+void MainWindow::slotActivateTarget()
+{
+    auto *action = qobject_cast<QAction *>(sender());
+    if (action) {
+        int ix = action->data().toInt();
+        getCurrentTimeline()->controller()->assignCurrentTarget(ix);
+    }
+}
 
 #ifdef DEBUG_MAINW
 #undef DEBUG_MAINW

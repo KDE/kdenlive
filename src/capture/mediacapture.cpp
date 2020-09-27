@@ -68,14 +68,14 @@ void MediaCapture::recordAudio(int tid, bool record)
             connect(m_probe.get(), &QAudioProbe::audioBufferProbed, this, &MediaCapture::processBuffer);
         }
         m_probe->setSource(m_audioRecorder.get());
-        connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, [&, tid] (QMediaRecorder::State state) {
+        connect(m_audioRecorder.get(), &QAudioRecorder::stateChanged, this, [&, tid] (QMediaRecorder::State state) {
             m_recordState = state;
             if (m_recordState == QMediaRecorder::StoppedState) {
                 m_resetTimer.start();
                 m_levels.clear();
                 emit audioLevels(m_levels);
                 emit levelsChanged();
-                pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
+                emit pCore->finalizeRecording(getCaptureOutputLocation().toLocalFile());
             }
             emit recordStateChanged(tid, m_recordState == QMediaRecorder::RecordingState);
         });

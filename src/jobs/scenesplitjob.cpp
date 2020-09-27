@@ -54,7 +54,7 @@ void SceneSplitJob::configureConsumer()
     m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "null");
     m_consumer->set("all", 1);
     m_consumer->set("terminate_on_pause", 1);
-    m_consumer->set("real_time", -KdenliveSettings::mltthreads());
+    m_consumer->set("real_time", -1);
     // We just want to find scene change, set all methods to the fastests
     m_consumer->set("rescale", "nearest");
     m_consumer->set("deinterlace_method", "onefield");
@@ -102,7 +102,7 @@ int SceneSplitJob::prepareJob(const std::shared_ptr<JobManager> &ptr, const std:
     bool subclips = ui.cut_scenes->isChecked();
     int minInterval = ui.minDuration->value();
 
-    return ptr->startJob_noprepare<SceneSplitJob>(binIds, parentId, std::move(undoString), subclips, markersType, minInterval);
+    return emit ptr->startJob_noprepare<SceneSplitJob>(binIds, parentId, std::move(undoString), subclips, markersType, minInterval);
 }
 
 bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
@@ -131,7 +131,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         QJsonArray list;
         int ix = 1;
         int lastCut = 0;
-        for (const QString &marker : markerData) {
+        for (const QString &marker : qAsConst(markerData)) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (m_minInterval > 0 && ix > 1 && pos - lastCut < m_minInterval) {
                 continue;
@@ -151,10 +151,9 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         // Create zones
         int ix = 1;
         int lastCut = 0;
-        QMap<QString, QString> zoneData;
         QJsonArray list;
         QJsonDocument json(list);
-        for (const QString &marker : markerData) {
+        for (const QString &marker : qAsConst(markerData)) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {
                 continue;

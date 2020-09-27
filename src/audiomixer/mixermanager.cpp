@@ -21,6 +21,8 @@
 
 #include "mixermanager.hpp"
 #include "mixerwidget.hpp"
+#include "core.h"
+#include "mainwindow.h"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "kdenlivesettings.h"
 
@@ -72,7 +74,7 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         return;
     }
     std::shared_ptr<MixerWidget> mixer(new MixerWidget(tid, service, trackTag, this));
-    connect(mixer.get(), &MixerWidget::muteTrack, [&](int id, bool mute) {
+    connect(mixer.get(), &MixerWidget::muteTrack, this, [&](int id, bool mute) {
         m_model->setTrackProperty(id, "hide", mute ? QStringLiteral("1") : QStringLiteral("3"));
     });
     if (m_visibleMixerManager) {
@@ -80,10 +82,10 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
     }
     connect(this, &MixerManager::updateLevels, mixer.get(), &MixerWidget::updateAudioLevel);
     connect(this, &MixerManager::clearMixers, mixer.get(), &MixerWidget::clear);
-    connect(mixer.get(), &MixerWidget::toggleSolo, [&](int trid, bool solo) {
+    connect(mixer.get(), &MixerWidget::toggleSolo, this, [&](int trid, bool solo) {
         if (!solo) {
             // unmute
-            for (int id : m_soloMuted) {
+            for (int id : qAsConst(m_soloMuted)) {
                 if (m_mixers.count(id) > 0) {
                     m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
                 }
@@ -92,14 +94,14 @@ void MixerManager::registerTrack(int tid, std::shared_ptr<Mlt::Tractor> service,
         } else {
             if (!m_soloMuted.isEmpty()) {
                 // Another track was solo, discard first
-                for (int id : m_soloMuted) {
+                for (int id : qAsConst(m_soloMuted)) {
                     if (m_mixers.count(id) > 0) {
                         m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
                     }
                 }
                 m_soloMuted.clear();
             }
-            for (auto item : m_mixers) {
+            for (const auto &item : m_mixers) {
                 if (item.first != trid && !item.second->isMute()) {
                     m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
                     m_soloMuted << item.first;
@@ -143,7 +145,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
 {
     // Insert master mixer
     m_model = model;
-    connect(m_model.get(), &TimelineItemModel::dataChanged, [&](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles) {
+    connect(m_model.get(), &TimelineItemModel::dataChanged, this, [&](const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles) {
         if (roles.contains(TimelineModel::IsDisabledRole)) {
             int id = (int) topLeft.internalId();
             if (m_mixers.count(id) > 0) {
@@ -160,7 +162,7 @@ void MixerManager::setModel(std::shared_ptr<TimelineItemModel> model)
         m_masterBox->removeWidget(m_masterMixer.get());
     }
     m_masterMixer.reset(new MixerWidget(-1, service, i18n("Master"), this));
-    connect(m_masterMixer.get(), &MixerWidget::muteTrack, [&](int /*id*/, bool mute) {
+    connect(m_masterMixer.get(), &MixerWidget::muteTrack, this, [&](int /*id*/, bool mute) {
         m_model->tractor()->set("hide", mute ? 3 : 1);
     });
     if (m_visibleMixerManager) {
@@ -184,7 +186,7 @@ void MixerManager::recordStateChanged(int tid, bool recording)
 void MixerManager::connectMixer(bool doConnect)
 {
     m_visibleMixerManager = doConnect;
-    for (auto item : m_mixers) {
+    for (const auto &item : m_mixers) {
         item.second->connectMixer(m_visibleMixerManager && !KdenliveSettings::mixerCollapse());
     }
     if (m_masterMixer != nullptr) {
@@ -199,7 +201,9 @@ void MixerManager::collapseMixers()
         m_expandedWidth = width();
         m_channelsBox->setFixedWidth(0);
         //m_line->setMaximumWidth(0);
-        setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+        if (!pCore->window()->isMixedTabbed()) {
+            setFixedWidth(m_masterMixer->width() + 2 * m_box->contentsMargins().left());
+        }
     } else {
         //m_line->setMaximumWidth(QWIDGETSIZE_MAX);
         m_channelsBox->setMaximumWidth(QWIDGETSIZE_MAX);
@@ -222,7 +226,7 @@ QSize MixerManager::sizeHint() const
 
 void MixerManager::pauseMonitoring(bool pause)
 {
-    for (auto item : m_mixers) {
+    for (const auto &item : m_mixers) {
         item.second->pauseMonitoring(pause);
     }
     if (m_masterMixer != nullptr) {

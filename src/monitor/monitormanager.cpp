@@ -134,7 +134,7 @@ bool MonitorManager::projectMonitorVisible() const
 bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
 {
     if ((m_activeMonitor != nullptr) && m_activeMonitor->id() == name) {
-        return false;
+        return true;
     }
     if (m_clipMonitor == nullptr || m_projectMonitor == nullptr) {
         return false;
@@ -154,6 +154,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
                 m_clipMonitor->parentWidget()->raise();
             }
             if (!m_clipMonitor->isVisible()) {
+                pCore->displayMessage(i18n("Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view timeline?"), MessageType::InformationMessage);
                 m_activeMonitor = m_projectMonitor;
                 return false;
             }
@@ -165,6 +166,7 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name)
                 m_projectMonitor->parentWidget()->raise();
             }
             if (!m_projectMonitor->isVisible()) {
+                pCore->displayMessage(i18n("Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to view timeline?"), MessageType::InformationMessage);
                 m_activeMonitor = m_clipMonitor;
                 return false;
             }
@@ -413,9 +415,9 @@ void MonitorManager::setupActions()
 
     m_multiTrack = new QAction(QIcon::fromTheme(QStringLiteral("view-split-left-right")), i18n("Multitrack view"), this);
     m_multiTrack->setCheckable(true);
-    connect(m_multiTrack, &QAction::triggered, [&](bool checked) {
+    connect(m_multiTrack, &QAction::triggered, this, [&](bool checked) {
         if (m_projectMonitor) {
-            m_projectMonitor->multitrackView(checked, true);
+            emit m_projectMonitor->multitrackView(checked, true);
         }
     });
     pCore->window()->addAction(QStringLiteral("monitor_multitrack"), m_multiTrack);
@@ -588,7 +590,7 @@ void MonitorManager::slotSetInPoint()
         if (destZone.x() > destZone.y()) {
             destZone.setY(qMin(pCore->projectDuration(), destZone.x() + (sourceZone.y() - sourceZone.x())));
         }
-        m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 
@@ -603,7 +605,7 @@ void MonitorManager::slotSetOutPoint()
         if (destZone.y() < destZone.x()) {
             destZone.setX(qMax(0, destZone.y() - (sourceZone.y() - sourceZone.x())));
         }
-        m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
+        emit m_projectMonitor->zoneUpdatedWithUndo(sourceZone, destZone);
     }
 }
 
@@ -647,8 +649,10 @@ void MonitorManager::updateBgColor()
 {
     if (m_projectMonitor) {
         m_projectMonitor->updateBgColor();
+        m_projectMonitor->forceMonitorRefresh();
     }
     if (m_clipMonitor) {
         m_clipMonitor->updateBgColor();
+        m_clipMonitor->forceMonitorRefresh();
     }
 }

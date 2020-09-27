@@ -76,7 +76,7 @@ const QString FilterClipJob::getDescription() const
 void FilterClipJob::configureConsumer()
 {
     m_consumer = std::make_unique<Mlt::Consumer>(*m_profile.get(), "null");
-    for (const QString &param : m_consumerArgs) {
+    for (const QString &param : qAsConst(m_consumerArgs)) {
         if (param.contains(QLatin1Char('='))) {
             m_consumer->set(param.section(QLatin1Char('='), 0, 0).toUtf8().constData(), param.section(QLatin1Char('='), 1).toInt());
         }

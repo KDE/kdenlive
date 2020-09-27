@@ -44,6 +44,8 @@ Item {
     property double frameSize: 10
     property double timeScale: 1
     property int overlayType: controller.overlayType
+    property color thumbColor1: controller.thumbColor1
+    property color thumbColor2: controller.thumbColor2
     property color overlayColor: 'cyan'
     property bool isClipMonitor: true
     property int dragType: 0
@@ -73,11 +75,6 @@ Item {
 
     onDurationChanged: {
         clipMonitorRuler.updateRuler()
-        // Reset zoom on clip change
-        root.zoomStart = 0
-        root.zoomFactor = 1
-        root.showZoomBar = false
-        root.zoomOffset = 0
     }
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
@@ -86,6 +83,12 @@ Item {
         // Animate clip name
         clipNameLabel.opacity = 1
         showAnimate.restart()
+        // Reset zoom on clip change
+        root.zoomStart = 0
+        root.zoomFactor = 1
+        root.showZoomBar = false
+        root.zoomOffset = 0
+
         // adjust monitor image size if audio thumb is displayed
         if (audioThumb.stateVisible && root.permanentAudiothumb && audioThumb.visible) {
             controller.rulerHeight = audioThumb.height + root.zoomOffset
@@ -239,7 +242,7 @@ Item {
                     NumberAnimation { property: "opacity"; duration: audioThumb.isAudioClip ? 0 : 500}
                 } ]
                 Rectangle {
-                    color: activePalette.dark
+                    color: "black"
                     opacity: audioThumb.isAudioClip || root.permanentAudiothumb ? 1 : 0.6
                     anchors.fill: parent
                 }
@@ -253,33 +256,37 @@ Item {
                 }
                 Repeater {
                     id: streamThumb
-                    model: controller.audioThumb.length
+                    model: controller.audioStreams.length
                     onCountChanged: {
                         thumbTimer.start()
                     }
-                    property double streamHeight: parent.height / streamThumb.count
+                    property double streamHeight: audioThumb.height / streamThumb.count
                     Item {
                         anchors.fill: parent
-                        Image {
-                            anchors.left: parent.left
+                        TimelineWaveform {
                             anchors.right: parent.right
+                            anchors.left: parent.left
                             height: streamThumb.streamHeight
                             y: model.index * height
-                            source: controller.audioThumb[model.index]
-                            transform: [
-                                Translate { x: (-audioThumb.width * root.zoomStart)},
-                                Scale {xScale: 1/root.zoomFactor}
-                            ]
-                            asynchronous: true
-                            cache: false
-                            smooth: false
+                            channels: controller.audioChannels[model.index]
+                            binId: controller.clipId
+                            audioStream: controller.audioStreams[model.index]
+                            isFirstChunk: false
+                            showItem: audioThumb.visible
+                            format: controller.audioThumbFormat
+                            drawInPoint: 0
+                            drawOutPoint: audioThumb.width
+                            waveInPoint: (root.duration - 1) * root.zoomStart * channels
+                            waveOutPointWithUpdate: (root.duration - 1) * (root.zoomStart + root.zoomFactor) * channels
+                            fillColor1: root.thumbColor1
+                            fillColor2: root.thumbColor2
                         }
                         Rectangle {
                             width: parent.width
                             y: (model.index + 1) * streamThumb.streamHeight
                             height: 1
                             visible: streamThumb.count > 1 && model.index < streamThumb.count - 1
-                            color: 'black'
+                            color: 'yellow'
                         }
                     }
                 }

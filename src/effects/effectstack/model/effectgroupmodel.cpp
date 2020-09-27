@@ -60,6 +60,11 @@ bool EffectGroupModel::isAudio() const
     return result;
 }
 
+bool EffectGroupModel::isUnique() const
+{
+    return false;
+}
+
 void EffectGroupModel::plant(const std::weak_ptr<Mlt::Service> &service)
 {
     for (int i = 0; i < childCount(); ++i) {
