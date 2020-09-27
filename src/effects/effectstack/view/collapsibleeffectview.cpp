@@ -43,6 +43,8 @@
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QPointer>
+#include <QFormLayout>
+#include <QTextEdit>
 
 #include <QComboBox>
 #include <KDualAction>
@@ -420,64 +422,91 @@ void CollapsibleEffectView::slotEffectDown()
 
 void CollapsibleEffectView::slotSaveEffect()
 {
-    QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
-    if (name.trimmed().isEmpty()) {
-        return;
-    }
-    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
-    if (!dir.exists()) {
-        dir.mkpath(QStringLiteral("."));
-    }
+    //QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
+    QDialog dialog(this);
+    QFormLayout form(&dialog);
+    QLineEdit *effectName = new QLineEdit(&dialog);
+    QTextEdit *descriptionBox = new QTextEdit(&dialog);
+    QString label_Name = QString("Name : ");
+    form.addRow(label_Name, effectName);
+    QString label = QString("Comments : ");
+    form.addRow(label, descriptionBox);
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    if (dir.exists(name + QStringLiteral(".xml")))
-        if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+    if(dialog.exec() == QDialog::Accepted)
+    {
+        QString name = effectName->text();
+        QString enteredDescription = descriptionBox->toPlainText();
+        if (name.trimmed().isEmpty()) {
             return;
         }
-
-    QDomDocument doc;
-    // Get base effect xml
-    QString effectId = m_model->getAssetId();
-    QDomElement effect = EffectsRepository::get()->getXml(effectId);
-    // Adjust param values
-    QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
-    QMap<QString, QString> values;
-    for (const auto &param : qAsConst(currentValues)) {
-        values.insert(param.first, param.second.toString());
-    }
-    QDomNodeList params = effect.elementsByTagName("parameter");
-    for (int i = 0; i < params.count(); ++i) {
-        const QString paramName = params.item(i).toElement().attribute("name");
-        const QString paramType = params.item(i).toElement().attribute("type");
-        if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
-            continue;
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+        if (!dir.exists()) {
+            dir.mkpath(QStringLiteral("."));
         }
-        params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
-    }
-    doc.appendChild(doc.importNode(effect, true));
-    effect = doc.firstChild().toElement();
-    effect.removeAttribute(QStringLiteral("kdenlive_ix"));
-    effect.setAttribute(QStringLiteral("id"), name);
-    QString masterType = effect.attribute(QLatin1String("type"));
-    effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
 
-    QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
-    effect.removeChild(effectname);
-    effectname = doc.createElement(QStringLiteral("name"));
-    QDomText nametext = doc.createTextNode(name);
-    effectname.appendChild(nametext);
-    effect.insertBefore(effectname, QDomNode());
-    QDomElement effectprops = effect.firstChildElement(QStringLiteral("properties"));
-    effectprops.setAttribute(QStringLiteral("id"), name);
-    effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
-    QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
-    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
-        QTextStream out(&file);
-        out << doc.toString();
+        if (dir.exists(name + QStringLiteral(".xml")))
+            if (KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", name + QStringLiteral(".xml"))) == KMessageBox::No) {
+                return;
+            }
+
+        QDomDocument doc;
+        // Get base effect xml
+        QString effectId = m_model->getAssetId();
+        QDomElement effect = EffectsRepository::get()->getXml(effectId);
+        // Adjust param values
+        QVector<QPair<QString, QVariant>> currentValues = m_model->getAllParameters();
+        QMap<QString, QString> values;
+        for (const auto &param : qAsConst(currentValues)) {
+            values.insert(param.first, param.second.toString());
+        }
+        QDomNodeList params = effect.elementsByTagName("parameter");
+        for (int i = 0; i < params.count(); ++i) {
+            const QString paramName = params.item(i).toElement().attribute("name");
+            const QString paramType = params.item(i).toElement().attribute("type");
+            if (paramType == QLatin1String("fixed") || !values.contains(paramName)) {
+                continue;
+            }
+            params.item(i).toElement().setAttribute(QStringLiteral("value"), values.value(paramName));
+        }
+        doc.appendChild(doc.importNode(effect, true));
+        effect = doc.firstChild().toElement();
+        effect.removeAttribute(QStringLiteral("kdenlive_ix"));
+        effect.setAttribute(QStringLiteral("id"), name);
+        QString masterType = effect.attribute(QLatin1String("type"));
+        effect.setAttribute(QStringLiteral("type"), (masterType == QLatin1String("audio") || masterType == QLatin1String("customAudio")) ? QStringLiteral("customAudio") : QStringLiteral("customVideo"));
+
+        QDomElement effectname = effect.firstChildElement(QStringLiteral("name"));
+        effect.removeChild(effectname);
+        effectname = doc.createElement(QStringLiteral("name"));
+        QDomText nametext = doc.createTextNode(name);
+        effectname.appendChild(nametext);
+        effect.insertBefore(effectname, QDomNode());
+        QDomElement effectprops = effect.firstChildElement(QStringLiteral("properties"));
+        effectprops.setAttribute(QStringLiteral("id"), name);
+        effectprops.setAttribute(QStringLiteral("type"), QStringLiteral("custom"));
+        QFile file(dir.absoluteFilePath(name + QStringLiteral(".xml")));
+
+        if(!enteredDescription.trimmed().isEmpty()){
+                    QDomElement root = doc.documentElement();
+                    QDomElement nodelist = root.firstChildElement("description");
+                    QDomElement newNodeTag = doc.createElement(QString("description"));
+                    QDomText text = doc.createTextNode(enteredDescription);
+                    newNodeTag.appendChild(text);
+                    root.replaceChild(newNodeTag, nodelist);
+                }
+
+        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+            QTextStream out(&file);
+            out << doc.toString();
+        }
+        file.close();
+        emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
     }
-    file.close();
-    emit reloadEffect(dir.absoluteFilePath(name + QStringLiteral(".xml")));
 }
-
 QDomDocument CollapsibleEffectView::toXml() const
 {
     QDomDocument doc;
