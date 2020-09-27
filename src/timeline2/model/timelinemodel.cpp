@@ -669,13 +669,13 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
                 // We are moving a clip on same track
                 if (finalMove && position >= mixData.first.firstClipInOut.second) {
                     int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
-                    update_playlist = [this, clipId, subPlaylist]() {
-                        m_allClips[clipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0);
+                    update_playlist = [this, clipId, trackId, subPlaylist]() {
+                        m_allClips[clipId]->setSubPlaylistIndex(subPlaylist == 0 ? 1 : 0, trackId);
                         return true;
                     };
                     bool isAudio = getTrackById_const(old_trackId)->isAudioTrack();
-                    update_playlist_undo = [this, clipId, subPlaylist, old_trackId, mixData, isAudio]() {
-                        m_allClips[clipId]->setSubPlaylistIndex(subPlaylist);
+                    update_playlist_undo = [this, clipId, subPlaylist, old_trackId, trackId, mixData, isAudio]() {
+                        m_allClips[clipId]->setSubPlaylistIndex(subPlaylist, trackId);
                         bool result = getTrackById_const(old_trackId)->createMix(mixData.first, isAudio);
                         return result;
                     };
@@ -683,15 +683,15 @@ bool TimelineModel::requestClipMove(int clipId, int trackId, int position, bool 
             } else if (finalMove) {
                 // Clip moved to another track, delete mix
                 int subPlaylist = m_allClips[clipId]->getSubPlaylistIndex();
-                update_playlist = [this, clipId, old_trackId, finalMove]() {
+                update_playlist = [this, clipId, old_trackId, trackId, finalMove]() {
                     m_allClips[clipId]->setMixDuration(0);
-                    m_allClips[clipId]->setSubPlaylistIndex(0);
+                    m_allClips[clipId]->setSubPlaylistIndex(0, trackId);
                     getTrackById_const(old_trackId)->syncronizeMixes(finalMove);
                     return true;
                 };
                 bool isAudio = getTrackById_const(old_trackId)->isAudioTrack();
                 update_playlist_undo = [this, clipId, subPlaylist, mixData, old_trackId, isAudio, finalMove]() {
-                    m_allClips[clipId]->setSubPlaylistIndex(subPlaylist);
+                    m_allClips[clipId]->setSubPlaylistIndex(subPlaylist, old_trackId);
                     bool result = getTrackById_const(old_trackId)->createMix(mixData.first, isAudio);
                     return result;
                 };

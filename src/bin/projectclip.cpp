@@ -630,7 +630,7 @@ void ProjectClip::createDisabledMasterProducer()
     }
 }
 
-std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed)
+std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState state, int audioStream, double speed, bool secondPlaylist)
 {
     if (!m_masterProducer) {
         return nullptr;
@@ -659,6 +659,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
                 } else {
                     trackId -= 100 * audioStream;
                 }
+            }
+            // second playlist producers use negative trackId
+            if (secondPlaylist) {
+                trackId = -trackId;
             }
             if (m_audioProducers.count(trackId) == 0) {
                 m_audioProducers[trackId] = cloneProducer(true);
@@ -689,6 +693,10 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
         if (state == PlaylistState::VideoOnly) {
             // we return the video producer
             // We need to get an video producer, if none exists
+            // second playlist producers use negative trackId
+            if (secondPlaylist) {
+                trackId = -trackId;
+            }
             if (m_videoProducers.count(trackId) == 0) {
                 m_videoProducers[trackId] = cloneProducer(true);
                 m_videoProducers[trackId]->set("set.test_audio", 1);
@@ -753,7 +761,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
     return std::shared_ptr<Mlt::Producer>(warpProducer->cut());
 }
 
-std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid)
+std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid, bool secondPlaylist)
 {
     int in = master->get_in();
     int out = master->get_out();
@@ -790,10 +798,12 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 return {master, true};
             }
             if (state == PlaylistState::AudioOnly) {
-                int producerId = tid;
                 int audioStream = master->parent().get_int("audio_index");
                 if (audioStream > -1) {
-                    producerId += 100 * audioStream;
+                    tid += 100 * audioStream;
+                }
+                if (secondPlaylist) {
+                    tid = -tid;
                 }
                 m_audioProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                 m_effectStack->loadService(m_audioProducers[tid]);
@@ -803,6 +813,9 @@ std::pair<std::shared_ptr<Mlt::Producer>, bool> ProjectClip::giveMasterAndGetTim
                 // good, we found a master video producer, and we didn't have any
                 if (m_clipType != ClipType::Color && m_clipType != ClipType::Image && m_clipType != ClipType::Text) {
                     // Color, image and text clips always use master producer in timeline
+                    if (secondPlaylist) {
+                        tid = -tid;
+                    }
                     m_videoProducers[tid] = std::make_shared<Mlt::Producer>(&master->parent());
                     m_effectStack->loadService(m_videoProducers[tid]);
                 } else {

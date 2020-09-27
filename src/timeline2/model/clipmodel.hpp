@@ -148,7 +148,7 @@ public:
 
     /**@brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
     int getSubPlaylistIndex() const;
-    void setSubPlaylistIndex(int index);
+    void setSubPlaylistIndex(int index, int trackId);
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -183,7 +183,7 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false);
     void refreshProducerFromBin(int trackId);
 
     /* @brief This functions replaces the current producer with a slowmotion one

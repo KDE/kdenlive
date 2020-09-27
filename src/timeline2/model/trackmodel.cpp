@@ -140,8 +140,8 @@ bool TrackModel::switchPlaylist(int clipId, int position, int sourcePlaylist, in
     m_playlists[sourcePlaylist].consolidate_blanks();
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(clipId);
+        clip->setSubPlaylistIndex(destPlaylist, m_id);
         int index = m_playlists[destPlaylist].insert_at(position, *clip, 1);
-        clip->setSubPlaylistIndex(destPlaylist);
         m_playlists[destPlaylist].consolidate_blanks();
         return index != -1;
     }
@@ -177,7 +177,7 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
             // update clip position and track
             clip->setPosition(position);
             if (finalMove) {
-                clip->setSubPlaylistIndex(subPlaylist);
+                clip->setSubPlaylistIndex(subPlaylist, m_id);
             }
             int new_in = clip->getPosition();
             int new_out = new_in + clip->getPlaytime();
@@ -561,7 +561,6 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
     if (!isHidden() && !isAudioTrack()) {
         checkRefresh = true;
     }
-
     auto update_snaps = [old_in, old_out, checkRefresh, right, clipId, this](int new_in, int new_out) {
         if (auto ptr = m_parent.lock()) {
             if (right) {
@@ -699,7 +698,7 @@ Fun TrackModel::requestClipResize_lambda(int clipId, int in, int out, bool right
         } else {
         }
     }
-    return []() { return false; };
+    return []() { qDebug()<<"=====FULL FAILURE "; return false; };
 }
 
 int TrackModel::getId() const
@@ -1470,7 +1469,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     Fun local_redo = []() { return true; };
     if (auto ptr = m_parent.lock()) {
         // Resize main clip
-        result = ptr->getClipPtr(clipIds.second)->requestResize(endPos - secondInPos, false, local_undo, local_redo, true, clipHasEndMix);
+        result = ptr->getClipPtr(clipIds.second)->requestResize(endPos - secondInPos, false, local_undo, local_redo, true, true);
         // Resize first part clip
         result = result && ptr->getClipPtr(clipIds.first)->requestResize(secondInPos - firstInPos, true, local_undo, local_redo, true, true);
     }
@@ -1503,7 +1502,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
         Fun reverse = [this, clipIds, mixDuration, mixPosition, mixCutPos, secondInPos, clipHasEndMix, src_track]() {
             // First restore correct playlist
             if (src_track == 1 && !clipHasEndMix) {
-                // Revert clip to playlist 0 since it has no mix
+                // Revert clip to playlist 1
                 switchPlaylist(clipIds.second, secondInPos, 0, 1);
             }
             // Build mix
@@ -1636,8 +1635,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                         std::unique_ptr<Mlt::Producer> prod(m_playlists[1].replace_with_blank(target_clip));
                         // Replug
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        clip->setSubPlaylistIndex(0, m_id);
                         int index = m_playlists[0].insert_at(pos, *clip, 1);
-                        clip->setSubPlaylistIndex(0);
                         m_playlists[0].consolidate_blanks();
                     }
                     m_playlists[1].consolidate_blanks();
@@ -1649,8 +1648,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                     if (i.value() == 0) {
                         int pos = m_allClips[i.key()]->getPosition();
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        clip->setSubPlaylistIndex(1, m_id);
                         int index = m_playlists[1].insert_at(pos, *clip, 1);
-                        clip->setSubPlaylistIndex(1);
                         m_playlists[1].consolidate_blanks();
                     }
                     if (m_sameCompositions.count(i.key()) > 0) {
@@ -1685,8 +1684,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                         std::unique_ptr<Mlt::Producer> prod(m_playlists[0].replace_with_blank(target_clip));
                         // Replug
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        clip->setSubPlaylistIndex(1, m_id);
                         int index = m_playlists[1].insert_at(pos, *clip, 1);
-                        clip->setSubPlaylistIndex(1);
                         m_playlists[1].consolidate_blanks();
                     }
                     m_playlists[0].consolidate_blanks();
@@ -1698,8 +1697,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                     if (i.value() == 0) {
                         int pos = m_allClips[i.key()]->getPosition();
                         std::shared_ptr<ClipModel> clip = ptr->getClipPtr(i.key());
+                        clip->setSubPlaylistIndex(0, m_id);
                         int index = m_playlists[0].insert_at(pos, *clip, 1);
-                        clip->setSubPlaylistIndex(0);
                         m_playlists[0].consolidate_blanks();
                     }
                     if (m_sameCompositions.count(i.key()) > 0) {
@@ -1764,7 +1763,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     if (res) {
         Fun replay = [this, clipIds, dest_track, firstClipPos, secondClipDuration, mixPosition, mixDuration, build_mix, secondClipPos, clipHasEndMix, updateView, finalMove, groupMove, rearrange_playlists]() {
             if (auto ptr = m_parent.lock()) {
-                ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(dest_track);
+                ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(dest_track, m_id);
             }
             rearrange_playlists();
             auto op = requestClipInsertion_lambda(clipIds.second, secondClipPos, updateView, finalMove, groupMove);
@@ -1793,7 +1792,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             }
             operation();
             if (auto ptr = m_parent.lock()) {
-                ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(source_track);
+                ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(source_track, m_id);
             }
             rearrange_playlists_undo();
             auto op = requestClipInsertion_lambda(clipIds.second, secondClipPos, updateView, finalMove, groupMove);

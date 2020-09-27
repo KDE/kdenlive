@@ -124,13 +124,13 @@ int ClipModel::construct(const std::shared_ptr<TimelineModel> &parent, const QSt
         speed = producer->parent().get_double("warp_speed");
         warp_pitch = producer->parent().get_int("warp_pitch");
     }
-    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state, tid);
+    auto result = binClip->giveMasterAndGetTimelineProducer(id, producer, state, tid, playlist == 1);
     std::shared_ptr<ClipModel> clip(new ClipModel(parent, result.first, binClipId, id, state, speed));
     if (warp_pitch) {
         result.first->parent().set("warp_pitch", 1);
     }
     clip->setClipState_lambda(state)();
-    clip->setSubPlaylistIndex(playlist);
+    clip->setSubPlaylistIndex(playlist, -1);
     parent->registerClip(clip);
     clip->m_effectStack->importEffects(producer, state, result.second, originalDecimalPoint);
     clip->m_clipMarkerModel->setReferenceModel(binClip->getMarkerModel(), speed);
@@ -298,6 +298,7 @@ bool ClipModel::requestResize(int size, bool right, Fun &undo, Fun &redo, bool l
                     }
                     return true;
                 }
+                qDebug()<<"============\n+++++++++++++++++\nREVRSE TRACK OP FAILED\n\n++++++++++++++++";
                 return false;
             };
             qDebug() << "----------\n-----------\n// ADJUSTING EFFECT LENGTH, LOGUNDO " << logUndo << ", " << old_in << "/" << inPoint << ", "
@@ -451,7 +452,7 @@ bool ClipModel::isAudioOnly() const
     return m_currentState == PlaylistState::AudioOnly;
 }
 
-void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch)
+void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist)
 {
     // We require that the producer is not in the track when we refresh the producer, because otherwise the modification will not be propagated. Remove the clip
     // first, refresh, and then replant.
@@ -467,7 +468,7 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         qDebug() << "changing speed" << in << out << m_speed;
     }
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed);
+    std::shared_ptr<Mlt::Producer> binProducer = binClip->getTimelineProducer(trackId, m_id, state, stream, m_speed, secondPlaylist);
     m_producer = std::move(binProducer);
     m_producer->set_in_and_out(in, out);
     if (hasPitch) {
@@ -493,7 +494,7 @@ void ClipModel::refreshProducerFromBin(int trackId)
         hasPitch = m_producer->parent().get_int("warp_pitch") == 1;
     }
     int stream = m_producer->parent().get_int("audio_index");
-    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch);
+    refreshProducerFromBin(trackId, m_currentState, stream, 0, hasPitch, m_subPlaylistIndex == 1);
 }
 
 bool ClipModel::useTimewarpProducer(double speed, bool pitchCompensate, bool changeDuration, Fun &undo, Fun &redo)
@@ -877,9 +878,15 @@ int ClipModel::getSubPlaylistIndex() const
     return m_subPlaylistIndex;
 }
 
-void ClipModel::setSubPlaylistIndex(int index)
+void ClipModel::setSubPlaylistIndex(int index, int trackId)
 {
+    if (m_subPlaylistIndex == index) {
+        return;
+    }
     m_subPlaylistIndex = index;
+    if (trackId > -1) {
+        refreshProducerFromBin(trackId);
+    }
 }
 
 void ClipModel::setOffset(int offset)
