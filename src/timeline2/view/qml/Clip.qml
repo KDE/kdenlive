@@ -391,7 +391,7 @@ Rectangle {
                         anchors.top: parent.top
                         anchors.bottom: parent.bottom
                         width: 2
-                        color: "indigo"
+                        color: "navy"
                     }
                     MouseArea {
                         // Left resize handle
