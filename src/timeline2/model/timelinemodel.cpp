@@ -4130,6 +4130,9 @@ bool TimelineModel::unplantComposition(int compoId)
 
 bool TimelineModel::checkConsistency()
 {
+    // We store all in/outs of clips to check snap points
+    std::map<int, int> snaps;
+
     for (const auto &tck : m_iteratorTable) {
         auto track = (*tck.second);
         // Check parent/children link for tracks
@@ -4149,8 +4152,6 @@ bool TimelineModel::checkConsistency()
         }
     }
 
-    // We store all in/outs of clips to check snap points
-    std::map<int, int> snaps;
     // Check parent/children link for clips
     for (const auto &cp : m_allClips) {
         auto clip = (cp.second);
@@ -4167,6 +4168,9 @@ bool TimelineModel::checkConsistency()
         if (getClipTrackId(cp.first) != -1) {
             snaps[clip->getPosition()] += 1;
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
+            if (clip->getMixDuration() > 0) {
+                snaps[clip->getPosition() + clip->getMixDuration() - clip->getMixCutPosition()] += 1;
+            }
         }
         if (!clip->checkConsistency()) {
             qDebug() << "Consistency check failed for clip" << cp.first;
@@ -4190,9 +4194,15 @@ bool TimelineModel::checkConsistency()
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
         }
     }
+    
+    
+    
     // Check snaps
     auto stored_snaps = m_snaps->_snaps();
     if (snaps.size() != stored_snaps.size()) {
+        for (auto sn : stored_snaps) {
+            qDebug()<<"==== GOT SNAP: "<<sn.first;
+        }
         qDebug() << "Wrong number of snaps: " << snaps.size() << " == " << stored_snaps.size();
         return false;
     }

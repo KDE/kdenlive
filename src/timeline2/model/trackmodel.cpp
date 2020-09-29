@@ -1000,6 +1000,48 @@ bool TrackModel::checkConsistency()
         }
         --it;
     }
+    // Check Mixes
+    QScopedPointer<Mlt::Service> service(m_track->field());
+    int mixCount = 0;
+    qDebug()<<"=== STARTING MIX CHECK ======";
+    while (service != nullptr && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition)service->get_service());
+            service.reset(service->producer());
+            // Check that the mix has correct in/out
+            int mainId = -1;
+            int mixIn = t.get_in();
+            for ( auto it = m_sameCompositions.begin(); it != m_sameCompositions.end(); ++it ) {
+                if (it->second->get_in() == mixIn) {
+                    // Found mix in list
+                    mainId = it->first;
+                    break;
+                }
+            }
+            if (mainId == -1) {
+                qDebug()<<"=== Incoherent mix found at: "<<mixIn;
+                return false;
+            }
+            // Check in/out)
+            if (mixIn != m_allClips[mainId]->getPosition()) {
+                qDebug()<<"=== Mix not aligned with its master clip: "<<mainId<<", at: "<<m_allClips[mainId]->getPosition()<<", MIX at: "<<mixIn;
+                return false;
+            }
+            int secondClipId = m_mixList.key(mainId);
+            if (t.get_out() != m_allClips[secondClipId]->getPosition() + m_allClips[secondClipId]->getPlaytime()) {
+                qDebug()<<"=== Mix not aligned with its second clip: "<<secondClipId<<", end at: "<<m_allClips[secondClipId]->getPosition() + m_allClips[secondClipId]->getPlaytime()<<", MIX at: "<<t.get_out();
+                return false;
+            }
+            mixCount++;
+        } else {
+            service.reset(service->producer());
+        }
+    }
+    if (mixCount != m_sameCompositions.size() || m_sameCompositions.size() != m_mixList.count()) {
+        // incoherent mix count
+        qDebug()<<"=== INCORRECT mix count. Existing: "<<mixCount<<"; REGISTERED: "<<m_mixList.count();
+        return false;
+    }
     return true;
 }
 
