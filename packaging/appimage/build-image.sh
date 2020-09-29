@@ -123,13 +123,13 @@ for lib in $APPDIR/usr/lib/mlt/*.so*; do
 done
 
 
-for lib in $APPDIR/usr/lib/libva*.so*; do
-  patchelf --set-rpath '$ORIGIN' $lib;
-done
+#for lib in $APPDIR/usr/lib/libva*.so*; do
+#  patchelf --set-rpath '$ORIGIN' $lib;
+#done
 
-for lib in $APPDIR/usr/lib/va/*.so*; do
-  patchelf --set-rpath '$ORIGIN/..' $lib;
-done
+#for lib in $APPDIR/usr/lib/va/*.so*; do
+#  patchelf --set-rpath '$ORIGIN/..' $lib;
+#done
 
 
 ### GSTREAMER
