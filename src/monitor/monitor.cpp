@@ -1559,7 +1559,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             // we are in record mode, don't display clip
             return;
         }
-        if (m_controller->isReady()) {
+        if (m_controller->statusReady()) {
             m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
             m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
             loadQmlScene(MonitorSceneDefault);

@@ -58,7 +58,7 @@ ProjectSubClip::ProjectSubClip(const QString &id, const std::shared_ptr<ProjectC
     m_rating = zoneProperties.value(QLatin1String("rating")).toUInt();
     m_tags = zoneProperties.value(QLatin1String("tags"));
     qDebug()<<"=== LOADING SUBCLIP WITH RATING: "<<m_rating<<", TAGS: "<<m_tags;
-    m_clipStatus = StatusReady;
+    m_clipStatus = FileStatus::StatusReady;
     // Save subclip in MLT
     connect(parent.get(), &ProjectClip::thumbReady, this, &ProjectSubClip::gotThumb);
 }

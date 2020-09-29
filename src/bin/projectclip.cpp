@@ -84,11 +84,13 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     if (producer->get_int("_placeholder") == 1) {
-        m_clipStatus = StatusMissing;
+        m_clipStatus = FileStatus::StatusMissing;
     } else if (producer->get_int("_missingsource") == 1) {
-        m_clipStatus = StatusProxyOnly;
+        m_clipStatus = FileStatus::StatusProxyOnly;
+    } else if (m_usesProxy) {
+        m_clipStatus = FileStatus::StatusProxy;
     } else {
-        m_clipStatus = StatusReady;
+        m_clipStatus = FileStatus::StatusReady;
     }
     m_name = clipName();
     m_duration = getStringDuration();
@@ -135,7 +137,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
 {
-    m_clipStatus = StatusWaiting;
+    m_clipStatus = FileStatus::StatusWaiting;
     m_thumbnail = thumb;
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
@@ -478,6 +480,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
+    FileStatus::ClipStatus currentStatus = m_clipStatus;
     updateProducer(producer);
     m_thumbsProducer.reset();
     connectEffectStack();
@@ -498,7 +501,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         }
     }
     m_duration = getStringDuration();
-    m_clipStatus = StatusReady;
+    m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    if (m_clipStatus != currentStatus) {
+        updateTimelineClips({TimelineModel::StatusRole});
+    }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
     if (auto ptr = m_model.lock()) {
@@ -951,11 +957,6 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
     return clone;
 }
 
-bool ProjectClip::isReady() const
-{
-    return m_clipStatus == StatusReady || m_clipStatus == StatusProxyOnly;
-}
-
 QPoint ProjectClip::zone() const
 {
     return ClipController::zone();
@@ -1327,10 +1328,10 @@ QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
         case AbstractProjectItem::IconOverlay:
-            if (m_clipStatus == AbstractProjectItem::StatusMissing) {
+            if (m_clipStatus == FileStatus::StatusMissing) {
                 return QVariant("window-close");
             }
-            if (m_clipStatus == AbstractProjectItem::StatusWaiting) {
+            if (m_clipStatus == FileStatus::StatusWaiting) {
                 return QVariant("view-refresh");
             }
             return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
@@ -1675,9 +1676,10 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
     return audioLevels;
 }
 
-void ProjectClip::setClipStatus(AbstractProjectItem::CLIPSTATUS status)
+void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
 {
     AbstractProjectItem::setClipStatus(status);
+    updateTimelineClips({TimelineModel::StatusRole});
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::IconOverlay);

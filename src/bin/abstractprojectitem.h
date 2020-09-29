@@ -146,10 +146,8 @@ public:
         ClipHasAudioAndVideo
     };
 
-    enum CLIPSTATUS { StatusReady = 0, StatusMissing, StatusWaiting, StatusDeleting, StatusProxyOnly };
-
-    virtual void setClipStatus(AbstractProjectItem::CLIPSTATUS status);
-    AbstractProjectItem::CLIPSTATUS clipStatus() const;
+    virtual void setClipStatus(FileStatus::ClipStatus status);
+    FileStatus::ClipStatus clipStatus() const;
     bool statusReady() const;
 
     /** @brief Returns the data that describes this item.
@@ -221,7 +219,7 @@ protected:
     uint m_usage;
     uint m_rating;
     QString m_tags;
-    CLIPSTATUS m_clipStatus;
+    FileStatus::ClipStatus m_clipStatus;
 
     PROJECTITEMTYPE m_itemType;
 

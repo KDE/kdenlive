@@ -230,6 +230,11 @@ int main(int argc, char *argv[])
                                      1, 0,                            // major and minor version of the import
                                      "ClipState",                     // name in QML
                                      "Error: only enums");
+    qmlRegisterUncreatableMetaObject(FileStatus::staticMetaObject, // static meta object
+                                     "com.enums",                     // import statement
+                                     1, 0,                            // major and minor version of the import
+                                     "ClipStatus",                     // name in QML
+                                     "Error: only enums");
     qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
                                      "com.enums",                // import statement
                                      1, 0,                       // major and minor version of the import

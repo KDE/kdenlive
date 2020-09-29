@@ -146,9 +146,6 @@ public:
      * . */
     bool setProducer(std::shared_ptr<Mlt::Producer> producer, bool replaceProducer);
 
-    /** @brief Returns true if this clip already has a producer. */
-    bool isReady() const;
-
     /** @brief Returns this clip's producer. */
     std::shared_ptr<Mlt::Producer> thumbProducer() override;
 
@@ -231,7 +228,7 @@ public:
     /** @brief Return FFmpeg's audio stream index for an MLT audio stream index
      */
     int getAudioStreamFfmpegIndex(int mltStream);
-    void setClipStatus(AbstractProjectItem::CLIPSTATUS status) override;
+    void setClipStatus(FileStatus::ClipStatus status) override;
     /** @brief Rename an audio stream for this clip
      */
     void renameAudioStream(int id, QString name) override;

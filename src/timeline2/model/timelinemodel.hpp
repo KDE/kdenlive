@@ -122,6 +122,7 @@ public:
         FakeTrackIdRole,
         FakePositionRole,
         MarkersRole, /// clip only
+        PlaylistStateRole,  /// clip only
         StatusRole,  /// clip only
         TypeRole,    /// clip only
         KeyframesRole,

@@ -190,7 +190,6 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     QHash<int, QByteArray> roles;
     roles[NameRole] = "name";
     roles[ResourceRole] = "resource";
-    roles[IsProxyRole] = "isProxy";
     roles[ServiceRole] = "mlt_service";
     roles[BinIdRole] = "binId";
     roles[TrackIdRole] = "trackId";
@@ -202,6 +201,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[MarkersRole] = "markers";
     roles[KeyframesRole] = "keyframeModel";
     roles[ShowKeyframesRole] = "showKeyframes";
+    roles[PlaylistStateRole] = "clipState";
     roles[StatusRole] = "clipStatus";
     roles[TypeRole] = "clipType";
     roles[InPointRole] = "in";
@@ -273,8 +273,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             }
             return result;
         }
-        case IsProxyRole: {
-            return clip->isProxied();
+        case StatusRole: {
+            return clip->clipStatus();
         }
         case FakeTrackIdRole:
             return clip->getFakeTrackId();
@@ -309,7 +309,7 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         case KeyframesRole: {
             return QVariant::fromValue<KeyframeModel *>(clip->getKeyframeModel());
         }
-        case StatusRole:
+        case PlaylistStateRole:
             return QVariant::fromValue(clip->clipState());
         case TypeRole:
             return QVariant::fromValue(clip->clipType());

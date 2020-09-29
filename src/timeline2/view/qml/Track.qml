@@ -112,8 +112,8 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "clipStatus"
-                    value: model.clipStatus
+                    property: "clipState"
+                    value: model.clipState
                     when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {
@@ -190,8 +190,8 @@ Item{
                 }
                 Binding {
                     target: loader.item
-                    property: "isProxy"
-                    value: model.isProxy
+                    property: "clipStatus"
+                    value: model.clipStatus
                     when: loader.status == Loader.Ready && isClip(model.clipType)
                 }
                 Binding {

@@ -33,7 +33,7 @@ ProjectFolder::ProjectFolder(const QString &id, const QString &name, const std::
     : AbstractProjectItem(AbstractProjectItem::FolderItem, id, model)
 {
     m_name = name;
-    m_clipStatus = StatusReady;
+    m_clipStatus = FileStatus::StatusReady;
     m_thumbnail = QIcon::fromTheme(QStringLiteral("folder"));
 }
 
@@ -98,7 +98,7 @@ QString ProjectFolder::childByHash(const QString &hash)
         }
     }
     for (auto &clip : allChildren) {
-        if (clip->isReady() && clip->hash() == hash) {
+        if (clip->statusReady() && clip->hash() == hash) {
             return clip->clipId();
         }
     }

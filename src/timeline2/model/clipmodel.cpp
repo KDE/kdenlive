@@ -910,13 +910,13 @@ int ClipModel::getMaxDuration() const
     return m_producer->get_length();
 }
 
-const QString ClipModel::clipName()
+const QString ClipModel::clipName() const
 {
     return pCore->projectItemModel()->getClipByBinID(m_binClipId)->clipName();
 }
 
-bool ClipModel::isProxied() const
+FileStatus::ClipStatus ClipModel::clipStatus() const
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);
-    return binClip->hasProxy();
+    return binClip->clipStatus();
 }

@@ -6,7 +6,7 @@ import com.enums 1.0
 
 Row {
     id: waveform
-    opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
+    opacity: clipState == ClipState.Disabled ? 0.2 : 1
     property int maxWidth: 500 + 100 * timeline.scaleFactor
     anchors.fill: parent
 
