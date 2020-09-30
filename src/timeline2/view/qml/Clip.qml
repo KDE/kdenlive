@@ -692,7 +692,7 @@ Rectangle {
                     x: labelRect.x
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
-                    visible: !clipRoot.isAudio && clipRoot.clipStatus == ClipStatus.StatusProxy
+                    visible: !clipRoot.isAudio && clipRoot.clipStatus == ClipStatus.StatusProxy || clipRoot.clipStatus == ClipStatus.StatusProxyOnly
                     Text {
                         // Proxy P
                         id: proxyLabel
