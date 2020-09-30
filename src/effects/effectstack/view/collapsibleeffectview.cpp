@@ -422,7 +422,6 @@ void CollapsibleEffectView::slotEffectDown()
 
 void CollapsibleEffectView::slotSaveEffect()
 {
-    //QString name = QInputDialog::getText(this, i18n("Save Effect"), i18n("Name for saved effect: "));
     QDialog dialog(this);
     QFormLayout form(&dialog);
     QLineEdit *effectName = new QLineEdit(&dialog);
