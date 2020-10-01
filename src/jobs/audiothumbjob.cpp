@@ -113,6 +113,10 @@ bool AudioThumbJob::computeWithMlt()
 
 bool AudioThumbJob::computeWithFFMPEG()
 {
+    if (!KdenliveSettings::audiothumbnails()) {
+        // We only wanted the thumb generation
+        return m_done;
+    }
     QString filePath = m_prod->get("kdenlive:originalurl");
     if (filePath.isEmpty() || !QFile::exists(filePath)) {
         filePath = m_prod->get("resource");
@@ -121,10 +125,6 @@ bool AudioThumbJob::computeWithFFMPEG()
         return false;
     }
 
-    if (!KdenliveSettings::audiothumbnails()) {
-        // We only wanted the thumb generation
-        return m_done;
-    }
     int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);
     if (!QFile::exists(m_cachePath) && !m_dataInCache) {
         // Generate timeline audio thumbnail data
@@ -181,8 +181,10 @@ bool AudioThumbJob::computeWithFFMPEG()
             if (m_ffmpegProcess) {
                 disconnect(m_ffmpegProcess.get(), &QProcess::readyReadStandardOutput, this, &AudioThumbJob::updateFfmpegProgress);
                 m_ffmpegProcess->kill();
-                m_successful = false;
             }
+            m_audioLevels.clear();
+            m_done = true;
+            m_successful = false;
         });
         m_ffmpegProcess->start(KdenliveSettings::ffmpegpath(), args);
         m_ffmpegProcess->waitForFinished(-1);
@@ -216,7 +218,11 @@ bool AudioThumbJob::computeWithFFMPEG()
                 intraOffset = offset / 10;
             }
             long maxLevel = 1;
-            QVector <long> ffmpegLevels;
+            if (!m_successful) {
+                m_done = true;
+                return true;
+            }
+            std::vector <long> ffmpegLevels;
             for (int i = 0; i < m_lengthInFrames; i++) {
                 channelsData.resize((size_t)rawChannels.size());
                 std::fill(channelsData.begin(), channelsData.end(), 0);
@@ -228,27 +234,33 @@ bool AudioThumbJob::computeWithFFMPEG()
                         channelsData[k] += abs(rawChannels[k][pos + j]);
                     }
                 }
+                steps = qMax(steps, 1);
                 for (long &k : channelsData) {
-                    if (steps != 0) {
-                        k /= steps;
+                    if (!m_successful) {
+                        break;
                     }
+                    k /= steps;
                     maxLevel = qMax(k, maxLevel);
-                    ffmpegLevels << k;
                 }
+                
                 int p = 80 + (i * 20 / m_lengthInFrames);
                 if (p != progress) {
                     emit jobProgress(p);
                     progress = p;
                 }
+                ffmpegLevels.insert(ffmpegLevels.end(), channelsData.begin(), channelsData.end());
+            }
+            if (!m_successful) {
+                m_done = true;
+                return true;
             }
             for (long &v : ffmpegLevels) {
                 m_audioLevels << (uint8_t) (255 * v / maxLevel);
             }
             m_done = true;
             return true;
-        } else {
+        } else if (m_ffmpegProcess) {
             QString err = m_ffmpegProcess->readAllStandardError();
-            m_ffmpegProcess.reset();
             // m_errorMessage += err;
             // m_errorMessage.append(i18n("Failed to create FFmpeg audio thumbnails, we now try to use MLT"));
             qWarning() << "Failed to create FFmpeg audio thumbs:\n" << err << "\n---------------------";
@@ -264,7 +276,7 @@ void AudioThumbJob::updateFfmpegProgress()
     if (m_ffmpegProcess == nullptr) {
         return;
     }
-    QString result = m_ffmpegProcess->readAllStandardOutput();
+    const QString result = m_ffmpegProcess->readAllStandardOutput();
     const QStringList lines = result.split(QLatin1Char('\n'));
     for (const QString &data : lines) {
         if (data.startsWith(QStringLiteral("out_time_ms"))) {
@@ -333,10 +345,12 @@ bool AudioThumbJob::startJob()
                 ok = computeWithMlt();
             }
         }
+        m_ffmpegProcess.reset();
         Q_ASSERT(ok == m_done);
         if (!m_successful) {
             // Job was aborted
             m_done = true;
+            m_audioLevels.clear();
             return false;
         }
 
@@ -376,7 +390,6 @@ bool AudioThumbJob::startJob()
 bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
 {
     Q_ASSERT(!m_resultConsumed);
-    m_ffmpegProcess.reset();
     if (!m_done) {
         qDebug() << "ERROR: Trying to consume invalid results";
         return false;
