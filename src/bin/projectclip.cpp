@@ -325,9 +325,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
         pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
-        if (loadjobId > -1) {
-            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::LOADJOB);
-        }
+        pCore->jobManager()->discardJobs(clipId());
         if (QFile::exists(m_path) && !hasProxy()) {
             clearBackupProperties();
         }
@@ -362,7 +360,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool audioStreamChanged, bool
                 discardAudioThumb(true);
             }
             if (KdenliveSettings::audiothumbnails()) {
-                pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+                pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadJob, QString());
             }
         }
     }
@@ -437,6 +435,7 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
     updateProducer(producer);
+    emit producerChanged(m_binId, producer);
     m_thumbsProducer.reset();
     connectEffectStack();
 

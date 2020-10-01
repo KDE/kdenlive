@@ -92,7 +92,7 @@ void FileWatcher::slotProcessModifiedUrls()
 {
     auto checkList = m_modifiedUrls;
     for (const QString &path : checkList) {
-        if (m_fileWatcher->ctime(path).msecsTo(QDateTime::currentDateTime()) > 1000) {
+        if (m_fileWatcher->ctime(path).msecsTo(QDateTime::currentDateTime()) > 2000) {
             for (const QString &id : m_occurences[path]) {
                 emit binClipModified(id);
             }
