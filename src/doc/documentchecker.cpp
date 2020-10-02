@@ -64,7 +64,12 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     : m_url(std::move(url))
     , m_doc(doc)
     , m_dialog(nullptr)
+    , m_abortSearch(false)
 {
+    connect(this, &DocumentChecker::showScanning, [this](const QString message) {
+        m_ui.infoLabel->setText(message);
+        m_ui.infoLabel->setVisible(true);
+    });
 }
 
 QMap<QString, QString> DocumentChecker::getLumaPairs() const
@@ -322,15 +327,20 @@ bool DocumentChecker::hasErrorInClips()
                 m_missingClips.append(e);
                 missingPaths.append(resource);
             }
-        } else if (service.startsWith(QLatin1String("avformat"))) {
+        } else if (service.startsWith(QLatin1String("avformat")) || slideshow) {
             // Check if file changed
             const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
             if (!hash.isEmpty()) {
-                const QByteArray fileData = ProjectClip::calculateHash(resource).first.toHex();
+                const QByteArray fileData = slideshow ? ProjectClip::getFolderHash(QDir(resource)).toHex() : ProjectClip::calculateHash(resource).first.toHex();
                 if (hash != fileData) {
-                    // Clip was changed, notify and trigger clip reload
-                    Xml::removeXmlProperty(e, "kdenlive:file_hash");
-                    m_changedClips.append(resource);
+                    // For slideshow clips, silently upgrade hash
+                    if (slideshow) {
+                        Xml::setXmlProperty(e, "kdenlive:file_hash", fileData);
+                    } else {
+                        // Clip was changed, notify and trigger clip reload
+                        Xml::removeXmlProperty(e, "kdenlive:file_hash");
+                        m_changedClips.append(resource);
+                    }
                 }
             }
         }
@@ -643,10 +653,11 @@ bool DocumentChecker::hasErrorInClips()
     } else {
         m_ui.infoLabel->setVisible(false);
     }
-
+    m_ui.recursiveSearch->setCheckable(true);
     m_ui.removeSelected->setEnabled(!m_missingClips.isEmpty());
     m_ui.recursiveSearch->setEnabled(!m_missingClips.isEmpty() || !missingLumas.isEmpty() || !missingSources.isEmpty());
     m_ui.usePlaceholders->setEnabled(!m_missingClips.isEmpty());
+    m_ui.manualSearch->setEnabled(!m_missingClips.isEmpty());
 
     // Check missing proxies
     max = missingProxies.count();
@@ -722,7 +733,7 @@ bool DocumentChecker::hasErrorInClips()
             subitem->setText(1, realPath);
             subitem->setData(0, hashRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_hash")));
             subitem->setData(0, sizeRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:file_size")));
-            subitem->setData(0, statusRole, CLIPMISSING);
+            subitem->setData(0, statusRole, SOURCEMISSING);
             // int t = e.attribute("type").toInt();
             subitem->setData(0, typeRole, Xml::getXmlProperty(e, QStringLiteral("mlt_service")));
             subitem->setData(0, idRole, Xml::getXmlProperty(e, QStringLiteral("kdenlive:id")));
@@ -733,11 +744,14 @@ bool DocumentChecker::hasErrorInClips()
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
     m_ui.treeWidget->resizeColumnToContents(0);
-    connect(m_ui.recursiveSearch, &QAbstractButton::pressed, this, &DocumentChecker::slotSearchClips);
+    connect(m_ui.recursiveSearch, &QAbstractButton::toggled, this, &DocumentChecker::slotCheckClips, Qt::DirectConnection);
     connect(m_ui.usePlaceholders, &QAbstractButton::pressed, this, &DocumentChecker::slotPlaceholders);
     connect(m_ui.removeSelected, &QAbstractButton::pressed, this, &DocumentChecker::slotDeleteSelected);
     connect(m_ui.treeWidget, &QTreeWidget::itemDoubleClicked, this, &DocumentChecker::slotEditItem);
     connect(m_ui.treeWidget, &QTreeWidget::itemSelectionChanged, this, &DocumentChecker::slotCheckButtons);
+    connect(m_ui.manualSearch, &QAbstractButton::clicked, [this] () {
+        slotEditItem(m_ui.treeWidget->currentItem(), 0);
+    });
     // adjustSize();
     if (m_ui.treeWidget->topLevelItem(0)) {
         m_ui.treeWidget->setCurrentItem(m_ui.treeWidget->topLevelItem(0));
@@ -803,21 +817,32 @@ void DocumentChecker::setProperty(QDomElement &effect, const QString &name, cons
     }
 }
 
-void DocumentChecker::slotSearchClips()
+void DocumentChecker::slotCheckClips(bool check)
 {
-    // QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
-    QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
-    if (newpath.isEmpty()) {
-        return;
+    m_abortSearch = !check;
+    if (check) {
+        m_abortSearch = false;
+        QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
+        const QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
+        if (newpath.isEmpty()) {
+            return;
+        }
+        slotSearchClips(newpath);
     }
+}
+
+void DocumentChecker::slotSearchClips(const QString &newpath)
+{
     int ix = 0;
     bool fixed = false;
-    m_ui.recursiveSearch->setChecked(true);
-    // TODO: make non modal
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     QDir searchDir(newpath);
+    QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
     while (child != nullptr) {
+        if (m_abortSearch) {
+            break;
+        }
+        qApp->processEvents();
         if (child->data(0, statusRole).toInt() == SOURCEMISSING) {
             for (int j = 0; j < child->childCount(); ++j) {
                 QTreeWidgetItem *subchild = child->child(j);
@@ -828,6 +853,9 @@ void DocumentChecker::slotSearchClips()
                     subchild->setText(1, clipPath);
                     subchild->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                     subchild->setData(0, statusRole, CLIPOK);
+                    // Remove missing source attribute
+                    const QString id = subchild->data(0, idRole).toString();
+                    fixMissingSource(id, producers);
                 }
             }
         } else if (child->data(0, statusRole).toInt() == CLIPMISSING) {
@@ -838,9 +866,9 @@ void DocumentChecker::slotSearchClips()
                 // Slideshows cannot be found with hash / size
                 clipPath = searchFileRecursively(searchDir, child->data(0, sizeRole).toString(), child->data(0, hashRole).toString(), child->text(1));
             } else {
-                clipPath = searchPathRecursively(searchDir, child->text(1), type);
+                clipPath = searchDirRecursively(searchDir, child->data(0, hashRole).toString(), child->text(1));
             }
-            if (clipPath.isEmpty()) {
+            if (clipPath.isEmpty() && type != ClipType::SlideShow) {
                 clipPath = searchPathRecursively(searchDir, QUrl::fromLocalFile(child->text(1)).fileName(), type);
                 perfectMatch = false;
             }
@@ -879,10 +907,15 @@ void DocumentChecker::slotSearchClips()
         // original doc was modified
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
+    if (m_abortSearch) {
+        emit showScanning(i18n("Search aborted"));
+    } else {
+        emit showScanning(i18n("Search done"));
+    }
     checkStatus();
 }
 
-QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
+QString DocumentChecker::searchLuma(const QDir &dir, const QString &file)
 {
     QDir searchPath(KdenliveSettings::mltpath());
     QString fname = QUrl::fromLocalFile(file).fileName();
@@ -915,12 +948,16 @@ QString DocumentChecker::searchLuma(const QDir &dir, const QString &file) const
     return searchPathRecursively(dir, fname);
 }
 
-QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType::ProducerType type) const
+QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &fileName, ClipType::ProducerType type)
 {
     QString foundFileName;
     bool patternSlideshow = true;
     QDir searchDir(dir);
     QStringList filesAndDirs;
+    qApp->processEvents();
+    if (m_abortSearch) {
+        return QString();
+    }
     if (type == ClipType::SlideShow) {
         if (fileName.contains(QLatin1Char('%'))) {
             searchDir.setNameFilters({fileName.section(QLatin1Char('%'), 0, -2) + QLatin1Char('*')});
@@ -961,7 +998,51 @@ QString DocumentChecker::searchPathRecursively(const QDir &dir, const QString &f
     return foundFileName;
 }
 
-QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash, const QString &fileName) const
+QString DocumentChecker::searchDirRecursively(const QDir &dir, const QString &matchHash, const QString &fullName)
+{
+    QString foundFileName;
+    qApp->processEvents();
+    if (m_abortSearch) {
+        return QString();
+    }
+    emit showScanning(i18n("Scanning %1", dir.absolutePath()));
+    QDir searchDir(dir);
+    QStringList filesAndDirs;
+    QString fileName = QFileInfo(fullName).fileName();
+    // Check main dir
+    QString fileHash = ProjectClip::getFolderHash(dir).toHex();
+    if (fileHash == matchHash) {
+        return dir.absoluteFilePath(fileName);
+    }
+    // Search subfolders
+    const QStringList subDirs = dir.entryList(QDir::AllDirs | QDir::NoDot | QDir::NoDotDot);
+    for (const QString &sub : subDirs) {
+        QDir subFolder(dir.absoluteFilePath(sub));
+        fileHash = ProjectClip::getFolderHash(subFolder).toHex();
+        if (fileHash == matchHash) {
+            return subFolder.absoluteFilePath(fileName);
+        }
+    }
+    if (m_abortSearch) {
+        return QString();
+    }
+    // Search inside subfolders
+    for (const QString &sub : subDirs) {
+        QDir subFolder(dir.absoluteFilePath(sub));
+        const QStringList subSubDirs = subFolder.entryList(QDir::AllDirs | QDir::NoDot | QDir::NoDotDot);
+        for (const QString &subsub : subSubDirs) {
+            QDir subDir(subFolder.absoluteFilePath(subsub));
+            QString result = searchDirRecursively(subDir, matchHash, fullName);
+            if (!result.isEmpty()) {
+                return result;
+            }
+        }
+    }
+    return QString();
+}
+
+
+QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &matchSize, const QString &matchHash, const QString &fileName)
 {
     if (matchSize.isEmpty() && matchHash.isEmpty()) {
         return searchPathRecursively(dir, QUrl::fromLocalFile(fileName).fileName());
@@ -971,6 +1052,10 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
     QByteArray fileHash;
     QStringList filesAndDirs = dir.entryList(QDir::Files | QDir::Readable);
     for (int i = 0; i < filesAndDirs.size() && foundFileName.isEmpty(); ++i) {
+        qApp->processEvents();
+        if (m_abortSearch) {
+            return QString();
+        }
         QFile file(dir.absoluteFilePath(filesAndDirs.at(i)));
         if (QString::number(file.size()) == matchSize) {
             if (file.open(QIODevice::ReadOnly)) {
@@ -1007,6 +1092,9 @@ QString DocumentChecker::searchFileRecursively(const QDir &dir, const QString &m
 
 void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
 {
+    if (!item) {
+        return;
+    }
     int t = item->data(0, typeRole).toInt();
     if (t == TITLE_FONT_ELEMENT) {
         return;
@@ -1016,13 +1104,30 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
     QUrl url;
     if (type == ClipType::SlideShow) {
         QString path = QFileInfo(item->text(1)).dir().absolutePath();
-        QPointer<KUrlRequesterDialog> dlg(new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Enter new location for file"), m_dialog));
+        QPointer<KUrlRequesterDialog> dlg(new KUrlRequesterDialog(QUrl::fromLocalFile(path), i18n("Enter new location for folder"), m_dialog));
         dlg->urlRequester()->setMode(KFile::Directory | KFile::ExistingOnly);
         if (dlg->exec() != QDialog::Accepted) {
             delete dlg;
             return;
         }
         url = QUrl::fromLocalFile(QDir(dlg->selectedUrl().path()).absoluteFilePath(QFileInfo(item->text(1)).fileName()));
+        // Reset hash to ensure we find it next time
+        const QString id = item->data(0, idRole).toString();
+        QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+        QDomElement e;
+        for (int i = 0; i < producers.count(); ++i) {
+            e = producers.item(i).toElement();
+            QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+            if (parentId.isEmpty()) {
+                // This is probably an old project file
+                QString sourceId = e.attribute(QStringLiteral("id"));
+                parentId = sourceId.section(QLatin1Char('_'), 0, 0);
+            }
+            if (parentId == id) {
+                // Fix clip
+                Xml::removeXmlProperty(e, QStringLiteral("kdenlive:file_hash"));
+            }
+        }
         delete dlg;
     } else {
         url = KUrlRequesterDialog::getUrl(QUrl::fromLocalFile(item->text(1)), m_dialog, i18n("Enter new location for file"));
@@ -1043,6 +1148,10 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
         } else {
             item->setData(0, statusRole, LUMAOK);
         }
+        if (id == SOURCEMISSING) {
+            QDomNodeList producers = m_doc.elementsByTagName(QStringLiteral("producer"));
+            fixMissingSource(item->data(0, idRole).toString(), producers);
+        }
         checkStatus();
     } else {
         item->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-close")));
@@ -1053,6 +1162,19 @@ void DocumentChecker::slotEditItem(QTreeWidgetItem *item, int)
             item->setData(0, statusRole, LUMAMISSING);
         }
         checkStatus();
+    }
+}
+
+void DocumentChecker::fixMissingSource(const QString &id, QDomNodeList producers)
+{
+    QDomElement e;
+    for (int i = 0; i < producers.count(); ++i) {
+        e = producers.item(i).toElement();
+        QString parentId = Xml::getXmlProperty(e, QStringLiteral("kdenlive:id"));
+        if (parentId == id) {
+            // Fix clip
+            e.removeAttribute(QStringLiteral("_missingsource"));
+        }
     }
 }
 
@@ -1288,17 +1410,20 @@ void DocumentChecker::slotPlaceholders()
 void DocumentChecker::checkStatus()
 {
     bool status = true;
+    bool missingSource = false;
     int ix = 0;
     QTreeWidgetItem *child = m_ui.treeWidget->topLevelItem(ix);
     while (child != nullptr) {
         int childStatus = child->data(0, statusRole).toInt();
         if (childStatus == CLIPMISSING) {
             status = false;
-            break;
+        } else if (childStatus == SOURCEMISSING) {
+            missingSource = true;
         }
         ix++;
         child = m_ui.treeWidget->topLevelItem(ix);
     }
+    m_ui.recursiveSearch->setEnabled(!status || missingSource);
     m_ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(status);
 }
 
@@ -1426,5 +1551,7 @@ void DocumentChecker::slotCheckButtons()
         } else {
             m_ui.removeSelected->setEnabled(true);
         }
+        bool allowEdit = s == CLIPMISSING || s == LUMAMISSING;
+        m_ui.manualSearch->setEnabled(allowEdit);
     }
 }

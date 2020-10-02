@@ -970,14 +970,19 @@ const QString ProjectClip::hash()
     return getFileHash();
 }
 
+const QByteArray ProjectClip::getFolderHash(QDir dir)
+{
+    QByteArray fileData = dir.entryList(QDir::Files).join(QLatin1Char(',')).toUtf8();
+    return QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+}
+
 const QString ProjectClip::getFileHash()
 {
     QByteArray fileData;
     QByteArray fileHash;
     switch (m_clipType) {
     case ClipType::SlideShow:
-        fileData = clipUrl().toUtf8();
-        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        fileHash = getFolderHash(QFileInfo(clipUrl()).absoluteDir());
         break;
     case ClipType::Text:
         fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();

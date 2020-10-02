@@ -14,6 +14,16 @@
    <string> Clip Problems</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="3" column="6">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="5">
     <spacer name="horizontalSpacer">
      <property name="orientation">
@@ -27,23 +37,10 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0" colspan="7">
-    <widget class="KMessageWidget" name="infoLabel">
-     <property name="wordWrap" stdset="0">
-      <bool>true</bool>
-     </property>
-     <property name="closeButtonVisible" stdset="0">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="6">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Abort|QDialogButtonBox::Ok</set>
+   <item row="3" column="3">
+    <widget class="QCheckBox" name="rebuildProxies">
+     <property name="text">
+      <string>Rebuild Proxies</string>
      </property>
     </widget>
    </item>
@@ -83,6 +80,16 @@
      </column>
     </widget>
    </item>
+   <item row="1" column="0" colspan="7">
+    <widget class="KMessageWidget" name="infoLabel">
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="2">
     <widget class="QPushButton" name="removeSelected">
      <property name="text">
@@ -90,17 +97,17 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="3">
-    <widget class="QCheckBox" name="rebuildProxies">
-     <property name="text">
-      <string>Rebuild Proxies</string>
-     </property>
-    </widget>
-   </item>
    <item row="2" column="1">
     <widget class="QPushButton" name="recursiveSearch">
      <property name="text">
       <string>Search recursively</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
+    <widget class="QPushButton" name="manualSearch">
+     <property name="text">
+      <string>Search manually</string>
      </property>
     </widget>
    </item>

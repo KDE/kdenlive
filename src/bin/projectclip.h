@@ -243,6 +243,8 @@ public:
     void removeAudioStreamEffect(int streamIndex, QString effectName);
     /** @brief Get the list of audio stream effects for a defined stream. */
     QStringList getAudioStreamEffect(int streamIndex) const override;
+    /** @brief Calculate the folder's hash (based on the files it contains). */
+    static const QByteArray getFolderHash(QDir dir);
 
 protected:
     friend class ClipModel;
