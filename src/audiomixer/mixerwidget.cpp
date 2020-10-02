@@ -200,7 +200,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             m_monitorFilter->set("disable", 0);
         } else if (filterService == QLatin1String("volume")) {
             m_levelFilter = fl;
-            int volume = m_levelFilter->get_int("level");
+            double volume = m_levelFilter->get_double("level");
             m_volumeSpin->setValue(volume);
             m_volumeSlider->setValue(fromDB(volume));
         } else if (filterService == QLatin1String("panner")) {
