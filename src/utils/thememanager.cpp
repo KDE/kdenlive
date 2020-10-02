@@ -28,8 +28,8 @@
 #include <QAction>
 #include <QMenu>
 #include <QModelIndex>
-#include <QStandardPaths>
 #include <QStringList>
+#include <QFileInfo>
 
 #include <KColorSchemeManager>
 #include <KConfigGroup>
@@ -42,10 +42,10 @@ ThemeManager::ThemeManager(QObject *parent)
 {
     auto manager = new KColorSchemeManager(parent);
 
-    const auto scheme(currentSchemeName());
-
-    auto selectionMenu = manager->createSchemeSelectionMenu(scheme, this);
-    QMenu *themesMenu = selectionMenu->menu();
+    const auto schemePath(loadCurrentPath());
+    auto selectionMenu = manager->createSchemeSelectionMenu(QString(), this);
+    auto themesMenu = selectionMenu->menu();
+    QString scheme;
     // Check for duplicates
     QList<QAction *> actions = themesMenu->actions();
     QStringList existing;
@@ -55,17 +55,37 @@ ThemeManager::ThemeManager(QObject *parent)
             duplicates << ac;
         } else {
             existing << ac->text();
+            if (schemePath.isEmpty()) {
+                if (ac->data().toString().endsWith(QLatin1String("BreezeDark.colors"))) {
+                    themesMenu->setActiveAction(ac);
+                    scheme = ac->text();
+                }
+            } else if (ac->data().toString().endsWith(schemePath)) {
+                themesMenu->setActiveAction(ac);
+                scheme = ac->text();
+            }
+            
         }
     }
     for (QAction *ac : qAsConst(duplicates)) {
         themesMenu->removeAction(ac);
     }
     qDeleteAll(duplicates);
+    
+    // Since 5.67 KColorSchemeManager includes a system color scheme option that reacts to system
+    // scheme changes. This scheme will be activated if we pass an empty string to KColorSchemeManager
+    // So no need anymore to read the current global scheme ourselves if no custom one is configured.
+
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
+    if (scheme.isEmpty()) {
+        scheme = currentDesktopDefaultScheme();
+    }
+#endif
 
     connect(themesMenu, &QMenu::triggered, this, [this, manager](QAction *action) {
         QModelIndex schemeIndex = manager->indexForScheme(KLocalizedString::removeAcceleratorMarker(action->text()));
         const QString path = manager->model()->data(schemeIndex, Qt::UserRole).toString();
-        slotSchemeChanged(action, path);
+        slotSchemeChanged(path);
     });
 
     manager->activateScheme(manager->indexForScheme(scheme));
@@ -75,25 +95,18 @@ ThemeManager::ThemeManager(QObject *parent)
     menu()->setTitle(i18n("&Color Theme"));
 }
 
-QString ThemeManager::loadCurrentScheme() const
+QString ThemeManager::loadCurrentPath() const
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup cg(config, "UiSettings");
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 67, 0)
-    // Since 5.67 KColorSchemeManager includes a system color scheme option that reacts to system
-    // scheme changes. This scheme will be activated if we pass an empty string to KColorSchemeManager
-    // So no need anymore to read the current global scheme ourselves if no custom one is configured.
-    return cg.readEntry("ColorScheme");
-#else
-     return cg.readEntry("ColorScheme", currentDesktopDefaultScheme());
-#endif
+    return cg.readEntry("ColorSchemePath");
 }
 
-void ThemeManager::saveCurrentScheme(const QString &name)
+void ThemeManager::saveCurrentScheme(const QString & path)
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     KConfigGroup cg(config, "UiSettings");
-    cg.writeEntry("ColorScheme", name);
+    cg.writeEntry("ColorSchemePath", path);
     cg.sync();
 }
 
@@ -106,23 +119,8 @@ QString ThemeManager::currentDesktopDefaultScheme() const
 }
 #endif
 
-QString ThemeManager::currentSchemeName() const
+void ThemeManager::slotSchemeChanged(const QString &path)
 {
-    if (!menu()) return loadCurrentScheme();
-
-    QAction *const action = menu()->activeAction();
-
-    if (action) return KLocalizedString::removeAcceleratorMarker(action->text());
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 67, 0)
-    // See above
-    return QString();
-#else
-    return currentDesktopDefaultScheme();
-#endif
-}
-
-void ThemeManager::slotSchemeChanged(QAction *triggeredAction, const QString &path)
-{
-    saveCurrentScheme(KLocalizedString::removeAcceleratorMarker(triggeredAction->text()));
+    saveCurrentScheme(QFileInfo(path).fileName());
     emit themeChanged(path);
 }

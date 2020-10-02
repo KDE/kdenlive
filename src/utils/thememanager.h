@@ -41,11 +41,12 @@ public:
     QString currentSchemeName() const;
 
 private Q_SLOTS:
-    void slotSchemeChanged(QAction *triggeredAction, const QString &path);
+    void slotSchemeChanged(const QString &path);
 
 private:
     QString loadCurrentScheme() const;
-    void saveCurrentScheme(const QString &name);
+    QString loadCurrentPath() const;
+    void saveCurrentScheme(const QString & path);
 #if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 67, 0)
     QString currentDesktopDefaultScheme() const;
 #endif
