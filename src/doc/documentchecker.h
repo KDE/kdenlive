@@ -46,7 +46,7 @@ public:
 
 private slots:
     void acceptDialog();
-    void slotCheckClips(bool check);
+    void slotCheckClips();
     void slotSearchClips(const QString &newpath);
     void slotEditItem(QTreeWidgetItem *item, int);
     void slotPlaceholders();
@@ -78,6 +78,7 @@ private:
     QStringList m_missingProxyIds;
     QStringList m_changedClips;
     bool m_abortSearch;
+    bool m_checkRunning;
 
     void fixClipItem(QTreeWidgetItem *child, const QDomNodeList &producers, const QDomNodeList &trans);
     void fixSourceClipItem(QTreeWidgetItem *child, const QDomNodeList &producers);

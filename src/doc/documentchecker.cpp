@@ -65,6 +65,7 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     , m_doc(doc)
     , m_dialog(nullptr)
     , m_abortSearch(false)
+    , m_checkRunning(false)
 {
     connect(this, &DocumentChecker::showScanning, [this](const QString message) {
         m_ui.infoLabel->setText(message);
@@ -744,7 +745,7 @@ bool DocumentChecker::hasErrorInClips()
         m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
     }
     m_ui.treeWidget->resizeColumnToContents(0);
-    connect(m_ui.recursiveSearch, &QAbstractButton::toggled, this, &DocumentChecker::slotCheckClips, Qt::DirectConnection);
+    connect(m_ui.recursiveSearch, &QAbstractButton::pressed, this, &DocumentChecker::slotCheckClips, Qt::DirectConnection);
     connect(m_ui.usePlaceholders, &QAbstractButton::pressed, this, &DocumentChecker::slotPlaceholders);
     connect(m_ui.removeSelected, &QAbstractButton::pressed, this, &DocumentChecker::slotDeleteSelected);
     connect(m_ui.treeWidget, &QTreeWidget::itemDoubleClicked, this, &DocumentChecker::slotEditItem);
@@ -817,11 +818,13 @@ void DocumentChecker::setProperty(QDomElement &effect, const QString &name, cons
     }
 }
 
-void DocumentChecker::slotCheckClips(bool check)
+void DocumentChecker::slotCheckClips()
 {
-    m_abortSearch = !check;
-    if (check) {
+    if (m_checkRunning) {
+        m_abortSearch = true;
+    } else {
         m_abortSearch = false;
+        m_checkRunning = true;
         QString clipFolder = m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
         const QString newpath = QFileDialog::getExistingDirectory(qApp->activeWindow(), i18n("Clips folder"), clipFolder);
         if (newpath.isEmpty()) {
@@ -853,6 +856,7 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
                     subchild->setText(1, clipPath);
                     subchild->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                     subchild->setData(0, statusRole, CLIPOK);
+                    subchild->setToolTip(0, i18n("Recovered item"));
                     // Remove missing source attribute
                     const QString id = subchild->data(0, idRole).toString();
                     fixMissingSource(id, producers);
@@ -876,6 +880,7 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
                 fixed = true;
                 child->setText(1, clipPath);
                 child->setIcon(0, perfectMatch ? QIcon::fromTheme(QStringLiteral("dialog-ok")) : QIcon::fromTheme(QStringLiteral("dialog-warning")));
+                child->setToolTip(0, i18n("Recovered item"));
                 child->setData(0, statusRole, CLIPOK);
             }
         } else if (child->data(0, statusRole).toInt() == LUMAMISSING) {
@@ -885,6 +890,7 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
                 child->setText(1, fileName);
                 child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                 child->setData(0, statusRole, LUMAOK);
+                child->setToolTip(0, i18n("Recovered item"));
             }
         } else if (child->data(0, typeRole).toInt() == TITLE_IMAGE_ELEMENT && child->data(0, statusRole).toInt() == CLIPPLACEHOLDER) {
             // Search missing title images
@@ -896,6 +902,7 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
                 child->setText(1, newPath);
                 child->setIcon(0, QIcon::fromTheme(QStringLiteral("dialog-ok")));
                 child->setData(0, statusRole, CLIPOK);
+                child->setToolTip(0, i18n("Recovered item"));
             }
         }
         ix++;
@@ -913,6 +920,8 @@ void DocumentChecker::slotSearchClips(const QString &newpath)
         emit showScanning(i18n("Search done"));
     }
     checkStatus();
+    slotCheckButtons();
+    m_checkRunning = false;
 }
 
 QString DocumentChecker::searchLuma(const QDir &dir, const QString &file)
