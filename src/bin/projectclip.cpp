@@ -208,6 +208,36 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail()
 {
+    if (m_hasAudio && m_service.startsWith(QLatin1String("avformat"))) {
+        int audioMax = getProducerIntProperty(QStringLiteral("kdenlive:audio_max"));
+        if (audioMax == 0) {
+            // Calculate max audio level with ffmpeg
+            QProcess ffmpeg;
+            QStringList args;
+            args << QStringLiteral("-i") << clipUrl() << QStringLiteral("-vn") << QStringLiteral("-af") << QStringLiteral("volumedetect") << QStringLiteral("-f") << QStringLiteral("null");
+#ifdef Q_OS_WIN
+            args << QStringLiteral("-");
+#else
+            args << QStringLiteral("/dev/stdout");
+#endif
+            qDebug()<<"=== STARTING COMMAND: "<<args;
+            QObject::connect(&ffmpeg, &QProcess::readyReadStandardOutput, [&ffmpeg, this]() {
+                QString output = ffmpeg.readAllStandardOutput();
+                if (output.contains(QLatin1String("max_volume"))) {
+                    qDebug()<<"===== GOT FFFMPEG OUTPUT:\n"<<output<<"\n.........................";
+                    output = output.section(QLatin1String("max_volume:"), 1).simplified();
+                    output = output.section(QLatin1Char(' '), 0, 0);
+                    int aMax = qMax(1, qAbs(qRound(output.toDouble())));
+                    qDebug()<<"===== GOT CLIP AMAX: "<<aMax;
+                    qDebug()<<"===== GOT CLIP FINAL AMAX: "<<aMax;
+                    setProducerProperty(QStringLiteral("kdenlive:audio_max"), aMax);
+                }
+            });
+            ffmpeg.setProcessChannelMode(QProcess::MergedChannels);
+            ffmpeg.start(KdenliveSettings::ffmpegpath(), args);
+            ffmpeg.waitForFinished(-1);
+        }
+    }
     emit audioThumbReady();
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);

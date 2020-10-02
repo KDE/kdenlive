@@ -162,6 +162,8 @@ public:
     void reloadActiveStream();
     /** @brief Trigger a refresh of audio thumbs colors */
     void refreshAudioThumbs();
+    /** @brief Trigger a refresh of audio thumbs on notrmalization change */
+    void normalizeAudioThumbs();
     
 
 protected:

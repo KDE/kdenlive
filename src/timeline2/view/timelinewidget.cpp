@@ -233,7 +233,7 @@ void TimelineWidget::showHeaderMenu()
     QList <QAction *> menuActions = m_headerMenu->actions();
     QList <QAction *> audioActions;
     for (QAction *ac : qAsConst(menuActions)) {
-        if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels")) {
+        if (ac->data().toString() == QLatin1String("show_track_record") || ac->data().toString() == QLatin1String("separate_channels") || ac->data().toString() == QLatin1String("normalize_channels")) {
             audioActions << ac;
         }
     }

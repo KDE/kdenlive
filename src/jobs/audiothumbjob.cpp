@@ -217,7 +217,7 @@ bool AudioThumbJob::computeWithFFMPEG()
             } else if (offset > 250) {
                 intraOffset = offset / 10;
             }
-            long maxLevel = 1;
+            long maxAudioLevel = 1;
             if (!m_successful) {
                 m_done = true;
                 return true;
@@ -240,7 +240,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                         break;
                     }
                     k /= steps;
-                    maxLevel = qMax(k, maxLevel);
+                    maxAudioLevel = qMax(k, maxAudioLevel);
                 }
                 
                 int p = 80 + (i * 20 / m_lengthInFrames);
@@ -255,7 +255,7 @@ bool AudioThumbJob::computeWithFFMPEG()
                 return true;
             }
             for (long &v : ffmpegLevels) {
-                m_audioLevels << (uint8_t) (255 * v / maxLevel);
+                m_audioLevels << (uint8_t) (255 * v / maxAudioLevel);
             }
             m_done = true;
             return true;
@@ -398,7 +398,6 @@ bool AudioThumbJob::commitResult(Fun &undo, Fun &redo)
     if (!m_successful) {
         return false;
     }
-
     auto operation = [clip = m_binClip]() {
         clip->updateAudioThumbnail();
         return true;

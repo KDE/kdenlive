@@ -403,6 +403,18 @@ const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &bi
     return QVector<uint8_t>();
 }
 
+double ProjectItemModel::getAudioMaxLevel(const QString &binId)
+{
+    READ_LOCK();
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
+            return qSqrt(std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:audio_max")));
+        }
+    }
+    return 0;
+}
+
 bool ProjectItemModel::hasClip(const QString &binId)
 {
     READ_LOCK();

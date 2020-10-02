@@ -595,6 +595,13 @@ void MainWindow::init()
     separate_channels->setData("separate_channels");
     connect(separate_channels, &QAction::triggered, this, &MainWindow::slotSeparateAudioChannel);
     timelineHeadersMenu->addAction(separate_channels);
+    
+    QAction *normalize_channels = new QAction(QIcon(), i18n("Normalize Audio Thumbnails"), this);
+    normalize_channels->setCheckable(true);
+    normalize_channels->setChecked(KdenliveSettings::normalizechannels());
+    normalize_channels->setData("normalize_channels");
+    connect(normalize_channels, &QAction::triggered, this, &MainWindow::slotNormalizeAudioChannel);
+    timelineHeadersMenu->addAction(normalize_channels);
 
     QMenu *thumbsMenu = new QMenu(i18n("Thumbnails"), this);
     QActionGroup *thumbGroup = new QActionGroup(this);
@@ -2616,7 +2623,16 @@ void MainWindow::slotSeparateAudioChannel()
     KdenliveSettings::setDisplayallchannels(!KdenliveSettings::displayallchannels());
     emit getCurrentTimeline()->controller()->audioThumbFormatChanged();
     if (m_clipMonitor) {
-        emit m_clipMonitor->refreshAudioThumbs();
+        m_clipMonitor->refreshAudioThumbs();
+    }
+}
+
+void MainWindow::slotNormalizeAudioChannel()
+{
+    KdenliveSettings::setNormalizechannels(!KdenliveSettings::normalizechannels());
+    emit getCurrentTimeline()->controller()->audioThumbNormalizeChanged();
+    if (m_clipMonitor) {
+        m_clipMonitor->normalizeAudioThumbs();
     }
 }
 

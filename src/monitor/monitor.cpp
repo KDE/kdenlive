@@ -1196,6 +1196,11 @@ void Monitor::refreshAudioThumbs()
     emit m_glMonitor->getControllerProxy()->colorsChanged();
 }
 
+void Monitor::normalizeAudioThumbs()
+{
+    emit m_glMonitor->getControllerProxy()->audioThumbNormalizeChanged();
+}
+
 void Monitor::checkOverlay(int pos)
 {
     if (m_qmlManager->sceneType() != MonitorSceneDefault) {

@@ -27,7 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QPainterPath>
 #include <QQuickPaintedItem>
 #include <QElapsedTimer>
+#include <QtMath>
 #include <cmath>
+#include "kdenlivesettings.h"
 
 const QStringList chanelNames{"L", "R", "C", "LFE", "BL", "BR"};
 
@@ -89,6 +91,7 @@ class TimelineWaveform : public QQuickPaintedItem
     Q_PROPERTY(int waveOutPointWithUpdate MEMBER m_outPoint NOTIFY propertyChanged)
     Q_PROPERTY(int audioStream MEMBER m_stream)
     Q_PROPERTY(bool format MEMBER m_format NOTIFY propertyChanged)
+    Q_PROPERTY(bool normalize MEMBER m_normalize NOTIFY propertyChanged)
     Q_PROPERTY(bool showItem READ showItem  WRITE setShowItem NOTIFY showItemChanged)
     Q_PROPERTY(bool isFirstChunk MEMBER m_firstChunk)
 
@@ -114,6 +117,7 @@ public:
             }
         });
         connect(this, &TimelineWaveform::propertyChanged, [&]() {
+            m_audioMax = KdenliveSettings::normalizechannels() ? 0 : pCore->projectItemModel()->getAudioMaxLevel(m_binId);
             update();
         });
     }
@@ -140,6 +144,7 @@ public:
         }
         if (m_audioLevels.isEmpty() && m_stream >= 0) {
             m_audioLevels = pCore->projectItemModel()->getAudioLevelsByBinID(m_binId, m_stream);
+            m_audioMax = KdenliveSettings::normalizechannels() ? 0 : pCore->projectItemModel()->getAudioMaxLevel(m_binId);
             if (m_audioLevels.isEmpty()) {
                 return;
             }
@@ -160,6 +165,10 @@ public:
             pen.setWidthF(0);
         }
         painter->setPen(pen);
+        double scaleFactor = 255;
+        if (m_audioMax > 0) {
+            scaleFactor *= m_audioMax;
+        }
         int startPos = m_inPoint / indicesPrPixel;
         if (!KdenliveSettings::displayallchannels()) {
             // Draw merged channels
@@ -181,9 +190,9 @@ public:
                 if (idx + m_channels >= m_audioLevels.length() || idx < 0) {
                     break;
                 }
-                level = m_audioLevels.at(idx) / 255.;
+                level = m_audioLevels.at(idx) / scaleFactor;
                 for (int k = 1; k < m_channels; k++) {
-                    level = qMax(level, m_audioLevels.at(idx + k) / 255.);
+                    level = qMax(level, m_audioLevels.at(idx + k) / scaleFactor);
                 }
                 if (pathDraw) {
                     path.lineTo(i, height() - level * height());
@@ -198,6 +207,7 @@ public:
         } else {
             double channelHeight = (double)height() / m_channels;
             // Draw separate channels
+            scaleFactor = channelHeight / (2 * scaleFactor);
             double i = 0;
             double level;
             QRectF bgRect(0, 0, width(), channelHeight);
@@ -240,10 +250,10 @@ public:
                     idx += channel;
                     if (idx >= m_audioLevels.length() || idx < 0) break;
                     if (pathDraw) {
-                        level = m_audioLevels.at(idx) * channelHeight / 510.;
+                        level = m_audioLevels.at(idx) * scaleFactor;
                         path.lineTo(i, y - level);
                     } else {
-                        level = m_audioLevels.at(idx) * channelHeight / 510.; // divide height by 510 (2*255) to get height
+                        level = m_audioLevels.at(idx) * scaleFactor; // divide height by 510 (2*255) to get height
                         painter->drawLine(i, y - level, i, y + level);
                     }
                 }
@@ -278,10 +288,12 @@ private:
     QColor m_color;
     QColor m_color2;
     bool m_format;
+    bool m_normalize;
     bool m_showItem;
     int m_channels;
     int m_precisionFactor;
     int m_stream;
+    double m_audioMax;
     bool m_firstChunk;
 };
 

@@ -301,6 +301,11 @@
       <label>Display all channels in audio thumbnails.</label>
       <default>false</default>
     </entry>
+    
+    <entry name="normalizechannels" type="Bool">
+      <label>Normalize audio channels in thumbnails.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="autoscroll" type="Bool">
       <label>Auto scroll timeline while playing.</label>
