@@ -140,6 +140,7 @@ tcolor.xml
 tracker.xml
 vignette.xml
 vidstab.xml
+qtcrop.xml
 
 DESTINATION ${DATA_INSTALL_DIR}/kdenlive/effects)
 
