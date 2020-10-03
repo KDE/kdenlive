@@ -267,6 +267,7 @@
     </ul>
   </description>
   <releases>
+    <release version="20.08.2" date="2020-10-08"/>
     <release version="20.08.1" date="2020-09-03">
       <artifacts>
         <artifact type="source">
