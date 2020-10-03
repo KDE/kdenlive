@@ -166,7 +166,7 @@ public:
         }
         painter->setPen(pen);
         double scaleFactor = 255;
-        if (m_audioMax > 0) {
+        if (m_audioMax > 1) {
             scaleFactor *= m_audioMax;
         }
         int startPos = m_inPoint / indicesPrPixel;

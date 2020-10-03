@@ -409,7 +409,8 @@ double ProjectItemModel::getAudioMaxLevel(const QString &binId)
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
-            return qSqrt(std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:audio_max")));
+            int volume = std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:audio_max"));
+            return volume > 1 ? qSqrt(volume) : volume;
         }
     }
     return 0;

@@ -220,17 +220,19 @@ void ProjectClip::updateAudioThumbnail()
 #else
             args << QStringLiteral("/dev/stdout");
 #endif
-            qDebug()<<"=== STARTING COMMAND: "<<args;
             QObject::connect(&ffmpeg, &QProcess::readyReadStandardOutput, [&ffmpeg, this]() {
                 QString output = ffmpeg.readAllStandardOutput();
                 if (output.contains(QLatin1String("max_volume"))) {
-                    qDebug()<<"===== GOT FFFMPEG OUTPUT:\n"<<output<<"\n.........................";
                     output = output.section(QLatin1String("max_volume:"), 1).simplified();
                     output = output.section(QLatin1Char(' '), 0, 0);
-                    int aMax = qMax(1, qAbs(qRound(output.toDouble())));
-                    qDebug()<<"===== GOT CLIP AMAX: "<<aMax;
-                    qDebug()<<"===== GOT CLIP FINAL AMAX: "<<aMax;
-                    setProducerProperty(QStringLiteral("kdenlive:audio_max"), aMax);
+                    bool ok;
+                    double maxVolume = output.toDouble(&ok);
+                    if (ok) {
+                        int aMax = qMax(1, qAbs(qRound(maxVolume)));
+                        setProducerProperty(QStringLiteral("kdenlive:audio_max"), aMax);
+                    } else {
+                        setProducerProperty(QStringLiteral("kdenlive:audio_max"), -1);
+                    }
                 }
             });
             ffmpeg.setProcessChannelMode(QProcess::MergedChannels);
@@ -726,6 +728,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             // We need to get an video producer, if none exists
             if (m_videoProducers.count(trackId) == 0) {
                 m_videoProducers[trackId] = cloneProducer(true);
+                // Let audio enabled so that we can use audio visualization filters ?
                 m_videoProducers[trackId]->set("set.test_audio", 1);
                 m_videoProducers[trackId]->set("set.test_image", 0);
                 m_effectStack->addService(m_videoProducers[trackId]);
@@ -1404,6 +1407,7 @@ void ProjectClip::discardAudioThumb()
             QFile::remove(audioThumbPath);
         }
     }
+    resetProducerProperty(QStringLiteral("kdenlive:audio_max"));
     m_audioThumbCreated = false;
     refreshAudioInfo();
 }
