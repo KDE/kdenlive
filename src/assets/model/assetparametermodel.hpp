@@ -183,6 +183,9 @@ public:
     /* @brief Returns a list of the parameter names that are keyframable */
     QStringList getKeyframableParameters() const;
 
+    /** @brief Returns the current value of an effect parameter */
+    const QString getParam(const QString &paramName);
+
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/
     static ParamType paramTypeFromStr(const QString &type);
