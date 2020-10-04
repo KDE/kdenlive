@@ -410,13 +410,14 @@ int TimelineModel::getTrackSortValue(int trackId, int separated) const
         }
     }
     if (isAudio) {
-        if (aCount > vCount && (trackPos - 1 > aCount - vCount)) {
-            return (aCount - vCount + 1) + 2 * (trackPos - (aCount - vCount +1));
+        if (aCount > vCount) {
+            if (trackPos - 1 > aCount - vCount) {
+                // We have more audio tracks than video tracks
+                return (aCount - vCount + 1) + 2 * (trackPos - (aCount - vCount +1));
+            }
+            return trackPos;
         }
-        if (aCount == vCount) {
-            return 2 * trackPos;
-        }
-        return trackPos;
+        return 2 * trackPos;
     }
     return 2 * (vCount + 1 - trackPos) + 1;
 }
