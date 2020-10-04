@@ -409,14 +409,16 @@ int TimelineModel::getTrackSortValue(int trackId, int separated) const
             trackPos = audioTrack ? aCount : vCount;
         }
     }
-    int trackDiff = qMax(0, aCount - vCount);
-    if (trackDiff > 0) {
-        // more audio tracks, keep them below
-        if (isAudio && trackPos > vCount) {
-            return -trackPos;
+    if (isAudio) {
+        if (aCount > vCount && (trackPos - 1 > aCount - vCount)) {
+            return (aCount - vCount + 1) + 2 * (trackPos - (aCount - vCount +1));
         }
+        if (aCount == vCount) {
+            return 2 * trackPos;
+        }
+        return trackPos;
     }
-    return isAudio ? 2 * trackPos : 2 * (vCount + 1 - trackPos) + 1;
+    return 2 * (vCount + 1 - trackPos) + 1;
 }
 
 QList<int> TimelineModel::getLowerTracksId(int trackId, TrackType type) const
@@ -2479,15 +2481,19 @@ bool TimelineModel::requestTrackInsertion(int position, int &id, const QString &
     };
 
     Fun local_name_update = [position, audioTrack, this]() {
-        if (audioTrack) {
-            for (int i = 0; i <= position; i++) {
-                QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
-                emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
-            }
+        if (KdenliveSettings::audiotracksbelow() == 0) {
+            _resetView();
         } else {
-            for (int i = position; i < (int)m_allTracks.size(); i++) {
-                QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
-                emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+            if (audioTrack) {
+                for (int i = 0; i <= position; i++) {
+                    QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+                    emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+                }
+            } else {
+                for (int i = position; i < (int)m_allTracks.size(); i++) {
+                    QModelIndex ix = makeTrackIndexFromID(getTrackIndexFromPosition(i));
+                    emit dataChanged(ix, ix, {TimelineModel::TrackTagRole});
+                }
             }
         }
         return true;
