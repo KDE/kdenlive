@@ -313,6 +313,12 @@ bool AudioThumbJob::startJob()
         return false;
     }
     m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
+    if (m_lengthInFrames == INT_MAX) {
+        // This is a broken file or live feed, don't attempt to generate audio thumbnails
+        m_done = true;
+        m_successful = false;
+        return false;
+    }
     m_frequency = m_binClip->audioInfo()->samplingRate();
     m_frequency = m_frequency <= 0 ? 48000 : m_frequency;
 
