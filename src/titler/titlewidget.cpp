@@ -965,7 +965,7 @@ void TitleWidget::slotAdjustZoom()
     if (scalex > scaley) scalex = scaley;
     int zoompos = (int)(scalex * 7 + 0.5);*/
     graphicsView->fitInView(m_frameBorder, Qt::KeepAspectRatio);
-    int zoompos = graphicsView->matrix().m11() * 100;
+    int zoompos = graphicsView->transform().m11() * 100 ; //matrix().m11() * 100;
     zoom_slider->setValue(zoompos);
     graphicsView->centerOn(m_frameBorder);
 }
@@ -1833,6 +1833,7 @@ void TitleWidget::itemHCenter()
         newPos += item->pos().x() - br.left(); // Check item transformation
         item->setPos(newPos, item->pos().y());
         updateCoordinates(item);
+        slotAdjustZoom();
     }
 }
 
