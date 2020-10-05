@@ -351,7 +351,12 @@ bool AudioThumbJob::startJob()
     }
     m_lengthInFrames = m_prod->get_length(); // Multiply this if we want more than 1 sample per frame
     int thumbResolution = 3000;
-    
+    if (m_lengthInFrames == INT_MAX) {
+        // This is a broken file or live feed, don't attempt to generate audio thumbnails
+        m_done = true;
+        m_successful = false;
+        return false;
+    }
     // Increase audio thumb resolution for longer clips to get a better resolution
     if (m_lengthInFrames > 10000) {
         // More than 10 minutes at 25fps
@@ -363,7 +368,6 @@ bool AudioThumbJob::startJob()
         }
     }
     m_thumbSize = QSize(thumbResolution, 1000 / pCore->getCurrentDar());
-
     m_frequency = m_binClip->audioInfo()->samplingRate();
     m_frequency = m_frequency <= 0 ? 48000 : m_frequency;
 
