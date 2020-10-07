@@ -330,6 +330,14 @@ Rectangle {
                         assetlist.deleteCustomEffect(sel.currentIndex)
                     }
                 }
+                MenuItem {
+                    id: reloadMenu
+                    text: i18n("Reload custom effect")
+                    visible: isEffectList && assetContextMenu.isCustom
+                    onTriggered: {
+                        assetlist.reloadCustomEffectIx(sel.currentIndex)
+                    }
+                }
             }
 
             TableViewColumn { role: "identifier"; title: i18n("Name"); }

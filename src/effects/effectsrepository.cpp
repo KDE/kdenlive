@@ -231,6 +231,16 @@ bool EffectsRepository::hasInternalEffect(const QString &effectId) const
     return false;
 }
 
+QString EffectsRepository::getCustomPath(const QString &id)
+{
+    QString customAssetDir = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
+    QPair <QStringList, QStringList> results;
+    QDir current_dir(customAssetDir);
+    qDebug()<<"==== FETCHING CUSTOM PATH FOR ID: "<<id;
+    return current_dir.absoluteFilePath(QString("%1.xml").arg(id));
+}
+  
+
 QPair<QString, QString> EffectsRepository::reloadCustom(const QString &path)
 {
     std::unordered_map<QString, Info> customAssets;
