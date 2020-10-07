@@ -217,6 +217,7 @@ bool AudioThumbJob::computeWithFFMPEG()
             } else if (offset > 250) {
                 intraOffset = offset / 10;
             }
+
             long maxAudioLevel = 1;
             if (!m_successful) {
                 m_done = true;
