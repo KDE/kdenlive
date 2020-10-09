@@ -36,6 +36,7 @@ class TimelineModel;
 class ClipModel;
 class CompositionModel;
 class EffectStackModel;
+class AssetParameterModel;
 
 class MixInfo
 {
@@ -135,9 +136,11 @@ public:
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);
     /** @brief Load a same track transition from project */
-    bool loadMix(Mlt::Transition &t);
+    bool loadMix(Mlt::Transition *t);
     /** @brief Set mix duration and mix cut pos on a clip */
     void setMixDuration(int cid, int mixDuration, int mixCut);
+    /** @brief Get the assetparameter model for a mix */
+    const std::shared_ptr<AssetParameterModel> mixModel(int cid);
 
 protected:
     /* @brief This will lock the track: it will no longer allow insertion/deletion/resize of items
@@ -339,7 +342,7 @@ private:
 protected:
     std::shared_ptr<EffectStackModel> m_effectStack;
     // A list of same track transitions for this track, in the form: {second_clip_id, transition}
-    std::unordered_map<int, std::shared_ptr<Mlt::Transition>> m_sameCompositions;
+    std::unordered_map<int, std::shared_ptr<AssetParameterModel>> m_sameCompositions;
 };
 
 #endif

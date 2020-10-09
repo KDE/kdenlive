@@ -250,6 +250,8 @@ public:
     std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
     /* @brief Given a clip Id, returns its underlying effect stack model */
     std::shared_ptr<EffectStackModel> getClipEffectStackModel(int clipId) const;
+    /* @brief Given a clip Id, returns its mix transition stack model */
+    std::shared_ptr<EffectStackModel> getClipMixStackModel(int clipId) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
@@ -421,7 +423,7 @@ public:
     void switchComposition(int cid, const QString &compoId);
     /**  @brief Plant a same track composition in track tid
      */
-    void plantMix(int tid, Mlt::Transition &t);
+    void plantMix(int tid, Mlt::Transition *t);
     bool removeMix(int cid);
 
 protected:
@@ -801,7 +803,7 @@ signals:
     /* @brief Signal sent whenever the selection changes */
     void selectionChanged();
     /* @brief Signal sent whenever the selected mix changes */
-    void selectedMixChanged();
+    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
     /* @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */

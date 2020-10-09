@@ -4383,6 +4383,13 @@ std::shared_ptr<EffectStackModel> TimelineModel::getClipEffectStackModel(int cli
     return std::static_pointer_cast<EffectStackModel>(m_allClips.at(clipId)->m_effectStack);
 }
 
+std::shared_ptr<EffectStackModel> TimelineModel::getClipMixStackModel(int clipId) const
+{
+    READ_LOCK();
+    Q_ASSERT(isClip(clipId));
+    return std::static_pointer_cast<EffectStackModel>(m_allClips.at(clipId)->m_effectStack);
+}
+
 std::shared_ptr<EffectStackModel> TimelineModel::getTrackEffectStackModel(int trackId)
 {
     READ_LOCK();
@@ -4639,7 +4646,7 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
     TRACE();
     if (m_selectedMix > -1) {
         m_selectedMix = -1;
-        emit selectedMixChanged();
+        emit selectedMixChanged(-1, nullptr);
     }
     if (m_currentSelection == -1) {
         TRACE_RES(true);
@@ -4683,8 +4690,11 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
 void TimelineModel::requestMixSelection(int cid)
 {
     requestClearSelection();
-    m_selectedMix = cid;
-    emit selectedMixChanged();
+    int tid = getItemTrackId(cid);
+    if (tid > -1) {
+        m_selectedMix = cid;
+        emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid));
+    }
 }
 
 void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
@@ -4909,9 +4919,9 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     }
 }
 
-void TimelineModel::plantMix(int tid, Mlt::Transition &t)
+void TimelineModel::plantMix(int tid, Mlt::Transition *t)
 {
-    getTrackById_const(tid)->getTrackService()->plant_transition(t, 0, 1);
+    getTrackById_const(tid)->getTrackService()->plant_transition(*t, 0, 1);
     getTrackById_const(tid)->loadMix(t);
 }
 

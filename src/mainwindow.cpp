@@ -351,6 +351,7 @@ void MainWindow::init()
         getMainTimeline()->controller()->getModel()->switchComposition(cid, compositionId);
     });
 
+    connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&] () {
         m_effectStackDock->raise();

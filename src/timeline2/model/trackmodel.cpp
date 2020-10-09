@@ -1012,7 +1012,7 @@ bool TrackModel::checkConsistency()
             int mainId = -1;
             int mixIn = t.get_in();
             for ( auto it = m_sameCompositions.begin(); it != m_sameCompositions.end(); ++it ) {
-                if (it->second->get_in() == mixIn) {
+                if (static_cast<Mlt::Transition *>(it->second->getAsset())->get_in() == mixIn) {
                     // Found mix in list
                     mainId = it->first;
                     break;
@@ -1523,7 +1523,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 switchPlaylist(clipIds.second, secondInPos, 1, 0);
             }
             // Delete transition
-            Mlt::Transition &transition = *m_sameCompositions[clipIds.second].get();
+            Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[clipIds.second]->getAsset());
             QScopedPointer<Mlt::Field> field(m_track->field());
             field->lock();
             field->disconnect_service(transition);
@@ -1552,25 +1552,31 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
                 movedClip->setMixDuration(mixDuration, mixCutPos);
                 // Insert mix transition
+                QString assetName;
+                std::unique_ptr<Mlt::Transition> t;
                 if (isAudioTrack()) {
-                    std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));
+                    t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
                     t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                     t->set("kdenlive:mixcut", mixCutPos);
                     if (src_track == 0) {
                         t->set("reverse", 1);
                     }
                     m_track->plant_transition(*t.get(), 0, 1);
-                    m_sameCompositions[clipIds.second] = t;
+                    assetName = QStringLiteral("mix");
                 } else {
-                    std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "luma"));
+                    t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
                     t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                     t->set("kdenlive:mixcut", mixCutPos);
                     if (src_track == 0) {
                         t->set("reverse", 1);
                     }
                     m_track->plant_transition(*t.get(), 0, 1);
-                    m_sameCompositions[clipIds.second] = t;
+                    assetName = QStringLiteral("luma");
+                    
                 }
+                QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+                std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
+                m_sameCompositions[clipIds.second] = asset;
                 m_mixList.insert(clipIds.first, clipIds.second);
                 QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
                 emit ptr->dataChanged(ix2, ix2, {TimelineModel::MixRole,TimelineModel::MixCutRole});
@@ -1696,7 +1702,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                     }
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
-                        Mlt::Transition &transition = *m_sameCompositions[i.key()].get();
+                        Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[i.key()]->getAsset());
                         transition.set("reverse", i.value());
                     }
                 }
@@ -1745,7 +1751,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                     }
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
-                        Mlt::Transition &transition = *m_sameCompositions[i.key()].get();
+                        Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[i.key()]->getAsset());
                         transition.set("reverse", 1 - i.value());
                     }
                 }
@@ -1759,25 +1765,30 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
             movedClip->setMixDuration(mixDuration, secondClipCut);
             // Insert mix transition
+            QString assetName;
+            std::unique_ptr<Mlt::Transition>t;
             if (isAudioTrack()) {
-                std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));
+                t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
                 m_track->plant_transition(*t.get(), 0, 1);
-                m_sameCompositions[clipIds.second] = t;
+                assetName = QStringLiteral("mix");
             } else {
-                std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "luma"));
+                t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
                 m_track->plant_transition(*t.get(), 0, 1);
-                m_sameCompositions[clipIds.second] = t;
+                assetName = QStringLiteral("luma");
             }
+            QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
+            m_sameCompositions[clipIds.second] = asset;
             m_mixList.insert(clipIds.first, clipIds.second);
         }
         return true;
@@ -1785,7 +1796,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     
     Fun destroy_mix = [clipIds, this]() {
         if (auto ptr = m_parent.lock()) {
-            Mlt::Transition &transition = *m_sameCompositions[clipIds.second].get();
+            Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[clipIds.second]->getAsset());
             std::shared_ptr<ClipModel> movedClip(ptr->getClipPtr(clipIds.second));
             movedClip->setMixDuration(0);
             QModelIndex ix = ptr->makeClipIndexFromID(clipIds.second);
@@ -1917,7 +1928,7 @@ bool TrackModel::deleteMix(int clipId, bool final, bool notify)
             emit ptr->dataChanged(ix, ix, {TimelineModel::StartRole,TimelineModel::MixRole,TimelineModel::MixCutRole});
         }
         if (final) {
-            Mlt::Transition &transition = *m_sameCompositions[clipId].get();
+            Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[clipId]->getAsset());
             QScopedPointer<Mlt::Field> field(m_track->field());
             field->lock();
             field->disconnect_service(transition);
@@ -1946,23 +1957,28 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
         int out = in + movedClip->getMixDuration();
         movedClip->setMixDuration(out - in);
         bool reverse = movedClip->getSubPlaylistIndex() == 0;
+        QString assetName;
+        std::unique_ptr<Mlt::Transition> t;
         if (isAudio) {
-            std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));
+            t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
             t->set_in_and_out(in, out);
             if (reverse) {
                 t->set("reverse", 1);
             }
             m_track->plant_transition(*t.get(), 0, 1);
-            m_sameCompositions[info.secondClipId] = t;
+            assetName = QStringLiteral("mix");
         } else {
-            std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "luma"));
+            t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
             t->set_in_and_out(in, out);
             if (reverse) {
                 t->set("reverse", 1);
             }
             m_track->plant_transition(*t.get(), 0, 1);
-            m_sameCompositions[info.secondClipId] = t;
+            assetName = QStringLiteral("luma");
         }
+        QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, info.secondClipId}, QString()));
+        m_sameCompositions[info.secondClipId] = asset;
         m_mixList.insert(info.firstClipId, info.secondClipId);
         return true;
     }
@@ -1981,23 +1997,28 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         emit ptr->dataChanged(ix, ix, {TimelineModel::MixRole,TimelineModel::MixCutRole});
         bool reverse = movedClip->getSubPlaylistIndex() == 0;
         // Insert mix transition
+        QString assetName;
+        std::unique_ptr<Mlt::Transition> t;
         if (isAudioTrack()) {
-            std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "mix"));
+            t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             if (reverse) {
                 t->set("reverse", 1);
             }
             m_track->plant_transition(*t.get(), 0, 1);
-            m_sameCompositions[clipIds.second] = t;
+            assetName = QStringLiteral("mix");
         } else {
-            std::shared_ptr<Mlt::Transition> t(new Mlt::Transition(*ptr->getProfile(), "luma"));
+            t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             if (reverse) {
                 t->set("reverse", 1);
             }
             m_track->plant_transition(*t.get(), 0, 1);
-            m_sameCompositions[clipIds.second] = t;
+            assetName = QStringLiteral("luma");
         }
+        QDomElement xml = TransitionsRepository::get()->getXml(assetName);
+        std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
+        m_sameCompositions[clipIds.second] = asset;
         m_mixList.insert(clipIds.first, clipIds.second);
         return true;
     }
@@ -2007,7 +2028,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
 void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
 {
     m_allClips[cid]->setMixDuration(mixDuration, mixCut);
-    m_sameCompositions[cid]->set("kdenlive:mixcut", mixCut);
+    m_sameCompositions[cid]->getAsset()->set("kdenlive:mixcut", mixCut);
 }
 
 void TrackModel::syncronizeMixes(bool finalMove)
@@ -2021,7 +2042,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
         if (m_allClips.find(firstClip) == m_allClips.end() || m_allClips.find(secondClipId) == m_allClips.end()) {
             // One of the clip was removed, delete the mix
             qDebug()<<"=== CLIPS: "<<firstClip<<" / "<<secondClipId<<" ARE MISSING!!!!";
-            Mlt::Transition &transition = *m_sameCompositions[secondClipId].get();
+            Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[secondClipId]->getAsset());
             QScopedPointer<Mlt::Field> field(m_track->field());
             field->lock();
             field->disconnect_service(transition);
@@ -2041,7 +2062,7 @@ void TrackModel::syncronizeMixes(bool finalMove)
                 mixOut = mixIn + 1;
             }
         }
-        Mlt::Transition &transition = *m_sameCompositions[secondClipId].get();
+        Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[secondClipId]->getAsset());
         if (mixIn == mixOut) {
             QScopedPointer<Mlt::Field> field(m_track->field());
             field->lock();
@@ -2090,19 +2111,31 @@ bool TrackModel::hasEndMix(int cid) const
     return m_mixList.contains(cid);
 }
 
-bool TrackModel::loadMix(Mlt::Transition &t)
+bool TrackModel::loadMix(Mlt::Transition *t)
 {
-    int in = t.get_in();
-    int out = t.get_out();
-    bool reverse = t.get_int("reverse") == 1;
+    int in = t->get_in();
+    int out = t->get_out();
+    bool reverse = t->get_int("reverse") == 1;
     int cid1 = getClipByPosition(in, reverse ? 1 : 0);
     int cid2 = getClipByPosition(out, reverse ? 0 : 1);
     if (cid1 < 0 || cid2 < 0) {
         return false;
     }
-    std::shared_ptr<Mlt::Transition>tr(&t);
-    m_sameCompositions[cid2] = tr;
+    const QString assetId(t->get("mlt_service"));
+    std::unique_ptr<Mlt::Transition>tr(t);
+    QDomElement xml = TransitionsRepository::get()->getXml(assetId);
+    qDebug()<<"=====\n\nLOADING MIX: "<<assetId<<", XML: \n\n"<<xml.ownerDocument().toString()<<"\n\n==================";
+    std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(tr), xml, assetId, {ObjectType::TimelineMix, cid2}, QString()));
+    m_sameCompositions[cid2] = asset;
     m_mixList.insert(cid1, cid2);
-    setMixDuration(cid2, t.get_length() - 1, t.get_int("kdenlive:mixcut"));
+    setMixDuration(cid2, t->get_length() - 1, t->get_int("kdenlive:mixcut"));
     return true;
+}
+
+const std::shared_ptr<AssetParameterModel> TrackModel::mixModel(int cid)
+{
+    if (m_sameCompositions.count(cid) > 0) {
+        return m_sameCompositions[cid];
+    }
+    return nullptr;
 }
