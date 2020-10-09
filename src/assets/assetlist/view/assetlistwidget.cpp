@@ -29,11 +29,6 @@
 #include <QQuickItem>
 #include <QStandardPaths>
 #include <kdeclarative_version.h>
-#include <QFormLayout>
-#include <QDialog>
-#include <QDialogButtonBox>
-#include <QLineEdit>
-#include <QTextEdit>
 
 AssetListWidget::AssetListWidget(QWidget *parent)
     : QQuickWidget(parent)
@@ -87,32 +82,6 @@ void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
 QString AssetListWidget::getDescription(bool isEffect, const QModelIndex &index) const
 {
     return m_model->getDescription(isEffect, m_proxyModel->mapToSource(index));
-}
-
-QString AssetListWidget::editCustomEffectInfo(const QModelIndex &index)
-{
-    QDialog dialog(this);
-       QFormLayout form(&dialog);
-       QLineEdit *effectName = new QLineEdit(&dialog);
-       QTextEdit *descriptionBox = new QTextEdit(&dialog);
-       QString label_Name = QString("Name : ");
-       form.addRow(label_Name, effectName);
-       QString label = QString("Comments : ");
-       form.addRow(label, descriptionBox);
-       QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
-       form.addRow(&buttonBox);
-       QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
-       QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
-       if(dialog.exec() == QDialog::Accepted) {
-               QString name = effectName->text();
-               QString enteredDescription = descriptionBox->toPlainText();
-               if (name.trimmed().isEmpty() && enteredDescription.trimmed().isEmpty()) {
-                   return index.data().toString();
-               }
-                return m_model->editCustomEffectInfo(name, enteredDescription, m_proxyModel->mapToSource(index));
-
-       }
-       return index.data().toString();
 }
 
 void AssetListWidget::setFilterName(const QString &pattern)

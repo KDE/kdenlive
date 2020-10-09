@@ -44,7 +44,7 @@ public:
     void updateFavorite(const QModelIndex &index);
     void downloadNewLumas();
     void reloadCustomEffectIx(const QModelIndex &path) override;
-
+    void editCustomAsset(const QModelIndex &index) override;
 private:
     TransitionListWidgetProxy *m_proxy;
     int getNewStuff(const QString &configFile);
