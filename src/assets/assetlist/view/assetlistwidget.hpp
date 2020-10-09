@@ -55,7 +55,7 @@ public:
     /* @brief Delete a custom effect */
     void deleteCustomEffect(const QModelIndex &index);
     virtual void reloadCustomEffectIx(const QModelIndex &index) = 0;
-    QString editCustomEffectInfo(const QModelIndex &index);
+    virtual void editCustomAsset(const QModelIndex &index) = 0;
     /* @brief Returns the description of the asset given its model index */
     QString getDescription(bool isEffect, const QModelIndex &index) const;
 
