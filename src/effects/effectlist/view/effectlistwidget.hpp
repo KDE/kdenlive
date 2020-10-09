@@ -81,6 +81,14 @@ public:
     }
     Q_INVOKABLE void deleteCustomEffect(const QModelIndex &index) { q->deleteCustomEffect(index); }
     Q_INVOKABLE QString getDescription(const QModelIndex &index) const { return q->getDescription(true, index); }
+    Q_INVOKABLE void editCustomEffectInfo(const QModelIndex &index)
+    {
+        QString pathToUpdate = q->editCustomEffectInfo(index);
+        if(index.data().toString() != pathToUpdate)
+        {
+              q->reloadCustomEffect(pathToUpdate);
+        }
+    }
     Q_INVOKABLE QVariantMap getMimeData(const QString &assetId) const { return q->getMimeData(assetId); }
 
     Q_INVOKABLE void activate(const QModelIndex &ix) { q->activate(ix); }

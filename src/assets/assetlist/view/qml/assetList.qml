@@ -338,6 +338,14 @@ Rectangle {
                         assetlist.reloadCustomEffectIx(sel.currentIndex)
                     }
                 }
+                MenuItem {
+                    id: editMenu
+                    text: i18n("Edit Info")
+                    visible: isEffectList && assetContextMenu.isCustom
+                    onTriggered: {
+                        assetlist.editCustomEffectInfo(sel.currentIndex)
+                    }
+                }
             }
 
             TableViewColumn { role: "identifier"; title: i18n("Name"); }

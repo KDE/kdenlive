@@ -44,6 +44,7 @@ public:
     QString getDescription(bool isEffect, const QModelIndex &index) const;
     // Helper function to retrieve if an effect is categorized as favorite
     bool isFavorite(const QModelIndex &index) const;
+    QString editCustomEffectInfo( const QString newName,const QString newDescription,const QModelIndex &index);
     QHash<int, QByteArray> roleNames() const override;
     QVariant data(const QModelIndex &index, int role) const override;
     virtual void reloadAssetMenu(QMenu *effectsMenu, KActionCategory *effectActions) = 0;
