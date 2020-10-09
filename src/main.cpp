@@ -146,9 +146,6 @@ int main(int argc, char *argv[])
                 qCDebug(KDENLIVE_LOG) << "Non KDE Desktop detected, forcing Breeze icon theme";
             }
         }
-        // Set breeze dark as default on first opening
-        KConfigGroup cg(config, "UiSettings");
-        cg.writeEntry("ColorScheme", "Breeze Dark");
     }
 #if KICONTHEMES_VERSION < QT_VERSION_CHECK(5,60,0)
     // work around bug in Kirigami2 resetting icon theme path
@@ -229,6 +226,11 @@ int main(int argc, char *argv[])
                                      "com.enums",                     // import statement
                                      1, 0,                            // major and minor version of the import
                                      "ClipState",                     // name in QML
+                                     "Error: only enums");
+    qmlRegisterUncreatableMetaObject(FileStatus::staticMetaObject, // static meta object
+                                     "com.enums",                     // import statement
+                                     1, 0,                            // major and minor version of the import
+                                     "ClipStatus",                     // name in QML
                                      "Error: only enums");
     qmlRegisterUncreatableMetaObject(ClipType::staticMetaObject, // static meta object
                                      "com.enums",                // import statement

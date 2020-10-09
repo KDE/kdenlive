@@ -82,6 +82,12 @@ enum ClipState { VideoOnly = 1, AudioOnly = 2, Disabled = 3 };
 Q_ENUM_NS(ClipState)
 } // namespace PlaylistState
 
+namespace FileStatus {
+Q_NAMESPACE
+enum ClipStatus { StatusReady = 0, StatusProxy, StatusMissing, StatusWaiting, StatusDeleting, StatusProxyOnly };
+Q_ENUM_NS(ClipStatus)
+} // namespace PlaylistState
+
 // returns a pair corresponding to (video, audio)
 std::pair<bool, bool> stateToBool(PlaylistState::ClipState state);
 PlaylistState::ClipState stateFromBool(std::pair<bool, bool> av);

@@ -1194,7 +1194,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
         // Only allow proxy on some clip types
         if ((t == ClipType::Video || t == ClipType::AV || t == ClipType::Unknown || t == ClipType::Image || t == ClipType::Playlist ||
              t == ClipType::SlideShow) &&
-            item->isReady()) {
+            item->statusReady()) {
             if ((doProxy && !force && item->hasProxy()) ||
                 (!doProxy && !item->hasProxy() && pCore->projectItemModel()->hasClip(item->AbstractProjectItem::clipId()))) {
                 continue;

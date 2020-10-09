@@ -32,7 +32,6 @@ Rectangle {
     property string clipResource: ''
     property string mltService: ''
     property string effectNames
-    property bool isProxy: false
     property int modelStart
     property int mixDuration: 0
     property int mixCut: 0
@@ -51,6 +50,7 @@ Rectangle {
     property bool grouped: false
     property var markers
     property var keyframeModel
+    property int clipState: 0
     property int clipStatus: 0
     property int itemType: 0
     property int fadeIn: 0
@@ -189,7 +189,7 @@ Rectangle {
         labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
     }
 
-    border.color: selected ? root.selectionColor : grouped ? root.groupColor : borderColor
+    border.color: (clipStatus == ClipStatus.StatusMissing || ClipStatus == ClipStatus.StatusWaiting || clipStatus == ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
     border.width: isGrabbed ? 8 : 2
 
     function updateDrag() {
@@ -198,7 +198,7 @@ Rectangle {
     }
 
     function getColor() {
-        if (clipStatus == ClipState.Disabled) {
+        if (clipState == ClipState.Disabled) {
             return 'grey'
         }
         if (itemType == ProducerType.Text) {
@@ -577,6 +577,7 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
+                        updateDrag()
                     }
                 }
                 onDoubleClicked: {
@@ -669,6 +670,7 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
+                        updateDrag()
                     }
                 }
                 onDoubleClicked: {
@@ -855,7 +857,7 @@ Rectangle {
                     x: labelRect.x
                     anchors.top: labelRect.top
                     anchors.left: labelRect.right
-                    visible: clipRoot.isProxy && !clipRoot.isAudio
+                    visible: !clipRoot.isAudio && clipRoot.clipStatus == ClipStatus.StatusProxy || clipRoot.clipStatus == ClipStatus.StatusProxyOnly
                     Text {
                         // Proxy P
                         id: proxyLabel

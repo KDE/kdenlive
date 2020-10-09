@@ -8,7 +8,7 @@ Row {
     id: thumbRow
     anchors.fill: parent
     visible: !isAudio
-    opacity: clipStatus == ClipState.Disabled ? 0.2 : 1
+    opacity: clipState == ClipState.Disabled ? 0.2 : 1
     property bool fixedThumbs: clipRoot.itemType == ProducerType.Image || clipRoot.itemType == ProducerType.Text || clipRoot.itemType == ProducerType.TextTemplate
     property int thumbWidth: container.height * root.dar
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV

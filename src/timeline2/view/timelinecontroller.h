@@ -49,6 +49,7 @@ class TimelineController : public QObject
     Q_PROPERTY(int duration READ duration NOTIFY durationChanged)
     Q_PROPERTY(int fullDuration READ fullDuration NOTIFY durationChanged)
     Q_PROPERTY(bool audioThumbFormat READ audioThumbFormat NOTIFY audioThumbFormatChanged)
+    Q_PROPERTY(bool audioThumbNormalize READ audioThumbNormalize NOTIFY audioThumbNormalizeChanged)
     Q_PROPERTY(int zoneIn READ zoneIn WRITE setZoneIn NOTIFY zoneChanged)
     Q_PROPERTY(int zoneOut READ zoneOut WRITE setZoneOut NOTIFY zoneChanged)
     Q_PROPERTY(bool ripple READ ripple NOTIFY rippleChanged)
@@ -252,6 +253,7 @@ public:
     bool showAudioThumbnails() const;
     bool showMarkers() const;
     bool audioThumbFormat() const;
+    bool audioThumbNormalize() const;
     /* @brief Do we want to display audio thumbnails
      */
     Q_INVOKABLE bool showWaveforms() const;
@@ -641,6 +643,7 @@ signals:
     void trackHeightChanged();
     void scaleFactorChanged();
     void audioThumbFormatChanged();
+    void audioThumbNormalizeChanged();
     void durationChanged();
     void audioTargetChanged();
     void videoTargetChanged();

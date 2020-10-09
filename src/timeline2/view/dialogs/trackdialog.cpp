@@ -83,14 +83,19 @@ void TrackDialog::buildCombo()
 
 int TrackDialog::selectedTrackPosition() const
 {
+    bool audioMode = audio_track->isChecked() || arec_track->isChecked();
     if (comboTracks->count() > 0) {
         int position = m_positionByIndex.value(comboTracks->currentData().toInt());
-        if (before_select->currentIndex() == 1) {
+        if (audioMode && KdenliveSettings::audiotracksbelow() == 0) {
+            // In mixed track modes, indexes are sorted differently so above/under have different meaning
+            if (before_select->currentIndex() == 0) {
+                position--;
+            }
+        } else if (before_select->currentIndex() == 1) {
             position--;
         }
         return position;
     }
-    bool audioMode = audio_track->isChecked() || arec_track->isChecked();
     return audioMode ? 0 : -1;
 }
 

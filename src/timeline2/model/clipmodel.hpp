@@ -74,7 +74,7 @@ public:
     double getDoubleProperty(const QString &name) const;
     /** @brief returns the bin clip name
      */
-    const QString clipName();
+    const QString clipName() const;
     QSize getFrameSize() const;
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);
@@ -217,8 +217,8 @@ protected:
     /** @brief Returns the producer's duration, or -1 if it can be resized without limit  */
     int getMaxDuration() const;
 
-    /** @brief Returns true if the parent Bin Clip uses a proxy  */
-    bool isProxied() const;
+    /** @brief Returns the clip status (normal, proxied, missing, etc)  */
+    FileStatus::ClipStatus clipStatus() const;
 
     /*@brief This is a debug function to ensure the clip is in a valid state */
     bool checkConsistency();

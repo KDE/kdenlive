@@ -605,6 +605,11 @@ bool TimelineController::audioThumbFormat() const
     return KdenliveSettings::displayallchannels();
 }
 
+bool TimelineController::audioThumbNormalize() const
+{
+    return KdenliveSettings::normalizechannels();
+}
+
 bool TimelineController::showWaveforms() const
 {
     return KdenliveSettings::audiothumbnails();

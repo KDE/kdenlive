@@ -84,8 +84,8 @@ mkdir -p $APPDIR/usr/libexec
 cp -r $DEPS_INSTALL_PREFIX/lib/x86_64-linux-gnu/libexec/kf5/*  $APPDIR/usr/libexec/
 
 #libva accel
-cp -r /usr/lib/x86_64-linux-gnu/libva*  $APPDIR/usr/lib
-cp -r /usr/lib/x86_64-linux-gnu/dri/*_drv_video.so  $APPDIR/usr/lib/va
+cp -r /usr/lib/x86_64-linux-gnu/libva*  $APPDIR/usr/lib  || true
+cp -r /usr/lib/x86_64-linux-gnu/dri/*_drv_video.so  $APPDIR/usr/lib/va  || true
 
 cp $(ldconfig -p | grep libGL.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
 #cp $(ldconfig -p | grep libGLU.so.1 | cut -d ">" -f 2 | xargs) $APPDIR/usr/lib/
@@ -123,13 +123,13 @@ for lib in $APPDIR/usr/lib/mlt/*.so*; do
 done
 
 
-for lib in $APPDIR/usr/lib/libva*.so*; do
-  patchelf --set-rpath '$ORIGIN' $lib;
-done
+#for lib in $APPDIR/usr/lib/libva*.so*; do
+#  patchelf --set-rpath '$ORIGIN' $lib;
+#done
 
-for lib in $APPDIR/usr/lib/va/*.so*; do
-  patchelf --set-rpath '$ORIGIN/..' $lib;
-done
+#for lib in $APPDIR/usr/lib/va/*.so*; do
+#  patchelf --set-rpath '$ORIGIN/..' $lib;
+#done
 
 
 ### GSTREAMER
@@ -170,11 +170,13 @@ cp $APPDIR/usr/share/icons/breeze/apps/48/kdenlive.svg $APPDIR
 #linuxdeployqt $APPDIR/usr/bin/melt
 #linuxdeployqt -executable $APPDIR/usr/lib/va/*.so
 
+
+#  -executable=$APPDIR/usr/lib/libva.so \
+#  -executable=$APPDIR/usr/lib/libva-drm.so \
+#  -executable=$APPDIR/usr/lib/libva-x11.so \
+
 linuxdeployqt $APPDIR/usr/share/applications/org.kde.kdenlive.desktop \
   -executable=$APPDIR/usr/bin/kdenlive \
-  -executable=$APPDIR/usr/lib/libva.so \
-  -executable=$APPDIR/usr/lib/libva-drm.so \
-  -executable=$APPDIR/usr/lib/libva-x11.so \
   -qmldir=$DEPS_INSTALL_PREFIX/qml \
   -verbose=2 \
   -bundle-non-qt-libs \

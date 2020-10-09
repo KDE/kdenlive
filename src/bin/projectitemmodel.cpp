@@ -403,6 +403,19 @@ const QVector<uint8_t> ProjectItemModel::getAudioLevelsByBinID(const QString &bi
     return QVector<uint8_t>();
 }
 
+double ProjectItemModel::getAudioMaxLevel(const QString &binId)
+{
+    READ_LOCK();
+    for (const auto &clip : m_allItems) {
+        auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
+        if (c->itemType() == AbstractProjectItem::ClipItem && c->clipId() == binId) {
+            int volume = std::static_pointer_cast<ProjectClip>(c)->getProducerIntProperty(QStringLiteral("kdenlive:audio_max"));
+            return volume > 1 ? qSqrt(volume) : volume;
+        }
+    }
+    return 0;
+}
+
 bool ProjectItemModel::hasClip(const QString &binId)
 {
     READ_LOCK();
@@ -742,7 +755,7 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const std::shared_ptr<Mlt:
     bool res = addItem(new_clip, parentId, undo, redo);
     if (res) {
         new_clip->importEffects(producer);
-        if (new_clip->isReady() || new_clip->sourceExists()) {
+        if (new_clip->statusReady() || new_clip->sourceExists()) {
             int blocking = pCore->jobManager()->getBlockingJobId(id, AbstractClipJob::LOADJOB);
             emit pCore->jobManager()->startJob<ThumbJob>({id}, blocking, QString(), -1, true);
             if (KdenliveSettings::audiothumbnails()) {
@@ -1082,7 +1095,7 @@ void ProjectItemModel::setClipWaiting(const QString &binId)
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
-        clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+        clip->setClipStatus(FileStatus::StatusWaiting);
     }
 }
 
@@ -1091,7 +1104,7 @@ void ProjectItemModel::setClipInvalid(const QString &binId)
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(binId);
     if (clip) {
-        clip->setClipStatus(AbstractProjectItem::StatusMissing);
+        clip->setClipStatus(FileStatus::StatusMissing);
         // TODO: set producer as blank invalid
     }
 }
@@ -1104,7 +1117,7 @@ void ProjectItemModel::updateWatcher(const std::shared_ptr<ProjectClip> &clipIte
         m_fileWatcher->removeFile(clipItem->clipId());
         QFileInfo check_file(clipItem->clipUrl());
         // check if file exists and if yes: Is it really a file and no directory?
-        if ((check_file.exists() && check_file.isFile()) || clipItem->clipStatus() == AbstractProjectItem::StatusMissing) {
+        if ((check_file.exists() && check_file.isFile()) || clipItem->clipStatus() == FileStatus::StatusMissing) {
             m_fileWatcher->addFile(clipItem->clipId(), clipItem->clipUrl());
         }
     }

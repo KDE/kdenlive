@@ -916,7 +916,8 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
         int imported = 0;
         for (int i = 0; i < max; i++) {
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
-            if (filter->get_int("internal_added") > 0) {
+            if (filter->get_int("internal_added") > 0 && m_ownerId.first != ObjectType::TimelineTrack) {
+                // Required to load master audio effects
                 if (auto ms = m_masterService.lock()) {
                     ms->attach(*filter.get());
                 }

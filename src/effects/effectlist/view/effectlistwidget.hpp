@@ -47,6 +47,7 @@ public:
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
     void reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions);
+    void reloadCustomEffectIx(const QModelIndex &index) override;
 
 public slots:
     void reloadCustomEffect(const QString &path);
@@ -72,6 +73,7 @@ public:
     }
     Q_INVOKABLE QString getName(const QModelIndex &index) const { return q->getName(index); }
     Q_INVOKABLE bool isFavorite(const QModelIndex &index) const { return q->isFavorite(index); }
+    Q_INVOKABLE void reloadCustomEffectIx(const QModelIndex &index) const { q->reloadCustomEffectIx(index); }
     Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite) const
     {
         q->setFavorite(index, favorite, true);

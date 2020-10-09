@@ -214,7 +214,7 @@ public:
             painter->setFont(font);
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem) {
                 int decoWidth = 0;
-                AbstractProjectItem::CLIPSTATUS clipStatus = (AbstractProjectItem::CLIPSTATUS)index.data(AbstractProjectItem::ClipStatus).toInt();
+                FileStatus::ClipStatus clipStatus = (FileStatus::ClipStatus)index.data(AbstractProjectItem::ClipStatus).toInt();
                 if (opt.decorationSize.height() > 0) {
                     r.setWidth(r.height() * pCore->getCurrentDar());
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
@@ -228,9 +228,9 @@ public:
                 }
                 // Draw frame in case of missing source
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
-                if (clipStatus == AbstractProjectItem::StatusMissing || clipStatus == AbstractProjectItem::StatusProxyOnly) {
+                if (clipStatus == FileStatus::StatusMissing || clipStatus == FileStatus::StatusProxyOnly) {
                     painter->save();
-                    painter->setPen(QPen(clipStatus == AbstractProjectItem::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
+                    painter->setPen(QPen(clipStatus == FileStatus::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
                     painter->drawRect(m_thumbRect.adjusted(0, 0, -1, -1));
                     painter->restore();
                 } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
@@ -467,10 +467,10 @@ public:
                 //m_videoDragRect = QRect();
             }
             // Draw frame in case of missing source
-            AbstractProjectItem::CLIPSTATUS clipStatus = (AbstractProjectItem::CLIPSTATUS)index.data(AbstractProjectItem::ClipStatus).toInt();
-            if (clipStatus == AbstractProjectItem::StatusMissing || clipStatus == AbstractProjectItem::StatusProxyOnly) {
+            FileStatus::ClipStatus clipStatus = (FileStatus::ClipStatus)index.data(AbstractProjectItem::ClipStatus).toInt();
+            if (clipStatus == FileStatus::StatusMissing || clipStatus == FileStatus::StatusProxyOnly) {
                 painter->save();
-                painter->setPen(QPen(clipStatus == AbstractProjectItem::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
+                painter->setPen(QPen(clipStatus == FileStatus::StatusProxyOnly ? Qt::yellow : Qt::red, 3));
                 painter->drawRect(m_thumbRect);
                 painter->restore();
             } else if (cType == ClipType::Image || cType == ClipType::SlideShow) {
@@ -1297,12 +1297,12 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
                     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
                     if (item->itemType() == AbstractProjectItem::ClipItem) {
                         auto clip = std::static_pointer_cast<ProjectClip>(item);
-                        if (clip && clip->isReady()) {
+                        if (clip && clip->statusReady()) {
                             editMasterEffect(item);
                         }
                     } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
                         auto clip = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
-                        if (clip && clip->isReady()) {
+                        if (clip && clip->statusReady()) {
                             editMasterEffect(item);
                         }
                     }
@@ -1333,7 +1333,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::Wheel) {
         auto *e = static_cast<QWheelEvent *>(event);
         if ((e != nullptr) && e->modifiers() == Qt::ControlModifier) {
-            wheelAccumulatedDelta += e->delta();
+            wheelAccumulatedDelta += e->angleDelta().y();
             if (abs(wheelAccumulatedDelta) >= QWheelEvent::DefaultDeltasPerStep) {
                 slotZoomView(wheelAccumulatedDelta > 0);
             }
@@ -1483,10 +1483,14 @@ void Bin::slotReloadClip()
         }
         if (currentItem) {
             emit openClip(std::shared_ptr<ProjectClip>());
-            if (currentItem->clipStatus() == AbstractProjectItem::StatusMissing || currentItem->clipStatus() == AbstractProjectItem::StatusProxyOnly) {
+            if (currentItem->clipStatus() == FileStatus::StatusMissing || currentItem->clipStatus() == FileStatus::StatusProxyOnly) {
                 // Don't attempt to reload missing clip
-                emit displayBinMessage(i18n("Missing source clip"), KMessageWidget::Warning);
-                return;
+                // Check if source file is available
+                const QString sourceUrl = currentItem->url();
+                if (!QFile::exists(sourceUrl)) {
+                    emit displayBinMessage(i18n("Missing source clip"), KMessageWidget::Warning);
+                    return;
+                }
             }
             if (currentItem->clipType() == ClipType::Playlist) {
                 // Check if a clip inside playlist is missing
@@ -2476,7 +2480,7 @@ void Bin::setupAddClipAction(QMenu *addClipMenu, ClipType::ProducerType type, co
 
 void Bin::showClipProperties(const std::shared_ptr<ProjectClip> &clip, bool forceRefresh)
 {
-    if ((clip == nullptr) || !clip->isReady()) {
+    if ((clip == nullptr) || !clip->statusReady()) {
         for (QWidget *w : m_propertiesPanel->findChildren<ClipPropertiesController *>()) {
             delete w;
         }
@@ -2602,7 +2606,7 @@ void Bin::setWaitingStatus(const QString &id)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(id);
     if (clip) {
-        clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+        clip->setClipStatus(FileStatus::StatusWaiting);
     }
 }
 
@@ -3950,7 +3954,7 @@ void Bin::reloadAllProducers(bool reloadThumbs)
             clip->resetProducerProperty(QStringLiteral("length"));
         }
         if (!xml.isNull()) {
-            clip->setClipStatus(AbstractProjectItem::StatusWaiting);
+            clip->setClipStatus(FileStatus::StatusWaiting);
             pCore->jobManager()->slotDiscardClipJobs(clip->clipId());
             clip->discardAudioThumb();
             // We need to set a temporary id before all outdated producers are replaced;
@@ -4059,7 +4063,7 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
     switch (item->itemType()) {
     case AbstractProjectItem::ClipItem: {
         std::shared_ptr<ProjectClip> clp = std::static_pointer_cast<ProjectClip>(item);
-        if (clp && clp->isReady()) {
+        if (clp && clp->statusReady()) {
             openProducer(clp);
             emit requestShowEffectStack(clp->clipName(), clp->m_effectStack, clp->getFrameSize(), false);
         }
@@ -4069,7 +4073,7 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
         auto subClip = std::static_pointer_cast<ProjectSubClip>(item);
         QPoint zone = subClip->zone();
         std::shared_ptr<ProjectClip> master = subClip->getMasterClip();
-        if (master && master->isReady()) {
+        if (master && master->statusReady()) {
             openProducer(master, zone.x(), zone.y());
         }
         break;

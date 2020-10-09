@@ -1245,8 +1245,8 @@ QRect GLWidget::displayRect() const
 
 QPoint GLWidget::offset() const
 {
-    return {m_offset.x() - ((int)((float)m_profileSize.width() * m_zoom) - width()) / 2,
-            m_offset.y() - ((int)((float)m_profileSize.height() * m_zoom) - height()) / 2};
+    return {m_offset.x() - static_cast<int>(width() * m_zoom / 2),
+            m_offset.y() - static_cast<int>(height() * m_zoom / 2)};
 }
 
 void GLWidget::setZoom(float zoom)

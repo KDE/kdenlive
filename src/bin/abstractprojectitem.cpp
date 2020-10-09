@@ -44,7 +44,7 @@ AbstractProjectItem::AbstractProjectItem(PROJECTITEMTYPE type, QString id, const
     , m_binId(std::move(id))
     , m_usage(0)
     , m_rating(0)
-    , m_clipStatus(StatusReady)
+    , m_clipStatus(FileStatus::StatusReady)
     , m_itemType(type)
     , m_lock(QReadWriteLock::Recursive)
     , m_isCurrent(false)
@@ -254,17 +254,17 @@ QPoint AbstractProjectItem::zone() const
     return {};
 }
 
-void AbstractProjectItem::setClipStatus(CLIPSTATUS status)
+void AbstractProjectItem::setClipStatus(FileStatus::ClipStatus status)
 {
     m_clipStatus = status;
 }
 
 bool AbstractProjectItem::statusReady() const
 {
-    return m_clipStatus == StatusReady || m_clipStatus == StatusProxyOnly;
+    return m_clipStatus == FileStatus::StatusReady || m_clipStatus == FileStatus::StatusProxy || m_clipStatus == FileStatus::StatusProxyOnly;
 }
 
-AbstractProjectItem::CLIPSTATUS AbstractProjectItem::clipStatus() const
+FileStatus::ClipStatus AbstractProjectItem::clipStatus() const
 {
     return m_clipStatus;
 }

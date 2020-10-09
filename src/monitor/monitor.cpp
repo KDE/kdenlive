@@ -844,25 +844,23 @@ void Monitor::adjustScrollBars(float horizontal, float vertical)
 {
     if (m_glMonitor->zoom() > 1.0f) {
         m_horizontalScroll->setPageStep(m_glWidget->width());
-        m_horizontalScroll->setMaximum((int)((float)m_glMonitor->profileSize().width() * m_glMonitor->zoom()) - m_horizontalScroll->pageStep());
+        m_horizontalScroll->setMaximum(m_glWidget->width() * m_glMonitor->zoom());
         m_horizontalScroll->setValue(qRound(horizontal * float(m_horizontalScroll->maximum())));
         emit m_horizontalScroll->valueChanged(m_horizontalScroll->value());
         m_horizontalScroll->show();
     } else {
-        int max = (int)((float)m_glMonitor->profileSize().width() * m_glMonitor->zoom()) - m_glWidget->width();
-        emit m_horizontalScroll->valueChanged(qRound(0.5 * max));
+        emit m_horizontalScroll->valueChanged(qRound(0.5 * m_glWidget->width() * m_glMonitor->zoom()));
         m_horizontalScroll->hide();
     }
 
     if (m_glMonitor->zoom() > 1.0f) {
         m_verticalScroll->setPageStep(m_glWidget->height());
-        m_verticalScroll->setMaximum((int)((float)m_glMonitor->profileSize().height() * m_glMonitor->zoom()) - m_verticalScroll->pageStep());
+        m_verticalScroll->setMaximum(m_glWidget->height() * m_glMonitor->zoom());
         m_verticalScroll->setValue((int)((float)m_verticalScroll->maximum() * vertical));
         emit m_verticalScroll->valueChanged(m_verticalScroll->value());
         m_verticalScroll->show();
     } else {
-        int max = (int)((float)m_glMonitor->profileSize().height() * m_glMonitor->zoom()) - m_glWidget->height();
-        emit m_verticalScroll->valueChanged(qRound(0.5 * max));
+        emit m_verticalScroll->valueChanged(qRound(0.5 * m_glWidget->height() * m_glMonitor->zoom()));
         m_verticalScroll->hide();
     }
 }
@@ -1010,7 +1008,7 @@ QStringList Monitor::mimeTypes() const
 // virtual
 void Monitor::wheelEvent(QWheelEvent *event)
 {
-    slotMouseSeek(event->delta(), event->modifiers());
+    slotMouseSeek(event->angleDelta().y(), event->modifiers());
     event->accept();
 }
 
@@ -1194,6 +1192,11 @@ void Monitor::refreshAudioThumbs()
 {
     emit m_glMonitor->getControllerProxy()->audioThumbFormatChanged();
     emit m_glMonitor->getControllerProxy()->colorsChanged();
+}
+
+void Monitor::normalizeAudioThumbs()
+{
+    emit m_glMonitor->getControllerProxy()->audioThumbNormalizeChanged();
 }
 
 void Monitor::checkOverlay(int pos)
@@ -1559,7 +1562,7 @@ void Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             // we are in record mode, don't display clip
             return;
         }
-        if (m_controller->isReady()) {
+        if (m_controller->statusReady()) {
             m_timePos->setRange(0, (int)m_controller->frameDuration() - 1);
             m_glMonitor->setRulerInfo((int)m_controller->frameDuration() - 1, controller->getMarkerModel());
             loadQmlScene(MonitorSceneDefault);

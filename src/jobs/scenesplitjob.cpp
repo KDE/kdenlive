@@ -152,7 +152,7 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
         int ix = 1;
         int lastCut = 0;
         QJsonArray list;
-        QJsonDocument json(list);
+        QJsonDocument json;
         for (const QString &marker : qAsConst(markerData)) {
             int pos = marker.section(QLatin1Char('='), 0, 0).toInt();
             if (pos <= lastCut + 1 || pos - lastCut < m_minInterval) {
@@ -166,8 +166,10 @@ bool SceneSplitJob::commitResult(Fun &undo, Fun &redo)
             lastCut = pos;
             ix++;
         }
+        json.setArray(list);
+        QString dataMap(json.toJson());
         if (!json.isEmpty()) {
-            pCore->projectItemModel()->loadSubClips(m_clipId, QString(json.toJson()), undo, redo);
+            pCore->projectItemModel()->loadSubClips(m_clipId, dataMap, undo, redo);
         }
     }
     qDebug() << "RESULT of the SCENESPLIT filter:" << result;

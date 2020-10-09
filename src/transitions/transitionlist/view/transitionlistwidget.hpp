@@ -43,6 +43,7 @@ public:
     QString getMimeType(const QString &assetId) const override;
     void updateFavorite(const QModelIndex &index);
     void downloadNewLumas();
+    void reloadCustomEffectIx(const QModelIndex &path) override;
 
 private:
     TransitionListWidgetProxy *m_proxy;
@@ -65,6 +66,7 @@ public:
     }
     Q_INVOKABLE QString getName(const QModelIndex &index) const { return q->getName(index); }
     Q_INVOKABLE bool isFavorite(const QModelIndex &index) const { return q->isFavorite(index); }
+    Q_INVOKABLE void reloadCustomEffectIx(const QModelIndex &index) const { q->reloadCustomEffectIx(index); }
     Q_INVOKABLE void setFavorite(const QModelIndex &index, bool favorite) const
     {
         q->setFavorite(index, favorite, false);

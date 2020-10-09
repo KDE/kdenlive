@@ -84,11 +84,13 @@ ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::share
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     if (producer->get_int("_placeholder") == 1) {
-        m_clipStatus = StatusMissing;
+        m_clipStatus = FileStatus::StatusMissing;
     } else if (producer->get_int("_missingsource") == 1) {
-        m_clipStatus = StatusProxyOnly;
+        m_clipStatus = FileStatus::StatusProxyOnly;
+    } else if (m_usesProxy) {
+        m_clipStatus = FileStatus::StatusProxy;
     } else {
-        m_clipStatus = StatusReady;
+        m_clipStatus = FileStatus::StatusReady;
     }
     m_name = clipName();
     m_duration = getStringDuration();
@@ -135,7 +137,7 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
 {
-    m_clipStatus = StatusWaiting;
+    m_clipStatus = FileStatus::StatusWaiting;
     m_thumbnail = thumb;
     m_markerModel = std::make_shared<MarkerListModel>(m_binId, pCore->projectManager()->undoStack());
     if (description.hasAttribute(QStringLiteral("type"))) {
@@ -206,6 +208,38 @@ QString ProjectClip::getXmlProperty(const QDomElement &producer, const QString &
 
 void ProjectClip::updateAudioThumbnail()
 {
+    if (m_hasAudio && m_service.startsWith(QLatin1String("avformat"))) {
+        int audioMax = getProducerIntProperty(QStringLiteral("kdenlive:audio_max"));
+        if (audioMax == 0) {
+            // Calculate max audio level with ffmpeg
+            QProcess ffmpeg;
+            QStringList args;
+            args << QStringLiteral("-i") << clipUrl() << QStringLiteral("-vn") << QStringLiteral("-af") << QStringLiteral("volumedetect") << QStringLiteral("-f") << QStringLiteral("null");
+#ifdef Q_OS_WIN
+            args << QStringLiteral("-");
+#else
+            args << QStringLiteral("/dev/stdout");
+#endif
+            QObject::connect(&ffmpeg, &QProcess::readyReadStandardOutput, [&ffmpeg, this]() {
+                QString output = ffmpeg.readAllStandardOutput();
+                if (output.contains(QLatin1String("max_volume"))) {
+                    output = output.section(QLatin1String("max_volume:"), 1).simplified();
+                    output = output.section(QLatin1Char(' '), 0, 0);
+                    bool ok;
+                    double maxVolume = output.toDouble(&ok);
+                    if (ok) {
+                        int aMax = qMax(1, qAbs(qRound(maxVolume)));
+                        setProducerProperty(QStringLiteral("kdenlive:audio_max"), aMax);
+                    } else {
+                        setProducerProperty(QStringLiteral("kdenlive:audio_max"), -1);
+                    }
+                }
+            });
+            ffmpeg.setProcessChannelMode(QProcess::MergedChannels);
+            ffmpeg.start(KdenliveSettings::ffmpegpath(), args);
+            ffmpeg.waitForFinished(-1);
+        }
+    }
     emit audioThumbReady();
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
@@ -370,9 +404,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         emit pCore->jobManager()->startJob<ThumbJob>({clipId()}, loadjobId, QString(), -1, true, true);
     } else {
         // If another load job is running?
-        if (loadjobId > -1) {
-            pCore->jobManager()->discardJobs(clipId(), AbstractClipJob::LOADJOB);
-        }
+        pCore->jobManager()->discardJobs(clipId());
         if (QFile::exists(m_path) && !hasProxy()) {
             clearBackupProperties();
         }
@@ -404,7 +436,7 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
                 discardAudioThumb();
             }
             if (KdenliveSettings::audiothumbnails()) {
-                emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadjobId, QString());
+                emit pCore->jobManager()->startJob<AudioThumbJob>({clipId()}, loadJob, QString());
             }
         }
     }
@@ -478,7 +510,9 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
     Q_UNUSED(replaceProducer)
     qDebug() << "################### ProjectClip::setproducer";
     QMutexLocker locker(&m_producerMutex);
+    FileStatus::ClipStatus currentStatus = m_clipStatus;
     updateProducer(producer);
+    emit producerChanged(m_binId, producer);
     m_thumbsProducer.reset();
     connectEffectStack();
 
@@ -498,7 +532,10 @@ bool ProjectClip::setProducer(std::shared_ptr<Mlt::Producer> producer, bool repl
         }
     }
     m_duration = getStringDuration();
-    m_clipStatus = StatusReady;
+    m_clipStatus = m_usesProxy ? FileStatus::StatusProxy : FileStatus::StatusReady;
+    if (m_clipStatus != currentStatus) {
+        updateTimelineClips({TimelineModel::StatusRole});
+    }
     setTags(getProducerProperty(QStringLiteral("kdenlive:tags")));
     AbstractProjectItem::setRating((uint) getProducerIntProperty(QStringLiteral("kdenlive:rating")));
     if (auto ptr = m_model.lock()) {
@@ -699,6 +736,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::getTimelineProducer(int trackId, int
             }
             if (m_videoProducers.count(trackId) == 0) {
                 m_videoProducers[trackId] = cloneProducer(true);
+                // Let audio enabled so that we can use audio visualization filters ?
                 m_videoProducers[trackId]->set("set.test_audio", 1);
                 m_videoProducers[trackId]->set("set.test_image", 0);
                 m_effectStack->addService(m_videoProducers[trackId]);
@@ -964,11 +1002,6 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
     return clone;
 }
 
-bool ProjectClip::isReady() const
-{
-    return m_clipStatus == StatusReady || m_clipStatus == StatusProxyOnly;
-}
-
 QPoint ProjectClip::zone() const
 {
     return ClipController::zone();
@@ -983,14 +1016,19 @@ const QString ProjectClip::hash()
     return getFileHash();
 }
 
+const QByteArray ProjectClip::getFolderHash(QDir dir)
+{
+    QByteArray fileData = dir.entryList(QDir::Files).join(QLatin1Char(',')).toUtf8();
+    return QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+}
+
 const QString ProjectClip::getFileHash()
 {
     QByteArray fileData;
     QByteArray fileHash;
     switch (m_clipType) {
     case ClipType::SlideShow:
-        fileData = clipUrl().toUtf8();
-        fileHash = QCryptographicHash::hash(fileData, QCryptographicHash::Md5);
+        fileHash = getFolderHash(QFileInfo(clipUrl()).absoluteDir());
         break;
     case ClipType::Text:
         fileData = getProducerProperty(QStringLiteral("xmldata")).toUtf8();
@@ -1340,10 +1378,10 @@ QVariant ProjectClip::getData(DataType type) const
 {
     switch (type) {
         case AbstractProjectItem::IconOverlay:
-            if (m_clipStatus == AbstractProjectItem::StatusMissing) {
+            if (m_clipStatus == FileStatus::StatusMissing) {
                 return QVariant("window-close");
             }
-            if (m_clipStatus == AbstractProjectItem::StatusWaiting) {
+            if (m_clipStatus == FileStatus::StatusWaiting) {
                 return QVariant("view-refresh");
             }
             return m_effectStack && m_effectStack->rowCount() > 0 ? QVariant("kdenlive-track_has_effect") : QVariant();
@@ -1382,6 +1420,7 @@ void ProjectClip::discardAudioThumb()
             QFile::remove(audioThumbPath);
         }
     }
+    resetProducerProperty(QStringLiteral("kdenlive:audio_max"));
     m_audioThumbCreated = false;
     refreshAudioInfo();
 }
@@ -1688,9 +1727,10 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
     return audioLevels;
 }
 
-void ProjectClip::setClipStatus(AbstractProjectItem::CLIPSTATUS status)
+void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
 {
     AbstractProjectItem::setClipStatus(status);
+    updateTimelineClips({TimelineModel::StatusRole});
     if (auto ptr = m_model.lock()) {
         std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                        AbstractProjectItem::IconOverlay);

@@ -296,7 +296,7 @@ void JobManager::slotManageFinishedJob(int id)
                 std::shared_ptr<AbstractProjectItem> item = pCore->projectItemModel()->getItemByBinId(it.first);
                 if (item && item->itemType() == AbstractProjectItem::ClipItem) {
                     auto clipItem = std::static_pointer_cast<ProjectClip>(item);
-                    if (!clipItem->isReady()) {
+                    if (!clipItem->statusReady()) {
                         // We were trying to load a new clip, delete it
                         pCore->projectItemModel()->requestBinClipDeletion(item, undo, redo);
                     }

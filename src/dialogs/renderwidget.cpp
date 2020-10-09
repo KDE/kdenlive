@@ -1214,7 +1214,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         in = pMon->getZoneStart();
         out = pMon->getZoneEnd() - 1;
     } else {
-        out = pCore->projectDuration() - 2;
+        out = pCore->projectDuration() - 1;
     }
 
     QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
