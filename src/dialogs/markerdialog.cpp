@@ -115,7 +115,7 @@ void MarkerDialog::slotUpdateThumb()
 
 QImage MarkerDialog::markerImage() const
 {
-    return clip_thumb->pixmap()->toImage();
+    return clip_thumb->pixmap(Qt::ReturnByValue).toImage();
 }
 
 CommentedTime MarkerDialog::newMarker()

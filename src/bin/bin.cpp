@@ -1333,7 +1333,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::Wheel) {
         auto *e = static_cast<QWheelEvent *>(event);
         if ((e != nullptr) && e->modifiers() == Qt::ControlModifier) {
-            wheelAccumulatedDelta += e->delta();
+            wheelAccumulatedDelta += e->angleDelta().y();
             if (abs(wheelAccumulatedDelta) >= QWheelEvent::DefaultDeltasPerStep) {
                 slotZoomView(wheelAccumulatedDelta > 0);
             }

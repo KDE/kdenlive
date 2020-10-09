@@ -189,7 +189,7 @@ bool ProxyJob::startJob()
         if (exif > 1) {
             // Rotate image according to exif data
             QImage processed;
-            QMatrix matrix;
+            QTransform matrix;
 
             switch (exif) {
             case 2:
