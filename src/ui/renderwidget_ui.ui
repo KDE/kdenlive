@@ -58,7 +58,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KUrlRequester" name="out_file" native="true"/>
+             <widget class="KUrlRequester" name="out_file"/>
             </item>
            </layout>
           </item>
@@ -341,13 +341,6 @@
               </property>
              </widget>
             </item>
-            <item>
-             <widget class="QCheckBox" name="parallel_process">
-              <property name="text">
-               <string>Parallel processing</string>
-              </property>
-             </widget>
-            </item>
            </layout>
           </item>
           <item row="5" column="0">
@@ -488,7 +481,7 @@
             <item>
              <widget class="QLabel" name="threadsLabel">
               <property name="text">
-               <string>Threads</string>
+               <string>Encoder threads</string>
               </property>
              </widget>
             </item>
@@ -522,6 +515,13 @@
              </spacer>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="parallel_process">
+            <property name="text">
+             <string>Parallel processing (experimental!)</string>
+            </property>
+           </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkTwoPass">
