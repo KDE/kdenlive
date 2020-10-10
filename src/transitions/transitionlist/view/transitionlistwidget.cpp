@@ -103,3 +103,7 @@ void TransitionListWidget::downloadNewLumas()
         // TODO: refresh currently displayd trans ?
     }
 }
+
+void TransitionListWidget::reloadCustomEffectIx(const QModelIndex &path)
+{
+}

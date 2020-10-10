@@ -113,6 +113,16 @@ std::shared_ptr<EffectTreeModel> EffectTreeModel::construct(const QString &categ
     return self;
 }
 
+void EffectTreeModel::reloadEffectFromIndex(const QModelIndex &index)
+{
+    if (!index.isValid()) {
+        return;
+    }
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    const QString path = EffectsRepository::get()->getCustomPath(item->dataColumn(idCol).toString());
+    reloadEffect(path);
+}
+
 void EffectTreeModel::reloadEffect(const QString &path)
 {
     QPair<QString, QString> asset = EffectsRepository::get()->reloadCustom(path);

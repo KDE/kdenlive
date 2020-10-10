@@ -283,9 +283,10 @@ Rectangle {
                             sel.setCurrentIndex(styleData.index, ItemSelectionModel.ClearAndSelect)
                             if (mouse.button === Qt.LeftButton) {
                                 drag.target = parent
-                                parent.grabToImage(function(result) {
+                                // grabToImage does not work on QQuickWidget from AssetListWidget. We should use QQuickView + QWidget::createWindowContainer
+                                /*parent.grabToImage(function(result) {
                                     parent.Drag.imageSource = result.url
-                                })
+                                })*/
                             } else {
                                 drag.target = undefined
                                 assetContextMenu.isItemFavorite = assetThumb.isFavorite
@@ -327,6 +328,14 @@ Rectangle {
                     visible: isEffectList && assetContextMenu.isCustom
                     onTriggered: {
                         assetlist.deleteCustomEffect(sel.currentIndex)
+                    }
+                }
+                MenuItem {
+                    id: reloadMenu
+                    text: i18n("Reload custom effect")
+                    visible: isEffectList && assetContextMenu.isCustom
+                    onTriggered: {
+                        assetlist.reloadCustomEffectIx(sel.currentIndex)
                     }
                 }
             }
