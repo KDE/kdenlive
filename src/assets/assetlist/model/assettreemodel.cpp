@@ -24,8 +24,6 @@
 #include "effects/effectsrepository.hpp"
 #include "transitions/transitionsrepository.hpp"
 
-#include <QMessageBox>
-
 int AssetTreeModel::nameCol = 0;
 int AssetTreeModel::idCol = 1;
 int AssetTreeModel::typeCol = 2;
