@@ -25,6 +25,7 @@
 #include <QMouseEvent>
 #include <QApplication>
 #include <QStylePainter>
+#include <QtMath>
 
 #include <KColorScheme>
 #include <QFontDatabase>
@@ -414,8 +415,8 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     int headOffset = m_lineHeight / 2;
     int offset = pCore->getItemIn(m_model->getOwnerId());
     m_zoomStart = m_zoomHandle.x() * maxWidth;
-    double zoomEnd = m_zoomHandle.y() * maxWidth;
-    m_zoomFactor = maxWidth / (zoomEnd - m_zoomStart);
+    m_zoomFactor = maxWidth / (m_zoomHandle.y() * maxWidth - m_zoomStart);
+    int zoomEnd = qCeil(m_zoomHandle.y() * maxWidth);
     /* ticks */
     double fps = pCore->getCurrentFps();
     int displayedLength = m_duration / m_zoomFactor / fps;
@@ -470,14 +471,14 @@ void KeyframeView::paintEvent(QPaintEvent *event)
     for (const auto &keyframe : *m_model.get()) {
         int pos = keyframe.first.frames(fps) - offset;
         if (pos < 0) continue;
+        double scaledPos = pos * m_scale;
+        if (scaledPos < m_zoomStart || qFloor(scaledPos) > zoomEnd) {
+            continue;
+        }
         if (pos == m_currentKeyframe || pos == m_hoverKeyframe) {
             p.setBrush(m_colSelected);
         } else {
             p.setBrush(m_colKeyframe);
-        }
-        double scaledPos = pos * m_scale;
-        if (scaledPos < m_zoomStart || scaledPos > zoomEnd) {
-            continue;
         }
         scaledPos -= m_zoomStart;
         scaledPos *= m_zoomFactor;
@@ -515,7 +516,7 @@ void KeyframeView::paintEvent(QPaintEvent *event)
      */
     if (m_position >= 0 && m_position < m_duration) {
         double scaledPos = m_position * m_scale;
-        if (scaledPos >= m_zoomStart && scaledPos <= zoomEnd) {
+        if (scaledPos >= m_zoomStart && qFloor(scaledPos) <= zoomEnd) {
             scaledPos -= m_zoomStart;
             scaledPos *= m_zoomFactor;
             scaledPos += m_offset;

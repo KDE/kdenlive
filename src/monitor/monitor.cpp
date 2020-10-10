@@ -1008,7 +1008,7 @@ QStringList Monitor::mimeTypes() const
 // virtual
 void Monitor::wheelEvent(QWheelEvent *event)
 {
-    slotMouseSeek(event->delta(), event->modifiers());
+    slotMouseSeek(event->angleDelta().y(), event->modifiers());
     event->accept();
 }
 

@@ -84,6 +84,13 @@ QString EffectListWidget::getMimeType(const QString &assetId) const
     return QStringLiteral("kdenlive/effect");
 }
 
+void EffectListWidget::reloadCustomEffectIx(const QModelIndex &index)
+{
+    static_cast<EffectTreeModel *>(m_model.get())->reloadEffectFromIndex(m_proxyModel->mapToSource(index));
+    m_proxyModel->sort(0, Qt::AscendingOrder);
+}
+
+
 void EffectListWidget::reloadCustomEffect(const QString &path)
 {
     static_cast<EffectTreeModel *>(m_model.get())->reloadEffect(path);

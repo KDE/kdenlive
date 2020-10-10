@@ -421,6 +421,7 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
+                        updateDrag()
                     }
                 }
                 onPositionChanged: {
@@ -510,6 +511,7 @@ Rectangle {
                     if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
+                        updateDrag()
                     }
                 }
                 onPositionChanged: {

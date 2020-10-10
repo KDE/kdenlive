@@ -45,6 +45,7 @@ public:
     /* @brief returns true if an effect exists in MLT (bypasses the blacklist/metadata parsing) */
     bool hasInternalEffect(const QString &effectId) const;
     QPair<QString, QString> reloadCustom(const QString &path);
+    QString getCustomPath(const QString &id);
 
     /* @brief Returns whether this belongs to main effects */
     bool isPreferred(const QString &effectId) const;
