@@ -564,6 +564,8 @@ public:
     QPoint selectionInOut() const;
     /** @brief Create a mix transition with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
     Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
+    /** @brief Temporarily un/plug a list of clips in timeline. */
+    void temporaryUnplug(QList<int> clipIds, bool hide);
 
 public slots:
     void resetView();
