@@ -214,16 +214,16 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
 
 
     if(!newDescription.trimmed().isEmpty()){
-                QDomElement root = doc.documentElement();
-                QDomElement nodelist = root.firstChildElement("description");
-                QDomElement newNodeTag = doc.createElement(QString("description"));
-                QDomText text = doc.createTextNode(newDescription);
-                newNodeTag.appendChild(text);
-                root.replaceChild(newNodeTag, nodelist);
+        QDomElement root = doc.documentElement();
+        QDomElement nodelist = root.firstChildElement("description");
+        QDomElement newNodeTag = doc.createElement(QString("description"));
+        QDomText text = doc.createTextNode(newDescription);
+        newNodeTag.appendChild(text);
+        root.replaceChild(newNodeTag, nodelist);
 
-            }
+    }
 
-    if(!newName.trimmed().isEmpty())
+    if(!newName.trimmed().isEmpty() && newName != currentName)
     {
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
         if (!dir.exists()) {
@@ -249,24 +249,24 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
         e.setAttribute("id", newName);
 
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
-                QTextStream out(&file);
-                out << doc.toString();
-         }
-         file.close();
+            QTextStream out(&file);
+            out << doc.toString();
+        }
+        file.close();
 
-         deleteEffect(index);
-         reloadEffect(dir.absoluteFilePath(newName + QStringLiteral(".xml")));
+        deleteEffect(index);
+        reloadEffect(dir.absoluteFilePath(newName + QStringLiteral(".xml")));
 
     }
     else
     {
         QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
         if (file.open(QFile::WriteOnly | QFile::Truncate)) {
-                QTextStream out(&file);
-                out << doc.toString();
-         }
-         file.close();
-          reloadEffect(oldpath);
+            QTextStream out(&file);
+            out << doc.toString();
+        }
+        file.close();
+        reloadEffect(oldpath);
     }
 
 }
