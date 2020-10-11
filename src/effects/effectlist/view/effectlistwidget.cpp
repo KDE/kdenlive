@@ -114,10 +114,8 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     QFormLayout form(&dialog);
     QLineEdit *effectName = new QLineEdit(getName(index), &dialog);
     QTextEdit *descriptionBox = new QTextEdit(getDescription(index), &dialog);
-    QString label_Name = QString("Name : ");
-    form.addRow(label_Name, effectName);
-    QString label = QString("Comments : ");
-    form.addRow(label, descriptionBox);
+    form.addRow(i18n("Name : "), effectName);
+    form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
     form.addRow(&buttonBox);
     QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
