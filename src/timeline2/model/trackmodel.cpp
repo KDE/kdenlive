@@ -266,6 +266,35 @@ bool TrackModel::requestClipInsertion(int clipId, int position, bool updateView,
     return false;
 }
 
+void TrackModel::temporaryUnplugClip(int clipId)
+{
+    QWriteLocker locker(&m_lock);
+    int clip_position = m_allClips[clipId]->getPosition();
+    auto clip_loc = getClipIndexAt(clip_position);
+    int target_track = clip_loc.first;
+    int target_clip = clip_loc.second;
+    // lock MLT playlist so that we don't end up with invalid frames in monitor
+    m_playlists[target_track].lock();
+    Q_ASSERT(target_clip < m_playlists[target_track].count());
+    Q_ASSERT(!m_playlists[target_track].is_blank(target_clip));
+    std::unique_ptr<Mlt::Producer> prod(m_playlists[target_track].replace_with_blank(target_clip));
+    m_playlists[target_track].unlock();
+}
+
+void TrackModel::temporaryReplugClip(int cid)
+{
+    QWriteLocker locker(&m_lock);
+    int clip_position = m_allClips[cid]->getPosition();
+    int target_track = m_allClips[cid]->getSubPlaylistIndex();
+    m_playlists[target_track].lock();
+    if (auto ptr = m_parent.lock()) {
+        std::shared_ptr<ClipModel> clip = ptr->getClipPtr(cid);
+        m_playlists[target_track].insert_at(clip_position, *clip, 1);
+    }
+    m_playlists[target_track].unlock();
+}
+
+
 void TrackModel::replugClip(int clipId)
 {
     QWriteLocker locker(&m_lock);

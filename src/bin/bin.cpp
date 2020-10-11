@@ -3656,6 +3656,9 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     QString path = clip->getProducerProperty(QStringLiteral("resource"));
     QDir titleFolder(m_doc->projectDataFolder() + QStringLiteral("/titles"));
     titleFolder.mkpath(QStringLiteral("."));
+    QList<int> clips = clip->timelineInstances();
+    // Temporarily hide this title clip in timeline so that it does not appear when requesting background frame
+    pCore->temporaryUnplug(clips, true);
     TitleWidget dia_ui(QUrl(), m_doc->timecode(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
     QDomDocument doc;
     QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
@@ -3666,8 +3669,9 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
     } else {
         doc.setContent(xmldata);
     }
-    dia_ui.setXml(doc, clip->AbstractProjectItem::clipId());
+    dia_ui.setXml(doc, clip->clipId());
     if (dia_ui.exec() == QDialog::Accepted) {
+        pCore->temporaryUnplug(clips, false);
         QMap<QString, QString> newprops;
         newprops.insert(QStringLiteral("xmldata"), dia_ui.xml().toString());
         if (dia_ui.duration() != clip->duration().frames(pCore->getCurrentFps())) {
@@ -3696,6 +3700,8 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip)
             }
         }
         slotEditClipCommand(clip->AbstractProjectItem::clipId(), clip->currentProperties(newprops), newprops);
+    } else {
+        pCore->temporaryUnplug(clips, false);
     }
 }
 

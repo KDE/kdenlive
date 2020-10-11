@@ -254,6 +254,8 @@ protected:
     /* @brief This function removes the clip from the mlt object, and then insert it back in the same spot again.
      * This is used when some properties of the clip have changed, and we need this to refresh it */
     void replugClip(int clipId);
+    void temporaryReplugClip(int cid);
+    void temporaryUnplugClip(int clipId);
 
     int trackDuration() const;
 

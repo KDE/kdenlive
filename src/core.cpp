@@ -925,3 +925,8 @@ void Core::addGuides(QList <int> guides)
     }
     pCore->currentDoc()->getGuideModel()->addMarkers(markers);
 }
+
+void Core::temporaryUnplug(QList<int> clipIds, bool hide)
+{
+    pCore->window()->getMainTimeline()->controller()->temporaryUnplug(clipIds, hide);
+}
