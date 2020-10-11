@@ -113,7 +113,7 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     QDialog dialog(this);
     QFormLayout form(&dialog);
     QLineEdit *effectName = new QLineEdit(getName(index), &dialog);
-    QTextEdit *descriptionBox = new QTextEdit(getDescription(index), &dialog);
+    QTextEdit *descriptionBox = new QTextEdit(getDescription(true, index), &dialog);
     form.addRow(i18n("Name : "), effectName);
     form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
