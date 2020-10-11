@@ -32,6 +32,7 @@
 #include <KActionCategory>
 #include <QDebug>
 #include <QMenu>
+#include <QMessageBox>
 
 EffectTreeModel::EffectTreeModel(QObject *parent)
     : AssetTreeModel(parent)
@@ -196,3 +197,76 @@ void EffectTreeModel::setFavorite(const QModelIndex &index, bool favorite, bool 
     KdenliveSettings::setFavorite_effects(favs);
 }
 
+void EffectTreeModel::editCustomAsset(const QString newName,const QString newDescription, const QModelIndex &index)
+{
+
+    std::shared_ptr<TreeItem> item = getItemById((int)index.internalId());
+    QString currentName = item->dataColumn(AssetTreeModel::nameCol).toString();
+
+    QDomDocument doc;
+
+    QDomElement effect = EffectsRepository::get()->getXml(currentName);
+    QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+    QString oldpath =  dir.absoluteFilePath(currentName + QStringLiteral(".xml"));
+
+    doc.appendChild(doc.importNode(effect, true));
+
+
+
+    if(!newDescription.trimmed().isEmpty()){
+        QDomElement root = doc.documentElement();
+        QDomElement nodelist = root.firstChildElement("description");
+        QDomElement newNodeTag = doc.createElement(QString("description"));
+        QDomText text = doc.createTextNode(newDescription);
+        newNodeTag.appendChild(text);
+        root.replaceChild(newNodeTag, nodelist);
+
+    }
+
+    if(!newName.trimmed().isEmpty() && newName != currentName)
+    {
+        QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
+        if (!dir.exists()) {
+            dir.mkpath(QStringLiteral("."));
+        }
+
+        if (dir.exists(newName + QStringLiteral(".xml"))){
+            QMessageBox message;
+            message.critical(0, i18n("Error"), i18n("Effect name %1 already exists.\n Try another name?", newName));
+            message.setFixedSize(400, 200);
+            return;
+        }
+        QFile file(dir.absoluteFilePath(newName + QStringLiteral(".xml")));
+
+        QDomElement root = doc.documentElement();
+        QDomElement nodelist = root.firstChildElement("name");
+        QDomElement newNodeTag = doc.createElement(QString("name"));
+        QDomText text = doc.createTextNode(newName);
+        newNodeTag.appendChild(text);
+        root.replaceChild(newNodeTag, nodelist);
+
+        QDomElement e = doc.documentElement();
+        e.setAttribute("id", newName);
+
+        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+            QTextStream out(&file);
+            out << doc.toString();
+        }
+        file.close();
+
+        deleteEffect(index);
+        reloadEffect(dir.absoluteFilePath(newName + QStringLiteral(".xml")));
+
+    }
+    else
+    {
+        QFile file(dir.absoluteFilePath(currentName + QStringLiteral(".xml")));
+        if (file.open(QFile::WriteOnly | QFile::Truncate)) {
+            QTextStream out(&file);
+            out << doc.toString();
+        }
+        file.close();
+        reloadEffect(oldpath);
+    }
+
+}
