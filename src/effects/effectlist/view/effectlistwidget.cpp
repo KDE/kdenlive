@@ -134,4 +134,5 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
                enteredDescription = enteredDescription.left(enteredDescription.size() - currentName.size() - 2);
             }
            m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
+    }
 }
