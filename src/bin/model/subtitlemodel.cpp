@@ -4,6 +4,10 @@
 #include "project/projectmanager.h"
 #include "timeline2/model/snapmodel.hpp"
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
     : QAbstractListModel(parent)
     , m_undoStack(std::move(undo_stack))
@@ -354,4 +358,21 @@ void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos)
     removeSubtitle(oldPos);
     addSubtitle(newPos, endPos, subtitleText);
     return;
+}
+
+QString SubtitleModel::toJson()
+{
+    qDebug()<< "to JSON";
+    QJsonArray list;
+    for (const auto &subtitle : m_subtitleList) {
+        QJsonObject currentSubtitle;
+        currentSubtitle.insert(QLatin1String("startPos"), QJsonValue(subtitle.first.seconds()));
+        currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.first));
+        currentSubtitle.insert(QLatin1String("endPos"), QJsonValue(subtitle.second.second.seconds()));
+        list.push_back(currentSubtitle);
+        qDebug()<<subtitle.first.seconds();
+    }
+    QJsonDocument jsonDoc(list);
+    qDebug()<<QString(jsonDoc.toJson());
+    return QString(jsonDoc.toJson());
 }

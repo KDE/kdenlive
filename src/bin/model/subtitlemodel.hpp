@@ -68,6 +68,9 @@ public:
     */
     void moveSubtitle(GenTime oldPos, GenTime newPos);
 
+    /** @brief Exports the subtitle model to json */
+    QString toJson();
+
 public slots:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle();
