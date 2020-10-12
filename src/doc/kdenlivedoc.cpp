@@ -1784,6 +1784,7 @@ std::shared_ptr<SubtitleModel> KdenliveDoc::getSubtitleModel() const
 
 void KdenliveDoc::subtitlesChanged()
 {
-    m_subtitleModel->parseSubtitle();
+    m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson());    //Update subtitle file everytime the subtitle model is changed
+    //m_subtitleModel->parseSubtitle();
     return;
 }
