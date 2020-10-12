@@ -74,10 +74,17 @@ public:
 public slots:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle();
+    
+    /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
+    void jsontoSubtitle(const QString &data);
 
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;
-    std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
+    std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList; 
+
+    QString scriptInfoSection="", styleSection = "",eventSection="";
+    QString styleName="";
+
     //To get subtitle file from effects parameter:
     //std::unique_ptr<Mlt::Properties> m_asset;
     //std::shared_ptr<AssetParameterModel> m_model;

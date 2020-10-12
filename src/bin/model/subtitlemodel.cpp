@@ -117,30 +117,46 @@ void SubtitleModel::parseSubtitle()
                 if (!turn) {
                     //qDebug() << " turn = 0  " << line;
                     //check if it is script info, event,or v4+ style
-                    if (line.replace(" ","").contains("ScriptInfo")) {
+                    QString linespace = line;
+                    if (linespace.replace(" ","").contains("ScriptInfo")) {
                         //qDebug()<< "Script Info";
                         section = "Script Info";
+                        scriptInfoSection += line+"\n";
                         turn++;
                         //qDebug()<< "turn" << turn;
                         continue;
                     } else if (line.contains("Styles")) {
                         //qDebug()<< "V4 Styles";
                         section = "V4 Styles";
+                        styleSection += line + "\n";
                         turn++;
                         //qDebug()<< "turn" << turn;
                         continue;
                     } else {
                         turn++;
                         section = "Events";
+                        eventSection += line +"\n";
                         //qDebug()<< "turn" << turn;
                         continue;
                     }
+                }
+                if(section.contains("Script Info")){
+                    scriptInfoSection += line + "\n";
+                }
+                if(section.contains("V4 Styles")){
+                    QStringList styleFormat;
+                    styleSection +=line + "\n";
+                    //Style: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
+                    styleFormat = (line.split(": ")[1].replace(" ","")).split(',');
+                    styleName = styleFormat[0];
+
                 }
                 //qDebug() << "\n turn != 0  " << turn<< line;
                 if (section.contains("Events")) {
                     //if it is event
                     QStringList format;
                     if (line.contains("Format:")) {
+                    	eventSection += line +"\n";
                         EventFormat += line;
                         format = (EventFormat.split(": ")[1].replace(" ","")).split(',');
                         //qDebug() << format << format.count();
@@ -178,6 +194,8 @@ void SubtitleModel::parseSubtitle()
         }
         assFile.close();
     }
+    toJson();
+    jsontoSubtitle(toJson());
 }
 
 GenTime SubtitleModel::stringtoTime(QString &str)
@@ -375,4 +393,71 @@ QString SubtitleModel::toJson()
     QJsonDocument jsonDoc(list);
     qDebug()<<QString(jsonDoc.toJson());
     return QString(jsonDoc.toJson());
+}
+
+void SubtitleModel::jsontoSubtitle(const QString &data)
+{
+    QString outFile = "path_to_temp_Subtitle.ass";
+    if (!outFile.contains(".ass"))
+        return; // this function currrently writes in ass file format only
+    QFile outF(outFile);
+
+    qDebug()<< "Import from JSON";
+    auto json = QJsonDocument::fromJson(data.toUtf8());
+    if (!json.isArray()) {
+        qDebug() << "Error : Json file should be an array";
+        return;
+    }
+    auto list = json.array();
+    if (outF.open(QIODevice::WriteOnly)){
+        QTextStream out(&outF);
+        out<<scriptInfoSection<<endl;
+        out<<styleSection<<endl;
+        out<<eventSection;
+        for (const auto &entry : list) {
+            if (!entry.isObject()) {
+                qDebug() << "Warning : Skipping invalid subtitle data";
+                continue;
+            }
+            auto entryObj = entry.toObject();
+            if (!entryObj.contains(QLatin1String("startPos"))) {
+                qDebug() << "Warning : Skipping invalid subtitle data (does not contain position)";
+                continue;
+            }
+            double startPos = entryObj[QLatin1String("startPos")].toDouble();
+            //convert seconds to FORMAT= h:mm:ss.SS
+            int millisec = startPos * 1000;
+            int seconds = millisec / 1000;
+            millisec %=1000;
+            int minutes = seconds / 60;
+            seconds %= 60;
+            int hours = minutes /60;
+            minutes %= 60;
+            int milli_2 = millisec / 10;
+            QString startTimeString = QString("%1:%2:%3.%4")
+              .arg(hours, 1, 10, QChar('0'))
+              .arg(minutes, 2, 10, QChar('0'))
+              .arg(seconds, 2, 10, QChar('0'))
+              .arg(milli_2,2,10,QChar('0'));
+            QString dialogue = entryObj[QLatin1String("dialogue")].toString();
+            double endPos = entryObj[QLatin1String("endPos")].toDouble();
+            millisec = endPos * 1000;
+            seconds = millisec / 1000;
+            millisec %=1000;
+            minutes = seconds / 60;
+            seconds %= 60;
+            hours = minutes /60;
+            minutes %= 60;
+
+            milli_2 = millisec / 10; // to limit ms to 2 digits
+            QString endTimeString = QString("%1:%2:%3.%4")
+              .arg(hours, 1, 10, QChar('0'))
+              .arg(minutes, 2, 10, QChar('0'))
+              .arg(seconds, 2, 10, QChar('0'))
+              .arg(milli_2,2,10,QChar('0'));
+            //Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+            out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
+            qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
+        }
+    }
 }
