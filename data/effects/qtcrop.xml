@@ -6,11 +6,11 @@
 	<parameter type="animatedrect" name="rect" default="0 0 %width %height" opacity="false">
 		<name>Rectangle</name>
 	</parameter>
+    <parameter type="animated" name="radius" default="0" min="0" max="1" decimals="2">
+		<name>Radius</name>
+	</parameter>
 	<parameter type="bool" name="circle" default="0">
 		<name>Circle</name>
-	</parameter>
-	<parameter type="constant" name="radius" default="0" min="0" max="1" decimals="2">
-		<name>Radius</name>
 	</parameter>
 	<parameter type="color" name="color" default="0x00000000" alpha="1">
 		<name>Padding Color</name>
