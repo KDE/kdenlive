@@ -1491,6 +1491,53 @@ Rectangle {
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                 }*/
+                MouseArea {
+                        // Clip shifting
+                        id: subtitleClipArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        enabled: true
+                        property int newStart: -1
+                        property int diff: -1
+                        property double delta: -1
+                        property double originalDuration: -1
+                        property double oldDelta: 0
+                        acceptedButtons: Qt.LeftButton
+                        cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.PointingHandCursor);
+                        drag.target: subtitleBase
+                        drag.axis: Drag.XAxis
+                        onPressed: {
+                            console.log('IT IS PRESSED')
+                            root.autoScrolling = false
+                            oldStartX = mouseX
+                            oldStartFrame = subtitleBase.x
+                            originalDuration = subtitleBase.width/timeScale
+                            console.log("originalDuration",originalDuration)
+                        }
+                        onPositionChanged: {
+                            if (pressed) {
+                                newStart = Math.round((subtitleBase.x + (mouseX-oldStartX)) / timeScale)
+                                if (mouseX != oldStartX) {
+                                    diff = (mouseX - oldStartX) / timeScale
+                                    subtitleBase.x = subtitleBase.x + diff
+                                    delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
+                                    var diffDelta = delta - oldDelta
+                                    oldDelta = delta
+
+                                    subtitleBase.width = originalDuration * timeline.scaleFactor                             
+                                }
+                            }
+                        }
+                        onReleased: {
+                            console.log('IT IS RELEASED')
+                            root.autoScrolling = timeline.autoScroll
+                            if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
+                                console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
+                                timeline.shiftSubtitle(oldStartFrame/timeline.scaleFactor , subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleEdit.text)                                
+                            }
+                            console.log("originalDuration after shifting",originalDuration)
+                        }
+                    }
                 TextField {
                     id: subtitleEdit
                     font: miniFont
@@ -1500,7 +1547,7 @@ Rectangle {
                         timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor)
                     }
                     anchors.fill: parent
-                    visible: true && text != ""
+                    visible: text != "" && timeScale >= 6
                     text: model.subtitle
                     height: subtitleBase.height
                     width: subtitleBase.width
