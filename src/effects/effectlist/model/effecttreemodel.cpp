@@ -219,8 +219,11 @@ void EffectTreeModel::editCustomAsset(const QString newName,const QString newDes
         QDomElement newNodeTag = doc.createElement(QString("description"));
         QDomText text = doc.createTextNode(newDescription);
         newNodeTag.appendChild(text);
-        root.replaceChild(newNodeTag, nodelist);
-
+        if (!nodelist.isNull()) {
+            root.replaceChild(newNodeTag, nodelist);
+        } else {
+            root.appendChild(newNodeTag);
+        }
     }
 
     if(!newName.trimmed().isEmpty() && newName != currentName)
