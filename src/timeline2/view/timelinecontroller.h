@@ -558,8 +558,10 @@ public:
     QPoint selectionInOut() const;
     /** @brief Edit the subtitle text and/or end timings */
     Q_INVOKABLE void editSubtitle(int startFrame, QString text, int endFrame);
-    /** @brief Move position of subtitle */
+    /** @brief Move position of subtitle start timing */
     Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame);
+    /** @brief Shift subtitle clips without changing the clip duration */
+    Q_INVOKABLE void shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame=0, QString text="");
 
 public slots:
     void resetView();
