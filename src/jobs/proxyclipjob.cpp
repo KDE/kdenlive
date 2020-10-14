@@ -225,7 +225,7 @@ bool ProxyJob::startJob()
         return true;
     } else {
         m_isFfmpegJob = true;
-        if (KdenliveSettings::ffmpegpath().isEmpty()) {
+        if (QFileInfo(KdenliveSettings::ffmpegpath()).isFile()) {
             // FFmpeg not detected, cannot process the Job
             m_errorMessage.prepend(i18n("Failed to create proxy. FFmpeg not found, please set path in Kdenlive's settings Environment"));
             m_done = true;
