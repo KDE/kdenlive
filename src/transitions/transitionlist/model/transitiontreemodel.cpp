@@ -111,3 +111,6 @@ void TransitionTreeModel::deleteEffect(const QModelIndex &)
 {
 }
 
+void TransitionTreeModel::editCustomAsset(const QString newName, const QString newDescription, const QModelIndex &index)
+{
+}

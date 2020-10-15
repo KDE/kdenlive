@@ -3676,3 +3676,18 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
         undo();
     }
 }
+
+void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
+{
+    for (auto &cid : clipIds) {
+        int tid = m_model->getItemTrackId(cid);
+        if (tid == -1) {
+            continue;
+        }
+        if (hide) {
+            m_model->getTrackById_const(tid)->temporaryUnplugClip(cid);
+        } else {
+            m_model->getTrackById_const(tid)->temporaryReplugClip(cid);
+        }
+    }
+}

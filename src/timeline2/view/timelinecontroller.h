@@ -558,6 +558,8 @@ public:
     void addTracks(int videoTracks, int audioTracks);
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
+    /** @brief Temporarily un/plug a list of clips in timeline. */
+    void temporaryUnplug(QList<int> clipIds, bool hide);
 
 public slots:
     void resetView();

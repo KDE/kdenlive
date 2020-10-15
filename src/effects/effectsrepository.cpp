@@ -80,6 +80,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             //qDebug() << "Error: found unsupported effect group" << base.attribute(QStringLiteral("name"))<<" : "<<file_name;
             Info result;
             result.xml = base;
+            result.description = Xml::getSubTagContent(base, QStringLiteral("description"));
             for (int i = 0; i < effects.count(); ++i) {
                 QDomNode currentNode = effects.item(i);
                 if (currentNode.isNull()) {

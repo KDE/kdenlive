@@ -29,6 +29,12 @@
 #include <QQmlContext>
 #include <QStandardPaths>
 #include <memory>
+#include <QFormLayout>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QLineEdit>
+#include <QTextEdit>
+
 EffectListWidget::EffectListWidget(QWidget *parent)
     : AssetListWidget(parent)
 {
@@ -100,4 +106,27 @@ void EffectListWidget::reloadCustomEffect(const QString &path)
 void EffectListWidget::reloadEffectMenu(QMenu *effectsMenu, KActionCategory *effectActions)
 {
     m_model->reloadAssetMenu(effectsMenu, effectActions);
+}
+
+void EffectListWidget::editCustomAsset(const QModelIndex &index)
+{
+    QDialog dialog(this);
+    QFormLayout form(&dialog);
+    QLineEdit *effectName = new QLineEdit(getName(index), &dialog);
+    QTextEdit *descriptionBox = new QTextEdit(getDescription(true, index), &dialog);
+    form.addRow(i18n("Name : "), effectName);
+    form.addRow(i18n("Comments : "), descriptionBox);
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
+    if(dialog.exec() == QDialog::Accepted) {
+        QString name = effectName->text();
+        QString enteredDescription = descriptionBox->toPlainText();
+        if (name.trimmed().isEmpty() && enteredDescription.trimmed().isEmpty()) {
+            return;
+        }
+        m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
+
+    }
 }

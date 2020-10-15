@@ -230,6 +230,9 @@ public:
     int audioChannels();
     /** @brief Add guides in the project. */
     void addGuides(QList <int> guides);
+    /** @brief Temporarily un/plug a list of clips in timeline. */
+    void temporaryUnplug(QList<int> clipIds, bool hide);
+    
     KSharedDataCache audioThumbCache;
 
 private:

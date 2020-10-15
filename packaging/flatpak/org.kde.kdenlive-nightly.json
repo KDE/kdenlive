@@ -2,7 +2,7 @@
   "app-id": "org.kde.kdenlive",
   "default-branch": "master",
   "runtime": "org.kde.Platform",
-  "runtime-version": "5.13",
+  "runtime-version": "5.15",
   "sdk": "org.kde.Sdk",
   "command": "kdenlive",
   "rename-icon": "kdenlive",
