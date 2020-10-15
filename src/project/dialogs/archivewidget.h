@@ -21,6 +21,7 @@
 #define ARCHIVEWIDGET_H
 
 #include "ui_archivewidget_ui.h"
+#include "timeline2/model/timelinemodel.hpp"
 
 #include <KIO/CopyJob>
 #include <QTemporaryFile>
@@ -41,7 +42,6 @@ class KArchive;
  */
 
 class KMessageWidget;
-
 class ArchiveWidget : public QDialog, public Ui::ArchiveWidget_UI
 {
     Q_OBJECT

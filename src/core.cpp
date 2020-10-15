@@ -842,6 +842,16 @@ QString Core::getTimelineClipBinId(int cid)
     }
     return QString();
 }
+std::unordered_set<QString> Core::getAllTimelineTracksId()
+{
+    std::unordered_set<int> timelineClipIds = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemsInRange(-1,0);
+    std::unordered_set<QString> tClipBinIds;
+    for(int id : timelineClipIds) {
+        auto idString = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipBinId(id);
+        tClipBinIds.insert(idString);
+    }
+    return tClipBinIds;
+}
 
 int Core::getDurationFromString(const QString &time)
 {

@@ -60,6 +60,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     connect(this, &ArchiveWidget::archivingFinished, this, &ArchiveWidget::slotArchivingBoolFinished);
     connect(this, &ArchiveWidget::archiveProgress, this, &ArchiveWidget::slotArchivingIntProgress);
     connect(proxy_only, &QCheckBox::stateChanged, this, &ArchiveWidget::slotProxyOnly);
+    //connect(timeline_archive, &QCheckBox::stateChanged, this, &ArchiveWidget::generateItems);
 
     // Prepare xml
     m_doc.setContent(xmlData);
@@ -429,7 +430,15 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     QMap<QString, QString>::const_iterator it = items.constBegin();
+    const auto timelineBinId = pCore->getAllTimelineTracksId();
+    bool TimelineArchive = timeline_archive->isChecked();
     while (it != items.constEnd()) {
+        if(TimelineArchive) {
+            if(timelineBinId.find(it.key()) == timelineBinId.end()) {
+                ++it;
+                continue;
+            }
+        }
         QString file = it.value();
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
         // Store the clip's id

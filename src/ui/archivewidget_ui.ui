@@ -55,6 +55,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="timeline_archive">
+     <property name="text">
+      <string>Archive only timeline clips</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="icon_info">
