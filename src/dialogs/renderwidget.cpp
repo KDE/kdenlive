@@ -2677,9 +2677,18 @@ void RenderWidget::parseScriptFiles()
     QTreeWidgetItem *item;
     // List the project scripts
     QDir projectFolder(pCore->currentDoc()->projectDataFolder());
-    projectFolder.mkpath(QStringLiteral("kdenlive-renderqueue"));
+    if (!projectFolder.exists(QStringLiteral("kdenlive-renderqueue"))) {
+        return;
+    }
     projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
     QStringList scriptFiles = projectFolder.entryList(scriptsFilter, QDir::Files);
+    if (scriptFiles.isEmpty()) {
+        // No scripts, delete directory
+        if (projectFolder.dirName() == QStringLiteral("kdenlive-renderqueue") && projectFolder.entryList(scriptsFilter, QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+            projectFolder.removeRecursively();
+            return;
+        }
+    }
     for (int i = 0; i < scriptFiles.size(); ++i) {
         QUrl scriptpath = QUrl::fromLocalFile(projectFolder.absoluteFilePath(scriptFiles.at(i)));
         QFile f(scriptpath.toLocalFile());

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>514</width>
-    <height>379</height>
+    <width>662</width>
+    <height>468</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -17,10 +17,39 @@
    <property name="topMargin">
     <number>0</number>
    </property>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Proxy clips</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="1">
+       <widget class="QSpinBox" name="kcfg_proxythreads">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimum">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Concurrent threads</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -97,6 +126,33 @@
        <string>Default folders</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Temporary files</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="KUrlRequester" name="tmppathurl"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>Capture folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="kcfg_capturetoprojectfolder">
+         <property name="text">
+          <string>Use project folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="KUrlRequester" name="capturefolderurl"/>
+       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_15">
          <property name="text">
@@ -104,7 +160,34 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="2">
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="kcfg_librarytodefaultfolder">
+         <property name="text">
+          <string>Use default folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="KUrlRequester" name="libraryfolderurl"/>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_16">
+         <property name="text">
+          <string>Folder for titles, scripts</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QCheckBox" name="kcfg_videotodefaultfolder">
+         <property name="text">
+          <string>Use default folder</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="KUrlRequester" name="videofolderurl"/>
+       </item>
+       <item row="7" column="1">
         <spacer name="verticalSpacer_3">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -116,43 +199,6 @@
           </size>
          </property>
         </spacer>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="text">
-          <string>Capture folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Temporary files</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QCheckBox" name="kcfg_librarytodefaultfolder">
-         <property name="text">
-          <string>Use default folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" colspan="2">
-        <widget class="KUrlRequester" name="libraryfolderurl"/>
-       </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="KUrlRequester" name="tmppathurl"/>
-       </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QCheckBox" name="kcfg_capturetoprojectfolder">
-         <property name="text">
-          <string>Use project folder</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="KUrlRequester" name="capturefolderurl"/>
        </item>
       </layout>
      </widget>
@@ -253,35 +299,6 @@
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Proxy clips</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_4">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Concurrent threads</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QSpinBox" name="kcfg_proxythreads">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimum">
-         <number>1</number>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </widget>
    </item>
   </layout>

@@ -646,7 +646,10 @@ QString KdenliveDoc::projectDataFolder() const
         if (KdenliveSettings::customprojectfolder()) {
             return KdenliveSettings::defaultprojectfolder();
         }
-        return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        if (KdenliveSettings::videotodefaultfolder() || KdenliveSettings::videofolder().isEmpty()) {
+            return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        }
+        return KdenliveSettings::videofolder();
     }
     return m_projectFolder;
 }

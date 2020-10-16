@@ -488,9 +488,19 @@
       <label>Open Library in default system folder.</label>
       <default>true</default>
     </entry>
+    
+    <entry name="videotodefaultfolder" type="Bool">
+      <label>Save titles, scripted renderings in default system folder.</label>
+      <default>true</default>
+    </entry>
 
     <entry name="libraryfolder" type="Path">
       <label>Default folder for library.</label>
+      <default></default>
+    </entry>
+    
+    <entry name="videofolder" type="Path">
+      <label>Default folder for various stored files, like titles, scripted rendering.</label>
       <default></default>
     </entry>
 

@@ -134,8 +134,17 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     m_configEnv.libraryfolderurl->setMode(KFile::Directory);
     m_configEnv.libraryfolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_libraryfolder"));
     m_configEnv.libraryfolderurl->setEnabled(!KdenliveSettings::librarytodefaultfolder());
+    m_configEnv.libraryfolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
     m_configEnv.kcfg_librarytodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/library"));
     connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
+
+    // Script rendering folder
+    m_configEnv.videofolderurl->setMode(KFile::Directory);
+    m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
+    m_configEnv.videofolderurl->setEnabled(!KdenliveSettings::videotodefaultfolder());
+    m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    m_configEnv.kcfg_videotodefaultfolder->setToolTip(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    connect(m_configEnv.kcfg_videotodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
     // Mime types
     QStringList mimes = ClipCreationDialog::getExtensions();
@@ -597,6 +606,11 @@ void KdenliveSettingsDialog::slotEnableCaptureFolder()
 void KdenliveSettingsDialog::slotEnableLibraryFolder()
 {
     m_configEnv.libraryfolderurl->setEnabled(!m_configEnv.kcfg_librarytodefaultfolder->isChecked());
+}
+
+void KdenliveSettingsDialog::slotEnableVideoFolder()
+{
+    m_configEnv.videofolderurl->setEnabled(!m_configEnv.kcfg_videotodefaultfolder->isChecked());
 }
 
 void KdenliveSettingsDialog::initDevices()

@@ -74,6 +74,7 @@ private slots:
     void slotDialogModified();
     void slotEnableCaptureFolder();
     void slotEnableLibraryFolder();
+    void slotEnableVideoFolder();
     void slotUpdatev4lDevice();
     void slotUpdatev4lCaptureProfile();
     void slotManageEncodingProfile();
