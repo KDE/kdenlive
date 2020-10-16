@@ -113,9 +113,13 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
     QDialog dialog(this);
     QFormLayout form(&dialog);
     QString currentName = getName(index);
+    QString desc = getDescription(true, index);
+    // Strip effect Name
+    if (desc.contains(QLatin1Char('('))) {
+        desc = desc.section(QLatin1Char('('), 0, -2).simplified();
+    }
     QLineEdit *effectName = new QLineEdit(currentName, &dialog);
-    QTextEdit *descriptionBox = new QTextEdit(getDescription(true, index), &dialog);
-    QString currentDescription = descriptionBox->toPlainText();
+    QTextEdit *descriptionBox = new QTextEdit(desc, &dialog);
     form.addRow(i18n("Name : "), effectName);
     form.addRow(i18n("Comments : "), descriptionBox);
     QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
@@ -129,10 +133,6 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
            return;
         }
 
-        if(enteredDescription.trimmed().right(currentName.size() + 2 ) == "(" + currentName + ")"){
-            //removing previous effect name from the string
-            enteredDescription = enteredDescription.left(enteredDescription.size() - currentName.size() - 2);
-        }
         m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
     }
 }
