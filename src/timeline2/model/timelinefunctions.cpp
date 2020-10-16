@@ -519,6 +519,7 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
     }
     std::unordered_set<int> clips = timeline->getItemsInRange(trackId, zone.x(), zone.y());
     for (const auto &clipId : clips) {
+        timeline->requestClipUngroup(clipId, undo, redo);
         timeline->requestItemDeletion(clipId, undo, redo);
     }
     return true;
