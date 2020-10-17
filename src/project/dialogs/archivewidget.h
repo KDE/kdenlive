@@ -73,12 +73,13 @@ private slots:
     void slotDisplayMessage(const QString &icon, const QString &text);
     void slotJobResult(bool success, const QString &text);
     void slotProxyOnly(int onlyProxy);
+    void onlyTimelineItems(int onlyTimeline);
 
 protected:
     void closeEvent(QCloseEvent *e) override;
 
 private:
-    KIO::filesize_t m_requestedSize;
+    KIO::filesize_t m_requestedSize, m_timelineSize;
     KIO::CopyJob *m_copyJob;
     QMap<QUrl, QUrl> m_duplicateFiles;
     QMap<QUrl, QUrl> m_replacementList;
