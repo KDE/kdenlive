@@ -1315,7 +1315,7 @@ void GLWidget::setOffsetX(int x, int max)
     m_offset.setX(x);
     emit offsetChanged();
     if (rootObject()) {
-        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0 - 10 : 0);
+        rootObject()->setProperty("offsetx", m_zoom > 1.0f ? x - max / 2.0 + 10 * m_zoom : 0);
     }
     update();
 }
@@ -1324,7 +1324,7 @@ void GLWidget::setOffsetY(int y, int max)
 {
     m_offset.setY(y);
     if (rootObject()) {
-        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0 - 10 : 0);
+        rootObject()->setProperty("offsety", m_zoom > 1.0f ? y - max / 2.0 + 10 * m_zoom : 0);
     }
     update();
 }
