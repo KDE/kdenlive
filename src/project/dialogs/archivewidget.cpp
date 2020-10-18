@@ -590,7 +590,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QTreeWidgetItem *item;
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
-                if (item->isDisabled()) {
+                if (item->isDisabled() || item->isHidden()) {
                     continue;
                 }
                 // Special case: slideshows
