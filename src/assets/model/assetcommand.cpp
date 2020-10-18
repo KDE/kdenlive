@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by by Jean-Baptiste Mardelle                                  *
+ *   Copyright (C) 2017 by Jean-Baptiste Mardelle                          *
  *   This file is part of Kdenlive. See www.kdenlive.org.                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
