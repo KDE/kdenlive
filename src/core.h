@@ -21,6 +21,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <memory>
 #include <QPoint>
 #include <KSharedDataCache>
+#include <unordered_set>
 #include "timecode.h"
 
 class Bin;
@@ -206,6 +207,8 @@ public:
     QString getProjectFolderName();
     /** @brief Returns a timeline clip's bin id */
     QString getTimelineClipBinId(int cid);
+    /** @brief Returns all track ids in timeline */
+    std::unordered_set<QString> getAllTimelineTracksId();
     /** @brief Returns a frame duration from a timecode */
     int getDurationFromString(const QString &time);
     /** @brief An error occurred within a filter, inform user */

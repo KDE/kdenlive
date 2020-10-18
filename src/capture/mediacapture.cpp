@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <QCameraInfo>
 #include <memory>
 #include <utility>
+#include <QAudioOutput>
 
 MediaCapture::MediaCapture(QObject *parent)
     : QObject(parent)

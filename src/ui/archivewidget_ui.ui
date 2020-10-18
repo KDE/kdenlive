@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>266</width>
-    <height>244</height>
+    <width>285</width>
+    <height>329</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -51,6 +51,13 @@
     <widget class="QCheckBox" name="proxy_only">
      <property name="text">
       <string>Archive only proxy clips when available</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="timeline_archive">
+     <property name="text">
+      <string>Archive only timeline clips</string>
      </property>
     </widget>
    </item>
@@ -129,7 +136,7 @@
  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>

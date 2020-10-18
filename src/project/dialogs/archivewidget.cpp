@@ -60,6 +60,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     connect(this, &ArchiveWidget::archivingFinished, this, &ArchiveWidget::slotArchivingBoolFinished);
     connect(this, &ArchiveWidget::archiveProgress, this, &ArchiveWidget::slotArchivingIntProgress);
     connect(proxy_only, &QCheckBox::stateChanged, this, &ArchiveWidget::slotProxyOnly);
+    connect(timeline_archive, &QCheckBox::stateChanged, this, &ArchiveWidget::onlyTimelineItems);
 
     // Prepare xml
     m_doc.setContent(xmlData);
@@ -429,9 +430,17 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
     int ix = 0;
     bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
     QMap<QString, QString>::const_iterator it = items.constBegin();
+    const auto timelineBinId = pCore->bin()->getUsedClipIds();
     while (it != items.constEnd()) {
         QString file = it.value();
         QTreeWidgetItem *item = new QTreeWidgetItem(parentItem, QStringList() << file);
+        item->setData(0, Qt::UserRole + 4,0);
+        for(int id : timelineBinId) {
+            if(id == it.key().toInt()) {
+                m_timelineSize = static_cast<KIO::filesize_t>(QFileInfo(it.value()).size());
+                item->setData(0,Qt::UserRole + 4, 1);
+            }
+        }
         // Store the clip's id
         item->setData(0, Qt::UserRole + 2, it.key());
         fileName = QUrl::fromLocalFile(file).fileName();
@@ -1127,5 +1136,48 @@ void ArchiveWidget::slotProxyOnly(int onlyProxy)
         parentItem->setText(0, parentItem->text(0).section(QLatin1Char('('), 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
     }
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
+    slotCheckSpace();
+}
+
+void ArchiveWidget::onlyTimelineItems(int onlyTimeline)
+{
+    int count = files_list->topLevelItemCount();
+    for(int idx = 0 ; idx < count ; ++idx) {
+        QTreeWidgetItem *parent = files_list->topLevelItem(idx);
+        int childCount = parent->childCount();
+        for(int cidx = 0 ; cidx < childCount; ++cidx) {
+            parent->child(cidx)->setHidden(true);
+            if(onlyTimeline == Qt::Checked) {
+                if(parent->child(cidx)->data(0,Qt::UserRole + 4).toInt() > 0) {
+                    parent->child(cidx)->setHidden(false);
+                }
+            }
+            else {
+                parent->child(cidx)->setHidden(false);
+            }
+        }
+    }
+
+    //calculating total number of files
+    int total = 0;
+    for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
+        QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
+        int items = parentItem->childCount();
+        int itemsCount = 0;
+        bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
+
+        for (int j = 0; j < items; ++j) {
+            if (!parentItem->child(j)->isHidden() && !parentItem->child(j)->isDisabled()) {
+                if (isSlideshow) {
+                    total += parentItem->child(j)->data(0, Qt::UserRole + 4).toStringList().count();
+                } else {
+                    total++;
+                }
+                itemsCount++;
+            }
+        }
+        parentItem->setText(0, parentItem->text(0).section(QLatin1Char('('), 0, 0) + i18np("(%1 item)", "(%1 items)", itemsCount));
+    }
+    project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize((onlyTimeline == Qt::Checked) ? m_timelineSize : m_requestedSize)));
     slotCheckSpace();
 }

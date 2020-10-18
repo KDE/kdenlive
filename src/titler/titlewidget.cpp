@@ -1830,7 +1830,11 @@ void TitleWidget::itemHCenter()
         newPos += item->pos().x() - br.left(); // Check item transformation
         item->setPos(newPos, item->pos().y());
         updateCoordinates(item);
+        slotAdjustZoom();
         graphicsView->centerOn(m_frameBorder);
+        slotAdjustZoom();
+        graphicsView->centerOn(m_frameBorder);
+
     }
 }
 

@@ -294,6 +294,8 @@ public:
     void saveFolderState();
     /** @brief Load folder state (expanded or not) */
     void loadFolderState(QStringList foldersToExpand);
+    /** @brief gets a QList of all clips used in timeline */
+    QList<int> getUsedClipIds();
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
     void cleanup();
