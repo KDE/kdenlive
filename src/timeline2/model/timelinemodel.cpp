@@ -2719,13 +2719,19 @@ int TimelineModel::requestItemSpeedChange(int itemId, int size, bool right, int 
     return proposed_size > 0 ? proposed_size : size;
 }
 
+bool TimelineModel::removeMixWithUndo(int cid, Fun &undo, Fun &redo)
+{
+    int tid = getItemTrackId(cid);
+    MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
+    bool res = getTrackById(tid)->requestRemoveMix({mixData.firstClipId,mixData.secondClipId}, undo, redo);
+    return res;
+}
+
 bool TimelineModel::removeMix(int cid)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    int tid = getItemTrackId(cid);
-    MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
-    bool res = getTrackById(tid)->requestRemoveMix({mixData.firstClipId,mixData.secondClipId}, undo, redo);
+    bool res = removeMixWithUndo(cid, undo, redo);
     if (res) {
         PUSH_UNDO(undo, redo, i18n("Remove mix"));
     } else {
@@ -2767,11 +2773,12 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                     std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(itemId);
                     if (in + size <= mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
                         // Clip resized outside of mix zone, mix will be deleted
-                        bool res = removeMix(mixData.second.secondClipId);
+                        bool res = removeMixWithUndo(mixData.second.secondClipId, undo, redo);
                         if (res) {
-                            return m_allClips[itemId]->getPlaytime();
+                            size = m_allClips[itemId]->getPlaytime();
+                        } else {
+                            return -1;
                         }
-                        return -1;
                     } else {
                         // Mix was resized, update cut position
                         int currentMixDuration = m_allClips[mixData.second.secondClipId]->getMixDuration();
@@ -2818,7 +2825,6 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
             }
         }
     }
-    
     if (!allowSingleResize && m_groups->isInGroup(itemId)) {
         int groupId = m_groups->getRootId(itemId);
         std::unordered_set<int> items = m_groups->getLeaves(groupId);
@@ -2851,8 +2857,9 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                                 tracksWithMixes << tid;
                             }
                             std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(id);
-                            if (end - offset <= mixData.second.secondClipInOut.first) {
+                            if (end - offset <= mixData.second.secondClipInOut.first + m_allClips[mixData.second.secondClipId]->getMixDuration() - m_allClips[mixData.second.secondClipId]->getMixCutPosition()) {
                                 // Resized outside mix
+                                bool res = removeMixWithUndo(mixData.second.secondClipId, undo, redo);
                                 Fun sync_mix_undo = [this, tid, mixData]() {
                                     getTrackById_const(tid)->createMix(mixData.second, getTrackById_const(tid)->isAudioTrack());
                                     getTrackById_const(tid)->syncronizeMixes(true);
@@ -4925,7 +4932,7 @@ void TimelineModel::plantMix(int tid, Mlt::Transition *t)
     getTrackById_const(tid)->loadMix(t);
 }
 
-bool TimelineModel::resizeStartMix(int cid, int duration)
+bool TimelineModel::resizeStartMix(int cid, int duration, bool singleResize)
 {
     Q_ASSERT(isClip(cid));
     int tid = m_allClips[cid]->getCurrentTrackId();
@@ -4935,7 +4942,7 @@ bool TimelineModel::resizeStartMix(int cid, int duration)
             int clipToResize = mixData.first.firstClipId;
             Q_ASSERT(isClip(clipToResize));
             int updatedDuration = m_allClips[cid]->getPosition() + duration - m_allClips[clipToResize]->getPosition();
-            int result = requestItemResize(clipToResize, updatedDuration, true, true, 0, false);
+            int result = requestItemResize(clipToResize, updatedDuration, true, true, 0, singleResize);
             return result > -1;
         }
     }

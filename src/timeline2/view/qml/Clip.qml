@@ -418,7 +418,7 @@ Rectangle {
                             mixCutPos.anchors.right = undefined
                         }
                         onReleased: {
-                            controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale))
+                            controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
                             root.autoScrolling = timeline.autoScroll
                             if (sizeChanged) {
                                 sizeChanged = false

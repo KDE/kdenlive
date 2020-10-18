@@ -265,19 +265,19 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
     SECTION("Create mix on color clip and resize")
     {
         state0();
-        REQUIRE(timeline->mixClip(cid4));
-        state2();
         // CID 3 length=20, pos=500, CID4 length=20, pos=520
         // Default mix duration = 25 frames (12 before / 13 after)
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
         // Resize left clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid3, 16, true, true) == 16);
+        REQUIRE(timeline->requestItemResize(cid3, 24, true, true) == 24);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 1);
         undoStack->undo();
         state2();
         // Resize left clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid3, 4, true, true) == 4);
+        REQUIRE(timeline->requestItemResize(cid3, 4, true, true) == 20);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         REQUIRE(timeline->m_allClips[cid3]->getSubPlaylistIndex() == 0);
         REQUIRE(timeline->m_allClips[cid4]->getSubPlaylistIndex() == 0);
@@ -317,7 +317,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // CID 1 length=30, pos=100, CID2 length=30, pos=130
         // Default mix duration = 25 frames (12 before / 13 after)
         // Resize left clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid1, 25, true, true) == 25);
+        REQUIRE(timeline->requestItemResize(cid1, 35, true, true) == 35);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 1);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 1);
         REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
@@ -325,7 +325,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state3();
         // Resize left clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid1, 10, true, true) == 10);
+        REQUIRE(timeline->requestItemResize(cid1, 10, true, true) == 30);
         REQUIRE(timeline->getTrackById_const(tid2)->mixCount() == 0);
         REQUIRE(timeline->getTrackById_const(tid3)->mixCount() == 0);
         REQUIRE(timeline->m_allClips[cid1]->getSubPlaylistIndex() == 0);
