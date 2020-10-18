@@ -1,5 +1,10 @@
 ![](data/pics/kdenlive-logo.png)
 
+| Jenkins CI Name | Master | Stable |
+| --------------- | ------ | ------ |
+| OpenSuse Qt 5.14 | [![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20SUSEQt5.14/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20SUSEQt5.14//) |[![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20SUSEQt5.14/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20SUSEQt5.14/)|
+| FreeBSD Qt 5.15 | [![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20FreeBSDQt5.15/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/kf5-qt5%20FreeBSDQt5.15/) |[![Build Status](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20FreeBSDQt5.15/badge/icon)](https://build.kde.org/job/Applications/job/kdenlive/job/stable-kf5-qt5%20FreeBSDQt5.15/)|
+
 # About Kdenlive
 
 [Kdenlive](https://kdenlive.org) is a Free and Open Source video editing application, based on MLT Framework and KDE Frameworks 5. It is distributed under the [GNU General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html).
