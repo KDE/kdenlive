@@ -1805,7 +1805,7 @@ void Monitor::setUpEffectGeometry(const QRect &r, const QVariantList &list, cons
     if (!root) {
         return;
     }
-    if (!list.isEmpty()) {
+    if (!list.isEmpty() || m_qmlManager->sceneType() == MonitorSceneRoto) {
         root->setProperty("centerPointsTypes", types);
         root->setProperty("centerPoints", list);
     }
