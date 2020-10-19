@@ -134,6 +134,11 @@ void KeyframeView::slotEditType(int type, const QPersistentModelIndex &index)
 
 void KeyframeView::slotRemoveKeyframe(int pos)
 {
+    if (m_model->singleKeyframe()) {
+        // Don't allow zero keyframe
+        pCore->displayMessage(i18n("Cannot remove the last keyframe"), MessageType::InformationMessage, 500);
+        return;
+    }
     if (pos < 0) {
         pos = m_position;
     }
