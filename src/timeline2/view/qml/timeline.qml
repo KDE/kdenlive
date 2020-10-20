@@ -1481,6 +1481,7 @@ Rectangle {
                 width: duration * timeScale // to make width change wrt timeline scale factor
                 height: parent.height
                 x: model.startframe * timeScale;
+                property bool textEditBegin: false
                 /*Text {
                     id: subtitleText
                     anchors.fill: parent
@@ -1537,6 +1538,9 @@ Rectangle {
                             }
                             console.log("originalDuration after shifting",originalDuration)
                         }
+                        onDoubleClicked: {
+                            parent.textEditBegin = true
+                        }
                     }
                 TextField {
                     id: subtitleEdit
@@ -1545,9 +1549,11 @@ Rectangle {
                     onEditingFinished: {
                         subtitleEdit.focus = false
                         timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor)
+                        parent.textEditBegin = false
                     }
                     anchors.fill: parent
                     visible: text != "" && timeScale >= 6
+                    enabled: parent.textEditBegin
                     text: model.subtitle
                     height: subtitleBase.height
                     width: subtitleBase.width
@@ -1599,8 +1605,6 @@ Rectangle {
                         oldStartFrame = subtitleBase.x // the original start frame of subtitle
                         console.log(oldStartFrame)
                         console.log(subtitleBase.x)
-                        
-
                     }
                     onPositionChanged: {
                         if (pressed) {
