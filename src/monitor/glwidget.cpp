@@ -1195,7 +1195,6 @@ int GLWidget::reconfigure()
         m_consumer->set("prefill", qMax(1, fps / 25));
         m_consumer->set("drop_max", fps / 4);
         m_consumer->set("scrub_audio", 1);
-        m_consumer->set("channels", 2);
         if (KdenliveSettings::monitor_gamma() == 0) {
             m_consumer->set("color_trc", "iec61966_2_1");
         } else {
