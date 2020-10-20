@@ -25,7 +25,7 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
 {
     // Fetch audio streams
     int streams = producer->get_int("meta.media.nb_streams");
-    if (playlist) {
+    if (playlist && streams == 0) {
         // Playlist clips do not provide stream info
         m_audioStreams.insert(0, i18n("Audio"));
     }
