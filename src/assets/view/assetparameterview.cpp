@@ -26,6 +26,7 @@
 #include "assets/view/widgets/abstractparamwidget.hpp"
 #include "assets/view/widgets/keyframewidget.hpp"
 #include "core.h"
+#include "monitor/monitor.h"
 
 #include <QActionGroup>
 #include <QDebug>
@@ -131,6 +132,9 @@ void AssetParameterView::setModel(const std::shared_ptr<AssetParameterModel> &mo
     if (addSpacer) {
         m_lay->addStretch();
     }
+    // Ensure effect parameters are adjusted to current position
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    emit monitor->seekPosition(monitor->position());
 }
 
 QVector<QPair<QString, QVariant>> AssetParameterView::getDefaultValues() const
