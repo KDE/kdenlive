@@ -23,7 +23,7 @@ class AudioStreamInfo
 {
 public:
     // TODO make that access a shared ptr instead of raw
-    AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer, int audioStreamIndex);
+    AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer, int audioStreamIndex, bool playlist = false);
     ~AudioStreamInfo();
 
     int samplingRate() const;
