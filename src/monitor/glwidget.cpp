@@ -1349,7 +1349,7 @@ void GLWidget::resetConsumer(bool fullReset)
     reconfigure();
 }
 
-const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
+const QString GLWidget::sceneList(const QString &root, const QString &fullPath, QString filterData)
 {
     LocaleHandling::resetLocale();
     QString playlist;
@@ -1367,8 +1367,18 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath)
     // And we must use "avformat" instead of "avformat-novalidate" on project loading which causes a big delay on project opening
     // xmlConsumer.set("no_meta", 1);
     Mlt::Service s(m_producer->get_service());
+    std::unique_ptr<Mlt::Filter> filter = nullptr;
+    if (!filterData.isEmpty()) {
+        filter.reset(new Mlt::Filter (pCore->getCurrentProfile()->profile(), QString("dynamictext:%1").arg(filterData).toUtf8().constData()));
+        filter->set("fgcolour", "#ffffff");
+        filter->set("bgcolour", "#bb333333");
+        s.attach(*filter.get());
+    }
     xmlConsumer.connect(s);
     xmlConsumer.run();
+    if (filter) {
+        s.detach(*filter.get());
+    }
     playlist = fullPath.isEmpty() ? QString::fromUtf8(xmlConsumer.get("kdenlive_playlist")) : fullPath;
     return playlist;
 }

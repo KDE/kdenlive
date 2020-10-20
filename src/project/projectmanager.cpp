@@ -690,7 +690,7 @@ void ProjectManager::slotAutoSave()
     m_lastSave.start();
 }
 
-QString ProjectManager::projectSceneList(const QString &outputFolder)
+QString ProjectManager::projectSceneList(const QString &outputFolder, const QString overlayData)
 {
     // Disable multitrack view and overlay
     bool isMultiTrack = pCore->monitorManager()->isMultiTrack();
@@ -702,7 +702,7 @@ QString ProjectManager::projectSceneList(const QString &outputFolder)
         pCore->window()->getMainTimeline()->controller()->updatePreviewConnection(false);
     }
     pCore->mixer()->pauseMonitoring(true);
-    QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder);
+    QString scene = pCore->monitorManager()->projectMonitor()->sceneList(outputFolder, QString(), overlayData);
     pCore->mixer()->pauseMonitoring(false);
     if (isMultiTrack) {
         pCore->window()->getMainTimeline()->controller()->slotMultitrackView(true, false);

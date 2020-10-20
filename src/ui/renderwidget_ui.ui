@@ -707,18 +707,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KComboBox" name="tc_type">
-              <item>
-               <property name="text">
-                <string>hh:mm:ss:ff</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Frames</string>
-               </property>
-              </item>
-             </widget>
+             <widget class="KComboBox" name="tc_type"/>
             </item>
             <item>
              <spacer name="overlaySpace">

@@ -1694,9 +1694,9 @@ void Monitor::resetConsumer(bool fullReset)
     m_glMonitor->resetConsumer(fullReset);
 }
 
-const QString Monitor::sceneList(const QString &root, const QString &fullPath)
+const QString Monitor::sceneList(const QString &root, const QString &fullPath, const QString overlayData)
 {
-    return m_glMonitor->sceneList(root, fullPath);
+    return m_glMonitor->sceneList(root, fullPath, overlayData);
 }
 
 void Monitor::updateClipZone(const QPoint zone)

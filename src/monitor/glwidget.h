@@ -89,7 +89,7 @@ public:
     int reconfigure();
     /** @brief Get the current MLT producer playlist.
      * @return A string describing the playlist */
-    const QString sceneList(const QString &root, const QString &fullPath = QString());
+    const QString sceneList(const QString &root, const QString &fullPath = QString(), QString filterData = QString());
 
     int displayWidth() const { return m_rect.width(); }
     void updateAudioForAnalysis();

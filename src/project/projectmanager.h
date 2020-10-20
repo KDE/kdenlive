@@ -65,7 +65,7 @@ public:
     /** @brief Disable all bin effects in current project */
     void disableBinEffects(bool disable);
     /** @brief Returns current project's xml scene */
-    QString projectSceneList(const QString &outputFolder);
+    QString projectSceneList(const QString &outputFolder, const QString overlayData = QString());
     /** @brief returns a default hd profile depending on timezone*/
     static QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);

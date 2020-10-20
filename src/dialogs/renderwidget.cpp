@@ -221,6 +221,9 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.open_browser->setVisible(false);
     m_view.error_box->setVisible(false);
     m_view.tc_type->setEnabled(false);
+    m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
+    m_view.tc_type->addItem(i18n("Timecode non drop frame"), QStringLiteral("#smtpe_ndf#"));
+    m_view.tc_type->addItem(i18n("Frame number"), QStringLiteral("#frame#"));
     m_view.checkTwoPass->setEnabled(false);
     m_view.proxy_render->setHidden(!enableProxy);
     connect(m_view.proxy_render, &QCheckBox::toggled, this, &RenderWidget::slotProxyWarn);
@@ -1216,8 +1219,12 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
     } else {
         out = pCore->projectDuration() - 1;
     }
+    QString overlayData;
+    if (m_view.tc_overlay->checkState() == Qt::Checked) {
+        overlayData = m_view.tc_type->currentData().toString();
+    }
 
-    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
+    QString playlistContent = pCore->projectManager()->projectSceneList(project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), overlayData);
     if (!chapterFile.isEmpty()) {
         QDomDocument doc;
         QDomElement chapters = doc.createElement(QStringLiteral("chapters"));

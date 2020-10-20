@@ -12,7 +12,6 @@ install(FILES
   banner.png
   encodingprofiles.rc
   externalproxies.rc
-  metadata.properties
   meta_ffmpeg.png
   meta_libav.png
   meta_magiclantern.png
