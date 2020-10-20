@@ -163,7 +163,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
 
     m_lay->addWidget(m_keyframeview);
     m_lay->addWidget(m_toolbar);
-    monitorSeek(monitor->position());
 
     connect(m_time, &TimecodeDisplay::timeCodeEditingFinished, [&]() { slotSetPosition(-1, true); });
     connect(m_keyframeview, &KeyframeView::seekToPos, [&](int p) { slotSetPosition(p, true); });
