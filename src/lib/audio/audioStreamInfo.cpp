@@ -16,7 +16,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QString>
 #include <cstdlib>
 
-AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer, int audioStreamIndex)
+AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer, int audioStreamIndex, bool playlist)
     : m_audioStreamIndex(audioStreamIndex)
     , m_ffmpegAudioIndex(0)
     , m_samplingRate(48000)
@@ -25,6 +25,10 @@ AudioStreamInfo::AudioStreamInfo(const std::shared_ptr<Mlt::Producer> &producer,
 {
     // Fetch audio streams
     int streams = producer->get_int("meta.media.nb_streams");
+    if (playlist) {
+        // Playlist clips do not provide stream info
+        m_audioStreams.insert(0, i18n("Audio"));
+    }
     int streamIndex = 1;
     for (int ix = 0; ix < streams; ix++) {
         char property[200];
