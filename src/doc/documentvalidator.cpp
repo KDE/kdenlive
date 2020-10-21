@@ -126,6 +126,14 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion)
             }
         }
     }
+    if (qFuzzyIsNull(version)) {
+        // version missing, try with latest
+        KMessageBox::sorry(
+            QApplication::activeWindow(),
+            i18n("Version of the project file cannot be read.\nAttempting to open nonetheless."),
+            i18n("Incorrect project file"));
+        version = currentVersion;
+    }
     // Upgrade the document to the latest version
     if (!upgrade(version, currentVersion)) {
         return QPair<bool, QString>(false, QString());
