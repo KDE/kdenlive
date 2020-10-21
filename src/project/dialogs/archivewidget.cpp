@@ -944,7 +944,7 @@ void ArchiveWidget::createArchive()
 
     // Create folders
     for (const QString &path : qAsConst(m_foldersList)) {
-        archive.writeDir(path, user, group);
+        archive->writeDir(path, user, group);
     }
 
     // Add files
