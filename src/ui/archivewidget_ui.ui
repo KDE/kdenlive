@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>266</width>
-    <height>244</height>
+    <width>313</width>
+    <height>331</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,11 +41,29 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="compressed_archive">
-     <property name="text">
-      <string>Compressed archive</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QCheckBox" name="compressed_archive">
+       <property name="text">
+        <string>Compressed archive</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="compression_type">
+       <item>
+        <property name="text">
+         <string>tar.gz</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>zip</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QCheckBox" name="proxy_only">
@@ -129,8 +147,9 @@
  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

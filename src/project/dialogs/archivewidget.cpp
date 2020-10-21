@@ -34,6 +34,7 @@
 #include <KMessageBox>
 #include <KMessageWidget>
 #include <KTar>
+#include <KZip>
 #include <kio/directorysizejob.h>
 #include <klocalizedstring.h>
 
@@ -202,7 +203,6 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString xmlData, 
     if (m_name.isEmpty()) {
         m_name = i18n("Untitled");
     }
-    compressed_archive->setText(compressed_archive->text() + QStringLiteral(" (") + m_name + QStringLiteral(".tar.gz)"));
     project_files->setText(i18np("%1 file to archive, requires %2", "%1 files to archive, requires %2", total, KIO::convertSize(m_requestedSize)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartArchiving);
@@ -529,6 +529,10 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_abortArchive = true;
         return true;
     }
+    m_infoMessage->setMessageType(KMessageWidget::Information);
+    m_infoMessage->setText(i18n("Starting archive job"));
+    m_infoMessage->animatedShow();
+    
     bool isArchive = compressed_archive->isChecked();
     if (!firstPass) {
         m_copyJob = nullptr;
@@ -635,6 +639,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             QUrl startJobSrc = i.key();
             QUrl startJobDst = i.value();
             m_duplicateFiles.remove(startJobSrc);
+            m_infoMessage->setText(i18n("Copying %1", startJobSrc.fileName()));
             KIO::CopyJob *job = KIO::copyAs(startJobSrc, startJobDst, KIO::HideProgressInfo);
             connect(job, &KJob::result, [this] (KJob *jb) {
                 slotArchivingFinished(jb, false);
@@ -867,7 +872,7 @@ bool ArchiveWidget::processProjectFile()
         endString = QLatin1Char('>') + basePath;
         playList.replace(startString, endString);
     }
-
+    m_archiveName.clear();
     if (isArchive) {
         m_temp = new QTemporaryFile;
         if (!m_temp->open()) {
@@ -907,47 +912,68 @@ bool ArchiveWidget::processProjectFile()
 
 void ArchiveWidget::createArchive()
 {
-    QString archiveName(archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".tar.gz"));
-    if (QFile::exists(archiveName) &&
-        KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", archiveName)) == KMessageBox::No) {
+    m_archiveName = QString(archive_url->url().toLocalFile() + QDir::separator() + m_name);
+    if (compression_type->currentIndex() == 1) {
+        m_archiveName.append(QStringLiteral(".zip"));
+    } else {
+        m_archiveName.append(QStringLiteral(".tar.gz"));
+    }
+    if (QFile::exists(m_archiveName) &&
+        KMessageBox::questionYesNo(this, i18n("File %1 already exists.\nDo you want to overwrite it?", m_archiveName)) == KMessageBox::No) {
         return;
     }
     QFileInfo dirInfo(archive_url->url().toLocalFile());
     QString user = dirInfo.owner();
     QString group = dirInfo.group();
-    KTar archive(archiveName, QStringLiteral("application/x-gzip"));
-    archive.open(QIODevice::WriteOnly);
+    std::unique_ptr<KArchive> archive;
+    if (compression_type->currentIndex() == 1) {
+        archive.reset(new KZip(m_archiveName));
+    } else {
+        archive.reset(new KTar(m_archiveName, QStringLiteral("application/x-gzip")));
+    }
+    archive->open(QIODevice::WriteOnly);
 
     // Create folders
     for (const QString &path : m_foldersList) {
-        archive.writeDir(path, user, group);
+        archive->writeDir(path, user, group);
     }
 
     // Add files
     int ix = 0;
+    bool success = true; 
     QMapIterator<QString, QString> i(m_filesList);
     while (i.hasNext()) {
         i.next();
-        archive.addLocalFile(i.key(), i.value());
+        m_infoMessage->setText(i18n("Archiving %1", i.key()));
+        success = archive->addLocalFile(i.key(), i.value());
         emit archiveProgress((int)100 * ix / m_filesList.count());
         ix++;
+        if (!success) {
+            break;
+        }
     }
 
     // Add project file
-    bool result = false;
-    if (m_temp) {
-        archive.addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
-        result = archive.close();
+    if (!m_temp) {
+        success = false;
+    }
+    if (success) {
+        success = archive->addLocalFile(m_temp->fileName(), m_name + QStringLiteral(".kdenlive"));
         delete m_temp;
         m_temp = nullptr;
     }
-    emit archivingFinished(result);
+    if (success) {
+        success = archive->close();
+    } else {
+        archive->close();
+    }
+    emit archivingFinished(success);
 }
 
 void ArchiveWidget::slotArchivingBoolFinished(bool result)
 {
     if (result) {
-        slotJobResult(true, i18n("Project was successfully archived."));
+        slotJobResult(true, i18n("Project was successfully archived.\n%1", m_archiveName));
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
         slotJobResult(false, i18n("There was an error processing project file"));
