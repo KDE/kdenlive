@@ -84,6 +84,7 @@ private:
     QMap<QUrl, QUrl> m_duplicateFiles;
     QMap<QUrl, QUrl> m_replacementList;
     QString m_name;
+    QString m_archiveName;
     QDomDocument m_doc;
     QTemporaryFile *m_temp;
     bool m_abortArchive;
