@@ -343,6 +343,7 @@ Rectangle {
                 
                 Rectangle {
                     id: mixBackground
+                    property double mixPos: mixBackground.width - clipRoot.mixCut * clipRoot.timeScale
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
                     anchors.left: parent.left
@@ -351,22 +352,23 @@ Rectangle {
                     color: "mediumpurple"
                     Shape {
                         anchors.fill: mixBackground
-                        anchors.margins: border.width
+                        //anchors.margins: border.width
                         asynchronous: true
                         opacity: 0.4
                         ShapePath {
-                            fillColor: clipRoot.color
-                            strokeColor: "transparent"
-                            PathLine {x: 0; y: mixBackground.height}
-                            PathLine {x: mixBackground.width; y: mixBackground.height}
-                            PathLine {x: mixBackground.width; y: 0}
-                            PathLine {x: 0; y: mixBackground.height}
-                        }
-                        ShapePath {
-                            fillColor: "#fff"
+                            fillColor: "#000"
                             strokeColor: "transparent"
                             PathLine {x: 0; y: 0}
+                            PathLine {x: mixCutPos.x; y: mixBackground.height}
+                            PathLine {x: 0; y: mixBackground.height}
+                            PathLine {x: 0; y: 0}
+                        }
+                        ShapePath {
+                            fillColor: "#000"
+                            strokeColor: "transparent"
+                            PathLine {x: mixBackground.width; y: 0}
                             PathLine {x: mixBackground.width; y: mixBackground.height}
+                            PathLine {x: mixCutPos.x; y: mixBackground.height}
                             PathLine {x: mixBackground.width; y: 0}
                         }
                     }
@@ -412,7 +414,7 @@ Rectangle {
                         onPressed: {
                             previousMix = clipRoot.mixDuration
                             root.autoScrolling = false
-                            mixOut.opacity = 1
+                            mixOut.color = 'darkorchid'
                             anchors.left = undefined
                             parent.anchors.right = undefined
                             mixCutPos.anchors.right = undefined
@@ -426,7 +428,7 @@ Rectangle {
                             anchors.left = parent.left
                             parent.anchors.right = mixContainer.right
                             mixBackground.anchors.bottom = mixContainer.bottom
-                            mixOut.opacity = 0.5
+                            mixOut.color = clipRoot.border.color
                             mixCutPos.anchors.right = mixCutPos.parent.right
                         }
                         onPositionChanged: {
@@ -448,20 +450,19 @@ Rectangle {
                         }
                         onEntered: {
                             if (!pressed) {
-                                mixOut.opacity = 1
+                                mixOut.color = 'darkorchid'
                             }
                         }
                         onExited: {
                             if (!pressed) {
-                                mixOut.opacity = 0
+                                mixOut.color = clipRoot.border.color
                             }
                         }
                         Rectangle {
                             id: mixOut
                             width: clipRoot.border.width
                             height: mixContainer.height
-                            color: 'darkorchid'
-                            opacity: 0
+                            color: clipRoot.border.color
                             Drag.active: trimInMixArea.drag.active
                             Drag.proposedAction: Qt.MoveAction
                             visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
