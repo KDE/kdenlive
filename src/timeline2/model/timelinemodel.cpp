@@ -3700,7 +3700,7 @@ void TimelineModel::adjustAssetRange(int clipId, int in, int out)
     // pCore->adjustAssetRange(clipId, in, out);
 }
 
-void TimelineModel::requestClipReload(int clipId)
+void TimelineModel::requestClipReload(int clipId, int forceDuration)
 {
     std::function<bool(void)> local_undo = []() { return true; };
     std::function<bool(void)> local_redo = []() { return true; };
@@ -3719,12 +3719,15 @@ void TimelineModel::requestClipReload(int clipId)
     int audioStream = m_allClips[clipId]->getIntProperty(QStringLiteral("audio_index"));
     // Check if clip out is longer than actual producer duration (if user forced duration)
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(getClipBinId(clipId));
-    bool refreshView = oldOut > (int)binClip->frameDuration();
+    bool refreshView = oldOut > (int)binClip->frameDuration() || forceDuration > -1;
     if (old_trackId != -1) {
         getTrackById(old_trackId)->requestClipDeletion(clipId, refreshView, true, local_undo, local_redo, false, false);
     }
     if (old_trackId != -1) {
         m_allClips[clipId]->refreshProducerFromBin(old_trackId, state, audioStream, 0, hasPitch);
+        if (forceDuration > -1) {
+            m_allClips[clipId]->requestResize(forceDuration, true, local_undo, local_redo);
+        }   
         getTrackById(old_trackId)->requestClipInsertion(clipId, oldPos, refreshView, true, local_undo, local_redo);
         if (maxDuration != m_allClips[clipId]->getMaxDuration()) {
             QModelIndex ix = makeClipIndexFromID(clipId);

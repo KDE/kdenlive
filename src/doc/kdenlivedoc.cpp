@@ -1386,6 +1386,7 @@ void KdenliveDoc::slotSwitchProfile(const QString &profile_path, bool reloadThum
     pCore->jobManager()->slotCancelJobs();
     pCore->setCurrentProfile(profile_path);
     updateProjectProfile(true, reloadThumbs);
+    // In case we only have one clip in timeline, 
     emit docModified(true);
 }
 

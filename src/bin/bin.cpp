@@ -3947,6 +3947,11 @@ void Bin::reloadAllProducers(bool reloadThumbs)
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
     emit openClip(std::shared_ptr<ProjectClip>());
+    if (clipList.count() == 1) {
+        // We only have one clip in the project, so this was called on a reset profile event.
+        // Check if the clip is included in timeline to update it afterwards
+        clipList.first()->updateTimelineOnReload();
+    }
     for (const std::shared_ptr<ProjectClip> &clip : qAsConst(clipList)) {
         QDomDocument doc;
         QDomElement xml = clip->toXml(doc, false, false);
