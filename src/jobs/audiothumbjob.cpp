@@ -30,6 +30,7 @@
 #include "lib/audio/audioStreamInfo.h"
 #include "macros.hpp"
 #include "utils/thumbnailcache.hpp"
+
 #include <QScopedPointer>
 #include <QTemporaryFile>
 #include <QProcess>
@@ -117,12 +118,39 @@ bool AudioThumbJob::computeWithFFMPEG()
         // We only wanted the thumb generation
         return m_done;
     }
-    QString filePath = m_prod->get("kdenlive:originalurl");
-    if (filePath.isEmpty() || !QFile::exists(filePath)) {
-        filePath = m_prod->get("resource");
-    }
+    QString filePath = m_binClip->getOriginalUrl();
     if (!QFile::exists(filePath)) {
         return false;
+    }
+    int audioMax = m_binClip->getProducerIntProperty(QStringLiteral("kdenlive:audio_max"));
+    if (audioMax == 0) {
+        // Calculate max audio level with ffmpeg
+        QProcess ffmpeg;
+        QStringList args = {QStringLiteral("-i"), filePath, QStringLiteral("-vn"), QStringLiteral("-af"), QStringLiteral("volumedetect"), QStringLiteral("-f"), QStringLiteral("null")};
+#ifdef Q_OS_WIN
+        args << QStringLiteral("-");
+#else
+        args << QStringLiteral("/dev/stdout");
+#endif
+        QObject::connect(&ffmpeg, &QProcess::readyReadStandardOutput, [&ffmpeg, this]() {
+            QString output = ffmpeg.readAllStandardOutput();
+            if (output.contains(QLatin1String("max_volume"))) {
+                output = output.section(QLatin1String("max_volume:"), 1).simplified();
+                output = output.section(QLatin1Char(' '), 0, 0);
+                bool ok;
+                double maxVolume = output.toDouble(&ok);
+                if (ok) {
+                    int aMax = qMax(1, qAbs(qRound(maxVolume)));
+                    m_binClip->setProducerProperty(QStringLiteral("kdenlive:audio_max"), aMax);
+                    QMetaObject::invokeMethod(pCore.get(), "setDocumentModified", Qt::QueuedConnection);
+                } else {
+                    m_binClip->setProducerProperty(QStringLiteral("kdenlive:audio_max"), -1);
+                }
+            }
+        });
+        ffmpeg.setProcessChannelMode(QProcess::MergedChannels);
+        ffmpeg.start(KdenliveSettings::ffmpegpath(), args);
+        ffmpeg.waitForFinished(-1);
     }
 
     int audioStreamIndex = m_binClip->getAudioStreamFfmpegIndex(m_audioStream);

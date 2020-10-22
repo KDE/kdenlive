@@ -1068,3 +1068,14 @@ int ClipController::audioStreamsCount() const
     return 0;
 }
 
+const QString ClipController::getOriginalUrl()
+{
+    QString path = m_properties->get("kdenlive:originalurl");
+    if (path.isEmpty()) {
+        path = m_path;
+    }
+    if (QFileInfo(path).isRelative()) {
+        path.prepend(pCore->currentDoc()->documentRoot());
+    }
+    return path;
+}

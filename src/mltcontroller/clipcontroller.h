@@ -224,6 +224,8 @@ public:
     QMap <int, QString> activeStreams() const;
     /** @brief Returns the count of audio streams for this clip */
     int audioStreamsCount() const;
+    /** @brief Get the path to the original clip url (in case it is proxied) */
+    const QString getOriginalUrl();
 
 protected:
     virtual void emitProducerChanged(const QString & /*unused*/, const std::shared_ptr<Mlt::Producer> & /*unused*/){};

@@ -107,6 +107,7 @@ MixerWidget::MixerWidget(int tid, std::shared_ptr<Mlt::Tractor> service, const Q
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_channels(pCore->audioChannels())
+    , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
@@ -126,6 +127,7 @@ MixerWidget::MixerWidget(int tid, Mlt::Tractor *service, const QString &trackTag
     , m_monitorFilter(nullptr)
     , m_balanceFilter(nullptr)
     , m_channels(pCore->audioChannels())
+    , m_balanceSlider(nullptr)
     , m_maxLevels(qMax(30, (int)(service->get_fps() * 1.5)))
     , m_solo(nullptr)
     , m_record(nullptr)
@@ -169,23 +171,27 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
         m_volumeSlider->setValue(fromDB(val));
     });
 
-    m_balanceSlider = new QSlider(Qt::Horizontal,this);
-    m_balanceSlider->setRange(-50, 50);
-    m_balanceSlider->setValue(0);
-    m_balanceSlider->setTickPosition(QSlider::TicksBelow);
-    m_balanceSlider->setTickInterval(50);
-    m_balanceSlider->setToolTip(i18n("Balance"));
+    QLabel *labelLeft = nullptr;
+    QLabel *labelRight = nullptr;
+    if (m_channels == 2) {
+        m_balanceSlider = new QSlider(Qt::Horizontal,this);
+        m_balanceSlider->setRange(-50, 50);
+        m_balanceSlider->setValue(0);
+        m_balanceSlider->setTickPosition(QSlider::TicksBelow);
+        m_balanceSlider->setTickInterval(50);
+        m_balanceSlider->setToolTip(i18n("Balance"));
 
-    QLabel *labelLeft = new QLabel(i18nc("Left", "L"), this);
-    labelLeft->setAlignment(Qt::AlignHCenter);
-    QLabel *labelRight = new QLabel(i18nc("Right", "R"), this);
-    labelLeft->setAlignment(Qt::AlignHCenter);
+        labelLeft = new QLabel(i18nc("Left", "L"), this);
+        labelLeft->setAlignment(Qt::AlignHCenter);
+        labelRight = new QLabel(i18nc("Right", "R"), this);
+        labelRight->setAlignment(Qt::AlignHCenter);
 
-    m_balanceSpin = new QSpinBox(this);
-    m_balanceSpin->setRange(-50, 50);
-    m_balanceSpin->setValue(0);
-    m_balanceSpin->setFrame(false);
-    m_balanceSpin->setToolTip(i18n("Balance"));
+        m_balanceSpin = new QSpinBox(this);
+        m_balanceSpin->setRange(-50, 50);
+        m_balanceSpin->setValue(0);
+        m_balanceSpin->setFrame(false);
+        m_balanceSpin->setToolTip(i18n("Balance"));
+    }
 
     // Check if we already have build-in filters for this tractor
     int max = service->filter_count();
@@ -203,7 +209,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             double volume = m_levelFilter->get_double("level");
             m_volumeSpin->setValue(volume);
             m_volumeSlider->setValue(fromDB(volume));
-        } else if (filterService == QLatin1String("panner")) {
+        } else if (m_channels == 2 && filterService == QLatin1String("panner")) {
             m_balanceFilter = fl;
             int val = m_balanceFilter->get_double("start") * 100 - 50;
             m_balanceSpin->setValue(val);
@@ -219,7 +225,7 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             service->attach(*m_levelFilter.get());
         }
     }
-    if (m_balanceFilter == nullptr) {
+    if (m_balanceFilter == nullptr && m_channels == 2) {
         m_balanceFilter.reset(new Mlt::Filter(service->get_profile(), "panner"));
         if (m_balanceFilter->is_valid()) {
             m_balanceFilter->set("internal_added", 237);
@@ -245,7 +251,9 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     m_muteAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-hide-audio")));
     m_muteAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("kdenlive-show-audio")));
 
-    connect(m_balanceSlider, &QSlider::valueChanged, m_balanceSpin, &QSpinBox::setValue);
+    if (m_balanceSlider) {
+        connect(m_balanceSlider, &QSlider::valueChanged, m_balanceSpin, &QSpinBox::setValue);
+    }
 
     connect(m_muteAction, &KDualAction::activeChangedByUser, this, [&](bool active) {
         if (m_tid == -1) {
@@ -337,17 +345,19 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
             pCore->setDocumentModified();
         }
     });
-    connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
-        QSignalBlocker bk(m_balanceSlider);
-        m_balanceSlider->setValue(value);
-        if (m_balanceFilter != nullptr) {
-            m_balanceFilter->set("start", (value + 50) / 100.);
-            m_balanceFilter->set("disable", value == 0 ? 1 : 0);
-            m_levels.clear();
-            emit m_manager->purgeCache();
-            pCore->setDocumentModified();
-        }
-    });
+    if (m_balanceSlider) {
+        connect(m_balanceSpin, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [&](int value) {
+            QSignalBlocker bk(m_balanceSlider);
+            m_balanceSlider->setValue(value);
+            if (m_balanceFilter != nullptr) {
+                m_balanceFilter->set("start", (value + 50) / 100.);
+                m_balanceFilter->set("disable", value == 0 ? 1 : 0);
+                m_levels.clear();
+                emit m_manager->purgeCache();
+                pCore->setDocumentModified();
+            }
+        });
+    }
     QVBoxLayout *lay = new QVBoxLayout;
     setContentsMargins(0, 0, 0, 0);
     lay->setContentsMargins(0, 0, 0, 0);
@@ -367,12 +377,14 @@ void MixerWidget::buildUI(Mlt::Tractor *service, const QString &trackTag)
     }
     buttonslay->addWidget(showEffects);
     lay->addLayout(buttonslay);
-    QGridLayout *balancelay = new QGridLayout;
-    balancelay->addWidget(m_balanceSlider, 0, 0, 1, 3);
-    balancelay->addWidget(labelLeft, 1, 0, 1, 1);
-    balancelay->addWidget(m_balanceSpin, 1, 1, 1, 1);
-    balancelay->addWidget(labelRight, 1, 2, 1, 1);
-    lay->addLayout(balancelay);
+    if (m_balanceSlider) {
+        QGridLayout *balancelay = new QGridLayout;
+        balancelay->addWidget(m_balanceSlider, 0, 0, 1, 3);
+        balancelay->addWidget(labelLeft, 1, 0, 1, 1);
+        balancelay->addWidget(m_balanceSpin, 1, 1, 1, 1);
+        balancelay->addWidget(labelRight, 1, 2, 1, 1);
+        lay->addLayout(balancelay);
+    }
     QHBoxLayout *hlay = new QHBoxLayout;
     hlay->addWidget(m_audioMeterWidget.get());
     hlay->addWidget(m_volumeSlider);

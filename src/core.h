@@ -101,8 +101,6 @@ public:
     KdenliveDoc *currentDoc();
     /** @brief Returns project's timecode. */
     Timecode timecode() const;
-    /** @brief Set current project modified. */
-    void setDocumentModified();
     /** @brief Returns a pointer to the monitor manager. */
     MonitorManager *monitorManager();
     /** @brief Returns a pointer to the view of the project bin. */
@@ -275,6 +273,8 @@ public slots:
     void displayBinLogMessage(const QString &text, int type, const QString &logInfo);
     /** @brief Create small thumbnails for luma used in compositions */
     void buildLumaThumbs(const QStringList &values);
+    /** @brief Set current project modified. */
+    void setDocumentModified();
 
 signals:
     void coreIsReady();
