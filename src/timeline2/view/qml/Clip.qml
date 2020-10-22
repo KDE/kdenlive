@@ -920,7 +920,7 @@ Rectangle {
                     visible : clipRoot.fadeOut > 0 && (fadeOutMouseArea.containsMouse || fadeOutMouseArea.drag.active)
                 }
                 ToolTip {
-                    visible: clipRoot.fadeOut > 0 && fadeOutMouseArea.containsMouse && !fadeOutMouseArea.drag.active
+                    visible: fadeOutMouseArea.containsMouse && !fadeOutMouseArea.drag.active
                     delay: 1000
                     timeout: 5000
                     background: Rectangle {
@@ -930,8 +930,8 @@ Rectangle {
                     contentItem: Label {
                         color: activePalette.text
                         font: miniFont
-                        text: '%1: %2'.arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(clipRoot.fadeOut))
+                        text: clipRoot.fadeOut > 0 ? '%1: %2'.arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(clipRoot.fadeOut)) : i18n("Double click or drag to add a fade")
                     }
                 }
             }
@@ -1010,7 +1010,7 @@ Rectangle {
                     visible : clipRoot.fadeIn > 0 && (fadeInMouseArea.containsMouse || fadeInMouseArea.drag.active)
                 }
                 ToolTip {
-                    visible: clipRoot.fadeIn > 0 && fadeInMouseArea.containsMouse && !fadeInMouseArea.drag.active
+                    visible: fadeInMouseArea.containsMouse && !fadeInMouseArea.drag.active
                     delay: 1000
                     timeout: 5000
                     background: Rectangle {
@@ -1020,8 +1020,8 @@ Rectangle {
                     contentItem: Label {
                         color: activePalette.text
                         font: miniFont
-                        text: '%1: %2'.arg(i18n("Duration"))
-                        .arg(timeline.simplifiedTC(clipRoot.fadeIn))
+                        text: clipRoot.fadeIn > 0 ? '%1: %2'.arg(i18n("Duration"))
+                        .arg(timeline.simplifiedTC(clipRoot.fadeIn)) : i18n("Double click or drag to add a fade")
                     }
                 }
             }
