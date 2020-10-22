@@ -344,6 +344,7 @@ bool Core::setCurrentProfile(const QString &profilePath)
         if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
             m_mainWindow->getCurrentTimeline()->controller()->getModel()->updateProfile(getProjectProfile());
             checkProfileValidity();
+            emit m_mainWindow->getCurrentTimeline()->controller()->frameFormatChanged();
         }
         return true;
     }
