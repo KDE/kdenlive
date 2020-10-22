@@ -100,9 +100,9 @@ GLWidget::GLWidget(int id, QObject *parent)
     , m_ClientWaitSync(nullptr)
 {
     KDeclarative::KDeclarative kdeclarative;
-    kdeclarative.setDeclarativeEngine(engine());
     kdeclarative.setupEngine(engine());
-    kdeclarative.setupContext();
+    KLocalizedContext *localizedContextObject = new KLocalizedContext(engine());
+    engine()->rootContext()->setContextObject(localizedContextObject);
 
     m_texture[0] = m_texture[1] = m_texture[2] = 0;
     qRegisterMetaType<Mlt::Frame>("Mlt::Frame");

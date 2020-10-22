@@ -34,7 +34,6 @@
 
 #include "core.h"
 #include "klocalizedstring.h"
-#include "kxmlgui_version.h"
 #include "profiles/profilemodel.hpp"
 #include <KMessageBox>
 #include <KRecentDirs>
