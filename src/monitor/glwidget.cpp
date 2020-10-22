@@ -29,6 +29,7 @@
 #include <QQuickItem>
 #include <QFontDatabase>
 #include <kdeclarative_version.h>
+#include <KLocalizedContext>
 #include <klocalizedstring.h>
 
 #include "core.h"
