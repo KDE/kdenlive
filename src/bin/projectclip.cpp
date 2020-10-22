@@ -81,6 +81,7 @@ RTTR_REGISTRATION
 ProjectClip::ProjectClip(const QString &id, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model, std::shared_ptr<Mlt::Producer> producer)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id, std::move(producer))
+    , m_resetTimelineOccurences(false)
 {
     m_markerModel = std::make_shared<MarkerListModel>(id, pCore->projectManager()->undoStack());
     if (producer->get_int("_placeholder") == 1) {
@@ -134,6 +135,7 @@ void ProjectClip::importEffects(const std::shared_ptr<Mlt::Producer> &producer, 
 ProjectClip::ProjectClip(const QString &id, const QDomElement &description, const QIcon &thumb, const std::shared_ptr<ProjectItemModel> &model)
     : AbstractProjectItem(AbstractProjectItem::ClipItem, id, model)
     , ClipController(id)
+    , m_resetTimelineOccurences(false)
 {
     m_clipStatus = StatusWaiting;
     m_thumbnail = thumb;
@@ -1521,9 +1523,11 @@ bool ProjectClip::isIncludedInTimeline()
 
 void ProjectClip::replaceInTimeline()
 {
+    int updatedDuration = m_resetTimelineOccurences ? getFramePlaytime() : -1;
+    m_resetTimelineOccurences = false;
     for (const auto &clip : m_registeredClips) {
         if (auto timeline = clip.second.lock()) {
-            timeline->requestClipReload(clip.first);
+            timeline->requestClipReload(clip.first, updatedDuration);
         } else {
             qDebug() << "Error while reloading clip: timeline unavailable";
             Q_ASSERT(false);
@@ -1808,4 +1812,22 @@ QStringList ProjectClip::getAudioStreamEffect(int streamIndex) const
         effects = m_streamEffects.value(streamIndex);
     }
     return effects;
+}
+
+void ProjectClip::updateTimelineOnReload()
+{
+    if (m_registeredClips.size() > 0 && m_registeredClips.size() < 3) {
+        bool reloadProducer = true;
+        for (const auto &clip : m_registeredClips) {
+            if (auto timeline = clip.second.lock()) {
+                if (timeline->getClipPlaytime(clip.first) < static_cast<int>(frameDuration())) {
+                    reloadProducer = false;
+                    break;
+                }
+            }
+            if (reloadProducer) {
+                m_resetTimelineOccurences = true;
+            }
+        }
+    }
 }

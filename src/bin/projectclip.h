@@ -246,6 +246,10 @@ public:
     void removeAudioStreamEffect(int streamIndex, QString effectName);
     /** @brief Get the list of audio stream effects for a defined stream. */
     QStringList getAudioStreamEffect(int streamIndex) const override;
+    /** @brief Calculate the folder's hash (based on the files it contains). */
+    static const QByteArray getFolderHash(QDir dir);
+    /** @brief Check if the clip is included in timeline and reset its occurences on producer reload. */
+    void updateTimelineOnReload();
 
 protected:
     friend class ClipModel;
@@ -290,6 +294,12 @@ private:
     QFuture<void> m_thumbThread;
     QList<int> m_requestedThumbs;
     const QString geometryWithOffset(const QString &data, int offset);
+<<<<<<< HEAD
+=======
+    QMap <QString, QByteArray> m_audioLevels;
+    /** @brief If true, all timeline occurences of this clip will be replaced from a fresh producer on reload. */
+    bool m_resetTimelineOccurences;
+>>>>>>> a12ba6dfa... When switching project profile and there is only 1 clip in timeline, update the timeline clip duration accordingly to profile change.
 
     // This is a helper function that creates the disabled producer. This is a clone of the original one, with audio and video disabled
     void createDisabledMasterProducer();
