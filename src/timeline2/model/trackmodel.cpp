@@ -1066,7 +1066,7 @@ bool TrackModel::checkConsistency()
             service.reset(service->producer());
         }
     }
-    if (mixCount != m_sameCompositions.size() || m_sameCompositions.size() != m_mixList.count()) {
+    if (mixCount != static_cast<int>(m_sameCompositions.size()) || static_cast<int>(m_sameCompositions.size()) != m_mixList.count()) {
         // incoherent mix count
         qDebug()<<"=== INCORRECT mix count. Existing: "<<mixCount<<"; REGISTERED: "<<m_mixList.count();
         return false;
@@ -1715,6 +1715,12 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                         clip->setSubPlaylistIndex(0, m_id);
                         int index = m_playlists[0].insert_at(pos, *clip, 1);
                         m_playlists[0].consolidate_blanks();
+                        if (index == -1) {
+                            // Something went wrong, abort
+                            m_playlists[1].insert_at(pos, *clip, 1);
+                            m_playlists[1].consolidate_blanks();
+                            return false;
+                        }
                     }
                     m_playlists[1].consolidate_blanks();
                 }
@@ -1728,6 +1734,12 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                         clip->setSubPlaylistIndex(1, m_id);
                         int index = m_playlists[1].insert_at(pos, *clip, 1);
                         m_playlists[1].consolidate_blanks();
+                        if (index == -1) {
+                            // Something went wrong, abort
+                            m_playlists[0].insert_at(pos, *clip, 1);
+                            m_playlists[0].consolidate_blanks();
+                            return false;
+                        }
                     }
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
@@ -1764,6 +1776,12 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                         clip->setSubPlaylistIndex(1, m_id);
                         int index = m_playlists[1].insert_at(pos, *clip, 1);
                         m_playlists[1].consolidate_blanks();
+                        if (index == -1) {
+                            // Something went wrong, abort
+                            m_playlists[0].insert_at(pos, *clip, 1);
+                            m_playlists[0].consolidate_blanks();
+                            return false;
+                        }
                     }
                     m_playlists[0].consolidate_blanks();
                 }
@@ -1777,6 +1795,12 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                         clip->setSubPlaylistIndex(0, m_id);
                         int index = m_playlists[0].insert_at(pos, *clip, 1);
                         m_playlists[0].consolidate_blanks();
+                        if (index == -1) {
+                            // Something went wrong, abort
+                            m_playlists[1].insert_at(pos, *clip, 1);
+                            m_playlists[1].consolidate_blanks();
+                            return false;
+                        }
                     }
                     if (m_sameCompositions.count(i.key()) > 0) {
                         // There is a mix at clip start, adjust direction
@@ -1847,9 +1871,9 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             if (auto ptr = m_parent.lock()) {
                 ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(dest_track, m_id);
             }
-            rearrange_playlists();
+            bool result = rearrange_playlists();
             auto op = requestClipInsertion_lambda(clipIds.second, secondClipPos, updateView, finalMove, groupMove);
-            bool result = op();
+            result = result && op();
             if (result) {
                 build_mix();
                 std::function<bool(void)> local_undo = []() { return true; };
@@ -1872,14 +1896,14 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 ptr->getClipPtr(clipIds.second)->requestResize(secondClipDuration, false, local_undo, local_redo, false);
                 ptr->getClipPtr(clipIds.first)->requestResize(firstClipDuration, true, local_undo, local_redo, false);
             }
-            operation();
+            bool result = operation();
             if (auto ptr = m_parent.lock()) {
                 ptr->getClipPtr(clipIds.second)->setSubPlaylistIndex(source_track, m_id);
             }
-            rearrange_playlists_undo();
+            result = result && rearrange_playlists_undo();
             auto op = requestClipInsertion_lambda(clipIds.second, secondClipPos, updateView, finalMove, groupMove);
-            op();
-            return true;
+            result = result && op();
+            return result;
         };
         res = res && replay();
         if (res) {
@@ -1920,6 +1944,7 @@ std::pair<MixInfo, MixInfo> TrackModel::getMixInfo(int clipId) const
         }
     } else {
         startMix.firstClipId = -1;
+        startMix.secondClipId = -1;
     }
     int secondClip = m_mixList.value(clipId, -1);
     if (secondClip > -1) {
@@ -1941,6 +1966,7 @@ std::pair<MixInfo, MixInfo> TrackModel::getMixInfo(int clipId) const
         }
     } else {
         endMix.firstClipId = -1;
+        endMix.secondClipId = -1;
     }
     result = {startMix, endMix};
     return result;
