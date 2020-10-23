@@ -132,6 +132,9 @@ public:
     bool createMix(std::pair<int, int> clipIds, std::pair<int, int> mixData);
     /** @brief Create a mix composition using mix info */
     bool createMix(MixInfo info, bool isAudio);
+    /** @brief Change id of first clip in a mix (in case of clip cut) */
+    bool reAssignEndMix(int currentId, int newId);
+    /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
     /** @brief Switch a clip from one playlist to the other */
     bool switchPlaylist(int clipId, int position, int sourcePlaylist, int destPlaylist);

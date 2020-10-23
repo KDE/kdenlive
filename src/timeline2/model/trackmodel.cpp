@@ -2168,3 +2168,12 @@ const std::shared_ptr<AssetParameterModel> TrackModel::mixModel(int cid)
     }
     return nullptr;
 }
+
+bool TrackModel::reAssignEndMix(int currentId, int newId)
+{
+    Q_ASSERT(m_mixList.contains(currentId));
+    int mixedClip = m_mixList.value(currentId);
+    m_mixList.remove(currentId);
+    m_mixList.insert(newId, mixedClip);
+    return true;
+}
