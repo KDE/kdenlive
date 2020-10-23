@@ -23,8 +23,6 @@
 
 #include <QIcon>
 
-#include <QCheckBox>
-
 TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex, QWidget *parent, bool deleteMode, int activeTrackId)
     : QDialog(parent)
     , m_trackIndex(trackIndex)
