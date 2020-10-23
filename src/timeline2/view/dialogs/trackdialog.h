@@ -28,7 +28,7 @@ class TrackDialog : public QDialog, public Ui::AddTrack_UI
     Q_OBJECT
 
 public:
-    explicit TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex = -1, QWidget *parent = nullptr, bool deleteMode = false);
+    explicit TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex = -1, QWidget *parent = nullptr, bool deleteMode = false, int activeTracks = -1);
     /** @brief: returns the selected position in MLT
      */
     int selectedTrackPosition() const;
@@ -48,6 +48,9 @@ public:
     /** @brief: returns the newly created track name
      */
     const QString trackName() const;
+    /** @brief: returns all the selected ids
+     */
+    QList<int> toDeleteTrackIds();
     /** @brief: returns the number of tracks to be inserted
      */
     int tracksCount() const;
@@ -56,7 +59,9 @@ private:
     int m_trackIndex;
     std::shared_ptr<TimelineItemModel> m_model;
     bool m_deleteMode;
+    int m_activeTrack;
     QMap<int, int> m_positionByIndex;
+    QMap<QString,int> m_idByTrackname;
 
 private slots:
     /** @brief: Fill track list combo

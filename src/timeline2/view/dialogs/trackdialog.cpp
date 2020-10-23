@@ -23,26 +23,22 @@
 
 #include <QIcon>
 
-TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex, QWidget *parent, bool deleteMode)
+#include <QCheckBox>
+
+TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int trackIndex, QWidget *parent, bool deleteMode, int activeTrackId)
     : QDialog(parent)
     , m_trackIndex(trackIndex)
     , m_model(model)
     , m_deleteMode(deleteMode)
+    , m_activeTrack(activeTrackId)
 {
-    setWindowTitle(deleteMode ? i18n("Delete Track") : i18n("Add Track"));
+    setWindowTitle(deleteMode ? i18n("Delete Track(s)") : i18n("Add Track"));
     // setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     if (m_trackIndex > -1 && m_model->isAudioTrack(m_trackIndex)) {
         audio_track->setChecked(true);
         before_select->setCurrentIndex(1);
     }
-    buildCombo();
-    connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
-    connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
-    connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), this, [this] (int count) {
-        tracks_count->setSuffix(i18np(" track", " tracks", count));
-        track_name->setEnabled(count == 1);
-    });
     if (deleteMode) {
         tracks_count->setVisible(false);
         track_name->setVisible(false);
@@ -52,8 +48,20 @@ TrackDialog::TrackDialog(const std::shared_ptr<TimelineItemModel> &model, int tr
         arec_track->setVisible(false);
         name_label->setVisible(false);
         before_select->setVisible(false);
-        label->setText(i18n("Delete Track"));
+        comboTracks->setVisible(false);
+        label->setText(i18n("Select tracks to be deleted :"));
+        this->adjustSize();
     }
+    else {
+        deleteTracks->setVisible(false);
+    }
+    buildCombo();
+    connect(audio_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
+    connect(arec_track, &QRadioButton::toggled, this, &TrackDialog::buildCombo);
+    connect(tracks_count, QOverload<int>::of(&QSpinBox::valueChanged), this, [this] (int count) {
+        tracks_count->setSuffix(i18np(" track", " tracks", count));
+        track_name->setEnabled(count == 1);
+    });
 }
 
 void TrackDialog::buildCombo()
@@ -62,6 +70,7 @@ void TrackDialog::buildCombo()
     QIcon audioIcon = QIcon::fromTheme(QStringLiteral("kdenlive-show-audio"));
     m_positionByIndex.clear();
     comboTracks->clear();
+    deleteTracks->clear();
     bool audioMode = audio_track->isChecked() || arec_track->isChecked();
     for (int i = m_model->getTracksCount() - 1; i >= 0; i--) {
         int tid = m_model->getTrackIndexFromPosition(i);
@@ -70,7 +79,19 @@ void TrackDialog::buildCombo()
             continue;
         }
         const QString trackName = m_model->getTrackFullName(tid);
-        comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
+        if(m_deleteMode) {
+            QListWidgetItem *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
+            m_idByTrackname.insert(trackName,tid);
+            track->setFlags(track->flags() | Qt::ItemIsUserCheckable);
+            track->setCheckState(Qt::Unchecked);
+            if(m_activeTrack == tid) {
+                track->setCheckState(Qt::Checked);
+            }
+            deleteTracks->addItem(track);
+        }
+        else {
+            comboTracks->addItem(audioTrack ? audioIcon : videoIcon, trackName.isEmpty() ? QString::number(i) : trackName, tid);
+        }
         // Track index in in MLT, so add + 1 to compensate black track
         m_positionByIndex.insert(tid, i + 1);
     }
@@ -78,7 +99,9 @@ void TrackDialog::buildCombo()
         int ix = qMax(0, comboTracks->findData(m_trackIndex));
         comboTracks->setCurrentIndex(ix);
     }
-
+    if(m_deleteMode) {
+        deleteTracks->setMinimumWidth(deleteTracks->sizeHintForColumn(0));
+    }
 }
 
 int TrackDialog::selectedTrackPosition() const
@@ -105,6 +128,20 @@ int TrackDialog::selectedTrackId() const
         return comboTracks->currentData().toInt();
     }
     return -1;
+}
+
+QList<int> TrackDialog::toDeleteTrackIds()
+{
+    QList<int> todeleteIds;
+    for(int i = deleteTracks->count() - 1; i >= 0; i--)
+    {
+        QListWidgetItem *listitem = deleteTracks->item(i);
+        if(listitem->checkState() == Qt::Checked) {
+            todeleteIds.append(m_idByTrackname[listitem->text()]);
+        }
+    }
+    m_idByTrackname.clear();
+    return todeleteIds;
 }
 
 bool TrackDialog::addAVTrack() const

@@ -7,11 +7,38 @@
     <x>0</x>
     <y>0</y>
     <width>611</width>
-    <height>194</height>
+    <height>215</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0" colspan="4">
+   <item row="0" column="2">
+    <widget class="KComboBox" name="before_select">
+     <item>
+      <property name="text">
+       <string>Above</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Under</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="KComboBox" name="comboTracks"/>
+   </item>
+   <item row="3" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
       <widget class="QLabel" name="name_label">
@@ -25,10 +52,43 @@
      </item>
     </layout>
    </item>
-   <item row="0" column="3">
-    <widget class="KComboBox" name="comboTracks"/>
+   <item row="0" column="1">
+    <widget class="QSpinBox" name="tracks_count">
+     <property name="suffix">
+      <string> track</string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>1</number>
+     </property>
+    </widget>
    </item>
-   <item row="1" column="0" colspan="4">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Insert</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>10</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1" colspan="2" alignment="Qt::AlignVCenter">
+    <widget class="QListWidget" name="deleteTracks"/>
+   </item>
+   <item row="2" column="0" colspan="4">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QRadioButton" name="video_track">
@@ -75,63 +135,6 @@
       </spacer>
      </item>
     </layout>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Insert</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>10</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="1">
-    <widget class="QSpinBox" name="tracks_count">
-     <property name="suffix">
-      <string> track</string>
-     </property>
-     <property name="minimum">
-      <number>1</number>
-     </property>
-     <property name="value">
-      <number>1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="2">
-    <widget class="KComboBox" name="before_select">
-     <item>
-      <property name="text">
-       <string>Above</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>Under</string>
-      </property>
-     </item>
-    </widget>
    </item>
   </layout>
  </widget>
