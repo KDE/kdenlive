@@ -49,7 +49,7 @@
 #include <QPixmap>
 #include <klocalizedstring.h>
 
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
 #include "qt-oauth-lib/oauth2.h"
 #endif
 
@@ -103,7 +103,7 @@ ResourceWidget::ResourceWidget(QString folder, QWidget *parent)
     search_text->setFocus();
     connect(search_text, SIGNAL(returnPressed()), this, SLOT(slotStartSearch()));
 
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
     m_pOAuth2 = new OAuth2(this);
     connect(m_pOAuth2, &OAuth2::accessTokenReceived, this, &ResourceWidget::slotAccessTokenReceived);
     connect(m_pOAuth2, &OAuth2::accessDenied, this, &ResourceWidget::slotFreesoundAccessDenied);
@@ -375,7 +375,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
         path.append(m_currentService->getDefaultDownloadName(item));
 
         if (m_currentService->serviceType == AbstractService::FREESOUND) {
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
             sFileExt = m_currentService->getExtension(search_results->currentItem());
 #else
             sFileExt = QStringLiteral("*.") + m_currentInfo.HQpreview.section(QLatin1Char('.'), -1);
@@ -402,7 +402,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl)
     }
     slotSetDescription(QString());
     button_import->setEnabled(false); // disable buttons while download runs. enabled in slotGotFile
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
     if (m_currentService->serviceType == AbstractService::FREESOUND) { // open a dialog to authenticate with free sound and download the file
         m_pOAuth2->obtainAccessToken();                                // when  job finished   ResourceWidget::slotAccessTokenReceived will be called
     } else {                                                           // not freesound - do file download via a KIO file copy job
@@ -841,7 +841,7 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
                 m_desc.append(m_saveLocation);
                 updateLayout();
             } else {
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
                 m_pOAuth2->ForgetAccessToken();
 #endif
                 m_desc.append(QStringLiteral("<br>") + i18n("Error Saving File"));
@@ -850,11 +850,11 @@ void ResourceWidget::DownloadRequestFinished(QNetworkReply *reply)
         } else {
 
             if (reply->error() == QNetworkReply::AuthenticationRequiredError) {
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
                 m_pOAuth2->obtainNewAccessToken();
 #endif
             } else {
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
                 m_pOAuth2->ForgetAccessToken();
 #endif
                 m_desc.append(QStringLiteral("<br>") + i18n("Error Downloading File. Error code: %1", reply->error()) + QStringLiteral("<br>"));

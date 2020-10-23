@@ -45,7 +45,7 @@
 const QLatin1String OAuth2_strClientSecret("441d88374716e7a3503997151e4780566f007313"); // obtained when ttguy registered the kdenlive application with freesound
 #endif
 
-#ifdef QT5_USE_WEBKIT
+#ifdef QT5_USE_WEBENGINE
 
 class LoginDialog;
 
@@ -135,6 +135,6 @@ private:
     void buildLoginDialog();
 };
 
-#endif // QT5_USE_WEBKIT
+#endif // QT5_USE_WEBENGINE
 
 #endif // OAUTH2_H
