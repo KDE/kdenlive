@@ -2153,7 +2153,22 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     const QString assetId(t->get("mlt_service"));
     std::unique_ptr<Mlt::Transition>tr(t);
     QDomElement xml = TransitionsRepository::get()->getXml(assetId);
-    qDebug()<<"=====\n\nLOADING MIX: "<<assetId<<", XML: \n\n"<<xml.ownerDocument().toString()<<"\n\n==================";
+    // Paste parameters from existing mix
+    //std::unique_ptr<Mlt::Properties> sourceProperties(t);
+    QStringList sourceProps;
+    for (int i = 0; i < tr->count(); i++) {
+        sourceProps << tr->get_name(i);
+    }
+    QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
+    for (int i = 0; i < params.count(); ++i) {
+        QDomElement currentParameter = params.item(i).toElement();
+        QString paramName = currentParameter.attribute(QStringLiteral("name"));
+        if (!sourceProps.contains(paramName)) {
+            continue;
+        }
+        QString paramValue = tr->get(paramName.toUtf8().constData());
+        currentParameter.setAttribute(QStringLiteral("value"), paramValue);
+    }
     std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(tr), xml, assetId, {ObjectType::TimelineMix, cid2}, QString()));
     m_sameCompositions[cid2] = asset;
     m_mixList.insert(cid1, cid2);

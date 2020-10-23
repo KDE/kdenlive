@@ -54,8 +54,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_lay(new QVBoxLayout(this))
     , m_assetTitle(new KSqueezedTextLabel(this))
     , m_container(new QWidget(this))
-    , m_mixWidget(new MixStackView(this))
     , m_transitionWidget(new TransitionStackView(this))
+    , m_mixWidget(new MixStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
     auto *buttonToolbar = new QToolBar(this);
@@ -181,7 +181,7 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
         return;
     }
     clear();
-    m_switchAction->setVisible(true);
+    m_switchAction->setVisible(false);
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
