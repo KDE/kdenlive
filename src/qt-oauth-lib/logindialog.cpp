@@ -38,7 +38,7 @@
 #include "ui_logindialog_ui.h"
 
 #include "kdenlive_debug.h"
-#include <QWebView>
+#include <QWebEngineView>
 
 LoginDialog::LoginDialog(QWidget *parent)
     : QDialog(parent)
@@ -54,7 +54,7 @@ LoginDialog::LoginDialog(QWidget *parent)
         i18n("Enter your freesound account details to download the highest quality version of this file. Or use the High Quality "
              "preview file instead (no freesound account required)."));
     // m_ui->textBrowser
-    connect(m_ui->webView, &QWebView::urlChanged, this, &LoginDialog::urlChanged);
+    connect(m_ui->webView, &QWebEngineView::urlChanged, this, &LoginDialog::urlChanged);
 }
 
 LoginDialog::~LoginDialog()
