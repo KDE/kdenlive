@@ -188,10 +188,6 @@ int main(int argc, char *argv[])
     // Register about data
     KAboutData::setApplicationData(aboutData);
 
-    // Add rcc stored icons to the search path so that we always find our icons
-    KIconLoader *loader = KIconLoader::global();
-    loader->reconfigure("kdenlive", QStringList() << QStringLiteral(":/pics"));
-
     // Set app stuff from about data
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());

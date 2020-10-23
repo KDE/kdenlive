@@ -1,39 +1,7 @@
 <RCC>
     <qresource prefix="pics">
-        <file alias="timeline-insert.svg">../data/pics/breeze-light/lt_timeline-insert.svg</file>
-        <file alias="timeline-extract.svg">../data/pics/breeze-light/lt_timeline-extract.svg</file>
-        <file alias="timeline-lift.svg">../data/pics/breeze-light/lt_timeline-lift.svg</file>
-        <file alias="timeline-overwrite.svg">../data/pics/breeze-light/lt_timeline-overwrite.svg</file>
-        <file alias="timeline-use-zone-on.svg">../data/pics/breeze-light/lt_timeline-use-zone-on.svg</file>
-        <file alias="timeline-use-zone-off.svg">../data/pics/breeze-light/lt_timeline-use-zone-off.svg</file>
-        <file alias="favorite.svg">../data/pics/breeze-light/lt_favorite.svg</file>
-        <file alias="zone-in.svg">../data/pics/breeze-light/lt_zone-in.svg</file>
-        <file alias="zone-out.svg">../data/pics/breeze-light/lt_zone-out.svg</file>
-        <file alias="preview-add-zone.svg">../data/pics/breeze-light/lt_preview-add-zone.svg</file>
-        <file alias="preview-remove-zone.svg">../data/pics/breeze-light/lt_preview-remove-zone.svg</file>
-        <file alias="preview-render-on.svg">../data/pics/breeze-light/lt_preview-render-on.svg</file>
-        <file alias="preview-render-off.svg">../data/pics/breeze-light/lt_preview-render-off.svg</file>
-        <file alias="view-split-effect.svg">../data/pics/breeze-light/lt_view-split-effect.svg</file>
-        <file alias="composite-track-on.svg">../data/pics/breeze-light/lt_composite-track-on.svg</file>
-        <file alias="composite-track-preview.svg">../data/pics/breeze-light/lt_composite-track-preview.svg</file>
-        <file alias="composite-track-off.svg">../data/pics/breeze-light/lt_composite-track-off.svg</file>
-        <file alias="project-defaults.svg">../data/pics/breeze-light/lt_project-defaults.svg</file>
-        <file alias="jog-dial.svg">../data/pics/breeze-light/lt_jog-dial.svg</file>
-        <file alias="show-all-effects.svg">../data/pics/breeze-light/lt_show-all-effects.svg</file>
-        <file alias="show-gpu-effects.svg">../data/pics/breeze-light/lt_show-gpu-effects.svg</file>
-        <file alias="auto-transition.svg">../data/pics/breeze-light/lt_auto-transition.svg</file>
-        <file alias="preview-remove-all.svg">../data/pics/breeze-light/lt_preview-remove-all.svg</file>
-        <file alias="linear.svg">../data/pics/breeze-light/lt_linear.svg</file>
-        <file alias="discrete.svg">../data/pics/breeze-light/lt_discrete.svg</file>
-        <file alias="smooth.svg">../data/pics/breeze-light/lt_smooth.svg</file>
         <file alias="kdenlive.png">../data/icons/48-apps-kdenlive.png</file>
         <file alias="kdenlive-logo.png">../data/pics/kdenlive-logo.png</file>
         <file alias="splash-background.png">../data/pics/splash-background.png</file>
-        <file alias="kdenlive-lock.svg">../data/pics/breeze-light/lt_kdenlive-lock.svg</file>
-        <file alias="kdenlive-unlock.svg">../data/pics/breeze-light/lt_kdenlive-unlock.svg</file>
-        <file alias="kdenlive-hide-video.svgz">../data/pics/breeze-light/lt_kdenlive-hide-video.svgz</file>
-        <file alias="kdenlive-show-video.svgz">../data/pics/breeze-light/lt_kdenlive-show-video.svgz</file>
-        <file alias="kdenlive-show-audio.svgz">../data/pics/breeze-light/lt_kdenlive-show-audio.svgz</file>
-        <file alias="kdenlive-hide-audio.svgz">../data/pics/breeze-light/lt_kdenlive-hide-audio.svgz</file>
     </qresource>
 </RCC>
