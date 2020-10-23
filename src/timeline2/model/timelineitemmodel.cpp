@@ -193,6 +193,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[ServiceRole] = "mlt_service";
     roles[BinIdRole] = "binId";
     roles[TrackIdRole] = "trackId";
+    roles[TagRole] = "tag";
     roles[FakeTrackIdRole] = "fakeTrackId";
     roles[FakePositionRole] = "fakePosition";
     roles[StartRole] = "start";
@@ -343,6 +344,8 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
             return clip->isGrabbed();
         case SelectedRole:
             return clip->selected;
+        case TagRole:
+            return clip->clipTag();
         default:
             break;
         }

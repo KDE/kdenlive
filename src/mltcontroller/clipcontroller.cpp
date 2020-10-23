@@ -849,64 +849,6 @@ void ClipController::mirrorOriginalProperties(Mlt::Properties &props)
     }
 }
 
-void ClipController::addEffect(QDomElement &xml)
-{
-    Q_UNUSED(xml)
-    // TODO refac: this must be rewritten
-    /*
-    QMutexLocker lock(&m_effectMutex);
-    Mlt::Service service = m_masterProducer->parent();
-    ItemInfo info;
-    info.cropStart = GenTime();
-    info.cropDuration = getPlaytime();
-    EffectsList eff = effectList();
-    EffectsController::initEffect(info, eff, getProducerProperty(QStringLiteral("kdenlive:proxy")), xml);
-    // Add effect to list and setup a kdenlive_ix value
-    int kdenlive_ix = 0;
-    for (int i = 0; i < service.filter_count(); ++i) {
-        QScopedPointer<Mlt::Filter> effect(service.filter(i));
-        int ix = effect->get_int("kdenlive_ix");
-        if (ix > kdenlive_ix) {
-            kdenlive_ix = ix;
-        }
-    }
-    kdenlive_ix++;
-    xml.setAttribute(QStringLiteral("kdenlive_ix"), kdenlive_ix);
-    EffectsParameterList params = EffectsController::getEffectArgs(xml);
-    EffectManager effect(service);
-    effect.addEffect(params, getPlaytime().frames(pCore->getCurrentFps()));
-    if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
-    */
-}
-
-void ClipController::removeEffect(int effectIndex, bool delayRefresh)
-{
-    Q_UNUSED(effectIndex) Q_UNUSED(delayRefresh)
-    // TODO refac: this must be rewritten
-    /*
-    QMutexLocker lock(&m_effectMutex);
-    Mlt::Service service(m_masterProducer->parent());
-    EffectManager effect(service);
-    effect.removeEffect(effectIndex, true);
-    if (!delayRefresh) {
-        if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
-    }
-    */
-}
-
-void ClipController::moveEffect(int oldPos, int newPos)
-{
-    Q_UNUSED(oldPos)
-    Q_UNUSED(newPos)
-    // TODO refac: this must be rewritten
-    /*
-    QMutexLocker lock(&m_effectMutex);
-    Mlt::Service service(m_masterProducer->parent());
-    EffectManager effect(service);
-    effect.moveEffect(oldPos, newPos);
-    */
-}
-
 int ClipController::effectsCount()
 {
     int count = 0;
@@ -920,61 +862,6 @@ int ClipController::effectsCount()
         }
     }
     return count;
-}
-
-void ClipController::changeEffectState(const QList<int> &indexes, bool disable)
-{
-    Q_UNUSED(indexes)
-    Q_UNUSED(disable)
-    // TODO refac : this must be rewritten
-    /*
-    Mlt::Service service = m_masterProducer->parent();
-    for (int i = 0; i < service.filter_count(); ++i) {
-        QScopedPointer<Mlt::Filter> effect(service.filter(i));
-        if ((effect != nullptr) && effect->is_valid() && indexes.contains(effect->get_int("kdenlive_ix"))) {
-            effect->set("disable", (int)disable);
-        }
-    }
-    if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
-    */
-}
-
-void ClipController::updateEffect(const QDomElement &e, int ix)
-{
-    Q_UNUSED(e)
-    Q_UNUSED(ix)
-    // TODO refac : this must be rewritten
-    /*
-    QString tag = e.attribute(QStringLiteral("id"));
-    if (tag == QLatin1String("autotrack_rectangle") || tag.startsWith(QLatin1String("ladspa")) || tag == QLatin1String("sox")) {
-        // this filters cannot be edited, remove and re-add it
-        removeEffect(ix, true);
-        QDomElement clone = e.cloneNode().toElement();
-        addEffect(clone);
-        return;
-    }
-    EffectsParameterList params = EffectsController::getEffectArgs(e);
-    Mlt::Service service = m_masterProducer->parent();
-    for (int i = 0; i < service.filter_count(); ++i) {
-        QScopedPointer<Mlt::Filter> effect(service.filter(i));
-        if (!effect || !effect->is_valid() || effect->get_int("kdenlive_ix") != ix) {
-            continue;
-        }
-        service.lock();
-        QString prefix;
-        QString ser = effect->get("mlt_service");
-        if (ser == QLatin1String("region")) {
-            prefix = QStringLiteral("filter0.");
-        }
-        for (int j = 0; j < params.count(); ++j) {
-            effect->set((prefix + params.at(j).name()).toUtf8().constData(), params.at(j).value().toUtf8().constData());
-            // qCDebug(KDENLIVE_LOG)<<params.at(j).name()<<" = "<<params.at(j).value();
-        }
-        service.unlock();
-    }
-    if (auto ptr = m_binController.lock()) ptr->updateTrackProducer(m_controllerBinId);
-    // slotRefreshTracks();
-    */
 }
 
 bool ClipController::hasEffects() const

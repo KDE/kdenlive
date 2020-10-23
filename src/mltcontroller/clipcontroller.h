@@ -177,12 +177,7 @@ public:
     void forceLimitedDuration();
     Mlt::Properties &properties();
     void mirrorOriginalProperties(Mlt::Properties &props);
-    void addEffect(QDomElement &xml);
     bool copyEffect(const std::shared_ptr<EffectStackModel> &stackModel, int rowId);
-    void removeEffect(int effectIndex, bool delayRefresh = false);
-    /** @brief Enable/disable an effect. */
-    void changeEffectState(const QList<int> &indexes, bool disable);
-    void updateEffect(const QDomElement &e, int ix);
     /** @brief Returns true if the bin clip has effects */
     bool hasEffects() const;
     /** @brief Returns true if the clip contains at least one audio stream */
@@ -202,8 +197,6 @@ public:
     void setBinEffectsEnabled(bool enabled);
     /** @brief Returns the number of Kdenlive added effects for this bin clip */
     int effectsCount();
-    /** @brief Move an effect in stack for this bin clip */
-    void moveEffect(int oldPos, int newPos);
     /** @brief Save an xml playlist of current clip with in/out points as zone.x()/y() */
     void saveZone(QPoint zone, const QDir &dir);
 

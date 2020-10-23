@@ -28,6 +28,7 @@ Rectangle {
     id: clipRoot
     property real timeScale: 1
     property string clipName: ''
+    property string tagColor: ''
     property string clipResource: ''
     property string mltService: ''
     property string effectNames
@@ -197,6 +198,9 @@ Rectangle {
     function getColor() {
         if (clipState == ClipState.Disabled) {
             return 'grey'
+        }
+        if (clipRoot.tagColor) {
+            return clipRoot.tagColor
         }
         if (itemType == ProducerType.Text) {
             return titleColor

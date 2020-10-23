@@ -1195,11 +1195,11 @@ void MainWindow::setupActions()
     m_buttonSnap->setChecked(KdenliveSettings::snaptopoints());
     connect(m_buttonSnap, &QAction::triggered, this, &MainWindow::slotSwitchSnap);
 
-    m_buttonAutomaticTransition = new QAction(QIcon::fromTheme(QStringLiteral("auto-transition")), i18n("Automatic transitions"), this);
+    m_buttonTimelineTags = new QAction(QIcon::fromTheme(QStringLiteral("tag")), i18n("Show color tags in timeline"), this);
 
-    m_buttonAutomaticTransition->setCheckable(true);
-    m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
-    connect(m_buttonAutomaticTransition, &QAction::triggered, this, &MainWindow::slotSwitchAutomaticTransition);
+    m_buttonTimelineTags->setCheckable(true);
+    m_buttonTimelineTags->setChecked(KdenliveSettings::tagsintimeline());
+    connect(m_buttonTimelineTags, &QAction::triggered, this, &MainWindow::slotShowTimelineTags);
 
     m_buttonFitZoom = new QAction(QIcon::fromTheme(QStringLiteral("zoom-fit-best")), i18n("Fit zoom to project"), this);
 
@@ -1240,7 +1240,7 @@ void MainWindow::setupActions()
 
 
     toolbar->addWidget(m_trimLabel);
-    toolbar->addAction(m_buttonAutomaticTransition);
+    toolbar->addAction(m_buttonTimelineTags);
     toolbar->addAction(m_buttonVideoThumbs);
     toolbar->addAction(m_buttonAudioThumbs);
     toolbar->addAction(m_buttonShowMarkers);
@@ -1273,7 +1273,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("razor_tool"), m_buttonRazorTool, Qt::Key_X);
     addAction(QStringLiteral("spacer_tool"), m_buttonSpacerTool, Qt::Key_M);
 
-    addAction(QStringLiteral("automatic_transition"), m_buttonAutomaticTransition);
+    addAction(QStringLiteral("automatic_transition"), m_buttonTimelineTags);
     addAction(QStringLiteral("show_video_thumbs"), m_buttonVideoThumbs);
     addAction(QStringLiteral("show_audio_thumbs"), m_buttonAudioThumbs);
     addAction(QStringLiteral("show_markers"), m_buttonShowMarkers);
@@ -2418,7 +2418,6 @@ void MainWindow::updateConfiguration()
     m_buttonAudioThumbs->setChecked(KdenliveSettings::audiothumbnails());
     m_buttonVideoThumbs->setChecked(KdenliveSettings::videothumbnails());
     m_buttonShowMarkers->setChecked(KdenliveSettings::showmarkers());
-    slotSwitchAutomaticTransition();
 
     // Update list of transcoding profiles
     buildDynamicActions();
@@ -2454,10 +2453,12 @@ void MainWindow::slotSwitchSnap()
     emit getMainTimeline()->controller()->snapChanged();
 }
 
-void MainWindow::slotSwitchAutomaticTransition()
+void MainWindow::slotShowTimelineTags()
 {
-    KdenliveSettings::setAutomatictransitions(!KdenliveSettings::automatictransitions());
-    m_buttonAutomaticTransition->setChecked(KdenliveSettings::automatictransitions());
+    KdenliveSettings::setTagsintimeline(!KdenliveSettings::tagsintimeline());
+    m_buttonTimelineTags->setChecked(KdenliveSettings::tagsintimeline());
+    // Reset view to update timeline colors
+    getMainTimeline()->controller()->getModel()->_resetView();
 }
 
 void MainWindow::slotDeleteItem()

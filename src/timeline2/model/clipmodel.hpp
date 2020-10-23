@@ -75,6 +75,7 @@ public:
     /** @brief returns the bin clip name
      */
     const QString clipName() const;
+    const QString clipTag() const;
     QSize getFrameSize() const;
     Q_INVOKABLE bool showKeyframes() const;
     Q_INVOKABLE void setShowKeyframes(bool show);

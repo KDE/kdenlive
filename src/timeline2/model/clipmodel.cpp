@@ -915,6 +915,14 @@ const QString ClipModel::clipName() const
     return pCore->projectItemModel()->getClipByBinID(m_binClipId)->clipName();
 }
 
+const QString ClipModel::clipTag() const
+{
+    if (KdenliveSettings::tagsintimeline()) {
+        return pCore->projectItemModel()->getClipByBinID(m_binClipId)->tags();
+    }
+    return QString();
+}
+
 FileStatus::ClipStatus ClipModel::clipStatus() const
 {
     std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(m_binClipId);

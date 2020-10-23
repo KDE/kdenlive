@@ -1159,13 +1159,14 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         refreshOnly = false;
         reload = true;
     }
-
+    QVector <int> refreshRoles;
     if (properties.contains(QStringLiteral("kdenlive:tags"))) {
         setTags(properties.value(QStringLiteral("kdenlive:tags")));
         if (auto ptr = m_model.lock()) {
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            AbstractProjectItem::DataTag);
         }
+        refreshRoles << TimelineModel::TagRole;
     }
     if (properties.contains(QStringLiteral("kdenlive:clipname"))) {
         m_name = properties.value(QStringLiteral("kdenlive:clipname"));
@@ -1174,10 +1175,11 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
             std::static_pointer_cast<ProjectItemModel>(ptr)->onItemUpdated(std::static_pointer_cast<ProjectClip>(shared_from_this()),
                                                                            AbstractProjectItem::DataName);
         }
-        // update timeline clips
-        if (!reload) {
-            updateTimelineClips({TimelineModel::NameRole});
-        }
+        refreshRoles << TimelineModel::NameRole;
+    }
+    // update timeline clips
+    if (!reload) {
+        updateTimelineClips(refreshRoles);
     }
     bool audioStreamChanged = properties.contains(QStringLiteral("audio_index"));
     if (reload) {

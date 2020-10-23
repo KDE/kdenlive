@@ -64,6 +64,12 @@ Item{
                 }
                 Binding {
                     target: loader.item
+                    property: "tagColor"
+                    value: model.tag
+                    when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)
+                }
+                Binding {
+                    target: loader.item
                     property: "fakePosition"
                     value: model.fakePosition
                     when: loader.status == Loader.Ready && loader.item && isClip(model.clipType)

@@ -219,7 +219,7 @@ private:
     QAction *m_buttonVideoThumbs;
     QAction *m_buttonShowMarkers;
     QAction *m_buttonFitZoom;
-    QAction *m_buttonAutomaticTransition;
+    QAction *m_buttonTimelineTags;
     QAction *m_normalEditTool;
     QAction *m_overwriteEditTool;
     QAction *m_insertEditTool;
@@ -307,7 +307,7 @@ private slots:
     void slotEditProjectSettings();
     void slotSwitchMarkersComments();
     void slotSwitchSnap();
-    void slotSwitchAutomaticTransition();
+    void slotShowTimelineTags();
     void slotRenderProject();
     void slotStopRenderProject();
     void slotFullScreen();

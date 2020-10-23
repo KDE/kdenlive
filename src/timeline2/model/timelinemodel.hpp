@@ -138,6 +138,7 @@ public:
         IsDisabledRole, /// track only
         IsAudioRole,
         SortRole,
+        TagRole,        /// clip only
         ShowKeyframesRole,
         AudioLevelsRole,    /// clip only
         AudioChannelsRole,  /// clip only

@@ -784,8 +784,8 @@
       <default>true</default>
     </entry>
 
-    <entry name="automatictransitions" type="Bool">
-      <label>New transitions are automatic transitions.</label>
+    <entry name="tagsintimeline" type="Bool">
+      <label>Show color tags in timeline.</label>
       <default>true</default>
     </entry>
 
