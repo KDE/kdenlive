@@ -259,9 +259,9 @@ public:
     /* @brief Insert a timeline track
      */
     Q_INVOKABLE void addTrack(int tid);
-    /* @brief Remove a timeline track
+    /* @brief Remove multiple(or single) timeline tracks
      */
-    Q_INVOKABLE void deleteTrack(int tid);
+    Q_INVOKABLE void deleteMultipleTracks(int tid);
     /* @brief Show / hide audio rec controls in active track
      */
     void switchTrackRecord(int tid = -1);

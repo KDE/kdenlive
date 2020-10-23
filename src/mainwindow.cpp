@@ -2646,7 +2646,7 @@ void MainWindow::slotInsertTrack()
 void MainWindow::slotDeleteTrack()
 {
     pCore->monitorManager()->activateMonitor(Kdenlive::ProjectMonitor);
-    getCurrentTimeline()->controller()->deleteTrack(-1);
+   getCurrentTimeline()->controller()->deleteMultipleTracks(-1);
 }
 
 void MainWindow::slotSwitchTrackAudioStream()

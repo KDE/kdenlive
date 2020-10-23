@@ -647,21 +647,31 @@ void TimelineController::addTrack(int tid)
     }
 }
 
-void TimelineController::deleteTrack(int tid)
+void TimelineController::deleteMultipleTracks(int tid)
 {
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool result = true;
+    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true,m_activeTrack);
     if (tid == -1) {
         tid = m_activeTrack;
     }
-    QPointer<TrackDialog> d = new TrackDialog(m_model, tid, qApp->activeWindow(), true);
     if (d->exec() == QDialog::Accepted) {
-        int selectedTrackIx = d->selectedTrackId();
-        m_model->requestTrackDeletion(selectedTrackIx);
-        if (m_activeTrack == -1) {
-            setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
+        QList<int> allIds = d->toDeleteTrackIds();
+        for (int selectedTrackIx : allIds) {
+            result = m_model->requestTrackDeletion(selectedTrackIx, undo, redo);
+            if (!result) {
+                break;
+            }
+            if (m_activeTrack == -1) {
+                setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
+            }
+        }
+        if (result) {
+          pCore->pushUndo(undo, redo, allIds.count() > 1 ? i18n("Delete Tracks") : i18n("Delete Track"));
         }
     }
 }
-
 
 void TimelineController::switchTrackRecord(int tid)
 {
