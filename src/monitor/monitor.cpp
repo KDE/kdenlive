@@ -1664,7 +1664,7 @@ void Monitor::resetProfile()
     m_glMonitor->rootObject()->setProperty("framesize", QRect(0, 0, m_glMonitor->profileSize().width(), m_glMonitor->profileSize().height()));
     // Update drop frame info
     m_qmlManager->setProperty(QStringLiteral("dropped"), false);
-    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
+    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
 }
 
 void Monitor::resetConsumer(bool fullReset)
@@ -1891,12 +1891,12 @@ void Monitor::checkDrops()
     if (dropped == 0) {
         // No dropped frames since last check
         m_qmlManager->setProperty(QStringLiteral("dropped"), false);
-        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
     } else {
         m_glMonitor->resetDrops();
         dropped = pCore->getCurrentFps() - dropped;
         m_qmlManager->setProperty(QStringLiteral("dropped"), true);
-        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(dropped, 'g', 2));
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(dropped, 'f', 2));
     }
 }
 
@@ -2095,7 +2095,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
 {
     if (m_id == Kdenlive::DvdMonitor) {
         m_qmlManager->setScene(m_id, MonitorSceneDefault, pCore->getCurrentFrameSize(), pCore->getCurrentDar(), m_glMonitor->displayRect(), m_glMonitor->zoom(), m_timePos->maximum());
-        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
+        m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
         return;
     }
     if (type == m_qmlManager->sceneType() && sceneData.isNull()) {
@@ -2136,7 +2136,7 @@ void Monitor::loadQmlScene(MonitorSceneType type, QVariant sceneData)
     default:
         break;
     }
-    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'g', 2));
+    m_qmlManager->setProperty(QStringLiteral("fps"), QString::number(pCore->getCurrentFps(), 'f', 2));
 }
 
 void Monitor::setQmlProperty(const QString &name, const QVariant &value)
