@@ -77,7 +77,7 @@ void TrackDialog::buildCombo()
             continue;
         }
         const QString trackName = m_model->getTrackFullName(tid);
-        if(m_deleteMode) {
+        if (m_deleteMode) {
             QListWidgetItem *track = new QListWidgetItem(audioTrack ? audioIcon : videoIcon,trackName);
             m_idByTrackname.insert(trackName,tid);
             track->setFlags(track->flags() | Qt::ItemIsUserCheckable);
@@ -97,7 +97,7 @@ void TrackDialog::buildCombo()
         int ix = qMax(0, comboTracks->findData(m_trackIndex));
         comboTracks->setCurrentIndex(ix);
     }
-    if(m_deleteMode) {
+    if (m_deleteMode) {
         deleteTracks->setMinimumWidth(deleteTracks->sizeHintForColumn(0));
     }
 }
@@ -131,10 +131,10 @@ int TrackDialog::selectedTrackId() const
 QList<int> TrackDialog::toDeleteTrackIds()
 {
     QList<int> todeleteIds;
-    for(int i = deleteTracks->count() - 1; i >= 0; i--)
+    for (int i = deleteTracks->count() - 1; i >= 0; i--)
     {
         QListWidgetItem *listitem = deleteTracks->item(i);
-        if(listitem->checkState() == Qt::Checked) {
+        if (listitem->checkState() == Qt::Checked) {
             todeleteIds.append(m_idByTrackname[listitem->text()]);
         }
     }

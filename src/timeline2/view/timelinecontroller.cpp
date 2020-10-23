@@ -655,7 +655,7 @@ void TimelineController::deleteMultipleTracks(int tid)
     }
     if (d->exec() == QDialog::Accepted) {
         QList<int> allIds = d->toDeleteTrackIds();
-        for(int selectedTrackIx : allIds) {
+        for (int selectedTrackIx : allIds) {
             m_model->requestTrackDeletion(selectedTrackIx);
             if (m_activeTrack == -1) {
                 setActiveTrack(m_model->getTrackIndexFromPosition(m_model->getTracksCount() - 1));
