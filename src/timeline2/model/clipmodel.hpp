@@ -65,7 +65,7 @@ public:
     Note that there is no guarantee that this producer is actually going to be used. It might be discarded.
     */
     static int construct(const std::shared_ptr<TimelineModel> &parent, const QString &binClipId, const std::shared_ptr<Mlt::Producer> &producer,
-                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint);
+                         PlaylistState::ClipState state, int tid, QString originalDecimalPoint, int playlist = 0);
 
     /** @brief returns a property of the clip, or from it's parent if it's a cut
      */
@@ -102,6 +102,10 @@ public:
     void setFakeTrackId(int fid);
     int getFakePosition() const;
     void setFakePosition(int fid);
+    void setMixDuration(int mix, int offset);
+    void setMixDuration(int mix);
+    int getMixDuration() const;
+    int getMixCutPosition() const;
     void setGrab(bool grab) override;
     void setSelected(bool sel) override;
 
@@ -145,7 +149,7 @@ public:
 
     /**@brief Tracks have two sub playlists to enable same track transitions. This returns the index of the sub-playlist containing this clip */
     int getSubPlaylistIndex() const;
-    void setSubPlaylistIndex(int index);
+    void setSubPlaylistIndex(int index, int trackId);
 
     friend class TrackModel;
     friend class TimelineModel;
@@ -165,7 +169,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) override;
+    bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) override;
 
     void setCurrentTrackId(int tid, bool finalMove = true) override;
     void setPosition(int pos) override;
@@ -180,7 +184,7 @@ protected:
      * @param speed corresponds to the speed we need. Leave to 0 to keep current speed. Warning: this function doesn't notify the model. Unless you know what
      * you are doing, better use useTimewarProducer to change the speed
      */
-    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch);
+    void refreshProducerFromBin(int trackId, PlaylistState::ClipState state, int stream, double speed, bool hasPitch, bool secondPlaylist = false);
     void refreshProducerFromBin(int trackId);
 
     /* @brief This functions replaces the current producer with a slowmotion one
@@ -249,6 +253,11 @@ protected:
 
     // Remember last set track, so that we don't unnecessarily refresh the producer when deleting and re-adding a clip on same track
     int m_lastTrackId = -1;
+
+    // Duration of a same track mix.
+    int m_mixDuration;
+    // Position of the original cut, relative to mix right side
+    int m_mixCutPos;
 };
 
 #endif

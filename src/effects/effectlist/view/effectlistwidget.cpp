@@ -132,7 +132,6 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
         if (name.trimmed().isEmpty() && enteredDescription.trimmed().isEmpty()) {
            return;
         }
-
         m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
     }
 }

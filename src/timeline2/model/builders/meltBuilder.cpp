@@ -39,6 +39,7 @@
 #include <mlt++/MltProducer.h>
 #include <mlt++/MltProfile.h>
 #include <mlt++/MltFilter.h>
+#include <mlt++/MltField.h>
 #include <mlt++/MltTransition.h>
 #include <QApplication>
 
@@ -47,7 +48,7 @@ static QStringList m_errorMessage;
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Tractor &track,
                             const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, QProgressDialog *progressDialog = nullptr);
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, QProgressDialog *progressDialog = nullptr);
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QProgressDialog *progressDialog = nullptr);
 
 bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, Mlt::Tractor tractor, QProgressDialog *progressDialog, QString originalDecimalPoint)
 {
@@ -126,7 +127,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
                 timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
             }
 
-            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
+            ok = ok && constructTrackFromMelt(timeline, tid, local_playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, 0, progressDialog);
             if (local_playlist.get_int("kdenlive:locked_track") > 0) {
                 lockedTracksIndexes << tid;
             }
@@ -225,6 +226,21 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         qDebug() << "ERROR : wrong number of subtracks";
         return false;
     }
+    // Check same track transitions
+    QScopedPointer<Mlt::Service> service(track.field());
+    QList<Mlt::Transition *> compositions;
+    while ((service != nullptr) && service->is_valid()) {
+        if (service->type() == transition_type) {
+            Mlt::Transition t((mlt_transition)service->get_service());
+            QString id(t.get("kdenlive_id"));
+            compositions << new Mlt::Transition(t);
+            if (id.isEmpty()) {
+                qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
+                t.set("kdenlive_id", t.get("mlt_service"));
+            }
+        }
+        service.reset(service->producer());
+    }
     for (int i = 0; i < track.count(); i++) {
         std::unique_ptr<Mlt::Producer> sub_track(track.track(i));
         if (sub_track->type() != playlist_type) {
@@ -232,7 +248,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             return false;
         }
         Mlt::Playlist playlist(*sub_track);
-        constructTrackFromMelt(timeline, tid, playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, progressDialog);
+        constructTrackFromMelt(timeline, tid, playlist, binIdCorresp, undo, redo, audioTrack, originalDecimalPoint, i, progressDialog);
         if (i == 0) {
             // Pass track properties
             int height = track.get_int("kdenlive:trackheight");
@@ -255,6 +271,9 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 timeline->setTrackProperty(tid, QStringLiteral("hide"), QString::number(muteState));
             }
         }
+    }
+    for (auto compo : compositions) {
+        timeline->plantMix(tid, compo);
     }
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(track.get_service());
     timeline->importTrackEffects(tid, serv);
@@ -293,7 +312,7 @@ PlaylistState::ClipState inferState(const std::shared_ptr<Mlt::Producer> &prod, 
 } // namespace
 
 bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, int tid, Mlt::Playlist &track,
-                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, QProgressDialog *progressDialog)
+                            const std::unordered_map<QString, QString> &binIdCorresp, Fun &undo, Fun &redo, bool audioTrack, QString originalDecimalPoint, int playlist, QProgressDialog *progressDialog)
 {
     int max = track.count();
     for (int i = 0; i < max; i++) {
@@ -345,7 +364,8 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             int cid = -1;
             if (pCore->bin()->getBinClip(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
-                cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint);
+                qDebug()<<"==== INSERTING CLIP IN PLAYLIST: "<<playlist<<"\n8888888888888888888888";
+                cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, playlist);
                 ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
             } else {
                 qDebug() << "// Cannot find bin clip: " << binId << " - " << clip->get("id");

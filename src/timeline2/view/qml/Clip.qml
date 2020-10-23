@@ -20,6 +20,7 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import QtQml.Models 2.11
+import QtQuick.Shapes 1.11
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
 import com.enums 1.0
@@ -33,6 +34,8 @@ Rectangle {
     property string mltService: ''
     property string effectNames
     property int modelStart
+    property int mixDuration: 0
+    property int mixCut: 0
     property real scrollX: 0
     property int inPoint: 0
     property int outPoint: 0
@@ -316,7 +319,7 @@ Rectangle {
             // Thumbs container
             id: thumbsLoader
             anchors.fill: parent
-            anchors.leftMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
+            anchors.leftMargin: parentTrack.isAudio ? 0 : clipRoot.border.width + mixContainer.width
             anchors.rightMargin: parentTrack.isAudio ? 0 : clipRoot.border.width
             anchors.topMargin: clipRoot.border.width
             anchors.bottomMargin: clipRoot.border.width
@@ -333,6 +336,160 @@ Rectangle {
             anchors.margins: clipRoot.border.width
             //clip: true
             property bool showDetails: (!clipRoot.selected || !effectRow.visible) && container.height > 2.2 * labelRect.height
+            
+            Item {
+                // Mix indicator
+                id: mixContainer
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: clipRoot.mixDuration * clipRoot.timeScale
+                
+                Rectangle {
+                    id: mixBackground
+                    property double mixPos: mixBackground.width - clipRoot.mixCut * clipRoot.timeScale
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    visible: clipRoot.mixDuration > 0
+                    color: "mediumpurple"
+                    Shape {
+                        anchors.fill: mixBackground
+                        //anchors.margins: border.width
+                        asynchronous: true
+                        opacity: 0.4
+                        ShapePath {
+                            fillColor: "#000"
+                            strokeColor: "transparent"
+                            PathLine {x: 0; y: 0}
+                            PathLine {x: mixCutPos.x; y: mixBackground.height}
+                            PathLine {x: 0; y: mixBackground.height}
+                            PathLine {x: 0; y: 0}
+                        }
+                        ShapePath {
+                            fillColor: "#000"
+                            strokeColor: "transparent"
+                            PathLine {x: mixBackground.width; y: 0}
+                            PathLine {x: mixBackground.width; y: mixBackground.height}
+                            PathLine {x: mixCutPos.x; y: mixBackground.height}
+                            PathLine {x: mixBackground.width; y: 0}
+                        }
+                    }
+
+                    opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || root.selectedMix == clipRoot.clipId ? 1 : 0.7
+                    border.color: root.selectedMix == clipRoot.clipId ? root.selectionColor : "transparent"
+                    border.width: 2
+                    MouseArea {
+                        // Mix click mouse area
+                        id: mixArea
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onPressed: {
+                            controller.requestMixSelection(clipRoot.clipId);
+                        }
+                    }
+                    Rectangle {
+                        id: mixCutPos
+                        anchors.right: parent.right
+                        anchors.rightMargin: clipRoot.mixCut * clipRoot.timeScale
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        width: 2
+                        color: "navy"
+                    }
+                    MouseArea {
+                        // Left resize handle
+                        id: trimInMixArea
+                        anchors.left: parent.left
+                        anchors.leftMargin: clipRoot.mixDuration * clipRoot.timeScale
+                        height: parent.height
+                        width: root.baseUnit / 2
+                        visible: root.activeTool === 0
+                        property int previousMix
+                        enabled: !isLocked && (pressed || clipRoot.width > 3 * width)
+                        hoverEnabled: true
+                        drag.target: trimInMixArea
+                        drag.axis: Drag.XAxis
+                        drag.smoothed: false
+                        property bool sizeChanged: false
+                        cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                        onPressed: {
+                            previousMix = clipRoot.mixDuration
+                            root.autoScrolling = false
+                            mixOut.color = 'darkorchid'
+                            anchors.left = undefined
+                            parent.anchors.right = undefined
+                            mixCutPos.anchors.right = undefined
+                        }
+                        onReleased: {
+                            controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
+                            root.autoScrolling = timeline.autoScroll
+                            if (sizeChanged) {
+                                sizeChanged = false
+                            }
+                            anchors.left = parent.left
+                            parent.anchors.right = mixContainer.right
+                            mixBackground.anchors.bottom = mixContainer.bottom
+                            mixOut.color = clipRoot.border.color
+                            mixCutPos.anchors.right = mixCutPos.parent.right
+                        }
+                        onPositionChanged: {
+                            if (mouse.buttons === Qt.LeftButton) {
+                                var currentFrame = Math.round(x / clipRoot.timeScale)
+                                if (currentFrame != previousMix) {
+                                    parent.width = currentFrame * clipRoot.timeScale
+                                    sizeChanged = true
+                                    //TODO: resize mix's other clip
+                                    //clipRoot.trimmingIn(clipRoot, newDuration, mouse, shiftTrim, controlTrim)
+                                }
+                                if (x < mixCutPos.x) {
+                                    // This will delete the mix
+                                    mixBackground.anchors.bottom = mixContainer.top
+                                } else {
+                                    mixBackground.anchors.bottom = mixContainer.bottom
+                                }
+                            }
+                        }
+                        onEntered: {
+                            if (!pressed) {
+                                mixOut.color = 'darkorchid'
+                            }
+                        }
+                        onExited: {
+                            if (!pressed) {
+                                mixOut.color = clipRoot.border.color
+                            }
+                        }
+                        Rectangle {
+                            id: mixOut
+                            width: clipRoot.border.width
+                            height: mixContainer.height
+                            color: clipRoot.border.color
+                            Drag.active: trimInMixArea.drag.active
+                            Drag.proposedAction: Qt.MoveAction
+                            visible: trimInMixArea.pressed || (root.activeTool === 0 && !mouseArea.drag.active && parent.enabled)
+
+                            ToolTip {
+                                visible: trimInMixArea.containsMouse && !trimInMixArea.pressed
+                                delay: 1000
+                                timeout: 5000
+                                background: Rectangle {
+                                    color: activePalette.alternateBase
+                                    border.color: activePalette.light
+                                }
+                                contentItem: Label {
+                                    color: activePalette.text
+                                    font: miniFont
+                                    text: i18n("Mix:%1", timeline.simplifiedTC(clipRoot.mixDuration))
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
 
             Repeater {
                 // Clip markers
@@ -428,6 +585,9 @@ Rectangle {
                         updateDrag()
                     }
                 }
+                onDoubleClicked: {
+                    timeline.mixClip(clipRoot.clipId, -1)
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         var currentFrame = Math.round((clipRoot.x + (x + clipRoot.border.width)) / timeScale)
@@ -518,6 +678,9 @@ Rectangle {
                         updateDrag()
                     }
                 }
+                onDoubleClicked: {
+                    timeline.mixClip(clipRoot.clipId, 1)
+                }
                 onPositionChanged: {
                     if (mouse.buttons === Qt.LeftButton) {
                         var newDuration = Math.round((x + width) / timeScale)
@@ -589,6 +752,7 @@ Rectangle {
             Item {
                 // Clipping container for clip names
                 anchors.fill: parent
+                anchors.leftMargin: mixContainer.width
                 clip: true
                 Rectangle {
                     // Clip name background

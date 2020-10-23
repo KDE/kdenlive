@@ -187,6 +187,9 @@ public:
 
     /** @brief Returns the current value of an effect parameter */
     const QString getParam(const QString &paramName);
+    
+    /** @brief Returns the current asset */
+    Mlt::Properties *getAsset();
 
 protected:
     /* @brief Helper function to retrieve the type of a parameter given the string corresponding to it*/

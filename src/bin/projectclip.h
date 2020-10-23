@@ -199,7 +199,7 @@ public:
     /** @brief This function returns a cut to the master producer associated to the timeline clip with given ID.
         Each clip must have a different master producer (see comment of the class)
     */
-    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0);
+    std::shared_ptr<Mlt::Producer> getTimelineProducer(int trackId, int clipId, PlaylistState::ClipState st, int audioStream = -1, double speed = 1.0, bool secondPlaylist = false);
 
     /* @brief This function should only be used at loading. It takes a producer that was read from mlt, and checks whether the master producer is already in
        use. If yes, then we must create a new one, because of the mixing bug. In any case, we return a cut of the master that can be used in the timeline The
@@ -207,7 +207,7 @@ public:
            - if true, then the returned cut still possibly has effect on it. You need to rebuild the effectStack based on this
            - if false, then the returned cut don't have effects anymore (it's a fresh one), so you need to reload effects from the old producer
     */
-    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid);
+    std::pair<std::shared_ptr<Mlt::Producer>, bool> giveMasterAndGetTimelineProducer(int clipId, std::shared_ptr<Mlt::Producer> master, PlaylistState::ClipState state, int tid, bool secondPlaylist = false);
 
     std::shared_ptr<Mlt::Producer> cloneProducer(bool removeEffects = false);
     static std::shared_ptr<Mlt::Producer> cloneProducer(const std::shared_ptr<Mlt::Producer> &producer);

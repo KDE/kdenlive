@@ -30,6 +30,7 @@
 #include "transitions/transitionsrepository.hpp"
 #include "effects/effectsrepository.hpp"
 #include "transitions/view/transitionstackview.hpp"
+#include "transitions/view/mixstackview.hpp"
 
 #include "view/assetparameterview.hpp"
 
@@ -54,6 +55,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     , m_assetTitle(new KSqueezedTextLabel(this))
     , m_container(new QWidget(this))
     , m_transitionWidget(new TransitionStackView(this))
+    , m_mixWidget(new MixStackView(this))
     , m_effectStackWidget(new EffectStackView(this))
 {
     auto *buttonToolbar = new QToolBar(this);
@@ -120,6 +122,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     auto *lay = new QVBoxLayout(m_container);
     lay->setContentsMargins(0, 0, 0, 0);
     lay->addWidget(m_transitionWidget);
+    lay->addWidget(m_mixWidget);
     lay->addWidget(m_effectStackWidget);
     m_sc = new QScrollArea;
     m_sc->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -135,6 +138,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     m_infoMessage->hide();
     m_sc->setWidget(m_container);
     m_transitionWidget->setVisible(false);
+    m_mixWidget->setVisible(false);
     m_effectStackWidget->setVisible(false);
     updatePalette();
     connect(m_effectStackWidget, &EffectStackView::checkScrollBar, this, &AssetPanel::slotCheckWheelEventFilter);
@@ -164,6 +168,28 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
     m_enableStackButton->setVisible(false);
     m_transitionWidget->setModel(transitionModel, QSize(), true);
 }
+
+void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &transitionModel)
+{
+    if (cid == -1) {
+        clear();
+        return;
+    }
+    ObjectId id = {ObjectType::TimelineMix, cid};
+    if (m_mixWidget->stackOwner() == id) {
+        // already on this effect stack, do nothing
+        return;
+    }
+    clear();
+    m_switchAction->setVisible(false);
+    m_titleAction->setVisible(false);
+    m_assetTitle->clear();
+    m_mixWidget->setVisible(true);
+    m_timelineButton->setVisible(false);
+    m_enableStackButton->setVisible(false);
+    m_mixWidget->setModel(transitionModel, QSize(), true);
+}
+
 
 void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
@@ -260,11 +286,14 @@ void AssetPanel::clear()
     m_switchAction->setVisible(false);
     m_transitionWidget->setVisible(false);
     m_transitionWidget->unsetModel();
+    m_mixWidget->setVisible(false);
+    m_mixWidget->unsetModel();
     m_effectStackWidget->setVisible(false);
     m_splitButton->setVisible(false);
     m_timelineButton->setVisible(false);
     m_switchBuiltStack->setVisible(false);
     m_effectStackWidget->unsetModel();
+    
     m_assetTitle->setText(QString());
 }
 

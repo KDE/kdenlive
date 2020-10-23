@@ -52,7 +52,8 @@ public:
     void setReferenceModel(const std::weak_ptr<MarkerListModel> &markerModel, double speed);
 
     void updateSnapModelPos(int newPos);
-    void updateSnapModelInOut(std::pair<int, int> newInOut);
+    void updateSnapModelInOut(std::vector<int> borderSnaps);
+    void updateSnapMixPosition(int mixPos);
     /* @brief Retrieve all snap points */
     void allSnaps(std::vector<int> &snaps, int offset = 0);
 
@@ -63,6 +64,7 @@ private:
     std::unordered_set<int> m_snapPoints;
     int m_inPoint;
     int m_outPoint;
+    int m_mixPoint{0};
     int m_position;
     double m_speed{1.};
     void addAllSnaps();

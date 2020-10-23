@@ -1,4 +1,14 @@
 <!DOCTYPE kpartgui>
 <transition tag="luma" id="luma" type="hidden">
+    <name>Luma</name>
+        <description>Applies a stationary transition between the current and next frames.</description>
+        <author>Dan Dennedy</author>
+    <parameter type="list" name="resource" default="" paramlist="%lumaPaths" optional="1">
+        <paramlistdisplay>%lumaNames</paramlistdisplay>
+        <name>Wipe Method</name>
+    </parameter>
+    <parameter type="double" name="softness" max="100" min="0" default="0" factor="100">
+        <name>Softness</name>
+    </parameter>
 </transition>
 

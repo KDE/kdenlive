@@ -99,7 +99,7 @@ protected:
        @param undo Lambda function containing the current undo stack. Will be updated with current operation
        @param redo Lambda function containing the current redo queue. Will be updated with current operation
     */
-    virtual bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true) = 0;
+    virtual bool requestResize(int size, bool right, Fun &undo, Fun &redo, bool logUndo = true, bool hasMix = false) = 0;
 
     /* Updates the stored position of the item
       This function is meant to be called by the trackmodel, not directly by the user.

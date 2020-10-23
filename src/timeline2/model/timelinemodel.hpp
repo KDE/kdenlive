@@ -117,6 +117,8 @@ public:
         IsProxyRole,  /// clip only
         ServiceRole,  /// clip only
         StartRole,    /// clip only
+        MixRole,    /// clip only, the duration of the mix
+        MixCutRole, /// The original cut position for the mix
         BinIdRole,    /// clip only
         TrackIdRole,
         FakeTrackIdRole,
@@ -249,6 +251,8 @@ public:
     std::shared_ptr<AssetParameterModel> getCompositionParameterModel(int compoId) const;
     /* @brief Given a clip Id, returns its underlying effect stack model */
     std::shared_ptr<EffectStackModel> getClipEffectStackModel(int clipId) const;
+    /* @brief Given a clip Id, returns its mix transition stack model */
+    std::shared_ptr<EffectStackModel> getClipMixStackModel(int clipId) const;
 
     /* @brief Returns the position of clip (-1 if it is not inserted)
        @param clipId Id of the clip to test
@@ -356,6 +360,8 @@ public:
        @param logUndo if set to false, no undo object is stored
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
+    
+    bool requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /* @brief Move a composition to a specific position This action is undoable
        Returns true on success. If it fails, nothing is modified. If the clip is
@@ -367,7 +373,7 @@ public:
 
     /* Same function, but accumulates undo and redo, and doesn't check
        for group*/
-    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false);
+    bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove = false, QMap <int, int> moving_clips = QMap <int, int>());
     bool requestCompositionMove(int transid, int trackId, int compositionTrack, int position, bool updateView, bool finalMove, Fun &undo, Fun &redo);
 
     /* When timeline edit mode is insert or overwrite, we fake the move (as it will overlap existing clips, and only process the real move on drop */
@@ -416,6 +422,11 @@ public:
      *  @param compoId the name of the new composition we want to insert
      */
     void switchComposition(int cid, const QString &compoId);
+    /**  @brief Plant a same track composition in track tid
+     */
+    void plantMix(int tid, Mlt::Transition *t);
+    bool removeMixWithUndo(int cid, Fun &undo, Fun &redo);
+    bool removeMix(int cid);
 
 protected:
     /* @brief Creates a new clip instance without inserting it.
@@ -438,7 +449,7 @@ public:
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
     /* Same function, but accumulates undo and redo*/
-    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo);
+    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
     /* @brief Move a group to a specific position
        This action is undoable
@@ -614,6 +625,7 @@ public:
     /* @brief Get a timeline clip id by its position or -1 if not found
      */
     int getClipByPosition(int trackId, int position) const;
+    int getClipByStartPosition(int trackId, int position) const;
 
     /* @brief Get a timeline composition id by its starting position or -1 if not found
      */
@@ -667,6 +679,11 @@ public:
     Q_INVOKABLE bool requestClearSelection(bool onDeletion = false);
     // same function with undo/redo accumulation
     void requestClearSelection(bool onDeletion, Fun &undo, Fun &redo);
+    
+    /** @brief Select a given mix in timeline
+        @param cid clip id
+     */
+    Q_INVOKABLE void requestMixSelection(int cid);
 
     /** @brief Add the given item to the selection
         If @param clear is true, the selection is first cleared
@@ -688,6 +705,9 @@ public:
     void prepareClose();
     /** @brief Import project's master effects */
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
+    /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
+    bool mixClip(int idToMove = -1, int delta = 0);
+    Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
 
 protected:
     /* @brief Register a new track. This is a call-back meant to be called from TrackModel
@@ -784,6 +804,8 @@ signals:
 
     /* @brief Signal sent whenever the selection changes */
     void selectionChanged();
+    /* @brief Signal sent whenever the selected mix changes */
+    void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
     /* @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
@@ -827,6 +849,7 @@ protected:
     // item, or, finally, the id of a group which is not of type selection. The last case happens when the selection exactly matches an existing group
     // (in that case we cannot further group it because the selection would have only one child, which is prohibited by design)
     int m_currentSelection = -1;
+    int m_selectedMix = -1;
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;

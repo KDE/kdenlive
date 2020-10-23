@@ -122,6 +122,10 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
     connect(m_model.get(), &TimelineModel::invalidateZone, this, &TimelineController::invalidateZone, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
+    connect(m_model.get(), &TimelineModel::selectedMixChanged, [this] (int cid, const std::shared_ptr<AssetParameterModel> &asset) {
+        emit showMixModel(cid, asset);
+        emit selectedMixChanged();
+    });
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
@@ -302,6 +306,11 @@ QList<int> TimelineController::selection() const
     return items;
 }
 
+int TimelineController::selectedMix() const
+{
+    return m_model->m_selectedMix;
+}
+
 void TimelineController::selectItems(const QList<int> &ids)
 {
     std::unordered_set<int> ids_s(ids.begin(), ids.end());
@@ -382,10 +391,10 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
 {
     int id;
     int minimumPos = clipId > -1 ? m_model->getClipPosition(clipId) : offset;
-    int clip_duration = clipId > -1 ? m_model->getClipPlaytime(clipId) : pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int clip_duration = clipId > -1 ? m_model->getClipPlaytime(clipId) : pCore->getDurationFromString(KdenliveSettings::transition_duration());
     int endPos = minimumPos + clip_duration;
     int position = minimumPos;
-    int duration = qMin(clip_duration, pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration()));
+    int duration = qMin(clip_duration, pCore->getDurationFromString(KdenliveSettings::transition_duration()));
     int lowerVideoTrackId = m_model->getPreviousVideoTrackIndex(tid);
     bool revert = offset > clip_duration / 2;
     int bottomId = 0;
@@ -425,13 +434,13 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
             }
         }
     }
-    int defaultLength = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int defaultLength = pCore->getDurationFromString(KdenliveSettings::transition_duration());
     bool isShortComposition = TransitionsRepository::get()->getType(transitionId) == AssetListType::AssetType::VideoShortComposition;
     if (duration < 0 || (isShortComposition && duration > 1.5 * defaultLength)) {
         duration = defaultLength;
     } else if (duration <= 1) {
         // if suggested composition duration is lower than 4 frames, use default
-        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+        duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
         if (minimumPos + clip_duration - position < 3) {
             position = minimumPos + clip_duration - duration;
         }
@@ -461,7 +470,7 @@ int TimelineController::insertNewComposition(int tid, int clipId, int offset, co
 int TimelineController::insertComposition(int tid, int position, const QString &transitionId, bool logUndo)
 {
     int id;
-    int duration = pCore->currentDoc()->getFramePos(KdenliveSettings::transition_duration());
+    int duration = pCore->getDurationFromString(KdenliveSettings::transition_duration());
     if (!m_model->requestCompositionInsertion(transitionId, tid, position, duration, nullptr, id, logUndo)) {
         id = -1;
     }
@@ -472,6 +481,10 @@ void TimelineController::deleteSelectedClips()
 {
     auto sel = m_model->getCurrentSelection();
     if (sel.empty()) {
+        // Check if a mix is selected
+        if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
+            m_model->removeMix(m_model->m_selectedMix);
+        }
         return;
     }
     // only need to delete the first item, the others will be deleted in cascade
@@ -1542,7 +1555,7 @@ void TimelineController::adjustFade(int cid, const QString &effectId, int durati
 {
     if (initialDuration == -2) {
         // Add default fade
-        duration = pCore->currentDoc()->getFramePos(KdenliveSettings::fade_duration());
+        duration = pCore->getDurationFromString(KdenliveSettings::fade_duration());
         initialDuration = 0;
     }
     if (duration <= 0) {
@@ -3687,6 +3700,11 @@ void TimelineController::addTracks(int videoTracks, int audioTracks)
     }
 }
 
+void TimelineController::mixClip(int cid, int delta)
+{
+    m_model->mixClip(cid, delta);
+}
+
 void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
 {
     for (auto &cid : clipIds) {
@@ -3701,3 +3719,4 @@ void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
         }
     }
 }
+

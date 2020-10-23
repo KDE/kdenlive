@@ -50,7 +50,7 @@ enum class GroupType {
 const QString groupTypeToStr(GroupType t);
 GroupType groupTypeFromStr(const QString &s);
 
-enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, BinClip, Master, NoItem };
+enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, BinClip, Master, NoItem };
 using ObjectId = std::pair<ObjectType, int>;
 
 enum OperationType {

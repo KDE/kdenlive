@@ -40,6 +40,7 @@ class TimelineController : public QObject
     /* @brief holds a list of currently selected clips (list of clipId's)
      */
     Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
+    Q_PROPERTY(int selectedMix READ selectedMix NOTIFY selectedMixChanged)
     /* @brief holds the timeline zoom factor
      */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -345,6 +346,9 @@ public:
     /* @brief Get the list of currently selected clip id's
      */
     QList<int> selection() const;
+    /* @brief Returns the id of the currently selected mix's clip, -1 if no mix selected
+     */
+    int selectedMix() const;
 
     /* @brief Add an asset (effect, composition)
      */
@@ -558,6 +562,8 @@ public:
     void addTracks(int videoTracks, int audioTracks);
     /** @brief Get in/out of currently selected items */
     QPoint selectionInOut() const;
+    /** @brief Create a mix transition with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
+    Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(QList<int> clipIds, bool hide);
 
@@ -634,6 +640,7 @@ private:
 signals:
     void selected(Mlt::Producer *producer);
     void selectionChanged();
+    void selectedMixChanged();
     void frameFormatChanged();
     void trackHeightChanged();
     void scaleFactorChanged();
@@ -659,6 +666,8 @@ signals:
     void zoneMoved(const QPoint &zone);
     /* @brief Requests that a given parameter model is displayed in the asset panel */
     void showTransitionModel(int tid, std::shared_ptr<AssetParameterModel>);
+    /* @brief Requests that a given mix is displayed in the asset panel */
+    void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset);
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
     /* @brief notify of chunks change
      */

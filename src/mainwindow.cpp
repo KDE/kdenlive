@@ -351,6 +351,7 @@ void MainWindow::init()
         getMainTimeline()->controller()->getModel()->switchComposition(cid, compositionId);
     });
 
+    connect(m_timelineTabs, &TimelineTabs::showMixModel, m_assetPanel, &AssetPanel::showMix);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, m_assetPanel, &AssetPanel::showTransition);
     connect(m_timelineTabs, &TimelineTabs::showTransitionModel, this, [&] () {
         m_effectStackDock->raise();
@@ -1140,6 +1141,12 @@ void MainWindow::setupActions()
     QAction *collapseItem = new QAction(QIcon::fromTheme(QStringLiteral("collapse-all")), i18n("Collapse/Expand Item"), this);
     addAction(QStringLiteral("collapse_expand"), collapseItem, Qt::Key_Less);
     connect(collapseItem, &QAction::triggered, this, &MainWindow::slotCollapse);
+    
+    QAction *sameTrack = new QAction(QIcon::fromTheme(QStringLiteral("composite-track-preview")), i18n("Mix Clips"), this);
+    addAction(QStringLiteral("mix_clip"), sameTrack, Qt::Key_U);
+    connect(sameTrack, &QAction::triggered, [this]() {
+       getCurrentTimeline()->controller()->mixClip(); 
+    });
     
     // toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 

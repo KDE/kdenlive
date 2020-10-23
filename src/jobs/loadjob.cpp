@@ -316,7 +316,7 @@ bool LoadJob::startJob()
                 if (producerLength > 0) {
                     duration = producerLength;
                 } else {
-                    duration = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
+                    duration = pCore->getDurationFromString(KdenliveSettings::title_duration());
                 }
             }
             if (producerLength <= 0) {
@@ -340,7 +340,7 @@ bool LoadJob::startJob()
                 producerLength = pLength.toInt(&ok);
             }
             if (producerLength <= 0) {
-                producerLength = pCore->currentDoc()->getFramePos(KdenliveSettings::title_duration());
+                producerLength = pCore->getDurationFromString(KdenliveSettings::title_duration());
             }
             m_producer = loadResource(m_resource, QStringLiteral("qml:"));
             m_producer->set("length", producerLength);

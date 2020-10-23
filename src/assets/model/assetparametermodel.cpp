@@ -1003,3 +1003,8 @@ void AssetParameterModel::passProperties(Mlt::Properties &target)
     target.set("_profile", pCore->getCurrentProfile()->get_profile(), 0);
     target.set_lcnumeric(m_asset->get_lcnumeric());
 }
+
+Mlt::Properties *AssetParameterModel::getAsset()
+{
+    return m_asset.get();
+}

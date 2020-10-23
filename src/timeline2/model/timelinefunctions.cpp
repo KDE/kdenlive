@@ -128,6 +128,7 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         return false;
     }
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
+    // Check if clip has an end Mix
     bool res = cloneClip(timeline, clipId, newId, state, undo, redo);
     timeline->m_blockRefresh = true;
     res = res && timeline->requestItemResize(clipId, position - start, true, true, undo, redo);
@@ -141,6 +142,18 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     // The next requestclipmove does not check for duration change since we don't invalidate timeline, so check duration change now
     bool durationChanged = trackDuration != timeline->getTrackById_const(trackId)->trackDuration();
     res = res && timeline->requestClipMove(newId, trackId, position, true, true, false, true, undo, redo);
+    
+    if (timeline->getTrackById_const(trackId)->hasEndMix(clipId)) {
+        Fun local_undo = [timeline, trackId, clipId, newId]() { 
+            timeline->getTrackById_const(trackId)->reAssignEndMix(newId, clipId);
+            return true; };
+        Fun local_redo = [timeline, trackId, clipId, newId]() {
+            timeline->getTrackById_const(trackId)->reAssignEndMix(clipId, newId);
+            return true; };
+        local_redo();
+        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+    }
+    
     if (durationChanged) {
         // Track length changed, check project duration
         Fun updateDuration = [timeline]() {

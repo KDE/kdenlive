@@ -22,7 +22,7 @@ QString createProducer(Mlt::Profile &prof, std::string color, std::shared_ptr<Pr
     return binId;
 }
 
-QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel)
+QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemModel> binModel, int length)
 {
     Logger::log_create_producer("test_producer_sound", {binModel});
     // std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(prof,
@@ -30,14 +30,15 @@ QString createProducerWithSound(Mlt::Profile &prof, std::shared_ptr<ProjectItemM
 
     // In case the test system does not have avformat support, we can switch to the integrated blipflash producer
     std::shared_ptr<Mlt::Producer> producer = std::make_shared<Mlt::Producer>(prof, "blipflash");
-    producer->set("length", 10);
-    producer->set_in_and_out(0, 9);
-    producer->set("kdenlive:duration", 10);
+    producer->set("length", length);
+    producer->set_in_and_out(0, length - 1);
+    producer->set("kdenlive:duration", length);
 
     REQUIRE(producer->is_valid());
 
     QString binId = QString::number(binModel->getFreeClipId());
     auto binClip = ProjectClip::construct(binId, QIcon(), binModel, producer);
+    binClip->forceLimitedDuration();
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     REQUIRE(binModel->addItem(binClip, binModel->getRootFolder()->clipId(), undo, redo));
