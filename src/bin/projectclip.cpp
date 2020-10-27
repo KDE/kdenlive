@@ -1384,6 +1384,9 @@ void ProjectClip::discardAudioThumb()
         if (!audioThumbPath.isEmpty()) {
             QFile::remove(audioThumbPath);
         }
+        // Clear audio cache
+        QString key = QString("%1:%2").arg(m_binId).arg(st);
+        pCore->audioThumbCache.insert(key, QByteArray("-"));
     }
     // Delete thumbnail
     for (int &st : streams) {
@@ -1392,6 +1395,7 @@ void ProjectClip::discardAudioThumb()
             QFile::remove(audioThumbPath);
         }
     }
+
     resetProducerProperty(QStringLiteral("kdenlive:audio_max"));
     m_audioThumbCreated = false;
     refreshAudioInfo();
@@ -1675,9 +1679,11 @@ const QVector <uint8_t> ProjectClip::audioFrameCache(int stream)
     QString key = QString("%1:%2").arg(m_binId).arg(stream);
     QByteArray audioData;
     if (pCore->audioThumbCache.find(key, &audioData)) {
-        QDataStream in(audioData);
-        in >> audioLevels;
-        return audioLevels;
+        if (audioData != QByteArray("-")) {
+            QDataStream in(audioData);
+            in >> audioLevels;
+            return audioLevels;
+        }
     }
     // convert cached image
     const QString cachePath = getAudioThumbPath(stream);
