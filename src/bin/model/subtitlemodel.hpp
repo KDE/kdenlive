@@ -13,6 +13,7 @@
 #include <map>
 #include <memory>
 #include <mlt++/MltProperties.h>
+#include <mlt++/Mlt.h>
 
 class DocUndoStack;
 class SnapInterface;
@@ -27,7 +28,7 @@ class SubtitleModel:public QAbstractListModel
 
 public:
     /* @brief Construct a subtitle list bound to the timeline */
-    explicit SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent = nullptr);
+    explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, QObject *parent = nullptr);
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole };
     /** @brief Function that parses through a subtitle file */ 
@@ -50,7 +51,7 @@ public:
         @param oldPos is the old position of the end time
         @param pos defines the new position of the end time
     */
-    void editEndPos(GenTime startPos, GenTime oldEndPos, GenTime newEndPos);
+    void editEndPos(GenTime startPos, GenTime newEndPos);
 
     /** @brief Edit subtitle , i.e. text and/or end time
         @param startPos is start timing position of subtitles
@@ -84,6 +85,7 @@ private:
 
     QString scriptInfoSection="", styleSection = "",eventSection="";
     QString styleName="";
+    QString m_subFilePath;
 
     //To get subtitle file from effects parameter:
     //std::unique_ptr<Mlt::Properties> m_asset;
@@ -91,6 +93,8 @@ private:
     
     std::vector<std::weak_ptr<SnapInterface>> m_regSnaps;
     mutable QReadWriteLock m_lock;
+    std::unique_ptr<Mlt::Filter> m_subtitleFilter;
+    Mlt::Tractor *m_tractor;
 
 signals:
     void modelChanged();

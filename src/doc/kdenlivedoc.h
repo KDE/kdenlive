@@ -172,6 +172,8 @@ public:
     QString &modifiedDecimalPoint();
     /** @brief Returns a pointer to the subtitle model */
     std::shared_ptr<SubtitleModel> getSubtitleModel() const;
+    /** @brief Initialize and connect subtitle model */
+    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
 
 private:
     QUrl m_url;
@@ -238,6 +240,8 @@ public slots:
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
+    /** @brief Subtitles were changed, update subtitle file */
+    void subtitlesChanged();
 
 private slots:
     void slotModified();
@@ -247,7 +251,6 @@ private slots:
     void checkPreviewStack(int ix);
     /** @brief Guides were changed, save to MLT. */
     void guidesChanged();
-    void subtitlesChanged();
 
 signals:
     void resetProjectList();

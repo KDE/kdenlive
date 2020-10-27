@@ -84,15 +84,12 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
 {
     m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
-    m_subtitleModel.reset(new SubtitleModel (m_commandStack, this));
-    connect(m_subtitleModel.get(), &SubtitleModel::modelChanged, this, &KdenliveDoc::subtitlesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;
     connect(m_commandStack.get(), &QUndoStack::indexChanged, this, &KdenliveDoc::slotModified);
     connect(m_commandStack.get(), &DocUndoStack::invalidate, this, &KdenliveDoc::checkPreviewStack, Qt::DirectConnection);
     // connect(m_commandStack, SIGNAL(cleanChanged(bool)), this, SLOT(setModified(bool)));
-    QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
-
+    
     // init default document properties
     m_documentProperties[QStringLiteral("zoom")] = QLatin1Char('8');
     m_documentProperties[QStringLiteral("verticalzoom")] = QLatin1Char('1');
@@ -1299,7 +1296,7 @@ void KdenliveDoc::loadDocumentProperties()
         if (pl.isNull()) {
             return;
         }
-        QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
+        //QMetaObject::invokeMethod(m_subtitleModel.get(), "parseSubtitle", Qt::QueuedConnection);
         QDomNodeList props = pl.elementsByTagName(QStringLiteral("property"));
         QString name;
         QDomElement e;
@@ -1784,7 +1781,15 @@ std::shared_ptr<SubtitleModel> KdenliveDoc::getSubtitleModel() const
 
 void KdenliveDoc::subtitlesChanged()
 {
-    m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson());    //Update subtitle file everytime the subtitle model is changed
     //m_subtitleModel->parseSubtitle();
+    m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson());    //Update subtitle file everytime the subtitle model is changed
     return;
+}
+
+void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle)
+{
+    m_subtitleModel = m_subtitle;
+    connect(m_subtitleModel.get(), &SubtitleModel::modelChanged, this, &KdenliveDoc::subtitlesChanged);
+    m_subtitleModel->parseSubtitle();
+    //QMetaObject::invokeMethod(m_subtitle.get(), "parseSubtitle", Qt::QueuedConnection);
 }

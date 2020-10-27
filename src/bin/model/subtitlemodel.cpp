@@ -3,17 +3,27 @@
 #include "core.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/snapmodel.hpp"
+#include "profiles/profilemodel.hpp"
+#include <mlt++/MltProperties.h>
+#include <mlt++/Mlt.h>
 
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 
-SubtitleModel::SubtitleModel(std::weak_ptr<DocUndoStack> undo_stack, QObject *parent)
+SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, QObject *parent)
     : QAbstractListModel(parent)
-    , m_undoStack(std::move(undo_stack))
+    , m_tractor(tractor)
     , m_lock(QReadWriteLock::Recursive)
 {
-    //qDebug()<< "subtitle constructor";
+    qDebug()<< "subtitle constructor";
+    m_subtitleFilter = nullptr;
+    m_subtitleFilter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "av.filename"));
+    qDebug()<<"Filter!";
+    if(tractor != nullptr){
+        qDebug()<<"Tractor!";
+        m_tractor->attach(*m_subtitleFilter.get());
+    }
     setup();
 }
 
@@ -36,11 +46,10 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
 }
 
 void SubtitleModel::parseSubtitle()
-{   qDebug()<<"Parsing started";
-    //QModelIndex index;
-    //int paramName = m_model->data(index, AssetParameterModel::NameRole).toInt();
-    //QString filename(m_asset->get(paramName.toUtf8().constData()));
+{   
+	qDebug()<<"Parsing started";
     QString filePath= "path_to_subtitle_file.srt";
+    m_subFilePath = filePath;
     QString start,end,comment;
     QString timeLine;
     GenTime startPos, endPos;
@@ -226,11 +235,11 @@ void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString &str)
         qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
         return;
     }
-    if(model->m_subtitleList.count(start) > 0 ){
+    /*if(model->m_subtitleList.count(start) > 0 ){
         qDebug()<<"Start time already in model";
         editSubtitle(start, str, end);
         return;
-    }
+    }*/
     auto it= model->m_subtitleList.lower_bound(start); // returns the key and its value *just* greater than start.
     //Q_ASSERT(it->first < model->m_subtitleList.end()->second.second); // returns warning if added subtitle start time is less than last subtitle's end time
     int insertRow= static_cast<int>(model->m_subtitleList.size());//converts the returned unsigned size() to signed int
@@ -327,13 +336,18 @@ void SubtitleModel::addSnapPoint(GenTime startpos)
     std::swap(m_regSnaps, validSnapModels);
 }
 
-void SubtitleModel::editEndPos(GenTime startPos, GenTime oldEndPos, GenTime newEndPos)
+void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos)
 {
+    qDebug()<<"Changing the sub end timings in model";
     auto model = getModel();
-    if(oldEndPos == newEndPos) return;
+    if(model->m_subtitleList.count(startPos) <= 0){
+        //is not present in model only
+        return;
+    }
     int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
     model->m_subtitleList[startPos].second = newEndPos;
     emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << EndPosRole);
+    qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
     return;
 }
 
@@ -388,16 +402,16 @@ QString SubtitleModel::toJson()
         currentSubtitle.insert(QLatin1String("dialogue"), QJsonValue(subtitle.second.first));
         currentSubtitle.insert(QLatin1String("endPos"), QJsonValue(subtitle.second.second.seconds()));
         list.push_back(currentSubtitle);
-        qDebug()<<subtitle.first.seconds();
+        //qDebug()<<subtitle.first.seconds();
     }
     QJsonDocument jsonDoc(list);
-    qDebug()<<QString(jsonDoc.toJson());
+    //qDebug()<<QString(jsonDoc.toJson());
     return QString(jsonDoc.toJson());
 }
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
-    QString outFile = "path_to_temp_Subtitle.ass";
+	QString filePath= "path_to_subtitle_file.srt";
     if (!outFile.contains(".ass"))
         return; // this function currrently writes in ass file format only
     QFile outF(outFile);
@@ -457,7 +471,10 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
               .arg(milli_2,2,10,QChar('0'));
             //Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
             out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
-            qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
+            //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
         }
     }
+    qDebug()<<"Setting subtitle filter";
+    m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
+    m_tractor->attach(*m_subtitleFilter.get());
 }
