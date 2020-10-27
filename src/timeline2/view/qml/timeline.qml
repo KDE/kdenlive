@@ -1482,6 +1482,7 @@ Rectangle {
                 height: parent.height
                 x: model.startframe * timeScale;
                 property bool textEditBegin: false
+                color: 'yellow'
                 /*Text {
                     id: subtitleText
                     anchors.fill: parent
@@ -1546,6 +1547,7 @@ Rectangle {
                     id: subtitleEdit
                     font: miniFont
                     activeFocusOnPress: true
+                    selectByMouse: true
                     onEditingFinished: {
                         subtitleEdit.focus = false
                         timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor)
@@ -1589,6 +1591,7 @@ Rectangle {
                     enabled: true
                     property bool sizeChanged: false
                     property int newStart: -1
+                    property double originalDuration: -1
                     property int diff: -1
                     property double delta: -1
                     property double oldDelta: 0
@@ -1605,6 +1608,8 @@ Rectangle {
                         oldStartFrame = subtitleBase.x // the original start frame of subtitle
                         console.log(oldStartFrame)
                         console.log(subtitleBase.x)
+                        originalDuration = subtitleBase.width/timeScale
+                        console.log("originalDuration",originalDuration)
                     }
                     onPositionChanged: {
                         if (pressed) {
@@ -1615,15 +1620,20 @@ Rectangle {
                                 sizeChanged = true
                                 diff = (mouseX - oldStartX) / timeScale
                                 subtitleBase.x = subtitleBase.x + diff
-                                console.log("oldStartFrame",oldStartFrame/timeline.scaleFactor,"subtitleBase",subtitleBase.x/timeline.scaleFactor)
-                                console.log("Duration:", duration)
+                                //console.log("oldStartFrame",oldStartFrame/timeline.scaleFactor,"subtitleBase",subtitleBase.x/timeline.scaleFactor)
+                                //console.log("duration:", duration)
                                 delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
                                 var diffDelta = delta - oldDelta //update the change in start frame differece
                                 oldDelta = delta
                                 //console.log("Diff:",diff,"Delta:", delta, "Delta_Diff",diffDelta)
-                                console.log("New duration =", subtitleBase.width/timeScale - delta )
+                                //console.log("new duration =", subtitleBase.width/timeScale - delta )
+                                //subtitleBase.width = (originalDuration - delta)*timeScale
                                 duration = duration - diffDelta //update duration to enable resizing
+                                //duration = (originalDuration - diffDelta)
                                 //console.log("Delta duration =", duration )
+                                //console.log("originalDuration",originalDuration- diffDelta)
+                                //console.log("Delta_Duaration:",subtitleBase.width/timeScale)
+                                //timeline.moveSubtitle(oldStartX/ timeScale, subtitleBase.x/timeline.scaleFactor)
                             }
                         }
                     }
@@ -1664,7 +1674,7 @@ Rectangle {
                     cursorShape: Qt.SizeHorCursor
                     drag.target: rightend
                     drag.axis: Drag.XAxis
-                    drag.smoothed: false
+                    //drag.smoothed: false
 
                     onPressed: {
                         root.autoScrolling = false
