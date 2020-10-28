@@ -7,6 +7,7 @@
     <comment xml:lang="lt">Kdenlive video projekto dokumentas</comment>
     <comment xml:lang="nl">Video projectdocument van Kdenlive</comment>
     <comment xml:lang="pt">Documento de projecto de vídeo do Kdenlive</comment>
+    <comment xml:lang="sl">Dokument video projekta Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-videoprojektdokument</comment>
     <comment xml:lang="uk">документ відеопроєкту Kdenlive</comment>
     <sub-class-of type="video/mlt-playlist"/>
@@ -18,6 +19,7 @@
     <comment xml:lang="ca@valencia">Títol de vídeo del Kdenlive</comment>
     <comment xml:lang="nl">Titel van Kdenlive-video</comment>
     <comment xml:lang="pt">Título de vídeo do Kdenlive</comment>
+    <comment xml:lang="sl">Naslov videa Kdenlive</comment>
     <comment xml:lang="sv">Kdenlive-video</comment>
     <comment xml:lang="uk">заголовок відео Kdenlive</comment>
     <sub-class-of type="application/xml"/>
