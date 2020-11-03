@@ -1484,6 +1484,8 @@ Rectangle {
                 x: model.startframe * timeScale;
                 property bool textEditBegin: false
                 color: 'yellow'
+                border.width: 1
+                border.color: 'orange'
                 /*Text {
                     id: subtitleText
                     anchors.fill: parent
@@ -1506,7 +1508,7 @@ Rectangle {
                         property double originalDuration: -1
                         property double oldDelta: 0
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.PointingHandCursor);
+                        cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
                         drag.target: subtitleBase
                         drag.axis: Drag.XAxis
                         onPressed: {
@@ -1540,6 +1542,8 @@ Rectangle {
                         onReleased: {
                             console.log('IT IS RELEASED')
                             root.autoScrolling = timeline.autoScroll
+                            if (subtitleBase.x < 0)
+                                subtitleBase.x = 0
                             if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
                                 console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
                                 timeline.shiftSubtitle(oldStartFrame/timeline.scaleFactor , subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleEdit.text)                                
@@ -1581,7 +1585,7 @@ Rectangle {
             }
             Rectangle {
                 id: leftstart
-                width: 4
+                width: 2
                 height: subtitleBase.height
                 x: model.startframe * timeScale;
                 anchors.top: subtitleBase.top
@@ -1593,7 +1597,7 @@ Rectangle {
                     id: startMouseArea
                     anchors.fill: parent
                     height: parent.height
-                    width: 4
+                    width: 2
                     hoverEnabled: true
                     enabled: true
                     property bool sizeChanged: false
@@ -1613,8 +1617,8 @@ Rectangle {
                         //rightend.anchors.right = undefined
                         oldStartX = mouseX
                         oldStartFrame = subtitleBase.x // the original start frame of subtitle
-                        console.log(oldStartFrame)
-                        console.log(subtitleBase.x)
+                        //console.log(oldStartFrame)
+                        //console.log(subtitleBase.x)
                         originalDuration = subtitleBase.width/timeScale
                         console.log("originalDuration",originalDuration)
                     }
@@ -1623,14 +1627,14 @@ Rectangle {
                             //console.log('POSITION CHANGED')
                             newStart = Math.round((subtitleBase.x + (mouseX-oldStartX)) / timeScale)
                             //diff = (mouseX - oldStartX) / timeScale
-                            if (mouseX != oldStartX) {
+                            if (((mouseX != oldStartX && duration > 1) || (mouseX < oldStartX && duration <= 1)) && subtitleBase.x >= 0) {
                                 sizeChanged = true
                                 diff = (mouseX - oldStartX) / timeScale
                                 subtitleBase.x = subtitleBase.x + diff
                                 //console.log("oldStartFrame",oldStartFrame/timeline.scaleFactor,"subtitleBase",subtitleBase.x/timeline.scaleFactor)
                                 //console.log("duration:", duration)
                                 delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
-                                var diffDelta = delta - oldDelta //update the change in start frame differece
+                                var diffDelta = delta - oldDelta //update the change in start frame difference
                                 oldDelta = delta
                                 //console.log("Diff:",diff,"Delta:", delta, "Delta_Diff",diffDelta)
                                 //console.log("new duration =", subtitleBase.width/timeScale - delta )
@@ -1658,7 +1662,7 @@ Rectangle {
             Rectangle {
                 // end position resize handle
                 id: rightend
-                width: 4
+                width: 2
                 height: subtitleBase.height
                 x: model.endframe * timeScale;
                 anchors.right: subtitleBase.right
@@ -1671,7 +1675,7 @@ Rectangle {
                     id: endMouseArea
                     anchors.fill: parent
                     height: parent.height
-                    width: 4
+                    width: 2
                     hoverEnabled: true
                     enabled: true
                     property bool sizeChanged: false
@@ -1687,15 +1691,14 @@ Rectangle {
                         root.autoScrolling = false
                         //rightend.anchors.right = undefined
                         oldMouseX = mouseX
-
                     }
                     onPositionChanged: {
                         if (pressed) {
                             newEnd = Math.round((mouseX + width) / timeScale)
-                            if (mouseX != oldMouseX) {
+                            if ((mouseX != oldMouseX && duration > 1) || (duration <= 1 && mouseX > oldMouseX)) {
                                 sizeChanged = true
                                 //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
-                                duration = (subtitleBase.width/timeScale + (mouseX - oldMouseX)/timeScale) 
+                                duration = Math.round((subtitleBase.width/timeScale + (mouseX - oldMouseX)/timeScale))
                             }
                         }
                     }
@@ -1703,7 +1706,7 @@ Rectangle {
                         root.autoScrolling = timeline.autoScroll
                         rightend.anchors.right = subtitleBase.right
                         if (mouseX != oldMouseX || sizeChanged) {
-                            timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, newEnd)
+                            timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.text, subtitleBase.x / timeline.scaleFactor + duration)
                             sizeChanged = false
                         }
                     }

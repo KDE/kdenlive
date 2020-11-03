@@ -229,6 +229,14 @@ GenTime SubtitleModel::stringtoTime(QString &str)
 
 void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString &str)
 {
+	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0) {
+        qDebug()<<"Time error: is negative";
+        return;
+    }
+    if (start.frames(pCore->getCurrentFps()) > end.frames(pCore->getCurrentFps())) {
+        qDebug()<<"Time error: start should be less than end";
+        return;
+    }
     auto model = getModel(); //gets model shared ptr
     //Q_ASSERT(model->m_subtitleList.count(start)==0); //returns warning if sub at start time position already exists ,i.e. count !=0
     if (m_subtitleList[start].first == str) {
@@ -353,6 +361,14 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos)
 
 void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos)
 {
+    if(startPos.frames(pCore->getCurrentFps()) < 0 || endPos.frames(pCore->getCurrentFps()) < 0) {
+        qDebug()<<"Time error: is negative";
+        return;
+    }
+    if(startPos.frames(pCore->getCurrentFps()) > endPos.frames(pCore->getCurrentFps())) {
+        qDebug()<<"Time error: start should be less than end";
+        return;
+    }
     qDebug()<<"Editing existing subtitle in model";
     auto model = getModel();
     int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
