@@ -562,6 +562,7 @@ public:
     Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame);
     /** @brief Shift subtitle clips without changing the clip duration */
     Q_INVOKABLE void shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame=0, QString text="");
+    Q_INVOKABLE void addSubtitle();
 
 public slots:
     void resetView();

@@ -581,6 +581,7 @@ void MainWindow::init()
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
     // Timeline headers menu
     QMenu *timelineHeadersMenu = new QMenu(this);
@@ -1682,6 +1683,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
@@ -4137,6 +4139,11 @@ void MainWindow::slotEditSubtitle()
     std::shared_ptr<SubtitleModel> m_subtitleModel;
     m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
     pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
+}
+
+void MainWindow::slotAddSubtitle()
+{
+    getCurrentTimeline()->controller()->addSubtitle();
 }
 
 #ifdef DEBUG_MAINW

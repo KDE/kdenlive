@@ -3697,3 +3697,15 @@ void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int
     subtitleModel->removeSubtitle(oldStartPos); //first delete subtitle at old start position
     subtitleModel->addSubtitle(newStartPos,endPos,text); //next, add a new subtitle at new start position
 }
+
+void TimelineController::addSubtitle()
+{
+    int startframe = pCore->getTimelinePosition();
+    int endframe = startframe + 50; //create basic subtitle clip of default width
+    GenTime start(startframe, pCore->getCurrentFps());
+    GenTime end(endframe, pCore->getCurrentFps());
+
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    QString text = "Add Text";
+    subtitleModel->addSubtitle(start, end, text);
+}
