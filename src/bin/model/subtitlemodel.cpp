@@ -18,7 +18,7 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, QObject *parent)
 {
     qDebug()<< "subtitle constructor";
     m_subtitleFilter = nullptr;
-    m_subtitleFilter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "av.filename"));
+    m_subtitleFilter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"));
     qDebug()<<"Filter!";
     if (tractor != nullptr) {
         qDebug()<<"Tractor!";
@@ -411,23 +411,27 @@ QString SubtitleModel::toJson()
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
-	QString outFile = "path_to_subtitle_file.ass";
+	QString outFile = "path_to_temp_Subtitle.ass";
     if (!outFile.contains(".ass"))
-        return; // this function currrently writes in ass file format only
+        qDebug()<< "srt file import"; // if imported file isn't .ass, it is .srt format
     QFile outF(outFile);
 
     qDebug()<< "Import from JSON";
+    QWriteLocker locker(&m_lock);
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
         qDebug() << "Error : Json file should be an array";
         return;
     }
+    int line=0;
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
-        out<<scriptInfoSection<<endl;
-        out<<styleSection<<endl;
-        out<<eventSection;
+        if (outFile.contains(".ass")) {
+        	out<<scriptInfoSection<<endl;
+        	out<<styleSection<<endl;
+        	out<<eventSection;
+        }
         for (const auto &entry : list) {
             if (!entry.isObject()) {
                 qDebug() << "Warning : Skipping invalid subtitle data";
@@ -439,7 +443,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
                 continue;
             }
             double startPos = entryObj[QLatin1String("startPos")].toDouble();
-            //convert seconds to FORMAT= h:mm:ss.SS
+            //convert seconds to FORMAT= hh:mm:ss.SS (in .ass) and hh:mm:ss,SSS (in .srt)
             int millisec = startPos * 1000;
             int seconds = millisec / 1000;
             millisec %=1000;
@@ -453,6 +457,11 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
+            QString startTimeStringSRT = QString("%1:%2:%3,%4")
+              .arg(hours, 1, 10, QChar('0'))
+              .arg(minutes, 2, 10, QChar('0'))
+              .arg(seconds, 2, 10, QChar('0'))
+              .arg(millisec,3,10,QChar('0'));
             QString dialogue = entryObj[QLatin1String("dialogue")].toString();
             double endPos = entryObj[QLatin1String("endPos")].toDouble();
             millisec = endPos * 1000;
@@ -463,14 +472,26 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
             hours = minutes /60;
             minutes %= 60;
 
-            milli_2 = millisec / 10; // to limit ms to 2 digits
+            milli_2 = millisec / 10; // to limit ms to 2 digits (for .ass)
             QString endTimeString = QString("%1:%2:%3.%4")
               .arg(hours, 1, 10, QChar('0'))
               .arg(minutes, 2, 10, QChar('0'))
               .arg(seconds, 2, 10, QChar('0'))
               .arg(milli_2,2,10,QChar('0'));
-            //Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
-            out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
+
+            QString endTimeStringSRT = QString("%1:%2:%3,%4")
+              .arg(hours, 1, 10, QChar('0'))
+              .arg(minutes, 2, 10, QChar('0'))
+              .arg(seconds, 2, 10, QChar('0'))
+              .arg(millisec,3,10,QChar('0'));
+            line++;
+            if (outFile.contains(".ass")) {
+            	//Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+            	out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
+            }
+            if (outFile.contains(".srt"))
+                out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<endl;
+            
             //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
         }
     }
