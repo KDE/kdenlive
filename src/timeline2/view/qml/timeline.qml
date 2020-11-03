@@ -306,6 +306,7 @@ Rectangle {
     property double dar: 16/9
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
+    property bool showSubtitles: false
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
@@ -1072,7 +1073,7 @@ Rectangle {
                         Item {
                             id: subtitleTrack
                             width: tracksContainerArea.width
-                            height: 50
+                            height: showSubtitles? 50 : 0
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                         }
                         Item {
@@ -1554,7 +1555,7 @@ Rectangle {
                         parent.textEditBegin = false
                     }
                     anchors.fill: parent
-                    visible: text != "" && timeScale >= 6
+                    visible: timeScale >= 6
                     enabled: parent.textEditBegin
                     text: model.subtitle
                     height: subtitleBase.height

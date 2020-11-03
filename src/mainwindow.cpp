@@ -4139,6 +4139,7 @@ void MainWindow::slotEditSubtitle()
     std::shared_ptr<SubtitleModel> m_subtitleModel;
     m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
     pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
+    getMainTimeline()->connectSubtitleModel();
 }
 
 void MainWindow::slotAddSubtitle()

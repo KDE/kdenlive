@@ -56,6 +56,8 @@ public:
     /** @brief Initiate timeline clip context menu */
     void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu);
     bool loading;
+    void connectSubtitleModel();
+    bool showSubtitles=false;
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
