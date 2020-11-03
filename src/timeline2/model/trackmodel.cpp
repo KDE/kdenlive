@@ -1587,6 +1587,8 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                     t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
                     t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                     t->set("kdenlive:mixcut", mixCutPos);
+                    t->set("start", -1);
+                    t->set("accepts_blanks", 1);
                     if (src_track == 0) {
                         t->set("reverse", 1);
                     }
@@ -1824,6 +1826,8 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
+                t->set("start", -1);
+                t->set("accepts_blanks", 1);
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
@@ -2017,6 +2021,8 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
         if (isAudio) {
             t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
             t->set_in_and_out(in, out);
+            t->set("start", -1);
+            t->set("accepts_blanks", 1);
             if (reverse) {
                 t->set("reverse", 1);
             }
@@ -2057,6 +2063,8 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
         if (isAudioTrack()) {
             t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
+            t->set("start", -1);
+            t->set("accepts_blanks", 1);
             if (reverse) {
                 t->set("reverse", 1);
             }
