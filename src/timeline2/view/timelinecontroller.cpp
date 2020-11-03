@@ -3695,7 +3695,7 @@ void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int
     GenTime endPos(endFrame, pCore->getCurrentFps());
     
     subtitleModel->removeSubtitle(oldStartPos); //first delete subtitle at old start position
-    subtitleModel->addSubtitle(newStartPos,endPos,text); //next, add a new subtitle at new start position
+    subtitleModel->addSubtitle(newStartPos, endPos, text); //next, add a new subtitle at new start position
 }
 
 void TimelineController::addSubtitle()

@@ -20,7 +20,7 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, QObject *parent)
     m_subtitleFilter = nullptr;
     m_subtitleFilter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "av.filename"));
     qDebug()<<"Filter!";
-    if(tractor != nullptr){
+    if (tractor != nullptr) {
         qDebug()<<"Tractor!";
         m_tractor->attach(*m_subtitleFilter.get());
     }
@@ -149,10 +149,10 @@ void SubtitleModel::parseSubtitle()
                         continue;
                     }
                 }
-                if(section.contains("Script Info")){
+                if (section.contains("Script Info")) {
                     scriptInfoSection += line + "\n";
                 }
-                if(section.contains("V4 Styles")){
+                if (section.contains("V4 Styles")) {
                     QStringList styleFormat;
                     styleSection +=line + "\n";
                     //Style: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
@@ -216,7 +216,7 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     total = str.split(':');
     hours = atoi(total[0].toStdString().c_str());
     mins = atoi(total[1].toStdString().c_str());
-    if(total[2].contains('.'))
+    if (total[2].contains('.'))
         secs = total[2].split('.'); //ssa file
     else
         secs = total[2].split(','); //srt file
@@ -231,11 +231,11 @@ void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString &str)
 {
     auto model = getModel(); //gets model shared ptr
     //Q_ASSERT(model->m_subtitleList.count(start)==0); //returns warning if sub at start time position already exists ,i.e. count !=0
-    if(m_subtitleList[start].first == str){
+    if (m_subtitleList[start].first == str) {
         qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
         return;
     }
-    /*if(model->m_subtitleList.count(start) > 0 ){
+    /*if (model->m_subtitleList.count(start) > 0) {
         qDebug()<<"Start time already in model";
         editSubtitle(start, str, end);
         return;
@@ -340,7 +340,7 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos)
 {
     qDebug()<<"Changing the sub end timings in model";
     auto model = getModel();
-    if(model->m_subtitleList.count(startPos) <= 0){
+    if (model->m_subtitleList.count(startPos) <= 0) {
         //is not present in model only
         return;
     }
@@ -367,7 +367,7 @@ void SubtitleModel::removeSubtitle(GenTime pos)
 {
     qDebug()<<"Deleting subtitle in model";
     auto model = getModel();
-    if(model->m_subtitleList.count(pos) <= 0){
+    if (model->m_subtitleList.count(pos) <= 0) {
         qDebug()<<"No Subtitle at pos in model";
         return;
     }
@@ -381,7 +381,7 @@ void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos)
 {
     qDebug()<<"Moving Subtitle";
     auto model = getModel();
-    if(model->m_subtitleList.count(oldPos) <= 0){
+    if (model->m_subtitleList.count(oldPos) <= 0) {
         //is not present in model only
         return;
     }
@@ -423,7 +423,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
         return;
     }
     auto list = json.array();
-    if (outF.open(QIODevice::WriteOnly)){
+    if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
         out<<scriptInfoSection<<endl;
         out<<styleSection<<endl;
