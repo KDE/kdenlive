@@ -1505,17 +1505,23 @@ Rectangle {
                         property double delta: -1
                         property double originalDuration: -1
                         property double oldDelta: 0
-                        acceptedButtons: Qt.LeftButton
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.PointingHandCursor);
                         drag.target: subtitleBase
                         drag.axis: Drag.XAxis
                         onPressed: {
                             console.log('IT IS PRESSED')
-                            root.autoScrolling = false
-                            oldStartX = mouseX
-                            oldStartFrame = subtitleBase.x
-                            originalDuration = subtitleBase.width/timeScale
-                            console.log("originalDuration",originalDuration)
+                            if (mouse.button == Qt.RightButton) {
+                                console.log('RIGHT BUTTON CLICKED')
+                                timeline.deleteSubtitle(subtitleBase.x / timeline.scaleFactor)
+                            }
+                            else {
+                            	root.autoScrolling = false
+                            	oldStartX = mouseX
+                            	oldStartFrame = subtitleBase.x
+                            	originalDuration = subtitleBase.width/timeScale
+                            	console.log("originalDuration",originalDuration)
+                            }                            
                         }
                         onPositionChanged: {
                             if (pressed) {

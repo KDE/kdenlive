@@ -3709,3 +3709,11 @@ void TimelineController::addSubtitle()
     QString text = "Add Text";
     subtitleModel->addSubtitle(start, end, text);
 }
+
+void TimelineController::deleteSubtitle(int frame)
+{
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    GenTime start(frame, pCore->getCurrentFps());
+    subtitleModel->removeSubtitle(start);
+    return;
+}

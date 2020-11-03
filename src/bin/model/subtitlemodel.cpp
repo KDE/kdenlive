@@ -48,7 +48,7 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
 void SubtitleModel::parseSubtitle()
 {   
 	qDebug()<<"Parsing started";
-    QString filePath= "path_to_subtitle_file.srt";
+    QString filePath; //"path_to_subtitle_file.srt";
     m_subFilePath = filePath;
     QString start,end,comment;
     QString timeLine;
@@ -394,7 +394,7 @@ void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos)
 
 QString SubtitleModel::toJson()
 {
-    qDebug()<< "to JSON";
+    //qDebug()<< "to JSON";
     QJsonArray list;
     for (const auto &subtitle : m_subtitleList) {
         QJsonObject currentSubtitle;
@@ -411,12 +411,12 @@ QString SubtitleModel::toJson()
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
-	QString outFile = "path_to_temp_Subtitle.ass";
+	QString outFile = "path_to_temp_Subtitle.srt"; // use srt format as default unless file is imported (m_subFilePath)
     if (!outFile.contains(".ass"))
         qDebug()<< "srt file import"; // if imported file isn't .ass, it is .srt format
     QFile outF(outFile);
 
-    qDebug()<< "Import from JSON";
+    //qDebug()<< "Import from JSON";
     QWriteLocker locker(&m_lock);
     auto json = QJsonDocument::fromJson(data.toUtf8());
     if (!json.isArray()) {
