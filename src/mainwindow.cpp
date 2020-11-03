@@ -21,6 +21,7 @@
 #include "assets/assetpanel.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/generators/generators.h"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -1105,6 +1106,12 @@ void MainWindow::setupActions()
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
+
+    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("input-keyboard")), i18n("Edit Subtitle tool"), this);
+    m_buttonSubtitleEditTool->setCheckable(true);
+    m_buttonSubtitleEditTool->setChecked(false);
+    addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
+    connect(m_buttonSubtitleEditTool, &QAction::triggered, this, &MainWindow::slotEditSubtitle);
 
     // create tools buttons
     m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
@@ -4123,6 +4130,13 @@ void MainWindow::slotActivateTarget()
         int ix = action->data().toInt();
         getCurrentTimeline()->controller()->assignCurrentTarget(ix);
     }
+}
+
+void MainWindow::slotEditSubtitle()
+{
+    std::shared_ptr<SubtitleModel> m_subtitleModel;
+    m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
+    pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
 }
 
 #ifdef DEBUG_MAINW

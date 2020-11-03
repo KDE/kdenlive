@@ -228,6 +228,7 @@ private:
     QAction *m_playZone;
     QAction *m_loopClip;
     QAction *m_proxyClip;
+    QAction *m_buttonSubtitleEditTool;
     QString m_theme;
     KIconLoader *m_iconLoader;
     KToolBar *m_timelineToolBar;
@@ -498,6 +499,7 @@ private slots:
     void slotActivateVideoTrackSequence();
     /** @brief Select target for current track */
     void slotActivateTarget();
+    void slotEditSubtitle();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -411,7 +411,7 @@ QString SubtitleModel::toJson()
 
 void SubtitleModel::jsontoSubtitle(const QString &data)
 {
-	QString filePath= "path_to_subtitle_file.srt";
+	QString outFile = "path_to_subtitle_file.ass";
     if (!outFile.contains(".ass"))
         return; // this function currrently writes in ass file format only
     QFile outF(outFile);
