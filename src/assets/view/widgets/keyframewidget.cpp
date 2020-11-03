@@ -52,7 +52,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
     , m_baseHeight(0)
     , m_addedHeight(0)
-    , m_effectIsSelected(false)
 {
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_lay = new QVBoxLayout(this);
@@ -178,10 +177,6 @@ KeyframeWidget::KeyframeWidget(std::shared_ptr<AssetParameterModel> model, QMode
     m_baseHeight = m_keyframeview->height() + m_toolbar->sizeHint().height() + mrg.top() + mrg.bottom();
     setFixedHeight(m_baseHeight);
     addParameter(index);
-
-    connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
-    connect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev, Qt::UniqueConnection);
-    connect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove, Qt::UniqueConnection);
 }
 
 KeyframeWidget::~KeyframeWidget()
@@ -198,8 +193,8 @@ void KeyframeWidget::monitorSeek(int pos)
     int in = pCore->getItemPosition(m_model->getOwnerId());
     int out = in + pCore->getItemDuration(m_model->getOwnerId());
     bool isInRange = pos >= in && pos < out;
+    connectMonitor(isInRange && m_model->isActive());
     m_buttonAddDelete->setEnabled(isInRange && pos > in);
-    connectMonitor(isInRange);
     int framePos = qBound(in, pos, out) - in;
     if (isInRange && framePos != m_time->getValue()) {
         slotSetPosition(framePos, false);
@@ -243,7 +238,7 @@ void KeyframeWidget::slotRefreshParams()
             ((GeometryWidget *)w.second)->setValue(rect, opacity);
         }
     }
-    if (m_monitorHelper && m_effectIsSelected) {
+    if (m_monitorHelper && m_model->isActive()) {
         m_monitorHelper->refreshParams(pos);
         return;
     }
@@ -359,6 +354,11 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 this, [this, index](const QString v) {
                     emit activateEffect();
                     m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
+        connect(geomWidget, &GeometryWidget::updateMonitorGeometry, [this, index](const QRect r) {
+                    if (m_model->isActive()) {
+                        pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
+                    }
+        });
         paramWidget = geomWidget;
     } else if (type == ParamType::Roto_spline) {
         m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, index, this);
@@ -407,7 +407,6 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
 void KeyframeWidget::slotInitMonitor(bool active)
 {
     Monitor *monitor = pCore->getMonitor(m_model->monitorId);
-    m_effectIsSelected = active;
     if (m_keyframeview) {
         m_keyframeview->initKeyframePos();
         connect(monitor, &Monitor::updateScene, m_keyframeview, &KeyframeView::slotModelChanged, Qt::UniqueConnection);
@@ -418,9 +417,19 @@ void KeyframeWidget::slotInitMonitor(bool active)
 void KeyframeWidget::connectMonitor(bool active)
 {
     if (m_monitorHelper) {
-        if (m_monitorHelper->connectMonitor(active) && m_effectIsSelected) {
+        if (m_monitorHelper->connectMonitor(active) && m_model->isActive()) {
             slotRefreshParams();
         }
+    }
+    Monitor *monitor = pCore->getMonitor(m_model->monitorId);
+    if (active) {
+        connect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext, Qt::UniqueConnection);
+        connect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev, Qt::UniqueConnection);
+        connect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove, Qt::UniqueConnection);
+    } else {
+        disconnect(monitor, &Monitor::seekToNextKeyframe, m_keyframeview, &KeyframeView::slotGoToNext);
+        disconnect(monitor, &Monitor::seekToPreviousKeyframe, m_keyframeview, &KeyframeView::slotGoToPrev);
+        disconnect(monitor, &Monitor::addRemoveKeyframe, m_keyframeview, &KeyframeView::slotAddRemove);
     }
     for (const auto &w : m_parameters) {
         auto type = m_model->data(w.first, AssetParameterModel::TypeRole).value<ParamType>();

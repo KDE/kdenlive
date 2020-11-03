@@ -140,6 +140,9 @@ public:
 
     /* @brief Returns the id of the asset represented by this object */
     QString getAssetId() const;
+    const QString getAssetMltId();
+    void setActive(bool active);
+    bool isActive() const;
 
     /* @brief Set the parameter with given name to the given value
      */
@@ -220,6 +223,7 @@ protected:
 
     QString m_assetId;
     ObjectId m_ownerId;
+    bool m_active;
     std::vector<QString> m_paramOrder;                   // Keep track of parameter order, important for sox
     std::unordered_map<QString, ParamRow> m_params;      // Store all parameters by name
     std::unordered_map<QString, QVariant> m_fixedParams; // We store values of fixed parameters aside

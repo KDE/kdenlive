@@ -97,6 +97,7 @@ private slots:
 
 signals:
     void valueChanged(const QString val);
+    void updateMonitorGeometry(const QRect r);
 };
 
 #endif

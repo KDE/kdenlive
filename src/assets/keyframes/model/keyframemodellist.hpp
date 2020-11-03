@@ -135,6 +135,9 @@ public:
     KeyframeModel *getKeyModel(const QPersistentModelIndex &index);
     /** @brief Returns parent asset owner id*/
     ObjectId getOwnerId() const;
+    /** @brief Returns parent asset id*/
+    const QString getAssetId();
+    const QString getAssetRow();
 
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);

@@ -343,6 +343,7 @@ void CollapsibleEffectView::slotActivateEffect(bool active)
 {
     // m_colorIcon->setEnabled(active);
     // bool active = ix.row() == m_model->row();
+    m_model->setActive(active);
     decoframe->setProperty("active", active);
     decoframe->setStyleSheet(decoframe->styleSheet());
     if (active) {

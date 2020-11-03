@@ -39,6 +39,7 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     , monitorId(ownerId.first == ObjectType::BinClip ? Kdenlive::ClipMonitor : Kdenlive::ProjectMonitor)
     , m_assetId(assetId)
     , m_ownerId(ownerId)
+    , m_active(false)
     , m_asset(std::move(asset))
     , m_keyframes(nullptr)
 {
@@ -709,6 +710,21 @@ QVariant AssetParameterModel::parseSubAttributes(const QString &attribute, const
 QString AssetParameterModel::getAssetId() const
 {
     return m_assetId;
+}
+
+const QString AssetParameterModel::getAssetMltId()
+{
+    return m_asset->get("id");
+}
+
+void AssetParameterModel::setActive(bool active)
+{
+    m_active = active;
+}
+
+bool AssetParameterModel::isActive() const
+{
+    return m_active;
 }
 
 QVector<QPair<QString, QVariant>> AssetParameterModel::getAllParameters() const

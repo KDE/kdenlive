@@ -34,6 +34,7 @@ class KeyframeView : public QWidget
 public:
     explicit KeyframeView(std::shared_ptr<KeyframeModelList> model, int duration, QWidget *parent = nullptr);
     void setDuration(int dur);
+    const QString getAssetId();
 
 public slots:
     /* @brief moves the current position*/

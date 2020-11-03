@@ -113,6 +113,11 @@ void KeyframeView::slotAddKeyframe(int pos)
     m_model->addKeyframe(GenTime(pos + offset, pCore->getCurrentFps()), (KeyframeType)KdenliveSettings::defaultkeyframeinterp());
 }
 
+const QString KeyframeView::getAssetId()
+{
+    return m_model->getAssetId();
+}
+
 void KeyframeView::slotAddRemove()
 {
     emit activateEffect();

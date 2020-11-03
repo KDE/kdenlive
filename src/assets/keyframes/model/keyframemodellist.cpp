@@ -49,6 +49,22 @@ ObjectId KeyframeModelList::getOwnerId() const
     return {};
 }
 
+const QString KeyframeModelList::getAssetId()
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->getAssetId();
+    }
+    return {};
+}
+
+const QString KeyframeModelList::getAssetRow()
+{
+    if (auto ptr = m_model.lock()) {
+        return ptr->getAssetMltId();
+    }
+    return QString();
+}
+
 void KeyframeModelList::addParameter(const QModelIndex &index)
 {
     std::shared_ptr<KeyframeModel> parameter(new KeyframeModel(m_model, index, m_undoStack));
