@@ -414,6 +414,18 @@ void SubtitleModel::removeSubtitle(GenTime pos)
     model->endRemoveRows();
 }
 
+void SubtitleModel::removeAllSubtitles()
+{
+    //qDebug()<<"Deleting all subtitles in model";
+    std::vector<GenTime> all_pos;
+    for (const auto &s : m_subtitleList) {
+        all_pos.push_back(s.first);
+    }
+    for (const auto &p : all_pos) {
+        removeSubtitle(p);
+    }
+}
+
 void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos)
 {
     qDebug()<<"Moving Subtitle";

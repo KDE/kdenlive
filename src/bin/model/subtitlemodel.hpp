@@ -84,6 +84,9 @@ public:
     /** @brief Remove subtitle at start position (pos) */
     void removeSubtitle(GenTime pos);
 
+    /** @brief Remove all subtitles from subtitle model */
+    void removeAllSubtitles();
+
     /** @brief Move an existing subtitle
         @param oldPos is original start position of subtitle
         @param newPos is new start position of subtitle
