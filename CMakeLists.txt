@@ -71,7 +71,7 @@ if(WIN32)
     set(MLT_PREFIX "..")
 else()
     set(MLT_PREFIX ${MLT_ROOT_DIR})
-    find_package(Qt5 OPTIONAL_COMPONENTS WebKitWidgets QUIET)
+    find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets QUIET)
 endif()
 
 if(KF5FileMetaData_FOUND)
