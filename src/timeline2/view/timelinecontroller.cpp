@@ -25,6 +25,7 @@
 #include "bin/bin.h"
 #include "bin/clipcreator.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -3720,3 +3721,56 @@ void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
     }
 }
 
+void TimelineController::editSubtitle(int startFrame, QString text, int endFrame)
+{
+    qDebug()<<"Editing existing subtitle in controller at:"<<startFrame;
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    GenTime startPos(startFrame, pCore->getCurrentFps());
+    GenTime endPos(endFrame, pCore->getCurrentFps());
+    subtitleModel->editSubtitle(startPos, text, endPos);
+    return;
+}
+
+void TimelineController::moveSubtitle(int oldStartFrame, int newStartFrame)
+{
+    qDebug()<<"Moving existing subtitle start position in controller from"<<oldStartFrame<<" to "<<newStartFrame;
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    GenTime oldStartPos(oldStartFrame, pCore->getCurrentFps());
+    GenTime newStartPos(newStartFrame, pCore->getCurrentFps());
+    subtitleModel->moveSubtitle(oldStartPos, newStartPos);
+    return;
+}
+
+void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame, QString text)
+{
+    qDebug()<<"Shifting existing subtitle in controller from"<<oldStartFrame<<" to "<<newStartFrame;
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+
+    GenTime oldStartPos(oldStartFrame, pCore->getCurrentFps());
+    GenTime newStartPos(newStartFrame, pCore->getCurrentFps());
+    GenTime endPos(endFrame, pCore->getCurrentFps());
+    
+    subtitleModel->removeSubtitle(oldStartPos); //first delete subtitle at old start position
+    subtitleModel->addSubtitle(newStartPos, endPos, text); //next, add a new subtitle at new start position
+}
+
+void TimelineController::addSubtitle()
+{
+    int startframe = pCore->getTimelinePosition();
+    int endframe = startframe + 50; //create basic subtitle clip of default width
+    GenTime start(startframe, pCore->getCurrentFps());
+    GenTime end(endframe, pCore->getCurrentFps());
+
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    QString text = "Add Text";
+    subtitleModel->addSubtitle(start, end, text);
+}
+
+void TimelineController::deleteSubtitle(int frame)
+{
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    GenTime start(frame, pCore->getCurrentFps());
+    subtitleModel->removeSubtitle(start);
+    return;
+}
+>>>>>>> sassycode/kdenlive-subtitler

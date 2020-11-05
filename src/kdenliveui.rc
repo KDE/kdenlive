@@ -282,6 +282,8 @@
     <Separator />
     <Action name="timeline_preview_button" />
     <Action name="audiomixer_button" />
+    <Separator />
+    <Action name="subtitle_tool" />
   </ToolBar>
   <ToolBar name="extraToolBar" >
     <text>Extra Toolbar</text>

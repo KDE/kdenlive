@@ -21,6 +21,7 @@
 #include "assets/assetpanel.hpp"
 #include "bin/clipcreator.hpp"
 #include "bin/generators/generators.h"
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -583,6 +584,7 @@ void MainWindow::init()
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("edit_guide")));
     timelineRulerMenu->addMenu(guideMenu);
     timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_project_note")));
+    timelineRulerMenu->addAction(actionCollection()->action(QStringLiteral("add_subtitle")));
 
     // Timeline headers menu
     QMenu *timelineHeadersMenu = new QMenu(this);
@@ -1116,6 +1118,12 @@ void MainWindow::setupActions()
     m_timeFormatButton->setToolBarMode(KSelectAction::MenuMode);
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
+
+    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("input-keyboard")), i18n("Edit Subtitle tool"), this);
+    m_buttonSubtitleEditTool->setCheckable(true);
+    m_buttonSubtitleEditTool->setChecked(false);
+    addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
+    connect(m_buttonSubtitleEditTool, &QAction::triggered, this, &MainWindow::slotEditSubtitle);
 
     // create tools buttons
     m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
@@ -1692,6 +1700,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("edit_guide"), i18n("Edit Guide"), this, SLOT(slotEditGuide()), QIcon::fromTheme(QStringLiteral("document-properties")));
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
+    addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
@@ -4161,6 +4170,19 @@ void MainWindow::slotActivateTarget()
         int ix = action->data().toInt();
         getCurrentTimeline()->controller()->assignCurrentTarget(ix);
     }
+}
+
+void MainWindow::slotEditSubtitle()
+{
+    std::shared_ptr<SubtitleModel> m_subtitleModel;
+    m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
+    pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
+    getMainTimeline()->connectSubtitleModel();
+}
+
+void MainWindow::slotAddSubtitle()
+{
+    getCurrentTimeline()->controller()->addSubtitle();
 }
 
 #ifdef DEBUG_MAINW

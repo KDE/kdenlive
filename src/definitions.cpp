@@ -203,3 +203,61 @@ PlaylistState::ClipState stateFromBool(std::pair<bool, bool> av)
         return PlaylistState::Disabled;
     }
 }
+
+SubtitledTime::SubtitledTime()
+    : m_starttime(0)
+    , m_endtime(0)
+{
+}
+
+SubtitledTime::SubtitledTime(const GenTime &start, QString sub, const GenTime &end)
+    : m_starttime(start)
+    , m_subtitle(sub)
+    , m_endtime(end)
+{
+}
+
+QString SubtitledTime::subtitle()
+{
+    return m_subtitle;
+}
+
+GenTime SubtitledTime::start()
+{
+    return m_starttime;
+}
+
+GenTime SubtitledTime::end()
+{
+    return m_endtime;
+}
+
+void SubtitledTime::setSubtitle(const QString& sub)
+{
+    m_subtitle = sub;
+}
+
+void SubtitledTime::setEndTime(const GenTime& end)
+{
+    m_endtime = end;
+}
+
+bool SubtitledTime::operator>(const SubtitledTime& op) const
+{
+    return(m_starttime > op.m_starttime && m_endtime > op.m_endtime && m_starttime > op.m_endtime);
+}
+
+bool SubtitledTime::operator<(const SubtitledTime& op) const
+{
+    return(m_starttime < op.m_starttime && m_endtime < op.m_endtime && m_endtime < op.m_starttime);
+}
+
+bool SubtitledTime::operator==(const SubtitledTime& op) const
+{
+   return(m_starttime == op.m_starttime && m_endtime == op.m_endtime);
+}
+
+bool SubtitledTime::operator!=(const SubtitledTime& op) const
+{
+    return(m_starttime != op.m_starttime && m_endtime != op.m_endtime);
+}
