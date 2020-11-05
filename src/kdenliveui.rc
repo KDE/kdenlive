@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="194" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="195" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file" >
       <Action name="file_save"/>
@@ -26,6 +26,10 @@
       <Action name="create_folder" />
       <Action name="download_resource" /> 
       <Menu name="generators" ><text>Generators</text>
+      </Menu>
+      <Menu name="subtitles" ><text>Subtitles</text>
+          <Action name="subtitle_tool" />
+          <Action name="add_subtitle" />
       </Menu>
       <Separator />
       <Action name="bin_view_mode" />
