@@ -4182,8 +4182,9 @@ void MainWindow::slotEditSubtitle()
 
 void MainWindow::slotAddSubtitle()
 {
-    if (pCore->currentDoc()->getSubtitleModel() == nullptr) {
+    if (!getMainTimeline()->showSubtitles) {
         slotEditSubtitle();
+        m_buttonSubtitleEditTool->setChecked(true);
     }
     getCurrentTimeline()->controller()->addSubtitle();
 }
