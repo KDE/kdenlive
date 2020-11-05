@@ -20,7 +20,6 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 import Kdenlive.Controls 1.0
 import QtQml.Models 2.11
-import QtQuick.Shapes 1.11
 import QtQuick.Window 2.2
 import 'Timeline.js' as Logic
 import com.enums 1.0
@@ -354,27 +353,10 @@ Rectangle {
                     anchors.right: parent.right
                     visible: clipRoot.mixDuration > 0
                     color: "mediumpurple"
-                    Shape {
-                        anchors.fill: mixBackground
-                        //anchors.margins: border.width
-                        asynchronous: true
-                        opacity: 0.4
-                        ShapePath {
-                            fillColor: "#000"
-                            strokeColor: "transparent"
-                            PathLine {x: 0; y: 0}
-                            PathLine {x: mixCutPos.x; y: mixBackground.height}
-                            PathLine {x: 0; y: mixBackground.height}
-                            PathLine {x: 0; y: 0}
-                        }
-                        ShapePath {
-                            fillColor: "#000"
-                            strokeColor: "transparent"
-                            PathLine {x: mixBackground.width; y: 0}
-                            PathLine {x: mixBackground.width; y: mixBackground.height}
-                            PathLine {x: mixCutPos.x; y: mixBackground.height}
-                            PathLine {x: mixBackground.width; y: 0}
-                        }
+                    Loader {
+                        id: shapeLoader
+                        source: "MixShape.qml"
+                        property bool valid: item !== null
                     }
 
                     opacity: mixArea.containsMouse || trimInMixArea.pressed || trimInMixArea.containsMouse || root.selectedMix == clipRoot.clipId ? 1 : 0.7

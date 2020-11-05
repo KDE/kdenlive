@@ -25,6 +25,7 @@
     <file alias="Track.qml">timeline2/view/qml/Track.qml</file>
     <file alias="Ruler.qml">timeline2/view/qml/Ruler.qml</file>
     <file alias="Clip.qml">timeline2/view/qml/Clip.qml</file>
+    <file alias="MixShape.qml">timeline2/view/qml/MixShape.qml</file>
     <file alias="ClipThumbs.qml">timeline2/view/qml/ClipThumbs.qml</file>
     <file alias="ClipAudioThumbs.qml">timeline2/view/qml/ClipAudioThumbs.qml</file>
     <file alias="KeyframeView.qml">timeline2/view/qml/KeyframeView.qml</file>
