@@ -3773,4 +3773,3 @@ void TimelineController::deleteSubtitle(int frame)
     subtitleModel->removeSubtitle(start);
     return;
 }
->>>>>>> sassycode/kdenlive-subtitler
