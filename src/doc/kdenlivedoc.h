@@ -174,6 +174,8 @@ public:
     std::shared_ptr<SubtitleModel> getSubtitleModel() const;
     /** @brief Initialize and connect subtitle model */
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
+    /** @brief Delete all subtitles from subtitle model */
+    void removeSubtitles();
 
 private:
     QUrl m_url;

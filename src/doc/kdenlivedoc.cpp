@@ -1793,3 +1793,8 @@ void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_sub
     m_subtitleModel->parseSubtitle();
     //QMetaObject::invokeMethod(m_subtitle.get(), "parseSubtitle", Qt::QueuedConnection);
 }
+
+void KdenliveDoc::removeSubtitles()
+{
+    m_subtitleModel->removeAllSubtitles();
+}
