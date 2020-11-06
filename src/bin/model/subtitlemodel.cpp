@@ -1,3 +1,24 @@
+/***************************************************************************
+ *   Copyright (C) 2020 by Sashmita Raghav                                 *
+ *   This file is part of Kdenlive. See www.kdenlive.org.                  *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) version 3 or any later version accepted by the       *
+ *   membership of KDE e.V. (or its successor approved  by the membership  *
+ *   of KDE e.V.), which shall act as a proxy defined in Section 14 of     *
+ *   version 3 of the license.                                             *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program.  If not, see <http://www.gnu.org/licenses/>. *
+ ***************************************************************************/
+
 #include "subtitlemodel.hpp"
 #include "bin/bin.h"
 #include "core.h"
@@ -391,6 +412,18 @@ void SubtitleModel::removeSubtitle(GenTime pos)
     model->beginRemoveRows(QModelIndex(), row, row);
     model->m_subtitleList.erase(pos);
     model->endRemoveRows();
+}
+
+void SubtitleModel::removeAllSubtitles()
+{
+    //qDebug()<<"Deleting all subtitles in model";
+    std::vector<GenTime> all_pos;
+    for (const auto &s : m_subtitleList) {
+        all_pos.push_back(s.first);
+    }
+    for (const auto &p : all_pos) {
+        removeSubtitle(p);
+    }
 }
 
 void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos)

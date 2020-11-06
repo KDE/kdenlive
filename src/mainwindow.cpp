@@ -4175,15 +4175,20 @@ void MainWindow::slotActivateTarget()
 void MainWindow::slotEditSubtitle()
 {
     std::shared_ptr<SubtitleModel> m_subtitleModel;
-    m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
-    pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
+    if (!getMainTimeline()->showSubtitles) {
+        m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
+        pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
+    } else {
+        pCore->currentDoc()->removeSubtitles();
+    }
     getMainTimeline()->connectSubtitleModel();
 }
 
 void MainWindow::slotAddSubtitle()
 {
-    if (pCore->currentDoc()->getSubtitleModel() == nullptr) {
+    if (!getMainTimeline()->showSubtitles) {
         slotEditSubtitle();
+        m_buttonSubtitleEditTool->setChecked(true);
     }
     getCurrentTimeline()->controller()->addSubtitle();
 }
