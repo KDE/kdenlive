@@ -676,7 +676,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             pCore->updateItemModel(m_ownerId, QStringLiteral("fadein"));
             if (videoFade) {
                 int min = pCore->getItemPosition(m_ownerId);
-                QSize range(min, min + qMax(duration, oldDuration));
+                QPair<int, int> range = {min, min + qMax(duration, oldDuration)};
                 pCore->refreshProjectRange(range);
                 if (logUndo) {
                     pCore->invalidateRange(range);
@@ -719,7 +719,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
             pCore->updateItemModel(m_ownerId, QStringLiteral("fadeout"));
             if (videoFade) {
                 int min = pCore->getItemPosition(m_ownerId);
-                QSize range(min + itemDuration - qMax(duration, oldDuration), min + itemDuration);
+                QPair<int, int> range = {min + itemDuration - qMax(duration, oldDuration), min + itemDuration};
                 pCore->refreshProjectRange(range);
                 if (logUndo) {
                     pCore->invalidateRange(range);

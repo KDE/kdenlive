@@ -97,7 +97,7 @@ public slots:
     void focusProjectMonitor();
     void refreshProjectMonitor();
     /** @brief Refresh project monitor if the timeline cursor is inside the range. */
-    void refreshProjectRange(QSize range);
+    void refreshProjectRange(QPair<int, int>range);
     void refreshClipMonitor();
 
     /** @brief Switch current monitor to fullscreen. */

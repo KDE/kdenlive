@@ -142,7 +142,7 @@ public:
     /** @brief Request project monitor refresh */
     void requestMonitorRefresh();
     /** @brief Request project monitor refresh if current position is inside range*/
-    void refreshProjectRange(QSize range);
+    void refreshProjectRange(QPair<int, int> range);
     /** @brief Request project monitor refresh if referenced item is under cursor */
     void refreshProjectItem(const ObjectId &id);
     /** @brief Returns a reference to a monitor (clip or project monitor) */
@@ -179,7 +179,7 @@ public:
     double getClipSpeed(int id) const;
     /** @brief Mark an item as invalid for timeline preview */
     void invalidateItem(ObjectId itemId);
-    void invalidateRange(QSize range);
+    void invalidateRange(QPair<int, int>range);
     void prepareShutdown();
     /** the keyframe model changed (effect added, deleted, active effect changed), inform timeline */
     void updateItemKeyframes(ObjectId id);

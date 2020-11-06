@@ -186,7 +186,7 @@ Item {
                 //rightend.anchors.right = subtitleBase.right
                 if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
                     console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame",oldStartFrame/timeline.scaleFactor + delta)
-                    timeline.moveSubtitle(oldStartFrame/timeline.scaleFactor , oldStartFrame/timeline.scaleFactor + delta)
+                    timeline.moveSubtitle(oldStartFrame/timeline.scaleFactor , oldStartFrame/timeline.scaleFactor + delta, subtitleBase.duration)
                 }
             }
         }

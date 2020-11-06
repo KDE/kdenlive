@@ -3728,16 +3728,20 @@ void TimelineController::editSubtitle(int startFrame, QString text, int endFrame
     GenTime startPos(startFrame, pCore->getCurrentFps());
     GenTime endPos(endFrame, pCore->getCurrentFps());
     subtitleModel->editSubtitle(startPos, text, endPos);
+    pCore->refreshProjectRange({startFrame, endFrame});
     return;
 }
 
-void TimelineController::moveSubtitle(int oldStartFrame, int newStartFrame)
+void TimelineController::moveSubtitle(int oldStartFrame, int newStartFrame, int duration)
 {
     qDebug()<<"Moving existing subtitle start position in controller from"<<oldStartFrame<<" to "<<newStartFrame;
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
     GenTime oldStartPos(oldStartFrame, pCore->getCurrentFps());
     GenTime newStartPos(newStartFrame, pCore->getCurrentFps());
     subtitleModel->moveSubtitle(oldStartPos, newStartPos);
+    int min = qMin(oldStartFrame, newStartFrame);
+    int max = qMax(oldStartFrame, newStartFrame);
+    pCore->refreshProjectRange({min, max + duration});
     return;
 }
 
@@ -3752,6 +3756,7 @@ void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int
     
     subtitleModel->removeSubtitle(oldStartPos); //first delete subtitle at old start position
     subtitleModel->addSubtitle(newStartPos, endPos, text); //next, add a new subtitle at new start position
+    pCore->refreshProjectRange({qMin(oldStartFrame, newStartFrame), endFrame});
 }
 
 void TimelineController::addSubtitle()
@@ -3764,6 +3769,7 @@ void TimelineController::addSubtitle()
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
     QString text = "Add Text";
     subtitleModel->addSubtitle(start, end, text);
+    pCore->refreshProjectRange({startframe, endframe});
 }
 
 void TimelineController::deleteSubtitle(int frame)

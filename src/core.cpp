@@ -394,7 +394,7 @@ void Core::requestMonitorRefresh()
     m_monitorManager->refreshProjectMonitor();
 }
 
-void Core::refreshProjectRange(QSize range)
+void Core::refreshProjectRange(QPair<int, int> range)
 {
     if (!m_guiConstructed) return;
     m_monitorManager->refreshProjectRange(range);
@@ -682,10 +682,10 @@ std::shared_ptr<ProjectItemModel> Core::projectItemModel()
     return m_projectItemModel;
 }
 
-void Core::invalidateRange(QSize range)
+void Core::invalidateRange(QPair<int, int> range)
 {
     if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
-    m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.width(), range.height());
+    m_mainWindow->getCurrentTimeline()->controller()->invalidateZone(range.first, range.second);
 }
 
 void Core::invalidateItem(ObjectId itemId)

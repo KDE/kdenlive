@@ -3993,10 +3993,6 @@ void MainWindow::slotManageCache()
     auto *lay = new QVBoxLayout;
     TemporaryData tmp(pCore->currentDoc(), false, this);
     connect(&tmp, &TemporaryData::disableProxies, this, &MainWindow::slotDisableProxies);
-    // TODO refac
-    /*
-    connect(&tmp, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
-    */
     QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
     connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
     lay->addWidget(&tmp);

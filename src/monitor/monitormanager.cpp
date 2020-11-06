@@ -104,9 +104,9 @@ void MonitorManager::focusProjectMonitor()
     activateMonitor(Kdenlive::ProjectMonitor);
 }
 
-void MonitorManager::refreshProjectRange(QSize range)
+void MonitorManager::refreshProjectRange(QPair<int, int> range)
 {
-    if (m_projectMonitor->position() >= range.width() && m_projectMonitor->position() <= range.height()) {
+    if (m_projectMonitor->position() >= range.first && m_projectMonitor->position() <= range.second) {
         m_projectMonitor->refreshMonitorIfActive();
     }
 }

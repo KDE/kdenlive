@@ -1076,6 +1076,12 @@ Rectangle {
                             width: tracksContainerArea.width
                             height: showSubtitles? root.baseUnit * 3 : 0
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
+                            MouseArea {
+                                anchors.fill: parent
+                                acceptedButtons: Qt.NoButton
+                                onWheel: zoomByWheel(wheel)
+                                cursorShape: dragProxyArea.drag.active ? Qt.ClosedHandCursor : tracksArea.cursorShape
+                            }
                         }
                         Item {
                             id: tracksContainerArea
