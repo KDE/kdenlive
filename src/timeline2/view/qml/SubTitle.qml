@@ -48,7 +48,7 @@ Item {
                 console.log('IT IS PRESSED')
                 if (mouse.button == Qt.RightButton) {
                     console.log('RIGHT BUTTON CLICKED')
-                    timeline.deleteSubtitle(subtitleBase.x / timeline.scaleFactor)
+                    timeline.deleteSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleEdit.text)
                 }
                 else {
                     root.autoScrolling = false

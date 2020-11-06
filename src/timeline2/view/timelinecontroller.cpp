@@ -3727,6 +3727,7 @@ void TimelineController::editSubtitle(int startFrame, QString text, int endFrame
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
     GenTime startPos(startFrame, pCore->getCurrentFps());
     GenTime endPos(endFrame, pCore->getCurrentFps());
+    
     subtitleModel->editSubtitle(startPos, text, endPos);
     pCore->refreshProjectRange({startFrame, endFrame});
     return;
@@ -3750,32 +3751,70 @@ void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int
     qDebug()<<"Shifting existing subtitle in controller from"<<oldStartFrame<<" to "<<newStartFrame;
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
 
-    GenTime oldStartPos(oldStartFrame, pCore->getCurrentFps());
-    GenTime newStartPos(newStartFrame, pCore->getCurrentFps());
-    GenTime endPos(endFrame, pCore->getCurrentFps());
-    
-    subtitleModel->removeSubtitle(oldStartPos); //first delete subtitle at old start position
-    subtitleModel->addSubtitle(newStartPos, endPos, text); //next, add a new subtitle at new start position
-    pCore->refreshProjectRange({qMin(oldStartFrame, newStartFrame), endFrame});
+    int min = qMin(oldStartFrame, newStartFrame);
+    int max = qMax(oldStartFrame, newStartFrame);
+    int duration = endFrame - newStartFrame;
+    Fun local_redo = [subtitleModel, oldStartFrame, newStartFrame, endFrame, text, min, max, duration]() {
+        subtitleModel->removeSubtitle(GenTime(oldStartFrame, pCore->getCurrentFps()));
+        subtitleModel->addSubtitle(GenTime(newStartFrame, pCore->getCurrentFps()), GenTime(endFrame, pCore->getCurrentFps()), text);
+        if (max - min > duration) {
+            pCore->refreshProjectRange({min, min + duration});
+            pCore->refreshProjectRange({max, max + duration});
+        } else {
+            pCore->refreshProjectRange({min, max + duration});
+        }
+        return true;
+    };
+    Fun local_undo = [subtitleModel, oldStartFrame, newStartFrame, text, min, max, duration]() {
+        subtitleModel->removeSubtitle(GenTime(newStartFrame, pCore->getCurrentFps()));
+        subtitleModel->addSubtitle(GenTime(oldStartFrame, pCore->getCurrentFps()), GenTime(oldStartFrame + duration, pCore->getCurrentFps()), text);
+        if (max - min > duration) {
+            pCore->refreshProjectRange({min, min + duration});
+            pCore->refreshProjectRange({max, max + duration});
+        } else {
+            pCore->refreshProjectRange({min, max + duration});
+        }
+        return true;
+    };
+    local_redo();
+    pCore->pushUndo(local_undo, local_redo, i18n("Move subtitle"));
 }
 
 void TimelineController::addSubtitle()
 {
     int startframe = pCore->getTimelinePosition();
     int endframe = startframe + 50; //create basic subtitle clip of default width
-    GenTime start(startframe, pCore->getCurrentFps());
-    GenTime end(endframe, pCore->getCurrentFps());
 
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-    QString text = "Add Text";
-    subtitleModel->addSubtitle(start, end, text);
-    pCore->refreshProjectRange({startframe, endframe});
+    Fun local_undo = [subtitleModel, startframe, endframe]() {
+        subtitleModel->removeSubtitle(GenTime(startframe, pCore->getCurrentFps()));
+        pCore->refreshProjectRange({startframe, endframe});
+        return true;
+    };
+    Fun local_redo = [subtitleModel, startframe, endframe]() {
+        subtitleModel->addSubtitle(GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), i18n("Add text"));
+        pCore->refreshProjectRange({startframe, endframe});
+        return true;
+    };
+    local_redo();
+    pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
 }
 
-void TimelineController::deleteSubtitle(int frame)
+void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
 {
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-    GenTime start(frame, pCore->getCurrentFps());
-    subtitleModel->removeSubtitle(start);
+    
+    Fun local_redo = [subtitleModel, startframe, endframe]() {
+        subtitleModel->removeSubtitle(GenTime(startframe, pCore->getCurrentFps()));
+        pCore->refreshProjectRange({startframe, endframe});
+        return true;
+    };
+    Fun local_undo = [subtitleModel, startframe, endframe, text]() {
+        subtitleModel->addSubtitle(GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text);
+        pCore->refreshProjectRange({startframe, endframe});
+        return true;
+    };
+    local_redo();
+    pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
     return;
 }

@@ -53,7 +53,7 @@ public:
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole };
     /** @brief Function that parses through a subtitle file */ 
-    void addSubtitle(GenTime start,GenTime end, QString &str);
+    void addSubtitle(GenTime start,GenTime end, const QString str);
     /** @brief Converts string of time to GenTime */ 
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 

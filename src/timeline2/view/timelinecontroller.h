@@ -571,11 +571,11 @@ public:
     /** @brief Move position of subtitle start timing */
     Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame, int duration);
     /** @brief Shift subtitle clips without changing the clip duration */
-    Q_INVOKABLE void shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame=0, QString text="");
+    Q_INVOKABLE void shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame=0, QString text = QString());
     /** @brief Add subtitle clip at cursor's position in timeline */
     Q_INVOKABLE void addSubtitle();
     /** @brief Delete subtitle clip with frame as start position*/
-    Q_INVOKABLE void deleteSubtitle(int frame);
+    Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
 
 public slots:
     void resetView();

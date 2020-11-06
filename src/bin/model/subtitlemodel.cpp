@@ -248,7 +248,7 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     return pos;
 }
 
-void SubtitleModel::addSubtitle(GenTime start, GenTime end, QString &str)
+void SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str)
 {
 	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0) {
         qDebug()<<"Time error: is negative";
@@ -548,3 +548,4 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
     m_tractor->attach(*m_subtitleFilter.get());
 }
+
