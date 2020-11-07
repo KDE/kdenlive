@@ -566,8 +566,10 @@ public:
     Q_INVOKABLE void mixClip(int cid = -1, int delta = 0);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(QList<int> clipIds, bool hide);
-    /** @brief Edit the subtitle text and/or end timings */
-    Q_INVOKABLE void editSubtitle(int startFrame, QString text, int endFrame);
+    /** @brief Edit the subtitle text*/
+    Q_INVOKABLE void editSubtitle(int startFrame, int endFrame, QString newText, QString oldText);
+    /** @brief Edit the subtitle end */
+    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame);
     /** @brief Move position of subtitle start timing */
     Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame, int duration);
     /** @brief Shift subtitle clips without changing the clip duration */

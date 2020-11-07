@@ -93,8 +93,10 @@ Item {
             selectByMouse: true
             onEditingFinished: {
                 subtitleEdit.focus = false
-                timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.displayText, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor)
                 parent.textEditBegin = false
+                if (model.subtitle != subtitleEdit.text) {
+                    timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor, subtitleEdit.text, model.subtitle)
+                }
             }
             anchors.fill: parent
             //visible: timeScale >= 6
@@ -238,7 +240,7 @@ Item {
                 root.autoScrolling = timeline.autoScroll
                 rightend.anchors.right = subtitleBase.right
                 if (mouseX != oldMouseX || sizeChanged) {
-                    timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleEdit.text, subtitleBase.x / timeline.scaleFactor + duration)
+                    timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleBase.x / timeline.scaleFactor + subtitleBase.duration)
                     sizeChanged = false
                 }
             }
