@@ -72,7 +72,7 @@ public:
         @param oldPos is the old position of the end time
         @param pos defines the new position of the end time
     */
-    void editEndPos(GenTime startPos, GenTime newEndPos);
+    void editEndPos(GenTime startPos, GenTime newEndPos, bool refreshModel = true);
 
     /** @brief Edit subtitle , i.e. text and/or end time
         @param startPos is start timing position of subtitles

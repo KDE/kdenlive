@@ -117,21 +117,20 @@ Item {
             padding: 0
         }
     }
-    Rectangle {
+    Item {
         id: leftstart
-        width: 2
+        width: root.baseUnit / 2
         height: subtitleBase.height
         x: model.startframe * timeScale;
         anchors.top: subtitleBase.top
         anchors.left: subtitleBase.left
-        color: 'green'
         visible: true
         MouseArea {
             // Right resize handle to change end timing
             id: startMouseArea
             anchors.fill: parent
             height: parent.height
-            width: 2
+            width: root.baseUnit / 2
             hoverEnabled: true
             enabled: true
             property bool sizeChanged: false
@@ -155,6 +154,7 @@ Item {
                 //console.log(subtitleBase.x)
                 originalDuration = subtitleBase.width/timeScale
                 console.log("originalDuration",originalDuration)
+                trimIn.opacity = 0
             }
             onPositionChanged: {
                 if (pressed) {
@@ -191,17 +191,34 @@ Item {
                     timeline.moveSubtitle(oldStartFrame/timeline.scaleFactor , oldStartFrame/timeline.scaleFactor + delta, subtitleBase.duration)
                 }
             }
+            onEntered: {
+                if (!pressed) {
+                    trimIn.opacity = 1
+                }
+            }
+            onExited: trimIn.opacity = 0
+
+            Rectangle {
+                id: trimIn
+                anchors.left: parent.left
+                width: 2
+                height: parent.height
+                color: 'lawngreen'
+                opacity: 0
+                Drag.active: startMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+                //visible: startMouseArea.pressed
+            }
         }
     }
-    Rectangle {
+    Item {
         // end position resize handle
         id: rightend
-        width: 2
+        width: root.baseUnit / 2
         height: subtitleBase.height
         x: model.endframe * timeScale;
         anchors.right: subtitleBase.right
         anchors.top: subtitleBase.top
-        color: 'blue' // to distinguish the resize handle
         //Drag.active: endMouseArea.drag.active
         //Drag.proposedAction: Qt.MoveAction
         visible: true
@@ -213,36 +230,64 @@ Item {
             hoverEnabled: true
             enabled: true
             property bool sizeChanged: false
-            property int newEnd: -1
             property int oldMouseX
             acceptedButtons: Qt.LeftButton
             cursorShape: Qt.SizeHorCursor
+            property int newDuration: subtitleRoot.duration
+            property int originalDuration
             drag.target: rightend
             drag.axis: Drag.XAxis
             //drag.smoothed: false
 
             onPressed: {
                 root.autoScrolling = false
+                newDuration = subtitleRoot.duration
+                originalDuration = subtitleRoot.duration
                 //rightend.anchors.right = undefined
                 oldMouseX = mouseX
+                trimOut.opacity = 0
             }
             onPositionChanged: {
                 if (pressed) {
-                    newEnd = Math.round((mouseX + width) / timeScale)
                     if ((mouseX != oldMouseX && duration > 1) || (duration <= 1 && mouseX > oldMouseX)) {
                         sizeChanged = true
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
-                        duration = Math.round((subtitleBase.width/timeScale + (mouseX - oldMouseX)/timeScale))
+                        newDuration = Math.round((subtitleBase.width/timeScale + (mouseX - oldMouseX)/timeScale))
+                        // Perform resize without changing model
+                        timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + newDuration, subtitleBase.x / timeline.scaleFactor + subtitleRoot.duration, false)
                     }
                 }
             }
             onReleased: {
                 root.autoScrolling = timeline.autoScroll
                 rightend.anchors.right = subtitleBase.right
+                console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
-                    timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleBase.x / timeline.scaleFactor + subtitleBase.duration)
+                    // Restore original size
+                    timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + subtitleRoot.duration, subtitleBase.x / timeline.scaleFactor + newDuration, false)
+                    // Perform real resize
+                    timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + newDuration, subtitleBase.x / timeline.scaleFactor + originalDuration, true)
                     sizeChanged = false
                 }
+            }
+            onEntered: {
+                console.log('ENTER MOUSE END AREA')
+                if (!pressed) {
+                    trimOut.opacity = 1
+                }
+            }
+            onExited: trimOut.opacity = 0
+
+            Rectangle {
+                id: trimOut
+                anchors.right: parent.right
+                width: 2
+                height: parent.height
+                color: 'red'
+                opacity: 0
+                Drag.active: endMouseArea.drag.active
+                Drag.proposedAction: Qt.MoveAction
+                //visible: endMouseArea.pressed
             }
         }
     }

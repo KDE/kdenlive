@@ -58,7 +58,6 @@ void SubtitleModel::setup()
     connect(this, &SubtitleModel::rowsRemoved, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::rowsInserted, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::modelReset, this, &SubtitleModel::modelChanged);
-    connect(this, &SubtitleModel::dataChanged, this, &SubtitleModel::modelChanged);
 }
 
 std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
@@ -365,7 +364,7 @@ void SubtitleModel::addSnapPoint(GenTime startpos)
     std::swap(m_regSnaps, validSnapModels);
 }
 
-void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos)
+void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refreshModel)
 {
     qDebug()<<"Changing the sub end timings in model";
     auto model = getModel();
@@ -375,9 +374,12 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos)
     }
     int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
     model->m_subtitleList[startPos].second = newEndPos;
-    emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << EndPosRole);
+    // Trigger update of the qml view
+    emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << EndFrameRole);
+    if (refreshModel) {
+        emit modelChanged();
+    }
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
-    return;
 }
 
 void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos)
@@ -397,6 +399,7 @@ void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenT
     model->m_subtitleList[startPos].second = endPos;
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].first<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
     emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << SubtitleRole);
+    emit modelChanged();
     return;
 }
 
