@@ -569,7 +569,7 @@ public:
     /** @brief Edit the subtitle text*/
     Q_INVOKABLE void editSubtitle(int startFrame, int endFrame, QString newText, QString oldText);
     /** @brief Edit the subtitle end */
-    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame);
+    Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
     /** @brief Move position of subtitle start timing */
     Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame, int duration);
     /** @brief Shift subtitle clips without changing the clip duration */
