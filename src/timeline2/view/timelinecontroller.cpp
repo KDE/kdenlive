@@ -127,6 +127,9 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
         emit showMixModel(cid, asset);
         emit selectedMixChanged();
     });
+    connect(m_model.get(), &TimelineModel::selectedSubtitleChanged, [this] (int startFrame) {
+        emit selectedSubtitleChanged();
+    });
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
@@ -312,6 +315,12 @@ int TimelineController::selectedMix() const
     return m_model->m_selectedMix;
 }
 
+int TimelineController::selectedSubtitle() const
+{
+    qDebug()<<"=== GOT SELECTED SUB: "<<m_model->m_selectedSubtitle<<"\n\n==========";
+    return m_model->m_selectedSubtitle;
+}
+
 void TimelineController::selectItems(const QList<int> &ids)
 {
     std::unordered_set<int> ids_s(ids.begin(), ids.end());
@@ -485,6 +494,11 @@ void TimelineController::deleteSelectedClips()
         // Check if a mix is selected
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
             m_model->removeMix(m_model->m_selectedMix);
+        }
+        if (m_model->m_selectedSubtitle > -1) {
+            auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+            SubtitledTime t = subtitleModel->getSubtitle(GenTime(m_model->m_selectedSubtitle, pCore->getCurrentFps()));
+            deleteSubtitle(m_model->m_selectedSubtitle, t.end().frames(pCore->getCurrentFps()), t.subtitle());
         }
         return;
     }

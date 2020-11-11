@@ -4632,6 +4632,10 @@ bool TimelineModel::requestClearSelection(bool onDeletion)
         m_selectedMix = -1;
         emit selectedMixChanged(-1, nullptr);
     }
+    if (m_selectedSubtitle > -1) {
+        m_selectedSubtitle = -1;
+        emit selectedSubtitleChanged(-1);
+    }
     if (m_currentSelection == -1) {
         TRACE_RES(true);
         return true;
@@ -4679,6 +4683,13 @@ void TimelineModel::requestMixSelection(int cid)
         m_selectedMix = cid;
         emit selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid));
     }
+}
+
+void TimelineModel::requestSubtitleSelection(int startFrame)
+{
+    requestClearSelection();
+    m_selectedSubtitle = startFrame;
+    emit selectedSubtitleChanged(startFrame);
 }
 
 void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
