@@ -684,6 +684,10 @@ public:
         @param cid clip id
      */
     Q_INVOKABLE void requestMixSelection(int cid);
+    /** @brief Select a given subtitle in timeline
+        @param startFrame The start position (frame) of the subtitle
+     */
+    Q_INVOKABLE void requestSubtitleSelection(int startFrame);
 
     /** @brief Add the given item to the selection
         If @param clear is true, the selection is first cleared
@@ -806,6 +810,8 @@ signals:
     void selectionChanged();
     /* @brief Signal sent whenever the selected mix changes */
     void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
+    /* @brief Signal sent whenever the selected subtitle changes */
+    void selectedSubtitleChanged(int startframe);
     /* @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
@@ -850,6 +856,7 @@ protected:
     // (in that case we cannot further group it because the selection would have only one child, which is prohibited by design)
     int m_currentSelection = -1;
     int m_selectedMix = -1;
+    int m_selectedSubtitle = -1;
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;

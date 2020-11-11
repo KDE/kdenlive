@@ -81,6 +81,7 @@ Rectangle {
     property var groupTrimData
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
+    property double clipNameOffset: isAudio || parentTrack.trackThumbsFormat > 0 ? clipRoot.border.width : (clipRoot.border.width + (container.height * root.dar * 2)) < container.width ? clipRoot.border.width + container.height * root.dar : clipRoot.border.width
     width : clipDuration * timeScale
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
@@ -183,10 +184,10 @@ Rectangle {
     onTimeScaleChanged: {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.clipNameOffset
     }
     onScrollXChanged: {
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.clipNameOffset
     }
 
     border.color: (clipStatus == ClipStatus.StatusMissing || ClipStatus == ClipStatus.StatusWaiting || clipStatus == ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor

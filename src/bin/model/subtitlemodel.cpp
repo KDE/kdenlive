@@ -34,12 +34,11 @@
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, QObject *parent)
     : QAbstractListModel(parent)
-    , m_tractor(tractor)
     , m_lock(QReadWriteLock::Recursive)
+    , m_subtitleFilter(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"))
+    , m_tractor(tractor)
 {
     qDebug()<< "subtitle constructor";
-    m_subtitleFilter = nullptr;
-    m_subtitleFilter.reset(new Mlt::Filter(pCore->getCurrentProfile()->profile(), "avfilter.subtitles"));
     qDebug()<<"Filter!";
     if (tractor != nullptr) {
         qDebug()<<"Tractor!";
@@ -332,6 +331,16 @@ QList<SubtitledTime> SubtitleModel::getAllSubtitles() const
         subtitle << s;
     }
     return subtitle;
+}
+
+SubtitledTime SubtitleModel::getSubtitle(GenTime startFrame) const
+{
+    for (const auto &subtitles : m_subtitleList) {
+        if (subtitles.first == startFrame) {
+            return SubtitledTime(subtitles.first, subtitles.second.first, subtitles.second.second);
+        }
+    }
+    return SubtitledTime(GenTime(), QString(), GenTime());
 }
 
 void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)

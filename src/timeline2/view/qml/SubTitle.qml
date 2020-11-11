@@ -9,15 +9,12 @@ Item {
     property real duration : (model.endframe - model.startframe) 
     property int oldStartX
     property double oldStartFrame: subtitleBase.x
-    Rectangle {
+    Item {
         id: subtitleBase
         width: duration * timeScale // to make width change wrt timeline scale factor
         height: parent.height
         x: model.startframe * timeScale;
         property bool textEditBegin: false
-        color: 'yellow'
-        border.width: 1
-        border.color: 'orange'
         clip: true
         /*Text {
             id: subtitleText
@@ -44,6 +41,7 @@ Item {
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
             drag.target: subtitleBase
             drag.axis: Drag.XAxis
+            drag.minimumX: 0
             onPressed: {
                 console.log('IT IS PRESSED')
                 if (mouse.button == Qt.RightButton) {
@@ -56,20 +54,8 @@ Item {
                     oldStartFrame = subtitleBase.x
                     originalDuration = subtitleBase.width/timeScale
                     console.log("originalDuration",originalDuration)
+                    controller.requestSubtitleSelection(model.startframe);
                 }                            
-            }
-            onPositionChanged: {
-                if (pressed) {
-                    newStart = Math.round((subtitleBase.x + (mouseX-oldStartX)) / timeScale)
-                    if (mouseX != oldStartX) {
-                        diff = (mouseX - oldStartX) / timeScale
-                        subtitleBase.x = subtitleBase.x + diff
-                        delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
-                        var diffDelta = delta - oldDelta
-                        oldDelta = delta
-                        subtitleBase.width = originalDuration * timeline.scaleFactor                             
-                    }
-                }
             }
             onReleased: {
                 console.log('IT IS RELEASED')
@@ -107,10 +93,10 @@ Item {
             wrapMode: TextField.WordWrap
             horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
             background: Rectangle {
-                color: 'yellow'
+                color: root.selectedSubtitle == model.startframe ? "#fff" : '#ccccff'
                 border {
-                    width: 1
-                    color: 'orange'
+                    color: root.selectedSubtitle == model.startframe ? root.selectionColor : "#000"
+                    width: 2
                 }
             }
             color: 'black'

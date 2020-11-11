@@ -41,6 +41,7 @@ class TimelineController : public QObject
      */
     Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
     Q_PROPERTY(int selectedMix READ selectedMix NOTIFY selectedMixChanged)
+    Q_PROPERTY(int selectedSubtitle READ selectedSubtitle NOTIFY selectedSubtitleChanged)
     /* @brief holds the timeline zoom factor
      */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -349,6 +350,9 @@ public:
     /* @brief Returns the id of the currently selected mix's clip, -1 if no mix selected
      */
     int selectedMix() const;
+    /* @brief Returns the start frame id of the currently selected subtitle, -1 if no selection
+     */
+    int selectedSubtitle() const;
 
     /* @brief Add an asset (effect, composition)
      */
@@ -653,6 +657,7 @@ signals:
     void selected(Mlt::Producer *producer);
     void selectionChanged();
     void selectedMixChanged();
+    void selectedSubtitleChanged();
     void frameFormatChanged();
     void trackHeightChanged();
     void scaleFactorChanged();

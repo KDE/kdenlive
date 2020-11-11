@@ -295,6 +295,7 @@ Rectangle {
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
+    property int selectedSubtitle: timeline.selectedSubtitle
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
@@ -1074,7 +1075,7 @@ Rectangle {
                         Item {
                             id: subtitleTrack
                             width: tracksContainerArea.width
-                            height: showSubtitles? root.baseUnit * 3 : 0
+                            height: showSubtitles? root.baseUnit * 4 : 0
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                             MouseArea {
                                 anchors.fill: parent

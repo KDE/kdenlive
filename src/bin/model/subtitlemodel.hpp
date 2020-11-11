@@ -63,6 +63,9 @@ public:
 
     /** @brief Returns all subtitles in the model */
     QList<SubtitledTime> getAllSubtitles() const;
+    
+    /** @brief Get subtitle at position */
+    SubtitledTime getSubtitle(GenTime startFrame) const;
 
     /** @brief Registers a snap model to the subtitle model */
     void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
@@ -107,8 +110,8 @@ private:
     std::weak_ptr<DocUndoStack> m_undoStack;
     std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList; 
 
-    QString scriptInfoSection="", styleSection = "",eventSection="";
-    QString styleName="";
+    QString scriptInfoSection, styleSection,eventSection;
+    QString styleName;
     QString m_subFilePath;
 
     //To get subtitle file from effects parameter:
