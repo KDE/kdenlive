@@ -295,6 +295,9 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     // Sync document properties
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    if (!saveACopy) {
+        m_project->updateSubtitle(outputFileName);
+    }
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -304,6 +307,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
         }
     }
     if (!m_project->saveSceneList(outputFileName, scene)) {
+        m_project->updateSubtitle();
         return false;
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);

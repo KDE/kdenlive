@@ -759,6 +759,26 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
 }
 
+void KdenliveDoc::updateSubtitle(QString newUrl)
+{
+    if (m_subtitleModel) {
+        if (newUrl.isEmpty() && m_url.isValid()) {
+            newUrl = m_url.toLocalFile();
+        }
+        QString subPath;
+        if (newUrl.isEmpty()) {
+            subPath = subTitlePath();
+        } else {
+            // Update path of subtitle file
+            QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+            QFileInfo info(newUrl);
+            subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+        }
+        qDebug()<<"===== SAVING SUBTITLE TO NEW ATH: "<<subPath;
+        m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson(), subPath);
+    }
+}
+
 void KdenliveDoc::slotModified()
 {
     setModified(!m_commandStack->isClean());
@@ -1779,6 +1799,18 @@ std::shared_ptr<SubtitleModel> KdenliveDoc::getSubtitleModel() const
     return m_subtitleModel;
 }
 
+QString KdenliveDoc::subTitlePath()
+{
+    QString path;
+    QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
+    if (m_url.isValid()) {
+        return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(m_url.fileName()));
+    } else {
+        path = QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
+    }
+    return path;
+}
+
 void KdenliveDoc::subtitlesChanged()
 {
     //m_subtitleModel->parseSubtitle();
@@ -1786,11 +1818,11 @@ void KdenliveDoc::subtitlesChanged()
     return;
 }
 
-void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle)
+void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, const QString subPath)
 {
     m_subtitleModel = m_subtitle;
     connect(m_subtitleModel.get(), &SubtitleModel::modelChanged, this, &KdenliveDoc::subtitlesChanged);
-    m_subtitleModel->parseSubtitle();
+    m_subtitleModel->parseSubtitle(subPath);
     //QMetaObject::invokeMethod(m_subtitle.get(), "parseSubtitle", Qt::QueuedConnection);
 }
 

@@ -79,6 +79,8 @@ public:
 
     const QString description() const;
     void setUrl(const QUrl &url);
+    /** @brief Update path of subtitle url. */
+    void updateSubtitle(QString newUrl = QString());
 
     /** @brief Defines whether the document needs to be saved. */
     bool isModified() const;
@@ -173,9 +175,11 @@ public:
     /** @brief Returns a pointer to the subtitle model */
     std::shared_ptr<SubtitleModel> getSubtitleModel() const;
     /** @brief Initialize and connect subtitle model */
-    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
+    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, const QString subPath = QString());
     /** @brief Delete all subtitles from subtitle model */
     void removeSubtitles();
+    /** @brief Returns a path for current document's subtitle file */
+    QString subTitlePath();
 
 private:
     QUrl m_url;

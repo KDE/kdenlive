@@ -1123,7 +1123,9 @@ void MainWindow::setupActions()
     m_buttonSubtitleEditTool->setCheckable(true);
     m_buttonSubtitleEditTool->setChecked(false);
     addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
-    connect(m_buttonSubtitleEditTool, &QAction::triggered, this, &MainWindow::slotEditSubtitle);
+    connect(m_buttonSubtitleEditTool, &QAction::triggered, [this]() {
+        slotEditSubtitle();
+    });
 
     // create tools buttons
     m_buttonSelectTool = new QAction(QIcon::fromTheme(QStringLiteral("cursor-arrow")), i18n("Selection tool"), this);
@@ -4168,14 +4170,12 @@ void MainWindow::slotActivateTarget()
     }
 }
 
-void MainWindow::slotEditSubtitle()
+void MainWindow::slotEditSubtitle(const QString subPath)
 {
-    std::shared_ptr<SubtitleModel> m_subtitleModel;
-    if (!getMainTimeline()->showSubtitles) {
-        m_subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
-        pCore->currentDoc()->initializeSubtitles(m_subtitleModel);
-    } else {
-        pCore->currentDoc()->removeSubtitles();
+    std::shared_ptr<SubtitleModel> subtitleModel = pCore->currentDoc()->getSubtitleModel();
+    if (subtitleModel == nullptr) {
+        subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
+        pCore->currentDoc()->initializeSubtitles(subtitleModel, subPath);
     }
     getMainTimeline()->connectSubtitleModel();
 }

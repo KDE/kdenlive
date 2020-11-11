@@ -295,6 +295,7 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
+    void slotEditSubtitle(const QString subPath = QString());
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -508,7 +509,6 @@ private slots:
     void slotActivateVideoTrackSequence();
     /** @brief Select target for current track */
     void slotActivateTarget();
-    void slotEditSubtitle();
     void slotAddSubtitle();
 
 signals:
