@@ -97,7 +97,7 @@ public:
     void moveSubtitle(GenTime oldPos, GenTime newPos);
     
     /** @brief Function that imports a subtitle file */
-    void importSubtitle(const QString filePath);
+    void importSubtitle(const QString filePath, int offset = 0);
 
     /** @brief Exports the subtitle model to json */
     QString toJson();

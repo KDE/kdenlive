@@ -50,6 +50,7 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "transitions/transitionsrepository.hpp"
 #include "audiomixer/mixermanager.hpp"
+#include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
 #include <KRecentDirs>
@@ -3854,17 +3855,17 @@ void TimelineController::addSubtitle(int startframe)
 
 void TimelineController::importSubtitle()
 {
-    const QString dialogFilter = i18n("Subtitle Files") + QStringLiteral(" (*.srt, *.ass)");
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveSubtitlesFolder"));
-    if (clipFolder.isEmpty()) {
-        clipFolder = QDir::homePath();
-    }
-    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Subtitle File"), clipFolder, dialogFilter);
-    d->setFileMode(QFileDialog::ExistingFile);
-    if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
-        KRecentDirs::add(QStringLiteral(":KdenliveSubtitlesFolder"), d->selectedUrls().first().adjusted(QUrl::RemoveFilename).toLocalFile());
+    QPointer<QDialog> d = new QDialog;
+    Ui::ImportSub_UI view;
+    view.setupUi(d);
+    d->setWindowTitle(i18n("Import Subtitle"));
+    if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
         auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-        subtitleModel->importSubtitle(d->selectedUrls().first().toLocalFile());
+        int offset = 0;
+        if (view.cursor_pos->isChecked()) {
+            offset = pCore->getTimelinePosition();
+        }
+        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset);
     }
 }
 
@@ -3884,5 +3885,4 @@ void TimelineController::deleteSubtitle(int startframe, int endframe, QString te
     };
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
-    return;
 }

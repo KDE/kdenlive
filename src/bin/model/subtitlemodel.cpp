@@ -66,7 +66,7 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
     return pCore->projectManager()->getSubtitleModel();
 }
 
-void SubtitleModel::importSubtitle(const QString filePath)
+void SubtitleModel::importSubtitle(const QString filePath, int offset)
 {
     QString start,end,comment;
     QString timeLine;
@@ -79,7 +79,7 @@ void SubtitleModel::importSubtitle(const QString filePath)
      */
     if (filePath.isEmpty())
         return;
-
+    GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.contains(".srt")) {
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
@@ -120,7 +120,7 @@ void SubtitleModel::importSubtitle(const QString filePath)
                 }
                 turn++;
             } else {
-                addSubtitle(startPos,endPos,comment);
+                addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment);
                 //reinitialize
                 comment = timeLine = "";
                 turn = 0; r = 0;
@@ -213,7 +213,7 @@ void SubtitleModel::importSubtitle(const QString filePath)
                         // Text
                         comment = dialogue[9]+ remainingStr;
                         //qDebug()<<"Start: "<< start << "End: "<<end << comment;
-                        addSubtitle(startPos,endPos,comment);
+                        addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment);
                     }
                 }
                 turn++;
