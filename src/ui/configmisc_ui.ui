@@ -124,6 +124,16 @@
       <item row="3" column="1">
        <widget class="QLineEdit" name="kcfg_mix_duration"/>
       </item>
+      <item row="3" column="3">
+       <widget class="QLineEdit" name="kcfg_subtitle_duration"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Subtitles</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

@@ -85,6 +85,11 @@
       <label>Default mix transition duration.</label>
       <default>00:00:01:00</default>
     </entry>
+    
+    <entry name="subtitle_duration" type="String">
+      <label>Default subtitle duration.</label>
+      <default>00:00:05:00</default>
+    </entry>
 
     <entry name="autoimagesequence" type="Bool">
       <label>Automatically import image sequences.</label>

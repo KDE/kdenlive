@@ -579,7 +579,7 @@ public:
     /** @brief Shift subtitle clips without changing the clip duration */
     Q_INVOKABLE void shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame=0, QString text = QString());
     /** @brief Add subtitle clip at cursor's position in timeline */
-    Q_INVOKABLE void addSubtitle();
+    Q_INVOKABLE void addSubtitle(int startframe = -1);
     /** @brief Delete subtitle clip with frame as start position*/
     Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
 

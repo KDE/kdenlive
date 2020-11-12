@@ -3829,10 +3829,12 @@ void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int
     pCore->pushUndo(local_undo, local_redo, i18n("Move subtitle"));
 }
 
-void TimelineController::addSubtitle()
+void TimelineController::addSubtitle(int startframe)
 {
-    int startframe = pCore->getTimelinePosition();
-    int endframe = startframe + 50; //create basic subtitle clip of default width
+    if (startframe == -1) {
+        startframe = pCore->getTimelinePosition();
+    }
+    int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
 
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
     Fun local_undo = [subtitleModel, startframe, endframe]() {
