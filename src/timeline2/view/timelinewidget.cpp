@@ -115,7 +115,7 @@ const QMap<QString, QString> TimelineWidget::sortedItems(const QStringList &item
     return sortedItems;
 }
 
-void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu)
+void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu)
 {
     m_timelineClipMenu = clipMenu;
     m_timelineCompositionMenu = compositionMenu;
@@ -125,6 +125,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     m_headerMenu = headerMenu;
     m_thumbsMenu = thumbsMenu;
     m_headerMenu->addMenu(m_thumbsMenu);
+    m_timelineSubtitleClipMenu = subtitleClipMenu;
     m_editGuideAcion = editGuideAction;
     updateEffectFavorites();
     updateTransitionFavorites();
@@ -146,6 +147,7 @@ void TimelineWidget::setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QM
     connect(m_timelineCompositionMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineRulerMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
     connect(m_timelineMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
+    connect(m_timelineSubtitleClipMenu, &QMenu::aboutToHide, this, &TimelineWidget::slotUngrabHack, Qt::DirectConnection);
 
     m_timelineClipMenu->addMenu(m_favEffects);
     m_timelineClipMenu->addMenu(m_favCompositions);
@@ -189,6 +191,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     connect(rootObject(), SIGNAL(showRulerMenu()), this, SLOT(showRulerMenu()));
     connect(rootObject(), SIGNAL(showHeaderMenu()), this, SLOT(showHeaderMenu()));
     connect(rootObject(), SIGNAL(showTargetMenu(int)), this, SLOT(showTargetMenu(int)));
+    connect(rootObject(), SIGNAL(showSubtitleClipMenu()), this, SLOT(showSubtitleClipMenu()));
     m_proxy->setRoot(rootObject());
     setVisible(true);
     loading = false;
@@ -349,6 +352,11 @@ void TimelineWidget::showTimelineMenu()
         m_guideMenu->addAction(ac);
     }
     m_timelineMenu->popup(m_clickPos);
+}
+
+void TimelineWidget::showSubtitleClipMenu()
+{
+    m_timelineSubtitleClipMenu->popup(m_clickPos);
 }
 
 void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)

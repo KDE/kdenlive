@@ -509,6 +509,7 @@ private slots:
     /** @brief Select target for current track */
     void slotActivateTarget();
     void slotEditSubtitle();
+    /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle();
 
 signals:

@@ -24,6 +24,7 @@ Rectangle {
     signal zoomIn(bool onMouse)
     signal zoomOut(bool onMouse)
     signal processingDrag(bool dragging)
+    signal showSubtitleClipMenu()
 
     FontMetrics {
         id: fontMetrics
