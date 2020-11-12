@@ -1707,7 +1707,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
-    addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")));
+    addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("document-import")));
+    addAction(QStringLiteral("export_subtitle"), i18n("Export Subtitle File"), this, SLOT(slotExportSubtitle()), QIcon::fromTheme(QStringLiteral("document-export")));
     addAction(QStringLiteral("delete_subtitle_clip"), i18n("Delete Subtitle"), this, SLOT(slotDeleteItem()), QIcon::fromTheme(QStringLiteral("edit-delete")));
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
@@ -4209,6 +4210,15 @@ void MainWindow::slotImportSubtitle()
         m_buttonSubtitleEditTool->setChecked(true);
     }
     getCurrentTimeline()->controller()->importSubtitle();
+}
+
+void MainWindow::slotExportSubtitle()
+{
+    if (pCore->currentDoc()->getSubtitleModel() == nullptr) {
+        pCore->displayMessage(i18n("No subtitles in current project"), InformationMessage);
+        return;
+    }
+    getCurrentTimeline()->controller()->exportSubtitle();
 }
 
 #ifdef DEBUG_MAINW

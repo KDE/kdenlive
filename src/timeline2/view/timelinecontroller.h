@@ -584,6 +584,8 @@ public:
     Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
     /** @brief Import a subtitle file*/
     void importSubtitle();
+    /** @brief Export a subtitle file*/
+    void exportSubtitle();
 
 public slots:
     void resetView();

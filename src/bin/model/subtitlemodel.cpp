@@ -239,6 +239,11 @@ void SubtitleModel::parseSubtitle(const QString subPath)
     //jsontoSubtitle(toJson());
 }
 
+const QString SubtitleModel::getUrl()
+{
+    return m_subtitleFilter->get("av.filename");
+}
+
 GenTime SubtitleModel::stringtoTime(QString &str)
 {
     QStringList total,secs;
