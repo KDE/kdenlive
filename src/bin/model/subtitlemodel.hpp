@@ -101,6 +101,8 @@ public:
 
     /** @brief Exports the subtitle model to json */
     QString toJson();
+    /** @brief Returns the path to sub file */
+    const QString getUrl();
 
 public slots:
     /** @brief Function that parses through a subtitle file */

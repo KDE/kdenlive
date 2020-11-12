@@ -516,6 +516,8 @@ private slots:
     void slotAddSubtitle();
     /** @brief Import a subtitle file */
     void slotImportSubtitle();
+    /** @brief Export a subtitle file */
+    void slotExportSubtitle();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

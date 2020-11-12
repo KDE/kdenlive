@@ -53,6 +53,7 @@
 #include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
+#include <KUrlRequesterDialog>
 #include <KRecentDirs>
 #include <QApplication>
 #include <QClipboard>
@@ -3867,6 +3868,26 @@ void TimelineController::importSubtitle()
         }
         subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset);
     }
+}
+
+void TimelineController::exportSubtitle()
+{
+    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+    if (subtitleModel == nullptr) {
+        return;
+    }
+    QString currentSub = subtitleModel->getUrl();
+    if (currentSub.isEmpty()) {
+        pCore->displayMessage(i18n("No subtitles in current project"), InformationMessage);
+        return;
+    }
+    const QString url =
+        QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), QFileInfo(currentSub).absolutePath(), i18n("Subtitle File (*.srt)"));
+    if (url.isEmpty()) {
+        return;
+    }
+    QFile src(currentSub);
+    src.copy(url);
 }
 
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
