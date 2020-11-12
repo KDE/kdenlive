@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="mono" id="mono" type="audio" unique="1">
+	<name>Mixdown</name>
+	<description>Mix all channels of audio into a mono signal and output it as N channels</description>
+	<author>Dan Dennedy</author>
+		<parameter type="list" name="channels" paramlist="1;2;3;4;6;8" default="2">
+        <paramlistdisplay>Mono,Stereo,2.1,4 channels,5.1,7.1</paramlistdisplay>
+        <name>number of output channels</name>
+	</parameter>
+</effect>

@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.erosion" id="avfilter.erosion">
+	<name>Erosion</name>
+	<description>Apply erosion effect</description>
+	<author>libavfilter</author>
+     <parameter type="constant" name="av.threshold0" max="50" min="0" default="50" factor="1">
+		<name>1st Plane Threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.threshold1" max="50" min="0" default="50" factor="1">
+		<name>2nd Plane Threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.threshold2" max="50" min="0" default="50" factor="1">
+		<name>3rd Plane Threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.threshold3" max="50" min="0" default="50" factor="1">
+		<name>4th Plane Threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.coordinates" max="255" min="0" default="255" factor="1">
+		<name>Coordinates</name>
+	</parameter>
+    </effect>

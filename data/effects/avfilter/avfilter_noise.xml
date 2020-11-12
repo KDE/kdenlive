@@ -1,0 +1,56 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.noise" id="avfilter.noise">
+	<name>Video Noise generator</name>
+	<description>Add noise on video input frame</description>
+	<author>libavfilter</author>
+   	<parameter type="constant" name="av.all_seed" max="123457" min="-1" default="-1">
+		<name>All components noise seed</name>
+	</parameter>    
+    	<parameter type="constant" name="av.c0_seed" max="123457" min="-1" default="-1">
+		<name>Component #0 noise seed</name>
+	</parameter>
+    <parameter type="constant" name="av.c1_seed" max="123457" min="-1" default="-1">
+		<name>Component #1 noise seed</name>
+	</parameter>
+    <parameter type="constant" name="av.c2_seed" max="123457" min="-1" default="-1">
+		<name>Component #2 noise seed</name>
+	</parameter>
+    <parameter type="constant" name="av.c3_seed" max="123457" min="-1" default="-1">
+		<name>Component #3 noise seed</name>
+	</parameter>    
+    	<parameter type="constant" name="av.alls" max="100" min="0" default="0">
+		<name>All component strength</name>
+	</parameter>    
+    	<parameter type="constant" name="av.c0s" max="100" min="0" default="0">
+		<name>Component #0 strength</name>
+	</parameter>
+    <parameter type="constant" name="av.c1s" max="100" min="0" default="0">
+		<name>Component #1 strength</name>
+	</parameter>
+    <parameter type="constant" name="av.c2s" max="100" min="0" default="0">
+		<name>Component #2 strength</name>
+	</parameter>
+    <parameter type="constant" name="av.c3s" max="100" min="0" default="0">
+		<name>Component #3 strength</name>
+	</parameter>    
+		<parameter type="list" name="av.allf" default="a" paramlist="a;p;t;u">
+            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
+		<name>Flag all</name>
+	</parameter>    
+    <parameter type="list" name="av.c0f" default="a" paramlist="a;p;t;u">
+           <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
+		<name>Flag component 0</name>
+	</parameter>
+    <parameter type="list" name="av.c1f" default="a" paramlist="a;p;t;u">
+            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
+		<name>Flag component 1</name>
+	</parameter>
+    <parameter type="list" name="av.c2f" default="a" paramlist="a;p;t;u">
+            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
+		<name>Flag component 2</name>
+	</parameter>
+    <parameter type="list" name="av.c3f" default="a" paramlist="a;p;t;u">
+            <paramlistdisplay>Average temporal noise,Mix random noise,Temporal noise,Uniform noise</paramlistdisplay>
+		<name>Flag component 3</name>
+	</parameter>
+</effect>

@@ -1,0 +1,28 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.fftfilt" id="avfilter.fftfilt">
+	<name>FTT-based FIR</name>
+	<description>Apply arbitrary expressions to samples in frequency domain</description>
+	<author>libavfilter</author>
+		<parameter type="constant" name="av.dc_Y"  default="0" max="250" min="0">
+		<name>Gain in Y plane</name>
+	</parameter>
+		<parameter type="constant" name="av.dc_U"  default="0" max="250" min="0">
+		<name>Gain in U plane</name>
+	</parameter>
+    		<parameter type="constant" name="av.dc_V" default="0" max="250" min="0">
+		<name>Gain in V plane</name>
+	</parameter>
+    		<parameter type="constant" name="av.weight_Y"  default="1" max="5" min="0" decimals="3">
+		<name>Luminance Y plane</name>
+	</parameter>
+    <parameter type="constant" name="av.weight_U"  default="1" max="5" min="0" decimals="3">
+        <name>Luminance U plane</name>
+	</parameter>
+    <parameter type="constant" name="av.weight_V"  default="1" max="5" min="0" decimals="3">
+        <name>Luminance V plane</name>
+	</parameter>
+    <parameter type="list" name="av.eval"  default="init" paramlist="init;frame">
+        <paramlistdisplay>init,frame</paramlistdisplay>
+        <name>Evaluate</name>
+	</parameter>
+</effect>

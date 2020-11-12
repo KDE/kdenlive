@@ -1,0 +1,22 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.dedot" id="avfilter.dedot">
+	<name>DeDot</name>
+	<description>Reduce cross-luminance (dot-crawl) and cross-color (rainbows) from video</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.m" paramlist="dotcrawl;rainbows" default="rainbows">
+        <paramlistdisplay>DotCrawl,Rainbows</paramlistdisplay>
+		<name>color-reduction Mode</name>
+	</parameter>
+	<parameter type="constant" name="av.lt"  default="0.079" max="1" min="0" decimals="3">
+		<name>Spatial Luma threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.tl"  default="0.079" max="1" min="0" decimals="3">
+        <name>Temporal Luma Threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.tc"  default="0.058" max="1" min="0" decimals="3">
+		<name>Temporal Chroma Variation</name>
+	</parameter>
+    <parameter type="constant" name="av.ct"  default="0.019" max="1" min="0" decimals="3">
+		<name>Temporal Chroma Threshold</name>
+	</parameter>
+</effect>

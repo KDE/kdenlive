@@ -1,0 +1,20 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.gblur" id="avfilter.gblur">
+	<name>Gaussian Blur</name>
+	<description>Apply Gaussian Blur filter</description>
+	<author>libavfilter</author>
+     <parameter type="constant" name="av.sigma" default="0" min="0" max="1024" factor="1">
+                <name>Sigma</name>
+        </parameter> 
+         <parameter type="list" name="av.steps" default="1" paramlist="1;2;3;4;5;6">
+             <paramlistdisplay>1,2,3,4,5,6</paramlistdisplay>
+                <name>StepsX</name>
+        </parameter> 
+    <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7;8">
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
+                <name>Planes</name>
+        </parameter>        
+    <parameter type="constant" name="av.sigmaV" default="-1" min="-1" max="1024" factor="1">
+                <name>Vertical Sigma</name>
+        </parameter>        
+</effect>

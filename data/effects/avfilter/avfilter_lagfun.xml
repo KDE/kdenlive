@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.lagfun" id="avfilter.lagfun">
+	<name>Lag Fun</name>
+	<description>Slowly update darker pixels.</description>
+	<author>libavfilter</author>
+    <parameter type="fixed" name="av.planes" default="1">
+                <name>Planes</name>
+        </parameter>        
+    <parameter type="float" name="av.decay" default="0.95" min="0" max="1" decimals="2">
+                <name>Decay</name>
+        </parameter>        
+</effect>

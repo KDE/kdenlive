@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.doubleweave" id="avfilter.doubleweave">
+	<name>Doubleweave</name>
+	<description>Weave input video fields into double number of frames</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.first_field" default="top" paramlist="top;botom">
+                <paramlistdisplay>Top field first,Bottom field first</paramlistdisplay>
+                <name>First Fied</name>
+        </parameter>
+</effect>

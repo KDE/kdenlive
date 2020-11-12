@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.vibrance" id="avfilter.vibrance">
+	<name>Vibrance</name>
+	<description>Boost or alter saturation. </description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.intensity" default="0" min="-2" max="2" decimals="1">
+                <name>Intensity</name>
+        </parameter>
+        <parameter type="constant" name="av.rbal" default="1" min="-10" max="10" decimals="1">
+                <name>Red balance</name>
+        </parameter>
+        <parameter type="constant" name="av.gbal" default="1" min="-10" max="10" decimals="1">
+                <name>Green balance</name>
+        </parameter>
+        <parameter type="constant" name="av.bbal" default="1" min="-10" max="10" decimals="1">
+                <name>Blue balance</name>
+        </parameter>
+        <parameter type="constant" name="av.rlum"  default="0" min="0" max="1" decimals="2">
+                <name>Red luma</name>
+        </parameter>
+        <parameter type="constant" name="av.glum" default="0" min="0" max="1" decimals="2">
+                <name>Green luma</name>
+        </parameter>
+        <parameter type="constant" name="av.blum" default="0" min="0" max="1" decimals="2">
+                <name>Blue luma</name>
+        </parameter>
+        <parameter type="switch" name="av.alternate" default="0" min="0" max="1">
+                <name>Alternate</name>
+        </parameter>
+</effect>

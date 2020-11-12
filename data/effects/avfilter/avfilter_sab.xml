@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.sab" id="avfilter.sab">
+	<name>Shape Adaptive Blur</name>
+	<description>Shape Adaptive Blur</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.lr" max="4" min="0.1" default="1" decimals="2">
+		<name>Luma Radius</name>
+	</parameter>
+	<parameter type="constant" name="av.lpfr" max="2" min="0.1" default="1" decimals="2">
+		<name>Luma pre-filter radius</name>
+	</parameter>
+	<parameter type="constant" name="av.ls" max="100" min="0.1" default="1" decimals="2">
+		<name>Luma Strength</name>
+	</parameter>
+    <parameter type="constant" name="av.cr" max="4" min="-0.9" default="-0.9">
+		<name>Chroma Radius</name>
+	</parameter>
+    <parameter type="constant" name="av.cpfr" max="2" min="0.1" default="1" decimals="2">
+		<name>Chroma pre-filter radius</name>
+	</parameter>
+    <parameter type="constant" name="av.cs" max="100" min="-0.9" default="-0.9">
+		<name>Chroma Strength</name>
+	</parameter>
+</effect>

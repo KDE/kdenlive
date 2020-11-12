@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.framestep" id="avfilter.framestep">
+	<name>Framestep</name>
+	<description>Select one frame every N frames</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.step" min="1" max="240" default="1" factor="1" suffix=" frames">
+		<name>One frame every</name>
+	</parameter>
+</effect>
+

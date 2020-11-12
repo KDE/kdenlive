@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.xbr" id="avfilter.xbr">
+	<name>xBR Interpolator</name>
+	<description>Apply the xBR high-quality magnification filter which is designed for pixel art. It follows a set of edge-detection rules, see https://forums.libretro.com/t/xbr-algorithm-tutorial/123</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.n" default="3" paramlist="2;3;4">
+            <paramlistdisplay>2xBR,3xBR,4xBR</paramlistdisplay>
+                <name>Interpolation factor</name>
+        </parameter>
+</effect>

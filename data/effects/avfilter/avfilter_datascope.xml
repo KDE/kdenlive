@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.datascope" id="avfilter.datascope">
+	<name>DataScope</name>
+	<description>Video data analysis</description>
+	<author>libavfilter</author>
+     <parameter type="list" name="av.s" default="hd720" paramlist="sqcif;film;pal;ntsc;hd480;hd720;hd1080;2k;4k">
+         <paramlistdisplay>128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K</paramlistdisplay>
+		<name>Size</name>
+	</parameter>
+    <parameter type="constant" name="av.x" max="%width" min="0" default="0" factor="1">
+		<name>X offset</name>
+	</parameter>
+      <parameter type="constant" name="av.y" max="%height" min="0" default="0" factor="1">
+		<name>Y offset</name>
+	</parameter>
+     <parameter type="list" name="av.m" default="mono" paramlist="mono;color;color2">
+         <paramlistdisplay>mono,color,color2</paramlistdisplay>
+		<name>Mode</name>
+	</parameter>
+     <parameter type="list" name="av.axis" default="0" paramlist="0;1">
+         <paramlistdisplay>Off,On</paramlistdisplay>
+		<name>Show Axis</name>
+	</parameter>
+    <parameter type="constant" name="av.o" max="1" min="0" default="0.75" decimals="2">
+		<name>Opacity</name>
+        <parameter type="list" name="av.f" default="hex" paramlist="hex;dec">
+         <paramlistdisplay>Hex,Dec</paramlistdisplay>
+		<name>Format</name>
+	</parameter>
+    </effect>

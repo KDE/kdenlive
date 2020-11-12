@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.avgblur" id="avfilter.avgblur">
+	<name>Average Blur</name>
+	<description>Apply average blur filter. </description>
+	<author>libavfilter</author>
+    <parameter type="constant" name="av.sizeX" default="0" min="0" max="500" factor="1">
+                <name>X Size</name>
+        </parameter>        
+    <parameter type="constant" name="av.sizeY" default="0" min="0" max="500" factor="1">
+                <name>Y size</name>
+        </parameter>        
+        <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7">
+        <paramlistdisplay>Alpha,Y,U,V,Red,Green,Blue,All</paramlistdisplay>
+                <name>Planes</name>
+        </parameter>  
+</effect>

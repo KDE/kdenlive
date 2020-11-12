@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.phase" id="avfilter.phase">
+	<name>Phase</name>
+	<description>Delay interlaced video by one field time so that the field order changes</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.mode" default="0" paramlist="p;t;b;T;B;u;U;a;A">
+                <paramlistdisplay>Delay the bottom field,Delay the top field,Keep the field order,Capture field order automatically and transfer opposite,Capture unknown or varying and transfer opposite,Capture top-first and transfer unknown or varying,Capture bottom-first and transfer unknown or varying,Capture determined by field flags and transfer unknown or varying,Both capture and transfer unknown or varying</paramlistdisplay>
+                <name>Mode</name>
+        </parameter>
+</effect>

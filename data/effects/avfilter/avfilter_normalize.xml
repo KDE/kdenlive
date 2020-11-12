@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.normalize" id="avfilter.normalize">
+	<name>Normalize RGB video</name>
+	<description>Normalize RGB video (aka histogram stretching, contrast stretching). See: https://en.wikipedia.org/wiki/Normalization_(image_processing) </description>
+	<author>libavfilter</author>
+   	<parameter type="color" name="av.blackpt">
+		<name>Output darkest input color</name>
+	</parameter>
+		<parameter type="color" name="av.whitept">
+		<name>Output brightest input color</name>
+	</parameter>
+	<parameter type="constant" name="av.smoothing" max="268435455" min="0" factor="100000" default="0">
+		<name>Temporal smoothing, to reduce flicker</name>
+	</parameter>
+	<parameter type="constant" name="av.independence" max="1" min="0" decimals="2" default="1">
+		<name>Proportion of independent</name>
+	</parameter>
+	<parameter type="constant" name="av.strength" max="1" min="0" default="1" decimals="2">
+		<name>Strength</name>
+	</parameter>
+</effect>

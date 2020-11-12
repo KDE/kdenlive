@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.deflate" id="avfilter.deflate">
+	<name>Deflate</name>
+	<description>Apply deflate effect to the video</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.threshold0"  max="65535" min="0" default="65535" factor="1">
+		<name>Threshold for 1st plane</name>
+	</parameter>
+    
+    <parameter type="constant" name="av.threshold1"  max="65535" min="0" default="65535" factor="1">
+		<name>Threshold for 2nd plane</name>
+	</parameter>
+    
+    <parameter type="constant" name="av.threshold2"  max="65535" min="0" default="65535" factor="1">
+		<name>Threshold for 3rd plane</name>
+	</parameter>
+    
+    <parameter type="constant" name="av.threshold3"  max="65535" min="0" default="65535" factor="1">
+		<name>Threshold for 4th plane</name>
+	</parameter>
+</effect>

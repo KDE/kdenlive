@@ -1,0 +1,45 @@
+<!DOCTYPE kpartgui>
+<effect tag="dance" id="dance" type="video" unique="1">
+	<name>Dance</name>
+	<description>An audio visualization filter that moves the image around proportional to the magnitude of the audio spectrum.</description>
+	<author>Brian Matherly</author>
+	<parameter type="constant" name="frequency_low" max="1000" min="20" default="20" suffix=" Hz" factor="1">
+		<name>Low Frequency</name>
+	</parameter>
+    <parameter type="constant" name="frequency_high" max="20000" min="500" default="20000" suffix=" Hz" factor="1">
+		<name>High Frequency</name>
+	</parameter>
+	<parameter type="constant" name="threshold" max="0" min="-100" default="-30" suffix=" dB" factor="1">
+		<name>Level Threshold</name>
+	</parameter>
+    <parameter type="constant" name="osc" max="20000" min="0" default="5" suffix=" Hz" factor="1">
+		<name>Oscillation</name>
+	</parameter>
+    <parameter type="constant" name="initial_zoom" max="5000" min="0" default="100" suffix=" %" factor="1">
+		<name>Initial Zoom</name>
+	</parameter>
+    <parameter type="constant" name="zoom" max="1000" min="-100" default="0" suffix=" %" factor="1">
+		<name>Zoom</name>
+	</parameter>
+    <parameter type="constant" name="left" max="100" min="0" default="0" suffix=" %" factor="1">
+		<name>Left</name>
+	</parameter>
+    <parameter type="constant" name="right" max="100" min="0" default="0" suffix=" %" factor="1">
+		<name>Right</name>
+	</parameter>
+    <parameter type="constant" name="up" max="100" min="0" default="0" suffix=" %" factor="1">
+		<name>Up</name>
+	</parameter>
+    <parameter type="constant" name="down" max="100" min="0" default="0" suffix=" %" factor="1">
+		<name>Left</name>
+	</parameter>
+    <parameter type="constant" name="clockwise" max="360" min="0" default="0" suffix=" Deg" factor="1">
+		<name>Clockwise</name>
+	</parameter>
+    <parameter type="constant" name="counterclockwise" max="360" min="0" default="0" suffix=" Deg" factor="1">
+		<name>Clockwise</name>
+	</parameter>
+<parameter type="constant" name="window_size" max="2048" min="640" default="2048" factor="2">
+		<name>Window Size</name>
+	</parameter>
+</effect>

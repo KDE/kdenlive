@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.bwdif" id="avfilter.bwdif">
+	<name>Bob Weaver Deinterlacer</name>
+	<description>Motion adaptive deinterlacing based on yadif with the use of w3fdif and cubic interpolation algorithms. </description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.mode" default="1" paramlist="0;1">
+                <paramlistdisplay>Send frame,Send field</paramlistdisplay>
+                <name>Mode</name>
+        </parameter>
+        <parameter type="list" name="av.parity" default="-1" paramlist="0;1;-1">
+                <paramlistdisplay>Top field first,Bottomfield first,Auto</paramlistdisplay>
+                <name>Parity</name>
+        </parameter>
+        <parameter type="list" name="av.deint" default="0" paramlist="0;1">
+                <paramlistdisplay>Deint all frames,Deint interlaced frames only</paramlistdisplay>
+                <name>Deinterlace</name>
+        </parameter>
+</effect>

@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<effect tag="audiomap" id="audiomap" type="audio" unique="1">
+	<name>audiomap</name>
+	<description>audiomap</description>
+	<author> Maksym Veremeyenko</author>
+	<parameter type="list" name="0"  default="0" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31">
+        <paramlistdisplay>CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32</paramlistdisplay>
+        <name>CH1 source</name>
+	</parameter>
+	<parameter type="list" name="1" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" default="1">
+        <paramlistdisplay>CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32</paramlistdisplay>
+        <name>CH2 source</name>
+	</parameter>
+		<parameter type="list" name="2" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" default="2">
+        <paramlistdisplay>CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32</paramlistdisplay>
+        <name>CH3 source</name>
+	</parameter>
+		<parameter type="list" name="3" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" default="3">
+        <paramlistdisplay>CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32</paramlistdisplay>
+        <name>CH4 source</name>
+	</parameter>
+		<parameter type="list" name="4" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" default="4">
+        <paramlistdisplay>CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32</paramlistdisplay>
+        <name>CH5 source</name>
+	</parameter>
+		<parameter type="list" name="5" paramlist="0;1;2;3;4;5;6;7;8;9;10;11;12;13;14;15;16;17;18;19;20;21;22;23;24;25;26;27;28;29;30;31" default="5">
+        <paramlistdisplay>CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32</paramlistdisplay>
+        <name>CH6 source</name>
+	</parameter>
+</effect>

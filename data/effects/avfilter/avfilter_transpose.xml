@@ -1,0 +1,13 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.transpose" id="avfilter.transpose">
+	<name>Transpose</name>
+	<description>Transpose rows with columns in the input video and optionally flip it</description>
+	<author>libavfilter</author>
+    <parameter type="list" name="av.dir" default="clock" paramlist="clock;clock_flip;cclock;cclock_flip">
+                <paramlistdisplay>Clock,Clock flip,Counter clock,Counter clock flip</paramlistdisplay>
+                <name>Direction</name>
+        </parameter>        
+        <parameter type="list" name="av.passthrough" default="none" paramlist="none;portrait;landscape">
+            <paramlistdisplay>None,Portrait,Landscape</paramlistdisplay>
+                <name>Override if</name>
+                </effect>

@@ -1,0 +1,38 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.selectivecolor" id="avfilter.selectivecolor">
+	<name>CMYK adjust (avfilter)</name>
+	<description>Apply CMYK correction to specific color ranges</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.reds" default="0" min="-1" max="1" decimals="2">
+		<name>Reds</name>
+	</parameter>
+        <parameter type="constant" name="av.yellows" default="0" min="-1" max="1" decimals="2">
+		<name>Yellows</name>
+	</parameter>
+        <parameter type="constant" name="av.greens" default="0" min="-1" max="1" decimals="2">
+		<name>Greens</name>
+	</parameter>
+        <parameter type="constant" name="av.cyans" default="0" min="-1" max="1" decimals="2">
+		<name>Cyans</name>
+	</parameter>
+        <parameter type="constant" name="av.blues" default="0" min="-1" max="1" decimals="2">
+		<name>Blues</name>
+	</parameter>
+        <parameter type="constant" name="av.magentas" default="0" min="-1" max="1" decimals="2">
+		<name>Magentas</name>
+	</parameter>
+        <parameter type="constant" name="av.whites" default="0" min="-1" max="1" decimals="2">
+		<name>Whites</name>
+	</parameter>
+        <parameter type="constant" name="av.neutrals" default="0" min="-1" max="1" decimals="2">
+		<name>Neutrals</name>
+	</parameter>
+        <parameter type="constant" name="av.blacks" default="0" min="-1" max="1" decimals="2">
+		<name>Blacks</name>
+	</parameter>
+        <parameter type="list" name="av.correction_method" default="0" paramlist="0;1">
+	   <paramlistdisplay>Absolute,Relative</paramlistdisplay>
+		<name>Correction Method</name>
+	</parameter>
+</effect>
+

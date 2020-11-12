@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.vflip" id="avfilter.vflip">
+	<name>Flip Vertically</name>
+	<description>Vertically flip the input video.</description>
+	<author>libavfilter</author>
+        </effect>
