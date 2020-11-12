@@ -54,7 +54,7 @@ public:
     /* @brief Give keyboard focus to timeline qml */
     void focusTimeline();
     /** @brief Initiate timeline clip context menu */
-    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu);
+    void setTimelineMenu(QMenu *clipMenu, QMenu *compositionMenu, QMenu *timelineMenu, QMenu *timelineRulerMenu, QMenu *guideMenu, QAction *editGuideAction, QMenu *headerMenu, QMenu *thumbsMenu, QMenu *subtitleClipMenu);
     bool loading;
     void connectSubtitleModel();
     bool showSubtitles=false;
@@ -84,6 +84,7 @@ private slots:
     void showTimelineMenu();
     void showRulerMenu();
     void showHeaderMenu();
+    void showSubtitleClipMenu();
 
 private:
     TimelineController *m_proxy;
@@ -99,6 +100,7 @@ private:
     QMenu *m_favEffects;
     QMenu *m_favCompositions;
     QAction *m_editGuideAcion;
+    QMenu *m_timelineSubtitleClipMenu;
     static const int comboScale[];
     std::unique_ptr<QSortFilterProxyModel> m_sortModel;
     /* @brief Keep last scale before fit to restore it on second click */

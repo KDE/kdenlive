@@ -512,7 +512,7 @@ private slots:
     void slotActivateVideoTrackSequence();
     /** @brief Select target for current track */
     void slotActivateTarget();
-    /** @brief Add a subtitle at current position */
+    /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle();
     /** @brief Import a subtitle file */
     void slotImportSubtitle();
