@@ -1,0 +1,6 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.separatefields" id="avfilter.separatefields">
+	<name>Separate field</name>
+	<description>It takes a frame-based video input and splits each frame into its components fields, producing a new half height clip with twice the frame rate and twice the frame count. </description>
+	<author>libavfilter</author>
+</effect>

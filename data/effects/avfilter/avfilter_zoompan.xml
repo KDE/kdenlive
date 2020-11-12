@@ -1,0 +1,19 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.zoompan" id="avfilter.zoompan">
+	<name>Zoom Pan</name>
+	<description>Apply Zoom and Pan effect</description>
+	<author>libavfilter</author>
+    <parameter type="constant" name="av.z" default="1" min="0" max="10" decimals="2">
+                <name>Zoom</name>
+        </parameter>
+<parameter type="constant" name="av.x"  default="0" min="0" max="%width" factor="1">
+                <name>X</name>
+        </parameter>        
+<parameter type="constant" name="av.y"  default="0" min="0" max="%height" factor="1">
+                <name>Y</name>
+        </parameter>   
+        <parameter type="fixed" name="av.d" default="1">
+                <name>Duration</name>
+        </parameter>
+ 
+</effect>

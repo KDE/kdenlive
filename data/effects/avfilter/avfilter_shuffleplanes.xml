@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.shuffleplanes" id="avfilter.shuffleplanes">
+	<name>Shuffle planes</name>
+	<description>Reorder and/or duplicate video planes</description>
+	<author>libavfilter</author>
+        <parameter type="constant" name="av.map0" default="0" min="0" max="4" factor="1">
+        <name>1st Output Plane</name>
+    </parameter>
+        <parameter type="constant" name="av.map1" default="1" min="0" max="4" factor="1">
+        <name>2nd Output Plane</name>
+    </parameter><parameter type="constant" name="av.map2" default="2" min="0" max="4" factor="1">
+        <name>3rd Output Plane</name>
+    </parameter><parameter type="constant" name="av.map3" default="3" min="0" max="4" factor="1">
+        <name>4th Output Plane</name>
+    </parameter>
+</effect>

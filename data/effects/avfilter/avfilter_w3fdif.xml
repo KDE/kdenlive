@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.w3fdif" id="avfilter.w3fdif">
+	<name>w3fdif Deinterlacer</name>
+	<description>Deinterlace the input video "w3fdif" stands for Weston 3 Field Deinterlacing Filter</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.filter" default="complex" paramlist="simple;complex">
+                <paramlistdisplay>Simple,Complex</paramlistdisplay>
+                <name>Filter coefficients</name>
+        </parameter>
+        <parameter type="list" name="av.deint" default="all" paramlist="all;interlaced">
+                <paramlistdisplay>Deinterlace all frames,Marked as interlaced only</paramlistdisplay>
+                <name>Frames to deinterlace</name>
+        </parameter>
+</effect>

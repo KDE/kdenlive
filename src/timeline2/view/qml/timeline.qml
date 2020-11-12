@@ -509,7 +509,11 @@ Rectangle {
         onEntered: {
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 //var track = Logic.getTrackIdFromPos(drag.y)
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
+                var yOffset = 0
+                if (root.showSubtitles) {
+                    yOffset = subtitleTrack.height
+                }
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     droppedPosition = frame
@@ -548,7 +552,11 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
+                var yOffset = 0
+                if (root.showSubtitles) {
+                    yOffset = subtitleTrack.height
+                }
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
                     //timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var targetTrack = tracksRepeater.itemAt(track).trackInternalId
@@ -612,7 +620,11 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY)
+                var yOffset = 0
+                if (root.showSubtitles) {
+                    yOffset = subtitleTrack.height
+                }
+                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
@@ -833,6 +845,9 @@ Rectangle {
                     if (root.activeTool === 1) {
                         // razor tool
                         var y = mouse.y - ruler.height + scrollView.contentY
+                        if (root.showSubtitles) {
+                            y -= subtitleTrack.height
+                        }
                         if (y >= 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
                         }
@@ -844,6 +859,9 @@ Rectangle {
                     if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY
+                        if (root.showSubtitles) {
+                            y -= subtitleTrack.height
+                        }
                         var frame = (scrollView.contentX + mouse.x) / timeline.scaleFactor
                         spacerTrack = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId : -1
                         spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
@@ -862,7 +880,11 @@ Rectangle {
                     }
                 } else if (mouse.button & Qt.RightButton) {
                     if (mouse.y > ruler.height) {
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY)).trackInternalId
+                        var offset = 0
+                        if (root.showSubtitles) {
+                            offset = subtitleTrack.height
+                        }
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - offset)).trackInternalId
                         root.mainFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                         root.showTimelineMenu()
                     } else {
@@ -947,6 +969,13 @@ Rectangle {
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
                     var y = rubberSelect.y - ruler.height + scrollView.contentY
+                    if (showSubtitles) {
+                        if (y + rubberSelect.height > subtitleTrack.height) {
+                            y = Math.max(0, y - subtitleTrack.height)
+                        } else {
+                            y -= subtitleTrack.height
+                        }
+                    }
                     var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
                     var bottomTrack = Logic.getTrackIndexFromPos(y + rubberSelect.height)
                     // Check if bottom of rubber selection covers the last track compositions
@@ -958,7 +987,11 @@ Rectangle {
                         }
                         var startFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
                         var endFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
-                        timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions);
+                        var selectSubs = false
+                        if (showSubtitles && rubberSelect.y - ruler.height < subtitleTrack.height) {
+                            selectSubs = true
+                        }
+                        timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions, selectSubs);
                     }
                     rubberSelect.y = -1
                 } else if (shiftPress) {

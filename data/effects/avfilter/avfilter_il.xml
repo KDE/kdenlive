@@ -1,0 +1,29 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.il" id="avfilter.il">
+	<name>Interleave - Deinterleave</name>
+	<description>Deinterleave or interleave fields</description>
+	<author>libavfilter</author>
+    <parameter type="list" name="av.l" default="none" paramlist="none;d;i">
+        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
+        <name>Luma Mode</name>
+    </parameter>
+    
+    <parameter type="list" name="av.c" default="none" paramlist="none;d;i">
+        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
+        <name>Chroma Mode</name>
+    </parameter>
+    
+    <parameter type="list" name="av.a" default="none" paramlist="none;d;i">
+        <paramlistdisplay>None,Deinterleave,Interleave</paramlistdisplay>
+        <name>Alpha Mode</name>
+    </parameter>
+        <parameter type="bool" name="av.ls" default="0">
+        <name>Swap Luma Fields</name>
+    </parameter>
+    <parameter type="bool" name="av.cs" default="0">
+        <name>Swap Chroma Fields</name>
+    </parameter>
+    <parameter type="bool" name="av.as" default="0">
+        <name>Swap Alpha Fields</name>
+    </parameter>
+</effect>

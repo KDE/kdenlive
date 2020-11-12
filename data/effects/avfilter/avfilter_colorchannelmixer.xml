@@ -1,0 +1,33 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.colorchannelmixer" id="avfilter.colorchannelmixer">
+	<name>Color Channel Mixer</name>
+	<description>Modifies a color channel by adding the values associated to the other channels of the same pixels</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.rr" default="1" min="0" max="2" decimals="2">
+                <name>Red-Red</name>
+        </parameter>
+	<parameter type="constant" name="av.rg" default="0" min="-2" max="2" decimals="2">
+                <name>Red-Green</name>
+        </parameter>
+	<parameter type="constant" name="av.rb" default="0" min="-2" max="2" decimals="2">
+                <name>Red-Blue</name>
+        </parameter>
+        	<parameter type="constant" name="av.gr" default="0" min="-2" max="2" decimals="2">
+                <name>Green-Red</name>
+        </parameter>
+        <parameter type="constant" name="av.gg" default="1" min="0" max="2" decimals="2">
+                <name>Green-Green</name>
+        </parameter>
+        <parameter type="constant" name="av.gb" default="0" min="-2" max="2" decimals="2">
+                <name>Green-Blue</name>
+            </parameter>
+        <parameter type="constant" name="av.br" default="0" min="-2" max="2" decimals="2">
+                <name>Blue-Red</name>
+        </parameter>
+        <parameter type="constant" name="av.bg" default="0" min="-2" max="2" decimals="2">
+                <name>Blue-Green</name>
+        </parameter>
+        <parameter type="constant" name="av.bb" default="1" min="0" max="2" decimals="2">
+                <name>Blue-Blue</name>
+            </parameter>
+</effect>

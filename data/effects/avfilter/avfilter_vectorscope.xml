@@ -1,0 +1,47 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.vectorscope" id="avfilter.vectorscope">
+	<name>Vectorscope</name>
+	<description>Display 2 color component values in the two dimensional graph (which is called a vectorscope)</description>
+	<author>libavfilter</author>
+    <parameter type="list" name="av.m" default="color3" paramlist="gray;color;color2;color3;color4;color5">
+        <paramlistdisplay>gray,color,color2,color3,color4,color5</paramlistdisplay>
+        <name>Mode</name>
+    </parameter>
+        <parameter type="constant" name="av.x" default="1" min="0" max="2" factor="1">
+        <name>X</name>
+    </parameter>
+        <parameter type="constant" name="av.y" default="2" min="0" max="2" factor="1">
+        <name>Y</name>
+    </parameter>
+    <parameter type="constant" name="av.i" default="0.004" min="0" max="1" decimals="3">
+        <name>Intenstiy</name>
+    </parameter>    
+    <parameter type="list" name="av.e" default="none" paramlist="none;instant;peak;peak+instant">
+                <paramlistdisplay>None,Instant,Peak,Peak+Instant</paramlistdisplay>
+                <name>Envelope</name>
+        </parameter>
+    <parameter type="list" name="av.g" default="color" paramlist="none;green;color">
+                <paramlistdisplay>none,green,color</paramlistdisplay>
+                <name>Graticule</name>
+        </parameter>        
+        <parameter type="constant" name="av.o" default="0.75" min="0" max="1" decimals="2">
+        <name>Graticule Opacity</name>
+    </parameter>
+         <parameter type="list" name="av.f" default="name" paramlist="white;black;name">
+                <paramlistdisplay>White,Black,Name</paramlistdisplay>
+                <name>Flags</name>
+        </parameter>
+        <parameter type="constant" name="av.b" default="0.3" min="0" max="1" decimals="2">
+        <name>Background Opacity</name>
+    </parameter>
+    <parameter type="constant" name="av.l" default="0" max="1" min="0" decimals="2">
+        <name>Low Threshold</name>
+        </parameter>
+        <parameter type="constant" name="av.h" default="1" max="1" min="0" decimals="2">
+        <name>High Threshold</name>
+        </parameter>
+	<parameter type="list" name="av.c" default="auto" paramlist="auto;601;709">
+                <paramlistdisplay>Auto,601,709</paramlistdisplay>
+                <name>Colorspace</name>
+        </parameter>
+</effect>

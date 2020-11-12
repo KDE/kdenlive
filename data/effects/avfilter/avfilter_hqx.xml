@@ -1,0 +1,10 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.hqx" id="avfilter.hqx">
+	<name>Hq*x Interpolator</name>
+	<description>Scale the input by 2, 3 or 4 using the hq*x magnification algorithm</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.n" default="3" paramlist="2;3;4">
+            <paramlistdisplay>2xHq*X,3xHq*X,4xHq*X</paramlistdisplay>
+                <name>Interpolation factor</name>
+        </parameter>
+</effect>

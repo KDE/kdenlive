@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.graphmonitor" id="avfilter.graphmonitor">
+	<name>Graph Monitor</name>
+	<description>Show various filtergraph stats</description>
+	<author>libavfilter</author>
+     <parameter type="list" name="av.s" default="hd720" paramlist="sqcif;film;pal;ntsc;hd480;hd720;hd1080;2k;4k">
+         <paramlistdisplay>128p,360p,PAL SD,NTSC SD,480p,720HD,1080FullHD,2K,4K</paramlistdisplay>
+		<name>Size</name>
+	</parameter>
+    <parameter type="constant" name="av.o" max="1" min="0" default="0.9" decimals="1">
+		<name>Opacity</name>
+	</parameter>
+    <parameter type="list" name="av.m" default="full" paramlist="compact;full">
+         <paramlistdisplay>Compact,Full</paramlistdisplay>
+		<name>Mode</name>
+	</parameter>
+    <parameter type="list" name="av.f" paramlist="queue;frame_count_in;frame_count_out;pts;time;timebase;format;size;rate">
+         <paramlistdisplay>Queue,Frame count In,Frame count Out,Pts,Time,Timebase,Format,Size,Rate</paramlistdisplay>
+		<name>Flags</name>
+	</parameter>
+    <parameter type="constant" name="av.r" max="60" min="1" default="25" factor="1" suffix=" frames">
+		<name>Video Ratio</name>
+	</parameter>
+    </effect>

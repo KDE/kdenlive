@@ -1,0 +1,27 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.atadenoise" id="avfilter.atadenoise">
+	<name>Adaptive Temporal Averaging Denoiser</name>
+	<description>Apply an Adaptive Temporal Averaging Denoiser to the video input. </description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.0a" default="0.02" min="0" max="0.3" decimals="2">
+                <name>A threshold for 1st plane</name>
+        </parameter>
+	<parameter type="constant" name="av.0b" default="0.04" min="0" max="5" decimals="2">
+                <name>B threshold for 1st plane</name>
+        </parameter>
+	<parameter type="constant" name="av.1a" default="0.02" min="0" max="0.3" decimals="2">
+                <name>A threshold for 2nd plane</name>
+        </parameter>
+        	<parameter type="constant" name="av.1b" default="0.04" min="0" max="5" decimals="2">
+                <name>B threshold for 2nd plane</name>
+        </parameter>
+        <parameter type="constant" name="av.2a" default="0.02" min="0" max="0.3" decimals="2">
+                <name>A threshold for 3rd plane</name>
+        </parameter>
+        <parameter type="constant" name="av.2b" default="0.04" min="0" max="5" decimals="2">
+                <name>B threshold for 3rd plane</name>
+        </parameter>
+        <parameter type="constant" name="av.s" default="9" min="5" max="129" odd="1">
+                <name>Number of frames for averaging</name>
+        </parameter>
+</effect>

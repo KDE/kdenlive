@@ -1,0 +1,31 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.eq">
+	<name>Video Equalizer</name>
+	<description>Adjust Brightness, contrast, gamma, saturation</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.contrast" max="3" min="-3" default="1" decimals="2">
+		<name>Contrast</name>
+	</parameter>
+    <parameter type="constant" name="av.brightness" max="1" min="-1" default="0" decimals="2">
+		<name>Brightness</name>
+	</parameter>
+    <parameter type="constant" name="av.saturation" max="5" min="0" default="1" decimals="2">
+		<name>Saturation</name>
+	</parameter>
+    <parameter type="constant" name="av.gamma" max="3" min="0" default="1" decimals="2">
+		<name>Gamma</name>
+	</parameter>
+    <parameter type="constant" name="av.gamma_r" max="3" min="0" default="1" decimals="2">
+		<name>Red Gamma</name>
+	</parameter>
+    <parameter type="constant" name="av.gamma_g" max="3" min="0" default="1" decimals="2">
+		<name>Green Gamma</name>
+	</parameter>
+    <parameter type="constant" name="av.gamma_b" max="3" min="0" default="1" decimals="2">
+		<name>Blue Gamma</name>
+	</parameter>
+    <parameter type="constant" name="av.gamma_weight" max="1" min="0" default="1" decimals="2">
+		<name>Gamma Weight</name>
+	</parameter>
+</effect>
+

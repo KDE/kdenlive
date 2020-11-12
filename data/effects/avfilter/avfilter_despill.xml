@@ -1,0 +1,28 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.despill" id="avfilter.despill">
+	<name>Despill</name>
+	<description>Remove unwanted contamination of foreground colors, caused by reflected color of greenscreen or bluescreen</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.type" paramlist="green;blue" default="green">
+        <paramilstdisplay>Green,Blue</paramilstdisplay>
+		<name>Screen type</name>
+	</parameter>
+	<parameter type="constant" name="av.mix"  default="0.05" max="1" min="0" decimals="3">
+		<name>Spillmap Mix</name>
+	</parameter>
+    <parameter type="constant" name="av.expand"  default="0" max="1" min="0" decimals="3">
+        <name>Spillmap Expand</name>
+	</parameter>
+    <parameter type="constant" name="av.red"  default="0" max="100" min="-100" decimals="2">
+		<name>Set Red Scale</name>
+	</parameter>
+    <parameter type="constant" name="av.green"  default="0" max="100" min="-100" decimals="2">
+		<name>Set Green Scale</name>
+	</parameter>
+    <parameter type="constant" name="av.blue"  default="0" max="100" min="-100" decimals="2">
+		<name>Set Blue Scale</name>
+	</parameter>
+    <parameter type="constant" name="av.brightness"  default="0" max="10" min="-10" decimals="2">
+		<name>Brightness</name>
+	</parameter>
+</effect>

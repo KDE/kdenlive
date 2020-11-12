@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.histeq" id="avfilter.histeq">
+	<name>Histogram Equalizer</name>
+	<description>This filter applies a global color histogram equalization on a per-frame basis</description>
+	<author>libavfilter</author>
+        <parameter type="constant" name="av.strength" default="0.2" min="0" max="1" decimals="3">
+                <name>Strength</name>
+        </parameter>        
+    <parameter type="constant" name="av.intensity" default="0.21" min="0" max="1" decimals="3">
+                <name>Intensity</name>
+        </parameter>
+<parameter type="list" name="av.antibanding" default="none" paramlist="none;weak;strong">
+        <paramlistdisplay>None,Weak,Strong</paramlistdisplay>
+                <name>Antibanding Level</name>
+        </parameter>                
+</effect>

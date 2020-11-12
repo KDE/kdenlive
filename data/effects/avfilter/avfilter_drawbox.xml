@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.drawbox" id="avfilter.drawbox">
+	<name>Draw Box</name>
+	<description>Draw a colored box on the input video</description>
+	<author>libavfilter</author>
+    <parameter type="constant" name="av.x" default="0" min="0" max="%width" factor="1">
+                <name>X</name>
+        </parameter>
+<parameter type="constant" name="av.y" default="0" min="0" max="%height" factor="1">
+                <name>Y</name>
+        </parameter>
+        <parameter type="constant" name="av.w" default="0" min="0" max="%width" factor="1">
+                <name>Width</name>
+        </parameter>        
+    <parameter type="constant" name="av.h" default="0" min="0" max="%height" factor="1">
+                <name>Height</name>
+        </parameter>
+ <parameter type="color" name="av.color" default="black">
+     <name>Color</name>
+        </parameter>  
+         <parameter type="constant" name="av.t" default="3" min="0" max="%height" factor="1">
+                <name>Thickness</name>
+        </parameter>
+</effect>

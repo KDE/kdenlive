@@ -1,0 +1,12 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.random" id="avfilter.random">
+	<name>Random</name>
+	<description>Flush video frames from internal cache of frames into a random order. No frame is discarded. Inspired by frei0r nervous filter.</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.frames" default="30" min="2" max="512" factor="1">
+                <name>Number of frames in cache</name>
+        </parameter>
+        <parameter type="fixed" name="av.seed" default="-1">
+                <name>Seed</name>
+        </parameter>
+        </effect>

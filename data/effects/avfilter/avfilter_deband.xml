@@ -1,0 +1,30 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.deband" id="avfilter.deband">
+	<name>Deband</name>
+	<description>Remove banding artifacts from input video. It works by replacing banded pixels with average value of referenced pixels</description>
+	<author>libavfilter</author>
+		<parameter type="constant" name="av.1thr"  default="0.02" max="0.5" min="0" decimals="3">
+		<name>1st plane threshold</name>
+	</parameter>
+		<parameter type="constant" name="av.2thr"  default="0.02" max="0.5" min="0" decimals="3">
+		<name>2nd plane threshold</name>
+	</parameter>
+    		<parameter type="constant" name="av.3thr"  default="0.02" max="0.5" min="0" decimals="3">
+		<name>3rd plane threshold</name>
+	</parameter>
+    		<parameter type="constant" name="av.4thr"  default="0.02" max="0.5" min="0" decimals="3">
+		<name>4th plane threshold</name>
+	</parameter>
+    <parameter type="constant" name="av.r"  default="16" max="32" min="-32" decimals="0">
+        <name>Range</name>
+	</parameter>
+    <parameter type="constant" name="av.d"  default="6.283" max="6.283" min="-6.283" decimals="3">
+        <name>Direction</name>
+	</parameter>
+    <parameter type="switch" name="av.b"  default="1" max="1" min="0">
+		<name>Blur</name>
+	</parameter>
+<parameter type="switch" name="av.c"  default="0" max="1" min="0">
+		<name>Coupling</name>
+	</parameter>
+</effect>

@@ -1,0 +1,18 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.removegrain" id="avfilter.removegrain">
+	<name>Grain Removal</name>
+	<description>The removegrain filter is a spatial denoiser for progressive video</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.m0" min="0" max="24" default="0" factor="1">
+                <name>Mode for 1st plane</name>
+        </parameter>
+        <parameter type="constant" name="av.m1" min="0" max="24" default="0" factor="1">
+                <name>Mode for 2nd plane</name>
+        </parameter>
+        <parameter type="constant" name="av.m2" min="0" max="24" default="0" factor="1">
+                <name>Mode for 3rd plane</name>
+        </parameter>
+        <parameter type="constant" name="av.m3" min="0" max="24" default="0" factor="1">
+                <name>Mode for 4th plane</name>
+        </parameter>
+     </effect>

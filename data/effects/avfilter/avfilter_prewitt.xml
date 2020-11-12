@@ -1,0 +1,16 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.prewitt" id="avfilter.prewitt">
+	<name>Prewitt</name>
+	<description>Apply prewitt operator to input video stream</description>
+	<author>libavfilter</author>
+          <parameter type="list" name="av.planes" default="7" paramlist="0;1;2;3;4;5;6;7;8">
+        <paramlistdisplay>None,Y,U,YU,V,YV,UV,YUV,Alpha</paramlistdisplay>
+                <name>Planes</name>
+        </parameter>                 
+    <parameter type="constant" name="av.scale" default="5" min="1" max="250" factor="1">
+        <name>Scale</name>
+    </parameter>
+    <parameter type="constant" name="av.delta" default="25" min="0" max="255" factor="1">
+        <name>Delta</name>
+    </parameter>
+</effect>

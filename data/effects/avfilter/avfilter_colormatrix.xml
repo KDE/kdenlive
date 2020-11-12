@@ -1,0 +1,14 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.colormatrix" id="avfilter.colormatrix">
+	<name>Color Matrix</name>
+	<description>Convert color matrix.</description>
+	<author>libavfilter</author>
+	<parameter type="list" name="av.src" default="bt709" paramlist="bt709;fcc;bt601;bt470;bt470bg;smpte170m;smpte240m;bt2020">
+            <paramlistdisplay>BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020</paramlistdisplay>
+                <name>Source color Matrix</name>
+        </parameter>
+       <parameter type="list" name="av.dst" default="smpte240m" paramlist="bt709;fcc;bt601;bt470;bt470bg;smpte170m;smpte240m;bt2020">
+            <paramlistdisplay>BT.709,FCC,BT.601,BT.470,BT.470BG,SMPTE-170M,BT.2020</paramlistdisplay>
+                <name>Destination color Matrix</name>
+        </parameter>
+</effect>

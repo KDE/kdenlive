@@ -1,0 +1,22 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.chromashift" id="avfilter.chromashift">
+	<name>Chroma shift</name>
+	<description>Shift chroma pixels horizontally and/or vertically. </description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.cbh" default="0" min="-255" max="255" factor="1">
+		<name>Chroma-blue H shift</name>
+	</parameter>
+	<parameter type="constant" name="av.cbv" default="0" min="-255" max="255" factor="1">
+		<name>Chroma-blue V shift</name>
+	</parameter>
+    <parameter type="constant" name="av.crh"  default="0" min="-255" max="255" factor="1">
+		<name>Chroma-red H shift</name>
+	</parameter>
+    <parameter type="constant" name="av.crv"  default="0" min="-255" max="255" factor="1">
+		<name>Chroma-red V shift</name>
+	</parameter>
+    <parameter type="list" name="av.edge" default="0" paramlist="0;1">
+        <paramlistdisplay>Smear,Wrap</paramlistdisplay>
+        <name>Edge mode</name>
+        </parameter>
+</effect>

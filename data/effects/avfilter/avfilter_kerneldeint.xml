@@ -1,0 +1,21 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.kerndeint" id="avfilter.kerndeint">
+	<name>Kernel Deinterlacer</name>
+	<description>Deinterlace input video by applying Donald Graft’s adaptive kernel deinterling. Work on interlaced parts of a video to produce progressive frames. </description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.thresh" default="10" min="0" max="255" factor="1">
+                <name>Threshold</name>
+        </parameter>
+        <parameter type="bool" name="av.map" default="0">
+                <name>Paint in white pixels exceeding the threshold</name>
+        </parameter>
+        <parameter type="bool" name="av.order" default="0">
+                <name>Swap fields</name>
+        </parameter>
+        <parameter type="bool" name="av.sharp" default="0">
+                <name>Enable additional sharpening</name>
+        </parameter>
+        <parameter type="bool" name="av.twoway" default="0">
+                <name>Enable twoway sharpening</name>
+        </parameter>
+</effect>

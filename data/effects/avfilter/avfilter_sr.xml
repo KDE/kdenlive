@@ -1,0 +1,15 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.sr" id="avfilter.sr">
+	<name>AI Super resolution</name>
+	<description>Scale the input by applying one of the super-resolution methods based on convolutional neural networks. </description>
+	<author>libavfilter</author>
+    <parameter type="list" name="av.dnn_backend" default="native" paramlist="native;tensorflow">
+                <paramlistdisplay>Native,Tensorflow</paramlistdisplay>
+                <name>DNN Backend</name>
+        </parameter>        
+        <parameter type="url" name="av.model">
+                <name>Load model</name>
+        </parameter>
+        <parameter type="constant" name="av.scale_factor" default="2" min="2" max="4" factor="1">
+                <name>Scale factor for SRCNN</name>
+</effect>

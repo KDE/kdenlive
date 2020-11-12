@@ -3,10 +3,10 @@
 	<name>Cartoon</name>
 	<description>Cartoonify video, do a form of edge detect</description>
 	<author>Dries Pruimboom, Jaromil</author>
-	<parameter type="animated" name="triplevel" max="100000" min="0" default="0.9999" factor="100000">
+	<parameter type="animated" name="triplevel" max="1" min="0.85" default="0.99975" decimals="5">
 		<name>Level of trip</name>
 	</parameter>
-	<parameter type="animated" name="diffspace" max="256" min="0" default="0.00390625" factor="256">
+	<parameter type="animated" name="diffspace" max="256" min="0" default="0.015625" factor="256">
 		<name>Difference space</name>
 	</parameter>
 </effect>

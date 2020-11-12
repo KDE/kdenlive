@@ -1,0 +1,24 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.boxblur" id="avfilter.boxblur">
+	<name>Box Blur</name>
+	<description>Apply a boxblur algorithm to the input video</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.lr" max="540" min="0" default="2">
+		<name>Luma Radius</name>
+	</parameter>
+	<parameter type="constant" name="av.lp" max="100" min="0" default="0">
+		<name>Luma Power</name>
+	</parameter>
+	<parameter type="constant" name="av.cr" max="480" min="0" default="5">
+		<name>Chroma Radius</name>
+	</parameter>
+    <parameter type="constant" name="av.cp" max="100" min="0" default="0">
+		<name>Chroma Power</name>
+	</parameter>
+    <parameter type="constant" name="av.ar" max="540" min="0" default="5">
+		<name>Alpha Radius</name>
+	</parameter>
+    <parameter type="constant" name="av.ap" max="100" min="0" default="0">
+		<name>Alpha Power</name>
+	</parameter>
+</effect>

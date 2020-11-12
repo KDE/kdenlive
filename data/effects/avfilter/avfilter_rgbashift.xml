@@ -1,0 +1,34 @@
+<!DOCTYPE kpartgui>
+<effect tag="avfilter.rgbashift" id="avfilter.rgbashift">
+	<name>RGBA Shift</name>
+	<description>Shift R/G/B/A pixels horizontally and/or vertically</description>
+	<author>libavfilter</author>
+	<parameter type="constant" name="av.rh" default="0" min="-255" max="255" factor="1">
+                <name>Red Horizontal shift</name>
+        </parameter>
+        <parameter type="constant" name="av.rv" default="0" min="-255" max="255" factor="1">
+                <name>Red Vertical shift</name>
+        </parameter>
+                <parameter type="constant" name="av.gh" default="0" min="-255" max="255" factor="1">
+                <name>Green Horizontal shift</name>
+        </parameter>
+                <parameter type="constant" name="av.gv" default="0" min="-255" max="255" factor="1">
+                <name>Green Vertical shift</name>
+        </parameter>
+             <parameter type="constant" name="av.bh" default="0" min="-255" max="255" factor="1">
+                <name>Blue Horizontal shift</name>
+        </parameter>
+        <parameter type="constant" name="av.bv" default="0" min="-255" max="255" factor="1">
+                <name>Blue Vertical shift</name>
+        </parameter>
+                <parameter type="constant" name="av.ah" default="0" min="-255" max="255" factor="1">
+                <name>Alpha Horizontal shift</name>
+        </parameter>
+        <parameter type="constant" name="av.av" default="0" min="-255" max="255" factor="1">
+                <name>Alpha Vertical shift</name>
+        </parameter>
+        <parameter type="list" name="av.edge" default="smear" paramlist="smear;wrap">
+            <paramlistdisplay>Smear,Wrap</paramlistdisplay>
+                <name>Edge operation</name>
+        </parameter>
+</effect>
