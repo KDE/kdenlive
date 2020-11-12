@@ -875,6 +875,11 @@ Rectangle {
             onExited: {
                 scim = false
             }
+            onDoubleClicked: {
+                if (root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
+                    timeline.addSubtitle((scrollView.contentX + mouseX) / timeline.scaleFactor)
+                }
+            }
             onPositionChanged: {
                 if (pressed && ((mouse.buttons === Qt.MidButton) || (mouse.buttons === Qt.LeftButton && root.activeTool == 0 && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view

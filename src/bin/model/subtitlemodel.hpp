@@ -95,16 +95,19 @@ public:
         @param newPos is new start position of subtitle
     */
     void moveSubtitle(GenTime oldPos, GenTime newPos);
+    
+    /** @brief Function that imports a subtitle file */
+    void importSubtitle(const QString filePath, int offset = 0);
 
     /** @brief Exports the subtitle model to json */
     QString toJson();
 
 public slots:
     /** @brief Function that parses through a subtitle file */
-    void parseSubtitle();
+    void parseSubtitle(const QString subPath = QString());
     
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
-    void jsontoSubtitle(const QString &data);
+    void jsontoSubtitle(const QString &data, QString updatedFileName = QString());
 
 private:
     std::weak_ptr<DocUndoStack> m_undoStack;

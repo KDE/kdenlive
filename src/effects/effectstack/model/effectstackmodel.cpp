@@ -21,6 +21,7 @@
 #include "effectstackmodel.hpp"
 #include "assets/keyframes/model/keyframemodellist.hpp"
 #include "core.h"
+#include "mainwindow.h"
 #include "doc/docundostack.hpp"
 #include "effectgroupmodel.hpp"
 #include "effectitemmodel.hpp"
@@ -920,6 +921,11 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                 // Required to load master audio effects
                 if (auto ms = m_masterService.lock()) {
                     ms->attach(*filter.get());
+                }
+                if (m_ownerId.first == ObjectType::Master && filter->get("mlt_service") == QLatin1String("avfilter.subtitles")) {
+                    // A subtitle filter, update project
+                    QString subFile(filter->get("av.filename"));
+                    pCore->window()->slotEditSubtitle(subFile);
                 }
                 continue;
             }

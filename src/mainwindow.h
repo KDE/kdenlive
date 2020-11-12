@@ -141,6 +141,9 @@ public:
     /** @brief Raise (show) the project bin*/
     void raiseBin();
 
+    /** @brief Hide subtitle track */
+    void resetSubtitles();
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -295,6 +298,7 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
+    void slotEditSubtitle(const QString subPath = QString());
 
 private slots:
     /** @brief Shows the shortcut dialog. */
@@ -508,9 +512,10 @@ private slots:
     void slotActivateVideoTrackSequence();
     /** @brief Select target for current track */
     void slotActivateTarget();
-    void slotEditSubtitle();
     /** @brief Add subtitle clip to timeline */
     void slotAddSubtitle();
+    /** @brief Import a subtitle file */
+    void slotImportSubtitle();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

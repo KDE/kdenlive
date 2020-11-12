@@ -50,8 +50,10 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "transitions/transitionsrepository.hpp"
 #include "audiomixer/mixermanager.hpp"
+#include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
+#include <KRecentDirs>
 #include <QApplication>
 #include <QClipboard>
 #include <QQuickItem>
@@ -3829,10 +3831,12 @@ void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int
     pCore->pushUndo(local_undo, local_redo, i18n("Move subtitle"));
 }
 
-void TimelineController::addSubtitle()
+void TimelineController::addSubtitle(int startframe)
 {
-    int startframe = pCore->getTimelinePosition();
-    int endframe = startframe + 50; //create basic subtitle clip of default width
+    if (startframe == -1) {
+        startframe = pCore->getTimelinePosition();
+    }
+    int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
 
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
     Fun local_undo = [subtitleModel, startframe, endframe]() {
@@ -3847,6 +3851,22 @@ void TimelineController::addSubtitle()
     };
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
+}
+
+void TimelineController::importSubtitle()
+{
+    QPointer<QDialog> d = new QDialog;
+    Ui::ImportSub_UI view;
+    view.setupUi(d);
+    d->setWindowTitle(i18n("Import Subtitle"));
+    if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
+        auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+        int offset = 0;
+        if (view.cursor_pos->isChecked()) {
+            offset = pCore->getTimelinePosition();
+        }
+        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset);
+    }
 }
 
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
@@ -3865,5 +3885,4 @@ void TimelineController::deleteSubtitle(int startframe, int endframe, QString te
     };
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
-    return;
 }

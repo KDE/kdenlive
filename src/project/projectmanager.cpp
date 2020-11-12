@@ -271,6 +271,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
     pCore->window()->getMainTimeline()->controller()->prepareClose();
+    pCore->window()->resetSubtitles();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
     }
@@ -295,6 +296,9 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
     // Sync document properties
     prepareSave();
     QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    if (!saveACopy) {
+        m_project->updateSubtitle(outputFileName);
+    }
     QString scene = projectSceneList(saveFolder);
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -304,6 +308,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveACopy)
         }
     }
     if (!m_project->saveSceneList(outputFileName, scene)) {
+        m_project->updateSubtitle();
         return false;
     }
     QUrl url = QUrl::fromLocalFile(outputFileName);

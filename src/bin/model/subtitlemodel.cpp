@@ -23,6 +23,7 @@
 #include "bin/bin.h"
 #include "core.h"
 #include "project/projectmanager.h"
+#include "doc/kdenlivedoc.h"
 #include "timeline2/model/snapmodel.hpp"
 #include "profiles/profilemodel.hpp"
 #include <mlt++/MltProperties.h>
@@ -42,6 +43,7 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, QObject *parent)
     qDebug()<<"Filter!";
     if (tractor != nullptr) {
         qDebug()<<"Tractor!";
+        m_subtitleFilter->set("internal_added", 237);
         m_tractor->attach(*m_subtitleFilter.get());
     }
     setup();
@@ -64,11 +66,8 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
     return pCore->projectManager()->getSubtitleModel();
 }
 
-void SubtitleModel::parseSubtitle()
-{   
-	qDebug()<<"Parsing started";
-    QString filePath; //"path_to_subtitle_file.srt";
-    m_subFilePath = filePath;
+void SubtitleModel::importSubtitle(const QString filePath, int offset)
+{
     QString start,end,comment;
     QString timeLine;
     GenTime startPos, endPos;
@@ -80,10 +79,10 @@ void SubtitleModel::parseSubtitle()
      */
     if (filePath.isEmpty())
         return;
-
+    GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.contains(".srt")) {
         QFile srtFile(filePath);
-        if (!srtFile.exists() && !srtFile.open(QIODevice::ReadOnly)) {
+        if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
             return;
         }
@@ -101,15 +100,18 @@ void SubtitleModel::parseSubtitle()
                 }
                 if (line.contains("-->")) {
                     timeLine += line;
-                    QStringList srtTime;
-                    srtTime = timeLine.split(' ');
+                    QStringList srtTime = timeLine.split(' ');
+                    if (srtTime.count() < 3) {
+                        // invalid time
+                        continue;
+                    }
                     start = srtTime[0];
                     startPos= stringtoTime(start);
                     end = srtTime[2];
-                    startPos = stringtoTime(start);
+                    endPos = stringtoTime(end);
                 } else {
                     r++;
-                    if (comment != "")
+                    if (!comment.isEmpty())
                         comment += " ";
                     if (r == 1)
                         comment += line;
@@ -118,7 +120,7 @@ void SubtitleModel::parseSubtitle()
                 }
                 turn++;
             } else {
-                addSubtitle(startPos,endPos,comment);
+                addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment);
                 //reinitialize
                 comment = timeLine = "";
                 turn = 0; r = 0;
@@ -211,7 +213,7 @@ void SubtitleModel::parseSubtitle()
                         // Text
                         comment = dialogue[9]+ remainingStr;
                         //qDebug()<<"Start: "<< start << "End: "<<end << comment;
-                        addSubtitle(startPos,endPos,comment);
+                        addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment);
                     }
                 }
                 turn++;
@@ -222,8 +224,19 @@ void SubtitleModel::parseSubtitle()
         }
         assFile.close();
     }
-    toJson();
     jsontoSubtitle(toJson());
+}
+
+void SubtitleModel::parseSubtitle(const QString subPath)
+{   
+	qDebug()<<"Parsing started";
+    if (!subPath.isEmpty()) {
+        m_subtitleFilter->set("av.filename", subPath.toUtf8().constData());
+    }
+    QString filePath = m_subtitleFilter->get("av.filename");
+    m_subFilePath = filePath;
+    importSubtitle(filePath);
+    //jsontoSubtitle(toJson());
 }
 
 GenTime SubtitleModel::stringtoTime(QString &str)
@@ -470,9 +483,12 @@ QString SubtitleModel::toJson()
     return QString(jsonDoc.toJson());
 }
 
-void SubtitleModel::jsontoSubtitle(const QString &data)
+void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
 {
-	QString outFile = "path_to_temp_Subtitle.srt"; // use srt format as default unless file is imported (m_subFilePath)
+	QString outFile = updatedFileName.isEmpty() ? m_subtitleFilter->get("av.filename") : updatedFileName;
+    if (outFile.isEmpty()) {
+        outFile = pCore->currentDoc()->subTitlePath(); // use srt format as default unless file is imported (m_subFilePath)
+    }
     if (!outFile.contains(".ass"))
         qDebug()<< "srt file import"; // if imported file isn't .ass, it is .srt format
     QFile outF(outFile);
@@ -556,7 +572,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
             //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
         }
     }
-    qDebug()<<"Setting subtitle filter";
+    qDebug()<<"Setting subtitle filter: "<<outFile;
     m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
     m_tractor->attach(*m_subtitleFilter.get());
 }
