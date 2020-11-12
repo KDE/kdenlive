@@ -81,8 +81,9 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     , m_modified(false)
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(std::move(projectFolder))
+    , m_guideModel(new MarkerListModel(m_commandStack, this))
+    , m_subtitleModel(nullptr)
 {
-    m_guideModel.reset(new MarkerListModel(m_commandStack, this));
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
     bool success = false;

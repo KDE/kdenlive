@@ -271,6 +271,7 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
     pCore->window()->getMainTimeline()->controller()->prepareClose();
+    pCore->window()->resetSubtitles();
     if (m_mainTimelineModel) {
         m_mainTimelineModel->prepareClose();
     }

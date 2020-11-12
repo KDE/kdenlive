@@ -44,18 +44,12 @@ Item {
             drag.minimumX: 0
             onPressed: {
                 console.log('IT IS PRESSED')
-                if (mouse.button == Qt.RightButton) {
-                    console.log('RIGHT BUTTON CLICKED')
-                    timeline.deleteSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleEdit.text)
-                }
-                else {
-                    root.autoScrolling = false
-                    oldStartX = mouseX
-                    oldStartFrame = subtitleBase.x
-                    originalDuration = subtitleBase.width/timeScale
-                    console.log("originalDuration",originalDuration)
-                    controller.requestSubtitleSelection(model.startframe);
-                }                            
+                root.autoScrolling = false
+                oldStartX = mouseX
+                oldStartFrame = subtitleBase.x
+                originalDuration = subtitleBase.width/timeScale
+                console.log("originalDuration",originalDuration)
+                controller.requestSubtitleSelection(model.startframe);
             }
             onReleased: {
                 console.log('IT IS RELEASED')
@@ -67,6 +61,12 @@ Item {
                     timeline.shiftSubtitle(oldStartFrame/timeline.scaleFactor , subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleEdit.text)                                
                 }
                 console.log("originalDuration after shifting",originalDuration)
+            }
+            onClicked: {
+                if (mouse.button == Qt.RightButton) {
+                    //console.log('RIGHT BUTTON CLICKED')
+                    root.showSubtitleClipMenu()
+                }
             }
             onDoubleClicked: {
                 parent.textEditBegin = true

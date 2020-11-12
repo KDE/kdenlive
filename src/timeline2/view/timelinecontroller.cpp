@@ -50,8 +50,10 @@
 #include "timeline2/view/dialogs/trackdialog.h"
 #include "transitions/transitionsrepository.hpp"
 #include "audiomixer/mixermanager.hpp"
+#include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
+#include <KRecentDirs>
 #include <QApplication>
 #include <QClipboard>
 #include <QQuickItem>
@@ -3851,6 +3853,22 @@ void TimelineController::addSubtitle(int startframe)
     pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
 }
 
+void TimelineController::importSubtitle()
+{
+    QPointer<QDialog> d = new QDialog;
+    Ui::ImportSub_UI view;
+    view.setupUi(d);
+    d->setWindowTitle(i18n("Import Subtitle"));
+    if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
+        auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+        int offset = 0;
+        if (view.cursor_pos->isChecked()) {
+            offset = pCore->getTimelinePosition();
+        }
+        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset);
+    }
+}
+
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
 {
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
@@ -3867,5 +3885,4 @@ void TimelineController::deleteSubtitle(int startframe, int endframe, QString te
     };
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
-    return;
 }

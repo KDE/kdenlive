@@ -896,7 +896,32 @@ bool ArchiveWidget::processProjectFile()
     // Make a copy of original project file for extra safety
     QString backupPath = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
     QFile source(pCore->currentDoc()->url().toLocalFile());
-    source.copy(backupPath);
+    if (!source.copy(backupPath)) {
+        // Error
+        KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+        return false;
+    }
+    
+    // Copy subtitle files if any
+    QString sub = pCore->currentDoc()->url().toLocalFile();
+    if (QFileInfo::exists(sub + QStringLiteral(".srt"))) {
+        QFile subFile(sub + QStringLiteral(".srt"));
+        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (!subFile.copy(backupPath)) {
+            // Error
+            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+            return false;
+        }
+    }
+    if (QFileInfo::exists(sub + QStringLiteral(".ass"))) {
+        QFile subFile(sub + QStringLiteral(".ass"));
+        backupPath = archive_url->url().toLocalFile() + QDir::separator() + QFileInfo(subFile).fileName();
+        if (!subFile.copy(backupPath)) {
+            // Error
+            KMessageBox::error(this, i18n("Cannot write to file %1", backupPath));
+            return false;
+        }
+    }
 
     QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
     QFile file(path);
