@@ -66,14 +66,8 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
     return pCore->projectManager()->getSubtitleModel();
 }
 
-void SubtitleModel::parseSubtitle(const QString subPath)
-{   
-	qDebug()<<"Parsing started";
-    if (!subPath.isEmpty()) {
-        m_subtitleFilter->set("av.filename", subPath.toUtf8().constData());
-    }
-    QString filePath = m_subtitleFilter->get("av.filename");
-    m_subFilePath = filePath;
+void SubtitleModel::importSubtitle(const QString filePath)
+{
     QString start,end,comment;
     QString timeLine;
     GenTime startPos, endPos;
@@ -230,6 +224,18 @@ void SubtitleModel::parseSubtitle(const QString subPath)
         }
         assFile.close();
     }
+    jsontoSubtitle(toJson());
+}
+
+void SubtitleModel::parseSubtitle(const QString subPath)
+{   
+	qDebug()<<"Parsing started";
+    if (!subPath.isEmpty()) {
+        m_subtitleFilter->set("av.filename", subPath.toUtf8().constData());
+    }
+    QString filePath = m_subtitleFilter->get("av.filename");
+    m_subFilePath = filePath;
+    importSubtitle(filePath);
     //jsontoSubtitle(toJson());
 }
 

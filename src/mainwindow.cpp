@@ -1703,6 +1703,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_guides"), i18n("Delete All Guides"), this, SLOT(slotDeleteAllGuides()),
               QIcon::fromTheme(QStringLiteral("edit-delete")));
     addAction(QStringLiteral("add_subtitle"), i18n("Add Subtitle"), this, SLOT(slotAddSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")), Qt::SHIFT +Qt::Key_S);
+    
+    addAction(QStringLiteral("import_subtitle"), i18n("Import Subtitle File"), this, SLOT(slotImportSubtitle()), QIcon::fromTheme(QStringLiteral("list-add")));
 
     m_saveAction = KStandardAction::save(pCore->projectManager(), SLOT(saveFile()), actionCollection());
     m_saveAction->setIcon(QIcon::fromTheme(QStringLiteral("document-save")));
@@ -4170,6 +4172,13 @@ void MainWindow::slotActivateTarget()
     }
 }
 
+void MainWindow::resetSubtitles()
+{
+    // Hide subtitle track
+    m_buttonSubtitleEditTool->setChecked(false);
+    getMainTimeline()->showSubtitles = false;
+}
+
 void MainWindow::slotEditSubtitle(const QString subPath)
 {
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->currentDoc()->getSubtitleModel();
@@ -4182,11 +4191,20 @@ void MainWindow::slotEditSubtitle(const QString subPath)
 
 void MainWindow::slotAddSubtitle()
 {
-    if (!getMainTimeline()->showSubtitles) {
+    if (pCore->currentDoc()->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
         slotEditSubtitle();
         m_buttonSubtitleEditTool->setChecked(true);
     }
     getCurrentTimeline()->controller()->addSubtitle();
+}
+
+void MainWindow::slotImportSubtitle()
+{
+    if (pCore->currentDoc()->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
+        slotEditSubtitle();
+        m_buttonSubtitleEditTool->setChecked(true);
+    }
+    getCurrentTimeline()->controller()->importSubtitle();
 }
 
 #ifdef DEBUG_MAINW

@@ -490,7 +490,7 @@ void TimelineWidget::connectSubtitleModel()
     {
         showSubtitles = !showSubtitles;
         //qDebug()<<"null ptr NOT here at root context";
-        rootObject()->setProperty("showSubtitles",showSubtitles);
+        rootObject()->setProperty("showSubtitles", showSubtitles);
         rootContext()->setContextProperty("subtitleModel", pCore->projectManager()->current()->getSubtitleModel().get());
     }
 }

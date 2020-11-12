@@ -141,6 +141,9 @@ public:
     /** @brief Raise (show) the project bin*/
     void raiseBin();
 
+    /** @brief Hide subtitle track */
+    void resetSubtitles();
+
 protected:
     /** @brief Closes the window.
      * @return false if the user presses "Cancel" on a confirmation dialog or
@@ -509,7 +512,10 @@ private slots:
     void slotActivateVideoTrackSequence();
     /** @brief Select target for current track */
     void slotActivateTarget();
+    /** @brief Add a subtitle at current position */
     void slotAddSubtitle();
+    /** @brief Import a subtitle file */
+    void slotImportSubtitle();
 
 signals:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

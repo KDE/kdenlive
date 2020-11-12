@@ -95,6 +95,9 @@ public:
         @param newPos is new start position of subtitle
     */
     void moveSubtitle(GenTime oldPos, GenTime newPos);
+    
+    /** @brief Function that imports a subtitle file */
+    void importSubtitle(const QString filePath);
 
     /** @brief Exports the subtitle model to json */
     QString toJson();

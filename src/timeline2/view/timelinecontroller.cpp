@@ -52,6 +52,7 @@
 #include "audiomixer/mixermanager.hpp"
 
 #include <KColorScheme>
+#include <KRecentDirs>
 #include <QApplication>
 #include <QClipboard>
 #include <QQuickItem>
@@ -3849,6 +3850,22 @@ void TimelineController::addSubtitle(int startframe)
     };
     local_redo();
     pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
+}
+
+void TimelineController::importSubtitle()
+{
+    const QString dialogFilter = i18n("Subtitle Files") + QStringLiteral(" (*.srt, *.ass)");
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveSubtitlesFolder"));
+    if (clipFolder.isEmpty()) {
+        clipFolder = QDir::homePath();
+    }
+    QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18n("Open Subtitle File"), clipFolder, dialogFilter);
+    d->setFileMode(QFileDialog::ExistingFile);
+    if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
+        KRecentDirs::add(QStringLiteral(":KdenliveSubtitlesFolder"), d->selectedUrls().first().adjusted(QUrl::RemoveFilename).toLocalFile());
+        auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+        subtitleModel->importSubtitle(d->selectedUrls().first().toLocalFile());
+    }
 }
 
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
