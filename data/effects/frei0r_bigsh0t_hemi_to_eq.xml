@@ -4,13 +4,13 @@
 	<description>Converts a video frame with two hemispherical images to a single equirectangular frame. The plugin assumes that both hemispheres are in the frame</description>
 	<author>Leo Sutic</author>
      <parameter type="animated" name="yaw" default="0" min="-360" max="360" factor="1" suffix="deg">
-		<name>Alignement Yaw</name>
+		<name>Alignment Yaw</name>
 	</parameter>
     <parameter type="animated" name="pitch" default="0" min="-180" max="180" factor="1" suffix="deg">
-		<name>Alignement Pitch</name>
+		<name>Alignment Pitch</name>
 	</parameter>
 	<parameter type="animated" name="roll" default="0" min="-180" max="180" factor="1" suffix="deg">
-		<name>Alignement Roll</name>
+		<name>Alignment Roll</name>
 	</parameter>
 	<parameter type="list" name="projection" default="0.0" paramlist="0.0">
                 <paramlistdisplay>Equidistant Fisheye</paramlistdisplay>

@@ -13,7 +13,7 @@
 		<name>Analysis Sample Radius</name>
 	</parameter>
     <parameter type="constant" name="searchRadius" default="24" min="1" max="128" factor="1" suffix="px">
-		<name>Analisys Search Radius</name>
+		<name>Analysis Search Radius</name>
 	</parameter>
 	<parameter type="constant" name="offset" default="64" min="1" max="256" factor="1" suffix="px">
 		<name>Analysis Offset</name>
