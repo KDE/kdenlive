@@ -3,6 +3,7 @@
   <mime-type type="application/x-kdenlive">
     <comment>Kdenlive video project document</comment>
     <comment xml:lang="ca">Document de projecte de vídeo del Kdenlive</comment>
+    <comment xml:lang="ca@valencia">Document de projecte de vídeo del Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive video project document</comment>
     <comment xml:lang="it">Progetto video di Kdenlive</comment>
     <comment xml:lang="nl">Video projectdocument van Kdenlive</comment>
@@ -15,6 +16,7 @@
   <mime-type type="application/x-kdenlivetitle">
     <comment>Kdenlive video title</comment>
     <comment xml:lang="ca">Títol de vídeo del Kdenlive</comment>
+    <comment xml:lang="ca@valencia">Títol de vídeo del Kdenlive</comment>
     <comment xml:lang="en_GB">Kdenlive video title</comment>
     <comment xml:lang="it">Titolo video di Kdenlive</comment>
     <comment xml:lang="nl">Titel van Kdenlive-video</comment>
