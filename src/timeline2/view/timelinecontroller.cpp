@@ -130,9 +130,6 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model)
         emit showMixModel(cid, asset);
         emit selectedMixChanged();
     });
-    connect(m_model.get(), &TimelineModel::selectedSubtitleChanged, [this] (int startFrame) {
-        emit selectedSubtitleChanged();
-    });
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
 }
 
@@ -318,12 +315,6 @@ int TimelineController::selectedMix() const
     return m_model->m_selectedMix;
 }
 
-int TimelineController::selectedSubtitle() const
-{
-    qDebug()<<"=== GOT SELECTED SUB: "<<m_model->m_selectedSubtitle<<"\n\n==========";
-    return m_model->m_selectedSubtitle;
-}
-
 void TimelineController::selectItems(const QList<int> &ids)
 {
     std::unordered_set<int> ids_s(ids.begin(), ids.end());
@@ -498,12 +489,6 @@ void TimelineController::deleteSelectedClips()
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
             m_model->removeMix(m_model->m_selectedMix);
         }
-        if (m_model->m_selectedSubtitle > -1) {
-            auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-            SubtitledTime t = subtitleModel->getSubtitle(GenTime(m_model->m_selectedSubtitle, pCore->getCurrentFps()));
-            deleteSubtitle(m_model->m_selectedSubtitle, t.end().frames(pCore->getCurrentFps()), t.subtitle());
-        }
-        return;
     }
     // only need to delete the first item, the others will be deleted in cascade
     if (m_model->m_editMode == TimelineMode::InsertEdit) {
@@ -1389,9 +1374,10 @@ void TimelineController::setZoneOut(int outPoint)
     emit zoneMoved(m_zone);
 }
 
-void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions)
+void TimelineController::selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions, bool selectSubTitles)
 {
     std::unordered_set<int> itemsToSelect;
+    std::unordered_set<int> subtitlesToSelect;
     if (addToSelect) {
         itemsToSelect = m_model->getCurrentSelection();
     }
@@ -1401,6 +1387,14 @@ void TimelineController::selectItems(const QVariantList &tracks, int startFrame,
         }
         auto currentClips = m_model->getItemsInRange(tracks.at(i).toInt(), startFrame, endFrame, i < tracks.count() - 1 ? true : selectBottomCompositions);
         itemsToSelect.insert(currentClips.begin(), currentClips.end());
+    }
+    if (selectSubTitles) {
+        auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+        if (subtitleModel) {
+            auto currentSubs = subtitleModel->getItemsInRange(startFrame, endFrame);
+            itemsToSelect.insert(currentSubs.begin(), currentSubs.end());
+        }
+        
     }
     m_model->requestSetSelection(itemsToSelect);
 }
@@ -1421,9 +1415,15 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     QMutexLocker lk(&m_metaMutex);
     bool foundClip = false;
     const auto selection = m_model->getCurrentSelection();
+    if (track == -2) {
+        // Subtitle cut
+        auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
+        subtitleModel->cutSubtitle(position);
+        return;
+    }
     if (track == -1) {
         for (int cid : selection) {
-            if (m_model->isClip(cid) && positionIsInItem(cid)) {
+            if ((m_model->isClip(cid) || m_model->isSubTitle(cid)) && positionIsInItem(cid)) {
                 if (TimelineFunctions::requestClipCut(m_model, cid, position)) {
                     foundClip = true;
                     // Cutting clips in the selection group is handled in TimelineFunctions
@@ -3778,59 +3778,6 @@ void TimelineController::resizeSubtitle(int startFrame, int endFrame, int oldEnd
     }
 }
 
-void TimelineController::moveSubtitle(int oldStartFrame, int newStartFrame, int duration)
-{
-    qDebug()<<"Moving existing subtitle start position in controller from"<<oldStartFrame<<" to "<<newStartFrame;
-    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-    int min = qMin(oldStartFrame, newStartFrame);
-    Fun local_redo = [subtitleModel, oldStartFrame, newStartFrame, duration, min]() {
-        subtitleModel->moveSubtitle(GenTime(oldStartFrame, pCore->getCurrentFps()), GenTime (newStartFrame, pCore->getCurrentFps()));
-        pCore->refreshProjectRange({min, oldStartFrame + duration});
-        return true;
-    };
-    Fun local_undo = [subtitleModel, oldStartFrame, newStartFrame, min, duration]() {
-        subtitleModel->moveSubtitle(GenTime (newStartFrame, pCore->getCurrentFps()), GenTime(oldStartFrame, pCore->getCurrentFps()));
-        pCore->refreshProjectRange({min, oldStartFrame + duration});
-        return true;
-    };
-    local_redo();
-    pCore->pushUndo(local_undo, local_redo, i18n("Resize subtitle"));
-    return;
-}
-
-void TimelineController::shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame, QString text)
-{
-    qDebug()<<"Shifting existing subtitle in controller from"<<oldStartFrame<<" to "<<newStartFrame;
-    auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-
-    int min = qMin(oldStartFrame, newStartFrame);
-    int max = qMax(oldStartFrame, newStartFrame);
-    int duration = endFrame - newStartFrame;
-    Fun local_redo = [subtitleModel, oldStartFrame, newStartFrame, endFrame, text, min, max, duration]() {
-        subtitleModel->removeSubtitle(GenTime(oldStartFrame, pCore->getCurrentFps()));
-        subtitleModel->addSubtitle(GenTime(newStartFrame, pCore->getCurrentFps()), GenTime(endFrame, pCore->getCurrentFps()), text);
-        if (max - min > duration) {
-            pCore->refreshProjectRange({min, min + duration});
-            pCore->refreshProjectRange({max, max + duration});
-        } else {
-            pCore->refreshProjectRange({min, max + duration});
-        }
-        return true;
-    };
-    Fun local_undo = [subtitleModel, oldStartFrame, newStartFrame, text, min, max, duration]() {
-        subtitleModel->removeSubtitle(GenTime(newStartFrame, pCore->getCurrentFps()));
-        subtitleModel->addSubtitle(GenTime(oldStartFrame, pCore->getCurrentFps()), GenTime(oldStartFrame + duration, pCore->getCurrentFps()), text);
-        if (max - min > duration) {
-            pCore->refreshProjectRange({min, min + duration});
-            pCore->refreshProjectRange({max, max + duration});
-        } else {
-            pCore->refreshProjectRange({min, max + duration});
-        }
-        return true;
-    };
-    local_redo();
-    pCore->pushUndo(local_undo, local_redo, i18n("Move subtitle"));
-}
 
 void TimelineController::addSubtitle(int startframe)
 {
@@ -3838,15 +3785,15 @@ void TimelineController::addSubtitle(int startframe)
         startframe = pCore->getTimelinePosition();
     }
     int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
-
+    int id = TimelineModel::getNextId();
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-    Fun local_undo = [subtitleModel, startframe, endframe]() {
-        subtitleModel->removeSubtitle(GenTime(startframe, pCore->getCurrentFps()));
+    Fun local_undo = [subtitleModel, id, startframe, endframe]() {
+        subtitleModel->removeSubtitle(id);
         pCore->refreshProjectRange({startframe, endframe});
         return true;
     };
-    Fun local_redo = [subtitleModel, startframe, endframe]() {
-        subtitleModel->addSubtitle(GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), i18n("Add text"));
+    Fun local_redo = [subtitleModel, id, startframe, endframe]() {
+        subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), i18n("Add text"));
         pCore->refreshProjectRange({startframe, endframe});
         return true;
     };
@@ -3893,14 +3840,14 @@ void TimelineController::exportSubtitle()
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
 {
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-    
-    Fun local_redo = [subtitleModel, startframe, endframe]() {
-        subtitleModel->removeSubtitle(GenTime(startframe, pCore->getCurrentFps()));
+    int id = subtitleModel->getIdForStartPos(GenTime(startframe, pCore->getCurrentFps()));
+    Fun local_redo = [subtitleModel, id, startframe, endframe]() {
+        subtitleModel->removeSubtitle(id);
         pCore->refreshProjectRange({startframe, endframe});
         return true;
     };
-    Fun local_undo = [subtitleModel, startframe, endframe, text]() {
-        subtitleModel->addSubtitle(GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text);
+    Fun local_undo = [subtitleModel, id, startframe, endframe, text]() {
+        subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), text);
         pCore->refreshProjectRange({startframe, endframe});
         return true;
     };

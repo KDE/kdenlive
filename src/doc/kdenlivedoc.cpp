@@ -1819,9 +1819,12 @@ void KdenliveDoc::subtitlesChanged()
     return;
 }
 
-void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, const QString subPath)
+void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, QString subPath)
 {
     m_subtitleModel = m_subtitle;
+    if (QFileInfo(subPath).isRelative()) {
+        subPath.prepend(m_documentRoot);
+    }
     connect(m_subtitleModel.get(), &SubtitleModel::modelChanged, this, &KdenliveDoc::subtitlesChanged);
     m_subtitleModel->parseSubtitle(subPath);
     //QMetaObject::invokeMethod(m_subtitle.get(), "parseSubtitle", Qt::QueuedConnection);

@@ -30,6 +30,7 @@
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "timeline2/model/compositionmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
 #include "timeline2/model/timelinefunctions.hpp"

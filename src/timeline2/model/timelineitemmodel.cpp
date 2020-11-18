@@ -23,6 +23,7 @@
 #include "audiomixer/mixermanager.hpp"
 #include "assets/keyframes/model/keyframemodel.hpp"
 #include "bin/model/markerlistmodel.hpp"
+#include "bin/model/subtitlemodel.hpp"
 #include "clipmodel.hpp"
 #include "compositionmodel.hpp"
 #include "core.h"
@@ -129,6 +130,13 @@ QModelIndex TimelineItemModel::makeCompositionIndexFromID(int compoId) const
     Q_ASSERT(m_allCompositions.count(compoId) > 0);
     int trackId = m_allCompositions.at(compoId)->getCurrentTrackId();
     return index(getTrackById_const(trackId)->getRowfromComposition(compoId), 0, makeTrackIndexFromID(trackId));
+}
+
+void TimelineItemModel::subtitleChanged(int subId, const QVector<int> roles)
+{
+    Q_ASSERT(m_subtitleModel != nullptr);
+    Q_ASSERT(m_allSubtitles.count(subId) > 0);
+    m_subtitleModel->updateSub(subId, roles);
 }
 
 QModelIndex TimelineItemModel::makeTrackIndexFromID(int trackId) const

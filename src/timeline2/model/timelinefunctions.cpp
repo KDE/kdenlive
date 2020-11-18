@@ -120,12 +120,16 @@ bool TimelineFunctions::requestMultipleClipsInsertion(const std::shared_ptr<Time
 
 bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int position, int &newId, Fun &undo, Fun &redo)
 {
-    int trackId = timeline->getClipTrackId(clipId);
-    int trackDuration = timeline->getTrackById_const(trackId)->trackDuration();
-    int start = timeline->getClipPosition(clipId);
-    int duration = timeline->getClipPlaytime(clipId);
+    bool isSubtitle = timeline->isSubTitle(clipId);
+    int trackId = isSubtitle ? -1 : timeline->getClipTrackId(clipId);
+    int trackDuration = isSubtitle ? -1 : timeline->getTrackById_const(trackId)->trackDuration();
+    int start = timeline->getItemPosition(clipId);
+    int duration = timeline->getItemPlaytime(clipId);
     if (start > position || (start + duration) < position) {
         return false;
+    }
+    if (isSubtitle) {
+        return timeline->cutSubtitle(position, undo, redo);
     }
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
@@ -186,6 +190,10 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     // Remove locked items
     std::unordered_set<int> clips;
     for (int cid : clipselect) {
+        if (timeline->isSubTitle(cid)) {
+            clips.insert(cid);
+            continue;
+        }
         if (!timeline->isClip(cid)) {
             continue;
         }
@@ -214,11 +222,11 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
     QList<int> newIds;
     QList<int> clipsToCut;
     for (int cid : clips) {
-        if (!timeline->isClip(cid)) {
+        if (!timeline->isClip(cid) && !timeline->isSubTitle(cid)) {
             continue;
         }
-        int start = timeline->getClipPosition(cid);
-        int duration = timeline->getClipPlaytime(cid);
+        int start = timeline->getItemPosition(cid);
+        int duration = timeline->getItemPlaytime(cid);
         if (start < position && (start + duration) > position) {
             clipsToCut << cid;
         }
@@ -323,8 +331,10 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     bool isClip = timeline->isClip(itemId);
     if (isClip) {
         timeline->requestClipMove(itemId, track, startPosition, true, false, false);
-    } else {
+    } else if (timeline->isComposition(itemId)) {
         timeline->requestCompositionMove(itemId, track, startPosition, false, false);
+    } else {
+        timeline->requestSubtitleMove(itemId, startPosition, false, false);
     }
     std::unordered_set<int> clips = timeline->getGroupElements(itemId);
     // Start undoable command
@@ -345,7 +355,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
                 }
                 ++it;
             }
-        } else {
+        } else if (timeline->isTrack(affectedTrack)) {
             liftOk = TimelineFunctions::liftZone(timeline, affectedTrack, QPoint(endPosition, startPosition), undo, redo);
         }
         // The lift operation destroys selection group, so regroup now
@@ -361,8 +371,10 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
             // only 1 clip to be moved
             if (isClip) {
                 final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, true, undo, redo);
-            } else {
+            } else if (timeline->isComposition(itemId)) {
                 final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
+            } else {
+                final = timeline->requestSubtitleMove(itemId, endPosition, true, true, true, undo, redo);
             }
         }
     }
@@ -1318,6 +1330,8 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
             }
         } else if (timeline->isComposition(id)) {
             container.appendChild(timeline->m_allCompositions[id]->toXml(copiedItems));
+        } else if (timeline->isSubTitle(id)) {
+            //TODO
         } else {
             Q_ASSERT(false);
         }

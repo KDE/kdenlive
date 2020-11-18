@@ -40,6 +40,7 @@ class CompositionModel;
 class DocUndoStack;
 class GroupsModel;
 class SnapModel;
+class SubtitleModel;
 class TimelineItemModel;
 class TrackModel;
 
@@ -108,6 +109,7 @@ public:
     friend class CompositionModel;
     friend class GroupsModel;
     friend class TimelineController;
+    friend class SubtitleModel;
     friend struct TimelineFunctions;
 
     /// Two level model: tracks and clips on track
@@ -213,6 +215,7 @@ public:
     Q_INVOKABLE int getItemTrackId(int itemId) const;
 
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
+    int getSubtitlePosition(int subId) const;
     int getCompositionPlaytime(int compoId) const;
 
     /* Returns an item position, item can be clip or composition */
@@ -237,6 +240,8 @@ public:
 
     /* @brief Helper function that returns true if the given ID corresponds to a composition */
     Q_INVOKABLE bool isComposition(int id) const;
+    
+    Q_INVOKABLE bool isSubTitle(int id) const;
 
     /* @brief Helper function that returns true if the given ID corresponds to a timeline item (composition or clip) */
     Q_INVOKABLE bool isItem(int id) const;
@@ -360,7 +365,9 @@ public:
        @param logUndo if set to false, no undo object is stored
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
-    
+    Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
+    bool requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline, Fun &undo, Fun &redo);
+    bool cutSubtitle(int position, Fun &undo, Fun &redo);
     bool requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
     /* @brief Move a composition to a specific position This action is undoable
@@ -396,6 +403,7 @@ public:
         */
     Q_INVOKABLE QVariantList suggestItemMove(int itemId, int trackId, int position, int cursorPosition, int snapDistance = -1);
     Q_INVOKABLE QVariantList suggestClipMove(int clipId, int trackId, int position, int cursorPosition, int snapDistance = -1, bool moveMirrorTracks = true);
+    Q_INVOKABLE int suggestSubtitleMove(int subId, int position, int cursorPosition, int snapDistance);
     Q_INVOKABLE QVariantList suggestCompositionMove(int compoId, int trackId, int position, int cursorPosition, int snapDistance = -1);
     /** @brief returns the frame pos adjusted to edit mode
     */
@@ -630,6 +638,7 @@ public:
     /* @brief Get a timeline composition id by its starting position or -1 if not found
      */
     int getCompositionByPosition(int trackId, int position) const;
+    int getSubtitleByPosition(int position) const;
 
     /* @brief Returns a list of all items that are intersect with a given range.
      * @param trackId is the id of the track for concerned items. Setting trackId to -1 returns items on all tracks
@@ -638,6 +647,8 @@ public:
      * @param listCompositions if enabled, the list will also contains composition ids
      */
     std::unordered_set<int> getItemsInRange(int trackId, int start, int end = -1, bool listCompositions = true);
+    /** @brief define current project's subtitle model */
+    void setSubModel(std::shared_ptr<SubtitleModel> model);
 
     /* @brief Returns a list of all luma files used in the project
      */
@@ -684,10 +695,6 @@ public:
         @param cid clip id
      */
     Q_INVOKABLE void requestMixSelection(int cid);
-    /** @brief Select a given subtitle in timeline
-        @param startFrame The start position (frame) of the subtitle
-     */
-    Q_INVOKABLE void requestSubtitleSelection(int startFrame);
 
     /** @brief Add the given item to the selection
         If @param clear is true, the selection is first cleared
@@ -726,6 +733,9 @@ protected:
     /* @brief Register a new composition. This is a call-back meant to be called from CompositionModel
      */
     void registerComposition(const std::shared_ptr<CompositionModel> &composition);
+    
+    void registerSubtitle(int id, GenTime startTime, bool temporary = false);
+    void deregisterSubtitle(int id, bool temporary = false);
 
     /* @brief Register a new group. This is a call-back meant to be called from GroupsModel
      */
@@ -775,6 +785,7 @@ protected:
     /* Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
+    bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo);
 
     /** @brief Check tracks duration and update black track accordingly */
     void updateDuration();
@@ -810,8 +821,6 @@ signals:
     void selectionChanged();
     /* @brief Signal sent whenever the selected mix changes */
     void selectedMixChanged(int cid, const std::shared_ptr<AssetParameterModel> &asset);
-    /* @brief Signal sent whenever the selected subtitle changes */
-    void selectedSubtitleChanged(int startframe);
     /* @brief Signal when a track is deleted so we make sure we don't store its id */
     void checkTrackDeletion(int tid);
     /* @brief Emitted when a clip is deleted to check if it was not used in timeline qml */
@@ -830,11 +839,14 @@ protected:
 
     std::unordered_map<int, std::shared_ptr<CompositionModel>>
         m_allCompositions; // the keys are the composition id, and the values are the corresponding pointers
+        
+    std::unordered_map<int, GenTime> m_allSubtitles;
 
     static int next_id; // next valid id to assign
 
     std::unique_ptr<GroupsModel> m_groups;
     std::shared_ptr<SnapModel> m_snaps;
+    std::shared_ptr<SubtitleModel> m_subtitleModel;
 
     std::unordered_set<int> m_allGroups; // ids of all the groups
 
@@ -856,7 +868,6 @@ protected:
     // (in that case we cannot further group it because the selection would have only one child, which is prohibited by design)
     int m_currentSelection = -1;
     int m_selectedMix = -1;
-    int m_selectedSubtitle = -1;
 
     // The index of the temporary overlay track in tractor, or -1 if not connected
     int m_overlayTrackCount;

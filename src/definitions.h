@@ -50,7 +50,7 @@ enum class GroupType {
 const QString groupTypeToStr(GroupType t);
 GroupType groupTypeFromStr(const QString &s);
 
-enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, BinClip, Master, NoItem };
+enum class ObjectType { TimelineClip, TimelineComposition, TimelineTrack, TimelineMix, TimelineSubtitle, BinClip, Master, NoItem };
 using ObjectId = std::pair<ObjectType, int>;
 
 enum OperationType {
@@ -272,9 +272,9 @@ public:
     SubtitledTime();
     SubtitledTime(const GenTime &start, QString sub, const GenTime &end);
     
-    QString subtitle();
-    GenTime start();
-    GenTime end();
+    QString subtitle() const;
+    GenTime start() const;
+    GenTime end() const;
     
     void setSubtitle(const QString &sub);
     void setEndTime(const GenTime &end);

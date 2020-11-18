@@ -23,7 +23,6 @@
 #include "timelinemodel.hpp"
 #include "trackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
-#include "undohelper.hpp"
 #include <QDebug>
 #include <mlt++/MltTransition.h>
 #include <utility>
