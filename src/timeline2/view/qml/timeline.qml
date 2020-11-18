@@ -188,7 +188,7 @@ Rectangle {
         if (dragProxy.draggedItem > -1 && dragProxy.masterObject) {
             return dragProxy.masterObject.trackId
         }
-        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.contentY)
+        return Logic.getTrackIdFromPos(tracksArea.mouseY - ruler.height + scrollView.contentY - subtitleTrack.height)
     }
 
     function getTrackColor(audio, header) {
@@ -296,7 +296,6 @@ Rectangle {
     property int snapping: (timeline.snap && (timeline.scaleFactor < 2 * baseUnit)) ? Math.floor(baseUnit / (timeline.scaleFactor > 3 ? timeline.scaleFactor / 2 : timeline.scaleFactor)) : -1
     property var timelineSelection: timeline.selection
     property int selectedMix: timeline.selectedMix
-    property int selectedSubtitle: timeline.selectedSubtitle
     property int trackHeight
     property int copiedClip: -1
     property int zoomOnMouse: -1
@@ -384,7 +383,7 @@ Rectangle {
             console.log("Trying to drop composition")
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
                 console.log("No clip being moved")
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY)
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
                 if (track >= 0 && !controller.isAudioTrack(track)) {
@@ -401,7 +400,7 @@ Rectangle {
         }
         onPositionChanged: {
             if (clipBeingMovedId == -1) {
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY)
+                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 if (track !=-1) {
                     var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                     if (clipBeingDroppedId >= 0){
@@ -844,12 +843,12 @@ Rectangle {
                 } else if (mouse.button & Qt.LeftButton) {
                     if (root.activeTool === 1) {
                         // razor tool
-                        var y = mouse.y - ruler.height + scrollView.contentY
-                        if (root.showSubtitles) {
-                            y -= subtitleTrack.height
-                        }
+                        console.log('RAZORT CUT++++++++++++++++++++++++++++++')
+                        var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
+                        } else {
+                            timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, -2)
                         }
                     }
                     if (dragProxy.draggedItem > -1) {
@@ -859,11 +858,21 @@ Rectangle {
                     if (root.activeTool === 2 && mouse.y > ruler.height) {
                         // spacer tool
                         var y = mouse.y - ruler.height + scrollView.contentY
-                        if (root.showSubtitles) {
-                            y -= subtitleTrack.height
-                        }
                         var frame = (scrollView.contentX + mouse.x) / timeline.scaleFactor
-                        spacerTrack = (mouse.modifiers & Qt.ControlModifier) ? tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId : -1
+                        // Default to all tracks
+                        spacerTrack = -1
+                        if (mouse.modifiers & Qt.ControlModifier) {
+                            if (subtitleTrack.height > 0) {
+                                if (y < subtitleTrack.height) {
+                                    // Activate spacer on subtitle track only
+                                    spacerTrack = -2
+                                } else {
+                                    spacerTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y - subtitleTrack.height)).trackInternalId
+                                }
+                            } else {
+                                spacerTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId
+                            }
+                        }
                         spacerGroup = timeline.requestSpacerStartOperation(spacerTrack, frame)
                         if (spacerGroup > -1) {
                             drag.axis = Drag.XAxis
@@ -969,28 +978,30 @@ Rectangle {
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
                     var y = rubberSelect.y - ruler.height + scrollView.contentY
+                    var selectSubs = false
+                    var selectOnlySubs = false
                     if (showSubtitles) {
+                        selectSubs = y < subtitleTrack.height
                         if (y + rubberSelect.height > subtitleTrack.height) {
                             y = Math.max(0, y - subtitleTrack.height)
                         } else {
                             y -= subtitleTrack.height
+                            selectOnlySubs = true
                         }
                     }
                     var topTrack = Logic.getTrackIndexFromPos(Math.max(0, y))
-                    var bottomTrack = Logic.getTrackIndexFromPos(y + rubberSelect.height)
+                    var bottomTrack = Logic.getTrackIndexFromPos(Math.max(0, y) + rubberSelect.height)
                     // Check if bottom of rubber selection covers the last track compositions
                     var selectBottomCompositions = ((y + rubberSelect.height) - Logic.getTrackYFromId(tracksRepeater.itemAt(bottomTrack).trackInternalId) - scrollView.contentY) > (Logic.getTrackHeightByPos(bottomTrack) * 0.6)
                     if (bottomTrack >= topTrack) {
                         var t = []
-                        for (var i = topTrack; i <= bottomTrack; i++) {
-                            t.push(tracksRepeater.itemAt(i).trackInternalId)
+                        if (!selectOnlySubs) {
+                            for (var i = topTrack; i <= bottomTrack; i++) {
+                                t.push(tracksRepeater.itemAt(i).trackInternalId)
+                            }
                         }
                         var startFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x) / timeline.scaleFactor
                         var endFrame = (scrollView.contentX - tracksArea.x + rubberSelect.x + rubberSelect.width) / timeline.scaleFactor
-                        var selectSubs = false
-                        if (showSubtitles && rubberSelect.y - ruler.height < subtitleTrack.height) {
-                            selectSubs = true
-                        }
                         timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions, selectSubs);
                     }
                     rubberSelect.y = -1
@@ -1516,8 +1527,47 @@ Rectangle {
     DelegateModel {
         id: subtitleDelegateModel
         model: subtitleModel
-        SubTitle {
+        delegate: Item {
+            Loader {
+                id: loader
+                Binding {
+                    target: loader.item
+                    property: "selected"
+                    value: model.selected
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
+                    property: "startFrame"
+                    value: model.startframe
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
+                    property: "endFrame"
+                    value: model.endframe
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                Binding {
+                    target: loader.item
+                    property: "subtitle"
+                    value: model.subtitle
+                    when: loader.status == Loader.Ready && loader.item
+                }
+                
+                sourceComponent: {
+                    return subTitleDelegate
+                }
+                onLoaded: {
+                    item.subId = model.id
+                }
+            }
         }
+        
+    }
+    Component {
+        id: subTitleDelegate
+        SubTitle {}
     }
 
     Connections {

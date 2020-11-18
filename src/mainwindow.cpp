@@ -4188,7 +4188,8 @@ void MainWindow::slotEditSubtitle(const QString subPath)
 {
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->currentDoc()->getSubtitleModel();
     if (subtitleModel == nullptr) {
-        subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(),this));
+        subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->controller()->getModel(), this));
+        getMainTimeline()->controller()->getModel()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel, subPath);
     }
     getMainTimeline()->connectSubtitleModel();

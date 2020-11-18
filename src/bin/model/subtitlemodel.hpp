@@ -33,12 +33,14 @@
 #include <array>
 #include <map>
 #include <memory>
+#include <unordered_set>
 #include <mlt++/MltProperties.h>
 #include <mlt++/Mlt.h>
 
 class DocUndoStack;
 class SnapInterface;
 class AssetParameterModel;
+class TimelineItemModel;
 
 /* @brief This class is the model for a list of subtitles.
 */
@@ -49,11 +51,11 @@ class SubtitleModel:public QAbstractListModel
 
 public:
     /* @brief Construct a subtitle list bound to the timeline */
-    explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, QObject *parent = nullptr);
+    explicit SubtitleModel(Mlt::Tractor *tractor = nullptr, std::shared_ptr<TimelineItemModel> timeline = nullptr, QObject *parent = nullptr);
 
-    enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole };
+    enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole };
     /** @brief Function that parses through a subtitle file */ 
-    void addSubtitle(GenTime start,GenTime end, const QString str);
+    void addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false);
     /** @brief Converts string of time to GenTime */ 
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 
@@ -66,6 +68,8 @@ public:
     
     /** @brief Get subtitle at position */
     SubtitledTime getSubtitle(GenTime startFrame) const;
+    /** @brief Returns all subtitle ids in a range */
+    std::unordered_set<int> getItemsInRange(int startFrame, int endFrame) const;
 
     /** @brief Registers a snap model to the subtitle model */
     void registerSnap(const std::weak_ptr<SnapInterface> &snapModel);
@@ -76,6 +80,7 @@ public:
         @param pos defines the new position of the end time
     */
     void editEndPos(GenTime startPos, GenTime newEndPos, bool refreshModel = true);
+    bool requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo);
 
     /** @brief Edit subtitle , i.e. text and/or end time
         @param startPos is start timing position of subtitles
@@ -85,16 +90,19 @@ public:
     void editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos);
 
     /** @brief Remove subtitle at start position (pos) */
-    void removeSubtitle(GenTime pos);
+    bool removeSubtitle(int id, bool temporary = false);
 
     /** @brief Remove all subtitles from subtitle model */
     void removeAllSubtitles();
+    
+    /** @brief Update some properties in the view */
+    void updateSub(int id, QVector <int> roles);
 
     /** @brief Move an existing subtitle
         @param oldPos is original start position of subtitle
         @param newPos is new start position of subtitle
     */
-    void moveSubtitle(GenTime oldPos, GenTime newPos);
+    void moveSubtitle(GenTime oldPos, GenTime newPos, bool updateModel, bool updateView);
     
     /** @brief Function that imports a subtitle file */
     void importSubtitle(const QString filePath, int offset = 0);
@@ -103,6 +111,16 @@ public:
     QString toJson();
     /** @brief Returns the path to sub file */
     const QString getUrl();
+    /** @brief Get a subtitle Id from its start position*/
+    int getIdForStartPos(GenTime startTime) const;
+    /** @brief Get the duration of a subtitle by id*/
+    int getSubtitlePlaytime(int id) const;
+    /** @brief Mark the subtitle item as selected or not*/
+    void setSelected(int id, bool select);
+    bool isSelected(int id) const;
+    /** @brief Cut a subtitle */
+    void cutSubtitle(int position);
+    bool cutSubtitle(int position, Fun &undo, Fun &redo);
 
 public slots:
     /** @brief Function that parses through a subtitle file */
@@ -112,8 +130,9 @@ public slots:
     void jsontoSubtitle(const QString &data, QString updatedFileName = QString());
 
 private:
+    std::shared_ptr<TimelineItemModel> m_timeline;
     std::weak_ptr<DocUndoStack> m_undoStack;
-    std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList; 
+    std::map<GenTime, std::pair<QString, GenTime>> m_subtitleList;
 
     QString scriptInfoSection, styleSection,eventSection;
     QString styleName;
@@ -127,6 +146,7 @@ private:
     mutable QReadWriteLock m_lock;
     std::unique_ptr<Mlt::Filter> m_subtitleFilter;
     Mlt::Tractor *m_tractor;
+    QVector <int> m_selected;
 
 signals:
     void modelChanged();
@@ -134,8 +154,10 @@ signals:
 protected:
     /** @brief Helper function that retrieves a pointer to the subtitle model*/
     static std::shared_ptr<SubtitleModel> getModel();
-    /** @brief Add start time as snap in the registered snap model */
+    /** @brief Add time as snap in the registered snap model */
     void addSnapPoint(GenTime startpos);
+    /** @brief Remove time as snap in the registered snap model */
+    void removeSnapPoint(GenTime startpos);
     /** @brief Connect changes in model with signal */
     void setup();
 

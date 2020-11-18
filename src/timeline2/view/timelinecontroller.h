@@ -41,7 +41,6 @@ class TimelineController : public QObject
      */
     Q_PROPERTY(QList<int> selection READ selection NOTIFY selectionChanged)
     Q_PROPERTY(int selectedMix READ selectedMix NOTIFY selectedMixChanged)
-    Q_PROPERTY(int selectedSubtitle READ selectedSubtitle NOTIFY selectedSubtitleChanged)
     /* @brief holds the timeline zoom factor
      */
     Q_PROPERTY(double scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
@@ -119,7 +118,7 @@ public:
         @param start/endFrame Interval from which to select the items
         @param addToSelect if true, the old selection is retained
     */
-    Q_INVOKABLE void selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions);
+    Q_INVOKABLE void selectItems(const QVariantList &tracks, int startFrame, int endFrame, bool addToSelect, bool selectBottomCompositions, bool selectSubTitles);
 
     /** @brief request a selection with a list of ids*/
     Q_INVOKABLE void selectItems(const QList<int> &ids);
@@ -350,9 +349,6 @@ public:
     /* @brief Returns the id of the currently selected mix's clip, -1 if no mix selected
      */
     int selectedMix() const;
-    /* @brief Returns the start frame id of the currently selected subtitle, -1 if no selection
-     */
-    int selectedSubtitle() const;
 
     /* @brief Add an asset (effect, composition)
      */
@@ -574,10 +570,6 @@ public:
     Q_INVOKABLE void editSubtitle(int startFrame, int endFrame, QString newText, QString oldText);
     /** @brief Edit the subtitle end */
     Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
-    /** @brief Move position of subtitle start timing */
-    Q_INVOKABLE void moveSubtitle(int oldStartFrame, int newStartFrame, int duration);
-    /** @brief Shift subtitle clips without changing the clip duration */
-    Q_INVOKABLE void shiftSubtitle(int oldStartFrame, int newStartFrame, int endFrame=0, QString text = QString());
     /** @brief Add subtitle clip at cursor's position in timeline */
     Q_INVOKABLE void addSubtitle(int startframe = -1);
     /** @brief Delete subtitle clip with frame as start position*/
@@ -661,7 +653,6 @@ signals:
     void selected(Mlt::Producer *producer);
     void selectionChanged();
     void selectedMixChanged();
-    void selectedSubtitleChanged();
     void frameFormatChanged();
     void trackHeightChanged();
     void scaleFactorChanged();

@@ -175,7 +175,7 @@ public:
     /** @brief Returns a pointer to the subtitle model */
     std::shared_ptr<SubtitleModel> getSubtitleModel() const;
     /** @brief Initialize and connect subtitle model */
-    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, const QString subPath = QString());
+    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, QString subPath = QString());
     /** @brief Delete all subtitles from subtitle model */
     void removeSubtitles();
     /** @brief Returns a path for current document's subtitle file */

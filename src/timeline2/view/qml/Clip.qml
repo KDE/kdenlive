@@ -356,7 +356,7 @@ Rectangle {
                     color: "mediumpurple"
                     Loader {
                         id: shapeLoader
-                        source: "MixShape.qml"
+                        source: clipRoot.mixDuration > 0 ? "MixShape.qml" : ""
                         property bool valid: item !== null
                     }
 

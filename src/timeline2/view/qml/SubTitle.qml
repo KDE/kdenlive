@@ -4,63 +4,82 @@ import QtQuick.Controls 2.4
 Item {
     id: subtitleRoot
     visible : true
-    height: parent.height
     z: 20
-    property real duration : (model.endframe - model.startframe) 
     property int oldStartX
-    property double oldStartFrame: subtitleBase.x
-    Item {
-        id: subtitleBase
-        width: duration * timeScale // to make width change wrt timeline scale factor
-        height: parent.height
-        x: model.startframe * timeScale;
-        property bool textEditBegin: false
-        clip: true
-        /*Text {
-            id: subtitleText
-            anchors.fill: parent
-            visible: !subtitleEdit.visible
-            text: model.subtitle
-            color: "black"
-            wrapMode: Text.WordWrap
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignHCenter
-        }*/
-        MouseArea {
+    property int startFrame
+    property int endFrame
+    property int subId
+    property int duration : endFrame - startFrame
+    property var subtitle
+    property bool selected
+    height: subtitleTrack.height
+    onStartFrameChanged: {
+        if (!subtitleClipArea.pressed) {
+            subtitleClipArea.x = startFrame * timeScale
+        }
+    }
+    MouseArea {
             // Clip shifting
             id: subtitleClipArea
-            anchors.fill: parent
+            x: startFrame * timeScale;
+            height: parent.height
+            width: subtitleBase.width
             hoverEnabled: true
             enabled: true
             property int newStart: -1
             property int diff: -1
+            property int oldStartFrame
+            property int snappedFrame
             property double delta: -1
-            property double originalDuration: -1
             property double oldDelta: 0
+            visible: root.activeTool === 0
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
-            drag.target: subtitleBase
+            //drag.target: subtitleBase
             drag.axis: Drag.XAxis
+            drag.smoothed: false
             drag.minimumX: 0
+            onEntered: {
+                console.log('ENTERED SUBTITLE MOUSE AREA')
+            }
             onPressed: {
-                console.log('IT IS PRESSED')
+                console.log('ENTERED ITEM CLCKD')
                 root.autoScrolling = false
                 oldStartX = mouseX
-                oldStartFrame = subtitleBase.x
-                originalDuration = subtitleBase.width/timeScale
-                console.log("originalDuration",originalDuration)
-                controller.requestSubtitleSelection(model.startframe);
+                oldStartFrame = subtitleRoot.startFrame
+                snappedFrame = oldStartFrame
+                x = subtitleBase.x
+                if (timeline.selection.indexOf(subtitleRoot.subId) == -1) {
+                    controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
+                } else if (mouse.modifiers & Qt.ShiftModifier) {
+                    console.log('REMOVE FROM SELECTION!!!!')
+                    controller.requestRemoveFromSelection(subtitleRoot.subId)
+                }
+            }
+            onPositionChanged: {
+                if (pressed && !subtitleBase.textEditBegin) {
+                    console.log('MOUSE MOVE: ', oldStartFrame," DELTA: ",((mouseX - oldStartX)/ timeScale))
+                    newStart = oldStartFrame + (mouseX - oldStartX)/ timeScale
+                    snappedFrame = controller.suggestSubtitleMove(subId, newStart, root.consumerPosition, root.snapping)
+                }
             }
             onReleased: {
                 console.log('IT IS RELEASED')
+                if (subtitleBase.textEditBegin) {
+                    mouse.accepted = false
+                    return
+                }
                 root.autoScrolling = timeline.autoScroll
                 if (subtitleBase.x < 0)
                     subtitleBase.x = 0
-                if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
+                if (oldStartFrame != snappedFrame) {
                     console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
-                    timeline.shiftSubtitle(oldStartFrame/timeline.scaleFactor , subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + duration, subtitleEdit.text)                                
+                    //timeline.moveSubtitle(oldStartFrame, newStart, duration)
+                    controller.requestSubtitleMove(subId, oldStartFrame, false, false);
+                    controller.requestSubtitleMove(subId, snappedFrame, true, true);
+                    x = snappedFrame * timeScale
                 }
-                console.log("originalDuration after shifting",originalDuration)
+                console.log('RELEASED DONE\n\n_______________')
             }
             onClicked: {
                 if (mouse.button == Qt.RightButton) {
@@ -69,9 +88,16 @@ Item {
                 }
             }
             onDoubleClicked: {
-                parent.textEditBegin = true
+                subtitleBase.textEditBegin = true
             }
         }
+    Item {
+        id: subtitleBase
+        property bool textEditBegin: false
+        height: subtitleTrack.height
+        width: duration * timeScale // to make width change wrt timeline scale factor
+        x: startFrame * timeScale;
+        clip: true
         TextField {
             id: subtitleEdit
             font: miniFont
@@ -80,22 +106,29 @@ Item {
             onEditingFinished: {
                 subtitleEdit.focus = false
                 parent.textEditBegin = false
-                if (model.subtitle != subtitleEdit.text) {
-                    timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor, subtitleEdit.text, model.subtitle)
+                if (subtitleRoot.subtitle != subtitleEdit.text) {
+                    timeline.editSubtitle(subtitleBase.x / timeline.scaleFactor, (subtitleBase.x + subtitleBase.width)/ timeline.scaleFactor, subtitleEdit.text, subtitleRoot.subtitle)
                 }
             }
             anchors.fill: parent
             //visible: timeScale >= 6
             enabled: parent.textEditBegin
-            text: model.subtitle
+            onEnabledChanged: {
+                if (enabled) {
+                    selectAll()
+                    focus = true
+                    forceActiveFocus()
+                }
+            }
+            text: subtitleRoot.subtitle
             height: subtitleBase.height
             width: subtitleBase.width
             wrapMode: TextField.WordWrap
             horizontalAlignment: displayText == text ? TextInput.AlignHCenter : TextInput.AlignLeft
             background: Rectangle {
-                color: root.selectedSubtitle == model.startframe ? "#fff" : '#ccccff'
+                color: enabled ? "#fff" : '#ccccff'
                 border {
-                    color: root.selectedSubtitle == model.startframe ? root.selectionColor : "#000"
+                    color: subtitleRoot.selected ? root.selectionColor : "#000"
                     width: 2
                 }
             }
@@ -104,10 +137,10 @@ Item {
         }
     }
     Item {
+        // start position resize handle
         id: leftstart
         width: root.baseUnit / 2
         height: subtitleBase.height
-        x: model.startframe * timeScale;
         anchors.top: subtitleBase.top
         anchors.left: subtitleBase.left
         visible: true
@@ -115,66 +148,46 @@ Item {
             // Right resize handle to change end timing
             id: startMouseArea
             anchors.fill: parent
-            height: parent.height
-            width: root.baseUnit / 2
             hoverEnabled: true
             enabled: true
-            property bool sizeChanged: false
-            property int newStart: -1
-            property double originalDuration: -1
-            property int diff: -1
-            property double delta: -1
-            property double oldDelta: 0
+            visible: root.activeTool === 0
+            property int newStart: subtitleRoot.startFrame
+            property int newDuration: subtitleRoot.duration
+            property int originalDuration: subtitleRoot.duration
+            property int oldMouseX
+            property int oldStartFrame: 0
             acceptedButtons: Qt.LeftButton
             cursorShape: Qt.SizeHorCursor
-            drag.target: leftstart
             drag.axis: Drag.XAxis
-//                            drag.smoothed: false
+            drag.smoothed: false
+            drag.target: leftstart
             onPressed: {
-                console.log('IT IS PRESSED')
                 root.autoScrolling = false
-                //rightend.anchors.right = undefined
-                oldStartX = mouseX
-                oldStartFrame = subtitleBase.x // the original start frame of subtitle
-                //console.log(oldStartFrame)
-                //console.log(subtitleBase.x)
-                originalDuration = subtitleBase.width/timeScale
-                console.log("originalDuration",originalDuration)
+                oldMouseX = mouseX
+                leftstart.anchors.left = undefined
+                oldStartFrame = subtitleRoot.startFrame // the original start frame of subtitle
+                originalDuration = subtitleRoot.duration
+                newDuration = subtitleRoot.duration
                 trimIn.opacity = 0
             }
             onPositionChanged: {
                 if (pressed) {
-                    //console.log('POSITION CHANGED')
-                    newStart = Math.round((subtitleBase.x + (mouseX-oldStartX)) / timeScale)
-                    //diff = (mouseX - oldStartX) / timeScale
-                    if (((mouseX != oldStartX && duration > 1) || (mouseX < oldStartX && duration <= 1)) && subtitleBase.x >= 0) {
-                        sizeChanged = true
-                        diff = (mouseX - oldStartX) / timeScale
-                        subtitleBase.x = subtitleBase.x + diff
-                        //console.log("oldStartFrame",oldStartFrame/timeline.scaleFactor,"subtitleBase",subtitleBase.x/timeline.scaleFactor)
-                        //console.log("duration:", duration)
-                        delta = subtitleBase.x/timeline.scaleFactor - oldStartFrame/timeline.scaleFactor
-                        var diffDelta = delta - oldDelta //update the change in start frame difference
-                        oldDelta = delta
-                        //console.log("Diff:",diff,"Delta:", delta, "Delta_Diff",diffDelta)
-                        //console.log("new duration =", subtitleBase.width/timeScale - delta )
-                        //subtitleBase.width = (originalDuration - delta)*timeScale
-                        duration = duration - diffDelta //update duration to enable resizing
-                        //duration = (originalDuration - diffDelta)
-                        //console.log("Delta duration =", duration )
-                        //console.log("originalDuration",originalDuration- diffDelta)
-                        //console.log("Delta_Duaration:",subtitleBase.width/timeScale)
-                        //timeline.moveSubtitle(oldStartX/ timeScale, subtitleBase.x/timeline.scaleFactor)
+                    newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / timeScale)
+                    if (newDuration != originalDuration && subtitleBase.x >= 0) {
+                        var frame = controller.requestItemResize(subId, newDuration , false, false, root.snapping);
+                        if (frame > 0) {
+                            newStart = subtitleRoot.endFrame - frame
+                        }
                     }
                 }
             }
             onReleased: {
                 //console.log('its RELEASED')
                 root.autoScrolling = timeline.autoScroll
-                //rightend.anchors.right = subtitleBase.right
-                if (mouseX != oldStartX && oldStartFrame!= subtitleBase.x) {
-                    console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame",oldStartFrame/timeline.scaleFactor + delta)
-                    timeline.moveSubtitle(oldStartFrame/timeline.scaleFactor , oldStartFrame/timeline.scaleFactor + delta, subtitleBase.duration)
+                leftstart.anchors.left = subtitleBase.left
+                if (oldStartFrame != newStart) {
+                    controller.requestItemResize(subId, subtitleRoot.endFrame - oldStartFrame, false, false);
+                    controller.requestItemResize(subId, subtitleRoot.endFrame - newStart, false, true);
                 }
             }
             onEntered: {
@@ -197,12 +210,13 @@ Item {
             }
         }
     }
+    
     Item {
         // end position resize handle
         id: rightend
         width: root.baseUnit / 2
         height: subtitleBase.height
-        x: model.endframe * timeScale;
+        //x: subtitleRoot.endFrame * timeScale
         anchors.right: subtitleBase.right
         anchors.top: subtitleBase.top
         //Drag.active: endMouseArea.drag.active
@@ -211,10 +225,9 @@ Item {
         MouseArea {
             id: endMouseArea
             anchors.fill: parent
-            height: parent.height
-            width: 2
             hoverEnabled: true
             enabled: true
+            visible: root.activeTool === 0
             property bool sizeChanged: false
             property int oldMouseX
             acceptedButtons: Qt.LeftButton
@@ -238,9 +251,12 @@ Item {
                     if ((mouseX != oldMouseX && duration > 1) || (duration <= 1 && mouseX > oldMouseX)) {
                         sizeChanged = true
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
-                        newDuration = Math.round((subtitleBase.width/timeScale + (mouseX - oldMouseX)/timeScale))
+                        newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX)/timeScale)
                         // Perform resize without changing model
-                        timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + newDuration, subtitleBase.x / timeline.scaleFactor + subtitleRoot.duration, false)
+                        var frame = controller.requestItemResize(subId, newDuration , true, false, root.snapping);
+                        if (frame > 0) {
+                            newDuration = frame
+                        }
                     }
                 }
             }
@@ -250,9 +266,9 @@ Item {
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
                     // Restore original size
-                    timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + subtitleRoot.duration, subtitleBase.x / timeline.scaleFactor + newDuration, false)
+                    controller.requestItemResize(subId, originalDuration , true, false);
                     // Perform real resize
-                    timeline.resizeSubtitle(subtitleBase.x / timeline.scaleFactor, subtitleBase.x / timeline.scaleFactor + newDuration, subtitleBase.x / timeline.scaleFactor + originalDuration, true)
+                    controller.requestItemResize(subId, newDuration , true, true)
                     sizeChanged = false
                 }
             }

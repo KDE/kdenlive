@@ -76,6 +76,7 @@ public:
     QModelIndex makeClipIndexFromID(int clipId) const override;
     /* @brief Creates an index based on the ID of the compoition*/
     QModelIndex makeCompositionIndexFromID(int compoId) const override;
+    void subtitleChanged(int subId, const QVector<int> roles);
     /* @brief Creates an index based on the ID of the track*/
     QModelIndex makeTrackIndexFromID(int trackId) const override;
     QModelIndex parent(const QModelIndex &index) const override;

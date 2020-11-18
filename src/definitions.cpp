@@ -217,17 +217,17 @@ SubtitledTime::SubtitledTime(const GenTime &start, QString sub, const GenTime &e
 {
 }
 
-QString SubtitledTime::subtitle()
+QString SubtitledTime::subtitle() const
 {
     return m_subtitle;
 }
 
-GenTime SubtitledTime::start()
+GenTime SubtitledTime::start() const
 {
     return m_starttime;
 }
 
-GenTime SubtitledTime::end()
+GenTime SubtitledTime::end() const
 {
     return m_endtime;
 }

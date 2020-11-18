@@ -103,6 +103,7 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
     Q_ASSERT(type != GroupType::Leaf);
     Q_ASSERT(!ids.empty());
     std::unordered_set<int> roots;
+    qDebug()<<"==========GROUPING ITEMS: "<<ids.size();
     std::transform(ids.begin(), ids.end(), std::inserter(roots, roots.begin()), [&](int id) { return getRootId(id); });
     if (roots.size() == 1 && !force) {
         // We do not create a group with only one element. Instead, we return the id of that element
@@ -157,6 +158,8 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
             }
             if (ix.isValid()) {
                 emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+            } else if (ptr->isSubTitle(child)) {
+                ptr->subtitleChanged(child, {TimelineModel::GroupedRole});
             }
         }
         m_downLink[id].clear();
@@ -330,6 +333,8 @@ void GroupsModel::setGroup(int id, int groupId, bool changeState)
             }
             if (ix.isValid()) {
                 emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+            } else if (ptr->isSubTitle(id)) {
+                ptr->subtitleChanged(id, {TimelineModel::GroupedRole});
             }
         }
         if (getType(groupId) == GroupType::Leaf) {
@@ -357,6 +362,8 @@ void GroupsModel::removeFromGroup(int id)
         }
         if (ix.isValid()) {
             emit ptr->dataChanged(ix, ix, {TimelineModel::GroupedRole});
+        } else if (ptr->isSubTitle(id)) {
+            ptr->subtitleChanged(id, {TimelineModel::GroupedRole});
         }
         if (m_downLink[parent].size() == 0) {
             downgradeToLeaf(parent);
@@ -704,9 +711,9 @@ QJsonObject GroupsModel::toJson(int gid) const
     } else {
         // in that case we have a clip or composition
         if (auto ptr = m_parent.lock()) {
-            Q_ASSERT(ptr->isClip(gid) || ptr->isComposition(gid));
-            currentGroup.insert(QLatin1String("leaf"), QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : "composition")));
-            int track = ptr->getTrackPosition(ptr->getItemTrackId(gid));
+            Q_ASSERT(ptr->isClip(gid) || ptr->isComposition(gid) || ptr->isSubTitle(gid));
+            currentGroup.insert(QLatin1String("leaf"), QJsonValue(QLatin1String(ptr->isClip(gid) ? "clip" : ptr->isComposition(gid) ? "composition" : "subtitle")));
+            int track = ptr->isSubTitle(gid) ? -1 : ptr->getTrackPosition(ptr->getItemTrackId(gid));
             int pos = ptr->getItemPosition(gid);
             currentGroup.insert(QLatin1String("data"), QJsonValue(QString("%1:%2").arg(track).arg(pos)));
         } else {
@@ -769,6 +776,8 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
                 id = ptr->getClipByStartPosition(trackId, pos);
             } else if (leaf == QLatin1String("composition")) {
                 id = ptr->getCompositionByPosition(trackId, pos);
+            } else if (leaf == QLatin1String("subtitle")) {
+                id = ptr->getSubtitleByPosition(pos);
             } else {
                 qDebug() << " * * *UNKNOWN ITEM: " << leaf;
             }
