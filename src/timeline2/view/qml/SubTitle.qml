@@ -32,6 +32,7 @@ Item {
             property int snappedFrame
             property double delta: -1
             property double oldDelta: 0
+            property bool startMove: false
             visible: root.activeTool === 0
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             cursorShape: (pressed ? Qt.ClosedHandCursor : ((startMouseArea.drag.active || endMouseArea.drag.active)? Qt.SizeHorCursor: Qt.PointingHandCursor));
@@ -49,6 +50,7 @@ Item {
                 oldStartFrame = subtitleRoot.startFrame
                 snappedFrame = oldStartFrame
                 x = subtitleBase.x
+                startMove = mouse.button & Qt.LeftButton
                 if (timeline.selection.indexOf(subtitleRoot.subId) == -1) {
                     controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
@@ -57,27 +59,28 @@ Item {
                 }
             }
             onPositionChanged: {
-                if (pressed && !subtitleBase.textEditBegin) {
-                    console.log('MOUSE MOVE: ', oldStartFrame," DELTA: ",((mouseX - oldStartX)/ timeScale))
+                if (pressed && !subtitleBase.textEditBegin && startMove) {
                     newStart = oldStartFrame + (mouseX - oldStartX)/ timeScale
                     snappedFrame = controller.suggestSubtitleMove(subId, newStart, root.consumerPosition, root.snapping)
+                    hasMoved = true
                 }
             }
             onReleased: {
-                console.log('IT IS RELEASED')
                 if (subtitleBase.textEditBegin) {
                     mouse.accepted = false
                     return
                 }
                 root.autoScrolling = timeline.autoScroll
-                if (subtitleBase.x < 0)
-                    subtitleBase.x = 0
-                if (oldStartFrame != snappedFrame) {
-                    console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
-                    //timeline.moveSubtitle(oldStartFrame, newStart, duration)
-                    controller.requestSubtitleMove(subId, oldStartFrame, false, false);
-                    controller.requestSubtitleMove(subId, snappedFrame, true, true);
-                    x = snappedFrame * timeScale
+                if (startMove) {
+                    startMove = false
+                    if (subtitleBase.x < 0)
+                        subtitleBase.x = 0
+                    if (oldStartFrame != snappedFrame) {
+                        console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
+                        controller.requestSubtitleMove(subId, oldStartFrame, false, false);
+                        controller.requestSubtitleMove(subId, snappedFrame, true, true);
+                        x = snappedFrame * timeScale
+                    }
                 }
                 console.log('RELEASED DONE\n\n_______________')
             }

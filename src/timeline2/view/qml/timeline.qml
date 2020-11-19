@@ -888,14 +888,13 @@ Rectangle {
                         proxy.position = Math.min((scrollView.contentX + mouse.x) / timeline.scaleFactor, timeline.fullDuration - 1)
                     }
                 } else if (mouse.button & Qt.RightButton) {
-                    if (mouse.y > ruler.height) {
-                        var offset = 0
-                        if (root.showSubtitles) {
-                            offset = subtitleTrack.height
-                        }
-                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - offset)).trackInternalId
+                    if (mouse.y > ruler.height + subtitleTrack.height) {
+                        timeline.activeTrack = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height)).trackInternalId
                         root.mainFrame = Math.floor((mouse.x + scrollView.contentX) / timeline.scaleFactor)
                         root.showTimelineMenu()
+                    } else if (mouse.y > ruler.height) {
+                        //TODO:
+                        // subtitle track menu
                     } else {
                         // ruler menu
                         root.showRulerMenu()
