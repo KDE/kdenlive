@@ -775,7 +775,7 @@ void KdenliveDoc::updateSubtitle(QString newUrl)
             QFileInfo info(newUrl);
             subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
         }
-        qDebug()<<"===== SAVING SUBTITLE TO NEW ATH: "<<subPath;
+        qDebug()<<"===== SAVING SUBTITLE TO NEW PATH: "<<subPath;
         m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson(), subPath);
     }
 }

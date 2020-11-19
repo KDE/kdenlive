@@ -29,6 +29,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
+#include "dialogs/subtitleedit.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -179,6 +180,7 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
+    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
@@ -276,6 +278,11 @@ std::shared_ptr<JobManager> Core::jobManager()
 LibraryWidget *Core::library()
 {
     return m_library;
+}
+
+SubtitleEdit *Core::subtitleWidget()
+{
+    return m_subtitleWidget;
 }
 
 MixerManager *Core::mixer()

@@ -53,6 +53,14 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
         m_tractor->attach(*m_subtitleFilter.get());
     }
     setup();
+    QSize frameSize = pCore->getCurrentFrameDisplaySize();
+    int fontSize = frameSize.height() / 15;
+    int fontMargin = frameSize.height() - (2 *fontSize);
+    scriptInfoSection = QString("[Script Info]\n; This is a Sub Station Alpha v4 script.\n;\nScriptType: v4.00\nCollisions: Normal\nPlayResX: %1\nPlayResY: %2\nTimer: 100.0000\n").arg(frameSize.width()).arg(frameSize.height());
+    styleSection = QString("[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding\nStyle: Default,Consolas,%1,16777215,65535,255,0,-1,0,1,2,2,6,40,40,%2,0,1\n").arg(fontSize).arg(fontMargin);
+    eventSection = QStringLiteral("[Events]\n");
+    styleName = QStringLiteral("Default");
+    
 }
 
 void SubtitleModel::setup()
@@ -86,7 +94,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset)
     if (filePath.isEmpty())
         return;
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
-    if (filePath.contains(".srt")) {
+    if (filePath.endsWith(".srt")) {
         QFile srtFile(filePath);
         if (!srtFile.exists() || !srtFile.open(QIODevice::ReadOnly)) {
             qDebug() << " File not found " << filePath;
@@ -98,7 +106,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset)
         QString line;
         while (stream.readLineInto(&line)) {
             line = line.simplified();
-            if (line.compare("")) {
+            if (!line.isEmpty()) {
                 if (!turn) {
                     // index=atoi(line.toStdString().c_str());
                     turn++;
@@ -133,7 +141,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset)
             }            
         }  
         srtFile.close();
-    } else if (filePath.contains(".ass")) {
+    } else if (filePath.endsWith(".ass")) {
         qDebug()<< "ass File";
         QString startTime,endTime,text;
         QString EventFormat, section;
@@ -147,9 +155,12 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset)
         QTextStream stream(&assFile);
         QString line;
         qDebug() << " correct ass file  " << filePath;
+        scriptInfoSection.clear();
+        styleSection.clear();
+        eventSection.clear();
         while (stream.readLineInto(&line)) {
             line = line.simplified();
-            if (line.compare("")) {
+            if (!line.isEmpty()) {
                 if (!turn) {
                     //qDebug() << " turn = 0  " << line;
                     //check if it is script info, event,or v4+ style
@@ -168,12 +179,15 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset)
                         turn++;
                         //qDebug()<< "turn" << turn;
                         continue;
-                    } else {
+                    } else if (line.contains("Events")) {
                         turn++;
                         section = "Events";
                         eventSection += line +"\n";
                         //qDebug()<< "turn" << turn;
                         continue;
+                    } else {
+                        //unknown section
+                        
                     }
                 }
                 if (section.contains("Script Info")) {
@@ -372,6 +386,39 @@ SubtitledTime SubtitleModel::getSubtitle(GenTime startFrame) const
         }
     }
     return SubtitledTime(GenTime(), QString(), GenTime());
+}
+
+QString SubtitleModel::getText(int id) const
+{
+    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
+        return QString();
+    }
+    GenTime start = m_timeline->m_allSubtitles.at(id);
+    return m_subtitleList.at(start).first;
+}
+
+bool SubtitleModel::setText(int id, const QString text)
+{
+    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
+        return false;
+    }
+    GenTime start = m_timeline->m_allSubtitles.at(id);
+    GenTime end = m_subtitleList.at(start).second;
+    QString oldText = m_subtitleList.at(start).first;
+    m_subtitleList[start].first = text;
+    Fun local_redo = [this, start, end, text]() {
+        editSubtitle(start, text, end);
+        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        return true;
+    };
+    Fun local_undo = [this, start, end, oldText]() {
+        editSubtitle(start, oldText, end);
+        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        return true;
+    };
+    local_redo();
+    pCore->pushUndo(local_undo, local_redo, i18n("Edit subtitle"));
+    return true;
 }
 
 std::unordered_set<int> SubtitleModel::getItemsInRange(int startFrame, int endFrame) const
@@ -658,6 +705,42 @@ int SubtitleModel::getIdForStartPos(GenTime startTime) const
     return -1;
 }
 
+GenTime SubtitleModel::getStartPosForId(int id) const
+{
+    if (m_timeline->m_allSubtitles.count(id) == 0) {
+        return GenTime();
+    };
+    return m_timeline->m_allSubtitles.at(id);
+}
+
+int SubtitleModel::getPreviousSub(int id) const
+{
+    GenTime start = getStartPosForId(id);
+    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(start)));
+    if (row > 0) {
+        row--;
+        auto it = m_subtitleList.begin();
+        std::advance(it, row);
+        const GenTime res = it->first;
+        return getIdForStartPos(res);
+    }
+    return -1;
+}
+
+int SubtitleModel::getNextSub(int id) const
+{
+    GenTime start = getStartPosForId(id);
+    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(start)));
+    if (row < static_cast<int>(m_subtitleList.size()) - 1) {
+        row++;
+        auto it = m_subtitleList.begin();
+        std::advance(it, row);
+        const GenTime res = it->first;
+        return getIdForStartPos(res);
+    }
+    return -1;
+}
+
 QString SubtitleModel::toJson()
 {
     //qDebug()<< "to JSON";
@@ -681,8 +764,10 @@ void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
     if (outFile.isEmpty()) {
         outFile = pCore->currentDoc()->subTitlePath(); // use srt format as default unless file is imported (m_subFilePath)
     }
-    if (!outFile.contains(".ass"))
+    bool assFormat = outFile.endsWith(".ass");
+    if (!assFormat) {
         qDebug()<< "srt file import"; // if imported file isn't .ass, it is .srt format
+    }
     QFile outF(outFile);
 
     //qDebug()<< "Import from JSON";
@@ -696,7 +781,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
-        if (outFile.contains(".ass")) {
+        if (assFormat) {
         	out<<scriptInfoSection<<endl;
         	out<<styleSection<<endl;
         	out<<eventSection;
@@ -754,11 +839,10 @@ void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
               .arg(seconds, 2, 10, QChar('0'))
               .arg(millisec,3,10,QChar('0'));
             line++;
-            if (outFile.contains(".ass")) {
+            if (assFormat) {
             	//Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
             	out <<"Dialogue: 0,"<<startTimeString<<","<<endTimeString<<","<<styleName<<",,0000,0000,0000,,"<<dialogue<<endl;
-            }
-            if (outFile.contains(".srt")) {
+            } else {
                 out<<line<<"\n"<<startTimeStringSRT<<" --> "<<endTimeStringSRT<<"\n"<<dialogue<<"\n"<<endl;
             }
             
@@ -781,6 +865,16 @@ void SubtitleModel::updateSub(int id, QVector <int> roles)
     // Trigger update of the qml view
     qDebug()<<"=== UPDATING ROLE FOR ROW: "<<row;
     emit dataChanged(index(row), index(row), roles);
+}
+
+int SubtitleModel::getRowForId(int id) const
+{
+    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
+        return -1;
+    }
+    GenTime startPos = m_timeline->m_allSubtitles.at(id);
+    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
+    return row;
 }
 
 int SubtitleModel::getSubtitlePlaytime(int id) const

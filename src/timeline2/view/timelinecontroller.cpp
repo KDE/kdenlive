@@ -2937,12 +2937,18 @@ void TimelineController::updateClipActions()
         emit timelineClipSelected(false);
         // nothing selected
         emit showItemEffectStack(QString(), nullptr, QSize(), false);
+        emit showSubtitle(-1);
         return;
     }
     std::shared_ptr<ClipModel> clip(nullptr);
     int item = *m_model->getCurrentSelection().begin();
-    if (m_model->getCurrentSelection().size() == 1 && (m_model->isClip(item) || m_model->isComposition(item))) {
-        showAsset(item);
+    if (m_model->getCurrentSelection().size() == 1) {
+        if (m_model->isClip(item) || m_model->isComposition(item)) {
+            showAsset(item);
+            emit showSubtitle(-1);
+        } else if (m_model->isSubTitle(item)) {
+            emit showSubtitle(item);
+        }
     }
     if (m_model->isClip(item)) {
         clip = m_model->getClipPtr(item);
@@ -3740,9 +3746,11 @@ void TimelineController::temporaryUnplug(QList<int> clipIds, bool hide)
 
 void TimelineController::editSubtitle(int startFrame, int endFrame, QString newText, QString oldText)
 {
-    qDebug()<<"Editing existing subtitle in controller at:"<<startFrame<<"\n\n=====================";
+    qDebug()<<"Editing existing subtitle in controller at:"<<startFrame;
+    if (oldText == newText) {
+        return;
+    }
     auto subtitleModel = pCore->projectManager()->current()->getSubtitleModel();
-   
     Fun local_redo = [subtitleModel, startFrame, endFrame, newText]() {
         subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), newText, GenTime(endFrame, pCore->getCurrentFps()));
         pCore->refreshProjectRange({startFrame, endFrame});

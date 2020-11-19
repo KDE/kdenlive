@@ -121,6 +121,11 @@ public:
     /** @brief Cut a subtitle */
     void cutSubtitle(int position);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
+    QString getText(int id) const;
+    int getRowForId(int id) const;
+    GenTime getStartPosForId(int id) const;
+    int getPreviousSub(int id) const;
+    int getNextSub(int id) const;
 
 public slots:
     /** @brief Function that parses through a subtitle file */
@@ -128,6 +133,8 @@ public slots:
     
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
     void jsontoSubtitle(const QString &data, QString updatedFileName = QString());
+    /** @brief Update a subtitle text*/
+    bool setText(int id, const QString text);
 
 private:
     std::shared_ptr<TimelineItemModel> m_timeline;

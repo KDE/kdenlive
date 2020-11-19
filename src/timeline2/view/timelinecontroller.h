@@ -681,6 +681,7 @@ signals:
     /* @brief Requests that a given mix is displayed in the asset panel */
     void showMixModel(int cid, const std::shared_ptr<AssetParameterModel> &asset);
     void showItemEffectStack(const QString &clipName, std::shared_ptr<EffectStackModel>, QSize frameSize, bool showKeyframes);
+    void showSubtitle(int id);
     /* @brief notify of chunks change
      */
     void dirtyChunksChanged();

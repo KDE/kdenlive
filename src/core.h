@@ -20,6 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 #include <QPoint>
+#include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
 #include "timecode.h"
@@ -38,6 +39,7 @@ class MonitorManager;
 class ProfileModel;
 class ProjectItemModel;
 class ProjectManager;
+class SubtitleEdit;
 
 namespace Mlt {
     class Repository;
@@ -113,6 +115,8 @@ public:
     std::shared_ptr<JobManager> jobManager();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
+    /** @brief Returns a pointer to the subtitle edit. */
+    SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 
@@ -247,6 +251,7 @@ private:
     std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
+    SubtitleEdit *m_subtitleWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;

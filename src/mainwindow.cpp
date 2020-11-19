@@ -30,6 +30,7 @@
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/renderwidget.h"
 #include "dialogs/wizard.h"
+#include "dialogs/subtitleedit.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "dockareaorientationmanager.h"
@@ -261,6 +262,7 @@ void MainWindow::init()
     LayoutManagement *layoutManager = new LayoutManagement(this);
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
+    QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -340,6 +342,7 @@ void MainWindow::init()
     // Close library and audiospectrum on first run
     screenGrabDock->close();
     libraryDock->close();
+    subtitlesDock->close();
     spectrumDock->close();
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
@@ -360,6 +363,14 @@ void MainWindow::init()
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&] () {
         m_effectStackDock->raise();
+    });
+
+    connect(m_timelineTabs, &TimelineTabs::showSubtitle, this, [&, subtitlesDock] (int id) {
+        if (id > -1) {
+            subtitlesDock->show();
+            subtitlesDock->raise();
+        }
+        pCore->subtitleWidget()->setActiveSubtitle(id);
     });
 
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
@@ -4191,6 +4202,7 @@ void MainWindow::slotEditSubtitle(const QString subPath)
         subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->controller()->getModel(), this));
         getMainTimeline()->controller()->getModel()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel, subPath);
+        pCore->subtitleWidget()->setModel(subtitleModel);
     }
     getMainTimeline()->connectSubtitleModel();
 }

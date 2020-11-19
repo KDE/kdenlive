@@ -86,6 +86,7 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(timeline->controller(), &TimelineController::showMixModel, this, &TimelineTabs::showMixModel);
     connect(timeline->controller(), &TimelineController::updateZoom, this, [&](double value) { emit updateZoom(getCurrentTimeline()->zoomForScale(value)); });
     connect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
+    connect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
@@ -99,5 +100,6 @@ void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
     disconnect(timeline->controller(), &TimelineController::showTransitionModel, this, &TimelineTabs::showTransitionModel);
     disconnect(timeline->controller(), &TimelineController::showMixModel, this, &TimelineTabs::showMixModel);
     disconnect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
+    disconnect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
     delete timeline;
 }
