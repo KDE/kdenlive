@@ -159,8 +159,6 @@ signals:
     void modelChanged();
     
 protected:
-    /** @brief Helper function that retrieves a pointer to the subtitle model*/
-    static std::shared_ptr<SubtitleModel> getModel();
     /** @brief Add time as snap in the registered snap model */
     void addSnapPoint(GenTime startpos);
     /** @brief Remove time as snap in the registered snap model */

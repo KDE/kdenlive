@@ -53,7 +53,7 @@ Core::Core()
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
-    m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
+    //m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
     projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
 }
@@ -275,6 +275,14 @@ void Core::selectTimelineItem(int id)
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
         m_mainWindow->getCurrentTimeline()->controller()->getModel()->requestAddToSelection(id, true);
     }
+}
+
+std::shared_ptr<SubtitleModel> Core::getSubtitleModel()
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+    }
+    return nullptr;
 }
 
 std::shared_ptr<JobManager> Core::jobManager()

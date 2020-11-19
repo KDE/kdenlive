@@ -40,6 +40,7 @@ class ProfileModel;
 class ProjectItemModel;
 class ProjectManager;
 class SubtitleEdit;
+class SubtitleModel;
 
 namespace Mlt {
     class Repository;
@@ -236,6 +237,8 @@ public:
     void addGuides(QList <int> guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(QList<int> clipIds, bool hide);
+    /** @brief Returns the current doc's subtitle model. */
+    std::shared_ptr<SubtitleModel> getSubtitleModel();
     
     KSharedDataCache audioThumbCache;
 

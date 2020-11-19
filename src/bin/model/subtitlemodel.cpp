@@ -60,6 +60,9 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
     styleSection = QString("[V4 Styles]\nFormat: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, TertiaryColour, BackColour, Bold, Italic, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, AlphaLevel, Encoding\nStyle: Default,Consolas,%1,16777215,65535,255,0,-1,0,1,2,2,6,40,40,%2,0,1\n").arg(fontSize).arg(fontMargin);
     eventSection = QStringLiteral("[Events]\n");
     styleName = QStringLiteral("Default");
+    connect(this, &SubtitleModel::modelChanged, [this]() {
+        jsontoSubtitle(toJson()); 
+    });
     
 }
 
@@ -73,11 +76,6 @@ void SubtitleModel::setup()
     connect(this, &SubtitleModel::rowsRemoved, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::rowsInserted, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::modelReset, this, &SubtitleModel::modelChanged);
-}
-
-std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
-{
-    return pCore->projectManager()->getSubtitleModel();
 }
 
 void SubtitleModel::importSubtitle(const QString filePath, int offset, bool externalImport)
@@ -533,15 +531,14 @@ void SubtitleModel::removeSnapPoint(GenTime startpos)
 void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refreshModel)
 {
     qDebug()<<"Changing the sub end timings in model";
-    auto model = getModel();
-    if (model->m_subtitleList.count(startPos) <= 0) {
+    if (m_subtitleList.count(startPos) <= 0) {
         //is not present in model only
         return;
     }
-    int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
-    model->m_subtitleList[startPos].second = newEndPos;
+    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
+    m_subtitleList[startPos].second = newEndPos;
     // Trigger update of the qml view
-    emit model->dataChanged(model->index(row), model->index(row), {EndFrameRole});
+    emit dataChanged(index(row), index(row), {EndFrameRole});
     if (refreshModel) {
         emit modelChanged();
     }
@@ -629,12 +626,11 @@ void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenT
         return;
     }
     qDebug()<<"Editing existing subtitle in model";
-    auto model = getModel();
-    int row = static_cast<int>(std::distance(model->m_subtitleList.begin(), model->m_subtitleList.find(startPos)));
-    model->m_subtitleList[startPos].first = newSubtitleText ;
-    model->m_subtitleList[startPos].second = endPos;
+    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
+    m_subtitleList[startPos].first = newSubtitleText ;
+    m_subtitleList[startPos].second = endPos;
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].first<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
-    emit model->dataChanged(model->index(row), model->index(row), QVector<int>() << SubtitleRole);
+    emit dataChanged(index(row), index(row), QVector<int>() << SubtitleRole);
     emit modelChanged();
     return;
 }
