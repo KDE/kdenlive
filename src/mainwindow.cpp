@@ -4193,18 +4193,25 @@ void MainWindow::resetSubtitles()
     // Hide subtitle track
     m_buttonSubtitleEditTool->setChecked(false);
     getMainTimeline()->showSubtitles = false;
+    pCore->subtitleWidget()->setModel(nullptr);
 }
 
 void MainWindow::slotEditSubtitle(const QString subPath)
 {
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->currentDoc()->getSubtitleModel();
     if (subtitleModel == nullptr) {
+        // Starting a new subtitle for this project
         subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->controller()->getModel(), this));
         getMainTimeline()->controller()->getModel()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel, subPath);
         pCore->subtitleWidget()->setModel(subtitleModel);
+        getMainTimeline()->showSubtitles = true;
+        m_buttonSubtitleEditTool->setChecked(true);
+        getMainTimeline()->connectSubtitleModel(true);
+    } else {
+        getMainTimeline()->showSubtitles = m_buttonSubtitleEditTool->isChecked();
+        getMainTimeline()->connectSubtitleModel(false);
     }
-    getMainTimeline()->connectSubtitleModel();
 }
 
 void MainWindow::slotAddSubtitle()

@@ -919,13 +919,12 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             std::unique_ptr<Mlt::Filter> filter(ptr->filter(i));
             if (filter->get_int("internal_added") > 0 && m_ownerId.first != ObjectType::TimelineTrack) {
                 // Required to load master audio effects
-                if (auto ms = m_masterService.lock()) {
-                    ms->attach(*filter.get());
-                }
                 if (m_ownerId.first == ObjectType::Master && filter->get("mlt_service") == QLatin1String("avfilter.subtitles")) {
                     // A subtitle filter, update project
                     QString subFile(filter->get("av.filename"));
                     pCore->window()->slotEditSubtitle(subFile);
+                } else if (auto ms = m_masterService.lock()) {
+                    ms->attach(*filter.get());
                 }
                 continue;
             }

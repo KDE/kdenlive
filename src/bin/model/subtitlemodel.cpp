@@ -80,7 +80,7 @@ std::shared_ptr<SubtitleModel> SubtitleModel::getModel()
     return pCore->projectManager()->getSubtitleModel();
 }
 
-void SubtitleModel::importSubtitle(const QString filePath, int offset)
+void SubtitleModel::importSubtitle(const QString filePath, int offset, bool externalImport)
 {
     QString start,end,comment;
     QString timeLine;
@@ -244,7 +244,9 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset)
         }
         assFile.close();
     }
-    jsontoSubtitle(toJson());
+    if (externalImport) {
+        jsontoSubtitle(toJson());
+    }
 }
 
 void SubtitleModel::parseSubtitle(const QString subPath)
@@ -255,7 +257,7 @@ void SubtitleModel::parseSubtitle(const QString subPath)
     }
     QString filePath = m_subtitleFilter->get("av.filename");
     m_subFilePath = filePath;
-    importSubtitle(filePath);
+    importSubtitle(filePath, 0, false);
     //jsontoSubtitle(toJson());
 }
 

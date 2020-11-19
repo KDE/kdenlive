@@ -77,11 +77,16 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
     m_activeSub = -1;
     subText->setEnabled(false);
     buttonApply->setEnabled(false);
-    connect(m_model.get(), &SubtitleModel::dataChanged, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
-        if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub && roles.contains(SubtitleModel::SubtitleRole))) {
-            setActiveSubtitle(m_activeSub);
-        }
-    });
+    if (m_model == nullptr) {
+        QSignalBlocker bk(subText);
+        subText->clear();
+    } else {
+        connect(m_model.get(), &SubtitleModel::dataChanged, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
+            if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub) && roles.contains(SubtitleModel::SubtitleRole)) {
+                setActiveSubtitle(m_activeSub);
+            }
+        });
+    }
 }
 
 void SubtitleEdit::updateSubtitle()

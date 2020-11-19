@@ -487,7 +487,7 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     return QQuickWidget::eventFilter(object, event);
 }
 
-void TimelineWidget::connectSubtitleModel()
+void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
     qDebug()<<"root context get sub model new function";
     if (pCore->projectManager()->current()->getSubtitleModel().get() == nullptr) {
@@ -496,9 +496,10 @@ void TimelineWidget::connectSubtitleModel()
     }
     else
     {
-        showSubtitles = !showSubtitles;
         //qDebug()<<"null ptr NOT here at root context";
         rootObject()->setProperty("showSubtitles", showSubtitles);
-        rootContext()->setContextProperty("subtitleModel", pCore->projectManager()->current()->getSubtitleModel().get());
+        if (firstConnect) {
+            rootContext()->setContextProperty("subtitleModel", pCore->projectManager()->current()->getSubtitleModel().get());
+        }
     }
 }

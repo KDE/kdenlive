@@ -3821,7 +3821,7 @@ void TimelineController::importSubtitle()
         if (view.cursor_pos->isChecked()) {
             offset = pCore->getTimelinePosition();
         }
-        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset);
+        subtitleModel->importSubtitle(view.subtitle_url->url().toLocalFile(), offset, true);
     }
 }
 
