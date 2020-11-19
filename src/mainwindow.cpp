@@ -30,6 +30,7 @@
 #include "dialogs/kdenlivesettingsdialog.h"
 #include "dialogs/renderwidget.h"
 #include "dialogs/wizard.h"
+#include "dialogs/subtitleedit.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "dockareaorientationmanager.h"
@@ -261,6 +262,7 @@ void MainWindow::init()
     LayoutManagement *layoutManager = new LayoutManagement(this);
 
     QDockWidget *libraryDock = addDock(i18n("Library"), QStringLiteral("library"), pCore->library());
+    QDockWidget *subtitlesDock = addDock(i18n("Subtitles"), QStringLiteral("Subtitles"), pCore->subtitleWidget());
 
     m_clipMonitor = new Monitor(Kdenlive::ClipMonitor, pCore->monitorManager(), this);
     pCore->bin()->setMonitor(m_clipMonitor);
@@ -340,6 +342,7 @@ void MainWindow::init()
     // Close library and audiospectrum on first run
     screenGrabDock->close();
     libraryDock->close();
+    subtitlesDock->close();
     spectrumDock->close();
 
     m_projectBinDock = addDock(i18n("Project Bin"), QStringLiteral("project_bin"), pCore->bin());
@@ -360,6 +363,14 @@ void MainWindow::init()
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(m_timelineTabs, &TimelineTabs::showItemEffectStack, this, [&] () {
         m_effectStackDock->raise();
+    });
+
+    connect(m_timelineTabs, &TimelineTabs::showSubtitle, this, [&, subtitlesDock] (int id) {
+        if (id > -1) {
+            subtitlesDock->show();
+            subtitlesDock->raise();
+        }
+        pCore->subtitleWidget()->setActiveSubtitle(id);
     });
 
     connect(m_timelineTabs, &TimelineTabs::updateZoom, this, &MainWindow::updateZoomSlider);
@@ -4182,22 +4193,34 @@ void MainWindow::resetSubtitles()
     // Hide subtitle track
     m_buttonSubtitleEditTool->setChecked(false);
     getMainTimeline()->showSubtitles = false;
+    pCore->subtitleWidget()->setModel(nullptr);
 }
 
-void MainWindow::slotEditSubtitle(const QString subPath)
+void MainWindow::slotEditSubtitle(QString subPath)
 {
-    std::shared_ptr<SubtitleModel> subtitleModel = pCore->currentDoc()->getSubtitleModel();
+    std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel == nullptr) {
+        // Starting a new subtitle for this project
         subtitleModel.reset(new SubtitleModel(getMainTimeline()->controller()->tractor(), getMainTimeline()->controller()->getModel(), this));
         getMainTimeline()->controller()->getModel()->setSubModel(subtitleModel);
-        pCore->currentDoc()->initializeSubtitles(subtitleModel, subPath);
+        pCore->currentDoc()->initializeSubtitles(subtitleModel);
+        pCore->subtitleWidget()->setModel(subtitleModel);
+        if (!subPath.isEmpty() && QFileInfo(subPath).isRelative()) {
+            subPath.prepend(pCore->currentDoc()->documentRoot());
+        }
+        subtitleModel->parseSubtitle(subPath);
+        getMainTimeline()->showSubtitles = true;
+        m_buttonSubtitleEditTool->setChecked(true);
+        getMainTimeline()->connectSubtitleModel(true);
+    } else {
+        getMainTimeline()->showSubtitles = m_buttonSubtitleEditTool->isChecked();
+        getMainTimeline()->connectSubtitleModel(false);
     }
-    getMainTimeline()->connectSubtitleModel();
 }
 
 void MainWindow::slotAddSubtitle()
 {
-    if (pCore->currentDoc()->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
+    if (pCore->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
         slotEditSubtitle();
         m_buttonSubtitleEditTool->setChecked(true);
     }
@@ -4206,7 +4229,7 @@ void MainWindow::slotAddSubtitle()
 
 void MainWindow::slotImportSubtitle()
 {
-    if (pCore->currentDoc()->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
+    if (pCore->getSubtitleModel() == nullptr || !getMainTimeline()->showSubtitles) {
         slotEditSubtitle();
         m_buttonSubtitleEditTool->setChecked(true);
     }
@@ -4215,7 +4238,7 @@ void MainWindow::slotImportSubtitle()
 
 void MainWindow::slotExportSubtitle()
 {
-    if (pCore->currentDoc()->getSubtitleModel() == nullptr) {
+    if (pCore->getSubtitleModel() == nullptr) {
         pCore->displayMessage(i18n("No subtitles in current project"), InformationMessage);
         return;
     }

@@ -172,12 +172,8 @@ public:
      * @return Original decimal point, or an empty string if it was “.” already
      */
     QString &modifiedDecimalPoint();
-    /** @brief Returns a pointer to the subtitle model */
-    std::shared_ptr<SubtitleModel> getSubtitleModel() const;
-    /** @brief Initialize and connect subtitle model */
-    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, QString subPath = QString());
-    /** @brief Delete all subtitles from subtitle model */
-    void removeSubtitles();
+    /** @brief Initialize subtitle model */
+    void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
     /** @brief Returns a path for current document's subtitle file */
     QString subTitlePath();
 
@@ -210,7 +206,7 @@ private:
     QMap<QString, QString> m_documentProperties;
     QMap<QString, QString> m_documentMetadata;
     std::shared_ptr<MarkerListModel> m_guideModel;
-    std::shared_ptr<SubtitleModel> m_subtitleModel;
+    std::weak_ptr<SubtitleModel> m_subtitleModel;
 
     QString m_modifiedDecimalPoint;
 
@@ -246,8 +242,6 @@ public slots:
     void slotAutoSave(const QString &scene);
     /** @brief Groups were changed, save to MLT. */
     void groupsChanged(const QString &groups);
-    /** @brief Subtitles were changed, update subtitle file */
-    void subtitlesChanged();
 
 private slots:
     void slotModified();

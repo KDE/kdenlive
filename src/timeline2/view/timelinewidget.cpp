@@ -174,7 +174,7 @@ void TimelineWidget::setModel(const std::shared_ptr<TimelineItemModel> &model, M
     ft.setPointSize(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont).pointSize());
     setFont(ft);
     rootContext()->setContextProperty("miniFont", font());
-    rootContext()->setContextProperty("subtitleModel", pCore->projectManager()->current()->getSubtitleModel().get());
+    rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
     const QStringList effs = sortedItems(KdenliveSettings::favorite_effects(), false).values();
     const QStringList trans = sortedItems(KdenliveSettings::favorite_transitions(), true).values();
 
@@ -487,18 +487,19 @@ bool TimelineWidget::eventFilter(QObject *object, QEvent *event)
     return QQuickWidget::eventFilter(object, event);
 }
 
-void TimelineWidget::connectSubtitleModel()
+void TimelineWidget::connectSubtitleModel(bool firstConnect)
 {
     qDebug()<<"root context get sub model new function";
-    if (pCore->projectManager()->current()->getSubtitleModel().get() == nullptr) {
+    if (pCore->getSubtitleModel().get() == nullptr) {
         //qDebug()<<"null ptr here at root context";
         return;
     }
     else
     {
-        showSubtitles = !showSubtitles;
         //qDebug()<<"null ptr NOT here at root context";
         rootObject()->setProperty("showSubtitles", showSubtitles);
-        rootContext()->setContextProperty("subtitleModel", pCore->projectManager()->current()->getSubtitleModel().get());
+        if (firstConnect) {
+            rootContext()->setContextProperty("subtitleModel", pCore->getSubtitleModel().get());
+        }
     }
 }

@@ -20,6 +20,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include <QUrl>
 #include <memory>
 #include <QPoint>
+#include <QTextEdit>
 #include <KSharedDataCache>
 #include <unordered_set>
 #include "timecode.h"
@@ -38,6 +39,8 @@ class MonitorManager;
 class ProfileModel;
 class ProjectItemModel;
 class ProjectManager;
+class SubtitleEdit;
+class SubtitleModel;
 
 namespace Mlt {
     class Repository;
@@ -107,12 +110,16 @@ public:
     Bin *bin();
     /** @brief Select a clip in the Bin from its id. */
     void selectBinClip(const QString &id, int frame = -1, const QPoint &zone = QPoint());
+    /** @brief Selects an item in the current timeline (clip, composition, subtitle). */
+    void selectTimelineItem(int id);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
     /** @brief Returns a pointer to the job manager. Please do not store it. */
     std::shared_ptr<JobManager> jobManager();
     /** @brief Returns a pointer to the library. */
     LibraryWidget *library();
+    /** @brief Returns a pointer to the subtitle edit. */
+    SubtitleEdit *subtitleWidget();
     /** @brief Returns a pointer to the audio mixer. */
     MixerManager *mixer();
 
@@ -230,6 +237,8 @@ public:
     void addGuides(QList <int> guides);
     /** @brief Temporarily un/plug a list of clips in timeline. */
     void temporaryUnplug(QList<int> clipIds, bool hide);
+    /** @brief Returns the current doc's subtitle model. */
+    std::shared_ptr<SubtitleModel> getSubtitleModel();
     
     KSharedDataCache audioThumbCache;
 
@@ -247,6 +256,7 @@ private:
     std::shared_ptr<JobManager> m_jobManager;
     Bin *m_binWidget{nullptr};
     LibraryWidget *m_library{nullptr};
+    SubtitleEdit *m_subtitleWidget{nullptr};
     MixerManager *m_mixerWidget{nullptr};
     /** @brief Current project's profile path */
     QString m_currentProfile;

@@ -82,7 +82,6 @@ KdenliveDoc::KdenliveDoc(const QUrl &url, QString projectFolder, QUndoGroup *und
     , m_documentOpenStatus(CleanProject)
     , m_projectFolder(std::move(projectFolder))
     , m_guideModel(new MarkerListModel(m_commandStack, this))
-    , m_subtitleModel(nullptr)
 {
     connect(m_guideModel.get(), &MarkerListModel::modelChanged, this, &KdenliveDoc::guidesChanged);
     connect(this, SIGNAL(updateCompositionMode(int)), parent, SLOT(slotUpdateCompositeAction(int)));
@@ -762,7 +761,7 @@ void KdenliveDoc::setUrl(const QUrl &url)
 
 void KdenliveDoc::updateSubtitle(QString newUrl)
 {
-    if (m_subtitleModel) {
+    if (auto ptr = m_subtitleModel.lock()) {
         if (newUrl.isEmpty() && m_url.isValid()) {
             newUrl = m_url.toLocalFile();
         }
@@ -775,8 +774,7 @@ void KdenliveDoc::updateSubtitle(QString newUrl)
             QFileInfo info(newUrl);
             subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
         }
-        qDebug()<<"===== SAVING SUBTITLE TO NEW ATH: "<<subPath;
-        m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson(), subPath);
+        ptr->jsontoSubtitle(ptr->toJson(), subPath);
     }
 }
 
@@ -1795,11 +1793,6 @@ QString& KdenliveDoc::modifiedDecimalPoint() {
     return m_modifiedDecimalPoint;
 }
 
-std::shared_ptr<SubtitleModel> KdenliveDoc::getSubtitleModel() const
-{
-    return m_subtitleModel;
-}
-
 QString KdenliveDoc::subTitlePath()
 {
     QString path;
@@ -1812,25 +1805,8 @@ QString KdenliveDoc::subTitlePath()
     return path;
 }
 
-void KdenliveDoc::subtitlesChanged()
-{
-    //m_subtitleModel->parseSubtitle();
-    m_subtitleModel->jsontoSubtitle(m_subtitleModel->toJson());    //Update subtitle file everytime the subtitle model is changed
-    return;
-}
-
-void KdenliveDoc::initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle, QString subPath)
+void KdenliveDoc::initializeSubtitles(std::shared_ptr<SubtitleModel> m_subtitle)
 {
     m_subtitleModel = m_subtitle;
-    if (QFileInfo(subPath).isRelative()) {
-        subPath.prepend(m_documentRoot);
-    }
-    connect(m_subtitleModel.get(), &SubtitleModel::modelChanged, this, &KdenliveDoc::subtitlesChanged);
-    m_subtitleModel->parseSubtitle(subPath);
-    //QMetaObject::invokeMethod(m_subtitle.get(), "parseSubtitle", Qt::QueuedConnection);
 }
 
-void KdenliveDoc::removeSubtitles()
-{
-    m_subtitleModel->removeAllSubtitles();
-}

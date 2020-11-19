@@ -29,6 +29,7 @@ the Free Software Foundation, either version 3 of the License, or
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
+#include "dialogs/subtitleedit.h"
 #include <mlt++/MltRepository.h>
 
 #include <KMessageBox>
@@ -52,7 +53,7 @@ Core::Core()
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
-    m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
+    //m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
     projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
 }
@@ -179,6 +180,7 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     m_projectManager = new ProjectManager(this);
     m_binWidget = new Bin(m_projectItemModel, m_mainWindow);
     m_library = new LibraryWidget(m_projectManager, m_mainWindow);
+    m_subtitleWidget = new SubtitleEdit(m_mainWindow);
     m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_library, SIGNAL(addProjectClips(QList<QUrl>)), m_binWidget, SLOT(droppedUrls(QList<QUrl>)));
     connect(this, &Core::updateLibraryPath, m_library, &LibraryWidget::slotUpdateLibraryPath);
@@ -268,6 +270,21 @@ void Core::selectBinClip(const QString &clipId, int frame, const QPoint &zone)
     m_binWidget->selectClipById(clipId, frame, zone);
 }
 
+void Core::selectTimelineItem(int id)
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+        m_mainWindow->getCurrentTimeline()->controller()->getModel()->requestAddToSelection(id, true);
+    }
+}
+
+std::shared_ptr<SubtitleModel> Core::getSubtitleModel()
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+    }
+    return nullptr;
+}
+
 std::shared_ptr<JobManager> Core::jobManager()
 {
     return m_jobManager;
@@ -276,6 +293,11 @@ std::shared_ptr<JobManager> Core::jobManager()
 LibraryWidget *Core::library()
 {
     return m_library;
+}
+
+SubtitleEdit *Core::subtitleWidget()
+{
+    return m_subtitleWidget;
 }
 
 MixerManager *Core::mixer()

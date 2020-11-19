@@ -145,6 +145,8 @@ void TimelineModel::prepareClose()
         (*it)->unlock();
         ++it;
     }
+    m_subtitleModel.reset();
+    //m_subtitleModel->removeAllSubtitles();
 }
 
 TimelineModel::~TimelineModel()
@@ -1105,6 +1107,11 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
         local_undo();
     }
     return res;
+}
+
+std::shared_ptr<SubtitleModel> TimelineModel::getSubtitleModel()
+{
+    return m_subtitleModel;
 }
 
 bool TimelineModel::requestClipMoveAttempt(int clipId, int trackId, int position)
@@ -5196,6 +5203,6 @@ bool TimelineModel::resizeStartMix(int cid, int duration, bool singleResize)
 
 void TimelineModel::setSubModel(std::shared_ptr<SubtitleModel> model)
 {
-    m_subtitleModel = model;
+    m_subtitleModel = std::move(model);
     m_subtitleModel->registerSnap(std::static_pointer_cast<SnapInterface>(m_snaps));
 }
