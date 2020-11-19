@@ -126,6 +126,7 @@ cmake --build . --target ext_opus  -j$CPU_CORES
 cmake --build . --target ext_nv-codec-headers -j$CPU_CORES
 cmake --build . --target ext_amf  -j$CPU_CORES
 cmake --build . --target ext_mfx  -j$CPU_CORES
+cmake --build . --target ext_libass  -j$CPU_CORES
 cmake --build . --target ext_ffmpeg  -j$CPU_CORES
 cmake --build . --target ext_sox  -j$CPU_CORES
 cmake --build . --target ext_jack  -j$CPU_CORES
