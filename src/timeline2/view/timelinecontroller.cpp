@@ -489,6 +489,7 @@ void TimelineController::deleteSelectedClips()
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
             m_model->removeMix(m_model->m_selectedMix);
         }
+        return;
     }
     // only need to delete the first item, the others will be deleted in cascade
     if (m_model->m_editMode == TimelineMode::InsertEdit) {
