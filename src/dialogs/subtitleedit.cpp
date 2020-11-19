@@ -122,7 +122,7 @@ void SubtitleEdit::goToPrevious()
             }
             GenTime prev = m_model->getStartPosForId(id);
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(prev.frames(pCore->getCurrentFps()));
-            setActiveSubtitle(id);
+            pCore->selectTimelineItem(id);
         }
     }
 }
@@ -137,7 +137,7 @@ void SubtitleEdit::goToNext()
             }
             GenTime prev = m_model->getStartPosForId(id);
             pCore->getMonitor(Kdenlive::ProjectMonitor)->requestSeek(prev.frames(pCore->getCurrentFps()));
-            setActiveSubtitle(id);
+            pCore->selectTimelineItem(id);
         }
     }
 }

@@ -270,6 +270,13 @@ void Core::selectBinClip(const QString &clipId, int frame, const QPoint &zone)
     m_binWidget->selectClipById(clipId, frame, zone);
 }
 
+void Core::selectTimelineItem(int id)
+{
+    if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
+        m_mainWindow->getCurrentTimeline()->controller()->getModel()->requestAddToSelection(id, true);
+    }
+}
+
 std::shared_ptr<JobManager> Core::jobManager()
 {
     return m_jobManager;

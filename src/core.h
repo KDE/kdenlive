@@ -109,6 +109,8 @@ public:
     Bin *bin();
     /** @brief Select a clip in the Bin from its id. */
     void selectBinClip(const QString &id, int frame = -1, const QPoint &zone = QPoint());
+    /** @brief Selects an item in the current timeline (clip, composition, subtitle). */
+    void selectTimelineItem(int id);
     /** @brief Returns a pointer to the model of the project bin. */
     std::shared_ptr<ProjectItemModel> projectItemModel();
     /** @brief Returns a pointer to the job manager. Please do not store it. */
