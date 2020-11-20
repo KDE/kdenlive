@@ -572,6 +572,8 @@ public:
     Q_INVOKABLE void resizeSubtitle(int startFrame, int endFrame, int oldEndFrame, bool refreshModel);
     /** @brief Add subtitle clip at cursor's position in timeline */
     Q_INVOKABLE void addSubtitle(int startframe = -1);
+    /** @brief Cut a subtitle and split the text at @param pos */
+    void cutSubtitle(int id, int cursorPos);
     /** @brief Delete subtitle clip with frame as start position*/
     Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
     /** @brief Import a subtitle file*/

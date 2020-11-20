@@ -193,6 +193,11 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
             m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
         }
     });
+    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, [this](int id, int cursorPos) {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+        }
+    });
     
     // Producer queue, creating MLT::Producers on request
     /*
@@ -283,10 +288,15 @@ void Core::selectTimelineItem(int id)
     }
 }
 
-std::shared_ptr<SubtitleModel> Core::getSubtitleModel()
+std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 {
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+        auto subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+        if (enforce && subModel == nullptr) {
+            m_mainWindow->slotEditSubtitle();
+            subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+        }
+        return subModel;
     }
     return nullptr;
 }

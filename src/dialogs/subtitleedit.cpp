@@ -61,11 +61,15 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     setupUi(this);
     buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok-apply")));
     buttonAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
+    buttonCut->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
     connect(subText, &QPlainTextEdit::textChanged, [this]() {
         buttonApply->setEnabled(true);
+    });
+    connect(subText, &QPlainTextEdit::cursorPositionChanged, [this]() {
+        buttonCut->setEnabled(true);
     });
     
     m_position = new TimecodeDisplay(pCore->timecode(), this);
@@ -99,6 +103,14 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         m_model->requestResize(m_activeSub, value, true);
     });
     connect(buttonAdd, &QToolButton::clicked, this, &SubtitleEdit::addSubtitle);
+    connect(buttonCut, &QToolButton::clicked, [this]() {
+        qDebug()<<"=== READY TO CUT SUB";
+        if (m_activeSub > -1 && subText->hasFocus()) {
+            int pos = subText->textCursor().position();
+            qDebug()<<"=== READY TO CUT SUB AT : "<<pos;
+            emit cutSubtitle(m_activeSub, pos);
+        }
+    });
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);
     connect(buttonPrev, &QToolButton::clicked, this, &SubtitleEdit::goToPrevious);
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
@@ -110,6 +122,7 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
     m_activeSub = -1;
     subText->setEnabled(false);
     buttonApply->setEnabled(false);
+    buttonCut->setEnabled(false);
     if (m_model == nullptr) {
         QSignalBlocker bk(subText);
         subText->clear();
@@ -134,9 +147,10 @@ void SubtitleEdit::updateSubtitle()
 void SubtitleEdit::setActiveSubtitle(int id)
 {
     m_activeSub = id;
+    buttonApply->setEnabled(false);
+    buttonCut->setEnabled(false);
     if (m_model && id > -1) {
         subText->setEnabled(true);
-        buttonApply->setEnabled(false);
         QSignalBlocker bk(subText);
         m_position->setEnabled(true);
         m_endPosition->setEnabled(true);
@@ -153,7 +167,6 @@ void SubtitleEdit::setActiveSubtitle(int id)
         m_duration->setValue(duration);
     } else {
         subText->setEnabled(false);
-        buttonApply->setEnabled(false);
         m_position->setEnabled(false);
         m_endPosition->setEnabled(false);
         m_duration->setEnabled(false);

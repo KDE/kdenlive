@@ -75,6 +75,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QToolButton" name="buttonCut">
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QToolButton" name="buttonApply">
        <property name="text">
         <string>...</string>
