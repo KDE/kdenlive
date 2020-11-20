@@ -83,12 +83,11 @@ public:
     bool requestResize(int id, int size, bool right);
     bool requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo);
 
-    /** @brief Edit subtitle , i.e. text and/or end time
+    /** @brief Edit subtitle text
         @param startPos is start timing position of subtitles
         @param newSubtitleText is (new) subtitle text
-        @param endPos defines the (new) position of the end time
     */
-    void editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos);
+    void editSubtitle(GenTime startPos, QString newSubtitleText);
 
     /** @brief Remove subtitle at start position (pos) */
     bool removeSubtitle(int id, bool temporary = false);

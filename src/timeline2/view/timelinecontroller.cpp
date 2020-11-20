@@ -1449,6 +1449,46 @@ void TimelineController::cutClipUnderCursor(int position, int track)
     }
 }
 
+void TimelineController::cutSubtitle(int id, int cursorPos)
+{
+    qDebug()<<"== READY TO CUT AT: "<<cursorPos;
+    Q_ASSERT(m_model->isSubTitle(id));
+    if (cursorPos <= 0) {
+        return requestClipCut(id, -1);
+    }
+    // Cut subtitle at edit position
+    int timelinePos = pCore->getTimelinePosition();
+    GenTime position(timelinePos, pCore->getCurrentFps());
+    GenTime start = m_model->m_allSubtitles.at(id);
+    auto subtitleModel = pCore->getSubtitleModel();
+    SubtitledTime subData = subtitleModel->getSubtitle(start);
+    if (position > start && position < subData.end()) {
+        QString originalText = subData.subtitle();
+        QString firstText = originalText;
+        QString secondText = originalText;
+        firstText.truncate(cursorPos);
+        secondText.remove(0, originalText.length() - cursorPos);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        bool res = subtitleModel->cutSubtitle(timelinePos, undo, redo);
+        qDebug()<<"== DO CUT SUCCESS: "<<res;
+        if (res) {
+            Fun local_redo = [subtitleModel, start, position, firstText, secondText]() { 
+                subtitleModel->editSubtitle(start, firstText);
+                subtitleModel->editSubtitle(position, secondText);
+                return true;
+            };
+            Fun local_undo = [subtitleModel, start, originalText]() {
+                subtitleModel->editSubtitle(start, originalText);
+                return true;
+            };
+            local_redo();
+            UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+            pCore->pushUndo(undo, redo, i18n("Cut clip"));
+        }
+    }
+}
+
 void TimelineController::cutAllClipsUnderCursor(int position)
 {
     if (position == -1) {
@@ -3753,12 +3793,12 @@ void TimelineController::editSubtitle(int startFrame, int endFrame, QString newT
     }
     auto subtitleModel = pCore->getSubtitleModel();
     Fun local_redo = [subtitleModel, startFrame, endFrame, newText]() {
-        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), newText, GenTime(endFrame, pCore->getCurrentFps()));
+        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), newText);
         pCore->refreshProjectRange({startFrame, endFrame});
         return true;
     };
     Fun local_undo = [subtitleModel, startFrame, endFrame, oldText]() {
-        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), oldText, GenTime(endFrame, pCore->getCurrentFps()));
+        subtitleModel->editSubtitle(GenTime(startFrame, pCore->getCurrentFps()), oldText);
         pCore->refreshProjectRange({startFrame, endFrame});
         return true;
     };

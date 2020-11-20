@@ -396,12 +396,12 @@ bool SubtitleModel::setText(int id, const QString text)
     QString oldText = m_subtitleList.at(start).first;
     m_subtitleList[start].first = text;
     Fun local_redo = [this, start, end, text]() {
-        editSubtitle(start, text, end);
+        editSubtitle(start, text);
         pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
         return true;
     };
     Fun local_undo = [this, start, end, oldText]() {
-        editSubtitle(start, oldText, end);
+        editSubtitle(start, oldText);
         pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
         return true;
     };
@@ -641,19 +641,14 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
     return true;
 }
 
-void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenTime endPos)
+void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText)
 {
-    if(startPos.frames(pCore->getCurrentFps()) < 0 || endPos.frames(pCore->getCurrentFps()) < 0) {
+    if(startPos.frames(pCore->getCurrentFps()) < 0) {
         qDebug()<<"Time error: is negative";
-        return;
-    }
-    if(startPos.frames(pCore->getCurrentFps()) > endPos.frames(pCore->getCurrentFps())) {
-        qDebug()<<"Time error: start should be less than end";
         return;
     }
     qDebug()<<"Editing existing subtitle in model";
     m_subtitleList[startPos].first = newSubtitleText ;
-    m_subtitleList[startPos].second = endPos;
     int id = getIdForStartPos(startPos);
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].first<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
     int row = m_timeline->getSubtitleIndex(id);

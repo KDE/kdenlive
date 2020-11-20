@@ -75,6 +75,7 @@ private:
 
 signals:
     void addSubtitle();
+    void cutSubtitle(int id, int cursorPos);
 };
 
 #endif

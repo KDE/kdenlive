@@ -193,6 +193,11 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
             m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
         }
     });
+    connect(m_subtitleWidget, &SubtitleEdit::cutSubtitle, [this](int id, int cursorPos) {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->cutSubtitle(id, cursorPos);
+        }
+    });
     
     // Producer queue, creating MLT::Producers on request
     /*
