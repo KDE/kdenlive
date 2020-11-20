@@ -1451,7 +1451,6 @@ void TimelineController::cutClipUnderCursor(int position, int track)
 
 void TimelineController::cutSubtitle(int id, int cursorPos)
 {
-    qDebug()<<"== READY TO CUT AT: "<<cursorPos;
     Q_ASSERT(m_model->isSubTitle(id));
     if (cursorPos <= 0) {
         return requestClipCut(id, -1);
@@ -1465,13 +1464,11 @@ void TimelineController::cutSubtitle(int id, int cursorPos)
     if (position > start && position < subData.end()) {
         QString originalText = subData.subtitle();
         QString firstText = originalText;
-        QString secondText = originalText;
+        QString secondText = originalText.right(originalText.length() - cursorPos);
         firstText.truncate(cursorPos);
-        secondText.remove(0, originalText.length() - cursorPos);
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
         bool res = subtitleModel->cutSubtitle(timelinePos, undo, redo);
-        qDebug()<<"== DO CUT SUCCESS: "<<res;
         if (res) {
             Fun local_redo = [subtitleModel, start, position, firstText, secondText]() { 
                 subtitleModel->editSubtitle(start, firstText);
