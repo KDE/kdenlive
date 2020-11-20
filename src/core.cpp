@@ -283,10 +283,15 @@ void Core::selectTimelineItem(int id)
     }
 }
 
-std::shared_ptr<SubtitleModel> Core::getSubtitleModel()
+std::shared_ptr<SubtitleModel> Core::getSubtitleModel(bool enforce)
 {
     if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-        return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+        auto subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+        if (enforce && subModel == nullptr) {
+            m_mainWindow->slotEditSubtitle();
+            subModel = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getSubtitleModel();
+        }
+        return subModel;
     }
     return nullptr;
 }

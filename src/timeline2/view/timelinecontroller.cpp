@@ -3794,8 +3794,8 @@ void TimelineController::addSubtitle(int startframe)
         startframe = pCore->getTimelinePosition();
     }
     int endframe = startframe + pCore->getDurationFromString(KdenliveSettings::subtitle_duration());
+    auto subtitleModel = pCore->getSubtitleModel(true);
     int id = TimelineModel::getNextId();
-    auto subtitleModel = pCore->getSubtitleModel();
     Fun local_undo = [subtitleModel, id, startframe, endframe]() {
         subtitleModel->removeSubtitle(id);
         pCore->refreshProjectRange({startframe, endframe});
