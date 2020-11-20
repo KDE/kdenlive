@@ -55,7 +55,7 @@ public:
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole };
     /** @brief Function that parses through a subtitle file */ 
-    void addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false);
+    bool addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false);
     /** @brief Converts string of time to GenTime */ 
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 
@@ -80,6 +80,7 @@ public:
         @param pos defines the new position of the end time
     */
     void editEndPos(GenTime startPos, GenTime newEndPos, bool refreshModel = true);
+    bool requestResize(int id, int size, bool right);
     bool requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo);
 
     /** @brief Edit subtitle , i.e. text and/or end time
@@ -99,10 +100,10 @@ public:
     void updateSub(int id, QVector <int> roles);
 
     /** @brief Move an existing subtitle
-        @param oldPos is original start position of subtitle
+        @param subId is the subtitle's ID
         @param newPos is new start position of subtitle
     */
-    void moveSubtitle(GenTime oldPos, GenTime newPos, bool updateModel, bool updateView);
+    bool moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView);
     
     /** @brief Function that imports a subtitle file */
     void importSubtitle(const QString filePath, int offset = 0, bool externalImport = false);

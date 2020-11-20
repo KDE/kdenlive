@@ -3802,12 +3802,16 @@ void TimelineController::addSubtitle(int startframe)
         return true;
     };
     Fun local_redo = [subtitleModel, id, startframe, endframe]() {
-        subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), i18n("Add text"));
-        pCore->refreshProjectRange({startframe, endframe});
-        return true;
+        if (subtitleModel->addSubtitle(id, GenTime(startframe, pCore->getCurrentFps()), GenTime(endframe, pCore->getCurrentFps()), i18n("Add text"))) {
+            pCore->refreshProjectRange({startframe, endframe});
+            return true;
+        }
+        return false;
     };
-    local_redo();
-    pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
+    if (local_redo()) {
+        m_model->requestAddToSelection(id, true);
+        pCore->pushUndo(local_undo, local_redo, i18n("Add subtitle"));
+    }
 }
 
 void TimelineController::importSubtitle()

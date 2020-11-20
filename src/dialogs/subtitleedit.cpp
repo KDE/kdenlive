@@ -25,6 +25,7 @@
 
 #include "core.h"
 #include "kdenlivesettings.h"
+#include "timecodedisplay.h"
 
 #include "klocalizedstring.h"
 #include "QTextEdit"
@@ -59,16 +60,48 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
     buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok-apply")));
+    buttonAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
     connect(subText, &QPlainTextEdit::textChanged, [this]() {
         buttonApply->setEnabled(true);
     });
+    
+    m_position = new TimecodeDisplay(pCore->timecode(), this);
+    m_endPosition = new TimecodeDisplay(pCore->timecode(), this);
+    m_duration = new TimecodeDisplay(pCore->timecode(), this);
+    m_position->setEnabled(false);
+    m_endPosition->setEnabled(false);
+    m_duration->setEnabled(false);
+
+    position_box->addWidget(m_position);
+    end_box->addWidget(m_endPosition);
+    duration_box->addWidget(m_duration);
+    connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+        if (buttonApply->isEnabled()) {
+            updateSubtitle();
+        }
+        GenTime duration = m_endPos - GenTime(value, pCore->getCurrentFps());
+        m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
+    });
+    connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+        if (buttonApply->isEnabled()) {
+            updateSubtitle();
+        }
+        GenTime duration = GenTime(value, pCore->getCurrentFps()) - m_startPos;
+        m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
+    });
+    connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
+        if (buttonApply->isEnabled()) {
+            updateSubtitle();
+        }
+        m_model->requestResize(m_activeSub, value, true);
+    });
+    connect(buttonAdd, &QToolButton::clicked, this, &SubtitleEdit::addSubtitle);
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);
     connect(buttonPrev, &QToolButton::clicked, this, &SubtitleEdit::goToPrevious);
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
-    sub_list->setVisible(false);
 }
 
 void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
@@ -82,8 +115,10 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
         subText->clear();
     } else {
         connect(m_model.get(), &SubtitleModel::dataChanged, [this](const QModelIndex &start, const QModelIndex &, const QVector <int>&roles) {
-            if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub) && roles.contains(SubtitleModel::SubtitleRole)) {
-                setActiveSubtitle(m_activeSub);
+            if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub)) {
+                if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) || roles.contains(SubtitleModel::EndFrameRole)) {
+                    setActiveSubtitle(m_activeSub);
+                }
             }
         });
     }
@@ -103,10 +138,25 @@ void SubtitleEdit::setActiveSubtitle(int id)
         subText->setEnabled(true);
         buttonApply->setEnabled(false);
         QSignalBlocker bk(subText);
+        m_position->setEnabled(true);
+        m_endPosition->setEnabled(true);
+        m_duration->setEnabled(true);
+        /*QSignalBlocker bk2(m_position);
+        QSignalBlocker bk3(m_endPosition);
+        QSignalBlocker bk4(m_duration);*/
         subText->setPlainText(m_model->getText(id));
+        m_startPos = m_model->getStartPosForId(id);
+        GenTime duration = GenTime(m_model->getSubtitlePlaytime(id), pCore->getCurrentFps());
+        m_endPos = m_startPos + duration;
+        m_position->setValue(m_startPos);
+        m_endPosition->setValue(m_endPos);
+        m_duration->setValue(duration);
     } else {
         subText->setEnabled(false);
         buttonApply->setEnabled(false);
+        m_position->setEnabled(false);
+        m_endPosition->setEnabled(false);
+        m_duration->setEnabled(false);
         QSignalBlocker bk(subText);
         subText->clear();
     }

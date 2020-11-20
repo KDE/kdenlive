@@ -33,10 +33,10 @@ ClipDurationDialog::ClipDurationDialog(int clipId, const Timecode &tc, int pos, 
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     setupUi(this);
 
-    m_pos = new TimecodeDisplay(tc);
-    m_cropStart = new TimecodeDisplay(tc);
-    m_dur = new TimecodeDisplay(tc);
-    m_cropEnd = new TimecodeDisplay(tc);
+    m_pos = new TimecodeDisplay(tc, this);
+    m_cropStart = new TimecodeDisplay(tc, this);
+    m_dur = new TimecodeDisplay(tc, this);
+    m_cropEnd = new TimecodeDisplay(tc, this);
 
     clip_position_box->addWidget(m_pos);
     crop_start_box->addWidget(m_cropStart);
