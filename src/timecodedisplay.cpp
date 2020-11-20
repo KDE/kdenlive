@@ -144,7 +144,11 @@ void TimecodeDisplay::mouseReleaseEvent(QMouseEvent *e)
 void TimecodeDisplay::wheelEvent(QWheelEvent *e)
 {
     QAbstractSpinBox::wheelEvent(e);
-    clearFocus();
+    if (hasFocus()) {
+        clearFocus();
+    } else {
+        slotEditingFinished();
+    }
 }
 
 void TimecodeDisplay::enterEvent(QEvent *e)

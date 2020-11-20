@@ -188,6 +188,12 @@ void Core::initGUI(const QUrl &Url, const QString &clipsToLoad)
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
     m_monitorManager = new MonitorManager(this);
     connect(m_monitorManager, &MonitorManager::cleanMixer, m_mixerWidget, &MixerManager::clearMixers);
+    connect(m_subtitleWidget, &SubtitleEdit::addSubtitle, [this]() {
+        if (m_guiConstructed && m_mainWindow->getCurrentTimeline()->controller()) {
+            m_mainWindow->getCurrentTimeline()->controller()->addSubtitle();
+        }
+    });
+    
     // Producer queue, creating MLT::Producers on request
     /*
     m_producerQueue = new ProducerQueue(m_binController);

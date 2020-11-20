@@ -62,7 +62,6 @@ Item {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
                     newStart = oldStartFrame + (mouseX - oldStartX)/ timeScale
                     snappedFrame = controller.suggestSubtitleMove(subId, newStart, root.consumerPosition, root.snapping)
-                    hasMoved = true
                 }
             }
             onReleased: {

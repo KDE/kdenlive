@@ -284,40 +284,30 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     return pos;
 }
 
-void SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary)
+bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary)
 {
 	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0) {
         qDebug()<<"Time error: is negative";
-        return;
+        return false;
     }
     if (start.frames(pCore->getCurrentFps()) > end.frames(pCore->getCurrentFps())) {
         qDebug()<<"Time error: start should be less than end";
-        return;
+        return false;
     }
-    //Q_ASSERT(model->m_subtitleList.count(start)==0); //returns warning if sub at start time position already exists ,i.e. count !=0
-    if (m_subtitleList[start].first == str) {
+    // Don't allow 2 subtitles at same start pos
+    if (m_subtitleList.count(start) > 0) {
         qDebug()<<"already present in model"<<"string :"<<m_subtitleList[start].first<<" start time "<<start.frames(pCore->getCurrentFps())<<"end time : "<< m_subtitleList[start].second.frames(pCore->getCurrentFps());
-        return;
+        return false;
     }
-    /*if (model->m_subtitleList.count(start) > 0) {
-        qDebug()<<"Start time already in model";
-        editSubtitle(start, str, end);
-        return;
-    }*/
-    auto it= m_subtitleList.lower_bound(start); // returns the key and its value *just* greater than start.
-    //Q_ASSERT(it->first < model->m_subtitleList.end()->second.second); // returns warning if added subtitle start time is less than last subtitle's end time
-    int insertRow= static_cast<int>(m_subtitleList.size());//converts the returned unsigned size() to signed int
-    /* For adding it in the middle of the list */
-    if (it != m_subtitleList.end()) { // check if the subtitle greater than added subtitle is not the same as the last one
-        insertRow = static_cast<int>(std::distance(m_subtitleList.begin(), it));
-    }
-    beginInsertRows(QModelIndex(), insertRow, insertRow);
+    int row = m_timeline->m_allSubtitles.size();
+    beginInsertRows(QModelIndex(), row, row);
     m_subtitleList[start] = {str, end};
     m_timeline->registerSubtitle(id, start, temporary);
     endInsertRows();
     addSnapPoint(start);
     addSnapPoint(end);
     qDebug()<<"Added to model";
+    return true;
 }
 
 QHash<int, QByteArray> SubtitleModel::roleNames() const 
@@ -338,25 +328,24 @@ QVariant SubtitleModel::data(const QModelIndex& index, int role) const
     if (index.row() < 0 || index.row() >= static_cast<int>(m_subtitleList.size()) || !index.isValid()) {
         return QVariant();
     }
-    auto it = m_subtitleList.begin();
-    std::advance(it, index.row());
+    auto subInfo = m_timeline->getSubtitleIdFromIndex(index.row());
     switch (role) {
-    case Qt::DisplayRole:
-    case Qt::EditRole:
-    case SubtitleRole:
-        return it->second.first;
-    case IdRole:
-        return getIdForStartPos(it->first);
-    case StartPosRole:
-        return it->first.seconds();
-    case EndPosRole:
-        return it->second.second.seconds();
-    case StartFrameRole:
-            return it->first.frames(pCore->getCurrentFps());
-    case EndFrameRole:
-        return it->second.second.frames(pCore->getCurrentFps());
-    case SelectedRole:
-        return m_selected.contains(getIdForStartPos(it->first));
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+        case SubtitleRole:
+            return m_subtitleList.at(subInfo.second).first;
+        case IdRole:
+            return subInfo.first;
+        case StartPosRole:
+            return subInfo.second.seconds();
+        case EndPosRole:
+            return m_subtitleList.at(subInfo.second).second.seconds();
+        case StartFrameRole:
+            return subInfo.second.frames(pCore->getCurrentFps());
+        case EndFrameRole:
+            return m_subtitleList.at(subInfo.second).second.frames(pCore->getCurrentFps());
+        case SelectedRole:
+            return m_selected.contains(subInfo.first);
     }
     return QVariant();
 }
@@ -468,20 +457,19 @@ bool SubtitleModel::cutSubtitle(int position, Fun &undo, Fun &redo)
         if (res) {
             int id = TimelineModel::getNextId();
             Fun local_redo = [this, id, pos, end, text]() {
-                addSubtitle(id, pos, end, text);
-                return true;
+                return addSubtitle(id, pos, end, text);
             };
             Fun local_undo = [this, id]() {
                 removeSubtitle(id);
                 return true;
             };
-            local_redo();
-            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-            return true;
-        } else {
-            undo();
+            if (local_redo()) {
+                UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+                return true;
+            }
         }
     }
+    undo();
     return false;
 }
 
@@ -493,7 +481,6 @@ void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)
         m_regSnaps.push_back(snapModel);
         // we now add the already existing subtitles to the snap
         for (const auto &subtitle : m_subtitleList) {
-            qDebug() << " REGISTERING SUBTITLE: " << subtitle.first.frames(pCore->getCurrentFps());
             ptr->addPoint(subtitle.first.frames(pCore->getCurrentFps()));
         }
     } else {
@@ -535,14 +522,29 @@ void SubtitleModel::editEndPos(GenTime startPos, GenTime newEndPos, bool refresh
         //is not present in model only
         return;
     }
-    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
     m_subtitleList[startPos].second = newEndPos;
     // Trigger update of the qml view
+    int id = getIdForStartPos(startPos);
+    int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), {EndFrameRole});
     if (refreshModel) {
         emit modelChanged();
     }
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+}
+
+bool SubtitleModel::requestResize(int id, int size, bool right)
+{
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = requestResize(id, size, right, undo, redo, true);
+    if (res) {
+        pCore->pushUndo(undo, redo, i18n("Resize subtitle"));
+        return true;
+    } else {
+        undo();
+        return false;
+    }
 }
 
 bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &redo, bool logUndo)
@@ -554,44 +556,63 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
     Fun reverse = []() { return true; };
     if (right) {
         GenTime newEndPos = startPos + GenTime(size, pCore->getCurrentFps());
-        operation = [this, startPos, endPos, newEndPos, logUndo]() {
-            int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
+        operation = [this, id, startPos, endPos, newEndPos, logUndo]() {
             m_subtitleList[startPos].second = newEndPos;
             removeSnapPoint(endPos);
             addSnapPoint(newEndPos);
             // Trigger update of the qml view
+            int row = m_timeline->getSubtitleIndex(id);
             emit dataChanged(index(row), index(row), {EndFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                if (endPos > newEndPos) {
+                    pCore->refreshProjectRange({newEndPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())});
+                } else {
+                    pCore->refreshProjectRange({endPos.frames(pCore->getCurrentFps()), newEndPos.frames(pCore->getCurrentFps())});
+                }
             }
             return true;
         };
-        reverse = [this, startPos, endPos, newEndPos, logUndo]() {
-            int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
+        reverse = [this, id, startPos, endPos, newEndPos, logUndo]() {
             m_subtitleList[startPos].second = endPos;
             removeSnapPoint(newEndPos);
             addSnapPoint(endPos);
             // Trigger update of the qml view
+            int row = m_timeline->getSubtitleIndex(id);
             emit dataChanged(index(row), index(row), {EndFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                if (endPos > newEndPos) {
+                    pCore->refreshProjectRange({newEndPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())});
+                } else {
+                    pCore->refreshProjectRange({endPos.frames(pCore->getCurrentFps()), newEndPos.frames(pCore->getCurrentFps())});
+                }
             }
             return true;
         };
     } else {
         GenTime newStartPos = endPos - GenTime(size, pCore->getCurrentFps());
+        if (m_subtitleList.count(newStartPos) > 0) {
+            // There already is another subtitle at this position, abort
+            return false;
+        }
         const QString text = m_subtitleList.at(startPos).first;
         operation = [this, id, startPos, newStartPos, endPos, text, logUndo]() {
             m_timeline->m_allSubtitles[id] = newStartPos;
             m_subtitleList.erase(startPos);
             m_subtitleList[newStartPos] = {text, endPos};
-            int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(newStartPos)));
             // Trigger update of the qml view
             removeSnapPoint(startPos);
             addSnapPoint(newStartPos);
+            int row = m_timeline->getSubtitleIndex(id);
             emit dataChanged(index(row), index(row), {StartFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                if (startPos > newStartPos) {
+                    pCore->refreshProjectRange({newStartPos.frames(pCore->getCurrentFps()), startPos.frames(pCore->getCurrentFps())});
+                } else {
+                    pCore->refreshProjectRange({startPos.frames(pCore->getCurrentFps()), newStartPos.frames(pCore->getCurrentFps())});
+                }
             }
             return true;
         };
@@ -601,11 +622,16 @@ bool SubtitleModel::requestResize(int id, int size, bool right, Fun &undo, Fun &
             m_subtitleList[startPos] = {text, endPos};
             removeSnapPoint(newStartPos);
             addSnapPoint(startPos);
-            int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
             // Trigger update of the qml view
+            int row = m_timeline->getSubtitleIndex(id);
             emit dataChanged(index(row), index(row), {StartFrameRole});
             if (logUndo) {
                 emit modelChanged();
+                if (startPos > newStartPos) {
+                    pCore->refreshProjectRange({newStartPos.frames(pCore->getCurrentFps()), startPos.frames(pCore->getCurrentFps())});
+                } else {
+                    pCore->refreshProjectRange({startPos.frames(pCore->getCurrentFps()), newStartPos.frames(pCore->getCurrentFps())});
+                }
             }
             return true;
         };
@@ -626,10 +652,11 @@ void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText, GenT
         return;
     }
     qDebug()<<"Editing existing subtitle in model";
-    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
     m_subtitleList[startPos].first = newSubtitleText ;
     m_subtitleList[startPos].second = endPos;
+    int id = getIdForStartPos(startPos);
     qDebug()<<startPos.frames(pCore->getCurrentFps())<<m_subtitleList[startPos].first<<m_subtitleList[startPos].second.frames(pCore->getCurrentFps());
+    int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), QVector<int>() << SubtitleRole);
     emit modelChanged();
     return;
@@ -648,7 +675,7 @@ bool SubtitleModel::removeSubtitle(int id, bool temporary)
         return false;
     }
     GenTime end = m_subtitleList.at(start).second;
-    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(start)));
+    int row = m_timeline->getSubtitleIndex(id);
     m_timeline->deregisterSubtitle(id, temporary);
     beginRemoveRows(QModelIndex(), row, row);
     m_subtitleList.erase(start);
@@ -666,17 +693,23 @@ void SubtitleModel::removeAllSubtitles()
     }
 }
 
-void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos, bool updateModel, bool updateView)
+bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView)
 {
     qDebug()<<"Moving Subtitle";
-    if (m_subtitleList.count(oldPos) <= 0) {
-        //is not present in model only
-        return;
+    if (m_timeline->m_allSubtitles.count(subId) == 0) {
+        return false;
+    }
+    GenTime oldPos = m_timeline->m_allSubtitles.at(subId);
+    if (m_subtitleList.count(oldPos) <= 0 || m_subtitleList.count(newPos) > 0) {
+        //is not present in model, or already another one at new position
+        qDebug()<<"==== MOVE FAILED";
+        return false;
     }
     QString subtitleText = m_subtitleList[oldPos].first ;
     removeSnapPoint(oldPos);
     removeSnapPoint(m_subtitleList[oldPos].second);
-    GenTime endPos = m_subtitleList[oldPos].second + (newPos - oldPos);
+    GenTime duration = m_subtitleList[oldPos].second - oldPos;
+    GenTime endPos = newPos + duration;
     int id = getIdForStartPos(oldPos);
     m_timeline->m_allSubtitles[id] = newPos;
     m_subtitleList.erase(oldPos);
@@ -685,11 +718,17 @@ void SubtitleModel::moveSubtitle(GenTime oldPos, GenTime newPos, bool updateMode
     addSnapPoint(endPos);
     if (updateView) {
         updateSub(id, {StartFrameRole, EndFrameRole});
+        if (oldPos < newPos) {
+            pCore->refreshProjectRange({oldPos.frames(pCore->getCurrentFps()), endPos.frames(pCore->getCurrentFps())});
+        } else {
+            pCore->refreshProjectRange({newPos.frames(pCore->getCurrentFps()), (oldPos + duration).frames(pCore->getCurrentFps())});
+        }
     }
     if (updateModel) {
         // Trigger update of the subtitle file
         emit modelChanged();
     }
+    return true;
 }
 
 int SubtitleModel::getIdForStartPos(GenTime startTime) const
@@ -858,21 +897,13 @@ void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
 
 void SubtitleModel::updateSub(int id, QVector <int> roles)
 {
-    GenTime startPos = m_timeline->m_allSubtitles.at(id);
-    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
-    // Trigger update of the qml view
-    qDebug()<<"=== UPDATING ROLE FOR ROW: "<<row;
+    int row = m_timeline->getSubtitleIndex(id);
     emit dataChanged(index(row), index(row), roles);
 }
 
 int SubtitleModel::getRowForId(int id) const
 {
-    if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
-        return -1;
-    }
-    GenTime startPos = m_timeline->m_allSubtitles.at(id);
-    int row = static_cast<int>(std::distance(m_subtitleList.begin(), m_subtitleList.find(startPos)));
-    return row;
+    return m_timeline->getSubtitleIndex(id);
 }
 
 int SubtitleModel::getSubtitlePlaytime(int id) const
@@ -888,7 +919,6 @@ void SubtitleModel::setSelected(int id, bool select)
     } else {
         m_selected.removeAll(id);
     }
-    qDebug()<<"=== SELECTING: "<<id<<"="<<select;
     updateSub(id, {SelectedRole});
 }
 

@@ -1089,16 +1089,11 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
     QWriteLocker locker(&m_lock);
     GenTime oldPos = m_allSubtitles.at(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    int min = qMin(oldPos.frames(pCore->getCurrentFps()), newPos.frames(pCore->getCurrentFps()));
-    Fun local_redo = [this, oldPos, newPos, min, logUndo, updateView]() {
-        m_subtitleModel->moveSubtitle(oldPos, newPos, logUndo, updateView);
-        //pCore->refreshProjectRange({min, oldStartFrame + duration});
-        return true;
+    Fun local_redo = [this, clipId, newPos, logUndo, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, newPos, logUndo, updateView);
     };
-    Fun local_undo = [this, oldPos, newPos, min, logUndo, updateView]() {
-        m_subtitleModel->moveSubtitle(newPos, oldPos, logUndo, updateView);
-        //pCore->refreshProjectRange({min, oldStartFrame + duration});
-        return true;
+    Fun local_undo = [this, oldPos, clipId, logUndo, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, oldPos, logUndo, updateView);
     };
     bool res = local_redo();
     if (res) {
@@ -1174,6 +1169,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
     if (currentPos == position) {
         return position;
     }
+    int newPos = position;
     if (snapDistance > 0) {
         std::vector<int> ignored_pts;
         // For snapping, we must ignore all in/outs of the clips of the group being moved
@@ -1201,11 +1197,13 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
         int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance);
         qDebug() << "Starting suggestion " << position << currentPos << "snapped to " << snapped << ", SND: "<<snapDistance;
         if (snapped >= 0) {
-            position = snapped;
+            newPos = snapped;
         }
     }
     //m_subtitleModel->moveSubtitle(GenTime(currentPos, pCore->getCurrentFps()), GenTime(position, pCore->getCurrentFps()));
-    requestSubtitleMove(subId, position, true, false);
+    if (requestSubtitleMove(subId, newPos, true, false)) {
+        return newPos;
+    }
     return position;
 }
 
@@ -2241,13 +2239,13 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         GenTime deltaTime(delta_pos, pCore->getCurrentFps());
         redo_subs = [this, deltaTime, sorted_subtitles, finalMove, updateView]() {
             for (auto &item : sorted_subtitles) {
-                m_subtitleModel->moveSubtitle(item.second, item.second + deltaTime, finalMove, updateView);
+                m_subtitleModel->moveSubtitle(item.first, item.second + deltaTime, finalMove, updateView);
             }
             return true;
         };
-        undo_subs = [this, deltaTime, sorted_subtitles, finalMove, updateView]() {
+        undo_subs = [this, sorted_subtitles, finalMove, updateView]() {
             for (auto &item : sorted_subtitles) {
-                m_subtitleModel->moveSubtitle(item.second + deltaTime, item.second, finalMove, updateView);
+                m_subtitleModel->moveSubtitle(item.first, item.second, finalMove, updateView);
             }
             return true;
         };
@@ -3635,7 +3633,7 @@ void TimelineModel::registerClip(const std::shared_ptr<ClipModel> &clip, bool re
 void TimelineModel::registerSubtitle(int id, GenTime startTime, bool temporary)
 {
     Q_ASSERT(m_allSubtitles.count(id) == 0);
-    m_allSubtitles[id] = startTime;
+    m_allSubtitles.emplace(id, startTime);
     if (!temporary) {
         m_groups->createGroupItem(id);
     }
@@ -5205,4 +5203,23 @@ void TimelineModel::setSubModel(std::shared_ptr<SubtitleModel> model)
 {
     m_subtitleModel = std::move(model);
     m_subtitleModel->registerSnap(std::static_pointer_cast<SnapInterface>(m_snaps));
+}
+
+int TimelineModel::getSubtitleIndex(int subId) const
+{
+    if (m_allSubtitles.count(subId) == 0) {
+        return -1;
+    }
+    auto it = m_allSubtitles.find(subId);
+    return std::distance( m_allSubtitles.begin(), it);
+}
+
+std::pair<int, GenTime> TimelineModel::getSubtitleIdFromIndex(int index) const
+{
+    if (index >= static_cast<int> (m_allSubtitles.size())) {
+        return {-1, GenTime()};
+    }
+    auto it = m_allSubtitles.begin();
+    std::advance(it, index);
+    return {it->first, it->second};
 }

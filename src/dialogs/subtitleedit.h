@@ -28,6 +28,7 @@
 
 
 class SubtitleModel;
+class TimecodeDisplay;
 
 class ShiftEnterFilter : public QObject
 {
@@ -66,7 +67,14 @@ private slots:
 private:
     std::shared_ptr<SubtitleModel> m_model;
     int m_activeSub;
+    TimecodeDisplay *m_position;
+    TimecodeDisplay *m_endPosition;
+    TimecodeDisplay *m_duration;
+    GenTime m_startPos;
+    GenTime m_endPos;
 
+signals:
+    void addSubtitle();
 };
 
 #endif
