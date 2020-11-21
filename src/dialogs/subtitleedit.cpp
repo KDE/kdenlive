@@ -62,6 +62,9 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     buttonApply->setIcon(QIcon::fromTheme(QStringLiteral("dialog-ok-apply")));
     buttonAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     buttonCut->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
+    buttonIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
+    buttonOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
+    buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
@@ -80,8 +83,14 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     m_duration->setEnabled(false);
 
     position_box->addWidget(m_position);
+    auto *spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    position_box->addSpacerItem(spacer);
+    spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     end_box->addWidget(m_endPosition);
+    end_box->addSpacerItem(spacer);
     duration_box->addWidget(m_duration);
+    spacer = new QSpacerItem(1, 1, QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
+    duration_box->addSpacerItem(spacer);
     connect(m_position, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
         if (buttonApply->isEnabled()) {
             updateSubtitle();
@@ -114,6 +123,15 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);
     connect(buttonPrev, &QToolButton::clicked, this, &SubtitleEdit::goToPrevious);
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
+    connect(buttonIn, &QToolButton::clicked, [this]() {
+        pCore->triggerAction(QStringLiteral("resize_timeline_clip_start"));
+    });
+    connect(buttonOut, &QToolButton::clicked, [this]() {
+        pCore->triggerAction(QStringLiteral("resize_timeline_clip_end"));
+    });
+    connect(buttonDelete, &QToolButton::clicked, [this]() {
+        pCore->triggerAction(QStringLiteral("delete_timeline_clip"));
+    });
 }
 
 void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
