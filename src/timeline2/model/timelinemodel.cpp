@@ -2236,22 +2236,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     Fun undo_subs = []() { return true; };
     // Move subtitles
     if (!sorted_subtitles.empty()) {
-        GenTime deltaTime(delta_pos, pCore->getCurrentFps());
-        redo_subs = [this, deltaTime, sorted_subtitles, finalMove, updateView]() {
-            for (auto &item : sorted_subtitles) {
-                m_subtitleModel->moveSubtitle(item.first, item.second + deltaTime, finalMove, updateView);
-            }
-            return true;
-        };
-        undo_subs = [this, sorted_subtitles, finalMove, updateView]() {
-            for (auto &item : sorted_subtitles) {
-                m_subtitleModel->moveSubtitle(item.first, item.second, finalMove, updateView);
-            }
-            return true;
-        };
-        redo_subs();
-        PUSH_LAMBDA(redo_subs, local_redo);
-        PUSH_LAMBDA(undo_subs, local_undo);
+        for (auto &item : sorted_subtitles) {
+            requestSubtitleMove(item.first, item.second.frames(pCore->getCurrentFps()) + delta_pos, updateView, finalMove, finalMove, local_undo, local_redo);
+        }
     }
 
     // Check if there is a track move

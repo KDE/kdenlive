@@ -65,6 +65,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     buttonIn->setIcon(QIcon::fromTheme(QStringLiteral("zone-in")));
     buttonOut->setIcon(QIcon::fromTheme(QStringLiteral("zone-out")));
     buttonDelete->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
+    buttonLock->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-lock")));
     auto *keyFilter = new ShiftEnterFilter(this);
     subText->installEventFilter(keyFilter);
     connect(keyFilter, &ShiftEnterFilter::triggerUpdate, this, &SubtitleEdit::updateSubtitle);
@@ -95,15 +96,25 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
         if (buttonApply->isEnabled()) {
             updateSubtitle();
         }
-        GenTime duration = m_endPos - GenTime(value, pCore->getCurrentFps());
-        m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
+        if (buttonLock->isChecked()) {
+            // Perform a move instead of a resize
+            m_model->requestSubtitleMove(m_activeSub, GenTime(value, pCore->getCurrentFps()));
+        } else {
+            GenTime duration = m_endPos - GenTime(value, pCore->getCurrentFps());
+            m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), false);
+        }
     });
     connect(m_endPosition, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
         if (buttonApply->isEnabled()) {
             updateSubtitle();
         }
-        GenTime duration = GenTime(value, pCore->getCurrentFps()) - m_startPos;
-        m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
+        if (buttonLock->isChecked()) {
+            // Perform a move instead of a resize
+            m_model->requestSubtitleMove(m_activeSub, GenTime(value, pCore->getCurrentFps()) - (m_endPos - m_startPos));
+        } else {
+            GenTime duration = GenTime(value, pCore->getCurrentFps()) - m_startPos;
+            m_model->requestResize(m_activeSub, duration.frames(pCore->getCurrentFps()), true);
+        }
     });
     connect(m_duration, &TimecodeDisplay::timeCodeEditingFinished, [this] (int value) {
         if (buttonApply->isEnabled()) {
@@ -113,10 +124,11 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     });
     connect(buttonAdd, &QToolButton::clicked, this, &SubtitleEdit::addSubtitle);
     connect(buttonCut, &QToolButton::clicked, [this]() {
-        qDebug()<<"=== READY TO CUT SUB";
         if (m_activeSub > -1 && subText->hasFocus()) {
             int pos = subText->textCursor().position();
-            qDebug()<<"=== READY TO CUT SUB AT : "<<pos;
+            if (buttonApply->isEnabled()) {
+                updateSubtitle();
+            }
             emit cutSubtitle(m_activeSub, pos);
         }
     });

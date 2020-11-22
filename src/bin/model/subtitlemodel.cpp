@@ -688,6 +688,22 @@ void SubtitleModel::removeAllSubtitles()
     }
 }
 
+void SubtitleModel::requestSubtitleMove(int clipId, GenTime position)
+{
+    
+    GenTime oldPos = getStartPosForId(clipId);
+    Fun local_redo = [this, clipId, position]() {
+        return moveSubtitle(clipId, position, true, true);
+    };
+    Fun local_undo = [this, clipId, oldPos]() {
+        return moveSubtitle(clipId, oldPos, true, true);
+    };
+    bool res = local_redo();
+    if (res) {
+        pCore->pushUndo(local_undo, local_redo, i18n("Move subtitle"));
+    }
+}
+
 bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView)
 {
     qDebug()<<"Moving Subtitle";
