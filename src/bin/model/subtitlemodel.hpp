@@ -103,6 +103,7 @@ public:
         @param newPos is new start position of subtitle
     */
     bool moveSubtitle(int subId, GenTime newPos, bool updateModel, bool updateView);
+    void requestSubtitleMove(int clipId, GenTime position);
     
     /** @brief Function that imports a subtitle file */
     void importSubtitle(const QString filePath, int offset = 0, bool externalImport = false);
