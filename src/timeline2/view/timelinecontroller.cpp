@@ -53,6 +53,7 @@
 #include "ui_import_subtitle_ui.h"
 
 #include <KColorScheme>
+#include <KMessageBox>
 #include <KUrlRequesterDialog>
 #include <KRecentDirs>
 #include <QApplication>
@@ -3879,12 +3880,22 @@ void TimelineController::exportSubtitle()
         return;
     }
     const QString url =
-        QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), QFileInfo(currentSub).absolutePath(), i18n("Subtitle File (*.srt)"));
+        QFileDialog::getSaveFileName(qApp->activeWindow(), i18n("Export subtitle file"), pCore->currentDoc()->url().toLocalFile(), i18n("Subtitle File (*.srt)"));
     if (url.isEmpty()) {
         return;
     }
+    QFile srcFile(url);
+    if (!url.endsWith(QStringLiteral(".srt"))) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", url));
+        return;
+    }
+    if (srcFile.exists()) {
+        srcFile.remove();
+    }
     QFile src(currentSub);
-    src.copy(url);
+    if (!src.copy(srcFile.fileName())) {
+        KMessageBox::error(qApp->activeWindow(), i18n("Cannot write to file %1", srcFile.fileName()));
+    }
 }
 
 void TimelineController::deleteSubtitle(int startframe, int endframe, QString text)
