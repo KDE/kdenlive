@@ -747,10 +747,12 @@ Rectangle {
                         }
                     }
                     Label {
+                        id: subLabel
                         anchors.left: expandSubButton.left
                         anchors.top: expandSubButton.bottom
                         font: miniFont
                         text: i18n("Subtitles")
+                        visible: (subtitleTrackHeader.height > root.collapsedHeight + subLabel.height)
                     }
                 }
                 Column {
