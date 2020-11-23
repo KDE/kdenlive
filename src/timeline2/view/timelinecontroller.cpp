@@ -985,7 +985,7 @@ int TimelineController::getMainSelectedClip() const
             }
         }
     }
-    return clipId;
+    return m_model->isClip(clipId) ? clipId : -1;
 }
 
 void TimelineController::addQuickMarker(int cid, int position)
