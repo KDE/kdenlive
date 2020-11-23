@@ -101,7 +101,7 @@ Rectangle {
         background: Rectangle {
             color: trackTarget.bgColor
         }
-        width: 2 * fontMetrics.boundingRect("M").width
+        width: 2 * root.trackTagWidth
         height: trackHeadRoot.height
         verticalAlignment: Text.AlignTop
         horizontalAlignment: Text.AlignHCenter
@@ -294,7 +294,7 @@ Rectangle {
             background: Rectangle {
                 color: trackLed.bgColor
             }
-            width: fontMetrics.boundingRect("M").width * trackHeadRoot.trackTag.length
+            width: root.trackTagWidth * trackHeadRoot.trackTag.length
             height: root.collapsedHeight - 2
             y: 1
             verticalAlignment: Text.AlignVCenter

@@ -309,6 +309,7 @@ Rectangle {
     property bool paletteUnchanged: true
     property int maxLabelWidth: 20 * root.baseUnit * Math.sqrt(root.timeScale)
     property bool showSubtitles: false
+    property int trackTagWidth: fontMetrics.boundingRect("M").width
 
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
@@ -715,6 +716,43 @@ Rectangle {
                         scrollView.contentY = Math.max(newScroll, 0)
                     }
                 }
+                Item {
+                    id: subtitleTrackHeader
+                    width: tracksContainerArea.width
+                    height: subtitleTrack.height
+                    property bool collapsed: subtitleTrack.height == root.collapsedHeight
+                    ToolButton {
+                        id: expandSubButton
+                        focusPolicy: Qt.NoFocus
+                        property var modifier: 0
+                        anchors.left: parent.left
+                        anchors.leftMargin: 2 * root.trackTagWidth
+                        width: root.collapsedHeight
+                        height: root.collapsedHeight   
+                        contentItem: Item {
+                            Image {
+                                source: subtitleTrackHeader.collapsed ? "image://icon/go-next" : "image://icon/go-down"
+                                anchors.centerIn: parent
+                                width: root.collapsedHeight - 4
+                                height: root.collapsedHeight - 4
+                                cache: root.paletteUnchanged
+                            }
+                        }
+                        onClicked: {
+                            if (subtitleTrack.height > root.collapsedHeight) {
+                                subtitleTrack.height = root.collapsedHeight
+                            } else {
+                                subtitleTrack.height = 5 * root.baseUnit
+                            }
+                        }
+                    }
+                    Label {
+                        anchors.left: expandSubButton.left
+                        anchors.top: expandSubButton.bottom
+                        font: miniFont
+                        text: i18n("Subtitles")
+                    }
+                }
                 Column {
                     id: trackHeaders
                     y: subtitleTrack.height
@@ -906,7 +944,7 @@ Rectangle {
                 scim = false
             }
             onDoubleClicked: {
-                if (root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
+                if (mouse.buttons === Qt.LeftButton && root.showSubtitles && root.activeTool === 0 && mouse.y > ruler.height && mouse.y < (ruler.height + subtitleTrack.height)) {
                     timeline.addSubtitle((scrollView.contentX + mouseX) / timeline.scaleFactor)
                 }
             }
@@ -1124,7 +1162,7 @@ Rectangle {
                         Item {
                             id: subtitleTrack
                             width: tracksContainerArea.width
-                            height: showSubtitles? root.baseUnit * 4 : 0
+                            height: showSubtitles? root.baseUnit * 5 : 0
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                             MouseArea {
                                 anchors.fill: parent
