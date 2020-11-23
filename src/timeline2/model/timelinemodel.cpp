@@ -1915,10 +1915,7 @@ bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo)
     GenTime end = sub.end();
     QString text = sub.subtitle();
     Fun reverse = [this, clipId, start, end, text]() {
-        // We capture a shared_ptr to the clip, which means that as long as this undo object lives, the clip object is not deleted. To insert it back it is
-        // sufficient to register it.
-        m_subtitleModel->addSubtitle(clipId, start, end, text);
-        return true;
+        return m_subtitleModel->addSubtitle(clipId, start, end, text);
     };
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -2541,7 +2538,8 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     group_queue.push(m_groups->getRootId(clipId));
     std::unordered_set<int> all_items;
     std::unordered_set<int> all_compositions;
-    std::unordered_set<int> all_subtitles;
+    // Subtitles MUST BE SORTED BY REVERSE timeline id to preserve the qml model index on undo!!
+    std::set<int> all_subtitles;
     while (!group_queue.empty()) {
         int current_group = group_queue.front();
         bool isSelection = m_currentSelection == current_group;
@@ -2598,8 +2596,9 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
             return false;
         }
     }
-    for (int sub : all_subtitles) {
-        bool res = requestSubtitleDeletion(sub, undo, redo);
+    std::set<int>::reverse_iterator rit;
+    for (rit = all_subtitles.rbegin(); rit != all_subtitles.rend(); ++rit) {
+        bool res = requestSubtitleDeletion(*rit, undo, redo);
         if (!res) {
             undo();
             return false;
