@@ -875,6 +875,16 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     // m_searchLine->setClearButtonEnabled(true);
     m_searchLine->setPlaceholderText(i18n("Search..."));
     m_searchLine->setFocusPolicy(Qt::ClickFocus);
+    connect(m_searchLine, &QLineEdit::textChanged, [this] (const QString &str) {
+        m_proxyModel->slotSetSearchString(str);
+        if (str.isEmpty()) {
+            // focus last selected item when clearing search line
+            QModelIndex current = m_proxyModel->selectionModel()->currentIndex();
+            if (current.isValid()) {
+                m_itemView->scrollTo(current, QAbstractItemView::PositionAtCenter);
+            }
+        }
+    });
 
     auto *leventEater = new LineEventEater(this);
     m_searchLine->installEventFilter(leventEater);
@@ -2101,7 +2111,6 @@ void Bin::slotInitView(QAction *action)
     });
     connect(m_proxyModel.get(), &ProjectSortProxyModel::selectModel, this, &Bin::selectProxyModel);
     connect(m_proxyModel.get(), &QAbstractItemModel::layoutAboutToBeChanged, this, &Bin::slotSetSorting);
-    connect(m_searchLine, &QLineEdit::textChanged, m_proxyModel.get(), &ProjectSortProxyModel::slotSetSearchString);
     m_itemView->setModel(m_proxyModel.get());
     m_itemView->setSelectionModel(m_proxyModel->selectionModel());
     m_proxyModel->setDynamicSortFilter(true);
