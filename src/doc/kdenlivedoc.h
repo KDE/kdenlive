@@ -174,8 +174,8 @@ public:
     QString &modifiedDecimalPoint();
     /** @brief Initialize subtitle model */
     void initializeSubtitles(const std::shared_ptr<SubtitleModel> m_subtitle);
-    /** @brief Returns a path for current document's subtitle file */
-    QString subTitlePath();
+    /** @brief Returns a path for current document's subtitle file. If final is true, this will be the project filename with ".srt" appended. Otherwise a file in /tmp */
+    const QString subTitlePath(bool final);
 
 private:
     QUrl m_url;

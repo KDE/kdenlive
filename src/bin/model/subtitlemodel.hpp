@@ -128,13 +128,15 @@ public:
     GenTime getStartPosForId(int id) const;
     int getPreviousSub(int id) const;
     int getNextSub(int id) const;
+    /** @brief Copy subtitle file to a new path */
+    void copySubtitle(const QString &path, bool checkOverwrite);
 
 public slots:
     /** @brief Function that parses through a subtitle file */
     void parseSubtitle(const QString subPath = QString());
     
     /** @brief Import model to a temporary subtitle file to which the Subtitle effect is applied*/
-    void jsontoSubtitle(const QString &data, QString updatedFileName = QString());
+    void jsontoSubtitle(const QString &data);
     /** @brief Update a subtitle text*/
     bool setText(int id, const QString text);
 

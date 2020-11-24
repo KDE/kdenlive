@@ -34,9 +34,11 @@
 #include <mlt++/Mlt.h>
 
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QApplication>
 
 SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItemModel> timeline, QObject *parent)
     : QAbstractListModel(parent)
@@ -837,11 +839,30 @@ QString SubtitleModel::toJson()
     return QString(jsonDoc.toJson());
 }
 
-void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
+void SubtitleModel::copySubtitle(const QString &path, bool checkOverwrite)
 {
-	QString outFile = updatedFileName.isEmpty() ? m_subtitleFilter->get("av.filename") : updatedFileName;
-    if (outFile.isEmpty()) {
-        outFile = pCore->currentDoc()->subTitlePath(); // use srt format as default unless file is imported (m_subFilePath)
+    QFile srcFile(pCore->currentDoc()->subTitlePath(false));
+    if (srcFile.exists()) {
+        QFile prev(path);
+        if (prev.exists()) {
+            if (checkOverwrite || !path.endsWith(QStringLiteral(".srt"))) {
+                if (KMessageBox::questionYesNo(QApplication::activeWindow(), i18n("File %1 already exists.\nDo you want to overwrite it?", path)) == KMessageBox::No) {
+                    return;
+                }
+            }
+            prev.remove();
+        }
+        srcFile.copy(path);
+    }
+}
+
+
+void SubtitleModel::jsontoSubtitle(const QString &data)
+{
+    QString outFile = pCore->currentDoc()->subTitlePath(false);
+    QString masterFile = m_subtitleFilter->get("av.filename");
+    if (masterFile.isEmpty()) {
+        m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
     }
     bool assFormat = outFile.endsWith(".ass");
     if (!assFormat) {
@@ -927,8 +948,9 @@ void SubtitleModel::jsontoSubtitle(const QString &data, QString updatedFileName)
             
             //qDebug() << "ADDING SUBTITLE to FILE AT START POS: " << startPos <<" END POS: "<<endPos;//<< ", FPS: " << pCore->getCurrentFps();
         }
+        outF.close();
     }
-    qDebug()<<"Setting subtitle filter: "<<outFile;
+    qDebug()<<"Saving subtitle filter: "<<outFile;
     if (line > 0) {
         m_subtitleFilter->set("av.filename", outFile.toUtf8().constData());
         m_tractor->attach(*m_subtitleFilter.get());

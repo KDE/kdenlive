@@ -762,19 +762,11 @@ void KdenliveDoc::setUrl(const QUrl &url)
 void KdenliveDoc::updateSubtitle(QString newUrl)
 {
     if (auto ptr = m_subtitleModel.lock()) {
-        if (newUrl.isEmpty() && m_url.isValid()) {
-            newUrl = m_url.toLocalFile();
-        }
         QString subPath;
-        if (newUrl.isEmpty()) {
-            subPath = subTitlePath();
-        } else {
-            // Update path of subtitle file
-            QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
-            QFileInfo info(newUrl);
-            subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
-        }
-        ptr->jsontoSubtitle(ptr->toJson(), subPath);
+        bool checkOverwrite = QUrl::fromLocalFile(newUrl) != m_url;
+        QFileInfo info(newUrl);
+        subPath = info.dir().absoluteFilePath(QString("%1.srt").arg(info.fileName()));
+        ptr->copySubtitle(subPath, checkOverwrite);
     }
 }
 
@@ -1793,11 +1785,11 @@ QString& KdenliveDoc::modifiedDecimalPoint() {
     return m_modifiedDecimalPoint;
 }
 
-QString KdenliveDoc::subTitlePath()
+const QString KdenliveDoc::subTitlePath(bool final)
 {
     QString path;
     QString documentId = QDir::cleanPath(getDocumentProperty(QStringLiteral("documentid")));
-    if (m_url.isValid()) {
+    if (m_url.isValid() && final) {
         return QFileInfo(m_url.toLocalFile()).dir().absoluteFilePath(QString("%1.srt").arg(m_url.fileName()));
     } else {
         path = QDir::temp().absoluteFilePath(QString("%1.srt").arg(documentId));
