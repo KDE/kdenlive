@@ -374,7 +374,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
             } else if (timeline->isComposition(itemId)) {
                 final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
             } else {
-                final = timeline->requestSubtitleMove(itemId, endPosition, true, true, true, undo, redo);
+                final = timeline->requestSubtitleMove(itemId, endPosition, true, true, true, true, undo, redo);
             }
         }
     }
