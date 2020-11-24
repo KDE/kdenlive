@@ -697,6 +697,9 @@ signals:
     /* @brief User enabled / disabled snapping, update timeline behavior
      */
     void snapChanged();
+    /* @brief Center timeline view on current position
+     */
+    void centerView();
     Q_INVOKABLE void ungrabHack();
 };
 

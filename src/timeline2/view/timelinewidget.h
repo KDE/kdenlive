@@ -66,6 +66,8 @@ protected:
 public slots:
     void slotChangeZoom(int value, bool zoomOnMouse);
     void slotFitZoom();
+    /* @brief Center timeline view on current timeline cursor position */
+    void slotCenterView();
     void zoneUpdated(const QPoint &zone);
     void zoneUpdatedWithUndo(const QPoint &oldZone, const QPoint &newZone);
     /* @brief Favorite effects have changed, reload model for context menu */

@@ -1653,6 +1653,7 @@ void TimelineController::focusItem(int itemId)
 {
     int start = m_model->getItemPosition(itemId);
     setPosition(start);
+    emit centerView();
 }
 
 int TimelineController::headerWidth() const

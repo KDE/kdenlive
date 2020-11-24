@@ -87,6 +87,7 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
     connect(timeline->controller(), &TimelineController::updateZoom, this, [&](double value) { emit updateZoom(getCurrentTimeline()->zoomForScale(value)); });
     connect(timeline->controller(), &TimelineController::showItemEffectStack, this, &TimelineTabs::showItemEffectStack);
     connect(timeline->controller(), &TimelineController::showSubtitle, this, &TimelineTabs::showSubtitle);
+    connect(timeline->controller(), &TimelineController::centerView, timeline, &TimelineWidget::slotCenterView);
 }
 
 void TimelineTabs::disconnectTimeline(TimelineWidget *timeline)
