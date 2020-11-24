@@ -366,7 +366,7 @@ public:
     */
     Q_INVOKABLE bool requestClipMove(int clipId, int trackId, int position, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
     Q_INVOKABLE bool requestSubtitleMove(int clipId, int position, bool updateView = true, bool logUndo = true, bool invalidateTimeline = false);
-    bool requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline, Fun &undo, Fun &redo);
+    bool requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo);
     bool cutSubtitle(int position, Fun &undo, Fun &redo);
     bool requestClipMix(std::pair<int, int> clipIds, int trackId, int position, bool updateView, bool invalidateTimeline, bool finalMove, Fun &undo, Fun &redo, bool groupMove);
 
@@ -786,7 +786,7 @@ protected:
     /* Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
-    bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo);
+    bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last);
 
     /** @brief Check tracks duration and update black track accordingly */
     void updateDuration();

@@ -1077,23 +1077,23 @@ bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateVie
     }
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    bool res = requestSubtitleMove(clipId, position, updateView, logUndo, invalidateTimeline, undo, redo);
+    bool res = requestSubtitleMove(clipId, position, updateView, logUndo, logUndo, invalidateTimeline, undo, redo);
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Move subtitle"));
     }
     return res;
 }
 
-bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool logUndo, bool invalidateTimeline, Fun &undo, Fun &redo)
+bool TimelineModel::requestSubtitleMove(int clipId, int position, bool updateView, bool first, bool last, bool invalidateTimeline, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
     GenTime oldPos = m_allSubtitles.at(clipId);
     GenTime newPos(position, pCore->getCurrentFps());
-    Fun local_redo = [this, clipId, newPos, logUndo, updateView]() {
-        return m_subtitleModel->moveSubtitle(clipId, newPos, logUndo, updateView);
+    Fun local_redo = [this, clipId, newPos, last, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, newPos, last, updateView);
     };
-    Fun local_undo = [this, oldPos, clipId, logUndo, updateView]() {
-        return m_subtitleModel->moveSubtitle(clipId, oldPos, logUndo, updateView);
+    Fun local_undo = [this, oldPos, clipId, first, updateView]() {
+        return m_subtitleModel->moveSubtitle(clipId, oldPos, first, updateView);
     };
     bool res = local_redo();
     if (res) {
@@ -1838,7 +1838,7 @@ bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool l
         return requestCompositionDeletion(itemId, undo, redo);
     }
     if (isSubTitle(itemId)) {
-        return requestSubtitleDeletion(itemId, undo, redo);
+        return requestSubtitleDeletion(itemId, undo, redo, true, true);
     }
     Q_ASSERT(false);
     return false;
@@ -1904,18 +1904,18 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo)
     return false;
 }
 
-bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last)
 {
     GenTime startTime = m_allSubtitles.at(clipId);
     SubtitledTime sub = m_subtitleModel->getSubtitle(startTime);
-    Fun operation = [this, clipId] () {
-        return m_subtitleModel->removeSubtitle(clipId);
+    Fun operation = [this, clipId, last] () {
+        return m_subtitleModel->removeSubtitle(clipId, false, last);
     };
     GenTime start = sub.start();
     GenTime end = sub.end();
     QString text = sub.subtitle();
-    Fun reverse = [this, clipId, start, end, text]() {
-        return m_subtitleModel->addSubtitle(clipId, start, end, text);
+    Fun reverse = [this, clipId, start, end, text, first]() {
+        return m_subtitleModel->addSubtitle(clipId, start, end, text, false, first);
     };
     if (operation()) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -2229,12 +2229,12 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         }
         return true;
     };
-    Fun redo_subs = []() { return true; };
-    Fun undo_subs = []() { return true; };
     // Move subtitles
     if (!sorted_subtitles.empty()) {
-        for (auto &item : sorted_subtitles) {
-            requestSubtitleMove(item.first, item.second.frames(pCore->getCurrentFps()) + delta_pos, updateView, finalMove, finalMove, local_undo, local_redo);
+        std::vector<std::pair<int, GenTime>>::iterator ptr;
+        std::vector<std::pair<int, GenTime>>::iterator last = std::prev(sorted_subtitles.end());
+        for (ptr = sorted_subtitles.begin(); ptr < sorted_subtitles.end(); ptr++) {
+            requestSubtitleMove((*ptr).first, (*ptr).second.frames(pCore->getCurrentFps()) + delta_pos, updateView, ptr == sorted_subtitles.begin(), ptr == last, finalMove, local_undo, local_redo);
         }
     }
 
@@ -2598,7 +2598,7 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo)
     }
     std::set<int>::reverse_iterator rit;
     for (rit = all_subtitles.rbegin(); rit != all_subtitles.rend(); ++rit) {
-        bool res = requestSubtitleDeletion(*rit, undo, redo);
+        bool res = requestSubtitleDeletion(*rit, undo, redo, rit == all_subtitles.rbegin(), rit == std::prev(all_subtitles.rend()));
         if (!res) {
             undo();
             return false;

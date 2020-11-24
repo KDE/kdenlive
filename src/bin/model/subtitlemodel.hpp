@@ -55,7 +55,8 @@ public:
 
     enum { SubtitleRole = Qt::UserRole + 1, StartPosRole, EndPosRole, StartFrameRole, EndFrameRole, IdRole, SelectedRole };
     /** @brief Function that parses through a subtitle file */ 
-    bool addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false);
+    bool addSubtitle(int id, GenTime start,GenTime end, const QString str, bool temporary = false, bool updateFilter = true);
+    bool addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter = true);
     /** @brief Converts string of time to GenTime */ 
     GenTime stringtoTime(QString &str);
     /** @brief Return model data item according to the role passed */ 
@@ -90,7 +91,7 @@ public:
     void editSubtitle(GenTime startPos, QString newSubtitleText);
 
     /** @brief Remove subtitle at start position (pos) */
-    bool removeSubtitle(int id, bool temporary = false);
+    bool removeSubtitle(int id, bool temporary = false, bool updateFilter = true);
 
     /** @brief Remove all subtitles from subtitle model */
     void removeAllSubtitles();

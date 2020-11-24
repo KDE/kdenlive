@@ -73,8 +73,6 @@ void SubtitleModel::setup()
     connect(this, &SubtitleModel::columnsRemoved, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::columnsInserted, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::rowsMoved, this, &SubtitleModel::modelChanged);
-    connect(this, &SubtitleModel::rowsRemoved, this, &SubtitleModel::modelChanged);
-    connect(this, &SubtitleModel::rowsInserted, this, &SubtitleModel::modelChanged);
     connect(this, &SubtitleModel::modelReset, this, &SubtitleModel::modelChanged);
 }
 
@@ -91,6 +89,11 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
      */
     if (filePath.isEmpty())
         return;
+    Fun redo = []() { return true; };
+    Fun undo = [this]() {
+        emit modelChanged();
+        return true;
+    };
     GenTime subtitleOffset(offset, pCore->getCurrentFps());
     if (filePath.endsWith(".srt")) {
         QFile srtFile(filePath);
@@ -132,7 +135,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                 }
                 turn++;
             } else {
-                addSubtitle(TimelineModel::getNextId(), startPos + subtitleOffset, endPos + subtitleOffset, comment);
+                addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
                 //reinitialize
                 comment = timeLine = "";
                 turn = 0; r = 0;
@@ -231,7 +234,7 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                         // Text
                         comment = dialogue[9]+ remainingStr;
                         //qDebug()<<"Start: "<< start << "End: "<<end << comment;
-                        addSubtitle(TimelineModel::getNextId(), startPos + subtitleOffset, endPos + subtitleOffset, comment);
+                        addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
                     }
                 }
                 turn++;
@@ -242,8 +245,14 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
         }
         assFile.close();
     }
+    Fun update_model= [this]() {
+        emit modelChanged();
+        return true;
+    };
+    PUSH_LAMBDA(update_model, redo);
+    redo();
     if (externalImport) {
-        jsontoSubtitle(toJson());
+        pCore->pushUndo(undo, redo, i18n("Edit subtitle"));
     }
 }
 
@@ -284,7 +293,24 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     return pos;
 }
 
-bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary)
+bool SubtitleModel::addSubtitle(GenTime start, GenTime end, const QString str, Fun &undo, Fun &redo, bool updateFilter)
+{
+    int id = TimelineModel::getNextId();
+    Fun local_redo = [this, id, start, end, str, updateFilter]() {
+        addSubtitle(id, start, end, str, false, updateFilter);
+        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        return true;
+    };
+    Fun local_undo = [this, id, start, end, updateFilter]() {
+        removeSubtitle(id, false, updateFilter);
+        pCore->refreshProjectRange({start.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())});
+        return true;
+    };
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
+bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QString str, bool temporary, bool updateFilter)
 {
 	if (start.frames(pCore->getCurrentFps()) < 0 || end.frames(pCore->getCurrentFps()) < 0) {
         qDebug()<<"Time error: is negative";
@@ -307,6 +333,9 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
     addSnapPoint(start);
     addSnapPoint(end);
     qDebug()<<"Added to model";
+    if (updateFilter) {
+        emit modelChanged();
+    }
     return true;
 }
 
@@ -657,7 +686,7 @@ void SubtitleModel::editSubtitle(GenTime startPos, QString newSubtitleText)
     return;
 }
 
-bool SubtitleModel::removeSubtitle(int id, bool temporary)
+bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
 {
     qDebug()<<"Deleting subtitle in model";
     if (m_timeline->m_allSubtitles.find( id ) == m_timeline->m_allSubtitles.end()) {
@@ -677,6 +706,9 @@ bool SubtitleModel::removeSubtitle(int id, bool temporary)
     endRemoveRows();
     removeSnapPoint(start);
     removeSnapPoint(end);
+    if (updateFilter) {
+        emit modelChanged();
+    }
     return true;
 }
 
