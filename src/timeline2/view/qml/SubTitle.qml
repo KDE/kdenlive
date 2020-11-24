@@ -60,7 +60,7 @@ Item {
             }
             onPositionChanged: {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
-                    newStart = oldStartFrame + (mouseX - oldStartX)/ timeScale
+                    newStart = Math.max(0, oldStartFrame + (mouseX - oldStartX)/ timeScale)
                     snappedFrame = controller.suggestSubtitleMove(subId, newStart, root.consumerPosition, root.snapping)
                 }
             }
