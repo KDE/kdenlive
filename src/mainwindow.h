@@ -298,7 +298,7 @@ public slots:
     void slotSwitchTimelineZone(bool toggled);
     /** @brief Open the online services search dialog. */
     void slotDownloadResources();
-    void slotEditSubtitle(QString subPath = QString());
+    void slotEditSubtitle(bool loadExisting = false);
 
 private slots:
     /** @brief Shows the shortcut dialog. */

@@ -4194,9 +4194,16 @@ void MainWindow::resetSubtitles()
     m_buttonSubtitleEditTool->setChecked(false);
     getMainTimeline()->showSubtitles = false;
     pCore->subtitleWidget()->setModel(nullptr);
+    if (pCore->currentDoc()) {
+        const QString workPath = pCore->currentDoc()->subTitlePath(false);
+        QFile workFile(workPath);
+        if (workFile.exists()) {
+            workFile.remove();
+        }
+    }
 }
 
-void MainWindow::slotEditSubtitle(QString subPath)
+void MainWindow::slotEditSubtitle(bool loadExisting)
 {
     std::shared_ptr<SubtitleModel> subtitleModel = pCore->getSubtitleModel();
     if (subtitleModel == nullptr) {
@@ -4205,10 +4212,13 @@ void MainWindow::slotEditSubtitle(QString subPath)
         getMainTimeline()->controller()->getModel()->setSubModel(subtitleModel);
         pCore->currentDoc()->initializeSubtitles(subtitleModel);
         pCore->subtitleWidget()->setModel(subtitleModel);
-        if (!subPath.isEmpty() && QFileInfo(subPath).isRelative()) {
-            subPath.prepend(pCore->currentDoc()->documentRoot());
+        const QString subPath = pCore->currentDoc()->subTitlePath(true);
+        const QString workPath = pCore->currentDoc()->subTitlePath(false);
+        QFile subFile(subPath);
+        if (subFile.exists()) {
+            subFile.copy(workPath);
+            subtitleModel->parseSubtitle(workPath);
         }
-        subtitleModel->parseSubtitle(subPath);
         getMainTimeline()->showSubtitles = true;
         m_buttonSubtitleEditTool->setChecked(true);
         getMainTimeline()->connectSubtitleModel(true);
