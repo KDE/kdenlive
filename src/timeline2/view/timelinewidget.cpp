@@ -365,6 +365,11 @@ void TimelineWidget::slotChangeZoom(int value, bool zoomOnMouse)
     m_proxy->setScaleFactorOnMouse(pixelScale / comboScale[value], zoomOnMouse);
 }
 
+void TimelineWidget::slotCenterView()
+{
+    QMetaObject::invokeMethod(rootObject(), "centerViewOnCursor");
+}
+
 void TimelineWidget::slotFitZoom()
 {
     QVariant returnedValue;

@@ -201,6 +201,10 @@ Rectangle {
         }
         return col
     }
+    
+    function centerViewOnCursor() {
+        scrollView.contentX = Math.max(0, root.consumerPosition * timeline.scaleFactor - (scrollView.width / 2))
+    }
 
     function clearDropData() {
         clipBeingDroppedId = -1
