@@ -722,7 +722,7 @@ Rectangle {
                 }
                 Item {
                     id: subtitleTrackHeader
-                    width: tracksContainerArea.width
+                    width: trackHeaders.width
                     height: subtitleTrack.height
                     property bool collapsed: subtitleTrack.height == root.collapsedHeight
                     ToolButton {

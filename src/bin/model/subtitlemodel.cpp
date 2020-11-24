@@ -50,7 +50,6 @@ SubtitleModel::SubtitleModel(Mlt::Tractor *tractor, std::shared_ptr<TimelineItem
     if (tractor != nullptr) {
         qDebug()<<"Tractor!";
         m_subtitleFilter->set("internal_added", 237);
-        m_tractor->attach(*m_subtitleFilter.get());
     }
     setup();
     QSize frameSize = pCore->getCurrentFrameDisplaySize();

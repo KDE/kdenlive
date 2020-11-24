@@ -38,7 +38,7 @@ Rectangle {
     border.width: 1
     border.color: root.frameColor
 
-    function pulseLockButton() {
+    onIsLockedChanged: {
         flashLock.restart();
     }
 
@@ -465,14 +465,14 @@ Rectangle {
                     ScaleAnimator {
                         target: lockButton
                         from: 1
-                        to: 2
-                        duration: 500
+                        to: 1.6
+                        duration: 200
                     }
                     ScaleAnimator {
                         target: lockButton
-                        from: 2
+                        from: 1.6
                         to: 1
-                        duration: 500
+                        duration: 200
                     }
                  }
             }
