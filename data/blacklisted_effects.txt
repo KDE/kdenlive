@@ -1,36 +1,42 @@
-# crashing effects
-frei0r.transparency
+# CRASHING EFFECTS
+# frei0r.transparency
 frei0r.water
 
-# duplicate effects
-frei0r.bluescreen0r
-frei0r.bw0r
-frei0r.gamma
-frei0r.invert0r
+# WORKING BUT NOT USEFUL OR DUPLICATE EFFECTS
+# avfilter.datascope
+# avfilter.pixscope
+# avfilter.zoompan
+# avfilter.hflip
+# avfilter.vflip
+# frei0r.bluescreen0r
+# frei0r.bw0r
+# frei0r.gamma
+# frei0r.invert0r
 burningtv
+grayscale
 
-# unusable effects
+# UNUSABLE EFFECTS
 frei0r.3dflippo
 frei0r.perspective
 
-#Effects not usable with a simple GUI
-#ladspa
+#EFFECTS NOT USABLE WITH A SIMPLE GUI
+# ladspa
 jackrack
-#luma
+# luma
 data_show
-gtkrescale
+# gtkrescale
 watermark
-region
+# region
 resize
 resample
 mono
 transition
 
-# Effects need extra GUI to create the resulting melt.xml with the corrected content
+# DEPRECATED
 videostab
 videostab2
 
-# Unimplemented/unusable Avfilter Effects
+# UNIMPLEMENTED/UNUSABLE AVFILTER EFFECTS
 avfilter.abench
 avfilter.adelay
 avfilter.aemphasis
@@ -38,12 +44,9 @@ avfilter.aeval
 avfilter.afade
 avfilter.afftfilt
 avfilter.aformat
-avfilter.ssim
-avfilter.ass
-avfilter.bbox
-avfilter.bench
 
-# Crashing avfilters (would require an XML file to correctly define parameters
+
+# CRASHING AVFILTERS (WOULD REQUIRE AN XML FILE TO CORRECTLY DEFINE PARAMETERS)
 avfilter.acompressor
 avfilter.aecho
 avfilter.agate
@@ -53,111 +56,220 @@ avfilter.areverse
 avfilter.ashowinfo
 avfilter.channelmap
 avfilter.chorus
-avfilter.curves
-avfilter.drawtext
 avfilter.earwax
-avfilter.fade
 avfilter.field
-avfilter.fieldhint
-avfilter.fieldorder
-avfilter.find_rect
-avfilter.geq
-avfilter.hflip
-avfilter.metadata
-avfilter.negate
-avfilter.nnedi
 avfilter.qp
-avfilter.realtime
-avfilter.removelogo
 avfilter.reverse
-avfilter.showinfo
-avfilter.stereo3d
-avfilter.super2xsai
-avfilter.swapuv
-avfilter.vectorscope
-avfilter.vflip
-avfilter.vignette
 avfilter.volume
 avfilter.volumedetect
 
-# Removed for 19.04 release as a result of systematic testing of all the available effects
-avfilter.atadenoise
-avfilter.avgblur
-avfilter.blackdetect
-avfilter.blackframe
-avfilter.boxblur
-avfilter.bwdif
-avfilter.chromakey
-avfilter.colorkey
-avfilter.colormatrix
-avfilter.colorspace
-avfilter.convolution
-avfilter.crop
-avfilter.cropdetect
-avfilter.datascope
-avfilter.dctdnoiz
-avfilter.deband
-avfilter.deflate
+
+
+# REMOVED FOR 19.04 RELEASE as a result of systematic testing of all the available effects
+avfilter.tonemap
+sox.pad
+text
+
+# NEED A GPU OPENCL VAAPI SUPPORT
+avfilter.avgblur_opencl
+avfilter.boxblur_opencl
+avfilter.colorkey_opencl
+avfilter.convolution_opencl
 avfilter.deinterlace_vaapi
-avfilter.deshake
-avfilter.despill
+avfilter.denoise_vaapi
+avfilter.dilation_opencl
+avfilter.erosion_opencl
+avfilter.hwupload_cuda
+avfilter.nlmeans_opencl
+avfilter.prewitt_opencl
+avfilter.procamp_vaapi
+avfilter.roberts_opencl
+avfilter.scale_vaapi
+avfilter.sharpness_vaapi
+avfilter.shuffleplanes
+avfilter.sobel_opencl
+avfilter.tonemap
+avfilter.tonemap_opencl
+avfilter.transpose_opencl
+avfilter.transpose_vaapi
+avfilter.unsharp_opencl
+avfilter.zmq
+
+# WORKING BUT WARNING OR PATIALLY WORKING
+avfilter.atadenoise
+avfilter.dedot
+avfilter.deflicker
 avfilter.doubleweave
-avfilter.drawbox
-avfilter.drawgraph
-avfilter.drawgrid
-avfilter.elbg
-avfilter.floodfill
-avfilter.fspp
-avfilter.gblur
-avfilter.hqdn3d
-avfilter.hqx
-avfilter.hue
-avfilter.hwdownload
-avfilter.idet
-avfilter.il
-avfilter.lenscorrection
-avfilter.loop
-avfilter.lumakey
-avfilter.lut
-avfilter.lutrgb
-avfilter.lutyuv
-avfilter.mcdeint
+avfilter.random
+avfilter.tmix
+avfilter.vertigo
+avfilter.w3fdif
+avfilter.weave
+avfilter.yadif
+
+# WORKING BUT NEED CHECKS
+avfilter.amplify
+avfilter.bwdif
+avfilter.deblock
+avfilter.deflate
+avfilter.derain
+avfilter.deshake
+avfilter.inflate
 avfilter.nlmeans
 avfilter.owdenoise
-avfilter.pad
-avfilter.perspective
-avfilter.phase
-avfilter.pixscope
+avfilter.removegrain
+avfilter.sr
+deshake
+fieldorder
+frei0r.bgsubtract0r
+frei0r.colorhalftone
+frei0r.delaygrab
+frei0r.lightgraffiti
+frei0r.premultiply
+gtkrescale
+region
+resize
+
+# WORKING
+# avfilter.boxblur
+# avfilter.chromashift
+# avfilter.colormatrix
+# avfilter.colorspace
+# avfilter.deband
+# avfilter.dilation
+# avfilter.erosion
+# avfilter.fftfilt
+# avfilter.fieldorder
+# avfilter.kerndeint
+# avfilter.il
+# avfilter.mcdeint
+# avfilter.negate
+# avfilter.stereo3d
+# avfilter.swapuv
+# avfilter.vectorscope
+# avfilter.avgblur
+# avfilter.despill
+# avfilter.drawbox
+# avfilter.drawgrid
+# avfilter.elbg
+avfilter.fspp
+# avfilter.gblur
+# avfilter.hqdn3d
+# avfilter.hqx
+# avfilter.lenscorrection
+# avfilter.limiter
+# avfilter.phase
+# avfilter.prewitt
+# avfilter.setrange
+# avfilter.super2xsai
+# avfilter.xbr
+# avfilter.roberts
+# avfilter.sab
+# avfilter.sobel
+# avfilter.transpose
+# avfilter.unsharp
+# dynamictext
+# frei0r.rgbsplit0r
+# frei0r.vertigo
+# rescale
+# spot_remover
+
+# NOT WORKING, OR  NOT USEFUL ON THE TIMELINE OR HEAVY
+avfilter.ass
+avfilter.bbox
+avfilter.bench
+avfilter.bitplanenoise
+avfilter.blackdetect
+avfilter.blackframe
+avfilter.chromakey
+avfilter.colorkey
+avfilter.cropdetect
+avfilter.drawtext
+avfilter.entropy
+avfilter.fade
+avfilter.fieldhint
+avfilter.floodfill
+avfilter.freezedetect
+avfilter.graphmonitor
+avfilter.greyedge
+avfilter.hwupload
+avfilter.hwdownload
+avfilter.hwmap
+avfilter.idet
+avfilter.loop
+avfilter.lumakey
+avfilter.maskfun
+avfilter.metadata
 avfilter.pp
 avfilter.pp7
-avfilter.prewitt
-avfilter.removegrain
-avfilter.roberts
-avfilter.rotate
-avfilter.scale_vaapi
-avfilter.shuffleframes
+avfilter.realtime
+avfilter.removelogo
+avfilter.showinfo
 avfilter.sidedata
 avfilter.signalstats
-avfilter.sobel
+avfilter.spp
+avfilter.ssim
 avfilter.tblend
-avfilter.tlut2
-avfilter.tonemap
-avfilter.transpose
+avfilter.tpad
+avfilter.uspp
 avfilter.vmafmotion
-avfilter.w3fdif
-avfilter.xbr
-avfilter.yadif
-avfilter.zmq
-avfilter.zoompan
-frei0r.rgbsplit0r
-frei0r.tehRoxx0r
-frei0r.vertigo
+cairoblend_mode
+choppy
+frei0r.delay0r
+motion_est
+vismv
+watermark
+
+# COMPLEX UI
+avfilter.crop
+avfilter.cue
+avfilter.curves
+avfilter.drawgraph
+avfilter.find_rect
+avfilter.geq
+avfilter.hue
+avfilter.lut
+avfilter.lut1d
+avfilter.lutrgb
+avfilter.lutyuv
+avfilter.nnedi
+avfilter.pad
+avfilter.perspective
+avfilter.pseudocolor
+avfilter.rotate
+avfilter.shuffleframes
+avfilter.subtitles
+avfilter.swaprect
+avfilter.tlut2
+avfilter.vignette
 mask_apply
 mask_start
-motion_est
 qtext
 rgblut
-sox.pad
-spot_remover
-text
 timer
+
+# PRODUCE CRASH OR FREEZE
+avfilter.convolution
+
+# RESOLUTION ISSUES
+avfilter.dctdnoiz
+avfilter.delogo
+avfilter.pixscope
+# avfilter.vaguedenoiser
+# BurningTV
+# frei0r.cluster
+# frei0r.dither
+frei0r.IIRblur
+frei0r.medians
+frei0r.rgbnoise
+frei0r.sharpness
+grain
+wave
+
+# FRAME BUFFER ISSUES
+avfilter.hqdn3d
+avfilter.lagfun
+frei0r.baltan
+frei0r.bgsubtract0r
+frei0r.lightgraffiti
+frei0r.tehroxx0r
