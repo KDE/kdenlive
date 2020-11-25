@@ -60,7 +60,10 @@ Row {
                 Image {
                     id: thumbPlaceholder
                     visible: parent.running
-                    anchors.fill: parent
+                    width: parent.width
+                    height: parent.height
+                    sourceSize.width: width
+                    sourceSize.height: height
                     horizontalAlignment: Image.AlignLeft
                     fillMode: Image.PreserveAspectFit
                     asynchronous: true
