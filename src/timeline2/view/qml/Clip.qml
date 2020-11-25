@@ -81,7 +81,6 @@ Rectangle {
     property var groupTrimData
     property int scrollStart: scrollView.contentX - (clipRoot.modelStart * timeline.scaleFactor)
     property int mouseXPos: mouseArea.mouseX
-    property double clipNameOffset: isAudio || parentTrack.trackThumbsFormat > 0 ? clipRoot.border.width : (clipRoot.border.width + (container.height * root.dar * 2)) < container.width ? clipRoot.border.width + container.height * root.dar : clipRoot.border.width
     width : clipDuration * timeScale
     opacity: dragProxyArea.drag.active && dragProxy.draggedItem == clipId ? 0.8 : 1.0
 
@@ -92,7 +91,7 @@ Rectangle {
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
     onScrollStartChanged: {
-        clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.contentItem.width < 0
+        clipRoot.hideClipViews = scrollStart > (clipDuration * timeline.scaleFactor) || scrollStart + scrollView.width < 0
     }
 
     onIsGrabbedChanged: {
@@ -184,10 +183,15 @@ Rectangle {
     onTimeScaleChanged: {
         x = modelStart * timeScale;
         width = clipDuration * timeScale;
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.clipNameOffset
+        updateLabelOffset()
     }
     onScrollXChanged: {
-        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.clipNameOffset
+        updateLabelOffset()
+    }
+    
+    function updateLabelOffset()
+    {
+        labelRect.x = scrollX > modelStart * timeScale ? scrollX - modelStart * timeScale : clipRoot.border.width
     }
 
     border.color: (clipStatus == ClipStatus.StatusMissing || ClipStatus == ClipStatus.StatusWaiting || clipStatus == ClipStatus.StatusDeleting) ? "#ff0000" : selected ? root.selectionColor : grouped ? root.groupColor : borderColor
@@ -741,6 +745,7 @@ Rectangle {
                     // Clip name background
                     id: labelRect
                     color: clipRoot.selected ? 'darkred' : '#66000000'
+                    x: clipRoot.border.width
                     y: 0
                     width: label.width + 2 * clipRoot.border.width
                     height: label.height

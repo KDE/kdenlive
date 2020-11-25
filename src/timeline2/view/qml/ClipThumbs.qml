@@ -12,7 +12,6 @@ Row {
     property bool fixedThumbs: clipRoot.itemType == ProducerType.Image || clipRoot.itemType == ProducerType.Text || clipRoot.itemType == ProducerType.TextTemplate
     property int thumbWidth: container.height * root.dar
     property bool enableCache: clipRoot.itemType == ProducerType.Video || clipRoot.itemType == ProducerType.AV
-
     function reload(reset) {
         //console.log('+++++\n\ntriggered ML thumb reload\n\n++++++++++++++')
         clipRoot.baseThumbPath = clipRoot.variableThumbs ? '' : 'image://thumbnail/' + clipRoot.binId + '/' + Math.random() + '/#'
@@ -60,7 +59,10 @@ Row {
                 Image {
                     id: thumbPlaceholder
                     visible: parent.running
-                    anchors.fill: parent
+                    width: parent.width
+                    height: parent.height
+                    sourceSize.width: width
+                    sourceSize.height: height
                     horizontalAlignment: Image.AlignLeft
                     fillMode: Image.PreserveAspectFit
                     asynchronous: true
