@@ -217,6 +217,7 @@ public:
     Q_INVOKABLE int getCompositionPosition(int compoId) const;
     int getSubtitlePosition(int subId) const;
     int getCompositionPlaytime(int compoId) const;
+    std::pair<int, int> getMixInOut(int cid) const;
 
     /* Returns an item position, item can be clip or composition */
     Q_INVOKABLE int getItemPosition(int itemId) const;

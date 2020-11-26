@@ -489,6 +489,8 @@ void TimelineController::deleteSelectedClips()
         // Check if a mix is selected
         if (m_model->m_selectedMix > -1 && m_model->isClip(m_model->m_selectedMix)) {
             m_model->removeMix(m_model->m_selectedMix);
+            m_model->clearAssetView(m_model->m_selectedMix);
+            m_model->requestClearSelection(true);
         }
         return;
     }

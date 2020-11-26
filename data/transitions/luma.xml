@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<transition tag="luma" id="luma" type="hidden">
+<transition tag="luma" id="luma">
     <name>Luma</name>
         <description>Applies a stationary transition between the current and next frames.</description>
         <author>Dan Dennedy</author>

@@ -66,6 +66,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     auto *lay = new QHBoxLayout;
     m_trackBox = new QComboBox(this);
     AssetParameterView::setModel(model, frameSize, addSpacer);
+    model->setActive(true);
     refreshTracks();
     QLabel *title = new QLabel(i18n("Composition track:"), this);
     lay->addWidget(title);
@@ -91,6 +92,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 void TransitionStackView::unsetModel()
 {
     if (m_model) {
+        m_model->setActive(false);
         disconnect(m_model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
         auto kfr = m_model->getKeyframeModel();
         if (kfr) {

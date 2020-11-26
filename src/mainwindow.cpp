@@ -388,6 +388,7 @@ void MainWindow::init()
         case ObjectType::TimelineClip:
         case ObjectType::TimelineComposition:
         case ObjectType::Master:
+        case ObjectType::TimelineMix:
             m_projectMonitor->requestSeek(pos);
             break;
         case ObjectType::BinClip:

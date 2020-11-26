@@ -40,6 +40,7 @@ MixStackView::MixStackView(QWidget *parent)
 void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, QSize frameSize, bool addSpacer)
 {
     AssetParameterView::setModel(model, frameSize, addSpacer);
+    m_model->setActive(true);
     auto kfr = model->getKeyframeModel();
     if (kfr) {
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
@@ -58,6 +59,7 @@ void MixStackView::setModel(const std::shared_ptr<AssetParameterModel> &model, Q
 void MixStackView::unsetModel()
 {
     if (m_model) {
+        m_model->setActive(false);
         auto kfr = m_model->getKeyframeModel();
         if (kfr) {
             disconnect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
