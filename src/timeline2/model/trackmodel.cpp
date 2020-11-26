@@ -21,6 +21,7 @@
 
 #include "trackmodel.hpp"
 #include "clipmodel.hpp"
+#include "core.h"
 #include "compositionmodel.hpp"
 #include "effects/effectstack/model/effectstackmodel.hpp"
 #include "transitions/transitionsrepository.hpp"
@@ -1642,6 +1643,17 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
     if (auto ptr = m_parent.lock()) {
         // The clip that will be moved to playlist 1
         std::shared_ptr<ClipModel> secondClip(ptr->getClipPtr(clipIds.second));
+        if (secondClip->getMaxDuration() > -1) {
+            // check if we have enough frames, or limit duration
+            int leftFrames = secondClip->getIn();
+            if (leftFrames < 3) {
+                pCore->displayMessage(i18n("Not enough frames at clip %1 to apply the mix", i18n("start")), InformationMessage, 500);
+                return false;
+            }
+            if (leftFrames < mixDuration / 2) {
+                mixDuration = 2 * leftFrames;
+            }
+        }
         secondClipDuration = secondClip->getPlaytime();
         secondClipPos = secondClip->getPosition();
         source_track = secondClip->getSubPlaylistIndex();
@@ -1752,7 +1764,9 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                     }
                 }
                 return true;
-            } else return false;
+            } else {
+                return false;
+            }
         };
         rearrange_playlists_undo = [this, rearrangedPlaylists]() {
             // First, remove all clips on playlist 1
@@ -1912,7 +1926,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
             result = result && op();
             return result;
         };
-        res = res && replay();
+        res = replay();
         if (res) {
             PUSH_LAMBDA(replay, operation);
             UPDATE_UNDO_REDO(operation, reverse, undo, redo);
