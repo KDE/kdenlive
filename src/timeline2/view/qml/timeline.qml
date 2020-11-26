@@ -318,6 +318,10 @@ Rectangle {
     onSeekingFinishedChanged : {
         playhead.opacity = seekingFinished ? 1 : 0.5
     }
+    
+    onShowSubtitlesChanged: {
+        subtitleTrack.height = showSubtitles? root.baseUnit * 5 : 0
+    }
 
     //onCurrentTrackChanged: timeline.selection = []
     onTimeScaleChanged: {
@@ -1168,7 +1172,7 @@ Rectangle {
                         Item {
                             id: subtitleTrack
                             width: tracksContainerArea.width
-                            height: showSubtitles? root.baseUnit * 5 : 0
+                            height: 0
                             Repeater { id: subtitlesRepeater; model: subtitleDelegateModel }
                             MouseArea {
                                 anchors.fill: parent
