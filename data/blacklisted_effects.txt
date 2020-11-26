@@ -238,7 +238,8 @@ avfilter.perspective
 avfilter.pseudocolor
 avfilter.rotate
 avfilter.shuffleframes
-avfilter.subtitles
+# Subtitles should not be blacklisted, since used internally
+# avfilter.subtitles
 avfilter.swaprect
 avfilter.tlut2
 avfilter.vignette
