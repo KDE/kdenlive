@@ -260,7 +260,7 @@ avfilter.pixscope
 # BurningTV
 # frei0r.cluster
 # frei0r.dither
-frei0r.IIRblur
+# frei0r.IIRblur
 frei0r.medians
 frei0r.rgbnoise
 frei0r.sharpness
