@@ -134,6 +134,7 @@ public:
     bool createMix(MixInfo info, bool isAudio);
     /** @brief Change id of first clip in a mix (in case of clip cut) */
     bool reAssignEndMix(int currentId, int newId);
+    void switchMix(int cid, const QString composition, Fun &undo, Fun &redo);
     /** @brief Ensure we don't have unsynced mixes in the playlist (mixes without owner clip) */
     void syncronizeMixes(bool finalMove);
     /** @brief Switch a clip from one playlist to the other */

@@ -1292,6 +1292,13 @@ Fun TrackModel::requestCompositionDeletion_lambda(int compoId, bool updateView, 
     return [compoId, old_in, old_out, updateView, finalMove, this]() {
         if (isLocked()) return false;
         int old_clip_index = getRowfromComposition(compoId);
+        if (finalMove && m_allCompositions[compoId]->selected) {
+            m_allCompositions[compoId]->selected = false;
+            if (auto ptr = m_parent.lock()) {
+                // item was selected, unselect
+                ptr->requestClearSelection(true);
+            }
+        }
         auto ptr = m_parent.lock();
         if (updateView) {
             ptr->_beginRemoveRows(ptr->makeTrackIndexFromID(getId()), old_clip_index, old_clip_index);
@@ -1546,6 +1553,8 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
     }
     if (result) {
         PUSH_LAMBDA(local_redo, redo);
+        QString assetId = m_sameCompositions[clipIds.second]->getAssetId();
+        QVector<QPair<QString, QVariant>> params = m_sameCompositions[clipIds.second]->getAllParameters();
         Fun replay = [this, clipIds, secondInPos, clipHasEndMix, src_track]() {
             if (src_track == 1 && !clipHasEndMix) {
                 // Revert clip to playlist 0 since it has no mix
@@ -1570,7 +1579,7 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
             return true;
         };
         replay();
-        Fun reverse = [this, clipIds, mixDuration, mixPosition, mixCutPos, secondInPos, clipHasEndMix, src_track]() {
+        Fun reverse = [this, clipIds, assetId, params, mixDuration, mixPosition, mixCutPos, secondInPos, clipHasEndMix, src_track]() {
             // First restore correct playlist
             if (src_track == 1 && !clipHasEndMix) {
                 // Revert clip to playlist 1
@@ -1582,31 +1591,24 @@ bool TrackModel::requestRemoveMix(std::pair<int, int> clipIds, Fun &undo, Fun &r
                 movedClip->setMixDuration(mixDuration, mixCutPos);
                 // Insert mix transition
                 QString assetName;
-                std::unique_ptr<Mlt::Transition> t;
-                if (isAudioTrack()) {
-                    t.reset(new Mlt::Transition(*ptr->getProfile(), "mix"));
-                    t->set_in_and_out(mixPosition, mixPosition + mixDuration);
-                    t->set("kdenlive:mixcut", mixCutPos);
-                    t->set("start", -1);
-                    t->set("accepts_blanks", 1);
-                    if (src_track == 0) {
-                        t->set("reverse", 1);
+                std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(assetId);
+                t->set_in_and_out(mixPosition, mixPosition + mixDuration);
+                t->set("kdenlive:mixcut", mixCutPos);
+                t->set("kdenlive_id", assetId.toUtf8().constData());
+                m_track->plant_transition(*t.get(), 0, 1);
+                QDomElement xml = TransitionsRepository::get()->getXml(assetId);
+                QDomNodeList xmlParams = xml.elementsByTagName(QStringLiteral("parameter"));
+                for (int i = 0; i < xmlParams.count(); ++i) {
+                    QDomElement currentParameter = xmlParams.item(i).toElement();
+                    QString paramName = currentParameter.attribute(QStringLiteral("name"));
+                    for (const auto &p : qAsConst(params)) {
+                        if (p.first == paramName) {
+                            currentParameter.setAttribute(QStringLiteral("value"), p.second.toString());
+                            break;
+                        }
                     }
-                    m_track->plant_transition(*t.get(), 0, 1);
-                    assetName = QStringLiteral("mix");
-                } else {
-                    t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
-                    t->set_in_and_out(mixPosition, mixPosition + mixDuration);
-                    t->set("kdenlive:mixcut", mixCutPos);
-                    if (src_track == 0) {
-                        t->set("reverse", 1);
-                    }
-                    m_track->plant_transition(*t.get(), 0, 1);
-                    assetName = QStringLiteral("luma");
-                    
                 }
-                QDomElement xml = TransitionsRepository::get()->getXml(assetName);
-                std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetName, {ObjectType::TimelineMix, clipIds.second}, QString()));
+                std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, assetId, {ObjectType::TimelineMix, clipIds.second}, QString()));
                 m_sameCompositions[clipIds.second] = asset;
                 m_mixList.insert(clipIds.first, clipIds.second);
                 QModelIndex ix2 = ptr->makeClipIndexFromID(clipIds.second);
@@ -1837,6 +1839,7 @@ bool TrackModel::requestClipMix(std::pair<int, int> clipIds, int mixDuration, bo
                 t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
                 t->set_in_and_out(mixPosition, mixPosition + mixDuration);
                 t->set("kdenlive:mixcut", secondClipCut);
+                t->set("kdenlive_id", "luma");
                 if (dest_track == 0) {
                     t->set("reverse", 1);
                 }
@@ -2031,6 +2034,7 @@ bool TrackModel::createMix(MixInfo info, bool isAudio)
         } else {
             t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
             t->set_in_and_out(in, out);
+            t->set("kdenlive_id", "luma");
             if (reverse) {
                 t->set("reverse", 1);
             }
@@ -2072,6 +2076,7 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
             assetName = QStringLiteral("mix");
         } else {
             t.reset(new Mlt::Transition(*ptr->getProfile(), "luma"));
+            t->set("kdenlive_id", "luma");
             t->set_in_and_out(mixData.first, mixData.first + mixData.second);
             if (reverse) {
                 t->set("reverse", 1);
@@ -2184,7 +2189,10 @@ bool TrackModel::loadMix(Mlt::Transition *t)
     if (cid1 < 0 || cid2 < 0) {
         return false;
     }
-    const QString assetId(t->get("mlt_service"));
+    QString assetId(t->get("kdenlive_id"));
+    if (assetId.isEmpty()) {
+        assetId = QString(t->get("mlt_service"));
+    }
     std::unique_ptr<Mlt::Transition>tr(t);
     QDomElement xml = TransitionsRepository::get()->getXml(assetId);
     // Paste parameters from existing mix
@@ -2225,4 +2233,58 @@ bool TrackModel::reAssignEndMix(int currentId, int newId)
     m_mixList.remove(currentId);
     m_mixList.insert(newId, mixedClip);
     return true;
+}
+
+void TrackModel::switchMix(int cid, const QString composition, Fun &undo, Fun &redo)
+{
+    // First remove exisiting mix
+    // lock MLT playlist so that we don't end up with invalid frames in monitor
+    const QString currentAsset = m_sameCompositions[cid]->getAssetId();
+    Fun local_redo = [this, cid, composition]() {
+        m_playlists[0].lock();
+        m_playlists[1].lock();
+        Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
+        int in = transition.get_in();
+        int out = transition.get_out();
+        QScopedPointer<Mlt::Field> field(m_track->field());
+        field->lock();
+        field->disconnect_service(transition);
+        field->unlock();
+        m_sameCompositions.erase(cid);
+        if (auto ptr = m_parent.lock()) {
+            std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(composition);
+            t->set_in_and_out(in, out);
+            m_track->plant_transition(*t.get(), 0, 1);
+            QDomElement xml = TransitionsRepository::get()->getXml(composition);
+            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, composition, {ObjectType::TimelineMix, cid}, QString()));
+            m_sameCompositions[cid] = asset;
+        }
+        m_playlists[0].unlock();
+        m_playlists[1].unlock();
+        return true;
+    };
+    Fun local_undo = [this, cid, currentAsset]() {
+        m_playlists[0].lock();
+        m_playlists[1].lock();
+        Mlt::Transition &transition = *static_cast<Mlt::Transition*>(m_sameCompositions[cid]->getAsset());
+        int in = transition.get_in();
+        int out = transition.get_out();
+        QScopedPointer<Mlt::Field> field(m_track->field());
+        field->lock();
+        field->disconnect_service(transition);
+        field->unlock();
+        m_sameCompositions.erase(cid);
+        if (auto ptr = m_parent.lock()) {
+            std::unique_ptr<Mlt::Transition> t = TransitionsRepository::get()->getTransition(currentAsset);
+            t->set_in_and_out(in, out);
+            m_track->plant_transition(*t.get(), 0, 1);
+            QDomElement xml = TransitionsRepository::get()->getXml(currentAsset);
+            std::shared_ptr<AssetParameterModel> asset(new AssetParameterModel(std::move(t), xml, currentAsset, {ObjectType::TimelineMix, cid}, QString()));
+            m_sameCompositions[cid] = asset;
+        }
+        m_playlists[0].unlock();
+        m_playlists[1].unlock();
+        return true;
+    };
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
 }

@@ -73,6 +73,8 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().first == ObjectType::TimelineComposition) {
             emit switchCurrentComposition(m_transitionWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
+        } else if (m_mixWidget->isVisible()) {
+            emit switchCurrentComposition(m_mixWidget->stackOwner().second, m_switchCompoButton->currentData().toString());
         }
     });
     m_switchCompoButton->setToolTip(i18n("Change composition type"));
@@ -146,6 +148,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(m_effectStackWidget, &EffectStackView::seekToPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::reloadEffect, this, &AssetPanel::reloadEffect);
     connect(m_transitionWidget, &TransitionStackView::seekToTransPos, this, &AssetPanel::seekToPos);
+    connect(m_mixWidget, &MixStackView::seekToTransPos, this, &AssetPanel::seekToPos);
     connect(m_effectStackWidget, &EffectStackView::updateEnabledState, this, [this]() { m_enableStackButton->setActive(m_effectStackWidget->isStackEnabled()); });
 }
 
@@ -158,8 +161,7 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
         return;
     }
     clear();
-    QString transitionId = transitionModel->getAssetId();
-    m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionId));
+    m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_switchAction->setVisible(true);
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
@@ -181,12 +183,13 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
         return;
     }
     clear();
-    m_switchAction->setVisible(false);
+    m_switchAction->setVisible(true);
     m_titleAction->setVisible(false);
     m_assetTitle->clear();
     m_mixWidget->setVisible(true);
     m_timelineButton->setVisible(false);
     m_enableStackButton->setVisible(false);
+    m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
     m_mixWidget->setModel(transitionModel, QSize(), true);
 }
 
@@ -269,11 +272,16 @@ void AssetPanel::clearAssetPanel(int itemId)
     ObjectId id = m_effectStackWidget->stackOwner();
     if (id.first == ObjectType::TimelineClip && id.second == itemId) {
         clear();
-    } else {
-        id = m_transitionWidget->stackOwner();
-        if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
-            clear();
-        }
+        return;
+    }
+    id = m_transitionWidget->stackOwner();
+    if (id.first == ObjectType::TimelineComposition && id.second == itemId) {
+        clear();
+        return;
+    }
+    id = m_mixWidget->stackOwner();
+    if (id.first == ObjectType::TimelineMix && id.second == itemId) {
+        clear();
     }
 }
 
@@ -303,6 +311,7 @@ void AssetPanel::updatePalette()
     setStyleSheet(styleSheet);
     m_transitionWidget->setStyleSheet(styleSheet);
     m_effectStackWidget->setStyleSheet(styleSheet);
+    m_mixWidget->setStyleSheet(styleSheet);
 }
 
 // static
@@ -387,22 +396,25 @@ void AssetPanel::processSplitEffect(bool enable)
 
 void AssetPanel::showKeyframes(bool enable)
 {
-    if (m_transitionWidget->isVisible()) {
-        pCore->showClipKeyframes(m_transitionWidget->stackOwner(), enable);
-    } else {
+    if (m_effectStackWidget->isVisible()) {
         pCore->showClipKeyframes(m_effectStackWidget->stackOwner(), enable);
+    } else if (m_transitionWidget->isVisible()) {
+        pCore->showClipKeyframes(m_transitionWidget->stackOwner(), enable);
     }
 }
 
 ObjectId AssetPanel::effectStackOwner()
 {
+    if (m_effectStackWidget->isVisible()) {
+        return m_effectStackWidget->stackOwner();
+    }
     if (m_transitionWidget->isVisible()) {
         return m_transitionWidget->stackOwner();
     }
-    if (!m_effectStackWidget->isVisible()) {
-        return ObjectId(ObjectType::NoItem, -1);
+    if (m_mixWidget->isVisible()) {
+        return m_mixWidget->stackOwner();
     }
-    return m_effectStackWidget->stackOwner();
+    return ObjectId(ObjectType::NoItem, -1);
 }
 
 bool AssetPanel::addEffect(const QString &effectId)

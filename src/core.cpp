@@ -452,6 +452,13 @@ int Core::getItemPosition(const ObjectId &id)
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getCompositionPosition(id.second);
         }
         break;
+    case ObjectType::TimelineMix:
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second).first;
+        } else {
+            qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+        }
+        break;
     case ObjectType::BinClip:
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
@@ -477,6 +484,7 @@ int Core::getItemIn(const ObjectId &id)
             qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
         }
         break;
+    case ObjectType::TimelineMix:
     case ObjectType::TimelineComposition:
     case ObjectType::BinClip:
     case ObjectType::TimelineTrack:
@@ -536,6 +544,14 @@ int Core::getItemDuration(const ObjectId &id)
     case ObjectType::TimelineTrack:
     case ObjectType::Master:
         return m_mainWindow->getCurrentTimeline()->controller()->duration() - 1;
+    case ObjectType::TimelineMix:
+        if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
+            std::pair<int, int> mixInOut = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second);
+            return (mixInOut.second - mixInOut.first);
+        } else {
+            qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+        }
+        break;
     default:
         qDebug() << "ERROR: unhandled object type";
     }
@@ -548,6 +564,7 @@ int Core::getItemTrack(const ObjectId &id)
     switch (id.first) {
     case ObjectType::TimelineClip:
     case ObjectType::TimelineComposition:
+    case ObjectType::TimelineMix:
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
         break;
     default:
@@ -561,6 +578,7 @@ void Core::refreshProjectItem(const ObjectId &id)
     if (!m_guiConstructed || m_mainWindow->getCurrentTimeline()->loading) return;
     switch (id.first) {
     case ObjectType::TimelineClip:
+    case ObjectType::TimelineMix:
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             m_mainWindow->getCurrentTimeline()->controller()->refreshItem(id.second);
         }

@@ -5122,6 +5122,29 @@ std::unordered_set<int> TimelineModel::getAllTracksIds() const
 
 void TimelineModel::switchComposition(int cid, const QString &compoId)
 {
+    Fun undo = []() {return true; };
+    Fun redo = []() { return true; };
+    if (isClip(cid)) {
+        // We are working on a mix
+        requestClearSelection(true);
+        int tid = getClipTrackId(cid);
+        MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
+        getTrackById(tid)->switchMix(cid, compoId, undo, redo);
+        Fun local_update = [cid, mixData, this]() {
+            requestMixSelection(cid);
+            int in = mixData.secondClipInOut.first;
+            int out = mixData.firstClipInOut.second;
+            emit invalidateZone(in, out);
+            checkRefresh(in, out);
+            return true;
+        };
+        PUSH_LAMBDA(local_update, redo);
+        PUSH_FRONT_LAMBDA(local_update, undo);
+        if (redo()) {
+            pCore->pushUndo(undo, redo, i18n("Change composition"));
+        }
+        return;
+    }
     Q_ASSERT(isComposition(cid));
     std::shared_ptr<CompositionModel> compo = m_allCompositions.at(cid);
     int currentPos = compo->getPosition();
@@ -5129,8 +5152,6 @@ void TimelineModel::switchComposition(int cid, const QString &compoId)
     int currentTrack = compo->getCurrentTrackId();
     int a_track = compo->getATrack();
     int forcedTrack = compo->getForcedTrack();
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
     // Clear selection
     requestClearSelection(true);
     if (m_groups->isInGroup(cid)) {
@@ -5171,18 +5192,31 @@ void TimelineModel::plantMix(int tid, Mlt::Transition *t)
 bool TimelineModel::resizeStartMix(int cid, int duration, bool singleResize)
 {
     Q_ASSERT(isClip(cid));
-    int tid = m_allClips[cid]->getCurrentTrackId();
+    int tid = m_allClips.at(cid)->getCurrentTrackId();
     if (tid > -1) {
         std::pair<MixInfo, MixInfo> mixData = getTrackById_const(tid)->getMixInfo(cid);
         if (mixData.first.firstClipId > -1) {
             int clipToResize = mixData.first.firstClipId;
             Q_ASSERT(isClip(clipToResize));
-            int updatedDuration = m_allClips[cid]->getPosition() + duration - m_allClips[clipToResize]->getPosition();
+            int updatedDuration = m_allClips.at(cid)->getPosition() + duration - m_allClips[clipToResize]->getPosition();
             int result = requestItemResize(clipToResize, updatedDuration, true, true, 0, singleResize);
             return result > -1;
         }
     }
     return false;
+}
+
+std::pair<int, int> TimelineModel::getMixInOut(int cid) const
+{
+    Q_ASSERT(isClip(cid));
+    int tid = m_allClips.at(cid)->getCurrentTrackId();
+    if (tid > -1) {
+        MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
+        if (mixData.firstClipId > -1) {
+            return {mixData.secondClipInOut.first, mixData.firstClipInOut.second};
+        }
+    }
+    return {-1,-1};
 }
 
 void TimelineModel::setSubModel(std::shared_ptr<SubtitleModel> model)
