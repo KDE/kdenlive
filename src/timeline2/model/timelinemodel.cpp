@@ -899,7 +899,6 @@ bool TimelineModel::mixClip(int idToMove, int delta)
         return false;
     }
 
-    
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
     bool result = requestClipMix(clipsToMix, selectedTrack, mixPosition, true, true, true, undo,
