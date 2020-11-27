@@ -1670,7 +1670,7 @@ void Bin::setMonitor(Monitor *monitor)
     });
 }
 
-void Bin::setDocument(KdenliveDoc *project)
+void Bin::cleanDocument()
 {
     blockSignals(true);
     if (m_proxyModel) {
@@ -1684,6 +1684,10 @@ void Bin::setDocument(KdenliveDoc *project)
     m_itemModel->clean();
     delete m_itemView;
     m_itemView = nullptr;
+}
+
+void Bin::setDocument(KdenliveDoc *project)
+{
     m_doc = project;
     m_infoLabel->slotSetJobCount(0);
     int iconHeight = QFontInfo(font()).pixelSize() * 3.5;
@@ -4105,9 +4109,9 @@ void Bin::setCurrent(const std::shared_ptr<AbstractProjectItem> &item)
     }
 }
 
-void Bin::cleanup()
+void Bin::cleanupUnused()
 {
-    m_itemModel->requestCleanup();
+    m_itemModel->requestCleanupUnused();
 }
 
 std::shared_ptr<EffectStackModel> Bin::getClipEffectStack(int itemId)

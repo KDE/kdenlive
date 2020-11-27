@@ -218,6 +218,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     bool openBackup;
     m_notesPlugin->clear();
+    pCore->bin()->cleanDocument();
     KdenliveDoc *doc = new KdenliveDoc(QUrl(), projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks, audioChannels, &openBackup, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
     ThumbnailCache::get()->clearCache();
@@ -269,16 +270,21 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     pCore->jobManager()->slotCancelJobs();
     disconnect(pCore->window()->getMainTimeline()->controller(), &TimelineController::durationChanged, this, &ProjectManager::adjustProjectDuration);
     pCore->window()->getMainTimeline()->controller()->clipActions.clear();
-    pCore->window()->getMainTimeline()->controller()->prepareClose();
-    pCore->window()->resetSubtitles();
-    if (m_mainTimelineModel) {
-        m_mainTimelineModel->prepareClose();
-    }
     if (!quit && !qApp->isSavingSession()) {
         m_autoSaveTimer.stop();
         if (m_project) {
             pCore->jobManager()->slotCancelJobs();
             pCore->bin()->abortOperations();
+        }
+    }
+    pCore->window()->getMainTimeline()->controller()->prepareClose();
+    pCore->bin()->cleanDocument();
+    pCore->window()->resetSubtitles();
+    if (m_mainTimelineModel) {
+        m_mainTimelineModel->prepareClose();
+    }
+    if (!quit && !qApp->isSavingSession()) {
+        if (m_project) {
             pCore->monitorManager()->clipMonitor()->slotOpenClip(nullptr);
             emit pCore->window()->clearAssetPanel();
             delete m_project;

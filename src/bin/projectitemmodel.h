@@ -185,7 +185,7 @@ public:
     bool requestRenameFolder(std::shared_ptr<AbstractProjectItem> folder, const QString &name);
 
     /* @brief Request that the unused clips are deleted */
-    bool requestCleanup();
+    bool requestCleanupUnused();
 
     /* @brief Retrieves the next id available for attribution to a folder */
     int getFreeFolderId();
