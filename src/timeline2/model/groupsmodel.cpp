@@ -769,7 +769,8 @@ int GroupsModel::fromJson(const QJsonObject &o, Fun &undo, Fun &redo)
             }
             QString data = o.value(QLatin1String("data")).toString();
             QString leaf = o.value(QLatin1String("leaf")).toString();
-            int trackId = ptr->getTrackIndexFromPosition(data.section(":", 0, 0).toInt());
+            int trackPos = data.section(":", 0, 0).toInt();
+            int trackId = trackPos > -1 ? ptr->getTrackIndexFromPosition(trackPos) : -1;
             int pos = data.section(":", 1, 1).toInt();
             int id = -1;
             if (leaf == QLatin1String("clip")) {
