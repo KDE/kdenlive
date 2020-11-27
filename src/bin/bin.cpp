@@ -826,11 +826,20 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
 
 void ClipWidget::init(QDockWidget* m_DockClipWidget)
 {
+    QCheckBox *b = new QCheckBox(i18n("Import image sequence"));
+    b->setChecked(KdenliveSettings::autoimagesequence());
+    QFrame *f = new QFrame();
+    f->setFrameShape(QFrame::NoFrame);
+    auto *l = new QHBoxLayout;
+    l->addWidget(b);
+    l->addStretch(5);
+    f->setLayout(l);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
+    fileWidget->setCustomWidget(f);
     m_DockClipWidget->setWidget(fileWidget);
-
 }
+
 Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     : QWidget(parent)
     , isLoading(false)
