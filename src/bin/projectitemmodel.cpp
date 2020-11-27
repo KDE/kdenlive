@@ -853,7 +853,7 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
     return res;
 }
 
-bool ProjectItemModel::requestCleanup()
+bool ProjectItemModel::requestCleanupUnused()
 {
     QWriteLocker locker(&m_lock);
     Fun undo = []() { return true; };

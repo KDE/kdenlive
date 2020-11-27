@@ -178,6 +178,8 @@ public:
 
     /** @brief Sets the document for the bin and initialize some stuff  */
     void setDocument(KdenliveDoc *project);
+    /** @brief Delete all project related data, to be called before setDocument  */
+    void cleanDocument();
 
     /** @brief Create a clip item from its xml description  */
     void createClip(const QDomElement &xml);
@@ -298,7 +300,7 @@ public:
     QList<int> getUsedClipIds();
 
     // TODO refac: remove this and call directly the function in ProjectItemModel
-    void cleanup();
+    void cleanupUnused();
     void selectAll();
 
 private slots:
