@@ -153,18 +153,20 @@ bool CompositionModel::requestResize(int size, bool right, Fun &undo, Fun &redo,
             return false;
         };
 
-        auto kfr = getKeyframeModel();
-        if (kfr) {
-            // Adjust keyframe length
-            if (oldDuration > 0) {
-                kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
+        if (logUndo) {
+            auto kfr = getKeyframeModel();
+            if (kfr) {
+                // Adjust keyframe length
+                if (oldDuration > 0) {
+                    kfr->resizeKeyframes(0, oldDuration, 0, out - in, 0, right, undo, redo);
+                }
+                Fun refresh = [kfr]() {
+                    emit kfr->modelChanged();
+                    return true;
+                };
+                refresh();
+                UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
             }
-            Fun refresh = [kfr]() {
-                emit kfr->modelChanged();
-                return true;
-            };
-            refresh();
-            UPDATE_UNDO_REDO(refresh, refresh, undo, redo);
         }
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
         return true;
