@@ -1133,6 +1133,8 @@ void TimelineController::showAsset(int id)
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
         qDebug() << "-----\n// SHOW KEYFRAMES: " << showKeyframes;
         emit showItemEffectStack(clipName, m_model->getClipEffectStackModel(id), m_model->getClipFrameSize(id), showKeyframes);
+    } else if (m_model->isSubTitle(id)) {
+        emit showSubtitle(id);
     }
 }
 

@@ -10,18 +10,22 @@ Item {
     property int endFrame
     property int subId
     property int duration : endFrame - startFrame
+    property double tScale: root.timeScale
     property var subtitle
     property bool selected
     height: subtitleTrack.height
     onStartFrameChanged: {
         if (!subtitleClipArea.pressed) {
-            subtitleClipArea.x = startFrame * timeScale
+            subtitleClipArea.x = startFrame * root.timeScale
         }
+    }
+    onTScaleChanged: {
+        subtitleClipArea.x = startFrame * root.timeScale;
     }
     MouseArea {
             // Clip shifting
             id: subtitleClipArea
-            x: startFrame * timeScale;
+            x: startFrame * root.timeScale
             height: parent.height
             width: subtitleBase.width
             hoverEnabled: true
@@ -53,14 +57,17 @@ Item {
                 startMove = mouse.button & Qt.LeftButton
                 if (timeline.selection.indexOf(subtitleRoot.subId) == -1) {
                     controller.requestAddToSelection(subtitleRoot.subId, !(mouse.modifiers & Qt.ShiftModifier))
+                    timeline.showAsset(subtitleRoot.subId);
                 } else if (mouse.modifiers & Qt.ShiftModifier) {
                     console.log('REMOVE FROM SELECTION!!!!')
                     controller.requestRemoveFromSelection(subtitleRoot.subId)
+                } else {
+                    timeline.showAsset(subtitleRoot.subId)
                 }
             }
             onPositionChanged: {
                 if (pressed && !subtitleBase.textEditBegin && startMove) {
-                    newStart = Math.max(0, oldStartFrame + (mouseX - oldStartX)/ timeScale)
+                    newStart = Math.max(0, oldStartFrame + (mouseX - oldStartX)/ root.timeScale)
                     snappedFrame = controller.suggestSubtitleMove(subId, newStart, root.consumerPosition, root.snapping)
                 }
             }
@@ -78,7 +85,7 @@ Item {
                         console.log("old start frame",oldStartFrame/timeline.scaleFactor, "new frame afer shifting ",oldStartFrame/timeline.scaleFactor + delta)
                         controller.requestSubtitleMove(subId, oldStartFrame, false, false);
                         controller.requestSubtitleMove(subId, snappedFrame, true, true);
-                        x = snappedFrame * timeScale
+                        x = snappedFrame * root.timeScale
                     }
                 }
                 console.log('RELEASED DONE\n\n_______________')
@@ -97,8 +104,8 @@ Item {
         id: subtitleBase
         property bool textEditBegin: false
         height: subtitleTrack.height
-        width: duration * timeScale // to make width change wrt timeline scale factor
-        x: startFrame * timeScale;
+        width: duration * root.timeScale // to make width change wrt timeline scale factor
+        x: startFrame * root.timeScale;
         clip: true
         TextField {
             id: subtitleEdit
@@ -159,9 +166,9 @@ Item {
             property int oldMouseX
             property int oldStartFrame: 0
             acceptedButtons: Qt.LeftButton
-            cursorShape: Qt.SizeHorCursor
             drag.axis: Drag.XAxis
             drag.smoothed: false
+            cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: leftstart
             onPressed: {
                 root.autoScrolling = false
@@ -174,7 +181,7 @@ Item {
             }
             onPositionChanged: {
                 if (pressed) {
-                    newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / timeScale)
+                    newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / root.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
                         var frame = controller.requestItemResize(subId, newDuration , false, false, root.snapping);
                         if (frame > 0) {
@@ -233,12 +240,12 @@ Item {
             property bool sizeChanged: false
             property int oldMouseX
             acceptedButtons: Qt.LeftButton
-            cursorShape: Qt.SizeHorCursor
             property int newDuration: subtitleRoot.duration
             property int originalDuration
+            cursorShape: containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor;
             drag.target: rightend
             drag.axis: Drag.XAxis
-            //drag.smoothed: false
+            drag.smoothed: false
 
             onPressed: {
                 root.autoScrolling = false

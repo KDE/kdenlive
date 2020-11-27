@@ -551,7 +551,7 @@ Rectangle {
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
-                cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                cursorShape: (containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
                 onPressed: {
                     root.autoScrolling = false
                     clipRoot.originalX = clipRoot.x
@@ -640,7 +640,7 @@ Rectangle {
                 property bool shiftTrim: false
                 property bool controlTrim: false
                 property bool sizeChanged: false
-                cursorShape: (containsMouse ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
+                cursorShape: (containsMouse || pressed ? Qt.SizeHorCursor : Qt.ClosedHandCursor);
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
                 drag.smoothed: false
