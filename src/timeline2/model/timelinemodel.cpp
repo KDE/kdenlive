@@ -1190,7 +1190,7 @@ int TimelineModel::suggestSubtitleMove(int subId, int position, int cursorPositi
             } else if (isSubTitle(current_clipId)) {
                 int in = getItemPosition(current_clipId) - offset;
                 ignored_pts.push_back(in);
-                ignored_pts.push_back(in + getItemPlaytime(subId));
+                ignored_pts.push_back(in + getItemPlaytime(current_clipId));
             }
         }
         int snapped = getBestSnapPos(currentPos, position - currentPos, ignored_pts, cursorPosition, snapDistance);
