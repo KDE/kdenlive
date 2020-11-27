@@ -2571,6 +2571,7 @@ void TimelineController::switchTrackActive(int trackId)
     }
     bool active = m_model->getTrackById_const(trackId)->isTimelineActive();
     m_model->setTrackProperty(trackId, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
+    m_activeSnaps.clear();
 }
 
 void TimelineController::switchAllTrackActive()
@@ -2582,6 +2583,7 @@ void TimelineController::switchAllTrackActive()
         m_model->setTrackProperty(target_track, QStringLiteral("kdenlive:timeline_active"), active ? QStringLiteral("0") : QStringLiteral("1"));
         ++it;
     }
+    m_activeSnaps.clear();
 }
 
 void TimelineController::makeAllTrackActive()
@@ -2603,6 +2605,7 @@ void TimelineController::makeAllTrackActive()
         m_model->setTrackProperty(target_track, QStringLiteral("kdenlive:timeline_active"), makeActive ? QStringLiteral("1") : QStringLiteral("0"));
         ++it;
     }
+    m_activeSnaps.clear();
 }
 
 void TimelineController::switchTrackLock(bool applyToAll)
