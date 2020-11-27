@@ -824,6 +824,13 @@ bool LineEventEater::eventFilter(QObject *obj, QEvent *event)
     return QObject::eventFilter(obj, event);
 }
 
+void ClipWidget::init(QDockWidget* m_DockClipWidget)
+{
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    KFileWidget* fileWidget = new KFileWidget(QUrl::fromLocalFile(clipFolder), m_DockClipWidget);
+    m_DockClipWidget->setWidget(fileWidget);
+
+}
 Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     : QWidget(parent)
     , isLoading(false)
@@ -847,6 +854,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent)
     , m_gainedFocus(false)
     , m_audioDuration(0)
     , m_processedAudio(0)
+    , m_clipWidget()
 {
     m_layout = new QVBoxLayout(this);
 
@@ -4347,4 +4355,8 @@ QList<int> Bin::getUsedClipIds()
         }
     }
     return timelineClipIds;
+}
+
+ClipWidget* Bin::getWidget(){
+    return m_clipWidget;
 }
