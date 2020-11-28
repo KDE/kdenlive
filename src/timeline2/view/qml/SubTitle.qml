@@ -4,14 +4,14 @@ import QtQuick.Controls 2.4
 Item {
     id: subtitleRoot
     visible : true
-    z: 20
+    z: selected ? 30 : 20
     property int oldStartX
     property int startFrame
     property int endFrame
     property int subId
     property int duration : endFrame - startFrame
     property double tScale: root.timeScale
-    property var subtitle
+    property string subtitle
     property bool selected
     height: subtitleTrack.height
     onStartFrameChanged: {
