@@ -120,7 +120,7 @@ GLWidget::GLWidget(int id, QObject *parent)
     setPersistentSceneGraph(true);
     setClearBeforeRendering(false);
     setResizeMode(QQuickView::SizeRootObjectToView);
-    m_offscreenSurface.setFormat(QOpenGLContext::globalShareContext()->format());
+    m_offscreenSurface.setFormat(QWindow::format());
     m_offscreenSurface.create();
 
     m_refreshTimer.setSingleShot(true);
