@@ -451,7 +451,11 @@ void AssetPanel::scrollTo(QRect rect)
 {
     // Ensure the scrollview widget adapted its height to the effectstackview height change
     m_sc->widget()->adjustSize();
-    m_sc->ensureVisible(0, rect.y(), 0, rect.height());
+    if (rect.height() < m_sc->height()) {
+        m_sc->ensureVisible(0, rect.y() + rect.height(), 0, 0);
+    } else {
+        m_sc->ensureVisible(0, rect.y() + m_sc->height(), 0, 0);
+    }
 }
 
 void AssetPanel::slotCheckWheelEventFilter()

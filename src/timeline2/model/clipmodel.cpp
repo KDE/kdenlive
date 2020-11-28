@@ -478,9 +478,13 @@ void ClipModel::refreshProducerFromBin(int trackId, PlaylistState::ClipState sta
         m_producer->parent().set("warp_pitch", 0);
     }
     // replant effect stack in updated service
+    int activeEffect = m_effectStack->getActiveEffect();
     m_effectStack->resetService(m_producer);
     m_producer->set("kdenlive:id", binClip->clipId().toUtf8().constData());
     m_producer->set("_kdenlive_cid", m_id);
+    if (activeEffect > 0) {
+        m_producer->set("kdenlive:activeeffect", activeEffect);
+    }
     m_endlessResize = !binClip->hasLimitedDuration();
 }
 
