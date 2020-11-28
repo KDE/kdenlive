@@ -1574,47 +1574,13 @@ Rectangle {
     DelegateModel {
         id: subtitleDelegateModel
         model: subtitleModel
-        delegate: Item {
-            Loader {
-                id: loader
-                Binding {
-                    target: loader.item
-                    property: "selected"
-                    value: model.selected
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "startFrame"
-                    value: model.startframe
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "endFrame"
-                    value: model.endframe
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                Binding {
-                    target: loader.item
-                    property: "subtitle"
-                    value: model.subtitle
-                    when: loader.status == Loader.Ready && loader.item
-                }
-                
-                sourceComponent: {
-                    return subTitleDelegate
-                }
-                onLoaded: {
-                    item.subId = model.id
-                }
-            }
+        delegate: SubTitle {
+            subId: model.id
+            selected: model.selected
+            startFrame: model.startframe
+            endFrame: model.endframe
+            subtitle: model.subtitle
         }
-        
-    }
-    Component {
-        id: subTitleDelegate
-        SubTitle {}
     }
 
     Connections {
