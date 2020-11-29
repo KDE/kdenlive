@@ -238,7 +238,6 @@ avfilter.perspective
 avfilter.pseudocolor
 avfilter.rotate
 avfilter.shuffleframes
-avfilter.subtitles
 avfilter.swaprect
 avfilter.tlut2
 avfilter.vignette
