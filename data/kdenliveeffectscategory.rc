@@ -75,5 +75,8 @@
             </group>
 <group list="ladspa.1297511010,ladspa.1145921863,ladspa.1144210769,ladspa.1144210771,ladspa.1146114128,ladspa.1097681261,ladspa.1129539188,ladspa.1399604850,ladspa.1297511010">
                 <text>DPF plugins</text>
-            </group>
+            </group>            
+             <group list="avfilter.dctdnoiz, avfilter.delogo, avfilter.pixscope, avfilter.vaguedenoiser, BurningTV, frei0r.cluster, frei0r.dither, frei0r.IIRblur, frei0r.medians, frei0r.rgbnoise, frei0r.sharpness, grain, wave">
+    <text>Deprecated</text>
+  </group>
 </data>
