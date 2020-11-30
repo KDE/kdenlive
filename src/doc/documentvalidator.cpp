@@ -1259,6 +1259,15 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 break;
             }
         }
+        if (playlist.isNull()) {
+            for (int i = 0; i < playlists.count(); i++) {
+                if (playlists.at(i).toElement().attribute(QStringLiteral("id")) == QLatin1String("main bin")) {
+                    playlist = playlists.at(i).toElement();
+                    playlist.setAttribute("id", BinPlaylist::binPlaylistId);
+                    break;
+                }
+            }
+        }
         // Migrate document notes
         QDomNodeList notesList = m_doc.elementsByTagName(QStringLiteral("documentnotes"));
         if (!notesList.isEmpty()) {
