@@ -200,7 +200,9 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                     styleSection +=line + "\n";
                     //Style: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
                     styleFormat = (line.split(": ")[1].replace(" ","")).split(',');
-                    styleName = styleFormat[0];
+                    if (!styleFormat.isEmpty()) {
+                        styleName = styleFormat.first();
+                    }
 
                 }
                 //qDebug() << "\n turn != 0  " << turn<< line;
@@ -214,10 +216,13 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                         //qDebug() << format << format.count();
                         maxSplit = format.count();
                         //TIME
-                        startTime = format[1];
-                        endTime = format[2];
+                        if (maxSplit > 2)
+                            startTime = format.at(1);
+                        if (maxSplit > 3)
+                            endTime = format.at(2);
                         // Text
-                        text = format[9];
+                        if (maxSplit > 9)
+                            text = format.at(9);
                         //qDebug()<< startTime << endTime << text;
                     } else {
                         QString EventDialogue;
@@ -225,17 +230,19 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                         start = "";end = "";comment = "";
                         EventDialogue += line;
                         dialogue = EventDialogue.split(": ")[1].split(',');
-                        QString remainingStr = "," + EventDialogue.split(": ")[1].section(',', maxSplit);
-                        //qDebug()<< dialogue;
-                        //TIME
-                        start = dialogue[1];
-                        startPos= stringtoTime(start);
-                        end = dialogue[2];
-                        endPos= stringtoTime(end);
-                        // Text
-                        comment = dialogue[9]+ remainingStr;
-                        //qDebug()<<"Start: "<< start << "End: "<<end << comment;
-                        addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                        if (dialogue.count() > 9) {
+                            QString remainingStr = "," + EventDialogue.split(": ")[1].section(',', maxSplit);
+                            //qDebug()<< dialogue;
+                            //TIME
+                            start = dialogue.at(1);
+                            startPos= stringtoTime(start);
+                            end = dialogue.at(2);
+                            endPos= stringtoTime(end);
+                            // Text
+                            comment = dialogue.at(9)+ remainingStr;
+                            //qDebug()<<"Start: "<< start << "End: "<<end << comment;
+                            addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                        }
                     }
                 }
                 turn++;
