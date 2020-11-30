@@ -1268,6 +1268,10 @@ bool DocumentValidator::upgrade(double version, const double currentVersion)
                 }
             }
         }
+        if (playlist.isNull()) {
+            KMessageBox::sorry(QApplication::activeWindow(), i18n("Cannot recover this project file"));
+            return false;
+        }
         // Migrate document notes
         QDomNodeList notesList = m_doc.elementsByTagName(QStringLiteral("documentnotes"));
         if (!notesList.isEmpty()) {
