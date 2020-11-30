@@ -95,7 +95,7 @@ avfilter.transpose_vaapi
 avfilter.unsharp_opencl
 avfilter.zmq
 
-# WORKING BUT WARNING OR PATIALLY WORKING
+# WORKING BUT WARNING OR PARTIALLY WORKING
 # avfilter.atadenoise
 # avfilter.dedot
 # avfilter.deflicker
@@ -251,19 +251,19 @@ timer
 avfilter.convolution
 
 # RESOLUTION ISSUES
-avfilter.dctdnoiz
-avfilter.delogo
-avfilter.pixscope
-avfilter.vaguedenoiser
-BurningTV
-frei0r.cluster
-frei0r.dither
-frei0r.IIRblur
-frei0r.medians
-frei0r.rgbnoise
-frei0r.sharpness
-grain
-wave
+# avfilter.dctdnoiz
+# avfilter.delogo
+# avfilter.pixscope
+# avfilter.vaguedenoiser
+# BurningTV
+# frei0r.cluster
+# frei0r.dither
+# frei0r.IIRblur
+# frei0r.medians
+# frei0r.rgbnoise
+# frei0r.sharpness
+# grain
+# wave
 
 # FRAME BUFFER ISSUES
 # avfilter.hqdn3d
