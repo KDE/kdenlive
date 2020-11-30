@@ -66,7 +66,6 @@ CollapsibleEffectView::CollapsibleEffectView(const std::shared_ptr<EffectItemMod
         m_regionEffect = true;
         decoframe->setObjectName(QStringLiteral("decoframegroup"));
     }
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     buttonUp->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-up")));
     buttonUp->setToolTip(i18n("Move effect up"));
     buttonDown->setIcon(QIcon::fromTheme(QStringLiteral("kdenlive-down")));

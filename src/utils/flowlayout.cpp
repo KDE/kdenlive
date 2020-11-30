@@ -55,6 +55,7 @@ FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
 FlowLayout::FlowLayout(int margin, int hSpacing, int vSpacing)
     : m_hSpace(hSpacing)
     , m_vSpace(vSpacing)
+    , m_minimumSize(200, 200)
 {
     setContentsMargins(margin, margin, margin, margin);
 }
@@ -108,7 +109,7 @@ QLayoutItem *FlowLayout::takeAt(int index)
 
 Qt::Orientations FlowLayout::expandingDirections() const
 {
-    return nullptr;
+    return Qt::Horizontal | Qt::Vertical;
 }
 
 bool FlowLayout::hasHeightForWidth() const
@@ -124,6 +125,9 @@ int FlowLayout::heightForWidth(int width) const
 
 void FlowLayout::setGeometry(const QRect &rect)
 {
+    if (m_itemList.size() < 3) {
+        return;
+    }
     doLayout(rect, false);
     QLayout::setGeometry(rect);
 }
@@ -142,12 +146,12 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
 {
     QMargins mrg = contentsMargins();
     QRect effectiveRect = rect.adjusted(mrg.left(), mrg.top(), -mrg.right(), -mrg.bottom());
+    if (m_itemList.isEmpty() || effectiveRect.width() <= 0) {
+        return 0;
+    }
     int x = effectiveRect.x();
     int y = effectiveRect.y();
     int itemCount = 0;
-    if (m_itemList.isEmpty() || effectiveRect.width() <= 0 || effectiveRect.height() <= 0) {
-        return 0;
-    }
     QWidget *wid = m_itemList.at(0)->widget();
     QSize min = wid->minimumSize();
     int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
@@ -155,13 +159,12 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     int realWidth = rect.width() / columns - horizontalSpacing();
     int totalHeight = y - rect.y() + mrg.bottom() + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
     m_minimumSize = QSize(rect.width(), totalHeight);
+    QSize hint = QSize(qMin(wid->maximumWidth(), realWidth), qMin(wid->maximumWidth(), realWidth));
     if (testOnly) {
         return totalHeight;
     }
     for (QLayoutItem *item : m_itemList) {
         // We consider all items have the same dimensions
-        wid = item->widget();
-        QSize hint = QSize(qMin(wid->maximumWidth(), realWidth), qMin(wid->maximumWidth(), realWidth));
         item->setGeometry(QRect(QPoint(x, y), hint));
         itemCount++;
         //qDebug()<<"=== ITEM: "<<itemCount<<", POS: "<<x<<"x"<<y<<", SIZE: "<<hint;
