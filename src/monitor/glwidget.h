@@ -107,7 +107,6 @@ public:
     QRect displayRect() const;
     /** @brief set to true if we want to emit a QImage of the frame for analysis */
     bool sendFrameForAnalysis;
-    void updateGamma();
     /** @brief delete and rebuild consumer, for example when external display is switched */
     void resetConsumer(bool fullReset);
     void lockMonitor();
@@ -128,8 +127,8 @@ public:
     int rulerHeight() const;
     /** @brief return current play producer's playing speed */
     double playSpeed() const;
-    /** @brief Turn drop frame feature on/off */
-    void setDropFrames(bool drop);
+    /** @brief Purge and restart consumer */
+    void restart();
     /** @brief Returns current audio volume */
     int volume() const;
     /** @brief Set audio volume on consumer */

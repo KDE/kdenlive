@@ -3619,15 +3619,16 @@ void MainWindow::slotSwitchMonitorOverlay(QAction *action)
 
 void MainWindow::slotSwitchDropFrames(bool drop)
 {
-    m_clipMonitor->switchDropFrames(drop);
-    m_projectMonitor->switchDropFrames(drop);
+    KdenliveSettings::setMonitor_dropframes(drop);
+    m_clipMonitor->restart();
+    m_projectMonitor->restart();
 }
 
 void MainWindow::slotSetMonitorGamma(int gamma)
 {
     KdenliveSettings::setMonitor_gamma(gamma);
-    m_clipMonitor->updateMonitorGamma();
-    m_projectMonitor->updateMonitorGamma();
+    m_clipMonitor->restart();
+    m_projectMonitor->restart();
 }
 
 void MainWindow::slotInsertZoneToTree()

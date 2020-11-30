@@ -1333,11 +1333,6 @@ std::shared_ptr<Mlt::Consumer> GLWidget::consumer()
     return m_consumer;
 }
 
-void GLWidget::updateGamma()
-{
-    reconfigure();
-}
-
 void GLWidget::resetConsumer(bool fullReset)
 {
     if (fullReset && m_consumer) {
@@ -1770,20 +1765,14 @@ double GLWidget::playSpeed() const
     return 0.0;
 }
 
-void GLWidget::setDropFrames(bool drop)
+void GLWidget::restart()
 {
     // why this lock?
-    QMutexLocker locker(&m_mltMutex);
     if (m_consumer) {
-        int dropFrames = 1;
-        if (!drop) {
-            dropFrames = -dropFrames;
-        }
+        // Make sure to delete and rebuild consumer to match profile
+        m_consumer->purge();
         m_consumer->stop();
-        m_consumer->set("real_time", dropFrames);
-        if (m_consumer->start() == -1) {
-            qCWarning(KDENLIVE_LOG) << "ERROR, Cannot start monitor";
-        }
+        reconfigure();
     }
 }
 
