@@ -4,7 +4,7 @@ frei0r.water
 
 # WORKING BUT NOT USEFUL OR DUPLICATE EFFECTS
 # avfilter.datascope
-# avfilter.pixscope
+avfilter.pixscope
 # avfilter.zoompan
 # avfilter.hflip
 # avfilter.vflip
