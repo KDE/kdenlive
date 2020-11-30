@@ -96,39 +96,39 @@ avfilter.unsharp_opencl
 avfilter.zmq
 
 # WORKING BUT WARNING OR PARTIALLY WORKING
-# avfilter.atadenoise
-# avfilter.dedot
-# avfilter.deflicker
-# avfilter.doubleweave
-# avfilter.random
-# avfilter.tmix
-# avfilter.vertigo
-# avfilter.w3fdif
-# avfilter.weave
-# avfilter.yadif
+avfilter.atadenoise
+avfilter.dedot
+avfilter.deflicker
+avfilter.doubleweave
+avfilter.random
+avfilter.tmix
+avfilter.vertigo
+avfilter.w3fdif
+avfilter.weave
+avfilter.yadif
 
 # WORKING BUT NEED CHECKS
-# avfilter.amplify
-# avfilter.bwdif
-# avfilter.deblock
-# avfilter.deflate
-# avfilter.derain
-# avfilter.deshake
-# avfilter.inflate
-# avfilter.nlmeans
-# avfilter.owdenoise
-# avfilter.removegrain
-# avfilter.sr
-# deshake
-# fieldorder
-# frei0r.bgsubtract0r
-# frei0r.colorhalftone
-# frei0r.delaygrab
-# frei0r.lightgraffiti
-# frei0r.premultiply
-# gtkrescale
-# region
-# resize
+avfilter.amplify
+avfilter.bwdif
+avfilter.deblock
+avfilter.deflate
+avfilter.derain
+avfilter.deshake
+avfilter.inflate
+avfilter.nlmeans
+avfilter.owdenoise
+avfilter.removegrain
+avfilter.sr
+deshake
+fieldorder
+frei0r.bgsubtract0r
+frei0r.colorhalftone
+frei0r.delaygrab
+frei0r.lightgraffiti
+frei0r.premultiply
+gtkrescale
+region
+resize
 
 # WORKING
 # avfilter.boxblur
@@ -266,9 +266,9 @@ avfilter.convolution
 # wave
 
 # FRAME BUFFER ISSUES
-# avfilter.hqdn3d
-# avfilter.lagfun
-# frei0r.baltan
-# frei0r.bgsubtract0r
-# frei0r.lightgraffiti
-# frei0r.tehroxx0r
+avfilter.hqdn3d
+avfilter.lagfun
+frei0r.baltan
+frei0r.bgsubtract0r
+frei0r.lightgraffiti
+frei0r.tehroxx0r
