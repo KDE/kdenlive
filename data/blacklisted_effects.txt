@@ -152,7 +152,7 @@ resize
 # avfilter.drawbox
 # avfilter.drawgrid
 # avfilter.elbg
-# avfilter.fspp
+avfilter.fspp
 # avfilter.gblur
 # avfilter.hqdn3d
 # avfilter.hqx
