@@ -3555,7 +3555,12 @@ void TimelineController::urlDropped(QStringList droppedFile, int frame, int tid)
     m_recordTrack = tid;
     m_recordStart = {frame, -1};
     qDebug()<<"=== GOT DROPPED FILED: "<<droppedFile<<"\n======";
-    finishRecording(QUrl(droppedFile.first()).toLocalFile());
+    if (droppedFile.first().endsWith(QLatin1String(".ass")) || droppedFile.first().endsWith(QLatin1String(".srt"))) {
+        // Subtitle dropped, import
+        importSubtitle(droppedFile.first());
+    } else {
+        finishRecording(QUrl(droppedFile.first()).toLocalFile());
+    }
 }
 
 void TimelineController::finishRecording(const QString &recordedFile)
@@ -3860,14 +3865,17 @@ void TimelineController::addSubtitle(int startframe)
     }
 }
 
-void TimelineController::importSubtitle()
+void TimelineController::importSubtitle(const QString path)
 {
     QPointer<QDialog> d = new QDialog;
     Ui::ImportSub_UI view;
     view.setupUi(d);
+    if (!path.isEmpty()) {
+        view.subtitle_url->setText(path);
+    }
     d->setWindowTitle(i18n("Import Subtitle"));
     if (d->exec() == QDialog::Accepted && !view.subtitle_url->url().isEmpty()) {
-        auto subtitleModel = pCore->getSubtitleModel();
+        auto subtitleModel = pCore->getSubtitleModel(true);
         int offset = 0;
         if (view.cursor_pos->isChecked()) {
             offset = pCore->getTimelinePosition();

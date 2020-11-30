@@ -29,7 +29,7 @@ watermark
 # region
 resize
 resample
-mono
+# mono
 transition
 
 # DEPRECATED
@@ -95,40 +95,40 @@ avfilter.transpose_vaapi
 avfilter.unsharp_opencl
 avfilter.zmq
 
-# WORKING BUT WARNING OR PATIALLY WORKING
-avfilter.atadenoise
-avfilter.dedot
-avfilter.deflicker
-avfilter.doubleweave
-avfilter.random
-avfilter.tmix
-avfilter.vertigo
-avfilter.w3fdif
-avfilter.weave
-avfilter.yadif
+# WORKING BUT WARNING OR PARTIALLY WORKING
+# avfilter.atadenoise
+# avfilter.dedot
+# avfilter.deflicker
+# avfilter.doubleweave
+# avfilter.random
+# avfilter.tmix
+# avfilter.vertigo
+# avfilter.w3fdif
+# avfilter.weave
+# avfilter.yadif
 
 # WORKING BUT NEED CHECKS
-avfilter.amplify
-avfilter.bwdif
-avfilter.deblock
-avfilter.deflate
-avfilter.derain
-avfilter.deshake
-avfilter.inflate
-avfilter.nlmeans
-avfilter.owdenoise
-avfilter.removegrain
-avfilter.sr
-deshake
-fieldorder
-frei0r.bgsubtract0r
-frei0r.colorhalftone
-frei0r.delaygrab
-frei0r.lightgraffiti
-frei0r.premultiply
-gtkrescale
-region
-resize
+# avfilter.amplify
+# avfilter.bwdif
+# avfilter.deblock
+# avfilter.deflate
+# avfilter.derain
+# avfilter.deshake
+# avfilter.inflate
+# avfilter.nlmeans
+# avfilter.owdenoise
+# avfilter.removegrain
+# avfilter.sr
+# deshake
+# fieldorder
+# frei0r.bgsubtract0r
+# frei0r.colorhalftone
+# frei0r.delaygrab
+# frei0r.lightgraffiti
+# frei0r.premultiply
+# gtkrescale
+# region
+# resize
 
 # WORKING
 # avfilter.boxblur
@@ -152,7 +152,7 @@ resize
 # avfilter.drawbox
 # avfilter.drawgrid
 # avfilter.elbg
-avfilter.fspp
+# avfilter.fspp
 # avfilter.gblur
 # avfilter.hqdn3d
 # avfilter.hqx
@@ -238,8 +238,6 @@ avfilter.perspective
 avfilter.pseudocolor
 avfilter.rotate
 avfilter.shuffleframes
-# Subtitles should not be blacklisted, since used internally
-# avfilter.subtitles
 avfilter.swaprect
 avfilter.tlut2
 avfilter.vignette
@@ -253,24 +251,24 @@ timer
 avfilter.convolution
 
 # RESOLUTION ISSUES
-avfilter.dctdnoiz
-avfilter.delogo
-avfilter.pixscope
+# avfilter.dctdnoiz
+# avfilter.delogo
+# avfilter.pixscope
 # avfilter.vaguedenoiser
 # BurningTV
 # frei0r.cluster
 # frei0r.dither
 # frei0r.IIRblur
-frei0r.medians
-frei0r.rgbnoise
-frei0r.sharpness
-grain
-wave
+# frei0r.medians
+# frei0r.rgbnoise
+# frei0r.sharpness
+# grain
+# wave
 
 # FRAME BUFFER ISSUES
-avfilter.hqdn3d
-avfilter.lagfun
-frei0r.baltan
-frei0r.bgsubtract0r
-frei0r.lightgraffiti
-frei0r.tehroxx0r
+# avfilter.hqdn3d
+# avfilter.lagfun
+# frei0r.baltan
+# frei0r.bgsubtract0r
+# frei0r.lightgraffiti
+# frei0r.tehroxx0r

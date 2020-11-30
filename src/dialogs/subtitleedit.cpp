@@ -170,7 +170,9 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
 void SubtitleEdit::updateSubtitle()
 {
     if (m_activeSub > -1 && m_model) {
-        m_model->setText(m_activeSub, subText->toPlainText());
+        QString txt = subText->toPlainText().trimmed();
+        txt.replace(QLatin1String("\n\n"), QStringLiteral("\n"));
+        m_model->setText(m_activeSub, txt);
     }
 }
 

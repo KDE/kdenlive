@@ -125,8 +125,7 @@ public:
     void sendFrameForAnalysis(bool analyse);
     void updateAudioForAnalysis();
     void switchMonitorInfo(int code);
-    void switchDropFrames(bool drop);
-    void updateMonitorGamma();
+    void restart();
     void mute(bool, bool updateIconOnly = false) override;
     /** @brief Returns the action displaying record toolbar */
     QAction *recAction();

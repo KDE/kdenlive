@@ -577,7 +577,7 @@ public:
     /** @brief Delete subtitle clip with frame as start position*/
     Q_INVOKABLE void deleteSubtitle(int frameframe, int endframe, QString Ctext);
     /** @brief Import a subtitle file*/
-    void importSubtitle();
+    void importSubtitle(const QString path = QString());
     /** @brief Export a subtitle file*/
     void exportSubtitle();
 

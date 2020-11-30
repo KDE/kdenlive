@@ -1707,9 +1707,9 @@ void Monitor::updateClipZone(const QPoint zone)
     m_controller->setZone(zone);
 }
 
-void Monitor::switchDropFrames(bool drop)
+void Monitor::restart()
 {
-    m_glMonitor->setDropFrames(drop);
+    m_glMonitor->restart();
 }
 
 void Monitor::switchMonitorInfo(int code)
@@ -1728,17 +1728,6 @@ void Monitor::switchMonitorInfo(int code)
     if (code == 0x01) {
         // Hide/show ruler
         m_glMonitor->switchRuler(currentOverlay & 0x01);
-    }
-}
-
-void Monitor::updateMonitorGamma()
-{
-    if (isActive()) {
-        stop();
-        m_glMonitor->updateGamma();
-        start();
-    } else {
-        m_glMonitor->updateGamma();
     }
 }
 
