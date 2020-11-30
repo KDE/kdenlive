@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<effect tag="avfilter.subtitles">
+<effect tag="avfilter.subtitles" type="hidden">
 	<name>Subtitles</name>
 	<description>Render subtitles onto the video</description>
 	<author>libavfilter</author>

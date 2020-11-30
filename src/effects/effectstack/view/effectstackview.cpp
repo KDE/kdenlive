@@ -97,6 +97,7 @@ EffectStackView::EffectStackView(AssetPanel *parent)
     m_effectsTree->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Maximum);
     m_effectsTree->setHeaderHidden(true);
     m_effectsTree->setRootIsDecorated(false);
+    m_effectsTree->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QString style = QStringLiteral("QTreeView {border: none;}");
     // m_effectsTree->viewport()->setAutoFillBackground(false);
     m_effectsTree->setStyleSheet(style);
@@ -189,6 +190,7 @@ void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QS
     disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     m_mutex.lock();
     unsetModel(false);
+    m_effectsTree->setFixedHeight(0);
     m_model = std::move(model);
     m_sourceFrameSize = frameSize;
     m_effectsTree->setModel(m_model.get());
@@ -233,7 +235,6 @@ void EffectStackView::loadEffects()
         updateTreeHeight();
         return;
     }
-    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     int active = qBound(0, m_model->getActiveEffect(), max - 1);
     QModelIndex activeIndex;
     for (int i = 0; i < max; i++) {
@@ -277,6 +278,7 @@ void EffectStackView::loadEffects()
     if (activeIndex.isValid()) {
         doActivateEffect(active, activeIndex, true);
     }
+    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
 
@@ -297,9 +299,10 @@ void EffectStackView::updateTreeHeight()
             totalHeight += w->height();
         }
     }
-    m_effectsTree->setFixedHeight(totalHeight);
-    emit scrollView(m_effectsTree->visualRect(m_effectsTree->currentIndex()));
-    m_scrollTimer.start();
+    if (totalHeight != m_effectsTree->height()) {
+        m_effectsTree->setFixedHeight(totalHeight);
+        m_scrollTimer.start();
+    }
 }
 
 void EffectStackView::slotActivateEffect(const std::shared_ptr<EffectItemModel> &effectModel)
@@ -342,7 +345,7 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     if (ix.isValid()) {
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-        if (del) {
+        if (del && del->height(ix) != newHeight) {
             del->setHeight(ix, newHeight);
             m_timerHeight.start();
         }
@@ -462,6 +465,15 @@ void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force
     if (w) {
         w->slotActivateEffect(true);
     }
+    if (force && row > 0) {
+        // Some effects have a complex timed layout, so we need to wait a bit before getting the correct position for the effect
+        QTimer::singleShot(100, this, &EffectStackView::slotFocusEffect);
+    }
+}
+
+void EffectStackView::slotFocusEffect()
+{
+    emit scrollView(m_effectsTree->visualRect(m_effectsTree->currentIndex()));
 }
 
 void EffectStackView::slotSaveStack()
