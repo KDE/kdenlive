@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <data name="effects" version="0">
-  <group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,frei0r.keyspillm0pup,avfilter.delogo,avfilter.despill,obscure,autotrack_rectangle,frei0r.bluescreen0r,lumakey,shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker">
+  <group list="chroma,frei0r.alpha0ps,frei0r.alphagrad,frei0r.alphaspot,frei0r.transparency,frei0r.mask0mate,rotoscoping,frei0r.keyspillm0pup,avfilter.despill,obscure,autotrack_rectangle,frei0r.bluescreen0r,lumakey,shape,spot_remover,frei0r.select0r,frei0r.spillsupress,frei0r.bgsubtract0r,opencv.tracker">
     <text>Alpha, Mask and Keying</text>
   </group>
-<group list="boxblur,frei0r.squareblur,frei0r.IIRblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,avfilter.unsharp,avfilter.sab,frei0r.sharpness">
+<group list="boxblur,frei0r.squareblur,avfilter.avgblur,avfilter.gblur,avfilter.smartblur,avfilter.boxblur,avfilter.unsharp,avfilter.sab">
     <text>Blur and Sharpen</text>
   </group>
-<group list="frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo,wave">
+<group list="frei0r.c0rners,crop,affine,qtblend,frei0r.letterb0xed,pan_zoom,frei0r.scale0tilt,affinerotate,avfilter.lenscorrection,frei0r.elastic_scale,frei0r.flippo,qtcrop,frei0r.3dflippo,mirror,frei0r.distort0r,frei0r.lenscorrection,frei0r.defish0r,avfilter.transpose,frei0r.nosync0r,avfilter.fillborders,avfilter.zoompan,avfilter.hflip,avfilter.vflip,pillar_echo">
     <text>Transform, Distort and Perspective</text>
   </group>
-<group list="dust,frei0r.rgbnoise,grain,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,avfilter.vaguedenoiser,frei0r.hqdn3d,lines,frei0r.medians,avfilter.gradfun,avfilter.removegrain,avfilter.dctdnoiz">
+<group list="dust,avfilter.fftdnoiz,avfilter.hqdn3d,avfilter.noise,avfilter.removegrain,frei0r.hqdn3d,lines,avfilter.gradfun,avfilter.removegrain">
     <text>Grain and Noise</text>
   </group>
-<group list="frei0r.pr0be,frei0r.pr0file,frei0r.rgbparade,frei0r.timeout,frei0r.vectorscope,avfilter.ciescope,avfilter.oscilloscope,avfilter.vectorscope,avfilter.waveform,avfilter.histogram,avfilter.field,frei0r.d90stairsteppingfix,avfilter.datascope,avfilter.pixscope">
+<group list="frei0r.pr0be,frei0r.pr0file,frei0r.rgbparade,frei0r.timeout,frei0r.vectorscope,avfilter.ciescope,avfilter.oscilloscope,avfilter.vectorscope,avfilter.waveform,avfilter.histogram,avfilter.field,frei0r.d90stairsteppingfix,avfilter.datascope">
     <text>Utility</text>
   </group>
 <group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.tehroxx0r">
@@ -31,7 +31,7 @@
   <group list="avfilter.colormatrix,avfilter.hqx,avfilter.deband,avfilter.colorspace,avfilter.fieldorder,rescale,avfilter.super2xsai,avfilter.xbr,avfilter.setrange,avfilter.kerndeint,avfilter.mcdeint,avfilter.il,avfilter.phase,avfilter.dilation,avfilter.erosion">
     <text>Image adjustment</text>
   </group>
-  <group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,BurningTV,charcoal,frei0r.cartoon,frei0r.dither,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.cluster,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries">
+  <group list="frei0r.glow,frei0r.edgeglow,frei0r.softglow,charcoal,frei0r.cartoon,frei0r.emboss,frei0r.posterize,frei0r.sigmoidaltransfer,frei0r.sobel,frei0r.threelay0r,frei0r.threshold0r,frei0r.twolay0r,lightgraffiti,oldfilm,threshold,frei0r.pixeliz0r,avfilter.edgedetect,avfilter.elbg,avfilter.prewitt,avfilter.rgbashift,avfilter.roberts,avfilter.sobel,frei0r.lightgraffiti,frei0r.rgbsplit0r,frei0r.ndvi,frei0r.colordistance,frei0r.colortap,avfilter.chromashift,frei0r.primaries">
     <text>Stylize</text>
   </group>
   <group list="fade_from_black,fade_to_black,avfilter.lagfun,frei0r.nervous,freeze,frei0r.glitch0r,frei0r.vertigo,frei0r.baltan">
@@ -76,7 +76,7 @@
 <group list="ladspa.1297511010,ladspa.1145921863,ladspa.1144210769,ladspa.1144210771,ladspa.1146114128,ladspa.1097681261,ladspa.1129539188,ladspa.1399604850,ladspa.1297511010">
                 <text>DPF plugins</text>
             </group>            
-             <group list="avfilter.dctdnoiz, avfilter.delogo, avfilter.pixscope, avfilter.vaguedenoiser, BurningTV, frei0r.cluster, frei0r.dither, frei0r.IIRblur, frei0r.medians, frei0r.rgbnoise, frei0r.sharpness, grain, wave">
+             <group list="avfilter.dctdnoiz,avfilter.delogo,avfilter.pixscope,avfilter.vaguedenoiser,BurningTV,frei0r.cluster,frei0r.dither,frei0r.IIRblur,frei0r.medians,frei0r.rgbnoise,frei0r.sharpness,grain,wave">
     <text>Deprecated</text>
   </group>
 </data>
