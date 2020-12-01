@@ -183,12 +183,6 @@ void GLWidget::initializeGL()
     openglContext()->makeCurrent(&m_offscreenSurface);
     initializeOpenGLFunctions();
 
-    qCDebug(KDENLIVE_LOG) << "OpenGL vendor: " << QString::fromUtf8((const char *)glGetString(GL_VENDOR));
-    qCDebug(KDENLIVE_LOG) << "OpenGL renderer: " << QString::fromUtf8((const char *)glGetString(GL_RENDERER));
-    qCDebug(KDENLIVE_LOG) << "OpenGL Threaded: " << openglContext()->supportsThreadedOpenGL();
-    qCDebug(KDENLIVE_LOG) << "OpenGL ARG_SYNC: " << openglContext()->hasExtension("GL_ARB_sync");
-    qCDebug(KDENLIVE_LOG) << "OpenGL OpenGLES: " << openglContext()->isOpenGLES();
-
     // C & D
     if (onlyGLESGPUAccel()) {
         disableGPUAccel();
@@ -501,7 +495,7 @@ bool GLWidget::initGPUAccelSync()
     if (m_ClientWaitSync) {
         return true;
     } else {
-        qCDebug(KDENLIVE_LOG) << "  / / // NO GL SYNC, ERROR";
+        qWarning() << "no GL sync";
         // fallback on A || B
         // TODO: fallback on A || B || C?
         disableGPUAccel();
@@ -878,7 +872,6 @@ int GLWidget::setProducer(const QString &file)
     if (m_producer) {
         m_producer.reset();
     }
-    qDebug()<<"==== OPENING PROIDUCER FILE: "<<file;
     m_producer = std::make_shared<Mlt::Producer>(new Mlt::Producer(pCore->getCurrentProfile()->profile(), nullptr, file.toUtf8().constData()));
     if (m_consumer) {
         //m_consumer->stop();
@@ -1090,7 +1083,6 @@ int GLWidget::reconfigure()
                             // switch sdl audio backend
                             KdenliveSettings::setSdlAudioBackend(bk);
                         }
-                        qDebug() << "++++++++\nSwitching audio backend to: " << bk << "\n++++++++++";
                         KdenliveSettings::setAudiobackend(bk);
                         serviceName = bk;
                         break;
@@ -1100,7 +1092,7 @@ int GLWidget::reconfigure()
                 }
             }
             if (!m_consumer || !m_consumer->is_valid()) {
-                qWarning() << "WARNING, NO AUDIO BACKEND FOUND";
+                qWarning() << "no audio backend found";
                 return -1;
             }
             setProperty("mlt_service", serviceName);
@@ -1347,7 +1339,6 @@ const QString GLWidget::sceneList(const QString &root, const QString &fullPath, 
 {
     LocaleHandling::resetLocale();
     QString playlist;
-    qCDebug(KDENLIVE_LOG) << " * * *Setting document xml root: " << root;
     Mlt::Consumer xmlConsumer(pCore->getCurrentProfile()->profile(), "xml", fullPath.isEmpty() ? "kdenlive_playlist" : fullPath.toUtf8().constData());
     if (!root.isEmpty()) {
         xmlConsumer.set("root", root.toUtf8().constData());

@@ -132,7 +132,7 @@ QVariant ProjectItemModel::data(const QModelIndex &index, int role) const
         if (thumb.canConvert<QIcon>()) {
             icon = thumb.value<QIcon>();
         } else {
-            qDebug() << "ERROR: invalid icon found";
+            qWarning() << "invalid icon";
         }
         return icon;
     }
@@ -538,24 +538,24 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
     QWriteLocker locker(&m_lock);
     std::shared_ptr<ProjectClip> clip = getClipByBinID(id);
     if (!clip) {
-        qDebug()<<" = = = = = CLIP NOT LOADED";
+        qWarning() << "Clip not loaded";
         return;
     }
     auto json = QJsonDocument::fromJson(dataMap.toUtf8());
     if (!json.isArray()) {
-        qDebug() << "Error loading zones : Json file should be an array";
+        qWarning() << "Error loading zones: no json array";
         return;
     }
     int maxFrame = clip->duration().frames(pCore->getCurrentFps()) - 1;
     auto list = json.array();
     for (const auto &entry : qAsConst(list)) {
         if (!entry.isObject()) {
-            qDebug() << "Warning : Skipping invalid marker data";
+            qWarning() << "Skipping invalid marker data";
             continue;
         }
         auto entryObj = entry.toObject();
         if (!entryObj.contains(QLatin1String("name"))) {
-            qDebug() << "Warning : Skipping invalid zone(does not contain name)";
+            qWarning() << "Skipping invalid zone (does not contain name)";
             continue;
         }
         int in = entryObj[QLatin1String("in")].toInt();
@@ -565,7 +565,7 @@ void ProjectItemModel::loadSubClips(const QString &id, const QString &dataMap, F
         zoneProperties.insert(QStringLiteral("rating"), QString::number(entryObj[QLatin1String("rating")].toInt()));
         zoneProperties.insert(QStringLiteral("tags"), entryObj[QLatin1String("tags")].toString(QString()));
         if (in >= out) {
-            qDebug() << "Warning : Invalid zone: "<<zoneProperties.value("name")<<", "<<in<<"-"<<out;
+            qWarning() << "Invalid zone" << zoneProperties.value("name") << in << out;
             continue;
         }
         if (maxFrame > 0) {
@@ -700,7 +700,6 @@ bool ProjectItemModel::requestAddFolder(QString &id, const QString &name, const 
 bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &description, const QString &parentId, Fun &undo, Fun &redo,
                                          const std::function<void(const QString &)> &readyCallBack)
 {
-    qDebug() << "/////////// requestAddBinClip" << parentId;
     QWriteLocker locker(&m_lock);
     if (id.isEmpty()) {
         id =
@@ -710,12 +709,9 @@ bool ProjectItemModel::requestAddBinClip(QString &id, const QDomElement &descrip
         }
     }
     Q_ASSERT(isIdFree(id));
-    qDebug() << "/////////// found id" << id;
     std::shared_ptr<ProjectClip> new_clip =
         ProjectClip::construct(id, description, m_blankThumb, std::static_pointer_cast<ProjectItemModel>(shared_from_this()));
-    qDebug() << "/////////// constructed ";
     bool res = addItem(new_clip, parentId, undo, redo);
-    qDebug() << "/////////// added " << res;
     if (res) {
         int loadJob = emit pCore->jobManager()->startJob<LoadJob>({id}, -1, QString(), description, std::bind(readyCallBack, id));
         emit pCore->jobManager()->startJob<ThumbJob>({id}, loadJob, QString(), 0, true);
@@ -933,7 +929,6 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders, std::unordered_map<
         downLinks[parentId].push_back(folderId);
         upLinks[folderId] = parentId;
         folderNames[folderId] = folderName;
-        qDebug() << "Found folder " << folderId << "name = " << folderName << "parent=" << parentId;
     }
 
     // In case there are some non-existent parent, we fall back to root
@@ -942,7 +937,7 @@ bool ProjectItemModel::loadFolders(Mlt::Properties &folders, std::unordered_map<
             upLinks[f.first] = -1;
         }
         if (f.first != -1 && downLinks.count(upLinks[f.first]) == 0) {
-            qDebug() << "Warning: parent folder " << upLinks[f.first] << "for folder" << f.first << "is invalid. Folder will be placed in topmost directory.";
+            qWarning() << f.first << "has invalid parent folder" << upLinks[f.first] << "it will be placed in top directory";
             upLinks[f.first] = -1;
         }
     }
@@ -996,19 +991,15 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
     QWriteLocker locker(&m_lock);
     clean();
     Mlt::Properties retainList((mlt_properties)documentTractor->get_data("xml_retain"));
-    qDebug() << "Loading bin playlist...";
     if (retainList.is_valid()) {
-        qDebug() << "retain is valid";
         Mlt::Playlist playlist((mlt_playlist)retainList.get_data(BinPlaylist::binPlaylistId.toUtf8().constData()));
         if (playlist.is_valid() && playlist.type() == playlist_type) {
-            qDebug() << "playlist is valid";
             if (progressDialog == nullptr && playlist.count() > 0) {
                 // Display message on splash screen
                 emit pCore->loadingMessageUpdated(i18n("Loading project clips..."));
             }
             // Load bin clips
             auto currentLocale = strdup(setlocale(MLT_LC_CATEGORY, nullptr));
-            qDebug() << "Init bin; Current LC" << currentLocale;
             // Load folders
             Mlt::Properties folderProperties;
             Mlt::Properties playlistProps(playlist.get_properties());
@@ -1022,7 +1013,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
 
             Fun undo = []() { return true; };
             Fun redo = []() { return true; };
-            qDebug() << "Found " << playlist.count() << "clips";
             int max = playlist.count();
             if (progressDialog) {
                 progressDialog->setMaximum(progressDialog->maximum() + max);
@@ -1036,7 +1026,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 }
                 QScopedPointer<Mlt::Producer> prod(playlist.get_clip(i));
                 if (prod->is_blank() || !prod->is_valid()) {
-                    qDebug() << "producer is not valid or blank";
                     continue;
                 }
                 std::shared_ptr<Mlt::Producer> producer(new Mlt::Producer(prod->parent()));
@@ -1056,7 +1045,6 @@ void ProjectItemModel::loadBinPlaylist(Mlt::Tractor *documentTractor, Mlt::Tract
                 i.value()->set("_kdenlive_processed", 1);
                 requestAddBinClip(newId, std::move(i.value()), parentId, undo, redo);
                 binIdCorresp[QString::number(i.key())] = newId;
-                qDebug() << "Loaded clip " << i.key() << "under id" << newId;
             }
         }
     }

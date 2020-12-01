@@ -75,7 +75,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
 
     int nbr_transition = transitions.count();
     if (nbr_transition == 0) {
-        qDebug() << "+++++++++++++\n Transition broken: " << file_name << "\n+++++++++++";
+        qWarning() << "broken transition" << file_name;
         return;
     }
 
@@ -91,7 +91,7 @@ void TransitionsRepository::parseCustomAssetFile(const QString &file_name, std::
         }
 
         if (customAssets.count(result.id) > 0) {
-            qDebug() << "Warning: duplicate custom definition of transition" << result.id << "found. Only last one will be considered";
+            //qDebug() << "duplicate transition" << result.id;
         }
         result.xml = currentNode.toElement();
         QString type = result.xml.attribute(QStringLiteral("type"), QString());
@@ -183,6 +183,6 @@ const QString TransitionsRepository::getCompositingTransition()
     if (exists(QStringLiteral("composite"))) {
         return QStringLiteral("composite");
     }
-    qDebug() << "Warning: no compositing found";
+    qWarning() << "no compositing found";
     return QString();
 }

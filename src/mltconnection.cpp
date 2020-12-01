@@ -27,27 +27,6 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
 {
     if (mlt_level > mlt_log_get_level())
         return;
-
-    /*enum Logger::LogLevel cuteLoggerLevel = Logger::Fatal;
-    switch (mlt_level) {
-    case MLT_LOG_DEBUG:
-        cuteLoggerLevel = Logger::Trace;
-        break;
-    case MLT_LOG_ERROR:
-    case MLT_LOG_FATAL:
-    case MLT_LOG_PANIC:
-        cuteLoggerLevel = Logger::Error;
-        break;
-    case MLT_LOG_INFO:
-        cuteLoggerLevel = Logger::Info;
-        break;
-    case MLT_LOG_VERBOSE:
-        cuteLoggerLevel = Logger::Debug;
-        break;
-    case MLT_LOG_WARNING:
-        cuteLoggerLevel = Logger::Warning;
-        break;
-    }*/
     QString message;
     mlt_properties properties = service? MLT_SERVICE_PROPERTIES((mlt_service) service) : NULL;
     if (properties) {
@@ -72,7 +51,7 @@ static void mlt_log_handler(void *service, int mlt_level, const char *format, va
         message = QString::vasprintf(format, args);
         message.replace('\n', "");
     }
-    qDebug()<<"==========\n\nMLT ERROR:\n"<<message<<"\n";
+    qDebug() << "MLT:" << message;
 }
 
 
@@ -92,7 +71,6 @@ MltConnection::MltConnection(const QString &mltPath)
 #else
     auto locale = strdup(std::setlocale(MLT_LC_CATEGORY, nullptr));
 #endif
-    qDebug() << "NEW LC_ALL" << locale;
 
     locateMeltAndProfilesPath(mltPath);
 
@@ -113,7 +91,7 @@ MltConnection::MltConnection(const QString &mltPath)
 void MltConnection::construct(const QString &mltPath)
 {
     if (MltConnection::m_self) {
-        qDebug() << "DEBUG: Warning : trying to open a second mlt connection";
+        qWarning() << "Trying to open a 2nd mlt connection";
         return;
     }
     MltConnection::m_self.reset(new MltConnection(mltPath));
@@ -225,7 +203,6 @@ void MltConnection::locateMeltAndProfilesPath(const QString &mltPath)
             }
         }
     }
-    qCDebug(KDENLIVE_LOG) << "MLT profiles path: " << KdenliveSettings::mltpath();
     // Parse again MLT profiles to build a list of available video formats
     if (profilesList.isEmpty()) {
         locateMeltAndProfilesPath();

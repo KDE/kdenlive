@@ -56,14 +56,11 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
             // sox effects are not usage directly (parameters not available)
             continue;
         }
-        // qDebug() << "trying to parse " <<name <<" blacklist="<<m_blacklist.contains(name);
         if (!m_blacklist.contains(name) && parseInfoFromMlt(name, info)) {
             m_assets[name] = info;
         } else {
-            if (m_blacklist.contains(name)) {
-                qDebug() << name << "is blacklisted";
-            } else {
-                qDebug() << "WARNING : Fails to parse " << name;
+            if (!m_blacklist.contains(name)) {
+                qWarning() << "Failed to parse" << name;
             }
         }
     }
@@ -95,14 +92,6 @@ template <typename AssetType> void AbstractAssetsRepository<AssetType>::init()
     for (const auto &custom : customAssets) {
         // Custom assets should override default ones
         m_assets[custom.first] = custom.second;
-        /*if (m_assets.count(custom.second.mltId) > 0) {
-            m_assets.erase(custom.second.mltId);
-        }
-        if (m_assets.count(custom.first) == 0) {
-            m_assets[custom.first] = custom.second;
-        } else {
-            qDebug() << "Error: conflicting asset name " << custom.first;
-        }*/
     }
 }
 
@@ -251,11 +240,10 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
             res.xml = eff;
             return true;
         } else {
-            qDebug() << "Invalid title/identifier for " << assetId;
-            qDebug() << metadata->get("title") << "/" << metadata->get("identifier");
+            qWarning() << "Invalid title/identifier for" << assetId;
         }
     } else {
-        qDebug() << "Metadata for" << assetId << "is invalid.";
+        qWarning() << "Invalid metadata for" << assetId;
     }
     return false;
 }
@@ -315,7 +303,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
     }
 
     if (!exists(tag)) {
-        qDebug() << "++++++ Unknown asset : " << tag;
+        qDebug() << "Unknown asset" << tag;
         return false;
     }
 
@@ -348,7 +336,7 @@ template <typename AssetType> bool AbstractAssetsRepository<AssetType>::parseInf
 template <typename AssetType> QDomElement AbstractAssetsRepository<AssetType>::getXml(const QString &assetId) const
 {
     if (m_assets.count(assetId) == 0) {
-        qDebug() << "Error : Requesting info on unknown transition " << assetId;
+        qWarning() << "Unknown transition" << assetId;
         return QDomElement();
     }
     return m_assets.at(assetId).xml.cloneNode().toElement();

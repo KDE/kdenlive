@@ -60,7 +60,6 @@ void Core::prepareShutdown()
 
 Core::~Core()
 {
-    qDebug() << "deleting core";
     if (m_monitorManager) {
         delete m_monitorManager;
     }
@@ -243,7 +242,7 @@ void Core::buildLumaThumbs(const QStringList &values)
 std::unique_ptr<Core> &Core::self()
 {
     if (!m_self) {
-        qDebug() << "Error : Core has not been created";
+        qWarning() << "Core has not been created";
     }
     return m_self;
 }
@@ -323,8 +322,7 @@ MixerManager *Core::mixer()
 
 void Core::initLocale()
 {
-    qDebug() << "Using modified system locale without group separator for numbers";
-    QLocale systemLocale = QLocale(); // For disabling group separator by default → OK
+    QLocale systemLocale = QLocale(); // For disabling group separator by default
     systemLocale.setNumberOptions(QLocale::OmitGroupSeparator);
     QLocale::setDefault(systemLocale);
 }
@@ -456,7 +454,7 @@ int Core::getItemPosition(const ObjectId &id)
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second).first;
         } else {
-            qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            qWarning() << "querying non clip properties";
         }
         break;
     case ObjectType::BinClip:
@@ -465,7 +463,7 @@ int Core::getItemPosition(const ObjectId &id)
         return 0;
         break;
     default:
-        qDebug() << "ERROR: unhandled object type";
+        qWarning() << "unhandled object type";
     }
     return 0;
 }
@@ -473,7 +471,7 @@ int Core::getItemPosition(const ObjectId &id)
 int Core::getItemIn(const ObjectId &id)
 {
     if (!m_guiConstructed || !m_mainWindow->getCurrentTimeline() || !m_mainWindow->getCurrentTimeline()->controller()->getModel()) {
-        qDebug() << "/ / // QUERYING ITEM IN BUT GUI NOT BUILD!!";
+        qWarning() << "GUI not build";
         return 0;
     }
     switch (id.first) {
@@ -481,7 +479,7 @@ int Core::getItemIn(const ObjectId &id)
         if (m_mainWindow->getCurrentTimeline()->controller()->getModel()->isClip(id.second)) {
             return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getClipIn(id.second);
         } else {
-            qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            qWarning() << "querying non clip properties";
         }
         break;
     case ObjectType::TimelineMix:
@@ -492,7 +490,7 @@ int Core::getItemIn(const ObjectId &id)
         return 0;
         break;
     default:
-        qDebug() << "ERROR: unhandled object type";
+        qWarning() << "unhandled object type";
     }
     return 0;
 }
@@ -518,7 +516,7 @@ PlaylistState::ClipState Core::getItemState(const ObjectId &id)
         return PlaylistState::Disabled;
         break;
     default:
-        qDebug() << "ERROR: unhandled object type";
+        qWarning() << "unhandled object type";
         break;
     }
     return PlaylistState::Disabled;
@@ -549,11 +547,11 @@ int Core::getItemDuration(const ObjectId &id)
             std::pair<int, int> mixInOut = m_mainWindow->getCurrentTimeline()->controller()->getModel()->getMixInOut(id.second);
             return (mixInOut.second - mixInOut.first);
         } else {
-            qDebug()<<"// ERROR QUERYING NON CLIP PROPERTIES\n\n!!!!!!!!!!!!!!!!!!!!!!!!!!";
+            qWarning() << "querying non clip properties";
         }
         break;
     default:
-        qDebug() << "ERROR: unhandled object type";
+        qWarning() << "unhandled object type";
     }
     return 0;
 }
@@ -568,7 +566,7 @@ int Core::getItemTrack(const ObjectId &id)
         return m_mainWindow->getCurrentTimeline()->controller()->getModel()->getItemTrackId(id.second);
         break;
     default:
-        qDebug() << "ERROR: unhandled object type";
+        qWarning() << "unhandled object type";
     }
     return 0;
 }
@@ -604,7 +602,7 @@ void Core::refreshProjectItem(const ObjectId &id)
         requestMonitorRefresh();
         break;
     default:
-        qDebug() << "ERROR: unhandled object type";
+        qWarning() << "unhandled object type";
     }
 }
 

@@ -187,7 +187,6 @@ void EffectStackView::dropEvent(QDropEvent *event)
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize)
 {
     qDebug() << "MUTEX LOCK!!!!!!!!!!!! setmodel";
-    disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     m_mutex.lock();
     unsetModel(false);
     m_effectsTree->setFixedHeight(0);
@@ -236,7 +235,9 @@ void EffectStackView::loadEffects()
         return;
     }
     int active = qBound(0, m_model->getActiveEffect(), max - 1);
+    bool hasLift = false;
     QModelIndex activeIndex;
+    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         QSize size;
@@ -247,6 +248,9 @@ void EffectStackView::loadEffects()
         std::shared_ptr<EffectItemModel> effectModel = std::static_pointer_cast<EffectItemModel>(item);
         CollapsibleEffectView *view = nullptr;
         // We need to rebuild the effect view
+        if (effectModel->getAssetId() == QLatin1String("lift_gamma_gain")) {
+            hasLift = true;
+        }
         QImage effectIcon = m_thumbnailer->requestImage(effectModel->getAssetId(), &size, QSize(QStyle::PM_SmallIconSize, QStyle::PM_SmallIconSize));
         view = new CollapsibleEffectView(effectModel, m_sourceFrameSize, effectIcon, this);
         connect(view, &CollapsibleEffectView::deleteEffect, m_model.get(), &EffectStackModel::removeEffect);
@@ -275,10 +279,20 @@ void EffectStackView::loadEffects()
             m_effectsTree->setCurrentIndex(activeIndex);
         }
     }
+    if (!hasLift) {
+        updateTreeHeight();
+    }
     if (activeIndex.isValid()) {
         doActivateEffect(active, activeIndex, true);
+        if (active > 0) {
+            if (hasLift) {
+                // Some effects have a complex timed layout, so we need to wait a bit before getting the correct position for the effect
+                QTimer::singleShot(100, this, &EffectStackView::slotFocusEffect);
+            } else {
+                slotFocusEffect();
+            }
+        }
     }
-    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     qDebug() << "MUTEX UNLOCK!!!!!!!!!!!! loadEffects";
 }
 
@@ -386,6 +400,7 @@ void EffectStackView::unsetModel(bool reset)
         disconnect(m_model.get(), &EffectStackModel::dataChanged, this, &EffectStackView::refresh);
         disconnect(m_model.get(), &EffectStackModel::enabledStateChanged, this, &EffectStackView::changeEnabledState);
         disconnect(this, &EffectStackView::removeCurrentEffect, m_model.get(), &EffectStackModel::removeCurrentEffect);
+        disconnect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
     }
     if (reset) {
         QMutexLocker lock(&m_mutex);
@@ -464,10 +479,6 @@ void EffectStackView::doActivateEffect(int row, QModelIndex activeIx, bool force
     CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(activeIx));
     if (w) {
         w->slotActivateEffect(true);
-    }
-    if (force && row > 0) {
-        // Some effects have a complex timed layout, so we need to wait a bit before getting the correct position for the effect
-        QTimer::singleShot(100, this, &EffectStackView::slotFocusEffect);
     }
 }
 
