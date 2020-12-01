@@ -243,14 +243,12 @@ Rectangle {
         var track = Logic.getTrackById(tk)
         var container = track.children[0]
         var tentativeClip = undefined
-        //console.log('TESTING ITMES OK TK: ', tk, ', POS: ', posx, ', CHILREN: ', container.children.length, ', COMPO: ', isComposition)
         for (var i = 0 ; i < container.children.length; i++) {
             if (container.children[i].children.length == 0 || container.children[i].children[0].children.length == 0) {
                 continue
             }
             tentativeClip = container.children[i].children[0].childAt(posx, 1)
             if (tentativeClip && tentativeClip.clipId && (tentativeClip.isComposition == isComposition)) {
-                //console.log('found item with id: ', tentativeClip.clipId, ' IS COMPO: ', tentativeClip.isComposition)
                 break
             }
         }
@@ -337,7 +335,6 @@ Rectangle {
             // update dragged item pos
             dragProxy.masterObject.updateDrag()
         }
-        console.log('GOT SCALE: ', timeScale, ', BASE: ', baseUnit, ' - SNAPPING: ', snapping)
     }
 
     onConsumerPositionChanged: {
@@ -363,7 +360,6 @@ Rectangle {
         } else if (root.activeTool == 0) {
             var tk = getMouseTrack()
             if (tk < 0) {
-                console.log('........ MOUSE OUTSIDE TRAKS\n\n.........')
                 return
             }
             var pos = getMousePos() * timeline.scaleFactor
@@ -389,17 +385,13 @@ Rectangle {
         x: headerWidth
         keys: 'kdenlive/composition'
         onEntered: {
-            console.log("Trying to drop composition")
             if (clipBeingMovedId == -1 && clipBeingDroppedId == -1) {
-                console.log("No clip being moved")
                 var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - subtitleTrack.height)
                 var frame = Math.round((drag.x + scrollView.contentX) / timeline.scaleFactor)
                 droppedPosition = frame
                 if (track >= 0 && !controller.isAudioTrack(track)) {
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
-                    console.log("Trying to insert",track, frame, clipBeingDroppedData)
                     clipBeingDroppedId = timeline.insertComposition(track, frame, clipBeingDroppedData, false)
-                    console.log("id",clipBeingDroppedId)
                     continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     drag.acceptProposedAction()
                 } else {
@@ -528,7 +520,6 @@ Rectangle {
                     timeline.activeTrack = tracksRepeater.itemAt(track).trackInternalId
                     //drag.acceptProposedAction()
                     clipBeingDroppedData = drag.getDataAsString('kdenlive/producerslist')
-                    console.log('dropped data: ', clipBeingDroppedData)
                     if (controller.normalEdit()) {
                         clipBeingDroppedId = insertAndMaybeGroup(timeline.activeTrack, frame, clipBeingDroppedData)
                     } else {
@@ -574,7 +565,6 @@ Rectangle {
                         fakeFrame = moveData[0]
                         fakeTrack = moveData[1]
                         timeline.activeTrack = fakeTrack
-                        console.log('+++ GOT DRAG FAKE TRACK: ', moveData[1])
                         //controller.requestClipMove(clipBeingDroppedId, timeline.activeTrack, frame, true, false, false)
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
                     } else {
@@ -590,7 +580,6 @@ Rectangle {
                                 fakeFrame = moveData[0]
                                 fakeTrack = moveData[1]
                                 timeline.activeTrack = fakeTrack
-                                console.log('+++ GOT DRAG FAKE TWO TRACK: ', moveData[1])
                             }
                         }
                         continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
@@ -891,7 +880,6 @@ Rectangle {
                 } else if (mouse.button & Qt.LeftButton) {
                     if (root.activeTool === 1) {
                         // razor tool
-                        console.log('RAZORT CUT++++++++++++++++++++++++++++++')
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
@@ -990,7 +978,6 @@ Rectangle {
                 if (rubberSelect.visible) {
                     var newX = mouse.x + scrollView.contentX
                     var newY = mouse.y + scrollView.contentY
-                    // console.log('got rubber: ', newX, ', CURRENT X: ', rubberSelect.clickX)
                     if (newX < rubberSelect.originX) {
                         rubberSelect.clickX = newX
                         rubberSelect.x = newX - scrollView.contentX + tracksArea.x
@@ -1215,10 +1202,8 @@ Rectangle {
                                     cursorShape: root.activeTool == 0 ? dragProxyArea.drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor : tracksArea.cursorShape
                                     enabled: root.activeTool == 0
                                     onPressed: {
-                                        console.log('+++++++++++++++++++ DRAG CLICKED +++++++++++++')
                                         if (mouse.modifiers & Qt.ControlModifier || (mouse.modifiers & Qt.ShiftModifier && !(mouse.modifiers & Qt.AltModifier))) {
                                             mouse.accepted = false
-                                            console.log('+++++++++++++++++++ Shift abort+++++++++++++')
                                             return
                                         }
                                         if (!timeline.exists(dragProxy.draggedItem)) {
@@ -1242,11 +1227,11 @@ Rectangle {
                                             var clickAccepted = true
                                             var currentMouseTrack = Logic.getTrackIdFromPos(parent.y)
                                             if (controller.normalEdit() && (tk != currentMouseTrack || x != posx)) {
-                                                console.log('INCORRECT DRAG, Trying to recover item: ', parent.y,' XPOS: ',x,'=',posx,'on track: ',tk ,'\n!!!!!!!!!!')
+                                                console.log('incorrect drag, Trying to recover item', parent.y,'xpos',x,'=',posx,'track',tk)
                                                 // Try to find correct item
                                                 var tentativeClip = getItemAtPos(currentMouseTrack, mouseX + parent.x, dragProxy.isComposition)
                                                 if (tentativeClip && tentativeClip.clipId) {
-                                                    console.log('FOUND MISSING ITEM: ', tentativeClip.clipId)
+                                                    console.log('missing item', tentativeClip.clipId)
                                                     clickAccepted = true
                                                     dragProxy.draggedItem = tentativeClip.clipId
                                                     dragProxy.x = tentativeClip.x
@@ -1258,7 +1243,7 @@ Rectangle {
                                                     dragProxy.sourceFrame = tentativeClip.modelStart
                                                     dragProxy.isComposition = tentativeClip.isComposition
                                                 } else {
-                                                    console.log('COULD NOT FIND ITEM ')
+                                                    console.log('item not found')
                                                     clickAccepted = false
                                                     mouse.accepted = false
                                                     dragProxy.draggedItem = -1
@@ -1323,7 +1308,6 @@ Rectangle {
                                                     pos = dragProxy.masterObject.mapFromGlobal(pos.x, pos.y)
                                                     dragProxy.masterObject.x = pos.x
                                                     dragProxy.masterObject.y = pos.y
-                                                    //console.log('bringing item to front')
                                                 }
                                                 var moveData = controller.suggestClipMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping, moveMirrorTracks)
                                                 dragFrame = moveData[0]

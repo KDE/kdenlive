@@ -45,7 +45,6 @@ void LocaleHandling::resetLocale()
     std::setlocale(MLT_LC_CATEGORY, "C");
 #endif
     ::qputenv(MLT_LC_NAME, "C");
-    qDebug() << "LC_NUMERIC reset to C";
 }
 
 QPair<QLocale, LocaleHandling::MatchType> LocaleHandling::getQLocaleForDecimalPoint(const QString &requestedLocale, const QString &decimalPoint)

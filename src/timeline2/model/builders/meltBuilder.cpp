@@ -72,7 +72,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
 
     QSet<QString> reserved_names{QLatin1String("playlistmain"), QLatin1String("timeline_preview"), QLatin1String("timeline_overlay"), QLatin1String("black_track"), QLatin1String("overlay_track")};
     bool ok = true;
-    qDebug() << "//////////////////////\nTrying to construct" << tractor.count() << "tracks.\n////////////////////////////////";
 
     // Import master track effects
     std::shared_ptr<Mlt::Service> serv = std::make_shared<Mlt::Service>(tractor.get_service());
@@ -91,7 +90,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         switch (track->type()) {
         case producer_type:
             // TODO check that it is the black track, and otherwise log an error
-            qDebug() << "SUSPICIOUS: we weren't expecting a producer when parsing the timeline";
             break;
         case tractor_type: {
             // that is a double track
@@ -113,7 +111,6 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         }
         case playlist_type: {
             // that is a single track
-            qDebug() << "Adding track: " << track->get("id");
             int tid;
             Mlt::Playlist local_playlist(*track);
             const QString trackName = local_playlist.get("kdenlive:track_name");
@@ -137,7 +134,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             break;
         }
         default:
-            qDebug() << "ERROR: Unexpected item in the timeline";
+            qWarning() << "Unexpected track type" << track->type();
         }
     }
     timeline->_resetView();
@@ -159,7 +156,7 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
             if (internal.isEmpty() && isMix.isEmpty()) {
                 compositions << new Mlt::Transition(t);
                 if (id.isEmpty()) {
-                    qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service")<<", ON TRACK: "<<t.get_b_track();
+                    qWarning() << "transition without id" << t.get("id") << t.get("mlt_service") << "on track" << t.get_b_track();
                     t.set("kdenlive_id", t.get("mlt_service"));
                 }
             }
@@ -190,13 +187,10 @@ bool constructTimelineFromMelt(const std::shared_ptr<TimelineItemModel> &timelin
         auto transProps = std::make_unique<Mlt::Properties>(t->get_properties());
         compositionOk = timeline->requestCompositionInsertion(id, timeline->getTrackIndexFromPosition(t->get_b_track() - 1), t->get_a_track(), t->get_in(), t->get_length(), std::move(transProps), compoId, undo, redo, false, originalDecimalPoint);
         if (!compositionOk) {
-            qDebug() << "ERROR : failed to insert composition in track " << t->get_b_track() << ", position" << t->get_in() << ", ID: " << id
-                         << ", MLT ID: " << t->get("id");
             // timeline->requestItemDeletion(compoId, false);
             m_errorMessage << i18n("Invalid composition %1 found on track %2 at %3.", t->get("id"), t->get_b_track(), t->get_in());
             continue;
         }
-        qDebug() << "Inserted composition in track " << t->get_b_track() << ", position" << t->get_in() << "/" << t->get_out();
     }
 
     // build internal track compositing
@@ -224,7 +218,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
 {
     if (track.count() != 2) {
         // we expect a tractor with two tracks (a "fake" track)
-        qDebug() << "ERROR : wrong number of subtracks";
+        qWarning() << "wrong number of subtracks";
         return false;
     }
     // Check same track transitions
@@ -236,7 +230,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             QString id(t.get("kdenlive_id"));
             compositions << new Mlt::Transition(t);
             if (id.isEmpty()) {
-                qDebug() << "// Warning, this should not happen, transition without id: " << t.get("id") << " = " << t.get("mlt_service");
+                qWarning() << "transition without id" << t.get("id") << t.get("mlt_service");
                 t.set("kdenlive_id", t.get("mlt_service"));
             }
         }
@@ -245,7 +239,7 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
     for (int i = 0; i < track.count(); i++) {
         std::unique_ptr<Mlt::Producer> sub_track(track.track(i));
         if (sub_track->type() != playlist_type) {
-            qDebug() << "ERROR : SubTracks must be MLT::Playlist";
+            qWarning() << "subtrack must be playlist";
             return false;
         }
         Mlt::Playlist playlist(*sub_track);
@@ -330,7 +324,6 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
         switch (clip->type()) {
         case unknown_type:
         case producer_type: {
-            qDebug() << "Looking for clip with ID " << clip->parent().get("kdenlive:id") << " and name " << clip->parent().get("kdenlive:clipname");
             QString binId;
             if (clip->parent().get_int("_kdenlive_processed") == 1) {
                 // This is a bin clip, already processed no need to change id
@@ -345,13 +338,12 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
                 }
                 if (binIdCorresp.count(clipId) == 0) {
                     // Project was somehow corrupted
-                    qDebug()<<"=== WARNING, CANNOT FIND CLIP WITH ID: "<<clipId<<" IN BIN PLAYLIST";
+                    qWarning() << "can't find clip with id: " << clipId << "in bin playlist";
                     QStringList fixedId = pCore->projectItemModel()->getClipByUrl(QFileInfo(clip->parent().get("resource")));
                     if (!fixedId.isEmpty()) {
                         binId = fixedId.first();
                         m_errorMessage << i18n("Invalid clip %1 (%2) not found in project bin, recovered.", clip->parent().get("id"), clipId);
                     } else {
-                        qWarning()<<"Warning, clip in timeline has no parent in bin: "<<clip->parent().get("id");
                         m_errorMessage << i18n("Project corrupted. Clip %1 (%2) not found in project bin.", clip->parent().get("id"), clipId);
                     }
                 } else {
@@ -365,28 +357,25 @@ bool constructTrackFromMelt(const std::shared_ptr<TimelineItemModel> &timeline, 
             int cid = -1;
             if (pCore->bin()->getBinClip(binId)) {
                 PlaylistState::ClipState st = inferState(clip, audioTrack);
-                qDebug()<<"==== INSERTING CLIP IN PLAYLIST: "<<playlist<<"\n8888888888888888888888";
                 cid = ClipModel::construct(timeline, binId, clip, st, tid, originalDecimalPoint, playlist);
                 ok = timeline->requestClipMove(cid, tid, position, true, true, false, true, undo, redo);
             } else {
-                qDebug() << "// Cannot find bin clip: " << binId << " - " << clip->get("id");
+                qWarning() << "can't find bin clip" << binId << clip->get("id");
             }
             if (!ok && cid > -1) {
-                qDebug() << "ERROR : failed to insert clip in track" << tid << "position" << position;
                 timeline->requestItemDeletion(cid, false);
                 m_errorMessage << i18n("Invalid clip %1 found on track %2 at %3.", clip->parent().get("id"), track.get("id"), position);
                 break;
             }
-            qDebug() << "Inserted clip in track" << tid << "at " << position;
             break;
         }
         case tractor_type: {
             // TODO This is a nested timeline
-            qDebug() << "NOT_IMPLEMENTED: code for parsing nested timeline is not there yet.";
+            qWarning() << "nested timelines not yet implemented";
             break;
         }
         default:
-            qDebug() << "ERROR : unexpected object found on playlist";
+            qWarning() << "unexpected object found in playlist";
             return false;
             break;
         }

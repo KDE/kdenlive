@@ -77,7 +77,6 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
         QDomNodeList effects = base.elementsByTagName(QStringLiteral("effect"));
         if (effects.count() > 1) {
             // Effect group
-            //qDebug() << "Error: found unsupported effect group" << base.attribute(QStringLiteral("name"))<<" : "<<file_name;
             Info result;
             result.xml = base;
             result.description = Xml::getSubTagContent(base, QStringLiteral("description"));
@@ -92,7 +91,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
                     currentId = currentEffect.attribute(QStringLiteral("tag"), QString());
                 }
                 if (!exists(currentId) && customAssets.count(currentId) == 0) {
-                    qDebug() << "Error: found unsupported effect in group" << currentId<<" : "<<file_name;
+                    qWarning() << "unsupported effect in group" << currentId << ":" << file_name;
                     return;
                 }
             }
@@ -117,7 +116,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
 
     int nbr_effect = effects.count();
     if (nbr_effect == 0) {
-        qDebug() << "+++++++++++++\nEffect broken: " << file_name << "\n+++++++++++";
+        qWarning() << "broken effect:" << file_name;
         return;
     }
 
@@ -133,8 +132,7 @@ void EffectsRepository::parseCustomAssetFile(const QString &file_name, std::unor
             continue;
         }
         if (customAssets.count(result.id) > 0) {
-            qDebug() << "Warning: duplicate custom definition of effect" << result.id << "found. Only last one will be considered. Duplicate found in"
-                     << file_name;
+            //qDebug() << "duplicate effect" << result.id;
         }
 
         result.xml = currentEffect;
@@ -237,7 +235,6 @@ QString EffectsRepository::getCustomPath(const QString &id)
     QString customAssetDir = QStandardPaths::locate(QStandardPaths::AppDataLocation, QStringLiteral("effects"), QStandardPaths::LocateDirectory);
     QPair <QStringList, QStringList> results;
     QDir current_dir(customAssetDir);
-    qDebug()<<"==== FETCHING CUSTOM PATH FOR ID: "<<id;
     return current_dir.absoluteFilePath(QString("%1.xml").arg(id));
 }
   
@@ -306,7 +303,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
 
     int nbr_effect = effects.count();
     if (nbr_effect == 0) {
-        qDebug() << "+++++++++++++\nEffect broken: " << path << "\n+++++++++++";
+        qWarning() << "broken effect:" << path;
         results.second = path;
         return results;
     }
@@ -328,7 +325,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
             QDir dir(QFileInfo(path).absoluteDir());
             if (!dir.mkpath(QStringLiteral("legacy"))) {
                 // Cannot create the legacy folder, abort
-                qDebug()<<" = = = Could not create legacy folder in : "<<dir.absolutePath();
+                qWarning() << "Could not create old effects backup folder" << dir.absolutePath();
                 results.second = path;
                 return results;
             }
@@ -354,7 +351,6 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
                     if (ok) {
                         double defaultVal = param.attribute(QLatin1String("default")).toDouble() / factor;
                         param.setAttribute(QLatin1String("default"), QString::number(defaultVal));
-                        qDebug()<<" = = \nadjusting default to: "<<defaultVal;
                         if (currentValue.contains(QLatin1Char('='))) {
                             QStringList valueStr = currentValue.split(QLatin1Char(';'));
                             QStringList resultStr;
@@ -370,7 +366,6 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
                                 }
                             }
                             param.setAttribute(QLatin1String("value"), resultStr.join(QLatin1Char(';')));
-                            qDebug()<<"=== ADJUSTED VAL: "<<resultStr.join(QLatin1Char(';'));
                         }
                     }
                 }
@@ -383,7 +378,7 @@ QPair <QString, QString> EffectsRepository::fixCustomAssetFile(const QString &pa
         dir.cd(QStringLiteral("legacy"));
         if (!file.copy(dir.absoluteFilePath(QFileInfo(file).fileName()))) {
             // Cannot copy the backup file
-            qDebug()<<" = = = Could not copy file in : "<<dir.absoluteFilePath(QFileInfo(file).fileName());
+            qWarning() << "Could not copy old effect to" << dir.absoluteFilePath(QFileInfo(file).fileName());
             results.second = path;
             return results;
         }
