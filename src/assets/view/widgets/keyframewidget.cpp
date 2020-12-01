@@ -354,7 +354,7 @@ void KeyframeWidget::addParameter(const QPersistentModelIndex &index)
                 this, [this, index](const QString v) {
                     emit activateEffect();
                     m_keyframes->updateKeyframe(GenTime(getPosition(), pCore->getCurrentFps()), QVariant(v), index); });
-        connect(geomWidget, &GeometryWidget::updateMonitorGeometry, [this, index](const QRect r) {
+        connect(geomWidget, &GeometryWidget::updateMonitorGeometry, [this](const QRect r) {
                     if (m_model->isActive()) {
                         pCore->getMonitor(m_model->monitorId)->setUpEffectGeometry(r);
                     }
