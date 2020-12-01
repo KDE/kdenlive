@@ -42,6 +42,7 @@
 #include <QWidget>
 #include <QDebug>
 #include <QtMath>
+#include <QTimer>
 
 FlowLayout::FlowLayout(QWidget *parent, int margin, int hSpacing, int vSpacing)
     : QLayout(parent)
@@ -156,10 +157,12 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     QSize min = wid->minimumSize();
     int columns = qMin(qFloor((double)rect.width() / min.width()), m_itemList.size());
     columns = qMax(1, columns);
-    int realWidth = rect.width() / columns - horizontalSpacing();
+    int realWidth = qMin(wid->maximumWidth(), rect.width() / columns - horizontalSpacing());
+    realWidth -= realWidth % 40;
+    realWidth = qMax(realWidth, wid->minimumWidth());
     int totalHeight = y - rect.y() + mrg.bottom() + qCeil((double)m_itemList.size() / columns) * (realWidth + verticalSpacing());
-    m_minimumSize = QSize(rect.width(), totalHeight);
-    QSize hint = QSize(qMin(wid->maximumWidth(), realWidth), qMin(wid->maximumWidth(), realWidth));
+    m_minimumSize = QSize(columns * realWidth, totalHeight);
+    QSize hint = QSize(realWidth, realWidth);
     if (testOnly) {
         return totalHeight;
     }

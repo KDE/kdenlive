@@ -32,7 +32,7 @@ static const double GAIN_FACTOR = 4.0;
 LumaLiftGainParam::LumaLiftGainParam(std::shared_ptr<AssetParameterModel> model, QModelIndex index, QWidget *parent)
     : AbstractParamWidget(std::move(model), index, parent)
 {
-    m_flowLayout = new FlowLayout(this, 2, 2, 2);
+    m_flowLayout = new FlowLayout(this, 10, 10, 4);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     m_lift = new ColorWheel(QStringLiteral("lift"), i18n("Lift"), NegQColor(), this);
     m_lift->setFactorDefaultZero(LIFT_FACTOR, 0, 0.5);
