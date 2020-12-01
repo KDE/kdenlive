@@ -114,16 +114,16 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                     turn++;
                     continue;
                 }
-                if (line.contains("-->")) {
+                if (line.contains(QLatin1String("-->"))) {
                     timeLine += line;
-                    QStringList srtTime = timeLine.split(' ');
+                    QStringList srtTime = timeLine.split(QLatin1Char(' '));
                     if (srtTime.count() < 3) {
                         // invalid time
                         continue;
                     }
-                    start = srtTime[0];
+                    start = srtTime.at(0);
                     startPos= stringtoTime(start);
-                    end = srtTime[2];
+                    end = srtTime.at(2);
                     endPos = stringtoTime(end);
                 } else {
                     r++;
@@ -136,14 +136,17 @@ void SubtitleModel::importSubtitle(const QString filePath, int offset, bool exte
                 }
                 turn++;
             } else {
-                addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                if (endPos > startPos) {
+                    addSubtitle(startPos + subtitleOffset, endPos + subtitleOffset, comment, undo, redo, false);
+                }
                 //reinitialize
-                comment = timeLine = "";
+                comment.clear();
+                timeLine.clear();
                 turn = 0; r = 0;
             }            
         }  
         srtFile.close();
-    } else if (filePath.endsWith(".ass")) {
+    } else if (filePath.endsWith(QLatin1String(".ass"))) {
         qDebug()<< "ass File";
         QString startTime,endTime,text;
         QString EventFormat, section;
@@ -287,15 +290,23 @@ GenTime SubtitleModel::stringtoTime(QString &str)
     double hours = 0, mins = 0, seconds = 0, ms = 0;
     double total_sec = 0;
     GenTime pos;
-    total = str.split(':');
-    hours = atoi(total[0].toStdString().c_str());
-    mins = atoi(total[1].toStdString().c_str());
-    if (total[2].contains('.'))
-        secs = total[2].split('.'); //ssa file
+    total = str.split(QLatin1Char(':'));
+    if (total.count() != 3) {
+        // invalid time found
+        return GenTime();
+    }
+    hours = atoi(total.at(0).toStdString().c_str());
+    mins = atoi(total.at(1).toStdString().c_str());
+    if (total.at(2).contains(QLatin1Char('.')))
+        secs = total.at(2).split(QLatin1Char('.')); //ssa file
     else
-        secs = total[2].split(','); //srt file
-    seconds = atoi(secs[0].toStdString().c_str());
-    ms = atoi(secs[1].toStdString().c_str());
+        secs = total.at(2).split(QLatin1Char(',')); //srt file
+    if (secs.count() < 2) {
+        seconds = atoi(total.at(2).toStdString().c_str());
+    } else {
+        seconds = atoi(secs.at(0).toStdString().c_str());
+        ms = atoi(secs.at(1).toStdString().c_str());
+    }
     total_sec = hours *3600 + mins *60 + seconds + ms * 0.001 ;
     pos= GenTime(total_sec);
     return pos;
@@ -888,6 +899,7 @@ void SubtitleModel::jsontoSubtitle(const QString &data)
     auto list = json.array();
     if (outF.open(QIODevice::WriteOnly)) {
         QTextStream out(&outF);
+        out.setCodec("UTF-8");
         if (assFormat) {
         	out<<scriptInfoSection<<endl;
         	out<<styleSection<<endl;
@@ -980,7 +992,7 @@ int SubtitleModel::getRowForId(int id) const
 int SubtitleModel::getSubtitlePlaytime(int id) const
 {
     GenTime startPos = m_timeline->m_allSubtitles.at(id);
-    return (m_subtitleList.at(startPos).second - startPos).frames(pCore->getCurrentFps());
+    return m_subtitleList.at(startPos).second.frames(pCore->getCurrentFps()) - startPos.frames(pCore->getCurrentFps());
 }
 
 void SubtitleModel::setSelected(int id, bool select)
