@@ -130,6 +130,7 @@ public:
     int getNextSub(int id) const;
     /** @brief Copy subtitle file to a new path */
     void copySubtitle(const QString &path, bool checkOverwrite);
+    int trackDuration() const;
 
 public slots:
     /** @brief Function that parses through a subtitle file */

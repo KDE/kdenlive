@@ -3777,6 +3777,9 @@ void TimelineModel::updateDuration()
         auto track = (*tck.second);
         duration = qMax(duration, track->trackDuration());
     }
+    if (m_subtitleModel) {
+        duration = qMax(duration, m_subtitleModel->trackDuration());
+    }
     if (duration != current) {
         // update black track length
         m_blackClip->set("out", duration + TimelineModel::seekDuration);

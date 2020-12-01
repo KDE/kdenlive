@@ -351,6 +351,9 @@ bool SubtitleModel::addSubtitle(int id, GenTime start, GenTime end, const QStrin
     endInsertRows();
     addSnapPoint(start);
     addSnapPoint(end);
+    if (!temporary && end.frames(pCore->getCurrentFps()) > m_timeline->duration()) {
+        m_timeline->updateDuration();
+    }
     qDebug()<<"Added to model";
     if (updateFilter) {
         emit modelChanged();
@@ -721,10 +724,18 @@ bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
     int row = m_timeline->getSubtitleIndex(id);
     m_timeline->deregisterSubtitle(id, temporary);
     beginRemoveRows(QModelIndex(), row, row);
+    bool lastSub = false;
+    if (start == m_subtitleList.rbegin()->first) {
+        // Check if this is the last subtitle
+        lastSub = true;
+    }
     m_subtitleList.erase(start);
     endRemoveRows();
     removeSnapPoint(start);
     removeSnapPoint(end);
+    if (lastSub) {
+        m_timeline->updateDuration();
+    }
     if (updateFilter) {
         emit modelChanged();
     }
@@ -789,6 +800,10 @@ bool SubtitleModel::moveSubtitle(int subId, GenTime newPos, bool updateModel, bo
     if (updateModel) {
         // Trigger update of the subtitle file
         emit modelChanged();
+        if (newPos == m_subtitleList.rbegin()->first) {
+            // Check if this is the last subtitle
+            m_timeline->updateDuration();
+        }
     }
     return true;
 }
@@ -1008,4 +1023,12 @@ void SubtitleModel::setSelected(int id, bool select)
 bool SubtitleModel::isSelected(int id) const
 {
     return m_selected.contains(id);
+}
+
+int SubtitleModel::trackDuration() const
+{
+    if (m_subtitleList.empty()) {
+        return 0;
+    }
+    return m_subtitleList.rbegin()->second.second.frames(pCore->getCurrentFps());
 }
