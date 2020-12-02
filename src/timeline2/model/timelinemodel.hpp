@@ -690,10 +690,10 @@ public:
      */
     Q_INVOKABLE bool requestClearSelection(bool onDeletion = false);
 
-    /** @brief On group deletion, ensure the group was not selected, clear selection otherwise
-        @param gid The group id
+    /** @brief On groups deletion, ensure the groups were not selected, clear selection otherwise
+        @param groups The group ids
      */
-    void clearGroupSelectionOnDelete(int gid);
+    void clearGroupSelectionOnDelete(std::vector<int>groups);
     // same function with undo/redo accumulation
     void requestClearSelection(bool onDeletion, Fun &undo, Fun &redo);
     

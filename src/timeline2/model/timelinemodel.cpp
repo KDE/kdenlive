@@ -4878,10 +4878,10 @@ void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
     }
 }
 
-void TimelineModel::clearGroupSelectionOnDelete(int gid)
+void TimelineModel::clearGroupSelectionOnDelete(std::vector<int>groups)
 {
     READ_LOCK();
-    if (gid == m_currentSelection) {
+    if (std::find(groups.begin(), groups.end(), m_currentSelection) != groups.end()) {
         requestClearSelection(true);
     }
 }

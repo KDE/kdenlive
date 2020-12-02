@@ -148,7 +148,6 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
         removeFromGroup(id);
         auto ptr = m_parent.lock();
         if (!ptr) Q_ASSERT(false);
-        ptr->clearGroupSelectionOnDelete(id);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
             QModelIndex ix;
@@ -540,6 +539,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
     // At each iteration, we create a new node by grouping together elements that are either leaves or already created nodes.
     std::unordered_map<int, int> created_id; // to keep track of node that we create
 
+    std::vector<int> newGroups;
     while (!new_groups.empty()) {
         int selected = INT_MAX;
         for (const auto &group : new_groups) {
@@ -563,6 +563,7 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
         }
         Q_ASSERT(new_types.count(selected) != 0);
         int gid = groupItems(group, undo, redo, new_types[selected], true);
+        newGroups.push_back(gid);
         created_id[selected] = gid;
         new_groups.erase(selected);
     }
@@ -575,6 +576,14 @@ bool GroupsModel::split(int id, const std::function<bool(int)> &criterion, Fun &
             mergeSingleGroups(created_id[corresp[id]], undo, redo);
         }
     }
+    Fun clear_group_selection = [this, newGroups]() {
+        if (auto ptr = m_parent.lock()) {
+            // Ensure one of the deleted group was not selected
+            ptr->clearGroupSelectionOnDelete(newGroups);
+        }
+        return true;
+    };
+    PUSH_FRONT_LAMBDA(clear_group_selection, undo);
 
     return res;
 }
