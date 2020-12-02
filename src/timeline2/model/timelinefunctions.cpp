@@ -266,7 +266,7 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         int newClip = timeline->getClipByPosition(trackToSelect, position);
         if (newClip > -1) {
             timeline->requestSetSelection({newClip});
-            }
+        }
     }
     return count > 0;
 }   

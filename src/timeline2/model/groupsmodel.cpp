@@ -148,6 +148,7 @@ Fun GroupsModel::destructGroupItem_lambda(int id)
         removeFromGroup(id);
         auto ptr = m_parent.lock();
         if (!ptr) Q_ASSERT(false);
+        ptr->clearGroupSelectionOnDelete(id);
         for (int child : m_downLink[id]) {
             m_upLink[child] = -1;
             QModelIndex ix;

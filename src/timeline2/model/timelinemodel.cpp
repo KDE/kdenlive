@@ -4878,6 +4878,15 @@ void TimelineModel::requestClearSelection(bool onDeletion, Fun &undo, Fun &redo)
     }
 }
 
+void TimelineModel::clearGroupSelectionOnDelete(int gid)
+{
+    READ_LOCK();
+    if (gid == m_currentSelection) {
+        requestClearSelection(true);
+    }
+}
+
+
 std::unordered_set<int> TimelineModel::getCurrentSelection() const
 {
     READ_LOCK();

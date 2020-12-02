@@ -689,6 +689,11 @@ public:
         @param onDeletion is true when the selection is cleared as a result of a deletion
      */
     Q_INVOKABLE bool requestClearSelection(bool onDeletion = false);
+
+    /** @brief On group deletion, ensure the group was not selected, clear selection otherwise
+        @param gid The group id
+     */
+    void clearGroupSelectionOnDelete(int gid);
     // same function with undo/redo accumulation
     void requestClearSelection(bool onDeletion, Fun &undo, Fun &redo);
     
