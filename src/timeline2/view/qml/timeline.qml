@@ -1235,7 +1235,7 @@ Rectangle {
                                                     clickAccepted = true
                                                     dragProxy.draggedItem = tentativeClip.clipId
                                                     dragProxy.x = tentativeClip.x
-                                                    dragProxy.y = tentativeClip.y
+                                                    //dragProxy.y = tentativeClip.y
                                                     dragProxy.width = tentativeClip.width
                                                     dragProxy.height = tentativeClip.height
                                                     dragProxy.masterObject = tentativeClip
