@@ -848,10 +848,10 @@ void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
 void ProjectManager::moveProjectData(const QString &src, const QString &dest)
 {
     // Move tmp folder (thumbnails, timeline preview)
+    m_project->moveProjectData(src, dest);
     KIO::CopyJob *copyJob = KIO::move(QUrl::fromLocalFile(src), QUrl::fromLocalFile(dest));
     connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
     connect(copyJob, SIGNAL(percent(KJob*,ulong)), this, SLOT(slotMoveProgress(KJob*,ulong)));
-    m_project->moveProjectData(src, dest);
 }
 
 void ProjectManager::slotMoveProgress(KJob *, unsigned long progress)
