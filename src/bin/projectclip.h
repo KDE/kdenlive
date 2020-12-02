@@ -244,7 +244,7 @@ public:
     /** @brief Get the list of audio stream effects for a defined stream. */
     QStringList getAudioStreamEffect(int streamIndex) const override;
     /** @brief Calculate the folder's hash (based on the files it contains). */
-    static const QByteArray getFolderHash(QDir dir);
+    static const QByteArray getFolderHash(QDir dir, QString fileName);
     /** @brief Check if the clip is included in timeline and reset its occurences on producer reload. */
     void updateTimelineOnReload();
 

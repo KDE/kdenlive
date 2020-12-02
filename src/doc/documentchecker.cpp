@@ -294,9 +294,11 @@ bool DocumentChecker::hasErrorInClips()
             continue;
         }
         // Check for slideshows
+        QString slidePattern;
         bool slideshow = resource.contains(QStringLiteral("/.all.")) || resource.contains(QLatin1Char('?')) || resource.contains(QLatin1Char('%'));
         if (slideshow) {
             if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
+                slidePattern = QFileInfo(resource).fileName();
                 resource = QFileInfo(resource).absolutePath();
             } else if (service.startsWith(QLatin1String("avformat")) && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
                 // Fix MLT 6.20 avformat slideshows
@@ -332,7 +334,7 @@ bool DocumentChecker::hasErrorInClips()
             // Check if file changed
             const QByteArray hash = Xml::getXmlProperty(e, "kdenlive:file_hash").toLatin1();
             if (!hash.isEmpty()) {
-                const QByteArray fileData = slideshow ? ProjectClip::getFolderHash(QDir(resource)).toHex() : ProjectClip::calculateHash(resource).first.toHex();
+                const QByteArray fileData = slideshow ? ProjectClip::getFolderHash(QDir(resource), slidePattern).toHex() : ProjectClip::calculateHash(resource).first.toHex();
                 if (hash != fileData) {
                     // For slideshow clips, silently upgrade hash
                     if (slideshow) {
@@ -1019,7 +1021,7 @@ QString DocumentChecker::searchDirRecursively(const QDir &dir, const QString &ma
     QStringList filesAndDirs;
     QString fileName = QFileInfo(fullName).fileName();
     // Check main dir
-    QString fileHash = ProjectClip::getFolderHash(dir).toHex();
+    QString fileHash = ProjectClip::getFolderHash(dir, fileName).toHex();
     if (fileHash == matchHash) {
         return dir.absoluteFilePath(fileName);
     }
@@ -1027,7 +1029,7 @@ QString DocumentChecker::searchDirRecursively(const QDir &dir, const QString &ma
     const QStringList subDirs = dir.entryList(QDir::AllDirs | QDir::NoDot | QDir::NoDotDot);
     for (const QString &sub : subDirs) {
         QDir subFolder(dir.absoluteFilePath(sub));
-        fileHash = ProjectClip::getFolderHash(subFolder).toHex();
+        fileHash = ProjectClip::getFolderHash(subFolder, fileName).toHex();
         if (fileHash == matchHash) {
             return subFolder.absoluteFilePath(fileName);
         }
