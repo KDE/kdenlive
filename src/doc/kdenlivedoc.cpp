@@ -676,7 +676,6 @@ void KdenliveDoc::setProjectFolder(const QUrl &url)
 void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
 {
     // Move proxies
-
     QList<QUrl> cacheUrls;
     auto binClips = pCore->projectItemModel()->getAllClipIds();
     // First step: all clips referenced by the bin model exist and are inserted
@@ -707,7 +706,7 @@ void KdenliveDoc::moveProjectData(const QString & /*src*/, const QString &dest)
         if (proxyDir.mkpath(QStringLiteral("."))) {
             KIO::CopyJob *job = KIO::move(cacheUrls, QUrl::fromLocalFile(proxyDir.absolutePath()));
             KJobWidgets::setWindow(job, QApplication::activeWindow());
-            if (static_cast<int>(job->exec()) > 0) {
+            if (!job->exec()) {
                 KMessageBox::sorry(QApplication::activeWindow(), i18n("Moving proxy clips failed: %1", job->errorText()));
             }
         }
