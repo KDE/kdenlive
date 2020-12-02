@@ -282,7 +282,7 @@ Rectangle {
     property color thumbColor1: timeline.thumbColor1
     property color thumbColor2: timeline.thumbColor2
     property int mainItemId: -1
-    property int mainFrame: 0
+    property int mainFrame: -1
     property int clipBeingDroppedId: -1
     property string clipBeingDroppedData
     property int droppedPosition: -1
@@ -883,7 +883,7 @@ Rectangle {
                         var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)).trackInternalId)
-                        } else {
+                        } else if (subtitleTrack.height > 0) {
                             timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / timeline.scaleFactor, -2)
                         }
                     }
