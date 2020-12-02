@@ -1299,7 +1299,7 @@ void KdenliveDoc::loadDocumentProperties()
     QDomElement baseElement = m_document.documentElement();
     m_documentRoot = baseElement.attribute(QStringLiteral("root"));
     if (!m_documentRoot.isEmpty()) {
-        m_documentRoot = QDir::cleanPath(m_documentRoot) + QDir::separator();
+        m_documentRoot = QDir::cleanPath(m_documentRoot) + QLatin1Char('/');
     }
     if (!list.isEmpty()) {
         QDomElement pl = list.at(0).toElement();

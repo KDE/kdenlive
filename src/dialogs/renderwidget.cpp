@@ -1294,7 +1294,7 @@ void RenderWidget::prepareRendering(bool delayedRendering, const QString &chapte
         }
 
         // replace proxy clips with originals
-        QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(pCore->currentDoc()->documentRoot());
+        QMap<QString, QString> proxies = pCore->projectItemModel()->getProxies(root);
 
         QDomNodeList producers = doc.elementsByTagName(QStringLiteral("producer"));
         QString producerResource;
