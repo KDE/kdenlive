@@ -145,7 +145,7 @@ Rectangle {
     }
 
     onClipDurationChanged: {
-        width = clipDuration * timeScale;
+        width = clipDuration * timeScale
         if (parentTrack && parentTrack.isAudio && thumbsLoader.item) {
             // Duration changed, we may need a different number of repeaters
             thumbsLoader.item.reload(1)
@@ -593,6 +593,8 @@ Rectangle {
                 onEntered: {
                     if (!pressed) {
                         trimIn.opacity = 1
+                        var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                        initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                     }
                 }
                 onExited: {
@@ -683,6 +685,8 @@ Rectangle {
                 onEntered: {
                     if (!pressed) {
                         trimOut.opacity = 1
+                        var itemPos = mapToItem(tracksContainerArea, 0, 0, width, height)
+                        initDrag(clipRoot, itemPos, clipRoot.clipId, clipRoot.modelStart, clipRoot.trackId, false)
                     }
                 }
                 onExited: trimOut.opacity = 0
