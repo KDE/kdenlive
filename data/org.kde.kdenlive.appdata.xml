@@ -267,6 +267,7 @@
     </ul>
   </description>
   <releases>
+    <release version="20.12.0" date="2020-12-10"/>
     <release version="20.08.3" date="2020-11-05"/>
     <release version="20.08.2" date="2020-10-08"/>
     <release version="20.08.1" date="2020-09-03">
@@ -278,22 +279,6 @@
         </artifact>
       </artifacts>
     </release>
-    <release version="20.08.0" date="2020-08-13">
-      <artifacts>
-        <artifact type="binary" platform="x86_64-appimage">
-          <location>https://files.kde.org/kdenlive/release/kdenlive-20.08.0-x86_64.appimage</location>
-          <checksum type="sha256">3e0174a00c0c0c6599b5de249947b32ce86bde5d0703273c7d5212f01743bb5c</checksum>
-          <size type="download">220790824</size>
-          <bundle type="appimage">kdenlive-20.08.0</bundle>
-        </artifact>
-        <artifact type="source">
-          <location>https://download.kde.org/stable/release-service/20.08.0/src/kdenlive-20.08.0.tar.xz</location>
-          <checksum type="sha256">89914ee37f5bbdd16051b0db4a6cfb6f8c3d748f47c9e28e5349920ca133c0bd</checksum>
-          <size type="download">11367912</size>
-        </artifact>
-      </artifacts>
-    </release>
-    <release version="20.08.0" date="2020-08-13"/>
   </releases>
   <url type="homepage">https://kdenlive.org/</url>
   <url type="bugtracker">https://bugs.kde.org</url>
