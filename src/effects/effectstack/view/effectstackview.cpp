@@ -237,7 +237,7 @@ void EffectStackView::loadEffects()
     int active = qBound(0, m_model->getActiveEffect(), max - 1);
     bool hasLift = false;
     QModelIndex activeIndex;
-    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight);
+    connect(&m_timerHeight, &QTimer::timeout, this, &EffectStackView::updateTreeHeight, Qt::UniqueConnection);
     for (int i = 0; i < max; i++) {
         std::shared_ptr<AbstractEffectItem> item = m_model->getEffectStackRow(i);
         QSize size;
@@ -359,7 +359,7 @@ void EffectStackView::slotAdjustDelegate(const std::shared_ptr<EffectItemModel> 
     QModelIndex ix = m_model->getIndexFromItem(effectModel);
     if (ix.isValid()) {
         auto *del = static_cast<WidgetDelegate *>(m_effectsTree->itemDelegate(ix));
-        if (del && del->height(ix) != newHeight) {
+        if (del) {
             del->setHeight(ix, newHeight);
             m_timerHeight.start();
         }
@@ -404,8 +404,8 @@ void EffectStackView::unsetModel(bool reset)
     }
     if (reset) {
         QMutexLocker lock(&m_mutex);
-        m_model.reset();
         m_effectsTree->setModel(nullptr);
+        m_model.reset();
     }
     if (id != Kdenlive::NoMonitor) {
         pCore->getMonitor(id)->slotShowEffectScene(MonitorSceneDefault);
