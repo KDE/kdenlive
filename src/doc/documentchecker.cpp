@@ -300,7 +300,7 @@ bool DocumentChecker::hasErrorInClips()
             if (service == QLatin1String("qimage") || service == QLatin1String("pixbuf")) {
                 slidePattern = QFileInfo(resource).fileName();
                 resource = QFileInfo(resource).absolutePath();
-            } else if (service.startsWith(QLatin1String("avformat")) && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
+            } else if ((service.startsWith(QLatin1String("avformat")) || service == QLatin1String("timewarp")) && Xml::hasXmlProperty(e, QStringLiteral("ttl"))) {
                 // Fix MLT 6.20 avformat slideshows
                 if (service.startsWith(QLatin1String("avformat"))) {
                     Xml::setXmlProperty(e, QStringLiteral("mlt_service"), QStringLiteral("qimage"));

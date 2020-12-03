@@ -1135,7 +1135,7 @@ void MainWindow::setupActions()
     m_timeFormatButton->setToolButtonPopupMode(QToolButton::InstantPopup);
     addAction(QStringLiteral("timeline_timecode"), m_timeFormatButton);
 
-    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("kdenlive-add-subtitle")), i18n("Edit Subtitle tool"), this);
+    m_buttonSubtitleEditTool = new QAction(QIcon::fromTheme(QStringLiteral("input-keyboard")), i18n("Edit Subtitle tool"), this);
     m_buttonSubtitleEditTool->setCheckable(true);
     m_buttonSubtitleEditTool->setChecked(false);
     addAction(QStringLiteral("subtitle_tool"), m_buttonSubtitleEditTool);
