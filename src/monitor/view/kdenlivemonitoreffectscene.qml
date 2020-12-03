@@ -48,9 +48,6 @@ Item {
     onWidthChanged: {
         clipMonitorRuler.updateRuler()
     }
-    onIskeyframeChanged: {
-        console.log('KEYFRAME CHANGED: ', iskeyframe,'\n\n.............................')
-    }
 
     FontMetrics {
         id: fontMetrics
@@ -236,7 +233,6 @@ Item {
 
         }
         onDoubleClicked: {
-            console.log('ADDREMOVE ON DBL')
             controller.addRemoveKeyframe()
         }
         onReleased: {
